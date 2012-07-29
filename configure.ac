@@ -16,7 +16,7 @@ AC_CONFIG_FILES([Makefile
 
 LT_INIT
 AC_PROG_CC
-AM_PROG_VALAC([0.17.2])
+AM_PROG_VALAC([0.16])
 AC_PROG_INSTALL
 
 GLIB_GSETTINGS
@@ -38,24 +38,10 @@ pkg_modules="gtk+-3.0 >= 3.4.0
 	     libnotify
 	     gee-1.0
 	     "
-PKG_CHECK_MODULES(CONTACTS, [$pkg_modules])
+PKG_CHECK_MODULES(MUSIC, [$pkg_modules])
 
-CONTACTS_PACKAGES="--pkg gtk+-3.0 --pkg gio-2.0 --pkg gio-unix-2.0 --pkg libnotify"
-AC_SUBST(CONTACTS_PACKAGES)
-
-gstreamers_modules="gdk-x11-3.0
-                    gstreamer-0.10
-                    gstreamer-interfaces-0.10
-		    cheese-gtk >= 3.3.5
-		    cheese
-                    "
-PKG_CHECK_MODULES(CONTACTS_GSTREAMER,
-                  [$gstreamers_modules],
-                  AM_CONDITIONAL(USE_GSTREAMER, true),
-                  AM_CONDITIONAL(USE_GSTREAMER, false))
-
-CONTACTS_GSTREAMER_PACKAGES="--pkg gdk-x11-3.0 --pkg gstreamer-0.10 --pkg gstreamer-interfaces-0.10"
-AC_SUBST(CONTACTS_GSTREAMER_PACKAGES)
+MUSIC_PACKAGES="--pkg gtk+-3.0 --pkg gio-2.0 --pkg gio-unix-2.0 --pkg libnotify"
+AC_SUBST(MUSIC_PACKAGES)
 
 #############
 # Resources #

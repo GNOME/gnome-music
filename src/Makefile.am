@@ -2,7 +2,7 @@ NULL =
 
 AM_CPPFLAGS = \
 	-include config.h \
-	$(CONTACTS_CFLAGS) \
+	$(MUSIC_CFLAGS) \
 	-DLOCALEDIR=\""$(localedir)"\" \
 	-DPKGDATADIR=\""$(pkgdatadir)"\" \
 	-DPKGLIBDIR=\""$(pkglibdir)"\" \
@@ -10,14 +10,8 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_VALAFLAGS = \
-	--vapidir=$(srcdir)/../vapi --pkg config --pkg custom \
-	@CONTACTS_PACKAGES@ \
+	@MUSIC_PACKAGES@ \
 	$(NULL)
-
-if USE_GSTREAMER
-AM_VALAFLAGS += -D HAVE_GSTREAMER @CONTACTS_GSTREAMER_PACKAGES@
-AM_CPPFLAGS += $(CONTACTS_GSTREAMER_CFLAGS)
-endif
 
 bin_PROGRAMS = gnome-music
 
@@ -42,13 +36,7 @@ gnome_music_SOURCES = \
 	$(vala_sources) \
 	$(NULL)
 
-gnome_music_LDADD = $(CONTACTS_LIBS) -lm
-
-if USE_GSTREAMER
-gnome_music_LDADD += $(CONTACTS_GSTREAMER_LIBS)
-gnome_music_SOURCES += \
-	$(NULL)
-endif
+gnome_music_LDADD = $(MUSIC_LIBS) -lm
 
 CLEANFILES = \
 	$(vala_sources:.vala=.c) \
@@ -56,7 +44,7 @@ CLEANFILES = \
 	*.vapi *.stamp
 
 EXTRA_DIST = \
-	contacts.gresource.xml \
+	music.gresource.xml \
 	app-menu.ui \
 	$(gsettingsschema_in_files)     \
 	$(NULL)

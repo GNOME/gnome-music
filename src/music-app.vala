@@ -18,13 +18,9 @@
 
 using Gtk;
 
-public class Contacts.App : Gtk.Application {
+public class Music.App : Gtk.Application {
   public GLib.Settings settings;
-  public Contacts.Window window;
   public static App app;
-  public Store contacts_store;
-  private ListPane list_pane;
-  private ContactPane contacts_pane;
   private Gtk.Overlay overlay;
 
   private bool window_delete_event (Gdk.EventAny event) {
