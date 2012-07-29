@@ -22,6 +22,7 @@ endif
 bin_PROGRAMS = gnome-music
 
 vala_sources = \
+        music-app.vala \
 	main.vala \
 	$(NULL)
 
