@@ -8,6 +8,7 @@ AM_INIT_AUTOMAKE
 AM_SILENT_RULES([yes])
 AM_MAINTAINER_MODE([enable])
 AC_CONFIG_FILES([Makefile
+                vapi/Makefile
 		src/Makefile
 		data/Makefile
 		po/Makefile.in
@@ -16,7 +17,7 @@ AC_CONFIG_FILES([Makefile
 
 LT_INIT
 AC_PROG_CC
-AM_PROG_VALAC([0.16])
+AM_PROG_VALAC([0.17])
 AC_PROG_INSTALL
 
 GLIB_GSETTINGS

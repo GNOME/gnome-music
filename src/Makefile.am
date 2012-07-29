@@ -10,6 +10,7 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_VALAFLAGS = \
+        --vapidir=$(srcdir)/../vapi --pkg config --pkg custom \
 	@MUSIC_PACKAGES@ \
 	$(NULL)
 
@@ -17,6 +18,7 @@ bin_PROGRAMS = gnome-music
 
 vala_sources = \
         music-app.vala \
+        music-window.vala \
 	main.vala \
 	$(NULL)
 
@@ -33,6 +35,7 @@ music-resources.c: music.gresource.xml app-menu.ui
 		--target=$@ --sourcedir=$(srcdir) --c-name music --generate-source
 
 gnome_music_SOURCES = \
+        gtk-notification.c   \
 	$(vala_sources) \
 	$(NULL)
 
@@ -44,6 +47,7 @@ CLEANFILES = \
 	*.vapi *.stamp
 
 EXTRA_DIST = \
+        gtk-notification.h   \
 	music.gresource.xml \
 	app-menu.ui \
 	$(gsettingsschema_in_files)     \

@@ -1,4 +1,3 @@
-/* -*- Mode: vala; indent-tabs-mode: t; c-basic-offset: 2; tab-width: 8 -*- */
 /*
  * Copyright (C) 2012 Cesar Garcia Tapia <tapia@openshine.com>
  *
@@ -19,44 +18,98 @@
 using Gtk;
 
 public class Music.App : Gtk.Application {
-  public GLib.Settings settings;
-  public static App app;
-  private Gtk.Overlay overlay;
+    public GLib.Settings settings;
+    public static App app;
+    private Gtk.Overlay overlay;
 
-  private bool window_delete_event (Gdk.EventAny event) {
-    return false;
-  }
+    private Music.Window window;
+    //private Music.Embed embed;
 
-  private bool window_key_press_event (Gdk.EventKey event) {
-    if ((event.keyval == Gdk.keyval_from_name ("q")) &&
-	((event.state & Gdk.ModifierType.CONTROL_MASK) != 0)) {
-      window.destroy ();
+    public override void startup () {
+        base.startup ();
     }
 
-    return false;
-  }
+    public void show_message (string message) {
+        var notification = new Gtk.Notification ();
 
-  public override void startup () {
-    base.startup ();
-  }
+        var g = new Grid ();
+        g.set_column_spacing (8);
+        var l = new Label (message);
+        l.set_line_wrap (true);
+        l.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
+        notification.add (l);
 
-  public void show_message (string message) {
-    var notification = new Gtk.Notification ();
+        notification.show_all ();
+        overlay.add_overlay (notification);
+    }
 
-    var g = new Grid ();
-    g.set_column_spacing (8);
-    var l = new Label (message);
-    l.set_line_wrap (true);
-    l.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
-    notification.add (l);
+    private void create_window () {
+        window = new Music.Window (this);
+        window.set_application (this);
+        window.set_title (_("Music"));
+        window.set_default_size (888, 600);
+        window.hide_titlebar_when_maximized = true;
+        window.delete_event.connect (window_delete_event);
+        window.key_press_event.connect_after (window_key_press_event);
 
-    notification.show_all ();
-    overlay.add_overlay (notification);
-  }
+        //embed = new Music.Embed ();
+        //window.add (embed);
+    }
 
-  public App () {
-    Object (application_id: "org.gnome.Music", flags: ApplicationFlags.HANDLES_COMMAND_LINE);
-    this.app = this;
-    settings = new GLib.Settings ("org.gnome.Music");
-  }
+    private bool window_delete_event (Gdk.EventAny event) {
+        save_window_geometry ();
+        return false;
+    }
+
+    private bool window_key_press_event (Gdk.EventKey event) {
+        if ((event.keyval == Gdk.keyval_from_name ("q")) &&
+                ((event.state & Gdk.ModifierType.CONTROL_MASK) != 0)) {
+            save_window_geometry ();
+            window.destroy ();
+        }
+
+        return false;
+    }
+
+    private void save_window_geometry () {
+        var app_window = window.get_window();
+        var state = app_window.get_state();
+
+        if (state == Gdk.WindowState.MAXIMIZED) {
+            settings.set_boolean ("window-maximized", true);
+            return;
+        }
+
+        // GLib.Variant.new() can handle arrays just fine
+        int width, height;
+        int x, y;
+
+        window.get_size(out width, out height);
+        GLib.Variant[] size = {new GLib.Variant.int32 (width), new GLib.Variant.int32 (height) };
+        var variant = new GLib.Variant.array (GLib.VariantType.INT32, size);
+        settings.set_value("window-size", variant);
+
+        window.get_position(out x, out y);
+        GLib.Variant[] position = {new GLib.Variant.int32 (x), new GLib.Variant.int32 (y) };
+        variant = new GLib.Variant.array (GLib.VariantType.INT32, position);
+        settings.set_value("window-position", variant);
+
+        settings.set_boolean ("window-maximized", false);
+    }
+
+    public override void activate () {
+        if (window == null) {
+            create_window();
+            app.window.show();
+        }
+        else {
+            window.present ();
+        }
+    }
+
+    public App () {
+        Object (application_id: "org.gnome.Music");
+        this.app = this;
+        settings = new GLib.Settings ("org.gnome.Music");
+    }
 }

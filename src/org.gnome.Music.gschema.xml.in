@@ -1,10 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema id="org.gnome.Music" path="/org/gnome/Music/" gettext-domain="gnome-music">
-    <key name="did-initial-setup" type="b">
-      <default>false</default>
-      <_summary>First-time setup done.</_summary>
-      <_description>Set to true when the user ran the first-time setup wizard.</_description>
-    </key>
-  </schema>
-
+    <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="gnome-music">
+        <key name="window-size" type="ai">
+            <default>[768, 600]</default>
+            <_summary>Window size</_summary>
+            <_description>Window size (width and height).</_description>
+        </key>
+        <key name="window-position" type="ai">
+            <default>[]</default>
+            <_summary>Window position</_summary>
+            <_description>Window position (x and y).</_description>
+        </key>
+        <key name="window-maximized" type="b">
+            <default>true</default>
+            <_summary>Window maximized</_summary>
+            <_description>Window maximized state</_description>
+        </key>
+    </schema>
 </schemalist>

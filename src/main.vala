@@ -17,6 +17,7 @@
  */
 
 using Gtk;
+using Music;
 
 public static int
 main (string[] args) {
