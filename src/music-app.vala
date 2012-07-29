@@ -16,6 +16,7 @@
  */
 
 using Gtk;
+using Gdk;
 
 public class Music.App : Gtk.Application {
     public GLib.Settings settings;
@@ -47,10 +48,10 @@ public class Music.App : Gtk.Application {
         window = new Music.Window (this);
         window.set_application (this);
         window.set_title (_("Music"));
-        window.set_default_size (888, 600);
         window.hide_titlebar_when_maximized = true;
         window.delete_event.connect (window_delete_event);
         window.key_press_event.connect_after (window_key_press_event);
+        set_window_size_and_position ();
 
         //embed = new Music.Embed ();
         //window.add (embed);
@@ -72,15 +73,12 @@ public class Music.App : Gtk.Application {
     }
 
     private void save_window_geometry () {
-        var app_window = window.get_window();
-        var state = app_window.get_state();
-
-        if (state == Gdk.WindowState.MAXIMIZED) {
+        var state = window.get_window ().get_state ();
+        if (WindowState.MAXIMIZED in state) {
             settings.set_boolean ("window-maximized", true);
             return;
         }
 
-        // GLib.Variant.new() can handle arrays just fine
         int width, height;
         int x, y;
 
@@ -95,6 +93,27 @@ public class Music.App : Gtk.Application {
         settings.set_value("window-position", variant);
 
         settings.set_boolean ("window-maximized", false);
+    }
+
+    private void set_window_size_and_position () {
+        if (settings.get_boolean ("window-maximized")) {
+            window.maximize ();
+        }
+        else {
+            var variant = settings.get_value ("window-size");
+            if (variant.n_children() == 2) {
+                int width = variant.get_child_value(0).get_int32();
+                int height = variant.get_child_value(1).get_int32();
+                window.set_default_size (width, height);
+            }
+
+            variant = settings.get_value ("window-position");
+            if (variant.n_children() == 2) {
+                int x = variant.get_child_value(0).get_int32();
+                int y = variant.get_child_value(1).get_int32();
+                window.move (x, y);
+            }
+        }
     }
 
     public override void activate () {
