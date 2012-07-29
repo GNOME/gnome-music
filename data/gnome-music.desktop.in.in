@@ -1,0 +1,9 @@
+[Desktop Entry]
+_Name=Music
+Icon=audio-x-generic
+Exec=gnome-music
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Utility;
+OnlyShowIn=GNOME;Unity;
