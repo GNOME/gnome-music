@@ -10,16 +10,20 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_VALAFLAGS = \
-        --vapidir=$(srcdir)/../vapi --pkg config --pkg custom \
-	@MUSIC_PACKAGES@ \
+        --vapidir=$(srcdir)/../vapi                     \
+        --pkg config                                    \
+        --pkg custom                                    \
+        --pkg clutter-gtk-1.0                           \
+	@MUSIC_PACKAGES@                                \
 	$(NULL)
 
 bin_PROGRAMS = gnome-music
 
 vala_sources = \
-        music-app.vala \
-        music-window.vala \
-	main.vala \
+        music-ui.vala           \
+        music-app.vala          \
+        music-topbar.vala       \
+	main.vala               \
 	$(NULL)
 
 gsettingsschema_in_files = org.gnome.Music.gschema.xml.in

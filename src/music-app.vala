@@ -18,117 +18,173 @@
 using Gtk;
 using Gdk;
 
-public class Music.App : Gtk.Application {
-    public GLib.Settings settings;
+private enum Music.AppPage {
+    MAIN,
+    PLAYLIST 
+}
+
+private class Music.App: Music.UI {
     public static App app;
-    private Gtk.Overlay overlay;
+    public Gtk.ApplicationWindow window;
+    private bool maximized { get { return WindowState.MAXIMIZED in window.get_window ().get_state (); } }
+    public GLib.Settings settings;
 
-    private Music.Window window;
-    //private Music.Embed embed;
+    public Gtk.Box layout;
+    public Music.Topbar topbar;
+    public Gtk.Notebook notebook;
 
-    public override void startup () {
-        base.startup ();
+    private Gtk.Application application;
+
+    private uint configure_id;
+    public static const uint configure_id_timeout = 100;  // 100ms
+
+    public App () {
+        app = this;
+        application = new Gtk.Application ("org.gnome.Music", 0);
+        settings = new GLib.Settings ("org.gnome.Music");
+
+        var action = new GLib.SimpleAction ("quit", null);
+        action.activate.connect (() => { quit (); });
+        application.add_action (action);
+
+        action = new GLib.SimpleAction ("about", null);
+        action.activate.connect (() => {
+            string[] authors = {
+                "César García Tapia <tapia@openshine.com>"
+            };
+            string[] artists = {
+            };
+
+            Gtk.show_about_dialog (window,
+                                   "artists", artists,
+                                   "authors", authors,
+                                   "translator-credits", _("translator-credits"),
+                                   "comments", _("A GNOME 3 application to listen and manage music playlists"),
+                                   "copyright", "Copyright 2012 OpenShine SL.",
+                                   "license-type", Gtk.License.LGPL_2_1,
+                                   "logo-icon-name", "gnome-music",
+                                   "version", Config.PACKAGE_VERSION,
+                                   "website", "http://www.gnome.org",
+                                   "wrap-license", true);
+        });
+        application.add_action (action);
+
+        application.startup.connect_after ((app) => {
+            var menu = new GLib.Menu ();
+            menu.append (_("New"), "app.new");
+            menu.append (_("About Music"), "app.about");
+            menu.append (_("Quit"), "app.quit");
+
+            application.set_app_menu (menu);
+
+            setup_ui ();
+        });
+
+        application.activate.connect_after ((app) => {
+            window.present ();
+        });
     }
 
-    public void show_message (string message) {
-        var notification = new Gtk.Notification ();
-
-        var g = new Grid ();
-        g.set_column_spacing (8);
-        var l = new Label (message);
-        l.set_line_wrap (true);
-        l.set_line_wrap_mode (Pango.WrapMode.WORD_CHAR);
-        notification.add (l);
-
-        notification.show_all ();
-        overlay.add_overlay (notification);
+    public int run () {
+        return application.run ();
     }
 
-    private void create_window () {
-        window = new Music.Window (this);
-        window.set_application (this);
-        window.set_title (_("Music"));
-        window.hide_titlebar_when_maximized = true;
-        window.delete_event.connect (window_delete_event);
-        window.key_press_event.connect_after (window_key_press_event);
-        set_window_size_and_position ();
-
-        //embed = new Music.Embed ();
-        //window.add (embed);
-    }
-
-    private bool window_delete_event (Gdk.EventAny event) {
-        save_window_geometry ();
-        return false;
-    }
-
-    private bool window_key_press_event (Gdk.EventKey event) {
-        if ((event.keyval == Gdk.keyval_from_name ("q")) &&
-                ((event.state & Gdk.ModifierType.CONTROL_MASK) != 0)) {
-            save_window_geometry ();
-            window.destroy ();
-        }
-
+    public bool open (string name) {
+        ui_state = UIState.COLLECTION;
         return false;
     }
 
     private void save_window_geometry () {
-        var state = window.get_window ().get_state ();
-        if (WindowState.MAXIMIZED in state) {
-            settings.set_boolean ("window-maximized", true);
+        int width, height, x, y;
+
+        if (maximized)
             return;
-        }
 
-        int width, height;
-        int x, y;
+        window.get_size (out width, out height);
+        settings.set_value ("window-size", new int[] { width, height });
 
-        window.get_size(out width, out height);
-        GLib.Variant[] size = {new GLib.Variant.int32 (width), new GLib.Variant.int32 (height) };
-        var variant = new GLib.Variant.array (GLib.VariantType.INT32, size);
-        settings.set_value("window-size", variant);
-
-        window.get_position(out x, out y);
-        GLib.Variant[] position = {new GLib.Variant.int32 (x), new GLib.Variant.int32 (y) };
-        variant = new GLib.Variant.array (GLib.VariantType.INT32, position);
-        settings.set_value("window-position", variant);
-
-        settings.set_boolean ("window-maximized", false);
+        window.get_position (out x, out y);
+        settings.set_value ("window-position", new int[] { x, y });
     }
 
-    private void set_window_size_and_position () {
-        if (settings.get_boolean ("window-maximized")) {
+    private void setup_ui () {
+        window = new Gtk.ApplicationWindow (application);
+        window.show_menubar = false;
+        window.hide_titlebar_when_maximized = true;
+
+        // restore window geometry/position
+        var size = settings.get_value ("window-size");
+        if (size.n_children () == 2) {
+            var width = (int) size.get_child_value (0);
+            var height = (int) size.get_child_value (1);
+
+            window.set_default_size (width, height);
+        }
+
+        if (settings.get_boolean ("window-maximized"))
             window.maximize ();
-        }
-        else {
-            var variant = settings.get_value ("window-size");
-            if (variant.n_children() == 2) {
-                int width = variant.get_child_value(0).get_int32();
-                int height = variant.get_child_value(1).get_int32();
-                window.set_default_size (width, height);
-            }
 
-            variant = settings.get_value ("window-position");
-            if (variant.n_children() == 2) {
-                int x = variant.get_child_value(0).get_int32();
-                int y = variant.get_child_value(1).get_int32();
-                window.move (x, y);
-            }
+        var position = settings.get_value ("window-position");
+        if (position.n_children () == 2) {
+            var x = (int) position.get_child_value (0);
+            var y = (int) position.get_child_value (1);
+
+            window.move (x, y);
+        }
+
+        window.configure_event.connect (() => {
+            if (configure_id != 0)
+                GLib.Source.remove (configure_id);
+            configure_id = Timeout.add (configure_id_timeout, () => {
+                configure_id = 0;
+                save_window_geometry ();
+
+                return false;
+            });
+
+            return false;
+        });
+        window.window_state_event.connect (() => {
+            settings.set_boolean ("window-maximized", maximized);
+            return false;
+        });
+
+        layout = new Gtk.Box (Orientation.VERTICAL, 0);
+        window.add (layout);
+
+        topbar = new Music.Topbar ();
+        layout.pack_start (topbar.actor, false, false);
+
+        notebook = new Gtk.Notebook ();
+        notebook.show_border = false;
+        notebook.show_tabs = false;
+        layout.pack_start (notebook);
+
+        layout.show_all ();
+
+        ui_state = UIState.COLLECTION;
+    }
+
+    private void set_main_ui_state () {
+        notebook.page = Music.AppPage.MAIN;
+    }
+
+    public override void ui_state_changed () {
+    }
+
+    private bool _selection_mode;
+    public bool selection_mode { get { return _selection_mode; }
+        set {
+            return_if_fail (ui_state == UIState.COLLECTION);
+
+            _selection_mode = value;
         }
     }
 
-    public override void activate () {
-        if (window == null) {
-            create_window();
-            app.window.show();
-        }
-        else {
-            window.present ();
-        }
-    }
+    public bool quit () {
+        save_window_geometry ();
+        window.destroy ();
 
-    public App () {
-        Object (application_id: "org.gnome.Music");
-        this.app = this;
-        settings = new GLib.Settings ("org.gnome.Music");
+        return false;
     }
 }

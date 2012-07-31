@@ -1,0 +1,9 @@
+@define-color music_topbar_selection_bg_color #3465a4;
+
+.music-topbar-selection {
+    background-color: @music_topbar_selection_bg_color;
+    background-image: -gtk-gradient (linear,
+        left top, left bottom,
+        from (@music_topbar_selection_bg_color),
+        to (darker (@music_topbar_selection_bg_color)));
+}

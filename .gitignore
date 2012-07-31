@@ -30,7 +30,6 @@ po/quot.sed
 po/remove-potcdate.sin
 po/stamp-it
 src/.deps/
-src/.music-app.vala.swp
 src/Makefile
 src/gnome_music_vala.stamp-t
 stamp-h1
@@ -46,7 +45,6 @@ po/Makefile.in
 src/Makefile.in
 data/gnome-music.desktop
 po/.intltool-merge-cache
-src/.org.gnome.Music.gschema.xml.in.swp
 src/gnome-music
 src/gnome_music_vala.stamp
 src/gtk-notification.c
@@ -58,6 +56,9 @@ src/music-app.c
 src/music-app.o
 src/music-window.c
 src/music-window.o
-src/music-window.vala
 src/org.gnome.Music.gschema.valid
 src/org.gnome.Music.gschema.xml
+src/music-topbar.c
+src/music-topbar.o
+src/music-ui.c
+src/music-ui.o
