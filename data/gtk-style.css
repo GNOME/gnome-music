@@ -79,9 +79,12 @@
     color: @theme_base_color;
 }
 
-.music-player {
+.music-player, .music-topbar {
+    background-color: transparent;
     background-image: -gtk-gradient (linear,
-        left top, left bottom,
-        from (@music_topbar_selection_bg_color),
-        to (darker (@music_topbar_selection_bg_color)));
+                    left top,
+                    left bottom,
+                    from (@toolbar_gradient_a),
+                    color-stop (0.50, @toolbar_gradient_b),
+                    to (@toolbar_gradient_c));
 }

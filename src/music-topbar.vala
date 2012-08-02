@@ -26,9 +26,7 @@ public enum Music.TopbarPage {
 private class Music.Topbar: Music.UI {
     public Gtk.Widget actor { get { return notebook; } }
 
-    private const uint height = 50;
-
-    private Notebook notebook;
+    private Gtk.Notebook notebook;
 
     /* COLLECTION buttons */
     private Gtk.Button collection_new_btn;
@@ -65,11 +63,16 @@ private class Music.Topbar: Music.UI {
         notebook.set_size_request (50, (int) height);
 
         /* TopbarPage.COLLECTION */
+        var eventbox = new Gtk.EventBox ();
+        eventbox.get_style_context ().add_class ("music-topbar");
+
         var hbox = new Gtk.Box (Orientation.HORIZONTAL, 0);
         var alignment = new Gtk.Alignment (0, 0, 1, 1);
         alignment.set_padding (5, 5, 5, 5);
         alignment.add (hbox);
-        notebook.append_page (alignment, null);
+
+        eventbox.add (alignment);
+        notebook.append_page (eventbox, null);
 
         var toolbar_start = new Gtk.Box (Orientation.HORIZONTAL, 0);
         hbox.pack_start (toolbar_start);
@@ -122,7 +125,7 @@ private class Music.Topbar: Music.UI {
         hbox.pack_start (alignment);
 
         /* TopbarPage.SELECTION */
-        var eventbox = new Gtk.EventBox ();
+        eventbox = new Gtk.EventBox ();
         eventbox.get_style_context ().add_class ("music-selection-mode");
 
         hbox = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -143,6 +146,7 @@ private class Music.Topbar: Music.UI {
         toolbar_start.pack_start (selection_back_btn, false, false, 0);
 
         selection_remove_btn = new Gtk.Button.from_stock ("gtk-remove");
+        selection_remove_btn.get_style_context ().add_class ("dark");
         selection_remove_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
         toolbar_start.pack_start (selection_remove_btn, false, false, 0);
 
@@ -157,6 +161,7 @@ private class Music.Topbar: Music.UI {
         toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 5);
 
         selection_cancel_btn = new Gtk.Button.with_label (_("Cancel"));
+        selection_cancel_btn.get_style_context ().add_class ("dark");
         selection_cancel_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
         toolbar_end.pack_start (selection_cancel_btn, false, false, 0);
 
@@ -168,13 +173,17 @@ private class Music.Topbar: Music.UI {
         alignment.add (toolbar_end);
         hbox.pack_start (alignment);
 
-
         /* TopbarPage.PLAYLIST */
+        eventbox = new Gtk.EventBox ();
+        eventbox.get_style_context ().add_class ("music-topbar");
+
         hbox = new Gtk.Box (Orientation.HORIZONTAL, 0);
         alignment = new Gtk.Alignment (0, 0, 1, 1);
         alignment.set_padding (5, 5, 5, 5);
         alignment.add (hbox);
-        notebook.append_page (alignment, null);
+
+        eventbox.add (alignment);
+        notebook.append_page (eventbox, null);
 
         toolbar_start = new Gtk.Box (Orientation.HORIZONTAL, 5);
         hbox.pack_start (toolbar_start);
@@ -206,7 +215,6 @@ private class Music.Topbar: Music.UI {
 
         notebook.show_tabs = false;
         notebook.show_all ();
-        notebook.set_current_page (1);
     }
 
     private void update_collection_select_btn_sensitivity () {

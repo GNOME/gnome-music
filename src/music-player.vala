@@ -20,14 +20,20 @@ using Gtk;
 private class Music.Player: Music.UI {
     public Gtk.Widget actor { get { return eventbox; } }
 
-    private const uint height = 50;
-
     private Gtk.EventBox eventbox;
 
     private Gtk.Button play_btn;
     private Gtk.Button prev_btn;
     private Gtk.Button next_btn;
     private Gtk.Button rate_btn;
+
+    private Gtk.Image cover_img;
+    private Gtk.Label artist_lbl;
+    private Gtk.Label album_lbl;
+    private Gtk.Scale progress_scale;
+    private Gtk.Label song_playback_time_lbl;
+    private Gtk.Label song_total_time_lbl;
+
     private Gtk.ToggleButton shuffle_btn;
 
     public Player () {
@@ -65,7 +71,30 @@ private class Music.Player: Music.UI {
 
         var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
         toolbar_center.get_style_context ().add_class (Gtk.STYLE_CLASS_LINKED);
-        box.pack_start (toolbar_center, false, false, 0);
+        box.pack_start (toolbar_center);
+
+        cover_img = new Gtk.Image();
+        toolbar_center.pack_start (cover_img, false, false, 0);
+
+        var databox = new Gtk.Box (Orientation.VERTICAL, 0);
+        toolbar_center.pack_start (databox, false, false, 0);
+
+        artist_lbl = new Gtk.Label (_("Artist"));
+        databox.pack_start (artist_lbl, false, false, 0);
+
+        album_lbl = new Gtk.Label (_("Album"));
+        databox.pack_start (album_lbl, false, false, 0);
+
+        progress_scale = new Gtk.Scale (Orientation.HORIZONTAL, null);
+        progress_scale.set_draw_value (false);
+        toolbar_center.pack_start (progress_scale);
+
+        song_playback_time_lbl = new Gtk.Label ("0:00");
+        toolbar_center.pack_start (song_playback_time_lbl, false, false, 0);
+        var label = new Gtk.Label ("/");
+        toolbar_center.pack_start (label, false, false, 0);
+        song_total_time_lbl = new Gtk.Label ("0:00");
+        toolbar_center.pack_start (song_total_time_lbl, false, false, 0);
 
         var toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 5);
 
