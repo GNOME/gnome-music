@@ -1,7 +1,85 @@
 @define-color music_topbar_selection_bg_color #3465a4;
 
-.music-topbar-selection {
-    background-color: @music_topbar_selection_bg_color;
+@define-color music_selection_box_a #8e9c80;
+@define-color music_selection_box_b #4f6838;
+@define-color music_selection_box_border #3e7b05;
+
+@define-color music_selection_button_a #7fc141;
+@define-color music_selection_button_b #47850d;
+@define-color music_selection_button_c #4e9a06;
+
+@define-color music_selection_button_dark_a #3b3b3b;
+@define-color music_selection_button_dark_b #1c1c1c;
+@define-color music_selection_box_dark_border #3e7b05;
+
+.music-selection-mode {
+    background-image: -gtk-gradient(linear, left top, left bottom,
+                                    from(@music_selection_box_a),
+                                    to(@music_selection_box_b));
+    color: @theme_base_color;
+    border-width: 1px 0 0 0;
+    border-color: @music_selection_box_border;
+    border-style: solid;
+}
+
+.music-selection-mode .button,
+.music-selection-mode .button:focus {
+    background-image: -gtk-gradient(linear, left top, left bottom,
+                                    from(@music_selection_button_a),
+                                    color-stop(0.83, @music_selection_button_b),
+                                    to(@music_selection_button_c));
+
+    border-color: @music_selection_box_border;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+
+    color: @theme_base_color;
+}
+
+
+
+.music-selection-mode .button.dark,
+.music-selection-mode .button.dark:focus {
+    background-image: -gtk-gradient(linear, left top, left bottom,
+                                    from(@music_selection_button_dark_a),
+                                    to(@music_selection_button_dark_b));
+
+    border-color: @music_selection_box_dark_border;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+
+    color: @theme_base_color;
+}
+
+
+
+
+.music-selection-mode .button:hover {
+    background-image: -gtk-gradient(linear, left top, left bottom,
+                                    from(shade(@music_selection_button_a, 1.20)),
+                                    color-stop(0.83, shade(@music_selection_button_b, 1.10)),
+                                    to(shade(@music_selection_button_c, 1.10)));
+}
+
+.music-selection-mode .button:active,
+.music-selection-mode .button:hover:active {
+    background-image: -gtk-gradient(linear, left top, left bottom,
+                                    from(@music_selection_button_b),
+                                    to(shade(@music_selection_button_a, 0.90)));
+
+    border-color: @music_selection_box_border;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.music-selection-mode .button *:hover {
+    color: @theme_base_color;
+}
+
+.music-player {
     background-image: -gtk-gradient (linear,
         left top, left bottom,
         from (@music_topbar_selection_bg_color),

@@ -23,6 +23,7 @@ vala_sources = \
         music-ui.vala           \
         music-app.vala          \
         music-topbar.vala       \
+        music-player.vala       \ 
 	main.vala               \
 	$(NULL)
 

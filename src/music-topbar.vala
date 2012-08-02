@@ -122,16 +122,22 @@ private class Music.Topbar: Music.UI {
         hbox.pack_start (alignment);
 
         /* TopbarPage.SELECTION */
+        var eventbox = new Gtk.EventBox ();
+        eventbox.get_style_context ().add_class ("music-selection-mode");
+
         hbox = new Gtk.Box (Orientation.HORIZONTAL, 0);
         alignment = new Gtk.Alignment (0, 0, 1, 1);
         alignment.set_padding (5, 5, 5, 5);
         alignment.add (hbox);
-        notebook.append_page (alignment, null);
+
+        eventbox.add (alignment);
+        notebook.append_page (eventbox, null);
 
         toolbar_start = new Gtk.Box (Orientation.HORIZONTAL, 5);
         hbox.pack_start (toolbar_start);
 
         selection_back_btn = new Gtk.Button ();
+        selection_back_btn.get_style_context ().add_class ("dark");
         selection_back_btn.set_image (new Gtk.Image.from_icon_name ("go-previous-symbolic", IconSize.BUTTON));
         selection_back_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
         toolbar_start.pack_start (selection_back_btn, false, false, 0);
@@ -200,7 +206,7 @@ private class Music.Topbar: Music.UI {
 
         notebook.show_tabs = false;
         notebook.show_all ();
-        notebook.set_current_page (0);
+        notebook.set_current_page (1);
     }
 
     private void update_collection_select_btn_sensitivity () {
