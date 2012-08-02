@@ -47,8 +47,6 @@ data/gnome-music.desktop
 po/.intltool-merge-cache
 src/gnome-music
 src/gnome_music_vala.stamp
-src/gtk-notification.c
-src/gtk-notification.h
 src/gtk-notification.o
 src/main.c
 src/main.o
