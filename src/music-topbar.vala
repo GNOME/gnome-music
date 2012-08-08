@@ -60,7 +60,6 @@ private class Music.Topbar: Music.UI {
 
     private void setup_topbar () {
         notebook = new Gtk.Notebook ();
-        notebook.set_size_request (50, (int) height);
 
         /* TopbarPage.COLLECTION */
         var eventbox = new Gtk.EventBox ();

@@ -32,6 +32,7 @@ private class Music.App: Music.UI {
     public Gtk.Box layout;
     public Music.Topbar topbar;
     public Music.Player player;
+    public Music.CollectionView collectionView;
     public Gtk.Notebook notebook;
 
     private Gtk.Application application;
@@ -160,6 +161,9 @@ private class Music.App: Music.UI {
         notebook.show_border = false;
         notebook.show_tabs = false;
         layout.pack_start (notebook);
+
+        collectionView = new Music.CollectionView ();
+        notebook.append_page (collectionView.actor, null);
 
         player = new Music.Player ();
         layout.pack_start (player.actor, false, false);

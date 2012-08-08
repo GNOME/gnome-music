@@ -36,12 +36,13 @@ AC_SUBST(GETTEXT_PACKAGE)
 pkg_modules="gtk+-3.0 >= 3.4.0
 	     glib-2.0 >= 2.31.10
 	     gnome-desktop-3.0
+         tracker-sparql-0.14
 	     libnotify
 	     gee-1.0
 	     "
 PKG_CHECK_MODULES(MUSIC, [$pkg_modules])
 
-MUSIC_PACKAGES="--pkg gtk+-3.0 --pkg gio-2.0 --pkg gio-unix-2.0 --pkg libnotify"
+MUSIC_PACKAGES="--pkg gee-1.0 --pkg gtk+-3.0 --pkg gio-2.0 --pkg gio-unix-2.0 --pkg libnotify --pkg tracker-sparql-0.14"
 AC_SUBST(MUSIC_PACKAGES)
 
 #############
