@@ -17,6 +17,7 @@
  */
 
 using Gtk;
+using Grl;
 using Music;
 
 public static int
@@ -25,6 +26,7 @@ main (string[] args) {
     Intl.bind_textdomain_codeset (Config.GETTEXT_PACKAGE, "UTF-8");
     Intl.textdomain (Config.GETTEXT_PACKAGE);
 
+    Grl.init (ref args);
     Gtk.init (ref args);
 
     var provider = new Gtk.CssProvider ();

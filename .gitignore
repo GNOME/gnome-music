@@ -60,3 +60,9 @@ src/music-topbar.c
 src/music-topbar.o
 src/music-ui.c
 src/music-ui.o
+src/music-collection-view.c
+src/music-collection-view.o
+src/music-list-store.c
+src/music-list-store.o
+src/music-player.c
+src/music-player.o

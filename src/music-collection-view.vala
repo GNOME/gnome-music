@@ -20,7 +20,7 @@ using Gtk;
 private class Music.CollectionView: Music.UI {
     public Gtk.Widget actor { get { return scrolled_window; } }
 
-    private Music.FilteredList model;
+    private Music.MusicListStore model;
 
     private Gtk.ScrolledWindow scrolled_window;
     private Gtk.IconView icon_view;
@@ -30,28 +30,15 @@ private class Music.CollectionView: Music.UI {
     }
 
     private void setup_view () {
-        model = new Music.FilteredList (); 
+        model = new Music.MusicListStore (); 
 
         icon_view = new Gtk.IconView.with_model (model);
         icon_view.get_style_context ().add_class ("music-bg");
-        icon_view.item_width = 185;
-        icon_view.column_spacing = 20;
-        icon_view.margin = 16;
 //        icon_view_activate_on_single_click (icon_view, true);
-        icon_view.set_selection_mode (Gtk.SelectionMode.NONE);
-/*
-        var pixbuf_renderer = new Gtk.CellRendererPixbuf ();
-        pixbuf_renderer.xalign = 0.5f;
-        pixbuf_renderer.yalign = 0.5f;
-        icon_view.pack_start (pixbuf_renderer, false);
-        icon_view.add_attribute (pixbuf_renderer, "pixbuf", MusicListStoreColumn.COVER);
-*/
+        icon_view.set_selection_mode (Gtk.SelectionMode.SINGLE);
 
-        var text_renderer = new Gtk.CellRendererText ();
-        text_renderer.xalign = 0.5f;
-        text_renderer.foreground = "white";
-        icon_view.pack_start (text_renderer, false);
-        icon_view.add_attribute(text_renderer, "text", MusicListStoreColumn.TITLE);
+        icon_view.set_pixbuf_column (MusicListStoreColumn.ALBUM_ART);
+        icon_view.set_text_column (MusicListStoreColumn.TITLE);
 
         scrolled_window = new Gtk.ScrolledWindow (null, null);
         // TODO: this should be set, but doesn't resize correctly the gtkactor..

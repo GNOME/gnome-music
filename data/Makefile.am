@@ -9,8 +9,11 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
-styledir         = $(datadir)/gnome-music/style
-style_DATA       = gtk-style.css
+imagesdir		= $(datadir)/gnome-music
+images_DATA		= album-art-default.png
+
+styledir		= $(datadir)/gnome-music/style
+style_DATA		= gtk-style.css
 
 EXTRA_DIST = \
 	gnome-music.desktop.in.in	\

@@ -27,7 +27,6 @@ vala_sources = \
         music-player.vala       	\ 
 		music-collection-view.vala	\
 		music-list-store.vala		\
-		music-filtered-list.vala	\
 		main.vala               	\
 		$(NULL)
 
