@@ -17,39 +17,60 @@
 
 using Gtk;
 
-private class Music.CollectionView: Music.UI {
+internal enum CollectionType {
+    ARTISTS = 0,
+    ALBUMS,
+    SONGS,
+    PLAYLISTS
+}
+
+private class Music.CollectionView {
     public Gtk.Widget actor { get { return scrolled_window; } }
 
     private Music.MusicListStore model;
-
     private Gtk.ScrolledWindow scrolled_window;
     private Gtk.IconView icon_view;
 
     public CollectionView () {
+        App.app.app_state_changed.connect ((old_state, new_state) => {
+            on_app_state_changed (old_state, new_state);
+        });
+
+        model = new Music.MusicListStore (); 
         setup_view ();
+        model.connect_signals();
     }
 
     private void setup_view () {
-        model = new Music.MusicListStore (); 
-
         icon_view = new Gtk.IconView.with_model (model);
         icon_view.get_style_context ().add_class ("music-bg");
 //        icon_view_activate_on_single_click (icon_view, true);
         icon_view.set_selection_mode (Gtk.SelectionMode.SINGLE);
 
-        icon_view.set_pixbuf_column (MusicListStoreColumn.ALBUM_ART);
+        icon_view.set_pixbuf_column (MusicListStoreColumn.ART);
         icon_view.set_text_column (MusicListStoreColumn.TITLE);
 
         scrolled_window = new Gtk.ScrolledWindow (null, null);
-        // TODO: this should be set, but doesn't resize correctly the gtkactor..
-        //        scrolled_window.hscrollbar_policy = Gtk.PolicyType.NEVER;
+        scrolled_window.hscrollbar_policy = Gtk.PolicyType.NEVER;
         scrolled_window.add (icon_view);
         scrolled_window.show_all ();
     }
 
-    public override void ui_state_changed () {
-        /*
-        switch (ui_state) {
-        */
+    private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
+        switch (new_state) {
+            case Music.AppState.ARTISTS:
+                model.load_all_artists();
+                break;
+            case Music.AppState.ALBUMS:
+                model.load_all_albums();
+                break;
+            case Music.AppState.SONGS:
+                model.load_all_songs();
+                break;
+            case Music.AppState.PLAYLISTS:
+            case Music.AppState.PLAYLIST:
+            case Music.AppState.PLAYLIST_NEW:
+                break;
+        }
     }
 }

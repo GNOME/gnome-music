@@ -17,7 +17,7 @@
 
 using Gtk;
 
-private class Music.Player: Music.UI {
+private class Music.Player {
     public Gtk.Widget actor { get { return eventbox; } }
 
     private Gtk.EventBox eventbox;
@@ -37,10 +37,6 @@ private class Music.Player: Music.UI {
     private Gtk.ToggleButton shuffle_btn;
 
     public Player () {
-        setup_player ();
-    }
-
-    private void setup_player () {
         eventbox = new Gtk.EventBox ();
         eventbox.get_style_context ().add_class ("music-player");
 
@@ -56,17 +52,20 @@ private class Music.Player: Music.UI {
 
         prev_btn = new Gtk.Button ();
         prev_btn.set_image (new Gtk.Image.from_icon_name ("media-skip-backward-symbolic", IconSize.BUTTON));
-        prev_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        prev_btn.clicked.connect ((button) => {
+        });
         toolbar_start.pack_start (prev_btn, false, false, 0);
 
         play_btn = new Gtk.Button ();
         play_btn.set_image (new Gtk.Image.from_icon_name ("media-playback-start-symbolic", IconSize.BUTTON));
-        play_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        play_btn.clicked.connect ((button) => {
+        });
         toolbar_start.pack_start (play_btn, false, false, 0);
 
         next_btn = new Gtk.Button ();
         next_btn.set_image (new Gtk.Image.from_icon_name ("media-skip-forward-symbolic", IconSize.BUTTON));
-        next_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        next_btn.clicked.connect ((button) => {
+        });
         toolbar_start.pack_start (next_btn, false, false, 0);
 
         var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -100,12 +99,14 @@ private class Music.Player: Music.UI {
 
         rate_btn = new Gtk.Button ();
         rate_btn.set_image (new Gtk.Image.from_icon_name ("bookmark-new-symbolic", IconSize.BUTTON));
-        rate_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        rate_btn.clicked.connect ((button) => {
+        });
         toolbar_end.pack_start (rate_btn, false, false, 0);
 
         shuffle_btn = new Gtk.ToggleButton ();
         shuffle_btn.set_image (new Gtk.Image.from_icon_name ("media-playlist-shuffle-symbolic", IconSize.BUTTON));
-        shuffle_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        shuffle_btn.clicked.connect ((button) => {
+        });
         toolbar_end.pack_start (shuffle_btn, false, false, 0);
 
         alignment = new Gtk.Alignment (1, (float)0.5, 0, 0);
@@ -126,41 +127,6 @@ private class Music.Player: Music.UI {
             selection_count_label.set_markup ("<b>" + ngettext ("%d selected", "%d selected", items).printf (items) + "</b>");
         else
             selection_count_label.set_markup ("<i>" + _("Click on items to select them") + "</i>");
-        */
-    }
-
-    public override void ui_state_changed () {
-        /*
-        switch (ui_state) {
-        case UIState.COLLECTION:
-            notebook.page = TopbarPage.COLLECTION;
-            selection_back_btn.hide ();
-            spinner_btn.hide ();
-            collection_select_btn.show ();
-            new_btn.show ();
-            break;
-
-        case UIState.CREDS:
-            new_btn.hide ();
-            selection_back_btn.show ();
-            spinner_btn.show ();
-            collection_select_btn.hide ();
-            break;
-
-        case UIState.DISPLAY:
-            break;
-
-        case UIState.PROPERTIES:
-            notebook.page = TopbarPage.PROPERTIES;
-            break;
-
-        case UIState.WIZARD:
-            notebook.page = TopbarPage.WIZARD;
-            break;
-
-        default:
-            break;
-        }
         */
     }
 }

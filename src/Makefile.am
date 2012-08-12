@@ -21,7 +21,6 @@ AM_VALAFLAGS = \
 bin_PROGRAMS = gnome-music
 
 vala_sources = \
-        music-ui.vala           	\
         music-app.vala          	\
         music-topbar.vala       	\
         music-player.vala       	\ 

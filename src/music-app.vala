@@ -18,12 +18,21 @@
 using Gtk;
 using Gdk;
 
+private enum Music.AppState {
+    ARTISTS = 0,
+    ALBUMS,
+    SONGS,
+    PLAYLISTS,
+    PLAYLIST,
+    PLAYLIST_NEW
+}
+
 private enum Music.AppPage {
-    MAIN,
+    COLLECTIONS = 0,
     PLAYLIST 
 }
 
-private class Music.App: Music.UI {
+private class Music.App {
     public static App app;
     public Gtk.ApplicationWindow window;
     private bool maximized { get { return WindowState.MAXIMIZED in window.get_window ().get_state (); } }
@@ -40,11 +49,50 @@ private class Music.App: Music.UI {
     private uint configure_id;
     public static const uint configure_id_timeout = 100;  // 100ms
 
+    public signal void app_state_changed (Music.AppState old_state, Music.AppState new_state);
+    private Music.AppState _app_state; 
+    public Music.AppState app_state {
+        get {
+            return _app_state;
+        }
+        set {
+            var old_app_state = _app_state;
+            _app_state = value;
+            app_state_changed (old_app_state, _app_state);
+        }
+    }
+
     public App () {
         app = this;
         application = new Gtk.Application ("org.gnome.Music", 0);
         settings = new GLib.Settings ("org.gnome.Music");
 
+        setup_menu ();
+        setup_ui (); 
+
+        application.startup.connect_after ((app) => {
+            var menu = new GLib.Menu ();
+            menu.append (_("New"), "app.new");
+            menu.append (_("About Music"), "app.about");
+            menu.append (_("Quit"), "app.quit");
+
+            application.set_app_menu (menu);
+        });
+
+        application.activate.connect_after ((app) => {
+            window.present ();
+            this.app_state_changed.connect ((old_state, new_state) => {
+                on_app_state_changed (old_state, new_state);
+            });
+            this.app_state = Music.AppState.ARTISTS;
+        });
+    }
+
+    public int run () {
+        return application.run ();
+    }
+
+    private void setup_menu () {
         var action = new GLib.SimpleAction ("quit", null);
         action.activate.connect (() => { quit (); });
         application.add_action (action);
@@ -70,43 +118,6 @@ private class Music.App: Music.UI {
                                    "wrap-license", true);
         });
         application.add_action (action);
-
-        application.startup.connect_after ((app) => {
-            var menu = new GLib.Menu ();
-            menu.append (_("New"), "app.new");
-            menu.append (_("About Music"), "app.about");
-            menu.append (_("Quit"), "app.quit");
-
-            application.set_app_menu (menu);
-
-            setup_ui ();
-        });
-
-        application.activate.connect_after ((app) => {
-            window.present ();
-        });
-    }
-
-    public int run () {
-        return application.run ();
-    }
-
-    public bool open (string name) {
-        ui_state = UIState.COLLECTION;
-        return false;
-    }
-
-    private void save_window_geometry () {
-        int width, height, x, y;
-
-        if (maximized)
-            return;
-
-        window.get_size (out width, out height);
-        settings.set_value ("window-size", new int[] { width, height });
-
-        window.get_position (out x, out y);
-        settings.set_value ("window-position", new int[] { x, y });
     }
 
     private void setup_ui () {
@@ -169,25 +180,35 @@ private class Music.App: Music.UI {
         layout.pack_start (player.actor, false, false);
 
         layout.show_all ();
-
-        ui_state = UIState.COLLECTION;
     }
 
-    private void set_main_ui_state () {
-        notebook.page = Music.AppPage.MAIN;
-    }
-
-    public override void ui_state_changed () {
+    private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
     }
 
     private bool _selection_mode;
-    public bool selection_mode { get { return _selection_mode; }
+    public bool selection_mode {
+        get {
+            return _selection_mode;
+        }
         set {
-            return_if_fail (ui_state == UIState.COLLECTION);
-
             _selection_mode = value;
         }
     }
+
+    private void save_window_geometry () {
+        int width, height, x, y;
+
+        if (maximized)
+            return;
+
+        window.get_size (out width, out height);
+        settings.set_value ("window-size", new int[] { width, height });
+
+        window.get_position (out x, out y);
+        settings.set_value ("window-position", new int[] { x, y });
+    }
+
+
 
     public bool quit () {
         save_window_geometry ();

@@ -25,7 +25,7 @@ internal enum Music.MusicListStoreColumn {
     DURATION,
     ARTIST,
     ALBUM,
-    ALBUM_ART,
+    ART,
     URL
 }
 
@@ -33,19 +33,12 @@ internal class Music.MusicListStore : ListStore {
     public signal void finished ();
 
     private HashMap<string, Grl.Source> source_list = new HashMap<string, Grl.Source> ();
+    private string running_query;
+    private string running_query_params;
 
     public MusicListStore () {
         Object ();
        
-        var registry = Grl.Registry.get_default ();
-
-		registry.source_added.connect (source_added_cb);
-		registry.source_removed.connect (source_removed_cb);
-
-		if (registry.load_all_plugins () == false) {
-			error ("Failed to load plugins.");
-		}
-
         Type[] types = { typeof (uint),
                          typeof (string),
                          typeof (string),
@@ -54,6 +47,167 @@ internal class Music.MusicListStore : ListStore {
                          typeof (Gdk.Pixbuf),
                          typeof (string)};
         this.set_column_types (types);
+    }
+
+    public void connect_signals () {
+        var registry = Grl.Registry.get_default ();
+
+		registry.source_added.connect (source_added_cb);
+		registry.source_removed.connect (source_removed_cb);
+
+		if (registry.load_all_plugins () == false) {
+			error ("Failed to load plugins.");
+		}
+    }
+
+    public void load_all_artists () {
+        running_query = "load_all_artists";
+
+        var query =  """SELECT ?artist
+                            nmm:artistName(?artist) AS title
+                        WHERE { ?artist a nmm:Artist}
+                     """;
+
+        this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (1000000);
+        options.set_flags (ResolutionFlags.FULL | ResolutionFlags.IDLE_RELAY);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_all_artists_cb);
+        }
+    }
+
+    private void load_all_artists_cb (Grl.Source source,
+                                      uint query_id,
+                                      Grl.Media? media,
+                                      uint remaining,
+                                      GLib.Error? error) {
+        var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
+
+        TreeIter iter;
+        this.append (out iter);
+        this.set (iter,
+                MusicListStoreColumn.ART,
+                pixbuf,
+                MusicListStoreColumn.TITLE,
+                media.get_title ());
+    }
+
+    public void load_all_albums () {
+        running_query = "load_all_albums";
+
+        var query =  """SELECT ?album
+                            nmm:albumTitle(?album) AS title
+                        WHERE { ?album a nmm:MusicAlbum}
+                     """;
+
+        this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (1000000);
+        options.set_flags (ResolutionFlags.FULL | ResolutionFlags.IDLE_RELAY);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_all_albums_cb);
+        }
+    }
+
+    private void load_all_albums_cb (Grl.Source source,
+                                     uint query_id,
+                                     Grl.Media? media,
+                                     uint remaining,
+                                     GLib.Error? error) {
+        var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
+
+        TreeIter iter;
+        this.append (out iter);
+        this.set (iter,
+                MusicListStoreColumn.ART,
+                pixbuf,
+                MusicListStoreColumn.TITLE,
+                media.get_title ());
+    }
+
+    public void load_artist_albums (string artist) {
+    }
+
+    public void load_all_songs () {
+        running_query = "load_all_songs";
+
+        var query =  """SELECT ?song
+                            nie:title(?song) AS title
+                        WHERE { ?song a nmm:MusicPiece }
+                     """;
+
+        this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (1000000);
+        options.set_flags (ResolutionFlags.FULL | ResolutionFlags.IDLE_RELAY);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_all_songs_cb);
+        }
+    }
+
+    private void load_all_songs_cb (Grl.Source source,
+                                     uint query_id,
+                                     Grl.Media? media,
+                                     uint remaining,
+                                     GLib.Error? error) {
+        var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
+
+        TreeIter iter;
+        this.append (out iter);
+        this.set (iter,
+                MusicListStoreColumn.ART,
+                pixbuf,
+                MusicListStoreColumn.TITLE,
+                media.get_title ());
+    }
+
+
+
+    public void load_artist_songs (string artist) {
+    }
+
+    public void load_album_songs (string album) {
+    }
+
+    private void re_run_query () {
+        if (running_query != null) {
+            switch (running_query) {
+                case "load_all_artists":
+                    load_all_artists ();
+                    break;
+                case "load_all_albums":
+                    load_all_albums ();
+                    break;
+                case "load_all_songs":
+                    load_all_songs ();
+                    break;
+            }
+        }
     }
 
     private void source_added_cb (Grl.Source source) {
@@ -65,17 +219,15 @@ internal class Music.MusicListStore : ListStore {
         debug ("Checking source: %s", source.get_id());
 
 		var ops = source.supported_operations ();
-		if ((ops & Grl.SupportedOps.BROWSE) != 0) {
-			debug ("Detected new source availabe: '%s' and it supports browsing", source.get_name ());
+		if ((ops & Grl.SupportedOps.QUERY) != 0) {
+			debug ("Detected new source availabe: '%s' and it supports queries", source.get_name ());
 			source_list.set (source.get_id(), source as Grl.Source);
-            this.fill_list_store (source.get_id(), null);
+
+            re_run_query ();
 		}
-        else {
-            debug ("Source '%s' don't support browsing", source.get_name());
-        }
 	}
 
-	public void source_removed_cb (Grl.Source source) {
+	private void source_removed_cb (Grl.Source source) {
         foreach (var id in source_list.keys) {
             if (id == source.get_id()) {
 		        debug ("Source '%s' is gone", source.get_name ());
@@ -83,24 +235,6 @@ internal class Music.MusicListStore : ListStore {
             }
         }
 	}
-
-    private async void fill_list_store (string source_id, Grl.Media? root) {
-        if (!(source_id in source_list.keys)) {
-            return;
-        }
-
-        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID, Grl.MetadataKey.TITLE); //, Grl.MetadataKey.URL);
-
-        var source = source_list[source_id];
-        debug ("browsing %s", source.get_name ());
-
-        var options = new Grl.OperationOptions (source.get_caps (Grl.SupportedOps.BROWSE));
-        options.set_skip (0);
-        options.set_count (100);
-//        options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
-
-        source.browse (root, keys, options, browse_cb);
-    }
 
     private void browse_cb (Grl.Source source,
                             uint browse_id,
@@ -112,14 +246,15 @@ internal class Music.MusicListStore : ListStore {
                 critical ("Error: %s", error.message);
             }
 
+            debug ("MEDIA: %s REMAINING: %u", media.get_title (), remaining);
+
             if (media != null) {
                 if (media is MediaBox) {
                     debug ("Browsing %s", media.get_title());
-                    this.fill_list_store (source.get_id(), media);
                 }
                 if (media is MediaAudio) {
                     var mediaAudio = media as MediaAudio;
-                    debug ("Song: %s ", mediaAudio.get_thumbnail ()); 
+                    debug ("Song: %s ", mediaAudio.get_title ()); 
 
                     Gdk.Pixbuf pixbuf;
                     var thumbnail = mediaAudio.get_thumbnail ();
@@ -137,7 +272,7 @@ internal class Music.MusicListStore : ListStore {
                             mediaAudio.get_track_number (),
                             MusicListStoreColumn.ALBUM,
                             mediaAudio.get_album (),
-                            MusicListStoreColumn.ALBUM_ART,
+                            MusicListStoreColumn.ART,
                             pixbuf,
                             MusicListStoreColumn.TITLE,
                             mediaAudio.get_title (),

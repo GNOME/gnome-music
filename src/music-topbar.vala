@@ -18,22 +18,22 @@
 using Gtk;
 
 public enum Music.TopbarPage {
-    COLLECTION,
+    COLLECTION = 0,
     SELECTION,
     PLAYLIST
 }
 
-private class Music.Topbar: Music.UI {
+private class Music.Topbar {
     public Gtk.Widget actor { get { return notebook; } }
 
     private Gtk.Notebook notebook;
 
     /* COLLECTION buttons */
     private Gtk.Button collection_new_btn;
-    private Gtk.ToggleButton collection_artists_btn;
-    private Gtk.ToggleButton collection_albums_btn;
-    private Gtk.ToggleButton collection_songs_btn;
-    private Gtk.ToggleButton collection_playlists_btn;
+    private Gtk.RadioButton collection_artists_btn;
+    private Gtk.RadioButton collection_albums_btn;
+    private Gtk.RadioButton collection_songs_btn;
+    private Gtk.RadioButton collection_playlists_btn;
     private Gtk.Button collection_select_btn;
 
     /* SELECTION buttons */
@@ -51,14 +51,13 @@ private class Music.Topbar: Music.UI {
     private Gtk.Button playlist_select_btn;
 
     public Topbar () {
-        setup_topbar ();
-
-        App.app.notify["selected-items"].connect (() => {
-            update_selection_count_label ();
+        setup_ui ();
+        App.app.app_state_changed.connect ((old_state, new_state) => {
+            on_app_state_changed (old_state, new_state);
         });
     }
 
-    private void setup_topbar () {
+    private void setup_ui () {
         notebook = new Gtk.Notebook ();
 
         /* TopbarPage.COLLECTION */
@@ -77,30 +76,48 @@ private class Music.Topbar: Music.UI {
         hbox.pack_start (toolbar_start);
 
         collection_new_btn = new Gtk.Button.with_label (_("New"));
-        collection_new_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        collection_new_btn.clicked.connect ((button) => {
+            App.app.app_state = Music.AppState.PLAYLIST_NEW;
+        });
         toolbar_start.pack_start (collection_new_btn, false, false, 0);
 
         var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
         toolbar_center.get_style_context ().add_class (Gtk.STYLE_CLASS_LINKED);
         hbox.pack_start (toolbar_center, false, false, 0);
 
-        collection_artists_btn = new Gtk.ToggleButton.with_label (_("Artists"));
-        collection_artists_btn.clicked.connect ((button) => {
+        collection_artists_btn = new Gtk.RadioButton.with_label (null, _("Artists"));
+        collection_artists_btn.set_mode (false);
+        collection_artists_btn.toggled.connect ((button) => {
+            if (button.get_active() == true) {
+                App.app.app_state = Music.AppState.ARTISTS;
+            }
         });
         toolbar_center.pack_start (collection_artists_btn, false, false, 0);
 
-        collection_albums_btn = new Gtk.ToggleButton.with_label (_("Albums"));
-        collection_albums_btn.clicked.connect ((button) => {
+        collection_albums_btn = new Gtk.RadioButton.with_label (collection_artists_btn.get_group(), _("Albums"));
+        collection_albums_btn.set_mode (false);
+        collection_albums_btn.toggled.connect ((button) => {
+            if (button.get_active() == true) {
+                App.app.app_state = Music.AppState.ALBUMS;
+            }
         });
         toolbar_center.pack_start (collection_albums_btn, false, false, 0);
 
-        collection_songs_btn = new Gtk.ToggleButton.with_label (_("Songs"));
-        collection_songs_btn.clicked.connect ((button) => {
+        collection_songs_btn = new Gtk.RadioButton.with_label (collection_artists_btn.get_group(), _("Songs"));
+        collection_songs_btn.set_mode (false);
+        collection_songs_btn.toggled.connect ((button) => {
+            if (button.get_active() == true) {
+                App.app.app_state = Music.AppState.SONGS;
+            }
         });
         toolbar_center.pack_start (collection_songs_btn, false, false, 0);
 
-        collection_playlists_btn = new Gtk.ToggleButton.with_label (_("Playlists"));
-        collection_playlists_btn.clicked.connect ((button) => {
+        collection_playlists_btn = new Gtk.RadioButton.with_label (collection_artists_btn.get_group(), _("Playlists"));
+        collection_playlists_btn.set_mode (false);
+        collection_playlists_btn.toggled.connect ((button) => {
+            if (button.get_active() == true) {
+                App.app.app_state = Music.AppState.PLAYLISTS;
+            }
         });
         toolbar_center.pack_start (collection_playlists_btn, false, false, 0);
 
@@ -110,10 +127,6 @@ private class Music.Topbar: Music.UI {
         collection_select_btn.set_image (new Gtk.Image.from_icon_name ("emblem-default-symbolic", IconSize.BUTTON));
         collection_select_btn.clicked.connect (() => {
             App.app.selection_mode = true;
-        });
-        App.app.notify["selection-mode"].connect (() => {
-            notebook.page = App.app.selection_mode ?
-                TopbarPage.SELECTION : notebook.page = TopbarPage.COLLECTION;
         });
 
         update_collection_select_btn_sensitivity ();
@@ -141,12 +154,14 @@ private class Music.Topbar: Music.UI {
         selection_back_btn = new Gtk.Button ();
         selection_back_btn.get_style_context ().add_class ("dark");
         selection_back_btn.set_image (new Gtk.Image.from_icon_name ("go-previous-symbolic", IconSize.BUTTON));
-        selection_back_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        selection_back_btn.clicked.connect ((button) => {
+        });
         toolbar_start.pack_start (selection_back_btn, false, false, 0);
 
         selection_remove_btn = new Gtk.Button.from_stock ("gtk-remove");
         selection_remove_btn.get_style_context ().add_class ("dark");
-        selection_remove_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        selection_remove_btn.clicked.connect ((button) => {
+        });
         toolbar_start.pack_start (selection_remove_btn, false, false, 0);
 
         toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -161,11 +176,13 @@ private class Music.Topbar: Music.UI {
 
         selection_cancel_btn = new Gtk.Button.with_label (_("Cancel"));
         selection_cancel_btn.get_style_context ().add_class ("dark");
-        selection_cancel_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        selection_cancel_btn.clicked.connect ((button) => {
+        });
         toolbar_end.pack_start (selection_cancel_btn, false, false, 0);
 
         selection_add_btn = new Gtk.Button.from_stock ("gtk-add");
-        selection_add_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        selection_add_btn.clicked.connect ((button) => {
+        });
         toolbar_end.pack_start (selection_add_btn, false, false, 0);
 
         alignment = new Gtk.Alignment (1, (float)0.5, 0, 0);
@@ -189,7 +206,8 @@ private class Music.Topbar: Music.UI {
 
         playlist_back_btn = new Gtk.Button ();
         playlist_back_btn.set_image (new Gtk.Image.from_icon_name ("go-previous-symbolic", IconSize.BUTTON));
-        playlist_back_btn.clicked.connect ((button) => { App.app.ui_state = UIState.WIZARD; });
+        playlist_back_btn.clicked.connect ((button) => {
+        });
         toolbar_start.pack_start (playlist_back_btn, false, false, 0);
 
         toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -215,6 +233,23 @@ private class Music.Topbar: Music.UI {
         notebook.show_tabs = false;
         notebook.show_all ();
     }
+                
+    private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
+        switch (new_state) {
+            case Music.AppState.ARTISTS:
+            case Music.AppState.ALBUMS:
+            case Music.AppState.SONGS:
+            case Music.AppState.PLAYLISTS:
+                notebook.set_current_page (TopbarPage.COLLECTION);
+                break;
+            case Music.AppState.PLAYLIST:
+                notebook.set_current_page (TopbarPage.COLLECTION);
+                break;
+            case Music.AppState.PLAYLIST_NEW:
+                notebook.set_current_page (TopbarPage.COLLECTION);
+                break;
+        }
+    }
 
     private void update_collection_select_btn_sensitivity () {
 //        collection_select_btn.sensitive = App.app.collection.items.length != 0;
@@ -227,41 +262,6 @@ private class Music.Topbar: Music.UI {
             selection_count_label.set_markup ("<b>" + ngettext ("%d selected", "%d selected", items).printf (items) + "</b>");
         else
             selection_count_label.set_markup ("<i>" + _("Click on items to select them") + "</i>");
-        */
-    }
-
-    public override void ui_state_changed () {
-        /*
-        switch (ui_state) {
-        case UIState.COLLECTION:
-            notebook.page = TopbarPage.COLLECTION;
-            selection_back_btn.hide ();
-            spinner_btn.hide ();
-            collection_select_btn.show ();
-            new_btn.show ();
-            break;
-
-        case UIState.CREDS:
-            new_btn.hide ();
-            selection_back_btn.show ();
-            spinner_btn.show ();
-            collection_select_btn.hide ();
-            break;
-
-        case UIState.DISPLAY:
-            break;
-
-        case UIState.PROPERTIES:
-            notebook.page = TopbarPage.PROPERTIES;
-            break;
-
-        case UIState.WIZARD:
-            notebook.page = TopbarPage.WIZARD;
-            break;
-
-        default:
-            break;
-        }
         */
     }
 }
