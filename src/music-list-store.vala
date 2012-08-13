@@ -74,11 +74,9 @@ internal class Music.MusicListStore : ListStore {
         running_query = "load_all_artists";
         running_query_params = "";
 
-        debug ("LOAD_ALL_ARTISTS");
-
         var query =  """SELECT ?artist
-                            tracker:id(?artist) AS id
-                            nmm:artistName(?artist) AS title
+                               tracker:id(?artist) AS id
+                               nmm:artistName(?artist) AS title
                         WHERE { ?artist a nmm:Artist}
                      """;
 
@@ -125,11 +123,9 @@ internal class Music.MusicListStore : ListStore {
         running_query = "load_all_albums";
         running_query_params = "";
 
-        debug ("LOAD_ALL_ALBUMS");
-
         var query =  """SELECT ?album
-                            tracker:id(?album) AS id
-                            nmm:albumTitle(?album) AS title
+                               tracker:id(?album) AS id
+                               nie:title(?album) AS title
                         WHERE { ?album a nmm:MusicAlbum}
                      """;
 
@@ -176,9 +172,7 @@ internal class Music.MusicListStore : ListStore {
         running_query = "load_artist_albums";
         running_query_params = artist;
 
-        debug ("LOAD_ARTIST_ALBUMS (%s)", artist);
-
-        var query = @"SELECT ?album tracker:id(?album) AS id nmm:albumTitle(?album) AS title WHERE { ?album nmm:albumArtist [nmm:artistName '$artist'] }";
+        var query = @"SELECT ?album tracker:id(?album) AS id nie:title(?album) AS title WHERE { ?album nmm:albumArtist [nmm:artistName '$artist'] }";
 
         this.clear ();
 
@@ -223,11 +217,9 @@ internal class Music.MusicListStore : ListStore {
         running_query = "load_all_songs";
         running_query_params = "";
 
-        debug ("LOAD_ALL_SONGS");
-
         var query =  """SELECT ?song
-                            tracker:id(?song) AS id
-                            nie:title(?song) AS title
+                               tracker:id(?song) AS id
+                               nie:title(?song) AS title
                         WHERE { ?song a nmm:MusicPiece }
                      """;
 
@@ -278,9 +270,7 @@ internal class Music.MusicListStore : ListStore {
         running_query = "load_album_songs";
         running_query_params = album;
 
-        debug ("LOAD_ALBUM_SONGS: %s", album);
-
-        var query = @"SELECT ?song tracker:id(?song) AS id nie:title(?song) AS title WHERE { ?song nmm:musicAlbum [nmm:albumTitle '$album'] }";
+        var query = @"SELECT ?song tracker:id(?song) AS id nie:title(?song) AS title WHERE { ?song nmm:musicAlbum [nie:title '$album'] }";
 
         this.clear ();
 
@@ -321,7 +311,51 @@ internal class Music.MusicListStore : ListStore {
         }
     }
 
+    public void load_item (string id) {
+        running_query = "load_item";
+        running_query_params = id;
 
+        var query = @"SELECT ?item tracker:id(?item) AS id nie:title(?item) AS title WHERE { ?item a nie:InformationElement FILTER (tracker:id (?item) = $id ) }";
+        debug (query);
+
+        this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (1000000);
+        options.set_flags (ResolutionFlags.NORMAL);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_item_cb);
+        }
+    }
+
+    private void load_item_cb (Grl.Source source,
+                                     uint query_id,
+                                     Grl.Media? media,
+                                     uint remaining,
+                                     GLib.Error? error) {
+        if (media != null) {
+            var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
+
+            TreeIter iter;
+            this.append (out iter);
+            this.set (iter,
+                    MusicListStoreColumn.TYPE,
+                    Music.ItemType.ALBUM,
+                    MusicListStoreColumn.ID,
+                    media.get_id(),
+                    MusicListStoreColumn.ART,
+                    pixbuf,
+                    MusicListStoreColumn.TITLE,
+                    media.get_title ());
+        }
+    }
 
     private void re_run_query () {
         if (running_query != null) {
@@ -340,6 +374,9 @@ internal class Music.MusicListStore : ListStore {
                     break;
                 case "load_album_songs":
                     load_album_songs (running_query_params);
+                    break;
+                case "load_item":
+                    load_item (running_query_params);
                     break;
             }
         }

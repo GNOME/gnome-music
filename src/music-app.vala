@@ -163,26 +163,42 @@ private class Music.App {
         });
 
         layout = new Gtk.Box (Orientation.VERTICAL, 0);
-        window.add (layout);
 
         topbar = new Music.Topbar ();
+        topbar.collection_back_btn_clicked.connect (on_collection_back_btn_clicked);
         layout.pack_start (topbar.actor, false, false);
 
         notebook = new Gtk.Notebook ();
         notebook.show_border = false;
         notebook.show_tabs = false;
+        notebook.show ();
         layout.pack_start (notebook);
 
         collectionView = new Music.CollectionView ();
+        collectionView.browse_history_changed.connect (on_browse_history_changed);
         notebook.append_page (collectionView.actor, null);
 
         player = new Music.Player ();
         layout.pack_start (player.actor, false, false);
 
-        layout.show_all ();
+        layout.show ();
+        window.add (layout);
     }
 
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
+    }
+
+    private void on_browse_history_changed (Music.BrowseHistory browse_history) {
+        if (browse_history.get_length () < 1) {
+            topbar.set_collection_back_button_visible (false);
+        }
+        else {
+            topbar.set_collection_back_button_visible (true);
+        }
+    }
+
+    private void on_collection_back_btn_clicked () {
+        collectionView.browse_history_back ();
     }
 
     private bool _selection_mode;

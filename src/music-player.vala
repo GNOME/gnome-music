@@ -113,7 +113,7 @@ private class Music.Player {
         alignment.add (toolbar_end);
         box.pack_start (alignment);
 
-        alignment.show_all ();
+        eventbox.show_all ();
     }
 
     private void update_collection_select_btn_sensitivity () {

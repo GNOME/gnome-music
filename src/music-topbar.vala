@@ -28,8 +28,10 @@ private class Music.Topbar {
 
     private Gtk.Notebook notebook;
 
-    /* COLLECTION buttons */
+    /* COLLECTION */
+    public signal void collection_back_btn_clicked ();
     private Gtk.Button collection_new_btn;
+    private Gtk.Button collection_back_btn;
     private Gtk.RadioButton collection_artists_btn;
     private Gtk.RadioButton collection_albums_btn;
     private Gtk.RadioButton collection_songs_btn;
@@ -80,6 +82,11 @@ private class Music.Topbar {
             App.app.app_state = Music.AppState.PLAYLIST_NEW;
         });
         toolbar_start.pack_start (collection_new_btn, false, false, 0);
+
+        collection_back_btn = new Gtk.Button ();
+        collection_back_btn.set_image (new Gtk.Image.from_icon_name ("go-previous-symbolic", IconSize.BUTTON));
+        collection_back_btn.clicked.connect (on_collection_back_btn_clicked);
+        toolbar_start.pack_start (collection_back_btn, false, false, 0);
 
         var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
         toolbar_center.get_style_context ().add_class (Gtk.STYLE_CLASS_LINKED);
@@ -232,6 +239,14 @@ private class Music.Topbar {
 
         notebook.show_tabs = false;
         notebook.show_all ();
+
+        /* Let's init the widgets visibility */
+        collection_new_btn.set_visible (false);
+        collection_back_btn.set_visible (false);
+    }
+
+    public void set_collection_back_button_visible (bool visible) {
+        collection_back_btn.set_visible (visible);
     }
                 
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
@@ -249,6 +264,10 @@ private class Music.Topbar {
                 notebook.set_current_page (TopbarPage.COLLECTION);
                 break;
         }
+    }
+
+    private void on_collection_back_btn_clicked (Gtk.Button button) {
+        collection_back_btn_clicked ();
     }
 
     private void update_collection_select_btn_sensitivity () {
