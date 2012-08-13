@@ -21,6 +21,7 @@ using Gee;
 
 internal enum Music.MusicListStoreColumn {
     TYPE = 0,
+    ID,
     TITLE,
     ART,
     URL,
@@ -47,6 +48,7 @@ internal class Music.MusicListStore : ListStore {
         Object ();
        
         Type[] types = { typeof (Music.ItemType),       // MusicListStoreColumn.TYPE
+                         typeof (string),       // MusicListStoreColumn.ID
                          typeof (string),       // MusicListStoreColumn.TITLE
                          typeof (Gdk.Pixbuf),   // MusicListStoreColumn.ART
                          typeof (string),       // MusicListStoreColumn.URL
@@ -75,6 +77,7 @@ internal class Music.MusicListStore : ListStore {
         debug ("LOAD_ALL_ARTISTS");
 
         var query =  """SELECT ?artist
+                            tracker:id(?artist) AS id
                             nmm:artistName(?artist) AS title
                         WHERE { ?artist a nmm:Artist}
                      """;
@@ -109,6 +112,8 @@ internal class Music.MusicListStore : ListStore {
             this.set (iter,
                     MusicListStoreColumn.TYPE,
                     Music.ItemType.ARTIST,
+                    MusicListStoreColumn.ID,
+                    media.get_id(),
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -123,6 +128,7 @@ internal class Music.MusicListStore : ListStore {
         debug ("LOAD_ALL_ALBUMS");
 
         var query =  """SELECT ?album
+                            tracker:id(?album) AS id
                             nmm:albumTitle(?album) AS title
                         WHERE { ?album a nmm:MusicAlbum}
                      """;
@@ -157,6 +163,8 @@ internal class Music.MusicListStore : ListStore {
             this.set (iter,
                     MusicListStoreColumn.TYPE,
                     Music.ItemType.ALBUM,
+                    MusicListStoreColumn.ID,
+                    media.get_id(),
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -170,7 +178,7 @@ internal class Music.MusicListStore : ListStore {
 
         debug ("LOAD_ARTIST_ALBUMS (%s)", artist);
 
-        var query = @"SELECT ?album nmm:albumTitle(?album) AS title WHERE { ?album nmm:albumArtist [nmm:artistName '$artist'] }";
+        var query = @"SELECT ?album tracker:id(?album) AS id nmm:albumTitle(?album) AS title WHERE { ?album nmm:albumArtist [nmm:artistName '$artist'] }";
 
         this.clear ();
 
@@ -202,6 +210,8 @@ internal class Music.MusicListStore : ListStore {
             this.set (iter,
                     MusicListStoreColumn.TYPE,
                     Music.ItemType.ALBUM,
+                    MusicListStoreColumn.ID,
+                    media.get_id(),
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -216,6 +226,7 @@ internal class Music.MusicListStore : ListStore {
         debug ("LOAD_ALL_SONGS");
 
         var query =  """SELECT ?song
+                            tracker:id(?song) AS id
                             nie:title(?song) AS title
                         WHERE { ?song a nmm:MusicPiece }
                      """;
@@ -250,6 +261,8 @@ internal class Music.MusicListStore : ListStore {
             this.set (iter,
                     MusicListStoreColumn.TYPE,
                     Music.ItemType.ALBUM,
+                    MusicListStoreColumn.ID,
+                    media.get_id(),
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -262,8 +275,53 @@ internal class Music.MusicListStore : ListStore {
     }
 
     public void load_album_songs (string album) {
+        running_query = "load_album_songs";
+        running_query_params = album;
+
+        debug ("LOAD_ALBUM_SONGS: %s", album);
+
+        var query = @"SELECT ?song tracker:id(?song) AS id nie:title(?song) AS title WHERE { ?song nmm:musicAlbum [nmm:albumTitle '$album'] }";
+
         this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (1000000);
+        options.set_flags (ResolutionFlags.NORMAL);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_album_songs_cb);
+        }
     }
+
+    private void load_album_songs_cb (Grl.Source source,
+                                     uint query_id,
+                                     Grl.Media? media,
+                                     uint remaining,
+                                     GLib.Error? error) {
+        if (media != null) {
+            var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
+
+            TreeIter iter;
+            this.append (out iter);
+            this.set (iter,
+                    MusicListStoreColumn.TYPE,
+                    Music.ItemType.ALBUM,
+                    MusicListStoreColumn.ID,
+                    media.get_id(),
+                    MusicListStoreColumn.ART,
+                    pixbuf,
+                    MusicListStoreColumn.TITLE,
+                    media.get_title ());
+        }
+    }
+
+
 
     private void re_run_query () {
         if (running_query != null) {
@@ -279,6 +337,9 @@ internal class Music.MusicListStore : ListStore {
                     break;
                 case "load_all_songs":
                     load_all_songs ();
+                    break;
+                case "load_album_songs":
+                    load_album_songs (running_query_params);
                     break;
             }
         }
