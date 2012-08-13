@@ -32,9 +32,7 @@ private class Music.CollectionView {
     private Gtk.IconView icon_view;
 
     public CollectionView () {
-        App.app.app_state_changed.connect ((old_state, new_state) => {
-            on_app_state_changed (old_state, new_state);
-        });
+        App.app.app_state_changed.connect (on_app_state_changed);
 
         model = new Music.MusicListStore (); 
         setup_view ();
@@ -44,8 +42,11 @@ private class Music.CollectionView {
     private void setup_view () {
         icon_view = new Gtk.IconView.with_model (model);
         icon_view.get_style_context ().add_class ("music-bg");
-//        icon_view_activate_on_single_click (icon_view, true);
+        //icon_view.activate_on_single_click (true);
         icon_view.set_selection_mode (Gtk.SelectionMode.SINGLE);
+        icon_view.item_activated.connect ((view, path) => {
+            select_item (path);
+        });
 
         icon_view.set_pixbuf_column (MusicListStoreColumn.ART);
         icon_view.set_text_column (MusicListStoreColumn.TITLE);
@@ -72,5 +73,39 @@ private class Music.CollectionView {
             case Music.AppState.PLAYLIST_NEW:
                 break;
         }
+    }
+
+    private void select_item (Gtk.TreePath path) {
+        Gtk.TreeIter iter;
+        GLib.Value type;
+        GLib.Value name;
+
+        model.get_iter (out iter, path);
+        model.get_value (iter, MusicListStoreColumn.TYPE, out type);
+        model.get_value (iter, MusicListStoreColumn.TITLE, out name);
+
+        var item_type = (Music.ItemType) type;
+        var item_name = (string) name;
+
+        switch (item_type) {
+            case Music.ItemType.ARTIST:
+                App.app.app_state_changed.disconnect (on_app_state_changed);
+                App.app.app_state = Music.AppState.ALBUMS;
+                App.app.app_state_changed.connect (on_app_state_changed);
+
+                model.load_artist_albums(item_name);
+                break;
+            case Music.ItemType.ALBUM:
+                App.app.app_state_changed.disconnect (on_app_state_changed);
+                App.app.app_state = Music.AppState.SONGS;
+                App.app.app_state_changed.connect (on_app_state_changed);
+
+                model.load_album_songs (item_name);
+                break;
+            case Music.ItemType.SONG:
+                model.load_all_songs();
+                break;
+        }
+
     }
 }

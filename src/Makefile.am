@@ -12,9 +12,7 @@ AM_CPPFLAGS = \
 AM_VALAFLAGS = \
 	-g --save-temps				\
     --vapidir=$(srcdir)/../vapi	\
-    --pkg config				\
-    --pkg custom				\
-    --pkg clutter-gtk-1.0		\
+	--pkg config				\
 	@MUSIC_PACKAGES@			\
 	$(NULL)
 

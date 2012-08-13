@@ -20,13 +20,20 @@ using Grl;
 using Gee;
 
 internal enum Music.MusicListStoreColumn {
-    TRACK = 0,
+    TYPE = 0,
     TITLE,
+    ART,
+    URL,
     DURATION,
+    TRACK,
+    ARTIST,
+    ALBUM
+}
+
+internal enum Music.ItemType {
     ARTIST,
     ALBUM,
-    ART,
-    URL
+    SONG
 }
 
 internal class Music.MusicListStore : ListStore {
@@ -39,13 +46,14 @@ internal class Music.MusicListStore : ListStore {
     public MusicListStore () {
         Object ();
        
-        Type[] types = { typeof (uint),
-                         typeof (string),
-                         typeof (string),
-                         typeof (string),
-                         typeof (string),
-                         typeof (Gdk.Pixbuf),
-                         typeof (string)};
+        Type[] types = { typeof (Music.ItemType),       // MusicListStoreColumn.TYPE
+                         typeof (string),       // MusicListStoreColumn.TITLE
+                         typeof (Gdk.Pixbuf),   // MusicListStoreColumn.ART
+                         typeof (string),       // MusicListStoreColumn.URL
+                         typeof (string),       // MusicListStoreColumn.DURATION
+                         typeof (uint),         // MusicListStoreColumn.TRACK
+                         typeof (string),       // MusicListStoreColumn.ARTIST
+                         typeof (string)};      // MusicListStoreColumn.ALBUM
         this.set_column_types (types);
     }
 
@@ -63,6 +71,8 @@ internal class Music.MusicListStore : ListStore {
     public void load_all_artists () {
         running_query = "load_all_artists";
         running_query_params = "";
+
+        debug ("LOAD_ALL_ARTISTS");
 
         var query =  """SELECT ?artist
                             nmm:artistName(?artist) AS title
@@ -97,6 +107,8 @@ internal class Music.MusicListStore : ListStore {
             TreeIter iter;
             this.append (out iter);
             this.set (iter,
+                    MusicListStoreColumn.TYPE,
+                    Music.ItemType.ARTIST,
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -107,6 +119,8 @@ internal class Music.MusicListStore : ListStore {
     public void load_all_albums () {
         running_query = "load_all_albums";
         running_query_params = "";
+
+        debug ("LOAD_ALL_ALBUMS");
 
         var query =  """SELECT ?album
                             nmm:albumTitle(?album) AS title
@@ -141,6 +155,8 @@ internal class Music.MusicListStore : ListStore {
             TreeIter iter;
             this.append (out iter);
             this.set (iter,
+                    MusicListStoreColumn.TYPE,
+                    Music.ItemType.ALBUM,
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -149,11 +165,55 @@ internal class Music.MusicListStore : ListStore {
     }
 
     public void load_artist_albums (string artist) {
+        running_query = "load_artist_albums";
+        running_query_params = artist;
+
+        debug ("LOAD_ARTIST_ALBUMS (%s)", artist);
+
+        var query = @"SELECT ?album nmm:albumTitle(?album) AS title WHERE { ?album nmm:albumArtist [nmm:artistName '$artist'] }";
+
+        this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (10000);
+        options.set_flags (ResolutionFlags.NORMAL);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_artist_albums_cb);
+        }
+    }
+
+    private void load_artist_albums_cb (Grl.Source source,
+                                     uint query_id,
+                                     Grl.Media? media,
+                                     uint remaining,
+                                     GLib.Error? error) {
+        if (media != null) {
+            var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
+
+            TreeIter iter;
+            this.append (out iter);
+            this.set (iter,
+                    MusicListStoreColumn.TYPE,
+                    Music.ItemType.ALBUM,
+                    MusicListStoreColumn.ART,
+                    pixbuf,
+                    MusicListStoreColumn.TITLE,
+                    media.get_title ());
+        }
     }
 
     public void load_all_songs () {
         running_query = "load_all_songs";
         running_query_params = "";
+
+        debug ("LOAD_ALL_SONGS");
 
         var query =  """SELECT ?song
                             nie:title(?song) AS title
@@ -188,6 +248,8 @@ internal class Music.MusicListStore : ListStore {
             TreeIter iter;
             this.append (out iter);
             this.set (iter,
+                    MusicListStoreColumn.TYPE,
+                    Music.ItemType.ALBUM,
                     MusicListStoreColumn.ART,
                     pixbuf,
                     MusicListStoreColumn.TITLE,
@@ -195,12 +257,12 @@ internal class Music.MusicListStore : ListStore {
         }
     }
 
-
-
     public void load_artist_songs (string artist) {
+        this.clear ();
     }
 
     public void load_album_songs (string album) {
+        this.clear ();
     }
 
     private void re_run_query () {
@@ -211,6 +273,9 @@ internal class Music.MusicListStore : ListStore {
                     break;
                 case "load_all_albums":
                     load_all_albums ();
+                    break;
+                case "load_artist_albums":
+                    load_artist_albums (running_query_params);
                     break;
                 case "load_all_songs":
                     load_all_songs ();
@@ -244,62 +309,4 @@ internal class Music.MusicListStore : ListStore {
             }
         }
 	}
-
-    private void browse_cb (Grl.Source source,
-                            uint browse_id,
-                            Grl.Media? media,
-                            uint remaining,
-                            GLib.Error? error) {
-        try {
-            if (error != null) {
-                critical ("Error: %s", error.message);
-            }
-
-            debug ("MEDIA: %s REMAINING: %u", media.get_title (), remaining);
-
-            if (media != null) {
-                if (media is MediaBox) {
-                    debug ("Browsing %s", media.get_title());
-                }
-                if (media is MediaAudio) {
-                    var mediaAudio = media as MediaAudio;
-                    debug ("Song: %s ", mediaAudio.get_title ()); 
-
-                    Gdk.Pixbuf pixbuf;
-                    var thumbnail = mediaAudio.get_thumbnail ();
-                    if (thumbnail != null) {
-                        pixbuf = new Gdk.Pixbuf.from_file (thumbnail);
-                    }
-                    else {
-                        pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
-                    }
-
-                    TreeIter iter;
-                    this.append (out iter);
-                    this.set (iter,
-                            MusicListStoreColumn.TRACK,
-                            mediaAudio.get_track_number (),
-                            MusicListStoreColumn.ALBUM,
-                            mediaAudio.get_album (),
-                            MusicListStoreColumn.ART,
-                            pixbuf,
-                            MusicListStoreColumn.TITLE,
-                            mediaAudio.get_title (),
-                            MusicListStoreColumn.URL,
-                            mediaAudio.get_url (),
-                            MusicListStoreColumn.DURATION,
-                            mediaAudio.get_duration (),
-                            MusicListStoreColumn.ARTIST,
-                            mediaAudio.get_artist());
-                }
-            }
-
-            if (remaining == 0) {
-                debug ("%s finished", source.get_name ());
-            }
-        } catch (Error error) {
-            critical ("Something failed: %s", error.message);
-        }
-
-    }
 }
