@@ -27,34 +27,41 @@ internal enum Music.CollectionType {
 
 private class Music.BrowseHistory {
     private ArrayList<string> history;
-    private HashMap<string, Music.ItemType> history_items;
+    private HashMap<string, Music.ItemType?> history_types;
 
     public BrowseHistory () {
         history = new ArrayList<string>(); 
-        history_items = new HashMap<string, Music.ItemType>();
+        history_types = new HashMap<string, Music.ItemType?>();
     }
 
-    public void push (string id, Music.ItemType item_type)
+    public void push (string id, Music.ItemType? item_type)
     {
         history.add (id);
-        history_items.set (id, item_type);
-    }
-    
-    public string get_last_item_id () {
-        var last = history.size - 1;
-        return history.get (last);
+        history_types.set (id, item_type);
     }
 
-    public Music.ItemType get_last_item_type () {
-        var id = get_last_item_id ();
-        return history_items[id];
+    public string get_last_item_id () {
+        if (history.size >= 2) {
+            // (history.size - 1) is the actual item, so we want the previous one
+            var last = history.size - 2;
+            return history[last];
+        }
+
+        return "";
+    }
+
+    public Music.ItemType? get_last_item_type () {
+        string id = get_last_item_id ();
+        return history_types[id];
     }
 
     public void delete_last_item () {
+        // We want to go back one position in the history, so we only need to
+        // delete the actual item (history.size - 1).
         var last = history.size - 1;
         var id = get_last_item_id ();
         history.remove_at (last);
-        history_items.unset (id);
+        history_types.unset (id);
     }
 
     public int get_length () {
@@ -63,7 +70,7 @@ private class Music.BrowseHistory {
 
     public void clear () {
         history.clear();
-        history_items.clear();
+        history_types.clear();
     }
 }
 
@@ -105,19 +112,26 @@ private class Music.CollectionView {
     }
 
     public void browse_history_back () {
-        var last_visited_item = browse_history.pop ();
-        model.load_item (last_visited_item);
+        var last_item_id = browse_history.get_last_item_id ();
+        Music.ItemType? last_item_type = browse_history.get_last_item_type ();
+        browse_history.delete_last_item ();
+        model.load_item (last_item_id, last_item_type);
     }
 
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
+        browse_history.clear();
+
         switch (new_state) {
             case Music.AppState.ARTISTS:
+                browse_history.push ("all_artists", null);
                 model.load_all_artists();
                 break;
             case Music.AppState.ALBUMS:
+                browse_history.push ("all_albums", null);
                 model.load_all_albums();
                 break;
             case Music.AppState.SONGS:
+                browse_history.push ("all_songs", null);
                 model.load_all_songs();
                 break;
             case Music.AppState.PLAYLISTS:
@@ -162,7 +176,7 @@ private class Music.CollectionView {
                 break;
         }
 
-        browse_history.push (item_id);
+        browse_history.push (item_id, item_type);
         browse_history_changed (browse_history);
 
     }

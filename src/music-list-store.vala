@@ -190,12 +190,38 @@ internal class Music.MusicListStore : ListStore {
             source.query (query, keys, options, load_artist_albums_cb);
         }
     }
+                
+    public void load_artist_albums_by_id (string id) {
+        running_query = "load_artist_albums_by_id";
+        running_query_params = id;
+
+        var query = @"SELECT ?album tracker:id(?album) AS id nie:title(?album) AS title WHERE { ?album a nmm:MusicAlbum; nmm:albumArtist ?artist FILTER (tracker:id (?artist) = $id ) }";
+        debug (query);
+
+        this.clear ();
+
+        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
+                                                           Grl.MetadataKey.TITLE,
+                                                           Grl.MetadataKey.THUMBNAIL,
+                                                           Grl.MetadataKey.URL);
+        Caps caps = null;
+        OperationOptions options = new OperationOptions(caps);
+        options.set_skip (0);
+        options.set_count (10000);
+        options.set_flags (ResolutionFlags.NORMAL);
+
+        foreach (var source in source_list.values) {
+            source.query (query, keys, options, load_artist_albums_cb);
+        }
+
+    }
 
     private void load_artist_albums_cb (Grl.Source source,
                                      uint query_id,
                                      Grl.Media? media,
                                      uint remaining,
                                      GLib.Error? error) {
+        debug ("MEDIA: %s REMAINING: %s", media.get_id(), remaining.to_string());
         if (media != null) {
             var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
 
@@ -311,27 +337,31 @@ internal class Music.MusicListStore : ListStore {
         }
     }
 
-    public void load_item (string id) {
-        running_query = "load_item";
-        running_query_params = id;
-
-        var query = @"SELECT ?item tracker:id(?item) AS id nie:title(?item) AS title WHERE { ?item a nie:InformationElement FILTER (tracker:id (?item) = $id ) }";
-        debug (query);
-
-        this.clear ();
-
-        unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
-                                                           Grl.MetadataKey.TITLE,
-                                                           Grl.MetadataKey.THUMBNAIL,
-                                                           Grl.MetadataKey.URL);
-        Caps caps = null;
-        OperationOptions options = new OperationOptions(caps);
-        options.set_skip (0);
-        options.set_count (1000000);
-        options.set_flags (ResolutionFlags.NORMAL);
-
-        foreach (var source in source_list.values) {
-            source.query (query, keys, options, load_item_cb);
+    public void load_item (string id, Music.ItemType? type) {
+        if (type != null) {
+            switch (type) {
+                case Music.ItemType.ARTIST:
+                    load_artist_albums_by_id (id);
+                    break;
+                case Music.ItemType.ALBUM:
+                    //load_album_songs_by_id (id);
+                    break;
+                case Music.ItemType.SONG:
+                    break;
+            }
+        }
+        else {
+            switch (id) {
+                case "all_artists":
+                    load_all_artists ();
+                    break;
+                case "all_albums":
+                    load_all_albums ();
+                    break;
+                case "all_songs":
+                    load_all_songs ();
+                    break;
+            }
         }
     }
 
@@ -369,14 +399,14 @@ internal class Music.MusicListStore : ListStore {
                 case "load_artist_albums":
                     load_artist_albums (running_query_params);
                     break;
+                case "load_artist_albums_by_id":
+                    load_artist_albums_by_id (running_query_params);
+                    break;
                 case "load_all_songs":
                     load_all_songs ();
                     break;
                 case "load_album_songs":
                     load_album_songs (running_query_params);
-                    break;
-                case "load_item":
-                    load_item (running_query_params);
                     break;
             }
         }
