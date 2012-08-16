@@ -39,7 +39,6 @@ music-resources.c: music.gresource.xml app-menu.ui
 		--target=$@ --sourcedir=$(srcdir) --c-name music --generate-source
 
 gnome_music_SOURCES = \
-        gtk-notification.c   \
 	$(vala_sources) \
 	$(NULL)
 
@@ -51,7 +50,6 @@ CLEANFILES = \
 	*.vapi *.stamp
 
 EXTRA_DIST = \
-        gtk-notification.h   \
 	music.gresource.xml \
 	app-menu.ui \
 	$(gsettingsschema_in_files)     \
