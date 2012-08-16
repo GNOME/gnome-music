@@ -94,38 +94,22 @@ private class Music.Topbar {
 
         collection_artists_btn = new Gtk.RadioButton.with_label (null, _("Artists"));
         collection_artists_btn.set_mode (false);
-        collection_artists_btn.toggled.connect ((button) => {
-            if (button.get_active() == true) {
-                App.app.app_state = Music.AppState.ARTISTS;
-            }
-        });
+        collection_artists_btn.toggled.connect (on_collection_artists_btn_toggled);
         toolbar_center.pack_start (collection_artists_btn, false, false, 0);
 
         collection_albums_btn = new Gtk.RadioButton.with_label (collection_artists_btn.get_group(), _("Albums"));
         collection_albums_btn.set_mode (false);
-        collection_albums_btn.toggled.connect ((button) => {
-            if (button.get_active() == true) {
-                App.app.app_state = Music.AppState.ALBUMS;
-            }
-        });
+        collection_albums_btn.toggled.connect (on_collection_albums_btn_toggled);
         toolbar_center.pack_start (collection_albums_btn, false, false, 0);
 
         collection_songs_btn = new Gtk.RadioButton.with_label (collection_artists_btn.get_group(), _("Songs"));
         collection_songs_btn.set_mode (false);
-        collection_songs_btn.toggled.connect ((button) => {
-            if (button.get_active() == true) {
-                App.app.app_state = Music.AppState.SONGS;
-            }
-        });
+        collection_songs_btn.toggled.connect (on_collection_songs_btn_toggled);
         toolbar_center.pack_start (collection_songs_btn, false, false, 0);
 
         collection_playlists_btn = new Gtk.RadioButton.with_label (collection_artists_btn.get_group(), _("Playlists"));
         collection_playlists_btn.set_mode (false);
-        collection_playlists_btn.toggled.connect ((button) => {
-            if (button.get_active() == true) {
-                App.app.app_state = Music.AppState.PLAYLISTS;
-            }
-        });
+        collection_playlists_btn.toggled.connect (on_collection_playlists_btn_toggled);
         toolbar_center.pack_start (collection_playlists_btn, false, false, 0);
 
         var toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -245,6 +229,30 @@ private class Music.Topbar {
         collection_back_btn.set_visible (false);
     }
 
+    private void on_collection_artists_btn_toggled (Gtk.ToggleButton button) {
+        if (button.get_active() == true) {
+            App.app.app_state = Music.AppState.ARTISTS;
+        }
+    }
+
+    private void on_collection_albums_btn_toggled (Gtk.ToggleButton button) {
+        if (button.get_active() == true) {
+            App.app.app_state = Music.AppState.ALBUMS;
+        }
+    }
+
+    private void on_collection_songs_btn_toggled (Gtk.ToggleButton button) {
+        if (button.get_active() == true) {
+            App.app.app_state = Music.AppState.SONGS;
+        }
+    }
+
+    private void on_collection_playlists_btn_toggled (Gtk.ToggleButton button) {
+        if (button.get_active() == true) {
+            App.app.app_state = Music.AppState.PLAYLISTS;
+        }
+    }
+
     public void set_collection_back_button_visible (bool visible) {
         collection_back_btn.set_visible (visible);
     }
@@ -252,8 +260,23 @@ private class Music.Topbar {
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
         switch (new_state) {
             case Music.AppState.ARTISTS:
+                notebook.set_current_page (TopbarPage.COLLECTION);
+                collection_artists_btn.toggled.disconnect (on_collection_artists_btn_toggled);
+                collection_artists_btn.set_active(true);
+                collection_artists_btn.toggled.connect (on_collection_artists_btn_toggled);
+                break;
             case Music.AppState.ALBUMS:
+                notebook.set_current_page (TopbarPage.COLLECTION);
+                collection_albums_btn.toggled.disconnect (on_collection_albums_btn_toggled);
+                collection_albums_btn.set_active(true);
+                collection_albums_btn.toggled.connect (on_collection_albums_btn_toggled);
+                break;
             case Music.AppState.SONGS:
+                notebook.set_current_page (TopbarPage.COLLECTION);
+                collection_songs_btn.toggled.disconnect (on_collection_songs_btn_toggled);
+                collection_songs_btn.set_active(true);
+                collection_songs_btn.toggled.connect (on_collection_songs_btn_toggled);
+                break;
             case Music.AppState.PLAYLISTS:
                 notebook.set_current_page (TopbarPage.COLLECTION);
                 break;

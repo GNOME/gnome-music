@@ -40,6 +40,20 @@ private class Music.BrowseHistory {
         history_types.set (id, item_type);
     }
 
+    public void print_debug () {
+        debug ("---------------------------");
+        foreach (var vid in history) {
+            if (history_types[vid] != null) {
+                debug ("%s - %s", vid, history_types[vid].to_string());
+            }
+            else {
+                debug ("%s - %s", vid, null);
+            }
+        }
+        debug ("---------------------------");
+
+    }
+    
     public string get_last_item_id () {
         if (history.size >= 2) {
             // (history.size - 1) is the actual item, so we want the previous one
@@ -115,7 +129,10 @@ private class Music.CollectionView {
         var last_item_id = browse_history.get_last_item_id ();
         Music.ItemType? last_item_type = browse_history.get_last_item_type ();
         browse_history.delete_last_item ();
-        model.load_item (last_item_id, last_item_type);
+
+        load_item (last_item_id, last_item_type);
+
+        browse_history_changed (browse_history);
     }
 
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
@@ -124,15 +141,15 @@ private class Music.CollectionView {
         switch (new_state) {
             case Music.AppState.ARTISTS:
                 browse_history.push ("all_artists", null);
-                model.load_all_artists();
+                model.load_item("all_artists", null);
                 break;
             case Music.AppState.ALBUMS:
                 browse_history.push ("all_albums", null);
-                model.load_all_albums();
+                model.load_item("all_albums", null);
                 break;
             case Music.AppState.SONGS:
                 browse_history.push ("all_songs", null);
-                model.load_all_songs();
+                model.load_item("all_songs", null);
                 break;
             case Music.AppState.PLAYLISTS:
             case Music.AppState.PLAYLIST:
@@ -156,28 +173,49 @@ private class Music.CollectionView {
         var item_type = (Music.ItemType) type;
         var item_name = (string) name;
 
-        switch (item_type) {
-            case Music.ItemType.ARTIST:
-                App.app.app_state_changed.disconnect (on_app_state_changed);
-                App.app.app_state = Music.AppState.ALBUMS;
-                App.app.app_state_changed.connect (on_app_state_changed);
-                
-                model.load_artist_albums(item_name);
-                break;
-            case Music.ItemType.ALBUM:
-                App.app.app_state_changed.disconnect (on_app_state_changed);
-                App.app.app_state = Music.AppState.SONGS;
-                App.app.app_state_changed.connect (on_app_state_changed);
-
-                model.load_album_songs (item_name);
-                break;
-            case Music.ItemType.SONG:
-                model.load_all_songs();
-                break;
-        }
+        load_item (item_id, item_type);
 
         browse_history.push (item_id, item_type);
         browse_history_changed (browse_history);
+    }
 
+    private void load_item (string item_id, Music.ItemType? item_type) {
+        model.load_item (item_id, item_type);
+
+        if (item_type == null) {
+            switch (item_id) {
+                case "all_artists":
+                    App.app.app_state_changed.disconnect (on_app_state_changed);
+                    App.app.app_state = Music.AppState.ARTISTS;
+                    App.app.app_state_changed.connect (on_app_state_changed);
+                    break;
+                case "all_albums":
+                    App.app.app_state_changed.disconnect (on_app_state_changed);
+                    App.app.app_state = Music.AppState.ALBUMS;
+                    App.app.app_state_changed.connect (on_app_state_changed);
+                    break;
+                case "all_songs":
+                    App.app.app_state_changed.disconnect (on_app_state_changed);
+                    App.app.app_state = Music.AppState.SONGS;
+                    App.app.app_state_changed.connect (on_app_state_changed);
+                    break;
+            }
+        }
+        else {
+            switch (item_type) {
+                case Music.ItemType.ARTIST:
+                    App.app.app_state_changed.disconnect (on_app_state_changed);
+                    App.app.app_state = Music.AppState.ALBUMS;
+                    App.app.app_state_changed.connect (on_app_state_changed);
+                    break;
+                case Music.ItemType.ALBUM:
+                    App.app.app_state_changed.disconnect (on_app_state_changed);
+                    App.app.app_state = Music.AppState.SONGS;
+                    App.app.app_state_changed.connect (on_app_state_changed);
+                    break;
+                case Music.ItemType.SONG:
+                    break;
+            }
+        }
     }
 }

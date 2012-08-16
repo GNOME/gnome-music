@@ -189,11 +189,11 @@ private class Music.App {
     }
 
     private void on_browse_history_changed (Music.BrowseHistory browse_history) {
-        if (browse_history.get_length () < 1) {
-            topbar.set_collection_back_button_visible (false);
+        if (browse_history.get_length () > 1) {
+            topbar.set_collection_back_button_visible (true);
         }
         else {
-            topbar.set_collection_back_button_visible (true);
+            topbar.set_collection_back_button_visible (false);
         }
     }
 
