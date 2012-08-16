@@ -10,7 +10,6 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_VALAFLAGS = \
-	-g --save-temps				\
     --vapidir=$(srcdir)/../vapi	\
 	--pkg config				\
 	@MUSIC_PACKAGES@			\
