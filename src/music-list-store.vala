@@ -116,10 +116,15 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = "";
         running_query_type = Music.ItemType.ALBUM;
 
-        var query =  "SELECT ?album
-                             tracker:id(?album) AS id
-                             nie:title(?album) AS title
-                      WHERE { ?album a nmm:MusicAlbum}";
+        var query = "SELECT ?album
+                            tracker:id(?album) AS id
+                            nie:title(?album) AS title
+                            ?artist AS author
+                     WHERE {
+                         ?album a nmm:MusicAlbum ;
+                         nmm:albumArtist [ nmm:artistName ?artist ]
+                         }";
+
 
         make_query (query);
     }
@@ -132,8 +137,10 @@ internal class Music.MusicListStore : ListStore {
         var query = @"SELECT ?album
                              tracker:id(?album) AS id
                              nie:title(?album) AS title
+                             nmm:artistName(?artist) AS author
                       WHERE { ?album a nmm:MusicAlbum;
-                              nmm:albumArtist ?artist FILTER (tracker:id (?artist) = $id ) }";
+                              nmm:albumArtist ?artist FILTER (tracker:id (?artist) = 101667 )
+                     }";
 
         make_query (query);
     }
@@ -207,7 +214,7 @@ internal class Music.MusicListStore : ListStore {
                     set (iter, Music.ModelColumns.ID, media.get_id());
                     set (iter, Music.ModelColumns.ART, pixbuf);
                     set (iter, Music.ModelColumns.TITLE, media.get_title ());
-                    set (iter, Music.ModelColumns.INFO, "");
+                    set (iter, Music.ModelColumns.INFO, media.get_author ());
                     set (iter, Music.ModelColumns.SELECTED, false);
                     set (iter, Music.ModelColumns.TYPE, Music.ItemType.ALBUM);
                     break;
