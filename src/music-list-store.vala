@@ -19,14 +19,17 @@ using Gtk;
 using Grl;
 using Gee;
 
-internal enum Music.MusicListStoreColumn {
-    TYPE = 0,
-    ID,
-    TITLE,
-    ART
+private enum Music.ModelColumns {
+    ID = Gd.MainColumns.ID,
+    ART = Gd.MainColumns.ICON,
+    TITLE = Gd.MainColumns.PRIMARY_TEXT,
+    INFO = Gd.MainColumns.SECONDARY_TEXT,
+    SELECTED = Gd.MainColumns.SELECTED,
+    TYPE = Gd.MainColumns.LAST,
+    LAST
 }
 
-internal enum Music.ItemType {
+private enum Music.ItemType {
     ARTIST,
     ALBUM,
     SONG
@@ -42,11 +45,17 @@ internal class Music.MusicListStore : ListStore {
 
     public MusicListStore () {
         Object ();
+
+        Type[] types = { typeof (string),               // Music.ModelColumns.ID
+                         typeof (string),
+                         typeof (string),               // Music.ModelColumns.TITLE
+                         typeof (string),               // Music.ModelColumns.INFO
+                         typeof (Gdk.Pixbuf),           // Music.ModelColumns.ART
+                         typeof (long),
+                         typeof (bool),                 // Music.ModelColumns.SELECTED
+                         typeof (Music.ItemType)        // Music.ModelColumns.TYPE
+                       };
        
-        Type[] types = { typeof (Music.ItemType),       // MusicListStoreColumn.TYPE
-                         typeof (string),               // MusicListStoreColumn.ID
-                         typeof (string),               // MusicListStoreColumn.TITLE
-                         typeof (Gdk.Pixbuf)};          // MusicListStoreColumn.ART
         this.set_column_types (types);
     }
 
@@ -187,37 +196,28 @@ internal class Music.MusicListStore : ListStore {
 
             switch (running_query_type) {
                 case Music.ItemType.ARTIST:
-                    set (iter,
-                            MusicListStoreColumn.TYPE,
-                            Music.ItemType.ARTIST,
-                            MusicListStoreColumn.ID,
-                            media.get_id(),
-                            MusicListStoreColumn.ART,
-                            pixbuf,
-                            MusicListStoreColumn.TITLE,
-                            media.get_title ());
+                    set (iter, Music.ModelColumns.ID, media.get_id());
+                    set (iter, Music.ModelColumns.ART, pixbuf);
+                    set (iter, Music.ModelColumns.TITLE, media.get_title ());
+                    set (iter, Music.ModelColumns.INFO, "");
+                    set (iter, Music.ModelColumns.SELECTED, false);
+                    set (iter, Music.ModelColumns.TYPE, Music.ItemType.ARTIST);
                     break;
                 case Music.ItemType.ALBUM:
-                    set (iter,
-                            MusicListStoreColumn.TYPE,
-                            Music.ItemType.ALBUM,
-                            MusicListStoreColumn.ID,
-                            media.get_id(),
-                            MusicListStoreColumn.ART,
-                            pixbuf,
-                            MusicListStoreColumn.TITLE,
-                            media.get_title ());
+                    set (iter, Music.ModelColumns.ID, media.get_id());
+                    set (iter, Music.ModelColumns.ART, pixbuf);
+                    set (iter, Music.ModelColumns.TITLE, media.get_title ());
+                    set (iter, Music.ModelColumns.INFO, "");
+                    set (iter, Music.ModelColumns.SELECTED, false);
+                    set (iter, Music.ModelColumns.TYPE, Music.ItemType.ALBUM);
                     break;
                 case Music.ItemType.SONG:
-                    set (iter,
-                            MusicListStoreColumn.TYPE,
-                            Music.ItemType.SONG,
-                            MusicListStoreColumn.ID,
-                            media.get_id(),
-                            MusicListStoreColumn.ART,
-                            pixbuf,
-                            MusicListStoreColumn.TITLE,
-                            media.get_title ());
+                    set (iter, Music.ModelColumns.ID, media.get_id());
+                    set (iter, Music.ModelColumns.ART, pixbuf);
+                    set (iter, Music.ModelColumns.TITLE, media.get_title ());
+                    set (iter, Music.ModelColumns.INFO, "");
+                    set (iter, Music.ModelColumns.SELECTED, false);
+                    set (iter, Music.ModelColumns.TYPE, Music.ItemType.SONG);
                     break;
             }
         }

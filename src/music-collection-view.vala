@@ -40,20 +40,6 @@ private class Music.BrowseHistory {
         history_types.set (id, item_type);
     }
 
-    public void print_debug () {
-        debug ("---------------------------");
-        foreach (var vid in history) {
-            if (history_types[vid] != null) {
-                debug ("%s - %s", vid, history_types[vid].to_string());
-            }
-            else {
-                debug ("%s - %s", vid, null);
-            }
-        }
-        debug ("---------------------------");
-
-    }
-    
     public string get_last_item_id () {
         if (history.size >= 2) {
             // (history.size - 1) is the actual item, so we want the previous one
@@ -97,7 +83,19 @@ private class Music.CollectionView {
     private Music.BrowseHistory browse_history;
 
     private Gtk.ScrolledWindow scrolled_window;
-    private Gtk.IconView icon_view;
+    private Gd.MainIconView icon_view;
+
+    private string button_press_item_path;
+
+    private enum ModelColumns {
+        SCREENSHOT = Gd.MainColumns.ICON,
+        TITLE = Gd.MainColumns.PRIMARY_TEXT,
+        INFO = Gd.MainColumns.SECONDARY_TEXT,
+        SELECTED = Gd.MainColumns.SELECTED,
+        ITEM = Gd.MainColumns.LAST,
+
+        LAST
+    }
 
     public CollectionView () {
         App.app.app_state_changed.connect (on_app_state_changed);
@@ -109,13 +107,13 @@ private class Music.CollectionView {
     }
 
     private void setup_view () {
-        icon_view = new Gtk.IconView.with_model (model);
+        icon_view = new Gd.MainIconView ();
+        icon_view.set_model (model);
         icon_view.get_style_context ().add_class ("music-bg");
         //icon_view.activate_on_single_click (true);
-        icon_view.set_selection_mode (Gtk.SelectionMode.SINGLE);
-        icon_view.item_activated.connect (on_item_activated);
-        icon_view.set_pixbuf_column (MusicListStoreColumn.ART);
-        icon_view.set_text_column (MusicListStoreColumn.TITLE);
+        icon_view.set_selection_mode (false);
+        icon_view.button_press_event.connect (on_button_press_event);
+        icon_view.button_release_event.connect (on_button_release_event);
 
         scrolled_window = new Gtk.ScrolledWindow (null, null);
         scrolled_window.hscrollbar_policy = Gtk.PolicyType.NEVER;
@@ -123,6 +121,96 @@ private class Music.CollectionView {
 
         icon_view.show ();
         scrolled_window.show ();
+    }
+
+    private bool on_button_press_event (Gtk.Widget view, Gdk.EventButton event) {
+        Gtk.TreePath path = icon_view.get_path_at_pos ((int) event.x, (int) event.y);
+        if (path != null)
+            button_press_item_path = path.to_string ();
+
+        if (!App.app.selection_mode || path == null)
+            return false;
+
+        return false;
+        /*
+        CollectionItem item = get_item_for_path (path);
+        bool found = item != null;
+
+        /* if we did not find the item in the selection, block
+         * drag and drop, while in selection mode
+        return !found;
+         */
+    }
+
+    private bool on_button_release_event (Gtk.Widget view, Gdk.EventButton event) {
+        /* eat double/triple click events */
+        if (event.type != Gdk.EventType.BUTTON_RELEASE)
+            return true;
+
+        Gtk.TreePath path = icon_view.get_path_at_pos ((int) event.x, (int) event.y);
+
+        var same_item = false;
+        if (path != null) {
+            string button_release_item_path = path.to_string ();
+
+            same_item = button_press_item_path == button_release_item_path;
+        }
+
+        button_press_item_path = null;
+
+        if (!same_item)
+            return false;
+
+        var entered_mode = false;
+        if (!App.app.selection_mode)
+            if (event.button == 3 || (event.button == 1 &&  Gdk.ModifierType.CONTROL_MASK in event.state)) {
+                App.app.selection_mode = true;
+                entered_mode = true;
+            }
+
+        if (App.app.selection_mode)
+            return on_button_release_selection_mode (event, entered_mode, path);
+        else
+            return on_button_release_view_mode (event, path);
+    }
+
+    private bool on_button_release_selection_mode (Gdk.EventButton event, bool entered_mode, Gtk.TreePath path) {
+        Gtk.TreeIter iter;
+        if (!model.get_iter (out iter, path))
+            return false;
+
+        bool selected;
+        model.get (iter, ModelColumns.SELECTED, out selected);
+
+        if (selected && !entered_mode)
+            model.set (iter, ModelColumns.SELECTED, false);
+        else if (!selected)
+            model.set (iter, ModelColumns.SELECTED, true);
+        icon_view.queue_draw ();
+
+//        App.app.notify_property ("selected-items");
+
+        return false;
+    }
+
+    private bool on_button_release_view_mode (Gdk.EventButton event, Gtk.TreePath path) {
+        Gtk.TreeIter iter;
+        GLib.Value id;
+        GLib.Value type;
+
+        model.get_iter (out iter, path);
+        model.get_value (iter, Music.ModelColumns.ID, out id);
+        model.get_value (iter, Music.ModelColumns.TYPE, out type);
+
+        var item_id = (string) id;
+        var item_type = (Music.ItemType) type;
+
+        load_item (item_id, item_type);
+
+        browse_history.push (item_id, item_type);
+        browse_history_changed (browse_history);
+
+        return false;
     }
 
     public void browse_history_back () {
@@ -156,27 +244,6 @@ private class Music.CollectionView {
             case Music.AppState.PLAYLIST_NEW:
                 break;
         }
-    }
-
-    private void on_item_activated (Gtk.TreePath path) {
-        Gtk.TreeIter iter;
-        GLib.Value id;
-        GLib.Value type;
-        GLib.Value name;
-
-        model.get_iter (out iter, path);
-        model.get_value (iter, MusicListStoreColumn.ID, out id);
-        model.get_value (iter, MusicListStoreColumn.TYPE, out type);
-        model.get_value (iter, MusicListStoreColumn.TITLE, out name);
-
-        var item_id = (string) id;
-        var item_type = (Music.ItemType) type;
-        var item_name = (string) name;
-
-        load_item (item_id, item_type);
-
-        browse_history.push (item_id, item_type);
-        browse_history_changed (browse_history);
     }
 
     private void load_item (string item_id, Music.ItemType? item_type) {

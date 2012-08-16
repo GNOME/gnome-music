@@ -10,9 +10,12 @@ AM_CPPFLAGS = \
 	$(NULL)
 
 AM_VALAFLAGS = \
-    --vapidir=$(srcdir)/../vapi	\
-	--pkg config				\
-	@MUSIC_PACKAGES@			\
+	--vapidir=$(srcdir)/			\
+	--vapidir=$(top_srcdir)/libgd	\
+    --vapidir=$(top_srcdir)/vapi	\
+	--pkg config					\
+	--pkg gd-1.0					\
+	@MUSIC_PACKAGES@				\
 	$(NULL)
 
 bin_PROGRAMS = gnome-music
@@ -42,7 +45,9 @@ gnome_music_SOURCES = \
 	$(vala_sources) \
 	$(NULL)
 
-gnome_music_LDADD = $(MUSIC_LIBS) -lm
+gnome_music_LDADD =	$(MUSIC_LIBS)								\
+					$(top_builddir)/libgd/libgdprivate-1.0.la	\
+					$(NULL)
 
 CLEANFILES = \
 	$(vala_sources:.vala=.c) \

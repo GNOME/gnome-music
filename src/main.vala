@@ -40,8 +40,6 @@ main (string[] args) {
         warning (error.message);
     }
 
-    Notify.init (_("Music"));
-
     var app = new App ();
     app.run ();
     app = null;

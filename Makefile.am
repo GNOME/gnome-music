@@ -1,5 +1,7 @@
 NULL=
-SUBDIRS = src vapi data po
+
+SUBDIRS = libgd src vapi data po
+
 EXTRA_DIST = \
 	autogen.sh \
 	intltool-extract.in \
