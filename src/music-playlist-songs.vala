@@ -29,17 +29,20 @@ private class Music.PlaylistSongs {
         set_grl ();
 
         alignment = new Gtk.Alignment ((float)0.5, (float)0.5, 0, 0);
-
-        table = new Gtk.Table (0, 3, false);
-        table.set_col_spacings (10);
-        table.set_row_spacings (10);
-
-        alignment.add (table);
         alignment.show_all ();
     }
 
     public void load (Grl.Media media) {
-        table.resize (0, 3);
+        table = new Gtk.Table (0, 3, false);
+        table.set_col_spacings (10);
+        table.set_row_spacings (10);
+        table.show();
+
+        var child = alignment.get_child ();
+        if (child != null) {
+            alignment.remove (child);
+        }
+        alignment.add (table);
 
         if (media is Grl.MediaBox) {
             unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
