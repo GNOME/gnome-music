@@ -18,8 +18,9 @@
 using Gtk;
 
 private class Music.AlbumInfoBox {
-    public Gtk.Widget actor { get { return box; } }
+    public Gtk.Widget actor { get { return alignment; } }
 
+    private Gtk.Alignment alignment;    
     private Gtk.Box box;
 
     private Gtk.Image art_image;
@@ -72,6 +73,9 @@ private class Music.AlbumInfoBox {
         table.attach_defaults (length_label, 1, 2, 1, 2);
 
         box.show_all ();
+
+        alignment = new Gtk.Alignment ((float)0.5, (float)0.5, 0, 0);
+        alignment.add (box);
     }
 
     public void load (Grl.Media media) {

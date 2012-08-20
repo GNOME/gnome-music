@@ -20,7 +20,7 @@ using Gee;
 
 private class Music.PlaylistSongs {
     public Gtk.Widget actor { get { return alignment; } }
-    Gtk.Alignment alignment;
+    private Gtk.Alignment alignment;
     private Gtk.Table table;
 
     private HashMap<string, Grl.Source> source_list = new HashMap<string, Grl.Source> ();
