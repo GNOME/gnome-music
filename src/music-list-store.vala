@@ -81,7 +81,7 @@ internal class Music.MusicListStore : ListStore {
         if (type != null) {
             switch (type) {
                 case Music.ItemType.ARTIST:
-                    load_artist_albums_by_id (id);
+                    load_albums_by_artist_id (id);
                     break;
                 case Music.ItemType.ALBUM:
                     load_album_songs_by_id (id);
@@ -145,8 +145,8 @@ internal class Music.MusicListStore : ListStore {
         make_query (query);
     }
 
-    private void load_artist_albums_by_id (string id) {
-        running_query = "load_artist_albums_by_id";
+    private void load_albums_by_artist_id (string id) {
+        running_query = "load_albums_by_artist_id";
         running_query_params = id;
         running_query_type = Music.ItemType.ALBUM;
 
@@ -249,8 +249,11 @@ internal class Music.MusicListStore : ListStore {
                     set (iter, Music.ModelColumns.MEDIA, media);
                     break;
                 case Music.ItemType.SONG:
+                    debug (media.get_author());
+                    var pixbuf = cache.lookup (ICON_SIZE, media.get_author (), media.get_title());
+
                     set (iter, Music.ModelColumns.ID, media.get_id());
-                    set (iter, Music.ModelColumns.ART, new Gdk.Pixbuf.from_file (media.get_thumbnail()));
+                    set (iter, Music.ModelColumns.ART, pixbuf);
                     set (iter, Music.ModelColumns.TITLE, media.get_title ());
                     set (iter, Music.ModelColumns.INFO, "");
                     set (iter, Music.ModelColumns.SELECTED, false);
@@ -273,8 +276,8 @@ internal class Music.MusicListStore : ListStore {
                 case "load_all_songs":
                     load_all_songs ();
                     break;
-                case "load_artist_albums_by_id":
-                    load_artist_albums_by_id (running_query_params);
+                case "load_albums_by_artist_id":
+                    load_albums_by_artist_id (running_query_params);
                     break;
             }
         }
