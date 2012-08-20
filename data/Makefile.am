@@ -10,7 +10,7 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 @INTLTOOL_DESKTOP_RULE@
 
 imagesdir		= $(datadir)/gnome-music
-images_DATA		= album-art-default.png
+images_DATA		= album-art-default.svg
 
 styledir		= $(datadir)/gnome-music/style
 style_DATA		= gtk-style.css

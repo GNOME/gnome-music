@@ -42,12 +42,17 @@ private class Music.App {
     public Music.Topbar topbar;
     public Music.Player player;
     public Music.CollectionView collectionView;
+    public Music.PlaylistView playlistView;
     public Gtk.Notebook notebook;
 
     private Gtk.Application application;
 
+    public Music.BrowseHistory browse_history;
+
     private uint configure_id;
     public static const uint configure_id_timeout = 100;  // 100ms
+
+    public signal void browse_back (string item_id, Music.ItemType? item_type); 
 
     public signal void app_state_changed (Music.AppState old_state, Music.AppState new_state);
     private Music.AppState _app_state; 
@@ -70,6 +75,9 @@ private class Music.App {
         setup_menu ();
         setup_ui (); 
 
+        browse_history = new Music.BrowseHistory ();
+        browse_history.changed.connect (on_browse_history_changed);
+
         application.startup.connect_after ((app) => {
             var menu = new GLib.Menu ();
             menu.append (_("New"), "app.new");
@@ -81,9 +89,7 @@ private class Music.App {
 
         application.activate.connect_after ((app) => {
             window.present ();
-            this.app_state_changed.connect ((old_state, new_state) => {
-                on_app_state_changed (old_state, new_state);
-            });
+            this.app_state_changed.connect (on_app_state_changed);
             this.app_state = Music.AppState.ARTISTS;
         });
     }
@@ -175,8 +181,11 @@ private class Music.App {
         layout.pack_start (notebook);
 
         collectionView = new Music.CollectionView ();
-        collectionView.browse_history_changed.connect (on_browse_history_changed);
+        collectionView.item_selected.connect (on_collectionview_selected_item);
         notebook.append_page (collectionView.actor, null);
+
+        playlistView = new Music.PlaylistView ();
+        notebook.append_page (playlistView.actor, null);
 
         player = new Music.Player ();
         layout.pack_start (player.actor, false, false);
@@ -188,7 +197,16 @@ private class Music.App {
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
     }
 
-    private void on_browse_history_changed (Music.BrowseHistory browse_history) {
+    private void on_collectionview_selected_item (string item_id, Music.ItemType? item_type, Grl.Media? media) {
+        browse_history.push (item_id, item_type);
+
+        if (item_type != null && item_type == Music.ItemType.ALBUM) {
+            playlistView.load (media);
+            notebook.set_current_page (AppPage.PLAYLIST);
+        }
+    }
+
+    private void on_browse_history_changed () {
         if (browse_history.get_length () > 1) {
             topbar.set_collection_back_button_visible (true);
         }
@@ -198,7 +216,11 @@ private class Music.App {
     }
 
     private void on_collection_back_btn_clicked () {
-        collectionView.browse_history_back ();
+        var last_item_id = browse_history.get_last_item_id ();
+        Music.ItemType? last_item_type = browse_history.get_last_item_type ();
+        browse_history.delete_last_item ();
+
+        browse_back (last_item_id, last_item_type);
     }
 
     private bool _selection_mode;

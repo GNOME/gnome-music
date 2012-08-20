@@ -26,6 +26,7 @@ private enum Music.ModelColumns {
     INFO = Gd.MainColumns.SECONDARY_TEXT,
     SELECTED = Gd.MainColumns.SELECTED,
     TYPE = Gd.MainColumns.LAST,
+    MEDIA,
     LAST
 }
 
@@ -43,8 +44,13 @@ internal class Music.MusicListStore : ListStore {
     private string running_query_params;
     private Music.ItemType running_query_type;
 
+    private Music.AlbumArtCache cache;
+    private int ICON_SIZE = 96;
+
     public MusicListStore () {
         Object ();
+
+        cache = AlbumArtCache.get_default ();
 
         Type[] types = { typeof (string),               // Music.ModelColumns.ID
                          typeof (string),
@@ -53,7 +59,8 @@ internal class Music.MusicListStore : ListStore {
                          typeof (Gdk.Pixbuf),           // Music.ModelColumns.ART
                          typeof (long),
                          typeof (bool),                 // Music.ModelColumns.SELECTED
-                         typeof (Music.ItemType)        // Music.ModelColumns.TYPE
+                         typeof (Music.ItemType),       // Music.ModelColumns.TYPE
+                         typeof (Grl.Media),            // Music.ModelColumns.MEDIA
                        };
        
         this.set_column_types (types);
@@ -106,7 +113,8 @@ internal class Music.MusicListStore : ListStore {
         var query =  "SELECT ?artist
                              tracker:id(?artist) AS id
                              nmm:artistName(?artist) AS title
-                      WHERE { ?artist a nmm:Artist}";
+                      WHERE { ?artist a nmm:Artist}
+                      ORDER BY ?title";
 
         make_query (query);
     }
@@ -118,13 +126,20 @@ internal class Music.MusicListStore : ListStore {
 
         var query = "SELECT ?album
                             tracker:id(?album) AS id
-                            nie:title(?album) AS title
-                            ?artist AS author
+                            ?title
+                            ?author
+                            SUM(?length) AS duration
+                            tracker:coalesce (fn:year-from-dateTime(?date), 'Unknown')
                      WHERE {
-                         ?album a nmm:MusicAlbum ;
-                         nmm:albumArtist [ nmm:artistName ?artist ]
-                         }";
-
+                            ?album a nmm:MusicAlbum ;
+                                   nie:title ?title;
+                                   nmm:albumArtist [ nmm:artistName ?author ] .
+                            ?song nmm:musicAlbum ?album ;
+                                  nfo:duration ?length
+                            OPTIONAL { ?song nie:informationElementDate ?date }
+                     } 
+                     GROUP BY ?album
+                     ORDER BY ?author ?title";
 
         make_query (query);
     }
@@ -136,11 +151,19 @@ internal class Music.MusicListStore : ListStore {
 
         var query = @"SELECT ?album
                              tracker:id(?album) AS id
-                             nie:title(?album) AS title
+                             ?title
                              nmm:artistName(?artist) AS author
+                             SUM(?length) AS duration
+                             tracker:coalesce (fn:year-from-dateTime(?date), 'Unknown')
                       WHERE { ?album a nmm:MusicAlbum;
-                              nmm:albumArtist ?artist FILTER (tracker:id (?artist) = 101667 )
-                     }";
+                                     nie:title ?title;
+                                     nmm:albumArtist ?artist FILTER (tracker:id (?artist) = $id) .
+                              ?song nmm:musicAlbum ?album ;
+                                    nfo:duration ?length .
+                              OPTIONAL { ?song nie:informationElementDate ?date }
+                      }
+                      GROUP BY ?album
+                      ORDER BY ?title";
 
         make_query (query);
     }
@@ -196,35 +219,40 @@ internal class Music.MusicListStore : ListStore {
     private void load_item_cb (Grl.Media? media,
                                uint remaining) {
         if (media != null) {
-            var pixbuf = new Gdk.Pixbuf.from_file (Path.build_filename (Config.PKGDATADIR, "album-art-default.png"));
-
             TreeIter iter;
             append (out iter);
 
             switch (running_query_type) {
                 case Music.ItemType.ARTIST:
+                    var pixbuf = cache.lookup (ICON_SIZE, media.get_title (), null);
+
                     set (iter, Music.ModelColumns.ID, media.get_id());
                     set (iter, Music.ModelColumns.ART, pixbuf);
                     set (iter, Music.ModelColumns.TITLE, media.get_title ());
                     set (iter, Music.ModelColumns.INFO, "");
                     set (iter, Music.ModelColumns.SELECTED, false);
                     set (iter, Music.ModelColumns.TYPE, Music.ItemType.ARTIST);
+                    set (iter, Music.ModelColumns.MEDIA, media);
                     break;
                 case Music.ItemType.ALBUM:
+                    var pixbuf = cache.lookup (ICON_SIZE, media.get_author (), media.get_title());
+
                     set (iter, Music.ModelColumns.ID, media.get_id());
                     set (iter, Music.ModelColumns.ART, pixbuf);
                     set (iter, Music.ModelColumns.TITLE, media.get_title ());
                     set (iter, Music.ModelColumns.INFO, media.get_author ());
                     set (iter, Music.ModelColumns.SELECTED, false);
                     set (iter, Music.ModelColumns.TYPE, Music.ItemType.ALBUM);
+                    set (iter, Music.ModelColumns.MEDIA, media);
                     break;
                 case Music.ItemType.SONG:
                     set (iter, Music.ModelColumns.ID, media.get_id());
-                    set (iter, Music.ModelColumns.ART, pixbuf);
+                    set (iter, Music.ModelColumns.ART, new Gdk.Pixbuf.from_file (media.get_thumbnail()));
                     set (iter, Music.ModelColumns.TITLE, media.get_title ());
                     set (iter, Music.ModelColumns.INFO, "");
                     set (iter, Music.ModelColumns.SELECTED, false);
                     set (iter, Music.ModelColumns.TYPE, Music.ItemType.SONG);
+                    set (iter, Music.ModelColumns.MEDIA, media);
                     break;
             }
         }

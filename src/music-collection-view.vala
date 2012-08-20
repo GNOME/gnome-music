@@ -25,62 +25,12 @@ internal enum Music.CollectionType {
     PLAYLISTS
 }
 
-private class Music.BrowseHistory {
-    private ArrayList<string> history;
-    private HashMap<string, Music.ItemType?> history_types;
-
-    public BrowseHistory () {
-        history = new ArrayList<string>(); 
-        history_types = new HashMap<string, Music.ItemType?>();
-    }
-
-    public void push (string id, Music.ItemType? item_type)
-    {
-        history.add (id);
-        history_types.set (id, item_type);
-    }
-
-    public string get_last_item_id () {
-        if (history.size >= 2) {
-            // (history.size - 1) is the actual item, so we want the previous one
-            var last = history.size - 2;
-            return history[last];
-        }
-
-        return "";
-    }
-
-    public Music.ItemType? get_last_item_type () {
-        string id = get_last_item_id ();
-        return history_types[id];
-    }
-
-    public void delete_last_item () {
-        // We want to go back one position in the history, so we only need to
-        // delete the actual item (history.size - 1).
-        var last = history.size - 1;
-        var id = get_last_item_id ();
-        history.remove_at (last);
-        history_types.unset (id);
-    }
-
-    public int get_length () {
-        return history.size;
-    }
-
-    public void clear () {
-        history.clear();
-        history_types.clear();
-    }
-}
-
 private class Music.CollectionView {
     public Gtk.Widget actor { get { return scrolled_window; } }
 
-    public signal void browse_history_changed (BrowseHistory browse_history);
+    public signal void item_selected (string item_id, Music.ItemType? item_type, Grl.Media? media);
 
     private Music.MusicListStore model;
-    private Music.BrowseHistory browse_history;
 
     private Gtk.ScrolledWindow scrolled_window;
     private Gd.MainIconView icon_view;
@@ -99,8 +49,8 @@ private class Music.CollectionView {
 
     public CollectionView () {
         App.app.app_state_changed.connect (on_app_state_changed);
+        App.app.browse_back.connect (on_browse_back);
 
-        browse_history = new Music.BrowseHistory ();
         model = new Music.MusicListStore (); 
         setup_view ();
         model.connect_signals();
@@ -195,48 +145,44 @@ private class Music.CollectionView {
 
     private bool on_button_release_view_mode (Gdk.EventButton event, Gtk.TreePath path) {
         Gtk.TreeIter iter;
-        GLib.Value id;
-        GLib.Value type;
+        GLib.Value iter_id;
+        GLib.Value iter_type;
+        GLib.Value iter_media;
 
         model.get_iter (out iter, path);
-        model.get_value (iter, Music.ModelColumns.ID, out id);
-        model.get_value (iter, Music.ModelColumns.TYPE, out type);
+        model.get_value (iter, Music.ModelColumns.ID, out iter_id);
+        model.get_value (iter, Music.ModelColumns.TYPE, out iter_type);
+        model.get_value (iter, Music.ModelColumns.MEDIA, out iter_media);
 
-        var item_id = (string) id;
-        var item_type = (Music.ItemType) type;
+        var id = (string) iter_id;
+        Music.ItemType? type = (Music.ItemType) iter_type;
+        Grl.Media? media = (Grl.Media) iter_media;
 
-        load_item (item_id, item_type);
-
-        browse_history.push (item_id, item_type);
-        browse_history_changed (browse_history);
+        load_item (id, type);
+        item_selected (id, type, media); 
 
         return false;
     }
 
-    public void browse_history_back () {
-        var last_item_id = browse_history.get_last_item_id ();
-        Music.ItemType? last_item_type = browse_history.get_last_item_type ();
-        browse_history.delete_last_item ();
-
-        load_item (last_item_id, last_item_type);
-
-        browse_history_changed (browse_history);
+    public void on_browse_back (string item_id, Music.ItemType? item_type) {
+        load_item (item_id, item_type);
     }
 
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
-        browse_history.clear();
-
         switch (new_state) {
             case Music.AppState.ARTISTS:
-                browse_history.push ("all_artists", null);
+                App.app.browse_history.clear ();                    
+                App.app.browse_history.push ("all_artists", null);
                 model.load_item("all_artists", null);
                 break;
             case Music.AppState.ALBUMS:
-                browse_history.push ("all_albums", null);
+                App.app.browse_history.clear ();                    
+                App.app.browse_history.push ("all_albums", null);
                 model.load_item("all_albums", null);
                 break;
             case Music.AppState.SONGS:
-                browse_history.push ("all_songs", null);
+                App.app.browse_history.clear ();                    
+                App.app.browse_history.push ("all_songs", null);
                 model.load_item("all_songs", null);
                 break;
             case Music.AppState.PLAYLISTS:

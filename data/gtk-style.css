@@ -88,3 +88,14 @@
                     color-stop (0.50, @toolbar_gradient_b),
                     to (@toolbar_gradient_c));
 }
+
+.music-albuminfo-artist {
+    font-size: 15;
+    font-weight: bold;
+}
+
+.music-albuminfo-album {
+    font-size: 14;
+    font-weight: bold;
+    color: mix (@theme_fg_color, @theme_bg_color, 0.50);    
+}
