@@ -175,11 +175,24 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = "";
         running_query_type = Music.ItemType.SONG;
 
+        // FIXME: site contains the album's name. It's obviously a hack to remove
         var query =  "SELECT rdf:type (?song)
                              ?song
                              tracker:id(?song) AS id
                              nie:title(?song) AS title
-                      WHERE { ?song a nmm:MusicPiece }";
+                             ?url
+                             tracker:coalesce (nie:title(?album), '') AS site
+                             tracker:coalesce (nmm:artistName(?artist), '') AS author
+                      WHERE { ?song a nmm:MusicPiece ;
+                                    nie:isStoredAs ?as .
+                              ?as nie:url ?url .
+                              OPTIONAL { ?song nmm:musicAlbum ?album } .
+                              OPTIONAL { ?album nmm:albumArtist ?artist }
+                      }
+                      GROUP BY ?song
+                      ORDER BY ?author ?album";
+
+        debug (query);
 
         make_query (query);
     }
@@ -249,13 +262,28 @@ internal class Music.MusicListStore : ListStore {
                     set (iter, Music.ModelColumns.MEDIA, media);
                     break;
                 case Music.ItemType.SONG:
-                    debug (media.get_author());
-                    var pixbuf = cache.lookup (ICON_SIZE, media.get_author (), media.get_title());
+                    // FIXME: site contains the album's name. It's obviously a hack to remove
+                    var pixbuf = cache.lookup (ICON_SIZE, media.get_author (), media.get_site ());
 
                     set (iter, Music.ModelColumns.ID, media.get_id());
                     set (iter, Music.ModelColumns.ART, pixbuf);
-                    set (iter, Music.ModelColumns.TITLE, media.get_title ());
-                    set (iter, Music.ModelColumns.INFO, "");
+
+                    if (media.get_title () != null) {
+                        set (iter, Music.ModelColumns.TITLE, media.get_title ());
+                    }
+                    else {
+                        var url = media.get_url();
+                        var file = GLib.File.new_for_path (url);
+                        set (iter, Music.ModelColumns.TITLE, file.get_basename ().replace ("%20", " "));
+                    }
+
+                    if (media.get_site() != "") {
+                        set (iter, Music.ModelColumns.INFO, "%s\n%s".printf (media.get_author(), media.get_site()));
+                    }
+                    else {
+                        set (iter, Music.ModelColumns.INFO, media.get_author());
+                    }
+
                     set (iter, Music.ModelColumns.SELECTED, false);
                     set (iter, Music.ModelColumns.TYPE, Music.ItemType.SONG);
                     set (iter, Music.ModelColumns.MEDIA, media);
