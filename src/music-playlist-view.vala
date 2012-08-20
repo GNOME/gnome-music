@@ -32,18 +32,19 @@ private class Music.PlaylistView {
         var layout = new Gtk.Box (Orientation.HORIZONTAL, 0);
         layout.set_homogeneous (false);
 
+        var alignment = new Gtk.Alignment ((float)0.5, (float)0.5, 0, 0);
+        alignment.add (layout);
+
         /* Album Info Box */
         album_info_box = new Music.AlbumInfoBox ();
         layout.pack_start (album_info_box.actor, false, false);
 
-        layout.show();
-
         scrolled_window = new Gtk.ScrolledWindow (null, null);
         scrolled_window.hscrollbar_policy = Gtk.PolicyType.NEVER;
         scrolled_window.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
-        scrolled_window.add_with_viewport (layout);
+        scrolled_window.add_with_viewport (alignment);
 
-        scrolled_window.show ();
+        scrolled_window.show_all ();
     }
 
     public void load (Grl.Media media) {
