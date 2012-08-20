@@ -195,6 +195,16 @@ private class Music.App {
     }
 
     private void on_app_state_changed (Music.AppState old_state, Music.AppState new_state) {
+        switch (new_state) {
+            case Music.AppState.ARTISTS:
+            case Music.AppState.ALBUMS:
+            case Music.AppState.SONGS:
+                notebook.set_current_page (AppPage.COLLECTIONS);
+                break;
+            case Music.AppState.PLAYLIST:
+                notebook.set_current_page (AppPage.PLAYLIST);
+                break;
+        }
     }
 
     private void on_collectionview_selected_item (string item_id, Music.ItemType? item_type, Grl.Media? media) {
@@ -202,7 +212,7 @@ private class Music.App {
 
         if (item_type != null && item_type == Music.ItemType.ALBUM) {
             playlistView.load (media);
-            notebook.set_current_page (AppPage.PLAYLIST);
+            this.app_state = Music.AppState.PLAYLIST;
         }
     }
 

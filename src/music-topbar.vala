@@ -195,8 +195,7 @@ private class Music.Topbar {
 
         playlist_back_btn = new Gtk.Button ();
         playlist_back_btn.set_image (new Gtk.Image.from_icon_name ("go-previous-symbolic", IconSize.BUTTON));
-        playlist_back_btn.clicked.connect ((button) => {
-        });
+        playlist_back_btn.clicked.connect (on_collection_back_btn_clicked);
         toolbar_start.pack_start (playlist_back_btn, false, false, 0);
 
         toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -279,7 +278,7 @@ private class Music.Topbar {
                 notebook.set_current_page (TopbarPage.COLLECTION);
                 break;
             case Music.AppState.PLAYLIST:
-                notebook.set_current_page (TopbarPage.COLLECTION);
+                notebook.set_current_page (TopbarPage.PLAYLIST);
                 break;
             case Music.AppState.PLAYLIST_NEW:
                 notebook.set_current_page (TopbarPage.COLLECTION);
