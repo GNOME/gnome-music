@@ -54,9 +54,7 @@ private class Music.Topbar {
 
     public Topbar () {
         setup_ui ();
-        App.app.app_state_changed.connect ((old_state, new_state) => {
-            on_app_state_changed (old_state, new_state);
-        });
+        App.app.app_state_changed.connect (on_app_state_changed);
     }
 
     private void setup_ui () {

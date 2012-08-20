@@ -110,7 +110,7 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = "";
         running_query_type = Music.ItemType.ARTIST;
 
-        var query =  "SELECT ?artist
+        var query =  "SELECT rdf:type (?artist)
                              tracker:id(?artist) AS id
                              nmm:artistName(?artist) AS title
                       WHERE { ?artist a nmm:Artist}
@@ -124,7 +124,8 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = "";
         running_query_type = Music.ItemType.ALBUM;
 
-        var query = "SELECT ?album
+        var query = "SELECT rdf:type (?album)
+                            ?album
                             tracker:id(?album) AS id
                             ?title
                             ?author
@@ -149,7 +150,8 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = id;
         running_query_type = Music.ItemType.ALBUM;
 
-        var query = @"SELECT ?album
+        var query = @"SELECT rdf:type (?album)
+                             ?album
                              tracker:id(?album) AS id
                              ?title
                              nmm:artistName(?artist) AS author
@@ -173,7 +175,8 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = "";
         running_query_type = Music.ItemType.SONG;
 
-        var query =  "SELECT ?song
+        var query =  "SELECT rdf:type (?song)
+                             ?song
                              tracker:id(?song) AS id
                              nie:title(?song) AS title
                       WHERE { ?song a nmm:MusicPiece }";
@@ -186,7 +189,8 @@ internal class Music.MusicListStore : ListStore {
         running_query_params = id;
         running_query_type = Music.ItemType.SONG;
 
-        var query = @"SELECT ?song
+        var query = @"SELECT rdf:type (?song)
+                             ?song
                              tracker:id(?song) AS id
                              nie:title(?song) AS title
                       WHERE { ?song a nmm:MusicPiece;
@@ -200,7 +204,6 @@ internal class Music.MusicListStore : ListStore {
 
         unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
                                                            Grl.MetadataKey.TITLE,
-                                                           Grl.MetadataKey.THUMBNAIL,
                                                            Grl.MetadataKey.URL);
 
         Caps caps = null;

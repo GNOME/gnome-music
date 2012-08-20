@@ -28,7 +28,9 @@ vala_sources = \
 		music-list-store.vala		\
 		music-playlist-view.vala	\
 		music-album-info-box.vala	\
+		music-playlist-songs.vala	\
 		music-browse-history.vala	\
+		music-utils.vala			\
 		album-art-cache.vala		\
 		main.vala               	\
 		$(NULL)

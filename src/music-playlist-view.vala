@@ -23,13 +23,14 @@ private class Music.PlaylistView {
 
     private Gtk.ScrolledWindow scrolled_window;
     private Music.AlbumInfoBox album_info_box;
+    private Music.PlaylistSongs playlist_songs;
 
     public PlaylistView () {
         setup_view ();
     }
 
     private void setup_view () {
-        var layout = new Gtk.Box (Orientation.HORIZONTAL, 0);
+        var layout = new Gtk.Box (Orientation.HORIZONTAL, 20);
         layout.set_homogeneous (false);
 
         var alignment = new Gtk.Alignment ((float)0.5, (float)0.5, 0, 0);
@@ -38,6 +39,10 @@ private class Music.PlaylistView {
         /* Album Info Box */
         album_info_box = new Music.AlbumInfoBox ();
         layout.pack_start (album_info_box.actor, false, false);
+
+        /* Playlist songs Box */
+        playlist_songs = new Music.PlaylistSongs ();
+        layout.pack_start (playlist_songs.actor, false, false);
 
         scrolled_window = new Gtk.ScrolledWindow (null, null);
         scrolled_window.hscrollbar_policy = Gtk.PolicyType.NEVER;
@@ -49,5 +54,6 @@ private class Music.PlaylistView {
 
     public void load (Grl.Media media) {
         album_info_box.load (media);
+        playlist_songs.load (media);
     }
 }

@@ -87,24 +87,7 @@ private class Music.AlbumInfoBox {
         }
 
         var duration = media.get_duration ();
-        string length ="";
-        if (duration < 60) {
-            length = _("%u secs").printf (duration);
-        }
-        else if (duration >= 60 && duration < 3600) {
-            length = _("%u min").printf ((uint)GLib.Math.round (duration/60));
-        }
-        else {
-            uint hours = (uint)(GLib.Math.floor (duration/3600));
-            int divisor = duration % 3600;
-            uint  minutes = (uint)(GLib.Math.round (divisor/60));
-            if (hours <= 1) {
-                length = _("1 hour %u min").printf (minutes);
-            }
-            else {
-                length = _("%u hours %u min").printf (hours, minutes);
-            }
-        }
+        string length =Music.seconds_to_string (duration);
         length_label.set_label(length);
     }
 }
