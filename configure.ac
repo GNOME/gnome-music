@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT([gnome-music],[0.0.0],[https://github.com/openshine/gnome-music])
+AC_INIT([gnome-music],[0.0.0],[https://github.com/tapia/gnome-music])
 AC_CONFIG_SRCDIR([src/main.vala])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
