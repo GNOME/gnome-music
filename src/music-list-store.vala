@@ -192,8 +192,6 @@ internal class Music.MusicListStore : ListStore {
                       GROUP BY ?song
                       ORDER BY ?author ?album";
 
-        debug (query);
-
         make_query (query);
     }
 
@@ -274,7 +272,9 @@ internal class Music.MusicListStore : ListStore {
                     else {
                         var url = media.get_url();
                         var file = GLib.File.new_for_path (url);
-                        set (iter, Music.ModelColumns.TITLE, file.get_basename ().replace ("%20", " "));
+                        var basename = file.get_basename ();
+                        var to_show = GLib.Uri.unescape_string (basename, null);
+                        set (iter, Music.ModelColumns.TITLE, to_show);
                     }
 
                     if (media.get_site() != "") {
