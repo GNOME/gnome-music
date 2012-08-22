@@ -72,9 +72,6 @@ private class Music.App {
         application = new Gtk.Application ("org.gnome.Music", 0);
         settings = new GLib.Settings ("org.gnome.Music");
 
-        setup_menu ();
-        setup_ui (); 
-
         browse_history = new Music.BrowseHistory ();
         browse_history.changed.connect (on_browse_history_changed);
 
@@ -85,6 +82,9 @@ private class Music.App {
             menu.append (_("Quit"), "app.quit");
 
             application.set_app_menu (menu);
+
+            setup_menu ();
+            setup_ui (); 
         });
 
         application.activate.connect_after ((app) => {
