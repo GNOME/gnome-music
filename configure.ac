@@ -2,7 +2,6 @@ AC_PREREQ([2.67])
 AC_INIT([gnome-music],[0.0.0],[https://github.com/tapia/gnome-music])
 AC_CONFIG_SRCDIR([src/main.vala])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE
 # Enable silent rules is available
 AM_SILENT_RULES([yes])
@@ -43,16 +42,14 @@ PKG_CHECK_MODULES(MUSIC, [
 MUSIC_PACKAGES="--pkg glib-2.0 --pkg gtk+-3.0 --pkg grilo-0.2 --pkg gee-1.0"
 AC_SUBST(MUSIC_PACKAGES)
 
-dnl libgd
-AC_CHECK_LIBM
-AC_SUBST(LIBM)
-
-AC_PATH_PROG(VAPIGEN, vapigen, no)
-
-PKG_CHECK_MODULES(LIBGD, [
-  glib-2.0 >= $GLIB_MIN_VERSION
-  gobject-introspection-1.0 >= $GOBJECT_INTROSPECTION_MIN_VERSION
-  gtk+-3.0 >= $GTK_MIN_VERSION
+LIBGD_INIT([
+  gtk-hacks
+  main-toolbar
+  main-icon-view
+  margin-container
+  static
+  tagged-entry
+  vapi
 ])
 
 AC_CONFIG_FILES([Makefile

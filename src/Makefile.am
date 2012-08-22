@@ -1,12 +1,13 @@
 NULL =
 
 AM_CPPFLAGS = \
-	-include config.h \
-	$(MUSIC_CFLAGS) \
-	-DLOCALEDIR=\""$(localedir)"\" \
-	-DPKGDATADIR=\""$(pkgdatadir)"\" \
-	-DPKGLIBDIR=\""$(pkglibdir)"\" \
-	-DGNOME_DESKTOP_USE_UNSTABLE_API \
+	-include config.h 					\
+	$(MUSIC_CFLAGS) 					\
+	-DLOCALEDIR=\""$(localedir)"\" 		\
+	-DPKGDATADIR=\""$(pkgdatadir)"\" 	\
+	-DPKGLIBDIR=\""$(pkglibdir)"\" 		\
+	-DGNOME_DESKTOP_USE_UNSTABLE_API 	\
+	-I$(top_srcdir)/libgd               \
 	$(NULL)
 
 AM_VALAFLAGS = \
@@ -23,7 +24,7 @@ bin_PROGRAMS = gnome-music
 vala_sources = \
         music-app.vala          	\
         music-topbar.vala       	\
-        music-player.vala       	\ 
+        music-player.vala       	\
 		music-collection-view.vala	\
 		music-list-store.vala		\
 		music-playlist-view.vala	\
@@ -47,21 +48,21 @@ music-resources.c: music.gresource.xml app-menu.ui
 	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) $(srcdir)/music.gresource.xml \
 		--target=$@ --sourcedir=$(srcdir) --c-name music --generate-source
 
-gnome_music_SOURCES = \
-	$(vala_sources) \
+gnome_music_SOURCES = 	\
+	$(vala_sources) 	\
 	$(NULL)
 
-gnome_music_LDADD =	$(MUSIC_LIBS)								\
-					$(top_builddir)/libgd/libgdprivate-1.0.la	\
+gnome_music_LDADD =	$(MUSIC_LIBS)					\
+					$(top_builddir)/libgd/libgd.la	\
 					$(NULL)
 
 CLEANFILES = \
-	$(vala_sources:.vala=.c) \
-	$(gsettings_SCHEMAS) \
+	$(vala_sources:.vala=.c) 	\
+	$(gsettings_SCHEMAS) 		\
 	*.vapi *.stamp
 
 EXTRA_DIST = \
-	music.gresource.xml \
-	app-menu.ui \
+	music.gresource.xml 			\
+	app-menu.ui 					\
 	$(gsettingsschema_in_files)     \
 	$(NULL)

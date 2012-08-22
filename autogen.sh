@@ -1,5 +1,14 @@
 #!/bin/sh
-mkdir -p m4
-autopoint --force
-AUTOPOINT='intltoolize --automake --copy' autoreconf -fiv -Wall || exit
-./configure --enable-maintainer-mode "$@"
+
+set -e # exit on errors
+
+srcdir=`dirname $0`
+test -z "$srcdir" && srcdir=.
+
+git submodule update --init --recursive
+autoreconf -v --force --install
+intltoolize -f
+
+if [ -z "$NOCONFIGURE" ]; then
+    "$srcdir"/configure --enable-maintainer-mode "$@"
+fi

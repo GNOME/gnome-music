@@ -1,6 +1,7 @@
+ACLOCAL_AMFLAGS= -I libgd ${ACLOCAL_FLAGS}
 NULL=
 
-SUBDIRS = libgd src vapi data po
+SUBDIRS = data libgd src po vapi
 
 EXTRA_DIST = \
 	autogen.sh \
