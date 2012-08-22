@@ -49,28 +49,28 @@ private class Music.AlbumInfoBox {
         album_label.get_style_context ().add_class ("music-albuminfo-album");
         box.pack_start (album_label, false, false);
 
-        var table = new Gtk.Table (2, 2, false);
-        table.set_col_spacings (10);
-        table.set_row_spacings (10);
-        box.pack_start (table, false, false);
+        var grid = new Gtk.Grid ();
+        grid.set_column_spacing (10);
+        grid.set_row_spacing (10);
+        box.pack_start (grid, false, false);
 
         var label = new Gtk.Label (_("Released"));
         label.get_style_context ().add_class ("dim-label");
         label.set_alignment (1, (float)0.5);
-        table.attach_defaults (label, 0, 1, 0, 1);
+        grid.attach (label, 1, 1, 1, 1);
 
         date_label = new Gtk.Label ("?");
         date_label.set_alignment (0, (float)0.5);
-        table.attach_defaults (date_label, 1, 2, 0, 1);
+        grid.attach (date_label, 2, 1, 1, 1);
 
         label = new Gtk.Label (_("Running Length"));
         label.get_style_context ().add_class ("dim-label");
         label.set_alignment (1, (float)0.5);
-        table.attach_defaults (label, 0, 1, 1, 2);
+        grid.attach (label, 1, 2, 1, 1);
 
         length_label = new Gtk.Label ("0 min");
         length_label.set_alignment (0, (float)0.5);
-        table.attach_defaults (length_label, 1, 2, 1, 2);
+        grid.attach (length_label, 2, 2, 1, 1);
 
         box.show_all ();
 

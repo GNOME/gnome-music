@@ -21,7 +21,7 @@ using Gee;
 private class Music.PlaylistSongs {
     public Gtk.Widget actor { get { return alignment; } }
     private Gtk.Alignment alignment;
-    private Gtk.Table table;
+    private Gtk.Grid grid;
 
     private HashMap<string, Grl.Source> source_list = new HashMap<string, Grl.Source> ();
 
@@ -33,16 +33,16 @@ private class Music.PlaylistSongs {
     }
 
     public void load (Grl.Media media) {
-        table = new Gtk.Table (0, 3, false);
-        table.set_col_spacings (10);
-        table.set_row_spacings (10);
-        table.show();
+        grid = new Gtk.Grid ();
+        grid.set_column_spacing (10);
+        grid.set_row_spacing (10);
+        grid.show();
 
         var child = alignment.get_child ();
         if (child != null) {
             alignment.remove (child);
         }
-        alignment.add (table);
+        alignment.add (grid);
 
         if (media is Grl.MediaBox) {
             unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
@@ -76,8 +76,6 @@ private class Music.PlaylistSongs {
         private void load_item_cb (Grl.Media? media,
                                uint remaining) {
         if (media != null) {
-            table.resize (table.n_rows+1, 3);
-
             var title = new Gtk.Label (media.get_title ());
             title.set_alignment (0, (float)0.5);
             title.show();
@@ -88,10 +86,8 @@ private class Music.PlaylistSongs {
             length.get_style_context ().add_class ("dim-label");
             length.show();
 
-            table.attach_defaults (title, 1, 2, table.n_rows-1, table.n_rows);
-            table.attach_defaults (length, 2, 3, table.n_rows-1, table.n_rows);
-
-
+            grid.attach_next_to (title, null, Gtk.PositionType.BOTTOM, 1, 1);
+            grid.attach_next_to (length, title, Gtk.PositionType.RIGHT, 1, 1);
         }
     }
 
