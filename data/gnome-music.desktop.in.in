@@ -1,9 +1,9 @@
 [Desktop Entry]
 _Name=Music
+_GenericName=Music Player
+_Comment=Play and organize your music collection
 Icon=audio-x-generic
 Exec=gnome-music
 Terminal=false
 Type=Application
-StartupNotify=true
-Categories=GNOME;GTK;Utility;
-OnlyShowIn=GNOME;Unity;
+Categories=GNOME;GTK;AudioVideo;Player;Audio;
