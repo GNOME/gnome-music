@@ -1,0 +1,4 @@
+src/music-album-info-box.c
+src/music-app.c
+src/music-topbar.c
+src/music-utils.c
