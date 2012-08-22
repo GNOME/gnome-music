@@ -88,9 +88,9 @@ private class Music.App {
         });
 
         application.activate.connect_after ((app) => {
-            window.present ();
             this.app_state_changed.connect (on_app_state_changed);
             this.app_state = Music.AppState.ARTISTS;
+            window.present ();
         });
     }
 

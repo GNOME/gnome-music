@@ -60,7 +60,6 @@ private class Music.CollectionView {
         icon_view = new Gd.MainIconView ();
         icon_view.set_model (model);
         icon_view.get_style_context ().add_class ("music-bg");
-        //icon_view.activate_on_single_click (true);
         icon_view.set_selection_mode (false);
         icon_view.button_press_event.connect (on_button_press_event);
         icon_view.button_release_event.connect (on_button_release_event);
@@ -82,14 +81,6 @@ private class Music.CollectionView {
             return false;
 
         return false;
-        /*
-        CollectionItem item = get_item_for_path (path);
-        bool found = item != null;
-
-        /* if we did not find the item in the selection, block
-         * drag and drop, while in selection mode
-        return !found;
-         */
     }
 
     private bool on_button_release_event (Gtk.Widget view, Gdk.EventButton event) {
