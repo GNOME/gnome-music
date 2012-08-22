@@ -114,14 +114,16 @@ private class Music.Player: GLib.Object {
         eventbox.get_style_context ().add_class ("music-player");
 
         var box = new Gtk.Box (Orientation.HORIZONTAL, 0);
-        var alignment = new Gtk.Alignment (0, 0, 1, 1);
+        var alignment = new Gtk.Alignment (0, (float)0.5, 1, 1);
         alignment.set_padding (15, 15, 15, 15);
         alignment.add (box);
         eventbox.add (alignment);
 
         var toolbar_start = new Gtk.Box (Orientation.HORIZONTAL, 0);
         toolbar_start.get_style_context ().add_class (Gtk.STYLE_CLASS_LINKED);
-        box.pack_start (toolbar_start);
+        var algmnt = new Gtk.Alignment (0, (float)0.5, 0, 0);
+        algmnt.add (toolbar_start);
+        box.pack_start (algmnt, false, false, 0);
 
         prev_btn = new Gtk.Button ();
         prev_btn.set_image (new Gtk.Image.from_icon_name ("media-skip-backward-symbolic", IconSize.BUTTON));
@@ -139,14 +141,16 @@ private class Music.Player: GLib.Object {
         });
         toolbar_start.pack_start (next_btn, false, false, 0);
 
-        var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
-        box.pack_start (toolbar_center);
+        var toolbar_song_info = new Gtk.Box (Orientation.HORIZONTAL, 0);
+        algmnt = new Gtk.Alignment (0, (float)0.5, 0, 0);
+        algmnt.add (toolbar_song_info);
+        box.pack_start (algmnt, false, false, 10);
 
         cover_img = new Gtk.Image();
-        toolbar_center.pack_start (cover_img, false, false, 0);
+        toolbar_song_info.pack_start (cover_img, false, false, 0);
 
         var databox = new Gtk.Box (Orientation.VERTICAL, 0);
-        toolbar_center.pack_start (databox, false, false, 0);
+        toolbar_song_info.pack_start (databox, false, false, 0);
 
         title_lbl = new Gtk.Label (null);
         databox.pack_start (title_lbl, false, false, 0);
@@ -155,18 +159,26 @@ private class Music.Player: GLib.Object {
         artist_lbl.get_style_context ().add_class ("dim-label");
         databox.pack_start (artist_lbl, false, false, 0);
 
+        var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
+        box.pack_start (toolbar_center, true, true, 10);
+
         progress_scale = new Gtk.Scale (Orientation.HORIZONTAL, null);
         progress_scale.set_draw_value (false);
+        set_duration (1);
+        progress_scale.sensitive = false;
         toolbar_center.pack_start (progress_scale);
 
-        song_playback_time_lbl = new Gtk.Label ("0:00");
+        song_playback_time_lbl = new Gtk.Label ("00:00");
         toolbar_center.pack_start (song_playback_time_lbl, false, false, 0);
         var label = new Gtk.Label ("/");
         toolbar_center.pack_start (label, false, false, 0);
-        song_total_time_lbl = new Gtk.Label ("0:00");
+        song_total_time_lbl = new Gtk.Label ("00:00");
         toolbar_center.pack_start (song_total_time_lbl, false, false, 0);
 
         var toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 5);
+        alignment = new Gtk.Alignment (1, (float)0.5, 0, 0);
+        alignment.add (toolbar_end);
+        box.pack_start (alignment, false, false, 10);
 
         rate_btn = new Gtk.Button ();
         rate_btn.set_image (new Gtk.Image.from_icon_name ("bookmark-new-symbolic", IconSize.BUTTON));
@@ -180,21 +192,29 @@ private class Music.Player: GLib.Object {
         });
         toolbar_end.pack_start (shuffle_btn, false, false, 0);
 
-        alignment = new Gtk.Alignment (1, (float)0.5, 0, 0);
-        alignment.add (toolbar_end);
-        box.pack_start (alignment);
-
         eventbox.show_all ();
     }
 
     public void load (Grl.Media media) {
         set_duration (media.get_duration());
         song_total_time_lbl.set_label (seconds_to_string (media.get_duration()));
+        progress_scale.sensitive = true;
 
         // FIXME: site contains the album's name. It's obviously a hack to remove
         var pixbuf = cache.lookup (ART_SIZE, media.get_author (), media.get_site ());
         cover_img.set_from_pixbuf (pixbuf);
-        title_lbl.set_label (media.get_title ());
+
+        if (media.get_title () != null) {
+            title_lbl.set_label (media.get_title ());
+        }
+        else {
+            var url = media.get_url();
+            var file = GLib.File.new_for_path (url);
+            var basename = file.get_basename ();
+            var to_show = GLib.Uri.unescape_string (basename, null);
+            title_lbl.set_label (to_show);
+        }
+
         artist_lbl.set_label (media.get_author());
 
         uri = media.get_url();
