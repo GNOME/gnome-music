@@ -210,9 +210,16 @@ private class Music.App {
     private void on_collectionview_selected_item (string item_id, Music.ItemType? item_type, Grl.Media? media) {
         browse_history.push (item_id, item_type);
 
-        if (item_type != null && item_type == Music.ItemType.ALBUM) {
-            playlistView.load (media);
-            this.app_state = Music.AppState.PLAYLIST;
+        if (item_type != null) {
+            switch (item_type) {
+                case Music.ItemType.ALBUM:
+                    playlistView.load (media);
+                    this.app_state = Music.AppState.PLAYLIST;
+                    break;
+                case Music.ItemType.SONG:
+                    player.load (media);
+                    break;
+            }
         }
     }
 

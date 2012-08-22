@@ -17,19 +17,52 @@
 
 using Gtk;
 
-private class Music.Player {
+
+internal class Music.PlayPauseButton : ToggleButton {
+    public Image play_image;
+    public Image pause_image;
+
+    public PlayPauseButton () {
+        Object ();
+        
+        play_image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", IconSize.BUTTON);
+        pause_image = new Gtk.Image.from_icon_name ("media-playback-pause-symbolic", IconSize.BUTTON);
+        this.set_image (play_image);
+    }
+
+    public override void toggled () {
+        if (this.get_active ()) {
+            this.set_image (pause_image);
+        } else {
+            this.set_image (play_image);
+        }
+    }
+}
+
+private class Music.Player: GLib.Object {
     public Gtk.Widget actor { get { return eventbox; } }
 
     private Gtk.EventBox eventbox;
 
-    private Gtk.Button play_btn;
+    private GLib.Settings settings;
+    private dynamic Gst.Element playbin;
+
+    private Music.AlbumArtCache cache;
+    private int ART_SIZE = 42;
+
+    public signal string? need_next ();
+    public signal string? need_previous ();
+
+    private uint position_update_timeout;
+
+    private PlayPauseButton play_btn;
     private Gtk.Button prev_btn;
     private Gtk.Button next_btn;
     private Gtk.Button rate_btn;
 
     private Gtk.Image cover_img;
+    private Gtk.Label title_lbl;
     private Gtk.Label artist_lbl;
-    private Gtk.Label album_lbl;
     private Gtk.Scale progress_scale;
     private Gtk.Label song_playback_time_lbl;
     private Gtk.Label song_total_time_lbl;
@@ -37,6 +70,46 @@ private class Music.Player {
     private Gtk.ToggleButton shuffle_btn;
 
     public Player () {
+        Object ();
+
+        cache = AlbumArtCache.get_default ();
+
+        settings = new GLib.Settings ("org.gnome.Music");
+        settings.bind ("shuffle",
+                       this,
+                       "shuffle",
+                       SettingsBindFlags.DEFAULT);
+
+        playbin = Gst.ElementFactory.make ("playbin2", null);
+        var bus = playbin.get_bus ();
+        bus.add_watch ( (bus, message) => {
+            switch (message.type) {
+                case Gst.MessageType.EOS:
+                    uri = need_next ();
+                    break;
+                case Gst.MessageType.STATE_CHANGED:
+                    if (message.src == playbin) {
+                        Gst.State old_state, new_state;
+                        message.parse_state_changed (out old_state, out new_state, null);
+                        if (old_state == Gst.State.PAUSED && new_state == Gst.State.PLAYING) {
+                            update_position (true);
+                        }
+                        else if (old_state == Gst.State.PLAYING && new_state == Gst.State.PAUSED) {
+                            update_position (false);
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            
+            return true;
+        });
+
+        set_ui ();
+    }
+
+    private void set_ui () {
         eventbox = new Gtk.EventBox ();
         eventbox.get_style_context ().add_class ("music-player");
 
@@ -56,10 +129,8 @@ private class Music.Player {
         });
         toolbar_start.pack_start (prev_btn, false, false, 0);
 
-        play_btn = new Gtk.Button ();
-        play_btn.set_image (new Gtk.Image.from_icon_name ("media-playback-start-symbolic", IconSize.BUTTON));
-        play_btn.clicked.connect ((button) => {
-        });
+        play_btn = new PlayPauseButton ();
+        play_btn.toggled.connect (on_play_btn_toggled);
         toolbar_start.pack_start (play_btn, false, false, 0);
 
         next_btn = new Gtk.Button ();
@@ -69,7 +140,6 @@ private class Music.Player {
         toolbar_start.pack_start (next_btn, false, false, 0);
 
         var toolbar_center = new Gtk.Box (Orientation.HORIZONTAL, 0);
-        toolbar_center.get_style_context ().add_class (Gtk.STYLE_CLASS_LINKED);
         box.pack_start (toolbar_center);
 
         cover_img = new Gtk.Image();
@@ -78,11 +148,12 @@ private class Music.Player {
         var databox = new Gtk.Box (Orientation.VERTICAL, 0);
         toolbar_center.pack_start (databox, false, false, 0);
 
-        artist_lbl = new Gtk.Label (_("Artist"));
-        databox.pack_start (artist_lbl, false, false, 0);
+        title_lbl = new Gtk.Label (null);
+        databox.pack_start (title_lbl, false, false, 0);
 
-        album_lbl = new Gtk.Label (_("Album"));
-        databox.pack_start (album_lbl, false, false, 0);
+        artist_lbl = new Gtk.Label (null);
+        artist_lbl.get_style_context ().add_class ("dim-label");
+        databox.pack_start (artist_lbl, false, false, 0);
 
         progress_scale = new Gtk.Scale (Orientation.HORIZONTAL, null);
         progress_scale.set_draw_value (false);
@@ -116,17 +187,78 @@ private class Music.Player {
         eventbox.show_all ();
     }
 
-    private void update_collection_select_btn_sensitivity () {
-//        collection_select_btn.sensitive = App.app.collection.items.length != 0;
+    public void load (Grl.Media media) {
+        set_duration (media.get_duration());
+        song_total_time_lbl.set_label (seconds_to_string (media.get_duration()));
+
+        // FIXME: site contains the album's name. It's obviously a hack to remove
+        var pixbuf = cache.lookup (ART_SIZE, media.get_author (), media.get_site ());
+        cover_img.set_from_pixbuf (pixbuf);
+        title_lbl.set_label (media.get_title ());
+        artist_lbl.set_label (media.get_author());
+
+        uri = media.get_url();
     }
 
-    private void update_selection_count_label () {
-        /*
-        var items = App.app.selected_items.length ();
-        if (items > 0)
-            selection_count_label.set_markup ("<b>" + ngettext ("%d selected", "%d selected", items).printf (items) + "</b>");
-        else
-            selection_count_label.set_markup ("<i>" + _("Click on items to select them") + "</i>");
-        */
+    public string uri {
+        set {
+            var resume = false;
+            if (playbin.current_state == Gst.State.PLAYING |
+                playbin.current_state == Gst.State.PAUSED) {
+                playbin.set_state (Gst.State.READY);
+                resume = true;
+            }
+            playbin.uri = value;
+            play_btn.set_active (true);
+            if (resume) {
+                playbin.set_state (Gst.State.PLAYING);
+            }
+        }
+
+        get {
+            return playbin.uri;
+        }
+    }
+
+    private void on_play_btn_toggled (Gtk.ToggleButton button) {
+        if (button.get_active()) {
+            if (playbin.uri == null) {
+                uri = need_next ();
+            }
+            playbin.set_state (Gst.State.PLAYING);
+        }
+        else {
+            playbin.set_state (Gst.State.PAUSED);
+        }
+    }
+
+    private void set_duration (uint duration) {
+        progress_scale.set_range (0.0, (double) (duration * Gst.SECOND));
+        progress_scale.set_value (0.0);
+    }
+
+    private void update_position (bool update) {
+        if (update) {
+            if (position_update_timeout == 0) {
+                Timeout.add_seconds (1, update_position_cb);
+            }
+        } else {
+            if (position_update_timeout != 0) {
+                Source.remove (position_update_timeout);
+                position_update_timeout = 0;
+            }
+        }
+    }
+
+    private bool update_position_cb () {
+        var format = Gst.Format.TIME;
+        int64 duration = 0;
+
+        playbin.query_position (ref format, out duration);
+        progress_scale.set_value ((double) duration);
+        var seconds = duration / Gst.SECOND;
+        song_playback_time_lbl.set_label (seconds_to_string ((int)seconds));
+
+        return true;
     }
 }

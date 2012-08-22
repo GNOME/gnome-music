@@ -180,10 +180,12 @@ internal class Music.MusicListStore : ListStore {
                              ?song
                              tracker:id(?song) AS id
                              nie:title(?song) AS title
+                             ?duration
                              ?url
                              tracker:coalesce (nie:title(?album), '') AS site
                              tracker:coalesce (nmm:artistName(?artist), '') AS author
                       WHERE { ?song a nmm:MusicPiece ;
+                                    nfo:duration ?duration;
                                     nie:isStoredAs ?as .
                               ?as nie:url ?url .
                               OPTIONAL { ?song nmm:musicAlbum ?album } .

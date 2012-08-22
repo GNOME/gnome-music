@@ -16,5 +16,10 @@
             <_summary>Window maximized</_summary>
             <_description>Window maximized state</_description>
         </key>
+        <key name="shuffle" type="b">
+            <default>false</default>
+            <_summary>Shuffle playback</_summary>
+            <_description>If true, do randomized playback through the collection</_description>
+        </key>
     </schema>
 </schemalist>

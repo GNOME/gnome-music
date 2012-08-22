@@ -27,6 +27,7 @@ main (string[] args) {
     Intl.textdomain (Config.GETTEXT_PACKAGE);
 
     Grl.init (ref args);
+    Gst.init (ref args);
     Gtk.init (ref args);
 
     var provider = new Gtk.CssProvider ();
