@@ -60,7 +60,7 @@ internal class Music.MusicListStore : ListStore {
                          typeof (long),
                          typeof (bool),                 // Music.ModelColumns.SELECTED
                          typeof (Music.ItemType),       // Music.ModelColumns.TYPE
-                         typeof (Grl.Media),            // Music.ModelColumns.MEDIA
+                         typeof (Grl.Media)            // Music.ModelColumns.MEDIA
                        };
        
         this.set_column_types (types);
