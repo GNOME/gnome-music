@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-22 20:12+0200\n"
-"PO-Revision-Date: 2012-08-22 20:13+0200\n"
+"POT-Creation-Date: 2012-08-22 23:39+0200\n"
+"PO-Revision-Date: 2012-08-22 23:40+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -24,6 +24,14 @@ msgstr ""
 #: ../data/gnome-music.desktop.in.in.h:1
 msgid "Music"
 msgstr "Muzyka"
+
+#: ../data/gnome-music.desktop.in.in.h:2
+msgid "Music Player"
+msgstr "Odtwarzacz muzyki"
+
+#: ../data/gnome-music.desktop.in.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
 
 #: ../src/app-menu.ui.h:1
 msgid "_Change Address Book..."
