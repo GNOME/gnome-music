@@ -4,12 +4,14 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Piotr Drąg <piotrdrag@gmail.com>, 2012.
+# Aviary.pl <gnomepl@aviary.pl>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-22 23:39+0200\n"
-"PO-Revision-Date: 2012-08-22 23:40+0200\n"
+"POT-Creation-Date: 2012-09-03 23:26+0200\n"
+"PO-Revision-Date: 2012-09-03 23:27+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -67,13 +69,15 @@ msgstr "Zakończ"
 
 #: ../src/music-app.vala:117
 msgid "translator-credits"
-msgstr "Aviary.pl <gnomepl@aviary.pl>, 2012"
+msgstr ""
+"Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
+"Aviary.pl <gnomepl@aviary.pl>, 2012"
 
 #: ../src/music-app.vala:118
 msgid "A GNOME 3 application to listen and manage music playlists"
 msgstr ""
 "Program do słuchania muzyki i zarządzania listami odtwarzania dla środowiska "
-"GNOME 3."
+"GNOME 3"
 
 #: ../src/music-topbar.vala:93
 msgid "Artists"
