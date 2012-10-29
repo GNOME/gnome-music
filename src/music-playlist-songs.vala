@@ -16,78 +16,33 @@
  */
 
 using Gtk;
-using Gee;
 
 private class Music.PlaylistSongs {
     public Gtk.Widget actor { get { return alignment; } }
 
-    public signal void song_selected (Grl.Media media);
+    private Music.Playlist playlist;
 
     private Gtk.Alignment alignment;
     private Gtk.Grid grid;
 
-    private HashMap<string, Grl.Source> source_list = new HashMap<string, Grl.Source> ();
+    private int current_song = 0;
 
-    public PlaylistSongs () {
-        set_grl ();
+    public PlaylistSongs (Music.Playlist playlist) {
+        this.playlist = playlist;
+        this.playlist.changed.connect (on_playlist_changed);
+        this.playlist.song_selected.connect (on_playlist_song_selected);
 
         alignment = new Gtk.Alignment ((float)0.5, (float)0.5, 0, 0);
         alignment.show_all ();
     }
 
-    public void load (Grl.Media media) {
-        grid = new Gtk.Grid ();
-        grid.set_column_spacing (10);
-        grid.set_row_spacing (10);
-        grid.show();
+    private void on_playlist_changed () {
+        clear_grid ();
 
-        var child = alignment.get_child ();
-        if (child != null) {
-            alignment.remove (child);
-        }
-        alignment.add (grid);
+        foreach (Grl.Media media in playlist) {
+            var image = new Gtk.Image.from_icon_name ("media-playback-start-symbolic", IconSize.BUTTON);
+            image.hide();
 
-        if (media is Grl.MediaBox) {
-            unowned GLib.List keys = Grl.MetadataKey.list_new (Grl.MetadataKey.ID,
-                                                               Grl.MetadataKey.TITLE,
-                                                               Grl.MetadataKey.URL);
-
-            Grl.Caps caps = null;
-            Grl.OperationOptions options = new Grl.OperationOptions(caps);
-            options.set_skip (0);
-            options.set_count (1000000);
-            options.set_flags (Grl.ResolutionFlags.NORMAL);
-
-            var id = media.get_id ();
-
-            var query = @"SELECT rdf:type (?song)
-                                 ?song
-                                 tracker:id(?song) AS id
-                                 nie:title(?song) AS title
-                                 ?duration
-                                 ?url
-                                 tracker:coalesce (nie:title(?album), '') AS site
-                                 tracker:coalesce (nmm:artistName(?artist), '') AS author
-                          WHERE { ?song a nmm:MusicPiece;
-                                        nfo:duration ?duration;
-                                        nie:url ?url;
-                                        nmm:musicAlbum ?album FILTER (tracker:id (?album) = $id ) .
-                                  OPTIONAL { ?song nmm:musicAlbum ?album } .
-                                  OPTIONAL { ?album nmm:albumArtist ?artist }
-                          }";
-            debug (query);
-
-            foreach (var source in source_list.values) {
-                source.query (query, keys, options, (source, query_id, media, remaining, error) => {
-                    load_item_cb (media, remaining);
-                });
-            }
-        }
-    }
-
-    private void load_item_cb (Grl.Media? media,
-                               uint remaining) {
-        if (media != null) {
             var title = new Music.ClickableLabel (media.get_title());
             title.set_alignment (0, (float)0.5);
             title.clicked.connect (() => {
@@ -99,50 +54,42 @@ private class Music.PlaylistSongs {
             length.set_alignment (1, (float)0.5);
             length.get_style_context ().add_class ("dim-label");
 
-            grid.attach_next_to (title, null, Gtk.PositionType.BOTTOM, 1, 1);
+            grid.attach_next_to (image, null, Gtk.PositionType.BOTTOM, 1, 1);
+            grid.attach_next_to (title, image, Gtk.PositionType.RIGHT, 1, 1);
             grid.attach_next_to (length, title, Gtk.PositionType.RIGHT, 1, 1);
 
-            grid.show_all ();
+            image.hide();
+            title.show();
+            length.show();
         }
+    }
+    public void clear_grid () {
+        var child = alignment.get_child ();
+        if (child != null) {
+            alignment.remove (child);
+        }
+        
+        grid = new Gtk.Grid ();
+        grid.set_column_spacing (10);
+        grid.set_row_spacing (10);
+        alignment.add (grid);
+        grid.show_all ();
     }
 
     private void on_title_clicked (Grl.Media media) {
-        song_selected (media);
-
+        playlist.select (media);
     }
 
-    private void set_grl () {
-        var registry = Grl.Registry.get_default ();
+    private void on_playlist_song_selected (Grl.Media media, int index) {
+        debug (current_song.to_string());
+        var image = grid.get_child_at(0, current_song);
+        if (image != null) {
+            image.hide();
+        }
 
-		registry.source_added.connect (source_added_cb);
-		registry.source_removed.connect (source_removed_cb);
+        image = grid.get_child_at(0, index);
+        image.show();
 
-		if (registry.load_all_plugins () == false) {
-			error ("Failed to load plugins.");
-		}
+        current_song = index;
     }
-
-    private void source_added_cb (Grl.Source source) {
-        // FIXME: We're only handling Tracker by now
-        if (source.get_id() != "grl-tracker-source") {
-            return;
-        }
-
-        debug ("Checking source: %s", source.get_id());
-
-		var ops = source.supported_operations ();
-		if ((ops & Grl.SupportedOps.QUERY) != 0) {
-			debug ("Detected new source availabe: '%s' and it supports queries", source.get_name ());
-			source_list.set (source.get_id(), source as Grl.Source);
-		}
-	}
-
-	private void source_removed_cb (Grl.Source source) {
-        foreach (var id in source_list.keys) {
-            if (id == source.get_id()) {
-		        debug ("Source '%s' is gone", source.get_name ());
-                source_list.unset (id);
-            }
-        }
-	}
 }

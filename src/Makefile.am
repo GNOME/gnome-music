@@ -27,9 +27,10 @@ vala_sources = \
         music-player.vala       	\
 		music-collection-view.vala	\
 		music-list-store.vala		\
+		music-playlist.vala 		\
 		music-playlist-view.vala	\
-		music-album-info-box.vala	\
 		music-playlist-songs.vala	\
+		music-album-info-box.vala	\
 		music-browse-history.vala	\
 		music-clickable-label.vala 	\
 		music-utils.vala			\

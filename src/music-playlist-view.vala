@@ -21,13 +21,15 @@ using Gee;
 private class Music.PlaylistView {
     public Gtk.Widget actor { get { return scrolled_window; } }
 
-    public signal void song_selected (Grl.Media media);
+    private Music.Playlist playlist;
 
     private Gtk.ScrolledWindow scrolled_window;
     private Music.AlbumInfoBox album_info_box;
     private Music.PlaylistSongs playlist_songs;
 
-    public PlaylistView () {
+    public PlaylistView (Music.Playlist playlist) {
+        this.playlist = playlist;
+
         setup_view ();
     }
 
@@ -43,10 +45,7 @@ private class Music.PlaylistView {
         layout.pack_start (album_info_box.actor, false, false);
 
         /* Playlist songs Box */
-        playlist_songs = new Music.PlaylistSongs ();
-        playlist_songs.song_selected.connect ((media) => {
-            song_selected (media);
-        });
+        playlist_songs = new Music.PlaylistSongs (playlist);
         layout.pack_start (playlist_songs.actor, false, false);
 
         scrolled_window = new Gtk.ScrolledWindow (null, null);
@@ -59,6 +58,7 @@ private class Music.PlaylistView {
 
     public void load (Grl.Media media) {
         album_info_box.load (media);
-        playlist_songs.load (media);
+
+        playlist.load_album (media);
     }
 }

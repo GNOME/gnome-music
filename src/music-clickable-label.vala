@@ -51,6 +51,14 @@ private class Music.ClickableLabel : Gtk.EventBox {
  		label.set_label (text);
  	}
 
+ 	public string get_label () {
+ 		return label.get_label ();
+ 	}
+
+ 	public void show () {
+ 		this.show_all();
+ 	}
+
  	public void set_style (string style) {
  		label.get_style_context ().add_class (style);
  	}

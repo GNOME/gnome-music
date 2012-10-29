@@ -45,6 +45,8 @@ private class Music.App {
     public Music.PlaylistView playlistView;
     public Gtk.Notebook notebook;
 
+    public Music.Playlist playlist;
+
     private Gtk.Application application;
 
     public Music.BrowseHistory browse_history;
@@ -76,15 +78,8 @@ private class Music.App {
         browse_history.changed.connect (on_browse_history_changed);
 
         application.startup.connect_after ((app) => {
-            var menu = new GLib.Menu ();
-            menu.append (_("New"), "app.new");
-            menu.append (_("About Music"), "app.about");
-            menu.append (_("Quit"), "app.quit");
-
-            application.set_app_menu (menu);
-
             setup_menu ();
-            setup_ui (); 
+            setup_app (); 
         });
 
         application.activate.connect_after ((app) => {
@@ -99,6 +94,13 @@ private class Music.App {
     }
 
     private void setup_menu () {
+        var menu = new GLib.Menu ();
+        menu.append (_("New"), "app.new");
+        menu.append (_("About Music"), "app.about");
+        menu.append (_("Quit"), "app.quit");
+
+        application.set_app_menu (menu);
+
         var action = new GLib.SimpleAction ("quit", null);
         action.activate.connect (() => { quit (); });
         application.add_action (action);
@@ -116,7 +118,7 @@ private class Music.App {
                                    "authors", authors,
                                    "translator-credits", _("translator-credits"),
                                    "comments", _("A GNOME 3 application to listen and manage music playlists"),
-                                   "copyright", "Copyright 2012 OpenShine SL.",
+                                   "copyright", "Copyright 2012 César García Tapia",
                                    "license-type", Gtk.License.LGPL_2_1,
                                    "logo-icon-name", "gnome-music",
                                    "version", Config.PACKAGE_VERSION,
@@ -126,7 +128,7 @@ private class Music.App {
         application.add_action (action);
     }
 
-    private void setup_ui () {
+    private void setup_app () {
         window = new Gtk.ApplicationWindow (application);
         window.show_menubar = false;
         window.hide_titlebar_when_maximized = true;
@@ -184,8 +186,10 @@ private class Music.App {
         collectionView.item_selected.connect (on_collectionview_selected_item);
         notebook.append_page (collectionView.actor, null);
 
-        playlistView = new Music.PlaylistView ();
-        playlistView.song_selected.connect (on_playlistview_song_selected);
+        playlist = new Music.Playlist();
+        playlist.song_selected.connect (on_playlist_song_selected);
+
+        playlistView = new Music.PlaylistView (playlist);
         notebook.append_page (playlistView.actor, null);
 
         player = new Music.Player ();
@@ -224,7 +228,7 @@ private class Music.App {
         }
     }
 
-    private void on_playlistview_song_selected (Grl.Media media) {
+    private void on_playlist_song_selected (Grl.Media media, int index) {
         player.load (media);
     }
 
