@@ -31,6 +31,7 @@ vala_sources = \
 		music-album-info-box.vala	\
 		music-playlist-songs.vala	\
 		music-browse-history.vala	\
+		music-clickable-label.vala 	\
 		music-utils.vala			\
 		album-art-cache.vala		\
 		main.vala               	\

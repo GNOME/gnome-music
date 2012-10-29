@@ -24,7 +24,7 @@ private class Music.AlbumInfoBox {
     private Gtk.Box box;
 
     private Gtk.Image art_image;
-    private Gtk.Label artist_label;
+    private Music.ClickableLabel artist_label;
     private Gtk.Label album_label;
     private Gtk.Label date_label;
     private Gtk.Label length_label;
@@ -41,8 +41,8 @@ private class Music.AlbumInfoBox {
         art_image = new Gtk.Image ();
         box.pack_start (art_image, false, false);
 
-        artist_label = new Gtk.Label ("Artist name");
-        artist_label.get_style_context ().add_class ("music-albuminfo-artist");
+        artist_label = new Music.ClickableLabel ("Artist name");
+        artist_label.set_style ("music-albuminfo-artist");
         box.pack_start (artist_label, false, false);
 
         album_label = new Gtk.Label ("Album name");

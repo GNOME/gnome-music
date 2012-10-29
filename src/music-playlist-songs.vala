@@ -88,24 +88,21 @@ private class Music.PlaylistSongs {
     private void load_item_cb (Grl.Media? media,
                                uint remaining) {
         if (media != null) {
-            var title_string = media.get_title ();
-            var title = new Gtk.Label (null);
-            title.set_markup (@"<a href=''>$title_string</a>");
+            var title = new Music.ClickableLabel (media.get_title());
             title.set_alignment (0, (float)0.5);
-            title.activate_link.connect (() => {
+            title.clicked.connect (() => {
                 on_title_clicked (media);
-                return true;
             });
-            title.show();
 
             var duration = media.get_duration ();
             var length = new Gtk.Label (Music.seconds_to_string (duration));
             length.set_alignment (1, (float)0.5);
             length.get_style_context ().add_class ("dim-label");
-            length.show();
 
             grid.attach_next_to (title, null, Gtk.PositionType.BOTTOM, 1, 1);
             grid.attach_next_to (length, title, Gtk.PositionType.RIGHT, 1, 1);
+
+            grid.show_all ();
         }
     }
 
