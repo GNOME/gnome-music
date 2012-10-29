@@ -21,6 +21,8 @@ using Gee;
 private class Music.PlaylistView {
     public Gtk.Widget actor { get { return scrolled_window; } }
 
+    public signal void song_selected (Grl.Media media);
+
     private Gtk.ScrolledWindow scrolled_window;
     private Music.AlbumInfoBox album_info_box;
     private Music.PlaylistSongs playlist_songs;
@@ -42,6 +44,9 @@ private class Music.PlaylistView {
 
         /* Playlist songs Box */
         playlist_songs = new Music.PlaylistSongs ();
+        playlist_songs.song_selected.connect ((media) => {
+            song_selected (media);
+        });
         layout.pack_start (playlist_songs.actor, false, false);
 
         scrolled_window = new Gtk.ScrolledWindow (null, null);

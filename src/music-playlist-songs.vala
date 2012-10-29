@@ -20,6 +20,9 @@ using Gee;
 
 private class Music.PlaylistSongs {
     public Gtk.Widget actor { get { return alignment; } }
+
+    public signal void song_selected (Grl.Media media);
+
     private Gtk.Alignment alignment;
     private Gtk.Grid grid;
 
@@ -56,14 +59,23 @@ private class Music.PlaylistSongs {
             options.set_flags (Grl.ResolutionFlags.NORMAL);
 
             var id = media.get_id ();
+
             var query = @"SELECT rdf:type (?song)
                                  ?song
                                  tracker:id(?song) AS id
                                  nie:title(?song) AS title
                                  ?duration
+                                 ?url
+                                 tracker:coalesce (nie:title(?album), '') AS site
+                                 tracker:coalesce (nmm:artistName(?artist), '') AS author
                           WHERE { ?song a nmm:MusicPiece;
                                         nfo:duration ?duration;
-                                        nmm:musicAlbum ?album FILTER (tracker:id (?album) = $id ) }";
+                                        nie:url ?url;
+                                        nmm:musicAlbum ?album FILTER (tracker:id (?album) = $id ) .
+                                  OPTIONAL { ?song nmm:musicAlbum ?album } .
+                                  OPTIONAL { ?album nmm:albumArtist ?artist }
+                          }";
+            debug (query);
 
             foreach (var source in source_list.values) {
                 source.query (query, keys, options, (source, query_id, media, remaining, error) => {
@@ -73,11 +85,17 @@ private class Music.PlaylistSongs {
         }
     }
 
-        private void load_item_cb (Grl.Media? media,
+    private void load_item_cb (Grl.Media? media,
                                uint remaining) {
         if (media != null) {
-            var title = new Gtk.Label (media.get_title ());
+            var title_string = media.get_title ();
+            var title = new Gtk.Label (null);
+            title.set_markup (@"<a href=''>$title_string</a>");
             title.set_alignment (0, (float)0.5);
+            title.activate_link.connect (() => {
+                on_title_clicked (media);
+                return true;
+            });
             title.show();
 
             var duration = media.get_duration ();
@@ -89,6 +107,11 @@ private class Music.PlaylistSongs {
             grid.attach_next_to (title, null, Gtk.PositionType.BOTTOM, 1, 1);
             grid.attach_next_to (length, title, Gtk.PositionType.RIGHT, 1, 1);
         }
+    }
+
+    private void on_title_clicked (Grl.Media media) {
+        song_selected (media);
+
     }
 
     private void set_grl () {

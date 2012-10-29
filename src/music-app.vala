@@ -185,6 +185,7 @@ private class Music.App {
         notebook.append_page (collectionView.actor, null);
 
         playlistView = new Music.PlaylistView ();
+        playlistView.song_selected.connect (on_playlistview_song_selected);
         notebook.append_page (playlistView.actor, null);
 
         player = new Music.Player ();
@@ -221,6 +222,10 @@ private class Music.App {
                     break;
             }
         }
+    }
+
+    private void on_playlistview_song_selected (Grl.Media media) {
+        player.load (media);
     }
 
     private void on_browse_history_changed () {
