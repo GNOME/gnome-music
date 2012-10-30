@@ -43,6 +43,13 @@ private class Music.Playlist: Object, Gee.Iterable<Grl.Media> {
 		}
 	}
 
+	public void load_previous () {
+		if (current_index > 0) {
+			current_index--;
+			song_selected (list[current_index], current_index);	
+		}
+	}
+
 	public void load_album (Grl.Media media) {
 		if (media is Grl.MediaBox) {
 			list.clear();

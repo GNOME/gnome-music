@@ -131,8 +131,7 @@ private class Music.Player: GLib.Object {
 
         prev_btn = new Gtk.Button ();
         prev_btn.set_image (new Gtk.Image.from_icon_name ("media-skip-backward-symbolic", IconSize.BUTTON));
-        prev_btn.clicked.connect ((button) => {
-        });
+        prev_btn.clicked.connect (on_prev_btn_clicked);
         toolbar_start.pack_start (prev_btn, false, false, 0);
 
         play_btn = new PlayPauseButton ();
@@ -141,8 +140,7 @@ private class Music.Player: GLib.Object {
 
         next_btn = new Gtk.Button ();
         next_btn.set_image (new Gtk.Image.from_icon_name ("media-skip-forward-symbolic", IconSize.BUTTON));
-        next_btn.clicked.connect ((button) => {
-        });
+        next_btn.clicked.connect (on_next_btn_clicked);
         toolbar_start.pack_start (next_btn, false, false, 0);
 
         var toolbar_song_info = new Gtk.Box (Orientation.HORIZONTAL, 0);
@@ -251,6 +249,14 @@ private class Music.Player: GLib.Object {
         else {
             playbin.set_state (Gst.State.PAUSED);
         }
+    }
+
+    private void on_next_btn_clicked (Gtk.Button button) {
+        need_next ();
+    }
+
+    private void on_prev_btn_clicked (Gtk.Button button) {
+        need_previous ();
     }
 
     private void set_duration (uint duration) {

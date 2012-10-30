@@ -235,12 +235,11 @@ private class Music.App {
     }
 
     private void on_player_need_next () {
-        debug ("NEED_NEXT");
         playlist.load_next();
     }
 
     private void on_player_need_previous () {
-
+        playlist.load_previous();
     }
 
     private void on_browse_history_changed () {
