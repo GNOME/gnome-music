@@ -36,6 +36,13 @@ private class Music.Playlist: Object, Gee.Iterable<Grl.Media> {
 		}
 	}
 
+	public void load_next () {
+		if (current_index + 1 < list.size) {
+			current_index++;
+			song_selected (list[current_index], current_index);
+		}
+	}
+
 	public void load_album (Grl.Media media) {
 		if (media is Grl.MediaBox) {
 			list.clear();
@@ -66,7 +73,6 @@ private class Music.Playlist: Object, Gee.Iterable<Grl.Media> {
                                   OPTIONAL { ?song nmm:musicAlbum ?album } .
                                   OPTIONAL { ?album nmm:albumArtist ?artist }
                           }";
-            debug (query);
 
             foreach (var source in source_list.values) {
                 source.query (query, keys, options, (source, query_id, media, remaining, error) => {

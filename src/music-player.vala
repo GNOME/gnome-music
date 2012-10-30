@@ -42,18 +42,10 @@ internal class Music.PlayPauseButton : ToggleButton {
 private class Music.Player: GLib.Object {
     public Gtk.Widget actor { get { return eventbox; } }
 
+    public signal void need_next ();
+    public signal void need_previous ();
+
     private Gtk.EventBox eventbox;
-
-    private GLib.Settings settings;
-    private dynamic Gst.Element playbin;
-
-    private Music.AlbumArtCache cache;
-    private int ART_SIZE = 42;
-
-    public signal string? need_next ();
-    public signal string? need_previous ();
-
-    private uint position_update_timeout;
 
     private PlayPauseButton play_btn;
     private Gtk.Button prev_btn;
@@ -69,23 +61,35 @@ private class Music.Player: GLib.Object {
 
     private Gtk.ToggleButton shuffle_btn;
 
+    private GLib.Settings settings;
+    private dynamic Gst.Element playbin;
+
+    private bool shuffle;
+
+    private Music.AlbumArtCache cache;
+    private int ART_SIZE = 42;
+
+    private uint position_update_timeout;
+
     public Player () {
         Object ();
 
         cache = AlbumArtCache.get_default ();
 
         settings = new GLib.Settings ("org.gnome.Music");
+        /*
         settings.bind ("shuffle",
                        this,
                        "shuffle",
                        SettingsBindFlags.DEFAULT);
+        */
 
         playbin = Gst.ElementFactory.make ("playbin2", null);
         var bus = playbin.get_bus ();
         bus.add_watch ( (bus, message) => {
             switch (message.type) {
                 case Gst.MessageType.EOS:
-                    uri = need_next ();
+                    need_next ();
                     break;
                 case Gst.MessageType.STATE_CHANGED:
                     if (message.src == playbin) {
@@ -242,9 +246,6 @@ private class Music.Player: GLib.Object {
 
     private void on_play_btn_toggled (Gtk.ToggleButton button) {
         if (button.get_active()) {
-            if (playbin.uri == null) {
-                uri = need_next ();
-            }
             playbin.set_state (Gst.State.PLAYING);
         }
         else {

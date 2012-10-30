@@ -193,6 +193,8 @@ private class Music.App {
         notebook.append_page (playlistView.actor, null);
 
         player = new Music.Player ();
+        player.need_next.connect (on_player_need_next);
+        player.need_previous.connect (on_player_need_previous);
         layout.pack_start (player.actor, false, false);
 
         layout.show ();
@@ -230,6 +232,15 @@ private class Music.App {
 
     private void on_playlist_song_selected (Grl.Media media, int index) {
         player.load (media);
+    }
+
+    private void on_player_need_next () {
+        debug ("NEED_NEXT");
+        playlist.load_next();
+    }
+
+    private void on_player_need_previous () {
+
     }
 
     private void on_browse_history_changed () {
