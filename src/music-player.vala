@@ -168,6 +168,7 @@ private class Music.Player: GLib.Object {
         progress_scale.set_draw_value (false);
         set_duration (1);
         progress_scale.sensitive = false;
+        progress_scale.change_value.connect (on_progress_scale_change_value);
         toolbar_center.pack_start (progress_scale);
 
         song_playback_time_lbl = new Gtk.Label ("00:00");
@@ -287,5 +288,10 @@ private class Music.Player: GLib.Object {
         song_playback_time_lbl.set_label (seconds_to_string ((int)seconds));
 
         return true;
+    }
+
+    private bool on_progress_scale_change_value (Gtk.ScrollType scroll, double new_value) {
+        playbin.seek_simple (Gst.Format.TIME, Gst.SeekFlags.FLUSH|Gst.SeekFlags.KEY_UNIT, (int64)new_value);
+        return false;
     }
 }
