@@ -59,7 +59,7 @@ private class Music.CollectionView {
     private void setup_view () {
         icon_view = new Gd.MainIconView ();
         icon_view.set_model (model);
-        icon_view.get_style_context ().add_class ("music-bg");
+        icon_view.get_style_context ().add_class ("music-collection-view");
         icon_view.set_selection_mode (false);
         icon_view.button_press_event.connect (on_button_press_event);
         icon_view.button_release_event.connect (on_button_release_event);
