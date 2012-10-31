@@ -18,16 +18,32 @@
 private class Music.Playlist: Object, Gee.Iterable<Grl.Media> {
 	public signal void song_selected (Grl.Media media, int index);
 	public signal void changed ();
+	public signal void shuffle_mode_changed (bool mode);
 
 	private Gee.ArrayList<Grl.Media> list;
 	private int current_index = 0;
+
+	private bool _shuffle;
+	private GLib.Settings settings;
+
 
 	private Gee.HashMap<string, Grl.Source> source_list = new Gee.HashMap<string, Grl.Source> ();
 
 	public Playlist () {
         set_grl ();
         list = new Gee.ArrayList<Grl.Media> ();
+
+        settings = new GLib.Settings ("org.gnome.Music");
+        settings.changed.connect (on_settings_key_changed);
 	}
+
+	public bool shuffle {
+        get { return _shuffle; }
+        set {
+            _shuffle = value;
+            settings.set_boolean ("shuffle", value);
+        }
+    }
 
 	public void select (Grl.Media media) {
 		if (media in list) {
@@ -130,6 +146,12 @@ private class Music.Playlist: Object, Gee.Iterable<Grl.Media> {
             }
         }
 	}
+
+    private void on_settings_key_changed (string key) {
+        if (key == "shuffle") {
+        	shuffle_mode_changed (settings.get_boolean ("shuffle"));
+        }
+    }
 
 	//Iterator methods
 
