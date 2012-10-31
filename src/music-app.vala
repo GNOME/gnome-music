@@ -34,12 +34,18 @@ private enum Music.AppPage {
 
 private class Music.App {
     public static App app;
+
+    public signal void browse_back (string item_id, Music.ItemType? item_type);
+    public signal void app_state_changed (Music.AppState old_state, Music.AppState new_state);
+    public signal void search_mode_changed (bool search_enabled);
+
     public Gtk.ApplicationWindow window;
     private bool maximized { get { return WindowState.MAXIMIZED in window.get_window ().get_state (); } }
     public GLib.Settings settings;
 
     public Gtk.Box layout;
     public Music.Topbar topbar;
+    public Music.Searchbar searchbar;
     public Music.Player player;
     public Music.CollectionView collectionView;
     public Music.PlaylistView playlistView;
@@ -54,9 +60,6 @@ private class Music.App {
     private uint configure_id;
     public static const uint configure_id_timeout = 100;  // 100ms
 
-    public signal void browse_back (string item_id, Music.ItemType? item_type); 
-
-    public signal void app_state_changed (Music.AppState old_state, Music.AppState new_state);
     private Music.AppState _app_state; 
     public Music.AppState app_state {
         get {
@@ -72,7 +75,9 @@ private class Music.App {
     public App () {
         app = this;
         application = new Gtk.Application ("org.gnome.Music", 0);
+
         settings = new GLib.Settings ("org.gnome.Music");
+        settings.changed.connect (on_settings_key_changed);
 
         browse_history = new Music.BrowseHistory ();
         browse_history.changed.connect (on_browse_history_changed);
@@ -176,6 +181,15 @@ private class Music.App {
         topbar.collection_back_btn_clicked.connect (on_collection_back_btn_clicked);
         layout.pack_start (topbar.actor, false, false);
 
+        searchbar = new Music.Searchbar ();
+        if (search_mode == true) {
+            searchbar.show();
+        }
+        else {
+            searchbar.hide();
+        }
+        layout.pack_start (searchbar.actor, false, false);
+
         notebook = new Gtk.Notebook ();
         notebook.show_border = false;
         notebook.show_tabs = false;
@@ -192,9 +206,7 @@ private class Music.App {
         playlistView = new Music.PlaylistView (playlist);
         notebook.append_page (playlistView.actor, null);
 
-        player = new Music.Player ();
-        player.need_next.connect (on_player_need_next);
-        player.need_previous.connect (on_player_need_previous);
+        player = new Music.Player (playlist);
         layout.pack_start (player.actor, false, false);
 
         layout.show ();
@@ -234,14 +246,6 @@ private class Music.App {
         player.load (media);
     }
 
-    private void on_player_need_next () {
-        playlist.load_next();
-    }
-
-    private void on_player_need_previous () {
-        playlist.load_previous();
-    }
-
     private void on_browse_history_changed () {
         if (browse_history.get_length () > 1) {
             topbar.set_collection_back_button_visible (true);
@@ -259,6 +263,21 @@ private class Music.App {
         browse_back (last_item_id, last_item_type);
     }
 
+    private void on_settings_key_changed (string key) {
+        if (key == "search") {
+            var val = settings.get_boolean ("search");
+
+            if (val == true) {
+                searchbar.show();
+            }
+            else {
+                searchbar.hide();
+            }
+
+            search_mode_changed (val);
+        }
+    }
+
     private bool _selection_mode;
     public bool selection_mode {
         get {
@@ -266,6 +285,17 @@ private class Music.App {
         }
         set {
             _selection_mode = value;
+        }
+    }
+
+    public bool search_mode {
+        get {
+            return settings.get_boolean ("search");
+        }
+        set {
+            if (value != this.search_mode) {
+                settings.set_boolean ("search", value);
+            }
         }
     }
 

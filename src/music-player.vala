@@ -42,9 +42,6 @@ internal class Music.PlayPauseButton : ToggleButton {
 private class Music.Player: GLib.Object {
     public Gtk.Widget actor { get { return eventbox; } }
 
-    public signal void need_next ();
-    public signal void need_previous ();
-
     private Gtk.EventBox eventbox;
 
     private PlayPauseButton play_btn;
@@ -61,29 +58,23 @@ private class Music.Player: GLib.Object {
 
     private Gtk.ToggleButton shuffle_btn;
 
-    private GLib.Settings settings;
-    private dynamic Gst.Element playbin;
+    private Music.Playlist playlist;
 
-    private bool shuffle;
+    private dynamic Gst.Element playbin;
 
     private Music.AlbumArtCache cache;
     private int ART_SIZE = 42;
 
     private uint position_update_timeout;
 
-    public Player () {
+    public Player (Music.Playlist playlist) {
         Object ();
 
+        this.playlist = playlist;
+        this.playlist.shuffle_mode_changed.connect (on_playlist_shuffle_mode_changed);
+
         cache = AlbumArtCache.get_default ();
-
-        settings = new GLib.Settings ("org.gnome.Music");
-        /*
-        settings.bind ("shuffle",
-                       this,
-                       "shuffle",
-                       SettingsBindFlags.DEFAULT);
-        */
-
+        
         playbin = Gst.ElementFactory.make ("playbin2", null);
         var bus = playbin.get_bus ();
         bus.add_watch ( (bus, message) => {
@@ -149,7 +140,7 @@ private class Music.Player: GLib.Object {
         box.pack_start (algmnt, false, false, 10);
 
         cover_img = new Gtk.Image();
-        toolbar_song_info.pack_start (cover_img, false, false, 0);
+        toolbar_song_info.pack_start (cover_img, false, false, 5);
 
         var databox = new Gtk.Box (Orientation.VERTICAL, 0);
         toolbar_song_info.pack_start (databox, false, false, 0);
@@ -191,8 +182,7 @@ private class Music.Player: GLib.Object {
 
         shuffle_btn = new Gtk.ToggleButton ();
         shuffle_btn.set_image (new Gtk.Image.from_icon_name ("media-playlist-shuffle-symbolic", IconSize.BUTTON));
-        shuffle_btn.clicked.connect ((button) => {
-        });
+        shuffle_btn.clicked.connect (on_shuffle_btn_clicked);
         toolbar_end.pack_start (shuffle_btn, false, false, 0);
 
         eventbox.show_all ();
@@ -258,6 +248,22 @@ private class Music.Player: GLib.Object {
 
     private void on_prev_btn_clicked (Gtk.Button button) {
         need_previous ();
+    }
+
+    private void need_next () {
+        playlist.load_next();
+    }
+
+    private void need_previous () {
+        playlist.load_previous();
+    }
+
+    private void on_shuffle_btn_clicked () {
+        playlist.shuffle = shuffle_btn.get_active ();
+    }
+
+    private void on_playlist_shuffle_mode_changed (bool mode) {
+        shuffle_btn.set_active (mode);
     }
 
     private void set_duration (uint duration) {

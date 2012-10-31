@@ -24,6 +24,7 @@ bin_PROGRAMS = gnome-music
 vala_sources = \
         music-app.vala          	\
         music-topbar.vala       	\
+        music-searchbar.vala 		\
         music-player.vala       	\
 		music-collection-view.vala	\
 		music-list-store.vala		\

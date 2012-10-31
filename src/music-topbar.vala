@@ -36,6 +36,7 @@ private class Music.Topbar {
     private Gtk.RadioButton collection_albums_btn;
     private Gtk.RadioButton collection_songs_btn;
     private Gtk.RadioButton collection_playlists_btn;
+    private Gtk.ToggleButton collection_search_btn;
     private Gtk.Button collection_select_btn;
 
     /* SELECTION buttons */
@@ -44,17 +45,20 @@ private class Music.Topbar {
     private Gtk.Label selection_name_label; 
     private Gtk.Label selection_count_label;
     private Gtk.Button selection_cancel_btn;
+    private Gtk.ToggleButton selection_search_btn;
     private Gtk.Button selection_add_btn;
 
     /* PLAYLIST buttons */
     private Gtk.Button playlist_back_btn;
     private Gtk.Button playlist_new_btn;
     private Gtk.Label playlist_name_label;
+    private Gtk.ToggleButton playlist_search_btn;
     private Gtk.Button playlist_select_btn;
 
     public Topbar () {
         setup_ui ();
-        App.app.app_state_changed.connect (on_app_state_changed);
+        App.app.app_state_changed.connect (on_app_state_changed); 
+        App.app.search_mode_changed.connect (on_app_search_mode_changed);
     }
 
     private void setup_ui () {
@@ -110,7 +114,13 @@ private class Music.Topbar {
         collection_playlists_btn.toggled.connect (on_collection_playlists_btn_toggled);
         toolbar_center.pack_start (collection_playlists_btn, false, false, 0);
 
-        var toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 0);
+        var toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 10);
+
+        collection_search_btn = new Gtk.ToggleButton ();
+        collection_search_btn.set_image (new Gtk.Image.from_icon_name ("edit-find-symbolic", IconSize.BUTTON));
+        collection_search_btn.set_active (App.app.search_mode);
+        collection_search_btn.toggled.connect (on_search_btn_toggled);
+        toolbar_end.pack_start (collection_search_btn, false, false, 0);
 
         collection_select_btn = new Gtk.Button ();
         collection_select_btn.set_image (new Gtk.Image.from_icon_name ("emblem-default-symbolic", IconSize.BUTTON));
@@ -161,7 +171,13 @@ private class Music.Topbar {
         toolbar_center.pack_start (selection_name_label, false, false, 0);
         toolbar_center.pack_start (selection_count_label, false, false, 0);
 
-        toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 5);
+        toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 10);
+
+        selection_search_btn = new Gtk.ToggleButton ();
+        selection_search_btn.set_image (new Gtk.Image.from_icon_name ("edit-find-symbolic", IconSize.BUTTON));
+        selection_search_btn.set_active (App.app.search_mode);
+        selection_search_btn.toggled.connect (on_search_btn_toggled);
+        toolbar_end.pack_start (selection_search_btn, false, false, 0);
 
         selection_cancel_btn = new Gtk.Button.with_label (_("Cancel"));
         selection_cancel_btn.get_style_context ().add_class ("dark");
@@ -204,7 +220,13 @@ private class Music.Topbar {
         playlist_name_label = new Gtk.Label (_("Collection name"));
         toolbar_center.pack_start (playlist_name_label, false, false, 0);
 
-        toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 5);
+        toolbar_end = new Gtk.Box (Orientation.HORIZONTAL, 10);
+
+        playlist_search_btn = new Gtk.ToggleButton ();
+        playlist_search_btn.set_image (new Gtk.Image.from_icon_name ("edit-find-symbolic", IconSize.BUTTON));
+        playlist_search_btn.set_active (App.app.search_mode);
+        playlist_search_btn.toggled.connect (on_search_btn_toggled);
+        toolbar_end.pack_start (playlist_search_btn, false, false, 0);
 
         playlist_select_btn = new Gtk.Button ();
         playlist_select_btn.set_image (new Gtk.Image.from_icon_name ("emblem-default-symbolic", IconSize.BUTTON));
@@ -288,6 +310,24 @@ private class Music.Topbar {
 
     private void on_collection_back_btn_clicked (Gtk.Button button) {
         collection_back_btn_clicked ();
+    }
+
+    private void on_search_btn_toggled (Gtk.ToggleButton button) {
+        App.app.search_mode = button.get_active();
+    }
+
+    private void on_app_search_mode_changed (bool search_enabled) {
+        collection_search_btn.toggled.disconnect (on_search_btn_toggled);
+        collection_search_btn.set_active (search_enabled);
+        collection_search_btn.toggled.connect (on_search_btn_toggled);
+
+        selection_search_btn.toggled.disconnect (on_search_btn_toggled);
+        selection_search_btn.set_active (search_enabled);
+        selection_search_btn.toggled.connect (on_search_btn_toggled);
+
+        playlist_search_btn.toggled.disconnect (on_search_btn_toggled);
+        playlist_search_btn.set_active (search_enabled);
+        playlist_search_btn.toggled.connect (on_search_btn_toggled);
     }
 
     private void update_collection_select_btn_sensitivity () {

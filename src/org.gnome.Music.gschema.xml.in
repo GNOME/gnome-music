@@ -21,5 +21,10 @@
             <_summary>Shuffle playback</_summary>
             <_description>If true, do randomized playback through the collection</_description>
         </key>
+        <key name="search" type="b">
+            <default>false</default>
+            <_summary>Search mode</_summary>
+            <_description>If true, the search bar is shown</_description>
+        </key>
     </schema>
 </schemalist>
