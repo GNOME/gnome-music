@@ -29,6 +29,8 @@ private class Music.Searchbar {
 
     private void setup_ui () {
         eventbox = new Gtk.EventBox ();
+        eventbox.margin_top = 5;
+        eventbox.margin_bottom = 5;
         //eventbox.get_style_context ().add_class ("music-topbar");
 
         var container = new Gd.MarginContainer ();
@@ -37,7 +39,6 @@ private class Music.Searchbar {
         eventbox.add (container);
 
         var box = new Gtk.Box (Orientation.HORIZONTAL, 0);
-        box.set_padding (5, 5, 5, 5);
         container.add (box);
 
         search_entry = new Gd.TaggedEntry();
@@ -75,5 +76,9 @@ private class Music.Searchbar {
 
     public void hide () {
         actor.hide();
+    }
+
+    public void grab_focus () {
+        search_entry.grab_focus ();
     }
 }

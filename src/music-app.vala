@@ -131,6 +131,13 @@ private class Music.App {
                                    "wrap-license", true);
         });
         application.add_action (action);
+
+        action = new GLib.SimpleAction ("search", null);
+        action.activate.connect (() => {
+            this.search_mode = true;
+        });
+        application.add_action (action);
+        application.add_accelerator ("<Primary>f", "app.search", null);
     }
 
     private void setup_app () {
@@ -182,13 +189,8 @@ private class Music.App {
         layout.pack_start (topbar.actor, false, false);
 
         searchbar = new Music.Searchbar ();
-        if (search_mode == true) {
-            searchbar.show();
-        }
-        else {
-            searchbar.hide();
-        }
         layout.pack_start (searchbar.actor, false, false);
+        this.search_mode = false;
 
         notebook = new Gtk.Notebook ();
         notebook.show_border = false;
@@ -295,6 +297,13 @@ private class Music.App {
         set {
             if (value != this.search_mode) {
                 settings.set_boolean ("search", value);
+            }
+            if (value == true) {
+                searchbar.show();
+                searchbar.grab_focus();
+            }
+            else {
+                searchbar.hide();
             }
         }
     }
