@@ -37,8 +37,6 @@
     color: @theme_base_color;
 }
 
-
-
 .music-selection-mode .button.dark,
 .music-selection-mode .button.dark:focus {
     background-image: -gtk-gradient(linear, left top, left bottom,
@@ -52,9 +50,6 @@
 
     color: @theme_base_color;
 }
-
-
-
 
 .music-selection-mode .button:hover {
     background-image: -gtk-gradient(linear, left top, left bottom,
@@ -85,7 +80,6 @@
                                       @button_gradient_color_b 40%,
                                       @button_gradient_color_c
                                       );
-    background-color: transparent;
 }
 
 .music-albuminfo-artist {

@@ -40,7 +40,11 @@ private class Music.App {
     public signal void search_mode_changed (bool search_enabled);
 
     public Gtk.ApplicationWindow window;
-    private bool maximized { get { return WindowState.MAXIMIZED in window.get_window ().get_state (); } }
+    private bool maximized {
+        get {
+            return WindowState.MAXIMIZED in window.get_window ().get_state ();
+        }
+    }
     public GLib.Settings settings;
 
     public Gtk.Box layout;
