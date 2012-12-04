@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-03 23:26+0200\n"
-"PO-Revision-Date: 2012-09-03 23:27+0200\n"
+"POT-Creation-Date: 2012-12-04 14:52+0100\n"
+"PO-Revision-Date: 2012-12-04 14:53+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -55,51 +55,51 @@ msgstr "Wydane"
 msgid "Running Length"
 msgstr "Czas trwania"
 
-#: ../src/music-app.vala:80 ../src/music-topbar.vala:78
+#: ../src/music-app.vala:107 ../src/music-topbar.vala:82
 msgid "New"
 msgstr "Nowy"
 
-#: ../src/music-app.vala:81
+#: ../src/music-app.vala:108
 msgid "About Music"
 msgstr "O menedżerze muzyki"
 
-#: ../src/music-app.vala:82
+#: ../src/music-app.vala:109
 msgid "Quit"
 msgstr "Zakończ"
 
-#: ../src/music-app.vala:117
+#: ../src/music-app.vala:128
 msgid "translator-credits"
 msgstr ""
 "Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
 "Aviary.pl <gnomepl@aviary.pl>, 2012"
 
-#: ../src/music-app.vala:118
+#: ../src/music-app.vala:129
 msgid "A GNOME 3 application to listen and manage music playlists"
 msgstr ""
 "Program do słuchania muzyki i zarządzania listami odtwarzania dla środowiska "
 "GNOME 3"
 
-#: ../src/music-topbar.vala:93
+#: ../src/music-topbar.vala:97
 msgid "Artists"
 msgstr "Wykonawcy"
 
-#: ../src/music-topbar.vala:98
+#: ../src/music-topbar.vala:102
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../src/music-topbar.vala:103
+#: ../src/music-topbar.vala:107
 msgid "Songs"
 msgstr "Utwory"
 
-#: ../src/music-topbar.vala:108
+#: ../src/music-topbar.vala:112
 msgid "Playlists"
 msgstr "Listy odtwarzania"
 
-#: ../src/music-topbar.vala:159 ../src/music-topbar.vala:204
+#: ../src/music-topbar.vala:169 ../src/music-topbar.vala:220
 msgid "Collection name"
 msgstr "Nazwa kolekcji"
 
-#: ../src/music-topbar.vala:166
+#: ../src/music-topbar.vala:182
 msgid "Cancel"
 msgstr "Anuluj"
 
@@ -144,3 +144,13 @@ msgstr "Odtwarzanie losowe"
 #: ../src/org.gnome.Music.gschema.xml.in.h:8
 msgid "If true, do randomized playback through the collection"
 msgstr "Jeśli jest ustawione na wartość \"true\", to losowo odtwarza kolekcję"
+
+#: ../src/org.gnome.Music.gschema.xml.in.h:9
+msgid "Search mode"
+msgstr "Tryb wyszukiwania"
+
+#: ../src/org.gnome.Music.gschema.xml.in.h:10
+msgid "If true, the search bar is shown"
+msgstr ""
+"Jeśli jest ustawione na wartość \"true\", to wyświetlany jest pasek "
+"wyszukiwania"
