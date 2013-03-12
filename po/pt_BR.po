@@ -1,15 +1,15 @@
 # Brazilian Portuguese translation for gnome-music.
 # Copyright (C) 2012 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012.
+# Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2012-12-26 23:48+0000\n"
-"PO-Revision-Date: 2012-12-31 05:37-0300\n"
+"POT-Creation-Date: 2013-01-23 07:19+0000\n"
+"PO-Revision-Date: 2013-02-22 00:06-0300\n"
 "Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../data/gnome-music.desktop.in.in.h:1
 msgid "Music"
@@ -30,9 +31,7 @@ msgstr "Reprodutor de música"
 msgid "Play and organize your music collection"
 msgstr "Reproduza e organize sua coleção de músicas"
 
-# Does this belong gnome-music ?
 #: ../src/app-menu.ui.h:1
-#, fuzzy
 msgid "_Change Address Book..."
 msgstr "_Alterar o catálogo de endereços..."
 
