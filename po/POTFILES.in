@@ -1,7 +1,0 @@
-data/gnome-music.desktop.in.in
-[type: gettext/glade]src/app-menu.ui
-src/music-album-info-box.vala
-src/music-app.vala
-src/music-topbar.vala
-src/music-utils.vala
-src/org.gnome.Music.gschema.xml.in

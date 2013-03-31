@@ -1,68 +1,35 @@
-AC_PREREQ([2.67])
-AC_INIT([gnome-music],[0.0.0],[https://github.com/tapia/gnome-music])
-AC_CONFIG_SRCDIR([src/main.vala])
+AC_PREREQ(2.63)
+AC_INIT([gnome-music],[0.2],
+	[https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music],
+	[gnome-music],
+	[https://live.gnome.org/Design/Apps/Music])
+
 AC_CONFIG_HEADERS([config.h])
-AM_INIT_AUTOMAKE
-# Enable silent rules is available
-AM_SILENT_RULES([yes])
-AM_MAINTAINER_MODE([enable])
+AC_CONFIG_MACRO_DIR([m4])
 
-LT_INIT
+AM_INIT_AUTOMAKE([1.11 dist-xz foreign tar-ustar -Wno-portability])
+
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
 AC_PROG_CC
-AM_PROG_VALAC([0.17])
-AC_PROG_INSTALL
+AM_PROG_CC_C_O
+LT_INIT([disable-static])
 
-GOBJECT_INTROSPECTION_REQUIRE([0.9.6])
+LIBGD_INIT([header-bar main-toolbar main-view stack revealer gir])
+
+PKG_PROG_PKG_CONFIG([0.22])
 
 GLIB_GSETTINGS
+GOBJECT_INTROSPECTION_REQUIRE([1.30.0])
 
-# i18n stuff
-IT_PROG_INTLTOOL([0.40])
+AC_PATH_PROG([GJS],[gjs])
 
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.17])
+GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
+AC_SUBST(GLIB_COMPILE_RESOURCES)
 
-GETTEXT_PACKAGE=gnome-music
-AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], ["$GETTEXT_PACKAGE"], [Gettext Package])
-AC_SUBST(GETTEXT_PACKAGE)
-
-SQLITE_MIN_VERSION=3.7.14
-GLIB_MIN_VERSION=2.31.0
-GTK_MIN_VERSION=3.5.6
-GRILO_MIN_VERSION=0.2
-GEE_MIN_VERSION=0.6.4
-GSTREAMER_MIN_VERSION=0.10
-
-PKG_CHECK_MODULES(MUSIC, [
-  sqlite3 >= $SQLITE_MIN_VERSION
-  glib-2.0 >= $GLIB_MIN_VERSION
-  gtk+-3.0 >= $GTK_MIN_VERSION
-  grilo-0.2 >= $GRILO_MIN_VERSION
-  gee-1.0 >= $GEE_MIN_VERSION
-  gstreamer-0.10 >= $GSTREAMER_MIN_VERSION
+AC_CONFIG_FILES([
+  Makefile
+  libgd/Makefile
+  src/Makefile
 ])
-
-MUSIC_PACKAGES="--pkg glib-2.0 --pkg gtk+-3.0 --pkg grilo-0.2 --pkg gee-1.0 --pkg gstreamer-0.10"
-AC_SUBST(MUSIC_PACKAGES)
-
-LIBGD_INIT([
-  gtk-hacks
-  main-toolbar
-  main-icon-view
-  margin-container
-  static
-  tagged-entry
-  vapi
-])
-
-AC_CONFIG_FILES([Makefile
-                 vapi/Makefile
-                 vapi/upstream/Makefile
-                 src/Makefile
-                 libgd/Makefile
-                 data/Makefile
-                 po/Makefile.in
-                 data/gnome-music.desktop.in
-                 ])
-
 AC_OUTPUT
