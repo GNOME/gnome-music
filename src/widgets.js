@@ -32,7 +32,7 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
 const ClickableLabel = new Lang.Class({
     Name: "ClickableLabel",
-    Extends: Gtk.Button,
+    Extends: Gtk.Box,
     
     _init: function (track) {
         this.track = track
@@ -40,6 +40,7 @@ const ClickableLabel = new Lang.Class({
         var duration = track.get_duration()
         let box = new Gtk.HBox();
         let label = new Gtk.Label({ label : text });
+        label.ellipsize = 2;
         label.set_alignment(0.0, 0.5)
 
         var minutes = parseInt(duration / 60);
@@ -50,18 +51,22 @@ const ClickableLabel = new Lang.Class({
         else
             time = minutes + ":" + seconds;
         let length_label = new Gtk.Label({ label : time });
-        length_label.set_alignment(0.0, 0.5)
+        length_label.set_alignment(1.0, 0.5)
         
         this.parent();
-        this.set_relief(Gtk.ReliefStyle.NONE);
-        this.set_can_focus(false);
-        box.homogeneous = true;
         box.pack_start(label, true, true, 0);
         box.pack_end(length_label, true, true, 0);
-        this.add(box);
+        this.button = new Gtk.Button ();
+        this.button.add(box);
+        this.pack_start(this.button, true, true, 0);
+        this.pack_start(new Gtk.Box (), true, true, 0);
+        this.homogeneous = true;
+        //this.add(box);
+        this.button.set_relief(Gtk.ReliefStyle.NONE);
+        this.button.set_can_focus(false);
         this.show_all();
             
-        this.connect("clicked", Lang.bind(this, this._on_btn_clicked));
+        this.button.connect("clicked", Lang.bind(this, this._on_btn_clicked));
     },
     
     _on_btn_clicked: function(btn) {
@@ -152,7 +157,7 @@ const AlbumWidget = new Lang.Class({
                 duration = duration + track.get_duration()
                 this.tracks_labels[track.get_title()] = new ClickableLabel (track);
                 this.songsList.pack_start(this.tracks_labels[track.get_title()], false, false, 0);
-                this.running_length_label_info.set_text(parseInt(duration/60) + " min")
+                this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min")
             }
         }));
 
