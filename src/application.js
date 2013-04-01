@@ -135,5 +135,6 @@ const Application = new Lang.Class({
         this.parent();
         Gtk.init(null);
         this._buildApp();
+        this._buildAppMenu();
     }
 });
