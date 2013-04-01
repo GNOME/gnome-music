@@ -131,7 +131,7 @@ const Application = new Lang.Class({
         this._stack.set_visible_child(this.views[i])
     },
 
-    switchToView: function(view) {
+    /*switchToView: function(view) {
         if (view == 'artists') {
             this.notebook.set_current_page(0);
         }
@@ -149,7 +149,7 @@ const Application = new Lang.Class({
         }
 
         this.notebook.show_all();
-    },
+    },*/
 
     _onActivate: function() {
         this._window.show();
