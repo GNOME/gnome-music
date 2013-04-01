@@ -4,7 +4,7 @@ nodist_bin_SCRIPTS = gnome-music
 
 jsdir = $(pkgdatadir)
 dist_js_DATA = \
-	album_art_cache.js \
+	albumArtCache.js \
 	player.js \
 	toolbar.js \
 	application.js \

@@ -27,7 +27,7 @@ const Query = imports.query;
 const Grilo = imports.grilo;
 
 const grilo = Grilo.grilo;
-const AlbumArtCache = imports.album_art_cache;
+const AlbumArtCache = imports.albumArtCache;
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
 const ClickableLabel = new Lang.Class({

@@ -27,7 +27,7 @@ const GLib = imports.gi.GLib;
 //pkg.initSubmodule('libgd');
 
 const Mainloop = imports.mainloop;
-const AlbumArtCache = imports.album_art_cache;
+const AlbumArtCache = imports.albumArtCache;
 
 const ART_SIZE = 240;
 

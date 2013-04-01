@@ -36,7 +36,7 @@ const Widgets = imports.widgets;
 const Toolbar = imports.toolbar;
 
 const tracker = Tracker.SparqlConnection.get (null);
-const AlbumArtCache = imports.album_art_cache;
+const AlbumArtCache = imports.albumArtCache;
 const Grilo = imports.grilo;
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
