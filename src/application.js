@@ -52,12 +52,8 @@ const Application = new Lang.Class({
             flags: Gio.ApplicationFlags.FLAGS_NONE,
             inactivity_timeout: 12000
         });
-
-        //GLib.set_prgname('gnome-music');
+        
         GLib.set_application_name(_("Music"));
-
-        //this.connect('activate', Lang.bind(this, this._onActivate));
-        //this.connect('startup', Lang.bind(this, this._onStartup));
     },
 
     _buildApp: function() {
@@ -130,26 +126,6 @@ const Application = new Lang.Class({
     _toggleView: function(btn, i) {
         this._stack.set_visible_child(this.views[i])
     },
-
-    /*switchToView: function(view) {
-        if (view == 'artists') {
-            this.notebook.set_current_page(0);
-        }
-
-        else if (view == 'albums') {
-            this.notebook.set_current_page(1);
-        }
-
-        else if (view == 'songs') {
-            this.notebook.set_current_page(2);
-        }
-
-        else if (view == 'playlists') {
-            this.notebook.set_current_page(3);
-        }
-
-        this.notebook.show_all();
-    },*/
 
     vfunc_activate: function() {
         this._window.present();
