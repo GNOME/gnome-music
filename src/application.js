@@ -56,7 +56,7 @@ const Application = new Lang.Class({
         //GLib.set_prgname('gnome-music');
         GLib.set_application_name(_("Music"));
 
-       // this.connect('activate', Lang.bind(this, this._onActivate));
+        //this.connect('activate', Lang.bind(this, this._onActivate));
         //this.connect('startup', Lang.bind(this, this._onStartup));
     },
 
@@ -152,10 +152,12 @@ const Application = new Lang.Class({
     },*/
 
     vfunc_activate: function() {
-        this._window.show();
+        this._window.present();
     },
 
     vfunc_startup: function() {
+        this.parent();
+        Gtk.init(null);
         this._buildApp();
     }
 });
