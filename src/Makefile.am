@@ -12,6 +12,7 @@ dist_js_DATA = \
 	grilo.js \
 	query.js \
 	widgets.js \
+	window.js \
 	main.js \
 	package.js \
 	searchbar.js \

@@ -23,4 +23,8 @@ const GIRepository = imports.gi.GIRepository;
 const App = imports.application;
 
 let app = new App.Application();
-app.run(ARGV);
+//app.run(ARGV);
+
+function main(argv) {
+    return app.run(argv);
+}
