@@ -22,9 +22,7 @@ pkg.initSubmodule('libgd')
 const GIRepository = imports.gi.GIRepository;
 const App = imports.application;
 
-let app = new App.Application();
-//app.run(ARGV);
-
 function main(argv) {
+    let app = new App.Application();
     return app.run(argv);
 }

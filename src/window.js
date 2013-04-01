@@ -17,7 +17,7 @@
  * Author: Eslam Mostafa <cseslam@gmail.com>
  *
  */
- 
+
 const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
@@ -33,7 +33,7 @@ const Player = imports.player;
 const MainWindow = new Lang.Class({
     Name: "MainWindow",
     Extends: Gtk.ApplicationWindow,
-    
+
     _init: function (app) {
         this.parent({
             application: app,
@@ -89,8 +89,8 @@ const MainWindow = new Lang.Class({
 
     _onNotifyMode: function(stack, param) {
         stack.get_visible_child().populate();
-    },        
-    
+    },
+
     _toggleView: function(btn, i) {
         this._stack.set_visible_child(this.views[i])
     },

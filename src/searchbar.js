@@ -35,30 +35,30 @@ const Searchbar = new Lang.Class({
     _init: function() {
         this._setup_ui();
     },
-    
+
     _setup_ui: function() {
         this._eventbox = new Gtk.EventBox();
         //this._eventbox.margin_top = 5;
         //this._eventbox.margin_bottom = 5;
-        
+
         let container = new Gd.MarginContainer();
         //container.min_margin = 64;
         //container.max_margin = 128;
         this._eventbox.add (container);
-        
+
         let box = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, spacing : 0});
         container.add(box);
-        
+
         this._search_entry = new Gd.TaggedEntry();
         this._search_entry.hexpand = true;
         this._search_entry.key_press_event.connect (on_search_entry_key_pressed);
         this._search_entry.changed.connect (on_search_entry_changed);
         this._search_entry.tag_clicked.connect (on_search_entry_tag_clicked);
         box.add (this._search_entry);
-        
+
         this._eventbox.show_all();
     },
-    
+
     _on_search_entry_key_pressed: function(e) {
         let keyval = e.keyval;
         
@@ -66,30 +66,30 @@ const Searchbar = new Lang.Class({
             //App.app.search_mode = false;
             return true;
         }
-        
+
         return false;
     },
-    
+
     _on_search_entry_changed: function() {
         debug("2");
     },
-    
+
     _on_search_entry_tag_clicked: function() {
         debug("3");
     },
-    
+
     show: function() {
         this.actor.show();
     },
-    
+
     hide: function() {
         this.actor.hide();
     },
-    
+
     grab_focus: function() {
         this._search_entry.grab_focus();
     },
-    
+
 });
 
 const Dropdown = new Lang.Class({

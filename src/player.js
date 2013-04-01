@@ -80,8 +80,8 @@ const Player = new Lang.Class({
         this.eventbox.set_spacing(9)
         this.eventbox.set_border_width(9)
         toolbar_start = new Gtk.Box({
-            orientation:        Gtk.Orientation.HORIZONTAL,
-            spacing:            0
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 0
         });
         toolbar_start.get_style_context().add_class(Gtk.STYLE_CLASS_LINKED);
 
@@ -102,40 +102,40 @@ const Player = new Lang.Class({
         this.eventbox.pack_start(toolbar_start, false, false, 3)
 
         toolbar_song_info = new Gtk.Box({
-            orientation:        Gtk.Orientation.HORIZONTAL,
-            spacing:            0
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 0
         });
 
         this.cover_img = new Gtk.Image();
         toolbar_song_info.pack_start(this.cover_img, false, false, 0);
 
         databox = new Gtk.Box({
-            orientation:        Gtk.Orientation.VERTICAL,
-            spacing:            0
+            orientation: Gtk.Orientation.VERTICAL,
+            spacing: 0
         });
         toolbar_song_info.pack_start(databox, false, false, 0);
         toolbar_start.pack_start(toolbar_song_info, false, false, 9)
 
 
         this.title_lbl = new Gtk.Label({
-            label:              ""
+            label: ""
         });
         databox.pack_start(this.title_lbl, false, false, 0);
 
         artist_lbl = new Gtk.Label({
-            label:              ""
+            label: ""
         });
         artist_lbl.get_style_context().add_class("dim-label");
         databox.pack_start(artist_lbl, false, false, 0);
 
         toolbar_center = new Gtk.Box({
-            orientation:        Gtk.Orientation.HORIZONTAL,
-            spacing:            0
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 0
         });
 
         this.progress_scale = new Gtk.Scale({
-            orientation:        Gtk.Orientation.HORIZONTAL,
-            sensitive:          false
+            orientation: Gtk.Orientation.HORIZONTAL,
+            sensitive: false
         });
         this.progress_scale.set_draw_value(false);
         this._setDuration(1);
@@ -158,14 +158,14 @@ const Player = new Lang.Class({
         this.eventbox.pack_start(toolbar_center, true, true, 0)
 
         toolbar_end = new Gtk.Box({
-            orientation:        Gtk.Orientation.HORIZONTAL,
-            spacing:            5
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 5
         });
         alignment = new Gtk.Alignment({
-            xalign:             1,
-            yalign:             0.5,
-            xscale:             0,
-            yscale:             0
+            xalign: 1,
+            yalign: 0.5,
+            xscale: 0,
+            yscale: 0
         });
         this.eventbox.pack_end(toolbar_end, false, false, 3);
 

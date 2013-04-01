@@ -292,16 +292,16 @@ const Albums = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
-        var iter = this._model.get_iter (path)[1]
-        var title = this._model.get_value (iter, 2)
-        var artist = this._model.get_value (iter, 3)
-        var item = this._model.get_value (iter, 5)
-        var window = new Gtk.Window ()
-        this._albumWidget.update (artist, title, item)
+        var iter = this._model.get_iter (path)[1];
+        var title = this._model.get_value (iter, 2);
+        var artist = this._model.get_value (iter, 3);
+        var item = this._model.get_value (iter, 5);
+        var window = new Gtk.Window ();
+        this._albumWidget.update (artist, title, item);
         this.header_bar.setState (0);
-        this.header_bar.title = title
-        this.header_bar.sub_title = artist
-        this.visible_child = this._albumWidget
+        this.header_bar.title = title;
+        this.header_bar.sub_title = artist;
+        this.visible_child = this._albumWidget;
     },
 
     populate: function() {

@@ -32,9 +32,9 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
 const ClickableLabel = new Lang.Class({
     Name: "ClickableLabel",
-    Extends: Gtk.Button,    
+    Extends: Gtk.Button,
     
-    _init: function (track) {        
+    _init: function (track) {
         this.track = track
         var text = track.get_title()
         var duration = track.get_duration()
@@ -143,7 +143,7 @@ const AlbumWidget = new Lang.Class({
     update: function (artist, album, item) {
         var pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         let duration = 0;
-        for (let t in this.tracks_labels) {            
+        for (let t in this.tracks_labels) {
             this.songsList.remove(this.tracks_labels[t]);
         }
         this.tracks_labels = {};
@@ -157,14 +157,14 @@ const AlbumWidget = new Lang.Class({
         }));
 
         //update labels view
-        var i = 0 ;                                        
-        for (let t in this.tracks_labels) {                                
-            let length = new Gtk.Label ({label : tracks[t]}); //use this._toTimeLength()    
+        var i = 0 ;
+        for (let t in this.tracks_labels) {
+            let length = new Gtk.Label ({label : tracks[t]});
             this.songsList.pack_start(this.tracks_labels[t], false, false, 0);
             this.running_length = this.running_length+ parseInt(tracks[t], 10);
             i++;
         }
-                
+
         if (pixbuf == null) {
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 256, true);
@@ -172,7 +172,7 @@ const AlbumWidget = new Lang.Class({
         this.cover.set_from_pixbuf (pixbuf);
         
         this.setArtistLabel(artist);
-        this.setTitleLabel(album);        
+        this.setTitleLabel(album);
     },
     
     setArtistLabel: function(artist) {
