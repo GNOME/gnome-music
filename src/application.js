@@ -77,7 +77,7 @@ const Application = new Lang.Class({
 
         this.player = new Player.Player();
 
-        this.views = new Array();
+        this.views = [];
 
         this.toolbar = new Toolbar.Toolbar();
         this._stack = new Gd.Stack({
