@@ -48,8 +48,8 @@ const Application = new Lang.Class({
 
     _init: function() {
         this.parent({
-            application_id:     'org.gnome.Music',
-            flags:              Gio.ApplicationFlags.FLAGS_NONE,
+            application_id: 'org.gnome.Music',
+            flags: Gio.ApplicationFlags.FLAGS_NONE,
             inactivity_timeout: 12000
         });
 
@@ -62,17 +62,17 @@ const Application = new Lang.Class({
 
     _buildApp: function() {
         this._window = new Gtk.ApplicationWindow({
-            application:        this,
-            title:              _("Music"),
-            window_position:    Gtk.WindowPosition.CENTER,
+            application: this,
+            title: _("Music"),
+            window_position: Gtk.WindowPosition.CENTER,
             hide_titlebar_when_maximized: true
         });
 
 
         this._window.set_size_request (800, 600)
         this.vbox = new Gtk.Box({
-            orientation:        Gtk.Orientation.VERTICAL,
-            spacing:            0
+            orientation: Gtk.Orientation.VERTICAL,
+            spacing: 0
         });
 
         this.player = new Player.Player();
@@ -81,7 +81,7 @@ const Application = new Lang.Class({
 
         this.toolbar = new Toolbar.Toolbar();
         this._stack = new Gd.Stack({
-            visible:            true
+            visible: true
         });
 
         this._window.set_default_size(640, 400);
