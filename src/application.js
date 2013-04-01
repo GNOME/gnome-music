@@ -58,7 +58,7 @@ const Application = new Lang.Class({
 
         this.connect('activate', Lang.bind(this, this._onActivate));
         this.connect('startup', Lang.bind(this, this._onStartup));
-   },
+    },
 
     _buildApp: function() {
         this._window = new Gtk.ApplicationWindow({
