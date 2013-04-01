@@ -53,7 +53,7 @@ const Application = new Lang.Class({
             inactivity_timeout: 12000
         });
 
-        GLib.set_prgname('gnome-music');
+        //GLib.set_prgname('gnome-music');
         GLib.set_application_name(_("Music"));
 
         this.connect('activate', Lang.bind(this, this._onActivate));
