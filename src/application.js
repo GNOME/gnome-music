@@ -58,15 +58,17 @@ const Application = new Lang.Class({
             menu;
 
         builder = new Gtk.Builder();
-        builder.add_from_file('resources/app-menu.ui'); //fix this
+        builder.add_from_resource('/org/gnome/music/app-menu.ui');
 
         menu = builder.get_object('app-menu');
         this.set_app_menu(menu);
     },
 
     vfunc_startup: function() {
-        Gtk.init(null);
         this.parent();
+
+        let resource = Gio.Resource.load(pkg.pkgdatadir + '/gnome-music.gresource');
+        resource._register();
 
         this._window = new Window.MainWindow(this);
         this._buildAppMenu();

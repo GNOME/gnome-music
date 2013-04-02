@@ -3,28 +3,28 @@
     <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="gnome-music">
         <key name="window-size" type="ai">
             <default>[768, 600]</default>
-            <_summary>Window size</_summary>
-            <_description>Window size (width and height).</_description>
+            <summary>Window size</summary>
+            <description>Window size (width and height).</description>
         </key>
         <key name="window-position" type="ai">
             <default>[]</default>
-            <_summary>Window position</_summary>
-            <_description>Window position (x and y).</_description>
+            <summary>Window position</summary>
+            <description>Window position (x and y).</description>
         </key>
         <key name="window-maximized" type="b">
             <default>true</default>
-            <_summary>Window maximized</_summary>
-            <_description>Window maximized state</_description>
+            <summary>Window maximized</summary>
+            <description>Window maximized state</description>
         </key>
         <key name="shuffle" type="b">
             <default>false</default>
-            <_summary>Shuffle playback</_summary>
-            <_description>If true, do randomized playback through the collection</_description>
+            <summary>Shuffle playback</summary>
+            <description>If true, do randomized playback through the collection</description>
         </key>
         <key name="search" type="b">
             <default>false</default>
-            <_summary>Search mode</_summary>
-            <_description>If true, the search bar is shown</_description>
+            <summary>Search mode</summary>
+            <description>If true, the search bar is shown</description>
         </key>
     </schema>
 </schemalist>
