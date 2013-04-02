@@ -85,8 +85,8 @@ const Grilo = new Lang.Class({
                 Lang.bind(this, callback, null));
     },
 
-    getAlbumSongs: function (artist, album, callback) {
-        var query =  Query.album_songs(artist, album);
+    getAlbumSongs: function (album_id, callback) {
+        var query =  Query.album_songs(album_id);
         var options = Grl.OperationOptions.new(null);
         options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
         grilo.tracker.query(

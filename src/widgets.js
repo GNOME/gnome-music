@@ -88,7 +88,6 @@ const AlbumWidget = new Lang.Class({
         this.vbox = new Gtk.VBox();
         this.title_label = new Gtk.Label({label : ""});
         this.artist_label = new Gtk.Label({label : ""});
-        this.tracks_labels = {};
         this.running_length = 0;
         this.released_label = new Gtk.Label()
         this.released_label.set_markup ("<span color='grey'>Released</span>");
@@ -148,11 +147,12 @@ const AlbumWidget = new Lang.Class({
     update: function (artist, album, item) {
         var pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         let duration = 0;
-        for (let t in this.tracks_labels) {
-            this.songsList.remove(this.tracks_labels[t]);
+        var children = this.songsList.get_children();
+        for (let i in children) {
+            if (i > 0 && i < children.length - 1)
+            this.songsList.remove(children[i]);
         }
-        this.tracks_labels = {};
-        grilo.getAlbumSongs(artist, album, Lang.bind(this, function (source, prefs, track) {
+        grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
                 duration = duration + track.get_duration()
                 this.tracks_labels[track.get_title()] = new ClickableLabel (track);
@@ -160,15 +160,6 @@ const AlbumWidget = new Lang.Class({
                 this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min")
             }
         }));
-
-        //update labels view
-        var i = 0 ;
-        for (let t in this.tracks_labels) {
-            let length = new Gtk.Label ({label : tracks[t]});
-            this.songsList.pack_start(this.tracks_labels[t], false, false, 0);
-            this.running_length = this.running_length+ parseInt(tracks[t], 10);
-            i++;
-        }
 
         if (pixbuf == null) {
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
