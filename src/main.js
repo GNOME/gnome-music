@@ -17,7 +17,8 @@
  *
  */
 
-pkg.initSubmodule('libgd')
+pkg.initSubmodule('libgd');
+pkg.initGettext();
 
 const GIRepository = imports.gi.GIRepository;
 const App = imports.application;

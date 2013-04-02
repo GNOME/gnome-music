@@ -1,0 +1,13 @@
+data/gnome-music.desktop.in
+src/albumArtCache.js
+src/application.js
+src/grilo.js
+src/main.js
+src/package.js
+src/player.js
+src/query.js
+src/searchbar.js
+src/toolbar.js
+src/view.js
+src/widgets.js
+src/window.js

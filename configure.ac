@@ -11,6 +11,12 @@ AM_INIT_AUTOMAKE([1.11 dist-xz foreign tar-ustar -Wno-portability])
 
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
+GETTEXT_PACKAGE=gnome-music
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
+                   [The prefix for our gettext translation domains.])
+IT_PROG_INTLTOOL(0.26)
+
 AC_PROG_CC
 AM_PROG_CC_C_O
 LT_INIT([disable-static])
@@ -32,5 +38,6 @@ AC_CONFIG_FILES([
   data/Makefile
   libgd/Makefile
   src/Makefile
+  po/Makefile.in
 ])
 AC_OUTPUT
