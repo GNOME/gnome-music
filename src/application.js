@@ -70,6 +70,13 @@ const Application = new Lang.Class({
         let resource = Gio.Resource.load(pkg.pkgdatadir + '/gnome-music.gresource');
         resource._register();
 
+        let cssFile = Gio.File.new_for_uri('resource:///org/gnome/music/application.css');
+        let provider = new Gtk.CssProvider();
+        provider.load_from_file(cssFile);
+        Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
+                                                 provider,
+                                                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
         this._window = new Window.MainWindow(this);
         this._buildAppMenu();
     },

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/gnome/music">
-    <file>app-menu.ui</file>
+    <file preprocess="xml-stripblanks">app-menu.ui</file>
+    <file>application.css</file>
   </gresource>
 </gresources>
