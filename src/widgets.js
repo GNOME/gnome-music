@@ -35,6 +35,7 @@ const ClickableLabel = new Lang.Class({
     Extends: Gtk.Box,
     
     _init: function (track) {
+        this.parent();
         this.track = track
         var text = track.get_title()
         var duration = track.get_duration()
@@ -53,9 +54,9 @@ const ClickableLabel = new Lang.Class({
         let length_label = new Gtk.Label({ label : time });
         length_label.set_alignment(1.0, 0.5)
         
-        this.parent();
         box.pack_start(label, true, true, 0);
         box.pack_end(length_label, true, true, 0);
+        box.set_spacing(15)
         this.button = new Gtk.Button ();
         this.button.add(box);
         this.pack_start(this.button, true, true, 0);
@@ -126,9 +127,13 @@ const AlbumWidget = new Lang.Class({
 
         this.vbox.pack_start (new Gtk.Label({label:""}), false, false, 24);
         this.vbox.pack_start (this.cover, false, false, 0);
-        this.vbox.pack_start (this.title_label, false, false, 9);
-        this.vbox.pack_start (this.artist_label, false, false, 0);
-        this.vbox.pack_start (new Gtk.Label({label:""}), false, false, 6);
+
+        let artistBox = new Gtk.VBox();
+        artistBox.set_spacing(6);
+        artistBox.pack_start (this.title_label, false, false, 0);
+        artistBox.pack_start (this.artist_label, false, false, 0);
+
+        this.vbox.pack_start (artistBox, false, false, 24);
         this.vbox.pack_start(this.infobox, false, false, 0)
         this.box.pack_end (this.scrolledWindow, true, true, 0);
 
@@ -152,11 +157,11 @@ const AlbumWidget = new Lang.Class({
             if (i > 0 && i < children.length - 1)
             this.songsList.remove(children[i]);
         }
+        this.tracks_labels = {};
         grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
-                duration = duration + track.get_duration()
-                this.tracks_labels[track.get_title()] = new ClickableLabel (track);
-                this.songsList.pack_start(this.tracks_labels[track.get_title()], false, false, 0);
+                duration = duration + track.get_duration();
+                this.songsList.pack_start(new ClickableLabel (track), false, false, 0);
                 this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min")
             }
         }));
@@ -172,7 +177,7 @@ const AlbumWidget = new Lang.Class({
     },
     
     setArtistLabel: function(artist) {
-        this.artist_label.set_markup("<b><span size='large' color='grey'>" + artist + "</span></b>");
+        this.artist_label.set_markup("<span size='large' color='grey'>" + artist + "</span>");
     },
     
     setTitleLabel: function(title) {

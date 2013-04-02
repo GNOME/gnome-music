@@ -101,22 +101,27 @@ const Player = new Lang.Class({
         
         this.eventbox.pack_start(toolbar_start, false, false, 3)
 
-        toolbar_song_info = new Gtk.Box({
+
+        this.progress_scale = new Gtk.Scale({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            sensitive: false
+        });
+        this.progress_scale.set_draw_value(false);
+        this._setDuration(1);
+        this.progress_scale.connect("change_value", Lang.bind(this, this.onProgressScaleChangeValue));
+        
+        this.toolbar_song_info = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
             spacing: 0
         });
-
+        
         this.cover_img = new Gtk.Image();
-        toolbar_song_info.pack_start(this.cover_img, false, false, 0);
-
+        this.toolbar_song_info.pack_start(this.cover_img, false, false, 0);
         databox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
             spacing: 0
         });
-        toolbar_song_info.pack_start(databox, false, false, 0);
-        toolbar_start.pack_start(toolbar_song_info, false, false, 9)
-
-
+        
         this.title_lbl = new Gtk.Label({
             label: ""
         });
@@ -132,15 +137,12 @@ const Player = new Lang.Class({
             orientation: Gtk.Orientation.HORIZONTAL,
             spacing: 0
         });
-
-        this.progress_scale = new Gtk.Scale({
-            orientation: Gtk.Orientation.HORIZONTAL,
-            sensitive: false
-        });
-        this.progress_scale.set_draw_value(false);
-        this._setDuration(1);
-        this.progress_scale.connect("change_value", Lang.bind(this, this.onProgressScaleChangeValue));
+        
+        this.toolbar_song_info.pack_start(databox, false, false, 0);
+        
+        toolbar_center.pack_start(this.toolbar_song_info, false, false, 3);
         toolbar_center.pack_start(this.progress_scale, true, true, 0);
+        toolbar_center.pack_start(new Gtk.Label({}), false, false, 3);
 
         /*this.song_playback_time_lbl = new Gtk.Label({
             label:              "00:00"
@@ -155,6 +157,7 @@ const Player = new Lang.Class({
         });
         toolbar_center.pack_start(this.song_total_time_lbl, false, false, 0);
         */
+        
         this.eventbox.pack_start(toolbar_center, true, true, 0)
 
         toolbar_end = new Gtk.Box({
