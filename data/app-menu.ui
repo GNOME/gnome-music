@@ -15,7 +15,7 @@
     <section>
       <item>
         <attribute name="action">app.about</attribute>
-        <attribute name="label" translatable="yes">_About Contacts</attribute>
+        <attribute name="label" translatable="yes">_About Music</attribute>
       </item>
       <item>
         <attribute name="action">app.quit</attribute>
