@@ -48,58 +48,6 @@ function extractFileName(uri) {
 const grilo = Grilo.grilo;
 
 
-const LoadMoreButton = new Lang.Class({
-    Name: 'LoadMoreButton',
-    _init: function(counter) {
-        this._block = false;
-        this._counter = counter;
-        let child = new Gtk.Grid({ column_spacing: 10,
-                                   hexpand: true,
-                                   halign: Gtk.Align.CENTER,
-                                   visible: true });
-
-        this._spinner = new Gtk.Spinner({ halign: Gtk.Align.CENTER,
-                                          no_show_all: true });
-        this._spinner.set_size_request(16, 16);
-        child.add(this._spinner);
-
-        this._label = new Gtk.Label({ label: "Load More",
-                                      visible: true });
-        child.add(this._label);
-
-        this.widget = new Gtk.Button({ no_show_all: true,
-                                       child: child });
-        this.widget.get_style_context().add_class('documents-load-more');
-        this.widget.connect('clicked', Lang.bind(this,
-            function() {
-                this._label.label = "Loading...";
-                this._spinner.show();
-                this._spinner.start();
-            }));
-
-        this._onItemCountChanged();
-    },
-
-    _onItemCountChanged: function() {
-        let remainingDocs = this._counter();
-        let visible = !(remainingDocs <= 0 || this._block);
-        this.widget.set_visible(visible);
-
-        if (!visible) {
-            this._label.label = "Load More";
-            this._spinner.stop();
-            this._spinner.hide();
-        }
-    },
-
-    setBlock: function(block) {
-        if (this._block == block)
-            return;
-
-        this._block = block;
-        this._onItemCountChanged();
-    }
-});
 
 const ViewContainer = new Lang.Class({
     Name: "ViewContainer",
@@ -108,9 +56,11 @@ const ViewContainer = new Lang.Class({
     _init: function(title, header_bar) {
         this.parent({transition_type: Gd.StackTransitionType.CROSSFADE});
         this._grid = new Gtk.Grid({orientation: Gtk.Orientation.VERTICAL})
+        this._populated = false;
         this._iconWidth = -1
         this._iconHeight = 128
         this._offset = 0;
+        this._offset_old = 0;
         this._adjustmentValueId = 0;
         this._adjustmentChangedId = 0;
         this._scrollbarVisibleId = 0;
@@ -130,9 +80,9 @@ const ViewContainer = new Lang.Class({
         this.view.set_model(this._model);
         this._grid.add(this.view);
 
-        this._loadMore = new LoadMoreButton(this._getRemainingItemCount);
-        this._grid.add(this._loadMore.widget);
-        this._loadMore.widget.connect("clicked", Lang.bind(this, this.populate))
+        //this._loadMore = new LoadMoreButton(this._getRemainingItemCount);
+        //this._grid.add(this._loadMore.widget);
+        //this._loadMore.widget.connect("clicked", Lang.bind(this, this.populate))
         this.view.connect('item-activated',
                             Lang.bind(this, this._onItemActivated));
         this._cursor = null;
@@ -143,7 +93,7 @@ const ViewContainer = new Lang.Class({
 
         this.show_all();
         this._items = [];
-        this._loadMore.widget.hide();
+        //this._loadMore.widget.hide();
         this._connectView();
         grilo.connect('ready', Lang.bind(this, this.populate));
         this.header_bar.connect('state-changed', Lang.bind(this, this._onStateChanged))
@@ -176,7 +126,7 @@ const ViewContainer = new Lang.Class({
         // if there's no vscrollbar, or if it's not visible, hide the button
         if (!vScrollbar ||
             !vScrollbar.get_visible()) {
-            this._loadMore.setBlock(true);
+            //this._loadMore.setBlock(true);
             return;
         }
 
@@ -192,7 +142,12 @@ const ViewContainer = new Lang.Class({
             end = !(value < (upper - page_size - revealAreaHeight));
         if (this._getRemainingItemCount() <= 0)
             end = false;
-        this._loadMore.setBlock(!end);
+        if (end && this._populated) {
+            if ((this._offset - this._offset_old) >= 5) {
+                this._offset_old = this._offset;
+                this.populate();
+            }
+        }
     },
 
     populate: function() {
@@ -251,8 +206,8 @@ const ViewContainer = new Lang.Class({
             Lang.bind(this,
             function(source, param, item) {
                 var uri = item.get_thumbnail();
-                albumArtCache.getFromUri(uri, 
-                    artist, 
+                albumArtCache.getFromUri(uri,
+                    artist,
                     item.get_string(Grl.METADATA_KEY_ALBUM),
                     this._iconWidth,
                     this._iconHeight,
@@ -286,7 +241,7 @@ const Albums = new Lang.Class({
     },
 
     _onStateChanged: function (widget) {
-        if (this.header_bar.get_stack() != null && 
+        if (this.header_bar.get_stack() != null &&
             this == this.header_bar.get_stack().get_visible_child())
             this.visible_child = this._grid;
     },
@@ -305,8 +260,10 @@ const Albums = new Lang.Class({
     },
 
     populate: function() {
+        this._populated = false;
         if (grilo.tracker != null)
             grilo.populateAlbums (this._offset, Lang.bind(this, this._addItem, null));
+        this._populated = true;
     },
 
 });
@@ -368,8 +325,10 @@ const Songs = new Lang.Class({
     },
 
     populate: function() {
+        this._populated = false;
         if (grilo.tracker != null)
             grilo.populateSongs (this._offset, Lang.bind(this, this._addItem, null));
+        this._populated = true;
     },
 
 });
