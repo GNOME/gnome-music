@@ -62,6 +62,34 @@ const Application = new Lang.Class({
 
         menu = builder.get_object('app-menu');
         this.set_app_menu(menu);
+
+        let newPlaylistAction = new Gio.SimpleAction ({ name: 'newPlaylist' });
+        newPlaylistAction.connect('activate', Lang.bind(this,
+            function() {
+                log("newPlaylist action");
+            }));
+         this.add_action(newPlaylistAction);
+
+        let nowPlayingAction = new Gio.SimpleAction ({ name: 'nowPlaying' });
+        nowPlayingAction.connect('activate', Lang.bind(this,
+            function() {
+                log("nowPlaying action");
+            }));
+         this.add_action(nowPlayingAction);
+
+        let aboutAction = new Gio.SimpleAction ({ name: 'about' });
+        aboutAction.connect('activate', Lang.bind(this,
+            function() {
+                log("about action");
+            }));
+         this.add_action(aboutAction);
+
+        let quitAction = new Gio.SimpleAction ({ name: 'quit' });
+        quitAction.connect('activate', Lang.bind(this,
+            function() {
+                this.quit();
+            }));
+         this.add_action(quitAction);
     },
 
     vfunc_startup: function() {
@@ -79,8 +107,8 @@ const Application = new Lang.Class({
     },
     
     vfunc_activate: function() {
-        this._window = new Window.MainWindow(this);
         this._buildAppMenu();
+        this._window = new Window.MainWindow(this);
         this._window.present();
     },
 });
