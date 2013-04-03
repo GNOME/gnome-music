@@ -26,7 +26,7 @@ LIBGD_INIT([header-bar main-toolbar main-view stack revealer gir])
 PKG_PROG_PKG_CONFIG([0.22])
 
 GLIB_GSETTINGS
-GOBJECT_INTROSPECTION_REQUIRE([1.30.0])
+GOBJECT_INTROSPECTION_REQUIRE([1.35.9])
 
 AC_PATH_PROG([GJS],[gjs])
 
