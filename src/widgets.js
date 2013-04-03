@@ -136,7 +136,7 @@ const AlbumWidget = new Lang.Class({
         hbox.pack_start (new Gtk.Label({label: ""}), true, true, 0)
         hbox.pack_start (this.vbox, false, false, 0)
         this.hbox.pack_start (hbox, true, true, 64);
-        this.hbox.pack_start (this.box, true, true, 6);
+        this.hbox.pack_start (this.box, true, true, 0);
 
         this.get_style_context ().add_class ("view");
         this.get_style_context ().add_class ("content-view");

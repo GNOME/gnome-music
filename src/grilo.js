@@ -78,6 +78,7 @@ const Grilo = new Lang.Class({
         options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
         options.set_count(50);
         query = query + " OFFSET " + offset;
+        print ("populateItems:", query);
         grilo.tracker.query(
             query,
                 [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE, Grl.METADATA_KEY_ARTIST],
@@ -87,6 +88,7 @@ const Grilo = new Lang.Class({
 
     getAlbumSongs: function (album_id, callback) {
         var query =  Query.album_songs(album_id);
+        print ("getAlbumSongs:", query);
         var options = Grl.OperationOptions.new(null);
         options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
         grilo.tracker.query(
