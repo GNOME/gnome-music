@@ -177,7 +177,7 @@ const AlbumWidget = new Lang.Class({
     },
     
     setArtistLabel: function(artist) {
-        this.artist_label.set_markup("<span size='large' color='grey'>" + artist + "</span>");
+        this.artist_label.set_markup("<b><span size='large' color='grey'>" + artist + "</span></b>");
     },
     
     setTitleLabel: function(title) {
