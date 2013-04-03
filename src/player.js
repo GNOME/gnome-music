@@ -46,19 +46,67 @@ const PlayPauseButton = new Lang.Class({
 
 const Player = new Lang.Class({
     Name: "Player",
-    //Extends: GLib.Object,
 
-    _init: function(playlist) {
-        this.playlist = playlist;
+    _init: function() {
+        this.playlist = [];
+        this.currentTrack = 0;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
-        //Gst.init(null, 0);
-        //this.source = new Gst.ElementFactory.make("audiotestrc", "source");
-        //this.sink = new Gst.ElementFactory.make("autoaudiosink", "output");
-        //this.playbin = new Gst.ElementFactory.make("playbin", "playbin");
-        //this.bus = this.playbin.get_bus();
+        Gst.init(null, 0);
+        this.player = Gst.ElementFactory.make("playbin", "player");
+        this.bus = this.player.get_bus();
+        this.msg = this.bus.timed_pop_filtered (Gst.Clock.TIME_NONE, Gst.Message.ERROR | Gst.Message.EOS);
 
         this._setup_view();
+    },
+
+    setUri: function(uri) {
+        this.player.set_property("uri", uri);
+    },
+
+    play: function() {
+        this.stop();
+        this._setDuration(this.playlist[this.currentTrack].get_duration());
+        this.setUri(this.playlist[this.currentTrack].get_url());
+        this.player.set_state(Gst.State.PLAYING);
+        this.progress_scale.set_sensitive(true);
+        //this.play_btn.setPauseMode();
+        var value = this.progress_scale.get_value();
+        Mainloop.timeout_add(1000, Lang.bind(this, function () {
+            value = this.progress_scale.get_value();
+            this.progress_scale.set_value(value+1);
+            return true;
+        })); 
+    },
+
+    pause: function () {
+        this.progress_scale.set_sensitive(false);
+        //this.play_btn.setPauseMode();
+    },
+    
+    stop: function() {
+        this.player.set_state(Gst.State.NULL);
+    },
+
+    appendToPlaylist: function (track) {
+        this.playlist.push(track);
+    },
+
+    playNext: function () {
+        this.currentTrack = this.currentTrack + 1;
+        this.play();
+    },
+
+    setPlaylist: function (playlist) {
+        this.playlist = playlist;
+    },
+
+    setCurrentTrack: function (track) {
+        for(let t in this.playlist) {
+            if(this.playlist[t].get_url() == track.get_url()) {
+                this.currentTrack = t;
+            }
+        }
     },
 
     _setup_view: function() {

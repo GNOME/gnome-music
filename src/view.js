@@ -276,11 +276,11 @@ const Albums = new Lang.Class({
     Name: "AlbumsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar){
+    _init: function(header_bar, player){
         this.parent("Albums", header_bar);
         this.view.set_view_type(Gd.MainViewType.ICON);
         this.countQuery = Query.album_count;
-        this._albumWidget = new Widgets.AlbumWidget ();
+        this._albumWidget = new Widgets.AlbumWidget (player);
         this.add(this._albumWidget)
         this.header_bar.setState (1);
     },
@@ -315,14 +315,24 @@ const Songs = new Lang.Class({
     Name: "SongsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar) {
+    _init: function(header_bar, player) {
         this.parent("Songs", header_bar);
         this.countQuery = Query.songs_count;
         this._items = {};
         this.view.set_view_type(Gd.MainViewType.LIST);
-        this._iconHeight = 32
-        this._iconWidth = 32
+        this._iconHeight = 32;
+        this._iconWidth = 32;
         this._addListRenderers();
+    },
+
+    _onItemActivated: function (widget, id, path) {
+        var iter = this._model.get_iter (path)[1];
+        var item = this._model.get_value (iter, 5);
+
+        this.player.stop();
+        this.player.setUri(item.get_url());
+        this.player.setDuration(item.get_duration());
+        this.player.play();
     },
 
     _addListRenderers: function() {
@@ -368,7 +378,7 @@ const Playlists = new Lang.Class({
     Name: "PlaylistsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar) {
+    _init: function(header_bar, player) {
         this.parent("Playlists", header_bar);
     },
 });
@@ -377,7 +387,7 @@ const Artists = new Lang.Class({
     Name: "ArtistsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar) {
+    _init: function(header_bar, player) {
         this.parent("Artists", header_bar);
     },
 });

@@ -33,7 +33,7 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 const ClickableLabel = new Lang.Class({
     Name: "ClickableLabel",
     Extends: Gtk.Box,
-    
+
     _init: function (track) {
         this.parent();
         this.track = track
@@ -53,7 +53,7 @@ const ClickableLabel = new Lang.Class({
             time = minutes + ":" + seconds;
         let length_label = new Gtk.Label({ label : time });
         length_label.set_alignment(1.0, 0.5)
-        
+
         box.pack_start(label, true, true, 0);
         box.pack_end(length_label, true, true, 0);
         box.set_spacing(15)
@@ -66,21 +66,16 @@ const ClickableLabel = new Lang.Class({
         this.button.set_relief(Gtk.ReliefStyle.NONE);
         this.button.set_can_focus(false);
         this.show_all();
-            
-        this.button.connect("clicked", Lang.bind(this, this._on_btn_clicked));
     },
-    
-    _on_btn_clicked: function(btn) {
-    },
-    
 });
 
 
 const AlbumWidget = new Lang.Class({
     Name: "AlbumWidget",
     Extends: Gtk.EventBox,
-    
-    _init: function (album) {
+
+    _init: function (player) {
+        this.player = player;
         this.hbox = new Gtk.HBox ();
         this.box = new Gtk.VBox();
         this.scrolledWindow = new Gtk.ScrolledWindow();
@@ -158,11 +153,21 @@ const AlbumWidget = new Lang.Class({
             this.songsList.remove(children[i]);
         }
         this.tracks_labels = {};
+        var tracks = [];
         grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
+                tracks.push(track);
                 duration = duration + track.get_duration();
-                this.songsList.pack_start(new ClickableLabel (track), false, false, 0);
-                this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min")
+                let clickableLabel = new ClickableLabel (track);
+                this.tracks_labels[track.get_title()] = clickableLabel;
+                this.songsList.pack_start(clickableLabel, false, false, 0);
+                this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min");
+                this.tracks_labels[track.get_title()].button.connect("clicked", Lang.bind(this, function () {
+                    this.player.appendToPlaylist(track);
+                    this.player.setCurrentTrack(track);
+                    this.player.play();
+                }));
+                //this.player.setPlaylist(tracks);
             }
         }));
 

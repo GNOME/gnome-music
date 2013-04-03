@@ -64,10 +64,10 @@ const MainWindow = new Lang.Class({
         this._box.pack_start(this.player.eventbox, false, false, 0);
         this.add(this._box);
 
-        this.views[0] = new Views.Albums(this.toolbar);
-        this.views[1] = new Views.Artists(this.toolbar);
-        this.views[2] = new Views.Songs(this.toolbar);
-        this.views[3] = new Views.Playlists(this.toolbar);
+        this.views[0] = new Views.Albums(this.toolbar, this.player);
+        this.views[1] = new Views.Artists(this.toolbar, this.player);
+        this.views[2] = new Views.Songs(this.toolbar, this.player);
+        this.views[3] = new Views.Playlists(this.toolbar, this.player);
 
         for (let i in this.views) {
             this._stack.add_titled(

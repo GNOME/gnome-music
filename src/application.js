@@ -76,12 +76,11 @@ const Application = new Lang.Class({
         Gtk.StyleContext.add_provider_for_screen(Gdk.Screen.get_default(),
                                                  provider,
                                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-        this._window = new Window.MainWindow(this);
-        this._buildAppMenu();
     },
     
     vfunc_activate: function() {
+        this._window = new Window.MainWindow(this);
+        this._buildAppMenu();
         this._window.present();
     },
 });
