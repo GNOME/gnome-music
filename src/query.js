@@ -1,5 +1,6 @@
 /*
 * Copyright (c) 2013 Igalia S.L.
+* Copyright (c) 2013 Vadim Rutkovsky <vrutkovs@redhat.com>.
 * Authored by: Juan A. Suarez Romero <jasuarez@igalia.com>
 *
 * Gnome Music is free software; you can Public License as published by the

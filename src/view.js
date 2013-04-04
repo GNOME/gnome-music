@@ -3,6 +3,7 @@
  *               Authored by: Seif Lotfy
  * Copyright (c) 2013 Eslam Mostafa.
  * Copyright (c) 2013 Seif Lotfy.
+ * Copyright (c) 2013 Vadim Rutkovsky.
  *
  * Gnome Music is free software; you can Public License as published by the
  * Free Software Foundation; either version 2 of the License, or (at your

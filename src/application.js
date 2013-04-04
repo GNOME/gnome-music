@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013 Eslam Mostafa.
+ * Copyright (c) 2013 Vadim Rutkovsky.
  *
  * Gnome Music is free software; you can Public License as published by the
  * Free Software Foundation; either version 2 of the License, or (at your
@@ -49,7 +50,7 @@ const Application = new Lang.Class({
             flags: Gio.ApplicationFlags.FLAGS_NONE,
             inactivity_timeout: 12000
         });
-        
+
         GLib.set_application_name(_("Music"));
     },
 
@@ -105,7 +106,7 @@ const Application = new Lang.Class({
                                                  provider,
                                                  Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
     },
-    
+
     vfunc_activate: function() {
         this._buildAppMenu();
         this._window = new Window.MainWindow(this);
