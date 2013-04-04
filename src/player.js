@@ -124,9 +124,9 @@ const Player = new Lang.Class({
             toolbar_start,
             toolbar_song_info;
 
-        this.eventbox = new Gtk.Box();
-        this.eventbox.set_spacing(9)
-        this.eventbox.set_border_width(9)
+        this.box = new Gtk.Box();
+        this.box.set_spacing(9)
+        this.box.set_border_width(9)
         toolbar_start = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
             spacing: 0
@@ -147,7 +147,7 @@ const Player = new Lang.Class({
         next_btn.connect("clicked", Lang.bind(this, this._onNextBtnClicked));
         toolbar_start.pack_start(next_btn, false, false, 0);
         
-        this.eventbox.pack_start(toolbar_start, false, false, 3)
+        this.box.pack_start(toolbar_start, false, false, 3)
 
 
         this.progress_scale = new Gtk.Scale({
@@ -206,7 +206,7 @@ const Player = new Lang.Class({
         toolbar_center.pack_start(this.song_total_time_lbl, false, false, 0);
         */
         
-        this.eventbox.pack_start(toolbar_center, true, true, 0)
+        this.box.pack_start(toolbar_center, true, true, 0)
 
         toolbar_end = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
@@ -218,7 +218,7 @@ const Player = new Lang.Class({
             xscale: 0,
             yscale: 0
         });
-        this.eventbox.pack_end(toolbar_end, false, false, 3);
+        this.box.pack_end(toolbar_end, false, false, 3);
 
         rate_btn = new Gtk.Button ();
         rate_btn.set_image(Gtk.Image.new_from_icon_name("bookmark-new-symbolic", Gtk.IconSize.BUTTON));
@@ -229,6 +229,9 @@ const Player = new Lang.Class({
         this.shuffle_btn.connect("clicked", Lang.bind(this, this._onShuffleBtnClicked));
         toolbar_end.pack_end(this.shuffle_btn, false, false, 0);
 
+        this.eventbox = new Gtk.EventBox();
+        this.eventbox.get_style_context().add_class("play-bar")
+        this.eventbox.add(this.box);
         this.eventbox.show_all();
 
     },
