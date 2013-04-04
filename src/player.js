@@ -229,7 +229,7 @@ const Player = new Lang.Class({
         this.shuffle_btn.connect("clicked", Lang.bind(this, this._onShuffleBtnClicked));
         toolbar_end.pack_end(this.shuffle_btn, false, false, 0);
 
-        this.eventbox = new Gtk.EventBox();
+        this.eventbox = new Gtk.Frame();
         this.eventbox.get_style_context().add_class("play-bar")
         this.eventbox.add(this.box);
         this.eventbox.show_all();
