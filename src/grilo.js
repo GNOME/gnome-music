@@ -76,7 +76,6 @@ const Grilo = new Lang.Class({
     populateItems: function (query, offset, callback) {
         var options = Grl.OperationOptions.new(null);
         options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
-        query += " OFFSET " + offset;
         options.set_skip (offset);
         options.set_count(50);
         print ("populateItems:", query);
