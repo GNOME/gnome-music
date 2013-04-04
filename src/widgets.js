@@ -163,28 +163,29 @@ const AlbumWidget = new Lang.Class({
                 this.songsList.pack_start(clickableLabel, false, false, 0);
                 this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min");
                 this.tracks_labels[track.get_title()].button.connect("clicked", Lang.bind(this, function () {
-                    this.player.appendToPlaylist(track);
                     this.player.setCurrentTrack(track);
-                    this.player.play();
+                    this.player.play_btn.set_active(true);
                 }));
-                //this.player.setPlaylist(tracks);
             }
         }));
+
+        this.player.setPlaylist(tracks);
+        this.player.setCurrentTrack(tracks[0]);
 
         if (pixbuf == null) {
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 256, true);
         }
         this.cover.set_from_pixbuf (pixbuf);
-        
+
         this.setArtistLabel(artist);
         this.setTitleLabel(album);
     },
-    
+
     setArtistLabel: function(artist) {
         this.artist_label.set_markup("<b><span size='large' color='grey'>" + artist + "</span></b>");
     },
-    
+
     setTitleLabel: function(title) {
         this.title_label.set_markup("<b><span size='large'>" + title + "</span></b>");
     },

@@ -159,7 +159,7 @@ const ViewContainer = new Lang.Class({
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             let icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, this._iconHeight, this._iconWidth, true);
             var iter = this._model.append();
-            var artist = "Unkown"
+            var artist = "Unknown"
             if (item.get_author() != null)
                 artist = item.get_author();
             if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
@@ -280,16 +280,20 @@ const Songs = new Lang.Class({
         this._iconHeight = 32;
         this._iconWidth = 32;
         this._addListRenderers();
+        this.player = player;
     },
 
     _onItemActivated: function (widget, id, path) {
         var iter = this._model.get_iter (path)[1];
         var item = this._model.get_value (iter, 5);
 
-        this.player.stop();
-        this.player.setUri(item.get_url());
-        this.player.setDuration(item.get_duration());
+        this.player.setCurrentTrack(item);
         this.player.play();
+    },
+
+    _addItem: function(source, param, item) {
+        this.parent(source, param, item);
+        this.player.appendToPlaylist(item);
     },
 
     _addListRenderers: function() {
@@ -326,6 +330,7 @@ const Songs = new Lang.Class({
 
     populate: function() {
         this._populated = false;
+        this.player.playlist = [];
         if (grilo.tracker != null)
             grilo.populateSongs (this._offset, Lang.bind(this, this._addItem, null));
         this._populated = true;

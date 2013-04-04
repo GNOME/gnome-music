@@ -69,32 +69,57 @@ const Player = new Lang.Class({
         this._setup_view();
     },
 
-    setUri: function(uri) {
-        this.player.set_property("uri", uri);
+    load: function(media) {
+        var pixbuf;
+
+        this._setDuration(media.get_duration());
+        this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));
+        this.progress_scale.sensitive = true;
+
+        // FIXME: site contains the album's name. It's obviously a hack to remove
+        pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_site ());
+        this.cover_img.set_from_pixbuf (pixbuf);
+
+        if (media.get_title() != null) {
+            this.title_lbl.set_label(media.get_title());
+        }
+
+        else {
+            let url = media.get_url(),
+                file = GLib.File.new_for_path(url),
+                basename = file.get_basename(),
+                to_show = GLib.Uri.unescape_string(basename, null);
+
+            this.title_lbl.set_label(to_show);
+        }
+
+        if (media.get_artist() != null) {
+            this.artist_lbl.set_label(media.get_artist());
+        }
+
+        else {
+            this.artist_lbl.set_label("Unknown artist");
+        }
+        this.player.set_property("uri", media.get_url());
     },
 
     play: function() {
         this.stop();
-        this._setDuration(this.playlist[this.currentTrack].get_duration());
-        this.setUri(this.playlist[this.currentTrack].get_url());
+        this.load(this.playlist[this.currentTrack]);
         this.player.set_state(Gst.State.PLAYING);
-        this.progress_scale.set_sensitive(true);
-        //this.play_btn.setPauseMode();
-        var value = this.progress_scale.get_value();
-        Mainloop.timeout_add(1000, Lang.bind(this, function () {
-            value = this.progress_scale.get_value();
-            this.progress_scale.set_value(value+1);
-            return true;
-        })); 
+        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
     },
 
     pause: function () {
-        this.progress_scale.set_sensitive(false);
-        //this.play_btn.setPauseMode();
+        this.player.set_state(Gst.State.PAUSED);
     },
-    
+
     stop: function() {
+        this.play_btn.set_active(false);
         this.player.set_state(Gst.State.NULL);
+        if (this.timeout) {
+            GLib.source_remove(this.timeout);
+        }
     },
 
     appendToPlaylist: function (track) {
@@ -102,8 +127,19 @@ const Player = new Lang.Class({
     },
 
     playNext: function () {
-        this.currentTrack = this.currentTrack + 1;
-        this.play();
+        let newCurrentTrack = parseInt(this.currentTrack) + 1;
+        if (newCurrentTrack < this.playlist.length) {
+            this.currentTrack = newCurrentTrack;
+            this.play_btn.set_active(true);
+        }
+    },
+
+    playPrevious: function () {
+        let newCurrentTrack = parseInt(this.currentTrack) - 1;
+        if (newCurrentTrack >= 0) {
+            this.currentTrack = newCurrentTrack;
+            this.play_btn.set_active(true);
+        }
     },
 
     setPlaylist: function (playlist) {
@@ -125,7 +161,6 @@ const Player = new Lang.Class({
             databox,
             label,
             next_btn,
-            play_btn,
             prev_btn,
             rate_btn,
             toolbar_center,
@@ -147,17 +182,15 @@ const Player = new Lang.Class({
         prev_btn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
         toolbar_start.pack_start(prev_btn, false, false, 0);
 
-        play_btn = new PlayPauseButton();
-        play_btn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
-        toolbar_start.pack_start(play_btn, false, false, 0);
+        this.play_btn = new PlayPauseButton();
+        this.play_btn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
+        toolbar_start.pack_start(this.play_btn, false, false, 0);
 
         next_btn = new Gtk.Button();
         next_btn.set_image(Gtk.Image.new_from_icon_name("media-skip-forward-symbolic", Gtk.IconSize.BUTTON));
         next_btn.connect("clicked", Lang.bind(this, this._onNextBtnClicked));
         toolbar_start.pack_start(next_btn, false, false, 0);
-        
         this.box.pack_start(toolbar_start, false, false, 3)
-
 
         this.progress_scale = new Gtk.Scale({
             orientation: Gtk.Orientation.HORIZONTAL,
@@ -166,42 +199,42 @@ const Player = new Lang.Class({
         this.progress_scale.set_draw_value(false);
         this._setDuration(1);
         this.progress_scale.connect("change_value", Lang.bind(this, this.onProgressScaleChangeValue));
-        
+
         this.toolbar_song_info = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
             spacing: 0
         });
-        
+
         this.cover_img = new Gtk.Image();
         this.toolbar_song_info.pack_start(this.cover_img, false, false, 0);
         databox = new Gtk.Box({
             orientation: Gtk.Orientation.VERTICAL,
             spacing: 0
         });
-        
+
         this.title_lbl = new Gtk.Label({
             label: ""
         });
         databox.pack_start(this.title_lbl, false, false, 0);
 
-        artist_lbl = new Gtk.Label({
+        this.artist_lbl = new Gtk.Label({
             label: ""
         });
-        artist_lbl.get_style_context().add_class("dim-label");
-        databox.pack_start(artist_lbl, false, false, 0);
+        this.artist_lbl.get_style_context().add_class("dim-label");
+        databox.pack_start(this.artist_lbl, false, false, 0);
 
         toolbar_center = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
             spacing: 0
         });
-        
+
         this.toolbar_song_info.pack_start(databox, false, false, 0);
-        
+
         toolbar_center.pack_start(this.toolbar_song_info, false, false, 3);
         toolbar_center.pack_start(this.progress_scale, true, true, 0);
         toolbar_center.pack_start(new Gtk.Label({}), false, false, 3);
 
-        /*this.song_playback_time_lbl = new Gtk.Label({
+        this.song_playback_time_lbl = new Gtk.Label({
             label:              "00:00"
         });
         toolbar_center.pack_start(this.song_playback_time_lbl, false, false, 0);
@@ -213,8 +246,6 @@ const Player = new Lang.Class({
             label:              "00:00"
         });
         toolbar_center.pack_start(this.song_total_time_lbl, false, false, 0);
-        */
-        
         this.box.pack_start(toolbar_center, true, true, 0)
 
         toolbar_end = new Gtk.Box({
@@ -245,34 +276,11 @@ const Player = new Lang.Class({
 
     },
 
-    load: function(media) {
-        var pixbuf,
-            uri;
+    seconds_to_string: function(duration){
+        var minutes = parseInt( duration / 60 ) % 60;
+        var seconds = duration % 60;
 
-        this._setDuration(media.get_duration());
-        this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));
-        this.progress_scale.sensitive = true;
-
-        // FIXME: site contains the album's name. It's obviously a hack to remove
-        pixbuf = this.cache.lookup (ART_SIZE, media.get_author (), media.get_site ());
-        this.cover_img.set_from_pixbuf (pixbuf);
-
-        if (media.get_title() != null) {
-            this.title_lbl.set_label(media.get_title());
-        }
-
-        else {
-            let url = media.get_url(),
-                file = GLib.File.new_for_path(url),
-                basename = file.get_basename(),
-                to_show = GLib.Uri.unescape_string(basename, null);
-
-            this.title_lbl.set_label(to_show);
-        }
-
-        artist_lbl.set_label(media.get_author());
-
-        uri = media.get_url();
+        return (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
     },
 
     uri: function() {
@@ -280,26 +288,20 @@ const Player = new Lang.Class({
 
     _onPlayBtnToggled: function(btn) {
         if (btn.get_active()) {
-            //this.beginPlayback();
+            this.play();
         }
 
         else {
-            //this.pausePlayback();
+            this.pause();
         }
     },
 
     _onNextBtnClicked: function(btn) {
-        this._needNext();
+        this.playNext();
     },
 
     _onPrevBtnClicked: function(btn) {
-        this._needPrevious();
-    },
-
-    _needNext: function() {
-    },
-
-    _needPrevious: function() {
+        this.playPrevious();
     },
 
     _onShuffleBtnClicked: function(order) {
@@ -314,38 +316,24 @@ const Player = new Lang.Class({
         this.progress_scale.set_value(0.0);
     },
 
-    _updatePosition: function(update) {
-        if (update) {
-            if (this.position_update_timeout == 0) {
-                Timeout.add_seconds(1, Lang.bind(this, this.update_position_cb));
-            }
-        }
-
-        else {
-            if (this.position_update_timeout != 0) {
-                this.source.remove(position_update_timeout);
-                this.position_update_timeout = 0;
-            }
-        }
-    },
-
     _updatePositionCallback: function() {
         var format = Gst.Format.TIME,
-            duration = 0,
+            position = 0,
             seconds;
 
-        this.playbin.query_position(format, duration);
-        this.progress_scale.set_value(duration);
-
-        seconds = duration / Gst.SECOND;
+        position = this.player.query_position(format, null);
+        seconds = Math.floor(position[1] / Gst.SECOND);
+        this.progress_scale.set_value(seconds*60);
 
         this.song_playback_time_lbl.set_label(this.seconds_to_string(seconds));
 
         return true;
     },
 
-    onProgressScaleChangeValue: function(scroll, newValue) {
-        this.playbin.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, newValue);
+    onProgressScaleChangeValue: function(scroll, other, newValue) {
+        var seconds = newValue / 60;
+        log('onProgressScaleChangeValue ' + seconds)
+        this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000);
 
         return false;
      }
