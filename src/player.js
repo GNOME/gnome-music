@@ -29,7 +29,7 @@ const GLib = imports.gi.GLib;
 const Mainloop = imports.mainloop;
 const AlbumArtCache = imports.albumArtCache;
 
-const ART_SIZE = 240;
+const ART_SIZE = 64;
 
 const PlayPauseButton = new Lang.Class({
     Name: "PlayPauseButton",
