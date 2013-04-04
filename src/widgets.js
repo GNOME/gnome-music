@@ -162,7 +162,7 @@ const AlbumWidget = new Lang.Class({
                 let clickableLabel = new ClickableLabel (track);
                 this.tracks_labels[track.get_title()] = clickableLabel;
                 this.songsList.pack_start(clickableLabel, false, false, 0);
-                this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min");
+                this.running_length_label_info.set_text(Math.ceil(duration/60) + " min");
                 this.tracks_labels[track.get_title()].button.connect("clicked", Lang.bind(this, function () {
                     this.player.setCurrentTrack(track);
                     this.player.play_btn.set_active(true);
