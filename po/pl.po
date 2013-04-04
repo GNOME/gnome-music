@@ -4,14 +4,14 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
 # gnomepl@aviary.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Piotr Drąg <piotrdrag@gmail.com>, 2012.
-# Aviary.pl <gnomepl@aviary.pl>, 2012.
+# Piotr Drąg <piotrdrag@gmail.com>, 2012-2013.
+# Aviary.pl <gnomepl@aviary.pl>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-04 14:52+0100\n"
-"PO-Revision-Date: 2012-12-04 14:53+0100\n"
+"POT-Creation-Date: 2013-04-04 22:44+0200\n"
+"PO-Revision-Date: 2013-04-04 22:45+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -23,134 +23,76 @@ msgstr ""
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
 
-#: ../data/gnome-music.desktop.in.in.h:1
-msgid "Music"
-msgstr "Muzyka"
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nowa lista odtwarzania"
 
-#: ../data/gnome-music.desktop.in.in.h:2
-msgid "Music Player"
-msgstr "Odtwarzacz muzyki"
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Teraz odtwarzane"
 
-#: ../data/gnome-music.desktop.in.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_O menedżerze muzyki"
 
-#: ../src/app-menu.ui.h:1
-msgid "_Change Address Book..."
-msgstr "_Zmień książkę adresową..."
-
-#: ../src/app-menu.ui.h:2
-msgid "_About Contacts"
-msgstr "_O menedżerze kontaktów"
-
-#: ../src/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "Za_kończ"
 
-#: ../src/music-album-info-box.vala:57
-msgid "Released"
-msgstr "Wydane"
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+msgid "Music"
+msgstr "Muzyka"
 
-#: ../src/music-album-info-box.vala:66
-msgid "Running Length"
-msgstr "Czas trwania"
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Odtwarzacz muzyki"
 
-#: ../src/music-app.vala:107 ../src/music-topbar.vala:82
-msgid "New"
-msgstr "Nowy"
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
 
-#: ../src/music-app.vala:108
-msgid "About Music"
-msgstr "O menedżerze muzyki"
-
-#: ../src/music-app.vala:109
-msgid "Quit"
-msgstr "Zakończ"
-
-#: ../src/music-app.vala:128
-msgid "translator-credits"
-msgstr ""
-"Piotr Drąg <piotrdrag@gmail.com>, 2012\n"
-"Aviary.pl <gnomepl@aviary.pl>, 2012"
-
-#: ../src/music-app.vala:129
-msgid "A GNOME 3 application to listen and manage music playlists"
-msgstr ""
-"Program do słuchania muzyki i zarządzania listami odtwarzania dla środowiska "
-"GNOME 3"
-
-#: ../src/music-topbar.vala:97
-msgid "Artists"
-msgstr "Wykonawcy"
-
-#: ../src/music-topbar.vala:102
-msgid "Albums"
-msgstr "Albumy"
-
-#: ../src/music-topbar.vala:107
-msgid "Songs"
-msgstr "Utwory"
-
-#: ../src/music-topbar.vala:112
-msgid "Playlists"
-msgstr "Listy odtwarzania"
-
-#: ../src/music-topbar.vala:169 ../src/music-topbar.vala:220
-msgid "Collection name"
-msgstr "Nazwa kolekcji"
-
-#: ../src/music-topbar.vala:182
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: ../src/music-utils.vala:11
-#, c-format
-msgid "%02u:%02u:%02u"
-msgstr "%02u:%02u:%02u"
-
-#: ../src/music-utils.vala:14
-#, c-format
-msgid "%02u:%02u"
-msgstr "%02u:%02u"
-
-#: ../src/org.gnome.Music.gschema.xml.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
 msgstr "Rozmiar okna"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:2
+#: ../data/org.gnome.Music.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Rozmiar okna (szerokość i wysokość)."
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:3
+#: ../data/org.gnome.Music.gschema.xml.h:3
 msgid "Window position"
 msgstr "Położenie okna"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:4
+#: ../data/org.gnome.Music.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Położenie okna (na osi X i Y)."
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:5
+#: ../data/org.gnome.Music.gschema.xml.h:5
 msgid "Window maximized"
 msgstr "Maksymalizacja okna"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:6
+#: ../data/org.gnome.Music.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr "Stan maksymalizacji okna"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:7
+#: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Shuffle playback"
 msgstr "Odtwarzanie losowe"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:8
+#: ../data/org.gnome.Music.gschema.xml.h:8
 msgid "If true, do randomized playback through the collection"
 msgstr "Jeśli jest ustawione na wartość \"true\", to losowo odtwarza kolekcję"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Tryb wyszukiwania"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "If true, the search bar is shown"
 msgstr ""
 "Jeśli jest ustawione na wartość \"true\", to wyświetlany jest pasek "
 "wyszukiwania"
+
+#: ../src/toolbar.js:79
+msgid "Back"
+msgstr "Wstecz"
