@@ -55,7 +55,16 @@ const Player = new Lang.Class({
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.bus = this.player.get_bus();
-        this.msg = this.bus.timed_pop_filtered (Gst.Clock.TIME_NONE, Gst.Message.ERROR | Gst.Message.EOS);
+        this.bus.add_signal_watch()
+        this.bus.connect("message", Lang.bind(this,
+            function(bus, message) {
+            if (message.type == Gst.MessageType.ERROR) {
+                let uri = this.playlist[this.currentTrack].get_url();
+                log("URI:" + uri);
+                log("Error:" + message.parse_error());
+                this.stop();
+            }
+        }));
 
         this._setup_view();
     },
