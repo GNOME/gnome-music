@@ -13,7 +13,7 @@
     <foaf:Person>
       <foaf:name>Seif Lotfy</foaf:name>
       <foaf:mbox rdf:resource="mailto:seif@lotfy.com" />
-      <gnome:userid>ctapia</gnome:userid>
+      <gnome:userid>seiflotfy</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>
