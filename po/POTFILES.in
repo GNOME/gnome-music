@@ -1,4 +1,6 @@
+[type: gettext/glade]data/app-menu.ui
 data/gnome-music.desktop.in
+data/org.gnome.Music.gschema.xml
 src/albumArtCache.js
 src/application.js
 src/grilo.js
