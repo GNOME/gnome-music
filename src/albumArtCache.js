@@ -24,26 +24,8 @@ const Regex = GLib.Regex;
 const Path = GLib.Path;
 const Grl = imports.gi.Grl;
 
-const invalid_chars = /[()<>\[\]{}_!@#$^&*+=|\\\/\"'?~]/g;
-const convert_chars = /[\t]/g;
-const blocks = ["()", "{}", "[]", "<>"];
-
-
-function escapeRegExp(str) {
-    return str.replace(/[\(\)\[\]\<\>\{\}\_\!\@\#\$\^\&\*\+\=\|\\\/\"\'\?\~]/g, "\\$&");
-}
-
-String.prototype.printf = function() {
-   var content = this;
-
-   for (let i = 0; i < arguments.length; i++) {
-        let replacement = '{' + i + '}';
-
-        content = content.replace(replacement, arguments[i]);
-   }
-
-   return content;
-};
+const InvalidChars = /[()<>\[\]{}_!@#$^&*+=|\\\/\"'?~]/g;
+const ReduceSpaces = /\t|\s+/g;
 
 const AlbumArtCache = new Lang.Class({
     Name: "AlbumArtCache",
@@ -51,25 +33,19 @@ const AlbumArtCache = new Lang.Class({
 
     _init: function() {
         this.parent();
-        this.block_regexes = [];
-        this.space_compress_regex = new RegExp("\\s+");
+        this.logLookupErrors = false;
 
-        for (let i in blocks) {
-            let block = blocks[i],
-                block_re = escapeRegExp(block[0]) + "[^" + escapeRegExp(block[1]) + "]*" + escapeRegExp(block[1]);
-
-            this.block_regexes.push(new RegExp(block_re));
-        }
-
-        this.cache_dir = GLib.build_filenamev([GLib.get_user_cache_dir (), "media-art"]);
+        this.cacheDir = GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            "media-art"
+        ]);
     },
 
-    lookup: function(size, artist_, album_) {
-        var artist = artist_,
-            album = album_;
+    lookup: function(size, artist, album) {
+        var key, path;
 
         if (artist == null) {
-            artist = " " ;
+            artist = " ";
         }
 
         if (album == null) {
@@ -77,57 +53,57 @@ const AlbumArtCache = new Lang.Class({
         }
 
         try {
-            let key = "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album);
-            let path = GLib.build_filenamev([this.cache_dir, key + ".jpeg"]);
+            key = "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album);
+            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
 
             return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
         }
 
         catch (error) {
-            //print (error)
+            if (this.logLookupErrors) log(error);
         }
 
         try {
-            let key = "album-" + this.normalizeAndHash(artist, false, true) + "-" + this.normalizeAndHash(album, false, true);
-            let path = GLib.build_filenamev([this.cache_dir, key + ".jpeg"]);
+            key = "album-" + this.normalizeAndHash(artist, false, true) + "-" + this.normalizeAndHash(album, false, true);
+            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
 
             return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
         }
 
         catch (error) {
-            //print (error)
+            if (this.logLookupErrors) log(error);
         }
 
         try {
-            let key = "album-" + this.normalizeAndHash(" ", false, true) + "-" + this.normalizeAndHash(album, false, true);
-            let path = GLib.build_filenamev([this.cache_dir, key + ".jpeg"]);
+            key = "album-" + this.normalizeAndHash(" ", false, true) + "-" + this.normalizeAndHash(album, false, true);
+            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
 
             return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
         }
 
         catch (error) {
-            //print (error)
+            if (this.logLookupErrors) log(error);
         }
 
         try {
-            let key = "album-" + this.normalizeAndHash(artist + "\t" + album, true, true);
-            let path = GLib.build_filenamev ([this.cache_dir, key + ".jpeg"]);
+            key = "album-" + this.normalizeAndHash(artist + "\t" + album, true, true);
+            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
 
             return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
         }
 
         catch (error) {
-            //print (error)
+            if (this.logLookupErrors) log(error);
         }
 
         return null;
     },
 
-    normalizeAndHash: function(input, utf8_only, utf8) {
+    normalizeAndHash: function(input, utf8Only, utf8) {
         var normalized = " ";
 
         if (input != null && input != "") {
-            if (utf8_only) {
+            if (utf8Only) {
                 normalized = input;
             }
 
@@ -147,35 +123,32 @@ const AlbumArtCache = new Lang.Class({
     stripInvalidEntities: function(original) {
         var result = original;
 
-        for (let i in this.block_regexes) {
-            let re = this.block_regexes[i];
-
-            result = result.replace(re, '');
-        }
-
         result = result
-            .replace(invalid_chars, '')
-            .replace(convert_chars, ' ')
-            .replace(this.space_compress_regex, ' ');
+            .replace(InvalidChars, '')
+            .replace(ReduceSpaces, ' ');
 
         return result;
     },
 
     getFromUri: function(uri, artist, album, width, height, callback) {
-        if (uri != null) {
-            print ("missing", album, artist)
-            let key = "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album);
-            let path = GLib.build_filenamev([this.cache_dir, key + ".jpeg"]);
-            var file = Gio.File.new_for_uri(uri);
-            file.read_async(300, null, Lang.bind(this,
-                function(source, res, user_data) {
-                    var stream = file.read_finish(res);
-                    var icon = GdkPixbuf.Pixbuf.new_from_stream_at_scale(stream, height, width, true, null);
-                    var new_file = Gio.File.new_for_path(path);
-                    file.copy(new_file, Gio.FileCopyFlags.NONE, null, null)
-                    callback(icon);
-            }));
-        }
+        if (uri == null) return;
+
+        let key = "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album),
+            path = GLib.build_filenamev([
+                this.cacheDir, key + ".jpeg"
+            ]),
+            file = Gio.File.new_for_uri(uri);
+
+        print("missing", album, artist);
+
+        file.read_async(300, null, function(source, res, user_data) {
+            var stream = file.read_finish(res),
+                icon = GdkPixbuf.Pixbuf.new_from_stream_at_scale(stream, height, width, true, null),
+                new_file = Gio.File.new_for_path(path);
+
+            file.copy(new_file, Gio.FileCopyFlags.NONE, null, null);
+            callback(icon);
+        });
     }
 
 });
