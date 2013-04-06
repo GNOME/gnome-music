@@ -1,0 +1,140 @@
+# Chinese (China) translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# tuhaihe <1132321739qq@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-04-04 20:41+0000\n"
+"PO-Revision-Date: 2013-04-03 16:05+0800\n"
+"Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/app-menu.ui.h:1
+#, fuzzy
+#| msgid "Playlists"
+msgid "_New Playlist"
+msgstr "播放列表"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr ""
+
+#: ../data/app-menu.ui.h:3
+#, fuzzy
+#| msgid "About Music"
+msgid "_About Music"
+msgstr "关于 Music"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "退出(_Q)"
+
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+msgid "Music"
+msgstr "音乐"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "音乐播放器"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "播放与管理您的音乐集"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "窗口大小"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "窗口大小(宽与高)。"
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "窗口位置"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "窗口位置(水平和竖直)。"
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "窗口最大化"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "窗口最大化状态"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Shuffle playback"
+msgstr "随机播放"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid "If true, do randomized playback through the collection"
+msgstr "如果为真，则随机播放歌曲合集"
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "搜索模式"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr "如果为真，则显示搜索框"
+
+#: ../src/toolbar.js:79
+msgid "Back"
+msgstr "后退"
+
+#~ msgid "_Change Address Book..."
+#~ msgstr "更改地址簿(_C)..."
+
+#~ msgid "_About Contacts"
+#~ msgstr "关于联系人(_A)"
+
+#~ msgid "Released"
+#~ msgstr "发布时间"
+
+#~ msgid "Running Length"
+#~ msgstr "总时长"
+
+#~ msgid "New"
+#~ msgstr "新建"
+
+#~ msgid "Quit"
+#~ msgstr "退出"
+
+#~ msgid "translator-credits"
+#~ msgstr "tuhaihe <1132321739qq@gmail.com>, 2013"
+
+#~ msgid "A GNOME 3 application to listen and manage music playlists"
+#~ msgstr "GNOME 3 下聆听与管理音乐播放列表的应用"
+
+#~ msgid "Artists"
+#~ msgstr "艺术家"
+
+#~ msgid "Albums"
+#~ msgstr "专辑"
+
+#~ msgid "Songs"
+#~ msgstr "歌曲"
+
+#~ msgid "Collection name"
+#~ msgstr "合集名称"
+
+#~ msgid "Cancel"
+#~ msgstr "取消"
+
+#~ msgid "%02u:%02u:%02u"
+#~ msgstr "%02u:%02u:%02u"
+
+#~ msgid "%02u:%02u"
+#~ msgstr "%02u:%02u"
