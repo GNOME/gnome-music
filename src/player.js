@@ -41,8 +41,17 @@ const PlayPauseButton = new Lang.Class({
         this.pause_image = Gtk.Image.new_from_icon_name("media-playback-pause-symbolic", Gtk.IconSize.MENU);
 
         this.parent();
+        this.set_playing();
+    },
+
+    set_playing: function() {
         this.set_image(this.play_image);
     },
+
+    set_paused: function() {
+        this.set_image(this.pause_image);
+    },
+
 });
 
 const MenuButton = new Lang.Class({
@@ -130,6 +139,7 @@ const Player = new Lang.Class({
     },
 
     play: function() {
+        this.play_btn.set_playing();
         this.stop();
         this.load(this.playlist[this.currentTrack]);
         this.player.set_state(Gst.State.PLAYING);
@@ -138,10 +148,11 @@ const Player = new Lang.Class({
 
     pause: function () {
         this.player.set_state(Gst.State.PAUSED);
+        this.play_btn.set_paused();
     },
 
     stop: function() {
-        this.play_btn.set_active(false);
+        this.play_btn.set_playing();
         this.player.set_state(Gst.State.NULL);
         if (this.timeout) {
             GLib.source_remove(this.timeout);
@@ -156,7 +167,8 @@ const Player = new Lang.Class({
         let newCurrentTrack = parseInt(this.currentTrack) + 1;
         if (newCurrentTrack < this.playlist.length) {
             this.currentTrack = newCurrentTrack;
-            this.play_btn.set_active(true);
+            this.stop();
+            this.play();
         }
     },
 
@@ -164,7 +176,8 @@ const Player = new Lang.Class({
         let newCurrentTrack = parseInt(this.currentTrack) - 1;
         if (newCurrentTrack >= 0) {
             this.currentTrack = newCurrentTrack;
-            this.play_btn.set_active(true);
+            this.stop();
+            this.play();
         }
     },
 
@@ -321,12 +334,10 @@ const Player = new Lang.Class({
     },
 
     _onPlayBtnToggled: function(btn) {
-        if (btn.get_active()) {
-            this.play();
-        }
-
-        else {
+        if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.pause();
+        } else {
+            this.play();
         }
     },
 
