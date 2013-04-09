@@ -210,7 +210,7 @@ const ViewContainer = new Lang.Class({
                 artist = item.get_author();
             if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            if (item.get_title() == null) {
+            if ((item.get_title() == null) && (item.get_url() != null)) {
                 item.set_title (extractFileName(item.get_url()));
             }
             this._model.set(
@@ -350,8 +350,10 @@ const Songs = new Lang.Class({
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
-                typeRenderer.set_property("ellipsize", 3);
-                typeRenderer.text = item.get_string(Grl.METADATA_KEY_ALBUM);
+                if (item) {
+                    typeRenderer.set_property("ellipsize", 3);
+                    typeRenderer.text = item.get_string(Grl.METADATA_KEY_ALBUM);
+                }
             }));
 
         let durationRenderer =
@@ -360,15 +362,17 @@ const Songs = new Lang.Class({
         listWidget.add_renderer(durationRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
-                let duration = item.get_duration ();
-                var minutes = parseInt(duration / 60);
-                var seconds = duration % 60;
-                var time = null
-                if (seconds < 10)
-                    time =  minutes + ":0" + seconds;
-                else
-                    time = minutes + ":" + seconds;
-                durationRenderer.text = time;
+                if (item) {
+                    let duration = item.get_duration ();
+                    var minutes = parseInt(duration / 60);
+                    var seconds = duration % 60;
+                    var time = null
+                    if (seconds < 10)
+                        time =  minutes + ":0" + seconds;
+                    else
+                        time = minutes + ":" + seconds;
+                    durationRenderer.text = time;
+                }
             }));
     },
 
