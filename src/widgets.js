@@ -57,6 +57,14 @@ const AlbumWidget = new Lang.Class({
         });
         this.view.set_view_type(Gd.MainViewType.LIST);
         this.view.set_model(this.model);
+        this.view.connect('item-activated', Lang.bind(this,
+            function(widget, id, path) {
+                let iter = this.model.get_iter (path)[1];
+                let item = this.model.get_value(iter, 5);
+                this.player.setCurrentTrack(item);
+                this.player.play();
+            })
+        );
 
         this.cover = new Gtk.Image();
         this.vbox = new Gtk.VBox();
