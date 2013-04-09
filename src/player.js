@@ -133,7 +133,7 @@ const Player = new Lang.Class({
         this.stop();
         this.load(this.playlist[this.currentTrack]);
         this.player.set_state(Gst.State.PLAYING);
-        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, Lang.bind(this, this._updatePositionCallback));
     },
 
     pause: function () {
