@@ -71,6 +71,15 @@ const Player = new Lang.Class({
 
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
+        this.player.connect("about-to-finish", Lang.bind(this,
+            function() {
+                let newCurrentTrack = parseInt(this.currentTrack) + 1;
+                if (newCurrentTrack < this.playlist.length) {
+                    this.currentTrack = newCurrentTrack;
+                    this.load(this.playlist[this.currentTrack]);
+                }
+                return true;
+            }));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
         this.bus.connect("message", Lang.bind(this,
