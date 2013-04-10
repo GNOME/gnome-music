@@ -24,6 +24,8 @@ const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
 const Gst = imports.gi.Gst;
 const GLib = imports.gi.GLib;
+const GObject = imports.gi.GObject;
+const Signals = imports.signals;
 
 //pkg.initSubmodule('libgd');
 
@@ -74,6 +76,7 @@ const Player = new Lang.Class({
     Name: "Player",
 
     _init: function() {
+        Signals.addSignalMethods(Player.prototype);
         this.playlist = [];
         this.currentTrack = 0;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
@@ -106,6 +109,8 @@ const Player = new Lang.Class({
 
     load: function(media) {
         var pixbuf;
+
+        this.emit("song-changed", this.currentTrack);
 
         this._setDuration(media.get_duration());
         this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));

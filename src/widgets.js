@@ -66,6 +66,40 @@ const AlbumWidget = new Lang.Class({
             })
         );
 
+
+
+        this.player.connect('song-changed', Lang.bind(this,
+            function(widget, id) {
+                // Highlight currently played song as bold
+                let iter = this.model.get_iter_from_string(id.toString())[1];
+                let item = this.model.get_value(iter, 5);
+                let title = "<b>" + item.get_title() + "</b>";
+                this.model.set_value(iter, 0, title);
+                // Display now playing icon
+                this.model.set_value(iter, 6, true);
+
+                // Make all previous songs shadowed
+                for (let i = 0; i < id; i++){
+                    let iter = this.model.get_iter_from_string(i.toString())[1];
+                    let item = this.model.get_value(iter, 5);
+                    let title = "<span color='grey'>" + item.get_title() + "</span>";
+                    this.model.set_value(iter, 0, title);
+                    this.model.set_value(iter, 6, false);
+                }
+
+                //Remove markup from the following songs
+                let i = parseInt(id) + 1;
+                while(this.model.get_iter_from_string(i.toString())[0]) {
+                    let iter = this.model.get_iter_from_string(i.toString())[1];
+                    let item = this.model.get_value(iter, 5);
+                    this.model.set_value(iter, 0, item.get_title());
+                    this.model.set_value(iter, 6, false);
+                    i++;
+                }
+                return true;
+            }
+        ));
+
         this.cover = new Gtk.Image();
         this.vbox = new Gtk.VBox();
         this.title_label = new Gtk.Label({label : ""});
@@ -144,16 +178,28 @@ const AlbumWidget = new Lang.Class({
         var cells = cols[0].get_cells()
         cells[2].visible = false
 
+        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0 });
+        let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
+        nowPlayingSymbolRenderer.pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
+        nowPlayingSymbolRenderer.set_property("xalign", 0.0);
+        nowPlayingSymbolRenderer.set_property("expand", true);
+        listWidget.add_renderer(nowPlayingSymbolRenderer, Lang.bind(this,
+            function(col, cell, model, iter) {}
+        ));
+        cols[0].clear_attributes(nowPlayingSymbolRenderer);
+        cols[0].add_attribute(nowPlayingSymbolRenderer, "visible", 6);
+
         let typeRenderer =
-            new Gd.StyledTextRenderer({ xpad: 0 });
+            new Gd.StyledTextRenderer({ xpad: 16 });
         typeRenderer.set_property("ellipsize", 3);
         typeRenderer.set_property("xalign", 0.0);
         typeRenderer.set_property("expand", true);
+        // This function is not neede, just add the renderer!
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
-            function(col, cell, model, iter) {
-                let item = model.get_value(iter, 5);
-                typeRenderer.text = item.get_title();
-            }));
+            function(col, cell, model, iter) {}
+        ));
+        cols[0].clear_attributes(typeRenderer);
+        cols[0].add_attribute(typeRenderer, "markup", 0);
 
         let durationRenderer =
             new Gd.StyledTextRenderer({ xpad: 16 });
@@ -188,8 +234,8 @@ const AlbumWidget = new Lang.Class({
                 duration = duration + track.get_duration();
                 let iter = this.model.append();
                 this.model.set(iter,
-                    [0, 1, 2, 3, 4, 5],
-                    [ "", "", "", "", null, track]);
+                    [0, 1, 2, 3, 4, 5, 6],
+                    [ track.get_title(), "", "", "", null, track, false]);
                 this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min");
             }
         }));
@@ -221,7 +267,7 @@ const AlbumWidget = new Lang.Class({
 const ArtistAlbums = new Lang.Class({
     Name: "ArtistAlbumsWidget",
     Extends: Gtk.VBox,
-    
+
     _init: function (artist, albums) {
         this.artist = artist
         this.albums = albums
@@ -241,7 +287,7 @@ const ArtistAlbums = new Lang.Class({
 const ArtistAlbumWidget = new Lang.Class({
     Name: "ArtistAlbumWidget",
     Extends: Gtk.HBox,
-    
+
     _init: function (artist, album) {
         this.parent();
         this.album = album;
