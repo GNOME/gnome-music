@@ -399,5 +399,76 @@ const Artists = new Lang.Class({
 
     _init: function(header_bar, player) {
         this.parent("Artists", header_bar);
+        this._artists = {};
+        this._artistAlbumsWidget = new Gtk.VBox();
+        this.view.set_view_type(Gd.MainViewType.LIST);
+        this.view.set_hexpand(false);
+        this._artistAlbumsWidget.set_hexpand(true);
+        var scrolledWindow = new Gtk.ScrolledWindow();
+        scrolledWindow.set_policy(
+            Gtk.PolicyType.NEVER,
+            Gtk.PolicyType.AUTOMATIC);
+        scrolledWindow.add(this._artistAlbumsWidget)
+        this._grid.attach(scrolledWindow, 1, 0, 1, 1);
+        this._addListRenderers();
+        this.show_all();
+
+    },
+
+    _addListRenderers: function() {
+        let listWidget = this.view.get_generic_view();
+
+        var cols = listWidget.get_columns()
+        var cells = cols[0].get_cells()
+        cells[2].visible = false
+
+        let typeRenderer =
+            new Gd.StyledTextRenderer({ xpad: 0 });
+        typeRenderer.set_property("ellipsize", 3);
+        typeRenderer.set_property("xalign", 0.0);
+        typeRenderer.set_property("yalign", 0.5);
+        typeRenderer.set_property("height", 48);
+        listWidget.add_renderer(typeRenderer, Lang.bind(this,
+            function(col, cell, model, iter) {
+                typeRenderer.text = model.get_value(iter, 0);
+            }));
+    },
+
+    _onItemActivated: function (widget, id, path) {
+        var children = this._artistAlbumsWidget.get_children();
+        for (var i=0; i<children.length; i++)
+            this._artistAlbumsWidget.remove(children[i])
+        var iter = this._model.get_iter (path)[1];
+        var artist = this._model.get_value (iter, 0);
+        var albums = this._artists[artist.toLowerCase()]["albums"]
+        var artistAlbums = new Widgets.ArtistAlbums(artist, albums);
+        this._artistAlbumsWidget.pack_start(artistAlbums, true, true, 0)
+        //this._artistAlbumsWidget.update(artist, albums);
+    },
+
+    _addItem: function (source, param, item) {
+        if( item == null )
+            return
+        var artist = "Unknown"
+        if (item.get_author() != null)
+            artist = item.get_author();
+        if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
+            artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+        if (this._artists[artist.toLowerCase()] == undefined) {
+            var iter = this._model.append();
+            this._artists[artist.toLowerCase()] = {"iter": iter, "albums": []}
+            this._model.set(
+            iter,
+            [0, 1, 2, 3],
+            [artist, artist, artist, artist]
+        );
+        }
+        this._artists[artist.toLowerCase()]["albums"].push(item)
+    },
+
+    populate: function () {
+        if(grilo.tracker != null) {
+            grilo.populateArtists(this._offset, Lang.bind(this, this._addItem, null));
+        }
     },
 });

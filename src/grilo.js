@@ -65,6 +65,10 @@ const Grilo = new Lang.Class({
         }
     },
 
+    populateArtists: function (offset, callback) {
+        this.populateItems (Query.artist, offset, callback)
+    },
+
     populateAlbums: function (offset, callback) {
         this.populateItems (Query.album, offset, callback)
     },

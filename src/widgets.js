@@ -216,3 +216,57 @@ const AlbumWidget = new Lang.Class({
     },
 
 });
+
+
+const ArtistAlbums = new Lang.Class({
+    Name: "ArtistAlbumsWidget",
+    Extends: Gtk.VBox,
+    
+    _init: function (artist, albums) {
+        this.artist = artist
+        this.albums = albums
+        this.parent();
+        this.set_border_width(24)
+        this.label = new Gtk.Label()
+        this.label.set_markup("<b>" + this.artist + "</b>")
+        this.label.set_alignment(0.0, 0.5)
+        this.pack_start(this.label, false, false, 0)
+        this.pack_start(new Gtk.HSeparator(), false, false, 12)
+        for (var i=0; i < albums.length; i++)
+            this.pack_start(new ArtistAlbumWidget(artist, albums[i]), false, false, 9);
+        this.show_all();
+    },
+});
+
+const ArtistAlbumWidget = new Lang.Class({
+    Name: "ArtistAlbumWidget",
+    Extends: Gtk.HBox,
+    
+    _init: function (artist, album) {
+        this.parent();
+        this.album = album;
+        this.cover = new Gtk.Image();
+        this.title = new Gtk.Label();
+        this.title.set_ellipsize(2);
+        var pixbuf = albumArtCache.lookup (128, artist, album.get_title());
+        if (pixbuf == null) {
+            let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
+            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 128, true);
+        }
+        this.cover.set_from_pixbuf (pixbuf);
+        this.pack_start(this.cover, false, false, 0)
+        var vbox = new Gtk.VBox()
+        this.pack_start(vbox, true, true, 32)
+        this.title.set_markup("<span color='grey'><b>" + album.get_title() + "</b></span>")
+        var tracks = [];
+        grilo.getAlbumSongs(album.get_id(), Lang.bind(this, function (source, prefs, track) {
+            if (track != null) {
+                tracks.push(track);
+                this.title.set_markup("<span color='grey'><b>" + album.get_title() + "</b> (" + track.get_creation_date() + ")</span>")
+            }
+        }));
+        this.title.set_alignment(0.0, 0.5)
+        vbox.pack_start(this.title, false, false, 0)
+        this.show_all()
+    },
+});
