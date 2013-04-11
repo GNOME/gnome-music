@@ -182,7 +182,6 @@ const AlbumWidget = new Lang.Class({
         let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
         nowPlayingSymbolRenderer.pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
         nowPlayingSymbolRenderer.set_property("xalign", 0.0);
-        nowPlayingSymbolRenderer.set_property("expand", true);
         listWidget.add_renderer(nowPlayingSymbolRenderer, Lang.bind(this,
             function(col, cell, model, iter) {}
         ));
@@ -193,7 +192,6 @@ const AlbumWidget = new Lang.Class({
             new Gd.StyledTextRenderer({ xpad: 16 });
         typeRenderer.set_property("ellipsize", 3);
         typeRenderer.set_property("xalign", 0.0);
-        typeRenderer.set_property("expand", true);
         // This function is not neede, just add the renderer!
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
             function(col, cell, model, iter) {}
@@ -206,7 +204,6 @@ const AlbumWidget = new Lang.Class({
         durationRenderer.add_class('dim-label');
         durationRenderer.set_property("ellipsize", 3);
         durationRenderer.set_property("xalign", 1.0);
-        durationRenderer.set_property("expand", true);
         listWidget.add_renderer(durationRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
