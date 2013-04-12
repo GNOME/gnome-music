@@ -46,7 +46,7 @@ const AlbumWidget = new Lang.Class({
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
             GdkPixbuf.Pixbuf,
             GObject.TYPE_OBJECT,
             GObject.TYPE_BOOLEAN
@@ -76,7 +76,7 @@ const AlbumWidget = new Lang.Class({
                 let title = "<b>" + item.get_title() + "</b>";
                 this.model.set_value(iter, 0, title);
                 // Display now playing icon
-                this.model.set_value(iter, 6, true);
+                this.model.set_value(iter, 3, true);
 
                 // Make all previous songs shadowed
                 for (let i = 0; i < id; i++){
@@ -84,7 +84,7 @@ const AlbumWidget = new Lang.Class({
                     let item = this.model.get_value(iter, 5);
                     let title = "<span color='grey'>" + item.get_title() + "</span>";
                     this.model.set_value(iter, 0, title);
-                    this.model.set_value(iter, 6, false);
+                    this.model.set_value(iter, 3, false);
                 }
 
                 //Remove markup from the following songs
@@ -93,7 +93,7 @@ const AlbumWidget = new Lang.Class({
                     let iter = this.model.get_iter_from_string(i.toString())[1];
                     let item = this.model.get_value(iter, 5);
                     this.model.set_value(iter, 0, item.get_title());
-                    this.model.set_value(iter, 6, false);
+                    this.model.set_value(iter, 3, false);
                     i++;
                 }
                 return true;
@@ -177,16 +177,18 @@ const AlbumWidget = new Lang.Class({
         var cols = listWidget.get_columns()
         var cells = cols[0].get_cells()
         cells[2].visible = false
-
+        cells[1].visible = false
+ 
         let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0 });
         let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
         nowPlayingSymbolRenderer.pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
-        nowPlayingSymbolRenderer.set_property("xalign", 0.0);
-        listWidget.add_renderer(nowPlayingSymbolRenderer, Lang.bind(this,
-            function(col, cell, model, iter) {}
-        ));
-        cols[0].clear_attributes(nowPlayingSymbolRenderer);
-        cols[0].add_attribute(nowPlayingSymbolRenderer, "visible", 6);
+
+        var columnNowPlaying = new Gtk.TreeViewColumn();
+        nowPlayingSymbolRenderer.set_property("xalign", 1.0);
+        columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false)
+        columnNowPlaying.set_property('fixed-width', 24)
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 3);
+        listWidget.insert_column(columnNowPlaying, 0)
 
         let typeRenderer =
             new Gd.StyledTextRenderer({ xpad: 16 });
@@ -230,9 +232,11 @@ const AlbumWidget = new Lang.Class({
                 tracks.push(track);
                 duration = duration + track.get_duration();
                 let iter = this.model.append();
+                let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
+                let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
                 this.model.set(iter,
-                    [0, 1, 2, 3, 4, 5, 6],
-                    [ track.get_title(), "", "", "", null, track, false]);
+                    [0, 1, 2, 3, 4, 5],
+                    [ track.get_title(), "", "", false, pixbuf, track ]);
                 this.running_length_label_info.set_text((parseInt(duration/60) + 1) + " min");
             }
         }));
