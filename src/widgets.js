@@ -315,7 +315,12 @@ const ArtistAlbumWidget = new Lang.Class({
         grilo.getAlbumSongs(album.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
                 tracks.push(track);
-                this.title.set_markup("<span color='grey'><b>" + album.get_title() + "</b> (" + track.get_creation_date() + ")</span>")
+                let released_date = album.get_publication_date();
+                if (released_date != null) {
+                    this.title.set_markup("<span color='grey'><b>" + album.get_title() + "</b> (" + released_date.get_year().toString() + ")</span>")
+                } else {
+                    this.title.set_markup("<span color='grey'><b>" + album.get_title() + "</b></span>")
+                }
             }
         }));
         this.title.set_alignment(0.0, 0.5)
