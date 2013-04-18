@@ -224,6 +224,12 @@ const AlbumWidget = new Lang.Class({
 
     update: function (artist, album, item) {
         var pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
+	let released_date = item.get_publication_date();
+	if (released_date != null) {
+            this.released_label_info.set_text(released_date.get_year().toString());
+	} else {
+            this.released_label_info.set_text("----");
+	}
         let duration = 0;
         this.model.clear()
         var tracks = [];
