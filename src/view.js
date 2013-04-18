@@ -200,6 +200,7 @@ const ViewContainer = new Lang.Class({
     },
 
     _addItem: function(source, param, item) {
+        print (item.get_title() + "\n");
         if (item != null) {
             this._offset += 1;
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
