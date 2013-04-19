@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-04 20:41+0000\n"
-"PO-Revision-Date: 2013-04-03 16:05+0800\n"
+"POT-Creation-Date: 2013-04-12 15:24+0000\n"
+"PO-Revision-Date: 2013-04-13 14:11+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -19,20 +19,16 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 
 #: ../data/app-menu.ui.h:1
-#, fuzzy
-#| msgid "Playlists"
 msgid "_New Playlist"
-msgstr "播放列表"
+msgstr "新建播放列表(_N)"
 
 #: ../data/app-menu.ui.h:2
 msgid "_Now Playing"
-msgstr ""
+msgstr "正在播放(_N)"
 
 #: ../data/app-menu.ui.h:3
-#, fuzzy
-#| msgid "About Music"
 msgid "_About Music"
-msgstr "关于 Music"
+msgstr "关于 Music(_A)"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
