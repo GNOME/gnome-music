@@ -4,20 +4,20 @@
   <object class="GtkHBox" id="AlbumWidget">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="valign">center</property>
     <property name="homogeneous">True</property>
     <child>
-      <object class="GtkHBox" id="box1">
+      <object class="GtkHBox" id="box4">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">16</property>
-        <property name="margin_top">16</property>
-        <property name="margin_bottom">16</property>
-        <property name="spacing">32</property>
+        <property name="halign">end</property>
+        <property name="margin_right">32</property>
+        <property name="vexpand">True</property>
         <child>
           <object class="GtkVBox" id="vbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">end</property>
+            <property name="margin_top">64</property>
             <child>
               <placeholder/>
             </child>
@@ -25,6 +25,7 @@
               <object class="GtkImage" id="cover">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">end</property>
                 <property name="xpad">1</property>
                 <property name="stock">gtk-missing-image</property>
               </object>
@@ -68,6 +69,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="padding">24</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -165,7 +167,22 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
+            <property name="pack_type">end</property>
             <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="xalign">0.33000001311302185</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
@@ -179,10 +196,6 @@
       <object class="GtkScrolledWindow" id="scrolledWindow">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="margin_left">6</property>
-        <property name="margin_right">16</property>
-        <property name="margin_top">16</property>
-        <property name="margin_bottom">16</property>
         <child>
           <object class="GtkViewport" id="view">
             <property name="visible">True</property>
@@ -197,6 +210,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
+                    <property name="margin_top">64</property>
                     <property name="homogeneous">True</property>
                     <child>
                       <placeholder/>
@@ -205,7 +219,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="position">0</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>

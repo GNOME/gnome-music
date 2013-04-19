@@ -218,7 +218,7 @@ const AlbumWidget = new Lang.Class({
 
     setReleasedLabel: function(year) {
         this.ui.get_object("released_label_info").set_markup(
-            "<b><span color='grey'>" + year + "</span></b>");
+            "<span>" + year + "</span>");
     },
 });
 
@@ -239,7 +239,7 @@ const ArtistAlbums = new Lang.Class({
         var widgets = [];
         for (var i=0; i < albums.length; i++) {
             let widget = new ArtistAlbumWidget(artist, albums[i], this.player, tracks)
-            this.pack_start(widget, false, false, 9);
+            this.pack_start(widget, true, true, 9);
             widgets.push(widget);
         }
         this.show_all();

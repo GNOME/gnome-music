@@ -23,7 +23,7 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkBox" id="box2">
+          <object class="GtkBox" id="box3">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -77,8 +77,8 @@
             <property name="item_orientation">horizontal</property>
             <property name="model">liststore1</property>
             <property name="columns">2</property>
-            <property name="activate_on_single_click">True</property>
             <property name="row_spacing">1</property>
+            <property name="activate_on_single_click">True</property>
             <style>
               <class name="content-view"/>
               <class name="view"/>
