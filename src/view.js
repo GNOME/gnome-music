@@ -200,8 +200,8 @@ const ViewContainer = new Lang.Class({
     },
 
     _addItem: function(source, param, item) {
-        print (item.get_title() + "\n");
         if (item != null) {
+            print (item.get_title() + "\n");
             this._offset += 1;
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             let icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, this._iconHeight, this._iconWidth, true);
@@ -400,6 +400,7 @@ const Artists = new Lang.Class({
 
     _init: function(header_bar, player) {
         this.parent("Artists", header_bar);
+        this.player = player;
         this._artists = {};
         this._artistAlbumsWidget = new Gtk.VBox();
         this.view.set_view_type(Gd.MainViewType.LIST);
@@ -442,7 +443,7 @@ const Artists = new Lang.Class({
         var iter = this._model.get_iter (path)[1];
         var artist = this._model.get_value (iter, 0);
         var albums = this._artists[artist.toLowerCase()]["albums"]
-        var artistAlbums = new Widgets.ArtistAlbums(artist, albums);
+        var artistAlbums = new Widgets.ArtistAlbums(artist, albums, this.player);
         this._artistAlbumsWidget.pack_start(artistAlbums, true, true, 0)
         //this._artistAlbumsWidget.update(artist, albums);
     },
