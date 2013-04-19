@@ -407,8 +407,8 @@ const Artists = new Lang.Class({
         this.view.set_view_type(Gd.MainViewType.LIST);
         this.view.set_hexpand(false);
         this._artistAlbumsWidget.set_hexpand(true);
-        this._artistAlbumsWidget.get_style_context().add_class("view");
-        this._artistAlbumsWidget.get_style_context().add_class("content-view");
+        //this._artistAlbumsWidget.get_style_context().add_class("view");
+        //this._artistAlbumsWidget.get_style_context().add_class("content-view");
         var scrolledWindow = new Gtk.ScrolledWindow();
         scrolledWindow.set_policy(
             Gtk.PolicyType.NEVER,
