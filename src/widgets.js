@@ -304,7 +304,7 @@ const ArtistAlbumWidget = new Lang.Class({
                 //    [ track.get_title(), track.get_track_number(), "", false, pixbuf, track ]);
                 var ui = new Gtk.Builder();
                 ui.add_from_resource('/org/gnome/music/TrackWidget.ui');
-                var songWidget = ui.get_object("frame1");
+                var songWidget = ui.get_object("box1");
                 this.songs.push(songWidget);
                 ui.get_object("num").set_text(this.songs.length.toString());
                 if (track.get_title() != null)
