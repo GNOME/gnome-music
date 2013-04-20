@@ -72,6 +72,7 @@
           <object class="GtkGrid" id="grid1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_top">24</property>
             <property name="column_homogeneous">True</property>
             <child>
               <placeholder/>
