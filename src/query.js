@@ -26,7 +26,9 @@ const artist = 'SELECT DISTINCT rdf:type(?album) tracker:id(?album) as id (SELEC
 
 const album_count = 'SELECT COUNT(?album) AS childcount WHERE { ?album a nmm:MusicAlbum }';
 
-const songs = 'SELECT DISTINCT rdf:type(?song) tracker:id(?song) as id nie:url(?song) as url nie:title(?song) as title nmm:artistName(nmm:performer(?song)) as artist nie:title(nmm:musicAlbum(?song)) as album nfo:duration(?song) as duration { ?song a nmm:MusicPiece } (SELECT fn:year-from-dateTime(?c) WHERE { ?_2 nmm:musicAlbum(?song); nie:contentCreated ?c; tracker:available "true" } LIMIT 1) as creation-date ORDER BY tracker:added(?song)';
+/*const songs = 'SELECT DISTINCT rdf:type(?song) tracker:id(?song) as id nie:url(?song) as url nie:title(?song) as title nmm:artistName(nmm:performer(?song)) as artist nie:title(nmm:musicAlbum(?song)) as album nfo:duration(?song) as duration { ?song a nmm:MusicPiece } (SELECT fn:year-from-dateTime(?c) WHERE { ?_2 nmm:musicAlbum(?song); nie:contentCreated ?c; tracker:available "true" } LIMIT 1) as creation-date ORDER BY tracker:added(?song)';*/
+
+const songs = 'SELECT DISTINCT rdf:type(?song) tracker:id(?song) as id nie:url(?song) as url nie:title(?song) as title nmm:artistName(nmm:performer(?song)) as artist nie:title(nmm:musicAlbum(?song)) as album nfo:duration(?song) as duration { ?song a nmm:MusicPiece } ORDER BY tracker:added(?song)';
 
 const songs_count = 'SELECT COUNT(?song) AS childcount WHERE { ?song a nmm:MusicPiece }';
 

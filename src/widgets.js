@@ -233,13 +233,15 @@ const ArtistAlbums = new Lang.Class({
         this.parent();
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/ArtistAlbumsWidget.ui');
-        this.set_border_width(24)
-        this.ui.get_object("artist").set_label(this.artist)
+        this.set_border_width(0);
+        this.ui.get_object("artist").set_label(this.artist); 
         var tracks = [];
         var widgets = [];
+
+        this.pack_start(this.ui.get_object("ArtistAlbumsWidget"), false, false, 0);
         for (var i=0; i < albums.length; i++) {
             let widget = new ArtistAlbumWidget(artist, albums[i], this.player, tracks)
-            this.pack_start(widget, true, true, 9);
+            this.pack_start(widget, false, false, 32);
             widgets.push(widget);
         }
         this.show_all();
@@ -272,6 +274,7 @@ const ArtistAlbumWidget = new Lang.Class({
         this.parent();
         this.player = player;
         this.album = album;
+        this.songs = [];
 
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/ArtistAlbumWidget.ui');
@@ -282,6 +285,7 @@ const ArtistAlbumWidget = new Lang.Class({
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 128, true);
         }
+        
         this.ui.get_object("cover").set_from_pixbuf(pixbuf);
         this.ui.get_object("title").set_label(album.get_title());
         if (album.get_creation_date()) {
@@ -292,29 +296,47 @@ const ArtistAlbumWidget = new Lang.Class({
         grilo.getAlbumSongs(album.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
                 tracks.push(track);
-                let iter = this.model.append();
                 track.origin = this;
-                track.iterator = iter;
-                let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
-                let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
-                this.model.set(iter,
-                    [0, 1, 2, 3, 4, 5],
-                    [ track.get_title(), track.get_track_number(), "", false, pixbuf, track ]);
+                //let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
+                //let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
+                //this.model.set(iter,
+                //    [0, 1, 2, 3, 4, 5],
+                //    [ track.get_title(), track.get_track_number(), "", false, pixbuf, track ]);
+                var ui = new Gtk.Builder();
+                ui.add_from_resource('/org/gnome/music/TrackWidget.ui');
+                var songWidget = ui.get_object("frame1");
+                this.songs.push(songWidget);
+                ui.get_object("num").set_text(this.songs.length.toString());
+                if (track.get_title() != null)
+                    ui.get_object("title").set_text(track.get_title());
+                //var songWidget = ui.get_object("duration").set_text(track.get_title());
+                ui.get_object("title").set_alignment(0.0, 0.5);
+                if (this.songs.length == 1) {
+                    this.ui.get_object("grid1").add(songWidget);
+                }
+                else {
+                    var i = this.songs.length - 1;
+                    this.ui.get_object("grid1").attach(songWidget, i%2, parseInt(i/2), 1, 1)
+                }
+                this.ui.get_object("grid1").show_all();
+                //ui.get_object("image1").hide();
             }
         }));
 
         this.pack_start(this.ui.get_object("ArtistAlbumWidget"), true, true, 0);
         this.show_all();
 
-        this.ui.get_object("iconview1").connect('item-activated', Lang.bind(
+        /*this.ui.get_object("iconview1").connect('item-activated', Lang.bind(
             this, function(widget, path) {
                 var iter = this.model.get_iter (path)[1];
                 var item = this.model.get_value (iter, 5);
                 this.setPlayingSong(item.iterator);
         }));
+        */
     },
 
     setPlayingSong: function(iter) {
+        /*
         if (iter == -1) {
             // Remove markup completely
             let new_iter = this.model.get_iter_first()[1];
@@ -353,5 +375,6 @@ const ArtistAlbumWidget = new Lang.Class({
                 this.model.set_value(next_iter, 3, false);
             }
         }
+        */
     },
 });

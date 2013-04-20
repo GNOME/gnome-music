@@ -4,9 +4,9 @@
   <object class="GtkBox" id="ArtistAlbumsWidget">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="border_width">24</property>
+    <property name="margin_left">24</property>
+    <property name="margin_top">24</property>
     <property name="orientation">vertical</property>
-    <property name="homogeneous">True</property>
     <child>
       <object class="GtkLabel" id="artist">
         <property name="visible">True</property>
@@ -27,6 +27,7 @@
       <object class="GtkSeparator" id="separator1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_top">6</property>
       </object>
       <packing>
         <property name="expand">False</property>
