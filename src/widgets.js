@@ -71,10 +71,10 @@ const AlbumWidget = new Lang.Class({
 
         this.parent();
 
-        let hbox = this.ui.get_object("box3");
+        let view_box = this.ui.get_object("view");
         let child_view = this.view.get_children()[0];
         this.view.remove(child_view)
-        hbox.pack_start(child_view, true, true, 0)
+        view_box.add(child_view)
 
         this.add(this.ui.get_object("AlbumWidget"));
         this._addListRenderers();

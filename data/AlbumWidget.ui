@@ -17,6 +17,7 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">end</property>
+            <property name="valign">start</property>
             <property name="margin_top">64</property>
             <child>
               <placeholder/>
@@ -25,13 +26,14 @@
               <object class="GtkImage" id="cover">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
+                <property name="halign">center</property>
+                <property name="valign">start</property>
                 <property name="xpad">1</property>
                 <property name="stock">gtk-missing-image</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -39,6 +41,7 @@
               <object class="GtkVBox" id="artistBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="valign">start</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkLabel" id="title_label">
@@ -68,7 +71,7 @@
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">True</property>
+                <property name="fill">False</property>
                 <property name="padding">24</property>
                 <property name="position">2</property>
               </packing>
@@ -200,29 +203,10 @@
           <object class="GtkViewport" id="view">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="halign">start</property>
+            <property name="margin_top">64</property>
             <child>
-              <object class="GtkVBox" id="box2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="homogeneous">True</property>
-                <child>
-                  <object class="GtkHBox" id="box3">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">start</property>
-                    <property name="margin_top">64</property>
-                    <property name="homogeneous">True</property>
-                    <child>
-                      <placeholder/>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
+              <placeholder/>
             </child>
           </object>
         </child>
