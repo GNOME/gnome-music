@@ -43,12 +43,12 @@ const AlbumWidget = new Lang.Class({
         this.scrolledWindow = new Gtk.ScrolledWindow();
 
         this.model = Gtk.ListStore.new([
+            GObject.TYPE_STRING, /*title*/
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GdkPixbuf.Pixbuf,
-            GObject.TYPE_OBJECT,
+            GObject.TYPE_BOOLEAN,/*icon shown*/
+            GdkPixbuf.Pixbuf,    /*icon*/
+            GObject.TYPE_OBJECT, /*song object*/
             GObject.TYPE_BOOLEAN
         ]);
         this.ui = new Gtk.Builder();
@@ -106,7 +106,7 @@ const AlbumWidget = new Lang.Class({
             new Gd.StyledTextRenderer({ xpad: 16 });
         typeRenderer.set_property("ellipsize", 3);
         typeRenderer.set_property("xalign", 0.0);
-        // This function is not neede, just add the renderer!
+        // This function is not needed, just add the renderer!
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
             function(col, cell, model, iter) {}
         ));
@@ -122,14 +122,9 @@ const AlbumWidget = new Lang.Class({
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
                 let duration = item.get_duration ();
-                var minutes = parseInt(duration / 60);
-                var seconds = duration % 60;
-                var time = null
-                if (seconds < 10)
-                    time =  minutes + ":0" + seconds;
-                else
-                    time = minutes + ":" + seconds;
-                durationRenderer.text = time;
+		if (!item)
+			return;
+                durationRenderer.text = this.player.seconds_to_string(duration);
             }));
     },
 
@@ -139,8 +134,6 @@ const AlbumWidget = new Lang.Class({
         if (released_date != null) {
             this.ui.get_object("released_label_info").set_text(
                 released_date.get_year().toString());
-        } else {
-            this.ui.get_object("released_label_info").set_text("----");
         }
         let duration = 0;
         this.model.clear()
@@ -163,15 +156,16 @@ const AlbumWidget = new Lang.Class({
         this.player.setPlaylist(tracks);
         this.player.setCurrentTrack(tracks[0]);
 
+        pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         if (pixbuf == null) {
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 256, true);
         }
         this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
-        this.setArtistLabel(artist);
-        this.setTitleLabel(album);
-        this.setReleasedLabel(item.get_creation_date().get_year());
+        this.ui.get_object("artist_label").set_text(artist);
+        this.ui.get_object("title_label").set_text(album);
+        this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
 
         this.player.connect('song-changed', Lang.bind(this,
             function(widget, id) {
@@ -204,21 +198,6 @@ const AlbumWidget = new Lang.Class({
                 return true;
             }
         ));
-    },
-
-    setArtistLabel: function(artist) {
-        this.ui.get_object("artist_label").set_markup(
-            "<b><span size='large' color='grey'>" + artist + "</span></b>");
-    },
-
-    setTitleLabel: function(title) {
-        this.ui.get_object("title_label").set_markup(
-            "<b><span size='large'>" + title + "</span></b>");
-    },
-
-    setReleasedLabel: function(year) {
-        this.ui.get_object("released_label_info").set_markup(
-            "<span>" + year + "</span>");
     },
 });
 
@@ -275,7 +254,6 @@ const ArtistAlbumWidget = new Lang.Class({
         this.player = player;
         this.album = album;
         this.songs = [];
-        this.tracks = [];
 
         var track_count = album.get_childcount();
 
@@ -298,13 +276,13 @@ const ArtistAlbumWidget = new Lang.Class({
 
         grilo.getAlbumSongs(album.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
-                this.tracks.push(track);
+                tracks.push(track);
                 track.origin = this;
             }
             else {
                 var titles = []
-                for (var i=0; i<this.tracks.length; i++) {
-                    track = this.tracks[i];
+                for (var i=0; i<tracks.length; i++) {
+                    track = tracks[i];
                     if (titles.indexOf(track.get_title()) == -1) {
                         titles.push(track.get_title())
                         var ui = new Gtk.Builder();
@@ -314,9 +292,15 @@ const ArtistAlbumWidget = new Lang.Class({
                         ui.get_object("num").set_text(this.songs.length.toString());
                         if (track.get_title() != null)
                             ui.get_object("title").set_text(track.get_title());
-                        this.ui.get_object("grid1").attach(songWidget,
-                            parseInt(i/(this.tracks.length/2)),
-                            parseInt((i)%(this.tracks.length/2)), 1, 1);
+                        //var songWidget = ui.get_object("duration").set_text(track.get_title());
+                        ui.get_object("title").set_alignment(0.0, 0.5);
+                        if (this.songs.length == 1) {
+                            this.ui.get_object("grid1").add(songWidget);
+                        }
+                        else {
+                            var i = this.songs.length - 1;
+                            this.ui.get_object("grid1").attach(songWidget, parseInt(i/(tracks.length/2)), parseInt((i)%(tracks.length/2)), 1, 1)
+                        }
                         this.ui.get_object("grid1").show_all();
                     }
                 }

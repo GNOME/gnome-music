@@ -47,6 +47,10 @@
                   <object class="GtkLabel" id="title_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="scale" value="1.2"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -58,6 +62,11 @@
                   <object class="GtkLabel" id="artist_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#808080808080"/>
+                      <attribute name="size" value="1"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -182,6 +191,10 @@
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="xalign">0.33000001311302185</property>
+            <attributes>
+              <attribute name="scale" value="0"/>
+              <attribute name="foreground" value="#808080808080"/>
+            </attributes>
           </object>
           <packing>
             <property name="expand">True</property>
