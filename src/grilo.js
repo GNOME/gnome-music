@@ -84,7 +84,7 @@ const Grilo = new Lang.Class({
         options.set_count(50);
         grilo.tracker.query(
             query,
-                [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE, Grl.METADATA_KEY_ARTIST],
+                [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE, Grl.METADATA_KEY_ARTIST, Grl.METADATA_KEY_CREATION_DATE],
                 options,
                 Lang.bind(this, callback, null));
     },
@@ -95,7 +95,7 @@ const Grilo = new Lang.Class({
         options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
         grilo.tracker.query(
             query,
-                [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE, Grl.METADATA_KEY_ARTIST],
+                [Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE, Grl.METADATA_KEY_ARTIST, Grl.METADATA_KEY_CREATION_DATE],
                 options,
                 Lang.bind(this, callback, null));
     },

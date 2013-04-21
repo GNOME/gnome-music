@@ -200,7 +200,6 @@ const ViewContainer = new Lang.Class({
     },
 
     _addItem: function(source, param, item) {
-        print (item.get_title() + "\n");
         if (item != null) {
             this._offset += 1;
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
@@ -400,16 +399,21 @@ const Artists = new Lang.Class({
 
     _init: function(header_bar, player) {
         this.parent("Artists", header_bar);
+        this.player = player;
         this._artists = {};
-        this._artistAlbumsWidget = new Gtk.VBox();
+        this._artistAlbumsWidget = new Gtk.Frame({
+            shadow_type:    Gtk.ShadowType.NONE
+        });
         this.view.set_view_type(Gd.MainViewType.LIST);
         this.view.set_hexpand(false);
         this._artistAlbumsWidget.set_hexpand(true);
+        //this._artistAlbumsWidget.get_style_context().add_class("view");
+        //this._artistAlbumsWidget.get_style_context().add_class("content-view");
         var scrolledWindow = new Gtk.ScrolledWindow();
         scrolledWindow.set_policy(
             Gtk.PolicyType.NEVER,
             Gtk.PolicyType.AUTOMATIC);
-        scrolledWindow.add(this._artistAlbumsWidget)
+        scrolledWindow.add(this._artistAlbumsWidget);
         this._grid.attach(scrolledWindow, 1, 0, 1, 1);
         this._addListRenderers();
         this.show_all();
@@ -442,8 +446,8 @@ const Artists = new Lang.Class({
         var iter = this._model.get_iter (path)[1];
         var artist = this._model.get_value (iter, 0);
         var albums = this._artists[artist.toLowerCase()]["albums"]
-        var artistAlbums = new Widgets.ArtistAlbums(artist, albums);
-        this._artistAlbumsWidget.pack_start(artistAlbums, true, true, 0)
+        var artistAlbums = new Widgets.ArtistAlbums(artist, albums, this.player);
+        this._artistAlbumsWidget.add(artistAlbums);
         //this._artistAlbumsWidget.update(artist, albums);
     },
 
