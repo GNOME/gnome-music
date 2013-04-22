@@ -315,7 +315,6 @@ const ArtistAlbumWidget = new Lang.Class({
                         if (track.get_title() != null)
                             ui.get_object("title").set_text(track.get_title());
                         //var songWidget = ui.get_object("duration").set_text(track.get_title());
-                        ui.get_object("title").set_alignment(0.0, 0.5);
                         if (this.songs.length == 1) {
                             this.ui.get_object("grid1").add(songWidget);
                         }
