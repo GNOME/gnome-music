@@ -314,16 +314,10 @@ const ArtistAlbumWidget = new Lang.Class({
                         ui.get_object("num").set_text(this.songs.length.toString());
                         if (track.get_title() != null)
                             ui.get_object("title").set_text(track.get_title());
-                        //var songWidget = ui.get_object("duration").set_text(track.get_title());
-                        if (this.songs.length == 1) {
-                            this.ui.get_object("grid1").add(songWidget);
-                        }
-                        else {
-                            var i = this.songs.length - 1;
-                            this.ui.get_object("grid1").attach(songWidget,
-                                parseInt(i/(this.tracks.length/2)),
-                                parseInt((i)%(this.tracks.length/2)), 1, 1)
-                        }
+                        var i = this.songs.length - 1;
+                        this.ui.get_object("grid1").attach(songWidget,
+                            parseInt(i/(this.tracks.length/2)),
+                            parseInt((i)%(this.tracks.length/2)), 1, 1);
                         this.ui.get_object("grid1").show_all();
                     }
                 }
