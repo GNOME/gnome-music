@@ -122,8 +122,8 @@ const AlbumWidget = new Lang.Class({
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
                 let duration = item.get_duration ();
-		if (!item)
-			return;
+                if (!item)
+                    return;
                 durationRenderer.text = this.player.seconds_to_string(duration);
             }));
     },
@@ -163,8 +163,8 @@ const AlbumWidget = new Lang.Class({
         }
         this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
-        this.ui.get_object("artist_label").set_text(artist);
-        this.ui.get_object("title_label").set_text(album);
+        this.ui.get_object("artist_label").set_markup(artist);
+        this.ui.get_object("title_label").set_markup(album);
         this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
 
         this.player.connect('song-changed', Lang.bind(this,
@@ -294,16 +294,12 @@ const ArtistAlbumWidget = new Lang.Class({
                             ui.get_object("title").set_text(track.get_title());
                         //var songWidget = ui.get_object("duration").set_text(track.get_title());
                         ui.get_object("title").set_alignment(0.0, 0.5);
-                        if (this.songs.length == 1) {
-                            this.ui.get_object("grid1").add(songWidget);
-                        }
-                        else {
-                            var i = this.songs.length - 1;
-                            this.ui.get_object("grid1").attach(songWidget, parseInt(i/(tracks.length/2)), parseInt((i)%(tracks.length/2)), 1, 1)
-                        }
-                        this.ui.get_object("grid1").show_all();
+                        this.ui.get_object("grid1").attach(songWidget,
+                            parseInt(i/(tracks.length/2)),
+                            parseInt((i)%(tracks.length/2)), 1, 1);
                     }
                 }
+                this.ui.get_object("grid1").show_all();
             }
         }));
 
