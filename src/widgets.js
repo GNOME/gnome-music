@@ -275,6 +275,7 @@ const ArtistAlbumWidget = new Lang.Class({
         this.player = player;
         this.album = album;
         this.songs = [];
+        this.tracks = [];
 
         var track_count = album.get_childcount();
 
@@ -297,34 +298,32 @@ const ArtistAlbumWidget = new Lang.Class({
 
         grilo.getAlbumSongs(album.get_id(), Lang.bind(this, function (source, prefs, track) {
             if (track != null) {
-                tracks.push(track);
+                this.tracks.push(track);
                 track.origin = this;
             }
             else {
-                var titles = []
-                for (var i=0; i<tracks.length; i++) {
-                    track = tracks[i];
-                    if (titles.indexOf(track.get_title()) == -1) {
-                        titles.push(track.get_title())
-                        var ui = new Gtk.Builder();
-                        ui.add_from_resource('/org/gnome/music/TrackWidget.ui');
-                        var songWidget = ui.get_object("box1");
-                        this.songs.push(songWidget);
-                        ui.get_object("num").set_text(this.songs.length.toString());
-                        if (track.get_title() != null)
-                            ui.get_object("title").set_text(track.get_title());
-                        //var songWidget = ui.get_object("duration").set_text(track.get_title());
-                        ui.get_object("title").set_alignment(0.0, 0.5);
-                        if (this.songs.length == 1) {
-                            this.ui.get_object("grid1").add(songWidget);
-                        }
-                        else {
-                            var i = this.songs.length - 1;
-                            this.ui.get_object("grid1").attach(songWidget, parseInt(i/(tracks.length/2)), parseInt((i)%(tracks.length/2)), 1, 1)
-                        }
-                        this.ui.get_object("grid1").show_all();
+                for (var i=0; i<this.tracks.length; i++) {
+                    track = this.tracks[i];
+                    var ui = new Gtk.Builder();
+                    ui.add_from_resource('/org/gnome/music/TrackWidget.ui');
+                    var songWidget = ui.get_object("box1");
+                    this.songs.push(songWidget);
+                    ui.get_object("num").set_text(this.songs.length.toString());
+                    if (track.get_title() != null)
+                        ui.get_object("title").set_text(track.get_title());
+                    //var songWidget = ui.get_object("duration").set_text(track.get_title());
+                    ui.get_object("title").set_alignment(0.0, 0.5);
+                    if (this.songs.length == 1) {
+                        this.ui.get_object("grid1").add(songWidget);
+                    }
+                    else {
+                        var i = this.songs.length - 1;
+                        this.ui.get_object("grid1").attach(songWidget,
+                            parseInt(i/(this.tracks.length/2)),
+                            parseInt((i)%(this.tracks.length/2)), 1, 1)
                     }
                 }
+                this.ui.get_object("grid1").show_all();
             }
         }));
 
