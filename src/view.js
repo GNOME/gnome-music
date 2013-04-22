@@ -337,7 +337,6 @@ const Songs = new Lang.Class({
 
     _addItem: function(source, param, item) {
         this.parent(source, param, item);
-        this.player.appendToPlaylist(item);
     },
 
     _addListRenderers: function() {
@@ -377,7 +376,6 @@ const Songs = new Lang.Class({
     },
 
     populate: function() {
-        this.player.playlist = [];
         if (grilo.tracker != null)
             grilo.populateSongs (this._offset, Lang.bind(this, this._addItem, null));
     },

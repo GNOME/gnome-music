@@ -79,19 +79,18 @@ const Player = new Lang.Class({
 
     _init: function() {
         Signals.addSignalMethods(Player.prototype);
-        this.playlist = [];
-        this.currentTrack = 0;
+        this.playlist = null;
+	this.playlist_type = null;
+	this.playlist_id = null;
+	this.playlist_field = null;
+        this.currentTrack = null;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.player.connect("about-to-finish", Lang.bind(this,
             function() {
-                let newCurrentTrack = parseInt(this.currentTrack) + 1;
-                if (newCurrentTrack < this.playlist.length) {
-                    this.currentTrack = newCurrentTrack;
-                    this.load(this.playlist[this.currentTrack]);
-                }
+		this.playNext();
                 return true;
             }));
         this.bus = this.player.get_bus();
@@ -153,9 +152,9 @@ const Player = new Lang.Class({
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
-        this.load(this.playlist[this.currentTrack]);
+        this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
         this.player.set_state(Gst.State.PLAYING);
-        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10, Lang.bind(this, this._updatePositionCallback));
+        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 100, Lang.bind(this, this._updatePositionCallback));
     },
 
     pause: function () {
@@ -171,30 +170,41 @@ const Player = new Lang.Class({
         }
     },
 
-    appendToPlaylist: function (track) {
-        this.playlist.push(track);
-    },
-
     playNext: function () {
-        let newCurrentTrack = parseInt(this.currentTrack) + 1;
-        if (newCurrentTrack < this.playlist.length) {
-            this.currentTrack = newCurrentTrack;
-            this.stop();
-            this.play();
-        }
+	if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)){
+		this.stop();
+	        this.currentTrack=null;	
+		return;
+	}
+        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
+	this.stop();
+	this.play();
     },
 
     playPrevious: function () {
-        let newCurrentTrack = parseInt(this.currentTrack) - 1;
-        if (newCurrentTrack >= 0) {
-            this.currentTrack = newCurrentTrack;
-            this.stop();
-            this.play();
-        }
+	if (!this.playlist || !this.currentTrack || !this.playlist.iter_previous(this.currentTrack)){
+		this.stop();
+	        this.currentTrack=null;	
+		return;}
+        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
+	this.stop();
+	this.play();
     },
 
-    setPlaylist: function (playlist) {
-        this.playlist = playlist;
+    setPlaylist: function (type, id, model, iter, field) {
+        this.playlist = model;
+	this.playlist_type = type;
+	this.playlist_id = id;
+        this.currentTrack = iter;
+        this.playlist_field = field;
+        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
+    },
+
+    runningPlaylist: function (type, id, force){
+	    if (type == this.playlist_type && id == this.playlist_id)
+		    return this.playlist;
+	    else
+		    return null;
     },
 
     setCurrentTrack: function (track) {
