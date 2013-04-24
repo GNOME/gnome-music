@@ -146,6 +146,8 @@ const ViewContainer = new Lang.Class({
         this._items = [];
         this._loadMore.widget.hide();
         this._connectView();
+        let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
+        this._symbolicIcon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, this._iconHeight, this._iconWidth, true)
         grilo.connect('ready', Lang.bind(this, this.populate));
         this.header_bar.connect('state-changed', Lang.bind(this, this._onStateChanged))
     },
@@ -202,8 +204,6 @@ const ViewContainer = new Lang.Class({
     _addItem: function(source, param, item) {
         if (item != null) {
             this._offset += 1;
-            let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
-            let icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, this._iconHeight, this._iconWidth, true);
             var iter = this._model.append();
             var artist = "Unknown"
             if (item.get_author() != null)
@@ -216,7 +216,7 @@ const ViewContainer = new Lang.Class({
             this._model.set(
                     iter,
                     [0, 1, 2, 3, 4, 5],
-                    [toString(item.get_id()), "", item.get_title(), artist, icon, item]
+                    [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item]
                 );
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
         }
