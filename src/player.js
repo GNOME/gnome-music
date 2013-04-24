@@ -175,9 +175,15 @@ const Player = new Lang.Class({
     },
 
     playNext: function () {
+        if (this.currentTrack)
+            this.prevTrack = this.currentTrack.copy()
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)){
             this.stop();
-            this.currentTrack=null;
+            if (this.prevTrack) {
+                this.currentTrack = this.prevTrack.copy();
+            } else {
+                this.currentTrack = null;
+            }
             return;
         }
         this.stop();
@@ -187,7 +193,11 @@ const Player = new Lang.Class({
     playPrevious: function () {
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_previous(this.currentTrack)){
             this.stop();
-            this.currentTrack=null;
+            if (!this.playlist) {
+                this.currentTrack = null;
+            } else {
+                this.currentTrack = this.playlist.get_iter_first()[1];
+            }
             return;}
         this.stop();
         this.play();
