@@ -195,8 +195,8 @@ const Player = new Lang.Class({
 
     setPlaylist: function (type, id, model, iter, field) {
         this.playlist = model;
-	this.playlist_type = type;
-	this.playlist_id = id;
+        this.playlist_type = type;
+        this.playlist_id = id;
         this.currentTrack = iter;
         this.playlist_field = field;
         this.emit("playlist-item-changed", this.playlist, this.currentTrack);

@@ -184,10 +184,13 @@ const AlbumWidget = new Lang.Class({
         if (playlist != this.model){
             return true;}
         if (this.iterToClean){
-            let item = this.model.get_value(this.iterToClean, 5);
-            this.model.set_value(this.iterToClean, 0, item.get_title());
-            // Hide now playing icon
-            this.model.set_value(this.iterToClean, 3, false);
+            let next_iter = iter.copy();
+            do {
+                let item = this.model.get_value(next_iter, 5);
+                this.model.set_value(next_iter, 0, item.get_title());
+                // Hide now playing icon
+                this.model.set_value(next_iter, 3, false);
+            } while (this.model.iter_next(next_iter))
         }
         this.iterToClean = iter.copy();
 
