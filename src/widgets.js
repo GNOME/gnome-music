@@ -40,7 +40,7 @@ const AlbumWidget = new Lang.Class({
     _init: function (player) {
         this.player = player;
         this.hbox = new Gtk.HBox ();
-	this.iterToClean = null;
+        this.iterToClean = null;
         this.scrolledWindow = new Gtk.ScrolledWindow();
 
         this.ui = new Gtk.Builder();
@@ -51,15 +51,15 @@ const AlbumWidget = new Lang.Class({
             shadow_type:    Gtk.ShadowType.NONE
         });
         this.view.set_view_type(Gd.MainViewType.LIST);
-	this.album=null;
+        this.album=null;
         this.view.connect('item-activated', Lang.bind(this,
             function(widget, id, path) {
-		if (this.iterToClean){
-			let item = this.model.get_value(this.iterToClean, 5);
-			this.model.set_value(this.iterToClean, 0, item.get_title());
-			// Hide now playing icon
-			this.model.set_value(this.iterToClean, 3, false);
-		}
+        if (this.iterToClean){
+            let item = this.model.get_value(this.iterToClean, 5);
+            this.model.set_value(this.iterToClean, 0, item.get_title());
+            // Hide now playing icon
+            this.model.set_value(this.iterToClean, 3, false);
+        }
                 this.player.setPlaylist("Album", this.album, this.model, this.model.get_iter(path)[1], 5);
                 this.player.play();
             })
@@ -130,40 +130,40 @@ const AlbumWidget = new Lang.Class({
                 released_date.get_year().toString());
         }
         let duration = 0;
-	this.album = album;
-	// if the active queue has been set by this album,
-	// use it as model, otherwise build the liststore
-	let cachedPlaylist = this.player.runningPlaylist("Album", album);
-	if (cachedPlaylist){
-		this.model = cachedPlaylist;
-		this.updateModel(cachedPlaylist, this.player.currentTrack);
-	} else {
-		this.model = Gtk.ListStore.new([
-				GObject.TYPE_STRING, /*title*/
-				GObject.TYPE_STRING,
-				GObject.TYPE_STRING,
-				GObject.TYPE_BOOLEAN,/*icon shown*/
-				GdkPixbuf.Pixbuf,    /*icon*/
-				GObject.TYPE_OBJECT, /*song object*/
-				GObject.TYPE_BOOLEAN
-				]);
-		var tracks = [];
-		grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
-			if (track != null) {
-				tracks.push(track);
-				duration = duration + track.get_duration();
-				let iter = this.model.append();
-				let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
-				let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
-				this.model.set(iter,
-					[0, 1, 2, 3, 4, 5],
-					[ track.get_title(), "", "", false, pixbuf, track ]);
-				this.ui.get_object("running_length_label_info").set_text(
-					(parseInt(duration/60) + 1) + " min");
-			}
-		}));
-	}
-	this.view.set_model(this.model);
+        this.album = album;
+        // if the active queue has been set by this album,
+        // use it as model, otherwise build the liststore
+        let cachedPlaylist = this.player.runningPlaylist("Album", album);
+        if (cachedPlaylist){
+            this.model = cachedPlaylist;
+            this.updateModel(cachedPlaylist, this.player.currentTrack);
+        } else {
+            this.model = Gtk.ListStore.new([
+                GObject.TYPE_STRING, /*title*/
+                GObject.TYPE_STRING,
+                GObject.TYPE_STRING,
+                GObject.TYPE_BOOLEAN,/*icon shown*/
+                GdkPixbuf.Pixbuf,    /*icon*/
+                GObject.TYPE_OBJECT, /*song object*/
+                GObject.TYPE_BOOLEAN
+            ]);
+        var tracks = [];
+        grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
+            if (track != null) {
+                tracks.push(track);
+                duration = duration + track.get_duration();
+                let iter = this.model.append();
+                let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
+                let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
+                this.model.set(iter,
+                    [0, 1, 2, 3, 4, 5],
+                    [ track.get_title(), "", "", false, pixbuf, track ]);
+                this.ui.get_object("running_length_label_info").set_text(
+                    (parseInt(duration/60) + 1) + " min");
+            }
+        }));
+    }
+    this.view.set_model(this.model);
         var pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         if (pixbuf == null) {
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
@@ -180,25 +180,25 @@ const AlbumWidget = new Lang.Class({
         ));
     },
     updateModel: function(playlist, iter){
-	    //this is not our playlist, return
-	    if (playlist != this.model){
-		    return true;}
-	    if (this.iterToClean){
-		    let item = this.model.get_value(this.iterToClean, 5);
-		    this.model.set_value(this.iterToClean, 0, item.get_title());
-		    // Hide now playing icon
-		    this.model.set_value(this.iterToClean, 3, false);
-	    }
-	    this.iterToClean = iter.copy();	
+        //this is not our playlist, return
+        if (playlist != this.model){
+            return true;}
+        if (this.iterToClean){
+            let item = this.model.get_value(this.iterToClean, 5);
+            this.model.set_value(this.iterToClean, 0, item.get_title());
+            // Hide now playing icon
+            this.model.set_value(this.iterToClean, 3, false);
+        }
+        this.iterToClean = iter.copy();
 
-	    // Highlight currently played song as bold
-	    let item = this.model.get_value(iter, 5);
-	    this.model.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
-	    // Display now playing icon
-	    this.model.set_value(iter, 3, true);
+        // Highlight currently played song as bold
+        let item = this.model.get_value(iter, 5);
+        this.model.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
+        // Display now playing icon
+        this.model.set_value(iter, 3, true);
 
-	    // reset the previous item, if it exists
-	    return true;
+        // reset the previous item, if it exists
+        return true;
     },
 });
 
@@ -214,7 +214,7 @@ const ArtistAlbums = new Lang.Class({
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/ArtistAlbumsWidget.ui');
         this.set_border_width(0);
-        this.ui.get_object("artist").set_label(this.artist); 
+        this.ui.get_object("artist").set_label(this.artist);
         var tracks = [];
         var widgets = [];
 
@@ -265,7 +265,7 @@ const ArtistAlbumWidget = new Lang.Class({
             let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 128, true);
         }
-        
+
         this.ui.get_object("cover").set_from_pixbuf(pixbuf);
         this.ui.get_object("title").set_label(album.get_title());
         if (album.get_creation_date()) {

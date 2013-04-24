@@ -80,21 +80,21 @@ const Player = new Lang.Class({
     _init: function() {
         Signals.addSignalMethods(Player.prototype);
         this.playlist = null;
-	this.playlist_type = null;
-	this.playlist_id = null;
-	this.playlist_field = null;
+        this.playlist_type = null;
+        this.playlist_id = null;
+        this.playlist_field = null;
         this.currentTrack = null;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.player.connect("about-to-finish", Lang.bind(this,
-		function() {
-			if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
-				this.currentTrack=null;	
-			else
-				this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-			return true;
+            function() {
+                if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
+                    this.currentTrack=null;
+                else
+                    this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+                return true;
             }));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
@@ -175,22 +175,22 @@ const Player = new Lang.Class({
     },
 
     playNext: function () {
-	if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)){
-		this.stop();
-	        this.currentTrack=null;	
-		return;
-	}
-	this.stop();
-	this.play();
+        if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)){
+            this.stop();
+            this.currentTrack=null;
+            return;
+        }
+        this.stop();
+        this.play();
     },
 
     playPrevious: function () {
-	if (!this.playlist || !this.currentTrack || !this.playlist.iter_previous(this.currentTrack)){
-		this.stop();
-	        this.currentTrack=null;	
-		return;}
-	this.stop();
-	this.play();
+        if (!this.playlist || !this.currentTrack || !this.playlist.iter_previous(this.currentTrack)){
+            this.stop();
+            this.currentTrack=null;
+            return;}
+        this.stop();
+        this.play();
     },
 
     setPlaylist: function (type, id, model, iter, field) {
@@ -203,10 +203,10 @@ const Player = new Lang.Class({
     },
 
     runningPlaylist: function (type, id, force){
-	    if (type == this.playlist_type && id == this.playlist_id)
-		    return this.playlist;
-	    else
-		    return null;
+        if (type == this.playlist_type && id == this.playlist_id)
+            return this.playlist;
+        else
+            return null;
     },
 
     setCurrentTrack: function (track) {
