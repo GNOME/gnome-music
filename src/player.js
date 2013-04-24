@@ -89,9 +89,12 @@ const Player = new Lang.Class({
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.player.connect("about-to-finish", Lang.bind(this,
-            function() {
-		this.playNext();
-                return true;
+		function() {
+			if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
+				this.currentTrack=null;	
+			else
+				this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+			return true;
             }));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
@@ -111,7 +114,7 @@ const Player = new Lang.Class({
     load: function(media) {
         var pixbuf;
 
-        this.emit("song-changed", this.currentTrack);
+        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
 
         this._setDuration(media.get_duration());
         this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));
@@ -153,6 +156,7 @@ const Player = new Lang.Class({
             this.stop();
         }
         this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+
         this.player.set_state(Gst.State.PLAYING);
         this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 100, Lang.bind(this, this._updatePositionCallback));
     },
@@ -176,7 +180,6 @@ const Player = new Lang.Class({
 	        this.currentTrack=null;	
 		return;
 	}
-        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
 	this.stop();
 	this.play();
     },
@@ -186,7 +189,6 @@ const Player = new Lang.Class({
 		this.stop();
 	        this.currentTrack=null;	
 		return;}
-        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
 	this.stop();
 	this.play();
     },

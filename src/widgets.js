@@ -136,6 +136,7 @@ const AlbumWidget = new Lang.Class({
 	let cachedPlaylist = this.player.runningPlaylist("Album", album);
 	if (cachedPlaylist){
 		this.model = cachedPlaylist;
+		this.updateModel(cachedPlaylist, this.player.currentTrack);
 	} else {
 		this.model = Gtk.ListStore.new([
 				GObject.TYPE_STRING, /*title*/
@@ -146,7 +147,6 @@ const AlbumWidget = new Lang.Class({
 				GObject.TYPE_OBJECT, /*song object*/
 				GObject.TYPE_BOOLEAN
 				]);
-		this.iterToClean = null;
 		var tracks = [];
 		grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
 			if (track != null) {
@@ -176,29 +176,29 @@ const AlbumWidget = new Lang.Class({
         this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
 
         this.player.connect('playlist-item-changed', Lang.bind(this,
-            function(player, playlist, iter) {
-		//this is not our playlist, disregard the signal
-		if (playlist != this.model){
-			print ("Album and"+type + "  "+this.album + " and "+id);
-			return true;}
-		if (this.iterToClean){
-			let item = this.model.get_value(this.iterToClean, 5);
-			this.model.set_value(this.iterToClean, 0, item.get_title());
-			// Hide now playing icon
-			this.model.set_value(this.iterToClean, 3, false);
-		}
-		this.iterToClean = iter.copy();	
-
-		// Highlight currently played song as bold
-		let item = this.model.get_value(iter, 5);
-		this.model.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
-		// Display now playing icon
-		this.model.set_value(iter, 3, true);
-
-		// reset the previous item, if it exists
-		return true;
-	    }
+            function(player, playlist, iter) { this.updateModel(playlist, iter);}
         ));
+    },
+    updateModel: function(playlist, iter){
+	    //this is not our playlist, return
+	    if (playlist != this.model){
+		    return true;}
+	    if (this.iterToClean){
+		    let item = this.model.get_value(this.iterToClean, 5);
+		    this.model.set_value(this.iterToClean, 0, item.get_title());
+		    // Hide now playing icon
+		    this.model.set_value(this.iterToClean, 3, false);
+	    }
+	    this.iterToClean = iter.copy();	
+
+	    // Highlight currently played song as bold
+	    let item = this.model.get_value(iter, 5);
+	    this.model.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
+	    // Display now playing icon
+	    this.model.set_value(iter, 3, true);
+
+	    // reset the previous item, if it exists
+	    return true;
     },
 });
 
