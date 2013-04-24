@@ -178,7 +178,6 @@ const Player = new Lang.Class({
         if (this.currentTrack)
             this.prevTrack = this.currentTrack.copy()
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)){
-            this.stop();
             if (this.prevTrack) {
                 this.currentTrack = this.prevTrack.copy();
             } else {
@@ -192,7 +191,6 @@ const Player = new Lang.Class({
 
     playPrevious: function () {
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_previous(this.currentTrack)){
-            this.stop();
             if (!this.playlist) {
                 this.currentTrack = null;
             } else {
