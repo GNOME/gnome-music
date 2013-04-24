@@ -197,7 +197,14 @@ const AlbumWidget = new Lang.Class({
         // Display now playing icon
         this.model.set_value(iter, 3, true);
 
-        // reset the previous item, if it exists
+        // grey out previous items
+        let prev_iter = iter.copy();
+        while(this.model.iter_previous(prev_iter)){
+            let item = this.model.get_value(prev_iter, 5);
+            let title = "<span color='grey'>" + item.get_title() + "</span>";
+            this.model.set_value(prev_iter, 0, title);
+            this.model.set_value(prev_iter, 3, false);
+        }
         return true;
     },
 });
