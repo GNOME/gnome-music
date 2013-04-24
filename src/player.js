@@ -101,7 +101,11 @@ const Player = new Lang.Class({
         this.bus.connect("message", Lang.bind(this,
             function(bus, message) {
             if (message.type == Gst.MessageType.ERROR) {
-                let uri = this.playlist[this.currentTrack].get_url();
+                let uri;
+                if (this.playlist[this.currentTrack])
+                    uri = this.playlist[this.currentTrack].get_url();
+                else
+                    uri = "none"
                 log("URI:" + uri);
                 log("Error:" + message.parse_error());
                 this.stop();
