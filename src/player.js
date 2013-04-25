@@ -34,6 +34,12 @@ const AlbumArtCache = imports.albumArtCache;
 
 const ART_SIZE = 64;
 
+const RepeatType = {
+    NONE: 0,
+    SONG: 1,
+    ALL:  2
+}
+
 const PlayPauseButton = new Lang.Class({
     Name: "PlayPauseButton",
     Extends: Gtk.ToggleButton,
@@ -84,6 +90,7 @@ const Player = new Lang.Class({
         this.playlist_id = null;
         this.playlist_field = null;
         this.currentTrack = null;
+        this.repeat = RepeatType.NONE;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
         Gst.init(null, 0);
@@ -179,28 +186,60 @@ const Player = new Lang.Class({
     },
 
     playNext: function () {
-        if (this.currentTrack)
-            this.prevTrack = this.currentTrack.copy()
-        if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)){
-            if (this.prevTrack) {
-                this.currentTrack = this.prevTrack.copy();
-            } else {
-                this.currentTrack = null;
-            }
+        // don't do anything if we don't have the basics
+        if (!this.playlist || !this.currentTrack)
+               return;
+        let savedTrack;
+        // if we are in repeat dong mode, just play the song again
+        // other, save the node
+        if (RepeatType.SONG == this.repeat){
+            this.stop();
+            this.play();
             return;
+        } else
+            savedTrack = this.currentTrack.copy()
+
+        // if we were able to just to the next iter, play it
+        // otherwise...
+        if (!this.playlist.iter_next(this.currentTrack)){
+            // ... if all repeat mode is activated, loop around the listStore
+            // if not, restore the saved node and don't play anything
+            if (RepeatType.ALL== this.repeat)
+                this.currentTrack = this.playlist.get_iter_first()[1];
+            else {
+                this.currentTrack = savedTrack;
+                return;
+            }
         }
         this.stop();
         this.play();
     },
 
     playPrevious: function () {
-        if (!this.playlist || !this.currentTrack || !this.playlist.iter_previous(this.currentTrack)){
-            if (!this.playlist) {
-                this.currentTrack = null;
-            } else {
-                this.currentTrack = this.playlist.get_iter_first()[1];
+        if (!this.playlist || !this.currentTrack)
+               return;
+        let savedTrack;
+        if (RepeatType.SONG == this.repeat){
+            this.stop();
+            this.play();
+            return;
+        } else
+            savedTrack = this.currentTrack.copy()
+
+        if (!this.playlist.iter_previous(this.currentTrack)){
+            if (RepeatType.ALL== this.repeat){
+                //FIXME there has to be a better way
+                let index = 0;
+                let iter = this.playlist.get_iter_first()[1];
+                while (this.playlist.iter_next(iter))
+                    index++;
+                this.currentTrack = this.playlist.get_iter_from_string(index.toString())[1];
             }
-            return;}
+            else {
+                this.currentTrack = savedTrack;
+                return;
+            }
+        }
         this.stop();
         this.play();
     },
