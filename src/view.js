@@ -323,6 +323,8 @@ const Songs = new Lang.Class({
         this.view.set_view_type(Gd.MainViewType.LIST);
         this._iconHeight = 32;
         this._iconWidth = 32;
+        let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
+        this._symbolicIcon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, this._iconHeight, this._iconWidth, true)
         this._addListRenderers();
         this.player = player;
     },
