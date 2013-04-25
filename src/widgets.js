@@ -33,6 +33,15 @@ const grilo = Grilo.grilo;
 const AlbumArtCache = imports.albumArtCache;
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
+const folderPixbuf_small = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+        "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg",
+        -1, 128, true);
+const folderPixbuf_big = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+        "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg",
+        -1, 128, true);
+const nowPlayingPixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+        "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg",
+        -1, 16, true);
 const AlbumWidget = new Lang.Class({
     Name: "AlbumWidget",
     Extends: Gtk.EventBox,
@@ -88,8 +97,7 @@ const AlbumWidget = new Lang.Class({
         cells[1].visible = false
 
         let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0 });
-        let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
-        nowPlayingSymbolRenderer.pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
+        nowPlayingSymbolRenderer.pixbuf = nowPlayingPixbuf;
 
         var columnNowPlaying = new Gtk.TreeViewColumn();
         nowPlayingSymbolRenderer.set_property("xalign", 1.0);
@@ -157,18 +165,16 @@ const AlbumWidget = new Lang.Class({
                 let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
                 this.model.set(iter,
                     [0, 1, 2, 3, 4, 5],
-                    [ track.get_title(), "", "", false, pixbuf, track ]);
+                    [ track.get_title(), "", "", false, nowPlayingPixbuf, track ]);
                 this.ui.get_object("running_length_label_info").set_text(
                     (parseInt(duration/60) + 1) + " min");
             }
         }));
     }
     this.view.set_model(this.model);
-        var pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
-        if (pixbuf == null) {
-            let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 256, true);
-        }
+        let pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
+        if (pixbuf == null)
+            pixbuf = folderPixbuf_big;
         this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
         this.ui.get_object("artist_label").set_markup(artist);
@@ -271,10 +277,8 @@ const ArtistAlbumWidget = new Lang.Class({
         this.model = this.ui.get_object("liststore1");
 
         var pixbuf = albumArtCache.lookup (128, artist, album.get_title());
-        if (pixbuf == null) {
-            let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 128, true);
-        }
+        if (pixbuf == null)
+            pixbuf = folderPixbuf_small;
 
         this.ui.get_object("cover").set_from_pixbuf(pixbuf);
         this.ui.get_object("title").set_label(album.get_title());
