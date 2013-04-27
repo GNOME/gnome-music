@@ -9,14 +9,47 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkImage" id="image1">
-            <property name="visible">False</property>
+          <object class="GtkBox" id="box3">
+            <property name="width_request">48</property>
+            <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="icon-size">1</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="eventbox2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkImage" id="image1">
+                    <property name="can_focus">False</property>
+                    <property name="icon-size">1</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkLabel" id="num">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">label</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">False</property>
+            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -26,23 +59,6 @@
             <property name="can_focus">False</property>
             <property name="margin_top">1</property>
             <property name="margin_bottom">1</property>
-            <child>
-              <object class="GtkLabel" id="num">
-                <property name="width_request">24</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="valign">start</property>
-                <property name="xalign">1</property>
-                <attributes>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
             <child>
               <object class="GtkLabel" id="title">
                 <property name="visible">True</property>
@@ -76,7 +92,7 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
       </object>
