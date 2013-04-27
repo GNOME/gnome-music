@@ -25,6 +25,7 @@ const Gd = imports.gi.Gd;
 const Gst = imports.gi.Gst;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
+const Grl = imports.gi.Grl;
 const Signals = imports.signals;
 
 //pkg.initSubmodule('libgd');
@@ -32,7 +33,7 @@ const Signals = imports.signals;
 const Mainloop = imports.mainloop;
 const AlbumArtCache = imports.albumArtCache;
 
-const ART_SIZE = 64;
+const ART_SIZE = 36;
 
 const RepeatType = {
     NONE: 0,
@@ -135,7 +136,8 @@ const Player = new Lang.Class({
         this.next_btn.set_sensitive(true);
 
         // FIXME: site contains the album's name. It's obviously a hack to remove
-        pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_site ());
+        
+        pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_string(Grl.METADATA_KEY_ALBUM));
         this.cover_img.set_from_pixbuf (pixbuf);
 
         if (media.get_title() != null) {
@@ -345,7 +347,7 @@ const Player = new Lang.Class({
             spacing: 0
         });
 
-        this.toolbar_song_info.pack_start(databox, false, false, 0);
+        this.toolbar_song_info.pack_start(databox, false, false, 12);
 
         toolbar_center.pack_start(this.toolbar_song_info, false, false, 3);
         toolbar_center.pack_start(this.progress_scale, true, true, 0);

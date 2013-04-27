@@ -42,6 +42,7 @@ const folderPixbuf_big = GdkPixbuf.Pixbuf.new_from_file_at_scale(
 const nowPlayingPixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
         "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg",
         -1, 16, true);
+
 const AlbumWidget = new Lang.Class({
     Name: "AlbumWidget",
     Extends: Gtk.EventBox,
@@ -179,8 +180,10 @@ const AlbumWidget = new Lang.Class({
 
         this.ui.get_object("artist_label").set_markup(artist);
         this.ui.get_object("title_label").set_markup(album);
-        this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
-
+        if (item.get_creation_date())
+            this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
+        else
+            this.ui.get_object("released_label_info").set_text("----");
         this.player.connect('playlist-item-changed', Lang.bind(this,
             function(player, playlist, iter) { this.updateModel(playlist, iter);}
         ));
