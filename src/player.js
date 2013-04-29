@@ -473,7 +473,7 @@ const Player = new Lang.Class({
             let duration = this.player.query_duration(Gst.Format.TIME, null);
             if (duration) {
                 // Rewind a second back before the track end
-                this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1000000000);
+                this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1500000000);
                 //this.about_to_finish();
             }
         }
