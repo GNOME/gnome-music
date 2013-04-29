@@ -97,10 +97,10 @@ const Player = new Lang.Class({
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.player.connect("about-to-finish", Lang.bind(this,
             function() {
+                GLib.idle_add(0, Lang.bind(this, function () {
                 if (this.timeout) {
                     GLib.source_remove(this.timeout);
                 }
-                GLib.idle_add(0, Lang.bind(this, function () {
                 if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
                     this.currentTrack=null;
                 else {
