@@ -216,7 +216,7 @@ const AlbumWidget = new Lang.Class({
             playlist.set_value(prev_iter, 0, title);
             playlist.set_value(prev_iter, 3, false);
         }
-        return true;
+        return false;
     },
 });
 

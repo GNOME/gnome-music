@@ -99,9 +99,11 @@ const Player = new Lang.Class({
             function() {
                 if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
                     this.currentTrack=null;
-                else
+                else {
                     this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-                return false;
+                    this.progress_scale.set_value(0.0);
+                }
+                return true;
             }));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
@@ -170,7 +172,8 @@ const Player = new Lang.Class({
         this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
 
         this.player.set_state(Gst.State.PLAYING);
-        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 100, Lang.bind(this, this._updatePositionCallback));
+        this._updatePositionCallback();
+        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
     },
 
     pause: function () {
@@ -315,7 +318,28 @@ const Player = new Lang.Class({
         });
         this.progress_scale.set_draw_value(false);
         this._setDuration(1);
-        this.progress_scale.connect("change_value", Lang.bind(this, this.onProgressScaleChangeValue));
+
+        this.progress_scale.connect("button-press-event", Lang.bind(this,
+            function() {
+                this.player.set_state(Gst.State.PAUSED);
+                this._updatePositionCallback();
+                GLib.source_remove(this.timeout);
+                return false;
+            }));
+        this.progress_scale.connect("value-changed", Lang.bind(this,
+            function() {
+                let seconds = Math.floor(this.progress_scale.get_value() / 60);
+                this.song_playback_time_lbl.set_label(this.seconds_to_string(seconds));
+                return false;
+            }));
+        this.progress_scale.connect("button-release-event", Lang.bind(this,
+            function() {
+                this.onProgressScaleChangeValue(this.progress_scale);
+                this.player.set_state(Gst.State.PLAYING);
+                this._updatePositionCallback();
+                this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+                return false;
+            }));
 
         this.toolbar_song_info = new Gtk.Box({
             orientation: Gtk.Orientation.HORIZONTAL,
@@ -423,30 +447,24 @@ const Player = new Lang.Class({
     },
 
     _setDuration: function(duration) {
+        this.duration = duration;
         this.progress_scale.set_range(0.0, duration*60);
         this.progress_scale.set_value(0.0);
     },
 
     _updatePositionCallback: function() {
-        var format = Gst.Format.TIME,
-            position = 0,
-            seconds;
-
-        position = this.player.query_position(format, null);
-        seconds = Math.floor(position[1] / Gst.SECOND);
-        this.progress_scale.set_value(seconds*60);
-
-        this.song_playback_time_lbl.set_label(this.seconds_to_string(seconds));
-
+        let seconds = Math.floor(this.progress_scale.get_value() / 60);
+        this.progress_scale.set_value((seconds+ 1) * 60);
         return true;
     },
 
-    onProgressScaleChangeValue: function(scroll, other, newValue) {
-        var seconds = newValue / 60;
-        log('onProgressScaleChangeValue ' + seconds)
-        this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000);
+    onProgressScaleChangeValue: function(scroll) {
+        var seconds = scroll.get_value() / 60;
+        if(seconds <= this.duration) {
+            this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000);
+        }
 
         return false;
-     }
+     },
 });
 Signals.addSignalMethods(Player.prototype);
