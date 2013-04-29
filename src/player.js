@@ -100,13 +100,14 @@ const Player = new Lang.Class({
                 if (this.timeout) {
                     GLib.source_remove(this.timeout);
                 }
+                GLib.idle_add(0, Lang.bind(this, function () {
                 if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
                     this.currentTrack=null;
                 else {
                     this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
                     this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
                 }
-                return true;
+                return false;}))
             }));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
