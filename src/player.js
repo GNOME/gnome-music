@@ -97,11 +97,14 @@ const Player = new Lang.Class({
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.player.connect("about-to-finish", Lang.bind(this,
             function() {
+                if (this.timeout) {
+                    GLib.source_remove(this.timeout);
+                }
                 if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
                     this.currentTrack=null;
                 else {
                     this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-                    this.progress_scale.set_value(0.0);
+                    this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
                 }
                 return true;
             }));
@@ -165,6 +168,9 @@ const Player = new Lang.Class({
     },
 
     play: function() {
+        if (this.timeout) {
+            GLib.source_remove(this.timeout);
+        }
         this.play_btn.set_active(true);
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
@@ -454,17 +460,24 @@ const Player = new Lang.Class({
 
     _updatePositionCallback: function() {
         let seconds = Math.floor(this.progress_scale.get_value() / 60);
-        this.progress_scale.set_value((seconds+ 1) * 60);
+        this.progress_scale.set_value((seconds + 1) * 60);
         return true;
     },
 
     onProgressScaleChangeValue: function(scroll) {
         var seconds = scroll.get_value() / 60;
-        if(seconds <= this.duration) {
+        if(seconds != this.duration) {
             this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000);
+        } else {
+            let duration = this.player.query_duration(Gst.Format.TIME, null);
+            if (duration) {
+                // Rewind a second back before the track end
+                this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1000000000);
+                //this.about_to_finish();
+            }
         }
 
-        return false;
+        return true;
      },
 });
 Signals.addSignalMethods(Player.prototype);
