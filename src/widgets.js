@@ -187,36 +187,36 @@ const AlbumWidget = new Lang.Class({
         this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
     },
 
-    updateModel: function(player, playlist, iter){
+    updateModel: function(player, playlist, currentIter){
         //this is not our playlist, return
         if (playlist != this.model){
             return true;}
-        if (this.iterToClean){
-            let next_iter = iter.copy();
-            do {
-                let item = playlist.get_value(next_iter, 5);
-                playlist.set_value(next_iter, 0, item.get_title());
-                // Hide now playing icon
-                playlist.set_value(next_iter, 3, false);
-            } while (!playlist.iter_next(next_iter))
-        }
-        this.iterToClean = iter.copy();
+       let currentSong = playlist.get_value(currentIter, 5);
+        let [res, iter] = playlist.get_iter_first();
+        if (!res)
+            return true;
+        let songPassed = false;
+        let iconVisible, title;
+        let i = 0;
+        do{
+            i++;
+            let song = playlist.get_value(iter, 5);
 
-        // Highlight currently played song as bold
-        let item = playlist.get_value(iter, 5);
-        playlist.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
-        // Display now playing icon
-        playlist.set_value(iter, 3, true);
-
-        // grey out previous items
-        let prev_iter = iter.copy();
-        while(playlist.iter_previous(prev_iter)){
-            let item = playlist.get_value(prev_iter, 5);
-            let title = "<span color='grey'>" + item.get_title() + "</span>";
-            playlist.set_value(prev_iter, 0, title);
-            playlist.set_value(prev_iter, 3, false);
-        }
-        return false;
+            if (song == currentSong){
+                title = "<b>" + song.get_title() + "</b>";
+                iconVisible = true;
+                songPassed = true;
+            } else if (songPassed) {
+                title = "<span>"+song.get_title()+"</span>";
+                iconVisible = false;
+            } else {
+                title = "<span color='grey'>" + song.get_title() + "</span>";
+                iconVisible = false;
+            }
+            playlist.set_value(iter, 0, title);
+            playlist.set_value(iter, 3, iconVisible);
+        } while(playlist.iter_next(iter));
+        return true;
     },
 });
 
