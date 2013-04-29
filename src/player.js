@@ -85,7 +85,6 @@ const Player = new Lang.Class({
     Name: "Player",
 
     _init: function() {
-        Signals.addSignalMethods(Player.prototype);
         this.playlist = null;
         this.playlist_type = null;
         this.playlist_id = null;
@@ -102,7 +101,7 @@ const Player = new Lang.Class({
                     this.currentTrack=null;
                 else
                     this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-                return true;
+                return false;
             }));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
@@ -126,8 +125,6 @@ const Player = new Lang.Class({
     load: function(media) {
         var pixbuf;
 
-        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
-
         this._setDuration(media.get_duration());
         this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));
         this.progress_scale.sensitive = true;
@@ -136,7 +133,7 @@ const Player = new Lang.Class({
         this.next_btn.set_sensitive(true);
 
         // FIXME: site contains the album's name. It's obviously a hack to remove
-        
+
         pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_string(Grl.METADATA_KEY_ALBUM));
         this.cover_img.set_from_pixbuf (pixbuf);
 
@@ -161,6 +158,8 @@ const Player = new Lang.Class({
             this.artist_lbl.set_label("Unknown artist");
         }
         this.player.set_property("uri", media.get_url());
+
+        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
     },
 
     play: function() {
@@ -252,7 +251,6 @@ const Player = new Lang.Class({
         this.playlist_id = id;
         this.currentTrack = iter;
         this.playlist_field = field;
-        this.emit("playlist-item-changed", this.playlist, this.currentTrack);
     },
 
     runningPlaylist: function (type, id, force){
@@ -451,3 +449,4 @@ const Player = new Lang.Class({
         return false;
      }
 });
+Signals.addSignalMethods(Player.prototype);

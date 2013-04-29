@@ -145,7 +145,7 @@ const AlbumWidget = new Lang.Class({
         let cachedPlaylist = this.player.runningPlaylist("Album", album);
         if (cachedPlaylist){
             this.model = cachedPlaylist;
-            this.updateModel(cachedPlaylist, this.player.currentTrack);
+            this.updateModel(this.player, cachedPlaylist, this.player.currentTrack);
         } else {
             this.model = Gtk.ListStore.new([
                 GObject.TYPE_STRING, /*title*/
@@ -184,38 +184,37 @@ const AlbumWidget = new Lang.Class({
             this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
         else
             this.ui.get_object("released_label_info").set_text("----");
-        this.player.connect('playlist-item-changed', Lang.bind(this,
-            function(player, playlist, iter) { this.updateModel(playlist, iter);}
-        ));
+        this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
     },
-    updateModel: function(playlist, iter){
+
+    updateModel: function(player, playlist, iter){
         //this is not our playlist, return
         if (playlist != this.model){
             return true;}
         if (this.iterToClean){
             let next_iter = iter.copy();
             do {
-                let item = this.model.get_value(next_iter, 5);
-                this.model.set_value(next_iter, 0, item.get_title());
+                let item = playlist.get_value(next_iter, 5);
+                playlist.set_value(next_iter, 0, item.get_title());
                 // Hide now playing icon
-                this.model.set_value(next_iter, 3, false);
-            } while (this.model.iter_next(next_iter))
+                playlist.set_value(next_iter, 3, false);
+            } while (!playlist.iter_next(next_iter))
         }
         this.iterToClean = iter.copy();
 
         // Highlight currently played song as bold
-        let item = this.model.get_value(iter, 5);
-        this.model.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
+        let item = playlist.get_value(iter, 5);
+        playlist.set_value(iter, 0, "<b>" + item.get_title() + "</b>");
         // Display now playing icon
-        this.model.set_value(iter, 3, true);
+        playlist.set_value(iter, 3, true);
 
         // grey out previous items
         let prev_iter = iter.copy();
-        while(this.model.iter_previous(prev_iter)){
-            let item = this.model.get_value(prev_iter, 5);
+        while(playlist.iter_previous(prev_iter)){
+            let item = playlist.get_value(prev_iter, 5);
             let title = "<span color='grey'>" + item.get_title() + "</span>";
-            this.model.set_value(prev_iter, 0, title);
-            this.model.set_value(prev_iter, 3, false);
+            playlist.set_value(prev_iter, 0, title);
+            playlist.set_value(prev_iter, 3, false);
         }
         return true;
     },
@@ -254,26 +253,24 @@ const ArtistAlbums = new Lang.Class({
             widgets.push(widget);
         }
         this.show_all();
-        this.player.connect('playlist-item-changed', Lang.bind(this,
-            function(player, playlist, iter) { this.updateModel(playlist, iter);}
-        ));
+        this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
     },
 
-    updateModel: function(playlist, currentIter){
+    updateModel: function(player, playlist, currentIter){
         //this is not our playlist, return
         if (playlist != this.model){
             return true;}
-        let currentSong = this.model.get_value(currentIter, 5);
-        let [res, iter] = this.model.get_iter_first();
+        let currentSong = playlist.get_value(currentIter, 5);
+        let [res, iter] = playlist.get_iter_first();
         if (!res)
             return true;
         let songPassed = false;
         let i = 0;
         do{
             i++;
-            let song = this.model.get_value(iter, 5);
+            let song = playlist.get_value(iter, 5);
             let songWidget = song.songWidget;
-           
+
             if (song == currentSong){
                 songWidget.nowPlayingSign.show();
                 songWidget.title.set_markup("<b>" + song.get_title() + "</b>");
@@ -285,7 +282,7 @@ const ArtistAlbums = new Lang.Class({
                 songWidget.nowPlayingSign.hide();
                 songWidget.title.set_markup("<span color='grey'>" + song.get_title() + "</span>");
             }
-        } while(this.model.iter_next(iter));
+        } while(playlist.iter_next(iter));
         return true;
 
     },
