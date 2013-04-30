@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2013 Eslam Mostafa.
  * Copyright (c) 2013 Vadim Rutkovsky.
+ * Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>
  *
  * Gnome Music is free software; you can Public License as published by the
  * Free Software Foundation; either version 2 of the License, or (at your
@@ -205,40 +206,12 @@ const Player = new Lang.Class({
     },
 
     stop: function() {
-        //this.play_btn.set_playing();
         this.player.set_state(Gst.State.NULL);
-        if (this.timeout) {
-            GLib.source_remove(this.timeout);
-        }
     },
 
     playNext: function () {
-        // don't do anything if we don't have the basics
-        if (!this.playlist || !this.currentTrack)
-               return;
-        let savedTrack;
-        // if we are in repeat dong mode, just play the song again
-        // other, save the node
-        if (RepeatType.SONG == this.repeat){
-            this.stop();
-            this.play();
-            return;
-        } else
-            savedTrack = this.currentTrack.copy()
-
-        // if we were able to just to the next iter, play it
-        // otherwise...
-        if (!this.playlist.iter_next(this.currentTrack)){
-            // ... if all repeat mode is activated, loop around the listStore
-            // if not, restore the saved node and don't play anything
-            if (RepeatType.ALL== this.repeat)
-                this.currentTrack = this.playlist.get_iter_first()[1];
-            else {
-                this.currentTrack = savedTrack;
-                return;
-            }
-        }
         this.stop();
+        this.load_next_track();
         this.play();
     },
 
@@ -340,7 +313,6 @@ const Player = new Lang.Class({
             sensitive: false
         });
         this.progress_scale.set_draw_value(false);
-        this._setDuration(1);
 
         this.progress_scale.connect("button-press-event", Lang.bind(this,
             function() {
@@ -472,12 +444,13 @@ const Player = new Lang.Class({
     _setDuration: function(duration) {
         this.duration = duration;
         this.progress_scale.set_range(0.0, duration*60);
-        this.progress_scale.set_value(0.0);
     },
 
     _updatePositionCallback: function() {
-        let seconds = Math.floor(this.progress_scale.get_value() / 60);
-        this.progress_scale.set_value((seconds + 1) * 60);
+        var position = this.player.query_position(Gst.Format.TIME, null)[1]/1000000000;
+        if (position >= 0) {
+            this.progress_scale.set_value(position * 60);
+        }
         return true;
     },
 
@@ -492,7 +465,6 @@ const Player = new Lang.Class({
                 this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1000000000);
             }
         }
-
         return true;
      },
 });
