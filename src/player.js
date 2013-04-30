@@ -95,18 +95,22 @@ const Player = new Lang.Class({
 
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
-        this.connect("about-to-finish", Lang.bind(this,
+        this.player.connect("about-to-finish", Lang.bind(this,
             function() {
-                if (this.timeout) {
-                    GLib.source_remove(this.timeout);
+                GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, 
+                 function() {
+                    if (this.timeout) {
+                        GLib.source_remove(this.timeout);
+                    }
+                    if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
+                        this.currentTrack=null;
+                    else {
+                        this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+                        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, Lang.bind(this, this._updatePositionCallback));
+                    }
+                return false;
                 }
-                if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
-                    this.currentTrack=null;
-                else {
-                    this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-                    this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
-                }
-                return false;}));
+                ))}));
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch()
         this.bus.connect("message", Lang.bind(this,
@@ -324,15 +328,25 @@ const Player = new Lang.Class({
         this.progress_scale.set_draw_value(false);
         this._setDuration(1);
 
+        this.progress_scale.connect("button-press-event", Lang.bind(this,
+            function() {
+                this.player.set_state(Gst.State.PAUSED);
+                this._updatePositionCallback();
+                GLib.source_remove(this.timeout);
+                return false;
+            }));
         this.progress_scale.connect("value-changed", Lang.bind(this,
             function() {
                 let seconds = Math.floor(this.progress_scale.get_value() / 60);
                 this.song_playback_time_lbl.set_label(this.seconds_to_string(seconds));
-                print (seconds, this.duration)
-                if (this.duration == seconds && this.player.get_state(1)[1] != Gst.State.PAUSED) {
-                    this.progress_scale.set_value(0.0)
-                    GLib.timeout_add (500, null, Lang.bind(this, function () {this.emit("about-to-finish")}))
-                }
+                return false;
+            }));
+        this.progress_scale.connect("button-release-event", Lang.bind(this,
+            function() {
+                this.onProgressScaleChangeValue(this.progress_scale);
+                this.player.set_state(Gst.State.PLAYING);
+                this._updatePositionCallback();
+                this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
                 return false;
             }));
 
