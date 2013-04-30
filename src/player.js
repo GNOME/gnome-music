@@ -106,7 +106,7 @@ const Player = new Lang.Class({
                         this.currentTrack=null;
                     else {
                         this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-                        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, Lang.bind(this, this._updatePositionCallback));
+                        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
                     }
                 return false;
                 }
