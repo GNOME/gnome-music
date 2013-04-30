@@ -97,7 +97,7 @@ const Player = new Lang.Class({
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.player.connect("about-to-finish", Lang.bind(this,
             function() {
-                GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, 
+                GLib.idle_add(GLib.PRIORITY_DEFAULT, Lang.bind(this, 
                  function() {
                     if (this.timeout) {
                         GLib.source_remove(this.timeout);
