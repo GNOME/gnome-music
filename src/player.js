@@ -109,10 +109,13 @@ const Player = new Lang.Class({
             return true;
         }));
 
+
         // Set URI earlier - this will enable gapless playback
         this.player.connect("about-to-finish", Lang.bind(this, function(player) {
-            player.set_property('uri', player.next_url);
-            GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this, this.load_next_track));
+            if(player.next_url != null) {
+                player.set_property('uri', player.next_url);
+                GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this, this.load_next_track));
+            }
             return true;
         }));
         this._setup_view();
