@@ -55,11 +55,13 @@ const PlayPauseButton = new Lang.Class({
     },
 
     set_playing: function() {
+	 this.set_active(true);
         this.set_image(this.pause_image);
         this.show_all();
     },
 
     set_paused: function() {
+	 this.set_active(false);
         this.set_image(this.play_image);
         this.show_all();
     },
@@ -189,7 +191,7 @@ const Player = new Lang.Class({
         if (this.timeout) {
             GLib.source_remove(this.timeout);
         }
-        this.play_btn.set_active(true);
+        this.play_btn.set_playing();
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
@@ -202,7 +204,6 @@ const Player = new Lang.Class({
 
     pause: function () {
         this.player.set_state(Gst.State.PAUSED);
-        this.play_btn.set_active(false);
     },
 
     stop: function() {
