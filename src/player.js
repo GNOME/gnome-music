@@ -95,39 +95,39 @@ const Player = new Lang.Class({
 
         Gst.init(null, 0);
         this.player = Gst.ElementFactory.make("playbin", "player");
-        this.player.connect("about-to-finish", Lang.bind(this,
-            function() {
-                GLib.idle_add(GLib.PRIORITY_DEFAULT, Lang.bind(this, 
-                 function() {
-                    if (this.timeout) {
-                        GLib.source_remove(this.timeout);
-                    }
-                    if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
-                        this.currentTrack=null;
-                    else {
-                        this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
-                        this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
-                    }
-                return false;
-                }
-                ))}));
         this.bus = this.player.get_bus();
-        this.bus.add_signal_watch()
-        this.bus.connect("message", Lang.bind(this,
-            function(bus, message) {
-            if (message.type == Gst.MessageType.ERROR) {
-                let uri;
-                if (this.playlist[this.currentTrack])
-                    uri = this.playlist[this.currentTrack].get_url();
-                else
-                    uri = "none"
-                log("URI:" + uri);
-                log("Error:" + message.parse_error());
-                this.stop();
-            }
+        this.bus.add_signal_watch();
+        this.bus.connect("message::error", Lang.bind(this, function(bus, message) {
+            let uri;
+            if (this.playlist[this.currentTrack])
+                uri = this.playlist[this.currentTrack].get_url();
+            else
+                uri = "none"
+            log("URI:" + uri);
+            log("Error:" + message.parse_error());
+            this.stop();
+            return true;
         }));
 
+        // Set URI earlier - this will enable gapless playback
+        this.player.connect("about-to-finish", Lang.bind(this, function(player) {
+            player.set_property('uri', player.next_url);
+            GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this, this.load_next_track));
+            return true;
+        }));
         this._setup_view();
+    },
+
+    load_next_track: function(){
+        if (this.timeout) {
+            GLib.source_remove(this.timeout);
+        }
+        if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
+            this.currentTrack=null;
+        else {
+            this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+            this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+        }
     },
 
     load: function(media) {
@@ -165,8 +165,19 @@ const Player = new Lang.Class({
         else {
             this.artist_lbl.set_label("Unknown artist");
         }
-        this.player.set_property("uri", media.get_url());
 
+        if (!this.player.next_url || media.get_url() != this.player.next_url) {
+            this.player.set_property("uri", media.get_url());
+        }
+
+        // Store next available url
+        let next_track = this.currentTrack.copy();
+        if (this.playlist.iter_next(next_track)) {
+            let next_media = this.playlist.get_value(next_track, this.playlist_field);
+            this.player.next_url = next_media.get_url();
+        } else {
+            this.player.next_url = null;
+        }
         this.emit("playlist-item-changed", this.playlist, this.currentTrack);
     },
 
@@ -475,8 +486,7 @@ const Player = new Lang.Class({
             let duration = this.player.query_duration(Gst.Format.TIME, null);
             if (duration) {
                 // Rewind a second back before the track end
-                this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1500000000);
-                //this.about_to_finish();
+                this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1000000000);
             }
         }
 
