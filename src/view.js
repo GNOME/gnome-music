@@ -55,7 +55,7 @@ const LoadMoreButton = new Lang.Class({
         this._block = false;
         this._counter = counter;
         let child = new Gtk.Grid({ column_spacing: 10,
-                                   hexpand: true,
+                                   hexpand: false,
                                    halign: Gtk.Align.CENTER,
                                    visible: true });
 
@@ -398,6 +398,7 @@ const Artists = new Lang.Class({
         this.parent("Artists", header_bar);
         this.player = player;
         this._artists = {};
+        this.countQuery = Query.artist_count;
         this._artistAlbumsWidget = new Gtk.Frame({
             shadow_type:    Gtk.ShadowType.NONE
         });
@@ -449,6 +450,7 @@ const Artists = new Lang.Class({
     },
 
     _addItem: function (source, param, item) {
+        this._offset += 1;
         if( item == null )
             return
         var artist = "Unknown"
