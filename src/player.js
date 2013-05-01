@@ -127,11 +127,11 @@ const Player = new Lang.Class({
     _setPlaying: function(mode) {
         if( mode == true ) {
             this.play_btn.set_active(true);
-            this.play_btn.set_image(this._pause_img);
+            this.play_btn.set_image(this._pause_image);
             this.play_btn.show_all();
         } else if ( mode == false ) {
             this.play_btn.set_active(false);
-            this.play_btn.set_image(this._play_img);
+            this.play_btn.set_image(this._play_image);
             this.play_btn.show_all();
         }
     },
