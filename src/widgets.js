@@ -71,7 +71,7 @@ const AlbumWidget = new Lang.Class({
                     this.model.set_value(this.iterToClean, 3, false);
                 }
                 this.player.setPlaylist("Album", this.album, this.model, this.model.get_iter(path)[1], 5);
-                this.player.play();
+                this.player.setPlaying(true);
             })
         );
 
@@ -360,7 +360,7 @@ const ArtistAlbumWidget = new Lang.Class({
     trackSelected: function(widget, iter) {
         this.player.setPlaylist("Artist", this.album, widget.model, widget.iter, 5);
         this.player.stop();
-        this.player.play();
+        this.player.setPlaying(true);
     },
 
 });

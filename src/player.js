@@ -42,32 +42,6 @@ const RepeatType = {
     ALL:  2
 }
 
-const PlayPauseButton = new Lang.Class({
-    Name: "PlayPauseButton",
-    Extends: Gtk.ToggleButton,
-
-    _init: function() {
-        this.play_image = Gtk.Image.new_from_icon_name("media-playback-start-symbolic", Gtk.IconSize.MENU);
-        this.pause_image = Gtk.Image.new_from_icon_name("media-playback-pause-symbolic", Gtk.IconSize.MENU);
-
-        this.parent();
-        this.set_playing();
-    },
-
-    set_playing: function() {
-	 this.set_active(true);
-        this.set_image(this.pause_image);
-        this.show_all();
-    },
-
-    set_paused: function() {
-	 this.set_active(false);
-        this.set_image(this.play_image);
-        this.show_all();
-    },
-
-});
-
 const MenuButton = new Lang.Class({
     Name: "MenuButton",
     Extends: Gtk.Button,
@@ -124,15 +98,11 @@ const Player = new Lang.Class({
         this._setupView();
     },
 
-    _setPlaying: function(mode) {
+    setPlaying: function(mode) {
         if( mode == true ) {
             this.play_btn.set_active(true);
-            this.play_btn.set_image(this._pause_image);
-            this.play_btn.show_all();
         } else if ( mode == false ) {
             this.play_btn.set_active(false);
-            this.play_btn.set_image(this._play_image);
-            this.play_btn.show_all();
         }
     },
 
@@ -203,7 +173,6 @@ const Player = new Lang.Class({
         if (this.timeout) {
             GLib.source_remove(this.timeout);
         }
-        this._setPlaying(true);
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
@@ -225,7 +194,7 @@ const Player = new Lang.Class({
     playNext: function () {
         this.stop();
         this.load_next_track();
-        this.play();
+        this.setPlaying(true);
     },
 
     playPrevious: function () {
@@ -234,7 +203,7 @@ const Player = new Lang.Class({
         let savedTrack;
         if (RepeatType.SONG == this.repeat){
             this.stop();
-            this.play();
+            this.setPlaying(true);
             return;
         } else
             savedTrack = this.currentTrack.copy()
@@ -254,7 +223,7 @@ const Player = new Lang.Class({
             }
         }
         this.stop();
-        this.play();
+        this.setPlaying(true);
     },
 
     setPlaylist: function (type, id, model, iter, field) {
@@ -335,16 +304,19 @@ const Player = new Lang.Class({
         return (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
     },
 
-    uri: function() {
-    },
-
     _onPlayBtnToggled: function(btn) {
-        if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
-            this.pause();
-            this._setPlaying(false);
+        if(this.play_btn.get_active() == true ) {
+            if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
+                this.play_btn.set_image(this._pause_image);
+                this.pause();
+            } else {
+                this.play_btn.set_image(this._play_image);
+                this.play();
+            }
         } else {
-            this.play();
-            this._setPlaying(true);
+            this.play_btn.set_image(this._pause_image);
+            this.play_btn.show_all();
+            this.pause();
         }
     },
 
