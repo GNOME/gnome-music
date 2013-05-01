@@ -121,19 +121,7 @@ const Player = new Lang.Class({
             }
             return true;
         }));
-        this._setupView();
-    },
-
-    _setPlaying: function(mode) {
-        if( mode == true ) {
-            this.play_btn.set_active(true);
-            this.play_btn.set_image(this._pause_image);
-            this.play_btn.show_all();
-        } else if ( mode == false ) {
-            this.play_btn.set_active(false);
-            this.play_btn.set_image(this._play_image);
-            this.play_btn.show_all();
-        }
+        this._setup_view();
     },
 
     load_next_track: function(){
@@ -203,7 +191,7 @@ const Player = new Lang.Class({
         if (this.timeout) {
             GLib.source_remove(this.timeout);
         }
-        this._setPlaying(true);
+        this.play_btn.set_playing();
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
@@ -280,31 +268,53 @@ const Player = new Lang.Class({
         }
     },
 
-    _setupView: function() {
-        this._ui = new Gtk.Builder();
-        this._ui.add_from_resource('/org/gnome/music/PlayerToolbar.ui');
-        this.eventbox = this._ui.get_object('eventBox');
-        this.prev_btn = this._ui.get_object('previous_button');
-        this.play_btn = this._ui.get_object('play_button');
-        this.next_btn = this._ui.get_object('next_button');
-        this._play_image = this._ui.get_object('play_image');
-        this._pause_image = this._ui.get_object('pause_image');
-        this.progress_scale = this._ui.get_object('progress_scale');
-        this.song_playback_time_lbl = this._ui.get_object('playback');
-        this.song_total_time_lbl = this._ui.get_object('duration');
-        this.title_lbl = this._ui.get_object('title');
-        this.artist_lbl = this._ui.get_object('artist');
-        this.cover_img = this._ui.get_object('cover');
-        this.duration = this._ui.get_object('duration');
-        this.replay_model = this._ui.get_object('replay_button_model');
-        this.replay_btn = this._ui.get_object('replay_button');
+    _setup_view: function() {
+        let alignment,
+            artist_lbl,
+            box,
+            databox,
+            label,
+            toolbar_center,
+            toolbar_end,
+            toolbar_start,
+            toolbar_song_info;
 
-        //this.replay_model.append([null, 'replay']);
-        //this.replay_btn.show_all();
+        this.box = new Gtk.Box();
+        this.box.set_spacing(9)
+        this.box.set_border_width(9)
+        toolbar_start = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 0
+        });
+        toolbar_start.get_style_context().add_class(Gtk.STYLE_CLASS_LINKED);
 
+        this.prev_btn = new Gtk.Button();
+        this.prev_btn.set_size_request(35, -1);
+        this.prev_btn.set_image(Gtk.Image.new_from_icon_name("media-skip-backward-symbolic", Gtk.IconSize.MENU));
         this.prev_btn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
+        this.prev_btn.set_sensitive(false);
+        toolbar_start.pack_start(this.prev_btn, false, false, 0);
+
+        this.play_btn = new PlayPauseButton();
+        this.play_btn.set_size_request(55, -1);
         this.play_btn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
+        this.play_btn.set_sensitive(false);
+        toolbar_start.pack_start(this.play_btn, false, false, 0);
+
+        this.next_btn = new Gtk.Button();
+        this.next_btn.set_size_request(35, -1);
+        this.next_btn.set_image(Gtk.Image.new_from_icon_name("media-skip-forward-symbolic", Gtk.IconSize.MENU));
         this.next_btn.connect("clicked", Lang.bind(this, this._onNextBtnClicked));
+        this.next_btn.set_sensitive(false);
+        toolbar_start.pack_start(this.next_btn, false, false, 0);
+        this.box.pack_start(toolbar_start, false, false, 3)
+
+        this.progress_scale = new Gtk.Scale({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            sensitive: false
+        });
+        this.progress_scale.set_draw_value(false);
+
         this.progress_scale.connect("button-press-event", Lang.bind(this,
             function() {
                 this.player.set_state(Gst.State.PAUSED);
@@ -326,6 +336,75 @@ const Player = new Lang.Class({
                 this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
                 return false;
             }));
+
+        this.toolbar_song_info = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 0
+        });
+
+        this.cover_img = new Gtk.Image();
+        this.toolbar_song_info.pack_start(this.cover_img, false, false, 0);
+        databox = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL,
+            spacing: 0
+        });
+
+        this.title_lbl = new Gtk.Label({
+            label: ""
+        });
+        databox.pack_start(this.title_lbl, false, false, 0);
+
+        this.artist_lbl = new Gtk.Label({
+            label: ""
+        });
+        this.artist_lbl.get_style_context().add_class("dim-label");
+        databox.pack_start(this.artist_lbl, false, false, 0);
+
+        toolbar_center = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 0
+        });
+
+        this.toolbar_song_info.pack_start(databox, false, false, 12);
+
+        toolbar_center.pack_start(this.toolbar_song_info, false, false, 3);
+        toolbar_center.pack_start(this.progress_scale, true, true, 0);
+        toolbar_center.pack_start(new Gtk.Label({}), false, false, 3);
+
+        this.song_playback_time_lbl = new Gtk.Label({
+            label: "00:00"
+        });
+        toolbar_center.pack_start(this.song_playback_time_lbl, false, false, 0);
+        label = new Gtk.Label({
+            label: "/"
+        });
+        toolbar_center.pack_start(label, false, false, 0);
+        this.song_total_time_lbl = new Gtk.Label({
+            label: "00:00"
+        });
+        toolbar_center.pack_start(this.song_total_time_lbl, false, false, 0);
+        this.box.pack_start(toolbar_center, true, true, 0)
+
+        toolbar_end = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 5
+        });
+        alignment = new Gtk.Alignment({
+            xalign: 1,
+            yalign: 0.5,
+            xscale: 0,
+            yscale: 0
+        });
+        this.box.pack_end(toolbar_end, false, false, 3);
+
+        let menuBtn = new MenuButton();
+        toolbar_end.pack_end(menuBtn, false, false, 0);
+
+        this.eventbox = new Gtk.Frame();
+        this.eventbox.get_style_context().add_class("play-bar")
+        this.eventbox.add(this.box);
+        this.eventbox.show_all();
+
     },
 
     seconds_to_string: function(duration){
@@ -337,27 +416,30 @@ const Player = new Lang.Class({
 
     uri: function() {
     },
-   _onPlayBtnToggled: function(btn) {
-        if(this.play_btn.get_active() == true ) {
-            if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
-                this.play_btn.set_image(this._pause_image);
-                this.pause();
-            } else {
-                this.play_btn.set_image(this._play_image);
-                this.play();
-            }
-        } else {
-            this.play_btn.set_image(this._play_image);
-            this.play_btn.show_all();
+
+    _onPlayBtnToggled: function(btn) {
+        if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.pause();
+            this.play_btn.set_paused();
+        } else {
+            this.play();
+            this.play_btn.set_playing();
         }
     },
+
     _onNextBtnClicked: function(btn) {
         this.playNext();
     },
 
     _onPrevBtnClicked: function(btn) {
         this.playPrevious();
+    },
+
+    _onShuffleBtnClicked: function(order) {
+    },
+
+    _onPlaylistShuffleModeChanged: function(mode) {
+        this.shuffle_btn.set_active(mode);
     },
 
     _setDuration: function(duration) {
