@@ -337,17 +337,21 @@ const Player = new Lang.Class({
 
     uri: function() {
     },
-
-    _onPlayBtnToggled: function(btn) {
-        if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
-            this.pause();
-            this._setPlaying(false);
+   _onPlayBtnToggled: function(btn) {
+        if(this.play_btn.get_active() == true ) {
+            if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
+                this.play_btn.set_image(this._pause_image);
+                this.pause();
+            } else {
+                this.play_btn.set_image(this._play_image);
+                this.play();
+            }
         } else {
-            this.play();
-            this._setPlaying(true);
+            this.play_btn.set_image(this._play_image);
+            this.play_btn.show_all();
+            this.pause();
         }
     },
-
     _onNextBtnClicked: function(btn) {
         this.playNext();
     },
