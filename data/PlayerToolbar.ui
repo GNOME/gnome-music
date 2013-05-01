@@ -204,9 +204,41 @@
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="pack_type">end</property>
             <property name="position">5</property>
           </packing>
+        </child>
+        <child>
+            <object class="GtkBox" id="replay_button_box">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="has_focus">False</property>
+                <property name="is_focus">False</property>
+                <child>
+                  <object class="GtkComboBox" id="replay_button">
+                    <property name="name">replayBtn</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="has_focus">False</property>
+                    <property name="is_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="valign">center</property>
+                    <property name="model">replay_button_model</property>
+                    <property name="tearoff_title">Replay</property>
+                    <property name="focus_on_click">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+            </object>
+            <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="pack_type">end</property>
+                <property name="position">6</property>
+            </packing>
         </child>
       </object>
     </child>
@@ -226,5 +258,13 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="icon_name">media-skip-forward-symbolic</property>
+  </object>
+  <object class="GtkListStore" id="replay_button_model">
+    <columns>
+      <!-- column-name icon -->
+      <column type="GdkPixbuf"/>
+      <!-- column-name text -->
+      <column type="gchararray"/>
+    </columns>
   </object>
 </interface>
