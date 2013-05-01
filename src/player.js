@@ -124,12 +124,12 @@ const Player = new Lang.Class({
         this._setupView();
     },
 
-    _setMode: function(mode) {
-        if( mode == 'playing' ) {
+    _setPlaying: function(mode) {
+        if( mode == true ) {
             this.play_btn.set_active(true);
             this.play_btn.set_image(this._pause_img);
             this.play_btn.show_all();
-        } else if ( mode == "paused" ) {
+        } else if ( mode == false ) {
             this.play_btn.set_active(false);
             this.play_btn.set_image(this._play_img);
             this.play_btn.show_all();
@@ -203,6 +203,7 @@ const Player = new Lang.Class({
         if (this.timeout) {
             GLib.source_remove(this.timeout);
         }
+        this._setPlaying(true);
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
@@ -340,10 +341,10 @@ const Player = new Lang.Class({
     _onPlayBtnToggled: function(btn) {
         if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.pause();
-            this._setMode('paused');
+            this._setPlaying(false);
         } else {
             this.play();
-            this._setMode('playing');
+            this._setPlaying(true);
         }
     },
 
