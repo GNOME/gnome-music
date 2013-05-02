@@ -61,7 +61,7 @@ const MainWindow = new Lang.Class({
 
         this._box.pack_start(this.toolbar, false, false, 0);
         this._box.pack_start(this._stack, true, true, 0);
-        this._box.pack_start(this.player.eventbox, false, false, 0);
+        this._box.pack_start(this.player.eventBox, false, false, 0);
         this.add(this._box);
 
         this.views[0] = new Views.Albums(this.toolbar, this.player);
@@ -82,7 +82,7 @@ const MainWindow = new Lang.Class({
         this.views[0].populate();
         this.toolbar.set_stack(this._stack);
         this.toolbar.show();
-        this.player.eventbox.show_all();
+        this.player.eventBox.show_all();
         this._box.show();
         this.show();
     },

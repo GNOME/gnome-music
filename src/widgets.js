@@ -129,7 +129,7 @@ const AlbumWidget = new Lang.Class({
                 let duration = item.get_duration ();
                 if (!item)
                     return;
-                durationRenderer.text = this.player.seconds_to_string(duration);
+                durationRenderer.text = this.player.secondsToString(duration);
             }));
     },
     update: function (artist, album, item) {

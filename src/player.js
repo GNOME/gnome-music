@@ -64,9 +64,9 @@ const Player = new Lang.Class({
 
     _init: function() {
         this.playlist = null;
-        this.playlist_type = null;
-        this.playlist_id = null;
-        this.playlist_field = null;
+        this.playlistType = null;
+        this.playlistId = null;
+        this.playlistField = null;
         this.currentTrack = null;
         this.repeat = RepeatType.NONE;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
@@ -90,9 +90,9 @@ const Player = new Lang.Class({
 
         // Set URI earlier - this will enable gapless playback
         this.player.connect("about-to-finish", Lang.bind(this, function(player) {
-            if(player.next_url != null) {
-                player.set_property('uri', player.next_url);
-                GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this, this.load_next_track));
+            if(player.nextUrl != null) {
+                player.set_property('uri', player.nextUrl);
+                GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this, this.loadNextTrack));
             }
             return true;
         }));
@@ -102,22 +102,22 @@ const Player = new Lang.Class({
     setPlaying: function(bool) {
         if (bool) {
             this.play()
-            this.play_btn.set_image(this._pause_image);
+            this.playBtn.set_image(this._pauseImage);
         }
         else {
             this.pause()
-            this.play_btn.set_image(this._play_image);
+            this.playBtn.set_image(this._playImage);
         }
     },
 
-    load_next_track: function(){
+    loadNextTrack: function(){
         if (this.timeout) {
             GLib.source_remove(this.timeout);
         }
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
             this.currentTrack=null;
         else {
-            this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+            this.load( this.playlist.get_value( this.currentTrack, this.playlistField));
             this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
         }
     },
@@ -125,49 +125,49 @@ const Player = new Lang.Class({
     load: function(media) {
         var pixbuf;
         this._setDuration(media.get_duration());
-        this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));
-        this.progress_scale.sensitive = true;
-        this.prev_btn.set_sensitive(true);
-        this.play_btn.set_sensitive(true);
-        this.next_btn.set_sensitive(true);
+        this.songTotalTimeLabel.set_label(this.secondsToString (media.get_duration()));
+        this.progressScale.sensitive = true;
+        this.prevBtn.set_sensitive(true);
+        this.playBtn.set_sensitive(true);
+        this.nextBtn.set_sensitive(true);
 
         // FIXME: site contains the album's name. It's obviously a hack to remove
 
         pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_string(Grl.METADATA_KEY_ALBUM));
-        this.cover_img.set_from_pixbuf (pixbuf);
+        this.coverImg.set_from_pixbuf (pixbuf);
 
         if (media.get_title() != null) {
-            this.title_lbl.set_label(media.get_title());
+            this.titleLabel.set_label(media.get_title());
         }
 
         else {
             let url = media.get_url(),
                 file = GLib.File.new_for_path(url),
                 basename = file.get_basename(),
-                to_show = GLib.Uri.unescape_string(basename, null);
+                toShow = GLib.Uri.unescape_string(basename, null);
 
-            this.title_lbl.set_label(to_show);
+            this.titleLabel.set_label(toShow);
         }
 
         if (media.get_artist() != null) {
-            this.artist_lbl.set_label(media.get_artist());
+            this.artistLabel.set_label(media.get_artist());
         }
 
         else {
-            this.artist_lbl.set_label("Unknown artist");
+            this.artistLabel.set_label("Unknown artist");
         }
 
-        if (!this.player.next_url || media.get_url() != this.player.next_url) {
+        if (!this.player.nextUrl || media.get_url() != this.player.nextUrl) {
             this.player.set_property("uri", media.get_url());
         }
 
         // Store next available url
-        let next_track = this.currentTrack.copy();
-        if (this.playlist.iter_next(next_track)) {
-            let next_media = this.playlist.get_value(next_track, this.playlist_field);
-            this.player.next_url = next_media.get_url();
+        let nextTrack = this.currentTrack.copy();
+        if (this.playlist.iter_next(nextTrack)) {
+            let nextMedia = this.playlist.get_value(nextTrack, this.playlistField);
+            this.player.nextUrl = nextMedia.get_url();
         } else {
-            this.player.next_url = null;
+            this.player.nextUrl = null;
         }
         this.emit("playlist-item-changed", this.playlist, this.currentTrack);
     },
@@ -179,7 +179,7 @@ const Player = new Lang.Class({
         if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
-        this.load( this.playlist.get_value( this.currentTrack, this.playlist_field));
+        this.load( this.playlist.get_value( this.currentTrack, this.playlistField));
 
         this.player.set_state(Gst.State.PLAYING);
         this._updatePositionCallback();
@@ -196,7 +196,7 @@ const Player = new Lang.Class({
 
     playNext: function () {
         this.stop();
-        this.load_next_track();
+        this.loadNextTrack();
         this.setPlaying(true);
     },
 
@@ -231,10 +231,10 @@ const Player = new Lang.Class({
 
     setPlaylist: function (type, id, model, iter, field) {
         this.playlist = model;
-        this.playlist_type = type;
-        this.playlist_id = id;
+        this.playlistType = type;
+        this.playlistId = id;
         this.currentTrack = iter;
-        this.playlist_field = field;
+        this.playlistField = field;
     },
 
     runningPlaylist: function (type, id, force){
@@ -255,46 +255,46 @@ const Player = new Lang.Class({
     _setupView: function() {
         this._ui = new Gtk.Builder();
         this._ui.add_from_resource('/org/gnome/music/PlayerToolbar.ui');
-        this.eventbox = this._ui.get_object('eventBox');
-        this.prev_btn = this._ui.get_object('previous_button');
-        this.play_btn = this._ui.get_object('play_button');
-        this.play_btn.set_active(true)
-        this.next_btn = this._ui.get_object('next_button');
-        this._play_image = this._ui.get_object('play_image');
-        this._pause_image = this._ui.get_object('pause_image');
-        this.progress_scale = this._ui.get_object('progress_scale');
-        this.song_playback_time_lbl = this._ui.get_object('playback');
-        this.song_total_time_lbl = this._ui.get_object('duration');
-        this.title_lbl = this._ui.get_object('title');
-        this.artist_lbl = this._ui.get_object('artist');
-        this.cover_img = this._ui.get_object('cover');
+        this.eventBox = this._ui.get_object('eventBox');
+        this.prevBtn = this._ui.get_object('previous_button');
+        this.playBtn = this._ui.get_object('play_button');
+        this.playBtn.set_active(true)
+        this.nextBtn = this._ui.get_object('next_button');
+        this._playImage = this._ui.get_object('play_image');
+        this._pauseImage = this._ui.get_object('pause_image');
+        this.progressScale = this._ui.get_object('progress_scale');
+        this.songPlaybackTimeLabel = this._ui.get_object('playback');
+        this.songTotalTimeLabel = this._ui.get_object('duration');
+        this.titleLabel = this._ui.get_object('title');
+        this.artistLabel = this._ui.get_object('artist');
+        this.coverImg = this._ui.get_object('cover');
         this.duration = this._ui.get_object('duration');
-        this.replay_model = this._ui.get_object('replay_button_model');
-        this.replay_btn = this._ui.get_object('replay_button');
+        this.replayModel = this._ui.get_object('replay_button_model');
+        this.replayBtn = this._ui.get_object('replay_button');
 
-        let replay_icon = Gtk.Image.new_from_icon_name("media-playlist-repeat-symbolic", Gtk.IconSize.MENU);
-        this.replay_model.append([replay_icon.get_pixbuf(), 'replay']);    
-        this.replay_btn.show_all();
+        let replayIcon = Gtk.Image.new_from_icon_name("media-playlist-repeat-symbolic", Gtk.IconSize.MENU);
+        this.replayModel.append([replayIcon.get_pixbuf(), 'replay']);    
+        this.replayBtn.show_all();
 
-        this.prev_btn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
-        this.play_btn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
-        this.next_btn.connect("clicked", Lang.bind(this, this._onNextBtnClicked));
-        this.progress_scale.connect("button-press-event", Lang.bind(this,
+        this.prevBtn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
+        this.playBtn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
+        this.nextBtn.connect("clicked", Lang.bind(this, this._onNextBtnClicked));
+        this.progressScale.connect("button-press-event", Lang.bind(this,
             function() {
                 this.player.set_state(Gst.State.PAUSED);
                 this._updatePositionCallback();
                 GLib.source_remove(this.timeout);
                 return false;
             }));
-        this.progress_scale.connect("value-changed", Lang.bind(this,
+        this.progressScale.connect("value-changed", Lang.bind(this,
             function() {
-                let seconds = Math.floor(this.progress_scale.get_value() / 60);
-                this.song_playback_time_lbl.set_label(this.seconds_to_string(seconds));
+                let seconds = Math.floor(this.progressScale.get_value() / 60);
+                this.songPlaybackTimeLabel.set_label(this.secondsToString(seconds));
                 return false;
             }));
-        this.progress_scale.connect("button-release-event", Lang.bind(this,
+        this.progressScale.connect("button-release-event", Lang.bind(this,
             function() {
-                this.onProgressScaleChangeValue(this.progress_scale);
+                this.onProgressScaleChangeValue(this.progressScale);
                 this.player.set_state(Gst.State.PLAYING);
                 this._updatePositionCallback();
                 this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
@@ -302,7 +302,7 @@ const Player = new Lang.Class({
             }));
     },
 
-    seconds_to_string: function(duration){
+    secondsToString: function(duration){
         var minutes = parseInt( duration / 60 ) % 60;
         var seconds = duration % 60;
 
@@ -323,13 +323,13 @@ const Player = new Lang.Class({
 
     _setDuration: function(duration) {
         this.duration = duration;
-        this.progress_scale.set_range(0.0, duration*60);
+        this.progressScale.set_range(0.0, duration*60);
     },
 
     _updatePositionCallback: function() {
         var position = this.player.query_position(Gst.Format.TIME, null)[1]/1000000000;
         if (position >= 0) {
-            this.progress_scale.set_value(position * 60);
+            this.progressScale.set_value(position * 60);
         }
         return true;
     },
