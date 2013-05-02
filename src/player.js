@@ -269,12 +269,7 @@ const Player = new Lang.Class({
         this.artistLabel = this._ui.get_object('artist');
         this.coverImg = this._ui.get_object('cover');
         this.duration = this._ui.get_object('duration');
-        this.replayModel = this._ui.get_object('replay_button_model');
-        this.replayBtn = this._ui.get_object('replay_button');
-
-        let replayIcon = Gtk.Image.new_from_icon_name("media-playlist-repeat-symbolic", Gtk.IconSize.MENU);
-        this.replayModel.append([replayIcon.get_pixbuf(), 'replay']);    
-        this.replayBtn.show_all();
+        this.replayBtn = this._ui.get_object('menuButton');
 
         this.prevBtn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
         this.playBtn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
