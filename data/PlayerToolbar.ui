@@ -247,6 +247,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="icon_name">media-playback-start-symbolic</property>
+    <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="pause_image">
     <property name="visible">True</property>
@@ -263,6 +264,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="icon_name">media-skip-forward-symbolic</property>
+    <property name="icon-size">1</property>
   </object>
   <object class="GtkListStore" id="replay_button_model">
     <columns>
