@@ -23,6 +23,7 @@ const Gdk = imports.gi.Gdk;
 const Gd = imports.gi.Gd;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Lang = imports.lang;
 const Grl = imports.gi.Grl;
@@ -165,9 +166,10 @@ const AlbumWidget = new Lang.Class({
                 let iter = this.model.append();
                 let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
                 let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
+                let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
                 this.model.set(iter,
                     [0, 1, 2, 3, 4, 5],
-                    [ track.get_title(), "", "", false, nowPlayingPixbuf, track ]);
+                    [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
                 this.ui.get_object("running_length_label_info").set_text(
                     (parseInt(duration/60) + 1) + " min");
             }
@@ -203,15 +205,16 @@ const AlbumWidget = new Lang.Class({
             i++;
             let song = playlist.get_value(iter, 5);
 
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
             if (song == currentSong){
-                title = "<b>" + song.get_title() + "</b>";
+                title = "<b>" + escapedTitle + "</b>";
                 iconVisible = true;
                 songPassed = true;
             } else if (songPassed) {
-                title = "<span>"+song.get_title()+"</span>";
+                title = "<span>"+escapedTitle+"</span>";
                 iconVisible = false;
             } else {
-                title = "<span color='grey'>" + song.get_title() + "</span>";
+                title = "<span color='grey'>" + escapedTitle + "</span>";
                 iconVisible = false;
             }
             playlist.set_value(iter, 0, title);
@@ -272,16 +275,17 @@ const ArtistAlbums = new Lang.Class({
             let song = playlist.get_value(iter, 5);
             let songWidget = song.songWidget;
 
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length)
             if (song == currentSong){
                 songWidget.nowPlayingSign.show();
-                songWidget.title.set_markup("<b>" + song.get_title() + "</b>");
+                songWidget.title.set_markup("<b>" + escapedTitle + "</b>");
                 songPassed = true;
             } else if (songPassed) {
                 songWidget.nowPlayingSign.hide();
-                songWidget.title.set_markup("<span>"+song.get_title()+"</span>");
+                songWidget.title.set_markup("<span>" + escapedTitle + "</span>");
             } else {
                 songWidget.nowPlayingSign.hide();
-                songWidget.title.set_markup("<span color='grey'>" + song.get_title() + "</span>");
+                songWidget.title.set_markup("<span color='grey'>" + escapedTitle + "</span>");
             }
         } while(playlist.iter_next(iter));
         return true;
