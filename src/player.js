@@ -98,12 +98,8 @@ const Player = new Lang.Class({
         this._setupView();
     },
 
-    setPlaying: function(mode) {
-        if( mode == true ) {
-            this.play_btn.set_active(true);
-        } else if ( mode == false ) {
-            this.play_btn.set_active(false);
-        }
+    setPlaying: function() {
+        this.play_btn.set_active(true);
     },
 
     load_next_track: function(){
@@ -194,7 +190,7 @@ const Player = new Lang.Class({
     playNext: function () {
         this.stop();
         this.load_next_track();
-        this.setPlaying(true);
+        this.setPlaying();
     },
 
     playPrevious: function () {
@@ -203,7 +199,7 @@ const Player = new Lang.Class({
         let savedTrack;
         if (RepeatType.SONG == this.repeat){
             this.stop();
-            this.setPlaying(true);
+            this.setPlaying();
             return;
         } else
             savedTrack = this.currentTrack.copy()
@@ -223,7 +219,7 @@ const Player = new Lang.Class({
             }
         }
         this.stop();
-        this.setPlaying(true);
+        this.setPlaying();
     },
 
     setPlaylist: function (type, id, model, iter, field) {
@@ -305,18 +301,18 @@ const Player = new Lang.Class({
     },
 
     _onPlayBtnToggled: function(btn) {
-        if(this.play_btn.get_active() == true ) {
-            if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
-                this.play_btn.set_image(this._pause_image);
-                this.pause();
-            } else {
-                this.play_btn.set_image(this._play_image);
+        if(btn.get_active() == true ) {
+            if (this.player.get_state(1)[1] == Gst.State.NULL) {
+                btn.set_image(this._pause_image);
                 this.play();
             }
-        } else {
-            this.play_btn.set_image(this._pause_image);
-            this.play_btn.show_all();
-            this.pause();
+            else if (this.player.get_state(1)[1] == Gst.State.PAUSED) {
+                btn.set_image(this._pause_image);
+                this.play();
+            } else {
+                btn.set_image(this._play_image);
+                this.pause();
+            }
         }
     },
 

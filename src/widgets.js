@@ -71,7 +71,7 @@ const AlbumWidget = new Lang.Class({
                     this.model.set_value(this.iterToClean, 3, false);
                 }
                 this.player.setPlaylist("Album", this.album, this.model, this.model.get_iter(path)[1], 5);
-                this.player.setPlaying(true);
+                this.player.setPlaying();
             })
         );
 
