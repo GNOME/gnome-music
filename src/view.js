@@ -331,7 +331,7 @@ const Songs = new Lang.Class({
 
     _onItemActivated: function (widget, id, path) {
         this.player.setPlaylist("Songs", null, this._model, this._model.get_iter(path)[1], 5);
-        this.player.setPlaying();
+        this.player.setPlaying(true);
     },
 
     _addItem: function(source, param, item) {

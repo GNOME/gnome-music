@@ -27,6 +27,7 @@ const Gst = imports.gi.Gst;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Grl = imports.gi.Grl;
+const GdkPixbug = imports.gi.GdkPixbuf;
 const Signals = imports.signals;
 
 //pkg.initSubmodule('libgd');
@@ -98,8 +99,15 @@ const Player = new Lang.Class({
         this._setupView();
     },
 
-    setPlaying: function() {
-        this.play_btn.set_active(true);
+    setPlaying: function(bool) {
+        if (bool) {
+            this.play()
+            this.play_btn.set_image(this._pause_image);
+        }
+        else {
+            this.pause()
+            this.play_btn.set_image(this._play_image);
+        }
     },
 
     load_next_track: function(){
@@ -116,7 +124,6 @@ const Player = new Lang.Class({
 
     load: function(media) {
         var pixbuf;
-
         this._setDuration(media.get_duration());
         this.song_total_time_lbl.set_label(this.seconds_to_string (media.get_duration()));
         this.progress_scale.sensitive = true;
@@ -190,7 +197,7 @@ const Player = new Lang.Class({
     playNext: function () {
         this.stop();
         this.load_next_track();
-        this.setPlaying();
+        this.setPlaying(true);
     },
 
     playPrevious: function () {
@@ -199,7 +206,7 @@ const Player = new Lang.Class({
         let savedTrack;
         if (RepeatType.SONG == this.repeat){
             this.stop();
-            this.setPlaying();
+            this.setPlaying(true);
             return;
         } else
             savedTrack = this.currentTrack.copy()
@@ -219,7 +226,7 @@ const Player = new Lang.Class({
             }
         }
         this.stop();
-        this.setPlaying();
+        this.setPlaying(true);
     },
 
     setPlaylist: function (type, id, model, iter, field) {
@@ -251,6 +258,7 @@ const Player = new Lang.Class({
         this.eventbox = this._ui.get_object('eventBox');
         this.prev_btn = this._ui.get_object('previous_button');
         this.play_btn = this._ui.get_object('play_button');
+        this.play_btn.set_active(true)
         this.next_btn = this._ui.get_object('next_button');
         this._play_image = this._ui.get_object('play_image');
         this._pause_image = this._ui.get_object('pause_image');
@@ -264,8 +272,9 @@ const Player = new Lang.Class({
         this.replay_model = this._ui.get_object('replay_button_model');
         this.replay_btn = this._ui.get_object('replay_button');
 
-        //this.replay_model.append([null, 'replay']);
-        //this.replay_btn.show_all();
+        let replay_icon = Gtk.Image.new_from_icon_name("media-playlist-repeat-symbolic", Gtk.IconSize.MENU);
+        this.replay_model.append([replay_icon.get_pixbuf(), 'replay']);    
+        this.replay_btn.show_all();
 
         this.prev_btn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
         this.play_btn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
@@ -301,19 +310,7 @@ const Player = new Lang.Class({
     },
 
     _onPlayBtnToggled: function(btn) {
-        if(btn.get_active() == true ) {
-            if (this.player.get_state(1)[1] == Gst.State.NULL) {
-                btn.set_image(this._pause_image);
-                this.play();
-            }
-            else if (this.player.get_state(1)[1] == Gst.State.PAUSED) {
-                btn.set_image(this._pause_image);
-                this.play();
-            } else {
-                btn.set_image(this._play_image);
-                this.pause();
-            }
-        }
+       this.setPlaying(btn.get_active())
     },
 
     _onNextBtnClicked: function(btn) {
