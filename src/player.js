@@ -43,22 +43,6 @@ const RepeatType = {
     ALL:  2
 }
 
-const MenuButton = new Lang.Class({
-    Name: "MenuButton",
-    Extends: Gtk.Button,
-
-    _init: function () {
-        this.parent();
-        let box = new Gtk.HBox();
-        let image = Gtk.Image.new_from_icon_name("media-playlist-repeat-symbolic", Gtk.IconSize.MENU);
-        let arrow = Gtk.Image.new_from_icon_name("go-down-symbolic", Gtk.IconSize.MENU);
-        box.pack_start(image, false, false, 3);
-        box.pack_start(arrow, false, false, 3);
-        this.add(box);
-        this.show_all();
-    },
-});
-
 const Player = new Lang.Class({
     Name: "Player",
 
@@ -268,6 +252,15 @@ const Player = new Lang.Class({
         this.coverImg = this._ui.get_object('cover');
         this.duration = this._ui.get_object('duration');
         this.replayBtn = this._ui.get_object('menuButton');
+        let replayMenu = this._ui.get_object('replayMenu');
+
+        let replaySong = Gtk.MenuItem.new_with_label("replay song");
+        let replayAll = Gtk.MenuItem.new_with_label("replay all");
+        let shuffle = Gtk.MenuItem.new_with_label("shuffle");
+        replayMenu.attach(replaySong, 0, 1, 0, 1);
+        replayMenu.attach(replayAll, 0, 1, 1, 2);
+        replayMenu.attach(shuffle, 0, 1, 2, 3);
+        replayMenu.show_all();
 
         this.prevBtn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
         this.playBtn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
