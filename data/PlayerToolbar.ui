@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.6 -->
+  <object class="GtkImage" id="pause_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playback-pause-symbolic</property>
+    <property name="icon-size">1</property>
+  </object>
+  <object class="GtkImage" id="play_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playback-start-symbolic</property>
+    <property name="icon-size">1</property>
+  </object>
   <object class="GtkFrame" id="eventBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -173,6 +185,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="valign">center</property>
+                    <property name="hexpand">True</property>
                     <property name="draw_value">False</property>
                   </object>
                   <packing>
@@ -192,8 +205,6 @@
               <object class="GtkBox" id="rightBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="valign">center</property>
                 <property name="spacing">9</property>
                 <child>
                   <object class="GtkBox" id="timer">
@@ -335,7 +346,7 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="pack_type">end</property>
                 <property name="position">2</property>
@@ -355,18 +366,6 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="icon_name">media-skip-forward-symbolic</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="pause_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">media-playback-pause-symbolic</property>
-    <property name="icon-size">1</property>
-  </object>
-  <object class="GtkImage" id="play_image">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">media-playback-start-symbolic</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkImage" id="previous_image">
