@@ -327,7 +327,7 @@ const ArtistAlbumWidget = new Lang.Class({
                     ui.add_from_resource('/org/gnome/music/TrackWidget.ui');
                     var songWidget = ui.get_object("eventbox1");
                     this.songs.push(songWidget);
-                    ui.get_object("num").set_text(this.songs.length.toString());
+                    ui.get_object("num").set_markup("<span color='grey'>"+this.songs.length.toString()+"</span>");
                     if (track.get_title() != null)
                         ui.get_object("title").set_text(track.get_title());
                     //var songWidget = ui.get_object("duration").set_text(track.get_title());
