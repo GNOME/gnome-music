@@ -52,6 +52,7 @@ const Player = new Lang.Class({
         this.playlistId = null;
         this.playlistField = null;
         this.currentTrack = null;
+        this._lastState = Gst.State.NULL;
         this.repeat = RepeatType.NONE;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
@@ -84,13 +85,12 @@ const Player = new Lang.Class({
     },
 
     setPlaying: function(bool) {
-        this.playBtn.set_active(bool)
         if (bool) {
-            this.play()
+            this.play();
             this.playBtn.set_image(this._pauseImage);
         }
         else {
-            this.pause()
+            this.pause();
             this.playBtn.set_image(this._playImage);
         }
     },
@@ -241,7 +241,6 @@ const Player = new Lang.Class({
         this.eventBox = this._ui.get_object('eventBox');
         this.prevBtn = this._ui.get_object('previous_button');
         this.playBtn = this._ui.get_object('play_button');
-        this.playBtn.set_active(true)
         this.nextBtn = this._ui.get_object('next_button');
         this._playImage = this._ui.get_object('play_image');
         this._pauseImage = this._ui.get_object('pause_image');
@@ -264,10 +263,11 @@ const Player = new Lang.Class({
         replayMenu.show_all();
 
         this.prevBtn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
-        this.playBtn.connect("toggled", Lang.bind(this, this._onPlayBtnToggled));
+        this.playBtn.connect("clicked", Lang.bind(this, this._onPlayBtnClicked));
         this.nextBtn.connect("clicked", Lang.bind(this, this._onNextBtnClicked));
         this.progressScale.connect("button-press-event", Lang.bind(this,
             function() {
+                this._lastState = this.player.get_state(1)[1];
                 this.player.set_state(Gst.State.PAUSED);
                 this._updatePositionCallback();
                 GLib.source_remove(this.timeout);
@@ -284,6 +284,7 @@ const Player = new Lang.Class({
                 this.onProgressScaleChangeValue(this.progressScale);
                 this.player.set_state(Gst.State.PLAYING);
                 this._updatePositionCallback();
+                this.player.set_state(this._lastState);
                 this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
                 return false;
             }));
@@ -296,8 +297,12 @@ const Player = new Lang.Class({
         return (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
     },
 
-    _onPlayBtnToggled: function(btn) {
-       this.setPlaying(btn.get_active())
+    _onPlayBtnClicked: function(btn) {
+        if(this.player.get_state(1)[1] == Gst.State.PLAYING){
+            this.setPlaying(false);
+        }else{
+            this.setPlaying(true);
+        }
     },
 
     _onNextBtnClicked: function(btn) {

@@ -71,7 +71,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkToggleButton" id="play_button">
+                      <object class="GtkButton" id="play_button">
                         <property name="width_request">55</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
