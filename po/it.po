@@ -1,0 +1,132 @@
+# Italian translation of Rhythmbox.
+# Copyright (C)  2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013 Free Software Foundation, Inc.
+#
+# Convenzioni usate:
+#
+# song & track
+#   Tradurre entrambi come brano tranne i casi
+#   in cui traccia è più adeguato.
+#
+# browser
+#   Ce ne sono due tipi: quello per condivisioni su
+#   Bonjour/Zeroconf ed il widget che permette di filtrare
+#   per artista/album/autore. Il primo è browser, il
+#   secondo catalogo (ove possibile distinguere)
+# Luca Ferretti <lferrett@gnome.org>, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012.
+# Milo Casagrande <milo@ubuntu.com>, 2012, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: rhythmbox\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-05 14:32+0200\n"
+"PO-Revision-Date: 2013-05-05 14:36+0200\n"
+"Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Launchpad-Export-Date: 2012-03-06 09:28+0000\n"
+"X-Generator: Launchpad (build 14900)\n"
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "<span color='grey'>Released</span>"
+msgstr "<span color='grey'>Pubblicato</span>"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "<span color='grey'>Running Length</span>"
+msgstr "<span color='grey'>Durata</span>"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--.--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nuova playlist..."
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "In _riproduzione"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "I_nformazioni su Musica"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Esci"
+
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+msgid "Music"
+msgstr "Musica"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Riproduttore musicale"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Riproduce e organizza la collezione musicale"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Dimensione finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "La dimensione della finestra (larghezza e altezza)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posizione finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "La posizione della finestra (x e y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Finestra massimizzata"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Lo stato di massimizzazione della finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Shuffle playback"
+msgstr "Mischia la riproduzione"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid "If true, do randomized playback through the collection"
+msgstr "Se VERO, riproduce casualmente brani dalla collezione"
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Modalità di ricerca"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr "Se VERO, viene mostrata la barra di ricerca"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "00:00"
+msgstr "00.00"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "/"
+msgstr "/"
+
+#: ../data/TrackWidget.ui.h:1
+msgid "label"
+msgstr "etichetta"
+
+#: ../src/toolbar.js:79
+msgid "Back"
+msgstr "Indietro"
