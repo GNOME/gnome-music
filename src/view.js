@@ -213,10 +213,11 @@ const ViewContainer = new Lang.Class({
             if ((item.get_title() == null) && (item.get_url() != null)) {
                 item.set_title (extractFileName(item.get_url()));
             }
+            var icon = albumArtCache.makeIconFrame(this._symbolicIcon)
             this._model.set(
                     iter,
                     [0, 1, 2, 3, 4, 5],
-                    [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item]
+                    [toString(item.get_id()), "", item.get_title(), artist, icon, item]
                 );
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
         }
@@ -240,6 +241,7 @@ const ViewContainer = new Lang.Class({
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)
         var icon = albumArtCache.lookup(this._iconHeight, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         if (icon != null) {
+            icon = albumArtCache.makeIconFrame(icon)
             this._model.set_value(iter, 4, icon);
             return false;
         }
@@ -259,6 +261,7 @@ const ViewContainer = new Lang.Class({
                     this._iconHeight,
                     Lang.bind(this,
                         function (icon) {
+                            icon = albumArtCache.makeIconFrame(icon);
                             this._model.set_value(iter, 4, icon);
                         }))
             }));

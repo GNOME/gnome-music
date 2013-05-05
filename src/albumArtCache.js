@@ -149,7 +149,24 @@ const AlbumArtCache = new Lang.Class({
             file.copy(new_file, Gio.FileCopyFlags.NONE, null, null);
             callback(icon);
         });
+    },
+
+    makeIconFrame: function (pixbuf) {
+        var border = 1;
+        var color = 0x0000000044;
+        var result = GdkPixbuf.Pixbuf.new(pixbuf.get_colorspace(),
+                                true,
+                                pixbuf.get_bits_per_sample(),
+                                pixbuf.get_width(),
+                                pixbuf.get_height())
+        result.fill(color)
+        pixbuf.copy_area(border, border,
+                        pixbuf.get_width() - (border * 2), pixbuf.get_height() - (border * 2),
+                        result,
+                        border, border)
+        return result
     }
+
 
 });
 
