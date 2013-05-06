@@ -221,13 +221,14 @@
               <object class="GtkBox" id="rightBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">9</property>
+                <property name="spacing">25</property>
                 <child>
                   <object class="GtkBox" id="timer">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="valign">center</property>
+                    <property name="spacing">6</property>
                     <child>
                       <object class="GtkLabel" id="playback">
                         <property name="visible">True</property>
