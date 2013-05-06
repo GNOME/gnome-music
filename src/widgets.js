@@ -66,7 +66,7 @@ const AlbumWidget = new Lang.Class({
         this.view.connect('item-activated', Lang.bind(this,
             function(widget, id, path) {
                 this.player.stop();
-                if (this.iterToClean && this.player.playlist_id == this.album){
+                if (this.iterToClean && this.player.playlistId == this.album){
                     let item = this.model.get_value(this.iterToClean, 5);
                     this.model.set_value(this.iterToClean, 0, item.get_title());
                     // Hide now playing icon

@@ -221,7 +221,7 @@ const Player = new Lang.Class({
     },
 
     runningPlaylist: function (type, id, force){
-        if (type == this.playlist_type && id == this.playlist_id)
+        if (type == this.playlistType && id == this.playlistId)
             return this.playlist;
         else
             return null;
