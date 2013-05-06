@@ -52,48 +52,18 @@ const AlbumArtCache = new Lang.Class({
             album = " ";
         }
 
-        try {
-            key = "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album);
-            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
+        for (var i = 0; i < this._keybuilder_funcs.length; i++)
+        {
+            try {
+                key = this._keybuilder_funcs[i].call (this, artist, album);
+                path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
 
-            return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
-        }
-
-        catch (error) {
-            if (this.logLookupErrors) log(error);
-        }
-
-        try {
-            key = "album-" + this.normalizeAndHash(artist, false, true) + "-" + this.normalizeAndHash(album, false, true);
-            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
-
-            return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
-        }
-
-        catch (error) {
-            if (this.logLookupErrors) log(error);
-        }
-
-        try {
-            key = "album-" + this.normalizeAndHash(" ", false, true) + "-" + this.normalizeAndHash(album, false, true);
-            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
-
-            return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
-        }
-
-        catch (error) {
-            if (this.logLookupErrors) log(error);
-        }
-
-        try {
-            key = "album-" + this.normalizeAndHash(artist + "\t" + album, true, true);
-            path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
-
-            return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
-        }
-
-        catch (error) {
-            if (this.logLookupErrors) log(error);
+                return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
+            }
+            catch (error) {
+                if (this.logLookupErrors)
+                    log(error);
+            }
         }
 
         return null;
@@ -133,7 +103,7 @@ const AlbumArtCache = new Lang.Class({
     getFromUri: function(uri, artist, album, width, height, callback) {
         if (uri == null) return;
 
-        let key = "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album),
+        let key = this._keybuilder_funcs[0].call(this, artist, album),
             path = GLib.build_filenamev([
                 this.cacheDir, key + ".jpeg"
             ]),
@@ -146,7 +116,9 @@ const AlbumArtCache = new Lang.Class({
                 icon = GdkPixbuf.Pixbuf.new_from_stream_at_scale(stream, height, width, true, null),
                 new_file = Gio.File.new_for_path(path);
 
-            file.copy(new_file, Gio.FileCopyFlags.NONE, null, null);
+                try{
+                    file.copy(new_file, Gio.FileCopyFlags.NONE, null, null);
+                } catch(err) {};
             callback(icon);
         });
     },
@@ -158,15 +130,21 @@ const AlbumArtCache = new Lang.Class({
                                 true,
                                 pixbuf.get_bits_per_sample(),
                                 pixbuf.get_width(),
-                                pixbuf.get_height())
-        result.fill(color)
+                                pixbuf.get_height());
+        result.fill(color);
         pixbuf.copy_area(border, border,
                         pixbuf.get_width() - (border * 2), pixbuf.get_height() - (border * 2),
                         result,
-                        border, border)
-        return result
-    }
+                        border, border);
+        return result;
+    },
 
+    _keybuilder_funcs: [
+        function (artist, album) { return "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album); },
+        function (artist, album) { return "album-" + this.normalizeAndHash(artist, false, true) + "-" + this.normalizeAndHash(album, false, true); },
+        function (artist, album) { return "album-" + this.normalizeAndHash(" ", false, true) + "-" + this.normalizeAndHash(album, false, true); },
+        function (artist, album) { return "album-" + this.normalizeAndHash(artist + "\t" + album, true, true); }
+    ]
 
 });
 
