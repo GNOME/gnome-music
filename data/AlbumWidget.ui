@@ -20,7 +20,6 @@
             <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
-            <property name="margin_bottom">64</property>
             <property name="spacing">18</property>
             <child>
               <object class="GtkImage" id="cover">
