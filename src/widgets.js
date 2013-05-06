@@ -29,6 +29,7 @@ const Lang = imports.lang;
 const Grl = imports.gi.Grl;
 const Query = imports.query;
 const Grilo = imports.grilo;
+const Signals = imports.signals;
 
 const grilo = Grilo.grilo;
 const AlbumArtCache = imports.albumArtCache;
@@ -172,6 +173,7 @@ const AlbumWidget = new Lang.Class({
                     [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
                 this.ui.get_object("running_length_label_info").set_text(
                     (parseInt(duration/60) + 1) + " min");
+                this.emit("track-added")
             }
         }));
     }
@@ -188,6 +190,7 @@ const AlbumWidget = new Lang.Class({
         else
             this.ui.get_object("released_label_info").set_text("----");
         this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
+        this.emit('loaded')
     },
 
     updateModel: function(player, playlist, currentIter){
@@ -223,6 +226,7 @@ const AlbumWidget = new Lang.Class({
         return true;
     },
 });
+Signals.addSignalMethods(AlbumWidget.prototype);
 
 const ArtistAlbums = new Lang.Class({
     Name: "ArtistAlbumsWidget",

@@ -39,5 +39,6 @@ AC_CONFIG_FILES([
   libgd/Makefile
   src/Makefile
   po/Makefile.in
+  tests/Makefile
 ])
 AC_OUTPUT

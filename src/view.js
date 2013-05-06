@@ -265,6 +265,7 @@ const ViewContainer = new Lang.Class({
                             this._model.set_value(iter, 4, icon);
                         }))
             }));
+        this.emit("album-art-updated");
         return false;
     },
 
@@ -275,6 +276,7 @@ const ViewContainer = new Lang.Class({
     }
 
 });
+Signals.addSignalMethods(ViewContainer.prototype);
 
 const Albums = new Lang.Class({
     Name: "AlbumsView",
