@@ -241,7 +241,7 @@ const ArtistAlbums = new Lang.Class({
         this.ui.add_from_resource('/org/gnome/music/ArtistAlbumsWidget.ui');
         this.set_border_width(0);
         this.ui.get_object("artist").set_label(this.artist);
-        var widgets = [];
+        this.widgets = [];
 
         this.model = Gtk.ListStore.new([
                 GObject.TYPE_STRING, /*title*/
@@ -258,10 +258,11 @@ const ArtistAlbums = new Lang.Class({
         for (var i=0; i < albums.length; i++) {
             let widget = new ArtistAlbumWidget(artist, albums[i], this.player, this.model)
             this.pack_start(widget, false, false, 32);
-            widgets.push(widget);
+            this.widgets.push(widget);
         }
         this.show_all();
         this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
+        this.emit("albums-loaded");
     },
 
     updateModel: function(player, playlist, currentIter){
@@ -296,6 +297,7 @@ const ArtistAlbums = new Lang.Class({
 
     },
 });
+Signals.addSignalMethods(ArtistAlbums.prototype);
 
 const ArtistAlbumWidget = new Lang.Class({
     Name: "ArtistAlbumWidget",
@@ -360,11 +362,13 @@ const ArtistAlbumWidget = new Lang.Class({
                     songWidget.nowPlayingSign.set_no_show_all("true");
                 }
                 this.ui.get_object("grid1").show_all();
+                this.emit("tracks-loaded");
             }
         }));
 
         this.pack_start(this.ui.get_object("ArtistAlbumWidget"), true, true, 0);
         this.show_all();
+        this.emit("artist-album-loaded");
     },
     trackSelected: function(widget, iter) {
         this.player.stop();
@@ -373,3 +377,4 @@ const ArtistAlbumWidget = new Lang.Class({
     },
 
 });
+Signals.addSignalMethods(ArtistAlbumWidget.prototype);

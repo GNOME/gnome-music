@@ -449,8 +449,8 @@ const Artists = new Lang.Class({
         var iter = this._model.get_iter (path)[1];
         var artist = this._model.get_value (iter, 0);
         var albums = this._artists[artist.toLowerCase()]["albums"]
-        var artistAlbums = new Widgets.ArtistAlbums(artist, albums, this.player);
-        this._artistAlbumsWidget.add(artistAlbums);
+        this.artistAlbums = new Widgets.ArtistAlbums(artist, albums, this.player);
+        this._artistAlbumsWidget.add(this.artistAlbums);
         //this._artistAlbumsWidget.update(artist, albums);
     },
 
@@ -473,11 +473,13 @@ const Artists = new Lang.Class({
         );
         }
         this._artists[artist.toLowerCase()]["albums"].push(item)
+        this.emit("artist-added");
     },
 
     populate: function () {
         if(grilo.tracker != null) {
             grilo.populateArtists(this._offset, Lang.bind(this, this._addItem, null));
+            //FIXME: We're emitting this too early, need to wait for all artists to be filled in
         }
     },
 });
