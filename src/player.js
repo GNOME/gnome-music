@@ -112,12 +112,19 @@ const Player = new Lang.Class({
         this._setDuration(media.get_duration());
         this.songTotalTimeLabel.set_label(this.secondsToString (media.get_duration()));
         this.progressScale.sensitive = true;
-        this.prevBtn.set_sensitive(true);
         this.playBtn.set_sensitive(true);
-        this.nextBtn.set_sensitive(true);
-
         // FIXME: site contains the album's name. It's obviously a hack to remove
+        let tmp = this.currentTrack.copy();
+        if(this.playlist.iter_next(tmp))
+            this.nextBtn.set_sensitive(true);
+        else
+            this.nextBtn.set_sensitive(false);
 
+        tmp = this.currentTrack.copy();
+        if(this.playlist.iter_previous(tmp))
+            this.prevBtn.set_sensitive(true);
+        else
+            this.prevBtn.set_sensitive(false);
         pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_string(Grl.METADATA_KEY_ALBUM));
         this.coverImg.set_from_pixbuf (pixbuf);
 
