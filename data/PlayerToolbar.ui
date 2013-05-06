@@ -43,11 +43,12 @@
             <property name="can_focus">False</property>
             <property name="border_width">9</property>
             <property name="homogeneous">True</property>
+            <property name="spacing">25</property>
             <child>
               <object class="GtkBox" id="leftBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">9</property>
+                <property name="spacing">25</property>
                 <child>
                   <object class="GtkBox" id="buttons">
                     <property name="visible">True</property>
@@ -109,51 +110,66 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkImage" id="cover">
-                    <property name="can_focus">False</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="nowplaying">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
-                    <property name="orientation">vertical</property>
-                    <property name="homogeneous">True</property>
+                    <property name="spacing">8</property>
+                    <property name="orientation">horizontal</property>
                     <child>
-                      <object class="GtkLabel" id="artist">
-                        <property name="visible">True</property>
+                      <object class="GtkImage" id="cover">
                         <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="valign">start</property>
-                        <property name="ellipsize">middle</property>
-                        <style>
-                          <class name="dim-label"/>
-                        </style>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                        </attributes>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="title">
+                      <object class="GtkBox" id="nowplaying_labels">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="valign">start</property>
-                        <property name="xalign">0</property>
-                        <property name="ellipsize">middle</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="orientation">vertical</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkLabel" id="artist">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="valign">start</property>
+                            <property name="ellipsize">middle</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="title">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="valign">start</property>
+                            <property name="xalign">0</property>
+                            <property name="ellipsize">middle</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="expand">False</property>
