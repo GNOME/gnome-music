@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>.
  * Copyright (c) 2013 Vadim Rutkovsky <vrutkovs@redhat.com>.
+ * Copyright (c) 2013 Matteo Settenvini <matteo@member.fsf.org>
  *
  * Gnome Music is free software; you can Public License as published by the
  * Free Software Foundation; either version 2 of the License, or (at your
