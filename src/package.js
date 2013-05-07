@@ -25,6 +25,7 @@
 
 const GLib = imports.gi.GLib;
 const GIRepository = imports.gi.GIRepository;
+const Gio = imports.gi.Gio;
 const System = imports.system;
 
 const Gettext = imports.gettext;
@@ -43,6 +44,19 @@ var localedir;
 /*< private >*/
 let _base;
 let _requires;
+
+function _runningFromSource(name) {
+    if (System.version >= 13600) {
+        let fileName = System.programInvocationName;
+
+        let binary = Gio.File.new_for_path(fileName);
+        let cwd = Gio.File.new_for_path('.');
+        return binary.has_prefix(cwd);
+    } else {
+        return GLib.file_test(name + '.doap',
+                              GLib.FileTest.EXISTS);
+    }
+}
 
 /**
  * init:
@@ -100,8 +114,7 @@ function init(params) {
     datadir = GLib.build_filenamev([prefix, 'share']);
     let libpath, girpath;
 
-    if (GLib.file_test('./src',
-                       GLib.FileTest.IS_DIR)) {
+    if (_runningFromSource(name)) {
         log('Running from source tree, using local files');
         // Running from source directory
         _base = GLib.get_current_dir();
@@ -121,7 +134,7 @@ function init(params) {
         moduledir = pkgdatadir;
     }
 
-    imports.searchPath.push(moduledir);
+    imports.searchPath.unshift(moduledir);
     GIRepository.Repository.prepend_search_path(girpath);
     GIRepository.Repository.prepend_library_path(libpath);
 }
