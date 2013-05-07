@@ -9,6 +9,8 @@ check-TESTS:
 	 for test in $(TESTS) ; do \
 	   echo "Running suite $$test" ; \
 	   $(RUN_TESTS_ENV_VARS) gjs $$test ; \
+	   status=$$? ; \
+	   if [[ $$status -ne 0 ]] ; then exit 1 ; fi ; \
 	 done
 
 -include $(top_srcdir)/git.mk
