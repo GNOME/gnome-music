@@ -53,7 +53,6 @@ const AlbumWidget = new Lang.Class({
         this.player = player;
         this.hbox = new Gtk.HBox ();
         this.iterToClean = null;
-        this.scrolledWindow = new Gtk.ScrolledWindow();
 
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/AlbumWidget.ui');
@@ -82,6 +81,8 @@ const AlbumWidget = new Lang.Class({
 
         let view_box = this.ui.get_object("view");
         let child_view = this.view.get_children()[0];
+        child_view.set_margin_top(64);
+        child_view.set_margin_bottom(64);
         this.view.remove(child_view)
         view_box.add(child_view)
 
