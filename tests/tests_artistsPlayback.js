@@ -114,7 +114,7 @@ function testArtistsViewPlayback() {
 
 
     // Buttons become enabled
-    assertTrue(player.prevBtn.get_sensitive())
+    assertFalse(player.prevBtn.get_sensitive())
     assertTrue(player.playBtn.get_sensitive())
     assertTrue(player.nextBtn.get_sensitive())
 
