@@ -126,8 +126,8 @@ const AlbumArtCache = new Lang.Class({
     },
 
     makeIconFrame: function (pixbuf) {
-        var border = 1;
-        var color = 0x0000000044;
+        var border = 3;
+        var color = 0xffffffff;
         var result = GdkPixbuf.Pixbuf.new(pixbuf.get_colorspace(),
                                 true,
                                 pixbuf.get_bits_per_sample(),
@@ -138,6 +138,25 @@ const AlbumArtCache = new Lang.Class({
                         pixbuf.get_width() - (border * 2), pixbuf.get_height() - (border * 2),
                         result,
                         border, border);
+
+        pixbuf = result;
+
+        border = 1;
+        color = 0x00000044;
+        var result2 = GdkPixbuf.Pixbuf.new(pixbuf.get_colorspace(),
+                                true,
+                                pixbuf.get_bits_per_sample(),
+                                pixbuf.get_width(),
+                                pixbuf.get_height());
+        result2.fill(color);
+        pixbuf.copy_area(border, border,
+                        pixbuf.get_width() - (border * 2), pixbuf.get_height() - (border * 2),
+                        result2,
+                        border, border);
+
+        return result2;
+
+
         return result;
     },
 
