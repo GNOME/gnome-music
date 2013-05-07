@@ -1,5 +1,7 @@
 TESTS = \
     tests_albumArt.js \
+    tests_albumPlayback.js \
+    tests_artistsPlayback.js \
     $(NULL)
 
 check-TESTS:
