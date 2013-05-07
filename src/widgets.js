@@ -255,9 +255,12 @@ const ArtistAlbums = new Lang.Class({
 
 
         this.pack_start(this.ui.get_object("ArtistAlbumsWidget"), false, false, 0);
+        var hbox = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
+        hbox.set_spacing(48);
+        this.pack_start(hbox, false, false, 16);
         for (var i=0; i < albums.length; i++) {
             let widget = new ArtistAlbumWidget(artist, albums[i], this.player, this.model)
-            this.pack_start(widget, false, false, 32);
+            hbox.pack_start(widget, false, false, 0);
             this.widgets.push(widget);
         }
         this.show_all();
