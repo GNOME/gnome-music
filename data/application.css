@@ -12,6 +12,10 @@
 @define-color music_selection_button_dark_b #1c1c1c;
 @define-color music_selection_box_dark_border #3e7b05;
 
+.artist-panel {
+    color: #FF00FF;
+}
+
 .play-bar {
     border-width: 1px 0 0;
     border-style: solid;
