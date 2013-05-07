@@ -1,0 +1,123 @@
+# Hebrew translations for PACKAGE package.
+# Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GNOME Music\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-07 10:51+0300\n"
+"PO-Revision-Date: 2013-05-07 10:54+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: Hebrew <sh.yaron@gmail.com>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Language: Hebrew\n"
+"X-Poedit-Country: ISRAEL\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "<span color='grey'>Released</span>"
+msgstr "<span color='grey'>הוצאה לאור</span>"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "<span color='grey'>Running Length</span>"
+msgstr "<span color='grey'>משך ההשמעה</span>"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--:--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_רשימת השמעה חדשה"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "מת_נגן כעת"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "על _אודות מוזיקה"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "י_ציאה"
+
+#: ../data/gnome-music.desktop.in.h:1
+#: ../src/application.js:54
+msgid "Music"
+msgstr "מוזיקה"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "נגן מוזיקה"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "לנגן ולארגן את אוסף המוזיקה שלך"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Window size"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Window size (width and height)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Window position"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Window position (x and y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Window maximized"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Window maximized state"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Shuffle playback"
+msgstr "Shuffle playback"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid "If true, do randomized playback through the collection"
+msgstr "If true, do randomized playback through the collection"
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Search mode"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr "If true, the search bar is shown"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "00:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "/"
+msgstr "/"
+
+#: ../data/TrackWidget.ui.h:1
+msgid "label"
+msgstr "תווית"
+
+#: ../src/toolbar.js:79
+msgid "Back"
+msgstr "חזרה"
+
