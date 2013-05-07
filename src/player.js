@@ -29,6 +29,7 @@ const GObject = imports.gi.GObject;
 const Grl = imports.gi.Grl;
 const GdkPixbug = imports.gi.GdkPixbuf;
 const Signals = imports.signals;
+const Gdk = imports.gi.Gdk;
 
 //pkg.initSubmodule('libgd');
 
@@ -260,6 +261,9 @@ const Player = new Lang.Class({
         this.duration = this._ui.get_object('duration');
         this.replayBtn = this._ui.get_object('menuButton');
         let replayMenu = this._ui.get_object('replayMenu');
+        let color = new Gdk.Color({red:0,green:0,blue:0});
+        this._playImage.modify_fg(Gtk.StateType.ACTIVE,color);
+        this._pauseImage.modify_fg(Gtk.StateType.ACTIVE,color);
 
         let replaySong = Gtk.MenuItem.new_with_label("replay song");
         let replayAll = Gtk.MenuItem.new_with_label("replay all");
