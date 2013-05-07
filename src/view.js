@@ -374,6 +374,7 @@ const Songs = new Lang.Class({
                         time =  minutes + ":0" + seconds;
                     else
                         time = minutes + ":" + seconds;
+                    durationRenderer.set_property("xalign", 1.0);
                     durationRenderer.text = time;
                 }
             }));
