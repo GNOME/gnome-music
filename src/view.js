@@ -290,14 +290,17 @@ const ViewContainer = new Lang.Class({
                 icon.get_bits_per_sample(),
                 icon.get_width()*4,
                 icon.get_height()*4);
-        result.fill(0x00000000);
+        result.fill(0xffffffff);
 
-        icon.copy_area(0, 0,
+        icon.composite(result,
+                        icon.get_width()*3/2,
+                        icon.get_height()*3/2,
                         icon.get_width(),
                         icon.get_height(),
-                        result,
                         icon.get_width()*3/2,
-                        icon.get_height()*3/2);
+                        icon.get_height()*3/2,
+                        1, 1,
+                        GdkPixbuf.InterpType.NEAREST, 0xff)
         return result;
 
     }
