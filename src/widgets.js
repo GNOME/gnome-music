@@ -38,6 +38,9 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 const nowPlayingPixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
         "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg",
         -1, 16, true);
+const errorPixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+        "/usr/share/icons/gnome/scalable/status/dialog-error-symbolic.svg",
+        -1, 16, true);
 
 const AlbumWidget = new Lang.Class({
     Name: "AlbumWidget",
@@ -59,15 +62,18 @@ const AlbumWidget = new Lang.Class({
         this.album=null;
         this.view.connect('item-activated', Lang.bind(this,
             function(widget, id, path) {
-                this.player.stop();
-                if (this.iterToClean && this.player.playlistId == this.album){
-                    let item = this.model.get_value(this.iterToClean, 5);
-                    this.model.set_value(this.iterToClean, 0, item.get_title());
-                    // Hide now playing icon
-                    this.model.set_value(this.iterToClean, 3, false);
+                let iter = this.model.get_iter(path)[1];
+                if (this.model.get_value(iter, 4) != errorPixbuf) {
+                    this.player.stop();
+                    if (this.iterToClean && this.player.playlistId == this.album){
+                        let item = this.model.get_value(this.iterToClean, 5);
+                        this.model.set_value(this.iterToClean, 0, item.get_title());
+                        // Hide now playing icon
+                        this.model.set_value(this.iterToClean, 3, false);
+                    }
+                    this.player.setPlaylist("Album", this.album, this.model, iter, 5);
+                    this.player.setPlaying(true);
                 }
-                this.player.setPlaylist("Album", this.album, this.model, this.model.get_iter(path)[1], 5);
-                this.player.setPlaying(true);
             })
         );
 
@@ -99,13 +105,13 @@ const AlbumWidget = new Lang.Class({
         cells[1].visible = false
 
         let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0 });
-        nowPlayingSymbolRenderer.pixbuf = nowPlayingPixbuf;
 
         var columnNowPlaying = new Gtk.TreeViewColumn();
         nowPlayingSymbolRenderer.set_property("xalign", 1.0);
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false)
         columnNowPlaying.set_property('fixed-width', 24)
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 3);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "pixbuf", 4);
         listWidget.insert_column(columnNowPlaying, 0)
 
         let typeRenderer =
@@ -153,7 +159,7 @@ const AlbumWidget = new Lang.Class({
                 GObject.TYPE_STRING,
                 GObject.TYPE_STRING,
                 GObject.TYPE_BOOLEAN,/*icon shown*/
-                GdkPixbuf.Pixbuf,    /*icon*/
+                GdkPixbuf.Pixbuf,    /*icon to display*/
                 GObject.TYPE_OBJECT, /*song object*/
                 GObject.TYPE_BOOLEAN
             ]);
@@ -163,14 +169,22 @@ const AlbumWidget = new Lang.Class({
                     tracks.push(track);
                     duration = duration + track.get_duration();
                     let iter = this.model.append();
-                    let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
-                    let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
-                    let escapedTitle = GLib.markup_escape_text(track.get_title(), -1);
-                    this.model.set(iter,
-                        [0, 1, 2, 3, 4, 5],
-                        [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
+                    let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
+                    try{
+                        this.player.discoverer.discover_uri(track.get_url());
+                        this.model.set(iter,
+                            [0, 1, 2, 3, 4, 5],
+                            [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
+                    } catch(err) {
+                        log("failed to discover url " + track.get_url());
+                        this.model.set(iter,
+                            [0, 1, 2, 3, 4, 5],
+                            [ escapedTitle, "", "", true, errorPixbuf, track ]);
+                    }
+
                     this.ui.get_object("running_length_label_info").set_text(
                         (parseInt(duration/60) + 1) + " min");
+
                     this.emit("track-added")
                 }
             }));
@@ -283,6 +297,9 @@ const ArtistAlbums = new Lang.Class({
             let song = playlist.get_value(iter, 5);
             let songWidget = song.songWidget;
 
+            if (!songWidget.can_be_played)
+                continue
+
             let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
             if (song == currentSong){
                 songWidget.nowPlayingSign.show();
@@ -307,7 +324,8 @@ const ArtistAlbums = new Lang.Class({
             let song = this.model.get_value(iter, 5);
             let songWidget = song.songWidget;
             let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
-            songWidget.nowPlayingSign.hide();
+            if (songWidget.can_be_played)
+                songWidget.nowPlayingSign.hide();
             songWidget.title.set_markup("<span>" + escapedTitle + "</span>");
         } while(this.model.iter_next(iter));
         return false;
@@ -365,18 +383,30 @@ const ArtistAlbumWidget = new Lang.Class({
                         parseInt((i)%(this.tracks.length/2)), 1, 1);
                     track.songWidget = songWidget;
                     let iter = model.append();
-                    model.set(iter,
-                            [0, 1, 2, 3, 4, 5],
-                            [ track.get_title(), "", "", false, pixbuf, track]);
-
                     songWidget.iter = iter;
                     songWidget.model = model;
-                    songWidget.connect('button-release-event', Lang.bind(
-                                                            this, this.trackSelected));
                     songWidget.title = ui.get_object("title");
-                    songWidget.nowPlayingSign = ui.get_object("image1");
-                    songWidget.nowPlayingSign.set_from_pixbuf(nowPlayingPixbuf);
-                    songWidget.nowPlayingSign.set_no_show_all("true");
+
+                    try{
+                        this.player.discoverer.discover_uri(track.get_url());
+                        model.set(iter,
+                            [0, 1, 2, 3, 4, 5],
+                            [ track.get_title(), "", "", false, nowPlayingPixbuf, track]);
+                        songWidget.nowPlayingSign = ui.get_object("image1");
+                        songWidget.nowPlayingSign.set_from_pixbuf(nowPlayingPixbuf);
+                        songWidget.nowPlayingSign.set_no_show_all("true");
+                        songWidget.can_be_played = true;
+                        songWidget.connect('button-release-event', Lang.bind(
+                                                                this, this.trackSelected));
+                    } catch(err) {
+                        log("failed to discover url " + track.get_url());
+                        this.model.set(iter,
+                            [0, 1, 2, 3, 4, 5],
+                            [ track.get_title(), "", "", true, errorPixbuf, track ]);
+                        songWidget.nowPlayingSign = ui.get_object("image1");
+                        songWidget.nowPlayingSign.set_from_pixbuf(errorPixbuf);
+                        songWidget.can_be_played = false;
+                    }
                 }
                 this.ui.get_object("grid1").show_all();
                 this.emit("tracks-loaded");
