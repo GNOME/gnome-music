@@ -83,6 +83,7 @@ const AlbumWidget = new Lang.Class({
         let child_view = this.view.get_children()[0];
         child_view.set_margin_top(64);
         child_view.set_margin_bottom(64);
+        child_view.set_margin_right(32);
         this.view.remove(child_view)
         view_box.add(child_view)
 
@@ -97,7 +98,8 @@ const AlbumWidget = new Lang.Class({
         let listWidget = this.view.get_generic_view();
 
         var cols = listWidget.get_columns()
-        cols[0].set_max_width(370)
+        cols[0].set_min_width(310)
+        cols[0].set_max_width(470)
         var cells = cols[0].get_cells()
         cells[2].visible = false
         cells[1].visible = false
