@@ -131,9 +131,15 @@ const AlbumWidget = new Lang.Class({
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
                 let duration = item.get_duration ();
-                if (!item)
-                    return;
-                durationRenderer.text = this.player.secondsToString(duration);
+                var minutes = parseInt(duration / 60);
+                var seconds = duration % 60;
+                var time = null
+                if (seconds < 10)
+                    time =  minutes + ":0" + seconds;
+                else
+                    time = minutes + ":" + seconds;
+                durationRenderer.set_property("xalign", 1.0);
+                durationRenderer.text = time;
             }));
     },
     update: function (artist, album, item) {
