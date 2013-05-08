@@ -197,16 +197,14 @@ const AlbumWidget = new Lang.Class({
     updateModel: function(player, playlist, currentIter){
         //this is not our playlist, return
         if (playlist != this.model){
-            return true;}
-       let currentSong = playlist.get_value(currentIter, 5);
+            return false;}
+        let currentSong = playlist.get_value(currentIter, 5);
         let [res, iter] = playlist.get_iter_first();
         if (!res)
-            return true;
+            return false;
         let songPassed = false;
         let iconVisible, title;
-        let i = 0;
         do{
-            i++;
             let song = playlist.get_value(iter, 5);
 
             let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
@@ -224,7 +222,7 @@ const AlbumWidget = new Lang.Class({
             playlist.set_value(iter, 0, title);
             playlist.set_value(iter, 3, iconVisible);
         } while(playlist.iter_next(iter));
-        return true;
+        return false;
     },
 });
 Signals.addSignalMethods(AlbumWidget.prototype);
@@ -272,19 +270,21 @@ const ArtistAlbums = new Lang.Class({
     updateModel: function(player, playlist, currentIter){
         //this is not our playlist, return
         if (playlist != this.model){
-            return true;}
+            //TODO, only clean once, but that can wait util we have clean
+            //the code a bit, and until the playlist refactoring.
+            //the overhead is acceptable for now
+            this.cleanModel();
+            return false;}
         let currentSong = playlist.get_value(currentIter, 5);
         let [res, iter] = playlist.get_iter_first();
         if (!res)
-            return true;
+            return false;
         let songPassed = false;
-        let i = 0;
         do{
-            i++;
             let song = playlist.get_value(iter, 5);
             let songWidget = song.songWidget;
 
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length)
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
             if (song == currentSong){
                 songWidget.nowPlayingSign.show();
                 songWidget.title.set_markup("<b>" + escapedTitle + "</b>");
@@ -297,9 +297,23 @@ const ArtistAlbums = new Lang.Class({
                 songWidget.title.set_markup("<span color='grey'>" + escapedTitle + "</span>");
             }
         } while(playlist.iter_next(iter));
-        return true;
+        return false;
 
     },
+    cleanModel: function(){
+        let [res, iter] = this.model.get_iter_first();
+        if (!res)
+            return false;
+        do{
+            let song = this.model.get_value(iter, 5);
+            let songWidget = song.songWidget;
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
+            songWidget.nowPlayingSign.hide();
+            songWidget.title.set_markup("<span>" + escapedTitle + "</span>");
+        } while(this.model.iter_next(iter));
+        return false;
+
+    }
 });
 Signals.addSignalMethods(ArtistAlbums.prototype);
 
