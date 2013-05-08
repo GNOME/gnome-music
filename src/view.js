@@ -40,7 +40,6 @@ const tracker = Tracker.SparqlConnection.get (null);
 const AlbumArtCache = imports.albumArtCache;
 const Grilo = imports.grilo;
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
-const symbolicMusicPath = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
 
 function extractFileName(uri) {
     var exp = /^.*[\\\/]|[.][^.]*$/g;
@@ -147,7 +146,7 @@ const ViewContainer = new Lang.Class({
         this._items = [];
         this._loadMore.widget.hide();
         this._connectView();
-        this._symbolicIcon = this._createSymblolicIcon(symbolicMusicPath, this._iconHeight, this._iconWidth);
+        this._symbolicIcon = albumArtCache.makeDefaultIcon(this._iconHeight, this._iconWidth);
         grilo.connect('ready', Lang.bind(this, this.populate));
         this.header_bar.connect('state-changed', Lang.bind(this, this._onStateChanged))
     },
@@ -213,12 +212,10 @@ const ViewContainer = new Lang.Class({
             if ((item.get_title() == null) && (item.get_url() != null)) {
                 item.set_title (extractFileName(item.get_url()));
             }
-            if (!this.icon)
-                this.icon = albumArtCache.makeIconFrame(this._symbolicIcon);
             this._model.set(
                     iter,
                     [0, 1, 2, 3, 4, 5],
-                    [toString(item.get_id()), "", item.get_title(), artist, this.icon, item]
+                    [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item]
                 );
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
         }
@@ -274,37 +271,7 @@ const ViewContainer = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
-    },
-    //TODO: this should probably be a helper as it will probably
-    //be used by others
-    _createSymblolicIcon: function(path, w, h) {
-        //get a small pixbuf with the given path
-        let icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path,
-                    w < 0 ? -1 : w/4,
-                    h < 0 ? -1 : h/4, 
-                    true);
-
-        //create an empty pixbuf with the requested size
-        let result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
-                true,
-                icon.get_bits_per_sample(),
-                icon.get_width()*4,
-                icon.get_height()*4);
-        result.fill(0xffffffff);
-
-        icon.composite(result,
-                        icon.get_width()*3/2,
-                        icon.get_height()*3/2,
-                        icon.get_width(),
-                        icon.get_height(),
-                        icon.get_width()*3/2,
-                        icon.get_height()*3/2,
-                        1, 1,
-                        GdkPixbuf.InterpType.NEAREST, 0xff)
-        return result;
-
     }
-
 });
 Signals.addSignalMethods(ViewContainer.prototype);
 
@@ -358,7 +325,7 @@ const Songs = new Lang.Class({
         this.view.set_view_type(Gd.MainViewType.LIST);
         this._iconHeight = 32;
         this._iconWidth = 32;
-        this._symbolicIcon = this._createSymblolicIcon(symbolicMusicPath, this._iconHeight, this._iconWidth)
+        this._symbolicIcon = albumArtCache.makeDefaultIcon(this._iconHeight, this._iconWidth)
         this._addListRenderers();
         this.player = player;
     },

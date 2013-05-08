@@ -129,6 +129,33 @@ const AlbumArtCache = new Lang.Class({
         });
     },
 
+    makeDefaultIcon: function(w, h) {
+        let path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg";
+        //get a small pixbuf with the given path
+        let icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path,
+                    w < 0 ? -1 : w/4,
+                    h < 0 ? -1 : h/4,
+                    true);
+
+        //create an empty pixbuf with the requested size
+        let result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
+                true,
+                icon.get_bits_per_sample(),
+                icon.get_width()*4,
+                icon.get_height()*4);
+        result.fill(0x00000000);
+        icon.composite(result,
+                        icon.get_width()*3/2,
+                        icon.get_height()*3/2,
+                        icon.get_width(),
+                        icon.get_height(),
+                        icon.get_width()*3/2,
+                        icon.get_height()*3/2,
+                        1, 1,
+                        GdkPixbuf.InterpType.NEAREST, 0xff)
+        return this.makeIconFrame(result);
+    },
+
     makeIconFrame: function (pixbuf) {
         var border = 3;
         var color = 0xffffffff;
@@ -159,9 +186,6 @@ const AlbumArtCache = new Lang.Class({
                         border, border);
 
         return result2;
-
-
-        return result;
     },
 
     _keybuilder_funcs: [

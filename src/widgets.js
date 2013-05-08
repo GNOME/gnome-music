@@ -35,12 +35,6 @@ const grilo = Grilo.grilo;
 const AlbumArtCache = imports.albumArtCache;
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
-const folderPixbuf_small = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-        "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg",
-        -1, 128, true);
-const folderPixbuf_big = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-        "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg",
-        -1, 128, true);
 const nowPlayingPixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
         "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg",
         -1, 16, true);
@@ -184,7 +178,7 @@ const AlbumWidget = new Lang.Class({
     this.view.set_model(this.model);
         let pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         if (pixbuf == null)
-            pixbuf = folderPixbuf_big;
+            pixbuf = albumArtCache.makeDefaultIcon(256, 256);
         this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
         this.ui.get_object("artist_label").set_markup(artist);
@@ -337,9 +331,9 @@ const ArtistAlbumWidget = new Lang.Class({
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/ArtistAlbumWidget.ui');
 
-        var pixbuf = albumArtCache.lookup (128, artist, album.get_title());
+        let pixbuf = albumArtCache.lookup (128, artist, album.get_title());
         if (pixbuf == null)
-            pixbuf = folderPixbuf_small;
+            pixbuf = albumArtCache.makeDefaultIcon(128, 128);
 
         this.ui.get_object("cover").set_from_pixbuf(pixbuf);
         this.ui.get_object("title").set_label(album.get_title());
@@ -371,7 +365,7 @@ const ArtistAlbumWidget = new Lang.Class({
                     let iter = model.append();
                     model.set(iter,
                             [0, 1, 2, 3, 4, 5],
-                            [ track.get_title(), "", "", false, folderPixbuf_small, track]);
+                            [ track.get_title(), "", "", false, pixbuf, track]);
 
                     songWidget.iter = iter;
                     songWidget.model = model;
