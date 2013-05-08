@@ -37,6 +37,7 @@ const AlbumArtCache = new Lang.Class({
         this.parent();
         this.logLookupErrors = false;
 
+        this.requested_uris = [];
         this.cacheDir = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
             "media-art"
@@ -104,6 +105,9 @@ const AlbumArtCache = new Lang.Class({
 
     getFromUri: function(uri, artist, album, width, height, callback) {
         if (uri == null) return;
+        if (this.requested_uris.indexOf(uri) > 0) return;
+
+        this.requested_uris.push(uri);
 
         let key = this._keybuilder_funcs[0].call(this, artist, album),
             path = GLib.build_filenamev([
