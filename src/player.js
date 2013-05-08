@@ -305,7 +305,7 @@ const Player = new Lang.Class({
         var minutes = parseInt( duration / 60 ) % 60;
         var seconds = duration % 60;
 
-        return (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds  < 10 ? "0" + seconds : seconds);
+        return minutes + ":" + (seconds  < 10 ? "0" + seconds : seconds);
     },
 
     _onPlayBtnClicked: function(btn) {
