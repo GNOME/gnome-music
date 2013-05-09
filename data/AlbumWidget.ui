@@ -34,7 +34,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">1</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -43,13 +43,14 @@
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">start</property>
+                <property name="spacing">3</property>
                 <child>
                   <object class="GtkLabel" id="title_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="justify">center</property>
-                    <property name="wrap">True</property>
+                    <property name="ellipsize">middle</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                       <attribute name="scale" value="1.2"/>
@@ -67,11 +68,10 @@
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="justify">center</property>
-                    <property name="wrap">True</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                       <attribute name="foreground" value="#808080808080"/>
-                      <attribute name="size" value="1"/>
+                      <attribute name="scale" value="1.2"/>
                     </attributes>
                   </object>
                   <packing>
@@ -84,104 +84,84 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="infobox">
+              <object class="GtkGrid" id="grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">end</property>
-                <property name="spacing">12</property>
-                <property name="homogeneous">True</property>
+                <property name="column_spacing">12</property>
+                <property name="row_homogeneous">True</property>
+                <property name="column_homogeneous">True</property>
                 <child>
-                  <object class="GtkVBox" id="infobox_titles">
+                  <object class="GtkLabel" id="released_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <child>
-                      <object class="GtkLabel" id="released_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="xalign">1</property>
-                        <property name="ypad">2</property>
-                        <property name="label" translatable="yes">&lt;span color='grey'&gt;Released&lt;/span&gt;</property>
-                        <property name="use_markup">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="running_length_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="xalign">1</property>
-                        <property name="label" translatable="yes">&lt;span color='grey'&gt;Running Length&lt;/span&gt;</property>
-                        <property name="use_markup">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="xalign">1</property>
+                    <property name="ypad">2</property>
+                    <property name="label" translatable="yes">&lt;span color='grey'&gt;Released&lt;/span&gt;</property>
+                    <property name="use_markup">True</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="infobox_values">
+                  <object class="GtkLabel" id="running_length_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="xalign">1</property>
+                    <property name="label" translatable="yes">&lt;span color='grey'&gt;Running Length&lt;/span&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="released_label_info">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <child>
-                      <object class="GtkLabel" id="released_label_info">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="xalign">0</property>
-                        <property name="ypad">2</property>
-                        <property name="label" translatable="yes">----</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="running_length_label_info">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">start</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">--:--</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="xalign">0</property>
+                    <property name="ypad">2</property>
+                    <property name="label" translatable="yes">----</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="running_length_label_info">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">--:--</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                    <property name="width">1</property>
+                    <property name="height">1</property>
                   </packing>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">3</property>
               </packing>
             </child>

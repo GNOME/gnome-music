@@ -157,25 +157,25 @@ const AlbumWidget = new Lang.Class({
                 GObject.TYPE_OBJECT, /*song object*/
                 GObject.TYPE_BOOLEAN
             ]);
-        var tracks = [];
-        grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
-            if (track != null) {
-                tracks.push(track);
-                duration = duration + track.get_duration();
-                let iter = this.model.append();
-                let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
-                let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
-                let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
-                this.model.set(iter,
-                    [0, 1, 2, 3, 4, 5],
-                    [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
-                this.ui.get_object("running_length_label_info").set_text(
-                    (parseInt(duration/60) + 1) + " min");
-                this.emit("track-added")
-            }
-        }));
-    }
-    this.view.set_model(this.model);
+            var tracks = [];
+            grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
+                if (track != null) {
+                    tracks.push(track);
+                    duration = duration + track.get_duration();
+                    let iter = this.model.append();
+                    let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
+                    let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
+                    let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
+                    this.model.set(iter,
+                        [0, 1, 2, 3, 4, 5],
+                        [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
+                    this.ui.get_object("running_length_label_info").set_text(
+                        (parseInt(duration/60) + 1) + " min");
+                    this.emit("track-added")
+                }
+            }));
+        }
+        this.view.set_model(this.model);
         let pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         if (pixbuf == null)
             pixbuf = albumArtCache.makeDefaultIcon(256, 256);
