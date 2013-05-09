@@ -143,7 +143,7 @@ const AlbumArtCache = new Lang.Class({
                 icon.get_bits_per_sample(),
                 icon.get_width()*4,
                 icon.get_height()*4);
-        result.fill(0x00000000);
+        result.fill(0xffffffff);
         icon.composite(result,
                         icon.get_width()*3/2,
                         icon.get_height()*3/2,
