@@ -28,7 +28,10 @@ PKG_PROG_PKG_CONFIG([0.22])
 GLIB_GSETTINGS
 GOBJECT_INTROSPECTION_REQUIRE([1.35.9])
 
-AC_PATH_PROG([GJS],[gjs])
+AC_PATH_PROG([GJS],[gjs], [no])
+if test "$GJS" = "no" ; then
+	AC_MSG_ERROR([Can't find "gjs" in your PATH])
+fi
 
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
 AC_SUBST(GLIB_COMPILE_RESOURCES)
