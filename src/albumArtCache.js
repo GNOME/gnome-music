@@ -105,7 +105,7 @@ const AlbumArtCache = new Lang.Class({
 
     getFromUri: function(uri, artist, album, width, height, callback) {
         if (uri == null) return;
-        if (this.requested_uris.indexOf(uri) > 0) return;
+        if (this.requested_uris.indexOf(uri) >= 0) return;
 
         this.requested_uris.push(uri);
 
