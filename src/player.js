@@ -86,6 +86,7 @@ const Player = new Lang.Class({
     },
 
     setPlaying: function(bool) {
+        this.eventBox.set_visible(true);
         if (bool) {
             this.play();
             this.playBtn.set_image(this._pauseImage);

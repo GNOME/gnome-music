@@ -8,7 +8,8 @@
     <property name="icon-size">1</property>
   </object>
   <object class="GtkFrame" id="eventBox">
-    <property name="visible">True</property>
+    <property name="visible">False</property>
+    <property name="no-show-all">True</property>
     <property name="can_focus">False</property>
     <property name="label_xalign">0</property>
     <property name="shadow_type">none</property>
@@ -16,7 +17,7 @@
       <class name="play-bar"/>
     </style>
     <child>
-      <object class="GtkBox" id="conatiner">
+      <object class="GtkBox" id="container">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
