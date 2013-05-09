@@ -416,6 +416,11 @@ const Artists = new Lang.Class({
         this._grid.attach(new Gtk.Separator({orientation: Gtk.Orientation.VERTICAL}), 1, 0, 1, 1)
         this._grid.attach(scrolledWindow, 2, 0, 1, 1);
         this._addListRenderers();
+        if(Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
+            var color = new Gdk.Color({red:10495,green:9727,blue:10495});
+        else
+            var color = new Gdk.Color({red:55040,green:55808,blue:55040});
+        this.view.get_generic_view().modify_bg(Gtk.StateType.NORMAL,color);
         this.show_all();
 
     },
