@@ -42,7 +42,7 @@ const MainWindow = new Lang.Class({
             hide_titlebar_when_maximized: true
         });
 
-        this.set_size_request(760, 640);
+        this.set_size_request(887, 640);
         this._setupView();
     },
 
