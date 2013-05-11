@@ -165,7 +165,7 @@ const AlbumWidget = new Lang.Class({
                     let iter = this.model.append();
                     let path = "/usr/share/icons/gnome/scalable/actions/media-playback-start-symbolic.svg";
                     let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, -1, 16, true);
-                    let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
+                    let escapedTitle = GLib.markup_escape_text(track.get_title(), -1);
                     this.model.set(iter,
                         [0, 1, 2, 3, 4, 5],
                         [ escapedTitle, "", "", false, nowPlayingPixbuf, track ]);
@@ -204,7 +204,7 @@ const AlbumWidget = new Lang.Class({
         do{
             let song = playlist.get_value(iter, 5);
 
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
             if (song == currentSong){
                 title = "<b>" + escapedTitle + "</b>";
                 iconVisible = true;
@@ -281,7 +281,7 @@ const ArtistAlbums = new Lang.Class({
             let song = playlist.get_value(iter, 5);
             let songWidget = song.songWidget;
 
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
             if (song == currentSong){
                 songWidget.nowPlayingSign.show();
                 songWidget.title.set_markup("<b>" + escapedTitle + "</b>");
@@ -304,7 +304,7 @@ const ArtistAlbums = new Lang.Class({
         do{
             let song = this.model.get_value(iter, 5);
             let songWidget = song.songWidget;
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), song.get_title().length);
+            let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
             songWidget.nowPlayingSign.hide();
             songWidget.title.set_markup("<span>" + escapedTitle + "</span>");
         } while(this.model.iter_next(iter));
