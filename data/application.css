@@ -12,10 +12,18 @@
 @define-color music_selection_button_dark_b #1c1c1c;
 @define-color music_selection_box_dark_border #3e7b05;
 
-.artist-panel {
-    color: #FF00FF;
+.artist-panel-white{
+    background-color: #d7dad7;
 }
-
+.artist-panel-white:selected{
+    background-color: #888A85;
+}
+.artist-panel-dark{
+    background-color: #282528;
+}
+.artist-panel-dark:selected{
+    background-color: #77757A;
+}
 .play-bar {
     border-width: 1px 0 0;
     border-style: solid;

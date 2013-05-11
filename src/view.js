@@ -408,6 +408,7 @@ const Artists = new Lang.Class({
         this.view.set_hexpand(false);
         this._artistAlbumsWidget.set_hexpand(true);
         this.view.get_style_context().add_class("artist-panel");
+        this.view.get_generic_view().get_selection().set_mode(Gtk.SelectionMode.SINGLE);
         var scrolledWindow = new Gtk.ScrolledWindow();
         scrolledWindow.set_policy(
             Gtk.PolicyType.NEVER,
@@ -417,10 +418,9 @@ const Artists = new Lang.Class({
         this._grid.attach(scrolledWindow, 2, 0, 1, 1);
         this._addListRenderers();
         if(Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
-            var color = new Gdk.Color({red:10495,green:9727,blue:10495});
+            this.view.get_generic_view().get_style_context().add_class("artist-panel-dark");
         else
-            var color = new Gdk.Color({red:55040,green:55808,blue:55040});
-        this.view.get_generic_view().modify_bg(Gtk.StateType.NORMAL,color);
+            this.view.get_generic_view().get_style_context().add_class("artist-panel-white");
         this.show_all();
 
     },
