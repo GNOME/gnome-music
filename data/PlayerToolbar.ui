@@ -54,12 +54,10 @@
                     <child>
                       <object class="GtkButton" id="previous_button">
                         <property name="width_request">42</property>
-                        <property name="height_request">34</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="valign">center</property>
                         <property name="image">previous_image</property>
                         <property name="always_show_image">True</property>
                       </object>
@@ -72,12 +70,10 @@
                     <child>
                       <object class="GtkButton" id="play_button">
                         <property name="width_request">60</property>
-                        <property name="height_request">34</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="valign">center</property>
                         <property name="image">play_image</property>
                         <property name="always_show_image">True</property>
                       </object>
@@ -90,12 +86,10 @@
                     <child>
                       <object class="GtkButton" id="next_button">
                         <property name="width_request">42</property>
-                        <property name="height_request">34</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="valign">center</property>
                         <property name="image">next_image</property>
                         <property name="always_show_image">True</property>
                       </object>
