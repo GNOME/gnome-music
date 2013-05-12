@@ -179,6 +179,10 @@ const Player = new Lang.Class({
     },
 
     pause: function () {
+        if (this.timeout) {
+            GLib.source_remove(this.timeout);
+            this.timout = null;
+        }
         this.player.set_state(Gst.State.PAUSED);
     },
 
