@@ -181,8 +181,10 @@ const AlbumWidget = new Lang.Class({
             pixbuf = albumArtCache.makeDefaultIcon(256, 256);
         this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
-        this.ui.get_object("artist_label").set_markup(artist);
-        this.ui.get_object("title_label").set_markup(album);
+        let escapedArtist = GLib.markup_escape_text(artist, -1);
+        let escapedAlbum = GLib.markup_escape_text(album, -1);
+        this.ui.get_object("artist_label").set_markup(escapedArtist);
+        this.ui.get_object("title_label").set_markup(escapedAlbum);
         if (item.get_creation_date())
             this.ui.get_object("released_label_info").set_text(item.get_creation_date().get_year().toString());
         else
