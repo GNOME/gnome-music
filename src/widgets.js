@@ -176,9 +176,9 @@ const AlbumWidget = new Lang.Class({
             }));
         }
         this.view.set_model(this.model);
-        let pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
+        let pixbuf = albumArtCache.lookup (252, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
         if (pixbuf == null)
-            pixbuf = albumArtCache.makeDefaultIcon(256, 256);
+            pixbuf = albumArtCache.makeDefaultIcon(252, 252);
         this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
         let escapedArtist = GLib.markup_escape_text(artist, -1);

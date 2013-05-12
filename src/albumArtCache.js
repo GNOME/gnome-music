@@ -110,7 +110,10 @@ const AlbumArtCache = new Lang.Class({
     },
 
     getFromUri: function(uri, artist, album, width, height, callback) {
+        // FIXME: Get a binary and store
         if (uri == null) return;
+        uri = uri.replace("/126/", "/252/");
+        print (uri)
         if (this.requested_uris.indexOf(uri) >= 0) return;
 
         this.requested_uris.push(uri);
