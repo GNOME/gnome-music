@@ -123,16 +123,19 @@ const AlbumArtCache = new Lang.Class({
 
         print("missing", album, artist);
 
-        file.read_async(300, null, function(source, res, user_data) {
-            var stream = file.read_finish(res),
-                icon = GdkPixbuf.Pixbuf.new_from_stream_at_scale(stream, height, width, true, null),
+        file.read_async(300, null, Lang.bind(this, function(source, res, user_data) {
+            let stream = file.read_finish(res),
                 new_file = Gio.File.new_for_path(path);
-
-                try{
-                    file.copy(new_file, Gio.FileCopyFlags.NONE, null, null);
-                } catch(err) {};
-            callback(icon);
-        });
+                new_file.append_to_async(Gio.IOStreamSpliceFlags.NONE,
+                    300, null, Lang.bind(this, function (new_file, res, error) {
+                    let outstream = new_file.append_to_finish(res);
+                    outstream.splice_async(stream, Gio.IOStreamSpliceFlags.NONE, 300, null,
+                        Lang.bind(this, function(outstream, res, error) {
+                            if (outstream.splice_finish(res) > 0)
+                               callback(GdkPixbuf.Pixbuf.new_from_file_at_scale(path, height, width, true));
+                        }, null));
+                }));
+        }));
     },
 
     makeDefaultIcon: function(w, h) {
