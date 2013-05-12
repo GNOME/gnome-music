@@ -42,6 +42,12 @@ const AlbumArtCache = new Lang.Class({
             GLib.get_user_cache_dir(),
             "media-art"
         ]);
+        try {
+            var file = Gio.file_new_for_path(this.cacheDir);
+            file.make_directory(null);
+        }
+        catch (error) {
+        }
     },
 
     lookup: function(size, artist, album) {
