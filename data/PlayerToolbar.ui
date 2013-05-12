@@ -8,9 +8,8 @@
     <property name="icon-size">1</property>
   </object>
   <object class="GtkFrame" id="eventBox">
-    <property name="visible">False</property>
-    <property name="no-show-all">True</property>
     <property name="can_focus">False</property>
+    <property name="no_show_all">True</property>
     <property name="label_xalign">0</property>
     <property name="shadow_type">none</property>
     <style>
@@ -115,6 +114,7 @@
                     <property name="spacing">8</property>
                     <child>
                       <object class="GtkImage" id="cover">
+                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                       </object>
                       <packing>
@@ -138,9 +138,6 @@
                             <property name="halign">start</property>
                             <property name="valign">start</property>
                             <property name="ellipsize">middle</property>
-                            <style>
-                              <class name="dim-label"/>
-                            </style>
                             <attributes>
                               <attribute name="weight" value="bold"/>
                             </attributes>
@@ -297,52 +294,52 @@
                     <property name="valign">center</property>
                     <child>
                       <object class="GtkMenuButton" id="menuButton">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">False</property>
-                <property name="is_focus">False</property>
-                <property name="receives_default">True</property>
-                <property name="popup">replayMenu</property>
-                <child>
-                  <object class="GtkBox" id="replayBox">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="has_focus">False</property>
-                    <property name="is_focus">False</property>
-                    <property name="spacing">6</property>
-                    <child>
-                      <object class="GtkImage" id="playlistRepeat">
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
                         <property name="has_focus">False</property>
                         <property name="is_focus">False</property>
-                        <property name="icon_name">media-playlist-repeat-symbolic</property>
-                        <property name="icon_size">1</property>
+                        <property name="receives_default">True</property>
+                        <property name="popup">replayMenu</property>
+                        <child>
+                          <object class="GtkBox" id="replayBox">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="has_focus">False</property>
+                            <property name="is_focus">False</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <object class="GtkImage" id="playlistRepeat">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="has_focus">False</property>
+                                <property name="is_focus">False</property>
+                                <property name="icon_name">media-playlist-repeat-symbolic</property>
+                                <property name="icon_size">1</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkImage" id="downArrow">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="has_focus">False</property>
+                                <property name="is_focus">False</property>
+                                <property name="icon_name">go-down-symbolic</property>
+                                <property name="icon_size">1</property>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                          </object>
+                        </child>
                       </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkImage" id="downArrow">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="has_focus">False</property>
-                        <property name="is_focus">False</property>
-                        <property name="icon_name">go-down-symbolic</property>
-                        <property name="icon_size">1</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>

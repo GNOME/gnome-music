@@ -36,7 +36,7 @@ const Gdk = imports.gi.Gdk;
 const Mainloop = imports.mainloop;
 const AlbumArtCache = imports.albumArtCache;
 
-const ART_SIZE = 36;
+const ART_SIZE = 34;
 
 const RepeatType = {
     NONE: 0,
@@ -131,7 +131,7 @@ const Player = new Lang.Class({
         this.coverImg.set_from_pixbuf (pixbuf);
 
         if (media.get_title() != null) {
-            this.titleLabel.set_label(media.get_title());
+            this.titleLabel.set_markup("<span size='small'>" + media.get_title() + "</span>");
         }
 
         else {
@@ -140,15 +140,15 @@ const Player = new Lang.Class({
                 basename = file.get_basename(),
                 toShow = GLib.Uri.unescape_string(basename, null);
 
-            this.titleLabel.set_label(toShow);
+            this.titleLabel.set_markup("<span size='small'>" + toShow + "</span>");
         }
 
         if (media.get_artist() != null) {
-            this.artistLabel.set_label(media.get_artist());
+            this.artistLabel.set_markup("<span size='small'>" + media.get_artist() + "</span>");
         }
 
         else {
-            this.artistLabel.set_label("Unknown artist");
+            this.artistLabel.set_markup("<span size='small'>Unknown artist</span>");
         }
 
         this.player.set_property("uri", media.get_url());
