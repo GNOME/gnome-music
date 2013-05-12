@@ -111,5 +111,9 @@ const Application = new Lang.Class({
         this._buildAppMenu();
         this._window = new Window.MainWindow(this);
         this._window.present();
+        this._window.connect("destroy",Lang.bind(this,
+        function () {
+            this.quit();
+        }));
     },
 });
