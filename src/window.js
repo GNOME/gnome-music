@@ -85,7 +85,7 @@ const MainWindow = new Lang.Class({
             );
         }
 
-        //this._stack.connect("notify::visible-child", this._onNotifyMode);
+        this._stack.connect("notify::visible-child", this._onNotifyMode);
 
         this.views[0].populate();
         }
@@ -103,7 +103,11 @@ const MainWindow = new Lang.Class({
     },
 
     _onNotifyMode: function(stack, param) {
-        stack.get_visible_child().populate();
+        // Slide out artist list on switching to artists view
+        if(stack.get_visible_child().title == "Artists"){
+            stack.get_visible_child().stack.set_visible_child_name("dummy")
+            stack.get_visible_child().stack.set_visible_child_name("artists")
+        }
     },
 
     _toggleView: function(btn, i) {

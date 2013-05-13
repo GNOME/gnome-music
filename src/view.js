@@ -106,7 +106,7 @@ const ViewContainer = new Lang.Class({
     Name: "ViewContainer",
     Extends: Gtk.Stack,
 
-    _init: function(title, header_bar) {
+    _init: function(title, header_bar, use_stack) {
         this.parent({transition_type: Gtk.StackTransitionType.CROSSFADE});
         this._grid = new Gtk.Grid({orientation: Gtk.Orientation.VERTICAL})
         this._iconWidth = -1
@@ -129,7 +129,18 @@ const ViewContainer = new Lang.Class({
         });
         this.view.set_view_type(Gd.MainViewType.ICON);
         this.view.set_model(this._model);
-        this._grid.add(this.view);
+        if (use_stack){
+            this.stack = new Gd.Stack({
+                transition_type: Gd.StackTransitionType.SLIDE_RIGHT,
+            })
+            var dummy = new Gtk.Frame({visible: false});
+            this.stack.add_named(dummy, "dummy");
+            this.stack.add_named(this.view, "artists");
+            this.stack.set_visible_child_name("dummy");
+            this._grid.add(this.stack);
+        } else {
+            this._grid.add(this.view);
+        }
 
         this._loadMore = new LoadMoreButton(this._getRemainingItemCount);
         this._grid.add(this._loadMore.widget);
@@ -415,7 +426,7 @@ const Artists = new Lang.Class({
     Extends: ViewContainer,
 
     _init: function(header_bar, player) {
-        this.parent("Artists", header_bar);
+        this.parent("Artists", header_bar, true);
         this.player = player;
         this._artists = {};
         this.countQuery = Query.artist_count;
