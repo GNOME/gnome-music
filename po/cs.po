@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-22 09:41+0000\n"
-"PO-Revision-Date: 2013-04-26 13:56+0200\n"
+"POT-Creation-Date: 2013-05-13 11:17+0000\n"
+"PO-Revision-Date: 2013-05-13 19:46+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -52,10 +52,6 @@ msgstr "O _aplikaci Hudba"
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "U_končit"
-
-#: ../data/ArtistAlbumsWidget.ui.h:1
-msgid "label"
-msgstr "label"
 
 #: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
 msgid "Music"
@@ -116,6 +112,10 @@ msgstr "00:00"
 #: ../data/PlayerToolbar.ui.h:2
 msgid "/"
 msgstr "/"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nenalezena žádná hudba"
 
 #: ../src/toolbar.js:79
 msgid "Back"
