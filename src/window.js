@@ -59,6 +59,8 @@ const MainWindow = new Lang.Class({
 
         this.toolbar = new Toolbar.Toolbar();
         this._stack = new Gtk.Stack({
+            transition_type: Gtk.StackTransitionType.CROSSFADE,
+            transition_duration: 100,
             visible: true
         });
 
