@@ -8,5 +8,6 @@
     <file preprocess="xml-stripblanks">ArtistAlbumsWidget.ui</file>
     <file preprocess="xml-stripblanks">PlayerToolbar.ui</file>
     <file preprocess="xml-stripblanks">TrackWidget.ui</file>
+    <file preprocess="xml-stripblanks">NoMusic.ui</file>
   </gresource>
 </gresources>

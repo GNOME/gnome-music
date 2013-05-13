@@ -275,6 +275,23 @@ const ViewContainer = new Lang.Class({
 });
 Signals.addSignalMethods(ViewContainer.prototype);
 
+//Class for the Empty View
+const Empty = new Lang.Class({
+    Name: "Empty",
+    Extends: Gd.Stack,
+
+    _init: function(header_bar,player){
+        this.parent({transition_type: Gd.StackTransitionType.CROSSFADE});
+        let builder = new Gtk.Builder();
+        builder.add_from_resource('/org/gnome/music/NoMusic.ui');
+        let widget = builder.get_object('container');
+        print(widget);
+        this.add(widget);
+        this.show_all();
+    }
+});
+
+
 const Albums = new Lang.Class({
     Name: "AlbumsView",
     Extends: ViewContainer,
