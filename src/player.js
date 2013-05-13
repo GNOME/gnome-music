@@ -140,15 +140,15 @@ const Player = new Lang.Class({
                 basename = file.get_basename(),
                 toShow = GLib.Uri.unescape_string(basename, null);
 
-            this.titleLabel.set_markup("<span size='small'>" + toShow + "</span>");
+            this.titleLabel.set_label(toShow);
         }
 
         if (media.get_artist() != null) {
-            this.artistLabel.set_markup("<span size='small'>" + media.get_artist() + "</span>");
+            this.artistLabel.set_label(media.get_artist());
         }
 
         else {
-            this.artistLabel.set_markup("<span size='small'>Unknown artist</span>");
+            this.artistLabel.set_label("Unknown artist");
         }
 
         this.player.set_property("uri", media.get_url());
