@@ -340,6 +340,7 @@ const Songs = new Lang.Class({
         this.countQuery = Query.songs_count;
         this._items = {};
         this.view.set_view_type(Gd.MainViewType.LIST);
+        this.view.get_generic_view().get_style_context().add_class("songs-list")
         this._iconHeight = 32;
         this._iconWidth = 32;
         this._symbolicIcon = albumArtCache.makeDefaultIcon(this._iconHeight, this._iconWidth)
