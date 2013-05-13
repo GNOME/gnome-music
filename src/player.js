@@ -131,7 +131,7 @@ const Player = new Lang.Class({
         this.coverImg.set_from_pixbuf (pixbuf);
 
         if (media.get_title() != null) {
-            this.titleLabel.set_markup("<span size='small'>" + media.get_title() + "</span>");
+            this.titleLabel.set_label(media.get_title());
         }
 
         else {
