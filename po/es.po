@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-22 09:41+0000\n"
-"PO-Revision-Date: 2013-04-25 17:56+0200\n"
+"POT-Creation-Date: 2013-05-13 11:17+0000\n"
+"PO-Revision-Date: 2013-05-14 14:27+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -51,10 +51,6 @@ msgstr "_Acerca de Música"
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_Salir"
-
-#: ../data/ArtistAlbumsWidget.ui.h:1
-msgid "label"
-msgstr "etiqueta"
 
 #: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
 msgid "Music"
@@ -116,9 +112,16 @@ msgstr "00:00"
 msgid "/"
 msgstr "/"
 
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "No se ha encontrado música"
+
 #: ../src/toolbar.js:79
 msgid "Back"
 msgstr "Atrás"
+
+#~ msgid "label"
+#~ msgstr "etiqueta"
 
 #~ msgid "_Change Address Book..."
 #~ msgstr "_Cambiar libreta de direcciones…"
