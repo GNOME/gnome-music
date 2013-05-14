@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-22 00:42+0200\n"
-"PO-Revision-Date: 2013-04-22 00:43+0200\n"
+"POT-Creation-Date: 2013-05-14 18:56+0200\n"
+"PO-Revision-Date: 2013-05-14 18:57+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -54,10 +54,6 @@ msgstr "_O menedżerze muzyki"
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "Za_kończ"
-
-#: ../data/ArtistAlbumsWidget.ui.h:1
-msgid "label"
-msgstr "etykieta"
 
 #: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
 msgid "Music"
@@ -121,9 +117,9 @@ msgstr "00:00"
 msgid "/"
 msgstr "/"
 
-#: ../data/TrackWidget.ui.h:1
-msgid "\n"
-msgstr "\n"
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nie odnaleziono muzyki"
 
 #: ../src/toolbar.js:79
 msgid "Back"
