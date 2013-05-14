@@ -220,22 +220,11 @@ const ViewContainer = new Lang.Class({
             if ((item.get_title() == null) && (item.get_url() != null)) {
                 item.set_title (extractFileName(item.get_url()));
             }
-            try{
-                if (item.get_url())
-                    this.player.discoverer.discover_uri(item.get_url());
-                this._model.set(
-                        iter,
-                        [0, 1, 2, 3, 4, 5, 6, 7],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, false, nowPlayingPixbuf]
-                    );
-            } catch(err) {
-                log("failed to discover url " + item.get_url());
-                this._model.set(
-                        iter,
-                        [0, 1, 2, 3, 4, 5, 6, 7],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, true, errorPixbuf]
-                    );
-            }
+            this._model.set(
+                iter,
+                [0, 1, 2, 3, 4, 5],
+                [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item]
+            );
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
         }
     },
@@ -386,7 +375,34 @@ const Songs = new Lang.Class({
     },
 
     _addItem: function(source, param, item) {
-        this.parent(source, param, item);
+        if (item != null) {
+            this._offset += 1;
+            var iter = this._model.append();
+            var artist = "Unknown"
+            if (item.get_author() != null)
+                artist = item.get_author();
+            if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
+                artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+            if ((item.get_title() == null) && (item.get_url() != null)) {
+                item.set_title (extractFileName(item.get_url()));
+            }
+            try{
+                this.player.discoverer.discover_uri(item.get_url());
+                this._model.set(
+                    iter,
+                    [0, 1, 2, 3, 4, 5, 6, 7],
+                    [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, false, nowPlayingPixbuf]
+                );
+            } catch(err) {
+                log("failed to discover url " + item.get_url());
+                this._model.set(
+                    iter,
+                    [0, 1, 2, 3, 4, 5, 6, 7],
+                    [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, true, errorPixbuf]
+                );
+            }
+            GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
+        }
     },
 
     _addListRenderers: function() {
