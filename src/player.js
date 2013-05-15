@@ -72,6 +72,18 @@ const Player = new Lang.Class({
             this.stop();
             return true;
         }));
+        this.bus.connect("message::eos", Lang.bind(this, function(bus,message) {
+            if(this.player.nextUrl == null){
+                //First Track of the current playlist
+                this.currentTrack = this.playlist.get_iter_first()[1];
+                let media =  this.playlist.get_value( this.currentTrack, this.playlistField);
+                GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this,this.load,media));
+                this.player.set_state(Gst.State.NULL);
+                this.playBtn.set_image(this._playImage);
+                this.progressScale.set_value(0);
+                this.progressScale.sensitive = false;
+           }
+        }));
 
 
         // Set URI earlier - this will enable gapless playback
