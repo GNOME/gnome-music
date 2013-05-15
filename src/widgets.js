@@ -333,9 +333,8 @@ const ArtistAlbumWidget = new Lang.Class({
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/ArtistAlbumWidget.ui');
 
-        let pixbuf = albumArtCache.lookup (128, artist, album.get_title());
-        if (pixbuf == null)
-            pixbuf = albumArtCache.makeDefaultIcon(128, 128);
+        let pixbuf = albumArtCache.makeDefaultIcon(128, 128);
+        GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt));
 
         this.ui.get_object("cover").set_from_pixbuf(pixbuf);
         this.ui.get_object("title").set_label(album.get_title());
@@ -387,6 +386,35 @@ const ArtistAlbumWidget = new Lang.Class({
         this.show_all();
         this.emit("artist-album-loaded");
     },
+
+    _updateAlbumArt: function() {
+        let pixbuf = albumArtCache.lookup (128, this.artist, this.album.get_title());
+        if (pixbuf != null)
+            this.ui.get_object("cover").set_from_pixbuf(pixbuf);
+        else {
+            var options = Grl.OperationOptions.new(null);
+            options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
+            grilo.tracker.resolve(
+                this.album,
+                [Grl.METADATA_KEY_THUMBNAIL],
+                options,
+                Lang.bind(this,
+                function(source, param, item) {
+                    var uri = this.album.get_thumbnail();
+                    albumArtCache.getFromUri(uri,
+                        this.artist,
+                        this.album.get_title(),
+                        128,
+                        128,
+                        Lang.bind(this,
+                            function (pixbuf) {
+                                pixbuf = albumArtCache.makeIconFrame(pixbuf);
+                                this.ui.get_object("cover").set_from_pixbuf(pixbuf);
+                            }))
+                }));
+        }
+    },
+
     trackSelected: function(widget, iter) {
         this.player.stop();
         this.player.setPlaylist ("Artist", this.album, widget.model, widget.iter, 5);
