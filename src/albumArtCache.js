@@ -21,6 +21,7 @@
 const Lang = imports.lang;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const GLib = imports.gi.GLib;
+const Gtk = imports.gi.Gtk;
 const Gio = imports.gi.Gio;
 const Regex = GLib.Regex;
 const Path = GLib.Path;
@@ -66,8 +67,13 @@ const AlbumArtCache = new Lang.Class({
             try {
                 key = this._keybuilder_funcs[i].call (this, artist, album);
                 path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
-
-                return GdkPixbuf.Pixbuf.new_from_file_at_scale(path, size, -1, true);
+                let pixbuf = GdkPixbuf.Pixbuf.new_from_file(path),
+                    width = pixbuf.get_width(),
+                    height = pixbuf.get_height();
+                if (width >= size || height >= size) {
+                    let scale = Math.max(width, height)/size;
+                    return pixbuf.scale_simple(width/scale, height/scale, 2);
+                }
             }
             catch (error) {
                 if (this.logLookupErrors)
@@ -124,9 +130,10 @@ const AlbumArtCache = new Lang.Class({
         print("missing", album, artist);
 
         file.read_async(300, null, Lang.bind(this, function(source, res, user_data) {
-            let stream = file.read_finish(res),
-                new_file = Gio.File.new_for_path(path);
-                new_file.append_to_async(Gio.IOStreamSpliceFlags.NONE,
+            try {
+                let stream = file.read_finish(res),
+                    new_file = Gio.File.new_for_path(path);
+                new_file.append_to_async(Gio.FileCreateFlags.REPLACE_DESTINATION,
                     300, null, Lang.bind(this, function (new_file, res, error) {
                     let outstream = new_file.append_to_finish(res);
                     outstream.splice_async(stream, Gio.IOStreamSpliceFlags.NONE, 300, null,
@@ -135,6 +142,10 @@ const AlbumArtCache = new Lang.Class({
                                callback(GdkPixbuf.Pixbuf.new_from_file_at_scale(path, height, width, true));
                         }, null));
                 }));
+            }
+            catch (error) {
+                print (error);
+            }
         }));
     },
 
