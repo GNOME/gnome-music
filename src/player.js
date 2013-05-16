@@ -53,7 +53,7 @@ const Player = new Lang.Class({
         this.playlistId = null;
         this.playlistField = null;
         this.currentTrack = null;
-        this._lastState = Gst.State.NULL;
+        this._lastState = Gst.State.PAUSED;
         this.repeat = RepeatType.NONE;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
@@ -116,7 +116,11 @@ const Player = new Lang.Class({
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
             this.currentTrack=null;
         else {
+            this.player.set_state(Gst.State.NULL);
             this.load( this.playlist.get_value( this.currentTrack, this.playlistField));
+            this.progressScale.set_value(0);
+            this.player.set_state(Gst.State.PLAYING);
+            this.onProgressScaleChangeValue(this.progressScale);
             this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
         }
     },
@@ -313,7 +317,6 @@ const Player = new Lang.Class({
         this.progressScale.connect("button-release-event", Lang.bind(this,
             function() {
                 this.onProgressScaleChangeValue(this.progressScale);
-                this.player.set_state(Gst.State.PLAYING);
                 this._updatePositionCallback();
                 this.player.set_state(this._lastState);
                 this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
