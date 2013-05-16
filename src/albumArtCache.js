@@ -77,7 +77,7 @@ const AlbumArtCache = new Lang.Class({
             }
             catch (error) {
                 if (this.logLookupErrors)
-                    log(error);
+                    print ("ERROR:", error);
             }
         }
 
@@ -131,8 +131,14 @@ const AlbumArtCache = new Lang.Class({
 
         file.read_async(300, null, Lang.bind(this, function(source, res, user_data) {
             try {
-                let stream = file.read_finish(res),
+                let stream = file.read_finish(res);
                     new_file = Gio.File.new_for_path(path);
+
+                if (new_file.query_exists(null)) {
+                    new_file.delete(null);
+                    new_file = Gio.File.new_for_path(path);
+                }
+
                 new_file.append_to_async(Gio.FileCreateFlags.REPLACE_DESTINATION,
                     300, null, Lang.bind(this, function (new_file, res, error) {
                     let outstream = new_file.append_to_finish(res);
