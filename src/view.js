@@ -104,10 +104,10 @@ const LoadMoreButton = new Lang.Class({
 
 const ViewContainer = new Lang.Class({
     Name: "ViewContainer",
-    Extends: Gd.Stack,
+    Extends: Gtk.Stack,
 
     _init: function(title, header_bar) {
-        this.parent({transition_type: Gd.StackTransitionType.CROSSFADE});
+        this.parent({transition_type: Gtk.StackTransitionType.CROSSFADE});
         this._grid = new Gtk.Grid({orientation: Gtk.Orientation.VERTICAL})
         this._iconWidth = -1
         this._iconHeight = 128
