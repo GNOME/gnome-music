@@ -103,6 +103,7 @@ const AlbumWidget = new Lang.Class({
 
         var columnNowPlaying = new Gtk.TreeViewColumn();
         nowPlayingSymbolRenderer.set_property("xalign", 1.0);
+        nowPlayingSymbolRenderer.set_property("yalign", 0.6);
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false)
         columnNowPlaying.set_property('fixed-width', 24)
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 3);
@@ -375,6 +376,7 @@ const ArtistAlbumWidget = new Lang.Class({
                     songWidget.title = ui.get_object("title");
                     songWidget.nowPlayingSign = ui.get_object("image1");
                     songWidget.nowPlayingSign.set_from_pixbuf(nowPlayingPixbuf);
+                    songWidget.nowPlayingSign.set_alignment(0.0,0.6);
                     songWidget.nowPlayingSign.set_no_show_all("true");
                 }
                 this.ui.get_object("grid1").show_all();
