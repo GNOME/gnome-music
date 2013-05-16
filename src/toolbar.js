@@ -45,7 +45,7 @@ const Toolbar = new Lang.Class({
 
     _init: function() {
         this.parent();
-        this._stack_switcher = new Gd.StackSwitcher ();
+        this._stack_switcher = new Gtk.StackSwitcher ();
         this.set_custom_title (null);
         this._addBackButton();
     },

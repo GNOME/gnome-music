@@ -58,7 +58,7 @@ const MainWindow = new Lang.Class({
         this.player = new Player.Player();
 
         this.toolbar = new Toolbar.Toolbar();
-        this._stack = new Gd.Stack({
+        this._stack = new Gtk.Stack({
             visible: true
         });
 
