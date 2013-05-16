@@ -7,20 +7,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-04 13:26+0000\n"
-"PO-Revision-Date: 2013-05-04 21:41+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-05-13 11:17+0000\n"
+"PO-Revision-Date: 2013-05-13 16:11+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: SLOVENIA\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "<span color='grey'>Released</span>"
@@ -54,7 +54,8 @@ msgstr "_O programu"
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+#: ../data/gnome-music.desktop.in.h:1
+#: ../src/application.js:54
 msgid "Music"
 msgstr "Glasba"
 
@@ -114,9 +115,9 @@ msgstr "00:00"
 msgid "/"
 msgstr "/"
 
-#: ../data/TrackWidget.ui.h:1
-msgid "label"
-msgstr "oznaka"
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Glasbe ni mogoče najti"
 
 #: ../src/toolbar.js:79
 msgid "Back"
