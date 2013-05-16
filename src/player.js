@@ -61,6 +61,12 @@ const Player = new Lang.Class({
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch();
+
+        this.bus.connect("message::state-changed", Lang.bind(this, function(bus, message) {
+            if (message.parse_state_changed()[1] == Gst.State.NULL){
+                this.loadNextTrack();
+            }
+        }));
         this.bus.connect("message::error", Lang.bind(this, function(bus, message) {
             let uri;
             if (this.playlist[this.currentTrack])
@@ -90,7 +96,6 @@ const Player = new Lang.Class({
         this.player.connect("about-to-finish", Lang.bind(this, function(player) {
             if(player.nextUrl != null) {
                 player.set_property('uri', player.nextUrl);
-                GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this, this.loadNextTrack));
             }
             return true;
         }));
