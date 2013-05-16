@@ -37,8 +37,7 @@ const AlbumArtCache = new Lang.Class({
     _init: function() {
         this.parent();
         this.logLookupErrors = false;
-
-        this.requested_uris = [];
+        this.requested_uris = {};
         this.cacheDir = GLib.build_filenamev([
             GLib.get_user_cache_dir(),
             "media-art"
@@ -117,9 +116,13 @@ const AlbumArtCache = new Lang.Class({
 
     getFromUri: function(uri, artist, album, width, height, callback) {
         if (uri == null) return;
-        if (this.requested_uris.indexOf(uri) >= 0) return;
-
-        this.requested_uris.push(uri);
+        if (this.requested_uris[uri] == undefined) {
+            this.requested_uris[uri] = [[callback, width, height]];
+        }
+        else if (this.requested_uris[uri].length > 0) {
+            this.requested_uris[uri].push([callback, width, height]);
+            return;
+        }
 
         let key = this._keybuilder_funcs[0].call(this, artist, album),
             path = GLib.build_filenamev([
@@ -132,7 +135,7 @@ const AlbumArtCache = new Lang.Class({
         file.read_async(300, null, Lang.bind(this, function(source, res, user_data) {
             try {
                 let stream = file.read_finish(res);
-                    new_file = Gio.File.new_for_path(path);
+                let new_file = Gio.File.new_for_path(path);
 
                 if (new_file.query_exists(null)) {
                     new_file.delete(null);
@@ -144,8 +147,15 @@ const AlbumArtCache = new Lang.Class({
                     let outstream = new_file.append_to_finish(res);
                     outstream.splice_async(stream, Gio.IOStreamSpliceFlags.NONE, 300, null,
                         Lang.bind(this, function(outstream, res, error) {
-                            if (outstream.splice_finish(res) > 0)
-                               callback(GdkPixbuf.Pixbuf.new_from_file_at_scale(path, height, width, true));
+                            if (outstream.splice_finish(res) > 0) {
+                               for (let i=0; i<this.requested_uris[uri].length; i++) {
+                                  let cb = this.requested_uris[uri][i][0],
+                                      w = this.requested_uris[uri][i][1],
+                                      h = this.requested_uris[uri][i][2];
+                                  cb(GdkPixbuf.Pixbuf.new_from_file_at_scale(path, h, w, true));
+                               }
+                               delete this.requested_uris[uri];
+                            }
                         }, null));
                 }));
             }
