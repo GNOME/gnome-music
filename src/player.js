@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2013 Eslam Mostafa.
- * Copyright (c) 2013 Vadim Rutkovsky.
+ * Copyright (c) 2013 Eslam Mostafa<cseslam@gmail.com>.
+ * Copyright (c) 2013 Vadim Rutkovsky<vrutkovs@redhat.com>.
  * Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>
  *
  * Gnome Music is free software; you can Public License as published by the
