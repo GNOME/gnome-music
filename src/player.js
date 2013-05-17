@@ -24,10 +24,10 @@ const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
 const Gst = imports.gi.Gst;
+const GstPbutils = imports.gi.GstPbutils;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
 const Grl = imports.gi.Grl;
-const GdkPixbug = imports.gi.GdkPixbuf;
 const Signals = imports.signals;
 const Gdk = imports.gi.Gdk;
 
@@ -58,6 +58,7 @@ const Player = new Lang.Class({
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
 
         Gst.init(null, 0);
+        this.discoverer = new GstPbutils.Discoverer();
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch();

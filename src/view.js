@@ -41,6 +41,9 @@ const AlbumArtCache = imports.albumArtCache;
 const Grilo = imports.grilo;
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
+const nowPlayingIconName = 'media-playback-start-symbolic';
+const errorIconName = 'dialog-error-symbolic';
+
 function extractFileName(uri) {
     var exp = /^.*[\\\/]|[.][^.]*$/g;
     return unescape(uri.replace(exp, ''));
@@ -122,7 +125,8 @@ const ViewContainer = new Lang.Class({
             GObject.TYPE_STRING,
             GdkPixbuf.Pixbuf,
             GObject.TYPE_OBJECT,
-            GObject.TYPE_BOOLEAN
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_STRING,
         ]);
         this.view = new Gd.MainView({
             shadow_type:    Gtk.ShadowType.NONE
@@ -223,11 +227,22 @@ const ViewContainer = new Lang.Class({
             if ((item.get_title() == null) && (item.get_url() != null)) {
                 item.set_title (extractFileName(item.get_url()));
             }
-            this._model.set(
-                    iter,
-                    [0, 1, 2, 3, 4, 5],
-                    [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item]
-                );
+            try{
+                if (item.get_url())
+                    this.player.discoverer.discover_uri(item.get_url());
+                this._model.set(
+                        iter,
+                        [0, 1, 2, 3, 4, 5, 6, 7],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, false, nowPlayingIconName]
+                    );
+            } catch(err) {
+                log("failed to discover url " + item.get_url());
+                this._model.set(
+                        iter,
+                        [0, 1, 2, 3, 4, 5, 6, 7],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, true, errorIconName]
+                    );
+            }
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
         }
     },
@@ -357,11 +372,26 @@ const Songs = new Lang.Class({
         this._symbolicIcon = albumArtCache.makeDefaultIcon(this._iconHeight, this._iconWidth)
         this._addListRenderers();
         this.player = player;
+        this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
     },
 
     _onItemActivated: function (widget, id, path) {
-        this.player.setPlaylist("Songs", null, this._model, this._model.get_iter(path)[1], 5);
-        this.player.setPlaying(true);
+        var iter = this._model.get_iter(path)[1]
+        if (this._model.get_value(iter, 7) != errorIconName) {
+            this.player.setPlaylist("Songs", null, this._model, iter, 5);
+            this.player.setPlaying(true);
+        }
+    },
+
+    updateModel: function(player, playlist, currentIter){
+        if (playlist != this._model){
+            return false;}
+        if (this.iterToClean){
+            this._model.set_value(this.iterToClean, 6, false);
+        }
+        this._model.set_value(currentIter, 6, true);
+        this.iterToClean = currentIter.copy();
+        return false;
     },
 
     _addItem: function(source, param, item) {
@@ -370,6 +400,15 @@ const Songs = new Lang.Class({
 
     _addListRenderers: function() {
         let listWidget = this.view.get_generic_view();
+
+        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0 });
+        var columnNowPlaying = new Gtk.TreeViewColumn();
+        nowPlayingSymbolRenderer.set_property("xalign", 1.0);
+        columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
+        columnNowPlaying.set_property('fixed-width', 24);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 6);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 7);
+        listWidget.insert_column(columnNowPlaying, 0);
 
         let typeRenderer =
             new Gd.StyledTextRenderer({ xpad: 0 });

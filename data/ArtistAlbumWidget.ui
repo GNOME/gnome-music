@@ -126,8 +126,8 @@
       <column type="gchararray"/>
       <!-- column-name gboolean1 -->
       <column type="gboolean"/>
-      <!-- column-name GdkPixbuf1 -->
-      <column type="GdkPixbuf"/>
+      <!-- column-name gchararray4 -->
+      <column type="gchararray"/>
       <!-- column-name GObject1 -->
       <column type="GObject"/>
       <!-- column-name gboolean2 -->
