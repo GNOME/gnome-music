@@ -165,6 +165,7 @@ const AlbumWidget = new Lang.Class({
             this.model = cachedPlaylist;
             this.updateModel(this.player, cachedPlaylist, this.player.currentTrack);
         } else {
+            this.model.clear();
             var tracks = [];
             grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
                 if (track != null) {
@@ -202,6 +203,7 @@ const AlbumWidget = new Lang.Class({
             this.ui.get_object("released_label_info").set_text("----");
         this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
         this.emit('loaded')
+
     },
 
     updateModel: function(player, playlist, currentIter){
