@@ -467,6 +467,7 @@ const Artists = new Lang.Class({
         typeRenderer.set_property("xalign", 0.0);
         typeRenderer.set_property("yalign", 0.5);
         typeRenderer.set_property("height", 48);
+        typeRenderer.set_property("width",220);
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 typeRenderer.text = model.get_value(iter, 0);
