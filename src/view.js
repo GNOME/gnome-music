@@ -43,6 +43,7 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
 const nowPlayingIconName = 'media-playback-start-symbolic';
 const errorIconName = 'dialog-error-symbolic';
+const starIconName = GdkPixbuf.Pixbuf.new_from_file('/usr/share/icons/gnome/scalable/status/starred-symbolic.svg');
 
 function extractFileName(uri) {
     var exp = /^.*[\\\/]|[.][^.]*$/g;
@@ -127,6 +128,7 @@ const ViewContainer = new Lang.Class({
             GObject.TYPE_OBJECT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN
         ]);
         this.view = new Gd.MainView({
             shadow_type:    Gtk.ShadowType.NONE
@@ -365,6 +367,7 @@ const Songs = new Lang.Class({
         this.parent("Songs", header_bar);
         this.countQuery = Query.songs_count;
         this._items = {};
+        this.isStarred = null;
         this.view.set_view_type(Gd.MainViewType.LIST);
         this.view.get_generic_view().get_style_context().add_class("songs-list")
         this._iconHeight = 32;
@@ -395,13 +398,38 @@ const Songs = new Lang.Class({
     },
 
     _addItem: function(source, param, item) {
-        this.parent(source, param, item);
+        if (item != null) {
+            this._offset += 1;
+            var iter = this._model.append();
+            if ((item.get_title() == null) && (item.get_url() != null)) {
+                item.set_title (extractFileName(item.get_url()));
+            }
+            let test = true;
+            try{
+                if (item.get_url())
+                    this.player.discoverer.discover_uri(item.get_url());
+                this._model.set(
+                        iter,
+                        [5, 6, 7,8],
+                        [item, false, nowPlayingIconName,test]
+                    );
+            } catch(err) {
+                log("failed to discover url " + item.get_url());
+                this._model.set(
+                        iter,
+                        [5, 6, 7,8],
+                        [item, true, errorIconName,test]
+                    );
+            }
+        }
     },
 
     _addListRenderers: function() {
         let listWidget = this.view.get_generic_view();
-
-        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0 });
+        let cols = listWidget.get_columns();
+        let cells = cols[0].get_cells();
+        cells[2].visible = false;
+        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0,ypad: 10 });
         var columnNowPlaying = new Gtk.TreeViewColumn();
         nowPlayingSymbolRenderer.set_property("xalign", 1.0);
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
@@ -410,21 +438,22 @@ const Songs = new Lang.Class({
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 7);
         listWidget.insert_column(columnNowPlaying, 0);
 
-        let typeRenderer =
-            new Gd.StyledTextRenderer({ xpad: 0 });
-        typeRenderer.add_class('dim-label');
-        typeRenderer.set_property("ellipsize", 3);
-        listWidget.add_renderer(typeRenderer, Lang.bind(this,
-            function(col, cell, model, iter) {
-                let item = model.get_value(iter, 5);
-                if (item) {
-                    typeRenderer.set_property("ellipsize", 3);
-                    typeRenderer.text = item.get_string(Grl.METADATA_KEY_ALBUM);
-                }
-            }));
-
+        let titleRenderer = new Gtk.CellRendererText({ xpad: 0 });
+        listWidget.add_renderer(titleRenderer,Lang.bind(this,function (col,cell,model,iter) {
+            let item = model.get_value(iter,5);
+            titleRenderer.set_property("xalign",0.0);
+            titleRenderer.set_property("yalign", 0.5);
+            titleRenderer.text = item.get_title();
+        }))
+        let starRenderer = new Gtk.CellRendererPixbuf({xpad: 32});
+        listWidget.add_renderer(starRenderer,Lang.bind(this,function (col,cell,model,iter) {
+            let showstar = model.get_value(iter,8);
+            if(showstar){
+            starRenderer.pixbuf = starIconName
+            }
+        }))
         let durationRenderer =
-            new Gd.StyledTextRenderer({ xpad: 16 });
+            new Gd.StyledTextRenderer({ xpad: 32 });
         durationRenderer.add_class('dim-label');
         listWidget.add_renderer(durationRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
@@ -442,6 +471,32 @@ const Songs = new Lang.Class({
                     durationRenderer.text = time;
                 }
             }));
+
+        let artistRenderer =
+            new Gd.StyledTextRenderer({ xpad: 32});
+        artistRenderer.add_class('dim-label');
+        artistRenderer.set_property("ellipsize", 3);
+        listWidget.add_renderer(artistRenderer, Lang.bind(this,
+            function(col, cell, model, iter) {
+                let item = model.get_value(iter, 5);
+                if (item) {
+                    artistRenderer.set_property("ellipsize", 3);
+                    artistRenderer.text = item.get_string(Grl.METADATA_KEY_ARTIST);
+                }
+            }));
+        let typeRenderer =
+            new Gd.StyledTextRenderer({ xpad: 32});
+        typeRenderer.add_class('dim-label');
+        typeRenderer.set_property("ellipsize", 3);
+        listWidget.add_renderer(typeRenderer, Lang.bind(this,
+            function(col, cell, model, iter) {
+                let item = model.get_value(iter, 5);
+                if (item) {
+                    typeRenderer.set_property("ellipsize", 3);
+                    typeRenderer.text = item.get_string(Grl.METADATA_KEY_ALBUM);
+                }
+            }));
+
     },
 
     populate: function() {
