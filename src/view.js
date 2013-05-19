@@ -442,6 +442,7 @@ const Songs = new Lang.Class({
             let item = model.get_value(iter,5);
             titleRenderer.set_property("xalign",0.0);
             titleRenderer.set_property("yalign", 0.5);
+            titleRenderer.set_property("height", 48);
             titleRenderer.text = item.get_title();
         }))
         let starRenderer = new Gtk.CellRendererPixbuf({xpad: 32});
