@@ -29,6 +29,7 @@ const Gd = imports.gi.Gd;
 const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
 const Grl = imports.gi.Grl;
+const Pango = imports.gi.Pango;
 const Tracker = imports.gi.Tracker;
 const Signals = imports.signals;
 const Application = imports.application;
@@ -430,9 +431,9 @@ const Songs = new Lang.Class({
         cells[2].visible = false;
         let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf();
         var columnNowPlaying = new Gtk.TreeViewColumn();
-        nowPlayingSymbolRenderer.set_property("xalign", 1.0);
+        nowPlayingSymbolRenderer.xalign = 1.0;
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
-        columnNowPlaying.set_property('fixed-width', 24);
+        columnNowPlaying.fixed_width = 24;
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 6);
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 7);
         listWidget.insert_column(columnNowPlaying, 0);
@@ -440,10 +441,10 @@ const Songs = new Lang.Class({
         let titleRenderer = new Gtk.CellRendererText({ xpad: 0 });
         listWidget.add_renderer(titleRenderer,Lang.bind(this,function (col,cell,model,iter) {
             let item = model.get_value(iter,5);
-            titleRenderer.set_property("xalign",0.0);
-            titleRenderer.set_property("yalign", 0.5);
-            titleRenderer.set_property("height", 48);
-            titleRenderer.set_property("ellipsize", 3);
+            titleRenderer.xalign = 0.0;
+            titleRenderer.yalign = 0.5;
+            titleRenderer.height = 48;
+            titleRenderer.ellipsize = Pango.EllipsizeMode.END;
             titleRenderer.text = item.get_title();
         }))
         let starRenderer = new Gtk.CellRendererPixbuf({xpad: 32});
@@ -456,6 +457,7 @@ const Songs = new Lang.Class({
             else
             starRenderer.pixbuf = null;
         }))
+
         let durationRenderer =
             new Gd.StyledTextRenderer({ xpad: 32 });
         durationRenderer.add_class('dim-label');
@@ -471,7 +473,7 @@ const Songs = new Lang.Class({
                         time =  minutes + ":0" + seconds;
                     else
                         time = minutes + ":" + seconds;
-                    durationRenderer.set_property("xalign", 1.0);
+                    durationRenderer.xalign = 1.0;
                     durationRenderer.text = time;
                 }
             }));
@@ -479,24 +481,24 @@ const Songs = new Lang.Class({
         let artistRenderer =
             new Gd.StyledTextRenderer({ xpad: 32});
         artistRenderer.add_class('dim-label');
-        artistRenderer.set_property("ellipsize", 3);
+        artistRenderer.ellipsize = Pango.EllipsizeMode.END;
         listWidget.add_renderer(artistRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
                 if (item) {
-                    artistRenderer.set_property("ellipsize", 3);
+                    artistRenderer.ellipsize = Pango.EllipsizeMode.END;
                     artistRenderer.text = item.get_string(Grl.METADATA_KEY_ARTIST);
                 }
             }));
         let typeRenderer =
             new Gd.StyledTextRenderer({ xpad: 32});
         typeRenderer.add_class('dim-label');
-        typeRenderer.set_property("ellipsize", 3);
+        typeRenderer.ellipsize = Pango.EllipsizeMode.END;
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 let item = model.get_value(iter, 5);
                 if (item) {
-                    typeRenderer.set_property("ellipsize", 3);
+                    typeRenderer.ellipsize = Pango.EllipsizeMode.END;
                     typeRenderer.text = item.get_string(Grl.METADATA_KEY_ALBUM);
                 }
             }));
@@ -570,11 +572,11 @@ const Artists = new Lang.Class({
 
         let typeRenderer =
             new Gd.StyledTextRenderer({ xpad: 0 });
-        typeRenderer.set_property("ellipsize", 3);
-        typeRenderer.set_property("xalign", 0.0);
-        typeRenderer.set_property("yalign", 0.5);
-        typeRenderer.set_property("height", 48);
-        typeRenderer.set_property("width",220);
+        typeRenderer.ellipsize = 3;
+        typeRenderer.xalign = 0.0;
+        typeRenderer.yalign = 0.5;
+        typeRenderer.height = 48;
+        typeRenderer.width = 220;
         listWidget.add_renderer(typeRenderer, Lang.bind(this,
             function(col, cell, model, iter) {
                 typeRenderer.text = model.get_value(iter, 0);

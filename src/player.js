@@ -96,7 +96,7 @@ const Player = new Lang.Class({
         // Set URI earlier - this will enable gapless playback
         this.player.connect("about-to-finish", Lang.bind(this, function(player) {
             if(player.nextUrl != null) {
-                player.set_property('uri', player.nextUrl);
+                player.uri = player.nextUrl;
             }
             return true;
         }));
@@ -173,7 +173,7 @@ const Player = new Lang.Class({
             this.artistLabel.set_label("Unknown artist");
         }
 
-        this.player.set_property("uri", media.get_url());
+        this.player.uri = media.get_url();
 
         // Store next available url
         let nextTrack = this.currentTrack.copy();
