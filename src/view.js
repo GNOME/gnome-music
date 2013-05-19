@@ -43,7 +43,7 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 
 const nowPlayingIconName = 'media-playback-start-symbolic';
 const errorIconName = 'dialog-error-symbolic';
-const starIconName = GdkPixbuf.Pixbuf.new_from_file('/usr/share/icons/gnome/scalable/status/starred-symbolic.svg');
+const starIconName = 'starred-symbolic';
 
 function extractFileName(uri) {
     var exp = /^.*[\\\/]|[.][^.]*$/g;
@@ -404,21 +404,20 @@ const Songs = new Lang.Class({
             if ((item.get_title() == null) && (item.get_url() != null)) {
                 item.set_title (extractFileName(item.get_url()));
             }
-            let test = true;
             try{
                 if (item.get_url())
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
                         [5, 6, 7,8],
-                        [item, false, nowPlayingIconName,test]
+                        [item, false, nowPlayingIconName,false]
                     );
             } catch(err) {
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
                         [5, 6, 7,8],
-                        [item, true, errorIconName,test]
+                        [item, true, errorIconName,false]
                     );
             }
         }
@@ -429,7 +428,7 @@ const Songs = new Lang.Class({
         let cols = listWidget.get_columns();
         let cells = cols[0].get_cells();
         cells[2].visible = false;
-        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0,ypad: 10 });
+        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0,ypad: 14 });
         var columnNowPlaying = new Gtk.TreeViewColumn();
         nowPlayingSymbolRenderer.set_property("xalign", 1.0);
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
@@ -449,8 +448,11 @@ const Songs = new Lang.Class({
         listWidget.add_renderer(starRenderer,Lang.bind(this,function (col,cell,model,iter) {
             let showstar = model.get_value(iter,8);
             if(showstar){
-            starRenderer.pixbuf = starIconName
+            starRenderer.icon_name = starIconName;
+
             }
+            else
+            starRenderer.pixbuf = null;
         }))
         let durationRenderer =
             new Gd.StyledTextRenderer({ xpad: 32 });
