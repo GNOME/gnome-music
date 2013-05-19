@@ -428,7 +428,7 @@ const Songs = new Lang.Class({
         let cols = listWidget.get_columns();
         let cells = cols[0].get_cells();
         cells[2].visible = false;
-        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf({ xpad: 0,ypad: 14 });
+        let nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf();
         var columnNowPlaying = new Gtk.TreeViewColumn();
         nowPlayingSymbolRenderer.set_property("xalign", 1.0);
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
@@ -443,6 +443,7 @@ const Songs = new Lang.Class({
             titleRenderer.set_property("xalign",0.0);
             titleRenderer.set_property("yalign", 0.5);
             titleRenderer.set_property("height", 48);
+            titleRenderer.set_property("ellipsize", 3);
             titleRenderer.text = item.get_title();
         }))
         let starRenderer = new Gtk.CellRendererPixbuf({xpad: 32});
