@@ -87,8 +87,11 @@ const MainWindow = new Lang.Class({
             );
         }
 
-        this._stack.connect("notify::visible-child", this._onNotifyMode);
-
+        this._onNotifyModelId = this._stack.connect("notify::visible-child", this._onNotifyMode);
+        this.connect("destroy",Lang.bind(this, function(){
+            this._stack.disconnect(this._onNotifyModelId);
+        }));
+  
         this.views[0].populate();
         }
         //To revert to the No Music View when no songs are found
