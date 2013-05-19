@@ -548,8 +548,17 @@ const Artists = new Lang.Class({
             this.view.get_generic_view().get_style_context().add_class("artist-panel-dark");
         else
             this.view.get_generic_view().get_style_context().add_class("artist-panel-white");
+        this._allIter = this._model.append();
+        this._artists["All Artists".toLowerCase()] = {"iter": this._allIter, "albums": []};
+        this._model.set(
+            this._allIter,
+            [0, 1, 2, 3],
+            ["All Artists", "All Artists", "All Artists", "All Artists"]
+        );
+        let selection = this.view.get_generic_view().get_selection();
+        selection.select_path(this._model.get_path(this._allIter));
+        this.view.emit('item-activated', "0", this._model.get_path(this._allIter));
         this.show_all();
-
     },
 
     _addListRenderers: function() {
