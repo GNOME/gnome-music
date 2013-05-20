@@ -60,12 +60,13 @@ function testArtistsViewPlayback() {
 
     // The album has title and artist displayed (not null values)
     let firstArtistIter = artistView._model.get_iter_first()[1];
+    artistView._model.iter_next(firstArtistIter)
     let firstArtistPath = artistView._model.get_path(firstArtistIter);
     let artist = artistView._model.get_value(firstArtistIter, 0);
     log("  First artist is '"+artist+"'")
     assertNotNull(artist)
 
-    // Select first artist
+    // Select first artist, not 'All Artists'
     artistView.view.emit('item-activated', "0", firstArtistPath);
     let artistAlbumsWidget = artistView.artistAlbums;
     assertTrue(artistAlbumsWidget.widgets.length > 0);
