@@ -140,7 +140,7 @@ function testAlbumViewPlayback() {
     assertEquals(newTrackMarkup, "<b>" + firstTrackMarkup + "</b>");
 
     // Nowplaying icon is displayed for this track
-    assertTrue(albumWidget.model.get_value(firstTrackIter, 3))
+    assertTrue(albumWidget.model.get_value(firstTrackIter, 6))
 
     // Artist and track labels are updated
     assertEquals(player.artistLabel.get_label(), artist)
