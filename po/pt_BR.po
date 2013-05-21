@@ -9,9 +9,10 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-30 21:09+0000\n"
-"PO-Revision-Date: 2013-05-01 01:42-0300\n"
-"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
+"POT-Creation-Date: 2013-05-20 09:34+0000\n"
+"PO-Revision-Date: 2013-05-20 06:45-0300\n"
+"Last-Translator: Georges Basile Stavracas Neto <georges.stavracas@gmail."
+"com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -112,13 +113,16 @@ msgstr "00:00"
 msgid "/"
 msgstr "/"
 
-#: ../data/TrackWidget.ui.h:1
-msgid "label"
-msgstr "rótulo"
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nenhuma música localizada"
 
 #: ../src/toolbar.js:79
 msgid "Back"
 msgstr "Retornar"
+
+#~ msgid "label"
+#~ msgstr "rótulo"
 
 #~ msgid "_Change Address Book..."
 #~ msgstr "_Alterar o catálogo de endereços..."
