@@ -63,6 +63,7 @@ const MainWindow = new Lang.Class({
             transition_duration: 100,
             visible: true
         });
+        this.toolbar.set_stack(this._stack);
 
         this._box.pack_start(this.toolbar, false, false, 0);
         this._box.pack_start(this._stack, true, true, 0);
@@ -87,7 +88,7 @@ const MainWindow = new Lang.Class({
             );
         }
 
-        this._onNotifyModelId = this._stack.connect("notify::visible-child", this._onNotifyMode);
+        this._onNotifyModelId = this._stack.connect("notify::visible-child", Lang.bind(this, this._onNotifyMode));
         this.connect("destroy",Lang.bind(this, function(){
             this._stack.disconnect(this._onNotifyModelId);
         }));
@@ -100,7 +101,6 @@ const MainWindow = new Lang.Class({
             this._stack.add_titled(this.views[0],"Empty","Empty");
         }
 
-        this.toolbar.set_stack(this._stack);
         this.toolbar.show();
         this.player.eventBox.show_all();
         this._box.show();

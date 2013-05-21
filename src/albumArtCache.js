@@ -195,7 +195,7 @@ const AlbumArtCache = new Lang.Class({
     },
 
     makeIconFrame: function (pixbuf) {
-        border = 1.5;
+        let border = 1.5;
         pixbuf = pixbuf.scale_simple(pixbuf.get_width() - border * 2,
                                      pixbuf.get_height() - border * 2,
                                      0);

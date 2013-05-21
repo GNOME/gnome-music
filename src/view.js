@@ -53,60 +53,6 @@ function extractFileName(uri) {
 
 const grilo = Grilo.grilo;
 
-
-const LoadMoreButton = new Lang.Class({
-    Name: 'LoadMoreButton',
-    _init: function(counter) {
-        this._block = false;
-        this._counter = counter;
-        let child = new Gtk.Grid({ column_spacing: 10,
-                                   hexpand: false,
-                                   halign: Gtk.Align.CENTER,
-                                   visible: true });
-
-        this._spinner = new Gtk.Spinner({ halign: Gtk.Align.CENTER,
-                                          no_show_all: true });
-        this._spinner.set_size_request(16, 16);
-        child.add(this._spinner);
-
-        this._label = new Gtk.Label({ label: "Load More",
-                                      visible: true });
-        child.add(this._label);
-
-        this.widget = new Gtk.Button({ no_show_all: true,
-                                       child: child });
-        this.widget.get_style_context().add_class('documents-load-more');
-        this.widget.connect('clicked', Lang.bind(this,
-            function() {
-                this._label.label = "Loading...";
-                this._spinner.show();
-                this._spinner.start();
-            }));
-
-        this._onItemCountChanged();
-    },
-
-    _onItemCountChanged: function() {
-        let remainingDocs = this._counter();
-        let visible = !(remainingDocs <= 0 || this._block);
-        this.widget.set_visible(visible);
-
-        if (!visible) {
-            this._label.label = "Load More";
-            this._spinner.stop();
-            this._spinner.hide();
-        }
-    },
-
-    setBlock: function(block) {
-        if (this._block == block)
-            return;
-
-        this._block = block;
-        this._onItemCountChanged();
-    }
-});
-
 const ViewContainer = new Lang.Class({
     Name: "ViewContainer",
     Extends: Gtk.Stack,
@@ -136,21 +82,24 @@ const ViewContainer = new Lang.Class({
         });
         this.view.set_view_type(Gd.MainViewType.ICON);
         this.view.set_model(this._model);
+
+        let _box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
+        _box.pack_start(this.view, true, true, 0);
         if (use_stack){
             this.stack = new Gd.Stack({
                 transition_type: Gd.StackTransitionType.SLIDE_RIGHT,
             })
             var dummy = new Gtk.Frame({visible: false});
             this.stack.add_named(dummy, "dummy");
-            this.stack.add_named(this.view, "artists");
+            this.stack.add_named(_box, "artists");
             this.stack.set_visible_child_name("dummy");
             this._grid.add(this.stack);
         } else {
-            this._grid.add(this.view);
+            this._grid.add(_box);
         }
 
-        this._loadMore = new LoadMoreButton(this._getRemainingItemCount);
-        this._grid.add(this._loadMore.widget);
+        this._loadMore = new Widgets.LoadMoreButton(this._getRemainingItemCount);
+        _box.pack_end(this._loadMore.widget, false, false, 0);
         this._loadMore.widget.connect("clicked", Lang.bind(this, this.populate))
         this.view.connect('item-activated',
                             Lang.bind(this, this._onItemActivated));
@@ -538,13 +487,8 @@ const Artists = new Lang.Class({
         this._artistAlbumsWidget.set_hexpand(true);
         this.view.get_style_context().add_class("artist-panel");
         this.view.get_generic_view().get_selection().set_mode(Gtk.SelectionMode.SINGLE);
-        var scrolledWindow = new Gtk.ScrolledWindow();
-        scrolledWindow.set_policy(
-            Gtk.PolicyType.NEVER,
-            Gtk.PolicyType.AUTOMATIC);
-        scrolledWindow.add(this._artistAlbumsWidget);
         this._grid.attach(new Gtk.Separator({orientation: Gtk.Orientation.VERTICAL}), 1, 0, 1, 1)
-        this._grid.attach(scrolledWindow, 2, 0, 1, 1);
+        this._grid.attach(this._artistAlbumsWidget, 2, 0, 2, 2);
         this._addListRenderers();
         if(Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
             this.view.get_generic_view().get_style_context().add_class("artist-panel-dark");
@@ -557,10 +501,19 @@ const Artists = new Lang.Class({
             [0, 1, 2, 3],
             ["All Artists", "All Artists", "All Artists", "All Artists"]
         );
-        let selection = this.view.get_generic_view().get_selection();
-        selection.select_path(this._model.get_path(this._allIter));
-        this.view.emit('item-activated', "0", this._model.get_path(this._allIter));
+        if (this.header_bar.get_stack() != null)
+            this.header_bar.get_stack().connect("notify::visible-child", Lang.bind(this, this._onNotifyMode));
         this.show_all();
+    },
+
+    _onNotifyMode: function(widget, param) {
+        if (this != widget.get_visible_child())
+            return;
+        let selection = this.view.get_generic_view().get_selection();
+        if (!selection.get_selected()[0]) {
+            selection.select_path(this._model.get_path(this._allIter));
+            this.view.emit('item-activated', "0", this._model.get_path(this._allIter));
+        }
     },
 
     _addListRenderers: function() {
@@ -584,20 +537,23 @@ const Artists = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
-        var children = this._artistAlbumsWidget.get_children();
-        for (var i=0; i<children.length; i++)
-            this._artistAlbumsWidget.remove(children[i])
-        var iter = this._model.get_iter (path)[1];
-        var artist = this._model.get_value (iter, 0);
-        var albums = this._artists[artist.toLowerCase()]["albums"]
-        this.artistAlbums = new Widgets.ArtistAlbums(artist, albums, this.player);
+        let children = this._artistAlbumsWidget.get_children();
+        for (let i=0; i<children.length; i++)
+            this._artistAlbumsWidget.remove(children[i]);
+        let iter = this._model.get_iter (path)[1];
+        let artist = this._model.get_value (iter, 0);
+        let albums = this._artists[artist.toLowerCase()]["albums"];
+        this.artistAlbums = null;
+        if (this._model.get_string_from_iter(iter) == this._model.get_string_from_iter(this._allIter))
+            this.artistAlbums = new Widgets.AllArtistsAlbums(this.player);
+        else
+            this.artistAlbums = new Widgets.ArtistAlbums(artist, albums, this.player);
         this._artistAlbumsWidget.add(this.artistAlbums);
-        //this._artistAlbumsWidget.update(artist, albums);
     },
 
     _addItem: function (source, param, item) {
         this._offset += 1;
-        if( item == null )
+        if (item == null)
             return
         var artist = "Unknown"
         if (item.get_author() != null)

@@ -39,6 +39,59 @@ const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 const nowPlayingIconName = 'media-playback-start-symbolic';
 const errorIconName = 'dialog-error-symbolic';
 
+const LoadMoreButton = new Lang.Class({
+    Name: 'LoadMoreButton',
+    _init: function(counter) {
+        this._block = false;
+        this._counter = counter;
+        let child = new Gtk.Grid({ column_spacing: 10,
+                                   hexpand: false,
+                                   halign: Gtk.Align.CENTER,
+                                   visible: true });
+
+        this._spinner = new Gtk.Spinner({ halign: Gtk.Align.CENTER,
+                                          no_show_all: true });
+        this._spinner.set_size_request(16, 16);
+        child.add(this._spinner);
+
+        this._label = new Gtk.Label({ label: "Load More",
+                                      visible: true });
+        child.add(this._label);
+
+        this.widget = new Gtk.Button({ no_show_all: true,
+                                       child: child });
+        this.widget.get_style_context().add_class('documents-load-more');
+        this.widget.connect('clicked', Lang.bind(this,
+            function() {
+                this._label.label = "Loading...";
+                this._spinner.show();
+                this._spinner.start();
+            }));
+
+        this._onItemCountChanged();
+    },
+
+    _onItemCountChanged: function() {
+        let remainingDocs = this._counter();
+        let visible = !(remainingDocs <= 0 || this._block);
+        this.widget.set_visible(visible);
+
+        if (!visible) {
+            this._label.label = "Load More";
+            this._spinner.stop();
+            this._spinner.hide();
+        }
+    },
+
+    setBlock: function(block) {
+        if (this._block == block)
+            return;
+
+        this._block = block;
+        this._onItemCountChanged();
+    }
+});
+
 const AlbumWidget = new Lang.Class({
     Name: "AlbumWidget",
     Extends: Gtk.EventBox,
@@ -265,19 +318,29 @@ const ArtistAlbums = new Lang.Class({
                 GObject.TYPE_BOOLEAN
                 ]);
 
+        this._hbox = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
+        this._albumBox = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL, spacing: 48});
+        this._scrolledWindow = new Gtk.ScrolledWindow();
+        this._scrolledWindow.set_policy(
+            Gtk.PolicyType.NEVER,
+            Gtk.PolicyType.AUTOMATIC);
+        this._scrolledWindow.add(this._hbox);
+        this._hbox.pack_start(this.ui.get_object("ArtistAlbumsWidget"), false, false, 0);
+        this._hbox.pack_start(this._albumBox, false, false, 16);
+        this.pack_start(this._scrolledWindow, true, true, 0);
 
-        this.pack_start(this.ui.get_object("ArtistAlbumsWidget"), false, false, 0);
-        var hbox = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
-        hbox.set_spacing(48);
-        this.pack_start(hbox, false, false, 16);
-        for (var i=0; i < albums.length; i++) {
-            let widget = new ArtistAlbumWidget(artist, albums[i], this.player, this.model)
-            hbox.pack_start(widget, false, false, 0);
-            this.widgets.push(widget);
-        }
+        for (var i=0; i < albums.length; i++)
+            this.addAlbum(albums[i]);
+
         this.show_all();
         this.player.connect('playlist-item-changed', Lang.bind(this, this.updateModel));
         this.emit("albums-loaded");
+    },
+
+    addAlbum: function(album) {
+        let widget = new ArtistAlbumWidget(this.artist, album, this.player, this.model)
+        this._albumBox.pack_start(widget, false, false, 0);
+        this.widgets.push(widget);
     },
 
     updateModel: function(player, playlist, currentIter){
@@ -333,6 +396,88 @@ const ArtistAlbums = new Lang.Class({
     }
 });
 Signals.addSignalMethods(ArtistAlbums.prototype);
+
+
+const AllArtistsAlbums = new Lang.Class({
+    Name: "AllArtistsAlbums",
+    Extends: ArtistAlbums,
+
+    _init: function(player) {
+        this.parent("All Artists", [], player);
+        this._offset = 0;
+        this.countQuery = Query.album_count;
+        this._loadMore = new LoadMoreButton(Lang.bind(this, this._getRemainingItemCount));
+        this.pack_end(this._loadMore.widget, false, false, 0);
+        this._loadMore.widget.connect("clicked", Lang.bind(this, this._populate))
+        this._connectView();
+        this._populate();
+    },
+
+    _connectView: function() {
+        this._adjustmentValueId = this._scrolledWindow.vadjustment.connect(
+            'value-changed',
+            Lang.bind(this, this._onScrolledWinChange)
+        );
+        this._adjustmentChangedId = this._scrolledWindow.vadjustment.connect(
+            'changed',
+            Lang.bind(this, this._onScrolledWinChange)
+        );
+        this._scrollbarVisibleId = this._scrolledWindow.get_vscrollbar().connect(
+            'notify::visible',
+            Lang.bind(this, this._onScrolledWinChange)
+        );
+        this._onScrolledWinChange();
+    },
+
+    _onScrolledWinChange: function() {
+        let vScrollbar = this._scrolledWindow.get_vscrollbar();
+        let adjustment = this._scrolledWindow.vadjustment;
+        let revealAreaHeight = 32;
+
+        // if there's no vscrollbar, or if it's not visible, hide the button
+        if (!vScrollbar ||
+            !vScrollbar.get_visible()) {
+            this._loadMore.setBlock(true);
+            return;
+        }
+
+        let value = adjustment.value;
+        let upper = adjustment.upper;
+        let page_size = adjustment.page_size;
+
+        let end = false;
+        // special case this values which happen at construction
+        if ((value == 0) && (upper == 1) && (page_size == 1))
+            end = false;
+        else
+            end = !(value < (upper - page_size - revealAreaHeight));
+        if (this._getRemainingItemCount() <= 0)
+            end = false;
+        this._loadMore.setBlock(!end);
+    },
+
+
+    _populate: function () {
+        if (grilo.tracker != null)
+            grilo.populateAlbums (this._offset, Lang.bind(this,
+                function (source, param, item, remaining) {
+                    if (item != null) {
+                        this._offset += 1;
+                        this.addAlbum(item);
+                    }
+                }), 5);
+    },
+
+    _getRemainingItemCount: function () {let count = -1;
+        if (this.countQuery != null) {
+            let cursor = Grilo.tracker.query(this.countQuery, null)
+            if (cursor != null && cursor.next(null))
+                count = cursor.get_integer(0);
+        }
+        return ( count - this._offset);
+    },
+});
+
 
 const ArtistAlbumWidget = new Lang.Class({
     Name: "ArtistAlbumWidget",
