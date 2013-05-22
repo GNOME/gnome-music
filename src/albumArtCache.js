@@ -19,9 +19,11 @@
  */
 
 const Lang = imports.lang;
+const Cairo = imports.cairo;
 const GdkPixbuf = imports.gi.GdkPixbuf;
 const GLib = imports.gi.GLib;
 const Gtk = imports.gi.Gtk;
+const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Regex = GLib.Regex;
 const Path = GLib.Path;
@@ -193,35 +195,44 @@ const AlbumArtCache = new Lang.Class({
     },
 
     makeIconFrame: function (pixbuf) {
-        var border = 3;
-        var color = 0xffffffff;
-        var result = GdkPixbuf.Pixbuf.new(pixbuf.get_colorspace(),
-                                true,
-                                pixbuf.get_bits_per_sample(),
-                                pixbuf.get_width(),
-                                pixbuf.get_height());
-        result.fill(color);
+        border = 1.5;
+        pixbuf = pixbuf.scale_simple(pixbuf.get_width() - border * 2,
+                                     pixbuf.get_height() - border * 2,
+                                     0);
+
+        let surface =  new Cairo.ImageSurface (Cairo.Format.ARGB32,
+                                               pixbuf.get_width() + border * 2,
+                                               pixbuf.get_height() + border * 2);
+        let ctx = new Cairo.Context(surface);
+        this.drawRoundedPath(ctx, 0, 0,
+                             pixbuf.get_width()  + border * 2,
+                             pixbuf.get_height()  + border * 2,
+                             3);
+        let result = Gdk.pixbuf_get_from_surface(surface, 0, 0,
+            pixbuf.get_width() + border * 2, pixbuf.get_height() + border * 2);
+
         pixbuf.copy_area(border, border,
-                        pixbuf.get_width() - (border * 2), pixbuf.get_height() - (border * 2),
+                        pixbuf.get_width() - border * 2,
+                        pixbuf.get_height() - border * 2,
                         result,
-                        border, border);
+                        border * 2, border * 2);
 
-        pixbuf = result;
+        return result;
+    },
 
-        border = 1;
-        color = 0x00000044;
-        var result2 = GdkPixbuf.Pixbuf.new(pixbuf.get_colorspace(),
-                                true,
-                                pixbuf.get_bits_per_sample(),
-                                pixbuf.get_width(),
-                                pixbuf.get_height());
-        result2.fill(color);
-        pixbuf.copy_area(border, border,
-                        pixbuf.get_width() - (border * 2), pixbuf.get_height() - (border * 2),
-                        result2,
-                        border, border);
-
-        return result2;
+    drawRoundedPath: function (ctx, x, y, width, height, radius, preserve) {
+        let degrees = Math.PI / 180;
+        ctx.newSubPath();
+        ctx.arc(x + width - radius, y + radius, radius - 0.5, -90 * degrees, 0 * degrees);
+        ctx.arc(x + width - radius, y + height - radius, radius - 0.5, 0 * degrees, 90 * degrees);
+        ctx.arc(x + radius, y + height - radius, radius - 0.5, 90 * degrees, 180 * degrees);
+        ctx.arc(x + radius, y + radius, radius - 0.5, 180 * degrees, 270 * degrees);
+        ctx.closePath();
+        ctx.setLineWidth(0.6);
+        ctx.setSourceRGB(0.2, 0.2, 0.2);
+        ctx.strokePreserve();
+        ctx.setSourceRGB(1, 1, 1);
+        ctx.fill()
     },
 
     _keybuilder_funcs: [
