@@ -33,11 +33,12 @@
 .play-bar {
     border-width: 1px 0 0;
     border-style: solid;
-    border-color: shade(@borders, 0.90);
-    padding: 0 1px;
+    border-color: shade(@borders, 0.5);
 
-    box-shadow: inset 0 -1px shade(@borders, 1.30);
-    background-color: @theme_bg_color;
+    box-shadow: inset 0 1.0px shade(@theme_bg_color, 0.6);
+    background-image: -gtk-gradient(linear, left top, left bottom,
+                                    from(shade(@theme_bg_color, 1.01)),
+                                    to(shade(@theme_bg_color, 0.9)));
 }
 
 .music-selection-mode {

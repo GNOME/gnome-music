@@ -8,31 +8,13 @@
     <property name="icon_name">media-skip-forward-symbolic</property>
     <property name="icon-size">1</property>
   </object>
-  <object class="GtkFrame" id="eventBox">
+  <object class="GtkEventBox" id="eventBox">
     <property name="can_focus">False</property>
     <property name="no_show_all">True</property>
-    <property name="label_xalign">0</property>
-    <property name="shadow_type">none</property>
     <style>
       <class name="play-bar"/>
     </style>
     <child>
-      <object class="GtkBox" id="container">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkSeparator" id="separator1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkBox" id="player">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -369,13 +351,6 @@
               </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
     </child>
   </object>
   <object class="GtkImage" id="pause_image">
