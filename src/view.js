@@ -188,6 +188,7 @@ const ViewContainer = new Lang.Class({
                         [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, false, nowPlayingIconName]
                     );
             } catch(err) {
+                log(err.message);
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
@@ -363,6 +364,7 @@ const Songs = new Lang.Class({
                         [item, false, nowPlayingIconName,false]
                     );
             } catch(err) {
+                log(err.message);
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,

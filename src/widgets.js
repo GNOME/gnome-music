@@ -242,6 +242,7 @@ const AlbumWidget = new Lang.Class({
                             [0, 1, 2, 3, 4, 5, 6, 7],
                             [ escapedTitle, "", "", "", pixbuf, track, false, nowPlayingIconName ]);
                     } catch(err) {
+                        log(err.message);
                         log("failed to discover url " + track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5, 6, 7],
@@ -553,6 +554,7 @@ const ArtistAlbumWidget = new Lang.Class({
                         songWidget.connect('button-release-event', Lang.bind(
                                                                 this, this.trackSelected));
                     } catch(err) {
+                        log(err.message);
                         log("failed to discover url " + track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5],
