@@ -1,14 +1,14 @@
 # Norwegian bokmål translation of gnome-music.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kjartan Maraas <kmaraas@gnome.org>, 2012.
+# Kjartan Maraas <kmaraas@gnome.org>, 2012-2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-01 14:48+0100\n"
-"PO-Revision-Date: 2012-12-01 14:52+0100\n"
+"POT-Creation-Date: 2013-05-27 11:02+0200\n"
+"PO-Revision-Date: 2013-05-27 11:04+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -16,128 +16,102 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../data/gnome-music.desktop.in.in.h:1
-msgid "Music"
-msgstr "Musikk"
+#: ../data/AlbumWidget.ui.h:1
+msgid "<span color='grey'>Released</span>"
+msgstr "<span color='grey'>Utgitt</span>"
 
-#: ../data/gnome-music.desktop.in.in.h:2
-msgid "Music Player"
-msgstr "Musikkavspiller"
+#: ../data/AlbumWidget.ui.h:2
+msgid "<span color='grey'>Running Length</span>"
+msgstr "<span color='grey'>Spillelengde</span>"
 
-#: ../data/gnome-music.desktop.in.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Spill av og organiser din musikksamling"
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
 
-#: ../src/app-menu.ui.h:1
-msgid "_Change Address Book..."
-msgstr "_Bytt adressebok …"
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--.--"
 
-#: ../src/app-menu.ui.h:2
-msgid "_About Contacts"
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Ny spilleliste"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "Spilles _nå"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
 msgstr "_Om musikk"
 
-#: ../src/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "A_vslutt"
 
-#: ../src/music-album-info-box.vala:57
-msgid "Released"
-msgstr "Utgitt"
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+msgid "Music"
+msgstr "Musikk"
 
-#: ../src/music-album-info-box.vala:66
-msgid "Running Length"
-msgstr "Kjørelengde"
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Musikkavspiller"
 
-#: ../src/music-app.vala:107 ../src/music-topbar.vala:82
-msgid "New"
-msgstr "Ny"
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Spill av og organiser din musikksamling"
 
-#: ../src/music-app.vala:108
-msgid "About Music"
-msgstr "Om musikk"
-
-#: ../src/music-app.vala:109
-msgid "Quit"
-msgstr "Avslutt"
-
-#: ../src/music-app.vala:128
-msgid "translator-credits"
-msgstr "Kjartan Maraas <kmaraas@gnome.org>"
-
-#: ../src/music-app.vala:129
-msgid "A GNOME 3 application to listen and manage music playlists"
-msgstr "Et GNOME 3 program for å lytte til og å håndtere musikkspillelister"
-
-#: ../src/music-topbar.vala:97
-msgid "Artists"
-msgstr "Artister"
-
-#: ../src/music-topbar.vala:102
-msgid "Albums"
-msgstr "Album"
-
-#: ../src/music-topbar.vala:107
-msgid "Songs"
-msgstr "Sanger"
-
-#: ../src/music-topbar.vala:112
-msgid "Playlists"
-msgstr "Spillelister"
-
-#: ../src/music-topbar.vala:169 ../src/music-topbar.vala:220
-msgid "Collection name"
-msgstr "Navn på samling"
-
-#: ../src/music-topbar.vala:182
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: ../src/music-utils.vala:11
-#, c-format
-msgid "%02u:%02u:%02u"
-msgstr "%02u:%02u:%02u"
-
-#: ../src/music-utils.vala:14
-#, c-format
-msgid "%02u:%02u"
-msgstr "%02u:%02u"
-
-#: ../src/org.gnome.Music.gschema.xml.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
 msgstr "Vindustørrelse"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:2
+#: ../data/org.gnome.Music.gschema.xml.h:2
 msgid "Window size (width and height)."
-msgstr ""
+msgstr "Vindustørrelse (bredde og høyde)."
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:3
+#: ../data/org.gnome.Music.gschema.xml.h:3
 msgid "Window position"
-msgstr ""
+msgstr "Vinduposisjon"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:4
+#: ../data/org.gnome.Music.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:5
+#: ../data/org.gnome.Music.gschema.xml.h:5
 msgid "Window maximized"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:6
+#: ../data/org.gnome.Music.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:7
+#: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Shuffle playback"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:8
+#: ../data/org.gnome.Music.gschema.xml.h:8
 msgid "If true, do randomized playback through the collection"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
-msgstr ""
+msgstr "Søkemodus"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "If true, the search bar is shown"
 msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "00:00"
+msgstr "00.00"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "/"
+msgstr "/"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Fant ingen musikk"
+
+#: ../src/toolbar.js:79
+msgid "Back"
+msgstr "Tilbake"
