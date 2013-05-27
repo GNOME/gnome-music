@@ -219,7 +219,16 @@ const AlbumWidget = new Lang.Class({
             this.model = cachedPlaylist;
             this.updateModel(this.player, cachedPlaylist, this.player.currentTrack);
         } else {
-            this.model.clear();
+            this.model = Gtk.ListStore.new([
+                GObject.TYPE_STRING, /*title*/
+                GObject.TYPE_STRING,
+                GObject.TYPE_STRING,
+                GObject.TYPE_STRING,
+                GdkPixbuf.Pixbuf,    /*icon*/
+                GObject.TYPE_OBJECT, /*song object*/
+                GObject.TYPE_BOOLEAN,/*icon shown*/
+                GObject.TYPE_STRING,
+            ]);
             var tracks = [];
             grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
                 if (track != null) {
