@@ -36,7 +36,7 @@ fi
 
 # gjs' devel package will be required at "compile-time"
 GJS_MIN_VERSION=1.37.0
-PKG_CHECK_MODULES(GJS, gjs-1.0.pc >= $GJS_MIN_VERSION)
+PKG_CHECK_MODULES(GJS, gjs-1.0 >= $GJS_MIN_VERSION)
 
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
 AC_SUBST(GLIB_COMPILE_RESOURCES)
