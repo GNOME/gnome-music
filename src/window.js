@@ -44,7 +44,6 @@ const MainWindow = new Lang.Class({
             application: app,
             title: _('Music'),
             window_position: Gtk.WindowPosition.CENTER,
-            hide_titlebar_when_maximized: true
         });
         this.connect('focus-in-event', Lang.bind(this, this._windowsFocusCb));
 
@@ -104,6 +103,7 @@ const MainWindow = new Lang.Class({
         this.player = new Player.Player();
 
         this.toolbar = new Toolbar.Toolbar();
+        this.set_titlebar(this.toolbar);
         this._stack = new Gtk.Stack({
             transition_type: Gtk.StackTransitionType.CROSSFADE,
             transition_duration: 100,
@@ -111,7 +111,6 @@ const MainWindow = new Lang.Class({
         });
         this.toolbar.set_stack(this._stack);
 
-        this._box.pack_start(this.toolbar, false, false, 0);
         this._box.pack_start(this._stack, true, true, 0);
         this._box.pack_start(this.player.eventBox, false, false, 0);
         this.add(this._box);

@@ -51,6 +51,7 @@ const Toolbar = new Lang.Class({
         this._addBackButton();
         this._addSearchButton();
         this._addSelectButton();
+        this._addCloseButton();
     },
 
     set_stack: function(stack) {
@@ -93,6 +94,14 @@ const Toolbar = new Lang.Class({
             this._backButton.show();
         else
             this._backButton.hide();
+
+        if (this._selectionMode) {
+            this._closeSeparator.hide();
+            this._closeButton.hide();
+        } else {
+            this._closeSeparator.show();
+            this._closeButton.show();
+        }
     },
 
     _addBackButton: function() {
@@ -117,6 +126,14 @@ const Toolbar = new Lang.Class({
                                                         label: _("Select") });
         this.pack_end(this._selectButton);
         this._selectButton.show();
+    },
+
+    _addCloseButton: function() {
+        this._closeSeparator = new Gtk.Separator({ orientation: Gtk.Orientation.VERTICAL });
+        this.pack_end(this._closeSeparator);
+
+        this._closeButton = new Gd.HeaderCloseButton();
+        this.pack_end(this._closeButton);
     }
 });
 Signals.addSignalMethods(Toolbar.prototype);
