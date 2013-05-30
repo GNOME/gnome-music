@@ -248,6 +248,7 @@ const Player = new Lang.Class({
     },
 
     setPlaylist: function (type, id, model, iter, field) {
+        this.player.set_state(Gst.State.NULL);
         this.playlist = model;
         this.playlistType = type;
         this.playlistId = id;
