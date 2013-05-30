@@ -42,7 +42,7 @@ const ToolbarState = {
 
 const Toolbar = new Lang.Class({
     Name: 'MainToolbar',
-    Extends: Gd.HeaderBar,
+    Extends: Gtk.HeaderBar,
 
     _init: function() {
         this.parent();
