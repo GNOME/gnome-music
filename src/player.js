@@ -70,8 +70,9 @@ const Player = new Lang.Class({
         }));
         this.bus.connect("message::error", Lang.bind(this, function(bus, message) {
             let uri;
-            if (this.playlist[this.currentTrack])
-                uri = this.playlist[this.currentTrack].get_url();
+            let media =  this.playlist.get_value( this.currentTrack, this.playlistField);
+            if (media != null)
+                uri = media.get_url();
             else
                 uri = "none"
             log("URI:" + uri);
