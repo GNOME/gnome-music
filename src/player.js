@@ -123,7 +123,6 @@ const Player = new Lang.Class({
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
             this.currentTrack=null;
         else {
-            this.player.set_state(Gst.State.NULL);
             this.load( this.playlist.get_value( this.currentTrack, this.playlistField));
             this.progressScale.set_value(0);
             this.player.set_state(Gst.State.PLAYING);
