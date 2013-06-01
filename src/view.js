@@ -216,33 +216,37 @@ const ViewContainer = new Lang.Class({
             artist = item.get_author();
         if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-        var icon = albumArtCache.lookup(this._iconHeight, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
-        if (icon != null) {
-            icon = albumArtCache.makeIconFrame(icon)
-            this._model.set_value(iter, 4, icon);
-            return false;
-        }
-        var options = Grl.OperationOptions.new(null);
-        options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
-        grilo.tracker.resolve(
-            item,
-            [Grl.METADATA_KEY_THUMBNAIL],
-            options,
-            Lang.bind(this,
-            function(source, param, item) {
-                var uri = item.get_thumbnail();
-                albumArtCache.getFromUri(uri,
-                    artist,
-                    item.get_string(Grl.METADATA_KEY_ALBUM),
-                    this._iconWidth,
-                    this._iconHeight,
-                    Lang.bind(this,
-                        function (icon) {
-                            icon = albumArtCache.makeIconFrame(icon);
-                            this._model.set_value(iter, 4, icon);
-                        }))
+        albumArtCache.lookup(this._iconHeight, artist, item.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
+            function(icon) {
+                if (icon != null) {
+                    icon = albumArtCache.makeIconFrame(icon)
+                    this._model.set_value(iter, 4, icon);
+                    this.emit("album-art-updated");
+                }
+                else {
+                    var options = Grl.OperationOptions.new(null);
+                    options.set_flags(Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
+                    grilo.tracker.resolve(
+                        item,
+                        [Grl.METADATA_KEY_THUMBNAIL],
+                        options,
+                        Lang.bind(this,
+                        function(source, param, item) {
+                            var uri = item.get_thumbnail();
+                            albumArtCache.getFromUri(uri,
+                                artist,
+                                item.get_string(Grl.METADATA_KEY_ALBUM),
+                                this._iconWidth,
+                                this._iconHeight,
+                                Lang.bind(this,
+                                    function(icon) {
+                                        icon = albumArtCache.makeIconFrame(icon);
+                                        this._model.set_value(iter, 4, icon);
+                                        this.emit("album-art-updated");
+                                    }))
+                        }));
+                }
             }));
-        this.emit("album-art-updated");
         return false;
     },
 

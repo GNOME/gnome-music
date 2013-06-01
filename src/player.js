@@ -56,6 +56,7 @@ const Player = new Lang.Class({
         this._lastState = Gst.State.PAUSED;
         this.repeat = RepeatType.NONE;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
+        this._symbolicIcon = this.cache.makeDefaultIcon(ART_SIZE, ART_SIZE);
 
         Gst.init(null, 0);
         this.discoverer = new GstPbutils.Discoverer();
@@ -132,7 +133,6 @@ const Player = new Lang.Class({
     },
 
     load: function(media) {
-        var pixbuf;
         this._setDuration(media.get_duration());
         this.songTotalTimeLabel.set_label(this.secondsToString (media.get_duration()));
         this.progressScale.sensitive = true;
@@ -149,8 +149,13 @@ const Player = new Lang.Class({
             this.prevBtn.set_sensitive(true);
         else
             this.prevBtn.set_sensitive(false);
-        pixbuf = this.cache.lookup (ART_SIZE, media.get_artist (), media.get_string(Grl.METADATA_KEY_ALBUM));
-        this.coverImg.set_from_pixbuf (pixbuf);
+        this.coverImg.set_from_pixbuf(this._symbolicIcon);
+        this.cache.lookup(ART_SIZE, media.get_artist(), media.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
+            function(pixbuf) {
+                if (pixbuf != null) {
+                    this.coverImg.set_from_pixbuf(pixbuf);
+                }
+            }));
 
         if (media.get_title() != null) {
             this.titleLabel.set_label(media.get_title());

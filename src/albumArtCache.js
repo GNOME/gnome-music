@@ -52,9 +52,55 @@ const AlbumArtCache = new Lang.Class({
         }
     },
 
-    lookup: function(size, artist, album) {
-        var key, path;
+    _tryLoad: function(size, artist, album, i, callback) {
+        var key, path, file;
 
+        if (i >= this._keybuilder_funcs.length) {
+            callback(null);
+            return;
+        }
+
+        key = this._keybuilder_funcs[i].call(this, artist, album);
+        path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
+        file = Gio.File.new_for_path(path);
+
+        file.read_async(GLib.PRIORITY_DEFAULT, null, Lang.bind(this,
+            function(object, res) {
+                try {
+                    let stream = object.read_finish(res);
+                    GdkPixbuf.Pixbuf.new_from_stream_async(stream, null, Lang.bind(this,
+                        function(source, res) {
+                            try {
+                                let pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res),
+                                    width = pixbuf.get_width(),
+                                    height = pixbuf.get_height();
+                                if (width >= size || height >= size) {
+                                    let scale = Math.max(width, height)/size;
+                                    callback(pixbuf.scale_simple(width/scale, height/scale, 2));
+
+                                    return;
+                                }
+                            }
+                            catch (error) {
+                                if (this.logLookupErrors)
+                                    print ("ERROR:", error);
+                            }
+
+                            this._tryLoad(size, artist, album, ++i, callback);
+                        }));
+
+                    return;
+                }
+                catch (error) {
+                    if (this.logLookupErrors)
+                        print ("ERROR:", error);
+                }
+
+                this._tryLoad(size, artist, album, ++i, callback);
+            }));
+    },
+
+    lookup: function(size, artist, album, callback) {
         if (artist == null) {
             artist = " ";
         }
@@ -63,26 +109,7 @@ const AlbumArtCache = new Lang.Class({
             album = " ";
         }
 
-        for (var i = 0; i < this._keybuilder_funcs.length; i++)
-        {
-            try {
-                key = this._keybuilder_funcs[i].call (this, artist, album);
-                path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
-                let pixbuf = GdkPixbuf.Pixbuf.new_from_file(path),
-                    width = pixbuf.get_width(),
-                    height = pixbuf.get_height();
-                if (width >= size || height >= size) {
-                    let scale = Math.max(width, height)/size;
-                    return pixbuf.scale_simple(width/scale, height/scale, 2);
-                }
-            }
-            catch (error) {
-                if (this.logLookupErrors)
-                    print ("ERROR:", error);
-            }
-        }
-
-        return null;
+        this._tryLoad(size, artist, album, 0, callback);
     },
 
     normalizeAndHash: function(input, utf8Only, utf8) {

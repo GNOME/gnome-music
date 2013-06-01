@@ -100,6 +100,7 @@ const AlbumWidget = new Lang.Class({
         this.player = player;
         this.hbox = new Gtk.HBox ();
         this.iterToClean = null;
+        this._symbolicIcon = albumArtCache.makeDefaultIcon(256, 256);
 
         this.ui = new Gtk.Builder();
         this.ui.add_from_resource('/org/gnome/music/AlbumWidget.ui');
@@ -207,10 +208,6 @@ const AlbumWidget = new Lang.Class({
         }
         let duration = 0;
         this.album = album;
-        let pixbuf = albumArtCache.lookup (256, artist, item.get_string(Grl.METADATA_KEY_ALBUM));
-        if (pixbuf == null)
-            pixbuf = albumArtCache.makeDefaultIcon(256, 256);
-        this.ui.get_object("cover").set_from_pixbuf (pixbuf);
 
         // if the active queue has been set by this album,
         // use it as model, otherwise build the liststore
@@ -236,18 +233,27 @@ const AlbumWidget = new Lang.Class({
                     duration = duration + track.get_duration();
                     let iter = this.model.append();
                     let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
+                    this.ui.get_object("cover").set_from_pixbuf(this._symbolicIcon);
                     try{
                         this.player.discoverer.discover_uri(track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5, 6, 7],
-                            [ escapedTitle, "", "", "", pixbuf, track, false, nowPlayingIconName ]);
+                            [ escapedTitle, "", "", "", this._symbolicIcon, track, false, nowPlayingIconName ]);
                     } catch(err) {
                         log(err.message);
                         log("failed to discover url " + track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5, 6, 7],
-                            [ escapedTitle, "", "", "", pixbuf, track, true, errorIconName ]);
+                            [ escapedTitle, "", "", "", this._symbolicIcon, track, true, errorIconName ]);
                     }
+
+                    albumArtCache.lookup(256, artist, item.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
+                        function(pixbuf) {
+                            if (pixbuf != null) {
+                                this.ui.get_object("cover").set_from_pixbuf(pixbuf);
+                                this.model.set(iter, [4], [pixbuf]);
+                            }
+                        }));
 
                     this.ui.get_object("running_length_label_info").set_text(
                         (parseInt(duration/60) + 1) + " min");
@@ -576,31 +582,33 @@ const ArtistAlbumWidget = new Lang.Class({
     },
 
     _updateAlbumArt: function() {
-        let pixbuf = albumArtCache.lookup (128, this.artist, this.album.get_title());
-        if (pixbuf != null)
-            this.ui.get_object("cover").set_from_pixbuf(pixbuf);
-        else {
-            var options = Grl.OperationOptions.new(null);
-            options.set_flags (Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
-            grilo.tracker.resolve(
-                this.album,
-                [Grl.METADATA_KEY_THUMBNAIL],
-                options,
-                Lang.bind(this,
-                function(source, param, item) {
-                    var uri = this.album.get_thumbnail();
-                    albumArtCache.getFromUri(uri,
-                        this.artist,
-                        this.album.get_title(),
-                        128,
-                        128,
+        albumArtCache.lookup(128, this.artist, this.album.get_title(), Lang.bind(this,
+            function(pixbuf) {
+                if (pixbuf != null)
+                    this.ui.get_object("cover").set_from_pixbuf(pixbuf);
+                else {
+                    var options = Grl.OperationOptions.new(null);
+                    options.set_flags(Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
+                    grilo.tracker.resolve(
+                        this.album,
+                        [Grl.METADATA_KEY_THUMBNAIL],
+                        options,
                         Lang.bind(this,
-                            function (pixbuf) {
-                                pixbuf = albumArtCache.makeIconFrame(pixbuf);
-                                this.ui.get_object("cover").set_from_pixbuf(pixbuf);
-                            }))
-                }));
-        }
+                        function(source, param, item) {
+                            var uri = this.album.get_thumbnail();
+                            albumArtCache.getFromUri(uri,
+                                this.artist,
+                                this.album.get_title(),
+                                128,
+                                128,
+                                Lang.bind(this,
+                                    function(pixbuf) {
+                                        pixbuf = albumArtCache.makeIconFrame(pixbuf);
+                                        this.ui.get_object("cover").set_from_pixbuf(pixbuf);
+                                    }))
+                        }));
+                }
+            }));
     },
 
     trackSelected: function(widget, iter) {
