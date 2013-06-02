@@ -173,7 +173,10 @@ const Player = new Lang.Class({
             this.artistLabel.set_label("Unknown artist");
         }
 
-        this.player.uri = media.get_url();
+        let url = media.get_url();
+        if (url != this.player.current_uri) {
+            this.player.uri = url;
+        }
 
         // Store next available url
         let nextTrack = this.currentTrack.copy();
