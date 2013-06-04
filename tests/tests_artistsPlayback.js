@@ -48,10 +48,10 @@ function testArtistsViewPlayback() {
         //FIXME: Here we try to quit the mainloop for each album
         //this causes exceptions and should be handled correctly
         try {
-            Mainloop.quit('testMainloop');
+            Mainloop.quit('artistAddedMainloop');
         } catch(Exception) {}
     }));
-    Mainloop.run('testMainloop');
+    Mainloop.run('artistAddedMainloop');
     // Loaded, ready to go
 
     // Check that no more than 50 and no less than 0 artists were loaded
@@ -80,9 +80,9 @@ function testArtistsViewPlayback() {
 
     // Wait for all tracks to be added
     artistAlbumWidget.connect("tracks-loaded", Lang.bind(this, function(){
-        Mainloop.quit('testMainloop1');
+        Mainloop.quit('tracksLoadedMainloop');
     }));
-    Mainloop.run('testMainloop1');
+    Mainloop.run('tracksLoadedMainloop');
     assertTrue(artistAlbumWidget.tracks.length > 0);
     let firstTrack = artistAlbumWidget.tracks[0];
     let trackTitle = firstTrack.get_title();

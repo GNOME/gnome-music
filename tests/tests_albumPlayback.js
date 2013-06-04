@@ -48,10 +48,10 @@ function testAlbumViewPlayback() {
         //FIXME: Here we try to quit the mainloop for each album
         //this causes exceptions and should be handled correctly
         try {
-            Mainloop.quit('testMainloop');
+            Mainloop.quit('albumArtLoadedMainloop');
         } catch(Exception) {}
     }));
-    Mainloop.run('testMainloop');
+    Mainloop.run('albumArtLoadedMainloop');
     // Loaded, ready to go
 
     // Check that no more than 50 and no less than 0 albums were loaded
@@ -70,12 +70,12 @@ function testAlbumViewPlayback() {
     // Select first album
     let albumWidget = albumView._albumWidget;
     albumWidget.connect("loaded", Lang.bind(this, function(){
-        Mainloop.quit('testMainloop');
+        Mainloop.quit('loadedMainloop');
     }));
     Mainloop.idle_add(function() {
         albumView.view.emit('item-activated', "0", firstAlbumPath);
     })
-    Mainloop.run('testMainloop');
+    Mainloop.run('loadedMainloop');
     // Album view loaded
 
     // Make sure that the same artist and album are displayed
@@ -91,9 +91,9 @@ function testAlbumViewPlayback() {
 
     // Wait for tracks to be added
     albumWidget.connect('track-added', Lang.bind(this, function(){
-        Mainloop.quit('testMainloop');
+        Mainloop.quit('trackAddedMainloop');
     }))
-    Mainloop.run('testMainloop');
+    Mainloop.run('trackAddedMainloop');
 
     // FIXME: wait for all tracks to be added, for now operate on the first one
     let model = albumWidget.model;
