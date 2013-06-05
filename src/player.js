@@ -41,7 +41,8 @@ const ART_SIZE = 34;
 const RepeatType = {
     NONE: 0,
     SONG: 1,
-    ALL:  2
+    ALL: 2,
+    SHUFFLE: 3,
 }
 
 const Player = new Lang.Class({
@@ -295,8 +296,13 @@ const Player = new Lang.Class({
         this.artistLabel = this._ui.get_object('artist');
         this.coverImg = this._ui.get_object('cover');
         this.duration = this._ui.get_object('duration');
-        this.replayBtn = this._ui.get_object('menuButton');
-        let replayMenu = this._ui.get_object('replayMenu');
+        this.repeatBtn = this._ui.get_object('menuButton');
+        let repeatMenu = this._ui.get_object('repeatMenu');
+        let shuffle = this._ui.get_object('shuffle');
+        let repeatAll = this._ui.get_object('repeatAll');
+        let repeatSong = this._ui.get_object('repeatSong');
+        let shuffleRepeatOff = this._ui.get_object('repeatShuffleOff');
+        this.repeatBtnImage = this._ui.get_object('playlistRepeat');
         if(Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
             var color = new Gdk.Color({red:65535,green:65535,blue:65535});
         else
@@ -304,13 +310,20 @@ const Player = new Lang.Class({
         this._playImage.modify_fg(Gtk.StateType.ACTIVE,color);
         this._pauseImage.modify_fg(Gtk.StateType.ACTIVE,color);
 
-        let replaySong = Gtk.MenuItem.new_with_label("replay song");
-        let replayAll = Gtk.MenuItem.new_with_label("replay all");
-        let shuffle = Gtk.MenuItem.new_with_label("shuffle");
-        replayMenu.attach(replaySong, 0, 1, 0, 1);
-        replayMenu.attach(replayAll, 0, 1, 1, 2);
-        replayMenu.attach(shuffle, 0, 1, 2, 3);
-        replayMenu.show_all();
+        shuffle.connect('activate', Lang.bind(this, this._onShuffleActivated));
+        repeatAll.connect('activate', Lang.bind(this, this._onRepeatAllActivated));
+        repeatSong.connect('activate', Lang.bind(this, this._onRepeatSongActivated));
+        shuffleRepeatOff.connect('activate', Lang.bind(this, this._onShuffleRepeatOffActivated));
+
+        if (this.repeat == RepeatType.NONE) {
+            shuffleRepeatOff.activate();
+        } else if (this.repeat == RepeatType.SONG) {
+            repeatSong.activate();
+        } else if (this.repeat == RepeatType.ALL) {
+            repeatAll.activate();
+        } else if (this.repeat == RepeatType.SHUFFLE ) {
+            shuffle.activate();
+        }
 
         this.prevBtn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
         this.playBtn.connect("clicked", Lang.bind(this, this._onPlayBtnClicked));
@@ -376,6 +389,26 @@ const Player = new Lang.Class({
             this.progressScale.set_value(position * 60);
         }
         return true;
+    },
+
+    _onShuffleActivated: function(data) {
+        this.repeatBtnImage.set_from_icon_name('media-playlist-shuffle-symbolic', 1);
+        this.repeat = RepeatType.SHUFFLE;
+    },
+
+    _onRepeatAllActivated: function(data) {
+        this.repeatBtnImage.set_from_icon_name('media-playlist-repeat-symbolic', 1);
+        this.repeat = RepeatType.ALL;
+    },
+
+    _onRepeatSongActivated: function(data) {
+        this.repeatBtnImage.set_from_icon_name('media-playlist-repeat-song-symbolic', 1);
+        this.repeat = RepeatType.SONG;
+    },
+
+    _onShuffleRepeatOffActivated: function(data) {
+        this.repeatBtnImage.set_from_icon_name('media-playlist-consecutive-symbolic', 1);
+        this.repeat = RepeatType.NONE;
     },
 
     onProgressScaleChangeValue: function(scroll) {
