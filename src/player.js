@@ -320,7 +320,10 @@ const Player = new Lang.Class({
                 this._lastState = this.player.get_state(1)[1];
                 this.player.set_state(Gst.State.PAUSED);
                 this._updatePositionCallback();
-                GLib.source_remove(this.timeout);
+                if (this.timeout) {
+                    GLib.source_remove(this.timeout);
+                    this.timeout = null;
+                }
                 return false;
             }));
         this.progressScale.connect("value-changed", Lang.bind(this,
