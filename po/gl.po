@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-31 01:18+0200\n"
-"PO-Revision-Date: 2013-05-31 01:19+0200\n"
+"POT-Creation-Date: 2013-06-06 16:08+0200\n"
+"PO-Revision-Date: 2013-06-06 16:09+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -109,6 +109,22 @@ msgstr "00:00"
 #: ../data/PlayerToolbar.ui.h:2
 msgid "/"
 msgstr "/"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Shuffle"
+msgstr "Aleatorio"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Repeat All"
+msgstr "Repetir todo"
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Repeat Song"
+msgstr "Repetir canción"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Shuffle/Repeat Off"
+msgstr "Desactivar Aleatorio/Repetir"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
