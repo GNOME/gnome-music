@@ -35,7 +35,12 @@ function getAlbumView() {
     const Player = imports.player;
     let toolbar = new Toolbar.Toolbar();
     let player = new Player.Player();
-    return new AlbumView(toolbar, player);
+    let stack = new Gtk.Stack();
+    toolbar.set_stack(stack);
+    view = new AlbumView(toolbar, player);
+    stack.add_titled(view, "Albums", "Albums");
+    stack.set_visible_child_name('Albums');
+    return view;
 }
 
 function testAlbumViewPlayback() {

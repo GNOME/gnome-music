@@ -35,7 +35,12 @@ function getArtistView() {
     const Player = imports.player;
     let toolbar = new Toolbar.Toolbar();
     let player = new Player.Player();
-    return new ArtistView(toolbar, player);
+    let stack = new Gtk.Stack();
+    toolbar.set_stack(stack);
+    view = new ArtistView(toolbar, player);
+    stack.add_titled(view, "Artists", "Artists");
+    stack.set_visible_child_name('Artists');
+    return view;
 }
 
 function testArtistsViewPlayback() {

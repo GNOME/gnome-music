@@ -106,7 +106,6 @@ const ViewContainer = new Lang.Class({
         this._cursor = null;
         this.header_bar = header_bar;
         this.title = title;
-
         this.add(this._grid)
 
         this.show_all();
@@ -114,8 +113,23 @@ const ViewContainer = new Lang.Class({
         this._loadMore.widget.hide();
         this._connectView();
         this._symbolicIcon = albumArtCache.makeDefaultIcon(this._iconHeight, this._iconWidth);
-        grilo.connect('ready', Lang.bind(this, this.populate));
+
+        this._init = false;
+        grilo.connect('ready', Lang.bind(this, function() {
+            if (this.header_bar.get_stack().get_visible_child() == this && this._init == false)
+                this._populate();
+            this.header_bar.get_stack().connect('notify::visible-child',
+                Lang.bind(this, function(widget, param) { 
+                    if (this == widget.get_visible_child() && !this._init)
+                        this._populate();
+                }));
+        }));
         this.header_bar.connect('state-changed', Lang.bind(this, this._onStateChanged))
+    },
+
+    _populate: function() {
+        this._init = true;
+        this.populate();
     },
 
     _onStateChanged: function() {
