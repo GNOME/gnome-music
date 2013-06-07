@@ -514,26 +514,24 @@ const Artists = new Lang.Class({
             this.view.get_generic_view().get_style_context().add_class("artist-panel-dark");
         else
             this.view.get_generic_view().get_style_context().add_class("artist-panel-white");
-        this._allIter = this._model.append();
-        this._artists["All Artists".toLowerCase()] = {"iter": this._allIter, "albums": []};
-        this._model.set(
-            this._allIter,
-            [0, 1, 2, 3],
-            ["All Artists", "All Artists", "All Artists", "All Artists"]
-        );
-        if (this.header_bar.get_stack() != null)
-            this.header_bar.get_stack().connect("notify::visible-child", Lang.bind(this, this._onNotifyMode));
         this.show_all();
     },
 
-    _onNotifyMode: function(widget, param) {
-        if (this != widget.get_visible_child())
-            return;
+    _populate: function(widget, param) {
         let selection = this.view.get_generic_view().get_selection();
         if (!selection.get_selected()[0]) {
+            this._allIter = this._model.append();
+            this._artists["All Artists".toLowerCase()] = {"iter": this._allIter, "albums": []};
+            this._model.set(
+                this._allIter,
+                [0, 1, 2, 3],
+                ["All Artists", "All Artists", "All Artists", "All Artists"]
+            );
             selection.select_path(this._model.get_path(this._allIter));
             this.view.emit('item-activated', "0", this._model.get_path(this._allIter));
         }
+        this._init = true;
+        this.populate();
     },
 
     _addListRenderers: function() {
