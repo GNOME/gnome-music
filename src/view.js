@@ -303,6 +303,10 @@ const Albums = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
+        let button = Gtk.get_current_event().get_button()[1];
+        if (button != 1)
+            return;
+
         let iter = this._model.get_iter (path)[1];
         let title = this._model.get_value (iter, 2);
         let artist = this._model.get_value (iter, 3);
@@ -341,6 +345,10 @@ const Songs = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
+        let button = Gtk.get_current_event().get_button()[1];
+        if (button != 1)
+            return;
+
         var iter = this._model.get_iter(path)[1]
         if (this._model.get_value(iter, 8) != errorIconName) {
             this.player.setPlaylist("Songs", null, this._model, iter, 5);
@@ -548,6 +556,10 @@ const Artists = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
+        let button = Gtk.get_current_event().get_button()[1];
+        if (button != 1)
+            return;
+
         let children = this._artistAlbumsWidget.get_children();
         for (let i=0; i<children.length; i++)
             this._artistAlbumsWidget.remove(children[i]);

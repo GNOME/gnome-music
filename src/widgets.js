@@ -124,6 +124,10 @@ const AlbumWidget = new Lang.Class({
         this.album=null;
         this.view.connect('item-activated', Lang.bind(this,
             function(widget, id, path) {
+                let button = Gtk.get_current_event().get_button()[1];
+                if (button != 1)
+                    return;
+
                 let iter = this.model.get_iter(path)[1];
                 if (this.model.get_value(iter, 7) != errorIconName) {
                     if (this.iterToClean && this.player.playlistId == this.album){
@@ -641,7 +645,11 @@ const ArtistAlbumWidget = new Lang.Class({
             }));
     },
 
-    trackSelected: function(widget, iter) {
+    trackSelected: function(widget, event) {
+        let button = event.get_button()[1];
+        if (button != 1)
+            return;
+
         this.player.stop();
         this.player.setPlaylist ("Artist", this.album, widget.model, widget.iter, 5);
         this.player.setPlaying(true);
