@@ -208,6 +208,16 @@ const AlbumWidget = new Lang.Class({
         }
         let duration = 0;
         this.album = album;
+        this.ui.get_object("cover").set_from_pixbuf(this._symbolicIcon);
+        albumArtCache.lookup(256, artist, item.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
+                    function(pixbuf) {
+                        if (pixbuf != null) {
+                            this.ui.get_object("cover").set_from_pixbuf(pixbuf);
+                            this.model.set(iter, [4], [pixbuf]);
+                        }
+                    }));
+
+
 
         // if the active queue has been set by this album,
         // use it as model, otherwise build the liststore
@@ -233,7 +243,6 @@ const AlbumWidget = new Lang.Class({
                     duration = duration + track.get_duration();
                     let iter = this.model.append();
                     let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
-                    this.ui.get_object("cover").set_from_pixbuf(this._symbolicIcon);
                     try{
                         this.player.discoverer.discover_uri(track.get_url());
                         this.model.set(iter,
@@ -246,14 +255,6 @@ const AlbumWidget = new Lang.Class({
                             [0, 1, 2, 3, 4, 5, 6, 7],
                             [ escapedTitle, "", "", "", this._symbolicIcon, track, true, errorIconName ]);
                     }
-
-                    albumArtCache.lookup(256, artist, item.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
-                        function(pixbuf) {
-                            if (pixbuf != null) {
-                                this.ui.get_object("cover").set_from_pixbuf(pixbuf);
-                                this.model.set(iter, [4], [pixbuf]);
-                            }
-                        }));
 
                     this.ui.get_object("running_length_label_info").set_text(
                         (parseInt(duration/60) + 1) + " min");
