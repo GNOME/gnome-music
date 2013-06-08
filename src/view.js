@@ -309,11 +309,10 @@ const Albums = new Lang.Class({
     },
 
     _onItemActivated: function (widget, id, path) {
-        var iter = this._model.get_iter (path)[1];
-        var title = this._model.get_value (iter, 2);
-        var artist = this._model.get_value (iter, 3);
-        var item = this._model.get_value (iter, 5);
-        var window = new Gtk.Window ();
+        let iter = this._model.get_iter (path)[1];
+        let title = this._model.get_value (iter, 2);
+        let artist = this._model.get_value (iter, 3);
+        let item = this._model.get_value (iter, 5);
         this._albumWidget.update (artist, title, item);
         this.header_bar.setState (0);
         this.header_bar.title = title;
