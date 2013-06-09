@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-05 16:43+0000\n"
-"PO-Revision-Date: 2013-06-08 10:48+0200\n"
+"POT-Creation-Date: 2013-06-09 07:19+0000\n"
+"PO-Revision-Date: 2013-06-09 18:27+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -133,6 +133,14 @@ msgstr "Náhodně/opakování vypnuto"
 msgid "No Music Found"
 msgstr "Nenalezena žádná hudba"
 
-#: ../src/toolbar.js:79
+#: ../src/toolbar.js:81
 msgid "Back"
 msgstr "Zpět"
+
+#: ../src/toolbar.js:88
+msgid "Search"
+msgstr "Hledat"
+
+#: ../src/toolbar.js:95
+msgid "Select"
+msgstr "Vybrat"
