@@ -48,6 +48,8 @@ const Toolbar = new Lang.Class({
         this._stack_switcher = new Gtk.StackSwitcher ();
         this.set_custom_title (null);
         this._addBackButton();
+        this._addSearchButton();
+        this._addSelectButton();
     },
 
     set_stack: function(stack) {
@@ -79,6 +81,20 @@ const Toolbar = new Lang.Class({
                                                      label: _("Back") });
         this._backButton.connect('clicked', Lang.bind(this, this.setState))
         this.pack_start(this._backButton);
+    },
+
+    _addSearchButton: function() {
+        this._searchButton = new Gd.HeaderSimpleButton({ symbolic_icon_name: 'folder-saved-search-symbolic',
+                                                        label: _("Search") });
+        this.pack_end(this._searchButton);
+        this._searchButton.show();
+    },
+
+    _addSelectButton: function() {
+        this._selectButton = new Gd.HeaderToggleButton({ symbolic_icon_name: 'object-select-symbolic',
+                                                        label: _("Select") });
+        this.pack_end(this._selectButton);
+        this._selectButton.show();
     }
 });
 Signals.addSignalMethods(Toolbar.prototype);

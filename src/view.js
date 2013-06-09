@@ -75,6 +75,7 @@ const ViewContainer = new Lang.Class({
             GObject.TYPE_OBJECT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN
         ]);
         this.view = new Gd.MainView({
@@ -105,6 +106,12 @@ const ViewContainer = new Lang.Class({
                             Lang.bind(this, this._onItemActivated));
         this._cursor = null;
         this.header_bar = header_bar;
+        this.header_bar._selectButton.connect('toggled',Lang.bind(this,function (button) {
+            if(button.get_active())
+                this.view.set_selection_mode(true);
+            else
+                this.view.set_selection_mode(false);
+        }));
         this.title = title;
         this.add(this._grid)
 
@@ -198,16 +205,16 @@ const ViewContainer = new Lang.Class({
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 6, 7],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, false, nowPlayingIconName]
+                        [0, 1, 2, 3, 4, 5, 7, 9],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, nowPlayingIconName,  false]
                     );
             } catch(err) {
                 log(err.message);
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 6, 7],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, true, errorIconName]
+                        [0, 1, 2, 3, 4, 5, 7, 9],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, errorIconName, true]
                     );
             }
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
@@ -313,7 +320,7 @@ const Albums = new Lang.Class({
         let title = this._model.get_value (iter, 2);
         let artist = this._model.get_value (iter, 3);
         let item = this._model.get_value (iter, 5);
-        this._albumWidget.update (artist, title, item);
+        this._albumWidget.update (artist, title, item, this.header_bar);
         this.header_bar.setState (0);
         this.header_bar.title = title;
         this.header_bar.sub_title = artist;
@@ -358,9 +365,9 @@ const Songs = new Lang.Class({
         if (playlist != this._model){
             return false;}
         if (this.iterToClean){
-            this._model.set_value(this.iterToClean, 6, false);
+            this._model.set_value(this.iterToClean, 9, false);
         }
-        this._model.set_value(currentIter, 6, true);
+        this._model.set_value(currentIter, 9, true);
         this.iterToClean = currentIter.copy();
         return false;
     },
@@ -377,16 +384,16 @@ const Songs = new Lang.Class({
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
-                        [5, 6, 7,8],
-                        [item, false, nowPlayingIconName,false]
+                        [5, 7, 8, 9],
+                        [item, nowPlayingIconName, false, false]
                     );
             } catch(err) {
                 log(err.message);
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
-                        [5, 6, 7,8],
-                        [item, true, errorIconName,false]
+                        [5, 7, 8, 9],
+                        [item, errorIconName, false, true]
                     );
             }
         }
@@ -402,7 +409,7 @@ const Songs = new Lang.Class({
         nowPlayingSymbolRenderer.xalign = 1.0;
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
         columnNowPlaying.fixed_width = 24;
-        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 6);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 9);
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 7);
         listWidget.insert_column(columnNowPlaying, 0);
 

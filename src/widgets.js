@@ -111,8 +111,10 @@ const AlbumWidget = new Lang.Class({
                 GObject.TYPE_STRING,
                 GdkPixbuf.Pixbuf,    /*icon*/
                 GObject.TYPE_OBJECT, /*song object*/
-                GObject.TYPE_BOOLEAN,/*icon shown*/
+                GObject.TYPE_BOOLEAN,/* item selected */
                 GObject.TYPE_STRING,
+                GObject.TYPE_BOOLEAN,
+                GObject.TYPE_BOOLEAN,/*icon shown*/
        ]);
 
         this.view = new Gd.MainView({
@@ -171,7 +173,7 @@ const AlbumWidget = new Lang.Class({
         nowPlayingSymbolRenderer.yalign = 0.6;
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
         columnNowPlaying.fixed_width = 24;
-        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 6);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 9);
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 7);
         listWidget.insert_column(columnNowPlaying, 0);
 
@@ -200,7 +202,7 @@ const AlbumWidget = new Lang.Class({
             }));
     },
 
-    update: function (artist, album, item) {
+    update: function (artist, album, item, header_bar) {
         let released_date = item.get_publication_date();
         if (released_date != null) {
             this.ui.get_object("released_label_info").set_text(
@@ -235,6 +237,8 @@ const AlbumWidget = new Lang.Class({
                 GObject.TYPE_OBJECT, /*song object*/
                 GObject.TYPE_BOOLEAN,/*icon shown*/
                 GObject.TYPE_STRING,
+                GObject.TYPE_BOOLEAN,
+                GObject.TYPE_BOOLEAN,
             ]);
             var tracks = [];
             grilo.getAlbumSongs(item.get_id(), Lang.bind(this, function (source, prefs, track) {
@@ -246,14 +250,14 @@ const AlbumWidget = new Lang.Class({
                     try{
                         this.player.discoverer.discover_uri(track.get_url());
                         this.model.set(iter,
-                            [0, 1, 2, 3, 4, 5, 6, 7],
-                            [ escapedTitle, "", "", "", this._symbolicIcon, track, false, nowPlayingIconName ]);
+                            [0, 1, 2, 3, 4, 5, 7, 9],
+                            [ escapedTitle, "", "", "", this._symbolicIcon, track,  nowPlayingIconName, false]);
                     } catch(err) {
                         log(err.message);
                         log("failed to discover url " + track.get_url());
                         this.model.set(iter,
-                            [0, 1, 2, 3, 4, 5, 6, 7],
-                            [ escapedTitle, "", "", "", this._symbolicIcon, track, true, errorIconName ]);
+                            [0, 1, 2, 3, 4, 5, 7, 9],
+                            [ escapedTitle, "", "", "", this._symbolicIcon, track, true, errorIconName, false]);
                     }
 
                     this.ui.get_object("running_length_label_info").set_text(
@@ -263,6 +267,15 @@ const AlbumWidget = new Lang.Class({
                 }
             }));
         }
+        header_bar._selectButton.connect('toggled',Lang.bind(this,function (button) {
+            if(button.get_active()){
+                this.view.set_selection_mode(true);
+                header_bar._backButton.hide()
+            }else{
+                this.view.set_selection_mode(false);
+                header_bar._backButton.show();
+            }
+        }));
         this.view.set_model(this.model);
         let escapedArtist = GLib.markup_escape_text(artist, -1);
         let escapedAlbum = GLib.markup_escape_text(album, -1);
@@ -303,7 +316,7 @@ const AlbumWidget = new Lang.Class({
                 iconVisible = false;
             }
             playlist.set_value(iter, 0, title);
-            playlist.set_value(iter, 6, iconVisible);
+            playlist.set_value(iter, 9, iconVisible);
         } while(playlist.iter_next(iter));
         return false;
     },
