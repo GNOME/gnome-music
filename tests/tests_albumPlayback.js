@@ -139,7 +139,9 @@ function testAlbumViewPlayback() {
     //assertFalse(player.nextBtn.get_sensitive())
 
     // Scale value is set to 0
-    assertEquals(player.progressScale.get_value(), 0)
+    // This can't work everytime due to race conditions if the song starts playing before
+    // reaching this assertion
+    //assertEquals(player.progressScale.get_value(), 0)
 
     // Track markup is updated
     let newTrackMarkup = albumWidget.model.get_value(firstTrackIter, 0);
