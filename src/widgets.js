@@ -126,7 +126,6 @@ const AlbumWidget = new Lang.Class({
             function(widget, id, path) {
                 let iter = this.model.get_iter(path)[1];
                 if (this.model.get_value(iter, 7) != errorIconName) {
-                    this.player.stop();
                     if (this.iterToClean && this.player.playlistId == this.album){
                         let item = this.model.get_value(this.iterToClean, 5);
                         this.model.set_value(this.iterToClean, 0, item.get_title());

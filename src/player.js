@@ -67,7 +67,9 @@ const Player = new Lang.Class({
 
         this.bus.connect("message::state-changed", Lang.bind(this, function(bus, message) {
             if (message.parse_state_changed()[1] == Gst.State.NULL){
-                this.loadNextTrack();
+                if (!this.load_next_track_lock) {
+                    this.loadNextTrack();
+                }
             }
         }));
         this.bus.connect("message::error", Lang.bind(this, function(bus, message) {
@@ -119,21 +121,16 @@ const Player = new Lang.Class({
     },
 
     loadNextTrack: function(){
-        if (this.timeout) {
-            GLib.source_remove(this.timeout);
-        }
+        this.load_next_track_lock = true;
         if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
             this.currentTrack=null;
         else {
-            this.load( this.playlist.get_value( this.currentTrack, this.playlistField));
-            this.progressScale.set_value(0);
-            this.player.set_state(Gst.State.PLAYING);
-            this.onProgressScaleChangeValue(this.progressScale);
-            this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+            this.load( this.playlist.get_value( this.currentTrack, this.playlistField), false);
+            this.play();
         }
     },
 
-    load: function(media) {
+    load: function(media, update_url=true) {
         this._setDuration(media.get_duration());
         this.songTotalTimeLabel.set_label(this.secondsToString (media.get_duration()));
         this.progressScale.sensitive = true;
@@ -180,8 +177,9 @@ const Player = new Lang.Class({
         }
 
         let url = media.get_url();
-        if (url != this.player.current_uri) {
+        if ((update_url) && (url != this.player.current_uri)) {
             this.player.uri = url;
+            this.load_next_track_lock = false;
         }
 
         // Store next available url
