@@ -85,22 +85,29 @@ const Player = new Lang.Class({
             return true;
         }));
         this.bus.connect("message::eos", Lang.bind(this, function(bus,message) {
-            if(this.player.nextUrl == null){
+            if (this.player.nextUrl == null){
                 //First Track of the current playlist
                 this.currentTrack = this.playlist.get_iter_first()[1];
+                this.player.set_state(Gst.State.NULL);
                 let media =  this.playlist.get_value( this.currentTrack, this.playlistField);
                 GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this,this.load,media));
-                this.player.set_state(Gst.State.NULL);
-                this.playBtn.set_image(this._playImage);
+                if (RepeatType.ALL != this.repeat) {
+                    this.playBtn.set_image(this._playImage);
+                    this.progressScale.sensitive = false;
+                }
+                else {
+                    this.player.set_state(Gst.State.PLAYING);
+                    this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+                    this.playBtn.set_image(this._pauseImage);
+                }
                 this.progressScale.set_value(0);
-                this.progressScale.sensitive = false;
            }
         }));
 
 
         // Set URI earlier - this will enable gapless playback
         this.player.connect("about-to-finish", Lang.bind(this, function(player) {
-            if(player.nextUrl != null) {
+            if (player.nextUrl != null) {
                 player.uri = player.nextUrl;
             }
             return true;
@@ -122,8 +129,14 @@ const Player = new Lang.Class({
 
     loadNextTrack: function(){
         this.load_next_track_lock = true;
-        if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack))
-            this.currentTrack=null;
+        if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)) {
+            if (RepeatType.ALL == this.repeat) {
+                this.currentTrack = this.playlist.get_iter_first()[1];
+            }
+            else {
+                this.currentTrack = null;
+            }
+        }
         else {
             this.load( this.playlist.get_value( this.currentTrack, this.playlistField), false);
             this.play();
@@ -137,16 +150,24 @@ const Player = new Lang.Class({
         this.playBtn.set_sensitive(true);
         // FIXME: site contains the album's name. It's obviously a hack to remove
         let tmp = this.currentTrack.copy();
-        if(this.playlist.iter_next(tmp))
+        if (this.playlist.iter_next(tmp))
             this.nextBtn.set_sensitive(true);
-        else
-            this.nextBtn.set_sensitive(false);
+        else {
+            if (RepeatType.ALL != this.repeat)
+                this.nextBtn.set_sensitive(false);
+            else
+                this.nextBtn.set_sensitive(true);
+        }
 
         tmp = this.currentTrack.copy();
-        if(this.playlist.iter_previous(tmp))
+        if (this.playlist.iter_previous(tmp))
             this.prevBtn.set_sensitive(true);
-        else
-            this.prevBtn.set_sensitive(false);
+        else {
+            if (RepeatType.ALL != this.repeat)
+                this.prevBtn.set_sensitive(false);
+            else
+                this.prevBtn.set_sensitive(true);
+        }
         this.coverImg.set_from_pixbuf(this._symbolicIcon);
         this.cache.lookup(ART_SIZE, media.get_artist(), media.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
             function(pixbuf) {
@@ -197,7 +218,7 @@ const Player = new Lang.Class({
         if (this.timeout) {
             GLib.source_remove(this.timeout);
         }
-        if(this.player.get_state(1)[1] != Gst.State.PAUSED) {
+        if (this.player.get_state(1)[1] != Gst.State.PAUSED) {
             this.stop();
         }
         this.load( this.playlist.get_value( this.currentTrack, this.playlistField));
@@ -272,7 +293,7 @@ const Player = new Lang.Class({
 
     setCurrentTrack: function (track) {
         for(let t in this.playlist) {
-            if(this.playlist[t].get_url() == track.get_url()) {
+            if (this.playlist[t].get_url() == track.get_url()) {
                 this.currentTrack = t;
             }
         }
@@ -301,7 +322,7 @@ const Player = new Lang.Class({
         let repeatSong = this._ui.get_object('repeatSong');
         let shuffleRepeatOff = this._ui.get_object('repeatShuffleOff');
         this.repeatBtnImage = this._ui.get_object('playlistRepeat');
-        if(Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
+        if (Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
             var color = new Gdk.Color({red:65535,green:65535,blue:65535});
         else
             var color = new Gdk.Color({red:0,green:0,blue:0});
@@ -361,7 +382,7 @@ const Player = new Lang.Class({
     },
 
     _onPlayBtnClicked: function(btn) {
-        if(this.player.get_state(1)[1] == Gst.State.PLAYING){
+        if (this.player.get_state(1)[1] == Gst.State.PLAYING){
             this.setPlaying(false);
         }else{
             this.setPlaying(true);
@@ -397,6 +418,9 @@ const Player = new Lang.Class({
     _onRepeatAllActivated: function(data) {
         this.repeatBtnImage.set_from_icon_name('media-playlist-repeat-symbolic', 1);
         this.repeat = RepeatType.ALL;
+        this.nextBtn.set_sensitive(true);
+        this.prevBtn.set_sensitive(true);
+
     },
 
     _onRepeatSongActivated: function(data) {
@@ -407,11 +431,19 @@ const Player = new Lang.Class({
     _onShuffleRepeatOffActivated: function(data) {
         this.repeatBtnImage.set_from_icon_name('media-playlist-consecutive-symbolic', 1);
         this.repeat = RepeatType.NONE;
+        if (this.currentTrack) {
+            let tmp = this.currentTrack.copy();
+            if (!this.playlist.iter_next(tmp))
+                this.nextBtn.set_sensitive(false);
+            tmp = this.currentTrack.copy();
+            if (!this.playlist.iter_previous(tmp))
+                this.prevBtn.set_sensitive(false);
+        }
     },
 
     onProgressScaleChangeValue: function(scroll) {
         var seconds = scroll.get_value() / 60;
-        if(seconds != this.duration) {
+        if (seconds != this.duration) {
             this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000);
         } else {
             let duration = this.player.query_duration(Gst.Format.TIME, null);
