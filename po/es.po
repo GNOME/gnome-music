@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-09 07:19+0000\n"
-"PO-Revision-Date: 2013-06-13 13:05+0200\n"
+"POT-Creation-Date: 2013-06-13 15:03+0000\n"
+"PO-Revision-Date: 2013-06-13 18:23+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -89,12 +89,16 @@ msgid "Window maximized state"
 msgstr "Estado maximizado de la ventana"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Shuffle playback"
-msgstr "Reproducción aleatoria"
+msgid "Playback repeat mode"
+msgstr "Modo de repetición de la reproducción"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
-msgid "If true, do randomized playback through the collection"
-msgstr "Si es cierto, reproducir la colección de manera aleatoria"
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Valor que indica si se debe repetir o aleatorizar la reproducción del a "
+"colección. Los valores admitidos son: «ninguno», «canción», «todas», «mezclar»."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -113,7 +117,6 @@ msgid "/"
 msgstr "/"
 
 #: ../data/PlayerToolbar.ui.h:3
-#| msgid "Shuffle playback"
 msgid "Shuffle"
 msgstr "Mezclar"
 
@@ -138,13 +141,18 @@ msgid "Back"
 msgstr "Atrás"
 
 #: ../src/toolbar.js:88
-#| msgid "Search mode"
 msgid "Search"
 msgstr "Buscar"
 
 #: ../src/toolbar.js:95
 msgid "Select"
 msgstr "Seleccionar"
+
+#~ msgid "Shuffle playback"
+#~ msgstr "Reproducción aleatoria"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "Si es cierto, reproducir la colección de manera aleatoria"
 
 #~ msgid "label"
 #~ msgstr "etiqueta"
