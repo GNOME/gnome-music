@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
+    <enum id="org.gnome.Music.RepeatType">
+        <value nick="none" value="0"/>
+        <value nick="song" value="1"/>
+        <value nick="all" value="2"/>
+        <value nick="shuffle" value="3"/>
+    </enum>
     <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="gnome-music">
         <key type="ai" name="window-size">
             <default>[768, 600]</default>
@@ -16,10 +22,10 @@
             <summary>Window maximized</summary>
             <description>Window maximized state</description>
         </key>
-        <key type="b" name="shuffle">
-            <default>false</default>
-            <summary>Shuffle playback</summary>
-            <description>If true, do randomized playback through the collection</description>
+        <key enum="org.gnome.Music.RepeatType" name="repeat">
+            <default>'none'</default>
+            <summary>Playback repeat mode</summary>
+            <description>Value identifies whether to repeat or randomize playback through the collection. Legal values are: "none", "song", "all", "shuffle".</description>
         </key>
         <key type="b" name="search">
             <default>false</default>
