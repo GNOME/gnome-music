@@ -85,23 +85,24 @@ const Player = new Lang.Class({
             return true;
         }));
         this.bus.connect("message::eos", Lang.bind(this, function(bus,message) {
-            if (this.player.nextUrl == null){
-                //First Track of the current playlist
+            if (this.repeat != RepeatType.SONG) {
+                // Load first track on start if repeat is not "repeat song"
                 this.currentTrack = this.playlist.get_iter_first()[1];
-                this.player.set_state(Gst.State.NULL);
-                let media =  this.playlist.get_value( this.currentTrack, this.playlistField);
-                GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this,this.load,media));
-                if (RepeatType.ALL != this.repeat) {
-                    this.playBtn.set_image(this._playImage);
-                    this.progressScale.sensitive = false;
-                }
-                else {
-                    this.player.set_state(Gst.State.PLAYING);
-                    this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
-                    this.playBtn.set_image(this._pauseImage);
-                }
-                this.progressScale.set_value(0);
-           }
+            }
+            this.player.set_state(Gst.State.NULL);
+            let media =  this.playlist.get_value( this.currentTrack, this.playlistField);
+            GLib.idle_add(GLib.PRIORITY_HIGH, Lang.bind(this,this.load,media));
+            this.progressScale.set_value(0);
+            if (this.repeat == RepeatType.NONE) {
+                // Switch to first song and stop playback
+                this.playBtn.set_image(this._playImage);
+                this.progressScale.sensitive = false;
+            } else {
+                // Play this.currentTrack
+                this.player.set_state(Gst.State.PLAYING);
+                this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+                this.playBtn.set_image(this._pauseImage);
+            }
         }));
 
 
@@ -129,17 +130,20 @@ const Player = new Lang.Class({
 
     loadNextTrack: function(){
         this.load_next_track_lock = true;
-        if (!this.playlist || !this.currentTrack || !this.playlist.iter_next(this.currentTrack)) {
-            if (RepeatType.ALL == this.repeat) {
-                this.currentTrack = this.playlist.get_iter_first()[1];
+        if (this.playlist && this.currentTrack) {
+            if (this.repeat != RepeatType.SONG) {
+                if (!this.playlist.iter_next(this.currentTrack)) {
+                    if (this.repeat == RepeatType.ALL) {
+                        this.currentTrack = this.playlist.get_iter_first()[1];
+                    } else {
+                        this.currentTrack = null;
+                    }
+                }
             }
-            else {
-                this.currentTrack = null;
-            }
-        }
-        else {
             this.load( this.playlist.get_value( this.currentTrack, this.playlistField), false);
             this.play();
+        } else {
+            this.currentTrack = null;
         }
     },
 
@@ -163,7 +167,7 @@ const Player = new Lang.Class({
         if (this.playlist.iter_previous(tmp))
             this.prevBtn.set_sensitive(true);
         else {
-            if (RepeatType.ALL != this.repeat)
+            if (RepeatType.NONE == this.repeat)
                 this.prevBtn.set_sensitive(false);
             else
                 this.prevBtn.set_sensitive(true);
@@ -205,11 +209,23 @@ const Player = new Lang.Class({
 
         // Store next available url
         let nextTrack = this.currentTrack.copy();
-        if (this.playlist.iter_next(nextTrack)) {
-            let nextMedia = this.playlist.get_value(nextTrack, this.playlistField);
+        
+        if (this.repeat == RepeatType.SONG) {
+            let nextMedia = this.playlist.get_value(this.currentTrack, this.playlistField);
             this.player.nextUrl = nextMedia.get_url();
         } else {
-            this.player.nextUrl = null;
+            if (this.playlist.iter_next(nextTrack)) {
+                let nextMedia = this.playlist.get_value(nextTrack, this.playlistField);
+                this.player.nextUrl = nextMedia.get_url();
+            } else {
+                if (this.repeat == RepeatType.ALL) {
+                    let nextMedia = this.playlist.get_value(this.playlist.get_iter_first()[1], this.playlistField);
+                    this.player.nextUrl = nextMedia.get_url();
+                }
+                if (this.repeat == RepeatType.NONE) {
+                    this.player.nextUrl = null;
+                }
+            }
         }
         this.emit("playlist-item-changed", this.playlist, this.currentTrack);
     },
@@ -426,6 +442,8 @@ const Player = new Lang.Class({
     _onRepeatSongActivated: function(data) {
         this.repeatBtnImage.set_from_icon_name('media-playlist-repeat-song-symbolic', 1);
         this.repeat = RepeatType.SONG;
+        this.nextBtn.set_sensitive(true);
+        this.prevBtn.set_sensitive(true);
     },
 
     _onShuffleRepeatOffActivated: function(data) {
