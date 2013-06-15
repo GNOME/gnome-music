@@ -367,7 +367,6 @@ const Player = new Lang.Class({
             function() {
                 this._lastState = this.player.get_state(1)[1];
                 this.player.set_state(Gst.State.PAUSED);
-                this._updatePositionCallback();
                 if (this.timeout) {
                     GLib.source_remove(this.timeout);
                     this.timeout = null;
