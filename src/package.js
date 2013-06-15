@@ -50,8 +50,8 @@ function _runningFromSource(name) {
         let fileName = System.programInvocationName;
 
         let binary = Gio.File.new_for_path(fileName);
-        let cwd = Gio.File.new_for_path('.');
-        return binary.has_prefix(cwd);
+        let sourceBinary = Gio.File.new_for_path('./src/' + name);
+        return binary.equal(sourceBinary);
     } else {
         return GLib.file_test(name + '.doap',
                               GLib.FileTest.EXISTS);
