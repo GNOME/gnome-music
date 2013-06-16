@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-09 07:19+0000\n"
-"PO-Revision-Date: 2013-06-09 18:27+0200\n"
+"POT-Creation-Date: 2013-06-13 15:03+0000\n"
+"PO-Revision-Date: 2013-06-16 21:12+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -90,12 +90,17 @@ msgid "Window maximized state"
 msgstr "Stav maximalizace okna"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Shuffle playback"
-msgstr "Zamíchat skladby"
+msgid "Playback repeat mode"
+msgstr "Režim opakovaného přehrávání"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
-msgid "If true, do randomized playback through the collection"
-msgstr "Je-li zapnuto, sbírka je přehrávána v náhodném pořadí"
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Hodnota určuje, jestli opakovaně nebo náhodně přehrávat celou sbírku. Platné "
+"hodnoty jsou: „none“ (nic), „song“ (skladbu), „all“ (vše), "
+"„shuffle“ (náhodně)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
