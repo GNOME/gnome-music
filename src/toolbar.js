@@ -37,7 +37,8 @@ const ToolbarState = {
     ALBUMS: 1,
     ARTISTS: 2,
     PLAYLISTS: 3,
-    SONGS: 4};
+    SONGS: 4,
+};
 
 const Toolbar = new Lang.Class({
     Name: 'MainToolbar',
@@ -60,17 +61,38 @@ const Toolbar = new Lang.Class({
         return this._stack_switcher.get_stack();
     },
 
-    setState: function (state) {
-        if (state == ToolbarState.SINGLE) {
-            this.custom_title = null
-            this._backButton.show()
-        }
-        else {
-            this.title = ""
+    setSelectionMode: function(selectionMode) {
+        this._selectionMode = selectionMode;
+
+        if (selectionMode)
+            this.get_style_context().add_class('selection-mode');
+        else
+            this.get_style_context().remove_class('selection-mode');
+
+        this._update();
+    },
+
+    setState: function(state) {
+        this._state = state;
+        this._update();
+
+        this.emit('state-changed');
+    },
+
+    _update: function() {
+        if (this._state == ToolbarState.SINGLE ||
+            this._selectionMode) {
+            this.custom_title = null;
+        } else {
+            this.title = "";
             this.custom_title = this._stack_switcher;
-            this._backButton.hide()
         }
-        this.emit ("state-changed")
+
+        if (this._state == ToolbarState.SINGLE &&
+            !this._selectionMode)
+            this._backButton.show();
+        else
+            this._backButton.hide();
     },
 
     _addBackButton: function() {

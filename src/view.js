@@ -107,10 +107,13 @@ const ViewContainer = new Lang.Class({
         this._cursor = null;
         this.header_bar = header_bar;
         this.header_bar._selectButton.connect('toggled',Lang.bind(this,function (button) {
-            if(button.get_active())
+            if (button.get_active()) {
                 this.view.set_selection_mode(true);
-            else
+                this.header_bar.setSelectionMode(true);
+            } else {
                 this.view.set_selection_mode(false);
+                this.header_bar.setSelectionMode(false);
+            }
         }));
         this.title = title;
         this.add(this._grid)

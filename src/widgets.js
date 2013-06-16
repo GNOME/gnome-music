@@ -269,10 +269,10 @@ const AlbumWidget = new Lang.Class({
         header_bar._selectButton.connect('toggled',Lang.bind(this,function (button) {
             if(button.get_active()){
                 this.view.set_selection_mode(true);
-                header_bar._backButton.hide()
+                header_bar.setSelectionMode(true);
             }else{
                 this.view.set_selection_mode(false);
-                header_bar._backButton.show();
+                header_bar.setSelectionMode(false);
             }
         }));
         this.view.set_model(this.model);
