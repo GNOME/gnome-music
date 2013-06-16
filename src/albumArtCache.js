@@ -29,6 +29,9 @@ const Regex = GLib.Regex;
 const Path = GLib.Path;
 const Grl = imports.gi.Grl;
 
+const Grilo = imports.grilo;
+const grilo = Grilo.grilo;
+
 const InvalidChars = /[()<>\[\]{}_!@#$^&*+=|\\\/\"'?~]/g;
 const ReduceSpaces = /\t|\s+/g;
 
@@ -52,16 +55,19 @@ const AlbumArtCache = new Lang.Class({
         }
     },
 
-    _tryLoad: function(size, artist, album, i, callback) {
+    _tryLoad: function(size, artist, album, i, format, callback) {
         var key, path, file;
 
         if (i >= this._keybuilder_funcs.length) {
-            callback(null);
+            if (format == 'jpeg')
+                this._tryLoad(size, artist, album, 0, 'png', callback);
+            else
+                callback(null);
             return;
         }
 
         key = this._keybuilder_funcs[i].call(this, artist, album);
-        path = GLib.build_filenamev([this.cacheDir, key + ".jpeg"]);
+        path = GLib.build_filenamev([this.cacheDir, key + '.' + format]);
         file = Gio.File.new_for_path(path);
 
         file.read_async(GLib.PRIORITY_DEFAULT, null, Lang.bind(this,
@@ -76,7 +82,7 @@ const AlbumArtCache = new Lang.Class({
                                     height = pixbuf.get_height();
                                 if (width >= size || height >= size) {
                                     let scale = Math.max(width, height)/size;
-                                    callback(pixbuf.scale_simple(width/scale, height/scale, 2));
+                                    callback(pixbuf.scale_simple(width/scale, height/scale, 2), path);
 
                                     return;
                                 }
@@ -86,7 +92,7 @@ const AlbumArtCache = new Lang.Class({
                                     print ("ERROR:", error);
                             }
 
-                            this._tryLoad(size, artist, album, ++i, callback);
+                            this._tryLoad(size, artist, album, ++i, format, callback);
                         }));
 
                     return;
@@ -96,7 +102,7 @@ const AlbumArtCache = new Lang.Class({
                         print ("ERROR:", error);
                 }
 
-                this._tryLoad(size, artist, album, ++i, callback);
+                this._tryLoad(size, artist, album, ++i, format, callback);
             }));
     },
 
@@ -109,7 +115,40 @@ const AlbumArtCache = new Lang.Class({
             album = " ";
         }
 
-        this._tryLoad(size, artist, album, 0, callback);
+        this._tryLoad(size, artist, album, 0, 'jpeg', callback);
+    },
+
+    lookupOrResolve: function(item, width, height, callback) {
+        let artist = null;
+        if (item.get_author() != null)
+            artist = item.get_author();
+        if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
+            artist = item.get_string(Grl.METADATA_KEY_ARTIST);
+        let album = item.get_string(Grl.METADATA_KEY_ALBUM);
+
+        this.lookup(height, artist, album, Lang.bind(this, function(icon, path) {
+            if (icon != null) {
+                // Cache the path on the original item for faster retrieval
+                item._thumbnail = path;
+                callback(icon, path);
+                return;
+            }
+
+            let options = Grl.OperationOptions.new(null);
+            options.set_flags(Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY);
+            grilo.tracker.resolve(item, [Grl.METADATA_KEY_THUMBNAIL], options,
+                                  Lang.bind(this, function(source, param, item) {
+                                      let uri = item.get_thumbnail();
+                                      if (!uri)
+                                          return;
+
+                                      this.getFromUri(uri, artist, album, width, height,
+                                                      function(image, path) {
+                                                          item._thumbnail = path;
+                                                          callback(image, path);
+                                                      });
+                                  }));
+        }));
     },
 
     normalizeAndHash: function(input, utf8Only, utf8) {
@@ -153,35 +192,48 @@ const AlbumArtCache = new Lang.Class({
             return;
         }
 
-        let key = this._keybuilder_funcs[0].call(this, artist, album),
-            path = GLib.build_filenamev([
-                this.cacheDir, key + ".jpeg"
-            ]),
-            file = Gio.File.new_for_uri(uri);
+        let key = this._keybuilder_funcs[0].call(this, artist, album);
+        let file = Gio.File.new_for_uri(uri);
 
-        print("missing", album, artist);
-
-        file.read_async(300, null, Lang.bind(this, function(source, res, user_data) {
+        file.read_async(300, null, Lang.bind(this, function(source, res) {
             try {
                 let stream = file.read_finish(res);
-                let new_file = Gio.File.new_for_path(path);
+                let path = GLib.build_filenamev([this.cacheDir, key]);
 
-                if (new_file.query_exists(null)) {
-                    new_file.delete(null);
-                    new_file = Gio.File.new_for_path(path);
+                try {
+                    let streamInfo = stream.query_info('standard::content-type', null);
+                    let contentType = streamInfo.get_content_type();
+
+                    if (contentType == 'image/png') {
+                        path += '.png';
+                    } else if (contentType == 'image/jpeg') {
+                        path += '.jpeg';
+                    } else {
+                        log('Thumbnail is not in a supported format, not caching');
+                        stream.close(null);
+                        return;
+                    }
+                } catch(e) {
+                    log('Failed to query thumbnail content type (%s), assuming JPG'.format(e.message));
+                    path += '.jpeg';
+                    return;
                 }
 
-                new_file.append_to_async(Gio.FileCreateFlags.REPLACE_DESTINATION,
+                let newFile = Gio.File.new_for_path(path);
+
+                newFile.replace_async(null, false, Gio.FileCreateFlags.REPLACE_DESTINATION,
                     300, null, Lang.bind(this, function (new_file, res, error) {
-                    let outstream = new_file.append_to_finish(res);
+                    let outstream = new_file.replace_finish(res);
                     outstream.splice_async(stream, Gio.IOStreamSpliceFlags.NONE, 300, null,
                         Lang.bind(this, function(outstream, res, error) {
                             if (outstream.splice_finish(res) > 0) {
                                for (let i=0; i<this.requested_uris[uri].length; i++) {
-                                  let cb = this.requested_uris[uri][i][0],
-                                      w = this.requested_uris[uri][i][1],
-                                      h = this.requested_uris[uri][i][2];
-                                  cb(GdkPixbuf.Pixbuf.new_from_file_at_scale(path, h, w, true));
+                                   let callback = this.requested_uris[uri][i][0];
+                                   let width = this.requested_uris[uri][i][1];
+                                   let height = this.requested_uris[uri][i][2];
+
+                                   let pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, height, width, true);
+                                   callback(pixbuf, path);
                                }
                                delete this.requested_uris[uri];
                             }
