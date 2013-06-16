@@ -71,6 +71,8 @@ const Player = new Lang.Class({
                     this.loadNextTrack();
                 }
             }
+
+            this.emit('playing-changed');
         }));
         this.bus.connect("message::error", Lang.bind(this, function(bus, message) {
             let uri;
@@ -116,6 +118,16 @@ const Player = new Lang.Class({
         this._setupView();
     },
 
+    get playing() {
+        let [ok, state, pending] = this.player.get_state(0);
+        if (ok == Gst.StateChangeReturn.ASYNC)
+            return pending == Gst.State.PLAYING;
+        else if (ok == Gst.StateChangeReturn.SUCCESS)
+            return state == Gst.State.PLAYING;
+        else
+            return false;
+    },
+
     setPlaying: function(bool) {
         this.eventBox.set_visible(true);
         if (bool) {
@@ -145,6 +157,8 @@ const Player = new Lang.Class({
         } else {
             this.currentTrack = null;
         }
+
+        this.emit('current-changed');
     },
 
     load: function(media, update_url=true) {
@@ -227,7 +241,9 @@ const Player = new Lang.Class({
                 }
             }
         }
+
         this.emit("playlist-item-changed", this.playlist, this.currentTrack);
+        this.emit('current-changed');
     },
 
     play: function() {
@@ -281,9 +297,11 @@ const Player = new Lang.Class({
                 while (this.playlist.iter_next(iter))
                     index++;
                 this.currentTrack = this.playlist.get_iter_from_string(index.toString())[1];
+                this.emit('current-changed');
             }
             else {
                 this.currentTrack = savedTrack;
+                this.emit('current-changed');
                 return;
             }
         }
@@ -298,6 +316,7 @@ const Player = new Lang.Class({
         this.playlistId = id;
         this.currentTrack = iter;
         this.playlistField = field;
+        this.emit('current-changed');
     },
 
     runningPlaylist: function (type, id, force){
@@ -313,6 +332,8 @@ const Player = new Lang.Class({
                 this.currentTrack = t;
             }
         }
+
+        this.emit('current-changed');
     },
 
     _setupView: function() {
