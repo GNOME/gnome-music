@@ -107,14 +107,6 @@ const Player = new Lang.Class({
             }
         }));
 
-
-        // Set URI earlier - this will enable gapless playback
-        this.player.connect("about-to-finish", Lang.bind(this, function(player) {
-            if (player.nextUrl != null) {
-                player.uri = player.nextUrl;
-            }
-            return true;
-        }));
         this._setupView();
     },
 
