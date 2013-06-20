@@ -107,7 +107,7 @@ const Toolbar = new Lang.Class({
     _addBackButton: function() {
         let iconName =
             (this.get_direction() == Gtk.TextDirection.RTL) ?
-            'go-next-symbolic' : 'go-previous-symbolic';
+            'go-previous-rtl-symbolic' : 'go-previous-symbolic';
         this._backButton = new Gd.HeaderSimpleButton({ symbolic_icon_name: iconName,
                                                      label: _("Back") });
         this._backButton.connect('clicked', Lang.bind(this, this.setState))
