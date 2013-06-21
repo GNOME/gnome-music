@@ -43,6 +43,7 @@ update-icon-cache:
 
 @INTLTOOL_DESKTOP_RULE@
 
+gsettings_SCHEMAS = org.gnome.Music.gschema.xml
 
 @GSETTINGS_RULES@
 

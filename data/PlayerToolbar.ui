@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.6 -->
+  <menu id="repeatMenu">
+    <item>
+      <attribute name="label" translatable="yes">Shuffle</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">shuffle</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Repeat All</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">all</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Repeat Song</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">song</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Shuffle/Repeat Off</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">none</attribute>
+    </item>
+  </menu>
   <object class="GtkImage" id="next_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -286,7 +308,7 @@
                         <property name="has_focus">False</property>
                         <property name="is_focus">False</property>
                         <property name="receives_default">True</property>
-                        <property name="popup">repeatMenu</property>
+                        <property name="menu-model">repeatMenu</property>
                         <child>
                           <object class="GtkBox" id="replayBox">
                             <property name="visible">True</property>
@@ -378,50 +400,5 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="draw_as_radio">True</property>
-  </object>
-  <object class="GtkMenu" id="repeatMenu">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <child>
-      <object class="GtkRadioMenuItem" id="shuffle">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Shuffle</property>
-        <property name="use_underline">True</property>
-        <property name="draw_as_radio">True</property>
-        <property name="group">radiomenuitem1</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkRadioMenuItem" id="repeatAll">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Repeat All</property>
-        <property name="use_underline">True</property>
-        <property name="draw_as_radio">True</property>
-        <property name="group">radiomenuitem1</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkRadioMenuItem" id="repeatSong">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Repeat Song</property>
-        <property name="use_underline">True</property>
-        <property name="draw_as_radio">True</property>
-        <property name="group">radiomenuitem1</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkRadioMenuItem" id="repeatShuffleOff">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Shuffle/Repeat Off</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <property name="draw_as_radio">True</property>
-        <property name="group">radiomenuitem1</property>
-      </object>
-    </child>
   </object>
 </interface>

@@ -23,6 +23,7 @@
 const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
+const Gio = imports.gi.Gio;
 const Gst = imports.gi.Gst;
 const GstPbutils = imports.gi.GstPbutils;
 const GLib = imports.gi.GLib;
@@ -55,7 +56,6 @@ const Player = new Lang.Class({
         this.playlistField = null;
         this.currentTrack = null;
         this._lastState = Gst.State.PAUSED;
-        this.repeat = RepeatType.NONE;
         this.cache = AlbumArtCache.AlbumArtCache.getDefault();
         this._symbolicIcon = this.cache.makeDefaultIcon(ART_SIZE, ART_SIZE);
 
@@ -64,6 +64,14 @@ const Player = new Lang.Class({
         this.player = Gst.ElementFactory.make("playbin", "player");
         this.bus = this.player.get_bus();
         this.bus.add_signal_watch();
+
+        this._settings = new Gio.Settings({ schema: 'org.gnome.Music' });
+        this._settings.connect('changed::repeat', Lang.bind(this, function(settings) {
+            this.repeat = settings.get_enum('repeat');
+            this._syncPrevNext();
+            this._syncRepeatImage();
+        }));
+        this.repeat = this._settings.get_enum('repeat');
 
         this.bus.connect("message::state-changed", Lang.bind(this, function(bus, message) {
             // Note: not all state changes are signaled through here, in particular
@@ -94,6 +102,13 @@ const Player = new Lang.Class({
                     this.currentTrack = nextTrack;
                     this.play();
                 }));
+            } else if (this.repeat == RepeatType.NONE) {
+                this.stop();
+                this.playBtn.set_image(this._playImage);
+                this.progressScale.set_value(0);
+                this.progressScale.sensitive = false;
+                this.currentTrack = this.playlist.get_iter_first()[1];
+                this.load(this.playlist.get_value(this.currentTrack, this.playlistField));
             } else {
                 // Stop playback
                 this.stop();
@@ -138,7 +153,7 @@ const Player = new Lang.Class({
         let last;
 
         do {
-            last = iter;
+            last = iter.copy();
             ok = this.playlist.iter_next(iter);
         } while (ok);
 
@@ -175,6 +190,7 @@ const Player = new Lang.Class({
 
     _hasNext: function() {
         if (this.repeat == RepeatType.ALL ||
+            this.repeat == RepeatType.SONG ||
             this.repeat == RepeatType.SHUFFLE) {
             return true;
         } else {
@@ -185,6 +201,7 @@ const Player = new Lang.Class({
 
     _hasPrevious: function() {
         if (this.repeat == RepeatType.ALL ||
+            this.repeat == RepeatType.SONG ||
             this.repeat == RepeatType.SHUFFLE) {
             return true;
         } else {
@@ -208,6 +225,11 @@ const Player = new Lang.Class({
         this.playBtn.image = this.playing ? this._pauseImage : this._playImage;
     },
 
+    _syncPrevNext: function() {
+        this.nextBtn.sensitive = this._hasNext();
+        this.prevBtn.sensitive = this._hasPrevious();
+    },
+
     setPlaying: function(bool) {
         this.eventBox.show();
 
@@ -223,8 +245,7 @@ const Player = new Lang.Class({
         this.progressScale.sensitive = true;
 
         this.playBtn.sensitive = true;
-        this.nextBtn.sensitive = this._hasNext();
-        this.prevBtn.sensitive = this._hasPrevious();
+        this._syncPrevNext();
 
         this.coverImg.set_from_pixbuf(this._symbolicIcon);
         this.cache.lookup(ART_SIZE, media.get_artist(), media.get_string(Grl.METADATA_KEY_ALBUM), Lang.bind(this,
@@ -352,13 +373,8 @@ const Player = new Lang.Class({
         this.artistLabel = this._ui.get_object('artist');
         this.coverImg = this._ui.get_object('cover');
         this.duration = this._ui.get_object('duration');
-        this.repeatBtn = this._ui.get_object('menuButton');
-        let repeatMenu = this._ui.get_object('repeatMenu');
-        let shuffle = this._ui.get_object('shuffle');
-        let repeatAll = this._ui.get_object('repeatAll');
-        let repeatSong = this._ui.get_object('repeatSong');
-        let shuffleRepeatOff = this._ui.get_object('repeatShuffleOff');
         this.repeatBtnImage = this._ui.get_object('playlistRepeat');
+
         if (Gtk.Settings.get_default().gtk_application_prefer_dark_theme)
             var color = new Gdk.Color({red:65535,green:65535,blue:65535});
         else
@@ -366,20 +382,7 @@ const Player = new Lang.Class({
         this._playImage.modify_fg(Gtk.StateType.ACTIVE,color);
         this._pauseImage.modify_fg(Gtk.StateType.ACTIVE,color);
 
-        shuffle.connect('activate', Lang.bind(this, this._onShuffleActivated));
-        repeatAll.connect('activate', Lang.bind(this, this._onRepeatAllActivated));
-        repeatSong.connect('activate', Lang.bind(this, this._onRepeatSongActivated));
-        shuffleRepeatOff.connect('activate', Lang.bind(this, this._onShuffleRepeatOffActivated));
-
-        if (this.repeat == RepeatType.NONE) {
-            shuffleRepeatOff.activate();
-        } else if (this.repeat == RepeatType.SONG) {
-            repeatSong.activate();
-        } else if (this.repeat == RepeatType.ALL) {
-            repeatAll.activate();
-        } else if (this.repeat == RepeatType.SHUFFLE ) {
-            shuffle.activate();
-        }
+        this._syncRepeatImage();
 
         this.prevBtn.connect("clicked", Lang.bind(this, this._onPrevBtnClicked));
         this.playBtn.connect("clicked", Lang.bind(this, this._onPlayBtnClicked));
@@ -445,37 +448,28 @@ const Player = new Lang.Class({
         return true;
     },
 
-    _onShuffleActivated: function(data) {
-        this.repeatBtnImage.set_from_icon_name('media-playlist-shuffle-symbolic', 1);
-        this.repeat = RepeatType.SHUFFLE;
-    },
+    _syncRepeatImage: function() {
+        let icon;
 
-    _onRepeatAllActivated: function(data) {
-        this.repeatBtnImage.set_from_icon_name('media-playlist-repeat-symbolic', 1);
-        this.repeat = RepeatType.ALL;
-        this.nextBtn.set_sensitive(true);
-        this.prevBtn.set_sensitive(true);
+        switch (this.repeat) {
+        case RepeatType.NONE:
+            icon = 'media-playlist-consecutive-symbolic';
+            break;
 
-    },
+        case RepeatType.SHUFFLE:
+            icon = 'media-playlist-shuffle-symbolic';
+            break;
 
-    _onRepeatSongActivated: function(data) {
-        this.repeatBtnImage.set_from_icon_name('media-playlist-repeat-song-symbolic', 1);
-        this.repeat = RepeatType.SONG;
-        this.nextBtn.set_sensitive(true);
-        this.prevBtn.set_sensitive(true);
-    },
+        case RepeatType.ALL:
+            icon = 'media-playlist-repeat-symbolic';
+            break;
 
-    _onShuffleRepeatOffActivated: function(data) {
-        this.repeatBtnImage.set_from_icon_name('media-playlist-consecutive-symbolic', 1);
-        this.repeat = RepeatType.NONE;
-        if (this.currentTrack) {
-            let tmp = this.currentTrack.copy();
-            if (!this.playlist.iter_next(tmp))
-                this.nextBtn.set_sensitive(false);
-            tmp = this.currentTrack.copy();
-            if (!this.playlist.iter_previous(tmp))
-                this.prevBtn.set_sensitive(false);
+        case RepeatType.SONG:
+            icon = 'media-playlist-repeat-song-symbolic';
+            break;
         }
+
+        this.repeatBtnImage.icon_name = icon;
     },
 
     onProgressScaleChangeValue: function(scroll) {

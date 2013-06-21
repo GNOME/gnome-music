@@ -21,7 +21,9 @@
 const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
+const Gio = imports.gi.Gio;
 const GLib = imports.gi.GLib;
+const Tracker = imports.gi.Tracker;
 
 const Gettext = imports.gettext;
 const _ = imports.gettext.gettext;
@@ -30,7 +32,6 @@ const Toolbar = imports.toolbar;
 const Views = imports.view;
 const Player = imports.player;
 const Query = imports.query;
-const Tracker = imports.gi.Tracker;
 const tracker = Tracker.SparqlConnection.get (null)
 
 const MainWindow = new Lang.Class({
@@ -44,6 +45,9 @@ const MainWindow = new Lang.Class({
             window_position: Gtk.WindowPosition.CENTER,
             hide_titlebar_when_maximized: true
         });
+
+        let settings = new Gio.Settings({ schema: 'org.gnome.Music' });
+        this.add_action(settings.create_action('repeat'));
 
         this.set_size_request(887, 640);
         this._setupView();
