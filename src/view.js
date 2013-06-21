@@ -74,6 +74,7 @@ const ViewContainer = new Lang.Class({
             GdkPixbuf.Pixbuf,
             GObject.TYPE_OBJECT,
             GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,
             GObject.TYPE_STRING,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN
@@ -208,7 +209,7 @@ const ViewContainer = new Lang.Class({
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 7, 9],
+                        [0, 1, 2, 3, 4, 5, 8, 10],
                         [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, nowPlayingIconName,  false]
                     );
             } catch(err) {
@@ -216,7 +217,7 @@ const ViewContainer = new Lang.Class({
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 7, 9],
+                        [0, 1, 2, 3, 4, 5, 8, 10],
                         [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, errorIconName, true]
                     );
             }
@@ -330,7 +331,7 @@ const Songs = new Lang.Class({
 
     _onItemActivated: function (widget, id, path) {
         var iter = this._model.get_iter(path)[1]
-        if (this._model.get_value(iter, 7) != errorIconName) {
+        if (this._model.get_value(iter, 8) != errorIconName) {
             this.player.setPlaylist("Songs", null, this._model, iter, 5);
             this.player.setPlaying(true);
         }
@@ -340,9 +341,9 @@ const Songs = new Lang.Class({
         if (playlist != this._model){
             return false;}
         if (this.iterToClean){
-            this._model.set_value(this.iterToClean, 9, false);
+            this._model.set_value(this.iterToClean, 10, false);
         }
-        this._model.set_value(currentIter, 9, true);
+        this._model.set_value(currentIter, 10, true);
         this.iterToClean = currentIter.copy();
         return false;
     },
@@ -359,7 +360,7 @@ const Songs = new Lang.Class({
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
-                        [5, 7, 8, 9],
+                        [5, 8, 9, 10],
                         [item, nowPlayingIconName, false, false]
                     );
             } catch(err) {
@@ -367,7 +368,7 @@ const Songs = new Lang.Class({
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
-                        [5, 7, 8, 9],
+                        [5, 8, 9, 10],
                         [item, errorIconName, false, true]
                     );
             }
