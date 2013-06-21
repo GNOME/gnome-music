@@ -209,16 +209,16 @@ const ViewContainer = new Lang.Class({
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 8, 10],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, nowPlayingIconName,  false]
+                        [0, 1, 2, 3, 4, 5, 7, 8, 10],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, -1, nowPlayingIconName,  false]
                     );
             } catch(err) {
                 log(err.message);
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 8, 10],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, errorIconName, true]
+                        [0, 1, 2, 3, 4, 5, 7, 8, 10],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, -1, errorIconName, true]
                     );
             }
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
