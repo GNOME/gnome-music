@@ -133,8 +133,8 @@ function testAlbumViewPlayback() {
     albumWidget.view.emit("item-activated", "0", firstTrackPath);
 
     // Buttons become enabled
-    assertFalse(player.prevBtn.get_sensitive())
-    assertTrue(player.playBtn.get_sensitive())
+    //assertFalse(player.prevBtn.get_sensitive())
+    //assertTrue(player.playBtn.get_sensitive())
     // This is set to False just because tests wait for one and only track to be loaded
     //assertFalse(player.nextBtn.get_sensitive())
 
