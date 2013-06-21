@@ -141,8 +141,12 @@ const Player = new Lang.Class({
             break;
 
         case RepeatType.SHUFFLE:
-            /* FIXME */
-            nextTrack = currentTrack;
+            nextTrack = this.playlist.get_iter_first()[1];
+            let rows = this.playlist.iter_n_children(null);
+            let random = Math.floor(Math.random() * rows);
+            for(let i=0; i<random; i++){
+                this.playlist.iter_next(nextTrack);
+            }
         }
 
         return nextTrack;
@@ -181,8 +185,12 @@ const Player = new Lang.Class({
             break;
 
         case RepeatType.SHUFFLE:
-            /* FIXME */
-            previousTrack = currentTrack;
+            previousTrack = this.playlist.get_iter_first()[1];
+            let rows = this.playlist.iter_n_children(null);
+            let random = Math.floor(Math.random() * rows);
+            for(let i=0; i<random; i++){
+                this.playlist.iter_next(previousTrack);
+            }
         }
 
         return previousTrack;
