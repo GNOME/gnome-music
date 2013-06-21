@@ -209,16 +209,16 @@ const ViewContainer = new Lang.Class({
                     this.player.discoverer.discover_uri(item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 7, 8, 10],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, -1, nowPlayingIconName,  false]
+                        [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, -1, nowPlayingIconName, false, false]
                     );
             } catch(err) {
                 log(err.message);
                 log("failed to discover url " + item.get_url());
                 this._model.set(
                         iter,
-                        [0, 1, 2, 3, 4, 5, 7, 8, 10],
-                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, -1, errorIconName, true]
+                        [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                        [toString(item.get_id()), "", item.get_title(), artist, this._symbolicIcon, item, -1, errorIconName, false, true]
                     );
             }
             GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt, item, iter));
@@ -385,8 +385,8 @@ const Songs = new Lang.Class({
         nowPlayingSymbolRenderer.xalign = 1.0;
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, false);
         columnNowPlaying.fixed_width = 24;
-        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 9);
-        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 7);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "visible", 10);
+        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 8);
         listWidget.insert_column(columnNowPlaying, 0);
 
         let titleRenderer = new Gtk.CellRendererText({ xpad: 0 });
@@ -400,7 +400,7 @@ const Songs = new Lang.Class({
         }))
         let starRenderer = new Gtk.CellRendererPixbuf({xpad: 32});
         listWidget.add_renderer(starRenderer,Lang.bind(this,function (col,cell,model,iter) {
-            let showstar = model.get_value(iter,8);
+            let showstar = model.get_value(iter, 9);
             if(showstar){
             starRenderer.icon_name = starIconName;
 
