@@ -176,7 +176,7 @@ const Player = new Lang.Class({
         case RepeatType.ALL:
             previousTrack = currentTrack.copy();
             if (!this.playlist.iter_previous(previousTrack))
-                nextTrack = this._getIterLast();
+                previousTrack = this._getIterLast();
             break;
 
         case RepeatType.NONE:
