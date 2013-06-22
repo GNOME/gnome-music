@@ -25,6 +25,7 @@ const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
 const Gio = imports.gi.Gio;
 const Gst = imports.gi.Gst;
+const GstAudio = imports.gi.GstAudio;
 const GstPbutils = imports.gi.GstPbutils;
 const GLib = imports.gi.GLib;
 const GObject = imports.gi.GObject;
@@ -45,6 +46,52 @@ const RepeatType = {
     ALL: 2,
     SHUFFLE: 3,
 }
+
+const PropertiesIface = <interface name="org.freedesktop.DBus.Properties">
+<signal name="PropertiesChanged">
+  <arg type="s" direction="out" />
+  <arg type="a{sv}" direction="out" />
+  <arg type="as" direction="out" />
+</signal>
+</interface>;
+const PropertiesProxy = Gio.DBusProxy.makeProxyWrapper(PropertiesIface);
+
+const MediaPlayer2PlayerIface = <interface name="org.mpris.MediaPlayer2.Player">
+  <method name="Next"/>
+  <method name="Previous"/>
+  <method name="Pause"/>
+  <method name="PlayPause"/>
+  <method name="Stop"/>
+  <method name="Play"/>
+  <method name="Seek">
+    <arg direction="in" name="Offset" type="x"/>
+  </method>
+  <method name="SetPosition">
+    <arg direction="in" name="TrackId" type="o"/>
+    <arg direction="in" name="Position" type="x"/>
+  </method>
+  <method name="OpenUri">
+    <arg direction="in" name="Uri" type="s"/>
+  </method>
+  <signal name="Seeked">
+    <arg name="Position" type="x"/>
+  </signal>
+  <property name="PlaybackStatus" type="s" access="read"/>
+  <property name="LoopStatus" type="s" access="readwrite"/>
+  <property name="Rate" type="d" access="readwrite"/>
+  <property name="Shuffle" type="b" access="readwrite"/>
+  <property name="Metadata" type="a{sv}" access="read"/>
+  <property name="Volume" type="d" access="readwrite"/>
+  <property name="Position" type="x" access="read"/>
+  <property name="MinimumRate" type="d" access="read"/>
+  <property name="MaximumRate" type="d" access="read"/>
+  <property name="CanGoNext" type="b" access="read"/>
+  <property name="CanGoPrevious" type="b" access="read"/>
+  <property name="CanPlay" type="b" access="read"/>
+  <property name="CanPause" type="b" access="read"/>
+  <property name="CanSeek" type="b" access="read"/>
+  <property name="CanControl" type="b" access="read"/>
+</interface>;
 
 const Player = new Lang.Class({
     Name: "Player",
@@ -72,6 +119,9 @@ const Player = new Lang.Class({
             this._syncRepeatImage();
         }));
         this.repeat = this._settings.get_enum('repeat');
+
+        this._dbusImpl = Gio.DBusExportedObject.wrapJSObject(MediaPlayer2PlayerIface, this);
+        this._dbusImpl.export(Gio.DBus.session, '/org/mpris/MediaPlayer2');
 
         this.bus.connect("message::state-changed", Lang.bind(this, function(bus, message) {
             // Note: not all state changes are signaled through here, in particular
@@ -234,8 +284,14 @@ const Player = new Lang.Class({
     },
 
     _syncPrevNext: function() {
-        this.nextBtn.sensitive = this._hasNext();
-        this.prevBtn.sensitive = this._hasPrevious();
+        let hasNext = this._hasNext()
+        let hasPrevious = this._hasPrevious()
+
+        this.nextBtn.sensitive = hasNext;
+        this.prevBtn.sensitive = hasPrevious;
+
+        this._dbusImpl.emit_property_changed('CanGoNext', GLib.Variant.new('b', hasNext));
+        this._dbusImpl.emit_property_changed('CanGoPrevious', GLib.Variant.new('b', hasPrevious));
     },
 
     setPlaying: function(bool) {
@@ -245,6 +301,9 @@ const Player = new Lang.Class({
             this.play();
         else
             this.pause();
+
+        let media = this.playlist.get_value(this.currentTrack, this.playlistField);
+        this.playBtn.set_image(this._pauseImage);
     },
 
     load: function(media) {
@@ -294,6 +353,10 @@ const Player = new Lang.Class({
             this.player.nextUrl = null;
         }
 
+        this._dbusImpl.emit_property_changed('Metadata', GLib.Variant.new('a{sv}', this.Metadata));
+        this._dbusImpl.emit_property_changed('CanPlay', GLib.Variant.new('b', true));
+        this._dbusImpl.emit_property_changed('CanPause', GLib.Variant.new('b', true));
+
         this.emit("playlist-item-changed", this.playlist, this.currentTrack);
         this.emit('current-changed');
     },
@@ -311,6 +374,8 @@ const Player = new Lang.Class({
         this._updatePositionCallback();
         if (!this.timeout)
             this.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, Lang.bind(this, this._updatePositionCallback));
+
+        this._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Playing'));
     },
 
     pause: function () {
@@ -320,6 +385,7 @@ const Player = new Lang.Class({
         }
 
         this.player.set_state(Gst.State.PAUSED);
+        this._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Paused'));
     },
 
     stop: function() {
@@ -329,6 +395,7 @@ const Player = new Lang.Class({
         }
 
         this.player.set_state(Gst.State.NULL);
+        this._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Stopped'));
         this.emit('playing-changed');
     },
 
@@ -491,20 +558,246 @@ const Player = new Lang.Class({
         }
 
         this.repeatBtnImage.icon_name = icon;
+        this._dbusImpl.emit_property_changed('LoopStatus', GLib.Variant.new('s', this.LoopStatus));
+        this._dbusImpl.emit_property_changed('Shuffle', GLib.Variant.new('b', this.Shuffle));
     },
 
     onProgressScaleChangeValue: function(scroll) {
         var seconds = scroll.get_value() / 60;
         if (seconds != this.duration) {
             this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000);
+            this._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [seconds * 1000000]));
         } else {
             let duration = this.player.query_duration(Gst.Format.TIME, null);
             if (duration) {
                 // Rewind a second back before the track end
                 this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1]-1000000000);
+                this._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [(duration[1]-1000000000)/1000]));
             }
         }
         return true;
      },
+
+    /* MPRIS */
+
+    Next: function() {
+        this.playNext();
+    },
+
+    Previous: function() {
+        this.playPrevious();
+    },
+
+    Pause: function() {
+        this.setPlaying(false);
+    },
+
+    PlayPause: function() {
+        if (this.player.get_state(1)[1] == Gst.State.PLAYING){
+            this.setPlaying(false);
+        } else {
+            this.setPlaying(true);
+        }
+    },
+
+    Play: function() {
+        this.setPlaying(true);
+    },
+
+    Stop: function() {
+        this.playBtn.set_image(this._playImage);
+        this.stop();
+    },
+
+    SeekAsync: function(params, invocation) {
+        let [offset] = params;
+
+        let duration = this.player.query_duration(Gst.Format.TIME, null);
+        if (!duration)
+            return;
+
+        if (offset < 0) {
+            offset = 0;
+        }
+
+        if (duration[1] >= offset * 1000) {
+            this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, offset * 1000);
+            this._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [offset]));
+        } else {
+            this.playNext();
+        }
+    },
+
+    SetPositionAsync: function(params, invocation) {
+        let [trackId, position] = params;
+
+        if (this.currentTrack == null)
+            return;
+
+        let media = this.playlist.get_value(this.currentTrack, this.playlistField);
+        if (trackId != '/org/mpris/MediaPlayer2/Track/' + media.get_id())
+            return;
+
+        let duration = this.player.query_duration(Gst.Format.TIME, null);
+        if (duration && position >= 0 && duration[1] >= position * 1000) {
+            this.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, position * 1000);
+            this._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [position]));
+        }
+    },
+
+    OpenUriAsync: function(params, invocation) {
+        let [uri] = params;
+    },
+
+    get PlaybackStatus() {
+        let [ok, state, pending] = this.player.get_state(0);
+        if (ok == Gst.StateChangeReturn.ASYNC)
+            state = pending;
+        else if (ok != Gst.StateChangeReturn.SUCCESS)
+            return 'Stopped';
+
+        if (state == Gst.State.PLAYING) {
+            return 'Playing';
+        } else if (state == Gst.State.PAUSED) {
+            return 'Paused';
+        } else {
+            return 'Stopped';
+        }
+    },
+
+    get LoopStatus() {
+        if (this.repeat == RepeatType.NONE) {
+            return 'None';
+        } else if (this.repeat == RepeatType.SONG) {
+            return 'Track';
+        } else {
+            return 'Playlist';
+        }
+    },
+
+    set LoopStatus(mode) {
+        if (mode == 'None') {
+            this.repeat = RepeatType.NONE;
+        } else if (mode == 'Track') {
+            this.repeat = RepeatType.SONG;
+        } else if (mode == 'Playlist') {
+            this.repeat = RepeatType.ALL;
+        }
+        this._syncRepeatImage();
+    },
+
+    get Rate() {
+        return 1.0;
+    },
+
+    set Rate(rate) {
+    },
+
+    get Shuffle() {
+        return this.repeat == RepeatType.SHUFFLE;
+    },
+
+    set Shuffle(enable) {
+        if (enable && this.repeat != RepeatType.SHUFFLE) {
+            this.repeat = RepeatType.SHUFFLE;
+        } else if (!enable && this.repeat == RepeatType.SHUFFLE) {
+            this.repeat = RepeatType.NONE;
+        }
+        this._syncRepeatImage();
+    },
+
+    get Metadata() {
+        if (this.currentTrack == null)
+            return {};
+
+        let media = this.playlist.get_value(this.currentTrack, this.playlistField);
+        let metadata = {
+            'mpris:trackid': GLib.Variant.new('s', '/org/mpris/MediaPlayer2/Track/' + media.get_id()),
+            'xesam:url': GLib.Variant.new('s', media.get_url()),
+            'mpris:length': GLib.Variant.new('x', media.get_duration()*1000000),
+            'xesam:trackNumber': GLib.Variant.new('i', media.get_track_number()),
+            'xesam:useCount': GLib.Variant.new('i', media.get_play_count()),
+            'xesam:userRating': GLib.Variant.new('d', media.get_rating()),
+        };
+
+        let title = media.get_title();
+        if (title) {
+            metadata['xesam:title'] = GLib.Variant.new('s', title);
+        }
+
+        let album = media.get_album();
+        if (album) {
+            metadata['xesam:album'] = GLib.Variant.new('s', album);
+        }
+
+        let artist = media.get_artist();
+        if (artist) {
+            metadata['xesam:artist'] = GLib.Variant.new('as', [artist]);
+            metadata['xesam:albumArtist'] = GLib.Variant.new('as', [artist]);
+        }
+
+        let genre = media.get_genre();
+        if (genre) {
+            metadata['xesam:genre'] = GLib.Variant.new('as', [genre]);
+        }
+
+        let last_played = media.get_last_played();
+        if (last_played) {
+            metadata['xesam:lastUsed'] = GLib.Variant.new('s', last_played);
+        }
+
+        let thumbnail = media.get_thumbnail();
+        if (thumbnail) {
+            metadata['mpris:artUrl'] = GLib.Variant.new('s', thumbnail);
+        }
+
+        return metadata;
+    },
+
+    get Volume() {
+        return this.player.get_volume(GstAudio.StreamVolumeFormat.LINEAR);
+    },
+
+    set Volume(rate) {
+        this.player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate);
+        this._dbusImpl.emit_property_changed('Volume', GLib.Variant.new('d', rate));
+    },
+
+    get Position() {
+        return this.player.query_position(Gst.Format.TIME, null)[1]/1000;
+    },
+
+    get MinimumRate() {
+        return 1.0;
+    },
+
+    get MaximumRate() {
+        return 1.0;
+    },
+
+    get CanGoNext() {
+        return this._hasNext();
+    },
+
+    get CanGoPrevious() {
+        return this._hasPrevious();
+    },
+
+    get CanPlay() {
+        return this.currentTrack != null;
+    },
+
+    get CanPause() {
+        return this.currentTrack != null;
+    },
+
+    get CanSeek() {
+        return true;
+    },
+
+    get CanControl() {
+        return true;
+    },
+
 });
 Signals.addSignalMethods(Player.prototype);
