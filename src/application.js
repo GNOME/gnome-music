@@ -40,6 +40,18 @@ var AppState = {
     PLAYLIST_NEW: 5
 };
 
+const MediaPlayer2Iface = <interface name="org.mpris.MediaPlayer2">
+  <method name="Raise"/>
+  <method name="Quit"/>
+  <property name="CanQuit" type="b" access="read"/>
+  <property name="CanRaise" type="b" access="read"/>
+  <property name="HasTrackList" type="b" access="read"/>
+  <property name="Identity" type="s" access="read"/>
+  <property name="DesktopEntry" type="s" access="read"/>
+  <property name="SupportedUriSchemes" type="as" access="read"/>
+  <property name="SupportedMimeTypes" type="as" access="read"/>
+</interface>;
+
 const Application = new Lang.Class({
     Name: 'Music',
     Extends: Gtk.Application,
@@ -52,6 +64,11 @@ const Application = new Lang.Class({
         });
 
         GLib.set_application_name(_("Music"));
+
+        this._dbusImpl = Gio.DBusExportedObject.wrapJSObject(MediaPlayer2Iface, this);
+        this._dbusImpl.export(Gio.DBus.session, '/org/mpris/MediaPlayer2');
+
+        Gio.DBus.session.own_name('org.mpris.MediaPlayer2.gnome-music', Gio.BusNameOwnerFlags.REPLACE, null, null);
     },
 
     _buildAppMenu: function() {
@@ -115,5 +132,50 @@ const Application = new Lang.Class({
         function () {
             this.quit();
         }));
+    },
+
+    /* MPRIS */
+
+    Raise: function() {
+        this._window.present();
+    },
+
+    Quit: function() {
+        this.quit();
+    },
+
+    get CanQuit() {
+        return true;
+    },
+
+    get CanRaise() {
+        return true;
+    },
+
+    get HasTrackList() {
+        return false;
+    },
+
+    get Identity() {
+        return 'Music';
+    },
+
+    get DesktopEntry() {
+        return 'gnome-music';
+    },
+
+    get SupportedUriSchemes() {
+        return [
+            'file'
+        ];
+    },
+
+    get SupportedMimeTypes() {
+        return [
+            'application/ogg',
+            'audio/x-vorbis+ogg',
+            'audio/x-flac',
+            'audio/mpeg'
+        ];
     },
 });
