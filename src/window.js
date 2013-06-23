@@ -22,6 +22,7 @@ const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
 const Gio = imports.gi.Gio;
+const Gst = imports.gi.Gst;
 const GLib = imports.gi.GLib;
 const Tracker = imports.gi.Tracker;
 
@@ -45,12 +46,53 @@ const MainWindow = new Lang.Class({
             window_position: Gtk.WindowPosition.CENTER,
             hide_titlebar_when_maximized: true
         });
+        this.connect('focus-in-event', Lang.bind(this, this._windowsFocusCb));
 
         let settings = new Gio.Settings({ schema: 'org.gnome.Music' });
         this.add_action(settings.create_action('repeat'));
 
         this.set_size_request(887, 640);
         this._setupView();
+
+        this.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, null),
+                                            Gio.DBusProxyFlags.NONE,
+                                            null,
+                                            'org.gnome.SettingsDaemon',
+                                            '/org/gnome/SettingsDaemon/MediaKeys',
+                                            'org.gnome.SettingsDaemon.MediaKeys',
+                                            null);
+        this.proxy.call_sync('GrabMediaPlayerKeys',
+                             GLib.Variant.new('(su)', 'Music'),
+                             Gio.DBusCallFlags.NONE,
+                             -1,
+                             null);
+        this.proxy.connect('g-signal', Lang.bind(this, this._handleMediaKeys));
+    },
+
+    _windowsFocusCb: function(window, event) {
+        this.proxy.call_sync('GrabMediaPlayerKeys',
+                             GLib.Variant.new('(su)', 'Music'),
+                             Gio.DBusCallFlags.NONE,
+                             -1,
+                             null);
+    },
+
+    _handleMediaKeys: function(proxy, sender, signal, parameters) {
+        if (signal != 'MediaPlayerKeyPressed') {
+            log ('Received an unexpected signal \'%s\' from media player'.format(signal));
+            return;
+        }
+
+        let key = parameters.get_child_value(1).get_string()[0];
+        if (key == 'Play')
+            if (this.player.player.get_state(1)[1] != Gst.State.PLAYING)
+                this.player.play();
+            else
+                this.player.pause();
+        else if (key == 'Next')
+            this.player.playNext();
+        else if (key == 'Previous')
+            this.player.playPrevious();
     },
 
     _setupView: function () {
