@@ -299,6 +299,9 @@ const Player = new Lang.Class({
     },
 
     play: function() {
+        if (this.playlist == null)
+            return;
+
         if (this.player.get_state(1)[1] != Gst.State.PAUSED)
             this.stop();
 
@@ -330,6 +333,9 @@ const Player = new Lang.Class({
     },
 
     playNext: function() {
+        if (this.playlist == null)
+            return;
+
         this.currentTrack = this._getNextTrack();
 
         if (this.currentTrack)
@@ -339,6 +345,9 @@ const Player = new Lang.Class({
     },
 
     playPrevious: function() {
+        if (this.playlist == null)
+            return;
+
         this.currentTrack = this._getPreviousTrack();
 
         if (this.currentTrack)
