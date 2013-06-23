@@ -4,11 +4,7 @@ if (!('assertEquals' in this)) { /* allow running this test standalone */
     gjstestRun = function() { return imports.jsUnit.gjstestRun(window); };
 }
 
-imports.searchPath.unshift('..');
-imports.searchPath.unshift('../src');
-imports.searchPath.unshift('../libgd');
-imports.searchPath.unshift('../data');
-const AlbumArtCache = imports.src.albumArtCache.AlbumArtCache
+const AlbumArtCache = imports.albumArtCache.AlbumArtCache
 const GLib = imports.gi.GLib;
 const Lang = imports.lang;
 

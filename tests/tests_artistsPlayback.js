@@ -4,10 +4,6 @@ if (!('assertEquals' in this)) { /* allow running this test standalone */
     gjstestRun = function() { return imports.jsUnit.gjstestRun(window); };
 }
 
-imports.searchPath.unshift('..');
-imports.searchPath.unshift('../src');
-imports.searchPath.unshift('../libgd');
-imports.searchPath.unshift('../data');
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 const Gdk = imports.gi.Gdk;
