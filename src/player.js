@@ -336,6 +336,9 @@ const Player = new Lang.Class({
         if (this.playlist == null)
             return;
 
+        if (!this.nextBtn.sensitive)
+            return;
+
         this.stop();
         this.currentTrack = this._getNextTrack();
 
@@ -345,6 +348,9 @@ const Player = new Lang.Class({
 
     playPrevious: function() {
         if (this.playlist == null)
+            return;
+
+        if (!this.prevBtn.sensitive)
             return;
 
         this.stop();
