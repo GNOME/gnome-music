@@ -37,7 +37,7 @@ function getArtistView() {
     let player = new Player.Player();
     let stack = new Gtk.Stack();
     toolbar.set_stack(stack);
-    view = new ArtistView(toolbar, player);
+    let view = new ArtistView(toolbar, player);
     stack.add_titled(view, "Artists", "Artists");
     stack.set_visible_child_name('Artists');
     return view;
