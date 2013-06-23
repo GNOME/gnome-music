@@ -50,9 +50,9 @@ gsettings_SCHEMAS = org.gnome.Music.gschema.xml
 EXTRA_DIST = \
 	$(icon_files) \
 	$(resource_files) \
-	CREDITS \
 	gnome-music.desktop.in \
 	gnome-music.gresource.xml \
+	org.gnome.Music.gschema.xml \
 	$(NULL)
 
 CLEANFILES = \
