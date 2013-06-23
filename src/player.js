@@ -336,24 +336,22 @@ const Player = new Lang.Class({
         if (this.playlist == null)
             return;
 
+        this.stop();
         this.currentTrack = this._getNextTrack();
 
         if (this.currentTrack)
             this.play();
-        else
-            this.stop();
     },
 
     playPrevious: function() {
         if (this.playlist == null)
             return;
 
+        this.stop();
         this.currentTrack = this._getPreviousTrack();
 
         if (this.currentTrack)
             this.play();
-        else
-            this.stop();
     },
 
     setPlaylist: function (type, id, model, iter, field) {
