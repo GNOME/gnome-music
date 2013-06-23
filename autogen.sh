@@ -23,4 +23,5 @@ which gnome-autogen.sh || {
 test -d m4 || mkdir m4/ ;
 git submodule update --init --recursive ;
 )
+touch AUTHORS
 . gnome-autogen.sh
