@@ -605,6 +605,8 @@ const Player = new Lang.Class({
     },
 
     Stop: function() {
+        this.progressScale.set_value(0);
+        this.progressScale.sensitive = false;
         this.playBtn.set_image(this._playImage);
         this.stop();
     },

@@ -84,6 +84,8 @@ const MainWindow = new Lang.Class({
         let key = parameters.get_child_value(1).get_string()[0];
         if (key == 'Play')
             this.player.PlayPause();
+        else if (key == 'Stop')
+            this.player.Stop();
         else if (key == 'Next')
             this.player.Next();
         else if (key == 'Previous')
