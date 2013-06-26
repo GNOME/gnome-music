@@ -22,7 +22,6 @@ const Lang = imports.lang;
 const Gtk = imports.gi.Gtk;
 const Gd = imports.gi.Gd;
 const Gio = imports.gi.Gio;
-const Gst = imports.gi.Gst;
 const GLib = imports.gi.GLib;
 const Tracker = imports.gi.Tracker;
 
@@ -84,14 +83,11 @@ const MainWindow = new Lang.Class({
 
         let key = parameters.get_child_value(1).get_string()[0];
         if (key == 'Play')
-            if (this.player.player.get_state(1)[1] != Gst.State.PLAYING)
-                this.player.play();
-            else
-                this.player.pause();
+            this.player.PlayPause();
         else if (key == 'Next')
-            this.player.playNext();
+            this.player.Next();
         else if (key == 'Previous')
-            this.player.playPrevious();
+            this.player.Previous();
     },
 
     _setupView: function () {
