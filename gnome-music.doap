@@ -16,4 +16,11 @@
       <gnome:userid>seiflotfy</gnome:userid>
     </foaf:Person>
   </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Vadim Rutkovsky</foaf:name>
+      <foaf:mbox rdf:resource="mailto:vrutkovs@redhat.com" />
+      <gnome:userid>vrutkovsky</gnome:userid>
+    </foaf:Person>
+  </maintainer>
 </Project>
