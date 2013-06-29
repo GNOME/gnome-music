@@ -110,7 +110,7 @@ const Toolbar = new Lang.Class({
             'go-previous-rtl-symbolic' : 'go-previous-symbolic';
         this._backButton = new Gd.HeaderSimpleButton({ symbolic_icon_name: iconName,
                                                      label: _("Back") });
-        this._backButton.connect('clicked', Lang.bind(this, this.setState))
+        this._backButton.connect('clicked', Lang.bind(this, this.setState));
         this.pack_start(this._backButton);
     },
 
@@ -128,11 +128,17 @@ const Toolbar = new Lang.Class({
         this._selectButton.show();
     },
 
+    _closeButtonClicked: function() {
+        this._closeButton.get_toplevel().close();
+    },
+
     _addCloseButton: function() {
         this._closeSeparator = new Gtk.Separator({ orientation: Gtk.Orientation.VERTICAL });
         this.pack_end(this._closeSeparator);
 
-        this._closeButton = new Gd.HeaderCloseButton();
+        this._closeButton = new Gd.HeaderSimpleButton({ symbolic_icon_name: 'window-close-symbolic' });
+        this._closeButton.set_relief(Gtk.ReliefStyle.NONE);
+        this._closeButton.connect('clicked', Lang.bind(this, this._closeButtonClicked));
         this.pack_end(this._closeButton);
     }
 });
