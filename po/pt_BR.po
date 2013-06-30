@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the gnome-music package.
 # Rafael Ferreira <rafael.f.f1@gmail.com>, 2012, 2013.
 # Enrico Nicoletto <liverig@gmail.com>, 2013.
+# Georges Basile Stavracas Neto <georges.stavracas@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-05-20 09:34+0000\n"
-"PO-Revision-Date: 2013-05-20 06:45-0300\n"
+"POT-Creation-Date: 2013-06-27 09:38+0000\n"
+"PO-Revision-Date: 2013-06-27 23:22-0300\n"
 "Last-Translator: Georges Basile Stavracas Neto <georges.stavracas@gmail."
 "com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
@@ -53,7 +54,7 @@ msgstr "_Sobre Músicas"
 msgid "_Quit"
 msgstr "_Sair"
 
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:66
 msgid "Music"
 msgstr "Músicas"
 
@@ -90,12 +91,16 @@ msgid "Window maximized state"
 msgstr "Estado de janela maximizada"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Shuffle playback"
-msgstr "Embaralhar reprodução"
+msgid "Playback repeat mode"
+msgstr "Modo de repetição de reprodução"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
-msgid "If true, do randomized playback through the collection"
-msgstr "Se verdadeiro, realiza reprodução aleatória pela coleção"
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"O valor identifica se repete ou embaralha a reprodução pela coleção. Valores "
+"aceitos são: \"none\", \"song\", \"all\", \"shuffle\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -106,10 +111,26 @@ msgid "If true, the search bar is shown"
 msgstr "Se verdadeiro, a barra de pesquisa é mostrada"
 
 #: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Embaralhar"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Repetir tudo"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Repetir música"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Desligar embaralhar/repetir"
+
+#: ../data/PlayerToolbar.ui.h:5
 msgid "00:00"
 msgstr "00:00"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/PlayerToolbar.ui.h:6
 msgid "/"
 msgstr "/"
 
@@ -117,9 +138,20 @@ msgstr "/"
 msgid "No Music Found"
 msgstr "Nenhuma música localizada"
 
-#: ../src/toolbar.js:79
+#: ../src/toolbar.js:112
 msgid "Back"
 msgstr "Retornar"
+
+#: ../src/toolbar.js:119
+msgid "Search"
+msgstr "Pesquisar"
+
+#: ../src/toolbar.js:126
+msgid "Select"
+msgstr "Selecionar"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "Se verdadeiro, realiza reprodução aleatória pela coleção"
 
 #~ msgid "label"
 #~ msgstr "rótulo"
