@@ -132,7 +132,8 @@ const AlbumWidget = new Lang.Class({
                 if (this.model.get_value(iter, 7) != errorIconName) {
                     if (this.iterToClean && this.player.playlistId == this.album){
                         let item = this.model.get_value(this.iterToClean, 5);
-                        this.model.set_value(this.iterToClean, 0, item.get_title());
+                        let title = AlbumArtCache.getMediaTitle(item);
+                        this.model.set_value(this.iterToClean, 0, title);
                         // Hide now playing icon
                         this.model.set_value(this.iterToClean, 6, false);
                     }
@@ -249,7 +250,7 @@ const AlbumWidget = new Lang.Class({
                     tracks.push(track);
                     duration = duration + track.get_duration();
                     let iter = this.model.append();
-                    let escapedTitle = GLib.markup_escape_text(track.get_title(), -1);
+                    let escapedTitle = AlbumArtCache.getMediaTitle(track, true);
                     try{
                         this.player.discoverer.discover_uri(track.get_url());
                         this.model.set(iter,
@@ -323,7 +324,7 @@ const AlbumWidget = new Lang.Class({
         do{
             let song = playlist.get_value(iter, 5);
 
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
+            let escapedTitle = AlbumArtCache.getMediaTitle(song, true);
             if (song == currentSong){
                 title = "<b>" + escapedTitle + "</b>";
                 iconVisible = true;
@@ -413,7 +414,7 @@ const ArtistAlbums = new Lang.Class({
             if (!songWidget.can_be_played)
                 continue;
 
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
+            let escapedTitle = AlbumArtCache.getMediaTitle(song, true);
             if (song == currentSong){
                 songWidget.nowPlayingSign.show();
                 songWidget.title.set_markup("<b>" + escapedTitle + "</b>");
@@ -436,7 +437,7 @@ const ArtistAlbums = new Lang.Class({
         do{
             let song = this.model.get_value(iter, 5);
             let songWidget = song.songWidget;
-            let escapedTitle = GLib.markup_escape_text(song.get_title(), -1);
+            let escapedTitle = AlbumArtCache.getMediaTitle(song, true);
             if (songWidget.can_be_played)
                 songWidget.nowPlayingSign.hide();
             songWidget.title.set_markup("<span>" + escapedTitle + "</span>");
@@ -568,8 +569,8 @@ const ArtistAlbumWidget = new Lang.Class({
                     var songWidget = ui.get_object("eventbox1");
                     this.songs.push(songWidget);
                     ui.get_object("num").set_markup("<span color='grey'>"+this.songs.length.toString()+"</span>");
-                    if (track.get_title() != null)
-                        ui.get_object("title").set_text(track.get_title());
+                    let title = AlbumArtCache.getMediaTitle(track);
+                    ui.get_object('title').set_text(title);
                     //var songWidget = ui.get_object("duration").set_text(track.get_title());
                     ui.get_object("title").set_alignment(0.0, 0.5);
                     this.ui.get_object("grid1").attach(songWidget,
@@ -585,7 +586,7 @@ const ArtistAlbumWidget = new Lang.Class({
                         this.player.discoverer.discover_uri(track.get_url());
                         model.set(iter,
                             [0, 1, 2, 3, 4, 5],
-                            [ track.get_title(), "", "", false, nowPlayingIconName, track]);
+                            [ title, '', '', false, nowPlayingIconName, track]);
                         songWidget.nowPlayingSign = ui.get_object("image1");
                         songWidget.nowPlayingSign.set_from_icon_name(nowPlayingIconName, Gtk.IconSize.SMALL_TOOLBAR);
                         songWidget.nowPlayingSign.set_no_show_all("true");
@@ -598,7 +599,7 @@ const ArtistAlbumWidget = new Lang.Class({
                         log("failed to discover url " + track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5],
-                            [ track.get_title(), "", "", true, errorIconName, track ]);
+                            [ title, '', '', true, errorIconName, track ]);
                         songWidget.nowPlayingSign = ui.get_object("image1");
                         songWidget.nowPlayingSign.set_from_icon_name(errorIconName, Gtk.IconSize.SMALL_TOOLBAR);
                         songWidget.nowPlayingSign.set_alignment(0.0,0.6);

@@ -29,8 +29,33 @@ const Regex = GLib.Regex;
 const Path = GLib.Path;
 const Grl = imports.gi.Grl;
 
+const Gettext = imports.gettext;
+const _ = imports.gettext.gettext;
+
 const Grilo = imports.grilo;
 const grilo = Grilo.grilo;
+
+const InvalidChars = /[()<>\[\]{}_!@#$^&*+=|\\\/\"'?~]/g;
+const ReduceSpaces = /\t|\s+/g;
+
+function getMediaTitle(media, escaped=false) {
+    let title = media.get_title();
+    if (title)
+        return title;
+
+    let uri = media.get_url();
+    if (!uri)
+        return _("Untitled");
+
+    let file = Gio.File.new_for_path(uri),
+        basename = file.get_basename();
+
+    title = GLib.uri_unescape_string(basename, null);
+    if (escaped)
+        return GLib.markup_escape_text(title, -1);
+
+    return title;
+}
 
 const AlbumArtCache = new Lang.Class({
     Name: "AlbumArtCache",

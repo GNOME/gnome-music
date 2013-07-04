@@ -45,11 +45,6 @@ const nowPlayingIconName = 'media-playback-start-symbolic';
 const errorIconName = 'dialog-error-symbolic';
 const starIconName = 'starred-symbolic';
 
-function extractFileName(uri) {
-    var exp = /^.*[\\\/]|[.][^.]*$/g;
-    return unescape(uri.replace(exp, ''));
-}
-
 const albumArtCache = AlbumArtCache.AlbumArtCache.getDefault();
 const grilo = Grilo.grilo;
 
@@ -212,9 +207,6 @@ const ViewContainer = new Lang.Class({
                 artist = item.get_author();
             if (item.get_string(Grl.METADATA_KEY_ARTIST) != null)
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            if ((item.get_title() == null) && (item.get_url() != null)) {
-                item.set_title (extractFileName(item.get_url()));
-            }
             try{
                 if (item.get_url())
                     this.player.discoverer.discover_uri(item.get_url());
@@ -371,9 +363,6 @@ const Songs = new Lang.Class({
         if (item != null) {
             this._offset += 1;
             var iter = this._model.append();
-            if ((item.get_title() == null) && (item.get_url() != null)) {
-                item.set_title (extractFileName(item.get_url()));
-            }
             try{
                 if (item.get_url())
                     this.player.discoverer.discover_uri(item.get_url());
@@ -415,7 +404,7 @@ const Songs = new Lang.Class({
             titleRenderer.yalign = 0.5;
             titleRenderer.height = 48;
             titleRenderer.ellipsize = Pango.EllipsizeMode.END;
-            titleRenderer.text = item.get_title();
+            titleRenderer.text = AlbumArtCache.getMediaTitle(item);
         }))
         let starRenderer = new Gtk.CellRendererPixbuf({xpad: 32});
         listWidget.add_renderer(starRenderer,Lang.bind(this,function (col,cell,model,iter) {

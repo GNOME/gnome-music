@@ -322,16 +322,7 @@ const Player = new Lang.Class({
                 }
             }));
 
-        if (media.get_title() != null) {
-            this.titleLabel.set_label(media.get_title());
-        } else {
-            let url = media.get_url(),
-                file = GLib.File.new_for_path(url),
-                basename = file.get_basename(),
-                toShow = GLib.Uri.unescape_string(basename, null);
-
-            this.titleLabel.set_label(toShow);
-        }
+        this.titleLabel.set_label(AlbumArtCache.getMediaTitle(media));
 
         if (media.get_artist() != null)
             this.artistLabel.set_label(media.get_artist());
