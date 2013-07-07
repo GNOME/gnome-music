@@ -152,7 +152,7 @@ const MainWindow = new Lang.Class({
 
     _onNotifyMode: function(stack, param) {
         // Slide out artist list on switching to artists view
-        if(stack.get_visible_child().title == "Artists"){
+        if(stack.get_visible_child() == this.views[1]){
             stack.get_visible_child().stack.set_visible_child_name("dummy")
             stack.get_visible_child().stack.set_visible_child_name("artists")
         }
