@@ -32,9 +32,6 @@ const Grl = imports.gi.Grl;
 const Grilo = imports.grilo;
 const grilo = Grilo.grilo;
 
-const InvalidChars = /[()<>\[\]{}_!@#$^&*+=|\\\/\"'?~]/g;
-const ReduceSpaces = /\t|\s+/g;
-
 const AlbumArtCache = new Lang.Class({
     Name: "AlbumArtCache",
     Extends: GLib.Object,
@@ -151,35 +148,89 @@ const AlbumArtCache = new Lang.Class({
         }));
     },
 
-    normalizeAndHash: function(input, utf8Only, utf8) {
+    normalizeAndHash: function(input) {
         var normalized = " ";
 
         if (input != null && input != "") {
-            if (utf8Only) {
-                normalized = input;
-            }
-
-            else {
-                normalized = this.stripInvalidEntities(input);
-                normalized = normalized.toLowerCase();
-            }
-
-            if (utf8) {
-                normalized = GLib.utf8_normalize(normalized, -1, 2)
-            }
+            normalized = this.stripInvalidEntities(input);
+            normalized = GLib.utf8_normalize(normalized, -1, GLib.NormalizeMode.NFKD);
+            normalized = normalized.toLowerCase();
         }
 
         return GLib.compute_checksum_for_string(GLib.ChecksumType.MD5, normalized, -1);
     },
 
+    stripFindNextBlock: function(original, open_char, close_char) {
+        let open_pos = original.indexOf(open_char)
+        if (open_pos >= 0) {
+            let close_pos = original.indexOf(close_char, open_pos + 1);
+            if (close_pos >= 0) {
+                return [true, open_pos, close_pos];
+            }
+        }
+
+        return [false, -1, -1];
+    },
+
     stripInvalidEntities: function(original) {
-        var result = original;
+        let blocks_done = false;
+        let invalid_chars = /[()<>\[\]{}_!@#$^&*+=|\\\/\"'?~]/g;
+        let blocks = [
+                [ '(', ')' ],
+                [ '{', '}' ],
+                [ '[', ']' ],
+                [ '<', '>' ],
+            ];
+        let str_no_blocks = "";
+        let p = original;
+        var strv;
 
-        result = result
-            .replace(InvalidChars, '')
-            .replace(ReduceSpaces, ' ');
+        while (!blocks_done) {
+            let pos1 = -1;
+            let pos2 = -1;
 
-        return result;
+            for (let i = 0; i < blocks.length; i++) {
+                /* Go through blocks, find the earliest block we can */
+                let [success, start, end] = this.stripFindNextBlock(p, blocks[i][0], blocks[i][1]);
+                if (success) {
+                    if (pos1 == -1 || start < pos1) {
+                        pos1 = start;
+                        pos2 = end;
+                    }
+                }
+            }
+
+            /* If either are -1 we didn't find any */
+            if (pos1 == -1) {
+                /* This means no blocks were found */
+                str_no_blocks = str_no_blocks.concat(p);
+                blocks_done = true;
+            } else {
+                /* Append the test BEFORE the block */
+                if (pos1 > 0) {
+                    str_no_blocks = str_no_blocks.concat(p.substr(0,pos1));
+                }
+
+                p = p.substr(pos2+1);
+
+                /* Do same again for position AFTER block */
+                if (p.length == 0) {
+                    blocks_done = true;
+                }
+            }
+        }
+
+        /* Now convert chars to lower case */
+        let str = str_no_blocks.toLowerCase();
+
+        /* Now strip invalid chars */
+        str = str.replace(invalid_chars, '');
+
+        /* Now convert tabs and multiple spaces into space */
+        str = str.replace(/\t|\s+/g, ' ');
+
+        /* Now strip leading/trailing white space */
+        return str.trim();
     },
 
     getFromUri: function(uri, artist, album, width, height, callback) {
@@ -316,9 +367,7 @@ const AlbumArtCache = new Lang.Class({
 
     _keybuilder_funcs: [
         function (artist, album) { return "album-" + this.normalizeAndHash(artist) + "-" + this.normalizeAndHash(album); },
-        function (artist, album) { return "album-" + this.normalizeAndHash(artist, false, true) + "-" + this.normalizeAndHash(album, false, true); },
-        function (artist, album) { return "album-" + this.normalizeAndHash(" ", false, true) + "-" + this.normalizeAndHash(album, false, true); },
-        function (artist, album) { return "album-" + this.normalizeAndHash(artist + "\t" + album, true, true); }
+        function (artist, album) { return "album-" + this.normalizeAndHash(album) + "-" + this.normalizeAndHash(null); }
     ]
 
 });
