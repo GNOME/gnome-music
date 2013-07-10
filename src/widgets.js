@@ -245,7 +245,7 @@ const AlbumWidget = new Lang.Class({
                     tracks.push(track);
                     duration = duration + track.get_duration();
                     let iter = this.model.append();
-                    let escapedTitle = GLib.markup_escape_text(track.get_title(), track.get_title().length);
+                    let escapedTitle = GLib.markup_escape_text(track.get_title(), -1);
                     try{
                         this.player.discoverer.discover_uri(track.get_url());
                         this.model.set(iter,
