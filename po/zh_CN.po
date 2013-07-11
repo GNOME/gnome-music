@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-04-12 15:24+0000\n"
+"POT-Creation-Date: 2013-06-24 10:18+0000\n"
 "PO-Revision-Date: 2013-04-13 14:11+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "<span color='grey'>Released</span>"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "<span color='grey'>Running Length</span>"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--:--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -34,7 +50,7 @@ msgstr "关于 Music(_A)"
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:66
 msgid "Music"
 msgstr "音乐"
 
@@ -71,12 +87,14 @@ msgid "Window maximized state"
 msgstr "窗口最大化状态"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Shuffle playback"
-msgstr "随机播放"
+msgid "Playback repeat mode"
+msgstr ""
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
-msgid "If true, do randomized playback through the collection"
-msgstr "如果为真，则随机播放歌曲合集"
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -86,9 +104,50 @@ msgstr "搜索模式"
 msgid "If true, the search bar is shown"
 msgstr "如果为真，则显示搜索框"
 
-#: ../src/toolbar.js:79
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "随机播放"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "全部重播"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "重复播放"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "关闭随机/重复"
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "00:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr "/"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "没有找到音乐"
+
+#: ../src/toolbar.js:112
 msgid "Back"
 msgstr "后退"
+
+#: ../src/toolbar.js:119
+#, fuzzy
+#| msgid "Search mode"
+msgid "Search"
+msgstr "搜索模式"
+
+#: ../src/toolbar.js:126
+msgid "Select"
+msgstr "选择"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "如果为真，则随机播放歌曲合集"
 
 #~ msgid "_Change Address Book..."
 #~ msgstr "更改地址簿(_C)..."
