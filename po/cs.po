@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-13 15:03+0000\n"
-"PO-Revision-Date: 2013-06-16 21:12+0200\n"
+"POT-Creation-Date: 2013-07-12 16:30+0000\n"
+"PO-Revision-Date: 2013-07-12 21:14+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -53,7 +53,7 @@ msgstr "O _aplikaci Hudba"
 msgid "_Quit"
 msgstr "U_končit"
 
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:66
 msgid "Music"
 msgstr "Hudba"
 
@@ -111,41 +111,61 @@ msgid "If true, the search bar is shown"
 msgstr "Je-li zapnuto, je zobrazena vyhledávací lišta"
 
 #: ../data/PlayerToolbar.ui.h:1
-msgid "00:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "/"
-msgstr "/"
-
-#: ../data/PlayerToolbar.ui.h:3
 msgid "Shuffle"
 msgstr "Náhodně zamíchat"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Opakovat vše"
 
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Opakovat skladbu"
 
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Náhodně/opakování vypnuto"
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "00:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr "/"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Nenalezena žádná hudba"
 
-#: ../src/toolbar.js:81
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr "Zrušit výběr"
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Klikáním vyberte položky"
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Přidat do seznamu k přehrání"
+
+#: ../src/toolbar.js:133
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/toolbar.js:88
+#: ../src/toolbar.js:140
 msgid "Search"
 msgstr "Hledat"
 
-#: ../src/toolbar.js:95
+#: ../src/toolbar.js:147
 msgid "Select"
 msgstr "Vybrat"
