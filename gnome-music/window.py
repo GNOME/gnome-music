@@ -17,4 +17,6 @@ class Window(Gtk.ApplicationWindow):
             transition_type=Gtk.StackTransitionType.CROSSFADE,
             transition_duration=100,
             visible=true)
-        
+        self._box.pack_start(self._stack, True, True, 0)
+        this.add(self._box)
+        count = 1
