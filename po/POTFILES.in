@@ -6,6 +6,8 @@ data/org.gnome.Music.gschema.xml
 [type: gettext/glade]data/PlayerToolbar.ui
 [type: gettext/glade]data/TrackWidget.ui
 [type: gettext/glade]data/NoMusic.ui
+[type: gettext/glade]data/Headerbar.ui
+[type: gettext/glade]data/SelectionToolbar.ui
 src/albumArtCache.js
 src/application.js
 src/grilo.js
