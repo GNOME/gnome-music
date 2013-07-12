@@ -42,16 +42,28 @@ const ToolbarState = {
 
 const Toolbar = new Lang.Class({
     Name: 'MainToolbar',
-    Extends: Gtk.HeaderBar,
 
     _init: function() {
-        this.parent();
         this._stack_switcher = new Gtk.StackSwitcher ();
-        this.set_custom_title (null);
-        this._addBackButton();
-        this._addSearchButton();
-        this._addSelectButton();
-        this._addCloseButton();
+        this._ui = new Gtk.Builder();
+        this._ui.add_from_resource('/org/gnome/music/Headerbar.ui');
+        this.header_bar = this._ui.get_object("header-bar");
+        this._selectButton = this._ui.get_object("select-button");
+        this._cancelButton = this._ui.get_object("done-button");
+        this._backButton = this._ui.get_object("back-button");
+        this._closeSeparator = this._ui.get_object("close-button-separator");
+        this._closeButton = this._ui.get_object("close-button");
+        this._selectionMenu = this._ui.get_object("selection-menu");
+        this._selectionMenuButton = this._ui.get_object("selection-menu-button");
+        this._selectionMenuButton.set_relief(Gtk.ReliefStyle.NONE);
+        this.header_bar.custom_title = this._stack_switcher;
+        this._searchButton = this._ui.get_object("search-button");
+        this._backButton.connect('clicked', Lang.bind(this, this.setState));
+        this._closeButton.connect('clicked', Lang.bind(this, this._closeButtonClicked));
+    },
+
+    _closeButtonClicked: function() {
+        this._closeButton.get_toplevel().close();
     },
 
     set_stack: function(stack) {
@@ -65,10 +77,18 @@ const Toolbar = new Lang.Class({
     setSelectionMode: function(selectionMode) {
         this._selectionMode = selectionMode;
 
-        if (selectionMode)
-            this.get_style_context().add_class('selection-mode');
-        else
-            this.get_style_context().remove_class('selection-mode');
+        if (selectionMode){
+            this._selectButton.hide();
+            this._cancelButton.show();
+            this.header_bar.get_style_context().add_class('selection-mode');
+            this._cancelButton.get_style_context().remove_class('selection-mode');
+        }
+        else{
+            this.header_bar.get_style_context().remove_class('selection-mode');
+            this._selectButton.set_active(false);
+            this._selectButton.show();
+            this._cancelButton.hide();
+        }
 
         this._update();
     },
@@ -83,10 +103,10 @@ const Toolbar = new Lang.Class({
     _update: function() {
         if (this._state == ToolbarState.SINGLE ||
             this._selectionMode) {
-            this.custom_title = null;
+            this.header_bar.custom_title = null;
         } else {
             this.title = "";
-            this.custom_title = this._stack_switcher;
+            this.header_bar.custom_title = this._stack_switcher;
         }
 
         if (this._state == ToolbarState.SINGLE &&
@@ -96,6 +116,7 @@ const Toolbar = new Lang.Class({
             this._backButton.hide();
 
         if (this._selectionMode) {
+            this.header_bar.custom_title = this._selectionMenuButton;
             this._closeSeparator.hide();
             this._closeButton.hide();
         } else {
@@ -126,10 +147,6 @@ const Toolbar = new Lang.Class({
                                                         label: _("Select") });
         this.pack_end(this._selectButton);
         this._selectButton.show();
-    },
-
-    _closeButtonClicked: function() {
-        this._closeButton.get_toplevel().close();
     },
 
     _addCloseButton: function() {

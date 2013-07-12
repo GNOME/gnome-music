@@ -201,7 +201,7 @@ const AlbumWidget = new Lang.Class({
             }));
     },
 
-    update: function (artist, album, item, header_bar) {
+    update: function (artist, album, item, header_bar,selection_toolbar) {
         let released_date = item.get_publication_date();
         if (released_date != null) {
             this.ui.get_object("released_label_info").set_text(
@@ -270,10 +270,27 @@ const AlbumWidget = new Lang.Class({
             if(button.get_active()){
                 this.view.set_selection_mode(true);
                 header_bar.setSelectionMode(true);
+                this.player.eventBox.set_visible(false);
+                selection_toolbar.eventbox.set_visible(true);
+                selection_toolbar._add_to_playlist_button.sensitive = false;
             }else{
                 this.view.set_selection_mode(false);
                 header_bar.setSelectionMode(false);
+                header_bar.title = this.album;
+                selection_toolbar.eventbox.set_visible(false);
+                if(this.player.PlaybackStatus != 'Stopped' ){
+                    this.player.eventBox.set_visible(true);
+                }
             }
+        }));
+        header_bar._cancelButton.connect('clicked',Lang.bind(this,function(button){
+            this.view.set_selection_mode(false);
+            header_bar.setSelectionMode(false);
+            header_bar.header_bar.title = this.album;
+        }));
+        this.view.connect('view-selection-changed',Lang.bind(this,function(){
+            let items = this.view.get_selection();
+            selection_toolbar._add_to_playlist_button.sensitive = items.length > 0
         }));
         this.view.set_model(this.model);
         let escapedArtist = GLib.markup_escape_text(artist, -1);

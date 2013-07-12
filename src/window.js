@@ -99,9 +99,9 @@ const MainWindow = new Lang.Class({
         });
         this.views = [];
         this.player = new Player.Player();
-
+        this.selection_toolbar = new Player.SelectionToolbar();
         this.toolbar = new Toolbar.Toolbar();
-        this.set_titlebar(this.toolbar);
+        this.set_titlebar(this.toolbar.header_bar);
         this._stack = new Gtk.Stack({
             transition_type: Gtk.StackTransitionType.CROSSFADE,
             transition_duration: 100,
@@ -111,6 +111,7 @@ const MainWindow = new Lang.Class({
 
         this._box.pack_start(this._stack, true, true, 0);
         this._box.pack_start(this.player.eventBox, false, false, 0);
+        this._box.pack_start(this.selection_toolbar.eventbox,false, false, 0);
         this.add(this._box);
         let count = -1;
         let cursor = tracker.query(Query.songs_count, null)
@@ -118,10 +119,11 @@ const MainWindow = new Lang.Class({
             count = cursor.get_integer(0);
         if(count > 0)
         {
-        this.views[0] = new Views.Albums(this.toolbar, this.player);
-        this.views[1] = new Views.Artists(this.toolbar, this.player);
-        this.views[2] = new Views.Songs(this.toolbar, this.player);
-        this.views[3] = new Views.Playlists(this.toolbar, this.player);
+        this.views[0] = new Views.Albums(this.toolbar, this.selection_toolbar, this.player);
+        this.views[1] = new Views.Artists(this.toolbar, this.selection_toolbar, this.player);
+        this.views[2] = new Views.Songs(this.toolbar, this.selection_toolbar, this.player);
+        this.views[3] = new Views.Playlists(this.toolbar, this.selection_toolbar, this.player);
+
 
         for (let i in this.views) {
             this._stack.add_titled(
@@ -143,8 +145,7 @@ const MainWindow = new Lang.Class({
             this.views[0] = new Views.Empty(this.toolbar, this.player);
             this._stack.add_titled(this.views[0],"Empty","Empty");
         }
-
-        this.toolbar.show();
+        this.toolbar.header_bar.show();
         this.player.eventBox.show_all();
         this._box.show();
         this.show();

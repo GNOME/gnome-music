@@ -57,7 +57,7 @@ const ViewContainer = new Lang.Class({
     Name: "ViewContainer",
     Extends: Gtk.Stack,
 
-    _init: function(title, header_bar, use_stack) {
+    _init: function(title, header_bar, selection_toolbar, use_stack) {
         this.parent({transition_type: Gtk.StackTransitionType.CROSSFADE});
         this._grid = new Gtk.Grid({orientation: Gtk.Orientation.VERTICAL})
         this._iconWidth = -1
@@ -84,7 +84,7 @@ const ViewContainer = new Lang.Class({
         });
         this.view.set_view_type(Gd.MainViewType.ICON);
         this.view.set_model(this._model);
-
+        this.selection_toolbar = selection_toolbar;
         let _box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL});
         _box.pack_start(this.view, true, true, 0);
         if (use_stack){
@@ -111,10 +111,17 @@ const ViewContainer = new Lang.Class({
             if (button.get_active()) {
                 this.view.set_selection_mode(true);
                 this.header_bar.setSelectionMode(true);
+                this.selection_toolbar.eventbox.set_visible(true);
+                this.selection_toolbar._add_to_playlist_button.sensitive = false;
             } else {
                 this.view.set_selection_mode(false);
                 this.header_bar.setSelectionMode(false);
+                this.selection_toolbar.eventbox.set_visible(false);
             }
+        }));
+        header_bar._cancelButton.connect('clicked',Lang.bind(this,function(button){
+            this.view.set_selection_mode(false);
+            header_bar.setSelectionMode(false);
         }));
         this.title = title;
         this.add(this._grid)
@@ -136,6 +143,10 @@ const ViewContainer = new Lang.Class({
                 }));
         }));
         this.header_bar.connect('state-changed', Lang.bind(this, this._onStateChanged))
+        this.view.connect('view-selection-changed',Lang.bind(this,function(){
+            let items = this.view.get_selection();
+            this.selection_toolbar._add_to_playlist_button.sensitive = items.length > 0
+        }));
     },
 
     _populate: function() {
@@ -276,8 +287,8 @@ const Albums = new Lang.Class({
     Name: "AlbumsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar, player){
-        this.parent("Albums", header_bar);
+    _init: function(header_bar, selection_toolbar, player){
+        this.parent("Albums", header_bar,selection_toolbar);
         this.view.set_view_type(Gd.MainViewType.ICON);
         this.countQuery = Query.album_count;
         this._albumWidget = new Widgets.AlbumWidget (player);
@@ -296,10 +307,10 @@ const Albums = new Lang.Class({
         let title = this._model.get_value (iter, 2);
         let artist = this._model.get_value (iter, 3);
         let item = this._model.get_value (iter, 5);
-        this._albumWidget.update (artist, title, item, this.header_bar);
+        this._albumWidget.update (artist, title, item, this.header_bar,this.selection_toolbar);
         this.header_bar.setState (0);
-        this.header_bar.title = title;
-        this.header_bar.sub_title = artist;
+        this.header_bar.header_bar.title = title;
+        this.header_bar.header_bar.sub_title = artist;
         this.visible_child = this._albumWidget;
     },
 
@@ -314,8 +325,8 @@ const Songs = new Lang.Class({
     Name: "SongsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar, player) {
-        this.parent("Songs", header_bar);
+    _init: function(header_bar, selection_toolbar, player) {
+        this.parent("Songs", header_bar, selection_toolbar);
         this.countQuery = Query.songs_count;
         this._items = {};
         this.isStarred = null;
@@ -467,8 +478,8 @@ const Playlists = new Lang.Class({
     Name: "PlaylistsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar, player) {
-        this.parent("Playlists", header_bar);
+    _init: function(header_bar, selection_toolbar, player) {
+        this.parent("Playlists", header_bar, selection_toolbar);
     },
 });
 
@@ -476,8 +487,8 @@ const Artists = new Lang.Class({
     Name: "ArtistsView",
     Extends: ViewContainer,
 
-    _init: function(header_bar, player) {
-        this.parent("Artists", header_bar, true);
+    _init: function(header_bar, selection_toolbar ,player) {
+        this.parent("Artists", header_bar, selection_toolbar, true);
         this.player = player;
         this._artists = {};
         this.countQuery = Query.artist_count;

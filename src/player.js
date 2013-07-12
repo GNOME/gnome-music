@@ -803,3 +803,15 @@ const Player = new Lang.Class({
 
 });
 Signals.addSignalMethods(Player.prototype);
+
+const SelectionToolbar = new Lang.Class({
+        Name: 'SelectionToolbar',
+        _init: function() {
+            this._ui = new Gtk.Builder();
+            this._ui.add_from_resource('/org/gnome/music/SelectionToolbar.ui');
+            this.eventbox = this._ui.get_object("eventbox1");
+            this._add_to_playlist_button = this._ui.get_object("button1");
+            this.eventbox.set_visible(false);
+        }
+});
+Signals.addSignalMethods(SelectionToolbar.prototype);
