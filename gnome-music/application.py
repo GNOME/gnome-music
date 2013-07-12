@@ -16,7 +16,8 @@ class Application(Gtk.Application):
         Gtk.Application.startup(self)
 
     def do_activate(self):
-        self._window = Window(self)
+        if(!self._window):
+            self._window = Window(self)
         self._window.present()
 
     def Quit(self):
