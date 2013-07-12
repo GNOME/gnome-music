@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/gnome/music">
+    <file preprocess="xml-stripblanks">app-menu.ui</file>
+    <file>application.css</file>
+    <file preprocess="xml-stripblanks">AlbumWidget.ui</file>
+    <file preprocess="xml-stripblanks">ArtistAlbumWidget.ui</file>
+    <file preprocess="xml-stripblanks">ArtistAlbumsWidget.ui</file>
+    <file preprocess="xml-stripblanks">PlayerToolbar.ui</file>
+    <file preprocess="xml-stripblanks">SelectionToolbar.ui</file>
+    <file preprocess="xml-stripblanks">Headerbar.ui</file>
+    <file preprocess="xml-stripblanks">TrackWidget.ui</file>
+    <file preprocess="xml-stripblanks">NoMusic.ui</file>
+  </gresource>
+</gresources>
