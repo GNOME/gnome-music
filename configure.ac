@@ -22,6 +22,8 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 LT_INIT([disable-static])
 
+LIBGD_INIT([header-bar main-toolbar main-view stack revealer gir])
+
 PKG_PROG_PKG_CONFIG([0.22])
 
 GLIB_GSETTINGS

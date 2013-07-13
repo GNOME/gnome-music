@@ -33,6 +33,33 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Description */
+#undef LIBGD_HEADER_BAR
+
+/* Description */
+#undef LIBGD_MAIN_ICON_VIEW
+
+/* Description */
+#undef LIBGD_MAIN_LIST_VIEW
+
+/* Description */
+#undef LIBGD_MAIN_TOOLBAR
+
+/* Description */
+#undef LIBGD_MAIN_VIEW
+
+/* Description */
+#undef LIBGD_REVEALER
+
+/* Description */
+#undef LIBGD_STACK
+
+/* Description */
+#undef LIBGD__HEADER_BUTTON
+
+/* Description */
+#undef LIBGD__VIEW_COMMON
+
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */
 #undef LT_OBJDIR
