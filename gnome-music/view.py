@@ -1,7 +1,7 @@
 from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf
 import grilo
 import widgets as Widgets
-import query as Query
+from query import Query
 import albumArtCache
 import tracker
 
@@ -224,7 +224,7 @@ class Albums(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
         ViewContainer.__init__("Albums", headerBar, selectionToolbar)
         self.view.set_view_type(Gd.MainViewType.ICON)
-        self.countQuery = Query.album_count
+        self.countQuery = Query.ALBUMS_COUNT
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
         self.headerBar.setState(1)
@@ -253,7 +253,7 @@ class Albums(ViewContainer):
 class Songs(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
         ViewContainer.__init__("Songs", headerBar, selectionToolbar)
-        self.countQuery = Query.songs_count
+        self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
         self.view.set_view_type(Gd.MainViewType.LIST)
@@ -385,7 +385,7 @@ class Artists (ViewContainer):
         ViewContainer.__init__("Artists", headerBar, selectionToolbar, True)
         self.player = player
         self._artists = {}
-        self.countQuery = Query.artist_count
+        self.countQuery = Query.ARTISTS_COUNT
         self._artistAlbumsWidget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE
         )
