@@ -1,6 +1,21 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf
+import grilo
+import widgets as Widgets
+import query as Query
+import albumArtCache
+import tracker
+
+
+def extractFileName(uri):
+    exp = "^.*[\\\/]|[.][^.]*$"
+    return uri.replace(exp, '')
+
 
 class ViewContainer(Gtk.Stack):
+    nowPlayingIconName = 'media-playback-start-symbolic'
+    errorIconName = 'dialog-error-symbolic'
+    starIconName = 'starred-symbolic'
+
     def __init__(self, title, headerBar, selectionToolbar, useStack):
         Gtk.Stack.__init__(self, transition_type=Gtk.StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.VERTICAL)
@@ -29,7 +44,7 @@ class ViewContainer(Gtk.Stack):
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.view.set_model(self._model)
         self.selectionToolbar = selectionToolbar
-        box = Gtk.Box({orientation: Gtk.Orientation.VERTICAL})
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
         if useStack:
             self.stack = Gd.Stack(
@@ -37,7 +52,7 @@ class ViewContainer(Gtk.Stack):
             )
             dummy = Gtk.Frame(visible=False)
             self.stack.add_named(dummy, "dummy")
-            self.stack.add_named(_box, "artists")
+            self.stack.add_named(box, "artists")
             self.stack.set_visible_child_name("dummy")
             self._grid.add(self.stack)
         else:
@@ -63,7 +78,7 @@ class ViewContainer(Gtk.Stack):
         self._symbolicIcon = albumArtCache.makeDefaultIcon(self._iconHeight, self._iconWidth)
 
         self._init = False
-        grilo.connect('ready', _onGriloReady)
+        grilo.connect('ready', self._onGriloReady)
         self.header_bar.connect('state-changed', self._onStateChanged)
         self.view.connect('view-selection-changed', self._onViewSelectionChanged)
 
@@ -80,13 +95,12 @@ class ViewContainer(Gtk.Stack):
 
     def _onCancelButtonClicked(self, button):
         self.view.set_selection_mode(False)
-        headerBar.setSelectionMode(False)
+        self.headerBar.setSelectionMode(False)
 
-    def _onGriloRead(self):
-        if (self.headerBar.get_stack().get_visible_child() == self and self._init == False):
+    def _onGriloReady(self):
+        if (self.headerBar.get_stack().get_visible_child() == self and self._init is False):
             self._populate()
-        self.headerBar.get_stack().connect('notify::visible-child',
-            self._onHeaderBarVisible)
+        self.headerBar.get_stack().connect('notify::visible-child', self._onHeaderBarVisible)
 
     def _onHeaderBarVisible(self, widget, param):
         if self == widget.get_visible_child() and self._init:
@@ -118,7 +132,6 @@ class ViewContainer(Gtk.Stack):
 
         self._onScrolledWinChange()
 
-
     def _onScrolledWinChange(self):
         vScrollbar = self.view.get_vscrollbar()
         adjustment = self.view.vadjustment
@@ -147,7 +160,7 @@ class ViewContainer(Gtk.Stack):
         pass
 
     def _addItem(self, source, param, item):
-        if item != None:
+        if item is not None:
             self._offset += 1
             iter = self._model.append()
             artist = "Unknown"
@@ -155,35 +168,31 @@ class ViewContainer(Gtk.Stack):
                 artist = item.get_author()
             if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            if (item.get_title() == None) and (item.get_url() is not None):
-                item.set_title (extractFileName(item.get_url()))
+            if (item.get_title() is None) and (item.get_url() is not None):
+                item.set_title(extractFileName(item.get_url()))
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
-                self._model.set(
-                        iter,
-                        [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                        [toString(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, nowPlayingIconName, False, False]
-                    )
+                self._model.set(iter,
+                                [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                                [str(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, self.nowPlayingIconName, False, False])
             except:
                 print("failed to discover url " + item.get_url())
-                self._model.set(
-                        iter,
-                        [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                        [toString(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, errorIconName, False, True]
-                    )
-            GLib.idle_add(300, lambda item,iter: self._updateAlbumArt, item, iter)
+                self._model.set(iter,
+                                [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                                [str(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, self.errorIconName, False, True])
+            GLib.idle_add(300, lambda item, iter: self._updateAlbumArt, item, iter)
 
     def _getRemainingItemCount(self):
         count = -1
-        if self.countQuery != None:
+        if self.countQuery is not None:
             cursor = tracker.query(self.countQuery, None)
-            if cursor != None and cursor.next(None):
+            if cursor is not None and cursor.next(None):
                 count = cursor.get_integer(0)
         return count - self._offset
 
-    def _updateAlbumArt(self,item, iter):
-        albumArtCache.lookupOrResolve(item, self._iconWidth, self._iconHeight, _albumArtCacheLookUp)
+    def _updateAlbumArt(self, item, iter):
+        albumArtCache.lookupOrResolve(item, self._iconWidth, self._iconHeight, self._albumArtCacheLookUp)
         return False
 
     def _albumArtCacheLookUp(self, icon):
@@ -199,6 +208,7 @@ class ViewContainer(Gtk.Stack):
     def _onItemActivated(self, widget, id, path):
         pass
 
+
 #Class for the Empty View
 class Empty(Gtk.Stack):
     def __init__(self, headerBar, player):
@@ -209,33 +219,36 @@ class Empty(Gtk.Stack):
         self.add(widget)
         self.show_all()
 
+
 class Albums(ViewContainer):
-    def __init__(self, HeaderBar, selectionToolbar, player):
-        ViewContainer.__init__("Albums", headerBar,selectionToolbar)
+    def __init__(self, headerBar, selectionToolbar, player):
+        ViewContainer.__init__("Albums", headerBar, selectionToolbar)
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.countQuery = Query.album_count
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
-        self.headerBar.setState (1)
+        self.headerBar.setState(1)
 
     def _onStateChanged(self, widget):
-        if (self.headerBar.get_stack() not None and self == self.headerBar.get_stack().get_visible_child()):
+        if (self.headerBar.get_stack() is not None) and \
+           (self == self.headerBar.get_stack().get_visible_child()):
             self.visible_child = self._grid
 
     def _onItemActivated(self, widget, id, path):
-        iter = self._model.get_iter (path)[1]
-        title = self._model.get_value (iter, 2)
-        artist = self._model.get_value (iter, 3)
-        item = self._model.get_value (iter, 5)
-        self._albumWidget.update (artist, title, item, self.headerBar,self.selectionToolbar)
-        self.headerBar.setState (0)
+        iter = self._model.get_iter(path)[1]
+        title = self._model.get_value(iter, 2)
+        artist = self._model.get_value(iter, 3)
+        item = self._model.get_value(iter, 5)
+        self._albumWidget.update(artist, title, item, self.headerBar, self.selectionToolbar)
+        self.headerBar.setState(0)
         self.headerBar.header_bar.title = title
         self.headerBar.header_bar.sub_title = artist
         self.visible_child = self._albumWidget
 
     def populate(self):
-        if grilo.tracker != None:
-            grilo.populateAlbums (self._offset, self._addItem, None)
+        if grilo.tracker is not None:
+            grilo.populateAlbums(self._offset, self._addItem, None)
+
 
 class Songs(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
@@ -250,11 +263,11 @@ class Songs(ViewContainer):
         self._symbolicIcon = albumArtCache.makeDefaultIcon(self._iconHeight, self._iconWidth)
         self._addListRenderers()
         self.player = player
-        self.player.connect('playlist-item-changed', Lang.bind(self, self.updateModel))
+        self.player.connect('playlist-item-changed', self.updateModel)
 
     def _onItemActivated(self, widget, id, path):
         iter = self._model.get_iter(path)[1]
-        if self._model.get_value(iter, 8) != errorIconName:
+        if self._model.get_value(iter, 8) != self.errorIconName:
             self.player.setPlaylist("Songs", None, self._model, iter, 5)
             self.player.setPlaying(True)
 
@@ -269,26 +282,22 @@ class Songs(ViewContainer):
         return False
 
     def _addItem(self, source, param, item):
-        if item != None:
+        if item is not None:
             self._offset += 1
             iter = self._model.append()
-            if (item.get_title() == None) and (item.get_url() != None):
-                item.set_title (extractFileName(item.get_url()))
+            if (item.get_title() is None) and (item.get_url() is not None):
+                item.set_title(extractFileName(item.get_url()))
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
-                self._model.set(
-                        iter,
-                        [5, 8, 9, 10],
-                        [item, nowPlayingIconName, false, false]
-                    )
+                self._model.set(iter,
+                                [5, 8, 9, 10],
+                                [item, self.nowPlayingIconName, False, False])
             except:
                 print("failed to discover url " + item.get_url())
-                self._model.set(
-                        iter,
-                        [5, 8, 9, 10],
-                        [item, errorIconName, False, True]
-                    )
+                self._model.set(iter,
+                                [5, 8, 9, 10],
+                                [item, self.errorIconName, False, True])
 
     def _addListRenderers(self):
         listWidget = self.view.get_generic_view()
@@ -321,54 +330,55 @@ class Songs(ViewContainer):
         listWidget.add_renderer(typeRenderer, self._onListWidgetTypeRender)
 
     def _onListWidgetTitleRender(self, col, cell, model, iter):
-        item = model.get_value(iter,5)
-        titleRenderer.xalign = 0.0
-        titleRenderer.yalign = 0.5
-        titleRenderer.height = 48
-        titleRenderer.ellipsize = Pango.EllipsizeMode.END
-        titleRenderer.text = item.get_title()
+        item = model.get_value(iter, 5)
+        self.xalign = 0.0
+        self.yalign = 0.5
+        self.height = 48
+        self.ellipsize = Pango.EllipsizeMode.END
+        self.text = item.get_title()
 
     def _onListWidgetStarRender(self, col, cell, model, iter):
         showstar = model.get_value(iter, 9)
         if(showstar):
-            starRenderer.icon_name = starIconName
+            self.icon_name = self.starIconName
         else:
-            starRenderer.pixbuf = None
+            self.pixbuf = None
 
     def _onListWidgetDurationRender(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
-            duration = item.get_duration ()
-            minutes = parseInt(duration / 60)
+            duration = item.get_duration()
+            minutes = int(duration / 60)
             seconds = duration % 60
             time = None
             if seconds < 10:
-                time =  minutes + ":0" + seconds
+                time = minutes + ":0" + seconds
             else:
                 time = minutes + ":" + seconds
-            durationRenderer.xalign = 1.0
-            durationRenderer.text = time
+            self.xalign = 1.0
+            self.text = time
 
     def _onListWidgetArtistRender(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
-            artistRenderer.ellipsize = Pango.EllipsizeMode.END
-            artistRenderer.text = item.get_string(Grl.METADATA_KEY_ARTIST)
+            self.ellipsize = Pango.EllipsizeMode.END
+            self.text = item.get_string(Grl.METADATA_KEY_ARTIST)
 
     def _onListWidgetTypeRender(self, coll, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
-            typeRenderer.ellipsize = Pango.EllipsizeMode.END
-            typeRenderer.text = item.get_string(Grl.METADATA_KEY_ALBUM)
+            self.ellipsize = Pango.EllipsizeMode.END
+            self.text = item.get_string(Grl.METADATA_KEY_ALBUM)
 
     def populate(self):
-        if grilo.tracker != None:
-            grilo.populateSongs (self._offset, lambda: self._addItem, None)
+        if grilo.tracker is not None:
+            grilo.populateSongs(self._offset, lambda: self._addItem, None)
 
 
 class Playlist(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
         ViewContainer.__init__("Playlists", headerBar, selectionToolbar)
+
 
 class Artists (ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
@@ -384,7 +394,7 @@ class Artists (ViewContainer):
         self._artistAlbumsWidget.set_hexpand(True)
         self.view.get_style_context().add_class("artist-panel")
         self.view.get_generic_view().get_selection().set_mode(Gtk.SelectionMode.SINGLE)
-        self._grid.attach(Gtk.Separator({orientation: Gtk.Orientation.VERTICAL}), 1, 0, 1, 1)
+        self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL), 1, 0, 1, 1)
         self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
         self._addListRenderers()
         if Gtk.Settings.get_default().gtk_application_prefer_dark_theme:
@@ -421,17 +431,18 @@ class Artists (ViewContainer):
         typeRenderer.yalign = 0.5
         typeRenderer.height = 48
         typeRenderer.width = 220
-        listWidget.add_renderer(typeRenderer, lambda col, cell, model, iter:
-                typeRenderer.text = model.get_value(iter, 0)
-        )
 
+        def type_render(self, col, cell, model, iter):
+            self.text = model.get_value(iter, 0)
+
+        listWidget.add_renderer(typeRenderer, type_render)
 
     def _onItemActivated(self, widget, id, path):
         children = self._artistAlbumsWidget.get_children()
         for i in children.length:
             self._artistAlbumsWidget.remove(children[i])
-        iter = self._model.get_iter (path)[1]
-        artist = self._model.get_value (iter, 0)
+        iter = self._model.get_iter(path)[1]
+        artist = self._model.get_value(iter, 0)
         albums = self._artists[artist.toLowerCase()]["albums"]
         self.artistAlbums = None
         if self._model.get_string_from_iter(iter) == self._model.get_string_from_iter(self._allIter):
@@ -442,14 +453,14 @@ class Artists (ViewContainer):
 
     def _addItem(self, source, param, item):
         self._offset += 1
-        if item == None:
+        if item is None:
             return
         artist = "Unknown"
-        if item.get_author() != None:
+        if item.get_author() is not None:
             artist = item.get_author()
-        if item.get_string(Grl.METADATA_KEY_ARTIST) != None:
+        if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-        if self._artists[artist.toLowerCase()] == undefined:
+        if not self._artists[artist.toLowerCase()]:
             iter = self._model.append()
             self._artists[artist.toLowerCase()] = {"iter": iter, "albums": []}
             self._model.set(
@@ -460,10 +471,8 @@ class Artists (ViewContainer):
 
         self._artists[artist.toLowerCase()]["albums"].append(item)
         self.emit("artist-added")
-    },
 
     def populate(self):
-        if grilo.tracker != None:
+        if grilo.tracker is not None:
             grilo.populateArtists(self._offset, lambda: self._addItem, None)
             #FIXME: We're emitting self too early, need to wait for all artists to be filled in
-
