@@ -1,15 +1,15 @@
-import os
 import sys
 from gi.repository import Gtk, Gio, GLib
 
 from window import Window
 
+
 class Application(Gtk.Application):
     def __init__(self):
         Gtk.Application.__init__(self,
-            application_id='org.gnome.Music',
-            flags=Gio.ApplicationFlags.FLAGS_NONE,
-            inactivity_timeout=12000)
+                                 application_id='org.gnome.Music',
+                                 flags=Gio.ApplicationFlags.FLAGS_NONE,
+                                 inactivity_timeout=12000)
         GLib.set_application_name("Music")
 
     def do_startup(self):
@@ -20,8 +20,8 @@ class Application(Gtk.Application):
             self._window = Window(self)
         self._window.present()
 
-    def Quit(self):
-        this.quit();
+    def quit(self):
+        self.quit()
 
 if __name__ == '__main__':
     app = Application()
