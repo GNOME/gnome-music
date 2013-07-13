@@ -1,5 +1,12 @@
 from gi.repository import Gtk
-import ToolbarState
+
+
+class ToolbarState:
+    SINGLE = 0
+    ALBUMS = 1
+    ARTISTS = 2
+    PLAYLISTS = 3
+    SONGS = 4
 
 
 class Toolbar():
