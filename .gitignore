@@ -65,3 +65,9 @@ libgd/
 /gnome-music/Makefile
 /gnome-music/Makefile.in
 /py-compile
+*.tar.xz
+*.desktop
+*.gresource
+*.compiled
+data/Makefile
+data/Makefile.in
