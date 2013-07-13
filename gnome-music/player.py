@@ -95,7 +95,7 @@ class Player():
             nextTrack = self.playlist.iter_next(nextTrack) ? nextTrack : None
         elif self.repeat == RepeatType.SHUFFLE:
             nextTrack = self.playlist.get_iter_first()[1]
-            let rows = self.playlist.iter_n_children(null)
+            let rows = self.playlist.iter_n_children(None)
             let random = Math.floor(Math.random() * rows)
             for i in random:
                 self.playlist.iter_next(nextTrack)
@@ -125,10 +125,10 @@ class Player():
                 previousTrack = self._getIterLast()
         elif self.repeat = RepeatType.NONE:
             previousTrack = currentTrack.copy()
-            previousTrack = self.playlist.iter_previous(previousTrack) ? previousTrack : null
+            previousTrack = self.playlist.iter_previous(previousTrack) ? previousTrack : None
         elif self.repeat = RepeatType.SHUFFLE:
             previousTrack = self.playlist.get_iter_first()[1]
-            rows = self.playlist.iter_n_children(null)
+            rows = self.playlist.iter_n_children(None)
             random = Math.floor(Math.random() * rows)
             for i in random:
                 self.playlist.iter_next(previousTrack)
@@ -241,7 +241,7 @@ class Player():
 
     def play(self):
         if (self.playlist == None)
-            return True
+            return
 
         if self.player.get_state(1)[1] != Gst.State.PAUSED:
             self.stop()
@@ -287,10 +287,10 @@ class Player():
 
     def playPrevious(self):
         if self.playlist == None:
-            return True
+            return
 
         if !self.prevBtn.sensitive:
-            return True
+            return
 
         self.stop()
         self.currentTrack = self._getPreviousTrack()
@@ -392,7 +392,7 @@ class Player():
         self.progressScale.set_range(0.0, duration*60)
 
     def _updatePositionCallback(self):
-        position = self.player.query_position(Gst.Format.TIME, null)[1]/1000000000
+        position = self.player.query_position(Gst.Format.TIME, None)[1]/1000000000
         if position >= 0:
             self.progressScale.set_value(position * 60)
         return True
@@ -455,9 +455,9 @@ class Player():
     def SeekAsync(self, params, invocation):
         offset = params
 
-        duration = self.player.query_duration(Gst.Format.TIME, null)
+        duration = self.player.query_duration(Gst.Format.TIME, None)
         if !duration:
-            return False
+            return
 
         if offset < 0:
             offset = 0
@@ -472,11 +472,11 @@ class Player():
         trackId, position = params
 
         if self.currentTrack == None:
-            return True
+            return
 
         media = self.playlist.get_value(self.currentTrack, self.playlistField)
         if trackId != '/org/mpris/MediaPlayer2/Track/' + media.get_id():
-            return True
+            return
 
         duration = self.player.query_duration(Gst.Format.TIME, None)
         if duration && position >= 0 && duration[1] >= position * 1000:

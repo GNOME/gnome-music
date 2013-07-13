@@ -17,7 +17,7 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(settings.create_action('repeat'))
         self.set_size_request(887, 640)
         self._setupView()
-        self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, null),
+        self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
                                             None,
                                             'org.gnome.SettingsDaemon',
@@ -28,7 +28,7 @@ class Window(Gtk.ApplicationWindow):
                              GLib.Variant.new('(su)', 'Music'),
                              Gio.DBusCallFlags.NONE,
                              -1,
-                             null);
+                             None);
         self.proxy.connect('g-signal', self._handleMediaKeys)
 
     def _windowsFocusCb(self, window, event):
@@ -70,7 +70,7 @@ class Window(Gtk.ApplicationWindow):
         self.add(self._box)
         count = 1
         cursor = tracker.query(Query.songs_count, None)
-        if cursor!= null && cursor.next(None):
+        if cursor!= None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
             self.views[0] = Views.Albums(self.toolbar, self.selectionToolbar, self.player)
