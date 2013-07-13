@@ -1,9 +1,9 @@
-from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf
+from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf, Tracker
 from grilo import grilo
 import widgets as Widgets
 from query import Query
 import albumArtCache
-import tracker
+tracker = Tracker.SparqlConnection.get(None)
 
 
 def extractFileName(uri):

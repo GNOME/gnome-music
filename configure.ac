@@ -38,5 +38,6 @@ AC_CONFIG_FILES([
   data/Makefile
   gnome-music/Makefile
   po/Makefile.in
+  libgd/Makefile
 ])
 AC_OUTPUT

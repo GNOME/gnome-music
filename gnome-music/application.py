@@ -1,4 +1,3 @@
-import sys
 from gi.repository import Gtk, Gio, GLib
 
 from window import Window
@@ -22,7 +21,3 @@ class Application(Gtk.Application):
 
     def quit(self):
         self.quit()
-
-if __name__ == '__main__':
-    app = Application()
-    sys.exit(app.run(sys.argv))
