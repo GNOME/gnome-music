@@ -1,4 +1,6 @@
 from gi.repository import Gtk
+import ToolbarState
+
 
 class Toolbar():
     def __init__(self):
@@ -13,10 +15,10 @@ class Toolbar():
         self._closeButton = self._ui.get_object("close-button")
         self._selectionMenu = self._ui.get_object("selection-menu")
         self._selectionMenuButton = self._ui.get_object("selection-menu-button")
-        self._selectionMenuButton.set_relief(Gtk.ReliefStyle.NONE);
-        self.headerBar.custom_title = self._stackSwitcher;
+        self._selectionMenuButton.set_relief(Gtk.ReliefStyle.NONE)
+        self.headerBar.custom_title = self._stackSwitcher
         self._searchButton = self._ui.get_object("search-button")
-        self._backButton.connect('clicked',self.setState)
+        self._backButton.connect('clicked', self.setState)
         self._closeButton.connect('clicked', self._closeButtonClicked)
 
     def _closeButtonClicked(self, btn):
@@ -37,7 +39,7 @@ class Toolbar():
             self._cancelButton.get_style_context().remove_class('selection-mode')
         else:
             self.headerBar.get_style_context().remove_class('selection-mode')
-            self._selectButton.set_active(false)
+            self._selectButton.set_active(False)
             self._selectButton.show()
             self._cancelButton.hide()
         self._update()
@@ -62,7 +64,7 @@ class Toolbar():
         if (self._selectionMode):
             self.headerBar.custom_title = self._selectionMenuButton
             self._closeSeparator.hide()
-            self._closeButton.hide();
+            self._closeButton.hide()
         else:
             self._closeSeparator.show()
             self._closeButton.show()
