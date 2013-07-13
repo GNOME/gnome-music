@@ -1,5 +1,5 @@
 from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf
-import grilo
+from grilo import grilo
 import widgets as Widgets
 from query import Query
 import albumArtCache
