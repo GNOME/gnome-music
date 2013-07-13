@@ -29,7 +29,7 @@ class ViewContainer(Gtk.Stack):
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.view.set_model(self._model)
         self.selectionToolbar = selectionToolbar
-        box = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL})
+        box = Gtk.Box({orientation: Gtk.Orientation.VERTICAL})
         box.pack_start(self.view, True, True, 0)
         if useStack:
             self.stack = Gd.Stack(
@@ -43,7 +43,7 @@ class ViewContainer(Gtk.Stack):
         else:
             self._grid.add(box)
 
-        self._loadMore = new Widgets.LoadMoreButton(self._getRemainingItemCount)
+        self._loadMore = Widgets.LoadMoreButton(self._getRemainingItemCount)
         box.pack_end(self._loadMore.widget, False, False, 0)
         self._loadMore.widget.connect("clicked", self.populate)
         self.view.connect('item-activated', self._onItemActivated)
@@ -83,13 +83,13 @@ class ViewContainer(Gtk.Stack):
         headerBar.setSelectionMode(False)
 
     def _onGriloRead(self):
-        if self.headerBar.get_stack().get_visible_child() == self and self._init == False)
+        if (self.headerBar.get_stack().get_visible_child() == self and self._init == False):
             self._populate()
         self.headerBar.get_stack().connect('notify::visible-child',
             self._onHeaderBarVisible)
 
     def _onHeaderBarVisible(self, widget, param):
-        if self == widget.get_visible_child() and !self._init:
+        if self == widget.get_visible_child() and self._init:
             self._populate()
 
     def _onViewSelectionChanged(self):
@@ -215,7 +215,7 @@ class Albums(ViewContainer):
         ViewContainer.__init__("Albums", headerBar,selectionToolbar)
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.countQuery = Query.album_count
-        self._albumWidget = new Widgets.AlbumWidget(player)
+        self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
         self.headerBar.setState (1)
 
@@ -297,8 +297,8 @@ class Songs(ViewContainer):
         cols = listWidget.get_columns()
         cells = cols[0].get_cells()
         cells[2].visible = False
-        nowPlayingSymbolRenderer = new Gtk.CellRendererPixbuf()
-        columnNowPlaying = new Gtk.TreeViewColumn()
+        nowPlayingSymbolRenderer = Gtk.CellRendererPixbuf()
+        columnNowPlaying = Gtk.TreeViewColumn()
         nowPlayingSymbolRenderer.xalign = 1.0
         columnNowPlaying.pack_start(nowPlayingSymbolRenderer, False)
         columnNowPlaying.fixed_width = 24
@@ -306,9 +306,9 @@ class Songs(ViewContainer):
         columnNowPlaying.add_attribute(nowPlayingSymbolRenderer, "icon_name", 8)
         listWidget.insert_column(columnNowPlaying, 0)
 
-        titleRenderer = new Gtk.CellRendererText(xpad=0)
+        titleRenderer = Gtk.CellRendererText(xpad=0)
         listWidget.add_renderer(titleRenderer, self._onListWidgetTitleRender)
-        starRenderer = new Gtk.CellRendererPixbuf(xpad=32)
+        starRenderer = Gtk.CellRendererPixbuf(xpad=32)
         listWidget.add_renderer(starRenderer, self._onListWidgetStarRender)
         durationRenderer = Gd.StyledTextRenderer(xpad=32)
         durationRenderer.add_class('dim-label')
@@ -386,7 +386,7 @@ class Artists (ViewContainer):
         self._artistAlbumsWidget.set_hexpand(True)
         self.view.get_style_context().add_class("artist-panel")
         self.view.get_generic_view().get_selection().set_mode(Gtk.SelectionMode.SINGLE)
-        self._grid.attach(new Gtk.Separator({orientation: Gtk.Orientation.VERTICAL}), 1, 0, 1, 1)
+        self._grid.attach(Gtk.Separator({orientation: Gtk.Orientation.VERTICAL}), 1, 0, 1, 1)
         self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
         self._addListRenderers()
         if Gtk.Settings.get_default().gtk_application_prefer_dark_theme:

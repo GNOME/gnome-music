@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gd
+from gi.repository import Gtk
 
 class Toolbar():
     def __init__(self):
@@ -22,7 +22,7 @@ class Toolbar():
     def _closeButtonClicked(self, btn):
         self._closeButton.get_toplevel().close()
 
-    def set_stack(self, stack)
+    def set_stack(self, stack):
         self._stackSwitcher.set_stack(stack)
 
     def get_stack(self):
@@ -42,7 +42,7 @@ class Toolbar():
             self._cancelButton.hide()
         self._update()
 
-    def setState(self, state, *btn=None):
+    def setState(self, state, btn=None):
         self._state = state
         self._update()
         self.emit('state-changed')
@@ -54,7 +54,7 @@ class Toolbar():
             self.title = ""
             self.headerBar.custom_title = self._stackSwitcher
 
-        if (self._state == ToolbarState.SINGLE and !self._selectionMode):
+        if (self._state == ToolbarState.SINGLE and self._selectionMode is not None):
             self._backButton.show()
         else:
             self._backButton.hide()
@@ -66,33 +66,3 @@ class Toolbar():
         else:
             self._closeSeparator.show()
             self._closeButton.show()
-
-    def _addBackButton(self):
-        iconName = (self.get_direction() == Gtk.TextDirection.RTL) ?
-            'go-previous-rtl-symbolic' : 'go-previous-symbolic'
-        self._backButton = Gd.HeaderSimpleButton(symbolic_icon_name=iconName,
-                                                     label=_("Back"))
-        self._backButton.connect('clicked', self.setState);
-        self.pack_start(self._backButton, False, False, 0);
-
-    def _addSearchButton(self):
-        self._searchButton = Gd.HeaderSimpleButton(symbolic_icon_name='folder-saved-search-symbolic',
-                                                        label=_("Search"))
-        self.pack_end(self._searchButton)
-        self._searchButton.show()
-
-    def _addSelectButton(self):
-        self._selectButton = Gd.HeaderToggleButton(symbolic_icon_name='object-select-symbolic',
-                                                        label= _("Select"))
-        self.pack_end(self._selectButton)
-        self._selectButton.show()
-
-    def _addCloseButton(self):
-        self._closeSeparator = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
-        self.pack_end(self._closeSeparator)
-
-        self._closeButton = Gd.HeaderSimpleButton(symbolic_icon_name='window-close-symbolic')
-        self._closeButton.set_relief(Gtk.ReliefStyle.NONE)
-        self._closeButton.connect('clicked', self._closeButtonClicked)
-        self.pack_end(self._closeButton);
-

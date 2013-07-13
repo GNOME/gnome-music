@@ -3,7 +3,7 @@ from gettext import gettext as _
 
 from toolbar import Toolbar
 from player import Player, SelectionToolbar
-import views as Views
+import view as Views
 import query as Query
 
 tracker = Tracker.SparqlConnection.get (None)
@@ -86,14 +86,12 @@ class Window(Gtk.ApplicationWindow):
                 )
 
             self._onNotifyModelId = self._stack.connect("notify::visible-child", Lang.bind(self, self._onNotifyMode))
-            self.connect("destroy",Lang.bind(self, function(){
-                self._stack.disconnect(self._onNotifyModelId)
-            }))
+            self.connect("destroy", self._stack.disconnect(self._onNotifyModelId))
       
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
         else:
-            self.views[0] = new Views.Empty(self.toolbar, self.player)
+            self.views[0] = Views.Empty(self.toolbar, self.player)
             self._stack.add_titled(self.views[0],"Empty","Empty")
 
         self.toolbar.header_bar.show()
