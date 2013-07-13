@@ -11,7 +11,7 @@ tracker = Tracker.SparqlConnection.get(None)
 
 class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
-        Gtk.ApplicationWindow.init(self,
+        Gtk.ApplicationWindow.__init__(self,
                                    application=app,
                                    title=_('Music'))
         settings = Gio.Settings.new('org.gnome.Music')

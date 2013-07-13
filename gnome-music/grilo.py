@@ -1,9 +1,13 @@
-from gi.repository import Grl
+from gi.repository import Grl, GLib, GObject
 
 from query import Query
 
 
-class Grilo():
+class Grilo(GObject.GObject):
+
+    __gsignals__ = {
+        'ready': (GObject.SIGNAL_RUN_FIRST, None, ())
+    }
 
     METADATA_KEYS = [
         Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE,
@@ -12,8 +16,12 @@ class Grilo():
         Grl.METADATA_KEY_CREATION_DATE]
 
     def __init__(self):
+        GObject.GObject.__init__(self)
         self.registry = Grl.Registry.get_default()
-        self.registry.load_all_plugins()
+        try:
+            self.registry.load_all_plugins()
+        except GLib.GError:
+            print('Failed to load plugins.')
 
         self.sources = {}
         self.tracker = None
@@ -21,17 +29,16 @@ class Grilo():
         self.registry.connect('source_added', self._onSourceAdded)
         self.registry.connect('source_removed', self._onSourceRemoved)
 
-        if self.registry.load_all is False:
-            print('Failed to load plugins.')
 
     def _onSourceAdded(self, pluginRegistry, mediaSource):
-        if mediaSource.sourceId == "grl-tracker-source":
+        id = mediaSource.get_id()
+        if id == "grl-tracker-source":
             ops = mediaSource.supported_operations()
             if ops & Grl.SupportedOps.SEARCH:
                 print('Detected new source availabe: \'' +
                       mediaSource.get_name() + '\' and it supports search')
 
-                self.sources[mediaSource.sourceId] = mediaSource
+                self.sources[id] = mediaSource
                 self.tracker = mediaSource
 
                 if self.tracker is not None:
@@ -76,6 +83,6 @@ class Grilo():
                           self._searchCallback, source)
 
 
-Grl.init(None, 0)
+Grl.init(None)
 
 grilo = Grilo()

@@ -1,5 +1,4 @@
 from gi.repository import Gtk, Gio, GLib
-
 from window import Window
 
 
@@ -12,12 +11,11 @@ class Application(Gtk.Application):
         GLib.set_application_name("Music")
 
     def do_startup(self):
-        Gtk.Application.startup(self)
+        Gtk.Application.do_startup(self)
 
     def do_activate(self):
-        if self._window is not None:
-            self._window = Window(self)
-        self._window.present()
+        self._window = Window(self)
+        self._window.show_all()
 
     def quit(self):
         self.quit()
