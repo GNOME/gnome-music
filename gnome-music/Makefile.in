@@ -78,7 +78,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 subdir = gnome-music
-DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am
+DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
+	$(app_PYTHON) $(top_srcdir)/py-compile
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/intltool.m4 \
 	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
@@ -109,6 +110,38 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+am__py_compile = PYTHON=$(PYTHON) $(SHELL) $(py_compile)
+am__installdirs = "$(DESTDIR)$(appdir)"
+am__pep3147_tweak = \
+  sed -e 's|\.py$$||' -e 's|[^/]*$$|__pycache__/&.*.py|'
+py_compile = $(top_srcdir)/py-compile
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -271,6 +304,17 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+NULL = 
+appdir = $(pythondir)/gnome-music/
+app_PYTHON = \
+	application.py \
+	__init__.py \
+	player.py \
+	toolbar.py \
+	view.py \
+	window.py \
+	$(NULL)
+
 all: all-am
 
 .SUFFIXES:
@@ -310,6 +354,54 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-appPYTHON: $(app_PYTHON)
+	@$(NORMAL_INSTALL)
+	@list='$(app_PYTHON)'; dlist=; list2=; test -n "$(appdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(appdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(appdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then b=; else b="$(srcdir)/"; fi; \
+	  if test -f $$b$$p; then \
+	    $(am__strip_dir) \
+	    dlist="$$dlist $$f"; \
+	    list2="$$list2 $$b$$p"; \
+	  else :; fi; \
+	done; \
+	for file in $$list2; do echo $$file; done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appdir)" || exit $$?; \
+	done || exit $$?; \
+	if test -n "$$dlist"; then \
+	  $(am__py_compile) --destdir "$(DESTDIR)" \
+	                    --basedir "$(appdir)" $$dlist; \
+	else :; fi
+
+uninstall-appPYTHON:
+	@$(NORMAL_UNINSTALL)
+	@list='$(app_PYTHON)'; test -n "$(appdir)" || list=; \
+	py_files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$py_files" || exit 0; \
+	dir='$(DESTDIR)$(appdir)'; \
+	pyc_files=`echo "$$py_files" | sed 's|$$|c|'`; \
+	pyo_files=`echo "$$py_files" | sed 's|$$|o|'`; \
+	py_files_pep3147=`echo "$$py_files" | $(am__pep3147_tweak)`; \
+	echo "$$py_files_pep3147";\
+	pyc_files_pep3147=`echo "$$py_files_pep3147" | sed 's|$$|c|'`; \
+	pyo_files_pep3147=`echo "$$py_files_pep3147" | sed 's|$$|o|'`; \
+	st=0; \
+	for files in \
+	  "$$py_files" \
+	  "$$pyc_files" \
+	  "$$pyo_files" \
+	  "$$pyc_files_pep3147" \
+	  "$$pyo_files_pep3147" \
+	; do \
+	  $(am__uninstall_files_from_dir) || st=$$?; \
+	done; \
+	exit $$st
 tags TAGS:
 
 ctags CTAGS:
@@ -351,6 +443,9 @@ check-am: all-am
 check: check-am
 all-am: Makefile
 installdirs:
+	for dir in "$(DESTDIR)$(appdir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -401,7 +496,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-appPYTHON
 
 install-dvi: install-dvi-am
 
@@ -445,21 +540,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-appPYTHON
 
 .MAKE: install-am install-strip
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	cscopelist-am ctags-am distclean distclean-generic \
 	distclean-libtool distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags-am uninstall uninstall-am
+	install install-am install-appPYTHON install-data \
+	install-data-am install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am tags-am uninstall \
+	uninstall-am uninstall-appPYTHON
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
