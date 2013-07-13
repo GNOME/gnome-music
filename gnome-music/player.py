@@ -142,14 +142,14 @@ class Player():
         return previousTrack
 
     def _hasNext(self):
-        if self.repeat in [RepeatType.ALL, RepeatType.SONG RepeatType.SHUFFLE]:
+        if self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
         else:
             tmp = self.currentTrack.copy()
             return self.playlist.iter_next(tmp)
 
     def _hasPrevious(self):
-        if self.repeat in [RepeatType.ALL, RepeatType.SONG RepeatType.SHUFFLE]:
+        if self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
         else:
             tmp = self.currentTrack.copy()
