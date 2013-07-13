@@ -1,9 +1,3 @@
-def getDefault():
-    if instance:
-        return instance
-    else:
-        instance
-
 class AlbumArtCache:
     instance = None
 
