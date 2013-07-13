@@ -125,7 +125,7 @@ class ViewContainer(Gtk.Stack):
         revealAreaHeight = 32
 
         #if there's no vscrollbar, or if it's not visible, hide the button
-        if !vScrollbar or !vScrollbar.get_visible():
+        if not vScrollbar or not vScrollbar.get_visible():
             self._loadMore.setBlock(True)
             return
 
@@ -135,15 +135,15 @@ class ViewContainer(Gtk.Stack):
 
         end = False
         #special case self values which happen at construction
-        if (value == 0) && (upper == 1) && (page_size == 1):
+        if (value == 0) and (upper == 1) and (page_size == 1):
             end = False
         else:
-            end = !(value < (upper - page_size - revealAreaHeight))
+            end = not (value < (upper - page_size - revealAreaHeight))
         if self._getRemainingItemCount() <= 0:
             end = False
-        self._loadMore.setBlock(!end)
+        self._loadMore.setBlock(not end)
 
-    def populate:
+    def populate():
         pass
 
     def _addItem(self, source, param, item):
@@ -151,11 +151,11 @@ class ViewContainer(Gtk.Stack):
             self._offset += 1
             iter = self._model.append()
             artist = "Unknown"
-            if item.get_author() != None;
+            if item.get_author() is not None:
                 artist = item.get_author()
-            if item.get_string(Grl.METADATA_KEY_ARTIST) != None;
+            if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            if (item.get_title() == None) and (item.get_url() != None):
+            if (item.get_title() == None) and (item.get_url() is not None):
                 item.set_title (extractFileName(item.get_url()))
             try:
                 if item.get_url():
@@ -172,7 +172,6 @@ class ViewContainer(Gtk.Stack):
                         [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                         [toString(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, errorIconName, False, True]
                     )
-            }
             GLib.idle_add(300, lambda item,iter: self._updateAlbumArt, item, iter)
 
     def _getRemainingItemCount(self):
@@ -220,8 +219,7 @@ class Albums(ViewContainer):
         self.headerBar.setState (1)
 
     def _onStateChanged(self, widget):
-        if self.headerBar.get_stack() != None and
-            self == self.headerBar.get_stack().get_visible_child())
+        if (self.headerBar.get_stack() not None and self == self.headerBar.get_stack().get_visible_child()):
             self.visible_child = self._grid
 
     def _onItemActivated(self, widget, id, path):
@@ -274,7 +272,7 @@ class Songs(ViewContainer):
         if item != None:
             self._offset += 1
             iter = self._model.append()
-            if (item.get_title() == None) && (item.get_url() != None):
+            if (item.get_title() == None) and (item.get_url() != None):
                 item.set_title (extractFileName(item.get_url()))
             try:
                 if item.get_url():
@@ -317,7 +315,7 @@ class Songs(ViewContainer):
         artistRenderer.add_class('dim-label')
         artistRenderer.ellipsize = Pango.EllipsizeMode.END
         listWidget.add_renderer(artistRenderer, self._onListWidgetArtistRender)
-        typeRenderer = Gd.StyledTextRenderer(xpad: 32)
+        typeRenderer = Gd.StyledTextRenderer(xpad=32)
         typeRenderer.add_class('dim-label')
         typeRenderer.ellipsize = Pango.EllipsizeMode.END
         listWidget.add_renderer(typeRenderer, self._onListWidgetTypeRender)
@@ -337,7 +335,7 @@ class Songs(ViewContainer):
         else:
             starRenderer.pixbuf = None
 
-    def _onListWidgetDurationRender(self, col, cell, model, iter) {
+    def _onListWidgetDurationRender(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
             duration = item.get_duration ()
@@ -369,7 +367,7 @@ class Songs(ViewContainer):
 
 
 class Playlist(ViewContainer):
-    def __init__(self, headerBar, selectionToolbar, player)
+    def __init__(self, headerBar, selectionToolbar, player):
         ViewContainer.__init__("Playlists", headerBar, selectionToolbar)
 
 class Artists (ViewContainer):
@@ -397,7 +395,7 @@ class Artists (ViewContainer):
 
     def _populate(self, widget, param):
         selection = self.view.get_generic_view().get_selection()
-        if !selection.get_selected()[0]:
+        if not selection.get_selected()[0]:
             self._allIter = self._model.append()
             self._artists["All Artists".toLowerCase()] = {"iter": self._allIter, "albums": []}
             self._model.set(
@@ -417,7 +415,7 @@ class Artists (ViewContainer):
         cells = cols[0].get_cells()
         cells[2].visible = False
 
-        typeRenderer = Gd.StyledTextRenderer(xpad: 0)
+        typeRenderer = Gd.StyledTextRenderer(xpad=0)
         typeRenderer.ellipsize = 3
         typeRenderer.xalign = 0.0
         typeRenderer.yalign = 0.5
@@ -430,7 +428,7 @@ class Artists (ViewContainer):
 
     def _onItemActivated(self, widget, id, path):
         children = self._artistAlbumsWidget.get_children()
-        for (i=0 i<children.length i++)
+        for i in children.length:
             self._artistAlbumsWidget.remove(children[i])
         iter = self._model.get_iter (path)[1]
         artist = self._model.get_value (iter, 0)
@@ -444,7 +442,7 @@ class Artists (ViewContainer):
 
     def _addItem(self, source, param, item):
         self._offset += 1
-        if :item == None:
+        if item == None:
             return
         artist = "Unknown"
         if item.get_author() != None:
