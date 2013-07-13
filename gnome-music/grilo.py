@@ -29,7 +29,6 @@ class Grilo(GObject.GObject):
         self.registry.connect('source_added', self._onSourceAdded)
         self.registry.connect('source_removed', self._onSourceRemoved)
 
-
     def _onSourceAdded(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
         if id == "grl-tracker-source":
