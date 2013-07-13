@@ -6,13 +6,14 @@ from player import Player, SelectionToolbar
 import view as Views
 import query as Query
 
-tracker = Tracker.SparqlConnection.get (None)
+tracker = Tracker.SparqlConnection.get(None)
+
 
 class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
-        Gtk.ApplicationWindow.init(self, 
-                                    application=app,
-                                    title=_('Music'))
+        Gtk.ApplicationWindow.init(self,
+                                   application=app,
+                                   title=_('Music'))
         settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(settings.create_action('repeat'))
         self.set_size_request(887, 640)
@@ -23,12 +24,12 @@ class Window(Gtk.ApplicationWindow):
                                             'org.gnome.SettingsDaemon',
                                             '/org/gnome/SettingsDaemon/MediaKeys',
                                             'org.gnome.SettingsDaemon.MediaKeys',
-                                            None);
+                                            None)
         self.proxy.call_sync('GrabMediaPlayerKeys',
                              GLib.Variant.new('(su)', 'Music'),
                              Gio.DBusCallFlags.NONE,
                              -1,
-                             None);
+                             None)
         self.proxy.connect('g-signal', self._handleMediaKeys)
 
     def _windowsFocusCb(self, window, event):
@@ -63,14 +64,14 @@ class Window(Gtk.ApplicationWindow):
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
             transition_duration=100,
-            visible=true)
+            visible=True)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
         self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
         self.add(self._box)
         count = 1
         cursor = tracker.query(Query.songs_count, None)
-        if cursor!= None and cursor.next(None):
+        if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
             self.views[0] = Views.Albums(self.toolbar, self.selectionToolbar, self.player)
@@ -85,14 +86,14 @@ class Window(Gtk.ApplicationWindow):
                     self.views[i].title
                 )
 
-            self._onNotifyModelId = self._stack.connect("notify::visible-child", Lang.bind(self, self._onNotifyMode))
+            self._onNotifyModelId = self._stack.connect("notify::visible-child", self._onNotifyMode)
             self.connect("destroy", self._stack.disconnect(self._onNotifyModelId))
-      
+
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
         else:
             self.views[0] = Views.Empty(self.toolbar, self.player)
-            self._stack.add_titled(self.views[0],"Empty","Empty")
+            self._stack.add_titled(self.views[0], "Empty", "Empty")
 
         self.toolbar.header_bar.show()
         self.player.eventBox.show_all()
@@ -107,4 +108,3 @@ class Window(Gtk.ApplicationWindow):
 
     def _toggleView(self, btn, i):
         self._stack.set_visible_child(self.views[i])
-
