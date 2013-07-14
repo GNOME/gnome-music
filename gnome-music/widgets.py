@@ -368,8 +368,7 @@ class AllArtistsAlbums(ArtistAlbums):
             'value-changed', self._onScrolledWinChange)
         self._adjustmentChangedId = self._scrolledWindow.vadjustment.connect(
             'changed', self._onScrolledWinChange)
-        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar(
-            ).connect('notify::visible', self._onScrolledWinChange)
+        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar().connect('notify::visible', self._onScrolledWinChange)
         self._onScrolledWinChange()
 
     def _onScrolledWinChange(self):
