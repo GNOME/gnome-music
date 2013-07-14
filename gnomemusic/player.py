@@ -421,7 +421,7 @@ class Player(GObject.GObject):
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
 
-        if Gtk.Settings.get_default().gtk_application_prefer_dark_theme:
+        if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
             color = Gdk.Color(red=65535, green=65535, blue=65535)
         else:
             color = Gdk.Color(red=0, green=0, blue=0)
@@ -430,12 +430,12 @@ class Player(GObject.GObject):
 
         self._syncRepeatImage()
 
-        self.prevBtn.connect("clicked", self._onPrevBtnClicked())
-        self.playBtn.connect("clicked", self._onPlayBtnClicked())
-        self.nextBtn.connect("clicked", self._onNextBtnClicked())
+        self.prevBtn.connect("clicked", self._onPrevBtnClicked)
+        self.playBtn.connect("clicked", self._onPlayBtnClicked)
+        self.nextBtn.connect("clicked", self._onNextBtnClicked)
         self.progressScale.connect("button-press-event", self._onProgressScaleEvent)
-        self.progressScale.connect("value-changed", self._onProgressValueChanged())
-        self.progressScale.connect("button-release-event", self._onProgressScaleButtonReleased())
+        self.progressScale.connect("value-changed", self._onProgressValueChanged)
+        self.progressScale.connect("button-release-event", self._onProgressScaleButtonReleased)
 
     def _onProgressScaleButtonReleased(self):
         self.onProgressScaleChangeValue(self.progressScale)

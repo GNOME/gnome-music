@@ -1,8 +1,8 @@
 from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf, Tracker
-from grilo import grilo
-import widgets as Widgets
-from query import Query
-import albumArtCache
+from gnomemusic.grilo import grilo
+import gnomemusic.widgets as Widgets
+from gnomemusic.query import Query
+from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 tracker = Tracker.SparqlConnection.get(None)
 
 
@@ -16,7 +16,7 @@ class ViewContainer(Gtk.Stack):
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
 
-    def __init__(self, title, headerBar, selectionToolbar, useStack):
+    def __init__(self, title, headerBar, selectionToolbar, useStack=False):
         Gtk.Stack.__init__(self, transition_type=Gtk.StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.VERTICAL)
         self._iconWidth = -1
@@ -222,7 +222,7 @@ class Empty(Gtk.Stack):
 
 class Albums(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__("Albums", headerBar, selectionToolbar)
+        ViewContainer.__init__(self, "Albums", headerBar, selectionToolbar)
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.countQuery = Query.ALBUMS_COUNT
         self._albumWidget = Widgets.AlbumWidget(player)
@@ -252,7 +252,7 @@ class Albums(ViewContainer):
 
 class Songs(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__("Songs", headerBar, selectionToolbar)
+        ViewContainer.__init__(self, "Songs", headerBar, selectionToolbar)
         self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
@@ -377,12 +377,12 @@ class Songs(ViewContainer):
 
 class Playlist(ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__("Playlists", headerBar, selectionToolbar)
+        ViewContainer.__init__(self, "Playlists", headerBar, selectionToolbar)
 
 
 class Artists (ViewContainer):
     def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__("Artists", headerBar, selectionToolbar, True)
+        ViewContainer.__init__(self, "Artists", headerBar, selectionToolbar, True)
         self.player = player
         self._artists = {}
         self.countQuery = Query.ARTISTS_COUNT
@@ -397,7 +397,7 @@ class Artists (ViewContainer):
         self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL), 1, 0, 1, 1)
         self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
         self._addListRenderers()
-        if Gtk.Settings.get_default().gtk_application_prefer_dark_theme:
+        if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
             self.view.get_generic_view().get_style_context().add_class("artist-panel-dark")
         else:
             self.view.get_generic_view().get_style_context().add_class("artist-panel-white")

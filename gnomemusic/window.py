@@ -4,7 +4,7 @@ from gettext import gettext as _
 from gnomemusic.toolbar import Toolbar
 from gnomemusic.player import Player, SelectionToolbar
 import gnomemusic.view as Views
-import gnomemusic.query as Query
+from gnomemusic.query import Query
 
 tracker = Tracker.SparqlConnection.get(None)
 
@@ -59,7 +59,7 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player()
         self.selectionToolbar = SelectionToolbar()
         self.toolbar = Toolbar()
-        self.set_titlebar(self.toolbar.header_bar)
+        self.set_titlebar(self.toolbar.headerBar)
         self.views = []
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -67,10 +67,10 @@ class Window(Gtk.ApplicationWindow):
             visible=True)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
-        self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
+        self._box.pack_start(self.selectionToolbar.eventbox, False, False, 0)
         self.add(self._box)
         count = 1
-        cursor = tracker.query(Query.songs_count, None)
+        cursor = tracker.query(Query.SONGS_COUNT, None)
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
