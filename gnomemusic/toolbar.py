@@ -11,7 +11,7 @@ class ToolbarState:
 
 class Toolbar():
     def __init__(self):
-        self._stackSwithcer = Gtk.StackSwitcher()
+        self._stackSwitcher = Gtk.StackSwitcher()
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/music/Headerbar.ui')
         self.headerBar = self._ui.get_object('header-bar')
