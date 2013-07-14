@@ -2,7 +2,7 @@ from gi.repository import Gtk, GObject, Gd, Grl, Pango, GLib, GdkPixbuf, Tracker
 from gnomemusic.grilo import grilo
 import gnomemusic.widgets as Widgets
 from gnomemusic.query import Query
-import gnomemusic.albumArtCache
+from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 tracker = Tracker.SparqlConnection.get(None)
 
 
