@@ -7,5 +7,5 @@ python:
 install:
   - pip install pep8 pyflakes --use-mirrors
 script:
-  - "pyflakes gnome-music"
-  - "pep8 --ignore=E501,E225 gnome-music"
+  - "pyflakes gnomemusic"
+  - "pep8 --ignore=E501,E225 gnomemusic"
