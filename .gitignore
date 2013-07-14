@@ -71,3 +71,4 @@ libgd/
 *.compiled
 data/Makefile
 data/Makefile.in
+*.patch
