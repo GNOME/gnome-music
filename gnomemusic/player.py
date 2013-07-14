@@ -3,7 +3,7 @@ GIRepository.Repository.prepend_search_path('libgd')
 
 from gi.repository import Gtk, Gst, GLib, GstAudio, Gdk, Grl, Gio, GstPbutils, GObject
 from random import randint
-from albumArtCache import AlbumArtCache
+from gnomemusic.albumArtCache import AlbumArtCache
 
 ART_SIZE = 34
 

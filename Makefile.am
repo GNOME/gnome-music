@@ -1,13 +1,17 @@
 ACLOCAL_AMFLAGS = -I m4 -I libgd
 NULL =
 
-SUBDIRS = libgd gnome-music data po
+bin_SCRIPTS = gnome-music
+
+SUBDIRS = libgd gnomemusic data po
 
 EXTRA_DIST = \
 	AUTHORS.in \
+	gnome-music.in
 	$(NULL)
 
 CLEANFILES = \
+	$(bin_SCRIPTS)
 	$(NULL)
 
 MAINTAINERCLEANFILES = \

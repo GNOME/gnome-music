@@ -1,10 +1,10 @@
 from gi.repository import Gtk, Gio, GLib, Tracker
 from gettext import gettext as _
 
-from toolbar import Toolbar
-from player import Player, SelectionToolbar
-import view as Views
-import query as Query
+from gnomemusic.toolbar import Toolbar
+from gnomemusic.player import Player, SelectionToolbar
+import gnomemusic.view as Views
+import gnomemusic.query as Query
 
 tracker = Tracker.SparqlConnection.get(None)
 

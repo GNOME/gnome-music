@@ -40,7 +40,8 @@ PKG_CHECK_MODULES(GRL, grilo-0.2 >= $GRL_MIN_VERSION)
 AC_CONFIG_FILES([
   Makefile
   data/Makefile
-  gnome-music/Makefile
+  gnomemusic/Makefile
+  gnome-music
   po/Makefile.in
   libgd/Makefile
 ])
