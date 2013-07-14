@@ -211,8 +211,7 @@ class AlbumWidget(Gtk.EventBox):
 
     def _onViewSelectionChanged(self):
         items = self.view.get_selection()
-        self.selection_toolbar.
-        _add_to_playlist_button.sensitive = items.length > 0
+        self.selection_toolbar._add_to_playlist_button.sensitive = items.length
 
     def _onHeaderCancelButtonClicked(self, button):
         self.view.set_selection_mode(False)
@@ -221,12 +220,11 @@ class AlbumWidget(Gtk.EventBox):
 
     def _onHeaderSelectButtonToggled(self, button):
         if(button.get_active()):
-                self.view.set_selection_mode(True)
-                self.header_bar.setSelectionMode(True)
-                self.player.eventBox.set_visible(False)
-                self.selection_toolbar.eventbox.set_visible(True)
-                self.selection_toolbar.
-                _add_to_playlist_button.sensitive = False
+            self.view.set_selection_mode(True)
+            self.header_bar.setSelectionMode(True)
+            self.player.eventBox.set_visible(False)
+            self.selection_toolbar.eventbox.set_visible(True)
+            self.selection_toolbar._add_to_playlist_button.sensitive = False
         else:
             self.view.set_selection_mode(False)
             self.header_bar.setSelectionMode(False)
@@ -370,8 +368,8 @@ class AllArtistsAlbums(ArtistAlbums):
             'value-changed', self._onScrolledWinChange)
         self._adjustmentChangedId = self._scrolledWindow.vadjustment.connect(
             'changed', self._onScrolledWinChange)
-        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar().
-        connect('notify::visible', self._onScrolledWinChange)
+        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar(
+            ).connect('notify::visible', self._onScrolledWinChange)
         self._onScrolledWinChange()
 
     def _onScrolledWinChange(self):
@@ -433,10 +431,10 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui.get_object("cover").set_from_pixbuf(pixbuf)
         self.ui.get_object("title").set_label(album.get_title())
         if album.get_creation_date() is not None:
-            self.ui.get_object("year").
-            set_markup("<span color='grey'>("
-                       + album.get_creation_date().get_year()
-                       + ")</span>")
+            self.ui.get_object("year").set_markup(
+                "<span color='grey'>(" +
+                album.get_creation_date().get_year() + ")</span>"
+            )
         self.tracks = []
         grilo.getAlbumSongs(album.get_id(), self.getSongs)
         self.pack_start(self.ui.get_object("ArtistAlbumWidget"), True, True, 0)
@@ -460,10 +458,11 @@ class ArtistAlbumWidget(Gtk.HBox):
                 if track.get_title() is not None:
                     ui.get_object("title").set_text(track.get_title())
                 ui.get_object("title").set_alignment(0.0, 0.5)
-                self.ui.get_object("grid1").
-                attach(songWidget,
-                       int(i/(self.tracks.length/2)),
-                       int((i) % (self.tracks.length/2)), 1, 1)
+                self.ui.get_object("grid1").attach(
+                    songWidget,
+                    int(i / (self.tracks.length / 2)),
+                    int((i) % (self.tracks.length / 2)), 1, 1
+                )
                 track.songWidget = songWidget
                 iter = self.model.append()
                 songWidget.iter = iter
@@ -477,9 +476,9 @@ class ArtistAlbumWidget(Gtk.HBox):
                                    [track.get_title(), "", "", False,
                                     NOW_PLAYING_ICON_NAME, track])
                     songWidget.nowPlayingSign = ui.get_object("image1")
-                    songWidget.nowPlayingSign.
-                    set_from_icon_name(NOW_PLAYING_ICON_NAME,
-                                       Gtk.IconSize.SMALL_TOOLBAR)
+                    songWidget.nowPlayingSign.set_from_icon_name(
+                        NOW_PLAYING_ICON_NAME,
+                        Gtk.IconSize.SMALL_TOOLBAR)
                     songWidget.nowPlayingSign.set_no_show_all("true")
                     songWidget.nowPlayingSign.set_alignment(0.0, 0.6)
                     songWidget.can_be_played = True
@@ -493,9 +492,9 @@ class ArtistAlbumWidget(Gtk.HBox):
                                    [track.get_title(), "", "", True,
                                     ERROR_ICON_NAME, track])
                     songWidget.nowPlayingSign = ui.get_object("image1")
-                    songWidget.nowPlayingSign.
-                    set_from_icon_name(ERROR_ICON_NAME,
-                                       Gtk.IconSize.SMALL_TOOLBAR)
+                    songWidget.nowPlayingSign.set_from_icon_name(
+                        ERROR_ICON_NAME,
+                        Gtk.IconSize.SMALL_TOOLBAR)
                     songWidget.nowPlayingSign.set_alignment(0.0, 0.6)
                     songWidget.can_be_played = False
             self.ui.get_object("grid1").show_all()
