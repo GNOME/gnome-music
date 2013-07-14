@@ -6,5 +6,5 @@ sys.path.insert(1, '@pythondir@')
 from gnomemusic.application import Application
 
 if __name__ == "__main__":
-    app = Application(package="@PACKAGE@", version="@VERSION@")
-    app.run()
+    app = Application()
+    app.run(sys.argv)

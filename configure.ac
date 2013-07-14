@@ -41,7 +41,7 @@ AC_CONFIG_FILES([
   Makefile
   data/Makefile
   gnomemusic/Makefile
-  gnomemusic/gnome-music
+  gnome-music
   po/Makefile.in
   libgd/Makefile
 ])

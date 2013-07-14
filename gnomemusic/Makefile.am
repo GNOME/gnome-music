@@ -9,6 +9,3 @@ app_PYTHON = \
 	view.py \
 	window.py
 
-bin_SCRIPTS = gnome-music
-CLEANFILES = $(bin_SCRIPTS)
-EXTRA_DIST = gnome-music.in
