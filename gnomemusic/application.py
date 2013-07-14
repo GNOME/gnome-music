@@ -1,5 +1,5 @@
 from gi.repository import Gtk, Gio, GLib
-from window import Window
+from gnomemusic.window import Window
 
 
 class Application(Gtk.Application):
