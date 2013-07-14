@@ -59,7 +59,7 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player()
         self.selectionToolbar = SelectionToolbar()
         self.toolbar = Toolbar()
-        self.set_titlebar(self.toolbar.header_bar)
+        self.set_titlebar(self.toolbar.headerBar)
         self.views = []
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
