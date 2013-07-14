@@ -4,16 +4,16 @@
 # List of source files which contain translatable strings.
 data/org.gnome.Music.gschema.xml
 data/gnome-music.desktop.in
-gnome-music/__init__.py
-gnome-music/albumArtCache.py
-gnome-music/application.py
-gnome-music/grilo.py
-gnome-music/player.py
-gnome-music/query.py
-gnome-music/toolbar.py
-gnome-music/view.py
-gnome-music/widgets.py
-gnome-music/window.py
+gnomemusic/__init__.py
+gnomemusic/albumArtCache.py
+gnomemusic/application.py
+gnomemusic/grilo.py
+gnomemusic/player.py
+gnomemusic/query.py
+gnomemusic/toolbar.py
+gnomemusic/view.py
+gnomemusic/widgets.py
+gnomemusic/window.py
 [type: gettext/glade]data/AlbumWidget.ui
 [type: gettext/glade]data/app-menu.ui
 [type: gettext/glade]data/ArtistAlbumsWidget.ui

@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4 -I libgd
 NULL =
 
-SUBDIRS = libgd gnome-music data po
+SUBDIRS = libgd gnomemusic data po
 
 EXTRA_DIST = \
 	AUTHORS.in \
