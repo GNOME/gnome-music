@@ -397,7 +397,7 @@ class Artists (ViewContainer):
         self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL), 1, 0, 1, 1)
         self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
         self._addListRenderers()
-        if Gtk.Settings.get_default().gtk_application_prefer_dark_theme:
+        if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
             self.view.get_generic_view().get_style_context().add_class("artist-panel-dark")
         else:
             self.view.get_generic_view().get_style_context().add_class("artist-panel-white")

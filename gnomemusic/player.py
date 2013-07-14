@@ -421,7 +421,7 @@ class Player(GObject.GObject):
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
 
-        if Gtk.Settings.get_default().gtk_application_prefer_dark_theme:
+        if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
             color = Gdk.Color(red=65535, green=65535, blue=65535)
         else:
             color = Gdk.Color(red=0, green=0, blue=0)
