@@ -13,7 +13,7 @@ class Toolbar():
     def __init__(self):
         self._stackSwithcer = Gtk.StackSwitcher()
         self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/music/HeaderBar.ui')
+        self._ui.add_from_resource('/org/gnome/music/Headerbar.ui')
         self.headerBar = self._ui.get_object('header-bar')
         self._selectButton = self._ui.get_object('select-button')
         self._cancelButton = self._ui.get_object('cancel-button')
