@@ -4,7 +4,7 @@ from gettext import gettext as _
 from gnomemusic.toolbar import Toolbar
 from gnomemusic.player import Player, SelectionToolbar
 import gnomemusic.view as Views
-import gnomemusic.query as Query
+from gnomemusic.query import Query
 
 tracker = Tracker.SparqlConnection.get(None)
 
@@ -70,7 +70,7 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(self.selectionToolbar.eventbox, False, False, 0)
         self.add(self._box)
         count = 1
-        cursor = tracker.query(Query.songs_count, None)
+        cursor = tracker.query(Query.SONGS_COUNT, None)
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
