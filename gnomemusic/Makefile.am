@@ -7,5 +7,8 @@ app_PYTHON = \
 	player.py \
 	toolbar.py \
 	view.py \
+	grilo.py \
+	query.py \
+	widgets.py \
 	window.py
 
