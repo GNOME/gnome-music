@@ -1,6 +1,6 @@
 from gi.repository import Grl, GLib, GObject
 
-from query import Query
+from gnomemusic.query import Query
 
 
 class Grilo(GObject.GObject):

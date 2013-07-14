@@ -7,4 +7,5 @@ from gnomemusic.application import Application
 
 if __name__ == "__main__":
     app = Application()
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
     app.run(sys.argv)

@@ -3,7 +3,7 @@ from gi.repository import GdkPixbuf, Gio, GLib, Grl
 import os
 import re
 
-from grilo import grilo
+from gnomemusic.grilo import Grilo
 
 
 class AlbumArtCache:

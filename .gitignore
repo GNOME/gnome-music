@@ -76,3 +76,4 @@ data/Makefile.in
 Makefile
 gnome-music
 *.valid
+/gnomemusic/Makefile.in
