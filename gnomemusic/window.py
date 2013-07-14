@@ -67,7 +67,7 @@ class Window(Gtk.ApplicationWindow):
             visible=True)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
-        self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
+        self._box.pack_start(self.selectionToolbar.eventbox, False, False, 0)
         self.add(self._box)
         count = 1
         cursor = tracker.query(Query.songs_count, None)
