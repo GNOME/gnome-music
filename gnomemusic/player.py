@@ -430,12 +430,12 @@ class Player(GObject.GObject):
 
         self._syncRepeatImage()
 
-        self.prevBtn.connect("clicked", self._onPrevBtnClicked())
-        self.playBtn.connect("clicked", self._onPlayBtnClicked())
-        self.nextBtn.connect("clicked", self._onNextBtnClicked())
+        self.prevBtn.connect("clicked", self._onPrevBtnClicked)
+        self.playBtn.connect("clicked", self._onPlayBtnClicked)
+        self.nextBtn.connect("clicked", self._onNextBtnClicked)
         self.progressScale.connect("button-press-event", self._onProgressScaleEvent)
-        self.progressScale.connect("value-changed", self._onProgressValueChanged())
-        self.progressScale.connect("button-release-event", self._onProgressScaleButtonReleased())
+        self.progressScale.connect("value-changed", self._onProgressValueChanged)
+        self.progressScale.connect("button-release-event", self._onProgressScaleButtonReleased)
 
     def _onProgressScaleButtonReleased(self):
         self.onProgressScaleChangeValue(self.progressScale)
