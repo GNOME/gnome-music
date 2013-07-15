@@ -359,7 +359,7 @@ class Player(GObject.GObject):
         self.playlistField = field
         self.emit('current-changed')
 
-    def runningPlaylist(self, type, id, force):
+    def runningPlaylist(self, type, id):
         if type == self.playlistType and id == self.playlistId:
             return self.playlist
         else:
