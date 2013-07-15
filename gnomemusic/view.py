@@ -204,8 +204,6 @@ class ViewContainer(Gtk.Stack):
         albumArtCache.getDefault().lookupOrResolve(item, self._iconWidth, self._iconHeight, _albumArtCacheLookUp)
         return False
 
-
-
     def _addListRenderers(self):
         pass
 

@@ -41,27 +41,27 @@ class AlbumArtCache:
     def makeDefaultIcon(self, width, height):
         path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
         # get a small pixbuf with the given path
-        icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, 
-                    -1 if width < 0 else width/4,
-                    -1 if height < 0 else height/4,
-                    True)
+        icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path,
+                                                       -1 if width < 0 else width / 4,
+                                                       -1 if height < 0 else height / 4,
+                                                       True)
 
         # create an empty pixbuf with the requested size
         result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
-                True,
-                icon.get_bits_per_sample(),
-                icon.get_width()*4,
-                icon.get_height()*4)
+                                      True,
+                                      icon.get_bits_per_sample(),
+                                      icon.get_width() * 4,
+                                      icon.get_height() * 4)
         result.fill(0xffffffff)
         icon.composite(result,
-                        icon.get_width()*3/2,
-                        icon.get_height()*3/2,
-                        icon.get_width(),
-                        icon.get_height(),
-                        icon.get_width()*3/2,
-                        icon.get_height()*3/2,
-                        1, 1,
-                        GdkPixbuf.InterpType.NEAREST, 0xff)
+                       icon.get_width() * 3 / 2,
+                       icon.get_height() * 3 / 2,
+                       icon.get_width(),
+                       icon.get_height(),
+                       icon.get_width() * 3 / 2,
+                       icon.get_height() * 3 / 2,
+                       1, 1,
+                       GdkPixbuf.InterpType.NEAREST, 0xff)
         return self.makeIconFrame(result)
 
     def makeIconFrame(self, pixbuf):
@@ -75,23 +75,23 @@ class AlbumArtCache:
                                      int(pixbuf.get_height() + border * 2))
         ctx = cairo.Context(surface)
         self.drawRoundedPath(ctx, 0, 0,
-                             pixbuf.get_width()  + border * 2,
-                             pixbuf.get_height()  + border * 2,
+                             pixbuf.get_width() + border * 2,
+                             pixbuf.get_height() + border * 2,
                              3)
         result = Gdk.pixbuf_get_from_surface(surface, 0, 0,
                                              pixbuf.get_width() + border * 2,
                                              pixbuf.get_height() + border * 2)
 
         pixbuf.copy_area(border, border,
-                        pixbuf.get_width() - border * 2,
-                        pixbuf.get_height() - border * 2,
-                        result,
-                        border * 2, border * 2)
+                         pixbuf.get_width() - border * 2,
+                         pixbuf.get_height() - border * 2,
+                         result,
+                         border * 2, border * 2)
 
         return result
 
     def drawRoundedPath(self, ctx, x, y, width, height, radius):
-            degrees = pi / 180;
+            degrees = pi / 180
             ctx.new_sub_path()
             ctx.arc(x + width - radius, y + radius, radius - 0.5, -90 * degrees, 0 * degrees)
             ctx.arc(x + width - radius, y + height - radius, radius - 0.5, 0 * degrees, 90 * degrees)
@@ -112,7 +112,7 @@ class AlbumArtCache:
                 callback(None)
             return
 
-        key = self._keybuilder_funcs[i].__call__( artist, album)
+        key = self._keybuilder_funcs[i].__call__(artist, album)
         path = GLib.build_filenamev([self.cacheDir, key + '.' + format])
         file = Gio.File.new_for_path(path)
 
@@ -205,7 +205,6 @@ class AlbumArtCache:
             close_pos = original.find(close_char, open_pos + 1)
             if close_pos >= 0:
                 return [True, open_pos, close_pos]
-
         return [False, -1, -1]
 
     def stripInvalidEntities(self, original):
