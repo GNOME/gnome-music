@@ -144,9 +144,9 @@ class ViewContainer(Gtk.Stack):
             self._loadMore.setBlock(True)
             return
 
-        value = adjustment.value
-        upper = adjustment.upper
-        page_size = adjustment.page_size
+        value = adjustment.get_value()
+        upper = adjustment.get_upper()
+        page_size = adjustment.get_page_size()
 
         end = False
         #special case self values which happen at construction
