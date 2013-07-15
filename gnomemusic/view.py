@@ -237,7 +237,7 @@ class Albums(ViewContainer):
             self.visible_child = self._grid
 
     def _onItemActivated(self, widget, id, path):
-        iter = self._model.get_iter(path)[1]
+        iter = self._model.get_iter(path)
         title = self._model.get_value(iter, 2)
         artist = self._model.get_value(iter, 3)
         item = self._model.get_value(iter, 5)
