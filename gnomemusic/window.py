@@ -1,7 +1,7 @@
 from gi.repository import Gtk, Gio, GLib, Tracker
 from gettext import gettext as _
 
-from gnomemusic.toolbar import Toolbar
+from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar
 import gnomemusic.view as Views
 from gnomemusic.query import Query
@@ -26,7 +26,7 @@ class Window(Gtk.ApplicationWindow):
                                             'org.gnome.SettingsDaemon.MediaKeys',
                                             None)
         self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant.new('(su)', 'Music'),
+                             GLib.Variant('(su)', ('Music', 0)),
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
@@ -34,7 +34,7 @@ class Window(Gtk.ApplicationWindow):
 
     def _windowsFocusCb(self, window, event):
         self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant.new('(su)', 'Music'),
+                             GLib.Variant('(su)', ('Music', 0)),
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
@@ -74,20 +74,18 @@ class Window(Gtk.ApplicationWindow):
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
-            self.views[0] = Views.Albums(self.toolbar, self.selectionToolbar, self.player)
-            self.views[1] = Views.Artists(self.toolbar, self.selectionToolbar, self.player)
-            self.views[2] = Views.Songs(self.toolbar, self.selectionToolbar, self.player)
-            self.views[3] = Views.Playlists(self.toolbar, self.selectionToolbar, self.player)
+            self.views.append(Views.Albums(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Artists(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Songs(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Playlist(self.toolbar, self.selectionToolbar, self.player))
 
             for i in self.views:
-                self._stack.add_titled(
-                    self.views[i],
-                    self.views[i].title,
-                    self.views[i].title
-                )
+                self._stack.add_titled(i, i.title, i.title)
+
+            self.toolbar.set_stack(self._stack)
 
             self._onNotifyModelId = self._stack.connect("notify::visible-child", self._onNotifyMode)
-            self.connect("destroy", self._stack.disconnect(self._onNotifyModelId))
+            self.connect("destroy", self._notifyModeDisconnect)
 
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
@@ -95,10 +93,14 @@ class Window(Gtk.ApplicationWindow):
             self.views[0] = Views.Empty(self.toolbar, self.player)
             self._stack.add_titled(self.views[0], "Empty", "Empty")
 
-        self.toolbar.header_bar.show()
+        self.toolbar.setState(ToolbarState.ALBUMS)
+        self.toolbar.headerBar.show()
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
+
+    def _notifyModeDisconnect(self, data=None):
+        self._stack.disconnect(self._onNotifyModelId)
 
     def _onNotifyMode(self, stack, param):
         #Slide out artist list on switching to artists view

@@ -47,46 +47,6 @@ MediaPlayer2PlayerIface = """
 """
 
 
-MediaPlayer2PlayerIface = """
-<interface name='org.mpris.MediaPlayer2.Player'>
-  <method name='Next'/>
-  <method name='Previous'/>
-  <method name='Pause'/>
-  <method name='PlayPause'/>
-  <method name='Stop'/>
-  <method name='Play'/>
-  <method name='Seek'>
-    <arg direction='in' name='Offset' type='x'/>
-  </method>
-  <method name='SetPosition'>
-    <arg direction='in' name='TrackId' type='o'/>
-    <arg direction='in' name='Position' type='x'/>
-  </method>
-  <method name='OpenUri'>
-    <arg direction='in' name='Uri' type='s'/>
-  </method>
-  <signal name='Seeked'>
-    <arg name='Position' type='x'/>
-  </signal>
-  <property name='PlaybackStatus' type='s' access='read'/>
-  <property name='LoopStatus' type='s' access='readwrite'/>
-  <property name='Rate' type='d' access='readwrite'/>
-  <property name='Shuffle' type='b' access='readwrite'/>
-  <property name='Metadata' type='a{sv}' access='read'/>
-  <property name='Volume' type='d' access='readwrite'/>
-  <property name='Position' type='x' access='read'/>
-  <property name='MinimumRate' type='d' access='read'/>
-  <property name='MaximumRate' type='d' access='read'/>
-  <property name='CanGoNext' type='b' access='read'/>
-  <property name='CanGoPrevious' type='b' access='read'/>
-  <property name='CanPlay' type='b' access='read'/>
-  <property name='CanPause' type='b' access='read'/>
-  <property name='CanSeek' type='b' access='read'/>
-  <property name='CanControl' type='b' access='read'/>
-</interface>
-"""
-
-
 class RepeatType:
     NONE = 0
     SONG = 1
@@ -99,7 +59,8 @@ class Player(GObject.GObject):
     timeout = None
 
     __gsignals__ = {
-        'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
     def __init__(self):
@@ -131,7 +92,7 @@ class Player(GObject.GObject):
         self.bus.connect("message::eos", self._onBusEos)
         self._setupView()
         if self.nextTrack:
-            GLib.idle_add(GLib.PRIORITY_HIGH, self._onGLibIdle)
+            GLib.idle_add(self._onGLibIdle)
         elif (self.repeat == RepeatType.NONE):
             self.stop()
             self.playBtn.set_image(self._playImage)
@@ -398,7 +359,7 @@ class Player(GObject.GObject):
         self.playlistField = field
         self.emit('current-changed')
 
-    def runningPlaylist(self, type, id, force):
+    def runningPlaylist(self, type, id):
         if type == self.playlistType and id == self.playlistId:
             return self.playlist
         else:

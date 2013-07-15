@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 
 
 class ToolbarState:
@@ -9,8 +9,15 @@ class ToolbarState:
     SONGS = 4
 
 
-class Toolbar():
+class Toolbar(GObject.GObject):
+
+    __gsignals__ = {
+        'state-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+    }
+    _selectionMode = False
+
     def __init__(self):
+        GObject.GObject.__init__(self)
         self._stackSwitcher = Gtk.StackSwitcher()
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/music/Headerbar.ui')
@@ -23,7 +30,7 @@ class Toolbar():
         self._selectionMenu = self._ui.get_object("selection-menu")
         self._selectionMenuButton = self._ui.get_object("selection-menu-button")
         self._selectionMenuButton.set_relief(Gtk.ReliefStyle.NONE)
-        self.headerBar.custom_title = self._stackSwitcher
+        self.headerBar.set_custom_title(self._stackSwitcher)
         self._searchButton = self._ui.get_object("search-button")
         self._backButton.connect('clicked', self.setState)
         self._closeButton.connect('clicked', self._closeButtonClicked)
@@ -39,7 +46,7 @@ class Toolbar():
 
     def setSelectionMode(self, selectionMode):
         self._selectionMode = selectionMode
-        if (selectionMode):
+        if selectionMode:
             self._selectButton.hide()
             self._cancelButton.show()
             self.headerBar.get_style_context().add_class('selection-mode')
@@ -58,18 +65,15 @@ class Toolbar():
 
     def _update(self):
         if (self._state == ToolbarState.SINGLE or self._selectionMode):
-            self.headerBar.custom_title = None
-        else:
-            self.title = ""
-            self.headerBar.custom_title = self._stackSwitcher
-
-        if (self._state == ToolbarState.SINGLE and self._selectionMode is not None):
+            self.headerBar.set_custom_title(None)
             self._backButton.show()
         else:
+            self.title = ""
+            self.headerBar.set_custom_title(self._stackSwitcher)
             self._backButton.hide()
 
-        if (self._selectionMode):
-            self.headerBar.custom_title = self._selectionMenuButton
+        if self._selectionMode:
+            self.headerBar.set_custom_title(self._selectionMenuButton)
             self._closeSeparator.hide()
             self._closeButton.hide()
         else:
