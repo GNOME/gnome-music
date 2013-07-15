@@ -119,15 +119,16 @@ class ViewContainer(Gtk.Stack):
         pass
 
     def _connectView(self):
-        self._adjustmentValueId = self.view.vadjustment.connect(
+        vadjustment = self.view.get_vadjustment()
+        self._adjustmentValueId = vadjustment.connect(
             'value-changed',
             self._onScrolledWinChange)
 
-        self._adjustmentChangedId = self.view.vadjustment.connect(
+        self._adjustmentChangedId = vadjustment.connect(
             'changed',
             self._onScrolledWinChange)
 
-        self._scrollbarVisibleId = self.view.get_vscrollbar().connect(
+        self._scrollbarVisibleId = vadjustment.connect(
             'notify::visible',
             self._onScrolledWinChange)
 
@@ -135,7 +136,7 @@ class ViewContainer(Gtk.Stack):
 
     def _onScrolledWinChange(self):
         vScrollbar = self.view.get_vscrollbar()
-        adjustment = self.view.vadjustment
+        adjustment = self.view.get_vadjustment()
         revealAreaHeight = 32
 
         #if there's no vscrollbar, or if it's not visible, hide the button
