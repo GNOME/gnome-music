@@ -1,6 +1,6 @@
 from gi.repository import Gtk, Gd, GLib, GObject, Grl, Pango
 from gi.repository import GdkPixbuf
-from gnomemusic.grilo import Grilo as grilo
+from gnomemusic.grilo import grilo
 import logging
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
