@@ -80,11 +80,7 @@ class Window(Gtk.ApplicationWindow):
             self.views.append(Views.Playlist(self.toolbar, self.selectionToolbar, self.player))
 
             for i in self.views:
-                self._stack.add_titled(
-                    self.views[i],
-                    self.views[i].title,
-                    self.views[i].title
-                )
+                self._stack.add_titled(i, i.title, i.title)
 
             self._onNotifyModelId = self._stack.connect("notify::visible-child", self._onNotifyMode)
             self.connect("destroy", self._stack.disconnect(self._onNotifyModelId))
