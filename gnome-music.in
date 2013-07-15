@@ -1,12 +1,24 @@
 #!/usr/bin/env python3
 
 import sys, signal
-from gi.repository import Gio
+from gi.repository import Gio, Gtk
 sys.path.insert(1, '@pythondir@')
 
 from gnomemusic.application import Application
 
+def install_excepthook():
+    """ Make sure we exit when an unhandled exception occurs. """
+    old_hook = sys.excepthook
+    def new_hook(etype, evalue, etb):
+        old_hook(etype, evalue, etb)
+        while Gtk.main_level():
+            Gtk.main_quit()
+        sys.exit()
+    sys.excepthook = new_hook
+
 if __name__ == "__main__":
+    install_excepthook()
+
     # We use our own libgd.so, so let gi.repository find it
     from gi.repository import GIRepository
     GIRepository.Repository.prepend_search_path('@libdir@/gnome-music')
