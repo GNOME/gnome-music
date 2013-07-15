@@ -31,7 +31,7 @@ class LoadMoreButton:
         self.widget.connect('clicked', self._onLoadMoreClicked)
         self._onItemCountChanged()
 
-    def _onLoadMoreClicked(self):
+    def _onLoadMoreClicked(self, data=None):
         self._label.label = "Loading..."
         self._spinner.show()
         self._spinner.start()
