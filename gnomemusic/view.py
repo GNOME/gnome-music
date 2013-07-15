@@ -111,7 +111,7 @@ class ViewContainer(Gtk.Stack):
         items = self.view.get_selection()
         self.selectionToolbar._add_to_playlist_button.sensitive = items.length > 0
 
-    def _populate(self):
+    def _populate(self, data=None):
         self._init = True
         self.populate()
 
