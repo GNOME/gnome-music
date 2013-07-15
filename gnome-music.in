@@ -8,6 +8,7 @@ from gnomemusic.application import Application
 
 def install_excepthook():
     """ Make sure we exit when an unhandled exception occurs. """
+    from gi.repository import Gtk
     old_hook = sys.excepthook
     def new_hook(etype, evalue, etb):
         old_hook(etype, evalue, etb)
