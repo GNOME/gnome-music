@@ -1,7 +1,7 @@
 from gi.repository import Gtk, Gio, GLib, Tracker
 from gettext import gettext as _
 
-from gnomemusic.toolbar import Toolbar
+from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar
 import gnomemusic.view as Views
 from gnomemusic.query import Query
@@ -93,6 +93,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[0] = Views.Empty(self.toolbar, self.player)
             self._stack.add_titled(self.views[0], "Empty", "Empty")
 
+        self.toolbar.setState(ToolbarState.ALBUMS)
         self.toolbar.headerBar.show()
         self.player.eventBox.show_all()
         self._box.show()

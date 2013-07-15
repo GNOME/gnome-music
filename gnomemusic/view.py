@@ -219,7 +219,6 @@ class Albums(ViewContainer):
         self.countQuery = Query.ALBUMS_COUNT
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
-        self.headerBar.setState(1)
 
     def _onStateChanged(self, widget, data=None):
         if (self.headerBar.get_stack() is not None) and \
