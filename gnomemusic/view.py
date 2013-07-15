@@ -183,7 +183,7 @@ class ViewContainer(Gtk.Stack):
                 self._model.set(iter,
                                 [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                                 [str(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, self.errorIconName, False, True])
-            GLib.idle_add(300, self._updateAlbumArt, item, iter)
+            GLib.idle_add(self._updateAlbumArt, item, iter)
 
     def _getRemainingItemCount(self):
         count = -1
@@ -194,15 +194,17 @@ class ViewContainer(Gtk.Stack):
         return count - self._offset
 
     def _updateAlbumArt(self, item, iter):
-        albumArtCache.lookupOrResolve(item, self._iconWidth, self._iconHeight, self._albumArtCacheLookUp)
+        def _albumArtCacheLookUp(icon, data=None):
+            if icon:
+                self._model.set_value(iter, 4, albumArtCache.getDefault().makeIconFrame(icon))
+            else:
+                self._model.set_value(iter, 4, None)
+                self.emit("album-art-updated")
+
+        albumArtCache.getDefault().lookupOrResolve(item, self._iconWidth, self._iconHeight, _albumArtCacheLookUp)
         return False
 
-    def _albumArtCacheLookUp(self, icon):
-        if icon:
-            self._model.set_value(iter, 4, albumArtCache.makeIconFrame(icon))
-        else:
-            self._model.set_value(iter, 4, None)
-            self.emit("album-art-updated")
+
 
     def _addListRenderers(self):
         pass

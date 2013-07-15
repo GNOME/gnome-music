@@ -429,7 +429,7 @@ class ArtistAlbumWidget(Gtk.HBox):
 
         self.cache = AlbumArtCache.getDefault()
         pixbuf = self.cache.makeDefaultIcon(128, 128)
-        GLib.idle_add(300, self._updateAlbumArt)
+        GLib.idle_add(self._updateAlbumArt)
 
         self.ui.get_object("cover").set_from_pixbuf(pixbuf)
         self.ui.get_object("title").set_label(album.get_title())

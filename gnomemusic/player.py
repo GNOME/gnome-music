@@ -92,7 +92,7 @@ class Player(GObject.GObject):
         self.bus.connect("message::eos", self._onBusEos)
         self._setupView()
         if self.nextTrack:
-            GLib.idle_add(GLib.PRIORITY_HIGH, self._onGLibIdle)
+            GLib.idle_add(self._onGLibIdle)
         elif (self.repeat == RepeatType.NONE):
             self.stop()
             self.playBtn.set_image(self._playImage)

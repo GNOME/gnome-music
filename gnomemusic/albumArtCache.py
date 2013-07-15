@@ -105,22 +105,22 @@ class AlbumArtCache:
             ctx.fill()
 
     def _tryLoad(self, size, artist, album, i, format, callback):
-        if i >= self._keybuilder_funcs.length:
+        if i >= len(self._keybuilder_funcs):
             if format == 'jpeg':
                 self._tryLoad(size, artist, album, 0, 'png', callback)
             else:
                 callback(None)
             return
 
-        key = self._keybuilder_funcs[i].call(self, artist, album)
+        key = self._keybuilder_funcs[i].__call__( artist, album)
         path = GLib.build_filenamev([self.cacheDir, key + '.' + format])
         file = Gio.File.new_for_path(path)
 
-        def on_read_ready(object, res):
+        def on_read_ready(object, res, data=None):
             try:
                 stream = object.read_finish(res)
 
-                def on_pixbuf_ready(source, res):
+                def on_pixbuf_ready(source, res, data=None):
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res)
                         width = pixbuf.get_width()
@@ -139,7 +139,7 @@ class AlbumArtCache:
                     self._tryLoad(size, artist, album, ++i, format, callback)
 
                 GdkPixbuf.Pixbuf.new_from_stream_async(stream, None,
-                                                       on_pixbuf_ready)
+                                                       on_pixbuf_ready, None)
                 return
 
             except GLib.Error as error:
@@ -148,7 +148,7 @@ class AlbumArtCache:
 
             self._tryLoad(size, artist, album, ++i, format, callback)
 
-        file.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready)
+        file.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
 
     def lookup(self, size, artist, album, callback):
         self._tryLoad(size, artist, album, 0, 'jpeg', callback)
@@ -190,11 +190,11 @@ class AlbumArtCache:
     def normalizeAndHash(self, input_str):
         normalized = " "
 
-        if input_str is not None and input_str.length() > 0:
+        if input_str is not None and len(input_str) > 0:
             normalized = self.stripInvalidEntities(input_str)
             normalized = GLib.utf8_normalize(normalized, -1,
                                              GLib.NormalizeMode.NFKD)
-            normalized = normalized.toLowerCase()
+            normalized = normalized.lower()
 
         return GLib.compute_checksum_for_string(GLib.ChecksumType.MD5,
                                                 normalized, -1)
@@ -242,7 +242,7 @@ class AlbumArtCache:
                 p = p[pos2 + 1:]
 
                 # Do same again for position AFTER block
-                if p.length == 0:
+                if len(p) == 0:
                     blocks_done = True
 
         # Now convert chars to lower case
