@@ -50,7 +50,7 @@ class Grilo(GObject.GObject):
         self.populateItems(Query.artist, offset, callback)
 
     def populateAlbums(self, offset, callback, count=50):
-        self.populateItems(Query.album, offset, callback, count)
+        self.populateItems(Query.ALBUMS, offset, callback, count)
 
     def populateSongs(self, offset, callback):
         self.populateItems(Query.songs, offset, callback)
