@@ -175,7 +175,7 @@ class AlbumWidget(Gtk.EventBox):
             self.updateModel(self.player, cachedPlaylist,
                              self.player.currentTrack)
         else:
-            self.model = Gtk.ListStore([
+            self.model = Gtk.ListStore(
                 GObject.TYPE_STRING,  # title
                 GObject.TYPE_STRING,
                 GObject.TYPE_STRING,
@@ -186,11 +186,8 @@ class AlbumWidget(Gtk.EventBox):
                 GObject.TYPE_STRING,
                 GObject.TYPE_BOOLEAN,
                 GObject.TYPE_BOOLEAN,
-            ])
-            grilo.getAlbumSongs(item.get_id(),
-                                self._onGetAlbumSongs(self.source,
-                                                      self.prefs,
-                                                      self.track))
+            )
+            grilo.getAlbumSongs(item.get_id(), self._onGetAlbumSongs)
         header_bar._selectButton.connect(
             'toggled',
             self._onHeaderSelectButtonToggled(self.button))
