@@ -74,10 +74,10 @@ class Window(Gtk.ApplicationWindow):
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
-            self.views[0] = Views.Albums(self.toolbar, self.selectionToolbar, self.player)
-            self.views[1] = Views.Artists(self.toolbar, self.selectionToolbar, self.player)
-            self.views[2] = Views.Songs(self.toolbar, self.selectionToolbar, self.player)
-            self.views[3] = Views.Playlists(self.toolbar, self.selectionToolbar, self.player)
+            self.views.append(Views.Albums(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Artists(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Songs(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Playlists(self.toolbar, self.selectionToolbar, self.player))
 
             for i in self.views:
                 self._stack.add_titled(
