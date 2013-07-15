@@ -99,7 +99,8 @@ class Player(GObject.GObject):
     timeout = None
 
     __gsignals__ = {
-        'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
     def __init__(self):
