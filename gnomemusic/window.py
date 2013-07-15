@@ -98,7 +98,7 @@ class Window(Gtk.ApplicationWindow):
         self._box.show()
         self.show()
 
-    def _notifyModeDisconnect(self):
+    def _notifyModeDisconnect(self, data=None):
         self._stack.disconnect(self._onNotifyModelId)
 
     def _onNotifyMode(self, stack, param):
