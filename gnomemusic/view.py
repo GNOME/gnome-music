@@ -127,7 +127,6 @@ class ViewContainer(Gtk.Stack):
         self._onScrolledWinChange()
 
     def _onScrolledWinChange(self, data=None):
-        print("_onScrolledWinChange")
         vScrollbar = self.view.get_vscrollbar()
         adjustment = self.view.get_vadjustment()
         revealAreaHeight = 32
