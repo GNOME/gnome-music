@@ -165,7 +165,7 @@ class AlbumWidget(Gtk.EventBox):
         self.ui.get_object("cover").set_from_pixbuf(self._symbolicIcon)
         ALBUM_ART_CACHE.lookup(256, artist,
                                item.get_string(Grl.METADATA_KEY_ALBUM),
-                               self._onLookUp(self.pixbuf))
+                               self._onLookUp)
 
         # if the active queue has been set by self album,
         # use it as model, otherwise build the liststore
