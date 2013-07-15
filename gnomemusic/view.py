@@ -160,7 +160,7 @@ class ViewContainer(Gtk.Stack):
     def populate():
         pass
 
-    def _addItem(self, source, param, item):
+    def _addItem(self, source, param, item, a, b, c):
         if item is not None:
             self._offset += 1
             iter = self._model.append()
@@ -248,7 +248,7 @@ class Albums(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateAlbums(self._offset, self._addItem, None)
+            grilo.populateAlbums(self._offset, self._addItem)
 
 
 class Songs(ViewContainer):
@@ -373,7 +373,7 @@ class Songs(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateSongs(self._offset, lambda: self._addItem, None)
+            grilo.populateSongs(self._offset, self._addItem, None)
 
 
 class Playlist(ViewContainer):
@@ -475,5 +475,5 @@ class Artists (ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateArtists(self._offset, lambda: self._addItem, None)
+            grilo.populateArtists(self._offset, self._addItem, None)
             #FIXME: We're emitting self too early, need to wait for all artists to be filled in
