@@ -80,7 +80,7 @@ class ViewContainer(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._onGriloReady)
-        self.header_bar.connect('state-changed', self._onStateChanged)
+        self.headerBar.header_bar.connect('state-changed', self._onStateChanged)
         self.view.connect('view-selection-changed', self._onViewSelectionChanged)
 
     def _onHeaderBarToggled(self, button):
