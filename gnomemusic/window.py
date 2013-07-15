@@ -82,6 +82,8 @@ class Window(Gtk.ApplicationWindow):
             for i in self.views:
                 self._stack.add_titled(i, i.title, i.title)
 
+            self.toolbar.set_stack(self._stack)
+
             self._onNotifyModelId = self._stack.connect("notify::visible-child", self._onNotifyMode)
             self.connect("destroy", self._notifyModeDisconnect)
 
