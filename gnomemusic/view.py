@@ -124,17 +124,10 @@ class ViewContainer(Gtk.Stack):
             'value-changed',
             self._onScrolledWinChange)
 
-        self._adjustmentChangedId = vadjustment.connect(
-            'changed',
-            self._onScrolledWinChange)
-
-        self._scrollbarVisibleId = vadjustment.connect(
-            'notify::visible',
-            self._onScrolledWinChange)
-
         self._onScrolledWinChange()
 
     def _onScrolledWinChange(self, data=None):
+        print("_onScrolledWinChange")
         vScrollbar = self.view.get_vscrollbar()
         adjustment = self.view.get_vadjustment()
         revealAreaHeight = 32
