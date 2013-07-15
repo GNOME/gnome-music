@@ -28,7 +28,7 @@ class LoadMoreButton:
         self.widget = Gtk.Button(no_show_all=True,
                                  child=child)
         self.widget.get_style_context().add_class('documents-load-more')
-        self.widget.connect('clicked', self._onLoadMoreClicked())
+        self.widget.connect('clicked', self._onLoadMoreClicked)
         self._onItemCountChanged()
 
     def _onLoadMoreClicked(self):
