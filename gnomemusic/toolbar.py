@@ -16,7 +16,7 @@ class Toolbar():
         self._ui.add_from_resource('/org/gnome/music/Headerbar.ui')
         self.headerBar = self._ui.get_object('header-bar')
         self._selectButton = self._ui.get_object('select-button')
-        self._cancelButton = self._ui.get_object('cancel-button')
+        self._cancelButton = self._ui.get_object('done-button')
         self._backButton = self._ui.get_object('back-button')
         self._closeSeparator = self._ui.get_object("close-button-separator")
         self._closeButton = self._ui.get_object("close-button")

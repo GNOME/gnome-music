@@ -56,6 +56,7 @@ class LoadMoreButton:
 
 class AlbumWidget(Gtk.EventBox):
     def __init__(self, player):
+        super()
         self.player = player
         self.hbox = Gtk.HBox()
         self.iterToClean = None
@@ -82,8 +83,6 @@ class AlbumWidget(Gtk.EventBox):
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.album = None
         self.view.connect('item-activated', self._onItemActivated)
-
-        self.super()
 
         view_box = self.ui.get_object("view")
         child_view = self.view.get_children()[0]

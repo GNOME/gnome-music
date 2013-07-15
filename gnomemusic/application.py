@@ -5,7 +5,6 @@ from gnomemusic.window import Window
 class Application(Gtk.Application):
     def __init__(self):
         Gtk.Application.__init__(self,
-                                 application_id='org.gnome.Music',
                                  flags=Gio.ApplicationFlags.FLAGS_NONE,
                                  inactivity_timeout=12000)
         GLib.set_application_name("Music")
