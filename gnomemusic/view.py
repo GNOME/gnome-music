@@ -76,7 +76,7 @@ class ViewContainer(Gtk.Stack):
         self._items = []
         self._loadMore.widget.hide()
         self._connectView()
-        self._symbolicIcon = albumArtCache.makeDefaultIcon(self._iconHeight, self._iconWidth)
+        self._symbolicIcon = albumArtCache.makeDefaultIcon(self, self._iconHeight, self._iconWidth)
 
         self._init = False
         grilo.connect('ready', self._onGriloReady)
@@ -262,7 +262,7 @@ class Songs(ViewContainer):
         self.view.get_generic_view().get_style_context().add_class("songs-list")
         self._iconHeight = 32
         self._iconWidth = 32
-        self._symbolicIcon = albumArtCache.makeDefaultIcon(self._iconHeight, self._iconWidth)
+        self._symbolicIcon = albumArtCache.makeDefaultIcon(self, self._iconHeight, self._iconWidth)
         self._addListRenderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.updateModel)
