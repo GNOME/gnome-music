@@ -55,8 +55,12 @@ class LoadMoreButton:
 
 
 class AlbumWidget(Gtk.EventBox):
+
+    tracks = []
+    duration = 0
+
     def __init__(self, player):
-        super()
+        super(Gtk.EventBox, self)
         self.player = player
         self.hbox = Gtk.HBox()
         self.iterToClean = None
@@ -160,7 +164,7 @@ class AlbumWidget(Gtk.EventBox):
         released_date = item.get_publication_date()
         if released_date is not None:
             self.ui.get_object("released_label_info").set_text(
-                released_date.get_year().toString())
+                str(released_date.get_year()))
         self.album = album
         self.ui.get_object("cover").set_from_pixbuf(self._symbolicIcon)
         ALBUM_ART_CACHE.lookup(256, artist,
@@ -188,14 +192,9 @@ class AlbumWidget(Gtk.EventBox):
                 GObject.TYPE_BOOLEAN,
             )
             grilo.getAlbumSongs(item.get_id(), self._onGetAlbumSongs)
-        header_bar._selectButton.connect(
-            'toggled',
-            self._onHeaderSelectButtonToggled(self.button))
-        header_bar._cancelButton.connect(
-            'clicked',
-            self._onHeaderCancelButtonClicked(self.button))
-        self.view.connect('view-selection-changed',
-                          self._onViewSelectionChanged())
+        header_bar._selectButton.connect('toggled', self._onHeaderSelectButtonToggled)
+        header_bar._cancelButton.connect('clicked', self._onHeaderCancelButtonClicked)
+        self.view.connect('view-selection-changed', self._onViewSelectionChanged)
         self.view.set_model(self.model)
         escapedArtist = GLib.markup_escape_text(artist, -1)
         escapedAlbum = GLib.markup_escape_text(album, -1)
@@ -203,11 +202,11 @@ class AlbumWidget(Gtk.EventBox):
         self.ui.get_object("title_label").set_markup(escapedAlbum)
         if (item.get_creation_date()):
             self.ui.get_object("released_label_info").set_text(
-                item.get_creation_date().get_year().toString())
+                str(item.get_creation_date().get_year()))
         else:
             self.ui.get_object("released_label_info").set_text("----")
-        self.player.connect('playlist-item-changed', self.updateModel())
-        self.emit('loaded')
+        self.player.connect('playlist-item-changed', self.updateModel)
+        #self.emit('loaded')
 
     def _onViewSelectionChanged(self):
         items = self.view.get_selection()
@@ -233,9 +232,9 @@ class AlbumWidget(Gtk.EventBox):
             if(self.player.PlaybackStatus != 'Stopped'):
                 self.player.eventBox.set_visible(True)
 
-    def _onGetAlbumSongs(self, source, prefs, track):
+    def _onGetAlbumSongs(self, source, prefs, track, a, b, c):
         if track is not None:
-            self.tracks.push(track)
+            self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
             iter = self.model.append()
             escapedTitle = GLib.markup_escape_text(track.get_title(), -1)
@@ -254,8 +253,8 @@ class AlbumWidget(Gtk.EventBox):
                                [escapedTitle, "", "", "", self._symbolicIcon,
                                 track, True, ERROR_ICON_NAME, False])
             self.ui.get_object("running_length_label_info").set_text(
-                (int(self.duration / 60) + 1) + " min")
-            self.emit("track-added")
+                "%d min" % (int(self.duration / 60) + 1))
+            #self.emit("track-added")
 
     def _onLookUp(self, pixbuf):
         if pixbuf is not None:
@@ -294,6 +293,7 @@ class AlbumWidget(Gtk.EventBox):
 
 class ArtistAlbums(Gtk.VBox):
     def __init__(self, artist, albums, player):
+        super(Gtk.VBox, self)
         self.player = player
         self.artist = artist
         self.albums = albums
@@ -335,7 +335,7 @@ class ArtistAlbums(Gtk.VBox):
     def addAlbum(self, album):
         widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
         self._albumBox.pack_start(widget, False, False, 0)
-        self.widgets.push(widget)
+        self.widgets.append(widget)
 
     def cleanModel(self):
         [res, iter] = self.model.get_iter_first()
@@ -354,7 +354,7 @@ class ArtistAlbums(Gtk.VBox):
 class AllArtistsAlbums(ArtistAlbums):
 
     def __init__(self, player):
-        ArtistAlbums.__init__("All Artists", [], player)
+        super(ArtistAlbums, "All Artists", [], player)
         self._offset = 0
         self.countQuery = Query.album_count
         self._loadMore = LoadMoreButton(self, self._getRemainingItemCount)
@@ -415,6 +415,7 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.HBox):
 
     def __init__(self, artist, album, player, model):
+        super(Gtk.HBox, self)
         self.player = player
         self.album = album
         self.artist = artist
@@ -443,7 +444,7 @@ class ArtistAlbumWidget(Gtk.HBox):
 
     def getSongs(self, source, prefs, track):
         if track is not None:
-            self.tracks.push(track)
+            self.tracks.append(track)
 
         else:
             for i in self.tracks.length:
@@ -451,9 +452,9 @@ class ArtistAlbumWidget(Gtk.HBox):
                 ui = Gtk.Builder()
                 ui.add_from_resource('/org/gnome/music/TrackWidget.ui')
                 songWidget = ui.get_object("eventbox1")
-                self.songs.push(songWidget)
+                self.songs.append(songWidget)
                 ui.get_object("num").set_markup("<span color='grey'>"
-                                                + self.songs.length.toString()
+                                                + str(self.songs.length)
                                                 + "</span>")
                 if track.get_title() is not None:
                     ui.get_object("title").set_text(track.get_title())

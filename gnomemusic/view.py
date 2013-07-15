@@ -124,8 +124,6 @@ class ViewContainer(Gtk.Stack):
             'value-changed',
             self._onScrolledWinChange)
 
-        self._onScrolledWinChange()
-
     def _onScrolledWinChange(self, data=None):
         vScrollbar = self.view.get_vscrollbar()
         adjustment = self.view.get_vadjustment()
@@ -235,8 +233,8 @@ class Albums(ViewContainer):
         item = self._model.get_value(iter, 5)
         self._albumWidget.update(artist, title, item, self.headerBar, self.selectionToolbar)
         self.headerBar.setState(0)
-        self.headerBar.header_bar.title = title
-        self.headerBar.header_bar.sub_title = artist
+        self.headerBar.headerBar.title = title
+        self.headerBar.headerBar.sub_title = artist
         self.visible_child = self._albumWidget
 
     def populate(self):
