@@ -15,6 +15,7 @@ class ViewContainer(Gtk.Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
+    countQuery = None
 
     def __init__(self, title, headerBar, selectionToolbar, useStack=False):
         Gtk.Stack.__init__(self, transition_type=Gtk.StackTransitionType.CROSSFADE)
