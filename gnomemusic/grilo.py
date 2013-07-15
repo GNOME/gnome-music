@@ -56,19 +56,19 @@ class Grilo(GObject.GObject):
         self.populateItems(Query.songs, offset, callback)
 
     def populateItems(self, query, offset, callback, count=50):
-        options = Grl.OperationOptions(None)
+        options = Grl.OperationOptions()
         options.set_flags(Grl.ResolutionFlags.FULL |
                           Grl.ResolutionFlags.IDLE_RELAY)
         options.set_skip(offset)
         options.set_count(count)
-        self.tracker.query(query, self.METADATA_KEYS, options, callback)
+        self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
     def getAlbumSongs(self, album_id, callback):
         query = Query.album_songs(album_id)
-        options = Grl.OperationOptions(None)
+        options = Grl.OperationOptions()
         options.set_flags(Grl.ResolutionFlags.FULL |
                           Grl.ResolutionFlags.IDLE_RELAY)
-        self.tracker.query(query, self.METADATA_KEYS, options, callback)
+        self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
     def _searchCallback(self):
         print("yeah")
