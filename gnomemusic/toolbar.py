@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 
 
 class ToolbarState:
@@ -9,10 +9,15 @@ class ToolbarState:
     SONGS = 4
 
 
-class Toolbar():
+class Toolbar(GObject.GObject):
+
+    __gsignals__ = {
+        'state-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+    }
     _selectionMode = None
 
     def __init__(self):
+        GObject.GObject.__init__(self)
         self._stackSwitcher = Gtk.StackSwitcher()
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/music/Headerbar.ui')
