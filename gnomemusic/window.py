@@ -91,7 +91,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[0] = Views.Empty(self.toolbar, self.player)
             self._stack.add_titled(self.views[0], "Empty", "Empty")
 
-        self.toolbar.header_bar.show()
+        self.toolbar.headerBar.show()
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
