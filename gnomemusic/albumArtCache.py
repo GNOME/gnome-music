@@ -1,4 +1,6 @@
-from gi.repository import GdkPixbuf, Gio, GLib, Grl
+from gi.repository import GdkPixbuf, Gio, GLib, Grl, Gdk
+import cairo
+from math import pi
 
 import os
 import re
@@ -16,9 +18,6 @@ class AlbumArtCache:
         else:
             self.instance = AlbumArtCache()
         return self.instance
-
-    def makeDefaultIcon(self, width, height):
-        pass
 
     def __init__(self):
         self.logLookupErrors = False
@@ -38,6 +37,72 @@ class AlbumArtCache:
             Gio.file_new_for_path(self.cacheDir).make_directory(None)
         except:
             pass
+
+    def makeDefaultIcon(self, width, height):
+        path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
+        # get a small pixbuf with the given path
+        icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, 
+                    -1 if width < 0 else width/4,
+                    -1 if height < 0 else height/4,
+                    True)
+
+        # create an empty pixbuf with the requested size
+        result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
+                True,
+                icon.get_bits_per_sample(),
+                icon.get_width()*4,
+                icon.get_height()*4)
+        result.fill(0xffffffff)
+        icon.composite(result,
+                        icon.get_width()*3/2,
+                        icon.get_height()*3/2,
+                        icon.get_width(),
+                        icon.get_height(),
+                        icon.get_width()*3/2,
+                        icon.get_height()*3/2,
+                        1, 1,
+                        GdkPixbuf.InterpType.NEAREST, 0xff)
+        return self.makeIconFrame(result)
+
+    def makeIconFrame(self, pixbuf):
+        border = 1.5
+        pixbuf = pixbuf.scale_simple(pixbuf.get_width() - border * 2,
+                                     pixbuf.get_height() - border * 2,
+                                     0)
+
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+                                     int(pixbuf.get_width() + border * 2),
+                                     int(pixbuf.get_height() + border * 2))
+        ctx = cairo.Context(surface)
+        self.drawRoundedPath(ctx, 0, 0,
+                             pixbuf.get_width()  + border * 2,
+                             pixbuf.get_height()  + border * 2,
+                             3)
+        result = Gdk.pixbuf_get_from_surface(surface, 0, 0,
+                                             pixbuf.get_width() + border * 2,
+                                             pixbuf.get_height() + border * 2)
+
+        pixbuf.copy_area(border, border,
+                        pixbuf.get_width() - border * 2,
+                        pixbuf.get_height() - border * 2,
+                        result,
+                        border * 2, border * 2)
+
+        return result
+
+    def drawRoundedPath(self, ctx, x, y, width, height, radius):
+            degrees = pi / 180;
+            ctx.new_sub_path()
+            ctx.arc(x + width - radius, y + radius, radius - 0.5, -90 * degrees, 0 * degrees)
+            ctx.arc(x + width - radius, y + height - radius, radius - 0.5, 0 * degrees, 90 * degrees)
+            ctx.arc(x + radius, y + height - radius, radius - 0.5, 90 * degrees, 180 * degrees)
+            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * degrees, 270 * degrees)
+            ctx.close_path()
+            ctx.set_line_width(0.6)
+            ctx.set_source_rgb(0.2, 0.2, 0.2)
+            ctx.stroke_preserve()
+            ctx.set_source_rgb(1, 1, 1)
+            ctx.fill()
 
     def _tryLoad(self, size, artist, album, i, format, callback):
         if i >= self._keybuilder_funcs.length:

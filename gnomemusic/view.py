@@ -75,7 +75,8 @@ class ViewContainer(Gtk.Stack):
         self._items = []
         self._loadMore.widget.hide()
         self._connectView()
-        self._symbolicIcon = albumArtCache.makeDefaultIcon(self, self._iconHeight, self._iconWidth)
+        self.cache = albumArtCache.getDefault()
+        self._symbolicIcon = self.cache.makeDefaultIcon(self._iconHeight, self._iconWidth)
 
         self._init = False
         grilo.connect('ready', self._onGriloReady)
@@ -182,7 +183,7 @@ class ViewContainer(Gtk.Stack):
                 self._model.set(iter,
                                 [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                                 [str(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, self.errorIconName, False, True])
-            GLib.idle_add(300, lambda item, iter: self._updateAlbumArt, item, iter)
+            GLib.idle_add(300, self._updateAlbumArt, item, iter)
 
     def _getRemainingItemCount(self):
         count = -1
@@ -261,7 +262,8 @@ class Songs(ViewContainer):
         self.view.get_generic_view().get_style_context().add_class("songs-list")
         self._iconHeight = 32
         self._iconWidth = 32
-        self._symbolicIcon = albumArtCache.makeDefaultIcon(self, self._iconHeight, self._iconWidth)
+        self.cache = albumArtCache.getDefault()
+        self._symbolicIcon = self.cache.makeDefaultIcon(self._iconHeight, self._iconWidth)
         self._addListRenderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.updateModel)
