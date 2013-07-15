@@ -132,7 +132,7 @@ class AlbumArtCache:
                                      path)
 
                             return
-                    except GLib.Error as error:
+                    except Exception as error:
                         if self.logLookupErrors:
                             print("ERROR:", error)
 
@@ -142,8 +142,8 @@ class AlbumArtCache:
                                                        on_pixbuf_ready, None)
                 return
 
-            except GLib.Error as error:
-                if (self.logLookupErrors):
+            except Exception as error:
+                if self.logLookupErrors:
                     print("ERROR:", error)
 
             self._tryLoad(size, artist, album, ++i, format, callback)
