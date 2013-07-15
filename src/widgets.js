@@ -256,7 +256,7 @@ const AlbumWidget = new Lang.Class({
                         log("failed to discover url " + track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5, 7, 9],
-                            [ escapedTitle, "", "", "", this._symbolicIcon, track, true, errorIconName, false]);
+                            [ escapedTitle, "", "", "", this._symbolicIcon, track, errorIconName, true]);
                     }
 
                     this.ui.get_object("running_length_label_info").set_text(
