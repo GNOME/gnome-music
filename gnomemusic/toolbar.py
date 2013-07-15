@@ -10,6 +10,8 @@ class ToolbarState:
 
 
 class Toolbar():
+    _selectionMode = None
+
     def __init__(self):
         self._stackSwitcher = Gtk.StackSwitcher()
         self._ui = Gtk.Builder()
