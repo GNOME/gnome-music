@@ -134,8 +134,7 @@ class AlbumWidget(Gtk.EventBox):
         typeRenderer = Gd.StyledTextRenderer(xpad=16)
         typeRenderer.ellipsize = Pango.EllipsizeMode.END
         typeRenderer.xalign = 0.0
-        # self function is not needed, just add the renderer!
-        listWidget.add_renderer(typeRenderer)
+        listWidget.add_renderer(typeRenderer, self._typeRendererText, None)
         cols[0].clear_attributes(typeRenderer)
         cols[0].add_attribute(typeRenderer, "markup", 0)
 
@@ -143,7 +142,10 @@ class AlbumWidget(Gtk.EventBox):
         durationRenderer.add_class('dim-label')
         durationRenderer.ellipsize = Pango.EllipsizeMode.END
         durationRenderer.xalign = 1.0
-        listWidget.add_renderer(durationRenderer, self._durationRendererText())
+        listWidget.add_renderer(durationRenderer, self._durationRendererText, None)
+
+    def _typeRendererText(self, col, cell, model, iter):
+        pass
 
     def _durationRendererText(self):
         item = self.model.get_value(iter, 5)
