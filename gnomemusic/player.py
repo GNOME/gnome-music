@@ -137,8 +137,9 @@ class Player(GObject.GObject):
             self.playBtn.set_image(self._playImage)
             self.progressScale.set_value(0)
             self.progressScale.sensitive = False
-            self.currentTrack = self.playlist.get_iter_first()[1]
-            self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+            if self.playlist is not None:
+                self.currentTrack = self.playlist.get_iter_first()[1]
+                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
         else:
             #Stop playback
             self.stop()
