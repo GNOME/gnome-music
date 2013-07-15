@@ -97,7 +97,7 @@ class ViewContainer(Gtk.Stack):
         self.view.set_selection_mode(False)
         self.headerBar.setSelectionMode(False)
 
-    def _onGriloReady(self):
+    def _onGriloReady(self, data=None):
         if (self.headerBar.get_stack().get_visible_child() == self and self._init is False):
             self._populate()
         self.headerBar.get_stack().connect('notify::visible-child', self._onHeaderBarVisible)
@@ -114,7 +114,7 @@ class ViewContainer(Gtk.Stack):
         self._init = True
         self.populate()
 
-    def _onStateChanged(self):
+    def _onStateChanged(self, data=None):
         pass
 
     def _connectView(self):
@@ -133,7 +133,7 @@ class ViewContainer(Gtk.Stack):
 
         self._onScrolledWinChange()
 
-    def _onScrolledWinChange(self):
+    def _onScrolledWinChange(self, data=None):
         vScrollbar = self.view.get_vscrollbar()
         adjustment = self.view.get_vadjustment()
         revealAreaHeight = 32
