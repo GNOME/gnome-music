@@ -114,7 +114,7 @@ class ViewContainer(Gtk.Stack):
         self._init = True
         self.populate()
 
-    def _onStateChanged(self, data=None):
+    def _onStateChanged(self, widget, data=None):
         pass
 
     def _connectView(self):
@@ -230,7 +230,7 @@ class Albums(ViewContainer):
         self.add(self._albumWidget)
         self.headerBar.setState(1)
 
-    def _onStateChanged(self, widget):
+    def _onStateChanged(self, widget, data=None):
         if (self.headerBar.get_stack() is not None) and \
            (self == self.headerBar.get_stack().get_visible_child()):
             self.visible_child = self._grid
