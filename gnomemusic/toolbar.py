@@ -30,7 +30,7 @@ class Toolbar(GObject.GObject):
         self._selectionMenu = self._ui.get_object("selection-menu")
         self._selectionMenuButton = self._ui.get_object("selection-menu-button")
         self._selectionMenuButton.set_relief(Gtk.ReliefStyle.NONE)
-        self.headerBar.custom_title = self._stackSwitcher
+        self.headerBar.set_custom_title(self._stackSwitcher)
         self._searchButton = self._ui.get_object("search-button")
         self._backButton.connect('clicked', self.setState)
         self._closeButton.connect('clicked', self._closeButtonClicked)
@@ -65,15 +65,15 @@ class Toolbar(GObject.GObject):
 
     def _update(self):
         if (self._state == ToolbarState.SINGLE or self._selectionMode):
-            self.headerBar.custom_title = None
+            self.headerBar.set_custom_title(None)
             self._backButton.show()
         else:
             self.title = ""
-            self.headerBar.custom_title = self._stackSwitcher
+            self.headerBar.set_custom_title(self._stackSwitcher)
             self._backButton.hide()
 
         if self._selectionMode:
-            self.headerBar.custom_title = self._selectionMenuButton
+            self.headerBar.set_custom_title(self._selectionMenuButton)
             self._closeSeparator.hide()
             self._closeButton.hide()
         else:
