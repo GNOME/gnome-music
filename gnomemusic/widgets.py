@@ -373,7 +373,7 @@ class AllArtistsAlbums(ArtistAlbums):
         self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar().connect('notify::visible', self._onScrolledWinChange)
         self._onScrolledWinChange()
 
-    def _onScrolledWinChange(self):
+    def _onScrolledWinChange(self, data=None):
         vScrollbar = self._scrolledWindow.get_vscrollbar()
         adjustment = self._scrolledWindow.vadjustment
         revealAreaHeight = 32
