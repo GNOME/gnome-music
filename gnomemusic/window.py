@@ -26,7 +26,7 @@ class Window(Gtk.ApplicationWindow):
                                             'org.gnome.SettingsDaemon.MediaKeys',
                                             None)
         self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant.new('(su)', 'Music'),
+                             GLib.Variant('(su)', ('Music', 0)),
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
@@ -34,7 +34,7 @@ class Window(Gtk.ApplicationWindow):
 
     def _windowsFocusCb(self, window, event):
         self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant.new('(su)', 'Music'),
+                             GLib.Variant('(su)', ('Music', 0)),
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
