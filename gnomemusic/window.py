@@ -83,7 +83,7 @@ class Window(Gtk.ApplicationWindow):
                 self._stack.add_titled(i, i.title, i.title)
 
             self._onNotifyModelId = self._stack.connect("notify::visible-child", self._onNotifyMode)
-            self.connect("destroy", self._stack.disconnect(self._onNotifyModelId))
+            self.connect("destroy", self._notifyModeDisconnect)
 
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
@@ -95,6 +95,9 @@ class Window(Gtk.ApplicationWindow):
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
+
+    def _notifyModeDisconnect(self):
+        self._stack.disconnect(self._onNotifyModelId)
 
     def _onNotifyMode(self, stack, param):
         #Slide out artist list on switching to artists view
