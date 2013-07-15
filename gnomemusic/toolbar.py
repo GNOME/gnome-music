@@ -14,7 +14,7 @@ class Toolbar(GObject.GObject):
     __gsignals__ = {
         'state-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
-    _selectionMode = None
+    _selectionMode = False
 
     def __init__(self):
         GObject.GObject.__init__(self)
@@ -46,7 +46,7 @@ class Toolbar(GObject.GObject):
 
     def setSelectionMode(self, selectionMode):
         self._selectionMode = selectionMode
-        if (selectionMode):
+        if selectionMode:
             self._selectButton.hide()
             self._cancelButton.show()
             self.headerBar.get_style_context().add_class('selection-mode')
@@ -66,16 +66,13 @@ class Toolbar(GObject.GObject):
     def _update(self):
         if (self._state == ToolbarState.SINGLE or self._selectionMode):
             self.headerBar.custom_title = None
+            self._backButton.show()
         else:
             self.title = ""
             self.headerBar.custom_title = self._stackSwitcher
-
-        if (self._state == ToolbarState.SINGLE and self._selectionMode is not None):
-            self._backButton.show()
-        else:
             self._backButton.hide()
 
-        if (self._selectionMode):
+        if self._selectionMode:
             self.headerBar.custom_title = self._selectionMenuButton
             self._closeSeparator.hide()
             self._closeButton.hide()
