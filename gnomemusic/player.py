@@ -287,7 +287,7 @@ class Player(GObject.GObject):
         self.emit("playlist-item-changed", self.playlist, self.currentTrack)
         self.emit('current-changed')
 
-    def _onCacheLookup(self, pixbuf):
+    def _onCacheLookup(self, pixbuf, path):
         if pixbuf is not None:
             self.coverImg.set_from_pixbuf(pixbuf)
 
