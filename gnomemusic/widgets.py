@@ -122,8 +122,8 @@ class AlbumWidget(Gtk.EventBox):
         cols[0].set_min_width(310)
         cols[0].set_max_width(470)
         cells = cols[0].get_cells()
-        cells[2].visible = False
-        cells[1].visible = False
+        cells[2].set_visible(False)
+        cells[1].set_visible(False)
 
         now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0)
 

@@ -93,25 +93,9 @@ class Player(GObject.GObject):
         self.bus.connect("message::error", self._onBusError)
         self.bus.connect("message::eos", self._onBusEos)
         self._setupView()
-        if self.nextTrack:
-            GLib.idle_add(self._onGLibIdle)
-        elif (self.repeat == RepeatType.NONE):
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self.progressScale.set_value(0)
-            self.progressScale.sensitive = False
-            if self.playlist is not None:
-                self.currentTrack = self.playlist.get_iter_first()[1]
-                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
-        else:
-            #Stop playback
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self.progressScale.set_value(0)
-            self.progressScale.sensitive = False
 
-    def _onSettingsChanged(self):
-        self.repeat = self.settings.get_enum('repeat')
+    def _onSettingsChanged(self, settings, value):
+        self.repeat = settings.get_enum('repeat')
         self._syncPrevNext()
         self._syncRepeatImage()
 
@@ -137,6 +121,23 @@ class Player(GObject.GObject):
     def _onBusEos(self, bus, message):
         self.nextTrack = self._getNextTrack()
 
+        if self.nextTrack:
+            GLib.idle_add(self._onGLibIdle)
+        elif (self.repeat == RepeatType.NONE):
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self.progressScale.set_value(0)
+            self.progressScale.set_sensitive(False)
+            if self.playlist is not None:
+                self.currentTrack = self.playlist.get_iter_first()[1]
+                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+        else:
+            #Stop playback
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self.progressScale.set_value(0)
+            self.progressScale.set_sensitive(False)
+
     def _onGLibIdle(self):
         self.currentTrack = self.nextTrack
         self.play()
@@ -147,47 +148,46 @@ class Player(GObject.GObject):
         if self.repeat == RepeatType.SONG:
             nextTrack = currentTrack
         elif self.repeat == RepeatType.ALL:
-            nextTrack = currentTrack.copy()
-            if self.playlist.iter_next(nextTrack) is not None:
-                nextTrack = self.playlist.get_iter_first()[1]
+            nextTrack = self.playlist.iter_next(currentTrack)
+            if nextTrack is None:
+                nextTrack = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.NONE:
-            nextTrack = currentTrack.copy()
-            nextTrack = nextTrack if self.playlist.iter_next(nextTrack) else None
+            nextTrack = self.playlist.iter_next(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
             for i in range(1, randint(1, rows)):
-                self.playlist.iter_next(nextTrack)
+                nextTrack = self.playlist.iter_next(nextTrack)
 
         return nextTrack
 
     def _getIterLast(self):
-        ok, iter = self.playlist.get_iter_first()
+        iter = self.playlist.get_iter_first()
         last = None
 
-        while(ok):
-            last = iter.copy()
-            ok = self.playlist.iter_next(iter)
+        while iter is not None:
+            last = iter
+            iter = self.playlist.iter_next(iter)
 
         return last
 
     def _getPreviousTrack(self):
         currentTrack = self.currentTrack
+        previousTrack = None
 
         if self.repeat == RepeatType.SONG:
             previousTrack = currentTrack
         elif self.repeat == RepeatType.ALL:
-            previousTrack = currentTrack.copy()
-            if self.playlist.iter_previous(previousTrack) is not None:
+            previousTrack = self.playlist.iter_previous(currentTrack)
+            if previousTrack is None:
                 previousTrack = self._getIterLast()
         elif self.repeat == RepeatType.NONE:
-            previousTrack = currentTrack.copy()
-            previousTrack = previousTrack if self.playlist.iter_previous(previousTrack) else None
+            previousTrack = self.playlist.iter_previous(previousTrack)
         elif self.repeat == RepeatType.SHUFFLE:
-            previousTrack = self.playlist.get_iter_first()[1]
+            previousTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
             for i in range(1, randint(1, rows)):
-                self.playlist.iter_next(previousTrack)
+                previousTrack = self.playlist.iter_next(previousTrack)
 
         return previousTrack
 
@@ -196,14 +196,14 @@ class Player(GObject.GObject):
             return True
         else:
             tmp = self.currentTrack.copy()
-            return self.playlist.iter_next(tmp)
+            return self.playlist.iter_next(tmp) is not None
 
     def _hasPrevious(self):
         if self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
         else:
             tmp = self.currentTrack.copy()
-            return self.playlist.iter_previous(tmp)
+            return self.playlist.iter_previous(tmp) is not None
 
     def getPlaying(self):
         ok, state, pending = self.player.get_state(0)
@@ -216,14 +216,16 @@ class Player(GObject.GObject):
             return False
 
     def _syncPlaying(self):
-        self.playBtn.image = self._playImage if self.playing is True else self._pauseImage
+        image = self._pauseImage if self.getPlaying() else self._playImage
+        if self.playBtn.get_image() != image:
+            self.playBtn.set_image(image)
 
     def _syncPrevNext(self):
         hasNext = self._hasNext()
         hasPrevious = self._hasPrevious()
 
-        self.nextBtn.sensitive = hasNext
-        self.prevBtn.sensitive = hasPrevious
+        self.nextBtn.set_sensitive(hasNext)
+        self.prevBtn.set_sensitive(hasPrevious)
 
         #self._dbusImpl.emit_property_changed('CanGoNext', GLib.Variant.new('b', hasNext))
         #self._dbusImpl.emit_property_changed('CanGoPrevious', GLib.Variant.new('b', hasPrevious))
@@ -243,9 +245,9 @@ class Player(GObject.GObject):
     def load(self, media):
         self._setDuration(media.get_duration())
         self.songTotalTimeLabel.label = self.secondsToString(media.get_duration())
-        self.progressScale.sensitive = True
+        self.progressScale.set_sensitive(True)
 
-        self.playBtn.sensitive = True
+        self.playBtn.set_sensitive(True)
         self._syncPrevNext()
 
         self.coverImg.set_from_pixbuf(self._symbolicIcon)
@@ -309,15 +311,16 @@ class Player(GObject.GObject):
     def pause(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
-            self.timeout = 0
+            self.timeout = None
 
         self.player.set_state(Gst.State.PAUSED)
         #self._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Paused'))
+        self.emit('playing-changed')
 
     def stop(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
-            self.timeout = 0
+            self.timeout = None
 
         self.player.set_state(Gst.State.NULL)
         #self._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Stopped'))
@@ -327,7 +330,7 @@ class Player(GObject.GObject):
         if self.playlist is None:
             return True
 
-        if not self.nextBtn.sensitive:
+        if not self.nextBtn.get_sensitive():
             return True
 
         self.stop()
@@ -340,7 +343,7 @@ class Player(GObject.GObject):
         if self.playlist is None:
             return
 
-        if self.prevBtn.sensitive is False:
+        if self.prevBtn.get_sensitive() is False:
             return
 
         self.stop()
@@ -399,11 +402,11 @@ class Player(GObject.GObject):
         self.progressScale.connect("value-changed", self._onProgressValueChanged)
         self.progressScale.connect("button-release-event", self._onProgressScaleButtonReleased)
 
-    def _onProgressScaleButtonReleased(self):
+    def _onProgressScaleButtonReleased(self, scale, data):
         self.onProgressScaleChangeValue(self.progressScale)
         self._updatePositionCallback()
         self.player.set_state(self._lastState)
-        self.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, self._updatePositionCallback)
+        self.timeout = GLib.timeout_add(1000, self._updatePositionCallback)
         return False
 
     def _onProgressValueChanged(self, widget):
@@ -411,7 +414,7 @@ class Player(GObject.GObject):
         self.songPlaybackTimeLabel.set_label(self.secondsToString(seconds))
         return False
 
-    def _onProgressScaleEvent(self):
+    def _onProgressScaleEvent(self, scale, data):
         self._lastState = self.player.get_state(1)[1]
         self.player.set_state(Gst.State.PAUSED)
         if self.timeout:
@@ -429,7 +432,7 @@ class Player(GObject.GObject):
             return "%s:%s" % (minutes, seconds)
 
     def _onPlayBtnClicked(self, btn):
-        if self.playing:
+        if self.getPlaying():
             self.pause()
         else:
             self.play()
@@ -461,7 +464,7 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
-        self.repeatBtnImage.icon_name = icon
+        self.repeatBtnImage.set_from_icon_name(icon, 0)
         #self._dbusImpl.emit_property_changed('LoopStatus', GLib.Variant.new('s', self.LoopStatus))
         #self._dbusImpl.emit_property_changed('Shuffle', GLib.Variant.new('b', self.Shuffle))
 
@@ -471,7 +474,7 @@ class Player(GObject.GObject):
             self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000)
             #self._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [seconds * 1000000]))
         else:
-            duration = self.player.query_duration(Gst.Format.TIME, None)
+            duration = self.player.query_duration(Gst.Format.TIME)
             if duration:
                 #Rewind a second back before the track end
                 self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
@@ -500,14 +503,14 @@ class Player(GObject.GObject):
 
     def Stop(self):
         self.progressScale.set_value(0)
-        self.progressScale.sensitive = False
+        self.progressScale.set_sensitive(False)
         self.playBtn.set_image(self._playImage)
         self.stop()
 
     def SeekAsync(self, params, invocation):
         offset = params
 
-        duration = self.player.query_duration(Gst.Format.TIME, None)
+        duration = self.player.query_duration(Gst.Format.TIME)
         if duration is None:
             return
 
@@ -530,7 +533,7 @@ class Player(GObject.GObject):
         if trackId != '/org/mpris/MediaPlayer2/Track/' + media.get_id():
             return
 
-        duration = self.player.query_duration(Gst.Format.TIME, None)
+        duration = self.player.query_duration(Gst.Format.TIME)
         if duration and position >= 0 and duration[1] >= position * 1000:
             self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, position * 1000)
             #self._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [position]))
