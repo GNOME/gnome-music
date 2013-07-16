@@ -104,7 +104,7 @@ class ViewContainer(Gtk.Stack):
         self.header_bar.get_stack().connect('notify::visible-child', self._on_header_bar_visible)
 
     def _on_header_bar_visible(self, widget, param):
-        if self == widget.get_visible_child() and self._init:
+        if self == widget.get_visible_child() and not self._init:
             self._populate()
 
     def _on_view_selection_changed(self):
@@ -151,7 +151,7 @@ class ViewContainer(Gtk.Stack):
     def populate(self):
         print("populate")
 
-    def _add_item(self, source, param, item, a, b, c):
+    def _add_item(self, source, param, item):
         if item is not None:
             self._offset += 1
             iter = self._model.append()
@@ -328,50 +328,50 @@ class Songs(ViewContainer):
         typeRenderer.ellipsize = Pango.EllipsizeMode.END
         listWidget.add_renderer(typeRenderer, self._on_list_widget_type_render, None)
 
-    def _on_list_widget_title_render(self, col, cell, model, iter):
-        item = model.get_value(iter, 5)
+    def _on_list_widget_title_render(self, col, cell, model, itr, data):
+        item = model.get_value(itr, 5)
         self.xalign = 0.0
         self.yalign = 0.5
         self.height = 48
         self.ellipsize = Pango.EllipsizeMode.END
         self.text = item.get_title()
 
-    def _on_list_widget_star_render(self, col, cell, model, iter):
-        showstar = model.get_value(iter, 9)
+    def _on_list_widget_star_render(self, col, cell, model, itr, data):
+        showstar = model.get_value(itr, 9)
         if(showstar):
             self.icon_name = self.starIconName
         else:
             self.pixbuf = None
 
-    def _on_list_widget_duration_render(self, col, cell, model, iter):
-        item = model.get_value(iter, 5)
+    def _on_list_widget_duration_render(self, col, cell, model, itr, data):
+        item = model.get_value(itr, 5)
         if item:
             duration = item.get_duration()
             minutes = int(duration / 60)
             seconds = duration % 60
             time = None
             if seconds < 10:
-                time = minutes + ":0" + seconds
+                time = str(minutes) + ":0" + str(seconds)
             else:
-                time = minutes + ":" + seconds
+                time = str(minutes) + ":" + str(seconds)
             self.xalign = 1.0
             self.text = time
 
-    def _on_list_widget_artist_render(self, col, cell, model, iter):
-        item = model.get_value(iter, 5)
+    def _on_list_widget_artist_render(self, col, cell, model, itr, data):
+        item = model.get_value(itr, 5)
         if item:
             self.ellipsize = Pango.EllipsizeMode.END
             self.text = item.get_string(Grl.METADATA_KEY_ARTIST)
 
-    def _on_list_widget_type_render(self, coll, cell, model, iter):
-        item = model.get_value(iter, 5)
+    def _on_list_widget_type_render(self, coll, cell, model, itr, data):
+        item = model.get_value(itr, 5)
         if item:
             self.ellipsize = Pango.EllipsizeMode.END
             self.text = item.get_string(Grl.METADATA_KEY_ALBUM)
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populate_songs(self._offset, self._add_item, None)
+            grilo.populate_songs(self._offset, self._add_item)
 
 
 class Playlist(ViewContainer):
