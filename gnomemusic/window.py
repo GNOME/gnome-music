@@ -57,9 +57,9 @@ class Window(Gtk.ApplicationWindow):
     def _setupView(self):
         self._box = Gtk.VBox()
         self.player = Player()
-        self.selectionToolbar = SelectionToolbar()
+        self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
-        self.set_titlebar(self.toolbar.headerBar)
+        self.set_titlebar(self.toolbar.header_bar)
         self.views = []
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -67,25 +67,25 @@ class Window(Gtk.ApplicationWindow):
             visible=True)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
-        self._box.pack_start(self.selectionToolbar.eventbox, False, False, 0)
+        self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
         self.add(self._box)
         count = 1
         cursor = tracker.query(Query.SONGS_COUNT, None)
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
-            self.views.append(Views.Albums(self.toolbar, self.selectionToolbar, self.player))
-            self.views.append(Views.Artists(self.toolbar, self.selectionToolbar, self.player))
-            self.views.append(Views.Songs(self.toolbar, self.selectionToolbar, self.player))
-            #self.views.append(Views.Playlist(self.toolbar, self.selectionToolbar, self.player))
+            self.views.append(Views.Albums(self.toolbar, self.selection_toolbar, self.player))
+            self.views.append(Views.Artists(self.toolbar, self.selection_toolbar, self.player))
+            self.views.append(Views.Songs(self.toolbar, self.selection_toolbar, self.player))
+            #self.views.append(Views.Playlist(self.toolbar, self.selection_toolbar, self.player))
 
             for i in self.views:
                 self._stack.add_titled(i, i.title, i.title)
 
             self.toolbar.set_stack(self._stack)
 
-            self._onNotifyModelId = self._stack.connect("notify::visible-child", self._onNotifyMode)
-            self.connect("destroy", self._notifyModeDisconnect)
+            self._on_notify_model_id = self._stack.connect("notify::visible-child", self._on_notify_mode)
+            self.connect("destroy", self._notify_mode_disconnect)
 
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
@@ -94,15 +94,15 @@ class Window(Gtk.ApplicationWindow):
             self._stack.add_titled(self.views[0], "Empty", "Empty")
 
         self.toolbar.setState(ToolbarState.ALBUMS)
-        self.toolbar.headerBar.show()
+        self.toolbar.header_bar.show()
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
 
-    def _notifyModeDisconnect(self, data=None):
-        self._stack.disconnect(self._onNotifyModelId)
+    def _notify_mode_disconnect(self, data=None):
+        self._stack.disconnect(self._on_notify_model_id)
 
-    def _onNotifyMode(self, stack, param):
+    def _on_notify_mode(self, stack, param):
         #Slide out artist list on switching to artists view
         if stack.get_visible_child() == self.views[1]:
             stack.get_visible_child().stack.set_visible_child_name("dummy")
