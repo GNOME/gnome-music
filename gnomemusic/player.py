@@ -406,7 +406,7 @@ class Player(GObject.GObject):
         self.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, self._updatePositionCallback)
         return False
 
-    def _onProgressValueChanged(self):
+    def _onProgressValueChanged(self, widget):
         seconds = int(self.progressScale.get_value() / 60)
         self.songPlaybackTimeLabel.set_label(self.secondsToString(seconds))
         return False
