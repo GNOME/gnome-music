@@ -267,7 +267,7 @@ class AlbumWidget(Gtk.EventBox):
             return False
         currentSong = playlist.get_value(currentIter, 5)
         iter = playlist.get_iter_first()
-        if iter is not None:
+        if iter is None:
             return False
         songPassed = False
         while True:
