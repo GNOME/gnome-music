@@ -38,7 +38,7 @@ class LoadMoreButton:
 
     def _onItemCountChanged(self):
         remainingDocs = self._counter()
-        visible = remainingDocs <= 0 or self._block
+        visible = remainingDocs >= 0 and not self._block
         self.widget.set_visible(visible)
 
         if visible:
@@ -65,7 +65,7 @@ class AlbumWidget(Gtk.EventBox):
         self.hbox = Gtk.HBox()
         self.iterToClean = None
         self.cache = AlbumArtCache.getDefault()
-        self._symbolicIcon = self.cache.makeDefaultIcon(256, 256)
+        self._symbolicIcon = self.cache.make_default_icon(256, 256)
 
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/music/AlbumWidget.ui')
@@ -426,7 +426,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui.add_from_resource('/org/gnome/music/ArtistAlbumWidget.ui')
 
         self.cache = AlbumArtCache.getDefault()
-        pixbuf = self.cache.makeDefaultIcon(128, 128)
+        pixbuf = self.cache.make_default_icon(128, 128)
         GLib.idle_add(self._updateAlbumArt)
 
         self.ui.get_object("cover").set_from_pixbuf(pixbuf)
