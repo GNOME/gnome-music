@@ -215,7 +215,7 @@ class Player(GObject.GObject):
             return False
 
     def _syncPlaying(self):
-        image = self._playImage if self.playing is True else self._pauseImage
+        image = self._playImage if self.getPlaying() else self._pauseImage
         if self.playBtn.get_image() != image:
             self.playBtn.set_image(image)
 
@@ -430,7 +430,7 @@ class Player(GObject.GObject):
             return "%s:%s" % (minutes, seconds)
 
     def _onPlayBtnClicked(self, btn):
-        if self.playing:
+        if self.getPlaying():
             self.pause()
         else:
             self.play()
