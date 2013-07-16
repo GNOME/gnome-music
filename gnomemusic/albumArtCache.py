@@ -115,7 +115,7 @@ class AlbumArtCache:
             if icon_format == 'jpeg':
                 self._try_load(size, artist, album, 0, 'png', callback)
             else:
-                callback(None)
+                callback(None, None)
             return
 
         key = self._keybuilder_funcs[i].__call__(artist, album)
