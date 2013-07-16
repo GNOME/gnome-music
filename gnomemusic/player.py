@@ -57,6 +57,7 @@ class RepeatType:
 class Player(GObject.GObject):
     nextTrack = None
     timeout = None
+    playing = False
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
