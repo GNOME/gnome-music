@@ -412,7 +412,7 @@ class Player(GObject.GObject):
         self.songPlaybackTimeLabel.set_label(self.secondsToString(seconds))
         return False
 
-    def _onProgressScaleEvent(self):
+    def _onProgressScaleEvent(self, scale, data):
         self._lastState = self.player.get_state(1)[1]
         self.player.set_state(Gst.State.PAUSED)
         if self.timeout:
