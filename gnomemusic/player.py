@@ -99,7 +99,7 @@ class Player(GObject.GObject):
             self.stop()
             self.playBtn.set_image(self._playImage)
             self.progressScale.set_value(0)
-            self.progressScale.sensitive = False
+            self.progressScale.set_sensitive(False)
             if self.playlist is not None:
                 self.currentTrack = self.playlist.get_iter_first()[1]
                 self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
@@ -108,7 +108,7 @@ class Player(GObject.GObject):
             self.stop()
             self.playBtn.set_image(self._playImage)
             self.progressScale.set_value(0)
-            self.progressScale.sensitive = False
+            self.progressScale.set_sensitive(False)
 
     def _onSettingsChanged(self, settings, value):
         self.repeat = settings.get_enum('repeat')
@@ -244,9 +244,9 @@ class Player(GObject.GObject):
     def load(self, media):
         self._setDuration(media.get_duration())
         self.songTotalTimeLabel.label = self.secondsToString(media.get_duration())
-        self.progressScale.sensitive = True
+        self.progressScale.set_sensitive(True)
 
-        self.playBtn.sensitive = True
+        self.playBtn.set_sensitive(True)
         self._syncPrevNext()
 
         self.coverImg.set_from_pixbuf(self._symbolicIcon)
@@ -328,7 +328,7 @@ class Player(GObject.GObject):
         if self.playlist is None:
             return True
 
-        if not self.nextBtn.sensitive:
+        if not self.nextBtn.get_sensitive():
             return True
 
         self.stop()
@@ -341,7 +341,7 @@ class Player(GObject.GObject):
         if self.playlist is None:
             return
 
-        if self.prevBtn.sensitive is False:
+        if self.prevBtn.get_sensitive() is False:
             return
 
         self.stop()
@@ -501,7 +501,7 @@ class Player(GObject.GObject):
 
     def Stop(self):
         self.progressScale.set_value(0)
-        self.progressScale.sensitive = False
+        self.progressScale.set_sensitive(False)
         self.playBtn.set_image(self._playImage)
         self.stop()
 
