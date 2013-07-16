@@ -267,7 +267,7 @@ class Player(GObject.GObject):
             self.artistLabel.set_label("Unknown artist")
 
         url = media.get_url()
-        if url != self.player.current_uri:
+        if url != self.player.get_value("current-uri", 0):
             self.player.uri = url
 
         #Store next available url
