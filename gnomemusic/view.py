@@ -59,14 +59,14 @@ class ViewContainer(Gtk.Stack):
         else:
             self._grid.add(box)
 
-        self._loadMore = Widgets.LoadMoreButton(self._getRemainingItemCount)
+        self._loadMore = Widgets.LoadMoreButton(self._get_remaining_item_count)
         box.pack_end(self._loadMore.widget, False, False, 0)
         self._loadMore.widget.connect("clicked", self._populate)
         self.view.connect('item-activated', self._on_item_activated)
         self._cursor = None
         self.header_bar = header_bar
-        self.header_bar._selectButton.connect('toggled', self._onHeaderBarToggled)
-        self.header_bar._cancelButton.connect('clicked', self._onCancelButtonClicked)
+        self.header_bar._selectButton.connect('toggled', self._on_header_bar_toggled)
+        self.header_bar._cancelButton.connect('clicked', self._on_cancel_button_clicked)
 
         self.title = title
         self.add(self._grid)
@@ -74,40 +74,40 @@ class ViewContainer(Gtk.Stack):
         self.show_all()
         self._items = []
         self._loadMore.widget.hide()
-        self._connectView()
+        self._connect_view()
         self.cache = albumArtCache.get_default()
         self._symbolicIcon = self.cache.make_default_icon(self._iconHeight, self._iconWidth)
 
         self._init = False
-        grilo.connect('ready', self._onGriloReady)
+        grilo.connect('ready', self._on_grilo_ready)
         self.header_bar.header_bar.connect('state-changed', self._on_state_changed)
-        self.view.connect('view-selection-changed', self._onViewSelectionChanged)
+        self.view.connect('view-selection-changed', self._on_view_selection_changed)
 
-    def _onHeaderBarToggled(self, button):
+    def _on_header_bar_toggled(self, button):
         if button.get_active():
             self.view.set_selection_mode(True)
-            self.header_bar.setSelectionMode(True)
+            self.header_bar.set_selection_mode(True)
             self.selection_toolbar.eventbox.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.sensitive = False
         else:
             self.view.set_selection_mode(False)
-            self.header_bar.setSelectionMode(False)
+            self.header_bar.set_selection_mode(False)
             self.selection_toolbar.eventbox.set_visible(False)
 
-    def _onCancelButtonClicked(self, button):
+    def _on_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
-        self.header_bar.setSelectionMode(False)
+        self.header_bar.set_selection_mode(False)
 
-    def _onGriloReady(self, data=None):
+    def _on_grilo_ready(self, data=None):
         if (self.header_bar.get_stack().get_visible_child() == self and self._init is False):
             self._populate()
-        self.header_bar.get_stack().connect('notify::visible-child', self._onHeaderBarVisible)
+        self.header_bar.get_stack().connect('notify::visible-child', self._on_header_bar_visible)
 
-    def _onHeaderBarVisible(self, widget, param):
+    def _on_header_bar_visible(self, widget, param):
         if self == widget.get_visible_child() and self._init:
             self._populate()
 
-    def _onViewSelectionChanged(self):
+    def _on_view_selection_changed(self):
         items = self.view.get_selection()
         self.selection_toolbar._add_to_playlist_button.sensitive = items.length > 0
 
@@ -118,13 +118,13 @@ class ViewContainer(Gtk.Stack):
     def _on_state_changed(self, widget, data=None):
         pass
 
-    def _connectView(self):
+    def _connect_view(self):
         vadjustment = self.view.get_vadjustment()
         self._adjustmentValueId = vadjustment.connect(
             'value-changed',
-            self._onScrolledWinChange)
+            self._on_scrolled_win_change)
 
-    def _onScrolledWinChange(self, data=None):
+    def _on_scrolled_win_change(self, data=None):
         vScrollbar = self.view.get_vscrollbar()
         adjustment = self.view.get_vadjustment()
         revealAreaHeight = 32
@@ -144,7 +144,7 @@ class ViewContainer(Gtk.Stack):
             end = False
         else:
             end = not (value < (upper - page_size - revealAreaHeight))
-        if self._getRemainingItemCount() <= 0:
+        if self._get_remaining_item_count() <= 0:
             end = False
         self._loadMore.setBlock(not end)
 
@@ -173,9 +173,9 @@ class ViewContainer(Gtk.Stack):
                 self._model.set(iter,
                                 [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                                 [str(item.get_id()), "", item.get_title(), artist, self._symbolicIcon, item, -1, self.errorIconName, False, True])
-            GLib.idle_add(self._updateAlbumArt, item, iter)
+            GLib.idle_add(self._update_album_art, item, iter)
 
-    def _getRemainingItemCount(self):
+    def _get_remaining_item_count(self):
         count = -1
         if self.countQuery is not None:
             cursor = tracker.query(self.countQuery, None)
@@ -183,7 +183,7 @@ class ViewContainer(Gtk.Stack):
                 count = cursor.get_integer(0)
         return count - self._offset
 
-    def _updateAlbumArt(self, item, iter):
+    def _update_album_art(self, item, iter):
         def _album_art_cache_look_up(icon, data=None):
             if icon:
                 self._model.set_value(iter, 4,
@@ -236,7 +236,7 @@ class Albums(ViewContainer):
         artist = self._model.get_value(iter, 3)
         item = self._model.get_value(iter, 5)
         self._albumWidget.update(artist, title, item, self.header_bar, self.selection_toolbar)
-        self.header_bar.setState(0)
+        self.header_bar.set_state(0)
         self.header_bar.header_bar.title = title
         self.header_bar.header_bar.set_title(title)
         self.header_bar.header_bar.sub_title = artist
@@ -267,8 +267,8 @@ class Songs(ViewContainer):
     def _on_item_activated(self, widget, id, path):
         iter = self._model.get_iter(path)[1]
         if self._model.get_value(iter, 8) != self.errorIconName:
-            self.player.setPlaylist("Songs", None, self._model, iter, 5)
-            self.player.setPlaying(True)
+            self.player.set_playlist("Songs", None, self._model, iter, 5)
+            self.player.set_playing(True)
 
     def update_model(self, player, playlist, currentIter):
         if playlist != self._model:
@@ -313,12 +313,12 @@ class Songs(ViewContainer):
         listWidget.insert_column(columnNowPlaying, 0)
 
         titleRenderer = Gtk.CellRendererText(xpad=0)
-        listWidget.add_renderer(titleRenderer, self._onListWidgetTitleRender, None)
+        listWidget.add_renderer(titleRenderer, self._on_list_widget_title_render, None)
         starRenderer = Gtk.CellRendererPixbuf(xpad=32)
-        listWidget.add_renderer(starRenderer, self._onListWidgetStarRender, None)
+        listWidget.add_renderer(starRenderer, self._on_list_widget_star_render, None)
         durationRenderer = Gd.StyledTextRenderer(xpad=32)
         durationRenderer.add_class('dim-label')
-        listWidget.add_renderer(durationRenderer, self._onListWidgetDurationRender, None)
+        listWidget.add_renderer(durationRenderer, self._on_list_widget_duration_render, None)
         artistRenderer = Gd.StyledTextRenderer(xpad=32)
         artistRenderer.add_class('dim-label')
         artistRenderer.ellipsize = Pango.EllipsizeMode.END
@@ -328,7 +328,7 @@ class Songs(ViewContainer):
         typeRenderer.ellipsize = Pango.EllipsizeMode.END
         listWidget.add_renderer(typeRenderer, self._onListWidgetTypeRender, None)
 
-    def _onListWidgetTitleRender(self, col, cell, model, iter):
+    def _on_list_widget_title_render(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
         self.xalign = 0.0
         self.yalign = 0.5
@@ -336,14 +336,14 @@ class Songs(ViewContainer):
         self.ellipsize = Pango.EllipsizeMode.END
         self.text = item.get_title()
 
-    def _onListWidgetStarRender(self, col, cell, model, iter):
+    def _on_list_widget_star_render(self, col, cell, model, iter):
         showstar = model.get_value(iter, 9)
         if(showstar):
             self.icon_name = self.starIconName
         else:
             self.pixbuf = None
 
-    def _onListWidgetDurationRender(self, col, cell, model, iter):
+    def _on_list_widget_duration_render(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
             duration = item.get_duration()
