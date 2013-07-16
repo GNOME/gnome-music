@@ -17,7 +17,7 @@ class ViewContainer(Gtk.Stack):
     starIconName = 'starred-symbolic'
     countQuery = None
 
-    def __init__(self, title, headerBar, selectionToolbar, useStack=False):
+    def __init__(self, title, header_bar, selection_toolbar, useStack=False):
         Gtk.Stack.__init__(self, transition_type=Gtk.StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.VERTICAL)
         self._iconWidth = -1
@@ -44,7 +44,7 @@ class ViewContainer(Gtk.Stack):
         )
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.view.set_model(self._model)
-        self.selectionToolbar = selectionToolbar
+        self.selection_toolbar = selection_toolbar
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
         if useStack:
@@ -62,11 +62,11 @@ class ViewContainer(Gtk.Stack):
         self._loadMore = Widgets.LoadMoreButton(self._getRemainingItemCount)
         box.pack_end(self._loadMore.widget, False, False, 0)
         self._loadMore.widget.connect("clicked", self._populate)
-        self.view.connect('item-activated', self._onItemActivated)
+        self.view.connect('item-activated', self._on_item_activated)
         self._cursor = None
-        self.headerBar = headerBar
-        self.headerBar._selectButton.connect('toggled', self._onHeaderBarToggled)
-        self.headerBar._cancelButton.connect('clicked', self._onCancelButtonClicked)
+        self.header_bar = header_bar
+        self.header_bar._selectButton.connect('toggled', self._onHeaderBarToggled)
+        self.header_bar._cancelButton.connect('clicked', self._onCancelButtonClicked)
 
         self.title = title
         self.add(self._grid)
@@ -75,12 +75,12 @@ class ViewContainer(Gtk.Stack):
         self._items = []
         self._loadMore.widget.hide()
         self._connectView()
-        self.cache = albumArtCache.getDefault()
+        self.cache = albumArtCache.get_default()
         self._symbolicIcon = self.cache.make_default_icon(self._iconHeight, self._iconWidth)
 
         self._init = False
         grilo.connect('ready', self._onGriloReady)
-        self.headerBar.headerBar.connect('state-changed', self._onStateChanged)
+        self.header_bar.header_bar.connect('state-changed', self._on_state_changed)
         self.view.connect('view-selection-changed', self._onViewSelectionChanged)
 
     def _onHeaderBarToggled(self, button):
@@ -96,12 +96,12 @@ class ViewContainer(Gtk.Stack):
 
     def _onCancelButtonClicked(self, button):
         self.view.set_selection_mode(False)
-        self.headerBar.setSelectionMode(False)
+        self.header_bar.setSelectionMode(False)
 
     def _onGriloReady(self, data=None):
-        if (self.headerBar.get_stack().get_visible_child() == self and self._init is False):
+        if (self.header_bar.get_stack().get_visible_child() == self and self._init is False):
             self._populate()
-        self.headerBar.get_stack().connect('notify::visible-child', self._onHeaderBarVisible)
+        self.header_bar.get_stack().connect('notify::visible-child', self._onHeaderBarVisible)
 
     def _onHeaderBarVisible(self, widget, param):
         if self == widget.get_visible_child() and self._init:
@@ -109,13 +109,13 @@ class ViewContainer(Gtk.Stack):
 
     def _onViewSelectionChanged(self):
         items = self.view.get_selection()
-        self.selectionToolbar._add_to_playlist_button.sensitive = items.length > 0
+        self.selection_toolbar._add_to_playlist_button.sensitive = items.length > 0
 
     def _populate(self, data=None):
         self._init = True
         self.populate()
 
-    def _onStateChanged(self, widget, data=None):
+    def _on_state_changed(self, widget, data=None):
         pass
 
     def _connectView(self):
@@ -184,31 +184,31 @@ class ViewContainer(Gtk.Stack):
         return count - self._offset
 
     def _updateAlbumArt(self, item, iter):
-        def _albumArtCacheLookUp(icon, data=None):
+        def _album_art_cache_look_up(icon, data=None):
             if icon:
                 self._model.set_value(iter, 4,
-                                      albumArtCache.getDefault()._make_icon_frame(icon))
+                                      albumArtCache.get_default()._make_icon_frame(icon))
             else:
                 self._model.set_value(iter, 4, None)
                 self.emit("album-art-updated")
             pass
 
-        albumArtCache.getDefault().lookup_or_resolve(item,
-                                                     self._iconWidth,
-                                                     self._iconHeight,
-                                                     _albumArtCacheLookUp)
+        albumArtCache.get_default().lookup_or_resolve(item,
+                                                      self._iconWidth,
+                                                      self._iconHeight,
+                                                      _album_art_cache_look_up)
         return False
 
-    def _addListRenderers(self):
+    def _add_list_renderers(self):
         pass
 
-    def _onItemActivated(self, widget, id, path):
+    def _on_item_activated(self, widget, id, path):
         pass
 
 
 #Class for the Empty View
 class Empty(Gtk.Stack):
-    def __init__(self, headerBar, player):
+    def __init__(self, header_bar, player):
         Gtk.Stack.__init__(self, transition_type=Gtk.StackTransitionType.CROSSFADE)
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/music/NoMusic.ui')
@@ -218,37 +218,38 @@ class Empty(Gtk.Stack):
 
 
 class Albums(ViewContainer):
-    def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__(self, "Albums", headerBar, selectionToolbar)
+    def __init__(self, header_bar, selection_toolbar, player):
+        ViewContainer.__init__(self, "Albums", header_bar, selection_toolbar)
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.countQuery = Query.ALBUMS_COUNT
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
 
-    def _onStateChanged(self, widget, data=None):
-        if (self.headerBar.get_stack() is not None) and \
-           (self == self.headerBar.get_stack().get_visible_child()):
+    def _on_state_changed(self, widget, data=None):
+        if (self.header_bar.get_stack() is not None) and \
+           (self == self.header_bar.get_stack().get_visible_child()):
             self.visible_child = self._grid
 
-    def _onItemActivated(self, widget, id, path):
+    def _on_item_activated(self, widget, id, path):
         iter = self._model.get_iter(path)
         title = self._model.get_value(iter, 2)
         artist = self._model.get_value(iter, 3)
         item = self._model.get_value(iter, 5)
-        self._albumWidget.update(artist, title, item, self.headerBar, self.selectionToolbar)
-        self.headerBar.setState(0)
-        self.headerBar.headerBar.set_title(title)
-        self.headerBar.headerBar.sub_title = artist
+        self._albumWidget.update(artist, title, item, self.header_bar, self.selection_toolbar)
+        self.header_bar.setState(0)
+        self.header_bar.header_bar.title = title
+        self.header_bar.header_bar.set_title(title)
+        self.header_bar.header_bar.sub_title = artist
         self.set_visible_child(self._albumWidget)
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateAlbums(self._offset, self._add_item)
+            grilo.populate_albums(self._offset, self._add_item)
 
 
 class Songs(ViewContainer):
-    def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__(self, "Songs", headerBar, selectionToolbar)
+    def __init__(self, header_bar, selection_toolbar, player):
+        ViewContainer.__init__(self, "Songs", header_bar, selection_toolbar)
         self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
@@ -256,20 +257,20 @@ class Songs(ViewContainer):
         self.view.get_generic_view().get_style_context().add_class("songs-list")
         self._iconHeight = 32
         self._iconWidth = 32
-        self.cache = albumArtCache.getDefault()
+        self.cache = albumArtCache.get_default()
         self._symbolicIcon = self.cache.make_default_icon(self._iconHeight,
                                                           self._iconWidth)
-        self._addListRenderers()
+        self._add_list_renderers()
         self.player = player
-        self.player.connect('playlist-item-changed', self.updateModel)
+        self.player.connect('playlist-item-changed', self.update_model)
 
-    def _onItemActivated(self, widget, id, path):
+    def _on_item_activated(self, widget, id, path):
         iter = self._model.get_iter(path)[1]
         if self._model.get_value(iter, 8) != self.errorIconName:
             self.player.setPlaylist("Songs", None, self._model, iter, 5)
             self.player.setPlaying(True)
 
-    def updateModel(self, player, playlist, currentIter):
+    def update_model(self, player, playlist, currentIter):
         if playlist != self._model:
             return False
         if self.iterToClean:
@@ -297,7 +298,7 @@ class Songs(ViewContainer):
                                 [5, 8, 9, 10],
                                 [item, self.errorIconName, False, True])
 
-    def _addListRenderers(self):
+    def _add_list_renderers(self):
         listWidget = self.view.get_generic_view()
         cols = listWidget.get_columns()
         cells = cols[0].get_cells()
@@ -370,17 +371,17 @@ class Songs(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateSongs(self._offset, self._add_item, None)
+            grilo.populate_songs(self._offset, self._add_item, None)
 
 
 class Playlist(ViewContainer):
-    def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__(self, "Playlists", headerBar, selectionToolbar)
+    def __init__(self, header_bar, selection_toolbar, player):
+        ViewContainer.__init__(self, "Playlists", header_bar, selection_toolbar)
 
 
 class Artists (ViewContainer):
-    def __init__(self, headerBar, selectionToolbar, player):
-        ViewContainer.__init__(self, "Artists", headerBar, selectionToolbar, True)
+    def __init__(self, header_bar, selection_toolbar, player):
+        ViewContainer.__init__(self, "Artists", header_bar, selection_toolbar, True)
         self.player = player
         self._artists = {}
         self.countQuery = Query.ARTISTS_COUNT
@@ -394,7 +395,7 @@ class Artists (ViewContainer):
         self.view.get_generic_view().get_selection().set_mode(Gtk.SelectionMode.SINGLE)
         self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL), 1, 0, 1, 1)
         self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
-        self._addListRenderers()
+        self._add_list_renderers()
         if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
             self.view.get_generic_view().get_style_context().add_class("artist-panel-dark")
         else:
@@ -416,7 +417,7 @@ class Artists (ViewContainer):
         self._init = True
         self.populate()
 
-    def _addListRenderers(self):
+    def _add_list_renderers(self):
         listWidget = self.view.get_generic_view()
 
         cols = listWidget.get_columns()
@@ -435,7 +436,7 @@ class Artists (ViewContainer):
 
         listWidget.add_renderer(typeRenderer, type_render, None)
 
-    def _onItemActivated(self, widget, id, path):
+    def _on_item_activated(self, widget, id, path):
         children = self._artistAlbumsWidget.get_children()
         for i in children.length:
             self._artistAlbumsWidget.remove(children[i])
@@ -472,5 +473,5 @@ class Artists (ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateArtists(self._offset, self._add_item, None)
+            grilo.populate_artists(self._offset, self._add_item, None)
             #FIXME: We're emitting self too early, need to wait for all artists to be filled in

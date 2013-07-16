@@ -46,16 +46,16 @@ class Grilo(GObject.GObject):
     def _onSourceRemoved(self):
         print('source removed')
 
-    def populateArtists(self, offset, callback):
-        self.populateItems(Query.artist, offset, callback)
+    def populate_artists(self, offset, callback):
+        self.populate_items(Query.ARTISTS, offset, callback)
 
-    def populateAlbums(self, offset, callback, count=50):
-        self.populateItems(Query.ALBUMS, offset, callback, count)
+    def populate_albums(self, offset, callback, count=50):
+        self.populate_items(Query.ALBUMS, offset, callback, count)
 
-    def populateSongs(self, offset, callback):
-        self.populateItems(Query.songs, offset, callback)
+    def populate_songs(self, offset, callback):
+        self.populate_items(Query.SONGS, offset, callback)
 
-    def populateItems(self, query, offset, callback, count=50):
+    def populate_items(self, query, offset, callback, count=50):
         options = Grl.OperationOptions()
         options.set_flags(Grl.ResolutionFlags.FULL |
                           Grl.ResolutionFlags.IDLE_RELAY)
@@ -63,7 +63,7 @@ class Grilo(GObject.GObject):
         options.set_count(count)
         self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
-    def getAlbumSongs(self, album_id, callback):
+    def get_album_songs(self, album_id, callback):
         query = Query.album_songs(album_id)
         options = Grl.OperationOptions()
         options.set_flags(Grl.ResolutionFlags.FULL |

@@ -12,7 +12,7 @@ class AlbumArtCache:
     instance = None
 
     @classmethod
-    def getDefault(self):
+    def get_default(self):
         if self.instance:
             return self.instance
         else:
