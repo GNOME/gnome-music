@@ -157,7 +157,7 @@ class Player(GObject.GObject):
             nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
             for i in range(1, randint(1, rows)):
-                self.playlist.iter_next(nextTrack)
+                nextTrack = self.playlist.iter_next(nextTrack)
 
         return nextTrack
 
@@ -187,7 +187,7 @@ class Player(GObject.GObject):
             previousTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
             for i in range(1, randint(1, rows)):
-                self.playlist.iter_next(previousTrack)
+                previousTrack = self.playlist.iter_next(previousTrack)
 
         return previousTrack
 
