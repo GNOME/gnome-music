@@ -256,7 +256,7 @@ class AlbumWidget(Gtk.EventBox):
                 "%d min" % (int(self.duration / 60) + 1))
             #self.emit("track-added")
 
-    def _onLookUp(self, pixbuf):
+    def _onLookUp(self, pixbuf, path):
         if pixbuf is not None:
             self.ui.get_object("cover").set_from_pixbuf(pixbuf)
             self.model.set(iter, [4], [pixbuf])
