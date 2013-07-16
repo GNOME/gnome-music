@@ -149,7 +149,7 @@ class ViewContainer(Gtk.Stack):
         self._loadMore.setBlock(not end)
 
     def populate(self):
-        print ("populate")
+        print("populate")
 
     def _add_item(self, source, param, item, a, b, c):
         if item is not None:
