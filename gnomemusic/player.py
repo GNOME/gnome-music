@@ -472,7 +472,7 @@ class Player(GObject.GObject):
             self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000)
             #self._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [seconds * 1000000]))
         else:
-            duration = self.player.query_duration(Gst.Format.TIME, None)
+            duration = self.player.query_duration(Gst.Format.TIME)
             if duration:
                 #Rewind a second back before the track end
                 self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
@@ -508,7 +508,7 @@ class Player(GObject.GObject):
     def SeekAsync(self, params, invocation):
         offset = params
 
-        duration = self.player.query_duration(Gst.Format.TIME, None)
+        duration = self.player.query_duration(Gst.Format.TIME)
         if duration is None:
             return
 
@@ -531,7 +531,7 @@ class Player(GObject.GObject):
         if trackId != '/org/mpris/MediaPlayer2/Track/' + media.get_id():
             return
 
-        duration = self.player.query_duration(Gst.Format.TIME, None)
+        duration = self.player.query_duration(Gst.Format.TIME)
         if duration and position >= 0 and duration[1] >= position * 1000:
             self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, position * 1000)
             #self._dbusImpl.emit_signal('Seeked', GLib.Variant.new('(x)', [position]))
