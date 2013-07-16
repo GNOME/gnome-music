@@ -266,7 +266,7 @@ class Player(GObject.GObject):
 
         url = media.get_url()
         if url != self.player.get_value("current-uri", 0):
-            self.player.uri = url
+            self.player.set_property("uri", url)
 
         #Store next available url
         #(not really useful because we can't connect to about-to-finish, but still)
