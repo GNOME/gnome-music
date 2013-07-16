@@ -93,22 +93,6 @@ class Player(GObject.GObject):
         self.bus.connect("message::error", self._onBusError)
         self.bus.connect("message::eos", self._onBusEos)
         self._setupView()
-        if self.nextTrack:
-            GLib.idle_add(self._onGLibIdle)
-        elif (self.repeat == RepeatType.NONE):
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self.progressScale.set_value(0)
-            self.progressScale.set_sensitive(False)
-            if self.playlist is not None:
-                self.currentTrack = self.playlist.get_iter_first()[1]
-                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
-        else:
-            #Stop playback
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self.progressScale.set_value(0)
-            self.progressScale.set_sensitive(False)
 
     def _onSettingsChanged(self, settings, value):
         self.repeat = settings.get_enum('repeat')
@@ -136,6 +120,23 @@ class Player(GObject.GObject):
 
     def _onBusEos(self, bus, message):
         self.nextTrack = self._getNextTrack()
+
+        if self.nextTrack:
+            GLib.idle_add(self._onGLibIdle)
+        elif (self.repeat == RepeatType.NONE):
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self.progressScale.set_value(0)
+            self.progressScale.set_sensitive(False)
+            if self.playlist is not None:
+                self.currentTrack = self.playlist.get_iter_first()[1]
+                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+        else:
+            #Stop playback
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self.progressScale.set_value(0)
+            self.progressScale.set_sensitive(False)
 
     def _onGLibIdle(self):
         self.currentTrack = self.nextTrack
