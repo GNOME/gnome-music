@@ -60,7 +60,7 @@ class AlbumWidget(Gtk.EventBox):
     duration = 0
 
     def __init__(self, player):
-        super(Gtk.EventBox, self)
+        super(Gtk.EventBox, self).__init()
         self.player = player
         self.hbox = Gtk.HBox()
         self.iterToClean = None
@@ -293,7 +293,7 @@ class AlbumWidget(Gtk.EventBox):
 
 class ArtistAlbums(Gtk.VBox):
     def __init__(self, artist, albums, player):
-        super(Gtk.VBox, self)
+        super(Gtk.VBox, self).__init()
         self.player = player
         self.artist = artist
         self.albums = albums
@@ -354,7 +354,7 @@ class ArtistAlbums(Gtk.VBox):
 class AllArtistsAlbums(ArtistAlbums):
 
     def __init__(self, player):
-        super(ArtistAlbums, "All Artists", [], player)
+        super(ArtistAlbums, "All Artists", [], player).__init()
         self._offset = 0
         self.countQuery = Query.album_count
         self._loadMore = LoadMoreButton(self, self._getRemainingItemCount)
@@ -415,7 +415,7 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.HBox):
 
     def __init__(self, artist, album, player, model):
-        super(Gtk.HBox, self)
+        super(Gtk.HBox, self).__init()
         self.player = player
         self.album = album
         self.artist = artist
