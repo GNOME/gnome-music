@@ -153,7 +153,7 @@ class Player(GObject.GObject):
             nextTrack = currentTrack.copy()
             nextTrack = nextTrack if self.playlist.iter_next(nextTrack) else None
         elif self.repeat == RepeatType.SHUFFLE:
-            nextTrack = self.playlist.get_iter_first()[1]
+            nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
             random = randint(rows)
             for i in random:
