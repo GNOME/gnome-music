@@ -222,8 +222,8 @@ class Player(GObject.GObject):
         hasNext = self._hasNext()
         hasPrevious = self._hasPrevious()
 
-        self.nextBtn.sensitive = hasNext
-        self.prevBtn.sensitive = hasPrevious
+        self.nextBtn.set_sensitive(hasNext)
+        self.prevBtn.set_sensitive(hasPrevious)
 
         #self._dbusImpl.emit_property_changed('CanGoNext', GLib.Variant.new('b', hasNext))
         #self._dbusImpl.emit_property_changed('CanGoPrevious', GLib.Variant.new('b', hasPrevious))
