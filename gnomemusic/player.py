@@ -110,8 +110,8 @@ class Player(GObject.GObject):
             self.progressScale.set_value(0)
             self.progressScale.sensitive = False
 
-    def _onSettingsChanged(self):
-        self.repeat = self.settings.get_enum('repeat')
+    def _onSettingsChanged(self, settings, value):
+        self.repeat = settings.get_enum('repeat')
         self._syncPrevNext()
         self._syncRepeatImage()
 
