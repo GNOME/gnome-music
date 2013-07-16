@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I m4 -I libgd
 NULL =
 
-SUBDIRS = po libgd src data tests
+SUBDIRS = po libgd src data
 
 EXTRA_DIST = \
 	AUTHORS.in \
