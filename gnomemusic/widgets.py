@@ -153,12 +153,12 @@ class AlbumWidget(Gtk.EventBox):
     def _typeRendererText(self, col, cell, model, iter, data):
         pass
 
-    def _durationRendererText(self, col, cell, model, iter, data):
+    def _durationRendererText(self, col, widget, model, iter, data):
         item = self.model.get_value(iter, 5)
         duration = item.get_duration()
         if item is None:
             return
-        self.durationRenderer.text = self.player.secondsToString(duration)
+        widget.text = self.player.secondsToString(duration)
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
         released_date = item.get_publication_date()
