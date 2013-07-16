@@ -424,9 +424,9 @@ class Player(GObject.GObject):
         seconds = duration % 60
 
         if seconds < 10:
-            return minutes + ":" + "0" + seconds
+            return "%s:0%s" % (minutes, seconds)
         else:
-            return minutes + ":" + seconds
+            return "%s:%s" % (minutes, seconds)
 
     def _onPlayBtnClicked(self, btn):
         if self.playing:
