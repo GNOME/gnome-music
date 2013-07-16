@@ -203,7 +203,7 @@ class Player(GObject.GObject):
             return True
         else:
             tmp = self.currentTrack.copy()
-            return self.playlist.iter_previous(tmp)
+            return self.playlist.iter_previous(tmp) is not None
 
     def getPlaying(self):
         ok, state, pending = self.player.get_state(0)
