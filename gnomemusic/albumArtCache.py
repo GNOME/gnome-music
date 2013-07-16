@@ -39,12 +39,14 @@ class AlbumArtCache:
             pass
 
     def make_default_icon(self, width, height):
-        path = "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
+        path =\
+            "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
         # get a small pixbuf with the given path
-        icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(path,
-                                                       -1 if width < 0 else width / 4,
-                                                       -1 if height < 0 else height / 4,
-                                                       True)
+        icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(
+            path,
+            -1 if width < 0 else width / 4,
+            -1 if height < 0 else height / 4,
+            True)
 
         # create an empty pixbuf with the requested size
         result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
@@ -93,10 +95,14 @@ class AlbumArtCache:
     def _draw_rounded_path(self, ctx, x, y, width, height, radius):
             degrees = pi / 180
             ctx.new_sub_path()
-            ctx.arc(x + width - radius, y + radius, radius - 0.5, -90 * degrees, 0 * degrees)
-            ctx.arc(x + width - radius, y + height - radius, radius - 0.5, 0 * degrees, 90 * degrees)
-            ctx.arc(x + radius, y + height - radius, radius - 0.5, 90 * degrees, 180 * degrees)
-            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * degrees, 270 * degrees)
+            ctx.arc(x + width - radius, y + radius, radius - 0.5,
+                    -90 * degrees, 0 * degrees)
+            ctx.arc(x + width - radius, y + height - radius, radius - 0.5,
+                    0 * degrees, 90 * degrees)
+            ctx.arc(x + radius, y + height - radius, radius - 0.5,
+                    90 * degrees, 180 * degrees)
+            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * degrees,
+                    270 * degrees)
             ctx.close_path()
             ctx.set_line_width(0.6)
             ctx.set_source_rgb(0.2, 0.2, 0.2)
@@ -109,16 +115,16 @@ class AlbumArtCache:
             if icon_format == 'jpeg':
                 self._try_load(size, artist, album, 0, 'png', callback)
             else:
-                callback(None, None)
+                callback(None)
             return
 
         key = self._keybuilder_funcs[i].__call__(artist, album)
         path = GLib.build_filenamev([self.cacheDir, key + '.' + icon_format])
-        file = Gio.File.new_for_path(path)
+        f = Gio.File.new_for_path(path)
 
-        def on_read_ready(object, res, data=None):
+        def on_read_ready(obj, res, data=None):
             try:
-                stream = object.read_finish(res)
+                stream = obj.read_finish(res)
 
                 def on_pixbuf_ready(source, res, data=None):
                     try:
@@ -149,7 +155,7 @@ class AlbumArtCache:
 
             self._try_load(size, artist, album, i + 1, icon_format, callback)
 
-        file.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
+        f.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
 
     def lookup(self, size, artist, album, callback):
         self._try_load(size, artist, album, 0, 'jpeg', callback)
@@ -162,7 +168,7 @@ class AlbumArtCache:
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)
         album = item.get_string(Grl.METADATA_KEY_ALBUM)
 
-        def lookup_ready(icon, path):
+        def lookup_ready(icon, path=None):
             if icon is not None:
                 # Cache the path on the original item for faster retrieval
                 item._thumbnail = path
@@ -225,9 +231,10 @@ class AlbumArtCache:
 
             for block_pair in blocks:
                 # Go through blocks, find the earliest block we can
-                [success, start, end] = self._strip_find_next_block(p,
-                                                                    block_pair[0],
-                                                                    block_pair[1])
+                [success, start, end] =\
+                    self._strip_find_next_block(p,
+                                                block_pair[0],
+                                                block_pair[1])
                 if success:
                     if pos1 == -1 or start < pos1:
                         pos1 = start
