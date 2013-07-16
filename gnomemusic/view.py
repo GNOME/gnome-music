@@ -186,17 +186,17 @@ class ViewContainer(Gtk.Stack):
     def _updateAlbumArt(self, item, iter):
         def _albumArtCacheLookUp(icon, data=None):
             if icon:
-                self._model.set_value(iter, 4, 
-                    albumArtCache.getDefault()._make_icon_frame(icon))
+                self._model.set_value(iter, 4,
+                                      albumArtCache.getDefault()._make_icon_frame(icon))
             else:
                 self._model.set_value(iter, 4, None)
                 self.emit("album-art-updated")
             pass
 
         albumArtCache.getDefault().lookup_or_resolve(item,
-                                                   self._iconWidth,
-                                                   self._iconHeight,
-                                                   _albumArtCacheLookUp)
+                                                     self._iconWidth,
+                                                     self._iconHeight,
+                                                     _albumArtCacheLookUp)
         return False
 
     def _addListRenderers(self):

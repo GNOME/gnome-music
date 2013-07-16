@@ -75,9 +75,9 @@ class AlbumArtCache:
                                      int(pixbuf.get_height() + border * 2))
         ctx = cairo.Context(surface)
         self._draw_rounded_path(ctx, 0, 0,
-                             pixbuf.get_width() + border * 2,
-                             pixbuf.get_height() + border * 2,
-                             3)
+                                pixbuf.get_width() + border * 2,
+                                pixbuf.get_height() + border * 2,
+                                3)
         result = Gdk.pixbuf_get_from_surface(surface, 0, 0,
                                              pixbuf.get_width() + border * 2,
                                              pixbuf.get_height() + border * 2)
@@ -119,6 +119,7 @@ class AlbumArtCache:
         def on_read_ready(object, res, data=None):
             try:
                 stream = object.read_finish(res)
+
                 def on_pixbuf_ready(source, res, data=None):
                     try:
                         pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res)
@@ -135,8 +136,8 @@ class AlbumArtCache:
                         if self.logLookupErrors:
                             print("ERROR:", error)
 
-                    self._try_load(size, artist, album, i+1,
-                                    icon_format, callback)
+                    self._try_load(size, artist, album, i + 1,
+                                   icon_format, callback)
 
                 GdkPixbuf.Pixbuf.new_from_stream_async(stream, None,
                                                        on_pixbuf_ready, None)
@@ -146,8 +147,7 @@ class AlbumArtCache:
                 if self.logLookupErrors:
                     print("ERROR:", error)
 
-
-            self._try_load(size, artist, album, i+1, icon_format, callback)
+            self._try_load(size, artist, album, i + 1, icon_format, callback)
 
         file.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
 
@@ -226,8 +226,8 @@ class AlbumArtCache:
             for block_pair in blocks:
                 # Go through blocks, find the earliest block we can
                 [success, start, end] = self._strip_find_next_block(p,
-                                                                block_pair[0],
-                                                                block_pair[1])
+                                                                    block_pair[0],
+                                                                    block_pair[1])
                 if success:
                     if pos1 == -1 or start < pos1:
                         pos1 = start
