@@ -147,12 +147,11 @@ class Player(GObject.GObject):
         if self.repeat == RepeatType.SONG:
             nextTrack = currentTrack
         elif self.repeat == RepeatType.ALL:
-            nextTrack = currentTrack.copy()
-            if self.playlist.iter_next(nextTrack) is not None:
-                nextTrack = self.playlist.get_iter_first()[1]
+            nextTrack = self.playlist.iter_next(currentTrack)
+            if nextTrack is None:
+                nextTrack = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.NONE:
-            nextTrack = currentTrack.copy()
-            nextTrack = nextTrack if self.playlist.iter_next(nextTrack) else None
+            nextTrack = self.playlist.iter_next(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
@@ -162,29 +161,29 @@ class Player(GObject.GObject):
         return nextTrack
 
     def _getIterLast(self):
-        ok, iter = self.playlist.get_iter_first()
+        iter = self.playlist.get_iter_first()
         last = None
 
-        while(ok):
-            last = iter.copy()
-            ok = self.playlist.iter_next(iter)
+        while iter is not None:
+            last = iter
+            iter = self.playlist.iter_next(iter)
 
         return last
 
     def _getPreviousTrack(self):
         currentTrack = self.currentTrack
+        previousTrack = None
 
         if self.repeat == RepeatType.SONG:
             previousTrack = currentTrack
         elif self.repeat == RepeatType.ALL:
-            previousTrack = currentTrack.copy()
-            if self.playlist.iter_previous(previousTrack) is not None:
+            previousTrack = self.playlist.iter_previous(currentTrack)
+            if previousTrack is None:
                 previousTrack = self._getIterLast()
         elif self.repeat == RepeatType.NONE:
-            previousTrack = currentTrack.copy()
-            previousTrack = previousTrack if self.playlist.iter_previous(previousTrack) else None
+            previousTrack = self.playlist.iter_previous(previousTrack)
         elif self.repeat == RepeatType.SHUFFLE:
-            previousTrack = self.playlist.get_iter_first()[1]
+            previousTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
             for i in range(1, randint(1, rows)):
                 self.playlist.iter_next(previousTrack)
@@ -196,7 +195,7 @@ class Player(GObject.GObject):
             return True
         else:
             tmp = self.currentTrack.copy()
-            return self.playlist.iter_next(tmp)
+            return self.playlist.iter_next(tmp) is not None
 
     def _hasPrevious(self):
         if self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
