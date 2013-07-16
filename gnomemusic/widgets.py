@@ -284,7 +284,8 @@ class AlbumWidget(Gtk.EventBox):
                 iconVisible = False
             playlist.set_value(iter, 0, title)
             playlist.set_value(iter, 9, iconVisible)
-            if playlist.iter_next(iter) is None:
+            iter = playlist.iter_next(iter)
+            if iter is None:
                 break
         return False
 
