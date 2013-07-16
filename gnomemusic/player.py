@@ -464,7 +464,7 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
-        self.repeatBtnImage.icon_name = icon
+        self.repeatBtnImage.set_from_icon_name(icon, 0)
         #self._dbusImpl.emit_property_changed('LoopStatus', GLib.Variant.new('s', self.LoopStatus))
         #self._dbusImpl.emit_property_changed('Shuffle', GLib.Variant.new('b', self.Shuffle))
 
