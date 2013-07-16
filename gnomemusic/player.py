@@ -216,7 +216,8 @@ class Player(GObject.GObject):
             return False
 
     def _syncPlaying(self):
-        self.playBtn.image = self._playImage if self.playing is True else self._pauseImage
+        image = self._playImage if self.playing is True else self._pauseImage
+        self.playBtn.set_image(image)
 
     def _syncPrevNext(self):
         hasNext = self._hasNext()
