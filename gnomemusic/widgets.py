@@ -1,11 +1,13 @@
 from gi.repository import Gtk, Gd, GLib, GObject, Grl, Pango
 from gi.repository import GdkPixbuf
+from gi.repository import Tracker
 from gnomemusic.grilo import grilo
 import logging
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
-ALBUM_ART_CACHE = AlbumArtCache.get_default()
 
+tracker = Tracker.SparqlConnection.get(None)
+ALBUM_ART_CACHE = AlbumArtCache.get_default()
 NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
@@ -132,8 +134,10 @@ class AlbumWidget(Gtk.EventBox):
         now_playing_symbol_renderer.yalign = 0.6
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
         column_now_playing.fixed_width = 24
-        column_now_playing.add_attribute(now_playing_symbol_renderer, "visible", 9)
-        column_now_playing.add_attribute(now_playing_symbol_renderer, "icon_name", 7)
+        column_now_playing.add_attribute(now_playing_symbol_renderer,
+                                         "visible", 9)
+        column_now_playing.add_attribute(now_playing_symbol_renderer,
+                                         "icon_name", 7)
         list_widget.insert_column(column_now_playing, 0)
 
         type_renderer = Gd.StyledTextRenderer(xpad=16)
@@ -147,7 +151,8 @@ class AlbumWidget(Gtk.EventBox):
         durationRenderer.add_class('dim-label')
         durationRenderer.ellipsize = Pango.EllipsizeMode.END
         durationRenderer.xalign = 1.0
-        list_widget.add_renderer(durationRenderer, self._duration_renderer_text, None)
+        list_widget.add_renderer(durationRenderer,
+                                 self._duration_renderer_text, None)
 
     def _type_renderer_text(self, col, cell, model, iter, data):
         pass
@@ -190,9 +195,12 @@ class AlbumWidget(Gtk.EventBox):
                                        GObject.TYPE_BOOLEAN,
                                        )
             grilo.get_album_songs(item.get_id(), self._on_get_album_songs)
-        header_bar._selectButton.connect('toggled', self._on_header_select_button_toggled)
-        header_bar._cancelButton.connect('clicked', self._on_header_cancel_button_clicked)
-        self.view.connect('view-selection-changed', self._on_view_selection_changed)
+        header_bar._selectButton.connect('toggled',
+                                         self._on_header_select_button_toggled)
+        header_bar._cancelButton.connect('clicked',
+                                         self._on_header_cancel_button_clicked)
+        self.view.connect('view-selection-changed',
+                          self._on_view_selection_changed)
         self.view.set_model(self.model)
         escapedArtist = GLib.markup_escape_text(artist, -1)
         escapedAlbum = GLib.markup_escape_text(album, -1)
@@ -292,7 +300,7 @@ class AlbumWidget(Gtk.EventBox):
 
 class ArtistAlbums(Gtk.VBox):
     def __init__(self, artist, albums, player):
-        super(Gtk.VBox, self).__init__()
+        Gtk.VBox.__init__(self)
         self.player = player
         self.artist = artist
         self.albums = albums
@@ -324,24 +332,61 @@ class ArtistAlbums(Gtk.VBox):
         self._hbox.pack_start(self._albumBox, False, False, 16)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
-        for i in albums.length:
-            self.add_album(albums[i])
+        for album in albums:
+            self.add_album(album)
 
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
-        self.emit("albums-loaded")
+        #self.emit("albums-loaded")
 
     def add_album(self, album):
         widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
-    def clean_model(self):
-        [res, iter] = self.model.get_iter_first()
+    def update_model(self, player, playlist, currentIter):
+        #this is not our playlist, return
+        if playlist != self.model:
+            #TODO, only clean once, but that can wait util we have clean
+            #the code a bit, and until the playlist refactoring.
+            #the overhead is acceptable for now
+            self.clean_model()
+            return False
+
+        currentSong = playlist.get_value(currentIter, 5)
+        res, itr = playlist.get_iter_first()
         if not res:
             return False
-        while self.model.iter_next(iter) is True:
-            song = self.model.get_value(iter, 5)
+        songPassed = False
+
+        while playlist.iter_next(itr):
+            song = playlist.get_value(itr, 5)
+            songWidget = song.songWidget
+
+            if not songWidget.can_be_played:
+                continue
+
+            escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
+            if (song == currentSong):
+                songWidget.nowPlayingSign.show()
+                songWidget.title.set_markup("<b>" + escapedTitle + "</b>")
+                songPassed = True
+            elif (songPassed):
+                songWidget.nowPlayingSign.hide()
+                songWidget.title.set_markup("<span>" +
+                                            escapedTitle + "</span>")
+            else:
+                songWidget.nowPlayingSign.hide()
+                songWidget.title.set_markup("<span color='grey'>" +
+                                            escapedTitle + "</span>")
+        return False
+
+    def clean_model(self):
+        [res, itr] = self.model.get_iter_first()
+        if not res:
+            return False
+        while self.model.iter_next(itr) is True:
+            song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
             if song_widget.can_be_played is not None:
@@ -353,26 +398,31 @@ class ArtistAlbums(Gtk.VBox):
 class AllArtistsAlbums(ArtistAlbums):
 
     def __init__(self, player):
-        super(ArtistAlbums, "All Artists", [], player).__init__()
+        ArtistAlbums.__init__(self, "All Artists", [], player)
         self._offset = 0
         self.countQuery = Query.ALBUMS_COUNT
-        self._load_more = LoadMoreButton(self, self._get_remaining_item_count)
+        self._load_more = LoadMoreButton(self._get_remaining_item_count)
         self.pack_end(self._load_more.widget, False, False, 0)
         self._load_more.widget.connect("clicked", self._populate)
         self._connect_view()
         self._populate()
 
     def _connect_view(self):
-        self._adjustmentValueId = self._scrolledWindow.vadjustment.connect(
-            'value-changed', self._on_scrolled_win_change)
-        self._adjustmentChangedId = self._scrolledWindow.vadjustment.connect(
-            'changed', self._on_scrolled_win_change)
-        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar().connect('notify::visible', self._on_scrolled_win_change)
+        self._adjustmentValueId =\
+            self._scrolledWindow.get_vadjustment()\
+                .connect('value-changed', self._on_scrolled_win_change)
+        self._adjustmentChangedId =\
+            self._scrolledWindow.get_vadjustment().connect(
+                'changed', self._on_scrolled_win_change)
+        self._scrollbarVisibleId =\
+            self._scrolledWindow.get_vscrollbar().connect(
+                'notify::visible',
+                self._on_scrolled_win_change)
         self._on_scrolled_win_change()
 
     def _on_scrolled_win_change(self, data=None):
         vScrollbar = self._scrolledWindow.get_vscrollbar()
-        adjustment = self._scrolledWindow.vadjustment
+        adjustment = self._scrolledWindow.get_vadjustment()
         revealAreaHeight = 32
 
         # if there's no vscrollbar, or if it's not visible, hide the button
@@ -380,9 +430,9 @@ class AllArtistsAlbums(ArtistAlbums):
             self._load_more.set_block(True)
             return
 
-        value = adjustment.value
-        upper = adjustment.upper
-        page_size = adjustment.page_size
+        value = adjustment.get_value()
+        upper = adjustment.get_upper()
+        page_size = adjustment.get_page_size()
         end = False
         # special case self values which happen at construction
         if (value == 0) and (upper == 1) and (page_size == 1):
@@ -397,15 +447,15 @@ class AllArtistsAlbums(ArtistAlbums):
         if grilo.tracker is not None:
             grilo.populate_albums(self._offset, self.add_item, 5)
 
-    def add_item(self, source, param, item, remaining):
+    def add_item(self, source, param, item):
         if item is not None:
-            self._offset = self.offset + 1
+            self._offset = self._offset + 1
             self.add_album(item)
 
     def _get_remaining_item_count(self):
         count = -1
         if self.countQuery is not None:
-            cursor = grilo.tracker.query(self.countQuery, None)
+            cursor = tracker.query(self.countQuery, None)
             if cursor is not None and cursor.next(None):
                 count = cursor.get_integer(0)
         return (count - self._offset)
@@ -433,45 +483,44 @@ class ArtistAlbumWidget(Gtk.HBox):
         if album.get_creation_date() is not None:
             self.ui.get_object("year").set_markup(
                 "<span color='grey'>(" +
-                album.get_creation_date().get_year() + ")</span>"
+                str(album.get_creation_date().get_year()) + ")</span>"
             )
         self.tracks = []
         grilo.get_album_songs(album.get_id(), self.get_songs)
         self.pack_start(self.ui.get_object("ArtistAlbumWidget"), True, True, 0)
         self.show_all()
-        self.emit("artist-album-loaded")
+        #self.emit("artist-album-loaded")
 
-    def get_songs(self, source, prefs, track):
+    def get_songs(self, source, prefs, track, unknown, data, error):
         if track is not None:
             self.tracks.append(track)
 
         else:
-            for i in self.tracks.length:
-                track = self.tracks[i]
+            for i, track in enumerate(self.tracks):
                 ui = Gtk.Builder()
                 ui.add_from_resource('/org/gnome/music/TrackWidget.ui')
                 song_widget = ui.get_object("eventbox1")
                 self.songs.append(song_widget)
                 ui.get_object("num").set_markup("<span color='grey'>"
-                                                + str(self.songs.length)
+                                                + str(len(self.songs))
                                                 + "</span>")
                 if track.get_title() is not None:
                     ui.get_object("title").set_text(track.get_title())
                 ui.get_object("title").set_alignment(0.0, 0.5)
                 self.ui.get_object("grid1").attach(
                     song_widget,
-                    int(i / (self.tracks.length / 2)),
-                    int((i) % (self.tracks.length / 2)), 1, 1
+                    int(i / (len(self.tracks) / 2)),
+                    int((i) % (len(self.tracks) / 2)), 1, 1
                 )
                 track.song_widget = song_widget
-                iter = self.model.append()
-                song_widget.iter = iter
+                itr = self.model.append()
+                song_widget.iter = itr
                 song_widget.model = self.model
                 song_widget.title = ui.get_object("title")
 
                 try:
                     self.player.discoverer.discover_uri(track.get_url())
-                    self.model.set(iter,
+                    self.model.set(itr,
                                    [0, 1, 2, 3, 4, 5],
                                    [track.get_title(), "", "", False,
                                     NOW_PLAYING_ICON_NAME, track])
@@ -479,7 +528,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     song_widget.nowPlayingSign.set_from_icon_name(
                         NOW_PLAYING_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.nowPlayingSign.set_no_show_all("true")
+                    song_widget.nowPlayingSign.set_no_show_all("True")
                     song_widget.nowPlayingSign.set_alignment(0.0, 0.6)
                     song_widget.can_be_played = True
                     song_widget.connect('button-release-event',
@@ -488,7 +537,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 except IOError as err:
                     print(err.message)
                     print("failed to discover url " + track.get_url())
-                    self.model.set(iter, [0, 1, 2, 3, 4, 5],
+                    self.model.set(itr, [0, 1, 2, 3, 4, 5],
                                    [track.get_title(), "", "", True,
                                     ERROR_ICON_NAME, track])
                     song_widget.nowPlayingSign = ui.get_object("image1")
@@ -498,7 +547,8 @@ class ArtistAlbumWidget(Gtk.HBox):
                     song_widget.nowPlayingSign.set_alignment(0.0, 0.6)
                     song_widget.can_be_played = False
             self.ui.get_object("grid1").show_all()
-            self.emit("tracks-loaded")
+            #FIXME: Add signal
+            #self.emit("tracks-loaded")
 
     def _update_album_art(self):
         ALBUM_ART_CACHE.lookup(128, self.artist,
@@ -513,13 +563,13 @@ class ArtistAlbumWidget(Gtk.HBox):
                               | Grl.ResolutionFlags.IDLE_RELAY)
             grilo.tracker.resolve(self.album,
                                   [Grl.METADATA_KEY_THUMBNAIL],
-                                  options, self.load_cover)
+                                  options, self.load_cover, None)
 
-    def load_cover(self, source, param, item):
+    def load_cover(self, source, param, item, data, error):
         uri = self.album.get_thumbnail()
-        ALBUM_ART_CACHE.getFromUri(uri, self.artist,
-                                   self.album.get_title(), 128, 128,
-                                   self.get_cover)
+        ALBUM_ART_CACHE.get_from_uri(uri, self.artist,
+                                     self.album.get_title(), 128, 128,
+                                     self.get_cover)
 
     def get_cover(self, pixbuf):
         pixbuf = ALBUM_ART_CACHE.makeIconFrame(pixbuf)

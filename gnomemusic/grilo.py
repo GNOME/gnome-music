@@ -61,6 +61,7 @@ class Grilo(GObject.GObject):
                           Grl.ResolutionFlags.IDLE_RELAY)
         options.set_skip(offset)
         options.set_count(count)
+
         def _callback(source, param, item, count, data, offset):
             callback(source, param, item)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)

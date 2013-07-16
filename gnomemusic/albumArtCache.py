@@ -296,7 +296,7 @@ class AlbumArtCache:
                         stream.close(None)
                         return
                 except Exception as e:
-                    print ('Failed to query thumbnail content type')
+                    print('Failed to query thumbnail content type')
                     path += '.jpeg'
                     return
 
@@ -323,5 +323,6 @@ class AlbumArtCache:
                                       300, None, replace_async_ready)
 
             except Exception as e:
-                print (e)
+                print(e)
+
         f.read_async(300, None, read_async_ready)
