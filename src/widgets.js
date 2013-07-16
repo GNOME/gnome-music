@@ -252,7 +252,8 @@ const AlbumWidget = new Lang.Class({
                     let iter = this.model.append();
                     let escapedTitle = AlbumArtCache.getMediaTitle(track, true);
                     try{
-                        this.player.discoverer.discover_uri(track.get_url());
+                        if (track.get_url())
+                            this.player.discoverer.discover_uri(track.get_url());
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5, 7, 9],
                             [ escapedTitle, "", "", "", this._symbolicIcon, track,  nowPlayingIconName, false]);
