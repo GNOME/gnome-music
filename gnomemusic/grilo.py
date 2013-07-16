@@ -2,7 +2,6 @@ from gi.repository import Grl, GLib, GObject
 
 from gnomemusic.query import Query
 
-
 class Grilo(GObject.GObject):
 
     __gsignals__ = {

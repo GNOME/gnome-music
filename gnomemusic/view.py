@@ -61,7 +61,7 @@ class ViewContainer(Gtk.Stack):
 
         self._loadMore = Widgets.LoadMoreButton(self._getRemainingItemCount)
         box.pack_end(self._loadMore.widget, False, False, 0)
-        self._loadMore.widget.connect("clicked", self.populate)
+        self._loadMore.widget.connect("clicked", self._populate)
         self.view.connect('item-activated', self._onItemActivated)
         self._cursor = None
         self.headerBar = headerBar
@@ -76,7 +76,7 @@ class ViewContainer(Gtk.Stack):
         self._loadMore.widget.hide()
         self._connectView()
         self.cache = albumArtCache.getDefault()
-        self._symbolicIcon = self.cache.makeDefaultIcon(self._iconHeight, self._iconWidth)
+        self._symbolicIcon = self.cache.make_default_icon(self._iconHeight, self._iconWidth)
 
         self._init = False
         grilo.connect('ready', self._onGriloReady)
@@ -148,10 +148,10 @@ class ViewContainer(Gtk.Stack):
             end = False
         self._loadMore.setBlock(not end)
 
-    def populate():
-        pass
+    def populate(self):
+        print ("populate")
 
-    def _addItem(self, source, param, item, a, b, c):
+    def _add_item(self, source, param, item, a, b, c):
         if item is not None:
             self._offset += 1
             iter = self._model.append()
@@ -186,12 +186,17 @@ class ViewContainer(Gtk.Stack):
     def _updateAlbumArt(self, item, iter):
         def _albumArtCacheLookUp(icon, data=None):
             if icon:
-                self._model.set_value(iter, 4, albumArtCache.getDefault().makeIconFrame(icon))
+                self._model.set_value(iter, 4, 
+                    albumArtCache.getDefault()._make_icon_frame(icon))
             else:
                 self._model.set_value(iter, 4, None)
                 self.emit("album-art-updated")
+            pass
 
-        albumArtCache.getDefault().lookupOrResolve(item, self._iconWidth, self._iconHeight, _albumArtCacheLookUp)
+        albumArtCache.getDefault().lookup_or_resolve(item,
+                                                   self._iconWidth,
+                                                   self._iconHeight,
+                                                   _albumArtCacheLookUp)
         return False
 
     def _addListRenderers(self):
@@ -238,7 +243,7 @@ class Albums(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateAlbums(self._offset, self._addItem)
+            grilo.populateAlbums(self._offset, self._add_item)
 
 
 class Songs(ViewContainer):
@@ -252,7 +257,8 @@ class Songs(ViewContainer):
         self._iconHeight = 32
         self._iconWidth = 32
         self.cache = albumArtCache.getDefault()
-        self._symbolicIcon = self.cache.makeDefaultIcon(self._iconHeight, self._iconWidth)
+        self._symbolicIcon = self.cache.make_default_icon(self._iconHeight,
+                                                          self._iconWidth)
         self._addListRenderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.updateModel)
@@ -273,7 +279,7 @@ class Songs(ViewContainer):
         self.iterToClean = currentIter.copy()
         return False
 
-    def _addItem(self, source, param, item):
+    def _add_item(self, source, param, item):
         if item is not None:
             self._offset += 1
             iter = self._model.append()
@@ -364,7 +370,7 @@ class Songs(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateSongs(self._offset, self._addItem, None)
+            grilo.populateSongs(self._offset, self._add_item, None)
 
 
 class Playlist(ViewContainer):
@@ -443,7 +449,7 @@ class Artists (ViewContainer):
             self.artistAlbums = Widgets.ArtistAlbums(artist, albums, self.player)
         self._artistAlbumsWidget.add(self.artistAlbums)
 
-    def _addItem(self, source, param, item):
+    def _add_item(self, source, param, item):
         self._offset += 1
         if item is None:
             return
@@ -466,5 +472,5 @@ class Artists (ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populateArtists(self._offset, self._addItem, None)
+            grilo.populateArtists(self._offset, self._add_item, None)
             #FIXME: We're emitting self too early, need to wait for all artists to be filled in

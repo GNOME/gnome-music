@@ -3,8 +3,8 @@ from gettext import gettext as _
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar
-import gnomemusic.view as Views
 from gnomemusic.query import Query
+import gnomemusic.view as Views
 
 tracker = Tracker.SparqlConnection.get(None)
 
@@ -77,7 +77,7 @@ class Window(Gtk.ApplicationWindow):
             self.views.append(Views.Albums(self.toolbar, self.selectionToolbar, self.player))
             self.views.append(Views.Artists(self.toolbar, self.selectionToolbar, self.player))
             self.views.append(Views.Songs(self.toolbar, self.selectionToolbar, self.player))
-            self.views.append(Views.Playlist(self.toolbar, self.selectionToolbar, self.player))
+            #self.views.append(Views.Playlist(self.toolbar, self.selectionToolbar, self.player))
 
             for i in self.views:
                 self._stack.add_titled(i, i.title, i.title)
