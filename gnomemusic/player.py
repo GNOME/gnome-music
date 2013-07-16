@@ -404,7 +404,7 @@ class Player(GObject.GObject):
         self.onProgressScaleChangeValue(self.progressScale)
         self._updatePositionCallback()
         self.player.set_state(self._lastState)
-        self.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, self._updatePositionCallback)
+        self.timeout = GLib.timeout_add(1000, self._updatePositionCallback)
         return False
 
     def _onProgressValueChanged(self, widget):
