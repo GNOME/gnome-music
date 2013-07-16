@@ -60,7 +60,7 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, (Gtk.ListStore, Gtk.TreeIter)),
         'current-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
     }
 
@@ -155,8 +155,7 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SHUFFLE:
             nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
-            random = randint(1, rows)
-            for i in random:
+            for i in range(1, randint(1, rows)):
                 self.playlist.iter_next(nextTrack)
 
         return nextTrack
@@ -186,8 +185,7 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SHUFFLE:
             previousTrack = self.playlist.get_iter_first()[1]
             rows = self.playlist.iter_n_children(None)
-            random = randint(1, rows)
-            for i in random:
+            for i in range(1, randint(1, rows)):
                 self.playlist.iter_next(previousTrack)
 
         return previousTrack
