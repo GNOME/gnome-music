@@ -400,7 +400,7 @@ class Player(GObject.GObject):
         self.progressScale.connect("value-changed", self._onProgressValueChanged)
         self.progressScale.connect("button-release-event", self._onProgressScaleButtonReleased)
 
-    def _onProgressScaleButtonReleased(self):
+    def _onProgressScaleButtonReleased(self, scale, data):
         self.onProgressScaleChangeValue(self.progressScale)
         self._updatePositionCallback()
         self.player.set_state(self._lastState)
