@@ -60,7 +60,8 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'current-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
     }
 
     def __init__(self):
