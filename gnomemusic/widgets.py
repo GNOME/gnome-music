@@ -60,7 +60,7 @@ class AlbumWidget(Gtk.EventBox):
     duration = 0
 
     def __init__(self, player):
-        super(Gtk.EventBox, self)
+        super(Gtk.EventBox, self).__init__()
         self.player = player
         self.hbox = Gtk.HBox()
         self.iterToClean = None
@@ -105,7 +105,7 @@ class AlbumWidget(Gtk.EventBox):
         self.show_all()
 
     def _onItemActivated(self, widget, id, path):
-        iter = self.model.get_iter(path)[1]
+        iter = self.model.get_iter(path)
         if(self.model.get_value(iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
@@ -150,15 +150,15 @@ class AlbumWidget(Gtk.EventBox):
         durationRenderer.xalign = 1.0
         listWidget.add_renderer(durationRenderer, self._durationRendererText, None)
 
-    def _typeRendererText(self, col, cell, model, iter):
+    def _typeRendererText(self, col, cell, model, iter, data):
         pass
 
-    def _durationRendererText(self):
+    def _durationRendererText(self, col, widget, model, iter, data):
         item = self.model.get_value(iter, 5)
         duration = item.get_duration()
         if item is None:
             return
-        self.durationRenderer.text = self.player.secondsToString(duration)
+        widget.text = self.player.secondsToString(duration)
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
         released_date = item.get_publication_date()
@@ -243,14 +243,14 @@ class AlbumWidget(Gtk.EventBox):
                 self.model.set(iter,
                                [0, 1, 2, 3, 4, 5, 7, 9],
                                [escapedTitle, "", "", "",
-                                self._symbolicIcon, track,
+                                None, track,
                                 NOW_PLAYING_ICON_NAME, False])
             except IOError as err:
                 logging.debug(err.message)
                 logging.debug("failed to discover url " + track.get_url())
                 self.model.set(iter,
                                [0, 1, 2, 3, 4, 5, 7, 9],
-                               [escapedTitle, "", "", "", self._symbolicIcon,
+                               [escapedTitle, "", "", "", None,
                                 track, True, ERROR_ICON_NAME, False])
             self.ui.get_object("running_length_label_info").set_text(
                 "%d min" % (int(self.duration / 60) + 1))
@@ -266,8 +266,8 @@ class AlbumWidget(Gtk.EventBox):
         if (playlist != self.model):
             return False
         currentSong = playlist.get_value(currentIter, 5)
-        [res, iter] = playlist.get_iter_first()
-        if res is not None:
+        iter = playlist.get_iter_first()
+        if iter is None:
             return False
         songPassed = False
         while True:
@@ -293,7 +293,7 @@ class AlbumWidget(Gtk.EventBox):
 
 class ArtistAlbums(Gtk.VBox):
     def __init__(self, artist, albums, player):
-        super(Gtk.VBox, self)
+        super(Gtk.VBox, self).__init__()
         self.player = player
         self.artist = artist
         self.albums = albums
@@ -354,7 +354,7 @@ class ArtistAlbums(Gtk.VBox):
 class AllArtistsAlbums(ArtistAlbums):
 
     def __init__(self, player):
-        super(ArtistAlbums, "All Artists", [], player)
+        super(ArtistAlbums, "All Artists", [], player).__init__()
         self._offset = 0
         self.countQuery = Query.album_count
         self._loadMore = LoadMoreButton(self, self._getRemainingItemCount)
@@ -415,7 +415,7 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.HBox):
 
     def __init__(self, artist, album, player, model):
-        super(Gtk.HBox, self)
+        super(Gtk.HBox, self).__init__()
         self.player = player
         self.album = album
         self.artist = artist

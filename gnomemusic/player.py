@@ -60,7 +60,8 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, (Gtk.ListStore, Gtk.TreeIter)),
+        'current-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
     }
 
     def __init__(self):
@@ -152,10 +153,9 @@ class Player(GObject.GObject):
             nextTrack = currentTrack.copy()
             nextTrack = nextTrack if self.playlist.iter_next(nextTrack) else None
         elif self.repeat == RepeatType.SHUFFLE:
-            nextTrack = self.playlist.get_iter_first()[1]
+            nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
-            random = randint(rows)
-            for i in random:
+            for i in range(1, randint(1, rows)):
                 self.playlist.iter_next(nextTrack)
 
         return nextTrack
@@ -185,8 +185,7 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SHUFFLE:
             previousTrack = self.playlist.get_iter_first()[1]
             rows = self.playlist.iter_n_children(None)
-            random = randint(0, rows)
-            for i in random:
+            for i in range(1, randint(1, rows)):
                 self.playlist.iter_next(previousTrack)
 
         return previousTrack
@@ -266,7 +265,7 @@ class Player(GObject.GObject):
             self.artistLabel.set_label("Unknown artist")
 
         url = media.get_url()
-        if url != self.player.current_uri:
+        if url != self.player.get_value("current-uri", 0):
             self.player.uri = url
 
         #Store next available url
@@ -286,7 +285,7 @@ class Player(GObject.GObject):
         self.emit("playlist-item-changed", self.playlist, self.currentTrack)
         self.emit('current-changed')
 
-    def _onCacheLookup(self, pixbuf):
+    def _onCacheLookup(self, pixbuf, path):
         if pixbuf is not None:
             self.coverImg.set_from_pixbuf(pixbuf)
 
@@ -424,9 +423,9 @@ class Player(GObject.GObject):
         seconds = duration % 60
 
         if seconds < 10:
-            return minutes + ":" + "0" + seconds
+            return "%s:0%s" % (minutes, seconds)
         else:
-            return minutes + ":" + seconds
+            return "%s:%s" % (minutes, seconds)
 
     def _onPlayBtnClicked(self, btn):
         if self.playing:
@@ -445,7 +444,7 @@ class Player(GObject.GObject):
         self.progressScale.set_range(0.0, duration * 60)
 
     def _updatePositionCallback(self):
-        position = self.player.query_position(Gst.Format.TIME, None)[1] / 1000000000
+        position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position >= 0:
             self.progressScale.set_value(position * 60)
         return True
