@@ -273,14 +273,14 @@ class AlbumWidget(Gtk.EventBox):
 
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
             if (song == currentSong):
-                title = "<b>" + escapedTitle + "</b>"
+                title = "<b>%s</b>" % escapedTitle
                 iconVisible = True
                 songPassed = True
             elif (songPassed):
-                title = "<span>" + escapedTitle + "</span>"
+                title = "<span>%s</span>" % escapedTitle
                 iconVisible = False
             else:
-                title = "<span color='grey'>" + escapedTitle + "</span>"
+                title = "<span color='grey'>%s</span>" % escapedTitle
                 iconVisible = False
             playlist.set_value(iter, 0, title)
             playlist.set_value(iter, 9, iconVisible)
