@@ -215,7 +215,7 @@ class Player(GObject.GObject):
             return False
 
     def _syncPlaying(self):
-        image = self._playImage if self.getPlaying() else self._pauseImage
+        image = self._pauseImage if self.getPlaying() else self._playImage
         if self.playBtn.get_image() != image:
             self.playBtn.set_image(image)
 
@@ -310,15 +310,16 @@ class Player(GObject.GObject):
     def pause(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
-            self.timeout = 0
+            self.timeout = None
 
         self.player.set_state(Gst.State.PAUSED)
         #self._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Paused'))
+        self.emit('playing-changed')
 
     def stop(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
-            self.timeout = 0
+            self.timeout = None
 
         self.player.set_state(Gst.State.NULL)
         #self._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Stopped'))
