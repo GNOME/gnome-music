@@ -150,10 +150,10 @@ class AlbumWidget(Gtk.EventBox):
         durationRenderer.xalign = 1.0
         listWidget.add_renderer(durationRenderer, self._durationRendererText, None)
 
-    def _typeRendererText(self, col, cell, model, iter):
+    def _typeRendererText(self, col, cell, model, iter, data):
         pass
 
-    def _durationRendererText(self):
+    def _durationRendererText(self, col, cell, model, iter, data):
         item = self.model.get_value(iter, 5)
         duration = item.get_duration()
         if item is None:
