@@ -133,8 +133,7 @@ class AlbumWidget(Gtk.EventBox):
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
         column_now_playing.fixed_width = 24
         column_now_playing.add_attribute(now_playing_symbol_renderer, "visible", 9)
-        column_now_playing.add_attribute(now_playing_symbol_renderer, "icon_name",
-                                       7)
+        column_now_playing.add_attribute(now_playing_symbol_renderer, "icon_name", 7)
         list_widget.insert_column(column_now_playing, 0)
 
         type_renderer = Gd.StyledTextRenderer(xpad=16)
@@ -179,18 +178,17 @@ class AlbumWidget(Gtk.EventBox):
             self.update_model(self.player, cached_playlist,
                               self.player.currentTrack)
         else:
-            self.model = Gtk.ListStore(
-                GObject.TYPE_STRING,  # title
-                GObject.TYPE_STRING,
-                GObject.TYPE_STRING,
-                GObject.TYPE_STRING,
-                GdkPixbuf.Pixbuf,    # icon
-                GObject.TYPE_OBJECT,  # song object
-                GObject.TYPE_BOOLEAN,  # icon shown
-                GObject.TYPE_STRING,
-                GObject.TYPE_BOOLEAN,
-                GObject.TYPE_BOOLEAN,
-            )
+            self.model = Gtk.ListStore(GObject.TYPE_STRING,  # title
+                                       GObject.TYPE_STRING,
+                                       GObject.TYPE_STRING,
+                                       GObject.TYPE_STRING,
+                                       GdkPixbuf.Pixbuf,    # icon
+                                       GObject.TYPE_OBJECT,  # song object
+                                       GObject.TYPE_BOOLEAN,  # icon shown
+                                       GObject.TYPE_STRING,
+                                       GObject.TYPE_BOOLEAN,
+                                       GObject.TYPE_BOOLEAN,
+                                       )
             grilo.get_album_songs(item.get_id(), self._on_get_album_songs)
         header_bar._selectButton.connect('toggled', self._on_header_select_button_toggled)
         header_bar._cancelButton.connect('clicked', self._on_header_cancel_button_clicked)
