@@ -302,7 +302,7 @@ class Player(GObject.GObject):
         self.player.set_state(Gst.State.PLAYING)
         self._updatePositionCallback()
         if not self.timeout:
-            self.timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, self._updatePositionCallback)
+            self.timeout = GLib.timeout_add(1000, self._updatePositionCallback)
 
         #self._dbusImpl.emit_property_changed('PlaybackStatus', GLib.Variant.new('s', 'Playing'))
 
