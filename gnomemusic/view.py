@@ -237,9 +237,9 @@ class Albums(ViewContainer):
         item = self._model.get_value(iter, 5)
         self._albumWidget.update(artist, title, item, self.headerBar, self.selectionToolbar)
         self.headerBar.setState(0)
-        self.headerBar.headerBar.title = title
+        self.headerBar.headerBar.set_title(title)
         self.headerBar.headerBar.sub_title = artist
-        self.visible_child = self._albumWidget
+        self.set_visible_child(self._albumWidget)
 
     def populate(self):
         if grilo.tracker is not None:
