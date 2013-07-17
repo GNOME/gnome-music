@@ -550,9 +550,12 @@ const ArtistAlbumWidget = new Lang.Class({
 
         let pixbuf = albumArtCache.makeDefaultIcon(128, 128);
         GLib.idle_add(300, Lang.bind(this, this._updateAlbumArt));
-
-        this.ui.get_object("cover").set_from_pixbuf(pixbuf);
-        this.ui.get_object("title").set_label(album.get_title());
+        let cover = this.ui.get_object("cover");
+        let title = this.ui.get_object("title");
+        cover.set_from_pixbuf(pixbuf);
+        cover.get_style_context().add_class("cover");
+        title.get_style_context().add_class("title");
+        title.set_label(album.get_title());
         if (album.get_creation_date()) {
             this.ui.get_object("year").set_markup(
                 "<span color='grey'>(" + album.get_creation_date().get_year() + ")</span>");
@@ -582,13 +585,14 @@ const ArtistAlbumWidget = new Lang.Class({
                     songWidget.iter = iter;
                     songWidget.model = model;
                     songWidget.title = ui.get_object("title");
-
+                    let icon = ui.get_object("image1");
+                    icon.get_style_context().add_class("icon");
                     try{
                         this.player.discoverer.discover_uri(track.get_url());
                         model.set(iter,
                             [0, 1, 2, 3, 4, 5],
                             [ title, '', '', false, nowPlayingIconName, track]);
-                        songWidget.nowPlayingSign = ui.get_object("image1");
+                        songWidget.nowPlayingSign = icon;
                         songWidget.nowPlayingSign.set_from_icon_name(nowPlayingIconName, Gtk.IconSize.SMALL_TOOLBAR);
                         songWidget.nowPlayingSign.set_no_show_all("true");
                         songWidget.nowPlayingSign.set_alignment(0.0,0.6);
@@ -601,7 +605,7 @@ const ArtistAlbumWidget = new Lang.Class({
                         this.model.set(iter,
                             [0, 1, 2, 3, 4, 5],
                             [ title, '', '', true, errorIconName, track ]);
-                        songWidget.nowPlayingSign = ui.get_object("image1");
+                        songWidget.nowPlayingSign = icon;
                         songWidget.nowPlayingSign.set_from_icon_name(errorIconName, Gtk.IconSize.SMALL_TOOLBAR);
                         songWidget.nowPlayingSign.set_alignment(0.0,0.6);
                         songWidget.can_be_played = false;
