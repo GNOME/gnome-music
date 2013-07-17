@@ -45,5 +45,24 @@ gen-AUTHORS:
 	   mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS ;           \
 	fi
 
+gnome-music: gnome-music.in
+	sed						\
+		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
+		-e s!\@prefix\@!$(prefix)!		\
+		-e s!\@datadir\@!$(datadir)!		\
+		-e s!\@pkgdatadir\@!$(pkgdatadir)!	\
+		-e s!\@libexecdir\@!$(libexecdir)!	\
+		-e s!\@libdir\@!$(libdir)!		\
+		-e s!\@pkglibdir\@!$(pkglibdir)!	\
+		-e s!\@pythondir\@!$(pythondir)!	\
+		-e s!\@pyexecdir\@!$(pyexecdir)!	\
+		-e s!\@PACKAGE\@!$(PACKAGE)!		\
+		-e s!\@VERSION\@!$(VERSION)!		\
+		< $< > $@
+
+gnome-music: Makefile
+
+all-local: gnome-music
+
 -include $(top_srcdir)/git.mk
 
