@@ -419,7 +419,10 @@ class AllArtistsAlbums(ArtistAlbums):
         self._scrollbarVisibleId =\
             self._scrolledWindow.get_vscrollbar().connect(
                 'notify::visible',
-                self._on_scrolled_win_change)
+                self._on_scrollbar_visible)
+        self._on_scrolled_win_change()
+
+    def _on_scrollbar_visible(self, scrollbar, pspec, data=None):
         self._on_scrolled_win_change()
 
     def _on_scrolled_win_change(self, data=None):
