@@ -537,8 +537,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     song_widget.connect('button-release-event',
                                         self.track_selected)
 
-                except IOError as err:
-                    print(err.message)
+                except:
                     print("failed to discover url " + track.get_url())
                     self.model.set(itr, [0, 1, 2, 3, 4, 5],
                                    [track.get_title(), "", "", True,
