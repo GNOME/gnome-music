@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gio, GLib
+from gi.repository import Gtk, Gio, GLib, Gdk
 from gnomemusic.window import Window
 
 
@@ -8,6 +8,13 @@ class Application(Gtk.Application):
                                  application_id='org.gnome.Music',
                                  flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name("Music")
+
+        cssProvider = Gtk.CssProvider()
+        cssProvider.load_from_path('data/application.css')
+        screen = Gdk.Screen.get_default()
+        styleContext = Gtk.StyleContext()
+        styleContext.add_provider_for_screen(screen, cssProvider,
+                                             Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
     def do_startup(self):
         Gtk.Application.do_startup(self)

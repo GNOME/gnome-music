@@ -411,11 +411,11 @@ class Artists (ViewContainer):
         self._artists = {}
         self.countQuery = Query.ARTISTS_COUNT
         self._artistAlbumsWidget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE
+            shadow_type=Gtk.ShadowType.NONE,
+            hexpand=True
         )
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.set_hexpand(False)
-        self._artistAlbumsWidget.set_hexpand(True)
         self.view.get_style_context().add_class("artist-panel")
         self.view.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
@@ -438,11 +438,7 @@ class Artists (ViewContainer):
             self._allIter = self._model.append()
             self._artists["All Artists".lower()] =\
                 {"iter": self._allIter, "albums": []}
-            self._model.set(
-                self._allIter,
-                [0, 1, 2, 3],
-                ["All Artists", "All Artists", "All Artists", "All Artists"]
-            )
+            self._model.set(self._allIter, 2, "All Artists")
             selection.select_path(self._model.get_path(self._allIter))
             self.view.emit('item-activated', "0",
                            self._model.get_path(self._allIter))
@@ -454,26 +450,15 @@ class Artists (ViewContainer):
 
         cols = listWidget.get_columns()
         cells = cols[0].get_cells()
-        cells[2].visible = False
-
-        typeRenderer = Gd.StyledTextRenderer(xpad=0)
-        typeRenderer.ellipsize = 3
-        typeRenderer.xalign = 0.0
-        typeRenderer.yalign = 0.5
-        typeRenderer.height = 48
-        typeRenderer.width = 220
-
-        def type_render(self, cell, model, itr, data):
-            typeRenderer.text = model.get_value(itr, 0)
-
-        listWidget.add_renderer(typeRenderer, type_render, None)
+        cells[2].set_alignment(xalign=0, yalign=0.5)
+        cells[2].set_fixed_size(width=220, height=48)
 
     def _on_item_activated(self, widget, item_id, path):
         children = self._artistAlbumsWidget.get_children()
         for child in children:
             self._artistAlbumsWidget.remove(child)
         itr = self._model.get_iter(path)
-        artist = self._model.get_value(itr, 0)
+        artist = self._model.get_value(itr, 2)
         albums = self._artists[artist.lower()]["albums"]
         self.artistAlbums = None
         if (self._model.get_string_from_iter(itr) ==
@@ -496,18 +481,10 @@ class Artists (ViewContainer):
         if not artist.lower() in self._artists:
             itr = self._model.append()
             self._artists[artist.lower()] = {"iter": itr, "albums": []}
-            self._model.set(
-                itr,
-                [0, 1, 2, 3],
-                [artist, artist, artist, artist]
-            )
+            self._model.set(itr, 2, artist)
 
         self._artists[artist.lower()]["albums"].append(item)
-        #FIXME: add new signal
-        #self.emit("artist-added")
 
     def populate(self):
         if grilo.tracker is not None:
             grilo.populate_artists(self._offset, self._add_item)
-            #FIXME: We're emitting self too early,
-            #need to wait for all artists to be filled in

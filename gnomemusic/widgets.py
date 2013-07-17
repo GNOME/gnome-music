@@ -102,8 +102,8 @@ class AlbumWidget(Gtk.EventBox):
         self.add(self.ui.get_object("AlbumWidget"))
         self._add_list_renderers()
         # TODO: make this work
-        #self.get_style_context().add_class("view")
-        #self.get_style_context().add_class("content-view")
+        self.get_style_context().add_class("view")
+        self.get_style_context().add_class("content-view")
         self.show_all()
 
     def _on_item_activated(self, widget, id, path):
@@ -127,30 +127,30 @@ class AlbumWidget(Gtk.EventBox):
         cells[2].set_visible(False)
         cells[1].set_visible(False)
 
-        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0)
+        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0,
+                                                             xalign=1.0,
+                                                             yalign=0.5)
 
         column_now_playing = Gtk.TreeViewColumn()
-        now_playing_symbol_renderer.xalign = 1.0
-        now_playing_symbol_renderer.yalign = 0.6
+        column_now_playing.set_fixed_width(24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.fixed_width = 24
         column_now_playing.add_attribute(now_playing_symbol_renderer,
                                          "visible", 9)
         column_now_playing.add_attribute(now_playing_symbol_renderer,
                                          "icon_name", 7)
         list_widget.insert_column(column_now_playing, 0)
 
-        type_renderer = Gd.StyledTextRenderer(xpad=16)
-        type_renderer.ellipsize = Pango.EllipsizeMode.END
-        type_renderer.xalign = 0.0
+        type_renderer = Gd.StyledTextRenderer(xpad=16,
+                                              ellipsize=Pango.EllipsizeMode.END,
+                                              xalign=0.0)
         list_widget.add_renderer(type_renderer, self._type_renderer_text, None)
         cols[0].clear_attributes(type_renderer)
         cols[0].add_attribute(type_renderer, "markup", 0)
 
-        durationRenderer = Gd.StyledTextRenderer(xpad=16)
+        durationRenderer = Gd.StyledTextRenderer(xpad=16,
+                                                 ellipsize=Pango.EllipsizeMode.END,
+                                                 xalign=1.0)
         durationRenderer.add_class('dim-label')
-        durationRenderer.ellipsize = Pango.EllipsizeMode.END
-        durationRenderer.xalign = 1.0
         list_widget.add_renderer(durationRenderer,
                                  self._duration_renderer_text, None)
 
@@ -262,7 +262,6 @@ class AlbumWidget(Gtk.EventBox):
                                 track, True, ERROR_ICON_NAME, False])
             self.ui.get_object("running_length_label_info").set_text(
                 "%d min" % (int(self.duration / 60) + 1))
-            #self.emit("track-added")
 
     def _on_look_up(self, pixbuf, path):
         if pixbuf is not None:
@@ -274,19 +273,17 @@ class AlbumWidget(Gtk.EventBox):
         if (playlist != self.model):
             return False
         currentSong = playlist.get_value(currentIter, 5)
+        song_passed = False
         iter = playlist.get_iter_first()
-        if iter is None:
-            return False
-        songPassed = False
-        while True:
+        while iter is not None:
             song = playlist.get_value(iter, 5)
 
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
             if (song == currentSong):
                 title = "<b>%s</b>" % escapedTitle
                 iconVisible = True
-                songPassed = True
-            elif (songPassed):
+                song_passed = True
+            elif (song_passed):
                 title = "<span>%s</span>" % escapedTitle
                 iconVisible = False
             else:
@@ -295,8 +292,6 @@ class AlbumWidget(Gtk.EventBox):
             playlist.set_value(iter, 0, title)
             playlist.set_value(iter, 9, iconVisible)
             iter = playlist.iter_next(iter)
-            if iter is None:
-                break
         return False
 
 
@@ -339,7 +334,6 @@ class ArtistAlbums(Gtk.VBox):
 
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
-        #self.emit("albums-loaded")
 
     def add_album(self, album):
         widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
@@ -356,44 +350,40 @@ class ArtistAlbums(Gtk.VBox):
             return False
 
         currentSong = playlist.get_value(currentIter, 5)
-        res, itr = playlist.get_iter_first()
-        if not res:
-            return False
-        songPassed = False
+        song_passed = False
+        itr = playlist.get_iter_first()
 
-        while playlist.iter_next(itr):
+        while itr is not None:
             song = playlist.get_value(itr, 5)
-            songWidget = song.songWidget
+            song_widget = song.song_widget
 
-            if not songWidget.can_be_played:
+            if not song_widget.can_be_played:
                 continue
 
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
             if (song == currentSong):
-                songWidget.nowPlayingSign.show()
-                songWidget.title.set_markup("<b>" + escapedTitle + "</b>")
-                songPassed = True
-            elif (songPassed):
-                songWidget.nowPlayingSign.hide()
-                songWidget.title.set_markup("<span>" +
-                                            escapedTitle + "</span>")
+                song_widget.now_playing_sign.show()
+                song_widget.title.set_markup("<b>%s</b>" % escapedTitle)
+                song_passed = True
+            elif (song_passed):
+                song_widget.now_playing_sign.hide()
+                song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
             else:
-                songWidget.nowPlayingSign.hide()
-                songWidget.title.set_markup("<span color='grey'>" +
-                                            escapedTitle + "</span>")
+                song_widget.now_playing_sign.hide()
+                song_widget.title.set_markup("<span color='grey'>%s</span>" % escapedTitle)
+            itr = playlist.iter_next(itr)
         return False
 
     def clean_model(self):
-        [res, itr] = self.model.get_iter_first()
-        if not res:
-            return False
-        while self.model.iter_next(itr) is True:
+        itr = self.model.get_iter_first()
+        while itr is not None:
             song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
             if song_widget.can_be_played is not None:
-                song_widget.nowPlayingSign.hide()
-            song_widget.title.set_markup("<span>" + escapedTitle + "</span>")
+                song_widget.now_playing_sign.hide()
+            song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
+            itr = self.model.iter_next(itr)
         return False
 
 
@@ -448,13 +438,13 @@ class AllArtistsAlbums(ArtistAlbums):
             end = False
         self._load_more.set_block(not end)
 
-    def _populate(self):
+    def _populate(self, data=None):
         if grilo.tracker is not None:
             grilo.populate_albums(self._offset, self.add_item, 5)
 
     def add_item(self, source, param, item):
         if item is not None:
-            self._offset = self._offset + 1
+            self._offset += 1
             self.add_album(item)
 
     def _get_remaining_item_count(self):
@@ -487,35 +477,31 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui.get_object("title").set_label(album.get_title())
         if album.get_creation_date() is not None:
             self.ui.get_object("year").set_markup(
-                "<span color='grey'>(" +
-                str(album.get_creation_date().get_year()) + ")</span>"
-            )
+                "<span color='grey'>(%s)</span>" %
+                str(album.get_creation_date().get_year()))
         self.tracks = []
         grilo.get_album_songs(album.get_id(), self.get_songs)
         self.pack_start(self.ui.get_object("ArtistAlbumWidget"), True, True, 0)
         self.show_all()
-        #self.emit("artist-album-loaded")
 
     def get_songs(self, source, prefs, track, unknown, data, error):
         if track is not None:
             self.tracks.append(track)
-
         else:
             for i, track in enumerate(self.tracks):
                 ui = Gtk.Builder()
                 ui.add_from_resource('/org/gnome/music/TrackWidget.ui')
                 song_widget = ui.get_object("eventbox1")
                 self.songs.append(song_widget)
-                ui.get_object("num").set_markup("<span color='grey'>"
-                                                + str(len(self.songs))
-                                                + "</span>")
+                ui.get_object("num").set_markup("<span color='grey'>%d</span>" %
+                                                len(self.songs))
                 if track.get_title() is not None:
                     ui.get_object("title").set_text(track.get_title())
                 ui.get_object("title").set_alignment(0.0, 0.5)
                 self.ui.get_object("grid1").attach(
                     song_widget,
                     int(i / (len(self.tracks) / 2)),
-                    int((i) % (len(self.tracks) / 2)), 1, 1
+                    int(i % (len(self.tracks) / 2)), 1, 1
                 )
                 track.song_widget = song_widget
                 itr = self.model.append()
@@ -529,31 +515,28 @@ class ArtistAlbumWidget(Gtk.HBox):
                                    [0, 1, 2, 3, 4, 5],
                                    [track.get_title(), "", "", False,
                                     NOW_PLAYING_ICON_NAME, track])
-                    song_widget.nowPlayingSign = ui.get_object("image1")
-                    song_widget.nowPlayingSign.set_from_icon_name(
+                    song_widget.now_playing_sign = ui.get_object("image1")
+                    song_widget.now_playing_sign.set_from_icon_name(
                         NOW_PLAYING_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.nowPlayingSign.set_no_show_all("True")
-                    song_widget.nowPlayingSign.set_alignment(0.0, 0.6)
+                    song_widget.now_playing_sign.set_no_show_all("True")
+                    song_widget.now_playing_sign.set_alignment(0.0, 0.6)
                     song_widget.can_be_played = True
                     song_widget.connect('button-release-event',
                                         self.track_selected)
 
-                except IOError as err:
-                    print(err.message)
+                except:
                     print("failed to discover url " + track.get_url())
                     self.model.set(itr, [0, 1, 2, 3, 4, 5],
                                    [track.get_title(), "", "", True,
                                     ERROR_ICON_NAME, track])
-                    song_widget.nowPlayingSign = ui.get_object("image1")
-                    song_widget.nowPlayingSign.set_from_icon_name(
+                    song_widget.now_playing_sign = ui.get_object("image1")
+                    song_widget.now_playing_sign.set_from_icon_name(
                         ERROR_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.nowPlayingSign.set_alignment(0.0, 0.6)
+                    song_widget.now_playing_sign.set_alignment(0.0, 0.6)
                     song_widget.can_be_played = False
             self.ui.get_object("grid1").show_all()
-            #FIXME: Add signal
-            #self.emit("tracks-loaded")
 
     def _update_album_art(self):
         ALBUM_ART_CACHE.lookup(128, self.artist,
