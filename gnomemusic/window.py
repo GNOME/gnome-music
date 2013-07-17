@@ -17,7 +17,7 @@ class Window(Gtk.ApplicationWindow):
         settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(settings.create_action('repeat'))
         self.set_size_request(887, 640)
-        self._setupView()
+        self._setup_view()
         self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
                                             None,
@@ -30,16 +30,16 @@ class Window(Gtk.ApplicationWindow):
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
-        self.proxy.connect('g-signal', self._handleMediaKeys)
+        self.proxy.connect('g-signal', self._handle_media_keys)
 
-    def _windowsFocusCb(self, window, event):
+    def _windows_focus_cb(self, window, event):
         self.proxy.call_sync('GrabMediaPlayerKeys',
                              GLib.Variant('(su)', ('Music', 0)),
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
 
-    def _handleMediaKeys(self, proxy, sender, signal, parameters):
+    def _handle_media_keys(self, proxy, sender, signal, parameters):
         if signal != 'MediaPlayerKeyPressed':
             print('Received an unexpected signal \'%s\' from media player'.format(signal))
             return
@@ -54,7 +54,7 @@ class Window(Gtk.ApplicationWindow):
         elif key == 'Previous':
             self.player.Previous()
 
-    def _setupView(self):
+    def _setup_view(self):
         self._box = Gtk.VBox()
         self.player = Player()
         self.selection_toolbar = SelectionToolbar()
@@ -93,7 +93,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[0] = Views.Empty(self.toolbar, self.player)
             self._stack.add_titled(self.views[0], "Empty", "Empty")
 
-        self.toolbar.setState(ToolbarState.ALBUMS)
+        self.toolbar.set_state(ToolbarState.ALBUMS)
         self.toolbar.header_bar.show()
         self.player.eventBox.show_all()
         self._box.show()
@@ -108,5 +108,5 @@ class Window(Gtk.ApplicationWindow):
             stack.get_visible_child().stack.set_visible_child_name("dummy")
             stack.get_visible_child().stack.set_visible_child_name("artists")
 
-    def _toggleView(self, btn, i):
+    def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])

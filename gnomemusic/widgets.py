@@ -112,8 +112,8 @@ class AlbumWidget(Gtk.EventBox):
                 self.model.set_value(self.iterToClean, 0, item.get_title())
                 #Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
-            self.player.setPlaylist("Album", self.album, self.model, iter, 5)
-            self.player.setPlaying(True)
+            self.player.set_playlist("Album", self.album, self.model, iter, 5)
+            self.player.set_playing(True)
 
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
@@ -157,7 +157,7 @@ class AlbumWidget(Gtk.EventBox):
         duration = item.get_duration()
         if item is None:
             return
-        widget.text = self.player.secondsToString(duration)
+        widget.text = self.player.seconds_to_string(duration)
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
         released_date = item.get_publication_date()
@@ -172,7 +172,7 @@ class AlbumWidget(Gtk.EventBox):
 
         # if the active queue has been set by self album,
         # use it as model, otherwise build the liststore
-        cached_playlist = self.player.runningPlaylist("Album", album)
+        cached_playlist = self.player.running_playlist("Album", album)
         if cached_playlist is not None:
             self.model = cached_playlist
             self.update_model(self.player, cached_playlist,
@@ -212,19 +212,19 @@ class AlbumWidget(Gtk.EventBox):
 
     def _on_header_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
-        self.header_bar.setSelectionMode(False)
+        self.header_bar.set_selection_mode(False)
         self.header_bar.header_bar.title = self.album
 
     def _on_header_select_button_toggled(self, button):
         if(button.get_active()):
             self.view.set_selection_mode(True)
-            self.header_bar.setSelectionMode(True)
+            self.header_bar.set_selection_mode(True)
             self.player.eventBox.set_visible(False)
             self.selection_toolbar.eventbox.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.sensitive = False
         else:
             self.view.set_selection_mode(False)
-            self.header_bar.setSelectionMode(False)
+            self.header_bar.set_selection_mode(False)
             self.header_bar.title = self.album
             self.selection_toolbar.eventbox.set_visible(False)
             if(self.player.PlaybackStatus != 'Stopped'):
@@ -325,13 +325,13 @@ class ArtistAlbums(Gtk.VBox):
         self.pack_start(self._scrolledWindow, True, True, 0)
 
         for i in albums.length:
-            self.addAlbum(albums[i])
+            self.add_album(albums[i])
 
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
         self.emit("albums-loaded")
 
-    def addAlbum(self, album):
+    def add_album(self, album):
         widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
@@ -359,18 +359,18 @@ class AllArtistsAlbums(ArtistAlbums):
         self._load_more = LoadMoreButton(self, self._get_remaining_item_count)
         self.pack_end(self._load_more.widget, False, False, 0)
         self._load_more.widget.connect("clicked", self._populate)
-        self._connectView()
+        self._connect_view()
         self._populate()
 
-    def _connectView(self):
+    def _connect_view(self):
         self._adjustmentValueId = self._scrolledWindow.vadjustment.connect(
-            'value-changed', self._onScrolledWinChange)
+            'value-changed', self._on_scrolled_win_change)
         self._adjustmentChangedId = self._scrolledWindow.vadjustment.connect(
-            'changed', self._onScrolledWinChange)
-        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar().connect('notify::visible', self._onScrolledWinChange)
-        self._onScrolledWinChange()
+            'changed', self._on_scrolled_win_change)
+        self._scrollbarVisibleId = self._scrolledWindow.get_vscrollbar().connect('notify::visible', self._on_scrolled_win_change)
+        self._on_scrolled_win_change()
 
-    def _onScrolledWinChange(self, data=None):
+    def _on_scrolled_win_change(self, data=None):
         vScrollbar = self._scrolledWindow.get_vscrollbar()
         adjustment = self._scrolledWindow.vadjustment
         revealAreaHeight = 32
@@ -395,12 +395,12 @@ class AllArtistsAlbums(ArtistAlbums):
 
     def _populate(self):
         if grilo.tracker is not None:
-            grilo.populate_albums(self._offset, self.addItem, 5)
+            grilo.populate_albums(self._offset, self.add_item, 5)
 
-    def addItem(self, source, param, item, remaining):
+    def add_item(self, source, param, item, remaining):
         if item is not None:
             self._offset = self.offset + 1
-            self.addAlbum(item)
+            self.add_album(item)
 
     def _get_remaining_item_count(self):
         count = -1
@@ -426,7 +426,7 @@ class ArtistAlbumWidget(Gtk.HBox):
 
         self.cache = AlbumArtCache.get_default()
         pixbuf = self.cache.make_default_icon(128, 128)
-        GLib.idle_add(self._updateAlbumArt)
+        GLib.idle_add(self._update_album_art)
 
         self.ui.get_object("cover").set_from_pixbuf(pixbuf)
         self.ui.get_object("title").set_label(album.get_title())
@@ -483,7 +483,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     song_widget.nowPlayingSign.set_alignment(0.0, 0.6)
                     song_widget.can_be_played = True
                     song_widget.connect('button-release-event',
-                                        self.trackSelected)
+                                        self.track_selected)
 
                 except IOError as err:
                     print(err.message)
@@ -500,7 +500,7 @@ class ArtistAlbumWidget(Gtk.HBox):
             self.ui.get_object("grid1").show_all()
             self.emit("tracks-loaded")
 
-    def _updateAlbumArt(self):
+    def _update_album_art(self):
         ALBUM_ART_CACHE.lookup(128, self.artist,
                                self.album.get_title(), self.get_album_cover)
 
@@ -513,20 +513,20 @@ class ArtistAlbumWidget(Gtk.HBox):
                               | Grl.ResolutionFlags.IDLE_RELAY)
             grilo.tracker.resolve(self.album,
                                   [Grl.METADATA_KEY_THUMBNAIL],
-                                  options, self.loadCover)
+                                  options, self.load_cover)
 
-    def loadCover(self, source, param, item):
+    def load_cover(self, source, param, item):
         uri = self.album.get_thumbnail()
         ALBUM_ART_CACHE.getFromUri(uri, self.artist,
                                    self.album.get_title(), 128, 128,
-                                   self.getCover)
+                                   self.get_cover)
 
-    def getCover(self, pixbuf):
+    def get_cover(self, pixbuf):
         pixbuf = ALBUM_ART_CACHE.makeIconFrame(pixbuf)
         self.ui.get_object("cover").set_from_pixbuf(pixbuf)
 
-    def trackSelected(self, widget, iter):
+    def track_selected(self, widget, iter):
         self.player.stop()
-        self.player.setPlaylist("Artist", self.album,
-                                widget.model, widget.iter, 5)
-        self.player.setPlaying(True)
+        self.player.set_playlist("Artist", self.album,
+                                 widget.model, widget.iter, 5)
+        self.player.set_playing(True)

@@ -26,10 +26,10 @@ class Grilo(GObject.GObject):
         self.sources = {}
         self.tracker = None
 
-        self.registry.connect('source_added', self._onSourceAdded)
-        self.registry.connect('source_removed', self._onSourceRemoved)
+        self.registry.connect('source_added', self._on_source_added)
+        self.registry.connect('source_removed', self._on_source_removed)
 
-    def _onSourceAdded(self, pluginRegistry, mediaSource):
+    def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
         if id == "grl-tracker-source":
             ops = mediaSource.supported_operations()
@@ -43,7 +43,7 @@ class Grilo(GObject.GObject):
                 if self.tracker is not None:
                     self.emit('ready')
 
-    def _onSourceRemoved(self):
+    def _on_source_removed(self):
         print('source removed')
 
     def populate_artists(self, offset, callback):
@@ -70,7 +70,7 @@ class Grilo(GObject.GObject):
                           Grl.ResolutionFlags.IDLE_RELAY)
         self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
-    def _searchCallback(self):
+    def _search_callback(self):
         print("yeah")
 
     def search(self, q):
@@ -79,7 +79,7 @@ class Grilo(GObject.GObject):
             source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
                           Grl.MetadataResolutionFlags.FULL |
                           Grl.MetadataResolutionFlags.IDLE_RELAY,
-                          self._searchCallback, source)
+                          self._search_callback, source)
 
 
 Grl.init(None)
