@@ -9,7 +9,7 @@ class Application(Gtk.Application):
                                  flags=Gio.ApplicationFlags.FLAGS_NONE,
                                  inactivity_timeout=12000)
         GLib.set_application_name("Music")
-        
+
         cssProvider = Gtk.CssProvider()
         cssProvider.load_from_path('data/application.css')
         screen = Gdk.Screen.get_default()

@@ -474,7 +474,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui.get_object("title").set_label(album.get_title())
         if album.get_creation_date() is not None:
             self.ui.get_object("year").set_markup(
-                "<span color='grey'>(%s)</span>" % 
+                "<span color='grey'>(%s)</span>" %
                 str(album.get_creation_date().get_year()))
         self.tracks = []
         grilo.get_album_songs(album.get_id(), self.get_songs)
