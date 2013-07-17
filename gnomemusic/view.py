@@ -246,10 +246,8 @@ class Albums(ViewContainer):
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
 
-    def _on_state_changed(self, widget, data=None):
-        if (self.header_bar.get_stack() is not None) and \
-           (self == self.header_bar.get_stack().get_visible_child()):
-            self.set_visible_child(self._grid)
+    def _back_button_clicked(self, widget, data=None):
+        self.set_visible_child(self._grid)
 
     def _on_item_activated(self, widget, id, path):
         iter = self._model.get_iter(path)

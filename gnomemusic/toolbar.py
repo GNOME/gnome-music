@@ -32,7 +32,7 @@ class Toolbar(GObject.GObject):
         self._selectionMenuButton.set_relief(Gtk.ReliefStyle.NONE)
         self.header_bar.set_custom_title(self._stackSwitcher)
         self._searchButton = self._ui.get_object("search-button")
-        self._backButton.connect('clicked', self.set_state)
+        self._backButton.connect('clicked', self.on_back_button_clicked)
         self._closeButton.connect('clicked', self._close_button_clicked)
 
     def _close_button_clicked(self, btn):
@@ -57,6 +57,11 @@ class Toolbar(GObject.GObject):
             self._selectButton.show()
             self._cancelButton.hide()
         self._update()
+
+    def on_back_button_clicked(self, widget):
+        view = self._stackSwitcher.get_stack().get_visible_child()
+        view._back_button_clicked(view)
+        self.set_state(ToolbarState.ALBUMS)
 
     def set_state(self, state, btn=None):
         self._state = state
