@@ -131,7 +131,7 @@ class ViewContainer(Gtk.Stack):
 
         #if there's no vscrollbar, or if it's not visible, hide the button
         if not vScrollbar or not vScrollbar.get_visible():
-            self._loadMore.setBlock(True)
+            self._loadMore.set_block(True)
             return
 
         value = adjustment.get_value()
@@ -146,7 +146,7 @@ class ViewContainer(Gtk.Stack):
             end = not (value < (upper - page_size - revealAreaHeight))
         if self._get_remaining_item_count() <= 0:
             end = False
-        self._loadMore.setBlock(not end)
+        self._loadMore.set_block(not end)
 
     def populate(self):
         print("populate")
@@ -322,11 +322,11 @@ class Songs(ViewContainer):
         artistRenderer = Gd.StyledTextRenderer(xpad=32)
         artistRenderer.add_class('dim-label')
         artistRenderer.ellipsize = Pango.EllipsizeMode.END
-        listWidget.add_renderer(artistRenderer, self._onListWidgetArtistRender, None)
+        listWidget.add_renderer(artistRenderer, self._on_list_widget_artist_render, None)
         typeRenderer = Gd.StyledTextRenderer(xpad=32)
         typeRenderer.add_class('dim-label')
         typeRenderer.ellipsize = Pango.EllipsizeMode.END
-        listWidget.add_renderer(typeRenderer, self._onListWidgetTypeRender, None)
+        listWidget.add_renderer(typeRenderer, self._on_list_widget_type_render, None)
 
     def _on_list_widget_title_render(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
@@ -357,13 +357,13 @@ class Songs(ViewContainer):
             self.xalign = 1.0
             self.text = time
 
-    def _onListWidgetArtistRender(self, col, cell, model, iter):
+    def _on_list_widget_artist_render(self, col, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
             self.ellipsize = Pango.EllipsizeMode.END
             self.text = item.get_string(Grl.METADATA_KEY_ARTIST)
 
-    def _onListWidgetTypeRender(self, coll, cell, model, iter):
+    def _on_list_widget_type_render(self, coll, cell, model, iter):
         item = model.get_value(iter, 5)
         if item:
             self.ellipsize = Pango.EllipsizeMode.END
