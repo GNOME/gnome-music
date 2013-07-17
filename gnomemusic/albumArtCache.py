@@ -183,8 +183,8 @@ class AlbumArtCache:
                 def get_from_uri_ready(image, path):
                     item._thumbnail = path
                     callback(image, path)
-                self.getFromUri(uri, artist, album, width, height,
-                                get_from_uri_ready)
+                self.get_from_uri(uri, artist, album, width, height,
+                                  get_from_uri_ready)
 
             options = Grl.OperationOptions.new(None)
             options.set_flags(Grl.ResolutionFlags.FULL |
@@ -258,12 +258,70 @@ class AlbumArtCache:
 
         # Now convert chars to lower case
         str = str_no_blocks.lower()
-
         # Now strip invalid chars
         str = re.sub(invalid_chars, '', str)
-
         # Now convert tabs and multiple spaces into space
         str = re.sub('\t|\s+', ' ', str)
-
         # Now strip leading/trailing white space
         return str.strip()
+
+    def get_from_uri(self, uri, artist, album, width, height, callback):
+        if not uri:
+            return
+        if not uri in self.requested_uris:
+            self.requested_uris[uri] = [[callback, width, height]]
+        elif self.requested_uris[uri].length > 0:
+            self.requested_uris[uri].push([callback, width, height])
+            return
+
+        key = self._keybuilder_funcs[0].call(self, artist, album)
+        f = Gio.File.new_for_uri(uri)
+
+        def read_async_ready(outstream, res, error):
+            try:
+                stream = f.read_finish(res)
+                path = GLib.build_filenamev([self.cacheDir, key])
+
+                try:
+                    streamInfo =\
+                        stream.query_info('standard::content-type', None)
+                    contentType = streamInfo.get_content_type()
+
+                    if contentType == 'image/png':
+                        path += '.png'
+                    elif contentType == 'image/jpeg':
+                        path += '.jpeg'
+                    else:
+                        print('Thumbnail format not supported, not caching')
+                        stream.close(None)
+                        return
+                except Exception as e:
+                    print ('Failed to query thumbnail content type')
+                    path += '.jpeg'
+                    return
+
+                def replace_async_ready(new_file, res, error):
+                    outstream = new_file.replace_finish(res)
+
+                    def splice_async_ready(outstream, res, error):
+                        if outstream.splice_finish(res) > 0:
+                            for values in self.requested_uris[uri]:
+                                callback, width, height = values
+                                pixbuf =\
+                                    GdkPixbuf.Pixbuf.new_from_file_at_scale(
+                                        path, height, width, True)
+                                callback(pixbuf, path)
+                            del self.requested_uris[uri]
+
+                    outstream.splice_async(stream,
+                                           Gio.IOStreamSpliceFlags.NONE,
+                                           300, None, None)
+
+                newFile = Gio.File.new_for_path(path)
+                newFile.replace_async(None, False,
+                                      Gio.FileCreateFlags.REPLACE_DESTINATION,
+                                      300, None, replace_async_ready)
+
+            except Exception as e:
+                print (e)
+        f.read_async(300, None, read_async_ready)
