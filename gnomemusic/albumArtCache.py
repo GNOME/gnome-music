@@ -274,7 +274,7 @@ class AlbumArtCache:
             self.requested_uris[uri].push([callback, width, height])
             return
 
-        key = self._keybuilder_funcs[0].call(self, artist, album)
+        key = self._keybuilder_funcs[0].__call__(artist, album)
         f = Gio.File.new_for_uri(uri)
 
         def read_async_ready(outstream, res, error):
@@ -315,14 +315,14 @@ class AlbumArtCache:
 
                     outstream.splice_async(stream,
                                            Gio.IOStreamSpliceFlags.NONE,
-                                           300, None, None)
+                                           300, None, None, None)
 
                 newFile = Gio.File.new_for_path(path)
                 newFile.replace_async(None, False,
                                       Gio.FileCreateFlags.REPLACE_DESTINATION,
-                                      300, None, replace_async_ready)
+                                      300, None, replace_async_ready, None)
 
             except Exception as e:
                 print(e)
 
-        f.read_async(300, None, read_async_ready)
+        f.read_async(300, None, read_async_ready, None)

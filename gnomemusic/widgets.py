@@ -446,7 +446,7 @@ class AllArtistsAlbums(ArtistAlbums):
             end = False
         self._load_more.set_block(not end)
 
-    def _populate(self):
+    def _populate(self, data=None):
         if grilo.tracker is not None:
             grilo.populate_albums(self._offset, self.add_item, 5)
 
