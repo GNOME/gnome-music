@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import sys, signal
+sys.path.insert(1, '@pyexecdir@')
+
 from gi.repository import Gio, Gtk
-sys.path.insert(1, '@pythondir@')
 
 from gnomemusic.application import Application
 
