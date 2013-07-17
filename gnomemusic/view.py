@@ -122,10 +122,9 @@ class ViewContainer(Gtk.Stack):
         if self == widget.get_visible_child() and not self._init:
             self._populate()
 
-    def _on_view_selection_changed(self):
+    def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
-        self.selection_toolbar._add_to_playlist_button.sensitive =\
-            items.length > 0
+        self.selection_toolbar._add_to_playlist_button.set_sensitive(len(items) > 0)
 
     def _populate(self, data=None):
         self._init = True
@@ -247,10 +246,8 @@ class Albums(ViewContainer):
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
 
-    def _on_state_changed(self, widget, data=None):
-        if (self.header_bar.get_stack() is not None) and \
-           (self == self.header_bar.get_stack().get_visible_child()):
-            self.visible_child = self._grid
+    def _back_button_clicked(self, widget, data=None):
+        self.set_visible_child(self._grid)
 
     def _on_item_activated(self, widget, id, path):
         iter = self._model.get_iter(path)
