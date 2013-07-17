@@ -380,13 +380,8 @@ class Songs(ViewContainer):
             duration = item.get_duration()
             minutes = int(duration / 60)
             seconds = duration % 60
-            time = None
-            if seconds < 10:
-                time = str(minutes) + ":0" + str(seconds)
-            else:
-                time = str(minutes) + ":" + str(seconds)
             cell.xalign = 1.0
-            cell.text = time
+            cell.text = "%i:%02i" % (minutes, seconds)
 
     def _on_list_widget_artist_render(self, col, cell, model, itr, data):
         item = model.get_value(itr, 5)
