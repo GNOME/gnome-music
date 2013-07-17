@@ -36,7 +36,11 @@ class Toolbar(GObject.GObject):
         self._closeButton.connect('clicked', self._close_button_clicked)
 
     def _close_button_clicked(self, btn):
+        import sys
         self._closeButton.get_toplevel().close()
+        while Gtk.main_level():
+            Gtk.main_quit()
+        sys.exit()
 
     def set_stack(self, stack):
         self._stackSwitcher.set_stack(stack)
