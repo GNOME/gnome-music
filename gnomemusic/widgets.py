@@ -528,5 +528,5 @@ class ArtistAlbumWidget(Gtk.HBox):
     def track_selected(self, widget, iter):
         self.player.stop()
         self.player.set_playlist("Artist", self.album,
-                                widget.model, widget.iter, 5)
+                                 widget.model, widget.iter, 5)
         self.player.set_playing(True)
