@@ -127,30 +127,30 @@ class AlbumWidget(Gtk.EventBox):
         cells[2].set_visible(False)
         cells[1].set_visible(False)
 
-        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0)
+        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0,
+                                                             xalign=1.0,
+                                                             yalign=0.5)
 
         column_now_playing = Gtk.TreeViewColumn()
-        now_playing_symbol_renderer.xalign = 1.0
-        now_playing_symbol_renderer.yalign = 0.6
+        column_now_playing.set_fixed_width(24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.fixed_width = 24
         column_now_playing.add_attribute(now_playing_symbol_renderer,
                                          "visible", 9)
         column_now_playing.add_attribute(now_playing_symbol_renderer,
                                          "icon_name", 7)
         list_widget.insert_column(column_now_playing, 0)
 
-        type_renderer = Gd.StyledTextRenderer(xpad=16)
-        type_renderer.ellipsize = Pango.EllipsizeMode.END
-        type_renderer.xalign = 0.0
+        type_renderer = Gd.StyledTextRenderer(xpad=16,
+                                              ellipsize=Pango.EllipsizeMode.END,
+                                              xalign=0.0)
         list_widget.add_renderer(type_renderer, self._type_renderer_text, None)
         cols[0].clear_attributes(type_renderer)
         cols[0].add_attribute(type_renderer, "markup", 0)
 
-        durationRenderer = Gd.StyledTextRenderer(xpad=16)
+        durationRenderer = Gd.StyledTextRenderer(xpad=16,
+                                                 ellipsize=Pango.EllipsizeMode.END,
+                                                 xalign=1.0)
         durationRenderer.add_class('dim-label')
-        durationRenderer.ellipsize = Pango.EllipsizeMode.END
-        durationRenderer.xalign = 1.0
         list_widget.add_renderer(durationRenderer,
                                  self._duration_renderer_text, None)
 
@@ -262,7 +262,6 @@ class AlbumWidget(Gtk.EventBox):
                                 track, True, ERROR_ICON_NAME, False])
             self.ui.get_object("running_length_label_info").set_text(
                 "%d min" % (int(self.duration / 60) + 1))
-            #self.emit("track-added")
 
     def _on_look_up(self, pixbuf, path):
         if pixbuf is not None:
@@ -274,11 +273,9 @@ class AlbumWidget(Gtk.EventBox):
         if (playlist != self.model):
             return False
         currentSong = playlist.get_value(currentIter, 5)
-        iter = playlist.get_iter_first()
-        if iter is None:
-            return False
         song_passed = False
-        while True:
+        iter = playlist.get_iter_first()
+        while iter is not None:
             song = playlist.get_value(iter, 5)
 
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
@@ -295,8 +292,6 @@ class AlbumWidget(Gtk.EventBox):
             playlist.set_value(iter, 0, title)
             playlist.set_value(iter, 9, iconVisible)
             iter = playlist.iter_next(iter)
-            if iter is None:
-                break
         return False
 
 
