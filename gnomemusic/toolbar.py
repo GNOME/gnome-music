@@ -85,7 +85,6 @@ class Toolbar(GObject.GObject):
             self.header_bar.set_custom_title(self._selectionMenuButton)
             self._closeSeparator.hide()
             self._closeButton.hide()
-            
         else:
             self._closeSeparator.show()
             self._closeButton.show()
