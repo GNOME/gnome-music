@@ -9,9 +9,11 @@ import gnomemusic
 srcdir = os.path.abspath(os.path.join(os.path.dirname(gnomemusic.__file__), '..'))
 if os.path.exists(os.path.join(srcdir, 'gnome-music.doap')):
     print('Running from source tree, using local files')
+    pkgdatadir = os.path.join(srcdir, 'data')
     libgd_libdir = os.path.join(srcdir, 'libgd', '.libs')
     libgd_typelibdir = os.path.join(srcdir, 'libgd')
 else:
+    pkgdatadir = '@pkgdatadir@'
     libgd_libdir = '@pkglibdir@'
     libgd_typelibdir = '@pkglibdir@/girepository-1.0'
 
@@ -36,7 +38,7 @@ def install_excepthook():
 if __name__ == "__main__":
     install_excepthook()
 
-    resource = Gio.resource_load("data/gnome-music.gresource")
+    resource = Gio.resource_load(os.path.join(pkgdatadir, 'gnome-music.gresource'))
     Gio.Resource._register(resource)
 
     app = Application()
