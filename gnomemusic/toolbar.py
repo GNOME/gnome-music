@@ -64,7 +64,7 @@ class Toolbar(GObject.GObject):
         self.emit('state-changed')
 
     def _update(self):
-        if (self._state == ToolbarState.SINGLE or self._selectionMode):
+        if self._state == ToolbarState.SINGLE:
             self.header_bar.set_custom_title(None)
             self._backButton.show()
         else:
@@ -76,6 +76,7 @@ class Toolbar(GObject.GObject):
             self.header_bar.set_custom_title(self._selectionMenuButton)
             self._closeSeparator.hide()
             self._closeButton.hide()
+            
         else:
             self._closeSeparator.show()
             self._closeButton.show()

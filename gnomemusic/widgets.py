@@ -165,6 +165,8 @@ class AlbumWidget(Gtk.EventBox):
         widget.text = self.player.seconds_to_string(duration)
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
+        self.selection_toolbar = selection_toolbar
+        self.header_bar = header_bar
         released_date = item.get_publication_date()
         if released_date is not None:
             self.ui.get_object("released_label_info").set_text(
@@ -214,9 +216,9 @@ class AlbumWidget(Gtk.EventBox):
         self.player.connect('playlist-item-changed', self.update_model)
         #self.emit('loaded')
 
-    def _on_view_selection_changed(self):
+    def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
-        self.selection_toolbar._add_to_playlist_button.sensitive = items.length
+        self.selection_toolbar._add_to_playlist_button.set_sensitive(len(items) > 0)
 
     def _on_header_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
@@ -224,7 +226,7 @@ class AlbumWidget(Gtk.EventBox):
         self.header_bar.header_bar.title = self.album
 
     def _on_header_select_button_toggled(self, button):
-        if(button.get_active()):
+        if button.get_active():
             self.view.set_selection_mode(True)
             self.header_bar.set_selection_mode(True)
             self.player.eventBox.set_visible(False)
@@ -235,7 +237,7 @@ class AlbumWidget(Gtk.EventBox):
             self.header_bar.set_selection_mode(False)
             self.header_bar.title = self.album
             self.selection_toolbar.eventbox.set_visible(False)
-            if(self.player.PlaybackStatus != 'Stopped'):
+            if(self.player.get_playback_status() != 'Stopped'):
                 self.player.eventBox.set_visible(True)
 
     def _on_get_album_songs(self, source, prefs, track, a, b, c):
