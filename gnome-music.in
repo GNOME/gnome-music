@@ -1,9 +1,24 @@
 #!/usr/bin/env python3
 
-import sys, signal
+import sys, signal, os
 sys.path.insert(1, '@pyexecdir@')
 
 from gi.repository import Gio, Gtk
+import gnomemusic
+
+srcdir = os.path.abspath(os.path.join(os.path.dirname(gnomemusic.__file__), '..'))
+if os.path.exists(os.path.join(srcdir, 'gnome-music.doap')):
+    print('Running from source tree, using local files')
+    libgd_libdir = os.path.join(srcdir, 'libgd', '.libs')
+    libgd_typelibdir = os.path.join(srcdir, 'libgd')
+else:
+    libgd_libdir = '@pkglibdir@'
+    libgd_typelibdir = '@pkglibdir@/girepository-1.0'
+
+# We use our own libgd.so, so let gi.repository find it
+from gi.repository import GIRepository
+GIRepository.Repository.prepend_search_path(libgd_typelibdir)
+GIRepository.Repository.prepend_library_path(libgd_libdir)
 
 from gnomemusic.application import Application
 
@@ -20,11 +35,6 @@ def install_excepthook():
 
 if __name__ == "__main__":
     install_excepthook()
-
-    # We use our own libgd.so, so let gi.repository find it
-    from gi.repository import GIRepository
-    GIRepository.Repository.prepend_search_path('@libdir@/gnome-music')
-    GIRepository.Repository.prepend_library_path('@libdir@/gnome-music')
 
     resource = Gio.resource_load("data/gnome-music.gresource")
     Gio.Resource._register(resource)
