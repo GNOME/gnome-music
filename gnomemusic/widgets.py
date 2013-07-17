@@ -356,8 +356,8 @@ class ArtistAlbums(Gtk.VBox):
             return False
 
         currentSong = playlist.get_value(currentIter, 5)
-        res, itr = playlist.get_iter_first()
-        if not res:
+        itr = playlist.get_iter_first()
+        if itr is not None:
             return False
         songPassed = False
 
@@ -384,16 +384,17 @@ class ArtistAlbums(Gtk.VBox):
         return False
 
     def clean_model(self):
-        [res, itr] = self.model.get_iter_first()
-        if not res:
+        itr = self.model.get_iter_first()
+        if itr is not None:
             return False
-        while self.model.iter_next(itr) is True:
+        while itr is not None:
             song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
             if song_widget.can_be_played is not None:
                 song_widget.nowPlayingSign.hide()
             song_widget.title.set_markup("<span>" + escapedTitle + "</span>")
+            itr = self.model.iter_next(itr)
         return False
 
 
