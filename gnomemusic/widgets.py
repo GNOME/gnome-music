@@ -102,8 +102,8 @@ class AlbumWidget(Gtk.EventBox):
         self.add(self.ui.get_object("AlbumWidget"))
         self._add_list_renderers()
         # TODO: make this work
-        #self.get_style_context().add_class("view")
-        #self.get_style_context().add_class("content-view")
+        self.get_style_context().add_class("view")
+        self.get_style_context().add_class("content-view")
         self.show_all()
 
     def _on_item_activated(self, widget, id, path):
