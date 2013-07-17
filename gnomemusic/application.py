@@ -6,8 +6,7 @@ class Application(Gtk.Application):
     def __init__(self):
         Gtk.Application.__init__(self,
                                  application_id='org.gnome.Music',
-                                 flags=Gio.ApplicationFlags.FLAGS_NONE,
-                                 inactivity_timeout=12000)
+                                 flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name("Music")
 
     def do_startup(self):
