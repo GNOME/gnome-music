@@ -64,7 +64,6 @@ class AlbumWidget(Gtk.EventBox):
     def __init__(self, player):
         super(Gtk.EventBox, self).__init__()
         self.player = player
-        self.hbox = Gtk.HBox()
         self.iterToClean = None
         self.cache = AlbumArtCache.get_default()
         self._symbolicIcon = self.cache.make_default_icon(256, 256)
@@ -140,35 +139,38 @@ class AlbumWidget(Gtk.EventBox):
                                          "icon_name", 7)
         list_widget.insert_column(column_now_playing, 0)
 
-        type_renderer = Gd.StyledTextRenderer(xpad=16,
-                                              ellipsize=Pango.EllipsizeMode.END,
-                                              xalign=0.0)
+        type_renderer = Gd.StyledTextRenderer(
+            xpad=16,
+            ellipsize=Pango.EllipsizeMode.END,
+            xalign=0.0
+        )
         list_widget.add_renderer(type_renderer, self._type_renderer_text, None)
         cols[0].clear_attributes(type_renderer)
         cols[0].add_attribute(type_renderer, "markup", 0)
 
-        durationRenderer = Gd.StyledTextRenderer(xpad=16,
-                                                 ellipsize=Pango.EllipsizeMode.END,
-                                                 xalign=1.0)
+        durationRenderer = Gd.StyledTextRenderer(
+            xpad=16,
+            ellipsize=Pango.EllipsizeMode.END,
+            xalign=1.0
+        )
         durationRenderer.add_class('dim-label')
         list_widget.add_renderer(durationRenderer,
                                  self._duration_renderer_text, None)
 
-    def _type_renderer_text(self, col, cell, model, iter, data):
+    def _type_renderer_text(self, col, cell, model, itr, data):
         pass
 
-    def _duration_renderer_text(self, col, widget, model, iter, data):
-        item = self.model.get_value(iter, 5)
-        duration = item.get_duration()
-        if item is None:
-            return
-        widget.text = self.player.seconds_to_string(duration)
+    def _duration_renderer_text(self, col, cell, model, itr, data):
+        item = self.model.get_value(itr, 5)
+        if item:
+            duration = item.get_duration()
+            cell.set_property("text", self.player.seconds_to_string(duration))
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
         released_date = item.get_publication_date()
-        if released_date is not None:
+        if released_date:
             self.ui.get_object("released_label_info").set_text(
                 str(released_date.get_year()))
         self.album = album
@@ -180,7 +182,7 @@ class AlbumWidget(Gtk.EventBox):
         # if the active queue has been set by self album,
         # use it as model, otherwise build the liststore
         cached_playlist = self.player.running_playlist("Album", album)
-        if cached_playlist is not None:
+        if cached_playlist:
             self.model = cached_playlist
             self.update_model(self.player, cached_playlist,
                               self.player.currentTrack)
@@ -218,7 +220,8 @@ class AlbumWidget(Gtk.EventBox):
 
     def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
-        self.selection_toolbar._add_to_playlist_button.set_sensitive(len(items) > 0)
+        self.selection_toolbar\
+            ._add_to_playlist_button.set_sensitive(len(items) > 0)
 
     def _on_header_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
@@ -241,7 +244,7 @@ class AlbumWidget(Gtk.EventBox):
                 self.player.eventBox.set_visible(True)
 
     def _on_get_album_songs(self, source, prefs, track, a, b, c):
-        if track is not None:
+        if track:
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
             iter = self.model.append()
@@ -264,7 +267,7 @@ class AlbumWidget(Gtk.EventBox):
                 "%d min" % (int(self.duration / 60) + 1))
 
     def _on_look_up(self, pixbuf, path):
-        if pixbuf is not None:
+        if pixbuf:
             self.ui.get_object("cover").set_from_pixbuf(pixbuf)
             self.model.set(iter, [4], [pixbuf])
 
@@ -275,7 +278,7 @@ class AlbumWidget(Gtk.EventBox):
         currentSong = playlist.get_value(currentIter, 5)
         song_passed = False
         iter = playlist.get_iter_first()
-        while iter is not None:
+        while iter:
             song = playlist.get_value(iter, 5)
 
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
@@ -329,8 +332,7 @@ class ArtistAlbums(Gtk.VBox):
         self._hbox.pack_start(self._albumBox, False, False, 16)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
-        for album in albums:
-            self.add_album(album)
+        map(self.add_album, albums)
 
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
@@ -353,7 +355,7 @@ class ArtistAlbums(Gtk.VBox):
         song_passed = False
         itr = playlist.get_iter_first()
 
-        while itr is not None:
+        while itr:
             song = playlist.get_value(itr, 5)
             song_widget = song.song_widget
 
@@ -370,17 +372,18 @@ class ArtistAlbums(Gtk.VBox):
                 song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
             else:
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup("<span color='grey'>%s</span>" % escapedTitle)
+                song_widget.title\
+                    .set_markup("<span color='grey'>%s</span>" % escapedTitle)
             itr = playlist.iter_next(itr)
         return False
 
     def clean_model(self):
         itr = self.model.get_iter_first()
-        while itr is not None:
+        while itr:
             song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
             escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
-            if song_widget.can_be_played is not None:
+            if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
             song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
             itr = self.model.iter_next(itr)
@@ -429,31 +432,29 @@ class AllArtistsAlbums(ArtistAlbums):
         upper = adjustment.get_upper()
         page_size = adjustment.get_page_size()
         end = False
+
         # special case self values which happen at construction
-        if (value == 0) and (upper == 1) and (page_size == 1):
-            end = False
-        else:
+        if (((value != 0) or (upper != 1) or (page_size != 1))
+                and self._get_remaining_item_count() > 0):
             end = not (value < (upper - page_size - revealAreaHeight))
-        if self._get_remaining_item_count() <= 0:
-            end = False
         self._load_more.set_block(not end)
 
     def _populate(self, data=None):
-        if grilo.tracker is not None:
+        if grilo.tracker:
             grilo.populate_albums(self._offset, self.add_item, 5)
 
     def add_item(self, source, param, item):
-        if item is not None:
+        if item:
             self._offset += 1
             self.add_album(item)
 
     def _get_remaining_item_count(self):
         count = -1
-        if self.countQuery is not None:
+        if self.countQuery:
             cursor = tracker.query(self.countQuery, None)
-            if cursor is not None and cursor.next(None):
+            if cursor and cursor.next(None):
                 count = cursor.get_integer(0)
-        return (count - self._offset)
+        return count - self._offset
 
 
 class ArtistAlbumWidget(Gtk.HBox):
@@ -475,7 +476,7 @@ class ArtistAlbumWidget(Gtk.HBox):
 
         self.ui.get_object("cover").set_from_pixbuf(pixbuf)
         self.ui.get_object("title").set_label(album.get_title())
-        if album.get_creation_date() is not None:
+        if album.get_creation_date():
             self.ui.get_object("year").set_markup(
                 "<span color='grey'>(%s)</span>" %
                 str(album.get_creation_date().get_year()))
@@ -485,7 +486,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.show_all()
 
     def get_songs(self, source, prefs, track, unknown, data, error):
-        if track is not None:
+        if track:
             self.tracks.append(track)
         else:
             for i, track in enumerate(self.tracks):
@@ -493,9 +494,10 @@ class ArtistAlbumWidget(Gtk.HBox):
                 ui.add_from_resource('/org/gnome/music/TrackWidget.ui')
                 song_widget = ui.get_object("eventbox1")
                 self.songs.append(song_widget)
-                ui.get_object("num").set_markup("<span color='grey'>%d</span>" %
-                                                len(self.songs))
-                if track.get_title() is not None:
+                ui.get_object("num")\
+                    .set_markup("<span color='grey'>%d</span>"
+                                % len(self.songs))
+                if track.get_title():
                     ui.get_object("title").set_text(track.get_title())
                 ui.get_object("title").set_alignment(0.0, 0.5)
                 self.ui.get_object("grid1").attach(
@@ -543,7 +545,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                                self.album.get_title(), self.get_album_cover)
 
     def get_album_cover(self, pixbuf, path):
-        if pixbuf is not None:
+        if pixbuf:
             self.ui.get_object("cover").set_from_pixbuf(pixbuf)
         else:
             options = Grl.OperationOptions.new(None)

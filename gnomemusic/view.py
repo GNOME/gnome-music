@@ -124,7 +124,8 @@ class ViewContainer(Gtk.Stack):
 
     def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
-        self.selection_toolbar._add_to_playlist_button.set_sensitive(len(items) > 0)
+        self.selection_toolbar\
+            ._add_to_playlist_button.set_sensitive(len(items) > 0)
 
     def _populate(self, data=None):
         self._init = True
@@ -320,56 +321,64 @@ class Songs(ViewContainer):
                                 [item, self.errorIconName, False, True])
 
     def _add_list_renderers(self):
-        listWidget = self.view.get_generic_view()
-        cols = listWidget.get_columns()
+        list_widget = self.view.get_generic_view()
+        cols = list_widget.get_columns()
         cells = cols[0].get_cells()
-        cells[2].visible = False
-        nowPlayingSymbolRenderer = Gtk.CellRendererPixbuf()
-        columnNowPlaying = Gtk.TreeViewColumn()
-        nowPlayingSymbolRenderer.xalign = 1.0
-        columnNowPlaying.pack_start(nowPlayingSymbolRenderer, False)
-        columnNowPlaying.fixed_width = 24
-        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer,
-                                       "visible", 10)
-        columnNowPlaying.add_attribute(nowPlayingSymbolRenderer,
-                                       "icon_name", 8)
-        listWidget.insert_column(columnNowPlaying, 0)
+        cells[2].set_visible(False)
+        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xalign=1.0)
 
-        titleRenderer = Gtk.CellRendererText(xpad=0)
-        listWidget.add_renderer(titleRenderer,
-                                self._on_list_widget_title_render, None)
-        starRenderer = Gtk.CellRendererPixbuf(xpad=32)
-        listWidget.add_renderer(starRenderer,
-                                self._on_list_widget_star_render, None)
-        durationRenderer = Gd.StyledTextRenderer(xpad=32)
-        durationRenderer.add_class('dim-label')
-        listWidget.add_renderer(durationRenderer,
-                                self._on_list_widget_duration_render, None)
-        artistRenderer = Gd.StyledTextRenderer(xpad=32)
-        artistRenderer.add_class('dim-label')
-        artistRenderer.ellipsize = Pango.EllipsizeMode.END
-        listWidget.add_renderer(artistRenderer,
-                                self._on_list_widget_artist_render, None)
-        typeRenderer = Gd.StyledTextRenderer(xpad=32)
-        typeRenderer.add_class('dim-label')
-        typeRenderer.ellipsize = Pango.EllipsizeMode.END
-        listWidget.add_renderer(typeRenderer,
-                                self._on_list_widget_type_render, None)
+        column_now_playing = Gtk.TreeViewColumn()
+        column_now_playing.set_property("fixed_width", 24)
+        column_now_playing.pack_start(now_playing_symbol_renderer, False)
+        column_now_playing.add_attribute(now_playing_symbol_renderer,
+                                         "visible", 10)
+        column_now_playing.add_attribute(now_playing_symbol_renderer,
+                                         "icon_name", 8)
+        list_widget.insert_column(column_now_playing, 0)
+
+        title_renderer = Gtk.CellRendererText(xpad=0)
+        list_widget.add_renderer(title_renderer,
+                                 self._on_list_widget_title_render, None)
+
+        star_renderer = Gtk.CellRendererPixbuf(xpad=32)
+        list_widget.add_renderer(star_renderer,
+                                 self._on_list_widget_star_render, None)
+
+        duration_renderer = Gd.StyledTextRenderer(xpad=32)
+        duration_renderer.add_class('dim-label')
+        list_widget.add_renderer(duration_renderer,
+                                 self._on_list_widget_duration_render, None)
+
+        artist_renderer = Gd.StyledTextRenderer(
+            xpad=32,
+            ellipsize=Pango.EllipsizeMode.END
+        )
+        artist_renderer.add_class('dim-label')
+        list_widget.add_renderer(artist_renderer,
+                                 self._on_list_widget_artist_render, None)
+
+        type_renderer = Gd.StyledTextRenderer(
+            xpad=32,
+            ellipsize=Pango.EllipsizeMode.END
+        )
+        type_renderer.add_class('dim-label')
+        list_widget.add_renderer(type_renderer,
+                                 self._on_list_widget_type_render, None)
 
     def _on_list_widget_title_render(self, col, cell, model, itr, data):
         item = model.get_value(itr, 5)
-        cell.xalign = 0.0
-        cell.yalign = 0.5
-        cell.height = 48
-        cell.ellipsize = Pango.EllipsizeMode.END
-        cell.text = item.get_title()
+        cell.set_property("xalign", 0.0)
+        cell.set_property("yalign", 0.5)
+        cell.set_property("height", 48)
+        cell.set_property("ellipsize", Pango.EllipsizeMode.END)
+        cell.set_property("text", item.get_title())
 
     def _on_list_widget_star_render(self, col, cell, model, itr, data):
         showstar = model.get_value(itr, 9)
         if(showstar):
-            cell.icon_name = self.starIconName
+            cell.set_property("icon_name", self.starIconName)
         else:
-            cell.pixbuf = None
+            cell.set_property("pixbuf", None)
 
     def _on_list_widget_duration_render(self, col, cell, model, itr, data):
         item = model.get_value(itr, 5)
@@ -377,20 +386,20 @@ class Songs(ViewContainer):
             duration = item.get_duration()
             minutes = int(duration / 60)
             seconds = duration % 60
-            cell.xalign = 1.0
-            cell.text = "%i:%02i" % (minutes, seconds)
+            cell.set_property("xalign", 1.0)
+            cell.set_property("text", "%i:%02i" % (minutes, seconds))
 
     def _on_list_widget_artist_render(self, col, cell, model, itr, data):
         item = model.get_value(itr, 5)
         if item:
-            cell.ellipsize = Pango.EllipsizeMode.END
-            cell.text = item.get_string(Grl.METADATA_KEY_ARTIST)
+            cell.set_property("ellipsize", Pango.EllipsizeMode.END)
+            cell.set_property("text", item.get_string(Grl.METADATA_KEY_ARTIST))
 
     def _on_list_widget_type_render(self, coll, cell, model, itr, data):
         item = model.get_value(itr, 5)
         if item:
-            cell.ellipsize = Pango.EllipsizeMode.END
-            cell.text = item.get_string(Grl.METADATA_KEY_ALBUM)
+            cell.set_property("ellipsize", Pango.EllipsizeMode.END)
+            cell.set_property("text", item.get_string(Grl.METADATA_KEY_ALBUM))
 
     def populate(self):
         if grilo.tracker is not None:
@@ -446,9 +455,9 @@ class Artists (ViewContainer):
         self.populate()
 
     def _add_list_renderers(self):
-        listWidget = self.view.get_generic_view()
+        list_widget = self.view.get_generic_view()
 
-        cols = listWidget.get_columns()
+        cols = list_widget.get_columns()
         cells = cols[0].get_cells()
         cells[2].set_alignment(xalign=0, yalign=0.5)
         cells[2].set_fixed_size(width=220, height=48)
