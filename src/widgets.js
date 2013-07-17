@@ -153,6 +153,7 @@ const AlbumWidget = new Lang.Class({
         this.view.remove(child_view)
         view_box.add(child_view)
 
+        this.ui.get_object("scrolledWindow").set_placement(Gtk.CornerType.TOP_LEFT);
         this.add(this.ui.get_object("AlbumWidget"));
         this._addListRenderers();
         this.get_style_context().add_class("view");
