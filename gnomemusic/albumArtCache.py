@@ -12,10 +12,10 @@ class AlbumArtCache:
     instance = None
     degrees = pi / 180
 
-    brackets = re.compile('\[*?.*?]\}', re.DOTALL)
-    curly_brackets = re.compile('\{*?.*?\}', re.DOTALL)
-    angle_brackets = re.compile('\<*?.*?\>', re.DOTALL)
-    parentheses = re.compile('\(*?.*?\)', re.DOTALL)
+    brackets = re.compile('\[(.*?)\]', re.DOTALL)
+    curly_brackets = re.compile('\{(.*?)\}', re.DOTALL)
+    angle_brackets = re.compile('\<(.*?)\>', re.DOTALL)
+    parentheses = re.compile('\((.*?)\)', re.DOTALL)
 
     @classmethod
     def get_default(self):
@@ -240,7 +240,7 @@ class AlbumArtCache:
         string = self.angle_brackets.sub('', string)
         string = self.parentheses.sub('', string)
         # Strip invalid chars
-        return string.strip('_!@#$^&*+=|\\\/\"\'?~')
+        return string.strip('_!@#$^&*+=|\\\/\"\'?~').strip().lower()
 
     def get_from_uri(self, uri, artist, album, width, height, callback):
         if not uri:
