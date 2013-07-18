@@ -262,7 +262,7 @@ class AlbumWidget(Gtk.EventBox):
                 self.model.set(iter,
                                [0, 1, 2, 3, 4, 5, 7, 9],
                                [escapedTitle, "", "", "", None,
-                                track, True, ERROR_ICON_NAME, False])
+                                track, ERROR_ICON_NAME, True])
             self.ui.get_object("running_length_label_info").set_text(
                 "%d min" % (int(self.duration / 60) + 1))
 
