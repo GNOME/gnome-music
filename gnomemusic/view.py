@@ -383,9 +383,9 @@ class Songs(ViewContainer):
     def _on_list_widget_duration_render(self, col, cell, model, itr, data):
         item = model.get_value(itr, 5)
         if item:
-            duration = item.get_duration()
-            minutes = int(duration / 60)
-            seconds = duration % 60
+            seconds = item.get_duration()
+            minutes = seconds // 60
+            seconds %= 60
             cell.set_property("xalign", 1.0)
             cell.set_property("text", "%i:%02i" % (minutes, seconds))
 

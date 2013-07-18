@@ -244,7 +244,7 @@ class Player(GObject.GObject):
 
     def load(self, media):
         self._set_duration(media.get_duration())
-        self.songTotalTimeLabel.label = self.seconds_to_string(media.get_duration())
+        self.songTotalTimeLabel.set_label(self.seconds_to_string(media.get_duration()))
         self.progressScale.set_sensitive(True)
 
         self.playBtn.set_sensitive(True)
@@ -423,13 +423,11 @@ class Player(GObject.GObject):
         return False
 
     def seconds_to_string(self, duration):
-        minutes = int(duration / 60) % 60
-        seconds = duration % 60
+        seconds = duration
+        minutes = seconds // 60
+        seconds %= 60
 
-        if seconds < 10:
-            return "%s:0%s" % (minutes, seconds)
-        else:
-            return "%s:%s" % (minutes, seconds)
+        return "%i:%02i" % (minutes, seconds)
 
     def _on_play_btn_clicked(self, btn):
         if self._get_playing():
