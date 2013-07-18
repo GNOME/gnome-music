@@ -110,7 +110,8 @@ class AlbumWidget(Gtk.EventBox):
         if(self.model.get_value(iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
-                self.model.set_value(self.iterToClean, 0, item.get_title())
+                title = AlbumArtCache.getMediaTitle(media)
+                self.model.set_value(self.iterToClean, 0, title)
                 #Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
             self.player.set_playlist("Album", self.album, self.model, iter, 5)
@@ -498,8 +499,8 @@ class ArtistAlbumWidget(Gtk.HBox):
                 ui.get_object("num")\
                     .set_markup("<span color='grey'>%d</span>"
                                 % len(self.songs))
-                if track.get_title():
-                    ui.get_object("title").set_text(track.get_title())
+                title = AlbumArtCache.getMediaTitle(track)
+                ui.get_object("title").set_text(title)
                 ui.get_object("title").set_alignment(0.0, 0.5)
                 self.ui.get_object("grid1").attach(
                     song_widget,
@@ -516,7 +517,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     self.player.discoverer.discover_uri(track.get_url())
                     self.model.set(itr,
                                    [0, 1, 2, 3, 4, 5],
-                                   [track.get_title(), "", "", False,
+                                   [title, "", "", False,
                                     NOW_PLAYING_ICON_NAME, track])
                     song_widget.now_playing_sign = ui.get_object("image1")
                     song_widget.now_playing_sign.set_from_icon_name(
@@ -531,7 +532,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 except:
                     print("failed to discover url " + track.get_url())
                     self.model.set(itr, [0, 1, 2, 3, 4, 5],
-                                   [track.get_title(), "", "", True,
+                                   [title, "", "", True,
                                     ERROR_ICON_NAME, track])
                     song_widget.now_playing_sign = ui.get_object("image1")
                     song_widget.now_playing_sign.set_from_icon_name(

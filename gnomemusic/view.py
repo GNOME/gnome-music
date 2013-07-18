@@ -13,11 +13,6 @@ from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 tracker = Tracker.SparqlConnection.get(None)
 
 
-def extractFileName(uri):
-    exp = "^.*[\\\/]|[.][^.]*$"
-    return uri.replace(exp, '')
-
-
 class ViewContainer(Gtk.Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
@@ -176,21 +171,21 @@ class ViewContainer(Gtk.Stack):
                 artist = item.get_author()
             if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            if (item.get_title() is None) and (item.get_url() is not None):
-                item.set_title(extractFileName(item.get_url()))
+            title = albumArtCache.getMediaTitle(item)
+            item.set_title(title)
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
                 self._model.set(iter,
                                 [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                                [str(item.get_id()), "", item.get_title(),
+                                [str(item.get_id()), "", title,
                                  artist, self._symbolicIcon, item,
                                  -1, self.nowPlayingIconName, False, False])
             except:
                 print("failed to discover url " + item.get_url())
                 self._model.set(iter,
                                 [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                                [str(item.get_id()), "", item.get_title(),
+                                [str(item.get_id()), "", title,
                                  artist, self._symbolicIcon, item,
                                  -1, self.errorIconName, False, True])
             GLib.idle_add(self._update_album_art, item, iter)
@@ -306,8 +301,7 @@ class Songs(ViewContainer):
         if item is not None:
             self._offset += 1
             iter = self._model.append()
-            if (item.get_title() is None) and (item.get_url() is not None):
-                item.set_title(extractFileName(item.get_url()))
+            item.set_title(albumArtCache.getMediaTitle(item))
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
@@ -371,7 +365,7 @@ class Songs(ViewContainer):
         cell.set_property("yalign", 0.5)
         cell.set_property("height", 48)
         cell.set_property("ellipsize", Pango.EllipsizeMode.END)
-        cell.set_property("text", item.get_title())
+        cell.set_property("text", albumArtCache.getMediaTitle(item))
 
     def _on_list_widget_star_render(self, col, cell, model, itr, data):
         showstar = model.get_value(itr, 9)
