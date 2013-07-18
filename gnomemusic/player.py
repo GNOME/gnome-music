@@ -129,7 +129,7 @@ class Player(GObject.GObject):
             self.progressScale.set_value(0)
             self.progressScale.set_sensitive(False)
             if self.playlist is not None:
-                self.currentTrack = self.playlist.get_iter_first()[1]
+                self.currentTrack = self.playlist.get_iter_first()
                 self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
         else:
             #Stop playback
