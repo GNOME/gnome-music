@@ -207,12 +207,13 @@ class AlbumArtCache:
 
             def resolve_ready(source, param, item, data, error):
                 uri = item.get_thumbnail()
-                if uri is not None:
+                if uri is None:
                     return
 
                 def get_from_uri_ready(image, path):
                     item._thumbnail = path
                     callback(image, path)
+
                 self.get_from_uri(uri, artist, album, width, height,
                                   get_from_uri_ready)
 
@@ -221,9 +222,9 @@ class AlbumArtCache:
                               Grl.ResolutionFlags.IDLE_RELAY)
             try:
                 grilo.tracker.resolve(item, [Grl.METADATA_KEY_THUMBNAIL],
+                                      options, resolve_ready, None)
             except:
                 pass
-                                      options, resolve_ready, None)
 
         self.lookup(height, artist, album, lookup_ready)
 
@@ -256,8 +257,8 @@ class AlbumArtCache:
             return
         if not uri in self.requested_uris:
             self.requested_uris[uri] = [[callback, width, height]]
-        elif self.requested_uris[uri].length > 0:
-            self.requested_uris[uri].push([callback, width, height])
+        elif len(self.requested_uris[uri]) > 0:
+            self.requested_uris[uri].append([callback, width, height])
             return
 
         key = self._keybuilder_funcs[0].__call__(artist, album)
