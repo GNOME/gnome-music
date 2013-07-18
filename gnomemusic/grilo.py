@@ -72,7 +72,6 @@ class Grilo(GObject.GObject):
             callback(source, param, item)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
-
     def _search_callback(self):
         print("yeah")
 
