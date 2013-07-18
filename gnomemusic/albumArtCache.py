@@ -10,6 +10,7 @@ from gnomemusic.grilo import Grilo as grilo
 
 class AlbumArtCache:
     instance = None
+    degrees = pi / 180
 
     @classmethod
     def get_default(self):
@@ -111,16 +112,15 @@ class AlbumArtCache:
         return result
 
     def _draw_rounded_path(self, ctx, x, y, width, height, radius):
-            degrees = pi / 180
             ctx.new_sub_path()
             ctx.arc(x + width - radius, y + radius, radius - 0.5,
-                    -90 * degrees, 0 * degrees)
+                    -90 * self.degrees, 0 * self.degrees)
             ctx.arc(x + width - radius, y + height - radius, radius - 0.5,
-                    0 * degrees, 90 * degrees)
+                    0 * self.degrees, 90 * self.degrees)
             ctx.arc(x + radius, y + height - radius, radius - 0.5,
-                    90 * degrees, 180 * degrees)
-            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * degrees,
-                    270 * degrees)
+                    90 * self.degrees, 180 * self.degrees)
+            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * self.degrees,
+                    270 * self.degrees)
             ctx.close_path()
             ctx.set_line_width(0.6)
             ctx.set_source_rgb(0.2, 0.2, 0.2)
