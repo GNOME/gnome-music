@@ -260,7 +260,7 @@ class Albums(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populate_albums(self._offset, self._add_item)
+            GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
 
 
 class Songs(ViewContainer):
@@ -398,7 +398,7 @@ class Songs(ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populate_songs(self._offset, self._add_item)
+            GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
 
 class Playlist(ViewContainer):
@@ -491,4 +491,4 @@ class Artists (ViewContainer):
 
     def populate(self):
         if grilo.tracker is not None:
-            grilo.populate_artists(self._offset, self._add_item)
+            GLib.idle_add(grilo.populate_artists, self._offset, self._add_item)
