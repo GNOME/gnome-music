@@ -256,7 +256,7 @@ class AlbumWidget(Gtk.EventBox):
                                [escapedTitle, "", "", "",
                                 None, track,
                                 NOW_PLAYING_ICON_NAME, False])
-            except IOError as err:
+            except Exception as err:
                 logging.debug(err.message)
                 logging.debug("failed to discover url " + track.get_url())
                 self.model.set(iter,
