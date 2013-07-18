@@ -206,8 +206,8 @@ class AlbumWidget(Gtk.EventBox):
         self.view.connect('view-selection-changed',
                           self._on_view_selection_changed)
         self.view.set_model(self.model)
-        escapedArtist = GLib.markup_escape_text(artist, -1)
-        escapedAlbum = GLib.markup_escape_text(album, -1)
+        escapedArtist = GLib.markup_escape_text(artist)
+        escapedAlbum = GLib.markup_escape_text(album)
         self.ui.get_object("artist_label").set_markup(escapedArtist)
         self.ui.get_object("title_label").set_markup(escapedAlbum)
         if (item.get_creation_date()):
@@ -248,7 +248,7 @@ class AlbumWidget(Gtk.EventBox):
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
             iter = self.model.append()
-            escapedTitle = GLib.markup_escape_text(track.get_title(), -1)
+            escapedTitle = AlbumArtCache.getMediaTitle(track, True)
             try:
                 self.player.discoverer.discover_uri(track.get_url())
                 self.model.set(iter,
@@ -281,7 +281,7 @@ class AlbumWidget(Gtk.EventBox):
         while iter:
             song = playlist.get_value(iter, 5)
 
-            escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
+            escapedTitle = AlbumArtCache.getMediaTitle(song, True)
             if (song == currentSong):
                 title = "<b>%s</b>" % escapedTitle
                 iconVisible = True
@@ -362,7 +362,7 @@ class ArtistAlbums(Gtk.VBox):
             if not song_widget.can_be_played:
                 continue
 
-            escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
+            escapedTitle = AlbumArtCache.getMediaTitle(song, True)
             if (song == currentSong):
                 song_widget.now_playing_sign.show()
                 song_widget.title.set_markup("<b>%s</b>" % escapedTitle)
@@ -382,7 +382,7 @@ class ArtistAlbums(Gtk.VBox):
         while itr:
             song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
-            escapedTitle = GLib.markup_escape_text(song.get_title(), -1)
+            escapedTitle = AlbumArtCache.getMediaTitle(song, True)
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
             song_widget.title.set_markup("<span>%s</span>" % escapedTitle)

@@ -19,6 +19,24 @@ class AlbumArtCache:
             self.instance = AlbumArtCache()
         return self.instance
 
+    @classmethod
+    def getMediaTitle(self, media, escaped=False):
+        title = media.get_title()
+        if title is not None:
+            return title
+        uri = media.get_url()
+        if uri is None:
+            return "Untitled"
+
+        uri_file = Gio.File.new_for_path(uri)
+        basename = uri_file.get_basename()
+        
+        title = GLib.uri_unescape_string(basename, None)
+        if escaped:
+            return GLib.markup_escape_text(title)
+
+        return title
+
     def __init__(self):
         self.logLookupErrors = False
         self.requested_uris = {}
