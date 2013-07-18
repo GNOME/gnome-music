@@ -228,7 +228,7 @@ class Empty(Gtk.Stack):
         Gtk.Stack.__init__(self,
                            transition_type=Gtk.StackTransitionType.CROSSFADE)
         builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/music/NoMusic.ui')
+        builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
         widget = builder.get_object('container')
         self.add(widget)
         self.show_all()
@@ -269,6 +269,7 @@ class Songs(ViewContainer):
         self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
+        self.iter_to_clean = None
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.get_generic_view().get_style_context()\
             .add_class("songs-list")
@@ -282,7 +283,7 @@ class Songs(ViewContainer):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def _on_item_activated(self, widget, id, path):
-        iter = self._model.get_iter(path)[1]
+        iter = self._model.get_iter(path)
         if self._model.get_value(iter, 8) != self.errorIconName:
             self.player.set_playlist("Songs", None, self._model, iter, 5)
             self.player.set_playing(True)
@@ -290,11 +291,11 @@ class Songs(ViewContainer):
     def update_model(self, player, playlist, currentIter):
         if playlist != self._model:
             return False
-        if self.iterToClean:
-            self._model.set_value(self.iterToClean, 10, False)
+        if self.iter_to_clean is not None:
+            self._model.set_value(self.iter_to_clean, 10, False)
 
         self._model.set_value(currentIter, 10, True)
-        self.iterToClean = currentIter.copy()
+        self.iter_to_clean = currentIter.copy()
         return False
 
     def _add_item(self, source, param, item):

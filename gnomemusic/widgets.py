@@ -69,7 +69,7 @@ class AlbumWidget(Gtk.EventBox):
         self._symbolicIcon = self.cache.make_default_icon(256, 256)
 
         self.ui = Gtk.Builder()
-        self.ui.add_from_resource('/org/gnome/music/AlbumWidget.ui')
+        self.ui.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
         self.model = Gtk.ListStore(
             GObject.TYPE_STRING,  # title
             GObject.TYPE_STRING,
@@ -306,7 +306,7 @@ class ArtistAlbums(Gtk.VBox):
         self.artist = artist
         self.albums = albums
         self.ui = Gtk.Builder()
-        self.ui.add_from_resource('/org/gnome/music/ArtistAlbumsWidget.ui')
+        self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumsWidget.ui')
         self.set_border_width(0)
         self.ui.get_object("artist").set_label(self.artist)
         self.widgets = []
@@ -470,7 +470,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.songs = []
 
         self.ui = Gtk.Builder()
-        self.ui.add_from_resource('/org/gnome/music/ArtistAlbumWidget.ui')
+        self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
         self.cache = AlbumArtCache.get_default()
         pixbuf = self.cache.make_default_icon(128, 128)
@@ -493,7 +493,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         else:
             for i, track in enumerate(self.tracks):
                 ui = Gtk.Builder()
-                ui.add_from_resource('/org/gnome/music/TrackWidget.ui')
+                ui.add_from_resource('/org/gnome/Music/TrackWidget.ui')
                 song_widget = ui.get_object("eventbox1")
                 self.songs.append(song_widget)
                 ui.get_object("num")\

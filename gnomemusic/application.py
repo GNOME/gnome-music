@@ -9,8 +9,9 @@ class Application(Gtk.Application):
                                  flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name("Music")
 
+        cssProviderFile = Gio.File.new_for_uri('resource:///org/gnome/Music/application.css')
         cssProvider = Gtk.CssProvider()
-        cssProvider.load_from_path('data/application.css')
+        cssProvider.load_from_file(cssProviderFile)
         screen = Gdk.Screen.get_default()
         styleContext = Gtk.StyleContext()
         styleContext.add_provider_for_screen(screen, cssProvider,
