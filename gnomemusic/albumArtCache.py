@@ -240,7 +240,11 @@ class AlbumArtCache:
         string = self.angle_brackets.sub('', string)
         string = self.parentheses.sub('', string)
         # Strip invalid chars
-        return string.strip('_!@#$^&*+=|\\\/\"\'?~').strip().lower()
+        string = string.strip('_!@#$^&*+=|\\\/\"\'?~')
+        # Remove double spaces
+        string = string.replace('  ', ' ')
+        # Remove trailing spaces and convert to lowercase
+        return string.strip().lower()
 
     def get_from_uri(self, uri, artist, album, width, height, callback):
         if not uri:
