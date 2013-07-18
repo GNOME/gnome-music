@@ -26,10 +26,10 @@ class AlbumArtCache:
         return self.instance
 
     @classmethod
-    def getMediaTitle(self, media, escaped=False):
+    def get_media_title(self, media, escaped=False):
         title = media.get_title()
-        if title is not None:
-            return title
+        if title:
+            return GLib.markup_escape_text(title)
         uri = media.get_url()
         if uri is None:
             return "Untitled"
@@ -185,14 +185,14 @@ class AlbumArtCache:
 
     def lookup_or_resolve(self, item, width, height, callback):
         artist = None
-        if item.get_author() is not None:
+        if item.get_author():
             artist = item.get_author()
-        if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
+        if item.get_string(Grl.METADATA_KEY_ARTIST):
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)
         album = item.get_string(Grl.METADATA_KEY_ALBUM)
 
         def lookup_ready(icon, path=None):
-            if icon is not None:
+            if icon:
                 # Cache the path on the original item for faster retrieval
                 item._thumbnail = path
                 callback(icon, path)
@@ -203,12 +203,8 @@ class AlbumArtCache:
                 if uri is None:
                     return
 
-                def get_from_uri_ready(image, path):
-                    item._thumbnail = path
-                    callback(image, path)
-
                 self.get_from_uri(uri, artist, album, width, height,
-                                  get_from_uri_ready)
+                                  callback)
 
             options = Grl.OperationOptions.new(None)
             options.set_flags(Grl.ResolutionFlags.FULL |
@@ -224,7 +220,7 @@ class AlbumArtCache:
     def _normalize_and_hash(self, input_str):
         normalized = " "
 
-        if input_str is not None and len(input_str) > 0:
+        if input_str and len(input_str) > 0:
             normalized = self._strip_invalid_entities(input_str)
             normalized = GLib.utf8_normalize(normalized, -1,
                                              GLib.NormalizeMode.NFKD)

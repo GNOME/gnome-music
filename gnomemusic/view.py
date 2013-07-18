@@ -165,18 +165,18 @@ class ViewContainer(Gtk.Stack):
     def _add_item(self, source, param, item):
         if item is not None:
             self._offset += 1
-            iter = self._model.append()
+            itr = self._model.append()
             artist = "Unknown"
             if item.get_author() is not None:
                 artist = item.get_author()
             if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            title = albumArtCache.getMediaTitle(item)
+            title = albumArtCache.get_media_title(item)
             item.set_title(title)
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
-                self._model.set(iter,
+                self._model.set(itr,
                                 [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                                 [str(item.get_id()), "", title,
                                  artist, self._symbolicIcon, item,
@@ -188,7 +188,7 @@ class ViewContainer(Gtk.Stack):
                                 [str(item.get_id()), "", title,
                                  artist, self._symbolicIcon, item,
                                  -1, self.errorIconName, False, True])
-            GLib.idle_add(self._update_album_art, item, iter)
+            GLib.idle_add(self._update_album_art, item, itr)
 
     def _get_remaining_item_count(self):
         count = -1
@@ -198,14 +198,15 @@ class ViewContainer(Gtk.Stack):
                 count = cursor.get_integer(0)
         return count - self._offset
 
-    def _update_album_art(self, item, iter):
+    def _update_album_art(self, item, itr):
         def _album_art_cache_look_up(icon, data=None):
+            item._thumbnail = icon
             if icon:
                 self._model.set_value(
-                    iter, 4,
+                    itr, 4,
                     albumArtCache.get_default()._make_icon_frame(icon))
             else:
-                self._model.set_value(iter, 4, None)
+                self._model.set_value(itr, 4, None)
                 self.emit("album-art-updated")
             pass
 
@@ -302,7 +303,7 @@ class Songs(ViewContainer):
         if item is not None:
             self._offset += 1
             iter = self._model.append()
-            item.set_title(albumArtCache.getMediaTitle(item))
+            item.set_title(albumArtCache.get_media_title(item))
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
@@ -366,7 +367,7 @@ class Songs(ViewContainer):
         cell.set_property("yalign", 0.5)
         cell.set_property("height", 48)
         cell.set_property("ellipsize", Pango.EllipsizeMode.END)
-        cell.set_property("text", albumArtCache.getMediaTitle(item))
+        cell.set_property("text", albumArtCache.get_media_title(item))
 
     def _on_list_widget_star_render(self, col, cell, model, itr, data):
         showstar = model.get_value(itr, 9)
