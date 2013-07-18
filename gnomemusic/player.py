@@ -363,7 +363,7 @@ class Player(GObject.GObject):
 
     def _setup_view(self):
         self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/music/PlayerToolbar.ui')
+        self._ui.add_from_resource('/org/gnome/Music/PlayerToolbar.ui')
         self.eventBox = self._ui.get_object('eventBox')
         self.prevBtn = self._ui.get_object('previous_button')
         self.playBtn = self._ui.get_object('play_button')
@@ -659,7 +659,7 @@ class Player(GObject.GObject):
 class SelectionToolbar():
         def __init__(self):
             self._ui = Gtk.Builder()
-            self._ui.add_from_resource('/org/gnome/music/SelectionToolbar.ui')
+            self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
             self.eventbox = self._ui.get_object("eventbox1")
             self._add_to_playlist_button = self._ui.get_object("button1")
             self.eventbox.set_visible(False)

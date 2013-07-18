@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/org/gnome/music">
+  <gresource prefix="/org/gnome/Music">
     <file preprocess="xml-stripblanks">app-menu.ui</file>
     <file>application.css</file>
     <file preprocess="xml-stripblanks">AlbumWidget.ui</file>

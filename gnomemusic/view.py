@@ -228,7 +228,7 @@ class Empty(Gtk.Stack):
         Gtk.Stack.__init__(self,
                            transition_type=Gtk.StackTransitionType.CROSSFADE)
         builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/music/NoMusic.ui')
+        builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
         widget = builder.get_object('container')
         self.add(widget)
         self.show_all()
