@@ -269,6 +269,7 @@ class Songs(ViewContainer):
         self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
+        self.iter_to_clean = None
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.get_generic_view().get_style_context()\
             .add_class("songs-list")
@@ -290,11 +291,11 @@ class Songs(ViewContainer):
     def update_model(self, player, playlist, currentIter):
         if playlist != self._model:
             return False
-        if self.iterToClean:
-            self._model.set_value(self.iterToClean, 10, False)
+        if self.iter_to_clean is not None:
+            self._model.set_value(self.iter_to_clean, 10, False)
 
         self._model.set_value(currentIter, 10, True)
-        self.iterToClean = currentIter.copy()
+        self.iter_to_clean = currentIter.copy()
         return False
 
     def _add_item(self, source, param, item):
