@@ -17,6 +17,11 @@ class Grilo(GObject.GObject):
 
     def __init__(self):
         GObject.GObject.__init__(self)
+
+        self.options = Grl.OperationOptions()
+        self.options.set_flags(Grl.ResolutionFlags.FULL |
+                               Grl.ResolutionFlags.IDLE_RELAY)
+
         self.registry = Grl.Registry.get_default()
         try:
             self.registry.load_all_plugins()
@@ -56,9 +61,7 @@ class Grilo(GObject.GObject):
         self.populate_items(Query.SONGS, offset, callback)
 
     def populate_items(self, query, offset, callback, count=50):
-        options = Grl.OperationOptions()
-        options.set_flags(Grl.ResolutionFlags.FULL |
-                          Grl.ResolutionFlags.IDLE_RELAY)
+        options = self.options.copy()
         options.set_skip(offset)
         options.set_count(count)
 
@@ -68,21 +71,18 @@ class Grilo(GObject.GObject):
 
     def get_album_songs(self, album_id, callback):
         query = Query.album_songs(album_id)
-        options = Grl.OperationOptions()
-        options.set_flags(Grl.ResolutionFlags.FULL |
-                          Grl.ResolutionFlags.IDLE_RELAY)
+        options = self.options.copy()
         self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
     def _search_callback(self):
         print("yeah")
 
     def search(self, q):
+        options = self.options.copy()
         for source in self.sources:
             print(source.get_name() + " - " + q)
             source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
-                          Grl.MetadataResolutionFlags.FULL |
-                          Grl.MetadataResolutionFlags.IDLE_RELAY,
-                          self._search_callback, source)
+                          options, self._search_callback, source)
 
 
 Grl.init(None)
