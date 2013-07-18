@@ -110,7 +110,8 @@ class AlbumWidget(Gtk.EventBox):
         if(self.model.get_value(iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
-                self.model.set_value(self.iterToClean, 0, item.get_title())
+                title = AlbumArtCache.getMediaTitle(item)
+                self.model.set_value(self.iterToClean, 0, title)
                 #Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
             self.player.set_playlist("Album", self.album, self.model, iter, 5)
@@ -332,7 +333,8 @@ class ArtistAlbums(Gtk.VBox):
         self._hbox.pack_start(self._albumBox, False, False, 16)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
-        map(self.add_album, albums)
+        for album in albums:
+            self.add_album(album)
 
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
@@ -405,20 +407,20 @@ class AllArtistsAlbums(ArtistAlbums):
     def _connect_view(self):
         self._adjustmentValueId =\
             self._scrolledWindow.get_vadjustment()\
-                .connect('value-changed', self._on_scrolled_win_change)
+                .connect('value-changed', self._on_scrollbar_visible)
         self._adjustmentChangedId =\
             self._scrolledWindow.get_vadjustment().connect(
-                'changed', self._on_scrolled_win_change)
+                'changed', self._on_scrollbar_visible)
         self._scrollbarVisibleId =\
             self._scrolledWindow.get_vscrollbar().connect(
                 'notify::visible',
                 self._on_scrollbar_visible)
+        self._on_scrollbar_visible()
+
+    def _on_scrollbar_visible(self, scrollbar=None, pspec=None, data=None):
         self._on_scrolled_win_change()
 
-    def _on_scrollbar_visible(self, scrollbar, pspec, data=None):
-        self._on_scrolled_win_change()
-
-    def _on_scrolled_win_change(self, data=None):
+    def _on_scrolled_win_change(self, scrollbar=None, pspec=None, data=None):
         vScrollbar = self._scrolledWindow.get_vscrollbar()
         adjustment = self._scrolledWindow.get_vadjustment()
         revealAreaHeight = 32
@@ -497,8 +499,8 @@ class ArtistAlbumWidget(Gtk.HBox):
                 ui.get_object("num")\
                     .set_markup("<span color='grey'>%d</span>"
                                 % len(self.songs))
-                if track.get_title():
-                    ui.get_object("title").set_text(track.get_title())
+                title = AlbumArtCache.getMediaTitle(track)
+                ui.get_object("title").set_text(title)
                 ui.get_object("title").set_alignment(0.0, 0.5)
                 self.ui.get_object("grid1").attach(
                     song_widget,
@@ -515,7 +517,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     self.player.discoverer.discover_uri(track.get_url())
                     self.model.set(itr,
                                    [0, 1, 2, 3, 4, 5],
-                                   [track.get_title(), "", "", False,
+                                   [title, "", "", False,
                                     NOW_PLAYING_ICON_NAME, track])
                     song_widget.now_playing_sign = ui.get_object("image1")
                     song_widget.now_playing_sign.set_from_icon_name(
@@ -530,7 +532,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 except:
                     print("failed to discover url " + track.get_url())
                     self.model.set(itr, [0, 1, 2, 3, 4, 5],
-                                   [track.get_title(), "", "", True,
+                                   [title, "", "", True,
                                     ERROR_ICON_NAME, track])
                     song_widget.now_playing_sign = ui.get_object("image1")
                     song_widget.now_playing_sign.set_from_icon_name(

@@ -253,14 +253,7 @@ class Player(GObject.GObject):
         self.coverImg.set_from_pixbuf(self._symbolicIcon)
         self.cache.lookup(ART_SIZE, media.get_artist(), media.get_string(Grl.METADATA_KEY_ALBUM), self._on_cache_lookup)
 
-        if media.get_title() is not None:
-            self.titleLabel.set_label(media.get_title())
-        else:
-            url = media.get_url(),
-            filename = GLib.File.new_for_path(url),
-            basename = filename.get_basename(),
-            toShow = GLib.Uri.unescape_string(basename, None)
-            self.titleLabel.set_label(toShow)
+        self.titleLabel.set_label(AlbumArtCache.getMediaTitle(media))
 
         if media.get_artist() is not None:
             self.artistLabel.set_label(media.get_artist())
@@ -603,7 +596,7 @@ class Player(GObject.GObject):
             'xesam:userRating': GLib.Variant.new('d', media.get_rating()),
         }
 
-        title = media.get_title()
+        title = AlbumArtCache.getMediaTitle(media)
         if title:
             metadata['xesam:title'] = GLib.Variant.new('s', title)
 
