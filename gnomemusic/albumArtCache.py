@@ -30,7 +30,7 @@ class AlbumArtCache:
 
         uri_file = Gio.File.new_for_path(uri)
         basename = uri_file.get_basename()
-        
+
         title = GLib.uri_unescape_string(basename, None)
         if escaped:
             return GLib.markup_escape_text(title)
