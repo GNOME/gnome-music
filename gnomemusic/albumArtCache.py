@@ -5,7 +5,7 @@ from math import pi
 import os
 import re
 
-from gnomemusic.grilo import Grilo as grilo
+from gnomemusic.grilo import grilo
 
 
 class AlbumArtCache:
@@ -205,7 +205,7 @@ class AlbumArtCache:
                 callback(icon, path)
                 return
 
-            def resolve_ready(source, param, item):
+            def resolve_ready(source, param, item, data, error):
                 uri = item.get_thumbnail()
                 if uri is not None:
                     return
@@ -219,12 +219,11 @@ class AlbumArtCache:
             options = Grl.OperationOptions.new(None)
             options.set_flags(Grl.ResolutionFlags.FULL |
                               Grl.ResolutionFlags.IDLE_RELAY)
-            #FIXME: Tracker goes missing here
             try:
                 grilo.tracker.resolve(item, [Grl.METADATA_KEY_THUMBNAIL],
-                                      options, resolve_ready)
             except:
                 pass
+                                      options, resolve_ready, None)
 
         self.lookup(height, artist, album, lookup_ready)
 
