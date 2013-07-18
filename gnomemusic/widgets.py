@@ -110,7 +110,7 @@ class AlbumWidget(Gtk.EventBox):
         if(self.model.get_value(iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
-                title = AlbumArtCache.getMediaTitle(media)
+                title = AlbumArtCache.getMediaTitle(item)
                 self.model.set_value(self.iterToClean, 0, title)
                 #Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
