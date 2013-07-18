@@ -332,7 +332,8 @@ class ArtistAlbums(Gtk.VBox):
         self._hbox.pack_start(self._albumBox, False, False, 16)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
-        map(self.add_album, albums)
+        for album in albums:
+            self.add_album(album)
 
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
