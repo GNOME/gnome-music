@@ -43,7 +43,6 @@ class AlbumArtCache:
 
         return title
 
-    @profile
     def __init__(self):
         self.logLookupErrors = False
         self.requested_uris = {}
@@ -63,7 +62,6 @@ class AlbumArtCache:
         except:
             pass
 
-    @profile
     def make_default_icon(self, width, height):
         path =\
             "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
@@ -92,7 +90,6 @@ class AlbumArtCache:
                        GdkPixbuf.InterpType.NEAREST, 0xff)
         return self._make_icon_frame(result)
 
-    @profile
     def _make_icon_frame(self, pixbuf):
         border = 1.5
         pixbuf = pixbuf.scale_simple(pixbuf.get_width() - border * 2,
@@ -119,7 +116,6 @@ class AlbumArtCache:
 
         return result
 
-    @profile
     def _draw_rounded_path(self, ctx, x, y, width, height, radius):
             ctx.new_sub_path()
             ctx.arc(x + width - radius, y + radius, radius - 0.5,
@@ -137,7 +133,6 @@ class AlbumArtCache:
             ctx.set_source_rgb(1, 1, 1)
             ctx.fill()
 
-    @profile
     def _try_load(self, size, artist, album, i, icon_format, callback):
         if i >= len(self._keybuilder_funcs):
             if icon_format == 'jpeg':
@@ -185,11 +180,9 @@ class AlbumArtCache:
 
         f.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
 
-    @profile
     def lookup(self, size, artist, album, callback):
         self._try_load(size, artist, album, 0, 'jpeg', callback)
 
-    @profile
     def lookup_or_resolve(self, item, width, height, callback):
         artist = None
         if item.get_author() is not None:
@@ -228,7 +221,6 @@ class AlbumArtCache:
 
         self.lookup(height, artist, album, lookup_ready)
 
-    @profile
     def _normalize_and_hash(self, input_str):
         normalized = " "
 
@@ -241,7 +233,6 @@ class AlbumArtCache:
         return GLib.compute_checksum_for_string(GLib.ChecksumType.MD5,
                                                 normalized, -1)
 
-    @profile
     def _strip_invalid_entities(self, original):
         # Strip blocks
         string = self.brackets.sub('', original)
@@ -251,7 +242,6 @@ class AlbumArtCache:
         # Strip invalid chars
         return string.strip('_!@#$^&*+=|\\\/\"\'?~')
 
-    @profile
     def get_from_uri(self, uri, artist, album, width, height, callback):
         if not uri:
             return
