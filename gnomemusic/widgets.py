@@ -34,7 +34,7 @@ class LoadMoreButton:
         self._on_item_count_changed()
 
     def _on_load_more_clicked(self, data=None):
-        self._label.label = "Loading..."
+        self._label.set_label("Loading...")
         self._spinner.show()
         self._spinner.start()
 
@@ -44,7 +44,7 @@ class LoadMoreButton:
         self.widget.set_visible(visible)
 
         if visible:
-            self._label.label = "Load More"
+            self._label.set_label("Load More")
             self._spinner.stop()
             self._spinner.hide()
 
