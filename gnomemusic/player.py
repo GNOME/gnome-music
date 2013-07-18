@@ -113,10 +113,15 @@ class Player(GObject.GObject):
             uri = media.get_url()
         else:
             uri = "none"
-            print("URI:" + uri)
-            print("Error:" + message.parse_error())
-            self.stop()
-            return True
+            print("URI: " + uri)
+        error, debug = message.parse_error()
+        debug = debug.split('\n')
+        debug = [('     ') + line.lstrip() for line in debug]
+        debug = '\n'.join(debug)
+        print("Error from element " + message.src.get_name() + ": " + error.message)
+        print("Debugging info:\n" + debug)
+        self.play_next()
+        return True
 
     def _on_bus_eos(self, bus, message):
         self.nextTrack = self._get_next_track()
