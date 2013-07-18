@@ -12,6 +12,11 @@ class AlbumArtCache:
     instance = None
     degrees = pi / 180
 
+    brackets = re.compile('\[*?.*?]\}', re.DOTALL)
+    curly_brackets = re.compile('\{*?.*?\}', re.DOTALL)
+    angle_brackets = re.compile('\<*?.*?\>', re.DOTALL)
+    parentheses = re.compile('\(*?.*?\)', re.DOTALL)
+
     @classmethod
     def get_default(self):
         if self.instance:
@@ -38,6 +43,7 @@ class AlbumArtCache:
 
         return title
 
+    @profile
     def __init__(self):
         self.logLookupErrors = False
         self.requested_uris = {}
@@ -57,6 +63,7 @@ class AlbumArtCache:
         except:
             pass
 
+    @profile
     def make_default_icon(self, width, height):
         path =\
             "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
@@ -85,6 +92,7 @@ class AlbumArtCache:
                        GdkPixbuf.InterpType.NEAREST, 0xff)
         return self._make_icon_frame(result)
 
+    @profile
     def _make_icon_frame(self, pixbuf):
         border = 1.5
         pixbuf = pixbuf.scale_simple(pixbuf.get_width() - border * 2,
@@ -111,6 +119,7 @@ class AlbumArtCache:
 
         return result
 
+    @profile
     def _draw_rounded_path(self, ctx, x, y, width, height, radius):
             ctx.new_sub_path()
             ctx.arc(x + width - radius, y + radius, radius - 0.5,
@@ -128,6 +137,7 @@ class AlbumArtCache:
             ctx.set_source_rgb(1, 1, 1)
             ctx.fill()
 
+    @profile
     def _try_load(self, size, artist, album, i, icon_format, callback):
         if i >= len(self._keybuilder_funcs):
             if icon_format == 'jpeg':
@@ -175,9 +185,11 @@ class AlbumArtCache:
 
         f.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
 
+    @profile
     def lookup(self, size, artist, album, callback):
         self._try_load(size, artist, album, 0, 'jpeg', callback)
 
+    @profile
     def lookup_or_resolve(self, item, width, height, callback):
         artist = None
         if item.get_author() is not None:
@@ -216,6 +228,7 @@ class AlbumArtCache:
 
         self.lookup(height, artist, album, lookup_ready)
 
+    @profile
     def _normalize_and_hash(self, input_str):
         normalized = " "
 
@@ -228,61 +241,17 @@ class AlbumArtCache:
         return GLib.compute_checksum_for_string(GLib.ChecksumType.MD5,
                                                 normalized, -1)
 
-    def _strip_find_next_block(self, original, open_char, close_char):
-        open_pos = original.find(open_char)
-        if open_pos >= 0:
-            close_pos = original.find(close_char, open_pos + 1)
-            if close_pos >= 0:
-                return [True, open_pos, close_pos]
-        return [False, -1, -1]
-
+    @profile
     def _strip_invalid_entities(self, original):
-        blocks_done = False
-        invalid_chars = '[()<>\[\]{}_!@#$^&*+=|\\\/\"\'?~]'
-        blocks = [['(', ')'], ['{', '}'], ['[', ']'], ['<', '>']]
-        str_no_blocks = ""
-        p = original
+        # Strip blocks
+        string = self.brackets.sub('', original)
+        string = self.curly_brackets.sub('', string)
+        string = self.angle_brackets.sub('', string)
+        string = self.parentheses.sub('', string)
+        # Strip invalid chars
+        return string.strip('_!@#$^&*+=|\\\/\"\'?~')
 
-        while not blocks_done:
-            pos1 = -1
-            pos2 = -1
-
-            for block_pair in blocks:
-                # Go through blocks, find the earliest block we can
-                [success, start, end] =\
-                    self._strip_find_next_block(p,
-                                                block_pair[0],
-                                                block_pair[1])
-                if success:
-                    if pos1 == -1 or start < pos1:
-                        pos1 = start
-                        pos2 = end
-
-            # If either are -1 we didn't find any
-            if pos1 == -1:
-                # This means no blocks were found
-                str_no_blocks += p
-                blocks_done = True
-            else:
-                # Append the test BEFORE the block
-                if pos1 > 0:
-                    str_no_blocks += p[0:pos1]
-
-                p = p[pos2 + 1:]
-
-                # Do same again for position AFTER block
-                if len(p) == 0:
-                    blocks_done = True
-
-        # Now convert chars to lower case
-        str = str_no_blocks.lower()
-        # Now strip invalid chars
-        str = re.sub(invalid_chars, '', str)
-        # Now convert tabs and multiple spaces into space
-        str = re.sub('\t|\s+', ' ', str)
-        # Now strip leading/trailing white space
-        return str.strip()
-
+    @profile
     def get_from_uri(self, uri, artist, album, width, height, callback):
         if not uri:
             return
