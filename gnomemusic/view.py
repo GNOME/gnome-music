@@ -289,7 +289,8 @@ class Songs(ViewContainer):
             self._model.set_value(self.iter_to_clean, 10, False)
 
         self._model.set_value(currentIter, 10, True)
-        self.iter_to_clean = currentIter.copy()
+        if self._model.get_value(currentIter, 8) != self.errorIconName:
+            self.iter_to_clean = currentIter.copy()
         return False
 
     def _add_item(self, source, param, item):
