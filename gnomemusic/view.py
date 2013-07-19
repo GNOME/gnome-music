@@ -433,6 +433,7 @@ class Artists (ViewContainer):
         selection = self.view.get_generic_view().get_selection()
         if not selection.get_selected()[1]:
             self._allIter = self._model.append()
+            self._last_selection = self._allIter
             self._artists["All Artists".lower()] =\
                 {"iter": self._allIter, "albums": []}
             self._model.set(self._allIter, 2, "All Artists")
@@ -465,6 +466,7 @@ class Artists (ViewContainer):
         for child in children:
             self._artistAlbumsWidget.remove(child)
         itr = self._model.get_iter(path)
+        self._last_selection = itr
         artist = self._model.get_value(itr, 2)
         albums = self._artists[artist.lower()]["albums"]
         self.artistAlbums = None
@@ -495,3 +497,17 @@ class Artists (ViewContainer):
     def populate(self):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_artists, self._offset, self._add_item)
+
+    def _on_header_bar_toggled(self, button):
+        ViewContainer._on_header_bar_toggled(self, button)
+
+        if button.get_active():
+            self._last_selection =\
+                self.view.get_generic_view().get_selection().get_selected()[1]
+            self.view.get_generic_view().get_selection().set_mode(
+                Gtk.SelectionMode.NONE)
+        else:
+            self.view.get_generic_view().get_selection().set_mode(
+                Gtk.SelectionMode.SINGLE)
+            self.view.get_generic_view().get_selection().select_iter(
+                self._last_selection)
