@@ -559,11 +559,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         uri = self.album.get_thumbnail()
         ALBUM_ART_CACHE.get_from_uri(uri, self.artist,
                                      self.album.get_title(), 128, 128,
-                                     self.get_cover)
-
-    def get_cover(self, pixbuf):
-        pixbuf = ALBUM_ART_CACHE.makeIconFrame(pixbuf)
-        self.ui.get_object("cover").set_from_pixbuf(pixbuf)
+                                     self.get_album_cover)
 
     def track_selected(self, widget, iter):
         self.player.stop()

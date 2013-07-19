@@ -184,11 +184,7 @@ class AlbumArtCache:
         self._try_load(size, artist, album, 0, 'jpeg', callback)
 
     def lookup_or_resolve(self, item, width, height, callback):
-        artist = None
-        if item.get_author():
-            artist = item.get_author()
-        if item.get_string(Grl.METADATA_KEY_ARTIST):
-            artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_author()
         album = item.get_string(Grl.METADATA_KEY_ALBUM)
 
         def lookup_ready(icon, path=None):
@@ -292,7 +288,7 @@ class AlbumArtCache:
 
                     outstream.splice_async(stream,
                                            Gio.IOStreamSpliceFlags.NONE,
-                                           300, None, None, None)
+                                           300, None, splice_async_ready, None)
 
                 newFile = Gio.File.new_for_path(path)
                 newFile.replace_async(None, False,
