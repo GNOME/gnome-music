@@ -410,7 +410,6 @@ class Artists (ViewContainer):
         self.countQuery = Query.ARTISTS_COUNT
         self._artistAlbumsWidget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE,
-            hexpand=True
         )
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.set_hexpand(False)
@@ -454,7 +453,8 @@ class Artists (ViewContainer):
             xpad=16,
             ypad=16,
             ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0
+            xalign=0.0,
+            width=220
         )
         list_widget.add_renderer(type_renderer, lambda *args: None, None)
         cols[0].clear_attributes(type_renderer)
