@@ -91,13 +91,14 @@ class AlbumWidget(Gtk.EventBox):
         self.view.connect('item-activated', self._on_item_activated)
 
         view_box = self.ui.get_object("view")
+        self.ui.get_object("scrolledWindow").set_placement(Gtk.CornerType.
+                                                           TOP_LEFT)
         child_view = self.view.get_children()[0]
         child_view.set_margin_top(64)
         child_view.set_margin_bottom(64)
         child_view.set_margin_right(32)
         self.view.remove(child_view)
         view_box.add(child_view)
-
         self.add(self.ui.get_object("AlbumWidget"))
         self._add_list_renderers()
         # TODO: make this work
