@@ -123,11 +123,20 @@ class Player(GObject.GObject):
         self.play_next()
         return True
 
-    def _on_bus_eos(self, bus, message):
+    def skip_track(self):
+        self.currentTrack = self._get_next_track()
         self.nextTrack = self._get_next_track()
 
+    def _on_bus_eos(self, bus, message):
+        self.nextTrack = self._get_next_track()
+        media = self.playlist.get_value(self.nextTrack, self.playlistField)
         if self.nextTrack:
-            GLib.idle_add(self._on_glib_idle)
+            try:
+                self.discoverer.discover_uri(media.get_url())
+                GLib.idle_add(self._on_glib_idle)
+            except:
+                self.skip_track()
+                GLib.idle_add(self._on_glib_idle)
         elif (self.repeat == RepeatType.NONE):
             self.stop()
             self.playBtn.set_image(self._playImage)
