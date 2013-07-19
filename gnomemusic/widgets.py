@@ -110,7 +110,7 @@ class AlbumWidget(Gtk.EventBox):
         if(self.model.get_value(iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
-                title = AlbumArtCache.getMediaTitle(item)
+                title = AlbumArtCache.get_media_title(item)
                 self.model.set_value(self.iterToClean, 0, title)
                 #Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
@@ -145,7 +145,7 @@ class AlbumWidget(Gtk.EventBox):
             ellipsize=Pango.EllipsizeMode.END,
             xalign=0.0
         )
-        list_widget.add_renderer(type_renderer, self._type_renderer_text, None)
+        list_widget.add_renderer(type_renderer, lambda *args: None, None)
         cols[0].clear_attributes(type_renderer)
         cols[0].add_attribute(type_renderer, "markup", 0)
 
@@ -155,17 +155,9 @@ class AlbumWidget(Gtk.EventBox):
             xalign=1.0
         )
         durationRenderer.add_class('dim-label')
-        list_widget.add_renderer(durationRenderer,
-                                 self._duration_renderer_text, None)
-
-    def _type_renderer_text(self, col, cell, model, itr, data):
-        pass
-
-    def _duration_renderer_text(self, col, cell, model, itr, data):
-        item = self.model.get_value(itr, 5)
-        if item:
-            duration = item.get_duration()
-            cell.set_property("text", self.player.seconds_to_string(duration))
+        list_widget.add_renderer(durationRenderer, lambda *args: None, None)
+        cols[0].clear_attributes(durationRenderer)
+        cols[0].add_attribute(durationRenderer, "markup", 1)
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
         self.selection_toolbar = selection_toolbar
@@ -199,7 +191,8 @@ class AlbumWidget(Gtk.EventBox):
                                        GObject.TYPE_BOOLEAN,
                                        GObject.TYPE_BOOLEAN,
                                        )
-            GLib.idle_add(grilo.populate_album_songs, item.get_id(), self._on_populate_album_songs)
+            GLib.idle_add(grilo.populate_album_songs, item.get_id(),
+                          self._on_populate_album_songs)
         header_bar._selectButton.connect('toggled',
                                          self._on_header_select_button_toggled)
         header_bar._cancelButton.connect('clicked',
@@ -249,14 +242,16 @@ class AlbumWidget(Gtk.EventBox):
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
             iter = self.model.append()
-            escapedTitle = AlbumArtCache.getMediaTitle(track, True)
+            escapedTitle = AlbumArtCache.get_media_title(track, True)
             try:
                 self.player.discoverer.discover_uri(track.get_url())
                 self.model.set(iter,
                                [0, 1, 2, 3, 4, 5, 7, 9],
-                               [escapedTitle, "", "", "",
-                                None, track,
-                                NOW_PLAYING_ICON_NAME, False])
+                               [escapedTitle,
+                                self.player.seconds_to_string(
+                                    track.get_duration()),
+                                "", "", None, track, NOW_PLAYING_ICON_NAME,
+                                False])
             except Exception as err:
                 logging.debug(err.message)
                 logging.debug("failed to discover url " + track.get_url())
@@ -282,7 +277,7 @@ class AlbumWidget(Gtk.EventBox):
         while iter:
             song = playlist.get_value(iter, 5)
 
-            escapedTitle = AlbumArtCache.getMediaTitle(song, True)
+            escapedTitle = AlbumArtCache.get_media_title(song, True)
             if (song == currentSong):
                 title = "<b>%s</b>" % escapedTitle
                 iconVisible = True
@@ -364,7 +359,7 @@ class ArtistAlbums(Gtk.VBox):
             if not song_widget.can_be_played:
                 continue
 
-            escapedTitle = AlbumArtCache.getMediaTitle(song, True)
+            escapedTitle = AlbumArtCache.get_media_title(song, True)
             if (song == currentSong):
                 song_widget.now_playing_sign.show()
                 song_widget.title.set_markup("<b>%s</b>" % escapedTitle)
@@ -384,7 +379,7 @@ class ArtistAlbums(Gtk.VBox):
         while itr:
             song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
-            escapedTitle = AlbumArtCache.getMediaTitle(song, True)
+            escapedTitle = AlbumArtCache.get_media_title(song, True)
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
             song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
@@ -443,7 +438,8 @@ class AllArtistsAlbums(ArtistAlbums):
 
     def _populate(self, data=None):
         if grilo.tracker:
-            GLib.idle_add(grilo.populate_albums, self._offset, self.add_item, 5)
+            GLib.idle_add(grilo.populate_albums,
+                          self._offset, self.add_item, 5)
 
     def add_item(self, source, param, item):
         if item:
@@ -481,9 +477,11 @@ class ArtistAlbumWidget(Gtk.HBox):
         if album.get_creation_date():
             self.ui.get_object("year").set_markup(
                 "<span color='grey'>(%s)</span>" %
-                str(album.get_creation_date().get_year()))
+                str(album.get_creation_date().get_year())
+            )
         self.tracks = []
-        GLib.idle_add(grilo.populate_album_songs, album.get_id(), self.get_songs)
+        GLib.idle_add(grilo.populate_album_songs,
+                      album.get_id(), self.get_songs)
         self.pack_start(self.ui.get_object("ArtistAlbumWidget"), True, True, 0)
         self.show_all()
 
@@ -499,7 +497,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 ui.get_object("num")\
                     .set_markup("<span color='grey'>%d</span>"
                                 % len(self.songs))
-                title = AlbumArtCache.getMediaTitle(track)
+                title = AlbumArtCache.get_media_title(track)
                 ui.get_object("title").set_text(title)
                 ui.get_object("title").set_alignment(0.0, 0.5)
                 self.ui.get_object("grid1").attach(
