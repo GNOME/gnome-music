@@ -163,13 +163,13 @@ class ViewContainer(Gtk.Stack):
         print("populate")
 
     def _add_item(self, source, param, item):
-        if item is not None:
+        if item:
             self._offset += 1
             itr = self._model.append()
             artist = "Unknown"
-            if item.get_author() is not None:
+            if item.get_author():
                 artist = item.get_author()
-            if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
+            if item.get_string(Grl.METADATA_KEY_ARTIST):
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
             title = albumArtCache.get_media_title(item)
             item.set_title(title)
@@ -192,28 +192,21 @@ class ViewContainer(Gtk.Stack):
 
     def _get_remaining_item_count(self):
         count = -1
-        if self.countQuery is not None:
+        if self.countQuery:
             cursor = tracker.query(self.countQuery, None)
-            if cursor is not None and cursor.next(None):
+            if cursor and cursor.next(None):
                 count = cursor.get_integer(0)
         return count - self._offset
 
     def _update_album_art(self, item, itr):
-        def _album_art_cache_look_up(icon, data=None):
-            item._thumbnail = icon
-            if icon:
-                self._model.set_value(
-                    itr, 4,
-                    albumArtCache.get_default()._make_icon_frame(icon))
-            else:
-                self._model.set_value(itr, 4, None)
-                self.emit("album-art-updated")
-            pass
-
-        albumArtCache.get_default().lookup_or_resolve(item,
-                                                      self._iconWidth,
-                                                      self._iconHeight,
-                                                      _album_art_cache_look_up)
+        albumArtCache.get_default().lookup_or_resolve(
+            item,
+            self._iconWidth,
+            self._iconHeight,
+            lambda icon, data: self._model.set_value(
+                itr, 4,
+                albumArtCache.get_default()._make_icon_frame(icon)
+                if icon else None))
         return False
 
     def _add_list_renderers(self):
@@ -260,7 +253,7 @@ class Albums(ViewContainer):
         self.set_visible_child(self._albumWidget)
 
     def populate(self):
-        if grilo.tracker is not None:
+        if grilo.tracker:
             GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
 
 
@@ -284,15 +277,15 @@ class Songs(ViewContainer):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def _on_item_activated(self, widget, id, path):
-        iter = self._model.get_iter(path)
-        if self._model.get_value(iter, 8) != self.errorIconName:
-            self.player.set_playlist("Songs", None, self._model, iter, 5)
+        itr = self._model.get_iter(path)
+        if self._model.get_value(itr, 8) != self.errorIconName:
+            self.player.set_playlist("Songs", None, self._model, itr, 5)
             self.player.set_playing(True)
 
     def update_model(self, player, playlist, currentIter):
         if playlist != self._model:
             return False
-        if self.iter_to_clean is not None:
+        if self.iter_to_clean:
             self._model.set_value(self.iter_to_clean, 10, False)
 
         self._model.set_value(currentIter, 10, True)
@@ -300,19 +293,19 @@ class Songs(ViewContainer):
         return False
 
     def _add_item(self, source, param, item):
-        if item is not None:
+        if item:
             self._offset += 1
-            iter = self._model.append()
+            itr = self._model.append()
             item.set_title(albumArtCache.get_media_title(item))
             try:
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
-                self._model.set(iter,
+                self._model.set(itr,
                                 [5, 8, 9, 10],
                                 [item, self.nowPlayingIconName, False, False])
             except:
                 print("failed to discover url " + item.get_url())
-                self._model.set(iter,
+                self._model.set(itr,
                                 [5, 8, 9, 10],
                                 [item, self.errorIconName, False, True])
 
@@ -398,7 +391,7 @@ class Songs(ViewContainer):
             cell.set_property("text", item.get_string(Grl.METADATA_KEY_ALBUM))
 
     def populate(self):
-        if grilo.tracker is not None:
+        if grilo.tracker:
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
 
@@ -479,9 +472,9 @@ class Artists (ViewContainer):
         if item is None:
             return
         artist = "Unknown"
-        if item.get_author() is not None:
+        if item.get_author():
             artist = item.get_author()
-        if item.get_string(Grl.METADATA_KEY_ARTIST) is not None:
+        if item.get_string(Grl.METADATA_KEY_ARTIST):
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)
         if not artist.lower() in self._artists:
             itr = self._model.append()
@@ -491,5 +484,5 @@ class Artists (ViewContainer):
         self._artists[artist.lower()]["albums"].append(item)
 
     def populate(self):
-        if grilo.tracker is not None:
+        if grilo.tracker:
             GLib.idle_add(grilo.populate_artists, self._offset, self._add_item)
