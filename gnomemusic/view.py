@@ -448,8 +448,17 @@ class Artists (ViewContainer):
 
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
-        cells[2].set_alignment(xalign=0, yalign=0.5)
-        cells[2].set_fixed_size(width=220, height=48)
+        cells[1].set_visible(False)
+        cells[2].set_visible(False)
+        type_renderer = Gd.StyledTextRenderer(
+            xpad=16,
+            ypad=16,
+            ellipsize=Pango.EllipsizeMode.END,
+            xalign=0.0
+        )
+        list_widget.add_renderer(type_renderer, lambda *args: None, None)
+        cols[0].clear_attributes(type_renderer)
+        cols[0].add_attribute(type_renderer, "text", 2)
 
     def _on_item_activated(self, widget, item_id, path):
         children = self._artistAlbumsWidget.get_children()
