@@ -283,10 +283,10 @@ class Songs(ViewContainer):
             self.player.set_playing(True)
 
     def update_model(self, player, playlist, currentIter):
-        if playlist != self._model:
-            return False
         if self.iter_to_clean:
             self._model.set_value(self.iter_to_clean, 10, False)
+        if playlist != self._model:
+            return False
 
         self._model.set_value(currentIter, 10, True)
         self.iter_to_clean = currentIter.copy()
