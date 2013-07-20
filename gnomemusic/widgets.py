@@ -358,6 +358,7 @@ class ArtistAlbums(Gtk.VBox):
             song_widget = song.song_widget
 
             if not song_widget.can_be_played:
+                itr = playlist.iter_next(itr)
                 continue
 
             escapedTitle = AlbumArtCache.get_media_title(song, True)
