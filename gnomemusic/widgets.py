@@ -290,7 +290,8 @@ class AlbumWidget(Gtk.EventBox):
                 title = "<span color='grey'>%s</span>" % escapedTitle
                 iconVisible = False
             playlist.set_value(iter, 0, title)
-            playlist.set_value(iter, 9, iconVisible)
+            if(playlist.get_value(iter, 7) != ERROR_ICON_NAME):
+                playlist.set_value(iter, 9, iconVisible)
             iter = playlist.iter_next(iter)
         return False
 
