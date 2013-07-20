@@ -25,7 +25,7 @@ class Toolbar(GObject.GObject):
         GObject.GObject.__init__(self)
         self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2)
         self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/Headerbar.ui')
+        self._ui.add_from_resource('/org/gnome/Music/headerbar.ui')
         self.header_bar = self._ui.get_object('header-bar')
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
