@@ -411,6 +411,7 @@ class Artists (ViewContainer):
         self.countQuery = Query.ARTISTS_COUNT
         self._artistAlbumsWidget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE,
+            hexpand=True
         )
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.set_hexpand(False)
