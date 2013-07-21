@@ -29,7 +29,10 @@ class AlbumArtCache:
     def get_media_title(self, media, escaped=False):
         title = media.get_title()
         if title:
-            return GLib.markup_escape_text(title)
+            if escaped:
+                return GLib.markup_escape_text(title)
+            else:
+                return title
         uri = media.get_url()
         if uri is None:
             return "Untitled"

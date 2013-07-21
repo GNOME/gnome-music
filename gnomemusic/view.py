@@ -247,8 +247,8 @@ class Albums(ViewContainer):
         self._albumWidget.update(artist, title, item,
                                  self.header_bar, self.selection_toolbar)
         self.header_bar.set_state(0)
-        self.header_bar.header_bar.title = title
-        self.header_bar.header_bar.set_title(title)
+        escaped_title = albumArtCache.get_media_title(item)
+        self.header_bar.header_bar.set_title(escaped_title)
         self.header_bar.header_bar.sub_title = artist
         self.set_visible_child(self._albumWidget)
 
