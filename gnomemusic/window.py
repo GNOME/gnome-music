@@ -43,15 +43,16 @@ class Window(Gtk.ApplicationWindow):
         if signal != 'MediaPlayerKeyPressed':
             print('Received an unexpected signal \'%s\' from media player'.format(signal))
             return
-
-        key = parameters.get_child_value(1).get_string()[0]
-        if key == 'Play':
+        type(parameters)
+        type(parameters.get_child_value(1))
+        response = parameters.get_child_value(1).get_string()
+        if 'Play' in response:
             self.player.PlayPause()
-        elif key == 'Stop':
+        elif 'Stop' in response:
             self.player.Stop()
-        elif key == 'Next':
+        elif 'Next' in response:
             self.player.Next()
-        elif key == 'Previous':
+        elif 'Previous' in response:
             self.player.Previous()
 
     def _setup_view(self):
