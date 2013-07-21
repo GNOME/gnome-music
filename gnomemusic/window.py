@@ -43,8 +43,6 @@ class Window(Gtk.ApplicationWindow):
         if signal != 'MediaPlayerKeyPressed':
             print('Received an unexpected signal \'%s\' from media player'.format(signal))
             return
-        type(parameters)
-        type(parameters.get_child_value(1))
         response = parameters.get_child_value(1).get_string()
         if 'Play' in response:
             self.player.PlayPause()
