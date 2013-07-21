@@ -28,4 +28,4 @@ class Application(Gtk.Application):
         self._window.present()
 
     def quit(self):
-        self.quit()
+        self._window.destroy()
