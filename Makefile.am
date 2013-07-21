@@ -59,6 +59,7 @@ gnome-music: gnome-music.in
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
 		-e s!\@VERSION\@!$(VERSION)!		\
 		< $< > $@
+	chmod a+x $@
 
 gnome-music: Makefile
 

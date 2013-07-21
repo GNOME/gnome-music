@@ -17,12 +17,15 @@ class Application(Gtk.Application):
         styleContext.add_provider_for_screen(screen, cssProvider,
                                              Gtk.STYLE_PROVIDER_PRIORITY_USER)
 
+        self._window = None
+
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
     def do_activate(self):
-        self._window = Window(self)
-        self._window.show()
+        if not self._window:
+            self._window = Window(self)
+        self._window.present()
 
     def quit(self):
         self.quit()

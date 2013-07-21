@@ -12,6 +12,8 @@ if os.path.exists(os.path.join(srcdir, 'gnome-music.doap')):
     pkgdatadir = os.path.join(srcdir, 'data')
     libgd_libdir = os.path.join(srcdir, 'libgd', '.libs')
     libgd_typelibdir = os.path.join(srcdir, 'libgd')
+    if not os.environ.get('GSETTINGS_SCHEMA_DIR'):
+        os.environ['GSETTINGS_SCHEMA_DIR'] = pkgdatadir
 else:
     pkgdatadir = '@pkgdatadir@'
     libgd_libdir = '@pkglibdir@'
