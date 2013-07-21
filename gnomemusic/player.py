@@ -187,7 +187,7 @@ class Player(GObject.GObject):
             if previousTrack is None:
                 previousTrack = self._get_iter_last()
         elif self.repeat == RepeatType.NONE:
-            previousTrack = self.playlist.iter_previous(previousTrack)
+            previousTrack = self.playlist.iter_previous(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             previousTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
