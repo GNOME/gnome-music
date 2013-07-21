@@ -1,5 +1,6 @@
 from gi.repository import Gtk, Gio, GLib, Gdk
 from gnomemusic.window import Window
+from gnomemusic.mpris import MediaPlayer2Service
 
 
 class Application(Gtk.Application):
@@ -25,6 +26,7 @@ class Application(Gtk.Application):
     def do_activate(self):
         if not self._window:
             self._window = Window(self)
+            self.service = MediaPlayer2Service(self)
         self._window.present()
 
     def quit(self):
