@@ -5,6 +5,7 @@ app_PYTHON = \
 	application.py \
 	__init__.py \
 	player.py \
+	mpris.py \
 	toolbar.py \
 	view.py \
 	grilo.py \
