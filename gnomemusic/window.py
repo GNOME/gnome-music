@@ -45,13 +45,13 @@ class Window(Gtk.ApplicationWindow):
             return
         response = parameters.get_child_value(1).get_string()
         if 'Play' in response:
-            self.player.PlayPause()
+            self.player.play_pause()
         elif 'Stop' in response:
             self.player.Stop()
         elif 'Next' in response:
-            self.player.Next()
+            self.player.play_next()
         elif 'Previous' in response:
-            self.player.Previous()
+            self.player.play_previous()
 
     def _setup_view(self):
         self._box = Gtk.VBox()
