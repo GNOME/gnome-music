@@ -511,5 +511,6 @@ class Artists (ViewContainer):
         else:
             self.view.get_generic_view().get_selection().set_mode(
                 Gtk.SelectionMode.SINGLE)
-            self.view.get_generic_view().get_selection().select_iter(
-                self._last_selection)
+            if self._last_selection is not None:
+                self.view.get_generic_view().get_selection().select_iter(
+                    self._last_selection)
