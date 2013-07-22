@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-07-12 16:30+0000\n"
-"PO-Revision-Date: 2013-07-12 21:14+0200\n"
+"POT-Creation-Date: 2013-07-22 11:50+0000\n"
+"PO-Revision-Date: 2013-07-22 15:46+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -53,7 +53,7 @@ msgstr "O _aplikaci Hudba"
 msgid "_Quit"
 msgstr "U_končit"
 
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:66
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:77
 msgid "Music"
 msgstr "Hudba"
 
@@ -158,14 +158,18 @@ msgstr "Zrušit"
 msgid "Add to Playlist"
 msgstr "Přidat do seznamu k přehrání"
 
-#: ../src/toolbar.js:133
+#: ../src/albumArtCache.js:61
+msgid "Untitled"
+msgstr "Bez názvu"
+
+#: ../src/toolbar.js:146
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/toolbar.js:140
+#: ../src/toolbar.js:153
 msgid "Search"
 msgstr "Hledat"
 
-#: ../src/toolbar.js:147
+#: ../src/toolbar.js:160
 msgid "Select"
 msgstr "Vybrat"
