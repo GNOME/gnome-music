@@ -2,14 +2,85 @@ import dbus
 import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
 
+from gnomemusic.player import PlaybackStatus, RepeatType
+
 
 class MediaPlayer2Service(dbus.service.Object):
     MEDIA_PLAYER2_IFACE = 'org.mpris.MediaPlayer2'
+    MEDIA_PLAYER2_PLAYER_IFACE = 'org.mpris.MediaPlayer2.Player'
+
     def __init__(self, app):
         DBusGMainLoop(set_as_default=True)
         name = dbus.service.BusName('org.mpris.MediaPlayer2.GnomeMusic', dbus.SessionBus())
         dbus.service.Object.__init__(self, name, '/org/mpris/MediaPlayer2')
         self.app = app
+        self.player = app.get_active_window().player
+        self.player.connect("current-changed", self._on_current_changed)
+        self.player.connect("playback-status-changed", self._on_playback_status_changed)
+        self.player.connect("repeat-mode-changed", self._on_repeat_mode_changed)
+        self.player.connect("volume-changed", self._on_volume_changed)
+        self.player.connect("prev-next-invalidated", self._on_prev_next_invalidated)
+        self.player.connect("seeked", self._on_seeked)
+
+    def _get_playback_status(self):
+        state = self.player.get_playback_status()
+        if state == PlaybackStatus.PLAYING:
+            return 'Playing'
+        elif state == PlaybackStatus.PAUSED:
+            return 'Paused'
+        else:
+            return 'Stopped'
+
+    def _get_loop_status(self):
+        if self.player.repeat == RepeatType.NONE:
+            return 'None'
+        elif self.player.repeat == RepeatType.SONG:
+            return 'Track'
+        else:
+            return 'Playlist'
+
+    def _on_current_changed(self, player, data=None):
+        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+                               {
+                                   'Metadata': dbus.Dictionary(self.player.get_metadata(),
+                                                               signature='sv'),
+                                   'CanPlay': True,
+                                   'CanPause': True,
+                               },
+                               [])
+
+    def _on_playback_status_changed(self, data=None):
+        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+                               {
+                                   'PlaybackStatus': self._get_playback_status(),
+                               },
+                               [])
+
+    def _on_repeat_mode_changed(self, player, data=None):
+        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+                               {
+                                   'LoopStatus': self._get_loop_status(),
+                                   'Shuffle': self.player.repeat == RepeatType.SHUFFLE,
+                               },
+                               [])
+
+    def _on_volume_changed(self, player, data=None):
+        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+                               {
+                                   'Volume': self.player.get_volume(),
+                               },
+                               [])
+
+    def _on_prev_next_invalidated(self, player, data=None):
+        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+                               {
+                                   'CanGoNext': self.player.has_next(),
+                                   'CanGoPrevious': self.player.has_previous(),
+                               },
+                               [])
+
+    def _on_seeked(self, player, position, data=None):
+        self.Seeked(position)
 
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
     def Raise(self):
@@ -18,6 +89,52 @@ class MediaPlayer2Service(dbus.service.Object):
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
     def Quit(self):
         self.app.quit()
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
+    def Next(self):
+        self.player.play_next()
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
+    def Previous(self):
+        self.player.play_previous()
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
+    def Pause(self):
+        self.player.set_playing(False)
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
+    def PlayPause(self):
+        self.player.play_pause()
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
+    def Stop(self):
+        self.player.Stop()
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
+    def Play(self):
+        self.player.set_playing(True)
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
+                         in_signature='x')
+    def Seek(self, offset):
+        self.player.set_position(offset, True, True)
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
+                         in_signature='ox')
+    def SetPosition(self, track_id, position):
+        if track_id != self.player.get_metadata().get('mpris:trackid'):
+            return
+        self.player.set_position(position)
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
+                         in_signature='s')
+    def OpenUri(self, uri):
+        pass
+
+    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
+                         signature='x')
+    def Seeked(self, position):
+        pass
 
     @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
                          in_signature='ss', out_signature='v')
@@ -44,6 +161,24 @@ class MediaPlayer2Service(dbus.service.Object):
                     'audio/mpeg'
                 ],
             }
+        elif interface_name == self.MEDIA_PLAYER2_PLAYER_IFACE:
+            return {
+                'PlaybackStatus': self._get_playback_status(),
+                'LoopStatus': self._get_loop_status(),
+                'Rate': 1.0,
+                'Shuffle': self.player.repeat == RepeatType.SHUFFLE,
+                'Metadata': dbus.Dictionary(self.player.get_metadata(), signature='sv'),
+                'Volume': self.player.get_volume(),
+                'Position': self.player.get_position(),
+                'MinimumRate': 1.0,
+                'MaximumRate': 1.0,
+                'CanGoNext': self.player.has_next(),
+                'CanGoPrevious': self.player.has_previous(),
+                'CanPlay': self.player.currentTrack is not None,
+                'CanPause': self.player.currentTrack is not None,
+                'CanSeek': True,
+                'CanControl': True,
+            }
         else:
             raise dbus.exceptions.DBusException(
                 'org.mpris.MediaPlayer2.GnomeMusic',
@@ -55,6 +190,23 @@ class MediaPlayer2Service(dbus.service.Object):
     def Set(self, interface_name, property_name, new_value):
         if interface_name == self.MEDIA_PLAYER2_IFACE:
             pass
+        elif interface_name == self.MEDIA_PLAYER2_PLAYER_IFACE:
+            if property_name == 'Rate':
+                pass
+            elif property_name == 'Volume':
+                self.player.set_volume(new_value)
+            elif property_name == 'LoopStatus':
+                if new_value == 'None':
+                    self.player.set_repeat_mode(RepeatType.NONE)
+                elif new_value == 'Track':
+                    self.player.set_repeat_mode(RepeatType.SONG)
+                elif new_value == 'Playlist':
+                    self.player.set_repeat_mode(RepeatType.ALL)
+            elif property_name == 'Shuffle':
+                if (new_value and self.player.get_repeat_mode() != RepeatType.SHUFFLE):
+                    self.set_repeat_mode(RepeatType.SHUFFLE)
+                elif new_value and self.player.get_repeat_mode() == RepeatType.SHUFFLE:
+                    self.set_repeat_mode(RepeatType.NONE)
         else:
             raise dbus.exceptions.DBusException(
                 'org.mpris.MediaPlayer2.GnomeMusic',
