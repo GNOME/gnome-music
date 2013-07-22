@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-13 15:03+0000\n"
-"PO-Revision-Date: 2013-06-13 18:23+0200\n"
+"POT-Creation-Date: 2013-07-12 16:30+0000\n"
+"PO-Revision-Date: 2013-07-22 13:32+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -52,7 +52,7 @@ msgstr "_Acerca de Música"
 msgid "_Quit"
 msgstr "_Salir"
 
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
+#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:66
 msgid "Music"
 msgstr "Música"
 
@@ -109,42 +109,65 @@ msgid "If true, the search bar is shown"
 msgstr "Si es cierto, se muestra la barra de búsqueda"
 
 #: ../data/PlayerToolbar.ui.h:1
-msgid "00:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "/"
-msgstr "/"
-
-#: ../data/PlayerToolbar.ui.h:3
 msgid "Shuffle"
 msgstr "Mezclar"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Repetir todas"
 
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Repetir canción"
 
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Mezclar/no repetir"
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "00:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr "/"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "No se ha encontrado música"
 
-#: ../src/toolbar.js:81
+#: ../data/Headerbar.ui.h:1
+#| msgid "Select"
+msgid "Select All"
+msgstr "Seleccionar todos"
+
+#: ../data/Headerbar.ui.h:2
+#| msgid "Select"
+msgid "Select None"
+msgstr "Seleccionar ninguno"
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Pulse sobre los elementos para seleccionarlos"
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../data/SelectionToolbar.ui.h:1
+#| msgid "_New Playlist"
+msgid "Add to Playlist"
+msgstr "Añadir a la lista de reproducción"
+
+#: ../src/toolbar.js:133
 msgid "Back"
 msgstr "Atrás"
 
-#: ../src/toolbar.js:88
+#: ../src/toolbar.js:140
 msgid "Search"
 msgstr "Buscar"
 
-#: ../src/toolbar.js:95
+#: ../src/toolbar.js:147
 msgid "Select"
 msgstr "Seleccionar"
 
@@ -194,9 +217,6 @@ msgstr "Seleccionar"
 
 #~ msgid "Collection name"
 #~ msgstr "Nombre de la colección"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancelar"
 
 #~ msgid "%02u:%02u:%02u"
 #~ msgstr "%02u:%02u:%02u"
