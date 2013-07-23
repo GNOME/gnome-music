@@ -6,6 +6,7 @@ from gi.repository import Pango
 from gi.repository import GLib
 from gi.repository import GdkPixbuf
 from gi.repository import Tracker
+from gettext import gettext as _
 from gnomemusic.grilo import grilo
 import gnomemusic.widgets as Widgets
 from gnomemusic.query import Query
@@ -230,7 +231,7 @@ class Empty(Gtk.Stack):
 
 class Albums(ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, "Albums", header_bar, selection_toolbar)
+        ViewContainer.__init__(self, _("Albums"), header_bar, selection_toolbar)
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.countQuery = Query.ALBUMS_COUNT
         self._albumWidget = Widgets.AlbumWidget(player)
@@ -266,7 +267,7 @@ class Albums(ViewContainer):
 
 class Songs(ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, "Songs", header_bar, selection_toolbar)
+        ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar)
         self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
@@ -405,13 +406,13 @@ class Songs(ViewContainer):
 
 class Playlist(ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, "Playlists", header_bar,
+        ViewContainer.__init__(self, _("Playlists"), header_bar,
                                selection_toolbar)
 
 
 class Artists (ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, "Artists", header_bar,
+        ViewContainer.__init__(self, _("Artists"), header_bar,
                                selection_toolbar, True)
         self.player = player
         self._artists = {}

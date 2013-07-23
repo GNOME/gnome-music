@@ -1,4 +1,5 @@
 from gi.repository import GdkPixbuf, Gio, GLib, Grl, Gdk
+from gettext import gettext as _
 import cairo
 from math import pi
 
@@ -35,7 +36,7 @@ class AlbumArtCache:
                 return title
         uri = media.get_url()
         if uri is None:
-            return "Untitled"
+            return _("Untitled")
 
         uri_file = Gio.File.new_for_path(uri)
         basename = uri_file.get_basename()

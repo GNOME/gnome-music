@@ -1,4 +1,5 @@
 from gi.repository import Gtk, Gio, GLib, Gdk
+from gettext import gettext as _
 from gnomemusic.window import Window
 from gnomemusic.mpris import MediaPlayer2Service
 
@@ -8,7 +9,7 @@ class Application(Gtk.Application):
         Gtk.Application.__init__(self,
                                  application_id='org.gnome.Music',
                                  flags=Gio.ApplicationFlags.FLAGS_NONE)
-        GLib.set_application_name("Music")
+        GLib.set_application_name(_("Music"))
 
         cssProviderFile = Gio.File.new_for_uri('resource:///org/gnome/Music/application.css')
         cssProvider = Gtk.CssProvider()
