@@ -188,7 +188,7 @@ class ViewContainer(Gtk.Stack):
                                 [str(item.get_id()), "", title,
                                  artist, self._symbolicIcon, item,
                                  -1, self.errorIconName, False, True])
-            GLib.idle_add(self._update_album_art, item, itr)
+        GLib.idle_add(self.show_album_art_data)
 
     def _get_remaining_item_count(self):
         count = -1
@@ -254,7 +254,14 @@ class Albums(ViewContainer):
 
     def populate(self):
         if grilo.tracker:
-            GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
+            grilo.populate_albums(self._offset, self._add_item)
+
+    def show_album_art_data(self):
+        itr = self._model.get_iter_first()
+        while itr:
+            item = self._model.get_value(itr, 5)
+            GLib.idle_add(self._update_album_art, item, itr)
+            itr = self._model.iter_next(itr)
 
 
 class Songs(ViewContainer):
