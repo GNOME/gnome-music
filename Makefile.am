@@ -54,6 +54,7 @@ gnome-music: gnome-music.in
 		-e s!\@libexecdir\@!$(libexecdir)!	\
 		-e s!\@libdir\@!$(libdir)!		\
 		-e s!\@pkglibdir\@!$(pkglibdir)!	\
+		-e s!\@localedir\@!$(localedir)!	\
 		-e s!\@pythondir\@!$(pythondir)!	\
 		-e s!\@pyexecdir\@!$(pyexecdir)!	\
 		-e s!\@PACKAGE\@!$(PACKAGE)!		\
