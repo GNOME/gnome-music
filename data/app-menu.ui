@@ -1,4 +1,4 @@
-<interface>
+<interface domain="gnome-music">
   <menu id="app-menu">
     <section>
       <item>
