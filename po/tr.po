@@ -1,0 +1,200 @@
+# Turkish translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Muhammet Kara <muhammetk@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
+"PO-Revision-Date: 2013-04-18 21:22+0300\n"
+"Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
+"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Pencere boyutu"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Pencere boyutu (genişlik ve yükseklik)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Pencere konumu"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Pencere konumu (x ve y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Pencere büyültüldüğünde"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Pencerenin büyütülmüş durumu"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Arama kipi"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr "Etkinse, arama çubuğu gösterilir"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Müzik"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Müzik Çalar"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Müzik koleksiyonunuzu çalın ve yönetin"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr ""
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr ""
+
+#: ../gnomemusic/view.py:408
+#, fuzzy
+msgid "Playlists"
+msgstr "Ye_ni Çalma Listesi"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "Ye_ni Çalma Listesi"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr ""
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "Ye_ni Çalma Listesi"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "Şu A_n Çalıyor"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "Müzik H_akkında"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Çıkış"
+
+#: ../data/PlayerToolbar.ui.h:1
+#, fuzzy
+msgid "Shuffle"
+msgstr "Karışık çalma"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "0:00"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr ""
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr ""
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "Ye_ni Çalma Listesi"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "Etkinse, koleksiyondaki parçaları rasgele çal"
+
+#~ msgid "Back"
+#~ msgstr "Geri"

@@ -1,0 +1,209 @@
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Aviary.pl
+# Jeśli masz jakiekolwiek uwagi odnoszące się do tłumaczenia lub chcesz
+# pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
+# gnomepl@aviary.pl
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Piotr Drąg <piotrdrag@gmail.com>, 2012-2013.
+# Aviary.pl <gnomepl@aviary.pl>, 2012-2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
+"PO-Revision-Date: 2013-05-14 18:57+0200\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"Language-Team: Polish <gnomepl@aviary.pl>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: Poland\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Rozmiar okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Rozmiar okna (szerokość i wysokość)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Położenie okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Położenie okna (na osi X i Y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Maksymalizacja okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Stan maksymalizacji okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Tryb wyszukiwania"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr ""
+"Jeśli jest ustawione na wartość \"true\", to wyświetlany jest pasek "
+"wyszukiwania"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Muzyka"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Odtwarzacz muzyki"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr ""
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr ""
+
+#: ../gnomemusic/view.py:408
+#, fuzzy
+msgid "Playlists"
+msgstr "_Nowa lista odtwarzania"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "_Nowa lista odtwarzania"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Wydane"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Czas trwania"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--:--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nowa lista odtwarzania"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Teraz odtwarzane"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_O menedżerze muzyki"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "Za_kończ"
+
+#: ../data/PlayerToolbar.ui.h:1
+#, fuzzy
+msgid "Shuffle"
+msgstr "Odtwarzanie losowe"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:5
+#, fuzzy
+msgid "0:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr "/"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nie odnaleziono muzyki"
+
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr ""
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "_Nowa lista odtwarzania"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr ""
+#~ "Jeśli jest ustawione na wartość \"true\", to losowo odtwarza kolekcję"
+
+#~ msgid "Back"
+#~ msgstr "Wstecz"
