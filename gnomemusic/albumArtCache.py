@@ -13,10 +13,7 @@ class AlbumArtCache:
     instance = None
     degrees = pi / 180
 
-    brackets = re.compile('\[(.*?)\]', re.DOTALL)
-    curly_brackets = re.compile('\{(.*?)\}', re.DOTALL)
-    angle_brackets = re.compile('\<(.*?)\>', re.DOTALL)
-    parentheses = re.compile('\((.*?)\)', re.DOTALL)
+    blocks = re.compile('(\[(.*?)\]|\{(.*?)\}|\<(.*?)\>|\((.*?)\))', re.DOTALL)
     invalid_chars = re.compile('[()<>\[\]{}_!@#$^&*+=|\\\/"\'?~]', re.DOTALL)
     multiple_spaces = re.compile('\t|\s+', re.DOTALL)
 
@@ -233,10 +230,7 @@ class AlbumArtCache:
 
     def _strip_invalid_entities(self, original):
         # Strip blocks
-        string = self.brackets.sub('', original)
-        string = self.curly_brackets.sub('', string)
-        string = self.angle_brackets.sub('', string)
-        string = self.parentheses.sub('', string)
+        string = self.blocks.sub('', original)
         # Strip invalid chars
         string = self.invalid_chars.sub('', string)
         # Remove double spaces
