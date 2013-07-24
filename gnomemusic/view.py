@@ -344,10 +344,12 @@ class Songs(ViewContainer):
                                  self._on_list_widget_title_render, None)
 
         star_renderer = Gtk.CellRendererPixbuf(
-            xpad=32
+            xpad=32,
+            icon_name=self.starIconName
         )
         list_widget.add_renderer(star_renderer,
                                  self._on_list_widget_star_render, None)
+        cols[0].add_attribute(star_renderer, 'visible', 9)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -378,11 +380,7 @@ class Songs(ViewContainer):
         cell.set_property("text", albumArtCache.get_media_title(item))
 
     def _on_list_widget_star_render(self, col, cell, model, itr, data):
-        showstar = model.get_value(itr, 9)
-        if(showstar):
-            cell.set_property("icon_name", self.starIconName)
-        else:
-            cell.set_property("pixbuf", None)
+        pass
 
     def _on_list_widget_duration_render(self, col, cell, model, itr, data):
         item = model.get_value(itr, 5)
