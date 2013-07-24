@@ -90,7 +90,7 @@ class Window(Gtk.ApplicationWindow):
         #To revert to the No Music View when no songs are found
         else:
             self.views[0] = Views.Empty(self.toolbar, self.player)
-            self._stack.add_titled(self.views[0], "Empty", "Empty")
+            self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
 
         self.toolbar.set_state(ToolbarState.ALBUMS)
         self.toolbar.header_bar.show()

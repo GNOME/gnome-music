@@ -1,0 +1,217 @@
+# Hungarian translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+#
+# Balázs Úr <urbalazs at gmail dot com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
+"PO-Revision-Date: 2013-03-23 20:10+0100\n"
+"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"Language-Team: Hungarian <gnome-hu-list@gnome.org>\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 1.2\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Ablakméret"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Ablak mérete (szélesség és magasság)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Ablakpozíció"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Ablakpozíció (x és y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Ablak teljes méretű"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Az ablak maximalizált állapota"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Keresési mód"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr "Ha igaz, megjelenik a keresési sáv"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Zene"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Zenelejátszó"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Zenegyűjtemény rendszerezése és lejátszása"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr "Albumok"
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr "Számok"
+
+#: ../gnomemusic/view.py:408
+msgid "Playlists"
+msgstr "Lejátszólisták"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr "Előadók"
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "Előadók"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Kiadva"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Futási hossz"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr ""
+
+#: ../data/app-menu.ui.h:1
+#, fuzzy
+msgid "_New Playlist"
+msgstr "Lejátszólisták"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr ""
+
+#: ../data/app-menu.ui.h:3
+#, fuzzy
+msgid "_About Music"
+msgstr "A Zene névjegye"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Kilépés"
+
+#: ../data/PlayerToolbar.ui.h:1
+#, fuzzy
+msgid "Shuffle"
+msgstr "Lejátszás keverése"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "0:00"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr ""
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr "Mégse"
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "Lejátszólisták"
+
+#~ msgid "New"
+#~ msgstr "Új"
+
+#~ msgid "Quit"
+#~ msgstr "Kilépés"
+
+#~ msgid "translator-credits"
+#~ msgstr "Úr Balázs <urbalazs@gmail.com>"
+
+#~ msgid "A GNOME 3 application to listen and manage music playlists"
+#~ msgstr ""
+#~ "Egy GNOME 3 alkalmazás zene lejátszólisták meghallgatásához és kezeléséhez"
+
+#~ msgid "%02u:%02u:%02u"
+#~ msgstr "%02u.%02u.%02u"
+
+#~ msgid "%02u:%02u"
+#~ msgstr "%02u.%02u"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "Ha igaz, a gyűjteményt véletlenszerű sorrendben játsza le"

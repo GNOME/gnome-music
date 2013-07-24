@@ -1,6 +1,7 @@
 from gi.repository import Gtk, Gd, GLib, GObject, Grl, Pango
 from gi.repository import GdkPixbuf
 from gi.repository import Tracker
+from gettext import gettext as _
 from gnomemusic.grilo import grilo
 import logging
 from gnomemusic.query import Query
@@ -24,7 +25,7 @@ class LoadMoreButton:
                                     no_show_all=True)
         self._spinner.set_size_request(16, 16)
         child.add(self._spinner)
-        self._label = Gtk.Label(label="Load More",
+        self._label = Gtk.Label(label=_("Load More"),
                                 visible=True)
         child.add(self._label)
         self.widget = Gtk.Button(no_show_all=True,
@@ -34,7 +35,7 @@ class LoadMoreButton:
         self._on_item_count_changed()
 
     def _on_load_more_clicked(self, data=None):
-        self._label.set_label("Loading...")
+        self._label.set_label(_("Loading..."))
         self._spinner.show()
         self._spinner.start()
 
@@ -44,7 +45,7 @@ class LoadMoreButton:
         self.widget.set_visible(visible)
 
         if visible:
-            self._label.set_label("Load More")
+            self._label.set_label(_("Load More"))
             self._spinner.stop()
             self._spinner.hide()
 
@@ -393,7 +394,7 @@ class ArtistAlbums(Gtk.VBox):
 class AllArtistsAlbums(ArtistAlbums):
 
     def __init__(self, player):
-        ArtistAlbums.__init__(self, "All Artists", [], player)
+        ArtistAlbums.__init__(self, _("All Artists"), [], player)
         self._offset = 0
         self.countQuery = Query.ALBUMS_COUNT
         self._load_more = LoadMoreButton(self._get_remaining_item_count)

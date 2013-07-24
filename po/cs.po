@@ -1,0 +1,207 @@
+# Czech translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+#
+# Adam Matoušek <adamatousek@gmail.com>, 2013.
+# Marek Černocký <marek@manet.cz>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
+"PO-Revision-Date: 2013-07-22 15:46+0200\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Velikost okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Velikost okna (šířka a výška)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Poloha okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Poloha okna (x a y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Maximalizované okno"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state"
+msgstr "Stav maximalizace okna"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Režim opakovaného přehrávání"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Hodnota určuje, jestli opakovaně nebo náhodně přehrávat celou sbírku. Platné "
+"hodnoty jsou: „none“ (nic), „song“ (skladbu), „all“ (vše), "
+"„shuffle“ (náhodně)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Vyhledávací režim"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown"
+msgstr "Je-li zapnuto, je zobrazena vyhledávací lišta"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Hudba"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Hudební přehrávač"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Přehrávat a organizovat svou hudební sbírku"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr "Bez názvu"
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr ""
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr ""
+
+#: ../gnomemusic/view.py:408
+#, fuzzy
+msgid "Playlists"
+msgstr "_Nový seznam k přehrání"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "_Nový seznam k přehrání"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Vydáno"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Délka"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--:--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nový seznam k přehrání"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Právě se přehrává"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "O _aplikaci Hudba"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "U_končit"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Náhodně zamíchat"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Opakovat vše"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Opakovat skladbu"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Náhodně/opakování vypnuto"
+
+#: ../data/PlayerToolbar.ui.h:5
+#, fuzzy
+msgid "0:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr "/"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nenalezena žádná hudba"
+
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr "Zrušit výběr"
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Klikáním vyberte položky"
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Přidat do seznamu k přehrání"
+
+#~ msgid "Back"
+#~ msgstr "Zpět"
+
+#~ msgid "Search"
+#~ msgstr "Hledat"
+
+#~ msgid "Select"
+#~ msgstr "Vybrat"
