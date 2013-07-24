@@ -7,9 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-13 16:23+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
 "PO-Revision-Date: 2013-06-13 22:01+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
@@ -21,50 +20,6 @@ msgstr ""
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Generator: Poedit 1.5.4\n"
-
-#: ../data/AlbumWidget.ui.h:1
-msgid "<span color='grey'>Released</span>"
-msgstr "<span color='grey'>Objavljeno</span>"
-
-#: ../data/AlbumWidget.ui.h:2
-msgid "<span color='grey'>Running Length</span>"
-msgstr "<span color='grey'>Dolžina predvajanja</span>"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
-
-#: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Nov seznam predvajanja"
-
-#: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "_Predvajanje"
-
-#: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_O programu"
-
-#: ../data/app-menu.ui.h:4
-msgid "_Quit"
-msgstr "_Končaj"
-
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
-msgid "Music"
-msgstr "Glasba"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Predvajalnik glasbe"
-
-#: ../data/gnome-music.desktop.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Predvajanje in upravlajnje glasbene zbirke"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -111,45 +66,146 @@ msgstr "Iskalni način"
 msgid "If true, the search bar is shown"
 msgstr "Izbrana možnost določa, da je prikazana vrstica iskanja."
 
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Glasba"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Predvajalnik glasbe"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Predvajanje in upravlajnje glasbene zbirke"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr ""
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr ""
+
+#: ../gnomemusic/view.py:408
+#, fuzzy
+msgid "Playlists"
+msgstr "_Nov seznam predvajanja"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "_Nov seznam predvajanja"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Objavljeno"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Dolžina predvajanja"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--:--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nov seznam predvajanja"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Predvajanje"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_O programu"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Končaj"
+
 #: ../data/PlayerToolbar.ui.h:1
-msgid "00:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "/"
-msgstr "/"
-
-#: ../data/PlayerToolbar.ui.h:3
 msgid "Shuffle"
 msgstr "Premešaj"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Ponovi vse"
 
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Ponovi skladbo"
 
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Onemogoči premešanje/ponavljanje"
+
+#: ../data/PlayerToolbar.ui.h:5
+#, fuzzy
+msgid "0:00"
+msgstr "00:00"
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr "/"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Glasbe ni mogoče najti"
 
-#: ../src/toolbar.js:81
-msgid "Back"
-msgstr "Nazaj"
-
-#: ../src/toolbar.js:88
-msgid "Search"
-msgstr "Iskanje"
-
-#: ../src/toolbar.js:95
-msgid "Select"
+#: ../data/Headerbar.ui.h:1
+#, fuzzy
+msgid "Select All"
 msgstr "Izbor"
+
+#: ../data/Headerbar.ui.h:2
+#, fuzzy
+msgid "Select None"
+msgstr "Izbor"
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr ""
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "_Nov seznam predvajanja"
+
+#~ msgid "Back"
+#~ msgstr "Nazaj"
+
+#~ msgid "Search"
+#~ msgstr "Iskanje"
 
 #~ msgid "If true, do randomized playback through the collection"
 #~ msgstr "Izbrana možnost določa naključno predvajanje posnetkov v zbirki"

@@ -1,13 +1,17 @@
 ACLOCAL_AMFLAGS = -I m4 -I libgd
 NULL =
 
-SUBDIRS = po libgd src data
+bin_SCRIPTS = gnome-music
+
+SUBDIRS = libgd gnomemusic data po
 
 EXTRA_DIST = \
 	AUTHORS.in \
+	gnome-music.in
 	$(NULL)
 
 CLEANFILES = \
+	$(bin_SCRIPTS)
 	$(NULL)
 
 MAINTAINERCLEANFILES = \
@@ -41,4 +45,26 @@ gen-AUTHORS:
 	   mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS ;           \
 	fi
 
+gnome-music: gnome-music.in
+	sed						\
+		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
+		-e s!\@prefix\@!$(prefix)!		\
+		-e s!\@datadir\@!$(datadir)!		\
+		-e s!\@pkgdatadir\@!$(pkgdatadir)!	\
+		-e s!\@libexecdir\@!$(libexecdir)!	\
+		-e s!\@libdir\@!$(libdir)!		\
+		-e s!\@pkglibdir\@!$(pkglibdir)!	\
+		-e s!\@localedir\@!$(localedir)!	\
+		-e s!\@pythondir\@!$(pythondir)!	\
+		-e s!\@pyexecdir\@!$(pyexecdir)!	\
+		-e s!\@PACKAGE\@!$(PACKAGE)!		\
+		-e s!\@VERSION\@!$(VERSION)!		\
+		< $< > $@
+	chmod a+x $@
+
+gnome-music: Makefile
+
+all-local: gnome-music
+
 -include $(top_srcdir)/git.mk
+

@@ -8,9 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-06-27 09:38+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
 "PO-Revision-Date: 2013-06-27 23:22-0300\n"
 "Last-Translator: Georges Basile Stavracas Neto <georges.stavracas@gmail."
 "com>\n"
@@ -21,50 +20,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.5.5\n"
-
-#: ../data/AlbumWidget.ui.h:1
-msgid "<span color='grey'>Released</span>"
-msgstr "<span color='grey'>Lançado</span>"
-
-#: ../data/AlbumWidget.ui.h:2
-msgid "<span color='grey'>Running Length</span>"
-msgstr "<span color='grey'>Duração</span>"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
-
-#: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Nova lista de reprodução"
-
-#: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "_Reproduzindo agora"
-
-#: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_Sobre Músicas"
-
-#: ../data/app-menu.ui.h:4
-msgid "_Quit"
-msgstr "_Sair"
-
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:66
-msgid "Music"
-msgstr "Músicas"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Reprodutor de música"
-
-#: ../data/gnome-music.desktop.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Reproduza e organize sua coleção de músicas"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -110,6 +65,89 @@ msgstr "Modo de pesquisa"
 msgid "If true, the search bar is shown"
 msgstr "Se verdadeiro, a barra de pesquisa é mostrada"
 
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Músicas"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Reprodutor de música"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Reproduza e organize sua coleção de músicas"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr "Álbuns"
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr "Músicas"
+
+#: ../gnomemusic/view.py:408
+#, fuzzy
+msgid "Playlists"
+msgstr "_Nova lista de reprodução"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr "Artistas"
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "Artistas"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Lançado"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Comprimento de reprodução"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--:--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nova lista de reprodução"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Reproduzindo agora"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_Sobre Músicas"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Sair"
+
 #: ../data/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Embaralhar"
@@ -127,7 +165,8 @@ msgid "Shuffle/Repeat Off"
 msgstr "Desligar embaralhar/repetir"
 
 #: ../data/PlayerToolbar.ui.h:5
-msgid "00:00"
+#, fuzzy
+msgid "0:00"
 msgstr "00:00"
 
 #: ../data/PlayerToolbar.ui.h:6
@@ -138,35 +177,37 @@ msgstr "/"
 msgid "No Music Found"
 msgstr "Nenhuma música localizada"
 
-#: ../src/toolbar.js:112
-msgid "Back"
-msgstr "Retornar"
-
-#: ../src/toolbar.js:119
-msgid "Search"
-msgstr "Pesquisar"
-
-#: ../src/toolbar.js:126
-msgid "Select"
+#: ../data/Headerbar.ui.h:1
+#, fuzzy
+msgid "Select All"
 msgstr "Selecionar"
+
+#: ../data/Headerbar.ui.h:2
+#, fuzzy
+msgid "Select None"
+msgstr "Selecionar"
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "_Nova lista de reprodução"
+
+#~ msgid "Back"
+#~ msgstr "Retornar"
+
+#~ msgid "Search"
+#~ msgstr "Pesquisar"
 
 #~ msgid "If true, do randomized playback through the collection"
 #~ msgstr "Se verdadeiro, realiza reprodução aleatória pela coleção"
-
-#~ msgid "label"
-#~ msgstr "rótulo"
-
-#~ msgid "_Change Address Book..."
-#~ msgstr "_Alterar o catálogo de endereços..."
-
-#~ msgid "_About Contacts"
-#~ msgstr "_Sobre Músicas"
-
-#~ msgid "Released"
-#~ msgstr "Lançado"
-
-#~ msgid "Running Length"
-#~ msgstr "Comprimento de reprodução"
 
 #~ msgid "New"
 #~ msgstr "Nova"
@@ -180,20 +221,8 @@ msgstr "Selecionar"
 #~ msgid "A GNOME 3 application to listen and manage music playlists"
 #~ msgstr "Um aplicativo do GNOME 3 para ouvir e gerenciar listas de músicas"
 
-#~ msgid "Artists"
-#~ msgstr "Artistas"
-
-#~ msgid "Albums"
-#~ msgstr "Álbuns"
-
-#~ msgid "Songs"
-#~ msgstr "Músicas"
-
 #~ msgid "Collection name"
 #~ msgstr "Nome da coleção"
-
-#~ msgid "Cancel"
-#~ msgstr "Cancelar"
 
 #~ msgid "%02u:%02u:%02u"
 #~ msgstr "%02u:%02u:%02u"

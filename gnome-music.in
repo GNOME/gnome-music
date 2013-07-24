@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+import sys, signal, os, locale, gettext
+sys.path.insert(1, '@pyexecdir@')
+
+from gi.repository import Gio, Gtk
+import gnomemusic
+
+localedir='@localedir@'
+srcdir = os.path.abspath(os.path.join(os.path.dirname(gnomemusic.__file__), '..'))
+if os.path.exists(os.path.join(srcdir, 'gnome-music.doap')):
+    print('Running from source tree, using local files')
+    pkgdatadir = os.path.join(srcdir, 'data')
+    libgd_libdir = os.path.join(srcdir, 'libgd', '.libs')
+    libgd_typelibdir = os.path.join(srcdir, 'libgd')
+    if not os.environ.get('GSETTINGS_SCHEMA_DIR'):
+        os.environ['GSETTINGS_SCHEMA_DIR'] = pkgdatadir
+else:
+    pkgdatadir = '@pkgdatadir@'
+    libgd_libdir = '@pkglibdir@'
+    libgd_typelibdir = '@pkglibdir@/girepository-1.0'
+
+# We use our own libgd.so, so let gi.repository find it
+from gi.repository import GIRepository
+GIRepository.Repository.prepend_search_path(libgd_typelibdir)
+GIRepository.Repository.prepend_library_path(libgd_libdir)
+
+from gnomemusic.application import Application
+
+def install_excepthook():
+    """ Make sure we exit when an unhandled exception occurs. """
+    from gi.repository import Gtk
+    old_hook = sys.excepthook
+    def new_hook(etype, evalue, etb):
+        old_hook(etype, evalue, etb)
+        while Gtk.main_level():
+            Gtk.main_quit()
+        sys.exit()
+    sys.excepthook = new_hook
+
+if __name__ == "__main__":
+    install_excepthook()
+
+    locale.bindtextdomain('gnome-music', localedir)
+    locale.textdomain('gnome-music')
+    gettext.bindtextdomain('gnome-music', localedir)
+    gettext.textdomain('gnome-music')
+
+    resource = Gio.resource_load(os.path.join(pkgdatadir, 'gnome-music.gresource'))
+    Gio.Resource._register(resource)
+
+    app = Application()
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    exit_status = app.run(sys.argv)
+    sys.exit(exit_status)

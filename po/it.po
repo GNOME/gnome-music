@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-05 14:32+0200\n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
 "PO-Revision-Date: 2013-05-05 14:39+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
@@ -29,50 +29,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Launchpad-Export-Date: 2012-03-06 09:28+0000\n"
 "X-Generator: Launchpad (build 14900)\n"
-
-#: ../data/AlbumWidget.ui.h:1
-msgid "<span color='grey'>Released</span>"
-msgstr "<span color='grey'>Pubblicato</span>"
-
-#: ../data/AlbumWidget.ui.h:2
-msgid "<span color='grey'>Running Length</span>"
-msgstr "<span color='grey'>Durata</span>"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--.--"
-
-#: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Nuova playlist..."
-
-#: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "In _riproduzione"
-
-#: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "I_nformazioni su Musica"
-
-#: ../data/app-menu.ui.h:4
-msgid "_Quit"
-msgstr "_Esci"
-
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:54
-msgid "Music"
-msgstr "Musica"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Riproduttore musicale"
-
-#: ../data/gnome-music.desktop.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Riproduce e organizza la collezione musicale"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -99,12 +55,14 @@ msgid "Window maximized state"
 msgstr "Lo stato di massimizzazione della finestra"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Shuffle playback"
-msgstr "Mischia la riproduzione"
+msgid "Playback repeat mode"
+msgstr ""
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
-msgid "If true, do randomized playback through the collection"
-msgstr "Se VERO, riproduce casualmente brani dalla collezione"
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -114,18 +72,142 @@ msgstr "Modalità di ricerca"
 msgid "If true, the search bar is shown"
 msgstr "Se VERO, viene mostrata la barra di ricerca"
 
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Musica"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Riproduttore musicale"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Riproduce e organizza la collezione musicale"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr ""
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr ""
+
+#: ../gnomemusic/view.py:408
+#, fuzzy
+msgid "Playlists"
+msgstr "_Nuova playlist..."
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "_Nuova playlist..."
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Pubblicato"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Durata"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr "----"
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr "--.--"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nuova playlist..."
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "In _riproduzione"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "I_nformazioni su Musica"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Esci"
+
 #: ../data/PlayerToolbar.ui.h:1
-msgid "00:00"
-msgstr "00.00"
+#, fuzzy
+msgid "Shuffle"
+msgstr "Mischia la riproduzione"
 
 #: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:5
+#, fuzzy
+msgid "0:00"
+msgstr "00.00"
+
+#: ../data/PlayerToolbar.ui.h:6
 msgid "/"
 msgstr "/"
 
-#: ../data/TrackWidget.ui.h:1
-msgid "label"
-msgstr "etichetta"
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr ""
 
-#: ../src/toolbar.js:79
-msgid "Back"
-msgstr "Indietro"
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr ""
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "_Nuova playlist..."
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "Se VERO, riproduce casualmente brani dalla collezione"
+
+#~ msgid "Back"
+#~ msgstr "Indietro"

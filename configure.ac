@@ -1,15 +1,17 @@
 AC_PREREQ(2.63)
-AC_INIT([gnome-music],[0.2],
-	[https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music],
-	[gnome-music],
-	[https://live.gnome.org/Design/Apps/Music])
-
-AC_CONFIG_HEADERS([config.h])
+AC_INIT([gnome-music],
+        [0.3], 
+        [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music],
+        [gnome-music],
+        [https://live.gnome.org/Design/Apps/Music])
 AC_CONFIG_MACRO_DIR([m4])
-
-AM_INIT_AUTOMAKE([1.11 dist-xz foreign tar-ustar -Wno-portability])
-
+AC_CONFIG_SRCDIR([Makefile.am])
+AC_CONFIG_HEADERS(config.h)
+AM_INIT_AUTOMAKE([1.13 tar-ustar dist-xz no-dist-gzip -Wno-portability])
+AM_MAINTAINER_MODE([enable])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
+AM_PATH_PYTHON([3])
 
 GETTEXT_PACKAGE=gnome-music
 AC_SUBST(GETTEXT_PACKAGE)
@@ -29,26 +31,17 @@ GLIB_GSETTINGS
 GOBJECT_INTROSPECTION_REQUIRE([1.35.9])
 PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.9.8])
 
-AC_PATH_PROG([GJS],[gjs], [no])
-if test "$GJS" = "no" ; then
-	AC_MSG_ERROR([Can't find "gjs" in your PATH])
-fi
-
-# gjs' devel package will be required at "compile-time"
-GJS_MIN_VERSION=1.37.0
-PKG_CHECK_MODULES(GJS, gjs-1.0 >= $GJS_MIN_VERSION)
+GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
+AC_SUBST(GLIB_COMPILE_RESOURCES)
 
 GRL_MIN_VERSION=0.2.7
 PKG_CHECK_MODULES(GRL, grilo-0.2 >= $GRL_MIN_VERSION)
 
-GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
-AC_SUBST(GLIB_COMPILE_RESOURCES)
-
 AC_CONFIG_FILES([
   Makefile
   data/Makefile
-  libgd/Makefile
-  src/Makefile
+  gnomemusic/Makefile
   po/Makefile.in
+  libgd/Makefile
 ])
 AC_OUTPUT

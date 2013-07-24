@@ -6,9 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-03-23 19:11+0000\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-24 00:07+0800\n"
 "PO-Revision-Date: 2013-03-24 15:47+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -19,129 +18,195 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: ../data/gnome-music.desktop.in.in.h:1
-msgid "Music"
-msgstr "Musiikki"
-
-#: ../data/gnome-music.desktop.in.in.h:2
-msgid "Music Player"
-msgstr "Musiikkisoitin"
-
-#: ../data/gnome-music.desktop.in.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Toista ja hallitse musiikkikokoelmaasi"
-
-#: ../src/app-menu.ui.h:1
-msgid "_Change Address Book..."
-msgstr "_Muuta osoitekirjaa..."
-
-#: ../src/app-menu.ui.h:2
-msgid "_About Contacts"
-msgstr "_Tietoja"
-
-#: ../src/app-menu.ui.h:3
-msgid "_Quit"
-msgstr "_Lopeta"
-
-#: ../src/music-album-info-box.vala:57
-msgid "Released"
-msgstr "Julkaistu"
-
-#: ../src/music-album-info-box.vala:66
-msgid "Running Length"
-msgstr "Kesto"
-
-#: ../src/music-app.vala:107 ../src/music-topbar.vala:82
-msgid "New"
-msgstr "Uusi"
-
-#: ../src/music-app.vala:108
-msgid "About Music"
-msgstr "Tietoja musiikkisovelluksesta"
-
-#: ../src/music-app.vala:109
-msgid "Quit"
-msgstr "Lopeta"
-
-#: ../src/music-app.vala:128
-msgid "translator-credits"
-msgstr "Jiri Grönroos"
-
-#: ../src/music-app.vala:129
-msgid "A GNOME 3 application to listen and manage music playlists"
-msgstr "Gnome 3 -sovellus musiikin kuunteluun ja soittolistojen hallintaan"
-
-#: ../src/music-topbar.vala:97
-msgid "Artists"
-msgstr "Esittäjät"
-
-#: ../src/music-topbar.vala:102
-msgid "Albums"
-msgstr "Levyt"
-
-#: ../src/music-topbar.vala:107
-msgid "Songs"
-msgstr "Kappaleet"
-
-#: ../src/music-topbar.vala:112
-msgid "Playlists"
-msgstr "Soittolistat"
-
-#: ../src/music-topbar.vala:169 ../src/music-topbar.vala:220
-msgid "Collection name"
-msgstr "Kokoelman nimi"
-
-#: ../src/music-topbar.vala:182
-msgid "Cancel"
-msgstr "Peru"
-
-#: ../src/music-utils.vala:11
-#, c-format
-msgid "%02u:%02u:%02u"
-msgstr "%02u:%02u:%02u"
-
-#: ../src/music-utils.vala:14
-#, c-format
-msgid "%02u:%02u"
-msgstr "%02u:%02u"
-
-#: ../src/org.gnome.Music.gschema.xml.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
 msgstr "Ikkunan koko"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:2
+#: ../data/org.gnome.Music.gschema.xml.h:2
 msgid "Window size (width and height)."
 msgstr "Ikkunan koko (leveys ja korkeus)."
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:3
+#: ../data/org.gnome.Music.gschema.xml.h:3
 msgid "Window position"
 msgstr "Ikkunan sijainti"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:4
+#: ../data/org.gnome.Music.gschema.xml.h:4
 msgid "Window position (x and y)."
 msgstr "Ikkunan sijainti (x ja y)."
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:5
+#: ../data/org.gnome.Music.gschema.xml.h:5
 msgid "Window maximized"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:6
+#: ../data/org.gnome.Music.gschema.xml.h:6
 msgid "Window maximized state"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:7
-msgid "Shuffle playback"
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:8
-msgid "If true, do randomized playback through the collection"
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Hakutila"
 
-#: ../src/org.gnome.Music.gschema.xml.in.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "If true, the search bar is shown"
 msgstr ""
 
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
+#: ../gnomemusic/window.py:15
+msgid "Music"
+msgstr "Musiikki"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Musiikkisoitin"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Toista ja hallitse musiikkikokoelmaasi"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr ""
+
+#: ../gnomemusic/view.py:233
+msgid "Albums"
+msgstr "Levyt"
+
+#: ../gnomemusic/view.py:269
+msgid "Songs"
+msgstr "Kappaleet"
+
+#: ../gnomemusic/view.py:408
+msgid "Playlists"
+msgstr "Soittolistat"
+
+#: ../gnomemusic/view.py:414
+msgid "Artists"
+msgstr "Esittäjät"
+
+#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
+msgid "Load More"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:37
+msgid "Loading..."
+msgstr ""
+
+#: ../gnomemusic/widgets.py:396
+#, fuzzy
+msgid "All Artists"
+msgstr "Esittäjät"
+
+#: ../gnomemusic/window.py:92
+msgid "Empty"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Julkaistu"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Kesto"
+
+#: ../data/AlbumWidget.ui.h:3
+msgid "----"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:4
+msgid "--:--"
+msgstr ""
+
+#: ../data/app-menu.ui.h:1
+#, fuzzy
+msgid "_New Playlist"
+msgstr "Soittolistat"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr ""
+
+#: ../data/app-menu.ui.h:3
+#, fuzzy
+msgid "_About Music"
+msgstr "Tietoja musiikkisovelluksesta"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Lopeta"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:5
+msgid "0:00"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:6
+msgid "/"
+msgstr ""
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:1
+msgid "Select All"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:2
+msgid "Select None"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr ""
+
+#: ../data/Headerbar.ui.h:4
+msgid "Cancel"
+msgstr "Peru"
+
+#: ../data/SelectionToolbar.ui.h:1
+#, fuzzy
+msgid "Add to Playlist"
+msgstr "Soittolistat"
+
+#~ msgid "New"
+#~ msgstr "Uusi"
+
+#~ msgid "Quit"
+#~ msgstr "Lopeta"
+
+#~ msgid "translator-credits"
+#~ msgstr "Jiri Grönroos"
+
+#~ msgid "A GNOME 3 application to listen and manage music playlists"
+#~ msgstr "Gnome 3 -sovellus musiikin kuunteluun ja soittolistojen hallintaan"
+
+#~ msgid "%02u:%02u:%02u"
+#~ msgstr "%02u:%02u:%02u"
+
+#~ msgid "%02u:%02u"
+#~ msgstr "%02u:%02u"

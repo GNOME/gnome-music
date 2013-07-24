@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface>
+<interface domain="gnome-music">
   <!-- interface-requires gtk+ 3.6 -->
   <menu id="repeatMenu">
     <item>
@@ -237,7 +237,7 @@
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
                         <property name="valign">center</property>
-                        <property name="label" translatable="yes">00:00</property>
+                        <property name="label" translatable="yes">0:00</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -265,7 +265,7 @@
                         <property name="can_focus">False</property>
                         <property name="halign">start</property>
                         <property name="valign">center</property>
-                        <property name="label" translatable="yes">00:00</property>
+                        <property name="label" translatable="yes">0:00</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
