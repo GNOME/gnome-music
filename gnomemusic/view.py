@@ -309,13 +309,17 @@ class Songs(ViewContainer):
                 if item.get_url():
                     self.player.discoverer.discover_uri(item.get_url())
                 self._model.set(itr,
-                                [5, 8, 9, 10],
-                                [item, self.nowPlayingIconName, False, False])
+                                [2, 3, 5, 8, 9, 10],
+                                [albumArtCache.get_media_title(item),
+                                 item.get_string(Grl.METADATA_KEY_ARTIST),
+                                 item, self.nowPlayingIconName, False, False])
             except:
                 print("failed to discover url " + item.get_url())
                 self._model.set(itr,
-                                [5, 8, 9, 10],
-                                [item, self.errorIconName, False, True])
+                                [2, 3, 5, 8, 9, 10],
+                                [albumArtCache.get_media_title(item),
+                                 item.get_string(Grl.METADATA_KEY_ARTIST),
+                                 item, self.errorIconName, False, True])
 
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
@@ -342,6 +346,7 @@ class Songs(ViewContainer):
         )
         list_widget.add_renderer(title_renderer,
                                  self._on_list_widget_title_render, None)
+        cols[0].add_attribute(title_renderer, 'text', 2)
 
         star_renderer = Gtk.CellRendererPixbuf(
             xpad=32,
@@ -366,6 +371,7 @@ class Songs(ViewContainer):
         artist_renderer.add_class('dim-label')
         list_widget.add_renderer(artist_renderer,
                                  self._on_list_widget_artist_render, None)
+        cols[0].add_attribute(artist_renderer, 'text', 3)
 
         type_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -376,8 +382,7 @@ class Songs(ViewContainer):
                                  self._on_list_widget_type_render, None)
 
     def _on_list_widget_title_render(self, col, cell, model, itr, data):
-        item = model.get_value(itr, 5)
-        cell.set_property("text", albumArtCache.get_media_title(item))
+        pass
 
     def _on_list_widget_star_render(self, col, cell, model, itr, data):
         pass
@@ -391,9 +396,7 @@ class Songs(ViewContainer):
             cell.set_property("text", "%i:%02i" % (minutes, seconds))
 
     def _on_list_widget_artist_render(self, col, cell, model, itr, data):
-        item = model.get_value(itr, 5)
-        if item:
-            cell.set_property("text", item.get_string(Grl.METADATA_KEY_ARTIST))
+        pass
 
     def _on_list_widget_type_render(self, coll, cell, model, itr, data):
         item = model.get_value(itr, 5)
