@@ -451,7 +451,7 @@ class Artists (ViewContainer):
             self._last_selection = self._allIter
             self._artists["All Artists".lower()] =\
                 {"iter": self._allIter, "albums": []}
-            self._model.set(self._allIter, 2, "All Artists")
+            self._model.set(self._allIter, 2, _("All Artists"))
             selection.select_path(self._model.get_path(self._allIter))
             self.view.emit('item-activated', "0",
                            self._model.get_path(self._allIter))
