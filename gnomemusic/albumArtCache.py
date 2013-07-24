@@ -17,6 +17,8 @@ class AlbumArtCache:
     curly_brackets = re.compile('\{(.*?)\}', re.DOTALL)
     angle_brackets = re.compile('\<(.*?)\>', re.DOTALL)
     parentheses = re.compile('\((.*?)\)', re.DOTALL)
+    invalid_chars = re.compile('[()<>\[\]{}_!@#$^&*+=|\\\/"\'?~]', re.DOTALL)
+    multiple_spaces = re.compile('\t|\s+', re.DOTALL)
 
     @classmethod
     def get_default(self):
@@ -236,9 +238,9 @@ class AlbumArtCache:
         string = self.angle_brackets.sub('', string)
         string = self.parentheses.sub('', string)
         # Strip invalid chars
-        string = string.strip('_!@#$^&*+=|\\\/\"\'?~')
+        string = self.invalid_chars.sub('', string)
         # Remove double spaces
-        string = string.replace('  ', ' ')
+        string = self.multiple_spaces.sub(' ', string)
         # Remove trailing spaces and convert to lowercase
         return string.strip().lower()
 
