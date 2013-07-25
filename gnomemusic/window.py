@@ -14,7 +14,7 @@ class Window(Gtk.ApplicationWindow):
         Gtk.ApplicationWindow.__init__(self,
                                        application=app,
                                        title=_('Music'))
-        settings = Gio.Settings.new('org.gnome.Music')
+        settings = Gio.Settings('org.gnome.Music')
         self.add_action(settings.create_action('repeat'))
         self.set_size_request(887, 640)
         self._setup_view()
