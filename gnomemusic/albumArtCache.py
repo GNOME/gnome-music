@@ -205,7 +205,7 @@ class AlbumArtCache:
                 self.get_from_uri(uri, artist, album, width, height,
                                   callback)
 
-            options = Grl.OperationOptions.new(None)
+            options = Grl.OperationOptions()
             options.set_flags(Grl.ResolutionFlags.FULL |
                               Grl.ResolutionFlags.IDLE_RELAY)
             try:
