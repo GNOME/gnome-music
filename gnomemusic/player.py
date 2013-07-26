@@ -546,9 +546,9 @@ class Player(GObject.GObject):
 
 
 class SelectionToolbar():
-        def __init__(self):
-            self._ui = Gtk.Builder()
-            self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
-            self.eventbox = self._ui.get_object("eventbox1")
-            self._add_to_playlist_button = self._ui.get_object("button1")
-            self.eventbox.set_visible(False)
+    def __init__(self):
+        self._ui = Gtk.Builder()
+        self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
+        self.eventbox = self._ui.get_object("eventbox1")
+        self._add_to_playlist_button = self._ui.get_object("button1")
+        self.eventbox.set_visible(False)
