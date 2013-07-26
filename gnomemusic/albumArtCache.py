@@ -13,10 +13,9 @@ class AlbumArtCache:
     instance = None
     degrees = pi / 180
 
-    brackets = re.compile('\[(.*?)\]', re.DOTALL)
-    curly_brackets = re.compile('\{(.*?)\}', re.DOTALL)
-    angle_brackets = re.compile('\<(.*?)\>', re.DOTALL)
-    parentheses = re.compile('\((.*?)\)', re.DOTALL)
+    blocks = re.compile('(\[(.*?)\]|\{(.*?)\}|\<(.*?)\>|\((.*?)\))', re.DOTALL)
+    invalid_chars = re.compile('[()<>\[\]{}_!@#$^&*+=|\\\/"\'?~]', re.DOTALL)
+    multiple_spaces = re.compile('\t|\s+', re.DOTALL)
 
     @classmethod
     def get_default(self):
@@ -206,7 +205,7 @@ class AlbumArtCache:
                 self.get_from_uri(uri, artist, album, width, height,
                                   callback)
 
-            options = Grl.OperationOptions.new(None)
+            options = Grl.OperationOptions()
             options.set_flags(Grl.ResolutionFlags.FULL |
                               Grl.ResolutionFlags.IDLE_RELAY)
             try:
@@ -231,14 +230,11 @@ class AlbumArtCache:
 
     def _strip_invalid_entities(self, original):
         # Strip blocks
-        string = self.brackets.sub('', original)
-        string = self.curly_brackets.sub('', string)
-        string = self.angle_brackets.sub('', string)
-        string = self.parentheses.sub('', string)
+        string = self.blocks.sub('', original)
         # Strip invalid chars
-        string = string.strip('_!@#$^&*+=|\\\/\"\'?~')
+        string = self.invalid_chars.sub('', string)
         # Remove double spaces
-        string = string.replace('  ', ' ')
+        string = self.multiple_spaces.sub(' ', string)
         # Remove trailing spaces and convert to lowercase
         return string.strip().lower()
 

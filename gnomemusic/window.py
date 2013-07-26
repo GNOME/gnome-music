@@ -14,7 +14,7 @@ class Window(Gtk.ApplicationWindow):
         Gtk.ApplicationWindow.__init__(self,
                                        application=app,
                                        title=_('Music'))
-        settings = Gio.Settings.new('org.gnome.Music')
+        settings = Gio.Settings('org.gnome.Music')
         self.add_action(settings.create_action('repeat'))
         self.set_size_request(887, 640)
         self._setup_view()
@@ -89,7 +89,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
         else:
-            self.views[0] = Views.Empty(self.toolbar, self.player)
+            self.views.append(Views.Empty(self.toolbar, self.player))
             self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
 
         self.toolbar.set_state(ToolbarState.ALBUMS)
