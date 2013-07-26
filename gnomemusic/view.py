@@ -167,11 +167,11 @@ class ViewContainer(Gtk.Stack):
         if item:
             self._offset += 1
             _iter = self._model.append()
-            artist = "Unknown"
-            if item.get_author():
+            artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+            if not artist:
                 artist = item.get_author()
-            if item.get_string(Grl.METADATA_KEY_ARTIST):
-                artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+            if not artist:
+                artist = _("Unknown Artist")
             title = albumArtCache.get_media_title(item)
             item.set_title(title)
             try:
@@ -498,15 +498,17 @@ class Artists (ViewContainer):
         self._offset += 1
         if item is None:
             return
-        artist = "Unknown"
-        if item.get_author():
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+        if not artist:
             artist = item.get_author()
-        if item.get_string(Grl.METADATA_KEY_ARTIST):
-            artist = item.get_string(Grl.METADATA_KEY_ARTIST)
+        if not artist:
+            artist = _("Unknown Artist")
         if not artist.lower() in self._artists:
             _iter = self._model.append()
             self._artists[artist.lower()] = {"iter": _iter, "albums": []}
-            self._model.set(_iter, 2, artist)
+            print('set 6')
+            self._model.set(_iter, [2], [artist])
+            print('set 6 end')
 
         self._artists[artist.lower()]["albums"].append(item)
 
