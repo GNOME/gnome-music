@@ -506,9 +506,7 @@ class Artists (ViewContainer):
         if not artist.lower() in self._artists:
             _iter = self._model.append()
             self._artists[artist.lower()] = {"iter": _iter, "albums": []}
-            print('set 6')
             self._model.set(_iter, [2], [artist])
-            print('set 6 end')
 
         self._artists[artist.lower()]["albums"].append(item)
 
