@@ -1,4 +1,4 @@
-appdir = $(pyexecdir)/gnomemusic/
+appdir = $(pythondir)/gnomemusic/
 
 app_PYTHON = \
 	albumArtCache.py \

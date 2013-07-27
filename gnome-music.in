@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 import sys, signal, os, locale, gettext
+
+# Make sure we'll find the pygobject module, even in JHBuild
 sys.path.insert(1, '@pyexecdir@')
+# Make sure we'll find the gnomemusic module, even in JHBuild
+sys.path.insert(1, '@pythondir@')
 
 from gi.repository import Gio, Gtk
 import gnomemusic
