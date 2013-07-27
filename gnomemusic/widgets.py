@@ -164,10 +164,6 @@ class AlbumWidget(Gtk.EventBox):
     def update(self, artist, album, item, header_bar, selection_toolbar):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
-        released_date = item.get_publication_date()
-        if released_date:
-            self.ui.get_object("released_label_info").set_text(
-                str(released_date.get_year()))
         self.album = album
         self.ui.get_object("cover").set_from_pixbuf(self._symbolicIcon)
         ALBUM_ART_CACHE.lookup(256, artist,
