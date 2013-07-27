@@ -9,6 +9,113 @@ import re
 from gnomemusic.grilo import grilo
 
 
+class LookupRequest:
+    def __init__(self, item, width, height, callback, data=None):
+        self.item = item
+        self.width = width or -1
+        self.height = height or -1
+        self.callback = callback
+        self.data = data
+        self.path = ''
+        self.key = ''
+        self.key_index = 0
+        self.icon_format = 'jpeg'
+        self.artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_string(Grl.METADATA_KEY_AUTHOR)
+        self.album = item.get_string(Grl.METADATA_KEY_ALBUM)
+        self.started = False
+
+    def start(self):
+        self.started = True
+        self._try_load()
+
+    def finish(self, pixbuf):
+        if pixbuf:
+            # Cache the path on the original item for faster retrieval
+            self.item.set_thumbnail(self.path)
+        self.callback(pixbuf, self.path, self.data)
+
+    def _try_load(self):
+        if self.key_index >= 2:
+            if self.icon_format == 'jpeg':
+                self.key_index = 0
+                self.icon_format = 'png'
+            else:
+                self._on_try_load_finished(None)
+                return
+
+        self.key = AlbumArtCache.get_default()._keybuilder_funcs[self.key_index].__call__(self.artist, self.album)
+        self.path = GLib.build_filenamev([AlbumArtCache.get_default().cacheDir, '%s.%s' % (self.key, self.icon_format)])
+        f = Gio.File.new_for_path(self.path)
+
+        f.read_async(GLib.PRIORITY_DEFAULT, None, self._on_read_ready, None)
+
+    def _on_read_ready(self, obj, res, data=None):
+        try:
+            stream = obj.read_finish(res)
+
+            GdkPixbuf.Pixbuf.new_from_stream_async(stream, None, self._on_pixbuf_ready, None)
+            return
+
+        except Exception as error:
+            if AlbumArtCache.get_default().logLookupErrors:
+                print("ERROR:", error)
+
+        self.key_index += 1
+        self._try_load()
+
+    def _on_pixbuf_ready(self, source, res, data=None):
+        try:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res)
+            if self.width < 0 and self.height < 0:
+                self._on_try_load_finished(pixbuf)
+                return
+
+            width = pixbuf.get_width()
+            height = pixbuf.get_height()
+            if width >= self.width or height >= self.height:
+                if width > height and self.width < 0:
+                    self.height *= (height / width)
+                elif height > width and self.height < 0:
+                    self.width *= (width / height)
+                scale = max(width / self.width, height / self.height)
+                pixbuf = pixbuf.scale_simple(width / scale, height / scale, 2)
+                self._on_try_load_finished(pixbuf)
+                return
+        except Exception as error:
+            if AlbumArtCache.get_default().logLookupErrors:
+                print("ERROR:", error)
+
+        self.key_index += 1
+        self._try_load()
+
+    def _on_try_load_finished(self, icon, data=None):
+        if icon:
+            self.finish(icon)
+            return
+
+        options = Grl.OperationOptions()
+        options.set_flags(Grl.ResolutionFlags.FULL |
+                          Grl.ResolutionFlags.IDLE_RELAY)
+
+        try:
+            grilo.tracker.resolve(self.item, [Grl.METADATA_KEY_THUMBNAIL],
+                                  options, self._on_resolve_ready, None)
+        except Exception as error:
+            if AlbumArtCache.get_default().logLookupErrors:
+                print("ERROR:", error)
+
+    def _on_resolve_ready(self, source, param, item, data=None, error=None):
+        uri = self.item.get_thumbnail()
+        if uri is None:
+            self.finish(None)
+            return
+
+        AlbumArtCache.get_default().get_from_uri(
+            uri, self.artist, self.album, self.width, self.height,
+            self.callback, self.data
+        )
+
+
 class GetUriRequest:
     def __init__(self, uri, artist, album, callback, data=None):
         self.uri = uri
@@ -199,85 +306,9 @@ class AlbumArtCache:
             ctx.set_source_rgb(1, 1, 1)
             ctx.fill()
 
-    def _try_load(self, size, artist, album, i, icon_format, callback):
-        if i >= len(self._keybuilder_funcs):
-            if icon_format == 'jpeg':
-                self._try_load(size, artist, album, 0, 'png', callback)
-            else:
-                callback(None, None)
-            return
-
-        key = self._keybuilder_funcs[i].__call__(artist, album)
-        path = GLib.build_filenamev([self.cacheDir, key + '.' + icon_format])
-        f = Gio.File.new_for_path(path)
-
-        def on_read_ready(obj, res, data=None):
-            try:
-                stream = obj.read_finish(res)
-
-                def on_pixbuf_ready(source, res, data=None):
-                    try:
-                        pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res)
-                        width = pixbuf.get_width()
-                        height = pixbuf.get_height()
-                        if width >= size or height >= size:
-                            scale = max(width, height) / size
-                            callback(pixbuf.scale_simple(width / scale,
-                                                         height / scale, 2),
-                                     path)
-
-                            return
-                    except Exception as error:
-                        if self.logLookupErrors:
-                            print("ERROR:", error)
-
-                    self._try_load(size, artist, album, i + 1,
-                                   icon_format, callback)
-
-                GdkPixbuf.Pixbuf.new_from_stream_async(stream, None,
-                                                       on_pixbuf_ready, None)
-                return
-
-            except Exception as error:
-                if self.logLookupErrors:
-                    print("ERROR:", error)
-
-            self._try_load(size, artist, album, i + 1, icon_format, callback)
-
-        f.read_async(GLib.PRIORITY_DEFAULT, None, on_read_ready, None)
-
-    def lookup(self, size, artist, album, callback):
-        self._try_load(size, artist, album, 0, 'jpeg', callback)
-
-    def lookup_or_resolve(self, item, width, height, callback):
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_author()
-        album = item.get_string(Grl.METADATA_KEY_ALBUM)
-
-        def lookup_ready(icon, path=None):
-            if icon:
-                # Cache the path on the original item for faster retrieval
-                item._thumbnail = path
-                callback(icon, path)
-                return
-
-            def resolve_ready(source, param, item, data, error):
-                uri = item.get_thumbnail()
-                if uri is None:
-                    return
-
-                self.get_from_uri(uri, artist, album, width, height,
-                                  callback)
-
-            options = Grl.OperationOptions()
-            options.set_flags(Grl.ResolutionFlags.FULL |
-                              Grl.ResolutionFlags.IDLE_RELAY)
-            try:
-                grilo.tracker.resolve(item, [Grl.METADATA_KEY_THUMBNAIL],
-                                      options, resolve_ready, None)
-            except:
-                pass
-
-        self.lookup(height, artist, album, lookup_ready)
+    def lookup(self, item, width, height, callback, data=None):
+        request = LookupRequest(item, width, height, callback, data)
+        request.start()
 
     def _normalize_and_hash(self, input_str):
         normalized = " "
