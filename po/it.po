@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-05-05 14:39+0200\n"
+"POT-Creation-Date: 2013-07-28 03:44+0200\n"
+"PO-Revision-Date: 2013-07-28 03:46+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -56,7 +56,7 @@ msgstr "Lo stato di massimizzazione della finestra"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Modalità ripetizione"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
@@ -72,8 +72,8 @@ msgstr "Modalità di ricerca"
 msgid "If true, the search bar is shown"
 msgstr "Se VERO, viene mostrata la barra di ricerca"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
+#: ../gnomemusic/window.py:16
 msgid "Music"
 msgstr "Musica"
 
@@ -87,41 +87,43 @@ msgstr "Riproduce e organizza la collezione musicale"
 
 #: ../gnomemusic/albumArtCache.py:38
 msgid "Untitled"
-msgstr ""
+msgstr "Senza titolo"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/view.py:174 ../gnomemusic/view.py:505
+msgid "Unknown Artist"
+msgstr "Artista sconosciuto"
+
+#: ../gnomemusic/view.py:234
 msgid "Albums"
-msgstr ""
+msgstr "Album"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:271
 msgid "Songs"
-msgstr ""
+msgstr "Brani"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:415
 msgid "Playlists"
-msgstr "_Nuova playlist..."
+msgstr "Playlist"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:421
 msgid "Artists"
-msgstr ""
+msgstr "Artisti"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:455 ../gnomemusic/widgets.py:394
 msgid "All Artists"
-msgstr "_Nuova playlist..."
+msgstr "Tutti gli artisti"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:28 ../gnomemusic/widgets.py:48
+msgid "Load More"
+msgstr "Carica altro"
+
+#: ../gnomemusic/widgets.py:38
+msgid "Loading..."
+msgstr "Caricamento..."
+
+#: ../gnomemusic/window.py:93
 msgid "Empty"
-msgstr ""
+msgstr "Vuota"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -130,14 +132,6 @@ msgstr "Pubblicato"
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Durata"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--.--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -156,30 +150,20 @@ msgid "_Quit"
 msgstr "_Esci"
 
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
-msgstr "Mischia la riproduzione"
+msgstr "Mischia"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "Ripeti tutto"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "Ripeti brano"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00.00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
@@ -187,24 +171,36 @@ msgstr ""
 
 #: ../data/Headerbar.ui.h:1
 msgid "Select All"
-msgstr ""
+msgstr "Seleziona tutto"
 
 #: ../data/Headerbar.ui.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Deseleziona tutto"
 
 #: ../data/Headerbar.ui.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Fare clic sugli elementi per selezionarli"
 
 #: ../data/Headerbar.ui.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "_Nuova playlist..."
+msgstr "Aggiungi a playlist"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--.--"
+
+#, fuzzy
+#~ msgid "0:00"
+#~ msgstr "00.00"
+
+#~ msgid "/"
+#~ msgstr "/"
 
 #~ msgid "If true, do randomized playback through the collection"
 #~ msgstr "Se VERO, riproduce casualmente brani dalla collezione"
