@@ -226,13 +226,13 @@ class AlbumWidget(Gtk.EventBox):
             self.header_bar.set_selection_mode(True)
             self.player.eventBox.set_visible(False)
             self.selection_toolbar.eventbox.set_visible(True)
-            self.selection_toolbar._add_to_playlist_button.sensitive = False
+            self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
         else:
             self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
             self.header_bar.title = self.album
             self.selection_toolbar.eventbox.set_visible(False)
-            if(self.player.get_playback_status() != 'Stopped'):
+            if(self.player.get_playback_status() != 2):
                 self.player.eventBox.set_visible(True)
 
     def _on_populate_album_songs(self, source, prefs, track):
