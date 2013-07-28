@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-07-22 11:50+0000\n"
-"PO-Revision-Date: 2013-07-22 15:46+0200\n"
+"POT-Creation-Date: 2013-07-26 14:17+0000\n"
+"PO-Revision-Date: 2013-07-28 13:37+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -20,50 +20,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.6\n"
-
-#: ../data/AlbumWidget.ui.h:1
-msgid "<span color='grey'>Released</span>"
-msgstr "<span color='grey'>Vydáno</span>"
-
-#: ../data/AlbumWidget.ui.h:2
-msgid "<span color='grey'>Running Length</span>"
-msgstr "<span color='grey'>Délka</span>"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
-
-#: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Nový seznam k přehrání"
-
-#: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "_Právě se přehrává"
-
-#: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "O _aplikaci Hudba"
-
-#: ../data/app-menu.ui.h:4
-msgid "_Quit"
-msgstr "U_končit"
-
-#: ../data/gnome-music.desktop.in.h:1 ../src/application.js:77
-msgid "Music"
-msgstr "Hudba"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Hudební přehrávač"
-
-#: ../data/gnome-music.desktop.in.h:3
-msgid "Play and organize your music collection"
-msgstr "Přehrávat a organizovat svou hudební sbírku"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -110,6 +66,84 @@ msgstr "Vyhledávací režim"
 msgid "If true, the search bar is shown"
 msgstr "Je-li zapnuto, je zobrazena vyhledávací lišta"
 
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
+#: ../gnomemusic/window.py:16
+msgid "Music"
+msgstr "Hudba"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Hudební přehrávač"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Přehrávat a organizovat svou hudební sbírku"
+
+#: ../gnomemusic/albumArtCache.py:38
+msgid "Untitled"
+msgstr "Bez názvu"
+
+#: ../gnomemusic/view.py:174 ../gnomemusic/view.py:505
+msgid "Unknown Artist"
+msgstr "Neznámý umělec"
+
+#: ../gnomemusic/view.py:234
+msgid "Albums"
+msgstr "Alba"
+
+#: ../gnomemusic/view.py:271
+msgid "Songs"
+msgstr "Skladby"
+
+#: ../gnomemusic/view.py:415
+#| msgid "_New Playlist"
+msgid "Playlists"
+msgstr "Seznamy k přehrání"
+
+#: ../gnomemusic/view.py:421
+msgid "Artists"
+msgstr "Umělci"
+
+#: ../gnomemusic/view.py:455 ../gnomemusic/widgets.py:398
+msgid "All Artists"
+msgstr "Všichni umělci"
+
+#: ../gnomemusic/widgets.py:28 ../gnomemusic/widgets.py:48
+msgid "Load More"
+msgstr "Načíst další"
+
+#: ../gnomemusic/widgets.py:38
+msgid "Loading..."
+msgstr "Načítá se…"
+
+#: ../gnomemusic/window.py:93
+msgid "Empty"
+msgstr "Prázdné"
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Vydáno"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Délka"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nový seznam k přehrání"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Právě se přehrává"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "O _aplikaci Hudba"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "U_končit"
+
 #: ../data/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Náhodně zamíchat"
@@ -125,14 +159,6 @@ msgstr "Opakovat skladbu"
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Náhodně/opakování vypnuto"
-
-#: ../data/PlayerToolbar.ui.h:5
-msgid "00:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
@@ -158,18 +184,29 @@ msgstr "Zrušit"
 msgid "Add to Playlist"
 msgstr "Přidat do seznamu k přehrání"
 
-#: ../src/albumArtCache.js:61
-msgid "Untitled"
-msgstr "Bez názvu"
+#~ msgid "<span color='grey'>Released</span>"
+#~ msgstr "<span color='grey'>Vydáno</span>"
 
-#: ../src/toolbar.js:146
-msgid "Back"
-msgstr "Zpět"
+#~ msgid "<span color='grey'>Running Length</span>"
+#~ msgstr "<span color='grey'>Délka</span>"
 
-#: ../src/toolbar.js:153
-msgid "Search"
-msgstr "Hledat"
+#~ msgid "----"
+#~ msgstr "----"
 
-#: ../src/toolbar.js:160
-msgid "Select"
-msgstr "Vybrat"
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#~ msgid "00:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"
+
+#~ msgid "Back"
+#~ msgstr "Zpět"
+
+#~ msgid "Search"
+#~ msgstr "Hledat"
+
+#~ msgid "Select"
+#~ msgstr "Vybrat"
