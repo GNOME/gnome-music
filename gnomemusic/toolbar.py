@@ -74,15 +74,11 @@ class Toolbar(GObject.GObject):
     def _update(self):
         if self._state == ToolbarState.SINGLE:
             self.header_bar.set_custom_title(None)
-            self._back_button.show()
+        elif self._selectionMode:
+            self.header_bar.set_custom_title(self._selection_menu_button)
         else:
             self.reset_header_title()
-            self._back_button.hide()
 
-        if self._selectionMode:
-            self.header_bar.set_custom_title(self._selection_menu_button)
-            self._close_separator.hide()
-            self._close_button.hide()
-        else:
-            self._close_separator.show()
-            self._close_button.show()
+        self._back_button.set_visible(not self._selectionMode and self._state == ToolbarState.SINGLE)
+        self._close_separator.set_visible(not self._selectionMode)
+        self._close_button.set_visible(not self._selectionMode)
