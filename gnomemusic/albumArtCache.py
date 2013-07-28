@@ -1,4 +1,4 @@
-from gi.repository import GdkPixbuf, Gio, GLib, Grl, Gdk
+from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Grl, Gdk
 from gettext import gettext as _
 import cairo
 from math import pi
@@ -66,14 +66,8 @@ class AlbumArtCache:
             pass
 
     def make_default_icon(self, width, height):
-        path =\
-            "/usr/share/icons/gnome/scalable/places/folder-music-symbolic.svg"
         # get a small pixbuf with the given path
-        icon = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-            path,
-            -1 if width < 0 else width / 4,
-            -1 if height < 0 else height / 4,
-            True)
+        icon = Gtk.IconTheme.get_default().load_icon('folder-music-symbolic', max(width, height) / 4, 0)
 
         # create an empty pixbuf with the requested size
         result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
