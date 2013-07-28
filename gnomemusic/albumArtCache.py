@@ -9,6 +9,75 @@ import re
 from gnomemusic.grilo import grilo
 
 
+class GetUriRequest:
+    def __init__(self, uri, artist, album, callback, data=None):
+        self.uri = uri
+        self.artist = artist
+        self.album = album
+        self.callback = callback
+        self.data = data
+        self.callbacks = []
+        self.path = ''
+        self.key = AlbumArtCache.get_default()._keybuilder_funcs[0].__call__(artist, album)
+        self.path = GLib.build_filenamev([AlbumArtCache.get_default().cacheDir, self.key])
+        self.stream = None
+        self.started = False
+
+    def start(self):
+        self.started = True
+        f = Gio.File.new_for_uri(self.uri)
+        f.read_async(300, None, self._on_read_ready, None)
+
+    def _on_read_ready(self, outstream, res, user_data=None):
+        try:
+            self.stream = outstream.read_finish(res)
+
+            try:
+                streamInfo =\
+                    self.stream.query_info('standard::content-type', None)
+                contentType = streamInfo.get_content_type()
+
+                if contentType == 'image/png':
+                    self.path += '.png'
+                elif contentType == 'image/jpeg':
+                    self.path += '.jpeg'
+                else:
+                    print('Thumbnail format not supported, not caching')
+                    self.stream.close(None)
+                    return
+            except Exception as e:
+                print('Failed to query thumbnail content type')
+                self.path += '.jpeg'
+                return
+
+            newFile = Gio.File.new_for_path(self.path)
+            newFile.replace_async(None, False,
+                                  Gio.FileCreateFlags.REPLACE_DESTINATION,
+                                  300, None, self._on_replace_ready, None)
+
+        except Exception as e:
+            print(e)
+
+    def _on_replace_ready(self, new_file, res, user_data=None):
+        outstream = new_file.replace_finish(res)
+        outstream.splice_async(self.stream,
+                               Gio.IOStreamSpliceFlags.NONE,
+                               300, None, self._on_splice_ready, None)
+
+    def _on_splice_ready(self, outstream, res, user_data=None):
+        for values in self.callbacks:
+            width, height, callback, data = values
+            try:
+                pixbuf =\
+                    GdkPixbuf.Pixbuf.new_from_file_at_scale(
+                        self.path, height, width, True)
+                callback(pixbuf, self.path, data)
+            except Exception as e:
+                print('Failed to load image: %s' % e.message)
+                callback(None, None, data)
+        self.callback(self, self.data)
+
+
 class AlbumArtCache:
     instance = None
     degrees = pi / 180
@@ -232,64 +301,19 @@ class AlbumArtCache:
         # Remove trailing spaces and convert to lowercase
         return string.strip().lower()
 
-    def get_from_uri(self, uri, artist, album, width, height, callback):
+    def get_from_uri(self, uri, artist, album, width, height, callback, data=None):
         if not uri:
             return
+
         if not uri in self.requested_uris:
-            self.requested_uris[uri] = [[callback, width, height]]
-        elif len(self.requested_uris[uri]) > 0:
-            self.requested_uris[uri].append([callback, width, height])
-            return
+            request = GetUriRequest(uri, artist, album, self._on_get_uri_request_finish, data)
+            self.requested_uris[uri] = request
+        else:
+            request = self.requested_uris[uri]
 
-        key = self._keybuilder_funcs[0].__call__(artist, album)
-        f = Gio.File.new_for_uri(uri)
+        request.callbacks.append([width, height, callback, data])
+        if not request.started:
+            request.start()
 
-        def read_async_ready(outstream, res, error):
-            try:
-                stream = f.read_finish(res)
-                path = GLib.build_filenamev([self.cacheDir, key])
-
-                try:
-                    streamInfo =\
-                        stream.query_info('standard::content-type', None)
-                    contentType = streamInfo.get_content_type()
-
-                    if contentType == 'image/png':
-                        path += '.png'
-                    elif contentType == 'image/jpeg':
-                        path += '.jpeg'
-                    else:
-                        print('Thumbnail format not supported, not caching')
-                        stream.close(None)
-                        return
-                except Exception as e:
-                    print('Failed to query thumbnail content type')
-                    path += '.jpeg'
-                    return
-
-                def replace_async_ready(new_file, res, error):
-                    outstream = new_file.replace_finish(res)
-
-                    def splice_async_ready(outstream, res, error):
-                        if outstream.splice_finish(res) > 0:
-                            for values in self.requested_uris[uri]:
-                                callback, width, height = values
-                                pixbuf =\
-                                    GdkPixbuf.Pixbuf.new_from_file_at_scale(
-                                        path, height, width, True)
-                                callback(pixbuf, path)
-                            del self.requested_uris[uri]
-
-                    outstream.splice_async(stream,
-                                           Gio.IOStreamSpliceFlags.NONE,
-                                           300, None, splice_async_ready, None)
-
-                newFile = Gio.File.new_for_path(path)
-                newFile.replace_async(None, False,
-                                      Gio.FileCreateFlags.REPLACE_DESTINATION,
-                                      300, None, replace_async_ready, None)
-
-            except Exception as e:
-                print(e)
-
-        f.read_async(300, None, read_async_ready, None)
+    def _on_get_uri_request_finish(self, request, data=None):
+        del self.requested_uris[request.uri]
