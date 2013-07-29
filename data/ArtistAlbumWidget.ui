@@ -9,6 +9,9 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
+        <style>
+          <class name="cover"/>
+        </style>
       </object>
       <packing>
         <property name="expand">False</property>
@@ -34,6 +37,9 @@
                 <property name="yalign">0</property>
                 <property name="xpad">6</property>
                 <property name="ellipsize">middle</property>
+                <style>
+                  <class name="title"/>
+                </style>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                   <attribute name="foreground" value="#bababdbdb6b6"/>

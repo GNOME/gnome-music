@@ -61,13 +61,13 @@ class AlbumWidget(Gtk.EventBox):
 
     tracks = []
     duration = 0
+    symbolicIcon = ALBUM_ART_CACHE.make_default_icon(256, 256)
 
     def __init__(self, player):
         super(Gtk.EventBox, self).__init__()
         self.player = player
         self.iterToClean = None
         self.cache = AlbumArtCache.get_default()
-        self._symbolicIcon = self.cache.make_default_icon(256, 256)
 
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
@@ -165,7 +165,7 @@ class AlbumWidget(Gtk.EventBox):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
         self.album = album
-        self.ui.get_object("cover").set_from_pixbuf(self._symbolicIcon)
+        self.ui.get_object("cover").set_from_pixbuf(self.symbolicIcon)
         ALBUM_ART_CACHE.lookup(256, artist,
                                item.get_string(Grl.METADATA_KEY_ALBUM),
                                self._on_look_up)
@@ -226,13 +226,13 @@ class AlbumWidget(Gtk.EventBox):
             self.header_bar.set_selection_mode(True)
             self.player.eventBox.set_visible(False)
             self.selection_toolbar.eventbox.set_visible(True)
-            self.selection_toolbar._add_to_playlist_button.sensitive = False
+            self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
         else:
             self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
             self.header_bar.title = self.album
             self.selection_toolbar.eventbox.set_visible(False)
-            if(self.player.get_playback_status() != 'Stopped'):
+            if(self.player.get_playback_status() != 2):
                 self.player.eventBox.set_visible(True)
 
     def _on_populate_album_songs(self, source, prefs, track):

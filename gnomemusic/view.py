@@ -480,7 +480,7 @@ class Artists (ViewContainer):
     def _on_item_activated(self, widget, item_id, path):
         children = self._artistAlbumsWidget.get_children()
         for child in children:
-            self._artistAlbumsWidget.remove(child)
+            child.destroy()
         _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
