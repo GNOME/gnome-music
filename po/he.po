@@ -2,23 +2,25 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
+# Yosef Or Boczko <yoseforb@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-05-07 10:54+0200\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <sh.yaron@gmail.com>\n"
+"POT-Creation-Date: 2013-08-01 17:39+0300\n"
+"PO-Revision-Date: 2013-07-31 22:16+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n>2||n==0) ? 1 :2;\n"
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -46,13 +48,15 @@ msgstr "Window maximized state"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Playback repeat mode"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -62,8 +66,8 @@ msgstr "Search mode"
 msgid "If true, the search bar is shown"
 msgstr "If true, the search bar is shown"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
+#: ../gnomemusic/window.py:16
 msgid "Music"
 msgstr "מוזיקה"
 
@@ -77,41 +81,43 @@ msgstr "לנגן ולארגן את אוסף המוזיקה שלך"
 
 #: ../gnomemusic/albumArtCache.py:38
 msgid "Untitled"
-msgstr ""
+msgstr "ללא כותרת"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/view.py:174 ../gnomemusic/view.py:505
+msgid "Unknown Artist"
+msgstr "אמן לא ידוע"
+
+#: ../gnomemusic/view.py:234
 msgid "Albums"
-msgstr ""
+msgstr "אלבומים"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:271
 msgid "Songs"
-msgstr ""
+msgstr "שירים"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:415
 msgid "Playlists"
-msgstr "_רשימת השמעה חדשה"
+msgstr "רשימות השמעה"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:421
 msgid "Artists"
-msgstr ""
+msgstr "אמנים"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:455 ../gnomemusic/widgets.py:394
 msgid "All Artists"
-msgstr "_רשימת השמעה חדשה"
+msgstr "כל האמנים"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:28 ../gnomemusic/widgets.py:48
+msgid "Load More"
+msgstr "טעינת עוד"
+
+#: ../gnomemusic/widgets.py:38
+msgid "Loading..."
+msgstr "בטעינה…"
+
+#: ../gnomemusic/window.py:93
 msgid "Empty"
-msgstr ""
+msgstr "ריק"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -120,14 +126,6 @@ msgstr "הוצאה לאור"
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "משך ההשמעה"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -146,55 +144,57 @@ msgid "_Quit"
 msgstr "י_ציאה"
 
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
-msgstr "Shuffle playback"
+msgstr "ערבוב"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "חזרה על הכל"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "חזרה על שיר"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
+msgstr "ערבוב/חזרה כבוי"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "לא נמצאה מוזיקה"
 
 #: ../data/Headerbar.ui.h:1
 msgid "Select All"
-msgstr ""
+msgstr "בחירת הכול"
 
 #: ../data/Headerbar.ui.h:2
 msgid "Select None"
-msgstr ""
+msgstr "ביטול הבחירה"
 
 #: ../data/Headerbar.ui.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
 #: ../data/Headerbar.ui.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "_רשימת השמעה חדשה"
+msgstr "הוספה לרשימת השמעה"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#, fuzzy
+#~ msgid "0:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"
 
 #~ msgid "If true, do randomized playback through the collection"
 #~ msgstr "If true, do randomized playback through the collection"
