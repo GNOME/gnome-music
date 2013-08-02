@@ -1,7 +1,7 @@
 from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path('libgd')
 
-from gi.repository import Gtk, Gst, GLib, GstAudio, Gdk, Grl, Gio, GstPbutils, GObject
+from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from random import randint
 from gnomemusic.albumArtCache import AlbumArtCache
 
@@ -225,7 +225,7 @@ class Player(GObject.GObject):
         self._sync_prev_next()
 
         self.coverImg.set_from_pixbuf(self._symbolicIcon)
-        self.cache.lookup(ART_SIZE, media.get_artist(), media.get_string(Grl.METADATA_KEY_ALBUM), self._on_cache_lookup)
+        self.cache.lookup(media, ART_SIZE, ART_SIZE, self._on_cache_lookup)
 
         self.titleLabel.set_label(AlbumArtCache.get_media_title(media))
 
@@ -251,7 +251,7 @@ class Player(GObject.GObject):
         self.emit("playlist-item-changed", self.playlist, self.currentTrack)
         self.emit('current-changed')
 
-    def _on_cache_lookup(self, pixbuf, path):
+    def _on_cache_lookup(self, pixbuf, path, data=None):
         if pixbuf is not None:
             self.coverImg.set_from_pixbuf(pixbuf)
 

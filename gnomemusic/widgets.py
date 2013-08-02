@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gd, GLib, GObject, Grl, Pango
+from gi.repository import Gtk, Gd, GLib, GObject, Pango
 from gi.repository import GdkPixbuf
 from gi.repository import Tracker
 from gettext import gettext as _
@@ -166,8 +166,7 @@ class AlbumWidget(Gtk.EventBox):
         self.header_bar = header_bar
         self.album = album
         self.ui.get_object("cover").set_from_pixbuf(self.symbolicIcon)
-        ALBUM_ART_CACHE.lookup(256, artist,
-                               item.get_string(Grl.METADATA_KEY_ALBUM),
+        ALBUM_ART_CACHE.lookup(item, 256, 256,
                                self._on_look_up)
 
         # if the active queue has been set by self album,
@@ -260,11 +259,12 @@ class AlbumWidget(Gtk.EventBox):
             self.ui.get_object("running_length_label_info").set_text(
                 "%d min" % (int(self.duration / 60) + 1))
 
-    def _on_look_up(self, pixbuf, path):
+    def _on_look_up(self, pixbuf, path, data=None):
         _iter = self.iterToClean
         if pixbuf:
             self.ui.get_object("cover").set_from_pixbuf(pixbuf)
-            self.model.set(_iter, [4], [pixbuf])
+            if _iter:
+                self.model.set(_iter, [4], [pixbuf])
 
     def update_model(self, player, playlist, currentIter):
         #self is not our playlist, return
@@ -542,25 +542,11 @@ class ArtistAlbumWidget(Gtk.HBox):
             self.ui.get_object("grid1").show_all()
 
     def _update_album_art(self):
-        ALBUM_ART_CACHE.lookup(128, self.artist,
-                               self.album.get_title(), self.get_album_cover)
+        ALBUM_ART_CACHE.lookup(self.album, 128, 128, self._get_album_cover)
 
-    def get_album_cover(self, pixbuf, path):
+    def _get_album_cover(self, pixbuf, path, data=None):
         if pixbuf:
             self.ui.get_object("cover").set_from_pixbuf(pixbuf)
-        else:
-            options = Grl.OperationOptions()
-            options.set_flags(Grl.ResolutionFlags.FULL
-                              | Grl.ResolutionFlags.IDLE_RELAY)
-            grilo.tracker.resolve(self.album,
-                                  [Grl.METADATA_KEY_THUMBNAIL],
-                                  options, self.load_cover, None)
-
-    def load_cover(self, source, param, item, data, error):
-        uri = self.album.get_thumbnail()
-        ALBUM_ART_CACHE.get_from_uri(uri, self.artist,
-                                     self.album.get_title(), 128, 128,
-                                     self.get_album_cover)
 
     def track_selected(self, widget, _iter):
         self.player.stop()

@@ -200,15 +200,18 @@ class ViewContainer(Gtk.Stack):
         return count - self._offset
 
     def _update_album_art(self, item, _iter):
-        albumArtCache.get_default().lookup_or_resolve(
+        albumArtCache.get_default().lookup(
             item,
             self._iconWidth,
             self._iconHeight,
-            lambda icon, data: self._model.set_value(
-                _iter, 4,
-                albumArtCache.get_default()._make_icon_frame(icon)
-                if icon else None))
+            self._on_lookup_ready, _iter)
         return False
+
+    def _on_lookup_ready(self, icon, path, _iter):
+        if icon:
+            self._model.set_value(
+                _iter, 4,
+                albumArtCache.get_default()._make_icon_frame(icon))
 
     def _add_list_renderers(self):
         pass
