@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-06-06 16:09+0200\n"
+"POT-Creation-Date: 2013-08-02 16:10+0200\n"
+"PO-Revision-Date: 2013-08-02 16:11+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -44,13 +44,15 @@ msgstr "Estado da xanela maximizada"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Modo de repetición da reprodución"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"O valor identifica se se debe repetir ou facer aleatoria a reprodución na "
+"colección. Os valores permitidos son: \"none\", \"song\", \"all\", \"shuffle\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -60,8 +62,8 @@ msgstr "Modo de busca"
 msgid "If true, the search bar is shown"
 msgstr "Se é verdadeiro, mostrarase a barra de busca"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
+#: ../gnomemusic/window.py:16
 msgid "Music"
 msgstr "Música"
 
@@ -73,43 +75,45 @@ msgstr "Reprodutor de música"
 msgid "Play and organize your music collection"
 msgstr "Reproduce e organiza a súa colección de música"
 
-#: ../gnomemusic/albumArtCache.py:38
+#: ../gnomemusic/albumArtCache.py:214
 msgid "Untitled"
-msgstr ""
+msgstr "Sen título"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/view.py:174 ../gnomemusic/view.py:508
+msgid "Unknown Artist"
+msgstr "Artista descoñecido"
+
+#: ../gnomemusic/view.py:237
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:274
 msgid "Songs"
 msgstr "Cancións"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:418
 msgid "Playlists"
-msgstr "Lista de reprodución _nova"
+msgstr "Listas de reprodución"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:424
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:458 ../gnomemusic/widgets.py:394
 msgid "All Artists"
-msgstr "Artistas"
+msgstr "Todos os artistas"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:28 ../gnomemusic/widgets.py:48
+msgid "Load More"
+msgstr "Cargar máis"
+
+#: ../gnomemusic/widgets.py:38
+msgid "Loading..."
+msgstr "Cargando…"
+
+#: ../gnomemusic/window.py:93
 msgid "Empty"
-msgstr ""
+msgstr "Baleiro"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -117,15 +121,7 @@ msgstr "Publicada"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
-msgstr ""
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
+msgstr "Lonxitude da execución"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -159,40 +155,42 @@ msgstr "Repetir canción"
 msgid "Shuffle/Repeat Off"
 msgstr "Desactivar Aleatorio/Repetir"
 
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
-
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Non se atopou música"
 
 #: ../data/Headerbar.ui.h:1
-#, fuzzy
 msgid "Select All"
-msgstr "Repetir todo"
+msgstr "Seleccionar todo"
 
 #: ../data/Headerbar.ui.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Deseleccionar todo"
 
 #: ../data/Headerbar.ui.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Prema nos elementos para seleccionalos"
 
 #: ../data/Headerbar.ui.h:4
 msgid "Cancel"
 msgstr "Cancelar"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Lista de reprodución _nova"
+msgstr "Engadir á lista de reprodución"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#, fuzzy
+#~ msgid "0:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"
 
 #~ msgid "Shuffle playback"
 #~ msgstr "Desordenar lista de reprodución"
