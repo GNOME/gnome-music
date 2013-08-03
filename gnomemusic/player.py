@@ -2,6 +2,7 @@ from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path('libgd')
 
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
+from gettext import gettext as _
 from random import randint
 from gnomemusic.albumArtCache import AlbumArtCache
 
@@ -232,7 +233,7 @@ class Player(GObject.GObject):
         if media.get_artist() is not None:
             self.artistLabel.set_label(media.get_artist())
         else:
-            self.artistLabel.set_label("Unknown artist")
+            self.artistLabel.set_label(_("Unknown Artist"))
 
         url = media.get_url()
         if url != self.player.get_value("current-uri", 0):
