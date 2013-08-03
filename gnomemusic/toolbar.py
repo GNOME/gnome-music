@@ -40,7 +40,10 @@ class Toolbar(GObject.GObject):
         self._close_button.connect('clicked', self._close_button_clicked)
 
     def _close_button_clicked(self, btn):
-        self._close_button.get_toplevel().close()
+        if Gtk.get_minor_version() > 8:
+            self._close_button.get_toplevel().close()
+        else:
+            self._close_button.get_toplevel().destroy()
 
     def reset_header_title(self):
         self.header_bar.set_custom_title(self._stack_switcher)
