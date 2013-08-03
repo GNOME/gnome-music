@@ -6,9 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-04-13 14:11+0800\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-08-03 12:36+0000\n"
+"PO-Revision-Date: 2013-08-03 12:31+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -43,13 +44,15 @@ msgstr "窗口最大化状态"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "重复播放模式"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"该值定义是否重复或随机播放音乐合集。有效值有：“none”(无)、“song”(单"
+"曲)、“all”(全部)、“shuffle”(随机)。"
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -59,8 +62,8 @@ msgstr "搜索模式"
 msgid "If true, the search bar is shown"
 msgstr "如果为真，则显示搜索框"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
+#: ../gnomemusic/window.py:16
 msgid "Music"
 msgstr "音乐"
 
@@ -72,43 +75,46 @@ msgstr "音乐播放器"
 msgid "Play and organize your music collection"
 msgstr "播放与管理您的音乐集"
 
-#: ../gnomemusic/albumArtCache.py:38
+#: ../gnomemusic/albumArtCache.py:204
 msgid "Untitled"
-msgstr ""
+msgstr "无标题"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/player.py:236 ../gnomemusic/view.py:174
+#: ../gnomemusic/view.py:501
+msgid "Unknown Artist"
+msgstr "未知艺术家"
+
+#: ../gnomemusic/view.py:237
 msgid "Albums"
 msgstr "专辑"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:267
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:411
 msgid "Playlists"
-msgstr "新建播放列表(_N)"
+msgstr "播放列表"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:417
 msgid "Artists"
 msgstr "艺术家"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:451 ../gnomemusic/widgets.py:394
 msgid "All Artists"
-msgstr "艺术家"
+msgstr "全部艺术家"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:28 ../gnomemusic/widgets.py:48
+msgid "Load More"
+msgstr "加载更多"
+
+#: ../gnomemusic/widgets.py:38
+msgid "Loading..."
+msgstr "正在加载..."
+
+#: ../gnomemusic/window.py:93
 msgid "Empty"
-msgstr ""
+msgstr "空"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -117,14 +123,6 @@ msgstr "发布时间"
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "总时长"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -156,69 +154,44 @@ msgstr "重复播放"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr "关闭随机/重复"
-
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
+msgstr "关闭“随机/重复播放”"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "没有找到音乐"
 
 #: ../data/Headerbar.ui.h:1
-#, fuzzy
 msgid "Select All"
-msgstr "选择"
+msgstr "全选"
 
 #: ../data/Headerbar.ui.h:2
-#, fuzzy
 msgid "Select None"
-msgstr "选择"
+msgstr "全不选"
 
 #: ../data/Headerbar.ui.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "点击条目以选中它们"
 
 #: ../data/Headerbar.ui.h:4
 msgid "Cancel"
 msgstr "取消"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "新建播放列表(_N)"
+msgstr "添加到播放列表"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#, fuzzy
+#~ msgid "0:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"
 
 #~ msgid "Back"
 #~ msgstr "后退"
-
-#, fuzzy
-#~| msgid "Search mode"
-#~ msgid "Search"
-#~ msgstr "搜索模式"
-
-#~ msgid "If true, do randomized playback through the collection"
-#~ msgstr "如果为真，则随机播放歌曲合集"
-
-#~ msgid "New"
-#~ msgstr "新建"
-
-#~ msgid "Quit"
-#~ msgstr "退出"
-
-#~ msgid "translator-credits"
-#~ msgstr "tuhaihe <1132321739qq@gmail.com>, 2013"
-
-#~ msgid "A GNOME 3 application to listen and manage music playlists"
-#~ msgstr "GNOME 3 下聆听与管理音乐播放列表的应用"
-
-#~ msgid "%02u:%02u:%02u"
-#~ msgstr "%02u:%02u:%02u"
-
-#~ msgid "%02u:%02u"
-#~ msgstr "%02u:%02u"
