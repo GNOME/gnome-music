@@ -6,8 +6,6 @@ from math import pi
 import os
 import re
 
-from gnomemusic.grilo import grilo
-
 
 class LookupRequest:
     def __init__(self, item, width, height, callback, data=None):
@@ -97,14 +95,6 @@ class LookupRequest:
         options.set_flags(Grl.ResolutionFlags.FULL |
                           Grl.ResolutionFlags.IDLE_RELAY)
 
-        try:
-            grilo.tracker.resolve(self.item, [Grl.METADATA_KEY_THUMBNAIL],
-                                  options, self._on_resolve_ready, None)
-        except Exception as error:
-            if AlbumArtCache.get_default().logLookupErrors:
-                print("ERROR:", error)
-
-    def _on_resolve_ready(self, source, param, item, data=None, error=None):
         uri = self.item.get_thumbnail()
         if uri is None:
             self.finish(None)
