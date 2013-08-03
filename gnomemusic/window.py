@@ -63,12 +63,15 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player()
         self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
-        self.set_titlebar(self.toolbar.header_bar)
         self.views = []
         self._stack = Stack(
             transition_type=StackTransitionType.CROSSFADE,
             transition_duration=100,
             visible=True)
+        if Gtk.get_minor_version() > 8:
+            self.set_titlebar(self.toolbar.header_bar)
+        else:
+            self._box.pack_start(self.toolbar.header_bar, False, False, 0)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
         self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
