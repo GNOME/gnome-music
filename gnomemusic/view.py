@@ -13,16 +13,21 @@ from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 tracker = Tracker.SparqlConnection.get(None)
 
+if Gtk.get_minor_version() > 8:
+    from gi.repository.Gtk import Stack, StackTransitionType
+else:
+    from gi.repository.Gd import Stack, StackTransitionType
 
-class ViewContainer(Gtk.Stack):
+
+class ViewContainer(Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
     countQuery = None
 
     def __init__(self, title, header_bar, selection_toolbar, useStack=False):
-        Gtk.Stack.__init__(self,
-                           transition_type=Gtk.StackTransitionType.CROSSFADE)
+        Stack.__init__(self,
+                       transition_type=StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.VERTICAL)
         self._iconWidth = -1
         self._iconHeight = 128
@@ -52,8 +57,8 @@ class ViewContainer(Gtk.Stack):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
         if useStack:
-            self.stack = Gd.Stack(
-                transition_type=Gd.StackTransitionType.SLIDE_RIGHT,
+            self.stack = Stack(
+                transition_type=StackTransitionType.SLIDE_RIGHT,
             )
             dummy = Gtk.Frame(visible=False)
             self.stack.add_named(dummy, "dummy")
@@ -220,10 +225,10 @@ class ViewContainer(Gtk.Stack):
 
 
 #Class for the Empty View
-class Empty(Gtk.Stack):
+class Empty(Stack):
     def __init__(self, header_bar, player):
-        Gtk.Stack.__init__(self,
-                           transition_type=Gtk.StackTransitionType.CROSSFADE)
+        Stack.__init__(self,
+                       transition_type=StackTransitionType.CROSSFADE)
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
         widget = builder.get_object('container')

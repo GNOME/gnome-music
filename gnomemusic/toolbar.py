@@ -1,5 +1,10 @@
 from gi.repository import Gtk, GObject
 
+if Gtk.get_minor_version() > 8:
+    from gi.repository.Gtk import StackSwitcher
+else:
+    from gi.repository.Gd import StackSwitcher
+
 
 class ToolbarState:
     SINGLE = 0
@@ -18,7 +23,7 @@ class Toolbar(GObject.GObject):
 
     def __init__(self):
         GObject.GObject.__init__(self)
-        self._stack_switcher = Gtk.StackSwitcher(margin_top=2, margin_bottom=2)
+        self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2)
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/Headerbar.ui')
         self.header_bar = self._ui.get_object('header-bar')
