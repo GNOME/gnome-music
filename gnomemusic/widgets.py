@@ -1,5 +1,6 @@
 from gi.repository import Gtk, Gd, GLib, GObject, Pango
 from gi.repository import GdkPixbuf
+from gi.repository import Grl
 from gi.repository import Tracker
 from gettext import gettext as _
 from gnomemusic.grilo import grilo
@@ -335,7 +336,7 @@ class ArtistAlbums(Gtk.VBox):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def add_album(self, album):
-        widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
+        widget = ArtistAlbumWidget(album, self.player, self.model)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -458,11 +459,11 @@ class AllArtistsAlbums(ArtistAlbums):
 
 class ArtistAlbumWidget(Gtk.HBox):
 
-    def __init__(self, artist, album, player, model):
+    def __init__(self, album, player, model):
         super(Gtk.HBox, self).__init__()
         self.player = player
         self.album = album
-        self.artist = artist
+        self.artist = album.get_string(Grl.METADATA_KEY_ARTIST)
         self.model = model
         self.songs = []
 
