@@ -45,8 +45,8 @@ gen-AUTHORS:
 	   mv -f $(distdir)/AUTHORS-tmp $(distdir)/AUTHORS ;           \
 	fi
 
-gnome-music: gnome-music.in
-	sed						\
+gnome-music: gnome-music.in Makefile
+	$(AM_V_GEN)sed						\
 		-e s!\@srcdir\@!$(abs_top_srcdir)!	\
 		-e s!\@prefix\@!$(prefix)!		\
 		-e s!\@datadir\@!$(datadir)!		\
@@ -61,8 +61,6 @@ gnome-music: gnome-music.in
 		-e s!\@VERSION\@!$(VERSION)!		\
 		< $< > $@
 	chmod a+x $@
-
-gnome-music: Makefile
 
 all-local: gnome-music
 
