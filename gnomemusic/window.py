@@ -30,7 +30,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gio, GLib, Tracker
+from gi.repository import Gtk, Gio, GLib, Tracker, GObject
 from gettext import gettext as _
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
@@ -106,6 +106,7 @@ class Window(Gtk.ApplicationWindow):
             self._box.pack_start(self.toolbar.header_bar, False, False, 0)
             self.set_hide_titlebar_when_maximized(True)
         self._box.pack_start(self._stack, True, True, 0)
+        self._box.pack_start(self.toolbar.searchbar, False, False, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
         self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
         self.add(self._box)
@@ -123,6 +124,8 @@ class Window(Gtk.ApplicationWindow):
                 self._stack.add_titled(i, i.title, i.title)
 
             self.toolbar.set_stack(self._stack)
+            self.toolbar.searchbar.show()
+            self.toolbar._search_button.bind_property("active", self.toolbar.searchbar, "search-mode-enabled", GObject.BindingFlags.BIDIRECTIONAL)
 
             self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
             self.connect('destroy', self._notify_mode_disconnect)
