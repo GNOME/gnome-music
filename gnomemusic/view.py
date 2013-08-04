@@ -69,9 +69,9 @@ class ViewContainer(Gtk.Stack):
         self.view.connect('item-activated', self._on_item_activated)
         self._cursor = None
         self.header_bar = header_bar
-        self.header_bar._selectButton.connect(
+        self.header_bar._select_button.connect(
             'toggled', self._on_header_bar_toggled)
-        self.header_bar._cancelButton.connect(
+        self.header_bar._cancel_button.connect(
             'clicked', self._on_cancel_button_clicked)
 
         self.title = title
@@ -164,32 +164,31 @@ class ViewContainer(Gtk.Stack):
         print("populate")
 
     def _add_item(self, source, param, item):
-        if item:
-            self._offset += 1
-            _iter = self._model.append()
-            artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            if not artist:
-                artist = item.get_author()
-            if not artist:
-                artist = _("Unknown Artist")
-            title = albumArtCache.get_media_title(item)
-            item.set_title(title)
-            try:
-                if item.get_url():
-                    self.player.discoverer.discover_uri(item.get_url())
-                self._model.set(_iter,
-                                [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                                [str(item.get_id()), "", title,
-                                 artist, self._symbolicIcon, item,
-                                 -1, self.nowPlayingIconName, False, False])
-            except:
-                print("failed to discover url " + item.get_url())
-                self._model.set(_iter,
-                                [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                                [str(item.get_id()), "", title,
-                                 artist, self._symbolicIcon, item,
-                                 -1, self.errorIconName, False, True])
-            GLib.idle_add(self._update_album_art, item, _iter)
+        if not item:
+            return
+        self._offset += 1
+        _iter = self._model.append()
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
+            or item.get_author()\
+            or _("Unknown Artist")
+        title = albumArtCache.get_media_title(item)
+        item.set_title(title)
+        try:
+            if item.get_url():
+                self.player.discoverer.discover_uri(item.get_url())
+            self._model.set(_iter,
+                            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                            [str(item.get_id()), "", title,
+                             artist, self._symbolicIcon, item,
+                             -1, self.nowPlayingIconName, False, False])
+        except:
+            print("failed to discover url " + item.get_url())
+            self._model.set(_iter,
+                            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                            [str(item.get_id()), "", title,
+                             artist, self._symbolicIcon, item,
+                             -1, self.errorIconName, False, True])
+        GLib.idle_add(self._update_album_art, item, _iter)
 
     def _get_remaining_item_count(self):
         count = -1
@@ -299,25 +298,26 @@ class Songs(ViewContainer):
         return False
 
     def _add_item(self, source, param, item):
-        if item:
-            self._offset += 1
-            _iter = self._model.append()
-            item.set_title(albumArtCache.get_media_title(item))
-            try:
-                if item.get_url():
-                    self.player.discoverer.discover_uri(item.get_url())
-                self._model.set(_iter,
-                                [2, 3, 5, 8, 9, 10],
-                                [albumArtCache.get_media_title(item),
-                                 item.get_string(Grl.METADATA_KEY_ARTIST),
-                                 item, self.nowPlayingIconName, False, False])
-            except:
-                print("failed to discover url " + item.get_url())
-                self._model.set(_iter,
-                                [2, 3, 5, 8, 9, 10],
-                                [albumArtCache.get_media_title(item),
-                                 item.get_string(Grl.METADATA_KEY_ARTIST),
-                                 item, self.errorIconName, False, True])
+        if not item:
+            return
+        self._offset += 1
+        _iter = self._model.append()
+        item.set_title(albumArtCache.get_media_title(item))
+        try:
+            if item.get_url():
+                self.player.discoverer.discover_uri(item.get_url())
+            self._model.set(_iter,
+                            [2, 3, 5, 8, 9, 10],
+                            [albumArtCache.get_media_title(item),
+                             item.get_string(Grl.METADATA_KEY_ARTIST),
+                             item, self.nowPlayingIconName, False, False])
+        except:
+            print("failed to discover url " + item.get_url())
+            self._model.set(_iter,
+                            [2, 3, 5, 8, 9, 10],
+                            [albumArtCache.get_media_title(item),
+                             item.get_string(Grl.METADATA_KEY_ARTIST),
+                             item, self.errorIconName, False, True])
 
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()

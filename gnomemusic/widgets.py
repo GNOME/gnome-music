@@ -191,17 +191,17 @@ class AlbumWidget(Gtk.EventBox):
                                        )
             GLib.idle_add(grilo.populate_album_songs, item.get_id(),
                           self._on_populate_album_songs)
-        header_bar._selectButton.connect('toggled',
-                                         self._on_header_select_button_toggled)
-        header_bar._cancelButton.connect('clicked',
-                                         self._on_header_cancel_button_clicked)
+        header_bar._select_button.connect(
+            'toggled', self._on_header_select_button_toggled)
+        header_bar._cancel_button.connect(
+            'clicked', self._on_header_cancel_button_clicked)
         self.view.connect('view-selection-changed',
                           self._on_view_selection_changed)
         self.view.set_model(self.model)
-        escapedArtist = GLib.markup_escape_text(artist)
-        escapedAlbum = GLib.markup_escape_text(album)
-        self.ui.get_object("artist_label").set_markup(escapedArtist)
-        self.ui.get_object("title_label").set_markup(escapedAlbum)
+        escaped_artist = GLib.markup_escape_text(artist)
+        escaped_album = GLib.markup_escape_text(album)
+        self.ui.get_object("artist_label").set_markup(escaped_artist)
+        self.ui.get_object("title_label").set_markup(escaped_album)
         if (item.get_creation_date()):
             self.ui.get_object("released_label_info").set_text(
                 str(item.get_creation_date().get_year()))
