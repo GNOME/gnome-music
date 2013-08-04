@@ -491,9 +491,9 @@ class Artists (ViewContainer):
         self._artistAlbumsWidget.add(self.artistAlbums)
 
     def _add_item(self, source, param, item):
-        self._offset += 1
         if item is None:
             return
+        self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)
         if not artist:
             artist = item.get_author()
