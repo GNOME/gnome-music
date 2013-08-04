@@ -22,8 +22,6 @@ class LookupRequest:
         self.artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_string(Grl.METADATA_KEY_AUTHOR)
         self.album = item.get_string(Grl.METADATA_KEY_ALBUM)
         self.started = False
-        self.surface_cache = {}
-        self.surface_lock = threading.Lock()
 
     def start(self):
         self.started = True
@@ -219,6 +217,8 @@ class AlbumArtCache:
         self.logLookupErrors = False
         self.requested_uris = {}
         self.cacheDir = os.path.join(GLib.get_user_cache_dir(), "media-art")
+        self.frame_cache = {}
+        self.frame_lock = threading.Lock()
 
         self._keybuilder_funcs = [
             lambda artist, album:
@@ -277,25 +277,30 @@ class AlbumArtCache:
         return result
 
     def _draw_rounded_path(self, x, y, width, height, radius):
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                width, height)
-        ctx = cairo.Context(surface)
-        ctx.new_sub_path()
-        ctx.arc(x + width - radius, y + radius, radius - 0.5,
-                -90 * self.degrees, 0 * self.degrees)
-        ctx.arc(x + width - radius, y + height - radius, radius - 0.5,
-                0 * self.degrees, 90 * self.degrees)
-        ctx.arc(x + radius, y + height - radius, radius - 0.5,
-                90 * self.degrees, 180 * self.degrees)
-        ctx.arc(x + radius, y + radius, radius - 0.5, 180 * self.degrees,
-                270 * self.degrees)
-        ctx.close_path()
-        ctx.set_line_width(0.6)
-        ctx.set_source_rgb(0.2, 0.2, 0.2)
-        ctx.stroke_preserve()
-        ctx.set_source_rgb(1, 1, 1)
-        ctx.fill()
-        return Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)
+        key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
+        if not key in self.frame_cache:
+            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
+                    width, height)
+            ctx = cairo.Context(surface)
+            ctx.new_sub_path()
+            ctx.arc(x + width - radius, y + radius, radius - 0.5,
+                    -90 * self.degrees, 0 * self.degrees)
+            ctx.arc(x + width - radius, y + height - radius, radius - 0.5,
+                    0 * self.degrees, 90 * self.degrees)
+            ctx.arc(x + radius, y + height - radius, radius - 0.5,
+                    90 * self.degrees, 180 * self.degrees)
+            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * self.degrees,
+                    270 * self.degrees)
+            ctx.close_path()
+            ctx.set_line_width(0.6)
+            ctx.set_source_rgb(0.2, 0.2, 0.2)
+            ctx.stroke_preserve()
+            ctx.set_source_rgb(1, 1, 1)
+            ctx.fill()
+            self.frame_lock.acquire()
+            self.frame_cache[key] = surface
+            self.frame_lock.release()
+        return Gdk.pixbuf_get_from_surface(self.frame_cache[key], 0, 0, width, height)
 
     def lookup(self, item, width, height, callback, data=None):
         request = LookupRequest(item, width, height, callback, data)
