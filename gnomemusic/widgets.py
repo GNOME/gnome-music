@@ -524,7 +524,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                         NOW_PLAYING_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
                     song_widget.now_playing_sign.set_no_show_all('True')
-                    song_widget.now_playing_sign.set_alignment(0.0, 0.6)
+                    song_widget.now_playing_sign.set_alignment(1, 0.6)
                     song_widget.can_be_played = True
                     song_widget.connect('button-release-event',
                                         self.track_selected)
