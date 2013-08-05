@@ -41,8 +41,9 @@ class Searchbar(Gtk.SearchBar):
     def _on_item_activated(self):
         self.emit('item-activated')
 
-    def search_entry_changed(self):
-        self.search_term = self._searchEntry.text;
-        if self.view:
-            self.view.filter.refilter()
+    def search_entry_changed(self, widget):
+        #print (widget)
+        self.search_term = self._search_entry.get_text();
+        #if self.view:
+        #    self.view.filter.refilter()
 
