@@ -2,30 +2,30 @@ from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import Gd
 from gi.repository import GObject
+from gnomemusic.view import ViewContainer
 
 
 class Searchbar(Gtk.SearchBar):
 
-    __gsignals__ = {
-        'item-activated': (GObject.SIGNAL_RUN_FIRST, None, ())
-    }
-
-    def __init__(self):
+    def __init__(self, stack_switcher):
         Gtk.SearchBar.__init__(self)
-        #this.parent({show_close_button: false});
+        self.stack_switcher = stack_switcher
         self._search_entry = Gtk.SearchEntry()
         self.connect_entry(self._search_entry)
         self._search_entry.connect("changed", self.search_entry_changed)
         self._search_entry.show()
         self.add(self._search_entry)
+        self.connect("notify::search-mode-enabled", self.prepare_search_filter)
 
     def set_view_filter(self, model, itr, user_data):
-        if self._searchEntry.get_property("visible"):
+        if self._search_entry.get_property("visible"):
             search_string = self._search_entry.get_text().lower()
             media = model.get_value(itr, 5)
             searchable_fields = []
-            artist = media.get_artist()
-            if (media and artist):
+            artist = None
+            if media and media.get_url():
+                artist = media.get_artist()
+            if media and artist:
                 searchable_fields = [media.get_artist(),
                                      media.get_album(),
                                      media.get_title()]
@@ -38,12 +38,11 @@ class Searchbar(Gtk.SearchBar):
             return False
         return True
 
-    def _on_item_activated(self):
-        self.emit('item-activated')
+    def prepare_search_filter(self, widget, data):
+        self.view = self.stack_switcher.get_stack().get_visible_child()
+        self.view.filter.set_visible_func(self.set_view_filter)
 
     def search_entry_changed(self, widget):
-        #print (widget)
-        self.search_term = self._search_entry.get_text();
-        #if self.view:
-        #    self.view.filter.refilter()
-
+        self.search_term = self._search_entry.get_text()
+        if self.view:
+            self.view.filter.refilter()

@@ -556,7 +556,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     int(i % (len(self.tracks) / 2)), 1, 1
                 )
                 track.song_widget = song_widget
-                itr = self.model.append()
+                itr = self.model.append(None)
                 song_widget._iter = itr
                 song_widget.model = self.model
                 song_widget.title = ui.get_object('title')

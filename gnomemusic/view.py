@@ -61,6 +61,7 @@ class ViewContainer(Stack):
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
     countQuery = None
+    filter = None
 
     def __init__(self, title, header_bar, selection_toolbar, useStack=False):
         Stack.__init__(self,
@@ -72,7 +73,7 @@ class ViewContainer(Stack):
         self._adjustmentValueId = 0
         self._adjustmentChangedId = 0
         self._scrollbarVisibleId = 0
-        self._model = Gtk.ListStore(
+        self._model = Gtk.TreeStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -90,6 +91,8 @@ class ViewContainer(Stack):
         )
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.view.set_model(self._model)
+        self.filter = self._model.filter_new(None)
+        self.view.set_model(self.filter)
         self.vadjustment = self.view.get_vadjustment()
         self.selection_toolbar = selection_toolbar
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -226,15 +229,23 @@ class ViewContainer(Stack):
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
 
-        icon_name = self.nowPlayingIconName
-        _iter = self._model.insert_with_valuesv(
-            -1,
-            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-            [str(item.get_id()), '', title,
-             artist, self._symbolicIcon, item,
-             -1, icon_name, False, False])
-        self.player.discover_item(item, self._on_discovered, _iter)
-        GLib.idle_add(self._update_album_art, item, _iter)
+        def add_new_item():
+            _iter = self._model.append(None)
+            icon_name = self.nowPlayingIconName
+            if item.get_url():
+                try:
+                    self.player.discoverer.discover_uri(item.get_url())
+                except:
+                    print('failed to discover url ' + item.get_url())
+                    icon_name = self.errorIconName
+            self._model.set(_iter,
+                            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                            [str(item.get_id()), '', title,
+                             artist, self._symbolicIcon, item,
+                             -1, icon_name, False, icon_name == self.errorIconName])
+            GLib.idle_add(self._update_album_art, item, _iter)
+
+        GLib.idle_add(add_new_item)
 
     def _insert_album_art(self, item, cb_item, itr, x=False):
         if item and cb_item and not item.get_thumbnail():
@@ -353,6 +364,10 @@ class Songs(ViewContainer):
         if not item:
             return
         self._offset += 1
+<<<<<<< HEAD
+=======
+        _iter = self._model.append(None)
+>>>>>>> Make some views filterable
         item.set_title(albumArtCache.get_media_title(item))
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
@@ -505,7 +520,11 @@ class Artists (ViewContainer):
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
         if not selection.get_selected()[1]:
+<<<<<<< HEAD
             self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
+=======
+            self._allIter = self._model.append(None)
+>>>>>>> Make some views filterable
             self._last_selection = self._allIter
             self._artists[_("All Artists").lower()] =\
                 {'iter': self._allIter, 'albums': []}
@@ -571,7 +590,11 @@ class Artists (ViewContainer):
             or item.get_author()\
             or _("Unknown Artist")
         if not artist.lower() in self._artists:
+<<<<<<< HEAD
             _iter = self._model.insert_with_valuesv(-1, [2], [artist])
+=======
+            _iter = self._model.append(None)
+>>>>>>> Make some views filterable
             self._artists[artist.lower()] = {'iter': _iter, 'albums': []}
 
         self._artists[artist.lower()]['albums'].append(item)
