@@ -45,6 +45,10 @@ update-icon-cache:
 
 gsettings_SCHEMAS = org.gnome.Music.gschema.xml
 
+# For uninstalled use
+gschemas.compiled: $(gsettings_SCHEMAS) Makefile
+	$(AM_V_GEN) $(GLIB_COMPILE_SCHEMAS) $(builddir)
+
 @GSETTINGS_RULES@
 
 EXTRA_DIST = \
@@ -62,8 +66,6 @@ CLEANFILES = \
 	gschemas.compiled \
 	$(NULL)
 
-# For uninstalled use
-all-local:
-	$(GLIB_COMPILE_SCHEMAS) $(builddir)
+all-local: gschemas.compiled
 
 -include $(top_srcdir)/git.mk
