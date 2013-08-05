@@ -3,6 +3,7 @@ from gettext import gettext as _
 import cairo
 from math import pi
 
+import threading
 import os
 import re
 
@@ -216,6 +217,8 @@ class AlbumArtCache:
         self.logLookupErrors = False
         self.requested_uris = {}
         self.cacheDir = os.path.join(GLib.get_user_cache_dir(), "media-art")
+        self.frame_cache = {}
+        self.frame_lock = threading.Lock()
 
         self._keybuilder_funcs = [
             lambda artist, album:
@@ -255,31 +258,28 @@ class AlbumArtCache:
 
     def _make_icon_frame(self, pixbuf):
         border = 1.5
-        pixbuf = pixbuf.scale_simple(pixbuf.get_width() - border * 2,
-                                     pixbuf.get_height() - border * 2,
+        w = pixbuf.get_width()
+        h = pixbuf.get_height()
+        pixbuf = pixbuf.scale_simple(w - border * 2,
+                                     h - border * 2,
                                      0)
 
-        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                                     int(pixbuf.get_width() + border * 2),
-                                     int(pixbuf.get_height() + border * 2))
-        ctx = cairo.Context(surface)
-        self._draw_rounded_path(ctx, 0, 0,
-                                pixbuf.get_width() + border * 2,
-                                pixbuf.get_height() + border * 2,
-                                3)
-        result = Gdk.pixbuf_get_from_surface(surface, 0, 0,
-                                             pixbuf.get_width() + border * 2,
-                                             pixbuf.get_height() + border * 2)
+        result = self._draw_rounded_path(0, 0, w, h, 3)
 
         pixbuf.copy_area(border, border,
-                         pixbuf.get_width() - border * 2,
-                         pixbuf.get_height() - border * 2,
+                         w - border * 4,
+                         h - border * 4,
                          result,
                          border * 2, border * 2)
 
         return result
 
-    def _draw_rounded_path(self, ctx, x, y, width, height, radius):
+    def _draw_rounded_path(self, x, y, width, height, radius):
+        key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
+        self.frame_lock.acquire()
+        if not key in self.frame_cache:
+            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+            ctx = cairo.Context(surface)
             ctx.new_sub_path()
             ctx.arc(x + width - radius, y + radius, radius - 0.5,
                     -90 * self.degrees, 0 * self.degrees)
@@ -295,6 +295,10 @@ class AlbumArtCache:
             ctx.stroke_preserve()
             ctx.set_source_rgb(1, 1, 1)
             ctx.fill()
+            self.frame_cache[key] = Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)
+        res = self.frame_cache[key].copy()
+        self.frame_lock.release()
+        return res
 
     def lookup(self, item, width, height, callback, data=None):
         request = LookupRequest(item, width, height, callback, data)
