@@ -372,7 +372,7 @@ class ArtistAlbums(Gtk.VBox):
             else:
                 song_widget.now_playing_sign.hide()
                 song_widget.title\
-                    .set_markup('<span color='grey'>%s</span>' % escapedTitle)
+                    .set_markup('<span color=\'grey\'>%s</span>' % escapedTitle)
             itr = playlist.iter_next(itr)
         return False
 
@@ -478,7 +478,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
             self.ui.get_object('year').set_markup(
-                '<span color='grey'>(%s)</span>' %
+                '<span color=\'grey\'>(%s)</span>' %
                 str(album.get_creation_date().get_year())
             )
         self.tracks = []
@@ -497,7 +497,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 song_widget = ui.get_object('eventbox1')
                 self.songs.append(song_widget)
                 ui.get_object('num')\
-                    .set_markup('<span color='grey'>%d</span>'
+                    .set_markup('<span color=\'grey\'>%d</span>'
                                 % len(self.songs))
                 title = AlbumArtCache.get_media_title(track)
                 ui.get_object('title').set_text(title)
