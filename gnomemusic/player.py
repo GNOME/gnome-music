@@ -487,47 +487,6 @@ class Player(GObject.GObject):
         elif next_on_overflow:
             self.play_next()
 
-    def get_metadata(self):
-        if self.currentTrack is None:
-            return {}
-
-        media = self.playlist.get_value(self.currentTrack, self.playlistField)
-        metadata = {
-            'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % media.get_id(),
-            'xesam:url': media.get_url(),
-            'mpris:length': media.get_duration() * 1000000,
-            'xesam:trackNumber': media.get_track_number(),
-            'xesam:useCount': media.get_play_count(),
-            'xesam:userRating': media.get_rating(),
-        }
-
-        title = AlbumArtCache.get_media_title(media)
-        if title:
-            metadata['xesam:title'] = title
-
-        album = media.get_album()
-        if album:
-            metadata['xesam:album'] = album
-
-        artist = media.get_artist()
-        if artist:
-            metadata['xesam:artist'] = [artist]
-            metadata['xesam:albumArtist'] = [artist]
-
-        genre = media.get_genre()
-        if genre:
-            metadata['xesam:genre'] = [genre]
-
-        last_played = media.get_last_played()
-        if last_played:
-            metadata['xesam:lastUsed'] = last_played
-
-        thumbnail = media.get_thumbnail()
-        if thumbnail:
-            metadata['mpris:artUrl'] = thumbnail
-
-        return metadata
-
     def get_volume(self):
         return self.player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
 
