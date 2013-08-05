@@ -57,7 +57,7 @@ class LookupRequest:
 
         except Exception as error:
             if AlbumArtCache.get_default().logLookupErrors:
-                print("ERROR:", error)
+                print('ERROR:', error)
 
         self.key_index += 1
         self._try_load()
@@ -82,7 +82,7 @@ class LookupRequest:
                 return
         except Exception as error:
             if AlbumArtCache.get_default().logLookupErrors:
-                print("ERROR:", error)
+                print('ERROR:', error)
 
         self.key_index += 1
         self._try_load()
@@ -207,7 +207,7 @@ class AlbumArtCache:
         uri_file = Gio.File.new_for_path(uri)
         basename = uri_file.get_basename()
 
-        title = GLib.uri_unescape_string(basename, "")
+        title = GLib.uri_unescape_string(basename, '')
         if escaped:
             return GLib.markup_escape_text(title)
 
@@ -216,17 +216,17 @@ class AlbumArtCache:
     def __init__(self):
         self.logLookupErrors = False
         self.requested_uris = {}
-        self.cacheDir = os.path.join(GLib.get_user_cache_dir(), "media-art")
+        self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
         self.frame_cache = {}
         self.frame_lock = threading.Lock()
 
         self._keybuilder_funcs = [
             lambda artist, album:
-            "album-" + self._normalize_and_hash(artist) +
-            "-" + self._normalize_and_hash(album),
+            'album-%s-%s' % (self._normalize_and_hash(artist),
+                self._normalize_and_hash(album)),
             lambda artist, album:
-            "album-" + self._normalize_and_hash(album) +
-            "-" + self._normalize_and_hash(None)
+            'album-%s-%s' % (self._normalize_and_hash(album),
+                self._normalize_and_hash(None))
         ]
 
         try:
@@ -305,7 +305,7 @@ class AlbumArtCache:
         request.start()
 
     def _normalize_and_hash(self, input_str):
-        normalized = " "
+        normalized = ' '
 
         if input_str and len(input_str) > 0:
             normalized = self._strip_invalid_entities(input_str)

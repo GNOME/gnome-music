@@ -1,6 +1,6 @@
 class Query():
 
-    ALBUMS = """
+    ALBUMS = '''
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS id
@@ -19,7 +19,7 @@ class Query():
                 SELECT
                     GROUP_CONCAT(
                         nmm:artistName(?artist),
-                        ","
+                        ','
                     )
                 WHERE {
                     ?album nmm:albumArtist ?artist
@@ -36,7 +36,7 @@ class Query():
                             }
                             GROUP BY ?perf
                         ),
-                        ","
+                        ','
                     ) AS album_performer
                 WHERE {
                 }
@@ -50,7 +50,7 @@ class Query():
                         COUNT(?_1)
                     WHERE {
                         ?_1 nmm:musicAlbum ?album ;
-                            tracker:available "true"
+                            tracker:available 'true'
                     }
                 )
             )
@@ -61,7 +61,7 @@ class Query():
             WHERE {
                 ?_2 nmm:musicAlbum ?album ;
                     nie:contentCreated ?c ;
-                    tracker:available "true"
+                    tracker:available 'true'
             }
             LIMIT 1
         ) AS creation-date
@@ -70,22 +70,22 @@ class Query():
             FILTER (
                 EXISTS {
                     ?_3 nmm:musicAlbum ?album ;
-                        tracker:available "true"
+                        tracker:available 'true'
                 }
             )
         }
     ORDER BY nie:title(?album) ?author ?albumyear
-    """.replace("\n", " ").strip()
+    '''.replace('\n', ' ').strip()
 
-    ALBUMS_COUNT = """
+    ALBUMS_COUNT = '''
     SELECT
         COUNT(?album) AS childcount
     WHERE {
         ?album a nmm:MusicAlbum
     }
-    """.replace("\n", " ").strip()
+    '''.replace('\n', ' ').strip()
 
-    ARTISTS = """
+    ARTISTS = '''
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS id
@@ -104,7 +104,7 @@ class Query():
                 SELECT
                     GROUP_CONCAT(
                         nmm:artistName(?artist),
-                        ","
+                        ','
                     )
                 WHERE {
                     ?album nmm:albumArtist ?artist
@@ -121,7 +121,7 @@ class Query():
                             }
                             GROUP BY ?perf
                         ),
-                        ","
+                        ','
                     ) AS album_performer
                 WHERE {
                 }
@@ -135,7 +135,7 @@ class Query():
                         COUNT(?_1)
                     WHERE {
                         ?_1 nmm:musicAlbum ?album ;
-                        tracker:available "true"
+                        tracker:available 'true'
                     }
                 )
             )
@@ -146,7 +146,7 @@ class Query():
             WHERE {
                 ?_2 nmm:musicAlbum ?album ;
                     nie:contentCreated ?c ;
-                    tracker:available "true"
+                    tracker:available 'true'
             }
             LIMIT 1
         ) AS creation-date
@@ -155,23 +155,23 @@ class Query():
             FILTER (
                 EXISTS {
                     ?_3 nmm:musicAlbum ?album ;
-                        tracker:available "true"
+                        tracker:available 'true'
                 }
             )
         }
     ORDER BY ?author ?albumyear nie:title(?album)
-    """.replace("\n", " ").strip()
+    '''.replace('\n', ' ').strip()
 
-    ARTISTS_COUNT = """
+    ARTISTS_COUNT = '''
     SELECT
         COUNT(DISTINCT ?artist)
     WHERE {
         ?artist a nmm:Artist .
         ?album nmm:performer ?artist
     }
-    """.replace("\n", " ").strip()
+    '''.replace('\n', ' ').strip()
 
-    SONGS = """
+    SONGS = '''
     SELECT DISTINCT
         rdf:type(?song)
         tracker:id(?song) AS id
@@ -184,19 +184,19 @@ class Query():
             ?song a nmm:MusicPiece
         }
     ORDER BY tracker:added(?song)
-    """.replace("\n", " ").strip()
+    '''.replace('\n', ' ').strip()
 
-    SONGS_COUNT = """
+    SONGS_COUNT = '''
     SELECT
         COUNT(?song) AS childcount
     WHERE {
         ?song a nmm:MusicPiece
     }
-    """.replace("\n", " ").strip()
+    '''.replace('\n', ' ').strip()
 
     @staticmethod
     def album_songs(album_id):
-        query = """
+        query = '''
     SELECT DISTINCT
         rdf:type(?song)
         tracker:id(?song) AS id
@@ -213,7 +213,7 @@ class Query():
         )
     }
     ORDER BY nmm:trackNumber(?song) tracker:added(?song)
-    """.replace("\n", " ").strip() % {'album_id': album_id}
+    '''.replace('\n', ' ').strip() % {'album_id': album_id}
 
         return query
 

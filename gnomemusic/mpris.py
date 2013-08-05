@@ -16,12 +16,12 @@ class MediaPlayer2Service(dbus.service.Object):
         dbus.service.Object.__init__(self, name, '/org/mpris/MediaPlayer2')
         self.app = app
         self.player = app.get_active_window().player
-        self.player.connect("current-changed", self._on_current_changed)
-        self.player.connect("playback-status-changed", self._on_playback_status_changed)
-        self.player.connect("repeat-mode-changed", self._on_repeat_mode_changed)
-        self.player.connect("volume-changed", self._on_volume_changed)
-        self.player.connect("prev-next-invalidated", self._on_prev_next_invalidated)
-        self.player.connect("seeked", self._on_seeked)
+        self.player.connect('current-changed', self._on_current_changed)
+        self.player.connect('playback-status-changed', self._on_playback_status_changed)
+        self.player.connect('repeat-mode-changed', self._on_repeat_mode_changed)
+        self.player.connect('volume-changed', self._on_volume_changed)
+        self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
+        self.player.connect('seeked', self._on_seeked)
 
     def _get_playback_status(self):
         state = self.player.get_playback_status()

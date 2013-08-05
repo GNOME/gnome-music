@@ -61,16 +61,16 @@ class ViewContainer(Stack):
                 transition_type=StackTransitionType.SLIDE_RIGHT,
             )
             dummy = Gtk.Frame(visible=False)
-            self.stack.add_named(dummy, "dummy")
-            self.stack.add_named(box, "artists")
-            self.stack.set_visible_child_name("dummy")
+            self.stack.add_named(dummy, 'dummy')
+            self.stack.add_named(box, 'artists')
+            self.stack.set_visible_child_name('dummy')
             self._grid.add(self.stack)
         else:
             self._grid.add(box)
 
         self._loadMore = Widgets.LoadMoreButton(self._get_remaining_item_count)
         box.pack_end(self._loadMore.widget, False, False, 0)
-        self._loadMore.widget.connect("clicked", self._populate)
+        self._loadMore.widget.connect('clicked', self._populate)
         self.view.connect('item-activated', self._on_item_activated)
         self._cursor = None
         self.header_bar = header_bar
@@ -166,7 +166,7 @@ class ViewContainer(Stack):
         self._loadMore.set_block(not end)
 
     def populate(self):
-        print("populate")
+        print('populate')
 
     def _add_item(self, source, param, item):
         if not item:
@@ -183,14 +183,14 @@ class ViewContainer(Stack):
                 self.player.discoverer.discover_uri(item.get_url())
             self._model.set(_iter,
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                            [str(item.get_id()), "", title,
+                            [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
                              -1, self.nowPlayingIconName, False, False])
         except:
-            print("failed to discover url " + item.get_url())
+            print('failed to discover url ' + item.get_url())
             self._model.set(_iter,
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                            [str(item.get_id()), "", title,
+                            [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
                              -1, self.errorIconName, False, True])
         GLib.idle_add(self._update_album_art, item, _iter)
@@ -285,7 +285,7 @@ class Songs(ViewContainer):
         self.iter_to_clean = None
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.get_generic_view().get_style_context()\
-            .add_class("songs-list")
+            .add_class('songs-list')
         self._iconHeight = 32
         self._iconWidth = 32
         self.cache = albumArtCache.get_default()
@@ -298,7 +298,7 @@ class Songs(ViewContainer):
     def _on_item_activated(self, widget, id, path):
         _iter = self._model.get_iter(path)
         if self._model.get_value(_iter, 8) != self.errorIconName:
-            self.player.set_playlist("Songs", None, self._model, _iter, 5)
+            self.player.set_playlist('Songs', None, self._model, _iter, 5)
             self.player.set_playing(True)
 
     def update_model(self, player, playlist, currentIter):
@@ -327,7 +327,7 @@ class Songs(ViewContainer):
                              item.get_string(Grl.METADATA_KEY_ARTIST),
                              item, self.nowPlayingIconName, False, False])
         except:
-            print("failed to discover url " + item.get_url())
+            print('failed to discover url ' + item.get_url())
             self._model.set(_iter,
                             [2, 3, 5, 8, 9, 10],
                             [albumArtCache.get_media_title(item),
@@ -342,12 +342,12 @@ class Songs(ViewContainer):
         now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xalign=1.0)
 
         column_now_playing = Gtk.TreeViewColumn()
-        column_now_playing.set_property("fixed_width", 24)
+        column_now_playing.set_property('fixed_width', 24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
         column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         "visible", 10)
+                                         'visible', 10)
         column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         "icon_name", 8)
+                                         'icon_name', 8)
         list_widget.insert_column(column_now_playing, 0)
 
         title_renderer = Gtk.CellRendererText(
@@ -406,7 +406,7 @@ class Songs(ViewContainer):
             seconds = item.get_duration()
             minutes = seconds // 60
             seconds %= 60
-            cell.set_property("text", "%i:%02i" % (minutes, seconds))
+            cell.set_property('text', '%i:%02i' % (minutes, seconds))
 
     def _on_list_widget_artist_render(self, col, cell, model, _iter, data):
         pass
@@ -414,7 +414,7 @@ class Songs(ViewContainer):
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
-            cell.set_property("text", item.get_string(Grl.METADATA_KEY_ALBUM))
+            cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM))
 
     def populate(self):
         if grilo.tracker:
@@ -440,7 +440,7 @@ class Artists (ViewContainer):
         )
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.set_hexpand(False)
-        self.view.get_style_context().add_class("artist-panel")
+        self.view.get_style_context().add_class('artist-panel')
         self.view.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
         self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL),
@@ -450,10 +450,10 @@ class Artists (ViewContainer):
         if (Gtk.Settings.get_default().get_property(
                 'gtk_application_prefer_dark_theme')):
             self.view.get_generic_view().get_style_context().\
-                add_class("artist-panel-dark")
+                add_class('artist-panel-dark')
         else:
             self.view.get_generic_view().get_style_context().\
-                add_class("artist-panel-white")
+                add_class('artist-panel-white')
         self.show_all()
 
     def _populate(self, data=None):
@@ -462,10 +462,10 @@ class Artists (ViewContainer):
             self._allIter = self._model.append()
             self._last_selection = self._allIter
             self._artists[_("All Artists").lower()] =\
-                {"iter": self._allIter, "albums": []}
+                {'iter': self._allIter, 'albums': []}
             self._model.set(self._allIter, 2, _("All Artists"))
             selection.select_path(self._model.get_path(self._allIter))
-            self.view.emit('item-activated', "0",
+            self.view.emit('item-activated', '0',
                            self._model.get_path(self._allIter))
         self._init = True
         self.populate()
@@ -486,7 +486,7 @@ class Artists (ViewContainer):
         )
         list_widget.add_renderer(type_renderer, lambda *args: None, None)
         cols[0].clear_attributes(type_renderer)
-        cols[0].add_attribute(type_renderer, "text", 2)
+        cols[0].add_attribute(type_renderer, 'text', 2)
 
     def _on_item_activated(self, widget, item_id, path):
         children = self._artistAlbumsWidget.get_children()
@@ -495,7 +495,7 @@ class Artists (ViewContainer):
         _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
-        albums = self._artists[artist.lower()]["albums"]
+        albums = self._artists[artist.lower()]['albums']
         self.artistAlbums = None
         if (self._model.get_string_from_iter(_iter) ==
                 self._model.get_string_from_iter(self._allIter)):
@@ -516,10 +516,10 @@ class Artists (ViewContainer):
             artist = _("Unknown Artist")
         if not artist.lower() in self._artists:
             _iter = self._model.append()
-            self._artists[artist.lower()] = {"iter": _iter, "albums": []}
+            self._artists[artist.lower()] = {'iter': _iter, 'albums': []}
             self._model.set(_iter, [2], [artist])
 
-        self._artists[artist.lower()]["albums"].append(item)
+        self._artists[artist.lower()]['albums'].append(item)
 
     def populate(self):
         if grilo.tracker:

@@ -51,7 +51,7 @@ class Player(GObject.GObject):
 
         Gst.init(None)
         self.discoverer = GstPbutils.Discoverer()
-        self.player = Gst.ElementFactory.make("playbin", "player")
+        self.player = Gst.ElementFactory.make('playbin', 'player')
         self.bus = self.player.get_bus()
         self.bus.add_signal_watch()
 
@@ -59,9 +59,9 @@ class Player(GObject.GObject):
         self._settings.connect('changed::repeat', self._on_settings_changed)
         self.repeat = self._settings.get_enum('repeat')
 
-        self.bus.connect("message::state-changed", self._on_bus_state_changed)
-        self.bus.connect("message::error", self._onBusError)
-        self.bus.connect("message::eos", self._on_bus_eos)
+        self.bus.connect('message::state-changed', self._on_bus_state_changed)
+        self.bus.connect('message::error', self._onBusError)
+        self.bus.connect('message::eos', self._on_bus_eos)
         self._setup_view()
 
     def _on_settings_changed(self, settings, value):
@@ -82,14 +82,14 @@ class Player(GObject.GObject):
         if media is not None:
             uri = media.get_url()
         else:
-            uri = "none"
-            print("URI: " + uri)
+            uri = 'none'
+            print('URI: ' + uri)
         error, debug = message.parse_error()
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        print("Error from element " + message.src.get_name() + ": " + error.message)
-        print("Debugging info:\n" + debug)
+        print('Error from element ' + message.src.get_name() + ': ' + error.message)
+        print('Debugging info:\n' + debug)
         self.play_next()
         return True
 
@@ -236,10 +236,10 @@ class Player(GObject.GObject):
             self.artistLabel.set_label(_("Unknown Artist"))
 
         url = media.get_url()
-        if url != self.player.get_value("current-uri", 0):
-            self.player.set_property("uri", url)
+        if url != self.player.get_value('current-uri', 0):
+            self.player.set_property('uri', url)
 
-        self.emit("playlist-item-changed", self.playlist, self.currentTrack)
+        self.emit('playlist-item-changed', self.playlist, self.currentTrack)
         self.emit('current-changed')
 
     def _on_cache_lookup(self, pixbuf, path, data=None):
@@ -354,12 +354,12 @@ class Player(GObject.GObject):
 
         self._sync_repeat_image()
 
-        self.prevBtn.connect("clicked", self._on_prev_btn_clicked)
-        self.playBtn.connect("clicked", self._on_play_btn_clicked)
-        self.nextBtn.connect("clicked", self._on_next_btn_clicked)
-        self.progressScale.connect("button-press-event", self._on_progress_scale_event)
-        self.progressScale.connect("value-changed", self._on_progress_value_changed)
-        self.progressScale.connect("button-release-event", self._on_progress_scale_button_released)
+        self.prevBtn.connect('clicked', self._on_prev_btn_clicked)
+        self.playBtn.connect('clicked', self._on_play_btn_clicked)
+        self.nextBtn.connect('clicked', self._on_next_btn_clicked)
+        self.progressScale.connect('button-press-event', self._on_progress_scale_event)
+        self.progressScale.connect('value-changed', self._on_progress_value_changed)
+        self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
 
     def _on_progress_scale_button_released(self, scale, data):
         self.on_progress_scale_change_value(self.progressScale)
@@ -386,7 +386,7 @@ class Player(GObject.GObject):
         minutes = seconds // 60
         seconds %= 60
 
-        return "%i:%02i" % (minutes, seconds)
+        return '%i:%02i' % (minutes, seconds)
 
     def _on_play_btn_clicked(self, btn):
         if self._get_playing():
@@ -504,6 +504,6 @@ class SelectionToolbar():
     def __init__(self):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
-        self.eventbox = self._ui.get_object("eventbox1")
-        self._add_to_playlist_button = self._ui.get_object("button1")
+        self.eventbox = self._ui.get_object('eventbox1')
+        self._add_to_playlist_button = self._ui.get_object('button1')
         self.eventbox.set_visible(False)
