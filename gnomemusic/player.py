@@ -78,7 +78,7 @@ class Player(GObject.GObject):
         self.emit('playing-changed')
 
     def _onBusError(self, bus, message):
-        media = self.playlist.get_value(self.currentTrack, self.playlistField)
+        media = self.get_current_media()
         if media is not None:
             uri = media.get_url()
         else:
@@ -105,7 +105,7 @@ class Player(GObject.GObject):
             self.progressScale.set_sensitive(False)
             if self.playlist is not None:
                 self.currentTrack = self.playlist.get_iter_first()
-                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+                self.load(self.get_current_media())
         else:
             #Stop playback
             self.stop()
@@ -213,7 +213,7 @@ class Player(GObject.GObject):
         else:
             self.pause()
 
-        media = self.playlist.get_value(self.currentTrack, self.playlistField)
+        media = self.get_current_media()
         self.playBtn.set_image(self._pauseImage)
         return media
 
@@ -253,7 +253,7 @@ class Player(GObject.GObject):
         if self.player.get_state(1)[1] != Gst.State.PAUSED:
             self.stop()
 
-        self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+        self.load(self.get_current_media())
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
@@ -534,6 +534,11 @@ class Player(GObject.GObject):
     def set_volume(self, rate):
         self.player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
         self.emit('volume-changed')
+
+    def get_current_media(self):
+        if not self.currentTrack:
+            return None
+        return self.playlist.get_value(self.currentTrack, self.playlistField)
 
 
 class SelectionToolbar():
