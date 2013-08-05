@@ -3,6 +3,7 @@ import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
 
 from gnomemusic.player import PlaybackStatus, RepeatType
+from gnomemusic.albumArtCache import AlbumArtCache
 
 
 class MediaPlayer2Service(dbus.service.Object):
@@ -39,10 +40,51 @@ class MediaPlayer2Service(dbus.service.Object):
         else:
             return 'Playlist'
 
+    def _get_metadata(self):
+        media = self.player.get_current_media()
+        if not media:
+            return {}
+
+        metadata = {
+            'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % media.get_id(),
+            'xesam:url': media.get_url(),
+            'mpris:length': dbus.Int64(media.get_duration() * 1000000),
+            'xesam:trackNumber': media.get_track_number(),
+            'xesam:useCount': media.get_play_count(),
+            'xesam:userRating': media.get_rating(),
+        }
+
+        title = AlbumArtCache.get_media_title(media)
+        if title:
+            metadata['xesam:title'] = title
+
+        album = media.get_album()
+        if album:
+            metadata['xesam:album'] = album
+
+        artist = media.get_artist()
+        if artist:
+            metadata['xesam:artist'] = [artist]
+            metadata['xesam:albumArtist'] = [artist]
+
+        genre = media.get_genre()
+        if genre:
+            metadata['xesam:genre'] = [genre]
+
+        last_played = media.get_last_played()
+        if last_played:
+            metadata['xesam:lastUsed'] = last_played
+
+        thumbnail = media.get_thumbnail()
+        if thumbnail:
+            metadata['mpris:artUrl'] = thumbnail
+
+        return metadata
+
     def _on_current_changed(self, player, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Metadata': dbus.Dictionary(self.player.get_metadata(),
+                                   'Metadata': dbus.Dictionary(self._get_metadata(),
                                                                signature='sv'),
                                    'CanPlay': True,
                                    'CanPause': True,
@@ -67,7 +109,7 @@ class MediaPlayer2Service(dbus.service.Object):
     def _on_volume_changed(self, player, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Volume': self.player.get_volume(),
+                                   'Volume': dbus.Double(self.player.get_volume()),
                                },
                                [])
 
@@ -122,7 +164,7 @@ class MediaPlayer2Service(dbus.service.Object):
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
                          in_signature='ox')
     def SetPosition(self, track_id, position):
-        if track_id != self.player.get_metadata().get('mpris:trackid'):
+        if track_id != self._get_metadata().get('mpris:trackid'):
             return
         self.player.set_position(position)
 
@@ -165,13 +207,13 @@ class MediaPlayer2Service(dbus.service.Object):
             return {
                 'PlaybackStatus': self._get_playback_status(),
                 'LoopStatus': self._get_loop_status(),
-                'Rate': 1.0,
+                'Rate': dbus.Double(1.0),
                 'Shuffle': self.player.repeat == RepeatType.SHUFFLE,
-                'Metadata': dbus.Dictionary(self.player.get_metadata(), signature='sv'),
-                'Volume': self.player.get_volume(),
-                'Position': self.player.get_position(),
-                'MinimumRate': 1.0,
-                'MaximumRate': 1.0,
+                'Metadata': dbus.Dictionary(self._get_metadata(), signature='sv'),
+                'Volume': dbus.Double(self.player.get_volume()),
+                'Position': dbus.Int64(self.player.get_position()),
+                'MinimumRate': dbus.Double(1.0),
+                'MaximumRate': dbus.Double(1.0),
                 'CanGoNext': self.player.has_next(),
                 'CanGoPrevious': self.player.has_previous(),
                 'CanPlay': self.player.currentTrack is not None,

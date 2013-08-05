@@ -78,7 +78,7 @@ class Player(GObject.GObject):
         self.emit('playing-changed')
 
     def _onBusError(self, bus, message):
-        media = self.playlist.get_value(self.currentTrack, self.playlistField)
+        media = self.get_current_media()
         if media is not None:
             uri = media.get_url()
         else:
@@ -105,7 +105,7 @@ class Player(GObject.GObject):
             self.progressScale.set_sensitive(False)
             if self.playlist is not None:
                 self.currentTrack = self.playlist.get_iter_first()
-                self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+                self.load(self.get_current_media())
         else:
             #Stop playback
             self.stop()
@@ -213,7 +213,7 @@ class Player(GObject.GObject):
         else:
             self.pause()
 
-        media = self.playlist.get_value(self.currentTrack, self.playlistField)
+        media = self.get_current_media()
         self.playBtn.set_image(self._pauseImage)
         return media
 
@@ -253,7 +253,7 @@ class Player(GObject.GObject):
         if self.player.get_state(1)[1] != Gst.State.PAUSED:
             self.stop()
 
-        self.load(self.playlist.get_value(self.currentTrack, self.playlistField))
+        self.load(self.get_current_media())
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
@@ -487,53 +487,17 @@ class Player(GObject.GObject):
         elif next_on_overflow:
             self.play_next()
 
-    def get_metadata(self):
-        if self.currentTrack is None:
-            return {}
-
-        media = self.playlist.get_value(self.currentTrack, self.playlistField)
-        metadata = {
-            'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % media.get_id(),
-            'xesam:url': media.get_url(),
-            'mpris:length': media.get_duration() * 1000000,
-            'xesam:trackNumber': media.get_track_number(),
-            'xesam:useCount': media.get_play_count(),
-            'xesam:userRating': media.get_rating(),
-        }
-
-        title = AlbumArtCache.get_media_title(media)
-        if title:
-            metadata['xesam:title'] = title
-
-        album = media.get_album()
-        if album:
-            metadata['xesam:album'] = album
-
-        artist = media.get_artist()
-        if artist:
-            metadata['xesam:artist'] = [artist]
-            metadata['xesam:albumArtist'] = [artist]
-
-        genre = media.get_genre()
-        if genre:
-            metadata['xesam:genre'] = [genre]
-
-        last_played = media.get_last_played()
-        if last_played:
-            metadata['xesam:lastUsed'] = last_played
-
-        thumbnail = media.get_thumbnail()
-        if thumbnail:
-            metadata['mpris:artUrl'] = thumbnail
-
-        return metadata
-
     def get_volume(self):
         return self.player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
 
     def set_volume(self, rate):
         self.player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
         self.emit('volume-changed')
+
+    def get_current_media(self):
+        if not self.currentTrack:
+            return None
+        return self.playlist.get_value(self.currentTrack, self.playlistField)
 
 
 class SelectionToolbar():
