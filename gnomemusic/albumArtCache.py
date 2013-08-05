@@ -221,12 +221,10 @@ class AlbumArtCache:
         self.frame_lock = threading.Lock()
 
         self._keybuilder_funcs = [
-            lambda artist, album:
-            'album-%s-%s' % (self._normalize_and_hash(artist),
-                self._normalize_and_hash(album)),
-            lambda artist, album:
-            'album-%s-%s' % (self._normalize_and_hash(album),
-                self._normalize_and_hash(None))
+            lambda artist, album: 'album-%s-%s' % (
+                self._normalize_and_hash(artist), self._normalize_and_hash(album)),
+            lambda artist, album: 'album-%s-%s' % (
+                self._normalize_and_hash(album), self._normalize_and_hash(None))
         ]
 
         try:
