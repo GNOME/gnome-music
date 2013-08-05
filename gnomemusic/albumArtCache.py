@@ -183,6 +183,8 @@ class AlbumArtCache:
     invalid_chars = re.compile('[()<>\[\]{}_!@#$^&*+=|\\\/"\'?~]', re.DOTALL)
     multiple_spaces = re.compile('\t|\s+', re.DOTALL)
 
+    cacheDir = os.path.join(GLib.get_user_cache_dir(), "media-art")
+
     @classmethod
     def get_default(self):
         if self.instance:
@@ -215,7 +217,7 @@ class AlbumArtCache:
     def __init__(self):
         self.logLookupErrors = False
         self.requested_uris = {}
-        self.cacheDir = os.path.join(GLib.get_user_cache_dir(), "media-art")
+        self
 
         self._keybuilder_funcs = [
             lambda artist, album:
