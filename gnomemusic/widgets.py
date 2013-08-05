@@ -530,7 +530,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                                         self.track_selected)
 
                 except:
-                    logging.debug("failed to discover url " + str(track.get_url()))
+                    print("failed to discover url " + str(track.get_url()))
                     self.model.set(itr, [0, 1, 2, 3, 4, 5],
                                    [title, "", "", True,
                                     ERROR_ICON_NAME, track])
