@@ -239,16 +239,6 @@ class Player(GObject.GObject):
         if url != self.player.get_value("current-uri", 0):
             self.player.set_property("uri", url)
 
-        #Store next available url
-        #(not really useful because we can't connect to about-to-finish, but still)
-        nextTrack = self._get_next_track()
-
-        if nextTrack:
-            nextMedia = self.playlist.get_value(self.currentTrack, self.playlistField)
-            self.player.nextUrl = nextMedia.get_url()
-        else:
-            self.player.nextUrl = None
-
         self.emit("playlist-item-changed", self.playlist, self.currentTrack)
         self.emit('current-changed')
 
