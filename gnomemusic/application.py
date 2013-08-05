@@ -21,14 +21,52 @@ class Application(Gtk.Application):
 
         self._window = None
 
+    def build_app_menu(self):
+        builder = Gtk.Builder()
+
+        builder.add_from_resource('/org/gnome/Music/app-menu.ui')
+
+        menu = builder.get_object('app-menu')
+        self.set_app_menu(menu)
+
+        aboutAction = Gio.SimpleAction.new('about', None)
+        aboutAction.connect('activate', self.about)
+        self.add_action(aboutAction)
+
+        newPlaylistAction = Gio.SimpleAction.new('newPlaylist', None)
+        newPlaylistAction.connect('activate', self.new_playlist)
+        self.add_action(newPlaylistAction)
+
+        nowPlayingAction = Gio.SimpleAction.new('nowPlaying', None)
+        nowPlayingAction.connect('activate', self.now_playing)
+        self.add_action(nowPlayingAction)
+
+        quitAction = Gio.SimpleAction.new('quit', None)
+        quitAction.connect('activate', self.quit)
+        self.add_action(quitAction)
+
+    def new_playlist(self, action, param):
+        pass
+
+    def now_playing(self, action, param):
+        pass
+
+    def about(self, action, param):
+        pass
+
     def do_startup(self):
         Gtk.Application.do_startup(self)
+
+        resource = Gio.Resource.load("data/gnome-music.gresource");
+        resource._register();
+
+        self.build_app_menu()
+
+    def quit(self, action, param):
+        self._window.destroy()
 
     def do_activate(self):
         if not self._window:
             self._window = Window(self)
             self.service = MediaPlayer2Service(self)
         self._window.present()
-
-    def quit(self):
-        self._window.destroy()
