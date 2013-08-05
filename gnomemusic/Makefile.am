@@ -12,5 +12,6 @@ app_PYTHON = \
 	grilo.py \
 	query.py \
 	widgets.py \
+	searchbar.py \
 	window.py
 
