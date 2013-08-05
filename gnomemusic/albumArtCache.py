@@ -264,10 +264,8 @@ class AlbumArtCache:
                                      h - border * 2,
                                      0)
 
-        result = self._draw_rounded_path(0, 0,
-                                w, h,
-                                3)
-                                             
+        result = self._draw_rounded_path(0, 0, w, h, 3)
+
         pixbuf.copy_area(border, border,
                          w - border * 4,
                          h - border * 4,
@@ -280,8 +278,7 @@ class AlbumArtCache:
         key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
         self.frame_lock.acquire()
         if not key in self.frame_cache:
-            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
-                    width, height)
+            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
             ctx = cairo.Context(surface)
             ctx.new_sub_path()
             ctx.arc(x + width - radius, y + radius, radius - 0.5,
