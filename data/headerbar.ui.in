@@ -57,7 +57,7 @@
     <property name="visible">True</property>
     <property name="vexpand">False</property>
     <child>
-      <object class="GtkButton" id="search-button">
+      <object class="GtkToggleButton" id="search-button">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="valign">center</property>
