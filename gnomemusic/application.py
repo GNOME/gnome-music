@@ -57,9 +57,6 @@ class Application(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
-        resource = Gio.Resource.load("data/gnome-music.gresource");
-        resource._register();
-
         self.build_app_menu()
 
     def quit(self, action, param):
