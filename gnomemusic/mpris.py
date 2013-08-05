@@ -48,7 +48,7 @@ class MediaPlayer2Service(dbus.service.Object):
         metadata = {
             'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % media.get_id(),
             'xesam:url': media.get_url(),
-            'mpris:length': media.get_duration() * 1000000,
+            'mpris:length': dbus.Int64(media.get_duration() * 1000000),
             'xesam:trackNumber': media.get_track_number(),
             'xesam:useCount': media.get_play_count(),
             'xesam:userRating': media.get_rating(),
@@ -109,7 +109,7 @@ class MediaPlayer2Service(dbus.service.Object):
     def _on_volume_changed(self, player, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Volume': self.player.get_volume(),
+                                   'Volume': dbus.Double(self.player.get_volume()),
                                },
                                [])
 
@@ -207,13 +207,13 @@ class MediaPlayer2Service(dbus.service.Object):
             return {
                 'PlaybackStatus': self._get_playback_status(),
                 'LoopStatus': self._get_loop_status(),
-                'Rate': 1.0,
+                'Rate': dbus.Double(1.0),
                 'Shuffle': self.player.repeat == RepeatType.SHUFFLE,
                 'Metadata': dbus.Dictionary(self._get_metadata(), signature='sv'),
-                'Volume': self.player.get_volume(),
-                'Position': self.player.get_position(),
-                'MinimumRate': 1.0,
-                'MaximumRate': 1.0,
+                'Volume': dbus.Double(self.player.get_volume()),
+                'Position': dbus.Int64(self.player.get_position()),
+                'MinimumRate': dbus.Double(1.0),
+                'MaximumRate': dbus.Double(1.0),
                 'CanGoNext': self.player.has_next(),
                 'CanGoPrevious': self.player.has_previous(),
                 'CanPlay': self.player.currentTrack is not None,
