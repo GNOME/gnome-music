@@ -446,7 +446,7 @@ class Artists (ViewContainer):
         if not selection.get_selected()[1]:
             self._allIter = self._model.append()
             self._last_selection = self._allIter
-            self._artists["All Artists".lower()] =\
+            self._artists[_("All Artists").lower()] =\
                 {"iter": self._allIter, "albums": []}
             self._model.set(self._allIter, 2, _("All Artists"))
             selection.select_path(self._model.get_path(self._allIter))
