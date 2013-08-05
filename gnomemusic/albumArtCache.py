@@ -278,6 +278,7 @@ class AlbumArtCache:
 
     def _draw_rounded_path(self, x, y, width, height, radius):
         key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
+        self.frame_lock.acquire()
         if not key in self.frame_cache:
             surface = cairo.ImageSurface(cairo.FORMAT_ARGB32,
                     width, height)
@@ -297,10 +298,10 @@ class AlbumArtCache:
             ctx.stroke_preserve()
             ctx.set_source_rgb(1, 1, 1)
             ctx.fill()
-            self.frame_lock.acquire()
             self.frame_cache[key] = Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)
-            self.frame_lock.release()
-        return self.frame_cache[key].copy()
+        res = self.frame_cache[key].copy()
+        self.frame_lock.release()
+        return res
 
     def lookup(self, item, width, height, callback, data=None):
         request = LookupRequest(item, width, height, callback, data)
