@@ -7,10 +7,7 @@
     <property name="comments" translatable="yes">A Music player and management application for GNOME.</property>
     <property name="website">https://wiki.gnome.org/Music</property>
     <property name="website_label" translatable="yes">Visit GNOME Music web site</property>
-    <property name="license" translatable="yes">  # This GPL license have a exception clause added, see at the bottom of file
-  # for details.
-
-  Music is free software; you can redistribute it and/or modify
+    <property name="license" translatable="yes">  Music is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as 
   published by the Free Software Foundation; either version 2 of the 
   License, or (at your option) any later version.
@@ -37,9 +34,13 @@
     Vadim Rutkovsky &lt;vrutkovs@redhat.com&gt;
 
 Contributors:
+    Arnel A. Borja &lt;kyoushuu@yahoo.com&gt;
     Eslam Mostafa &lt;cseslam@gmail.com&gt;
+    Fabiano Fidêncio &lt;fidencio@redhat.com&gt;
+    Guillaume Quintard &lt;guillaume.quintard@gmail.com&gt;
     Juan Suarez &lt;jasuarez@igalia.com&gt;
-    Guillaume Quintard &lt;guillaume.quintard@gmail.com&gt;</property>
+    Sai Suman Prayaga &lt;suman.sai14@gmail.com&gt;
+    Shivani Poddar &lt;shivani.poddar92@gmail.com&gt;</property>
     <property name="artists">William Jon McCann &lt;william.jon.mccann@gmail.com&gt;
     Jakub Steiner &lt;jimmac@gmail.com&gt;
     Allan Day &lt;allanpday@gmail.com&gt;</property>
