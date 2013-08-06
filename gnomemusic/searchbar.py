@@ -1,8 +1,4 @@
 from gi.repository import Gtk
-from gi.repository import Gdk
-from gi.repository import Gd
-from gi.repository import GObject
-from gnomemusic.view import ViewContainer
 
 
 class Searchbar(Gtk.SearchBar):

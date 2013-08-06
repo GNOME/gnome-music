@@ -36,6 +36,7 @@ else:
     from gi.repository.Gd import StackSwitcher
 from gnomemusic.searchbar import Searchbar
 
+
 class ToolbarState:
     SINGLE = 0
     ALBUMS = 1
