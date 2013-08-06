@@ -59,7 +59,7 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, (Gtk.ListStore, Gtk.TreeIter)),
+        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, (Gtk.TreeModelFilter, Gtk.TreeIter)),
         'current-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'playback-status-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'repeat-mode-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),

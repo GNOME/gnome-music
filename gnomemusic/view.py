@@ -344,21 +344,22 @@ class Songs(ViewContainer):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def _on_item_activated(self, widget, id, path):
-        child_path = self.filter.convert_path_to_child_path(path)
-        _iter = self._model.get_iter(child_path)
-        if self._model.get_value(_iter, 8) != self.errorIconName:
-            self.player.set_playlist('Songs', None, self._model, _iter, 5)
+        _iter = self.filter.get_iter(path)
+        child_iter = self.filter.convert_iter_to_child_iter(_iter)
+        if self._model.get_value(child_iter, 8) != self.errorIconName:
+            self.player.set_playlist('Songs', None, self.filter, _iter, 5)
             self.player.set_playing(True)
 
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
             self._model.set_value(self.iter_to_clean, 10, False)
-        if playlist != self._model:
+        if playlist != self.filter:
             return False
 
-        self._model.set_value(currentIter, 10, True)
-        if self._model.get_value(currentIter, 8) != self.errorIconName:
-            self.iter_to_clean = currentIter.copy()
+        child_iter = self.filter.convert_iter_to_child_iter(currentIter)
+        self._model.set_value(child_iter, 10, True)
+        if self._model.get_value(child_iter, 8) != self.errorIconName:
+            self.iter_to_clean = child_iter.copy()
         return False
 
     def _add_item(self, source, param, item):
