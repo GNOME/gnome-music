@@ -129,6 +129,7 @@ class Window(Gtk.ApplicationWindow):
 
             self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
             self.connect('destroy', self._notify_mode_disconnect)
+            self.connect('key_press_event', self._on_key_press)
 
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
@@ -141,6 +142,10 @@ class Window(Gtk.ApplicationWindow):
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
+
+    def _on_key_press(self, widget, event):
+        if event.keyval == 102: # Ctrl-f
+            self.toolbar.searchbar.set_property('search-mode-enabled', True)
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
