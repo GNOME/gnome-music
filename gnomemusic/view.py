@@ -73,7 +73,7 @@ class ViewContainer(Stack):
         self._adjustmentValueId = 0
         self._adjustmentChangedId = 0
         self._scrollbarVisibleId = 0
-        self._model = Gtk.TreeStore(
+        self._model = Gtk.ListStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -344,7 +344,8 @@ class Songs(ViewContainer):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def _on_item_activated(self, widget, id, path):
-        _iter = self._model.get_iter(path)
+        child_path = self.filter.convert_path_to_child_path(path)
+        _iter = self._model.get_iter(child_path)
         if self._model.get_value(_iter, 8) != self.errorIconName:
             self.player.set_playlist('Songs', None, self._model, _iter, 5)
             self.player.set_playing(True)
