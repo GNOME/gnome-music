@@ -155,6 +155,7 @@ class Window(Gtk.ApplicationWindow):
         if stack.get_visible_child() == self.views[1]:
             stack.get_visible_child().stack.set_visible_child_name('dummy')
             stack.get_visible_child().stack.set_visible_child_name('artists')
+        self.toolbar.searchbar.set_property('search-mode-enabled', False)
 
     def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])
