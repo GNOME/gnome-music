@@ -52,7 +52,15 @@ class Application(Gtk.Application):
         pass
 
     def about(self, action, param):
-        pass
+        builder = Gtk.Builder()
+        builder.add_from_resource('/org/gnome/Music/AboutDialog.ui')
+        about = builder.get_object('about_dialog')
+        about.set_version("0.3")
+        about.connect("response", self.about_response)
+        about.show()
+
+    def about_response(self, dialog, response):
+        dialog.destroy()
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
