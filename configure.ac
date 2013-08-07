@@ -29,7 +29,9 @@ PKG_PROG_PKG_CONFIG([0.22])
 
 GLIB_GSETTINGS
 GOBJECT_INTROSPECTION_REQUIRE([1.35.9])
-PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.9.8])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0 >= 3.8])
+PKG_CHECK_EXISTS([gtk+-3.0 >= 3.9.0], [GTK_OR_GD=Gtk], [GTK_OR_GD=Gd])
+AC_SUBST(GTK_OR_GD)
 
 GLIB_COMPILE_RESOURCES=`$PKG_CONFIG --variable glib_compile_resources gio-2.0`
 AC_SUBST(GLIB_COMPILE_RESOURCES)
@@ -40,6 +42,7 @@ PKG_CHECK_MODULES(GRL, grilo-0.2 >= $GRL_MIN_VERSION)
 AC_CONFIG_FILES([
   Makefile
   data/Makefile
+  data/headerbar.ui
   gnomemusic/Makefile
   po/Makefile.in
   libgd/Makefile

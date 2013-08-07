@@ -53,7 +53,7 @@
       <class name="selection-menu"/>
     </style>
   </object>
-  <object class="GtkHeaderBar" id="header-bar">
+  <object class="@GTK_OR_GD@HeaderBar" id="header-bar">
     <property name="visible">True</property>
     <property name="vexpand">False</property>
     <child>

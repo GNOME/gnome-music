@@ -48,7 +48,7 @@ class Grilo(GObject.GObject):
                 if self.tracker is not None:
                     self.emit('ready')
 
-    def _on_source_removed(self):
+    def _on_source_removed(self, pluginRegistry, mediaSource):
         print('source removed')
 
     def populate_artists(self, offset, callback):

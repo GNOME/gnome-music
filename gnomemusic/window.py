@@ -8,6 +8,11 @@ import gnomemusic.view as Views
 
 tracker = Tracker.SparqlConnection.get(None)
 
+if Gtk.get_minor_version() > 8:
+    from gi.repository.Gtk import Stack, StackTransitionType
+else:
+    from gi.repository.Gd import Stack, StackTransitionType
+
 
 class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
@@ -58,12 +63,16 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player()
         self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
-        self.set_titlebar(self.toolbar.header_bar)
         self.views = []
-        self._stack = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE,
+        self._stack = Stack(
+            transition_type=StackTransitionType.CROSSFADE,
             transition_duration=100,
             visible=True)
+        if Gtk.get_minor_version() > 8:
+            self.set_titlebar(self.toolbar.header_bar)
+        else:
+            self._box.pack_start(self.toolbar.header_bar, False, False, 0)
+            self.set_hide_titlebar_when_maximized(True)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
         self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)

@@ -1,4 +1,9 @@
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, Gdk, GObject
+
+if Gtk.get_minor_version() > 8:
+    from gi.repository.Gtk import StackSwitcher
+else:
+    from gi.repository.Gd import StackSwitcher
 
 
 class ToolbarState:
@@ -15,12 +20,13 @@ class Toolbar(GObject.GObject):
         'state-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
     _selectionMode = False
+    _maximized = False
 
     def __init__(self):
         GObject.GObject.__init__(self)
-        self._stack_switcher = Gtk.StackSwitcher(margin_top=2, margin_bottom=2)
+        self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2)
         self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/Headerbar.ui')
+        self._ui.add_from_resource('/org/gnome/Music/headerbar.ui')
         self.header_bar = self._ui.get_object('header-bar')
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
@@ -30,16 +36,32 @@ class Toolbar(GObject.GObject):
         self._selection_menu = self._ui.get_object("selection-menu")
         self._selection_menu_button = self._ui.get_object("selection-menu-button")
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
-        self.header_bar.set_custom_title(self._stack_switcher)
         self._search_button = self._ui.get_object("search-button")
         self._back_button.connect('clicked', self.on_back_button_clicked)
         self._close_button.connect('clicked', self._close_button_clicked)
+        if Gtk.get_minor_version() <= 8:
+            self._close_button.connect('hierarchy-changed', self._on_hierarchy_changed)
 
     def _close_button_clicked(self, btn):
-        self._close_button.get_toplevel().close()
+        if Gtk.get_minor_version() > 8:
+            self._close_button.get_toplevel().close()
+        else:
+            self._close_button.get_toplevel().destroy()
 
     def reset_header_title(self):
         self.header_bar.set_custom_title(self._stack_switcher)
+
+    def _on_hierarchy_changed(self, widget, previous_toplevel):
+        if previous_toplevel:
+            previous_toplevel.disconnect(self._window_state_handler)
+        self._close_button.get_toplevel().add_events(Gdk.EventMask.STRUCTURE_MASK)
+        self._window_state_handler = \
+            self._close_button.get_toplevel().connect('window-state-event', self._on_window_state_event)
+
+    def _on_window_state_event(self, widget, event):
+        if event.changed_mask & Gdk.WindowState.MAXIMIZED:
+            self._maximized = bool(event.new_window_state & Gdk.WindowState.MAXIMIZED)
+            self._update()
 
     def set_stack(self, stack):
         self._stack_switcher.set_stack(stack)
@@ -74,15 +96,16 @@ class Toolbar(GObject.GObject):
     def _update(self):
         if self._state == ToolbarState.SINGLE:
             self.header_bar.set_custom_title(None)
-            self._back_button.show()
+        elif self._selectionMode:
+            self.header_bar.set_custom_title(self._selection_menu_button)
         else:
             self.reset_header_title()
-            self._back_button.hide()
 
-        if self._selectionMode:
-            self.header_bar.set_custom_title(self._selection_menu_button)
-            self._close_separator.hide()
-            self._close_button.hide()
+        self._back_button.set_visible(not self._selectionMode and self._state == ToolbarState.SINGLE)
+
+        if Gtk.get_minor_version() > 8:
+            self._close_separator.set_visible(not self._selectionMode)
+            self._close_button.set_visible(not self._selectionMode)
         else:
-            self._close_separator.show()
-            self._close_button.show()
+            self._close_separator.set_visible(not self._selectionMode and self._maximized)
+            self._close_button.set_visible(not self._selectionMode and self._maximized)
