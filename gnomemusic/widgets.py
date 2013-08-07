@@ -353,7 +353,7 @@ class ArtistAlbums(Gtk.VBox):
         self.ui.get_object('artist').set_label(self.artist)
         self.widgets = []
 
-        self.model = Gtk.TreeStore(GObject.TYPE_STRING,   # title
+        self.model = Gtk.ListStore(GObject.TYPE_STRING,   # title
                                    GObject.TYPE_STRING,
                                    GObject.TYPE_STRING,
                                    GObject.TYPE_BOOLEAN,  # icon shown

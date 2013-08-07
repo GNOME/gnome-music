@@ -73,7 +73,7 @@ class ViewContainer(Stack):
         self._adjustmentValueId = 0
         self._adjustmentChangedId = 0
         self._scrollbarVisibleId = 0
-        self._model = Gtk.TreeStore(
+        self._model = Gtk.ListStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
