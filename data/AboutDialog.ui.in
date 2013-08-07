@@ -3,6 +3,7 @@
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkAboutDialog" id="about_dialog">
     <property name="version">@PACKAGE_VERSION@</property>
+    <property name="modal">True</property>
     <property name="copyright" translatable="yes">Copyright © 2013 GNOME Music Developers</property>
     <property name="comments" translatable="yes">A Music player and management application for GNOME.</property>
     <property name="website">https://wiki.gnome.org/Music</property>

@@ -55,6 +55,7 @@ class Application(Gtk.Application):
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/AboutDialog.ui')
         about = builder.get_object('about_dialog')
+        about.set_transient_for(self._window)
         about.connect("response", self.about_response)
         about.show()
 
