@@ -431,13 +431,19 @@ class Artists (ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Artists"), header_bar,
                                selection_toolbar, True)
+        self.artists_counter = 0
         self.player = player
         self._artists = {}
         self.countQuery = Query.ARTISTS_COUNT
+        self.artistAlbumsStack = Stack(
+            transition_type=StackTransitionType.CROSSFADE,
+        )
         self._artistAlbumsWidget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE,
             hexpand=True
         )
+        self.artistAlbumsStack.add_named(self._artistAlbumsWidget, "artists")
+        self.artistAlbumsStack.set_visible_child_name("artists")
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.set_hexpand(False)
         self.view.get_style_context().add_class('artist-panel')
@@ -445,7 +451,7 @@ class Artists (ViewContainer):
             Gtk.SelectionMode.SINGLE)
         self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL),
                           1, 0, 1, 1)
-        self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
+        self._grid.attach(self.artistAlbumsStack, 2, 0, 2, 2)
         self._add_list_renderers()
         if (Gtk.Settings.get_default().get_property(
                 'gtk_application_prefer_dark_theme')):
@@ -489,9 +495,11 @@ class Artists (ViewContainer):
         cols[0].add_attribute(type_renderer, 'text', 2)
 
     def _on_item_activated(self, widget, item_id, path):
-        children = self._artistAlbumsWidget.get_children()
-        for child in children:
-            child.destroy()
+        # Prepare a new artistAlbumsWidget here
+        self.new_artistAlbumsWidget = Gtk.Frame(
+            shadow_type=Gtk.ShadowType.NONE,
+            hexpand=True
+        )
         _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
@@ -503,7 +511,17 @@ class Artists (ViewContainer):
         else:
             self.artistAlbums = Widgets.ArtistAlbums(artist, albums,
                                                      self.player)
-        self._artistAlbumsWidget.add(self.artistAlbums)
+        self.new_artistAlbumsWidget.add(self.artistAlbums)
+        self.new_artistAlbumsWidget.show()
+
+        # Switch visible child
+        child_name = "artists_%i" % self.artists_counter
+        self.artistAlbumsStack.add_named(self.new_artistAlbumsWidget, child_name)
+        self.artistAlbumsStack.set_visible_child_name(child_name)
+        self.artists_counter += 1
+
+        # Replace previous widget
+        self._artistAlbumsWidget = self.new_artistAlbumsWidget
 
     def _add_item(self, source, param, item):
         if item is None:
