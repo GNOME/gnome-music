@@ -43,6 +43,7 @@ AC_CONFIG_FILES([
   Makefile
   data/Makefile
   data/headerbar.ui
+  data/AboutDialog.ui
   gnomemusic/Makefile
   po/Makefile.in
   libgd/Makefile

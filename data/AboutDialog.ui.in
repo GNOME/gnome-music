@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="gnome-music">
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAboutDialog" id="about_dialog">
+    <property name="version">@PACKAGE_VERSION@</property>
+    <property name="modal">True</property>
+    <property name="copyright" translatable="yes">Copyright © 2013 GNOME Music Developers</property>
+    <property name="comments" translatable="yes">A Music player and management application for GNOME.</property>
+    <property name="website">https://wiki.gnome.org/Music</property>
+    <property name="website_label" translatable="yes">Visit GNOME Music web site</property>
+    <property name="license" translatable="yes">  Music is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as 
+  published by the Free Software Foundation; either version 2 of the 
+  License, or (at your option) any later version.
+
+  Music is distributed in the hope that it will be useful
+  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License 
+  along with Music; if not, write to the Free Software 
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
+  MA 02110-1301, USA.
+
+  The Gnome Music authors hereby grant permission for non-GPL compatible
+  GStreamer plugins to be used and distributed together with GStreamer and
+  Gnome Music. This permission is above and beyond the permissions granted by
+  the GPL license by which Gnome Music is covered. If you modify this code, you may
+  extend this exception to your version of the code, but you are not obligated
+  to do so. If you do not wish to do so, delete this exception statement from
+  your version.</property>
+    <property name="authors">Maintainers:
+    Seif Lotfy &lt;seif@lotfy.com&gt;
+    Vadim Rutkovsky &lt;vrutkovs@redhat.com&gt;
+
+Contributors:
+    Arnel A. Borja &lt;kyoushuu@yahoo.com&gt;
+    Eslam Mostafa &lt;cseslam@gmail.com&gt;
+    Fabiano Fidêncio &lt;fidencio@redhat.com&gt;
+    Guillaume Quintard &lt;guillaume.quintard@gmail.com&gt;
+    Juan Suarez &lt;jasuarez@igalia.com&gt;
+    Sai Suman Prayaga &lt;suman.sai14@gmail.com&gt;
+    Shivani Poddar &lt;shivani.poddar92@gmail.com&gt;</property>
+    <property name="artists">William Jon McCann &lt;william.jon.mccann@gmail.com&gt;
+    Jakub Steiner &lt;jimmac@gmail.com&gt;
+    Allan Day &lt;allanpday@gmail.com&gt;</property>
+    <property name="logo-icon-name">gnome-music</property>
+  </object>
+</interface>

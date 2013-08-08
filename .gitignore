@@ -77,3 +77,4 @@ Makefile
 gnome-music
 *.valid
 /gnomemusic/Makefile.in
+/data/AboutDialog.ui
