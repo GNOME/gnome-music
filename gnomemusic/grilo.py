@@ -90,8 +90,7 @@ class Grilo(GObject.GObject):
     def get_album_art_for_album_id(self, album_id, _callback):
         options = self.options.copy()
         query = Query.get_album_for_id(album_id)
-        self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS,
-            options, _callback, None)
+        self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, _callback, None)
 
 Grl.init(None)
 

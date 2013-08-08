@@ -232,7 +232,7 @@ class Query():
             LIMIT 1
         ) AS artist
         nie:title(?album) AS title
-        nie:title(?album) AS album        
+        nie:title(?album) AS album
     WHERE {
         ?album a nmm:MusicAlbum  .
         FILTER (

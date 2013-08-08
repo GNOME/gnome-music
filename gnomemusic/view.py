@@ -215,9 +215,11 @@ class ViewContainer(Stack):
 
     def _update_album_art(self, item, itr):
         self._insert_album_art(item, item, itr)
-        grilo.get_album_art_for_album_id(item.get_id(),
+        grilo.get_album_art_for_album_id(
+            item.get_id(),
             lambda source, count, cb_item, x, y, z:
-                self._insert_album_art(item, cb_item, itr, True))
+            self._insert_album_art(item, cb_item, itr, True)
+        )
 
     def _on_lookup_ready(self, icon, path, _iter):
         if icon:
