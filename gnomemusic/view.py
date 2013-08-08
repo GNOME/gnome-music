@@ -500,6 +500,8 @@ class Artists (ViewContainer):
             shadow_type=Gtk.ShadowType.NONE,
             hexpand=True
         )
+        child_name = "artists_%i" % self.artists_counter
+        self.artistAlbumsStack.add_named(self.new_artistAlbumsWidget, child_name)
         _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
@@ -516,12 +518,11 @@ class Artists (ViewContainer):
 
         # Switch visible child
         child_name = "artists_%i" % self.artists_counter
-        self.artistAlbumsStack.add_named(self.new_artistAlbumsWidget, child_name)
-        self.artistAlbumsStack.set_visible_child_name(child_name)
         self.artists_counter += 1
 
         # Replace previous widget
         self._artistAlbumsWidget = self.new_artistAlbumsWidget
+        GLib.idle_add(self.artistAlbumsStack.set_visible_child_name, child_name)
 
     def _add_item(self, source, param, item):
         if item is None:
