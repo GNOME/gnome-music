@@ -5,9 +5,9 @@
     <property name="version">@PACKAGE_VERSION@</property>
     <property name="modal">True</property>
     <property name="copyright" translatable="yes">Copyright © 2013 GNOME Music Developers</property>
-    <property name="comments" translatable="yes">A Music player and management application for GNOME.</property>
+    <property name="comments" translatable="yes">A music player and management application for GNOME.</property>
     <property name="website">https://wiki.gnome.org/Music</property>
-    <property name="website_label" translatable="yes">Visit GNOME Music web site</property>
+    <property name="website_label" translatable="yes">Visit GNOME Music website</property>
     <property name="license" translatable="yes">  Music is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as 
   published by the Free Software Foundation; either version 2 of the 

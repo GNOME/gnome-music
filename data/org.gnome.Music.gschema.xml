@@ -20,17 +20,17 @@
         <key type="b" name="window-maximized">
             <default>true</default>
             <summary>Window maximized</summary>
-            <description>Window maximized state</description>
+            <description>Window maximized state.</description>
         </key>
         <key enum="org.gnome.Music.RepeatType" name="repeat">
             <default>'none'</default>
             <summary>Playback repeat mode</summary>
-            <description>Value identifies whether to repeat or randomize playback through the collection. Legal values are: "none", "song", "all", "shuffle".</description>
+            <description>Value identifies whether to repeat or randomize playback through the collection. Allowed values are: "none", "song", "all", "shuffle".</description>
         </key>
         <key type="b" name="search">
             <default>false</default>
             <summary>Search mode</summary>
-            <description>If true, the search bar is shown</description>
+            <description>If true, the search bar is shown.</description>
         </key>
     </schema>
 </schemalist>
