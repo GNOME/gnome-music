@@ -216,3 +216,28 @@ class Query():
     """.replace("\n", " ").strip() % {'album_id': album_id}
 
         return query
+
+    @staticmethod
+    def get_album_for_id(album_id):
+        query = """
+    SELECT DISTINCT
+        rdf:type(?album)
+        tracker:id(?album) AS id
+        (
+            SELECT
+                nmm:artistName(?artist)
+            WHERE {
+                ?album nmm:albumArtist ?artist
+            }
+            LIMIT 1
+        ) AS artist
+        nie:title(?album) AS title
+        nie:title(?album) AS album
+    WHERE {
+        ?album a nmm:MusicAlbum  .
+        FILTER (
+            tracker:id(?album) = %(album_id)s
+        )
+    }
+    """.replace("\n", " ").strip() % {'album_id': album_id}
+        return query
