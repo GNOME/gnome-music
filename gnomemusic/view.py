@@ -203,13 +203,21 @@ class ViewContainer(Stack):
                 count = cursor.get_integer(0)
         return count - self._offset
 
-    def _update_album_art(self, item, _iter):
-        albumArtCache.get_default().lookup(
-            item,
-            self._iconWidth,
-            self._iconHeight,
-            self._on_lookup_ready, _iter)
-        return False
+    def _insert_album_art(self, item, cb_item, itr, x=False):
+        if item and cb_item and not item.get_thumbnail():
+            if cb_item.get_thumbnail():
+                item.set_thumbnail(cb_item.get_thumbnail())
+            albumArtCache.get_default().lookup(
+                item,
+                self._iconWidth,
+                self._iconHeight,
+                self._on_lookup_ready, itr)
+
+    def _update_album_art(self, item, itr):
+        self._insert_album_art(item, item, itr)
+        grilo.get_album_art_for_album_id(item.get_id(),
+            lambda source, count, cb_item, x, y, z:
+                self._insert_album_art(item, cb_item, itr, True))
 
     def _on_lookup_ready(self, icon, path, _iter):
         if icon:

@@ -12,8 +12,13 @@ class Grilo(GObject.GObject):
     METADATA_KEYS = [
         Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_ARTIST, Grl.METADATA_KEY_ALBUM,
-        Grl.METADATA_KEY_DURATION, Grl.METADATA_KEY_THUMBNAIL,
+        Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_CREATION_DATE]
+
+    METADATA_THUMBNAIL_KEYS = [
+        Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_THUMBNAIL,
+    ]
 
     def __init__(self):
         GObject.GObject.__init__(self)
@@ -82,6 +87,11 @@ class Grilo(GObject.GObject):
             source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
                           options, self._search_callback, source)
 
+    def get_album_art_for_album_id(self, album_id, _callback):
+        options = self.options.copy()
+        query = Query.get_album_for_id(album_id)
+        self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS,
+            options, _callback, None)
 
 Grl.init(None)
 
