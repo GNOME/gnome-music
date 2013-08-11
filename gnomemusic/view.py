@@ -56,6 +56,7 @@ class ViewContainer(Stack):
         )
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.view.set_model(self._model)
+        self.vadjustment = self.view.get_vadjustment()
         self.selection_toolbar = selection_toolbar
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
@@ -139,14 +140,12 @@ class ViewContainer(Stack):
         pass
 
     def _connect_view(self):
-        vadjustment = self.view.get_vadjustment()
-        self._adjustmentValueId = vadjustment.connect(
+        self._adjustmentValueId = self.vadjustment.connect(
             'value-changed',
             self._on_scrolled_win_change)
 
     def _on_scrolled_win_change(self, data=None):
         vScrollbar = self.view.get_vscrollbar()
-        adjustment = self.view.get_vadjustment()
         revealAreaHeight = 32
 
         #if there's no vscrollbar, or if it's not visible, hide the button
@@ -154,9 +153,9 @@ class ViewContainer(Stack):
             self._loadMore.set_block(True)
             return
 
-        value = adjustment.get_value()
-        upper = adjustment.get_upper()
-        page_size = adjustment.get_page_size()
+        value = self.vadjustment.get_value()
+        upper = self.vadjustment.get_upper()
+        page_size = self.vadjustment.get_page_size()
 
         end = False
         #special case self values which happen at construction
