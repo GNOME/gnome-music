@@ -361,6 +361,13 @@ class Player(GObject.GObject):
         self.progressScale.connect('value-changed', self._on_progress_value_changed)
         self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
 
+        if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
+            self._prevImage = self._ui.get_object('previous_image')
+            self._nextImage = self._ui.get_object('next_image')
+            self._prevImage.set_property('icon-name', 'media-skip-backward-rtl-symbolic')
+            self._nextImage.set_property('icon-name', 'media-skip-forward-rtl-symbolic')
+            self._playImage.set_property('icon-name', 'media-playback-start-rtl-symbolic')
+
     def _on_progress_scale_button_released(self, scale, data):
         self.on_progress_scale_change_value(self.progressScale)
         self._update_position_callback()

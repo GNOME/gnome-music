@@ -20,7 +20,10 @@ else:
 
 
 class ViewContainer(Stack):
-    nowPlayingIconName = 'media-playback-start-symbolic'
+    if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
+        nowPlayingIconName = 'media-playback-start-symbolic'
+    else:
+        nowPlayingIconName = 'media-playback-start-rtl-symbolic'
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
     countQuery = None
