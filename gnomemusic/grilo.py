@@ -41,11 +41,11 @@ class Grilo(GObject.GObject):
 
     def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
-        if id == "grl-tracker-source":
+        if id == 'grl-tracker-source':
             ops = mediaSource.supported_operations()
             if ops & Grl.SupportedOps.SEARCH:
-                print('Detected new source availabe: \'' +
-                      mediaSource.get_name() + '\' and it supports search')
+                print('Detected new source available: \'%s\' and it supports search' %
+                      mediaSource.get_name())
 
                 self.sources[id] = mediaSource
                 self.tracker = mediaSource
@@ -78,12 +78,12 @@ class Grilo(GObject.GObject):
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
     def _search_callback(self):
-        print("yeah")
+        print('yeah')
 
     def search(self, q):
         options = self.options.copy()
         for source in self.sources:
-            print(source.get_name() + " - " + q)
+            print(source.get_name() + ' - ' + q)
             source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
                           options, self._search_callback, source)
 

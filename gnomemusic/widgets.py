@@ -92,8 +92,8 @@ class AlbumWidget(Gtk.EventBox):
         self.album = None
         self.view.connect('item-activated', self._on_item_activated)
 
-        view_box = self.ui.get_object("view")
-        self.ui.get_object("scrolledWindow").set_placement(Gtk.CornerType.
+        view_box = self.ui.get_object('view')
+        self.ui.get_object('scrolledWindow').set_placement(Gtk.CornerType.
                                                            TOP_LEFT)
         child_view = self.view.get_children()[0]
         child_view.set_margin_top(64)
@@ -101,11 +101,11 @@ class AlbumWidget(Gtk.EventBox):
         child_view.set_margin_right(32)
         self.view.remove(child_view)
         view_box.add(child_view)
-        self.add(self.ui.get_object("AlbumWidget"))
+        self.add(self.ui.get_object('AlbumWidget'))
         self._add_list_renderers()
         # TODO: make this work
-        self.get_style_context().add_class("view")
-        self.get_style_context().add_class("content-view")
+        self.get_style_context().add_class('view')
+        self.get_style_context().add_class('content-view')
         self.show_all()
 
     def _on_item_activated(self, widget, id, path):
@@ -117,7 +117,7 @@ class AlbumWidget(Gtk.EventBox):
                 self.model.set_value(self.iterToClean, 0, title)
                 #Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
-            self.player.set_playlist("Album", self.album, self.model, _iter, 5)
+            self.player.set_playlist('Album', self.album, self.model, _iter, 5)
             self.player.set_playing(True)
 
     def _add_list_renderers(self):
@@ -138,9 +138,9 @@ class AlbumWidget(Gtk.EventBox):
         column_now_playing.set_fixed_width(24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
         column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         "visible", 9)
+                                         'visible', 9)
         column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         "icon_name", 7)
+                                         'icon_name', 7)
         list_widget.insert_column(column_now_playing, 0)
 
         type_renderer = Gd.StyledTextRenderer(
@@ -150,7 +150,7 @@ class AlbumWidget(Gtk.EventBox):
         )
         list_widget.add_renderer(type_renderer, lambda *args: None, None)
         cols[0].clear_attributes(type_renderer)
-        cols[0].add_attribute(type_renderer, "markup", 0)
+        cols[0].add_attribute(type_renderer, 'markup', 0)
 
         durationRenderer = Gd.StyledTextRenderer(
             xpad=16,
@@ -160,19 +160,19 @@ class AlbumWidget(Gtk.EventBox):
         durationRenderer.add_class('dim-label')
         list_widget.add_renderer(durationRenderer, lambda *args: None, None)
         cols[0].clear_attributes(durationRenderer)
-        cols[0].add_attribute(durationRenderer, "markup", 1)
+        cols[0].add_attribute(durationRenderer, 'markup', 1)
 
     def update(self, artist, album, item, header_bar, selection_toolbar):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
         self.album = album
-        self.ui.get_object("cover").set_from_pixbuf(self.symbolicIcon)
+        self.ui.get_object('cover').set_from_pixbuf(self.symbolicIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256,
                                self._on_look_up)
 
         # if the active queue has been set by self album,
         # use it as model, otherwise build the liststore
-        cached_playlist = self.player.running_playlist("Album", album)
+        cached_playlist = self.player.running_playlist('Album', album)
         if cached_playlist:
             self.model = cached_playlist
             self.update_model(self.player, cached_playlist,
@@ -200,13 +200,13 @@ class AlbumWidget(Gtk.EventBox):
         self.view.set_model(self.model)
         escaped_artist = GLib.markup_escape_text(artist)
         escaped_album = GLib.markup_escape_text(album)
-        self.ui.get_object("artist_label").set_markup(escaped_artist)
-        self.ui.get_object("title_label").set_markup(escaped_album)
+        self.ui.get_object('artist_label').set_markup(escaped_artist)
+        self.ui.get_object('title_label').set_markup(escaped_album)
         if (item.get_creation_date()):
-            self.ui.get_object("released_label_info").set_text(
+            self.ui.get_object('released_label_info').set_text(
                 str(item.get_creation_date().get_year()))
         else:
-            self.ui.get_object("released_label_info").set_text("----")
+            self.ui.get_object('released_label_info').set_text('----')
         self.player.connect('playlist-item-changed', self.update_model)
         #self.emit('loaded')
 
@@ -248,22 +248,22 @@ class AlbumWidget(Gtk.EventBox):
                                [escapedTitle,
                                 self.player.seconds_to_string(
                                     track.get_duration()),
-                                "", "", None, track, NOW_PLAYING_ICON_NAME,
+                                '', '', None, track, NOW_PLAYING_ICON_NAME,
                                 False])
             except Exception as err:
                 logging.debug(err.message)
-                logging.debug("failed to discover url " + track.get_url())
+                logging.debug('failed to discover url ' + track.get_url())
                 self.model.set(_iter,
                                [0, 1, 2, 3, 4, 5, 7, 9],
-                               [escapedTitle, "", "", "", None,
+                               [escapedTitle, '', '', '', None,
                                 track, ERROR_ICON_NAME, True])
-            self.ui.get_object("running_length_label_info").set_text(
-                "%d min" % (int(self.duration / 60) + 1))
+            self.ui.get_object('running_length_label_info').set_text(
+                '%d min' % (int(self.duration / 60) + 1))
 
     def _on_look_up(self, pixbuf, path, data=None):
         _iter = self.iterToClean
         if pixbuf:
-            self.ui.get_object("cover").set_from_pixbuf(pixbuf)
+            self.ui.get_object('cover').set_from_pixbuf(pixbuf)
             if _iter:
                 self.model.set(_iter, [4], [pixbuf])
 
@@ -279,14 +279,14 @@ class AlbumWidget(Gtk.EventBox):
 
             escapedTitle = AlbumArtCache.get_media_title(song, True)
             if (song == currentSong):
-                title = "<b>%s</b>" % escapedTitle
+                title = '<b>%s</b>' % escapedTitle
                 iconVisible = True
                 song_passed = True
             elif (song_passed):
-                title = "<span>%s</span>" % escapedTitle
+                title = '<span>%s</span>' % escapedTitle
                 iconVisible = False
             else:
-                title = "<span color='grey'>%s</span>" % escapedTitle
+                title = '<span color=\'grey\'>%s</span>' % escapedTitle
                 iconVisible = False
             playlist.set_value(_iter, 0, title)
             if(playlist.get_value(_iter, 7) != ERROR_ICON_NAME):
@@ -304,7 +304,7 @@ class ArtistAlbums(Gtk.VBox):
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumsWidget.ui')
         self.set_border_width(0)
-        self.ui.get_object("artist").set_label(self.artist)
+        self.ui.get_object('artist').set_label(self.artist)
         self.widgets = []
 
         self.model = Gtk.ListStore(GObject.TYPE_STRING,   # title
@@ -364,15 +364,15 @@ class ArtistAlbums(Gtk.VBox):
             escapedTitle = AlbumArtCache.get_media_title(song, True)
             if (song == currentSong):
                 song_widget.now_playing_sign.show()
-                song_widget.title.set_markup("<b>%s</b>" % escapedTitle)
+                song_widget.title.set_markup('<b>%s</b>' % escapedTitle)
                 song_passed = True
             elif (song_passed):
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
+                song_widget.title.set_markup('<span>%s</span>' % escapedTitle)
             else:
                 song_widget.now_playing_sign.hide()
                 song_widget.title\
-                    .set_markup("<span color='grey'>%s</span>" % escapedTitle)
+                    .set_markup('<span color=\'grey\'>%s</span>' % escapedTitle)
             itr = playlist.iter_next(itr)
         return False
 
@@ -384,7 +384,7 @@ class ArtistAlbums(Gtk.VBox):
             escapedTitle = AlbumArtCache.get_media_title(song, True)
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
-            song_widget.title.set_markup("<span>%s</span>" % escapedTitle)
+            song_widget.title.set_markup('<span>%s</span>' % escapedTitle)
             itr = self.model.iter_next(itr)
         return False
 
@@ -397,7 +397,7 @@ class AllArtistsAlbums(ArtistAlbums):
         self.countQuery = Query.ALBUMS_COUNT
         self._load_more = LoadMoreButton(self._get_remaining_item_count)
         self.pack_end(self._load_more.widget, False, False, 0)
-        self._load_more.widget.connect("clicked", self._populate)
+        self._load_more.widget.connect('clicked', self._populate)
         self._connect_view()
         self._populate()
 
@@ -474,17 +474,17 @@ class ArtistAlbumWidget(Gtk.HBox):
         pixbuf = self.cache.make_default_icon(128, 128)
         GLib.idle_add(self._update_album_art)
 
-        self.ui.get_object("cover").set_from_pixbuf(pixbuf)
-        self.ui.get_object("title").set_label(album.get_title())
+        self.ui.get_object('cover').set_from_pixbuf(pixbuf)
+        self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
-            self.ui.get_object("year").set_markup(
-                "<span color='grey'>(%s)</span>" %
+            self.ui.get_object('year').set_markup(
+                '<span color=\'grey\'>(%s)</span>' %
                 str(album.get_creation_date().get_year())
             )
         self.tracks = []
         GLib.idle_add(grilo.populate_album_songs,
                       album.get_id(), self.get_songs)
-        self.pack_start(self.ui.get_object("ArtistAlbumWidget"), True, True, 0)
+        self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
         self.show_all()
 
     def get_songs(self, source, prefs, track):
@@ -494,15 +494,15 @@ class ArtistAlbumWidget(Gtk.HBox):
             for i, track in enumerate(self.tracks):
                 ui = Gtk.Builder()
                 ui.add_from_resource('/org/gnome/Music/TrackWidget.ui')
-                song_widget = ui.get_object("eventbox1")
+                song_widget = ui.get_object('eventbox1')
                 self.songs.append(song_widget)
-                ui.get_object("num")\
-                    .set_markup("<span color='grey'>%d</span>"
+                ui.get_object('num')\
+                    .set_markup('<span color=\'grey\'>%d</span>'
                                 % len(self.songs))
                 title = AlbumArtCache.get_media_title(track)
-                ui.get_object("title").set_text(title)
-                ui.get_object("title").set_alignment(0.0, 0.5)
-                self.ui.get_object("grid1").attach(
+                ui.get_object('title').set_text(title)
+                ui.get_object('title').set_alignment(0.0, 0.5)
+                self.ui.get_object('grid1').attach(
                     song_widget,
                     int(i / (len(self.tracks) / 2)),
                     int(i % (len(self.tracks) / 2)), 1, 1
@@ -511,46 +511,46 @@ class ArtistAlbumWidget(Gtk.HBox):
                 itr = self.model.append()
                 song_widget._iter = itr
                 song_widget.model = self.model
-                song_widget.title = ui.get_object("title")
+                song_widget.title = ui.get_object('title')
 
                 try:
                     self.player.discoverer.discover_uri(str(track.get_url()))
                     self.model.set(itr,
                                    [0, 1, 2, 3, 4, 5],
-                                   [title, "", "", False,
+                                   [title, '', '', False,
                                     NOW_PLAYING_ICON_NAME, track])
-                    song_widget.now_playing_sign = ui.get_object("image1")
+                    song_widget.now_playing_sign = ui.get_object('image1')
                     song_widget.now_playing_sign.set_from_icon_name(
                         NOW_PLAYING_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.now_playing_sign.set_no_show_all("True")
-                    song_widget.now_playing_sign.set_alignment(0.0, 0.6)
+                    song_widget.now_playing_sign.set_no_show_all('True')
+                    song_widget.now_playing_sign.set_alignment(1, 0.6)
                     song_widget.can_be_played = True
                     song_widget.connect('button-release-event',
                                         self.track_selected)
 
                 except:
-                    print("failed to discover url " + str(track.get_url()))
+                    print('failed to discover url ' + str(track.get_url()))
                     self.model.set(itr, [0, 1, 2, 3, 4, 5],
-                                   [title, "", "", True,
+                                   [title, '', '', True,
                                     ERROR_ICON_NAME, track])
-                    song_widget.now_playing_sign = ui.get_object("image1")
+                    song_widget.now_playing_sign = ui.get_object('image1')
                     song_widget.now_playing_sign.set_from_icon_name(
                         ERROR_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
                     song_widget.now_playing_sign.set_alignment(0.0, 0.6)
                     song_widget.can_be_played = False
-            self.ui.get_object("grid1").show_all()
+            self.ui.get_object('grid1').show_all()
 
     def _update_album_art(self):
         ALBUM_ART_CACHE.lookup(self.album, 128, 128, self._get_album_cover)
 
     def _get_album_cover(self, pixbuf, path, data=None):
         if pixbuf:
-            self.ui.get_object("cover").set_from_pixbuf(pixbuf)
+            self.ui.get_object('cover').set_from_pixbuf(pixbuf)
 
     def track_selected(self, widget, _iter):
         self.player.stop()
-        self.player.set_playlist("Artist", self.album,
+        self.player.set_playlist('Artist', self.album,
                                  widget.model, widget._iter, 5)
         self.player.set_playing(True)

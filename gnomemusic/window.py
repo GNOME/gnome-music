@@ -18,7 +18,7 @@ class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
         Gtk.ApplicationWindow.__init__(self,
                                        application=app,
-                                       title=_('Music'))
+                                       title=_("Music"))
         settings = Gio.Settings('org.gnome.Music')
         self.add_action(settings.create_action('repeat'))
         self.set_size_request(887, 640)
@@ -92,8 +92,8 @@ class Window(Gtk.ApplicationWindow):
 
             self.toolbar.set_stack(self._stack)
 
-            self._on_notify_model_id = self._stack.connect("notify::visible-child", self._on_notify_mode)
-            self.connect("destroy", self._notify_mode_disconnect)
+            self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
+            self.connect('destroy', self._notify_mode_disconnect)
 
             self.views[0].populate()
         #To revert to the No Music View when no songs are found
@@ -113,8 +113,8 @@ class Window(Gtk.ApplicationWindow):
     def _on_notify_mode(self, stack, param):
         #Slide out artist list on switching to artists view
         if stack.get_visible_child() == self.views[1]:
-            stack.get_visible_child().stack.set_visible_child_name("dummy")
-            stack.get_visible_child().stack.set_visible_child_name("artists")
+            stack.get_visible_child().stack.set_visible_child_name('dummy')
+            stack.get_visible_child().stack.set_visible_child_name('artists')
 
     def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])
