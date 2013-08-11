@@ -172,28 +172,29 @@ class ViewContainer(Stack):
         if not item:
             return
         self._offset += 1
-        _iter = self._model.append()
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
-        try:
+
+        def add_new_item():
+            _iter = self._model.append()
+            icon_name = self.nowPlayingIconName
             if item.get_url():
-                self.player.discoverer.discover_uri(item.get_url())
+                try:
+                    self.player.discoverer.discover_uri(item.get_url())
+                except:
+                    print('failed to discover url ' + item.get_url())
+                    icon_name = self.errorIconName
             self._model.set(_iter,
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                             [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
-                             -1, self.nowPlayingIconName, False, False])
-        except:
-            print('failed to discover url ' + item.get_url())
-            self._model.set(_iter,
-                            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                            [str(item.get_id()), '', title,
-                             artist, self._symbolicIcon, item,
-                             -1, self.errorIconName, False, True])
-        GLib.idle_add(self._update_album_art, item, _iter)
+                             -1, icon_name, False, icon_name == self.errorIconName])
+            GLib.idle_add(self._update_album_art, item, _iter)
+
+        GLib.idle_add(add_new_item)
 
     def _get_remaining_item_count(self):
         count = -1
@@ -214,7 +215,6 @@ class ViewContainer(Stack):
                 self._on_lookup_ready, itr)
 
     def _update_album_art(self, item, itr):
-        self._insert_album_art(item, item, itr)
         grilo.get_album_art_for_album_id(
             item.get_id(),
             lambda source, count, cb_item, x, y, z:
@@ -431,13 +431,19 @@ class Artists (ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Artists"), header_bar,
                                selection_toolbar, True)
+        self.artists_counter = 0
         self.player = player
         self._artists = {}
         self.countQuery = Query.ARTISTS_COUNT
+        self.artistAlbumsStack = Stack(
+            transition_type=StackTransitionType.CROSSFADE,
+        )
         self._artistAlbumsWidget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE,
             hexpand=True
         )
+        self.artistAlbumsStack.add_named(self._artistAlbumsWidget, "artists")
+        self.artistAlbumsStack.set_visible_child_name("artists")
         self.view.set_view_type(Gd.MainViewType.LIST)
         self.view.set_hexpand(False)
         self.view.get_style_context().add_class('artist-panel')
@@ -445,7 +451,7 @@ class Artists (ViewContainer):
             Gtk.SelectionMode.SINGLE)
         self._grid.attach(Gtk.Separator(orientation=Gtk.Orientation.VERTICAL),
                           1, 0, 1, 1)
-        self._grid.attach(self._artistAlbumsWidget, 2, 0, 2, 2)
+        self._grid.attach(self.artistAlbumsStack, 2, 0, 2, 2)
         self._add_list_renderers()
         if (Gtk.Settings.get_default().get_property(
                 'gtk_application_prefer_dark_theme')):
@@ -489,9 +495,13 @@ class Artists (ViewContainer):
         cols[0].add_attribute(type_renderer, 'text', 2)
 
     def _on_item_activated(self, widget, item_id, path):
-        children = self._artistAlbumsWidget.get_children()
-        for child in children:
-            child.destroy()
+        # Prepare a new artistAlbumsWidget here
+        self.new_artistAlbumsWidget = Gtk.Frame(
+            shadow_type=Gtk.ShadowType.NONE,
+            hexpand=True
+        )
+        child_name = "artists_%i" % self.artists_counter
+        self.artistAlbumsStack.add_named(self.new_artistAlbumsWidget, child_name)
         _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
@@ -503,7 +513,16 @@ class Artists (ViewContainer):
         else:
             self.artistAlbums = Widgets.ArtistAlbums(artist, albums,
                                                      self.player)
-        self._artistAlbumsWidget.add(self.artistAlbums)
+        self.new_artistAlbumsWidget.add(self.artistAlbums)
+        self.new_artistAlbumsWidget.show()
+
+        # Switch visible child
+        child_name = "artists_%i" % self.artists_counter
+        self.artists_counter += 1
+
+        # Replace previous widget
+        self._artistAlbumsWidget = self.new_artistAlbumsWidget
+        GLib.idle_add(self.artistAlbumsStack.set_visible_child_name, child_name)
 
     def _add_item(self, source, param, item):
         if item is None:
