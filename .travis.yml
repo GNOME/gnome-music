@@ -1,9 +1,14 @@
 language: python
 python:
-  - "3.2"
   - "3.3"
+before_install:
+  - echo "deb http://archive.ubuntu.com/ubuntu/ saucy main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq gnome-common gnome-doc-utils libgrilo-0.2-dev gnome-pkg-tools gobject-introspection libgirepository1.0-dev libglib2.0-dev libgtk-3-dev
 install:
   - pip install pep8 pyflakes --use-mirrors
 script:
   - "pyflakes gnomemusic"
   - "pep8 --ignore=E501,E225 gnomemusic"
+  - "./autogen.sh"
+  - "make distcheck"
