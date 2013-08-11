@@ -538,7 +538,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                     song_widget.now_playing_sign.set_from_icon_name(
                         ERROR_ICON_NAME,
                         Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.now_playing_sign.set_alignment(0.0, 0.6)
+                    song_widget.now_playing_sign.set_alignment(1, 0.6)
                     song_widget.can_be_played = False
             self.ui.get_object('grid1').show_all()
 
