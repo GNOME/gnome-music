@@ -10,7 +10,10 @@ from gnomemusic.albumArtCache import AlbumArtCache
 
 tracker = Tracker.SparqlConnection.get(None)
 ALBUM_ART_CACHE = AlbumArtCache.get_default()
-NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
+if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
+    NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
+else:
+    NOW_PLAYING_ICON_NAME = 'media-playback-start-rtl-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
 
