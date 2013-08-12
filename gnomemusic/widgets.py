@@ -181,17 +181,7 @@ class AlbumWidget(Gtk.EventBox):
             self.update_model(self.player, cached_playlist,
                               self.player.currentTrack)
         else:
-            self.model = Gtk.ListStore(GObject.TYPE_STRING,  # title
-                                       GObject.TYPE_STRING,
-                                       GObject.TYPE_STRING,
-                                       GObject.TYPE_STRING,
-                                       GdkPixbuf.Pixbuf,    # icon
-                                       GObject.TYPE_OBJECT,  # song object
-                                       GObject.TYPE_BOOLEAN,  # icon shown
-                                       GObject.TYPE_STRING,
-                                       GObject.TYPE_BOOLEAN,
-                                       GObject.TYPE_BOOLEAN,
-                                       )
+            self.model.clear()
             GLib.idle_add(grilo.populate_album_songs, item.get_id(),
                           self._on_populate_album_songs)
         header_bar._select_button.connect(
