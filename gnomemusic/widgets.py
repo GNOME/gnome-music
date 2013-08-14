@@ -84,19 +84,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
-        self.model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,    # icon
-            GObject.TYPE_OBJECT,  # song object
-            GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_BOOLEAN,  # icon shown
-        )
-
+        self._create_model()
         self.view = Gd.MainView(
             shadow_type=Gtk.ShadowType.NONE
         )
@@ -174,6 +162,20 @@ class AlbumWidget(Gtk.EventBox):
         cols[0].clear_attributes(durationRenderer)
         cols[0].add_attribute(durationRenderer, 'markup', 1)
 
+    def _create_model(self):
+        self.model = Gtk.ListStore(
+            GObject.TYPE_STRING,  # title
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GdkPixbuf.Pixbuf,    # icon
+            GObject.TYPE_OBJECT,  # song object
+            GObject.TYPE_BOOLEAN,  # item selected
+            GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_BOOLEAN,  # icon shown
+        )
+
     def update(self, artist, album, item, header_bar, selection_toolbar):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
@@ -190,7 +192,7 @@ class AlbumWidget(Gtk.EventBox):
             self.update_model(self.player, cached_playlist,
                               self.player.currentTrack)
         else:
-            self.model.clear()
+            self._create_model()
             GLib.idle_add(grilo.populate_album_songs, item.get_id(),
                           self._on_populate_album_songs)
         header_bar._select_button.connect(
