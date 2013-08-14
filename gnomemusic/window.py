@@ -30,19 +30,18 @@ class Window(Gtk.ApplicationWindow):
                                             '/org/gnome/SettingsDaemon/MediaKeys',
                                             'org.gnome.SettingsDaemon.MediaKeys',
                                             None)
-        self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant('(su)', ('Music', 0)),
-                             Gio.DBusCallFlags.NONE,
-                             -1,
-                             None)
+        self._grab_media_player_keys()
         self.proxy.connect('g-signal', self._handle_media_keys)
 
-    def _windows_focus_cb(self, window, event):
+    def _grab_media_player_keys(self):
         self.proxy.call_sync('GrabMediaPlayerKeys',
                              GLib.Variant('(su)', ('Music', 0)),
                              Gio.DBusCallFlags.NONE,
                              -1,
                              None)
+
+    def _windows_focus_cb(self, window, event):
+        self._grab_media_player_keys()
 
     def _handle_media_keys(self, proxy, sender, signal, parameters):
         if signal != 'MediaPlayerKeyPressed':
