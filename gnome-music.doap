@@ -4,7 +4,7 @@
          xmlns:gnome="http://api.gnome.org/doap-extensions#"
          xmlns="http://usefulinc.com/ns/doap#">
 
-  <name xml:lang="en">GNOME Music</name>
+  <name xml:lang="en">gnome-music</name>
   <shortdesc xml:lang="en">Music player and management application</shortdesc>
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#desktop" />
