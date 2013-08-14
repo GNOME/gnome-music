@@ -101,6 +101,9 @@ class ViewContainer(Stack):
         self.view.connect('view-selection-changed',
                           self._on_view_selection_changed)
 
+    def _get_remaining_item_count(self):
+        return Widgets.get_remaining_item_count(self.countQuery, self._offset)
+
     def _on_header_bar_toggled(self, button):
         if button.get_active():
             self.view.set_selection_mode(True)
@@ -197,14 +200,6 @@ class ViewContainer(Stack):
             GLib.idle_add(self._update_album_art, item, _iter)
 
         GLib.idle_add(add_new_item)
-
-    def _get_remaining_item_count(self):
-        count = -1
-        if self.countQuery:
-            cursor = tracker.query(self.countQuery, None)
-            if cursor and cursor.next(None):
-                count = cursor.get_integer(0)
-        return count - self._offset
 
     def _insert_album_art(self, item, cb_item, itr, x=False):
         if item and cb_item and not item.get_thumbnail():

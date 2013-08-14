@@ -17,6 +17,15 @@ else:
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
 
+def get_remaining_item_count(countQuery, _offset):
+    count = -1
+    if countQuery:
+        cursor = tracker.query(countQuery, None)
+        if cursor and cursor.next(None):
+            count = cursor.get_integer(0)
+    return count - _offset
+
+
 class LoadMoreButton:
     def __init__(self, counter):
         self._block = False
@@ -394,6 +403,9 @@ class AllArtistsAlbums(ArtistAlbums):
         self._connect_view()
         self._populate()
 
+    def _get_remaining_item_count(self):
+        return get_remaining_item_count(self.countQuery, self._offset)
+
     def _connect_view(self):
         self._adjustmentValueId =\
             self._scrolledWindow.get_vadjustment()\
@@ -425,9 +437,9 @@ class AllArtistsAlbums(ArtistAlbums):
         page_size = adjustment.get_page_size()
         end = False
 
-        # special case self values which happen at construction
+        # special case this values which happen at construction
         if (((value != 0) or (upper != 1) or (page_size != 1))
-                and self._get_remaining_item_count() > 0):
+                and get_remaining_item_count(self.countQuery, self._offset) > 0):
             end = not (value < (upper - page_size - revealAreaHeight))
         self._load_more.set_block(not end)
 
@@ -440,14 +452,6 @@ class AllArtistsAlbums(ArtistAlbums):
         if item:
             self._offset += 1
             self.add_album(item)
-
-    def _get_remaining_item_count(self):
-        count = -1
-        if self.countQuery:
-            cursor = tracker.query(self.countQuery, None)
-            if cursor and cursor.next(None):
-                count = cursor.get_integer(0)
-        return count - self._offset
 
 
 class ArtistAlbumWidget(Gtk.HBox):
