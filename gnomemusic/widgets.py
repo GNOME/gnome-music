@@ -17,13 +17,13 @@ else:
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
 
-def get_remaining_item_count(countQuery, _offset):
+def get_count(countQuery):
     count = -1
     if countQuery:
         cursor = tracker.query(countQuery, None)
         if cursor and cursor.next(None):
             count = cursor.get_integer(0)
-    return count - _offset
+    return count
 
 
 class LoadMoreButton:
@@ -399,6 +399,7 @@ class AllArtistsAlbums(ArtistAlbums):
         ArtistAlbums.__init__(self, _("All Artists"), [], player)
         self._offset = 0
         self.countQuery = Query.ALBUMS_COUNT
+        self._cached_count = -1
         self._load_more = LoadMoreButton(self._get_remaining_item_count)
         self.pack_end(self._load_more.widget, False, False, 0)
         self._load_more.widget.connect('clicked', self._populate)
@@ -406,7 +407,9 @@ class AllArtistsAlbums(ArtistAlbums):
         self._populate()
 
     def _get_remaining_item_count(self):
-        return get_remaining_item_count(self.countQuery, self._offset)
+        if self._cached_count < 0:
+            self._cached_count = get_count(self.countQuery)
+        return self._cached_count - self._offset
 
     def _connect_view(self):
         self._adjustmentValueId =\
@@ -441,7 +444,7 @@ class AllArtistsAlbums(ArtistAlbums):
 
         # special case this values which happen at construction
         if (((value != 0) or (upper != 1) or (page_size != 1))
-                and get_remaining_item_count(self.countQuery, self._offset) > 0):
+                and self._get_remaining_item_count() > 0):
             end = not (value < (upper - page_size - revealAreaHeight))
         self._load_more.set_block(not end)
 
