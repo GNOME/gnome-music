@@ -414,16 +414,13 @@ class AllArtistsAlbums(ArtistAlbums):
 
     def _connect_view(self):
         self._adjustmentValueId =\
-            self.vadjustment.connect('value-changed', self._on_scrollbar_visible)
+            self.vadjustment.connect('value-changed', self._on_scrolled_win_change)
         self._adjustmentChangedId =\
-            self.vadjustment.connect('changed', self._on_scrollbar_visible)
+            self.vadjustment.connect('changed', self._on_scrolled_win_change)
         self._scrollbarVisibleId =\
             self._scrolledWindow.get_vscrollbar().connect(
                 'notify::visible',
-                self._on_scrollbar_visible)
-        self._on_scrollbar_visible()
-
-    def _on_scrollbar_visible(self, scrollbar=None, pspec=None, data=None):
+                self._on_scrolled_win_change)
         self._on_scrolled_win_change()
 
     def _on_scrolled_win_change(self, scrollbar=None, pspec=None, data=None):
