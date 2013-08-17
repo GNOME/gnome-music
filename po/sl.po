@@ -7,9 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-06-13 22:01+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-08-17 13:40+0000\n"
+"PO-Revision-Date: 2013-08-17 15:49+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -42,7 +43,8 @@ msgid "Window maximized"
 msgstr "Razpeto okno"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
+#, fuzzy
+msgid "Window maximized state."
 msgstr "Razpeto glavno okno"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
@@ -50,9 +52,10 @@ msgid "Playback repeat mode"
 msgstr "Način ponavljanja predvajanja"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
+#, fuzzy
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
 "Vrednost določa, ali naj se predvajanje posnetkov izvaja naključno ali "
 "ponavljajoče. Dovoljene možnosti so: \"brez\", \"posnetek\", \"vse\" in "
@@ -63,11 +66,12 @@ msgid "Search mode"
 msgstr "Iskalni način"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr "Izbrana možnost določa, da je prikazana vrstica iskanja."
+#, fuzzy
+msgid "If true, the search bar is shown."
+msgstr "Izbrana možnost omogoča, da je med tiskanjem prikazano okno napredka."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
+#: ../gnomemusic/window.py:21
 msgid "Music"
 msgstr "Glasba"
 
@@ -79,59 +83,98 @@ msgstr "Predvajalnik glasbe"
 msgid "Play and organize your music collection"
 msgstr "Predvajanje in upravlajnje glasbene zbirke"
 
-#: ../gnomemusic/albumArtCache.py:38
+#: ../gnomemusic/albumArtCache.py:205
 msgid "Untitled"
-msgstr ""
+msgstr "Neimenovano"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/player.py:236 ../gnomemusic/view.py:185
+#: ../gnomemusic/view.py:535
+msgid "Unknown Artist"
+msgstr "Neznan izvajalec"
+
+#: ../gnomemusic/view.py:251
 msgid "Albums"
-msgstr ""
+msgstr "Albumi"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:281
 msgid "Songs"
-msgstr ""
+msgstr "Skladbe"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:426
 msgid "Playlists"
-msgstr "_Nov seznam predvajanja"
+msgstr "Seznami predvajanja"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:432
 msgid "Artists"
-msgstr ""
+msgstr "Izvajalci"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:470 ../gnomemusic/view.py:472
+#: ../gnomemusic/widgets.py:399
 msgid "All Artists"
-msgstr "_Nov seznam predvajanja"
+msgstr "Vsi izvajalci"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:41 ../gnomemusic/widgets.py:61
+msgid "Load More"
+msgstr "Naloži dodatne"
+
+#: ../gnomemusic/widgets.py:51
+msgid "Loading..."
+msgstr "Nalaganje ..."
+
+#: ../gnomemusic/window.py:102
 msgid "Empty"
+msgstr "Prazno"
+
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Avtorske pravice © 2013 Razvijalci programa GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:2
+#, fuzzy
+msgid "A music player and management application for GNOME."
+msgstr "GNOME program za upravljanje in predvajanje glasbe."
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "Visit GNOME Music website"
+msgstr "Spletna stran programa GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid ""
+"  Music is free software; you can redistribute it and/or modify\n"
+"  it under the terms of the GNU General Public License as \n"
+"  published by the Free Software Foundation; either version 2 of the \n"
+"  License, or (at your option) any later version.\n"
+"\n"
+"  Music is distributed in the hope that it will be useful\n"
+"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
+"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
+"  GNU General Public License for more details.\n"
+"\n"
+"  You should have received a copy of the GNU General Public License \n"
+"  along with Music; if not, write to the Free Software \n"
+"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
+"  MA 02110-1301, USA.\n"
+"\n"
+"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
+"  GStreamer plugins to be used and distributed together with GStreamer and\n"
+"  Gnome Music. This permission is above and beyond the permissions granted "
+"by\n"
+"  the GPL license by which Gnome Music is covered. If you modify this code, "
+"you may\n"
+"  extend this exception to your version of the code, but you are not "
+"obligated\n"
+"  to do so. If you do not wish to do so, delete this exception statement "
+"from\n"
+"  your version."
 msgstr ""
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
-msgstr "Objavljeno"
+msgstr "izdano"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Dolžina predvajanja"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -165,41 +208,47 @@ msgstr "Ponovi skladbo"
 msgid "Shuffle/Repeat Off"
 msgstr "Onemogoči premešanje/ponavljanje"
 
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
-
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Glasbe ni mogoče najti"
 
-#: ../data/Headerbar.ui.h:1
-#, fuzzy
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr "Izbor"
+msgstr "Izberi vse"
 
-#: ../data/Headerbar.ui.h:2
-#, fuzzy
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr "Izbor"
+msgstr "Odstrani izbor"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "S klikom se predmeti izberejo."
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "Prekliči"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "_Nov seznam predvajanja"
+msgstr "Dodaj na seznam predvajanja"
+
+#~ msgid "<span color='grey'>Released</span>"
+#~ msgstr "<span color='grey'>Objavljeno</span>"
+
+#~ msgid "<span color='grey'>Running Length</span>"
+#~ msgstr "<span color='grey'>Dolžina predvajanja</span>"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#~ msgid "00:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"
 
 #~ msgid "Back"
 #~ msgstr "Nazaj"
