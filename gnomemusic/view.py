@@ -72,7 +72,6 @@ class ViewContainer(Stack):
         else:
             self._grid.add(box)
 
-        self._cached_count = -1
         self._loadMore = Widgets.LoadMoreButton(self._get_remaining_item_count)
         box.pack_end(self._loadMore.widget, False, False, 0)
         self._loadMore.widget.connect('clicked', self._populate)
@@ -103,9 +102,7 @@ class ViewContainer(Stack):
                           self._on_view_selection_changed)
 
     def _get_remaining_item_count(self):
-        if self._cached_count < 0:
-            self._cached_count = Widgets.get_count(self.countQuery)
-        return self._cached_count - self._offset
+        return Widgets.get_remaining_item_count(self.countQuery, self._offset)
 
     def _on_header_bar_toggled(self, button):
         if button.get_active():
