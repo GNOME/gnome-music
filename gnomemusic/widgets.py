@@ -403,6 +403,7 @@ class AllArtistsAlbums(ArtistAlbums):
         self._load_more = LoadMoreButton(self._get_remaining_item_count)
         self.pack_end(self._load_more.widget, False, False, 0)
         self._load_more.widget.connect('clicked', self._populate)
+        self.vadjustment = self._scrolledWindow.get_vadjustment()
         self._connect_view()
         self._populate()
 
@@ -413,11 +414,9 @@ class AllArtistsAlbums(ArtistAlbums):
 
     def _connect_view(self):
         self._adjustmentValueId =\
-            self._scrolledWindow.get_vadjustment()\
-                .connect('value-changed', self._on_scrollbar_visible)
+            self.vadjustment.connect('value-changed', self._on_scrollbar_visible)
         self._adjustmentChangedId =\
-            self._scrolledWindow.get_vadjustment().connect(
-                'changed', self._on_scrollbar_visible)
+            self.vadjustment.connect('changed', self._on_scrollbar_visible)
         self._scrollbarVisibleId =\
             self._scrolledWindow.get_vscrollbar().connect(
                 'notify::visible',
@@ -429,7 +428,6 @@ class AllArtistsAlbums(ArtistAlbums):
 
     def _on_scrolled_win_change(self, scrollbar=None, pspec=None, data=None):
         vScrollbar = self._scrolledWindow.get_vscrollbar()
-        adjustment = self._scrolledWindow.get_vadjustment()
         revealAreaHeight = 32
 
         # if there's no vscrollbar, or if it's not visible, hide the button
@@ -437,9 +435,9 @@ class AllArtistsAlbums(ArtistAlbums):
             self._load_more.set_block(True)
             return
 
-        value = adjustment.get_value()
-        upper = adjustment.get_upper()
-        page_size = adjustment.get_page_size()
+        value = self.vadjustment.get_value()
+        upper = self.vadjustment.get_upper()
+        page_size = self.vadjustment.get_page_size()
         end = False
 
         # special case this values which happen at construction
