@@ -74,7 +74,7 @@ class Query():
                 }
             )
         }
-    ORDER BY nie:title(?album) ?author ?albumyear
+    ORDER BY fn:lower-case(?title) ?author ?albumyear
     '''.replace('\n', ' ').strip()
 
     ALBUMS_COUNT = '''
@@ -159,7 +159,7 @@ class Query():
                 }
             )
         }
-    ORDER BY ?author ?albumyear nie:title(?album)
+    ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
     '''.replace('\n', ' ').strip()
 
     ARTISTS_COUNT = '''
@@ -212,7 +212,10 @@ class Query():
             tracker:id(?album) = %(album_id)s
         )
     }
-    ORDER BY nmm:trackNumber(?song) tracker:added(?song)
+    ORDER BY
+         nmm:setNumber(nmm:musicAlbumDisc(?song))
+         nmm:trackNumber(?song)
+         tracker:added(?song)
     '''.replace('\n', ' ').strip() % {'album_id': album_id}
 
         return query
