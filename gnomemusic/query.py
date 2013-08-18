@@ -159,7 +159,7 @@ class Query():
                 }
             )
         }
-    ORDER BY ?author ?albumyear nie:title(?album)
+    ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
     '''.replace('\n', ' ').strip()
 
     ARTISTS_COUNT = '''
