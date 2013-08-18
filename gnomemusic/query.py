@@ -212,7 +212,10 @@ class Query():
             tracker:id(?album) = %(album_id)s
         )
     }
-    ORDER BY nmm:trackNumber(?song) tracker:added(?song)
+    ORDER BY
+         nmm:setNumber(nmm:musicAlbumDisc(?song))
+         nmm:trackNumber(?song)
+         tracker:added(?song)
     '''.replace('\n', ' ').strip() % {'album_id': album_id}
 
         return query
