@@ -273,28 +273,24 @@ class AlbumWidget(Gtk.EventBox):
             if(self.player.get_playback_status() != 2):
                 self.player.eventBox.set_visible(True)
 
+    def _on_discovered(self, info, error, _iter):
+        if error:
+            self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
+
     def _on_populate_album_songs(self, source, prefs, track):
         if track:
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
             _iter = self.model.append()
             escapedTitle = AlbumArtCache.get_media_title(track, True)
-            try:
-                self.player.discoverer.discover_uri(track.get_url())
-                self.model.set(_iter,
-                               [0, 1, 2, 3, 4, 5, 7, 9],
-                               [escapedTitle,
-                                self.player.seconds_to_string(
-                                    track.get_duration()),
-                                '', '', None, track, NOW_PLAYING_ICON_NAME,
-                                False])
-            except Exception as err:
-                logging.debug(err.message)
-                logging.debug('failed to discover url ' + track.get_url())
-                self.model.set(_iter,
-                               [0, 1, 2, 3, 4, 5, 7, 9],
-                               [escapedTitle, '', '', '', None,
-                                track, ERROR_ICON_NAME, True])
+            self.player.discover_item(track, self._on_discovered, _iter)
+            self.model.set(_iter,
+                           [0, 1, 2, 3, 4, 5, 7, 9],
+                           [escapedTitle,
+                            self.player.seconds_to_string(
+                                track.get_duration()),
+                            '', '', None, track, NOW_PLAYING_ICON_NAME,
+                            False])
             self.ui.get_object('running_length_label_info').set_text(
                 '%d min' % (int(self.duration / 60) + 1))
 
@@ -521,6 +517,15 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
         self.show_all()
 
+    def _on_discovered(self, info, error, song_widget):
+        if error:
+            self.model.set(song_widget._iter, [4], [ERROR_ICON_NAME])
+            song_widget.now_playing_sign.set_from_icon_name(
+                ERROR_ICON_NAME,
+                Gtk.IconSize.SMALL_TOOLBAR)
+            song_widget.now_playing_sign.show()
+            song_widget.can_be_played = False
+
     def get_songs(self, source, prefs, track):
         if track:
             self.tracks.append(track)
@@ -547,33 +552,21 @@ class ArtistAlbumWidget(Gtk.HBox):
                 song_widget.model = self.model
                 song_widget.title = ui.get_object('title')
 
-                try:
-                    self.player.discoverer.discover_uri(str(track.get_url()))
-                    self.model.set(itr,
-                                   [0, 1, 2, 3, 4, 5],
-                                   [title, '', '', False,
-                                    NOW_PLAYING_ICON_NAME, track])
-                    song_widget.now_playing_sign = ui.get_object('image1')
-                    song_widget.now_playing_sign.set_from_icon_name(
-                        NOW_PLAYING_ICON_NAME,
-                        Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.now_playing_sign.set_no_show_all('True')
-                    song_widget.now_playing_sign.set_alignment(1, 0.6)
-                    song_widget.can_be_played = True
-                    song_widget.connect('button-release-event',
-                                        self.track_selected)
+                self.player.discover_item(track, self._on_discovered, song_widget)
+                self.model.set(itr,
+                               [0, 1, 2, 3, 4, 5],
+                               [title, '', '', False,
+                                NOW_PLAYING_ICON_NAME, track])
+                song_widget.now_playing_sign = ui.get_object('image1')
+                song_widget.now_playing_sign.set_from_icon_name(
+                    NOW_PLAYING_ICON_NAME,
+                    Gtk.IconSize.SMALL_TOOLBAR)
+                song_widget.now_playing_sign.set_no_show_all('True')
+                song_widget.now_playing_sign.set_alignment(1, 0.6)
+                song_widget.can_be_played = True
+                song_widget.connect('button-release-event',
+                                    self.track_selected)
 
-                except:
-                    print('failed to discover url ' + str(track.get_url()))
-                    self.model.set(itr, [0, 1, 2, 3, 4, 5],
-                                   [title, '', '', True,
-                                    ERROR_ICON_NAME, track])
-                    song_widget.now_playing_sign = ui.get_object('image1')
-                    song_widget.now_playing_sign.set_from_icon_name(
-                        ERROR_ICON_NAME,
-                        Gtk.IconSize.SMALL_TOOLBAR)
-                    song_widget.now_playing_sign.set_alignment(1, 0.6)
-                    song_widget.can_be_played = False
             self.ui.get_object('grid1').show_all()
 
     def _update_album_art(self):
@@ -584,6 +577,9 @@ class ArtistAlbumWidget(Gtk.HBox):
             self.ui.get_object('cover').set_from_pixbuf(pixbuf)
 
     def track_selected(self, widget, _iter):
+        if not widget.can_be_played:
+            return
+
         self.player.stop()
         self.player.set_playlist('Artist', self.album,
                                  widget.model, widget._iter, 5)

@@ -81,7 +81,12 @@ class Player(GObject.GObject):
         self._symbolicIcon = self.cache.make_default_icon(ART_SIZE, ART_SIZE)
 
         Gst.init(None)
+
         self.discoverer = GstPbutils.Discoverer()
+        self.discoverer.connect('discovered', self._on_discovered)
+        self.discoverer.start()
+        self._discovering_urls = {}
+
         self.player = Gst.ElementFactory.make('playbin', 'player')
         self.bus = self.player.get_bus()
         self.bus.add_signal_watch()
@@ -94,6 +99,33 @@ class Player(GObject.GObject):
         self.bus.connect('message::error', self._onBusError)
         self.bus.connect('message::eos', self._on_bus_eos)
         self._setup_view()
+
+    def discover_item(self, item, callback, data=None):
+        url = item.get_url()
+        if not url:
+            return
+
+        obj = (callback, data)
+
+        if url in self._discovering_urls:
+            self._discovering_urls[url] += [obj]
+        else:
+            self._discovering_urls[url] = [obj]
+            self.discoverer.discover_uri_async(url)
+
+    def _on_discovered(self, discoverer, info, error):
+        try:
+            cbs = self._discovering_urls[info.get_uri()]
+            del(self._discovering_urls[info.get_uri()])
+
+            for callback, data in cbs:
+                if data is not None:
+                    callback(info, error, data)
+                else:
+                    callback(info, error)
+        except KeyError:
+            # Not something we're interested in
+            return
 
     def _on_settings_changed(self, settings, value):
         self.repeat = settings.get_enum('repeat')
