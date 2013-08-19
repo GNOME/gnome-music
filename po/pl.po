@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-05-14 18:57+0200\n"
+"POT-Creation-Date: 2013-08-19 22:27+0200\n"
+"PO-Revision-Date: 2013-08-19 22:28+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -44,31 +44,33 @@ msgid "Window maximized"
 msgstr "Maksymalizacja okna"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr "Stan maksymalizacji okna"
+msgid "Window maximized state."
+msgstr "Stan maksymalizacji okna."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Tryb powtarzania odtwarzania"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Wartość identyfikuje, czy powtarzać lub losować kolejność odtwarzania "
+"kolekcji. Dozwolone wartości: \"none\", \"song\", \"all\", \"shuffle\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Tryb wyszukiwania"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
+msgid "If true, the search bar is shown."
 msgstr ""
 "Jeśli jest ustawione na wartość \"true\", to wyświetlany jest pasek "
-"wyszukiwania"
+"wyszukiwania."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:36
+#: ../gnomemusic/window.py:44
 msgid "Music"
 msgstr "Muzyka"
 
@@ -80,43 +82,112 @@ msgstr "Odtwarzacz muzyki"
 msgid "Play and organize your music collection"
 msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
 
-#: ../gnomemusic/albumArtCache.py:38
+#: ../gnomemusic/albumArtCache.py:226
 msgid "Untitled"
-msgstr ""
+msgstr "Bez tytułu"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/player.py:262 ../gnomemusic/view.py:209
+#: ../gnomemusic/view.py:559
+msgid "Unknown Artist"
+msgstr "Nieznany wykonawca"
+
+#: ../gnomemusic/view.py:275
 msgid "Albums"
-msgstr ""
+msgstr "Albumy"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:305
 msgid "Songs"
-msgstr ""
+msgstr "Utwory"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:450
 msgid "Playlists"
-msgstr "_Nowa lista odtwarzania"
+msgstr "Listy odtwarzania"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:456
 msgid "Artists"
-msgstr ""
+msgstr "Wykonawcy"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:494 ../gnomemusic/view.py:496
+#: ../gnomemusic/widgets.py:423
 msgid "All Artists"
-msgstr "_Nowa lista odtwarzania"
+msgstr "Wszyscy wykonawcy"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:65 ../gnomemusic/widgets.py:85
+msgid "Load More"
+msgstr "Wczytaj więcej"
+
+#: ../gnomemusic/widgets.py:75
+msgid "Loading..."
+msgstr "Wczytywanie..."
+
+#: ../gnomemusic/window.py:125
 msgid "Empty"
+msgstr "Puste"
+
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 programiści odtwarzacza muzyki GNOME"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "A music player and management application for GNOME."
+msgstr "Odtwarzanie i zarządzanie muzyką dla środowiska GNOME."
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "Visit GNOME Music website"
+msgstr "Witryna odtwarzacza muzyki GNOME"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid ""
+"  Music is free software; you can redistribute it and/or modify\n"
+"  it under the terms of the GNU General Public License as \n"
+"  published by the Free Software Foundation; either version 2 of the \n"
+"  License, or (at your option) any later version.\n"
+"\n"
+"  Music is distributed in the hope that it will be useful\n"
+"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
+"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
+"  GNU General Public License for more details.\n"
+"\n"
+"  You should have received a copy of the GNU General Public License \n"
+"  along with Music; if not, write to the Free Software \n"
+"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
+"  MA 02110-1301, USA.\n"
+"\n"
+"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
+"  GStreamer plugins to be used and distributed together with GStreamer and\n"
+"  Gnome Music. This permission is above and beyond the permissions granted "
+"by\n"
+"  the GPL license by which Gnome Music is covered. If you modify this code, "
+"you may\n"
+"  extend this exception to your version of the code, but you are not "
+"obligated\n"
+"  to do so. If you do not wish to do so, delete this exception statement "
+"from\n"
+"  your version."
 msgstr ""
+"  Odtwarzacz muzyki jest wolnym oprogramowaniem; można go rozprowadzać dalej\n"
+"  i/lub modyfikować na warunkach Powszechnej Licencji Publicznej GNU,\n"
+"  wydanej przez Fundację Wolnego Oprogramowania (Free Software Foundation) -\n"
+"  według wersji drugiej tej Licencji lub którejś z późniejszych wersji.\n"
+"\n"
+"  Odtwarzacz muzyki rozpowszechniany jest z nadzieją, iż będzie on użyteczny\n"
+"  - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej gwarancji\n"
+"  PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. W celu\n"
+"  uzyskania bliższych informacji należy zapoznać się z Powszechną Licencją\n"
+"  Publiczną GNU.\n"
+"\n"
+"  Z pewnością wraz z odtwarzaczem muzyki dostarczono także egzemplarz\n"
+"  Powszechnej Licencji Publicznej GNU (GNU General Public License); jeśli\n"
+"  nie - proszę napisać do Free Software Foundation, Inc., 51 Franklin\n"
+"  Street, Fifth Floor, Boston, MA 02110-130159 USA.\n"
+"\n"
+"  Autorzy odtwarzacza muzyki GNOME udzielają pozwolenia na używanie i\n"
+"  rozprowadzanie wtyczek biblioteki GStreamer niezgodnych z licencją GPL\n"
+"  razem z biblioteką GStreamer i odtwarzaczem muzyki GNOME. To pozwolenie\n"
+"  wychodzi poza uprawnienia udzielane przez licencję GPL, która obejmuje\n"
+"  odtwarzacz muzyki GNOME. Jeśli ten kod jest modyfikowany, to można objąć\n"
+"  go tym wyjątkiem, ale nie jest to wymagane. Jeśli nie ma zostać nim\n"
+"  objęty, to należy usunąć ten fragment z tej wersji."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -125,14 +196,6 @@ msgstr "Wydane"
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Czas trwania"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -151,59 +214,41 @@ msgid "_Quit"
 msgstr "Za_kończ"
 
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
 msgstr "Odtwarzanie losowe"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "Powtarzanie wszystkich"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "Powtarzanie utworu"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
+msgstr "Wyłączenie losowania/powtarzania"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Nie odnaleziono muzyki"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "Zaznacz wszystkie"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Odznacz wszystkie"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Kliknięcie elementu zaznacza go"
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "Anuluj"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "_Nowa lista odtwarzania"
-
-#~ msgid "If true, do randomized playback through the collection"
-#~ msgstr ""
-#~ "Jeśli jest ustawione na wartość \"true\", to losowo odtwarza kolekcję"
-
-#~ msgid "Back"
-#~ msgstr "Wstecz"
+msgstr "Dodaj do listy odtwarzania"
