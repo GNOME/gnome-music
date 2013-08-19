@@ -1,4 +1,22 @@
-gnome-music-python
-==================
+GNOME Music 3.9.90 Alpha
+========================
 
-Python port of gnome-music
+Music is the new GNOME music playing application.
+
+
+=== Where can I find more? ===
+
+We have a wiki page at
+http://live.gnome.org/Apps/Music
+
+You can join us on the IRC:
+#gnome-music on GIMPNet
+
+
+=== Building from git ===
+
+$ git clone git://git.gnome.org/gnome-music
+$ cd gnome-music
+$ ./autogen.sh
+$ make
+
