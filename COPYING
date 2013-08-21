@@ -341,11 +341,11 @@ consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
 
-The Gnome Music authors hereby grant permission for non-GPL compatible
+The GNOME Music authors hereby grant permission for non-GPL compatible
 GStreamer plugins to be used and distributed together with GStreamer and
-Gnome Music. This permission is above and beyond the permissions granted by
-the GPL license by which Gnome Music is covered. If you modify this code, you may 
-extend this exception to your version of the code, but you are not obligated 
-to do so. If you do not wish to do so, delete this exception statement from 
-your version.
+GNOME Music.  This permission is above and beyond the permissions granted
+by the GPL license by which GNOME Music is covered.  If you modify this
+code, you may extend this exception to your version of the code, but you
+are not obligated to do so.  If you do not wish to do so, delete this
+exception statement from your version.
 
