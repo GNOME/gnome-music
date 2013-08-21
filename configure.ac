@@ -3,7 +3,7 @@ AC_INIT([gnome-music],
         [3.9.90], 
         [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music],
         [gnome-music],
-        [https://live.gnome.org/Design/Apps/Music])
+        [https://wiki.gnome.org/Apps/Music])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS(config.h)
