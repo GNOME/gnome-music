@@ -2,35 +2,21 @@
 <interface domain="gnome-music">
   <!-- interface-requires gtk+ 3.0 -->
   <object class="GtkAboutDialog" id="about_dialog">
-    <property name="version">@PACKAGE_VERSION@</property>
+    <property name="can_focus">False</property>
     <property name="modal">True</property>
+    <property name="program_name">Music</property>
+    <property name="version">@PACKAGE_VERSION@</property>
     <property name="copyright" translatable="yes">Copyright © 2013 GNOME Music Developers</property>
     <property name="comments" translatable="yes">A music player and management application for GNOME.</property>
     <property name="website">@PACKAGE_URL@</property>
     <property name="website_label" translatable="yes">Visit GNOME Music website</property>
-    <property name="license" translatable="yes">GNOME Music is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+    <property name="license" translatable="yes">GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
-GNOME Music is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty
-of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
+GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with GNOME Music; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-02110-1301 USA.
+You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-The GNOME Music authors hereby grant permission for non-GPL
-compatible GStreamer plugins to be used and distributed together
-with GStreamer and GNOME Music.  This permission is above and
-beyond the permissions granted by the GPL license by which
-GNOME Music is covered.  If you modify this code, you may extend
-this exception to your version of the code, but you are not
-obligated to do so.  If you do not wish to do so, delete this
-exception statement from your version.</property>
+The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version.</property>
     <property name="authors">Maintainers:
     Seif Lotfy &lt;seif@lotfy.com&gt;
     Vadim Rutkovsky &lt;vrutkovs@redhat.com&gt;
@@ -42,10 +28,12 @@ Contributors:
     Guillaume Quintard &lt;guillaume.quintard@gmail.com&gt;
     Juan Suarez &lt;jasuarez@igalia.com&gt;
     Sai Suman Prayaga &lt;suman.sai14@gmail.com&gt;
-    Shivani Poddar &lt;shivani.poddar92@gmail.com&gt;</property>
-    <property name="artists">William Jon McCann &lt;william.jon.mccann@gmail.com&gt;
+    Shivani Poddar &lt;shivani.poddar92@gmail.com&gt;
+</property>
+    <property name="artists">    Allan Day &lt;allanpday@gmail.com&gt;
     Jakub Steiner &lt;jimmac@gmail.com&gt;
-    Allan Day &lt;allanpday@gmail.com&gt;</property>
-    <property name="logo-icon-name">gnome-music</property>
+    William Jon McCann &lt;william.jon.mccann@gmail.com&gt;</property>
+    <property name="logo_icon_name">gnome-music</property>
+    <property name="wrap_license">True</property>
   </object>
 </interface>
