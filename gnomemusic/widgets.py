@@ -225,6 +225,7 @@ class AlbumWidget(Gtk.EventBox):
             self.update_model(self.player, cached_playlist,
                               self.player.currentTrack)
         else:
+            self.duration = 0
             self._create_model()
             GLib.idle_add(grilo.populate_album_songs, item.get_id(),
                           self._on_populate_album_songs)
