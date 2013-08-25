@@ -6,9 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-05-26 22:08+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-08-23 11:04+0000\n"
+"PO-Revision-Date: 2013-08-16 22:09+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -39,29 +40,32 @@ msgid "Window maximized"
 msgstr "Maximalizované okno"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr "Maximalizovaný stav okna"
+msgid "Window maximized state."
+msgstr "Maximalizovaný stav okna."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Režim opakovaného prehrávania"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Hodnota, ktorá udáva, či sa má opakovať, alebo zamiešať prehrávanie zbierky. "
+"Dovolené hodnoty sú: „none“(nič), „song“(skladba), „all“(všetko), "
+"„shuffle“(zamiešať)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Režim vyhľadávania"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr "Ak je nastavené na true, bude zobrazený panel na vyhľadávanie"
+msgid "If true, the search bar is shown."
+msgstr "Ak je nastavené na true, bude zobrazený panel vyhľadávania."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Hudba"
 
@@ -73,59 +77,93 @@ msgstr "Prehrávač hudby"
 msgid "Play and organize your music collection"
 msgstr "Prehráva a organizuje vašu hudobnú zbierku"
 
-#: ../gnomemusic/albumArtCache.py:38
+# uri
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
-msgstr ""
+msgstr "Nepomenovaný"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:568
+msgid "Unknown Artist"
+msgstr "Neznámy interpret"
+
+#: ../gnomemusic/view.py:284
 msgid "Albums"
-msgstr ""
+msgstr "Albumy"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:314
 msgid "Songs"
-msgstr ""
+msgstr "Skladby"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:459
 msgid "Playlists"
-msgstr "_Nový zoznam piesní"
+msgstr "Zoznamy piesní"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:465
 msgid "Artists"
-msgstr ""
+msgstr "Interpreti"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:503 ../gnomemusic/view.py:505
+#: ../gnomemusic/widgets.py:433
 msgid "All Artists"
-msgstr "_Nový zoznam piesní"
+msgstr "Všetci interpreti"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+msgid "Load More"
+msgstr "Načítať viac"
+
+#: ../gnomemusic/widgets.py:84
+msgid "Loading..."
+msgstr "Načítava sa"
+
+#: ../gnomemusic/window.py:134
 msgid "Empty"
+msgstr "Prázdne"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Autorské práva © 2013 Vývojári programu Hudba prostredia GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Aplikácia na prehrávanie a správu hudby prostredia GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Navštíviť domovskú stránku aplikácie Hudba prostredia GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
-msgstr "Vydané"
+msgstr "Vydaný"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Dĺžka"
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr "----"
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr "--:--"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -143,56 +181,60 @@ msgstr "_O programe Hudba"
 msgid "_Quit"
 msgstr "U_končiť"
 
+# GtkRadioMenuItem
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
-msgstr "Zamiešané prehrávanie"
+msgstr "Zamiešať"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "Opakovať všetko"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "Opakovať skladbu"
 
+# GtkRadioMenuItem
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-#, fuzzy
-msgid "0:00"
-msgstr "00:00"
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr "/"
+msgstr "Vypnúť zamiešanie/opakovanie"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Nenašla sa žiadna hudba"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "Vybrať všetko"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Zrušiť výber"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Kliknutím na položku ju vyberiete"
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
+# gtk button
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "_Nový zoznam piesní"
+msgstr "Pridať do zoznamu piesní"
+
+#~ msgid "<span color='grey'>Released</span>"
+#~ msgstr "<span color='grey'>Vydané</span>"
+
+#~ msgid "<span color='grey'>Running Length</span>"
+#~ msgstr "<span color='grey'>Dĺžka</span>"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
 
 #~ msgid "Shuffle playback"
 #~ msgstr "Zamiešané prehrávanie"
@@ -200,10 +242,8 @@ msgstr "_Nový zoznam piesní"
 #~ msgid "If true, do randomized playback through the collection"
 #~ msgstr "Ak je nastavené na true, skladby v zbierke sa premiešajú"
 
-#~ msgid "Back"
-#~ msgstr "Späť"
+#~ msgid "00:00"
+#~ msgstr "00:00"
 
-#, fuzzy
-#~| msgid "Search mode"
-#~ msgid "Search"
-#~ msgstr "Režim vyhľadávania"
+#~ msgid "/"
+#~ msgstr "/"
