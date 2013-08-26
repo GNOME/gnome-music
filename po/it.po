@@ -12,15 +12,15 @@
 #   Bonjour/Zeroconf ed il widget che permette di filtrare
 #   per artista/album/autore. Il primo è browser, il
 #   secondo catalogo (ove possibile distinguere)
-# Milo Casagrande <milo@milo.name>, 2012, 2013.
+# Milo Casagrande <milo@ubuntu.com>, 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-12 16:15+0200\n"
-"PO-Revision-Date: 2013-08-12 16:17+0200\n"
-"Last-Translator: Milo Casagrande <milo@milo.name>\n"
+"POT-Creation-Date: 2013-08-26 08:30+0200\n"
+"PO-Revision-Date: 2013-08-26 08:30+0200\n"
+"Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Launchpad-Export-Date: 2012-03-06 09:28+0000\n"
-"X-Generator: Launchpad (build 14900)\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -63,6 +63,8 @@ msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Indica se ripetere o riprodurre a caso la libreria musicale. Valori "
+"consentiti sono: \"none\", \"song\", \"all\", \"shuffle\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -72,8 +74,8 @@ msgstr "Modalità di ricerca"
 msgid "If true, the search bar is shown."
 msgstr "Se VERO, viene mostrata la barra di ricerca."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
-#: ../gnomemusic/window.py:21
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musica"
 
@@ -85,89 +87,105 @@ msgstr "Riproduttore musicale"
 msgid "Play and organize your music collection"
 msgstr "Riproduce e organizza la collezione musicale"
 
-#: ../gnomemusic/albumArtCache.py:205
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Senza titolo"
 
-#: ../gnomemusic/player.py:236 ../gnomemusic/view.py:180
-#: ../gnomemusic/view.py:538
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:568
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
-#: ../gnomemusic/view.py:254
+#: ../gnomemusic/view.py:284
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:284
+#: ../gnomemusic/view.py:314
 msgid "Songs"
 msgstr "Brani"
 
-#: ../gnomemusic/view.py:429
+#: ../gnomemusic/view.py:459
 msgid "Playlists"
 msgstr "Playlist"
 
-#: ../gnomemusic/view.py:435
+#: ../gnomemusic/view.py:465
 msgid "Artists"
 msgstr "Artisti"
 
-#: ../gnomemusic/view.py:473 ../gnomemusic/view.py:475
-#: ../gnomemusic/widgets.py:388
+#: ../gnomemusic/view.py:503 ../gnomemusic/view.py:505
+#: ../gnomemusic/widgets.py:433
 msgid "All Artists"
 msgstr "Tutti gli artisti"
 
-#: ../gnomemusic/widgets.py:32 ../gnomemusic/widgets.py:52
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
 msgid "Load More"
 msgstr "Carica altro"
 
-#: ../gnomemusic/widgets.py:42
+#: ../gnomemusic/widgets.py:84
 msgid "Loading..."
 msgstr "Caricamento..."
 
-#: ../gnomemusic/window.py:102
+#: ../gnomemusic/window.py:134
 msgid "Empty"
 msgstr "Vuota"
 
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "Copyright © 2013 GNOME Music Developers"
 
-#: ../data/AboutDialog.ui.in.h:2
+#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Una applicazione per GNOME per riprodurre e gestire la musica."
 
-#: ../data/AboutDialog.ui.in.h:3
+#: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
 msgstr "Visita il sito web di GNOME Music"
 
-#: ../data/AboutDialog.ui.in.h:4
+#: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"  Music is free software; you can redistribute it and/or modify\n"
-"  it under the terms of the GNU General Public License as \n"
-"  published by the Free Software Foundation; either version 2 of the \n"
-"  License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"  Music is distributed in the hope that it will be useful\n"
-"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
-"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
-"  GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"  You should have received a copy of the GNU General Public License \n"
-"  along with Music; if not, write to the Free Software \n"
-"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
-"  MA 02110-1301, USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
-"  GStreamer plugins to be used and distributed together with GStreamer and\n"
-"  Gnome Music. This permission is above and beyond the permissions granted "
-"by\n"
-"  the GPL license by which Gnome Music is covered. If you modify this code, "
-"you may\n"
-"  extend this exception to your version of the code, but you are not "
-"obligated\n"
-"  to do so. If you do not wish to do so, delete this exception statement "
-"from\n"
-"  your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -211,7 +229,7 @@ msgstr "Mischia/Ripeti disattivati"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "Nessuna musica trovata"
 
 #: ../data/headerbar.ui.in.h:1
 msgid "Select All"
