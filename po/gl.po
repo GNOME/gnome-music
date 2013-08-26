@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-21 00:30+0200\n"
-"PO-Revision-Date: 2013-08-21 00:33+0200\n"
+"POT-Creation-Date: 2013-08-27 01:52+0200\n"
+"PO-Revision-Date: 2013-08-27 01:52+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -52,7 +52,8 @@ msgid ""
 "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
 "O valor identifica se se debe repetir ou facer aleatoria a reprodución na "
-"colección. Os valores permitidos son: \"none\", \"song\", \"all\", \"shuffle\"."
+"colección. Os valores permitidos son: \"none\", \"song\", \"all\", \"shuffle"
+"\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -62,8 +63,8 @@ msgstr "Modo de busca"
 msgid "If true, the search bar is shown."
 msgstr "Se é verdadeiro, mostrarase a barra de busca."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:36
-#: ../gnomemusic/window.py:44
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Música"
 
@@ -75,115 +76,105 @@ msgstr "Reprodutor de música"
 msgid "Play and organize your music collection"
 msgstr "Reproduce e organiza a súa colección de música"
 
-#: ../gnomemusic/albumArtCache.py:226
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Sen título"
 
-#: ../gnomemusic/player.py:262 ../gnomemusic/view.py:209
-#: ../gnomemusic/view.py:559
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:568
 msgid "Unknown Artist"
 msgstr "Artista descoñecido"
 
-#: ../gnomemusic/view.py:275
+#: ../gnomemusic/view.py:284
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../gnomemusic/view.py:305
+#: ../gnomemusic/view.py:314
 msgid "Songs"
 msgstr "Cancións"
 
-#: ../gnomemusic/view.py:450
+#: ../gnomemusic/view.py:459
 msgid "Playlists"
 msgstr "Listas de reprodución"
 
-#: ../gnomemusic/view.py:456
+#: ../gnomemusic/view.py:465
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:494 ../gnomemusic/view.py:496
-#: ../gnomemusic/widgets.py:423
+#: ../gnomemusic/view.py:503 ../gnomemusic/view.py:505
+#: ../gnomemusic/widgets.py:436
 msgid "All Artists"
 msgstr "Todos os artistas"
 
-#: ../gnomemusic/widgets.py:65 ../gnomemusic/widgets.py:85
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
 msgid "Load More"
 msgstr "Cargar máis"
 
-#: ../gnomemusic/widgets.py:75
+#: ../gnomemusic/widgets.py:84
 msgid "Loading..."
 msgstr "Cargando…"
 
-#: ../gnomemusic/window.py:125
+#: ../gnomemusic/window.py:134
 msgid "Empty"
 msgstr "Baleiro"
 
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "Copyright © 2013 Os desenvolvedores de GNOME Music"
 
-#: ../data/AboutDialog.ui.in.h:2
+#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Un aplicativo de reprodución e xestión de música para GNOME."
 
-#: ../data/AboutDialog.ui.in.h:3
+#: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
 msgstr "Visite o sitio web de GNOME Music"
 
-#: ../data/AboutDialog.ui.in.h:4
+#: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"  Music is free software; you can redistribute it and/or modify\n"
-"  it under the terms of the GNU General Public License as \n"
-"  published by the Free Software Foundation; either version 2 of the \n"
-"  License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"  Music is distributed in the hope that it will be useful\n"
-"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
-"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
-"  GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"  You should have received a copy of the GNU General Public License \n"
-"  along with Music; if not, write to the Free Software \n"
-"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
-"  MA 02110-1301, USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
-"  GStreamer plugins to be used and distributed together with GStreamer and\n"
-"  Gnome Music. This permission is above and beyond the permissions granted "
-"by\n"
-"  the GPL license by which Gnome Music is covered. If you modify this code, "
-"you may\n"
-"  extend this exception to your version of the code, but you are not "
-"obligated\n"
-"  to do so. If you do not wish to do so, delete this exception statement "
-"from\n"
-"  your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
-"  Music is free software; you can redistribute it and/or modify\n"
-"  it under the terms of the GNU General Public License as \n"
-"  published by the Free Software Foundation; either version 2 of the \n"
-"  License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"  Music is distributed in the hope that it will be useful\n"
-"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
-"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
-"  GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"  You should have received a copy of the GNU General Public License \n"
-"  along with Music; if not, write to the Free Software \n"
-"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
-"  MA 02110-1301, USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
-"  GStreamer plugins to be used and distributed together with GStreamer and\n"
-"  Gnome Music. This permission is above and beyond the permissions granted "
-"by\n"
-"  the GPL license by which Gnome Music is covered. If you modify this code, "
-"you may\n"
-"  extend this exception to your version of the code, but you are not "
-"obligated\n"
-"  to do so. If you do not wish to do so, delete this exception statement "
-"from\n"
-"  your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
