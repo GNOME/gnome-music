@@ -312,9 +312,10 @@ class AlbumWidget(Gtk.EventBox):
         currentSong = playlist.get_value(currentIter, 5)
         song_passed = False
         _iter = playlist.get_iter_first()
+        self.duration = 0
         while _iter:
             song = playlist.get_value(_iter, 5)
-
+            self.duration += song.get_duration()
             escapedTitle = AlbumArtCache.get_media_title(song, True)
             if (song == currentSong):
                 title = '<b>%s</b>' % escapedTitle
@@ -330,6 +331,8 @@ class AlbumWidget(Gtk.EventBox):
             if(playlist.get_value(_iter, 7) != ERROR_ICON_NAME):
                 playlist.set_value(_iter, 9, iconVisible)
             _iter = playlist.iter_next(_iter)
+            self.ui.get_object('running_length_label_info').set_text(
+                '%d min' % (int(self.duration / 60) + 1))
         return False
 
 
