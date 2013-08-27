@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-08 22:20+0200\n"
-"PO-Revision-Date: 2013-08-08 22:24+0200\n"
+"POT-Creation-Date: 2013-08-27 20:41+0200\n"
+"PO-Revision-Date: 2013-08-27 20:42+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -38,11 +38,11 @@ msgstr "Vindu maksimert"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
 msgid "Window maximized state."
-msgstr ""
+msgstr "Vindu maksimert."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Repeteringsmodus for avspilling"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
@@ -58,8 +58,8 @@ msgstr "Søkemodus"
 msgid "If true, the search bar is shown."
 msgstr ""
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
-#: ../gnomemusic/window.py:21
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musikk"
 
@@ -71,88 +71,92 @@ msgstr "Musikkavspiller"
 msgid "Play and organize your music collection"
 msgstr "Spill av og organiser din musikksamling"
 
-#: ../gnomemusic/albumArtCache.py:205
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Uten tittel"
 
-#: ../gnomemusic/player.py:236 ../gnomemusic/view.py:178
-#: ../gnomemusic/view.py:516
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:571
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
-#: ../gnomemusic/view.py:251
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Ingen musikk funnet!\n"
+" Plasser noen filer i mappen %s"
+
+#: ../gnomemusic/view.py:287
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:281
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:426
+#: ../gnomemusic/view.py:462
 msgid "Playlists"
 msgstr "Spillelister"
 
-#: ../gnomemusic/view.py:432
+#: ../gnomemusic/view.py:468
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:464 ../gnomemusic/view.py:466
-#: ../gnomemusic/widgets.py:395
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
 msgid "All Artists"
 msgstr "Alle artister"
 
-#: ../gnomemusic/widgets.py:29 ../gnomemusic/widgets.py:49
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
 msgid "Load More"
 msgstr "Last flere"
 
-#: ../gnomemusic/widgets.py:39
+#: ../gnomemusic/widgets.py:84
 msgid "Loading..."
 msgstr "Laster …"
 
-#: ../gnomemusic/window.py:102
+#: ../gnomemusic/window.py:134
 msgid "Empty"
 msgstr "Tom"
 
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "Opphavsrett © 2013 GNOME Music utviklerene"
 
-#: ../data/AboutDialog.ui.in.h:2
+#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Et program for avspilling og håndtering av musikk for GNOME."
 
-#: ../data/AboutDialog.ui.in.h:3
+#: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
 msgstr "Besøk nettstedet for GNOME Music"
 
-#: ../data/AboutDialog.ui.in.h:4
+#: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"  Music is free software; you can redistribute it and/or modify\n"
-"  it under the terms of the GNU General Public License as \n"
-"  published by the Free Software Foundation; either version 2 of the \n"
-"  License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"  Music is distributed in the hope that it will be useful\n"
-"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
-"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
-"  GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"  You should have received a copy of the GNU General Public License \n"
-"  along with Music; if not, write to the Free Software \n"
-"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
-"  MA 02110-1301, USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
-"  GStreamer plugins to be used and distributed together with GStreamer and\n"
-"  Gnome Music. This permission is above and beyond the permissions granted "
-"by\n"
-"  the GPL license by which Gnome Music is covered. If you modify this code, "
-"you may\n"
-"  extend this exception to your version of the code, but you are not "
-"obligated\n"
-"  to do so. If you do not wish to do so, delete this exception statement "
-"from\n"
-"  your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
 
 #: ../data/AlbumWidget.ui.h:1
