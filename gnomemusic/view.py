@@ -32,6 +32,7 @@
 
 
 from gi.repository import Gtk
+from gi.repository import Gdk
 from gi.repository import GObject
 from gi.repository import Gd
 from gi.repository import Grl
@@ -82,6 +83,7 @@ class ViewContainer(Gtk.Stack):
         self._adjustmentValueId = 0
         self._adjustmentChangedId = 0
         self._scrollbarVisibleId = 0
+        self.old_vsbl_range = None
         self._model = Gtk.ListStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -230,9 +232,56 @@ class ViewContainer(Gtk.Stack):
         self._adjustmentValueId = self.vadjustment.connect(
             'value-changed',
             self._on_scrolled_win_change)
+        self.view.connect_after('draw', self._on_view_draw)
+        self.view.add_events(Gdk.EventMask.EXPOSURE_MASK)
 
     @log
-    def _on_scrolled_win_change(self, data=None):
+    def _on_view_draw(self, widget, cr):
+        vsbl_range = widget.get_children()[0].get_visible_range()
+        if not vsbl_range or self.old_vsbl_range == vsbl_range:
+            return
+        self.old_vsbl_range = vsbl_range
+        self.on_scroll_event(self.view)
+
+    @log
+    def on_scroll_event(self, widget, event=None):
+        vsbl_range = widget.get_children()[0].get_visible_range()
+        if not vsbl_range:
+            return
+
+        def load_album_art_for(path):
+            try:
+                _iter = self._model.get_iter(path)
+                item = self._model.get_value(_iter, 5)
+                if not item:
+                    return
+                title = self._model.get_value(_iter, 2)
+                artist = self._model.get_value(_iter, 3)
+                thumbnail = self._model.get_value(_iter, 4)
+                if thumbnail == self._symbolicIcon:
+                    albumArtCache.get_default().lookup(
+                        item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                        _iter, artist, title)
+            except Exception:
+                pass
+
+        # Load thumbnails
+        path = vsbl_range[0]
+        while path <= vsbl_range[1]:
+            load_album_art_for(path)
+            path.next()
+
+        # Add 10 more albums to avoid visible thumbnail loading
+        for i in range(0, 10):
+            try:
+                path.next()
+                load_album_art_for(path)
+            except ValueError:
+                # No such path
+                break
+
+    @log
+    def _on_scrolled_win_change(self, adjustment=None):
         vScrollbar = self.view.get_vscrollbar()
         revealAreaHeight = 32
 
@@ -290,18 +339,12 @@ class ViewContainer(Gtk.Stack):
                             [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
                              0, icon_name, False, icon_name == self.errorIconName])
-            albumArtCache.get_default().lookup(
-                item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                _iter, artist, title)
-
         GLib.idle_add(add_new_item)
 
     @log
     def _on_lookup_ready(self, icon, path, _iter):
         if icon:
-            self._model.set_value(
-                _iter, 4,
-                icon)
+            self._model.set_value(_iter, 4, icon)
             self.view.queue_draw()
 
     @log
