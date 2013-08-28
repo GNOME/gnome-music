@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-22 16:36+0000\n"
-"PO-Revision-Date: 2013-08-22 19:59+0200\n"
+"POT-Creation-Date: 2013-08-27 10:46+0000\n"
+"PO-Revision-Date: 2013-08-28 10:57+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -67,7 +67,7 @@ msgid "If true, the search bar is shown."
 msgstr "Je-li zapnuto, je zobrazena vyhledávací lišta."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Hudba"
 
@@ -84,28 +84,37 @@ msgid "Untitled"
 msgstr "Bez názvu"
 
 #: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
-#: ../gnomemusic/view.py:568
+#: ../gnomemusic/view.py:571
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: ../gnomemusic/view.py:284
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Žádná hudba nenalezana!\n"
+"Uložte nějakou do složky %s"
+
+#: ../gnomemusic/view.py:287
 msgid "Albums"
 msgstr "Alba"
 
-#: ../gnomemusic/view.py:314
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:459
+#: ../gnomemusic/view.py:462
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: ../gnomemusic/view.py:465
+#: ../gnomemusic/view.py:468
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../gnomemusic/view.py:503 ../gnomemusic/view.py:505
-#: ../gnomemusic/widgets.py:432
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
 msgid "All Artists"
 msgstr "Všichni umělci"
 
@@ -121,19 +130,19 @@ msgstr "Načítá se…"
 msgid "Empty"
 msgstr "Prázdné"
 
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "Copyright © 2013 Vývojáři Hudby GNOME"
 
-#: ../data/AboutDialog.ui.in.h:2
+#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Aplikace pro prostředí GNOME sloužící k přehrávání a správě hudby."
 
-#: ../data/AboutDialog.ui.in.h:3
+#: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
 msgstr "Navštívit webové stránky Hudby GNOME"
 
-#: ../data/AboutDialog.ui.in.h:4
+#: ../data/AboutDialog.ui.in.h:5
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
