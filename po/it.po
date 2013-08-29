@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-26 08:30+0200\n"
-"PO-Revision-Date: 2013-08-26 08:30+0200\n"
+"POT-Creation-Date: 2013-08-29 18:38+0200\n"
+"PO-Revision-Date: 2013-08-29 18:39+0200\n"
 "Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -92,28 +92,37 @@ msgid "Untitled"
 msgstr "Senza titolo"
 
 #: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
-#: ../gnomemusic/view.py:568
+#: ../gnomemusic/view.py:571
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
-#: ../gnomemusic/view.py:284
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Nessun brano trovato.\n"
+"Caricare alcuni file nella cartella %s."
+
+#: ../gnomemusic/view.py:287
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:314
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Brani"
 
-#: ../gnomemusic/view.py:459
+#: ../gnomemusic/view.py:462
 msgid "Playlists"
 msgstr "Playlist"
 
-#: ../gnomemusic/view.py:465
+#: ../gnomemusic/view.py:468
 msgid "Artists"
 msgstr "Artisti"
 
-#: ../gnomemusic/view.py:503 ../gnomemusic/view.py:505
-#: ../gnomemusic/widgets.py:433
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
 msgid "All Artists"
 msgstr "Tutti gli artisti"
 
@@ -135,7 +144,7 @@ msgstr "Copyright © 2013 GNOME Music Developers"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
-msgstr "Una applicazione per GNOME per riprodurre e gestire la musica."
+msgstr "Una applicazione per GNOME per riprodurre e gestire la propria musica."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
