@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-19 22:27+0200\n"
-"PO-Revision-Date: 2013-08-19 22:28+0200\n"
+"POT-Creation-Date: 2013-08-31 22:50+0200\n"
+"PO-Revision-Date: 2013-08-31 22:52+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <gnomepl@aviary.pl>\n"
 "Language: pl\n"
@@ -69,8 +69,8 @@ msgstr ""
 "Jeśli jest ustawione na wartość \"true\", to wyświetlany jest pasek "
 "wyszukiwania."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:36
-#: ../gnomemusic/window.py:44
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzyka"
 
@@ -82,112 +82,116 @@ msgstr "Odtwarzacz muzyki"
 msgid "Play and organize your music collection"
 msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
 
-#: ../gnomemusic/albumArtCache.py:226
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Bez tytułu"
 
-#: ../gnomemusic/player.py:262 ../gnomemusic/view.py:209
-#: ../gnomemusic/view.py:559
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:571
 msgid "Unknown Artist"
 msgstr "Nieznany wykonawca"
 
-#: ../gnomemusic/view.py:275
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Nie odnaleziono żadnej muzyki.\n"
+" Proszę dodać pliki z muzyką do katalogu %s"
+
+#: ../gnomemusic/view.py:287
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../gnomemusic/view.py:305
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Utwory"
 
-#: ../gnomemusic/view.py:450
+#: ../gnomemusic/view.py:462
 msgid "Playlists"
 msgstr "Listy odtwarzania"
 
-#: ../gnomemusic/view.py:456
+#: ../gnomemusic/view.py:468
 msgid "Artists"
 msgstr "Wykonawcy"
 
-#: ../gnomemusic/view.py:494 ../gnomemusic/view.py:496
-#: ../gnomemusic/widgets.py:423
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
 msgid "All Artists"
 msgstr "Wszyscy wykonawcy"
 
-#: ../gnomemusic/widgets.py:65 ../gnomemusic/widgets.py:85
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
 msgid "Load More"
 msgstr "Wczytaj więcej"
 
-#: ../gnomemusic/widgets.py:75
+#: ../gnomemusic/widgets.py:84
 msgid "Loading..."
 msgstr "Wczytywanie..."
 
-#: ../gnomemusic/window.py:125
+#: ../gnomemusic/window.py:134
 msgid "Empty"
 msgstr "Puste"
 
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "Copyright © 2013 programiści odtwarzacza muzyki GNOME"
 
-#: ../data/AboutDialog.ui.in.h:2
+#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Odtwarzanie i zarządzanie muzyką dla środowiska GNOME."
 
-#: ../data/AboutDialog.ui.in.h:3
+#: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
 msgstr "Witryna odtwarzacza muzyki GNOME"
 
-#: ../data/AboutDialog.ui.in.h:4
+#: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"  Music is free software; you can redistribute it and/or modify\n"
-"  it under the terms of the GNU General Public License as \n"
-"  published by the Free Software Foundation; either version 2 of the \n"
-"  License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"  Music is distributed in the hope that it will be useful\n"
-"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
-"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
-"  GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"  You should have received a copy of the GNU General Public License \n"
-"  along with Music; if not, write to the Free Software \n"
-"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
-"  MA 02110-1301, USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
-"  GStreamer plugins to be used and distributed together with GStreamer and\n"
-"  Gnome Music. This permission is above and beyond the permissions granted "
-"by\n"
-"  the GPL license by which Gnome Music is covered. If you modify this code, "
-"you may\n"
-"  extend this exception to your version of the code, but you are not "
-"obligated\n"
-"  to do so. If you do not wish to do so, delete this exception statement "
-"from\n"
-"  your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
-"  Odtwarzacz muzyki jest wolnym oprogramowaniem; można go rozprowadzać dalej\n"
-"  i/lub modyfikować na warunkach Powszechnej Licencji Publicznej GNU,\n"
-"  wydanej przez Fundację Wolnego Oprogramowania (Free Software Foundation) -\n"
-"  według wersji drugiej tej Licencji lub którejś z późniejszych wersji.\n"
+"Odtwarzacz muzyki GNOME jest wolnym oprogramowaniem; można go rozprowadzać "
+"dalej i/lub modyfikować na warunkach Powszechnej Licencji Publicznej GNU, "
+"wydanej przez Fundację Wolnego Oprogramowania (Free Software Foundation) - "
+"według wersji drugiej tej Licencji lub którejś z późniejszych wersji.\n"
 "\n"
-"  Odtwarzacz muzyki rozpowszechniany jest z nadzieją, iż będzie on użyteczny\n"
-"  - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej gwarancji\n"
-"  PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. W celu\n"
-"  uzyskania bliższych informacji należy zapoznać się z Powszechną Licencją\n"
-"  Publiczną GNU.\n"
+"Odtwarzacz muzyki GNOME rozpowszechniany jest z nadzieją, iż będzie on "
+"użyteczny - jednak BEZ JAKIEJKOLWIEK GWARANCJI, nawet domyślnej gwarancji "
+"PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. W celu "
+"uzyskania bliższych informacji należy zapoznać się z Powszechną Licencją "
+"Publiczną GNU.\n"
 "\n"
-"  Z pewnością wraz z odtwarzaczem muzyki dostarczono także egzemplarz\n"
-"  Powszechnej Licencji Publicznej GNU (GNU General Public License); jeśli\n"
-"  nie - proszę napisać do Free Software Foundation, Inc., 51 Franklin\n"
-"  Street, Fifth Floor, Boston, MA 02110-130159 USA.\n"
+"Z pewnością wraz z odtwarzaczem muzyki GNOME dostarczono także egzemplarz "
+"Powszechnej Licencji Publicznej GNU (GNU General Public License); jeśli nie "
+"- proszę napisać do Free Software Foundation, Inc., 51 Franklin Street, "
+"Fifth Floor, Boston, MA 02110-130159 USA.\n"
 "\n"
-"  Autorzy odtwarzacza muzyki GNOME udzielają pozwolenia na używanie i\n"
-"  rozprowadzanie wtyczek biblioteki GStreamer niezgodnych z licencją GPL\n"
-"  razem z biblioteką GStreamer i odtwarzaczem muzyki GNOME. To pozwolenie\n"
-"  wychodzi poza uprawnienia udzielane przez licencję GPL, która obejmuje\n"
-"  odtwarzacz muzyki GNOME. Jeśli ten kod jest modyfikowany, to można objąć\n"
-"  go tym wyjątkiem, ale nie jest to wymagane. Jeśli nie ma zostać nim\n"
-"  objęty, to należy usunąć ten fragment z tej wersji."
+"Autorzy odtwarzacza muzyki GNOME udzielają pozwolenia na używanie i "
+"rozprowadzanie wtyczek biblioteki GStreamer niezgodnych z licencją GPL razem "
+"z biblioteką GStreamer i odtwarzaczem muzyki GNOME. To pozwolenie wychodzi "
+"poza uprawnienia udzielane przez licencję GPL, która obejmuje odtwarzacz "
+"muzyki GNOME. Jeśli ten kod jest modyfikowany, to można objąć go tym "
+"wyjątkiem, ale nie jest to wymagane. Jeśli nie ma zostać nim objęty, to "
+"należy usunąć ten fragment z tej wersji."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
