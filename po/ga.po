@@ -1,0 +1,226 @@
+# Irish translations for gnome-music package.
+# Copyright (C) 2013 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gnome-music package.
+# Seán de Búrca <leftmostcat@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music.master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-31 02:15-0600\n"
+"PO-Revision-Date: 2013-08-31 02:31-0600\n"
+"Last-Translator: Seán de Búrca <leftmostcat@gmail.com>\n"
+"Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : "
+"4;\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Méid na fuinneoige"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Méid na fuinneoige (leithead agus airde)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Ionad na fuinneoige"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Ionad na fuinneoige (x agus y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Uasmhéadaíodh an fhuinneog"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Staid uasmhéadaithe na fuinneoige."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Mód cuardaigh"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Má tá fíor, taispeántar an barra cuardaigh."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Ceol"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Seinnteoir Ceoil"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Seinn agus eagraigh do bhailiúchán ceoil"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Gan Teideal"
+
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:571
+msgid "Unknown Artist"
+msgstr "Ealaíontóir Anaithnid"
+
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Ceol gan aimsiú!\n"
+" Cuir cúpla comhad isteach san fhillteán %s"
+
+#: ../gnomemusic/view.py:287
+msgid "Albums"
+msgstr "Albaim"
+
+#: ../gnomemusic/view.py:317
+msgid "Songs"
+msgstr "Amhráin"
+
+#: ../gnomemusic/view.py:462
+msgid "Playlists"
+msgstr "Seinmliostaí"
+
+#: ../gnomemusic/view.py:468
+msgid "Artists"
+msgstr "Ealaíontóirí"
+
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
+msgid "All Artists"
+msgstr "Gach Ealaíontóir"
+
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+msgid "Load More"
+msgstr "Luchtaigh Tuilleadh"
+
+#: ../gnomemusic/widgets.py:84
+msgid "Loading..."
+msgstr "Á luchtú..."
+
+#: ../gnomemusic/window.py:134
+msgid "Empty"
+msgstr "Folamh"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Cóipcheart © 2013 Forbróirí Cheol GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Seinnteoir ceoil agus feidhmchlár bhainisteoireacht cheoil do GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Féach an suíomh gréasáin do Cheol GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Eisithe"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Fad Reatha"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "Seinmliosta _Nua"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "Á Sheinm _Anois"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_Maidir le Ceol"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Scoir"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Suaith"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Seinn Gach Amhrán Arís"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Seinn an tAmhrán Arís"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Ná Suaith/Seinn Arís"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Ceol Gan Aimsiú"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Roghnaigh Uile"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Ná Roghnaigh"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Cliceáil ar mhíreanna chun iad a roghnú"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Cealaigh"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Cuir le Seinmliosta"
