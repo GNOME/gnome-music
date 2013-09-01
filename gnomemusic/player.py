@@ -56,7 +56,6 @@ class PlaybackStatus:
 class Player(GObject.GObject):
     nextTrack = None
     timeout = None
-    playing = False
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
@@ -274,6 +273,10 @@ class Player(GObject.GObject):
         else:
             return False
 
+    @property
+    def playing(self):
+        return self._get_playing()
+
     def _sync_playing(self):
         image = self._pauseImage if self._get_playing() else self._playImage
         if self.playBtn.get_image() != image:
@@ -345,6 +348,7 @@ class Player(GObject.GObject):
             self.timeout = GLib.timeout_add(1000, self._update_position_callback)
 
         self.emit('playback-status-changed')
+        self.emit('playing-changed')
 
     def pause(self):
         if self.timeout:

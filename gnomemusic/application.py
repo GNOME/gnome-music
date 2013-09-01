@@ -31,10 +31,11 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gio, GLib, Gdk
+from gi.repository import Gtk, Gio, GLib, Gdk, Notify
 from gettext import gettext as _
 from gnomemusic.window import Window
 from gnomemusic.mpris import MediaPlayer2Service
+from gnomemusic.notification import NotificationManager
 
 
 class Application(Gtk.Application):
@@ -98,6 +99,8 @@ class Application(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
+        Notify.init(_("Music"))
+
         self.build_app_menu()
 
     def quit(self, action, param):
@@ -107,4 +110,6 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self.service = MediaPlayer2Service(self)
+            self._notifications = NotificationManager(self._window.player)
+
         self._window.present()
