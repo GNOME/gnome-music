@@ -48,6 +48,7 @@ class MediaPlayer2Service(dbus.service.Object):
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seeked', self._on_seeked)
+        self.first_song_handler = 0
 
     def _get_playback_status(self):
         state = self.player.get_playback_status()
@@ -147,6 +148,13 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    def _play_first_song(self, model, path, iter_, data=None):
+        if self.first_song_handler:
+            model.disconnect(self.first_song_handler)
+            self.first_song_handler = 0
+        self.player.set_playlist('Songs', None, model, iter_, 5)
+        self.player.set_playing(True)
+
     def _on_seeked(self, player, position, data=None):
         self.Seeked(position)
 
@@ -180,7 +188,17 @@ class MediaPlayer2Service(dbus.service.Object):
 
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def Play(self):
-        self.player.set_playing(True)
+        if self.player.playlist is not None:
+            self.player.set_playing(True)
+        elif self.first_song_handler == 0:
+            window = self.app.get_active_window()
+            window._stack.set_visible_child(window.views[2])
+            model = window.views[2]._model
+            if model.iter_n_children(None):
+                _iter = model.get_iter_first()
+                self._play_first_song(model, model.get_path(_iter), _iter)
+            else:
+                self.first_song_handler = model.connect('row-inserted', self._play_first_song)
 
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
                          in_signature='x')
