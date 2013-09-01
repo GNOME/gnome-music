@@ -226,14 +226,14 @@ class ViewContainer(Stack):
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
 
-        _iter = self._model.append()
         icon_name = self.nowPlayingIconName
+        _iter = self._model.insert_with_valuesv(
+            -1,
+            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+            [str(item.get_id()), '', title,
+             artist, self._symbolicIcon, item,
+             -1, icon_name, False, False])
         self.player.discover_item(item, self._on_discovered, _iter)
-        self._model.set(_iter,
-                        [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
-                        [str(item.get_id()), '', title,
-                         artist, self._symbolicIcon, item,
-                         -1, icon_name, False, False])
         GLib.idle_add(self._update_album_art, item, _iter)
 
     def _insert_album_art(self, item, cb_item, itr, x=False):
@@ -353,19 +353,19 @@ class Songs(ViewContainer):
         if not item:
             return
         self._offset += 1
-        _iter = self._model.append()
         item.set_title(albumArtCache.get_media_title(item))
+        _iter = self._model.insert_with_valuesv(
+            -1,
+            [2, 3, 5, 8, 9, 10],
+            [albumArtCache.get_media_title(item),
+             item.get_string(Grl.METADATA_KEY_ARTIST),
+             item, self.nowPlayingIconName, False, False])
         self.player.discover_item(item, self._on_discovered, _iter)
         g_file = Gio.file_new_for_uri(item.get_url())
         self.monitors.append(g_file.monitor_file(Gio.FileMonitorFlags.NONE,
                                                  None))
         self.monitors[(self._offset - 1)].connect('changed',
                                                   self._on_item_changed, _iter)
-        self._model.set(_iter,
-                        [2, 3, 5, 8, 9, 10],
-                        [albumArtCache.get_media_title(item),
-                         item.get_string(Grl.METADATA_KEY_ARTIST),
-                         item, self.nowPlayingIconName, False, False])
 
     def _on_item_changed(self, monitor, file1, file2, event, _iter):
         if self._model.iter_is_valid(_iter):
@@ -503,11 +503,10 @@ class Artists (ViewContainer):
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
         if not selection.get_selected()[1]:
-            self._allIter = self._model.append()
+            self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
             self._last_selection = self._allIter
             self._artists[_("All Artists").lower()] =\
                 {'iter': self._allIter, 'albums': []}
-            self._model.set(self._allIter, 2, _("All Artists"))
             selection.select_path(self._model.get_path(self._allIter))
             self.view.emit('item-activated', '0',
                            self._model.get_path(self._allIter))
@@ -572,9 +571,8 @@ class Artists (ViewContainer):
         if not artist:
             artist = _("Unknown Artist")
         if not artist.lower() in self._artists:
-            _iter = self._model.append()
+            _iter = self._model.insert_with_valuesv(-1, [2], [artist])
             self._artists[artist.lower()] = {'iter': _iter, 'albums': []}
-            self._model.set(_iter, [2], [artist])
 
         self._artists[artist.lower()]['albums'].append(item)
 
