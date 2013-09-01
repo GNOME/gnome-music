@@ -221,8 +221,9 @@ class AlbumWidget(Gtk.EventBox):
         cached_playlist = self.player.running_playlist('Album', album)
         if cached_playlist:
             self.model = cached_playlist
+            currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
             self.update_model(self.player, cached_playlist,
-                              self.player.currentTrack)
+                              currentTrack)
         else:
             self.duration = 0
             self._create_model()

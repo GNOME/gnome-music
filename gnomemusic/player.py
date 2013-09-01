@@ -167,7 +167,11 @@ class Player(GObject.GObject):
             self.progressScale.set_value(0)
             self.progressScale.set_sensitive(False)
             if self.playlist is not None:
-                self.currentTrack = self.playlist.get_iter_first()
+                currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
+                if currentTrack:
+                    self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
+                else:
+                    self.currentTrack = None
                 self.load(self.get_current_media())
         else:
             #Stop playback
@@ -182,7 +186,7 @@ class Player(GObject.GObject):
         self.play()
 
     def _get_next_track(self):
-        currentTrack = self.currentTrack
+        currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
         nextTrack = None
         if self.repeat == RepeatType.SONG:
             nextTrack = currentTrack
@@ -198,7 +202,10 @@ class Player(GObject.GObject):
             for i in range(1, randint(1, rows)):
                 nextTrack = self.playlist.iter_next(nextTrack)
 
-        return nextTrack
+        if nextTrack:
+            return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(nextTrack))
+        else:
+            return None
 
     def _get_iter_last(self):
         iter = self.playlist.get_iter_first()
@@ -211,7 +218,7 @@ class Player(GObject.GObject):
         return last
 
     def _get_previous_track(self):
-        currentTrack = self.currentTrack
+        currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
         previousTrack = None
 
         if self.repeat == RepeatType.SONG:
@@ -228,7 +235,10 @@ class Player(GObject.GObject):
             for i in range(1, randint(1, rows)):
                 previousTrack = self.playlist.iter_next(previousTrack)
 
-        return previousTrack
+        if previousTrack:
+            return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(previousTrack))
+        else:
+            return None
 
     def has_next(self):
         if not self.currentTrack:
@@ -236,7 +246,7 @@ class Player(GObject.GObject):
         elif self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
         else:
-            tmp = self.currentTrack.copy()
+            tmp = self.playlist.get_iter(self.currentTrack.get_path())
             return self.playlist.iter_next(tmp) is not None
 
     def has_previous(self):
@@ -245,7 +255,7 @@ class Player(GObject.GObject):
         elif self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
         else:
-            tmp = self.currentTrack.copy()
+            tmp = self.playlist.get_iter(self.currentTrack.get_path())
             return self.playlist.iter_previous(tmp) is not None
 
     def _get_playing(self):
@@ -306,7 +316,8 @@ class Player(GObject.GObject):
         if url != self.player.get_value('current-uri', 0):
             self.player.set_property('uri', url)
 
-        self.emit('playlist-item-changed', self.playlist, self.currentTrack)
+        currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
+        self.emit('playlist-item-changed', self.playlist, currentTrack)
         self.emit('current-changed')
 
     def _on_cache_lookup(self, pixbuf, path, data=None):
@@ -384,7 +395,7 @@ class Player(GObject.GObject):
         self.playlist = model
         self.playlistType = type
         self.playlistId = id
-        self.currentTrack = iter
+        self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
         self.playlistField = field
         self.emit('current-changed')
 
@@ -571,7 +582,8 @@ class Player(GObject.GObject):
     def get_current_media(self):
         if not self.currentTrack:
             return None
-        return self.playlist.get_value(self.currentTrack, self.playlistField)
+        currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
+        return self.playlist.get_value(currentTrack, self.playlistField)
 
 
 class SelectionToolbar():
