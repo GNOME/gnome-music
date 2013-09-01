@@ -100,6 +100,9 @@ class Player(GObject.GObject):
         self.bus.connect('message::eos', self._on_bus_eos)
         self._setup_view()
 
+        self.playlist_insert_handler = 0
+        self.playlist_delete_handler = 0
+
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
@@ -184,6 +187,9 @@ class Player(GObject.GObject):
     def _on_glib_idle(self):
         self.currentTrack = self.nextTrack
         self.play()
+
+    def _on_playlist_size_changed(self, path, _iter=None, data=None):
+        self._sync_prev_next()
 
     def _get_next_track(self):
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
@@ -392,11 +398,20 @@ class Player(GObject.GObject):
     def set_playlist(self, type, id, model, iter, field):
         self.stop()
 
+        if self.playlist_insert_handler:
+            self.playlist.disconnect(self.playlist_insert_handler)
+        if self.playlist_delete_handler:
+            self.playlist.disconnect(self.playlist_delete_handler)
+
         self.playlist = model
         self.playlistType = type
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
         self.playlistField = field
+
+        self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
+        self.playlist_delete_handler = model.connect('row-deleted', self._on_playlist_size_changed)
+
         self.emit('current-changed')
 
     def running_playlist(self, type, id):
