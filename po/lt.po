@@ -1,0 +1,249 @@
+# Lithuanian translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Aurimas Černius <aurisc4@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-01 15:09+0000\n"
+"PO-Revision-Date: 2013-09-01 23:49+0300\n"
+"Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
+"Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Gtranslator 2.91.6\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Lango dydis"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Lango dydis (plotis ir aukštis)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Lango padėtis"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Lango padėtis (x ir y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Langas išdidintas"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Lango išdidinimo būsena."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Grojimo kartojimo veiksena"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Vertė nurodo, ar kartoti bei atsitiktine tvarka šokinėti per kolekciją. "
+"Galimos vertės yra: „none“, „song“, „all“, „shuffle“."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Paieškos veiksena"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Jei teigiama, paieškos juosta yra rodoma."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Muzika"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Muzikos grotuvas"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Groti ir tvarkyti muzikos kolekciją"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Nepavadinta"
+
+#: ../gnomemusic/player.py:303 ../gnomemusic/view.py:224
+#: ../gnomemusic/view.py:561
+msgid "Unknown Artist"
+msgstr "Nežinomas atlikėjas"
+
+#: ../gnomemusic/view.py:278
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Nerasta muzikos!\n"
+" Įdėkite failų į aplanką %s"
+
+#: ../gnomemusic/view.py:285
+msgid "Albums"
+msgstr "Albumai"
+
+#: ../gnomemusic/view.py:316
+msgid "Songs"
+msgstr "Dainos"
+
+#: ../gnomemusic/view.py:452
+msgid "Playlists"
+msgstr "Grojaraščiai"
+
+#: ../gnomemusic/view.py:458
+msgid "Artists"
+msgstr "Atlikėjai"
+
+#: ../gnomemusic/view.py:496 ../gnomemusic/view.py:498
+#: ../gnomemusic/widgets.py:431
+msgid "All Artists"
+msgstr "Visi atlikėjai"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Įkelti daugiau"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Įkeliama..."
+
+#: ../gnomemusic/window.py:134
+msgid "Empty"
+msgstr "Tuščia"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Autorinės teisės © 2013 GNOME Music kūrėjai"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Muzikos grotuvas ir tvarkymo programa GNOME aplinkai."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Apsilankykite GNOME Music tinklapyje"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Music yra laisva programinė įranga; galite ją platinti ir(arba) keisti "
+"pagal GNU bendrosios viešos licencijos (GPL) sąlygas, kaip jas pateikia Free "
+"Software Foundation; licencijos versija 2 arba (jūsų pasirinkta) bet kuri "
+"vėlesnė versija.\n"
+"\n"
+"GNOME Music yra platinama tikintis kad ji bus naudinga, bet BE JOKIŲ "
+"GARANTIJŲ; netgi be numanomų PREKYBINIŲ ar TINKAMUMO KONKREČIAM TIKSLUI "
+"garantijų.  Daugiau informacijos rasite GNU bendrojoje viešoje licencijoje.\n"
+"\n"
+"Turėjote gauti GNU bendrosios viešosios licencijos kopiją kartu su GNOME "
+"Music; jei negavote, parašykite Free Software Foundation, Inc., 51 Franklin "
+"Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"GNOME Music autoriai taip pat leidžia kartu su GNOME Music ir GStreamer "
+"platinti ir naudoti su GStreamer suderinamus ne-GPL įskiepius.  Šis leidimas "
+"yra aukščiau ir plačiau GPL licencijos teikiamų leidimų leidimų, kurie "
+"galioja GNOME Music.  Jei pakeisite šį kodą, galite šią išimtį pritaikyti "
+"savo kodo versijai, bet neprivalote to daryti.  Jei nepageidaujate, "
+"ištrinkite šį punktą iš savo versijos."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Išleista"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Grojimo trukmė"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Naujas grojaraštis"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Dabar groja"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_Apie muziką"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Išeiti"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Maišyti"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Kartoti visus"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Kartoti dainą"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Maišyti/nekartoti"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nerasta muzikos"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Žymėti viską"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Nieko nežymėti"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Spauskite ant elementų jiems pažymėti"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Atsisakyti"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Pridėti į grojaraštį"
