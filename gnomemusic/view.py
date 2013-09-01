@@ -135,7 +135,7 @@ class ViewContainer(Stack):
         self.view.connect('view-selection-changed',
                           self._on_view_selection_changed)
 
-        self._discovering_urls = {};
+        self._discovering_urls = {}
 
     def _get_remaining_item_count(self):
         if self._cached_count < 0:

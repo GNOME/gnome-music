@@ -37,7 +37,6 @@ from gi.repository import Grl
 from gi.repository import Tracker
 from gettext import gettext as _
 from gnomemusic.grilo import grilo
-import logging
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
 
