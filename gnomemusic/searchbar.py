@@ -36,6 +36,9 @@ class Searchbar(Gtk.SearchBar):
 
     def prepare_search_filter(self, widget, data):
         self.view = self.stack_switcher.get_stack().get_visible_child()
+        if self.view.header_bar._state == 0:
+            # album was selected on album view, view needs to be redefined
+            self.view = self.view._albumWidget
         if not hasattr(self.view.filter, "visible_function_set"):
             self.view.filter.set_visible_func(self.set_view_filter)
             self.view.filter.visible_function_set = True

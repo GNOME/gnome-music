@@ -107,6 +107,7 @@ class AlbumWidget(Gtk.EventBox):
     tracks = []
     duration = 0
     symbolicIcon = ALBUM_ART_CACHE.make_default_icon(256, 256)
+    filter = None
 
     def __init__(self, player):
         super(Gtk.EventBox, self).__init__()
@@ -235,7 +236,8 @@ class AlbumWidget(Gtk.EventBox):
             'clicked', self._on_header_cancel_button_clicked)
         self.view.connect('view-selection-changed',
                           self._on_view_selection_changed)
-        self.view.set_model(self.model)
+        self.filter = self.model.filter_new(None)
+        self.view.set_model(self.filter)
         escaped_artist = GLib.markup_escape_text(artist)
         escaped_album = GLib.markup_escape_text(album)
         self.ui.get_object('artist_label').set_markup(escaped_artist)
@@ -246,7 +248,6 @@ class AlbumWidget(Gtk.EventBox):
         else:
             self.ui.get_object('released_label_info').set_text('----')
         self.player.connect('playlist-item-changed', self.update_model)
-        #self.emit('loaded')
 
     def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
