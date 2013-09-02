@@ -30,7 +30,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gio, GLib, Tracker, GObject
+from gi.repository import Gtk, Gio, GLib, Tracker
 from gettext import gettext as _
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
