@@ -43,7 +43,7 @@ class Application(Gtk.Application):
                                  application_id='org.gnome.Music',
                                  flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name(_('Music'))
-
+        GLib.set_prgname('gnome-music')
         cssProviderFile = Gio.File.new_for_uri('resource:///org/gnome/Music/application.css')
         cssProvider = Gtk.CssProvider()
         cssProvider.load_from_file(cssProviderFile)
