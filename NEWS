@@ -1,0 +1,48 @@
+Overview of changes in 3.9.91
+=============================
+
+* All songs will now be loaded in Songs view after switching to it
+  for the first time
+
+* First song in Songs view will play if Play is executed in MPRIS and
+  there is no current playlist
+
+* The URIs are now discovered asynchronously, to make loading songs
+  faster
+
+* An error icon will now show up when the file is deleted
+
+* The message when no music files are found is now more verbose
+
+* Bugs fixed:
+ 700776 Licensing problems
+ 705855 Crash when attempting to get properties over DBus
+ 706019 Don't use the discoverer if we don't care of the results
+ 706294 Duration in Albums view increases every time an album is se...
+ 706353 About box changes size when license button is toggled on, l...
+ 706457 Invalid copyright headers
+ 706533 More explanation when Music says "No Music Found"
+ 706800 Cancel button in toolbar shouldn't be emphasized
+ 706947 Can't shuffle my entire library without clicking "load more...
+
+* Added translations:
+ Irish
+ Tajik
+
+* Updated translations:
+ Brazilian Portuguese
+ Czech
+ Galician
+ Italian
+ Lithuanian
+ Norwegian bokmål
+ Polish
+ Slovak
+ Slovenian
+ Spanish
+
+
+Overview of changes in 3.9.90
+=============================
+
+* Initial release
