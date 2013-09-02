@@ -39,6 +39,7 @@ from gi.repository import Pango
 from gi.repository import GLib
 from gi.repository import GdkPixbuf
 from gi.repository import Tracker
+from gi.repository import Gio
 from gettext import gettext as _
 from gnomemusic.grilo import grilo
 import gnomemusic.widgets as Widgets
@@ -316,6 +317,7 @@ class Songs(ViewContainer):
         ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar)
         self.countQuery = Query.SONGS_COUNT
         self._items = {}
+        self.monitors = []
         self.isStarred = None
         self.iter_to_clean = None
         self.view.set_view_type(Gd.MainViewType.LIST)
@@ -354,11 +356,21 @@ class Songs(ViewContainer):
         _iter = self._model.append()
         item.set_title(albumArtCache.get_media_title(item))
         self.player.discover_item(item, self._on_discovered, _iter)
+        g_file = Gio.file_new_for_uri(item.get_url())
+        self.monitors.append(g_file.monitor_file(Gio.FileMonitorFlags.NONE,
+                                                 None))
+        self.monitors[(self._offset - 1)].connect('changed',
+                                                  self._on_item_changed, _iter)
         self._model.set(_iter,
                         [2, 3, 5, 8, 9, 10],
                         [albumArtCache.get_media_title(item),
                          item.get_string(Grl.METADATA_KEY_ARTIST),
                          item, self.nowPlayingIconName, False, False])
+
+    def _on_item_changed(self, monitor, file1, file2, event, _iter):
+        if self._model.iter_is_valid(_iter):
+            if event == Gio.FileMonitorEvent.DELETED:
+                self._model.set(_iter, [8, 10], [self.errorIconName, True])
 
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
