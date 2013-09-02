@@ -354,12 +354,14 @@ class Songs(ViewContainer):
             return
         self._offset += 1
         item.set_title(albumArtCache.get_media_title(item))
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
+            or item.get_author()\
+            or _("Unknown Artist")
         _iter = self._model.insert_with_valuesv(
             -1,
             [2, 3, 5, 8, 9, 10],
             [albumArtCache.get_media_title(item),
-             item.get_string(Grl.METADATA_KEY_ARTIST),
-             item, self.nowPlayingIconName, False, False])
+             artist, item, self.nowPlayingIconName, False, False])
         self.player.discover_item(item, self._on_discovered, _iter)
         g_file = Gio.file_new_for_uri(item.get_url())
         self.monitors.append(g_file.monitor_file(Gio.FileMonitorFlags.NONE,
@@ -565,11 +567,9 @@ class Artists (ViewContainer):
         if item is None:
             return
         self._offset += 1
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-        if not artist:
-            artist = item.get_author()
-        if not artist:
-            artist = _("Unknown Artist")
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
+            or item.get_author()\
+            or _("Unknown Artist")
         if not artist.lower() in self._artists:
             _iter = self._model.insert_with_valuesv(-1, [2], [artist])
             self._artists[artist.lower()] = {'iter': _iter, 'albums': []}
