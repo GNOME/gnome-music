@@ -346,7 +346,7 @@ class Songs(ViewContainer):
 
     def _on_item_activated(self, widget, id, path):
         _iter = self.filter.get_iter(path)
-        child_iter = self.filter.convert_iter_to_child_iter(_iter) 
+        child_iter = self.filter.convert_iter_to_child_iter(_iter)
         if self._model.get_value(child_iter, 8) != self.errorIconName:
             self.player.set_playlist('Songs', None, self.filter, _iter, 5)
             self.player.set_playing(True)
