@@ -142,7 +142,8 @@ class AlbumWidget(Gtk.EventBox):
         self.show_all()
 
     def _on_item_activated(self, widget, id, path):
-        _iter = self.model.get_iter(path)
+        child_path = self.filter.convert_path_to_child_path(path)
+        _iter = self._model.get_iter(child_path)
         if(self.model.get_value(_iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)

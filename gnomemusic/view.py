@@ -306,7 +306,8 @@ class Albums(ViewContainer):
         self.set_visible_child(self._grid)
 
     def _on_item_activated(self, widget, id, path):
-        _iter = self._model.get_iter(path)
+        child_path = self.filter.convert_path_to_child_path(path)
+        _iter = self._model.get_iter(child_path)
         title = self._model.get_value(_iter, 2)
         artist = self._model.get_value(_iter, 3)
         item = self._model.get_value(_iter, 5)
@@ -344,7 +345,8 @@ class Songs(ViewContainer):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def _on_item_activated(self, widget, id, path):
-        _iter = self.filter.get_iter(path)
+        child_path = self.filter.convert_path_to_child_path(path)
+        _iter = self._model.get_iter(child_path)
         child_iter = self.filter.convert_iter_to_child_iter(_iter)
         if self._model.get_value(child_iter, 8) != self.errorIconName:
             self.player.set_playlist('Songs', None, self.filter, _iter, 5)
@@ -562,7 +564,8 @@ class Artists (ViewContainer):
         )
         child_name = "artists_%i" % self.artists_counter
         self.artistAlbumsStack.add_named(self.new_artistAlbumsWidget, child_name)
-        _iter = self._model.get_iter(path)
+        child_path = self.filter.convert_path_to_child_path(path)
+        _iter = self._model.get_iter(child_path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
         albums = self._artists[artist.lower()]['albums']
