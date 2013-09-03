@@ -519,11 +519,7 @@ class Artists (ViewContainer):
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
         if not selection.get_selected()[1]:
-<<<<<<< HEAD
             self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
-=======
-            self._allIter = self._model.append(None)
->>>>>>> Make some views filterable
             self._last_selection = self._allIter
             self._artists[_("All Artists").lower()] =\
                 {'iter': self._allIter, 'albums': []}
@@ -590,11 +586,7 @@ class Artists (ViewContainer):
             or item.get_author()\
             or _("Unknown Artist")
         if not artist.lower() in self._artists:
-<<<<<<< HEAD
             _iter = self._model.insert_with_valuesv(-1, [2], [artist])
-=======
-            _iter = self._model.append(None)
->>>>>>> Make some views filterable
             self._artists[artist.lower()] = {'iter': _iter, 'albums': []}
 
         self._artists[artist.lower()]['albums'].append(item)
