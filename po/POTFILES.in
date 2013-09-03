@@ -4,6 +4,7 @@
 # List of source files which contain translatable strings.
 data/org.gnome.Music.gschema.xml
 data/gnome-music.desktop.in
+data/gnome-music.appdata.xml.in
 gnomemusic/__init__.py
 gnomemusic/albumArtCache.py
 gnomemusic/application.py

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+ <id type="desktop">gnome-music.desktop</id>
+ <licence>CC0</licence>
+ <_name>GNOME Music</_name>
+ <_summary>Play and organize your music collection</_summary>
+ <description>
+  <_p>
+   Music is the new GNOME music playing application.
+  </_p>
+ </description>
+ <screenshots>
+  <screenshot type="default" width="750" height="469">http://www.omgubuntu.co.uk/wp-content/uploads/2013/08/music_album.jpeg</screenshot>
+ </screenshots>
+ <url type="homepage">https://wiki.gnome.org/Apps/Music</url>
+ <updatecontact>seif@lotfy.com</updatecontact>
+</application>
