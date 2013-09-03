@@ -72,10 +72,11 @@ class NotificationManager:
             self._notification.show()
         else:
             item = self._player.get_current_media()
-            artist = item.get_author()
-            if artist is None:
-                artist = item.get_string(Grl.METADATA_KEY_ARTIST)
-            album = item.get_string(Grl.METADATA_KEY_ALBUM)
+            artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
+                or item.get_author()\
+                or _("Unknown Artist")
+            album = item.get_string(Grl.METADATA_KEY_ALBUM)\
+                or _("Unknown Album")
 
             self._notification.update(item.get_title(),
                                       # TRANSLATORS: by refers to the artist, from to the album
