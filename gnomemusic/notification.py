@@ -66,16 +66,12 @@ class NotificationManager:
             self._update_track(self._player)
 
     def _update_track(self, player):
-        model = self._player.playlist
-        trackIter = self._player.currentTrack
-
-        if trackIter is None:
+        if not self._player.currentTrack:
             self._notification.update(_("Not playing"), None, 'gnome-music')
             self._notification.set_hint('image-data', None)
             self._notification.show()
         else:
-            trackField = self._player.playlistField
-            item = model.get_value(trackIter, trackField)
+            item = self._player.get_current_media()
             artist = item.get_author()
             if artist is None:
                 artist = item.get_string(Grl.METADATA_KEY_ARTIST)
