@@ -367,10 +367,6 @@ class Songs(ViewContainer):
         if not item:
             return
         self._offset += 1
-<<<<<<< HEAD
-=======
-        _iter = self._model.append(None)
->>>>>>> Make some views filterable
         item.set_title(albumArtCache.get_media_title(item))
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
