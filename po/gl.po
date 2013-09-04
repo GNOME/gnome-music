@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-28 01:15+0200\n"
-"PO-Revision-Date: 2013-08-28 01:16+0200\n"
+"POT-Creation-Date: 2013-09-04 16:58+0200\n"
+"PO-Revision-Date: 2013-09-04 16:58+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -72,20 +72,28 @@ msgstr "Música"
 msgid "Music Player"
 msgstr "Reprodutor de música"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Reproduce e organiza a súa colección de música"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Música"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Música é o novo aplicativo de reprodución de música de GNOME."
 
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Sen título"
 
-#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
-#: ../gnomemusic/view.py:571
+#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
+#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
 msgid "Unknown Artist"
 msgstr "Artista descoñecido"
 
-#: ../gnomemusic/view.py:280
+#: ../gnomemusic/view.py:279
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -94,7 +102,7 @@ msgstr ""
 "Non se atopou música!\n"
 " Poña algúns ficheiros no cartafol %s"
 
-#: ../gnomemusic/view.py:287
+#: ../gnomemusic/view.py:286
 msgid "Albums"
 msgstr "Álbumes"
 
@@ -102,24 +110,24 @@ msgstr "Álbumes"
 msgid "Songs"
 msgstr "Cancións"
 
-#: ../gnomemusic/view.py:462
+#: ../gnomemusic/view.py:466
 msgid "Playlists"
 msgstr "Listas de reprodución"
 
-#: ../gnomemusic/view.py:468
+#: ../gnomemusic/view.py:472
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
-#: ../gnomemusic/widgets.py:436
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
 msgid "All Artists"
 msgstr "Todos os artistas"
 
-#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
 msgstr "Cargar máis"
 
-#: ../gnomemusic/widgets.py:84
+#: ../gnomemusic/widgets.py:83
 msgid "Loading..."
 msgstr "Cargando…"
 
