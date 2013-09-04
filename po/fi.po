@@ -1,22 +1,23 @@
 # Finnish translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-#
 # Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-03-24 15:47+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-08-27 10:46+0000\n"
+"PO-Revision-Date: 2013-09-02 23:00+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
-"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
+"Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -36,32 +37,34 @@ msgstr "Ikkunan sijainti (x ja y)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:5
 msgid "Window maximized"
-msgstr ""
+msgstr "Suurennettu ikkuna"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr ""
+msgid "Window maximized state."
+msgstr "Suurennetun ikkunan tila."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Toiston kertaustila"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Arvo esittää, kerrataanko tai sekoitetaanko toistoa kokoelmaa käyttäen. "
+"Sallitut arvot ovat: \"none\", \"song\", \"all\" ja \"shuffle\""
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Hakutila"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr ""
+msgid "If true, the search bar is shown."
+msgstr "Jos tosi, hakupalkki näytetään."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musiikki"
 
@@ -73,41 +76,92 @@ msgstr "Musiikkisoitin"
 msgid "Play and organize your music collection"
 msgstr "Toista ja hallitse musiikkikokoelmaasi"
 
-#: ../gnomemusic/albumArtCache.py:38
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
-msgstr ""
+msgstr "Nimetön"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:571
+msgid "Unknown Artist"
+msgstr "Tuntematon esittäjä"
+
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Musiikkia ei löytynyt!\n"
+" Laita musiikkitiedostoja kansioon %s"
+
+#: ../gnomemusic/view.py:287
 msgid "Albums"
 msgstr "Levyt"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Kappaleet"
 
-#: ../gnomemusic/view.py:408
+#: ../gnomemusic/view.py:462
 msgid "Playlists"
 msgstr "Soittolistat"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:468
 msgid "Artists"
 msgstr "Esittäjät"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
 msgid "All Artists"
-msgstr "Esittäjät"
+msgstr "Kaikki esittäjät"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+msgid "Load More"
+msgstr "Lataa lisää"
+
+#: ../gnomemusic/widgets.py:84
+msgid "Loading..."
+msgstr "Ladataan..."
+
+#: ../gnomemusic/window.py:134
 msgid "Empty"
+msgstr "Tyhjä"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Tekijänoikeus © 2013 Gnomen musiikkisoittimen kehittäjät"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Gnomen musiikkisoitin."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Käy Gnomen musiikkisoittimen verkkosivustolla"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
 
 #: ../data/AlbumWidget.ui.h:1
@@ -118,27 +172,17 @@ msgstr "Julkaistu"
 msgid "Running Length"
 msgstr "Kesto"
 
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr ""
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr ""
-
 #: ../data/app-menu.ui.h:1
-#, fuzzy
 msgid "_New Playlist"
-msgstr "Soittolistat"
+msgstr "_Uusi soittolista"
 
 #: ../data/app-menu.ui.h:2
 msgid "_Now Playing"
-msgstr ""
+msgstr "_Nyt toistetaan"
 
 #: ../data/app-menu.ui.h:3
-#, fuzzy
 msgid "_About Music"
-msgstr "Tietoja musiikkisovelluksesta"
+msgstr "_Tietoja - Musiikki"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -146,52 +190,43 @@ msgstr "_Lopeta"
 
 #: ../data/PlayerToolbar.ui.h:1
 msgid "Shuffle"
-msgstr ""
+msgstr "Sekoita"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "Kertaa kaikki"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "Kertaa kappale"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-msgid "0:00"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr ""
+msgstr "Sekoitus/kertaus pois"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "Musiikkia ei löytynyt"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "Valitse kaikki"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Älä valitse mitään"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Napsauta kohteita valitaksesi ne"
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
 msgstr "Peru"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Soittolistat"
+msgstr "Lisää soittolistaan"
 
 #~ msgid "New"
 #~ msgstr "Uusi"
