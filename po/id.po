@@ -1,0 +1,249 @@
+# Indonesian translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Andika Triwidada <andika@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-08-30 20:40+0000\n"
+"PO-Revision-Date: 2013-09-04 12:09+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"Language-Team: Indonesian <gnome@i15n.org>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Ukuran jendela"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Ukuran jendela (lebar dan tinggi)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posisi jendela"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Posisi jendela (x dan y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Jendela dimaksimalkan"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Keadaan dimaksimalkan jendela."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Mode ulang pemutaran."
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Nilai mengidentifikasi apakah mengulang atau mengacak pemutaran ulang "
+"koleksi. Nilai yang diijinkan adalah: \"none\" (nihil), \"song\" (lagu), "
+"\"all\" (semua), \"shuffle\" (acak)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Mode cari"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Bila berisi true, bilah pencarian ditampilkan."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musik"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Pemutar Musik"
+
+#: ../data/gnome-music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Putar dan tata koleksi musik Anda"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Tanpa judul"
+
+#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
+#: ../gnomemusic/view.py:571
+msgid "Unknown Artist"
+msgstr "Artis Tak Dikenal"
+
+#: ../gnomemusic/view.py:280
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Tak ditemukan musik!\n"
+" Letakkan beberapa berkas ke folder %s"
+
+#: ../gnomemusic/view.py:287
+msgid "Albums"
+msgstr "Album"
+
+#: ../gnomemusic/view.py:317
+msgid "Songs"
+msgstr "Lagu"
+
+#: ../gnomemusic/view.py:462
+msgid "Playlists"
+msgstr "Daftar Putar"
+
+#: ../gnomemusic/view.py:468
+msgid "Artists"
+msgstr "Artis"
+
+#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
+#: ../gnomemusic/widgets.py:436
+msgid "All Artists"
+msgstr "Semua Artis"
+
+#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+msgid "Load More"
+msgstr "Muat Lebih Banyak"
+
+#: ../gnomemusic/widgets.py:84
+msgid "Loading..."
+msgstr "Memuat..."
+
+#: ../gnomemusic/window.py:134
+msgid "Empty"
+msgstr "Kosong"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Hak Cipta © 2013 Para Pengembang Musik GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Aplikasi manajemen dan pemutar musik bagi GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Kunjungi situs web Musik GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Musik adalah perangkat lunak bebas; Anda dapat mendistribusikannya dan/"
+"atau mengubahnya di bawah persyaratan GNU General Public License sebagaimana "
+"dipublikasikan oleh Free Software Foundation; dengan Lisensi versi 2, atau "
+"(sesuai pilihan Anda) sebarang versi lebih baru.\n"
+"\n"
+"GNOME Musik didistribusikan dengan harapan dapat berguna, tetapi TANPA "
+"ADANYA JAMINAN; termasuk tanpa jaminan DAYA JUAL atau KELAIKAN UNTUK TUJUAN "
+"TERTENTU. Lihat GNU General Public License untuk rincian lebih lanjut.\n"
+"\n"
+"Anda seharusnya menerima salinan dari GNU General Public License bersama "
+"GNOME Musik; jika tidak, kirimkan surat Anda ke Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"\n"
+"Para penulis GNOME Musik dengan ini memberikan ijin untuk plugin GStreamer "
+"yang tak kompatibel GPL untuk dipakai dan didistribusikan bersama dengan "
+"GStreamer dan GNOME Musik. Ijin ini di atas dan di luar hak yang diberikan "
+"oleh lisensi GPL yang mencakup GNOME Musik. Bila Anda mengubah kode ini, "
+"Anda boleh memperluas pengecualian ini ke versi kode Anda, tapi Anda tidak "
+"wajib melakukannya. Bila Anda tak ingin seperti itu, hapuslah pernyataan "
+"pengecualian ini dari versi Anda."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Dirilis"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Lama Putar"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "Daftar Putar _Baru"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "Seda_ng Diputar"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "Tent_ang Musik"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Keluar"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Acak"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Ulangi Semua"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Ulangi Lagu"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Acak/Ulang Mati"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Tak Ada Musik"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Pilih Semua"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Pilih Tak Satupun"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Klik pada butir untuk memilihnya"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Batal"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Tambah ke Daftar Putar"
