@@ -199,13 +199,18 @@ class Player(GObject.GObject):
         nextTrack = None
 
         if self.repeat == RepeatType.SONG:
-            nextTrack = currentTrack
+            if currentTrack:
+                nextTrack = currentTrack
+            else:
+                nextTrack = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.ALL:
-            nextTrack = self.playlist.iter_next(currentTrack)
-            if nextTrack is None:
+            if currentTrack:
+                nextTrack = self.playlist.iter_next(currentTrack)
+            if not nextTrack:
                 nextTrack = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.NONE:
-            nextTrack = self.playlist.iter_next(currentTrack)
+            if currentTrack:
+                nextTrack = self.playlist.iter_next(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             nextTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
@@ -236,13 +241,18 @@ class Player(GObject.GObject):
         previousTrack = None
 
         if self.repeat == RepeatType.SONG:
-            previousTrack = currentTrack
+            if currentTrack:
+                previousTrack = currentTrack
+            else:
+                previousTrack = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.ALL:
-            previousTrack = self.playlist.iter_previous(currentTrack)
-            if previousTrack is None:
+            if currentTrack:
+                previousTrack = self.playlist.iter_previous(currentTrack)
+            if not previousTrack:
                 previousTrack = self._get_iter_last()
         elif self.repeat == RepeatType.NONE:
-            previousTrack = self.playlist.iter_previous(currentTrack)
+            if currentTrack:
+                previousTrack = self.playlist.iter_previous(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             previousTrack = self.playlist.get_iter_first()
             rows = self.playlist.iter_n_children(None)
