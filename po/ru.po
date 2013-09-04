@@ -1,24 +1,25 @@
 # Russian translation for gnome-music.
 # Copyright (C) 2012 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Stas Solovey <whats_up@tut.by>, 2012.
 # Yuri Myasoedov <omerta13@yandex.ru>, 2012.
+# Stas Solovey <whats_up@tut.by>, 2012, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2012-12-14 14:56+0300\n"
-"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
-"Language-Team: русский <gnome-cyr@gnome.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-04 15:30+0000\n"
+"PO-Revision-Date: 2013-09-04 20:47+0300\n"
+"Last-Translator: Stas Solovey <whats_up@tut.by>\n"
+"Language-Team: Русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
-"X-Generator: Gtranslator 2.91.5\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -42,29 +43,31 @@ msgid "Window maximized"
 msgstr "Развёрнутое окно"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr "Режим развёрнутого окна"
+msgid "Window maximized state."
+msgstr "Режим развёрнутого окна."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Режим повторного воспроизведения"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Значение определяет тип повтора или воспроизведения в случайном порядке по "
+"коллекции. Допустимыми значения: «none», «song», «all», «shuffle»."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Режим поиска"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr "Если установлено, то будет показана строка поиска"
+msgid "If true, the search bar is shown."
+msgstr "Если установлено, будет показана строка поиска."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Музыка"
 
@@ -72,46 +75,128 @@ msgstr "Музыка"
 msgid "Music Player"
 msgstr "Музыкальный проигрыватель"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Воспроизведение и организация музыкальной коллекции"
 
-#: ../gnomemusic/albumArtCache.py:38
-msgid "Untitled"
-msgstr ""
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Музыка GNOME"
 
-#: ../gnomemusic/view.py:233
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr ""
+"Музыка GNOME - новое приложение для воспроизведения музыки в среде GNOME."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Без названия"
+
+#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
+#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+msgid "Unknown Artist"
+msgstr "Неизвестный исполнитель"
+
+#: ../gnomemusic/view.py:279
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Музыка не найдена.\n"
+" Поместите файлы в папку %s"
+
+#: ../gnomemusic/view.py:286
 msgid "Albums"
 msgstr "Альбомы"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Песни"
 
-#: ../gnomemusic/view.py:408
+#: ../gnomemusic/view.py:466
 msgid "Playlists"
 msgstr "Списки воспроизведения"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:472
 msgid "Artists"
 msgstr "Исполнители"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
 msgid "All Artists"
-msgstr "Исполнители"
+msgstr "Все исполнители"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Загрузить ещё"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Загрузка…"
+
+#: ../gnomemusic/window.py:134
 msgid "Empty"
+msgstr "Пусто"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Авторские права © 2013 GNOME Music Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Воспроизведение и управление музыкальной коллекцией среды GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Посетить веб-сайт программы"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
+"Приложение «Музыка GNOME» является свободным программным обеспечением, вы "
+"можете распространять и/или изменять его в соответствии с условиями GNU "
+"General Public License, опубликованной Free Software Foundation, либо GNU "
+"General Public License v2, либо (на ваш выбор) любой более поздней версии.\n"
+"\n"
+"Приложение «Музыка GNOME» распространяется в надежде, что оно будет "
+"полезным, но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ, даже без подразумеваемых гарантий "
+"КОММЕРЧЕСКОЙ ЦЕННОСТИ или ПРИГОДНОСТИ ДЛЯ КОНКРЕТНЫХ ЦЕЛЕЙ. См. GNU General "
+"Public License для более подробной информации.\n"
+"\n"
+"Вы должны были получить копию GNU General Public License вместе с "
+"приложением «Музыка GNOME»; а если нет, напишите в Free Software Foundation, "
+"Inc, 51 Franklin Street, пятый этаж, Boston, MA 02110-1301 США.\n"
+"\n"
+"Авторы приложения «Музыка GNOME» предоставляют разрешение на использование "
+"не-GPL совместимых модулей GStreamer, которые будут поставлены с GStreamer и "
+"«Музыка GNOME». Это разрешение выше и вне разрешений, предоставленных "
+"лицензией GPL, которой защищено приложение «Музыка GNOME». При изменении "
+"этого кода, вы можете распространить данное исключение на вашу версию кода, "
+"но вы не обязаны это делать. Если вы не хотите распространить данное "
+"исключение на вашу версию кода, просто удалите данное заявление об "
+"исключении из вашей версии кода."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -122,81 +207,61 @@ msgstr "Дата выпуска"
 msgid "Running Length"
 msgstr "Продолжительность"
 
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr ""
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr ""
-
 #: ../data/app-menu.ui.h:1
-#, fuzzy
 msgid "_New Playlist"
-msgstr "Списки воспроизведения"
+msgstr "_Создать список воспроизведения"
 
 #: ../data/app-menu.ui.h:2
 msgid "_Now Playing"
-msgstr ""
+msgstr "С_ейчас воспроизводится"
 
 #: ../data/app-menu.ui.h:3
-#, fuzzy
 msgid "_About Music"
-msgstr "О программе «Музыка»"
+msgstr "_О программе"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
-msgstr "_Выйти"
+msgstr "_Завершить"
 
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
 msgstr "В случайном порядке"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "Повторять все"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "Повторять композицию"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-msgid "0:00"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr ""
+msgstr "Случайный порядок/Повтор выключены"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "Музыка не найдена"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "Выбрать все"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Снять выделение"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Нажмите чтобы выбрать"
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
 msgstr "Отменить"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Списки воспроизведения"
+msgstr "Добавить в список воспроизведения"
 
 #~ msgid "New"
 #~ msgstr "Создать"
