@@ -265,7 +265,9 @@ class Player(GObject.GObject):
             return None
 
     def has_next(self):
-        if not self.currentTrack:
+        if self.playlist.iter_n_children(None) < 1:
+            return False
+        elif not self.currentTrack:
             return False
         elif self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
@@ -276,7 +278,9 @@ class Player(GObject.GObject):
             return True
 
     def has_previous(self):
-        if not self.currentTrack:
+        if self.playlist.iter_n_children(None) < 1:
+            return False
+        elif not self.currentTrack:
             return False
         elif self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
             return True
