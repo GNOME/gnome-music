@@ -9,7 +9,7 @@
     <section>
       <item>
         <attribute name="action">app.nowPlaying</attribute>
-        <attribute name="label" translatable="yes">_Now Playing</attribute>
+        <attribute name="label" translatable="yes">Now _Playing</attribute>
       </item>
     </section>
     <section>
