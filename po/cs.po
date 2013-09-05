@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-27 10:46+0000\n"
-"PO-Revision-Date: 2013-08-28 10:57+0200\n"
+"POT-Creation-Date: 2013-09-04 14:46+0000\n"
+"PO-Revision-Date: 2013-09-05 12:01+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -75,20 +75,28 @@ msgstr "Hudba"
 msgid "Music Player"
 msgstr "Hudební přehrávač"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Přehrávat a organizovat svou hudební sbírku"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Hudba GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Bez názvu"
 
-#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
-#: ../gnomemusic/view.py:571
+#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
+#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: ../gnomemusic/view.py:280
+#: ../gnomemusic/view.py:279
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -97,7 +105,7 @@ msgstr ""
 "Žádná hudba nenalezana!\n"
 "Uložte nějakou do složky %s"
 
-#: ../gnomemusic/view.py:287
+#: ../gnomemusic/view.py:286
 msgid "Albums"
 msgstr "Alba"
 
@@ -105,24 +113,24 @@ msgstr "Alba"
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:462
+#: ../gnomemusic/view.py:466
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: ../gnomemusic/view.py:468
+#: ../gnomemusic/view.py:472
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
-#: ../gnomemusic/widgets.py:436
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
 msgid "All Artists"
 msgstr "Všichni umělci"
 
-#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
 msgstr "Načíst další"
 
-#: ../gnomemusic/widgets.py:84
+#: ../gnomemusic/widgets.py:83
 msgid "Loading..."
 msgstr "Načítá se…"
 
