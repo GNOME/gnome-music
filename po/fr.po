@@ -1,0 +1,257 @@
+# French translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Alain Lojewski <allomervan@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-04 13:56+0000\n"
+"PO-Revision-Date: 2013-09-05 21:40+0200\n"
+"Last-Translator: Alain Lojewski <allomervan@gmail.com>\n"
+"Language-Team: French <gnomefr@traduc.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Taille de la fenêtre"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "La taille de la fenêtre (en largeur et hauteur)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Position de la fenêtre"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "La position de la fenêtre (en x et y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Fenêtre maximisée"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "État maximisé de la fenêtre."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Mode de lecture répétion"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Valeur indiquant s'il faut répéter ou rendre aléatoire la lecture des musiques de "
+"la discothèque. Les valeurs possibles sont : « none » (aucun), « song » (le morceau), "
+"« all » (tous), « shuffle » (mélanger)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Mode de recherche"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Si true (vrai), la barre de recherche s'affiche. "
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
+#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musique"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Lecteur de musique"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Jouer et organiser votre discothèque"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musique"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musique est la nouvelle application de lecture de musique de GNOME"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Sans titre"
+
+#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
+#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+msgid "Unknown Artist"
+msgstr "Artiste inconnu"
+
+#: ../gnomemusic/view.py:279
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Aucune musique trouvée !\n"
+" Mettez quelques fichiers dans le dossier %s"
+
+#: ../gnomemusic/view.py:286
+msgid "Albums"
+msgstr "Albums"
+
+#: ../gnomemusic/view.py:317
+msgid "Songs"
+msgstr "Morceaux"
+
+#: ../gnomemusic/view.py:466
+msgid "Playlists"
+msgstr "Listes de lecture"
+
+#: ../gnomemusic/view.py:472
+msgid "Artists"
+msgstr "Artistes"
+
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
+msgid "All Artists"
+msgstr "Tous les artistes"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "En charger davantage"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Chargement en cours..."
+
+#: ../gnomemusic/window.py:134
+msgid "Empty"
+msgstr "Vide"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 Développeurs de l'application Musique de GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Un lecteur de musique et une application de gestion pour GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Visiter le site Web de GNOME Musique"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Musique est un logiciel libre ; vous pouvez le redistribuer et/ou le "
+"modifier au titre des clauses de la Licence Publique Générale GNU, telle que "
+"publiée par la Free Software Foundation ; soit la version 2 de la Licence, "
+"ou (à votre discrétion) une version ultérieure quelconque.\n"
+"Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE "
+"GARANTIE ; sans même une garantie implicite de COMMERCIABILITÉ ou DE "
+"CONFORMITÉ À UNE UTILISATION PARTICULIÈRE. Voir la Licence Publique Générale "
+"GNU pour plus de détails.\n"
+"Vous devriez avoir reçu un exemplaire de la Licence Publique Générale GNU "
+"avec ce programme ; si ce n'est pas le cas, écrivez à la Free Software "
+"Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
+"USA.\n"
+"Les auteurs de l'application Musique de GNOME accordent par la présente "
+"l'autorisation d'utiliser des greffons GStreamer non compatibles avec la "
+"licence GPL et de les distribuer conjointement à GStreamer et à "
+"l'application Musique de GNOME. Cette permission suplante et va au-delà des "
+"autorisations accordées par la licence GPL couvrant l'application Musique de "
+"GNOME. Si vous modifiez ce code, vous pouvez étendre cette autorisation à "
+"votre version du code, mais vous n'y êtes pas obligés. Si vous ne le "
+"souhaitez pas, veuillez supprimer cette mention d'exception de votre version."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Publié"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Durée"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nouvelle liste de lecture"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Lecture en cours"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "À pr_opos de Musique"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Quitter"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Mélanger"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Tout répéter"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Répéter le morceau"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Désactiver mélanger/répéter"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Aucune musique trouvée"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Ne rien sélectionner"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Cliquez sur les éléments pour les sélectionner"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Ajouter à la liste de lecture"
