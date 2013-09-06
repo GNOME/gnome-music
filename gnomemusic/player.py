@@ -513,13 +513,25 @@ class Player(GObject.GObject):
     def _sync_repeat_image(self):
         icon = None
         if self.repeat == RepeatType.NONE:
-            icon = 'media-playlist-consecutive-symbolic'
+            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
+                icon = 'media-playlist-consecutive-symbolic'
+            else:
+                icon = 'media-playlist-consecutive-rtl-symbolic'
         elif self.repeat == RepeatType.SHUFFLE:
-            icon = 'media-playlist-shuffle-symbolic'
+            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
+                icon = 'media-playlist-shuffle-symbolic'
+            else:
+                icon = 'media-playlist-shuffle-rtl-symbolic'
         elif self.repeat == RepeatType.ALL:
-            icon = 'media-playlist-repeat-symbolic'
+            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
+                icon = 'media-playlist-repeat-symbolic'
+            else:
+                icon = 'media-playlist-repeat-rtl-symbolic'
         elif self.repeat == RepeatType.SONG:
-            icon = 'media-playlist-repeat-song-symbolic'
+            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
+                icon = 'media-playlist-repeat-song-symbolic'
+            else:
+                icon = 'media-playlist-repeat-song-rtl-symbolic'
 
         self.repeatBtnImage.set_from_icon_name(icon, Gtk.IconSize.MENU)
         self.emit('repeat-mode-changed')
