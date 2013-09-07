@@ -145,7 +145,7 @@ class Window(Gtk.ApplicationWindow):
 
     def _on_key_press(self, widget, event):
         if event.keyval == 102:  # Ctrl-f
-            self.toolbar.searchbar.set_property('search-mode-enabled', True)
+            self._show_searchbar(not self.toolbar.searchbar.get_child_revealed())
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
@@ -155,7 +155,12 @@ class Window(Gtk.ApplicationWindow):
         if stack.get_visible_child() == self.views[1]:
             stack.get_visible_child().stack.set_visible_child_name('dummy')
             stack.get_visible_child().stack.set_visible_child_name('artists')
-        self.toolbar.searchbar.set_property('search-mode-enabled', False)
+        self._show_searchbar(False)
 
     def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])
+
+    def _show_searchbar(self, show):
+        self.toolbar.searchbar.set_reveal_child(show)
+        if show:
+            self.toolbar.searchbar._search_entry.grab_focus()

@@ -1,17 +1,24 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, Gd
 
 
-class Searchbar(Gtk.SearchBar):
+class Searchbar(Gd.Revealer):
 
     def __init__(self, stack_switcher):
-        Gtk.SearchBar.__init__(self)
+        Gd.Revealer.__init__(self)
         self.stack_switcher = stack_switcher
-        self._search_entry = Gtk.SearchEntry()
-        self.connect_entry(self._search_entry)
+        toolbar = Gtk.Toolbar()
+        toolbar.get_style_context().add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR)
+        toolbar.show()
+        self.add(toolbar)
+        item = Gtk.ToolItem()
+        item.set_expand(True)
+        item.show()
+        toolbar.insert(item, 0)
+        self._search_entry = Gtk.SearchEntry(width_request=500, halign=Gtk.Align.CENTER)
         self._search_entry.connect("changed", self.search_entry_changed)
         self._search_entry.show()
-        self.add(self._search_entry)
-        self.connect("notify::search-mode-enabled", self.prepare_search_filter)
+        item.add(self._search_entry)
+        self.connect("notify::child-revealed", self.prepare_search_filter)
 
     def set_view_filter(self, model, itr, user_data):
         if self._search_entry.get_property("visible"):
