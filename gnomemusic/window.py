@@ -30,7 +30,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gio, GLib, Tracker
+from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gettext import gettext as _
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
@@ -144,7 +144,9 @@ class Window(Gtk.ApplicationWindow):
         self.show()
 
     def _on_key_press(self, widget, event):
-        if event.keyval == 102:  # Ctrl-f
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if (event.keyval == Gdk.KEY_f and
+                (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK):
             self._show_searchbar(not self.toolbar.searchbar.get_child_revealed())
 
     def _notify_mode_disconnect(self, data=None):
