@@ -9,6 +9,7 @@ gnomemusic/__init__.py
 gnomemusic/albumArtCache.py
 gnomemusic/application.py
 gnomemusic/grilo.py
+gnomemusic/notification.py
 gnomemusic/player.py
 gnomemusic/query.py
 gnomemusic/toolbar.py
