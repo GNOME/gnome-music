@@ -148,6 +148,8 @@ class Window(Gtk.ApplicationWindow):
         if (event.keyval == Gdk.KEY_f and
                 (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK):
             self._show_searchbar(not self.toolbar.searchbar.get_child_revealed())
+        elif (event.keyval == Gdk.KEY_Escape and (event.state & modifiers) == 0):
+            self._show_searchbar(False)
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
