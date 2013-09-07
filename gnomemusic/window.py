@@ -168,3 +168,5 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.searchbar.set_reveal_child(show)
         if show:
             self.toolbar.searchbar._search_entry.grab_focus()
+        else:
+            self.toolbar.searchbar._search_entry.set_text('')
