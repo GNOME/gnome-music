@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-29 19:12+0000\n"
-"PO-Revision-Date: 2013-09-02 15:59+0500\n"
+"POT-Creation-Date: 2013-09-04 14:46+0000\n"
+"PO-Revision-Date: 2013-09-08 17:00+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
@@ -71,20 +71,29 @@ msgstr "Мусиқӣ"
 msgid "Music Player"
 msgstr "Плеери мусиқӣ"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Коллексияи мусиқии худро мураттаб ва пахш кунед"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+#| msgid "Music"
+msgid "GNOME Music"
+msgstr "Мусиқии GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Мусиқии GNOME - барномаи нави пахши мусиқӣ мебошад."
 
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Беном"
 
-#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
-#: ../gnomemusic/view.py:571
+#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
+#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
 msgid "Unknown Artist"
 msgstr "Ҳунарманди номаълум"
 
-#: ../gnomemusic/view.py:280
+#: ../gnomemusic/view.py:279
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -93,7 +102,7 @@ msgstr ""
 "Ягон мусиқӣ ёфт нашуд!\n"
 "Баъзе файлҳоро ба ҷузвдони %s гузоред"
 
-#: ../gnomemusic/view.py:287
+#: ../gnomemusic/view.py:286
 msgid "Albums"
 msgstr "Албомҳо"
 
@@ -101,24 +110,24 @@ msgstr "Албомҳо"
 msgid "Songs"
 msgstr "Сурудҳо"
 
-#: ../gnomemusic/view.py:462
+#: ../gnomemusic/view.py:466
 msgid "Playlists"
 msgstr "Феҳристҳои пахш"
 
-#: ../gnomemusic/view.py:468
+#: ../gnomemusic/view.py:472
 msgid "Artists"
 msgstr "Ҳунармандон"
 
-#: ../gnomemusic/view.py:506 ../gnomemusic/view.py:508
-#: ../gnomemusic/widgets.py:436
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
 msgid "All Artists"
 msgstr "Ҳамаи ҳунармандон"
 
-#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
 msgstr "Бештар бор кардан"
 
-#: ../gnomemusic/widgets.py:84
+#: ../gnomemusic/widgets.py:83
 msgid "Loading..."
 msgstr "Бор шуда истодааст..."
 
