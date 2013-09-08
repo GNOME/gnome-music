@@ -137,6 +137,8 @@ class Window(Gtk.ApplicationWindow):
             self.views.append(Views.Empty(self.toolbar, self.player))
             self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
 
+        self.toolbar._search_button.connect('toggled', self._on_search_toggled)
+
         self.toolbar.set_state(ToolbarState.ALBUMS)
         self.toolbar.header_bar.show()
         self.player.eventBox.show_all()
@@ -164,8 +166,12 @@ class Window(Gtk.ApplicationWindow):
     def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])
 
+    def _on_search_toggled(self, button, data=None):
+        self._show_searchbar(button.get_active())
+
     def _show_searchbar(self, show):
         self.toolbar.searchbar.set_reveal_child(show)
+        self.toolbar._search_button.set_active(show)
         if show:
             self.toolbar.searchbar._search_entry.grab_focus()
         else:
