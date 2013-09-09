@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-23 11:04+0000\n"
-"PO-Revision-Date: 2013-08-16 22:09+0100\n"
+"POT-Creation-Date: 2013-09-04 13:56+0000\n"
+"PO-Revision-Date: 2013-08-28 11:18+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -73,46 +73,64 @@ msgstr "Hudba"
 msgid "Music Player"
 msgstr "Prehrávač hudby"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Prehráva a organizuje vašu hudobnú zbierku"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+#| msgid "Music"
+msgid "GNOME Music"
+msgstr "Hudba prostredia GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Hudba je nová aplikácia na prehrávanie hudby v prostredí GNOME."
 
 # uri
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Nepomenovaný"
 
-#: ../gnomemusic/player.py:271 ../gnomemusic/view.py:218
-#: ../gnomemusic/view.py:568
+#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
+#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
 msgid "Unknown Artist"
 msgstr "Neznámy interpret"
 
-#: ../gnomemusic/view.py:284
+#: ../gnomemusic/view.py:279
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Nenašla sa žiadna hudba!\n"
+"Vložte nejaké súbory do priečinka %s"
+
+#: ../gnomemusic/view.py:286
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../gnomemusic/view.py:314
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:459
+#: ../gnomemusic/view.py:466
 msgid "Playlists"
 msgstr "Zoznamy piesní"
 
-#: ../gnomemusic/view.py:465
+#: ../gnomemusic/view.py:472
 msgid "Artists"
 msgstr "Interpreti"
 
-#: ../gnomemusic/view.py:503 ../gnomemusic/view.py:505
-#: ../gnomemusic/widgets.py:433
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
 msgid "All Artists"
 msgstr "Všetci interpreti"
 
-#: ../gnomemusic/widgets.py:74 ../gnomemusic/widgets.py:94
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
 msgstr "Načítať viac"
 
-#: ../gnomemusic/widgets.py:84
+#: ../gnomemusic/widgets.py:83
 msgid "Loading..."
 msgstr "Načítava sa"
 
@@ -156,6 +174,15 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
+"Program Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť a upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná zverejňovacia licencia GNU), vydávanej nadáciou Free Software Foundation a to buď podľa 2. verzie tejto licencie, alebo (podľa vášho uváženia) ktorejkoľvek neskoršej verzie\n.
+\n"
+"Tento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo VHODNOSTI NA URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte v licencii GNU General Public License.\n"
+"\n"
+"Kópiu licencie GNU General Public License by ste mali dostať spolu s týmto programom. Ak sa tak nestalo, napíšte na adresu Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA\n"
+"\n"
+"Atori programu Hudba prostredia GNOME týmto vyjadrujú súhlas s tým, že zásuvné moduly knižnice GStreamer nekompatibilné s GPL, môžu byť používané a šírené spolu s týmto programom.  Toto oprávnie je doplnkom nad rámec oprávnení zaručených licenciou GPL, s ktorou je tento program vydaný.  Ak upravíte tento zdrojový kód, "
+"môžete použiť túto výnimku aj na vašu verziu kódu, no nie ste povinný to urobiť. "
+" AK to nechcete urobiť, vymažte túto výnimku z vašej verzie."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
