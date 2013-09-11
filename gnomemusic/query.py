@@ -209,7 +209,8 @@ class Query():
         nie:title(nmm:musicAlbum(?song)) AS album
         nfo:duration(?song) AS duration
         {
-            ?song a nmm:MusicPiece
+            ?song a nmm:MusicPiece ;
+                  a nfo:FileDataObject
         }
     ORDER BY tracker:added(?song)
     '''.replace('\n', ' ').strip()
@@ -218,7 +219,8 @@ class Query():
     SELECT
         COUNT(?song) AS childcount
     WHERE {
-        ?song a nmm:MusicPiece
+        ?song a nmm:MusicPiece ;
+              a nfo:FileDataObject
     }
     '''.replace('\n', ' ').strip()
 
@@ -235,6 +237,7 @@ class Query():
         nfo:duration(?song) AS duration
     WHERE {
         ?song a nmm:MusicPiece ;
+              a nfo:FileDataObject ;
               nmm:musicAlbum ?album .
         FILTER (
             tracker:id(?album) = %(album_id)s
