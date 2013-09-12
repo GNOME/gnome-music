@@ -7,9 +7,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 11:59+0200\n"
-"PO-Revision-Date: 2013-09-12 11:58+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-12 15:07+0000\n"
+"PO-Revision-Date: 2013-09-12 17:41+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -64,8 +65,9 @@ msgstr "Keresési mód"
 msgid "If true, the search bar is shown."
 msgstr "Ha igaz, megjelenik a keresési sáv."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:53
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Zene"
 
@@ -89,10 +91,44 @@ msgstr "A Zene a GNOME új zenelejátszó alkalmazása."
 msgid "Untitled"
 msgstr "Névtelen"
 
-#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
-#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:70
+#| msgid "_Now Playing"
+msgid "Not playing"
+msgstr "Lejátszás áll"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:322
+#: ../gnomemusic/view.py:225 ../gnomemusic/view.py:359
+#: ../gnomemusic/view.py:572
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
+
+#: ../gnomemusic/notification.py:79
+#| msgid "Unknown Artist"
+msgid "Unknown Album"
+msgstr "Ismeretlen album"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "előadó: %s, album: %s"
+
+#: ../gnomemusic/notification.py:125
+msgid "Previous"
+msgstr "Előző"
+
+#: ../gnomemusic/notification.py:128
+msgid "Pause"
+msgstr "Szünet"
+
+#: ../gnomemusic/notification.py:131
+#| msgid "Playlists"
+msgid "Play"
+msgstr "Lejátszás"
+
+#: ../gnomemusic/notification.py:133
+msgid "Next"
+msgstr "Következő"
 
 #: ../gnomemusic/view.py:279
 #, python-format
