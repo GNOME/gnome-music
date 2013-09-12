@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-01 15:09+0000\n"
-"PO-Revision-Date: 2013-09-01 23:49+0300\n"
+"POT-Creation-Date: 2013-09-12 15:07+0000\n"
+"PO-Revision-Date: 2013-09-12 22:49+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -64,8 +64,9 @@ msgstr "Paieškos veiksena"
 msgid "If true, the search bar is shown."
 msgstr "Jei teigiama, paieškos juosta yra rodoma."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:53
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzika"
 
@@ -73,20 +74,63 @@ msgstr "Muzika"
 msgid "Music Player"
 msgstr "Muzikos grotuvas"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Groti ir tvarkyti muzikos kolekciją"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+#| msgid "Music"
+msgid "GNOME Music"
+msgstr "GNOME muzika"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Muzika yra nauja GNOME muzikos grojimo programa."
 
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Nepavadinta"
 
-#: ../gnomemusic/player.py:303 ../gnomemusic/view.py:224
-#: ../gnomemusic/view.py:561
+#: ../gnomemusic/notification.py:70
+#| msgid "_Now Playing"
+msgid "Not playing"
+msgstr "Negroja"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:322
+#: ../gnomemusic/view.py:225 ../gnomemusic/view.py:359
+#: ../gnomemusic/view.py:572
 msgid "Unknown Artist"
 msgstr "Nežinomas atlikėjas"
 
-#: ../gnomemusic/view.py:278
+#: ../gnomemusic/notification.py:79
+#| msgid "Unknown Artist"
+msgid "Unknown Album"
+msgstr "Nežinomas albumas"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "atlieka %s iš albumo %s"
+
+#: ../gnomemusic/notification.py:125
+msgid "Previous"
+msgstr "Ankstesnė"
+
+#: ../gnomemusic/notification.py:128
+msgid "Pause"
+msgstr "Pristabdyti"
+
+#: ../gnomemusic/notification.py:131
+#| msgid "Playlists"
+msgid "Play"
+msgstr "Groti"
+
+#: ../gnomemusic/notification.py:133
+msgid "Next"
+msgstr "Kita"
+
+#: ../gnomemusic/view.py:279
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -95,24 +139,24 @@ msgstr ""
 "Nerasta muzikos!\n"
 " Įdėkite failų į aplanką %s"
 
-#: ../gnomemusic/view.py:285
+#: ../gnomemusic/view.py:286
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../gnomemusic/view.py:316
+#: ../gnomemusic/view.py:317
 msgid "Songs"
 msgstr "Dainos"
 
-#: ../gnomemusic/view.py:452
+#: ../gnomemusic/view.py:466
 msgid "Playlists"
 msgstr "Grojaraščiai"
 
-#: ../gnomemusic/view.py:458
+#: ../gnomemusic/view.py:472
 msgid "Artists"
 msgstr "Atlikėjai"
 
-#: ../gnomemusic/view.py:496 ../gnomemusic/view.py:498
-#: ../gnomemusic/widgets.py:431
+#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
+#: ../gnomemusic/widgets.py:441
 msgid "All Artists"
 msgstr "Visi atlikėjai"
 
