@@ -121,7 +121,7 @@ class NotificationManager:
     def _set_actions(self, playing):
         self._notification.clear_actions()
 
-        if len(self._notification.add_action.get_arguments()) > 5:
+        if (Notify.VERSION_MINOR > 7) or (Notify.VERSION_MINOR == 7 and Notify.VERSION_MICRO > 5):
             self._notification.add_action('media-skip-backward', _("Previous"),
                                           self._go_previous, None)
             if playing:
