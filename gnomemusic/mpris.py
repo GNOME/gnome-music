@@ -112,6 +112,9 @@ class MediaPlayer2Service(dbus.service.Object):
         return metadata
 
     def _on_current_changed(self, player, data=None):
+        if self.player.repeat == RepeatType.SONG:
+            self.Seeked(0)
+
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'Metadata': dbus.Dictionary(self._get_metadata(),
