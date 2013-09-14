@@ -103,7 +103,7 @@ class Application(Gtk.Application):
 
         self.build_app_menu()
 
-    def quit(self, action, param):
+    def quit(self, action=None, param=None):
         self._window.destroy()
 
     def do_activate(self):
