@@ -66,6 +66,7 @@ class Player(GObject.GObject):
         'volume-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'seeked': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
+        'thumbnail-updated': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
     def __init__(self):
@@ -359,6 +360,7 @@ class Player(GObject.GObject):
     def _on_cache_lookup(self, pixbuf, path, data=None):
         if pixbuf is not None:
             self.coverImg.set_from_pixbuf(pixbuf)
+        self.emit('thumbnail-updated', path)
 
     def play(self):
         if self.playlist is None:
