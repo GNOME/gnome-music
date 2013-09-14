@@ -60,7 +60,7 @@ class LookupRequest:
     def finish(self, pixbuf):
         if pixbuf:
             # Cache the path on the original item for faster retrieval
-            self.item.set_thumbnail(self.path)
+            self.item.set_thumbnail(GLib.filename_to_uri(self.path, None))
         self.callback(pixbuf, self.path, self.data)
 
     def _try_load(self):
