@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-13 22:00+0200\n"
-"PO-Revision-Date: 2013-09-11 22:52+0100\n"
+"POT-Creation-Date: 2013-09-14 15:52+0200\n"
+"PO-Revision-Date: 2013-09-14 10:20+0100\n"
 "Last-Translator: Kris Thomsen <mail@kristhomsen.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -89,9 +89,8 @@ msgid "Untitled"
 msgstr "Unavngivet"
 
 #: ../gnomemusic/notification.py:70
-#, fuzzy
 msgid "Not playing"
-msgstr "Spiller _nu"
+msgstr "Spiller ikke"
 
 #: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
 #: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
@@ -100,32 +99,30 @@ msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
 #: ../gnomemusic/notification.py:79
-#, fuzzy
 msgid "Unknown Album"
-msgstr "Ukendt kunstner"
+msgstr "Ukendt album"
 
 #. TRANSLATORS: by refers to the artist, from to the album
 #: ../gnomemusic/notification.py:83
 #, python-format
 msgid "by %s, from %s"
-msgstr ""
+msgstr "af %s, fra %s"
 
 #: ../gnomemusic/notification.py:125
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 #: ../gnomemusic/notification.py:128
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #: ../gnomemusic/notification.py:131
-#, fuzzy
 msgid "Play"
-msgstr "Afspilningslister"
+msgstr "Afspil"
 
 #: ../gnomemusic/notification.py:133
 msgid "Next"
-msgstr ""
+msgstr "Næste"
 
 #: ../gnomemusic/view.py:290
 #, python-format
