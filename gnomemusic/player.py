@@ -141,7 +141,6 @@ class Player(GObject.GObject):
         #and thus don't cause a message
         #In practice, self means only Gst.State.PLAYING and Gst.State.PAUSED are
         self._sync_playing()
-        self.emit('playing-changed')
 
     def _onBusError(self, bus, message):
         media = self.get_current_media()
