@@ -1,3 +1,69 @@
+Overview of changes in 3.9.92
+=============================
+
+* Added AppData description
+
+* Icons are now RTL-compatible
+
+* Notifications appear during the playback
+
+* All views can be filtered via search button or Ctrl+F shortcut
+
+* URLs with no FileDataObject (*.cue) are now filtered
+
+* Fixed MPRIS commands: close, play, thumbnail display
+
+* Songs view now displays 'Unknown Album' for tracks with no album set
+
+* Gnome Music notifies about startup
+
+
+* Bugs fixed:
+ 702377 Add support for notifications
+ 703303 Music doesn't properly tell MPRIS clients that the song is replayed when in repeat song mode
+ 706576 Repeat/Shuffle icons should have RTL variants
+ 707388 Add AppData description
+ 707632 MPRIS Close command is broken
+ 707824 No notification when Music starts
+ 707937 freeze-break branch | Crash when try to start song
+ 707938 gnome-music crashes with TypeError: Argument 0 does not allow None as a value
+ 708102 Thumbnail no longer shows up in MPRIS clients
+ 708103 Playing default playlist is broken
+ 708116 Crash in notification when the current track gets hidden while searching
+ 708117 Use RTL variants of buttons in notifications on RTL languages
+ 708159 Empty album column when an album title is unknown
+
+* Added translations:
+ Basque
+ British English
+ Catalan
+ Danish
+ Dutch
+ French
+ Indonesian
+ Korean
+ Latvian
+ Traditional Chinese
+ 
+* Updated translations:
+ Brazilian Portuguese
+ Czech
+ Finnish
+ Galician
+ German
+ Hungarian
+ Italian
+ Lithuanian
+ Norwegian bokmål
+ Polish
+ Russian
+ Serbian
+ Slovak
+ Slovenian
+ Spanish
+ Tajik
+
+
 Overview of changes in 3.9.91
 =============================
 
