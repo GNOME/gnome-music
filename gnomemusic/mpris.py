@@ -207,7 +207,7 @@ class MediaPlayer2Service(dbus.service.Object):
         elif self.first_song_handler == 0:
             window = self.app.get_active_window()
             window._stack.set_visible_child(window.views[2])
-            model = window.views[2]._model
+            model = window.views[2].filter
             if model.iter_n_children(None):
                 _iter = model.get_iter_first()
                 self._play_first_song(model, model.get_path(_iter), _iter)
