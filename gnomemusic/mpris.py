@@ -28,8 +28,6 @@ import dbus
 import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
 
-from gi.repository import GLib
-
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.albumArtCache import AlbumArtCache
 
