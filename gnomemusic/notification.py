@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GLib, Grl, Notify
+from gi.repository import GLib, Grl, Gtk, Notify
 
 from gnomemusic.albumArtCache import AlbumArtCache
 
@@ -122,15 +122,20 @@ class NotificationManager:
         self._notification.clear_actions()
 
         if (Notify.VERSION_MINOR > 7) or (Notify.VERSION_MINOR == 7 and Notify.VERSION_MICRO > 5):
-            self._notification.add_action('media-skip-backward', _("Previous"),
+            if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
+                postfix = '-rtl'
+            else:
+                postfix = ''
+
+            self._notification.add_action('media-skip-backward%s' % postfix, _("Previous"),
                                           self._go_previous, None)
             if playing:
                 self._notification.add_action('media-playback-pause', _("Pause"),
                                               self._pause, None)
             else:
-                self._notification.add_action('media-playback-start', _("Play"),
+                self._notification.add_action('media-playback-start%s' % postfix, _("Play"),
                                               self._play, None)
-            self._notification.add_action('media-skip-forward', _("Next"),
+            self._notification.add_action('media-skip-forward%s' % postfix, _("Next"),
                                           self._go_next, None)
 
     def _go_previous(self, notification, action, data):
