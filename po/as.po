@@ -1,0 +1,297 @@
+# Assamese translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+#
+# ngoswami <ngoswami@redhat.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-16 16:59+0000\n"
+"PO-Revision-Date: 2013-09-17 19:54+0530\n"
+"Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
+"Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
+"Language: as\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "উইন্ডোৰ আকাৰ"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "উইন্ডোৰ আকাৰ (প্ৰস্থ আৰু উচ্চতা)"
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "উইন্ডোৰ অৱস্থান"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "উইন্ডোৰ অৱস্থান (x আৰু y)।"
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "উইন্ডোৰ সৰ্বাধিক আকাৰ"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "উইন্ডোৰ সৰ্বাধিক আকাৰ অৱস্থা।"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "প্লেবেক পুনৰাবৃত্তি অৱস্থা"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"মানে চিনাক্ত কৰে সংগ্ৰহৰে প্লেবেক পুনৰাবৃত্তি কৰা হব নে যাদৃচ্ছিক কৰা হব। "
+"অনুমোদিত মান: "
+"\"none\", \"song\", \"all\", \"shuffle\"।"
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "সন্ধান অৱস্থা"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "যদি সত্য, সন্ধান বাৰ দেখুৱা হয়।"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "সংগীত"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "সংগীত প্লেয়াৰ"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "আপোনাৰ সংগীত সংগ্ৰহ বজাওক আৰু সংগঠিত কৰক"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME সংগীত"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "সংগীত হল নতুন GNOME সংগীত বজোৱা এপ্লিকেচন।"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "শীৰ্ষকহীন"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "বজোৱা নাই"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
+msgid "Unknown Artist"
+msgstr "অজ্ঞাত শিল্পী"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "অজ্ঞাত এলবাম"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s দ্বাৰা, %s ৰ পৰা"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "পূৰ্বৱৰ্তী"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "বিৰাম দিয়ক"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "বজাওক"
+
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "পৰৱৰ্তী"
+
+#: ../gnomemusic/view.py:290
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"কোনো সংগীত পোৱা নগল!\n"
+" ফোল্ডাৰ %s ত কিছুমান ফাইল থওক"
+
+#: ../gnomemusic/view.py:297
+msgid "Albums"
+msgstr "এলবামসমূহ"
+
+#: ../gnomemusic/view.py:329
+msgid "Songs"
+msgstr "সংগীতবোৰ"
+
+#: ../gnomemusic/view.py:480
+msgid "Playlists"
+msgstr "প্লেলিস্টসমূহ"
+
+#: ../gnomemusic/view.py:486
+msgid "Artists"
+msgstr "শিল্পীসকল"
+
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "সকলো শিল্পী"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "অধিক ল'ড কৰক"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "ল'ড কৰা হৈছে..."
+
+#: ../gnomemusic/window.py:138
+msgid "Empty"
+msgstr "ৰিক্ত"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "স্বত্বাধিকাৰ © ২০১৩ GNOME সংগীত উন্নয়নকাৰীসকল"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "GNOME ৰ বাবে এটা সংগীত প্লেয়াৰ আৰু ব্যৱস্থাপনা এপ্লিকেচন।"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "GNOME সংগীত ৱেবছাইটলৈ যাওক"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME সংগীত এটা বিনামুলিয়া চফ্টৱেৰ; আপুনি Free Software Foundation ৰ দ্বাৰা "
+"প্ৰকাশিত GNU General Public License ৰ চুক্তিসমূহৰ অন্তৰ্গত ইয়াক পুনৰ বিলাব "
+"পাৰিব অথবা "
+"সলনি  কৰিব পাৰিব; হৈতো অনুজ্ঞাৰ সংস্কৰণ ২, অথবা (আপুনাৰ বিকল্পত) যিকোনো "
+"পৰৱৰ্তী "
+"সংস্কৰণ।\n"
+"\n"
+"GNOME সংগীত এইটো আশাত বিলোৱা হৈছে যে ই ব্যৱহাৰযোগ্য হ'ব, কিন্তু কোনো ৱাৰেন্টি "
+"নথকাকৈ; ব্যৱসায়ীক  অথবা কোনো এটা বিশেষ কাৰণৰ যোগ্যতাৰ বাবে বুজুৱা ৱাৰেন্টি  "
+"নথকাকৈ। "
+"অধিক জানিবলৈ  GNU General Public License চাওক। \n"
+"\n"
+"আপুনি হৈতো ইতিমধ্যে GNOME সংগীতৰ সৈতে GNU General Public License ৰ কপি এটা "
+"পাইছে। যদি নাই , Free Software Foundation, Inc., 51 Franklin Street, Fifth "
+"Floor, Boston, MA 02110-1301, USA লৈ লিখক।\n"
+"\n"
+"GNOME সংগীত লেখকসকলে ইয়াৰ দ্বাৰা GStreamer আৰু GNOME সংগীতৰ সৈতে non-GPL "
+"সংগত GStreamer প্লাগিনসমূহ ব্যৱহাৰ আৰু একেলগে বিতৰণ কৰাৰ অনুমতি দিছে। এই "
+"অনুমতি "
+"GNOME সংগীতক অনুজ্ঞিত কৰা GPL অনুজ্ঞা দ্বাৰা প্ৰদান কৰা অনুমতিসমূহৰ ওপৰত আৰু "
+"অধিক বিস্তাৰিত। "
+"যদি আপুনি এই ক'ড পৰিবৰ্তন কৰে, আপুনি এই ব্যতিক্ৰমক আপোনাৰ ক'ডৰ সংস্কৰণলৈ "
+"প্ৰসাৰন কৰিব পাৰে, "
+"কিন্তু আপুনি এনেকুৱা কৰিবলৈ বাধ্য নহয়। যদি আপুনি এনেকুৱা কৰিব নিবিচাৰে, এই "
+"ব্যতিক্ৰম বিবৃতিক আপোনাৰ "
+"সংস্কৰণৰ পৰা মচি পেলাব।"
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "উন্মোচিত"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "চলাৰ দৈৰ্ঘ্য"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "নতুন প্লেলিস্ট (_N)"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "এতিয়া চলি থকা (_N)"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "সংগীতৰ বিষয়ে (_A)"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "প্ৰস্থান কৰক (_Q)"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "সানমিহলি কৰক"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "সকলো পুনৰাবৃত্তি কৰক"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "গান পুনৰ বজাওক"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "সানমিহলি/পুনৰাবৃত্তি বন্ধ"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "কোনো সংগীত পোৱা নগল"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "সকলো বাছক"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "একো নাবাছিব"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "বস্তুবোৰ নিৰ্বাচন কৰিবলৈ সিহতক ক্লিক কৰক"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "বাতিল কৰক"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "প্লেলিস্টলৈ যোগ কৰক"
+
