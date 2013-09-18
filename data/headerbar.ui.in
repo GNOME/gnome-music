@@ -157,6 +157,7 @@
         <property name="sensitive">True</property>
         <style>
           <class name="image-button"/>
+          <class name="titlebutton"/>
         </style>
         <child>
           <object class="GtkImage" id="close-button-image">
