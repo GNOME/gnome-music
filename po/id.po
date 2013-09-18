@@ -1,22 +1,24 @@
 # Indonesian translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Andika Triwidada <andika@gmail.com>, 2013.
 #
+# Andika Triwidada <andika@gmail.com>, 2013.
+# Dirgita <dirgitadevina@yahoo.co.id>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-04 14:46+0000\n"
-"PO-Revision-Date: 2013-09-11 17:56+0700\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"POT-Creation-Date: 2013-09-16 16:59+0000\n"
+"PO-Revision-Date: 2013-09-17 20:25+0700\n"
+"Last-Translator: Dirgita <dirgitadevina@yahoo.co.id>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -63,8 +65,9 @@ msgstr "Mode cari"
 msgid "If true, the search bar is shown."
 msgstr "Bila berisi true, bilah pencarian ditampilkan."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
 
@@ -88,12 +91,43 @@ msgstr "Musik adalah aplikasi pemutar musik GNOME yang baru."
 msgid "Untitled"
 msgstr "Tanpa judul"
 
-#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
-#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Tidak diputar"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "Album Tak Dikenal"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "oleh %s, dari %s"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "Sebelumnya"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "Tahan"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "Putar"
+
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "Selanjutnya"
+
+#: ../gnomemusic/view.py:290
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -102,24 +136,24 @@ msgstr ""
 "Tak ditemukan musik!\n"
 " Letakkan beberapa berkas ke folder %s"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:297
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:329
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../gnomemusic/view.py:466
+#: ../gnomemusic/view.py:480
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: ../gnomemusic/view.py:472
+#: ../gnomemusic/view.py:486
 msgid "Artists"
 msgstr "Artis"
 
-#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
-#: ../gnomemusic/widgets.py:441
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Semua Artis"
 
@@ -131,7 +165,7 @@ msgstr "Muat Lebih Banyak"
 msgid "Loading..."
 msgstr "Memuat..."
 
-#: ../gnomemusic/window.py:134
+#: ../gnomemusic/window.py:138
 msgid "Empty"
 msgstr "Kosong"
 
