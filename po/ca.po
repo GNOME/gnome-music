@@ -3,15 +3,17 @@
 # This file is distributed under the same license as the gnome-calendar package.
 #
 # Jordi Mas i Hernandez <jmas@softcatala.org>, 2013.
+# Pau Iranzo <paugnu@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-01 20:14+0200\n"
-"PO-Revision-Date: 2013-09-02 22:20+0200\n"
-"Last-Translator: Jordi Mas i Hernandez <jmas@softcatala.org>\n"
-"Language-Team: Softcatalà\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-16 13:52+0000\n"
+"PO-Revision-Date: 2013-09-15 11:08+0100\n"
+"Last-Translator: Pau Iranzo <paugnu@gmail.com>\n"
+"Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,6 +53,9 @@ msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"El valor estableix si es reprodueix la col·lecció en mode de repetició o "
+"aleatori. Els valors que s'accepten són: «none» (cap), «song» (cançó), "
+"«all» (tot) i «shuffle» (aleatori)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -60,8 +65,9 @@ msgstr "Mode de cerca"
 msgid "If true, the search bar is shown."
 msgstr "Si és cert, es mostra la barra de cerca."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Música"
 
@@ -69,20 +75,59 @@ msgstr "Música"
 msgid "Music Player"
 msgstr "Reproductor de música"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Reproduïu i organitzeu la col·lecció de música"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Music"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "El Music és la nova aplicació de reproducció de música del GNOME."
 
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
-#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "No s'està reproduint"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "Àlbum desconegut"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "per %s, a %s"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "Anterior"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "Fes una pausa"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "Reprodueix"
+
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "Següent"
+
+#: ../gnomemusic/view.py:290
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -91,24 +136,24 @@ msgstr ""
 "No s'ha trobat música\n"
 " Copieu alguns fitxers a la carpeta: %s"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:297
 msgid "Albums"
 msgstr "Àlbums"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:329
 msgid "Songs"
 msgstr "Cançons"
 
-#: ../gnomemusic/view.py:466
+#: ../gnomemusic/view.py:480
 msgid "Playlists"
 msgstr "Llistes de reproducció"
 
-#: ../gnomemusic/view.py:472
+#: ../gnomemusic/view.py:486
 msgid "Artists"
 msgstr "Artistes"
 
-#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
-#: ../gnomemusic/widgets.py:441
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Tots els artistes"
 
@@ -120,17 +165,17 @@ msgstr "Carrega'n més"
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: ../gnomemusic/window.py:134
+#: ../gnomemusic/window.py:138
 msgid "Empty"
 msgstr "Buit"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr ""
+msgstr "Copyright © 2013 Desenvolupadors del GNOME Music"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
-msgstr "Una applicació de reproducció i gestió de música pel GNOME."
+msgstr "Una aplicació de reproducció i gestió de música pel GNOME."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
@@ -160,6 +205,27 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
+"El GNOME Music és programari lliure; podeu redistribuir-lo i/o modificar-lo "
+"segons els termes de la llicència pública general GNU publicada per la Free "
+"Software Foundation; sigui la versió 2 de la llicència o (segons la vostra "
+"opció) qualsevol versió posterior.\n"
+"\n"
+"El GNOME Music es distribueix amb l'esperança que sigui útil, però SENSE CAP "
+"GARANTIA; ni tan sols amb la garantia implícita de COMERCIALITZACIÓ o "
+"IDONEÏTAT PER A UN PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General "
+"GNU per més detalls.\n"
+"\n"
+"Heu de rebre una còpia de la Llicència Pública General GNU amb el GNOME "
+"Music; si no és el cas, escriviu a la Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"El autors del GNOME Music presents permeten l'ús i distribució conjunta del "
+"GNOME Music amb connectors GStreamer no compatibles amb la GPL. Aquest "
+"permís està per sobre del permisos garantits per la llicència GPL sota la "
+"qual es troba el GNOME Music. Si modifiqueu aquest codi, haureu d'estendre "
+"aquesta excepció a la vostra versió del codi, però no esteu obligats a fer-"
+"ho. Si no voleu fer-ho, elimineu aquesta declaració d'excepció de la vostra "
+"versió."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -167,7 +233,7 @@ msgstr "Publicat"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
-msgstr ""
+msgstr "Durada"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -195,11 +261,11 @@ msgstr "Repeteix-ho tot"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr "Repeteix la canço"
+msgstr "Repeteix la cançó"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
+msgstr "Aleatori/Repetició desactivada"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
