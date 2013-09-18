@@ -172,4 +172,11 @@
       </packing>
     </child>
   </object>
+  <object class="GtkSizeGroup" id="size1">
+      <property name="mode">vertical</property>
+      <widgets>
+        <widget name="search-button"/>
+        <widget name="done-button"/>
+      </widgets>
+  </object>
 </interface>
