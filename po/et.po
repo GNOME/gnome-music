@@ -1,0 +1,212 @@
+# Estonian translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-18 20:45+0000\n"
+"PO-Revision-Date: 2013-09-19 16:29+0300\n"
+"Last-Translator: Mattias Põldaru <mahfiaz@gmail.com>\n"
+"Language-Team: Estonian <gnome-et-list@gnome.org>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+msgid "Window size"
+msgstr "Akna suurus"
+
+msgid "Window size (width and height)."
+msgstr "Akna suurus (laius ja kõrgus)."
+
+msgid "Window position"
+msgstr "Akna asukoht"
+
+msgid "Window position (x and y)."
+msgstr "Akna asukoht (x ja y)."
+
+msgid "Window maximized"
+msgstr "Aken on maksimeeritud"
+
+msgid "Window maximized state."
+msgstr "Akna maksimeerituse olek."
+
+msgid "Playback repeat mode"
+msgstr "Esituse kordamise režiim"
+
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Väärtus määrab, kas korratakse või esitatakse kogumikku juhuslikus "
+"järjekorras. Võimalikud väärtused on: \"none\" (pole), \"song\" (laul), \"all"
+"\" (kõiki) või \"shuffle\" (juhuslik)."
+
+msgid "Search mode"
+msgstr "Otsingu režiim"
+
+msgid "If true, the search bar is shown."
+msgstr "Kui märgitud, kuvatakse otsinguriba."
+
+msgid "Music"
+msgstr "Muusika"
+
+msgid "Music Player"
+msgstr "Muusikamängija"
+
+msgid "Play and organize your music collection"
+msgstr "Mängi ja halda oma muusikakogu"
+
+msgid "GNOME Music"
+msgstr "GNOME muusika"
+
+msgid "Music is the new GNOME music playing application."
+msgstr "Muusika on uus GNOME muusikamängimise rakendus."
+
+msgid "Untitled"
+msgstr "Ilma pealkirjata"
+
+msgid "Not playing"
+msgstr "Ei mängi"
+
+msgid "Unknown Artist"
+msgstr "Tundmatu esitaja"
+
+msgid "Unknown Album"
+msgstr "Tundmatu album"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#, python-format
+msgid "by %s, from %s"
+msgstr "esitaja %s, album %s"
+
+msgid "Previous"
+msgstr "Eelmine"
+
+msgid "Pause"
+msgstr "Paus"
+
+msgid "Play"
+msgstr "Mängi"
+
+msgid "Next"
+msgstr "Järgmine"
+
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Muusikat ei leitud!\n"
+" Pane mõned failid %s kausta"
+
+msgid "Albums"
+msgstr "Albumid"
+
+msgid "Songs"
+msgstr "Laulud"
+
+msgid "Playlists"
+msgstr "Loendid"
+
+msgid "Artists"
+msgstr "Esitajad"
+
+msgid "All Artists"
+msgstr "Kõik esitajad"
+
+msgid "Load More"
+msgstr "Laadi veel"
+
+msgid "Loading..."
+msgstr "Laadimine..."
+
+msgid "Empty"
+msgstr "Tühi"
+
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME muusika arendajad"
+
+msgid "A music player and management application for GNOME."
+msgstr "GNOME muusikamängija ja haldamise rakendus."
+
+msgid "Visit GNOME Music website"
+msgstr "Külasta GNOME muusika kodulehte"
+
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+
+msgid "Released"
+msgstr "Aasta"
+
+msgid "Running Length"
+msgstr "Esituse pikkus"
+
+msgid "_New Playlist"
+msgstr "_Uus loend"
+
+msgid "_Now Playing"
+msgstr "_Praegu mängib"
+
+msgid "_About Music"
+msgstr "_Programmist lähemalt"
+
+msgid "_Quit"
+msgstr "_Lõpeta"
+
+msgid "Shuffle"
+msgstr "Juhuslik"
+
+msgid "Repeat All"
+msgstr "Korratakse kõiki"
+
+msgid "Repeat Song"
+msgstr "Korratakse laulu"
+
+msgid "Shuffle/Repeat Off"
+msgstr "Juhuslik/kordus väljas"
+
+msgid "No Music Found"
+msgstr "Muusikat ei leitud"
+
+msgid "Select All"
+msgstr "Vali kõik"
+
+msgid "Select None"
+msgstr "Tühista valik"
+
+msgid "Click on items to select them"
+msgstr "Kirje valimiseks klõpsa sellel"
+
+msgid "Cancel"
+msgstr "Loobu"
+
+msgid "Add to Playlist"
+msgstr "Lisa loendisse"
