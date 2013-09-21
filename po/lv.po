@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-11 10:58+0000\n"
-"PO-Revision-Date: 2013-09-12 20:45+0300\n"
+"POT-Creation-Date: 2013-09-12 17:47+0000\n"
+"PO-Revision-Date: 2013-09-21 22:58+0300\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -63,8 +63,9 @@ msgstr "Meklēšanas režīms"
 msgid "If true, the search bar is shown."
 msgstr "Ja patiess, tiks rādīta meklēšanas josla."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Mūzika"
 
@@ -88,12 +89,46 @@ msgstr "Mūzika ir jaunā GNOME mūzikas atskaņošanas lietotne."
 msgid "Untitled"
 msgstr "Nenosaukts"
 
-#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
-#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:70
+#| msgid "_Now Playing"
+msgid "Not playing"
+msgstr "Neatskaņo"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
 msgid "Unknown Artist"
 msgstr "Nezināms izpildītājs"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/notification.py:79
+#| msgid "Unknown Artist"
+msgid "Unknown Album"
+msgstr "Nezināms albums"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s, no %s"
+
+#: ../gnomemusic/notification.py:125
+msgid "Previous"
+msgstr "Iepriekšējais"
+
+#: ../gnomemusic/notification.py:128
+msgid "Pause"
+msgstr "Pauzēt"
+
+#: ../gnomemusic/notification.py:131
+#| msgid "Playlists"
+msgid "Play"
+msgstr "Atskaņot"
+
+#: ../gnomemusic/notification.py:133
+msgid "Next"
+msgstr "Nākamais"
+
+#: ../gnomemusic/view.py:290
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -102,24 +137,24 @@ msgstr ""
 "Mūzika nav atrasta!\n"
 " Ievietojiet kādas datnes mapē %s"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:297
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:329
 msgid "Songs"
 msgstr "Dziesmas"
 
-#: ../gnomemusic/view.py:466
+#: ../gnomemusic/view.py:480
 msgid "Playlists"
 msgstr "Repertuāri"
 
-#: ../gnomemusic/view.py:472
+#: ../gnomemusic/view.py:486
 msgid "Artists"
 msgstr "Izpildītāji"
 
-#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
-#: ../gnomemusic/widgets.py:441
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Visi izpildītāji"
 
@@ -131,7 +166,7 @@ msgstr "Ielādēt vairāk"
 msgid "Loading..."
 msgstr "Ielādē..."
 
-#: ../gnomemusic/window.py:134
+#: ../gnomemusic/window.py:138
 msgid "Empty"
 msgstr "Tukšs"
 
@@ -171,26 +206,24 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"GNOME Mūzika ir brīvā programmatūra; jūs varat izplatīt un/vai "
-"modificēt to saskaņā ar GNU Vispārējās Publiskās Licences 2. vai kādas "
-"vēlākas versijas noteikumiem.\n"
+"GNOME Mūzika ir brīvā programmatūra; jūs varat izplatīt un/vai modificēt to "
+"saskaņā ar GNU Vispārējās Publiskās Licences 2. vai kādas vēlākas versijas "
+"noteikumiem.\n"
 "\n"
 "GNOME Mūzika tiek izplatīts ar cerību, ka tas būs noderīgs. Tas tiek "
 "izplatīts BEZ jebkādas garantijas vai iekļautas ražotāja atbildības par šo "
-"produktu. "
-"Sīkāku informāciju meklējiet GNU Vispārējās Publiskās Licences tekstā."
-"\n"
+"produktu. Sīkāku informāciju meklējiet GNU Vispārējās Publiskās Licences "
+"tekstā.\n"
 "GNU Vispārējās Publiskās Licence ir pieejama kopā ar GNOME Mūzika "
-"instalāciju. "
-"Ja tā jums nav pieejama, jūs to varat iegūt no Free Software Foundation, "
-"Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
+"instalāciju. Ja tā jums nav pieejama, jūs to varat iegūt no Free Software "
+"Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
 "\n"
 "GNOME Mūzika autori dod tiesības ar GPL nesavietojamiem GStreamer spraudņiem "
 "tik izplatītiem kopā ar GStreamer un GNOME Mūziku. Šīs tiesības ir plašākas "
-"kā tās, ko sniedz GPL licence, ko izmanto GNOME Mūzika. Ja vēlaties mainīt šo "
-"kodu, jūs varat šo izņēmumu attiecināt arī uz savas programmas pirmkodu, bet "
-"jums nav pienākuma to darīt. Ja nevēlaties iekļaut izņēmumu, izdzēsiet šo "
-"izņēmuma teikumu no savas versijas."
+"kā tās, ko sniedz GPL licence, ko izmanto GNOME Mūzika. Ja vēlaties mainīt "
+"šo kodu, jūs varat šo izņēmumu attiecināt arī uz savas programmas pirmkodu, "
+"bet jums nav pienākuma to darīt. Ja nevēlaties iekļaut izņēmumu, izdzēsiet "
+"šo izņēmuma teikumu no savas versijas."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
