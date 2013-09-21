@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-13 23:49+0300\n"
-"PO-Revision-Date: 2013-08-14 23:19+0300\n"
+"POT-Creation-Date: 2013-09-21 14:24+0300\n"
+"PO-Revision-Date: 2013-09-21 14:29+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
 "Language: uk\n"
@@ -62,8 +62,9 @@ msgstr "Режим пошуку"
 msgid "If true, the search bar is shown."
 msgstr "Якщо так, то показується панель пошуку."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
-#: ../gnomemusic/window.py:21
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Музика"
 
@@ -71,93 +72,157 @@ msgstr "Музика"
 msgid "Music Player"
 msgstr "Програвач музики"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Грати та впорядковувати вашу музичну збірку"
 
-#: ../gnomemusic/albumArtCache.py:205
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Музика GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Музика — це новий музичний програвач для GNOME."
+
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "Неназвано"
 
-#: ../gnomemusic/player.py:236 ../gnomemusic/view.py:179
-#: ../gnomemusic/view.py:537
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Не відтворюється"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: ../gnomemusic/view.py:253
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "Невідомий альбом"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "від %s, з %s"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "Попередня"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "Призупинити"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "Грати"
+
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "Наступна"
+
+#: ../gnomemusic/view.py:290
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Не знайдено музики!\n"
+" Помістіть хоч якісь файли у теку %s"
+
+#: ../gnomemusic/view.py:297
 msgid "Albums"
 msgstr "Альбоми"
 
-#: ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:329
 msgid "Songs"
 msgstr "Пісні"
 
-#: ../gnomemusic/view.py:428
+#: ../gnomemusic/view.py:480
 msgid "Playlists"
 msgstr "Списки композицій"
 
-#: ../gnomemusic/view.py:434
+#: ../gnomemusic/view.py:486
 msgid "Artists"
 msgstr "Виконавці"
 
-#: ../gnomemusic/view.py:472 ../gnomemusic/view.py:474
-#: ../gnomemusic/widgets.py:388
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Всі виконавці"
 
-#: ../gnomemusic/widgets.py:32 ../gnomemusic/widgets.py:52
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
 msgstr "Завантажити ще"
 
-#: ../gnomemusic/widgets.py:42
+#: ../gnomemusic/widgets.py:83
 msgid "Loading..."
 msgstr "Завантаження…"
 
-#: ../gnomemusic/window.py:102
+#: ../gnomemusic/window.py:138
 msgid "Empty"
 msgstr "Пусто"
 
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "© 2013 Розробники GNOME Music"
 
-#: ../data/AboutDialog.ui.in.h:2
+#: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
 msgstr "Програма для програвання і впорядкування музики в GNOME."
 
-#: ../data/AboutDialog.ui.in.h:3
+#: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
 msgstr "Відвідати сайт GNOME Music"
 
-#: ../data/AboutDialog.ui.in.h:4
+#: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"  Music is free software; you can redistribute it and/or modify\n"
-"  it under the terms of the GNU General Public License as \n"
-"  published by the Free Software Foundation; either version 2 of the \n"
-"  License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"  Music is distributed in the hope that it will be useful\n"
-"  but WITHOUT ANY WARRANTY; without even the implied warranty of \n"
-"  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \n"
-"  GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"  You should have received a copy of the GNU General Public License \n"
-"  along with Music; if not, write to the Free Software \n"
-"  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, \n"
-"  MA 02110-1301, USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"  The Gnome Music authors hereby grant permission for non-GPL compatible\n"
-"  GStreamer plugins to be used and distributed together with GStreamer and\n"
-"  Gnome Music. This permission is above and beyond the permissions granted "
-"by\n"
-"  the GPL license by which Gnome Music is covered. If you modify this code, "
-"you may\n"
-"  extend this exception to your version of the code, but you are not "
-"obligated\n"
-"  to do so. If you do not wish to do so, delete this exception statement "
-"from\n"
-"  your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
