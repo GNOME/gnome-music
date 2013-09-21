@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-04 13:56+0000\n"
-"PO-Revision-Date: 2013-09-10 20:14+0100\n"
-"Last-Translator: Peter Mráz <etkinator@gmail.com>\n"
+"POT-Creation-Date: 2013-09-20 06:56+0000\n"
+"PO-Revision-Date: 2013-09-20 09:50+0100\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -64,8 +64,9 @@ msgstr "Režim vyhľadávania"
 msgid "If true, the search bar is shown."
 msgstr "Ak je nastavené na true, bude zobrazený panel vyhľadávania."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Hudba"
 
@@ -78,7 +79,6 @@ msgid "Play and organize your music collection"
 msgstr "Prehráva a organizuje vašu hudobnú zbierku"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
-#| msgid "Music"
 msgid "GNOME Music"
 msgstr "Hudba prostredia GNOME"
 
@@ -91,12 +91,44 @@ msgstr "Hudba je nová aplikácia na prehrávanie hudby v prostredí GNOME."
 msgid "Untitled"
 msgstr "Nepomenovaný"
 
-#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
-#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Neprehráva sa"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
 msgid "Unknown Artist"
 msgstr "Neznámy interpret"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "Neznámy album"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "od interpreta %s, z albumu %s"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "Predchádzajúca"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "Pozastaviť"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "Prehrať"
+
+# DK: skladba
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "Nasledujúca"
+
+#: ../gnomemusic/view.py:290
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -105,24 +137,24 @@ msgstr ""
 "Nenašla sa žiadna hudba!\n"
 "Vložte nejaké súbory do priečinka %s"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:297
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:329
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:466
+#: ../gnomemusic/view.py:480
 msgid "Playlists"
 msgstr "Zoznamy piesní"
 
-#: ../gnomemusic/view.py:472
+#: ../gnomemusic/view.py:486
 msgid "Artists"
 msgstr "Interpreti"
 
-#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
-#: ../gnomemusic/widgets.py:441
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Všetci interpreti"
 
@@ -134,7 +166,7 @@ msgstr "Načítať viac"
 msgid "Loading..."
 msgstr "Načítava sa"
 
-#: ../gnomemusic/window.py:134
+#: ../gnomemusic/window.py:138
 msgid "Empty"
 msgstr "Prázdne"
 
@@ -174,13 +206,28 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"Program Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť a upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná zverejňovacia licencia GNU), vydávanej nadáciou Free Software Foundation a to buď podľa 2. verzie tejto licencie, alebo (podľa vášho uváženia) ktorejkoľvek neskoršej verzie.\n"
+"Program Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť a "
+"upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná "
+"zverejňovacia licencia GNU), vydávanej nadáciou Free Software Foundation a "
+"to buď podľa 2. verzie tejto licencie, alebo (podľa vášho uváženia) "
+"ktorejkoľvek neskoršej verzie.\n"
 "\n"
-"Tento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo VHODNOSTI NA URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte v licencii GNU General Public License.\n"
+"Tento program je rozširovaný v nádeji, že bude užitočný, avšak BEZ "
+"AKEJKOĽVEK ZÁRUKY. Neposkytujú sa ani odvodené záruky PREDAJNOSTI alebo "
+"VHODNOSTI NA URČITÝ ÚČEL. Ďalšie podrobnosti hľadajte v licencii GNU General "
+"Public License.\n"
 "\n"
-"Kópiu licencie GNU General Public License by ste mali dostať spolu s týmto programom. Ak sa tak nestalo, napíšte na adresu Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"Kópiu licencie GNU General Public License by ste mali dostať spolu s týmto "
+"programom. Ak sa tak nestalo, napíšte na adresu Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
 "\n"
-"Autori programu Hudba prostredia GNOME týmto vyhlasujú, že udeľujú právo použiť a distribuovať zásuvné moduly knižnice GStreamer, ktoré nie sú kompatibilné s GPL, spolu s týmto programom.  Toto právo je nadrámec práv zaručených licenciou GPL, pod ktorú tento program spadá.  Ak upravíte zdrojový kód tohto programu, môžete túto výnimku použiť aj na vašu verziu kódu, no nie ste povinný tak urobiť. Ak to nechcete urobiť, vymažte z túto výnimku z vyhlásenia vo vašej verzii kódu."
+"Autori programu Hudba prostredia GNOME týmto vyhlasujú, že udeľujú právo "
+"použiť a distribuovať zásuvné moduly knižnice GStreamer, ktoré nie sú "
+"kompatibilné s GPL, spolu s týmto programom. Toto právo je nadrámec práv "
+"zaručených licenciou GPL, pod ktorú tento program spadá.  Ak upravíte "
+"zdrojový kód tohto programu, môžete túto výnimku použiť aj na vašu verziu "
+"kódu, no nie ste povinný tak urobiť. Ak to nechcete urobiť, vymažte z túto "
+"výnimku z vyhlásenia vo vašej verzii kódu."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
