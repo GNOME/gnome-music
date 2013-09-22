@@ -1,0 +1,273 @@
+# Portuguese translation for gnome-music.
+# Copyright (C) 2013 gnome-music
+# This file is distributed under the same license as the gnome-music package.
+# António Lima <amrlima@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-09-22 01:07+0100\n"
+"PO-Revision-Date: 2013-09-19 21:41-0100\n"
+"Last-Translator: António Lima <amrlima@gmail.com>\n"
+"Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Tamanho da janela"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Tamanho da janela (largura e altura)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posição da janela"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Posição da janela (x e y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Janela maximizada"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Estado maximizado da janela"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Alterar modo de repetição de reprodução"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Valor identifica se deve repetir ou tornar a reprodução da coleção "
+"aleatória. Os valores permitidos são: \"none\", \"song\", \"all\", \"shuffle"
+"\"."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Modo de procura"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Se verdadeiro, a barra de pesquisa é apresentada."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Música"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Reprodutor de Música"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Reproduz e organiza a sua coleção de media"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Música"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Música é a nova aplicação de reprodução de música do GNOME"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Sem nome"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Não está a reproduzir"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
+msgid "Unknown Artist"
+msgstr "Artista Desconhecido"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "Álbum Desconhecido"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "por %s, de %s"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "Anterior"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "Pausa"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "Reproduzir"
+
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "Próximo"
+
+#: ../gnomemusic/view.py:290
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Nenhuma música encontrada!\n"
+" Coloque alguns ficheiros na pasta %s"
+
+#: ../gnomemusic/view.py:297
+msgid "Albums"
+msgstr "Álbuns"
+
+#: ../gnomemusic/view.py:329
+msgid "Songs"
+msgstr "Músicas"
+
+#: ../gnomemusic/view.py:480
+msgid "Playlists"
+msgstr "Listas de Reprodução"
+
+#: ../gnomemusic/view.py:486
+msgid "Artists"
+msgstr "Artistas"
+
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "Todos os Artistas"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Carregar Mais"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "A carregar..."
+
+#: ../gnomemusic/window.py:138
+msgid "Empty"
+msgstr "Vazio"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 Programadores do GNOME Música"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Uma aplicação para reprodução e gestão de música para o GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Visite a página web do GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"O GNOME Música é uma aplicação livre; pode redistribuí-la e/ou altera-la sob "
+"\"\"os termos da Licença Pública Genérica GNU tal como publicada pela Free "
+"\"\"Software Foundation; ou a versão 2 da Licença, ou (à sua discrição) "
+"qualquer \"\"versão posterior."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Lançado"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Duração da Execução"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nova Lista de Reprodução"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_Agora a Reproduzir"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_Sobre Música"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Sair"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Baralhar"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Repetir Todas"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Repetir Música"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Baralhar/Repetir Desligado"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Nenhuma Música Encontrada"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Selecionar Todas"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Selecionar Nenhuma"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Clique nos itens para os selecionar"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Adicionar à Lista de Reprodução"
