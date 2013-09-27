@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-26 11:58+0200\n"
-"PO-Revision-Date: 2013-09-26 11:58+0200\n"
+"POT-Creation-Date: 2013-09-27 21:36+0200\n"
+"PO-Revision-Date: 2013-09-27 21:36+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -238,7 +238,7 @@ msgid "_New Playlist"
 msgstr "Lista de reprodución _nova"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
+msgid "_Now Playing"
 msgstr "Reproducindo _agora"
 
 #: ../data/app-menu.ui.h:3
