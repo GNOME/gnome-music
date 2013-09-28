@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-24 19:42+0200\n"
-"PO-Revision-Date: 2013-09-24 19:42+0200\n"
+"POT-Creation-Date: 2013-09-28 14:59+0200\n"
+"PO-Revision-Date: 2013-09-28 15:04+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -48,7 +48,7 @@ msgstr "Repeteringsmodus for avspilling"
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
-msgstr ""
+msgstr "Verdien identifiserer hvorvidt avspilling skal være gjentakende eller tilfeldig gjennom en samling. Tillatte verdier er «none», «song», «all» eller «shuffle»."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
@@ -56,7 +56,7 @@ msgstr "Søkemodus"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "If true, the search bar is shown."
-msgstr ""
+msgstr "Søkelinjen vises hvis denne er satt til «true»."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
 #: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
@@ -198,6 +198,13 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
+"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre programmet under betingelsene gitt i GNU General Public License som utgitt av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du ønsker det) enhver senere versjon.\n"
+"\n"
+"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
+"\n"
+"Du skal ha mottatt en kopi av GNU General Public License sammen med GNOME musikk. Hvis dette ikke er tilfelle, kan du skrive til Free Software Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA\n"
+"\n"
+"Forfatterene av GNOME musikk gir herved tilattelse for bruk av og distribusjon av GStreamer-tillegg som ikke er kompatible med GPL sammen med GNOME musikk. Denne tillatelsen gjelder foran og utover tillatelsene som gis av GPL-lisensen som dekker GNOME musikk. Hvis du endrer denne koden kan du også la dette unntaket gjelde din versjon av koden, men dette er ikke obligatorisk. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten fra din versjon."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
