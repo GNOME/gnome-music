@@ -84,13 +84,6 @@ class NotificationManager:
                                                              '<i>' + album + '</i>'),
                                       'gnome-music')
 
-            # Try to pass an image path instead of a serialized pixbuf if possible
-            if item.get_thumbnail():
-                self._notification.set_hint('image-path', GLib.Variant('s', item.get_thumbnail()))
-                self._notification.set_hint('image-data', None)
-                self._notification.show()
-                return
-
             self._albumArtCache.lookup(item, IMAGE_SIZE, IMAGE_SIZE, self._album_art_loaded)
 
     def _album_art_loaded(self, image, path, data):
