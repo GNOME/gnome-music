@@ -1,16 +1,18 @@
 # Turkish translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
+# Emin Tufan Çetin <etcetin@gmail.con>, 2013.
 # Muhammet Kara <muhammetk@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-04-18 21:22+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-09-27 19:36+0000\n"
+"PO-Revision-Date: 2013-09-29 16:48+0300\n"
 "Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
-"Language-Team: Turkish <gnome-turk@gnome.org>\n"
+"Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,29 +41,33 @@ msgid "Window maximized"
 msgstr "Pencere büyültüldüğünde"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr "Pencerenin büyütülmüş durumu"
+msgid "Window maximized state."
+msgstr "Pencerenin büyütülmüş durumu."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "Yürütme tekrar kipi"
 
 #: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"Bu değer, koleksiyondaki parçaların tekrarlı mı yoksa karışık mı "
+"çalınacağını belirtir. İzin verilen değerler şunlardır: \"hiçbiri\", \"parça"
+"\", \"tümü\", \"karıştır\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "Arama kipi"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr "Etkinse, arama çubuğu gösterilir"
+msgid "If true, the search bar is shown."
+msgstr "Etkinse, arama çubuğu gösterilir."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Müzik"
 
@@ -69,63 +75,144 @@ msgstr "Müzik"
 msgid "Music Player"
 msgstr "Müzik Çalar"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Müzik koleksiyonunuzu çalın ve yönetin"
 
-#: ../gnomemusic/albumArtCache.py:38
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Müzik"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Müzik, GNOME'un yeni müzik çalma uygulamasıdır."
+
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
-msgstr ""
+msgstr "Başlıksız"
 
-#: ../gnomemusic/view.py:233
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Yürütülmüyor"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
+#: ../gnomemusic/view.py:587
+msgid "Unknown Artist"
+msgstr "Bilinmeyen Sanatçı"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+msgid "Unknown Album"
+msgstr "Bilinmeyen Albüm"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s tarafından, %s albümünde"
+
+#: ../gnomemusic/notification.py:130
+msgid "Previous"
+msgstr "Önceki"
+
+#: ../gnomemusic/notification.py:133
+msgid "Pause"
+msgstr "Duraklat"
+
+#: ../gnomemusic/notification.py:136
+msgid "Play"
+msgstr "Yürüt"
+
+#: ../gnomemusic/notification.py:138
+msgid "Next"
+msgstr "Sonraki"
+
+#: ../gnomemusic/view.py:290
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Hiç Müzik bulunamadı!\n"
+" %s klasörüne birkaç dosya koyun"
+
+#: ../gnomemusic/view.py:297
 msgid "Albums"
-msgstr ""
+msgstr "Albümler"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:329
 msgid "Songs"
-msgstr ""
+msgstr "Şarkılar"
 
-#: ../gnomemusic/view.py:408
-#, fuzzy
+#: ../gnomemusic/view.py:480
 msgid "Playlists"
-msgstr "Ye_ni Çalma Listesi"
+msgstr "Çalma listeleri"
 
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:486
 msgid "Artists"
-msgstr ""
+msgstr "Sanatçılar"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
-msgstr "Ye_ni Çalma Listesi"
+msgstr "Tüm Sanatçılar"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Daha Fazla Yükle"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+#: ../gnomemusic/window.py:138
 msgid "Empty"
+msgstr "Boş"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME Müzik Geliştiricileri"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "GNOME için bir müzik oynatıcı ve yönetim uyguluması."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "GNOME Müzik web sitesini ziyaret et"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
-msgstr ""
+msgstr "Yayınlandı"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
-msgstr ""
-
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr ""
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr ""
+msgstr "Uzunluk"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
@@ -144,54 +231,44 @@ msgid "_Quit"
 msgstr "_Çıkış"
 
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
-msgstr "Karışık çalma"
+msgstr "Karıştır"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "Tümünü Tekrar Et"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "Şarkıyı Tekrar Et"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-msgid "0:00"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr ""
+msgstr "Karıştırma/Tekrar Kapalı"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "Hiç Müzik Bulunamadı"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "Tümünü Seç"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "Hiçbirini Seçme"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "Seçmek için öğelere tıklayın"
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "Ye_ni Çalma Listesi"
+msgstr "Çalma listesine ekle"
 
 #~ msgid "If true, do randomized playback through the collection"
 #~ msgstr "Etkinse, koleksiyondaki parçaları rasgele çal"
