@@ -280,6 +280,7 @@ class ViewContainer(Stack):
     def _on_selection_mode_request(self, *args):
         self.header_bar._select_button.clicked()
 
+
 #Class for the Empty View
 class Empty(Stack):
     def __init__(self, header_bar, player):
