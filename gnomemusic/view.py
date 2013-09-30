@@ -114,6 +114,7 @@ class ViewContainer(Stack):
         box.pack_end(self._loadMore.widget, False, False, 0)
         self._loadMore.widget.connect('clicked', self._populate)
         self.view.connect('item-activated', self._on_item_activated)
+        self.view.connect('selection-mode-request', self._on_selection_mode_request)
         self._cursor = None
         self.header_bar = header_bar
         self.header_bar._select_button.connect(
@@ -276,6 +277,8 @@ class ViewContainer(Stack):
     def _on_item_activated(self, widget, id, path):
         pass
 
+    def _on_selection_mode_request(self, *args):
+        self.header_bar._select_button.clicked()
 
 #Class for the Empty View
 class Empty(Stack):
