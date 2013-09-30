@@ -53,9 +53,26 @@ class Window(Gtk.ApplicationWindow):
                                        application=app,
                                        title=_("Music"))
         self.connect('focus-in-event', self._windows_focus_cb)
-        settings = Gio.Settings('org.gnome.Music')
-        self.add_action(settings.create_action('repeat'))
+        self.settings = Gio.Settings('org.gnome.Music')
+        self.add_action(self.settings.create_action('repeat'))
+
         self.set_size_request(887, 640)
+
+        size_setting = self.settings.get_value('window-size')
+        if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
+            self.resize(size_setting[0], size_setting[1])
+
+        position_setting = self.settings.get_value('window-position')
+        if len(position_setting) == 2 \
+           and isinstance(position_setting[0], int) \
+           and isinstance(position_setting[1], int):
+            self.move(position_setting[0], position_setting[1])
+
+        if self.settings.get_value('window-maximized'):
+            self.maximize()
+
+        self.connect("window-state-event", self.on_window_state_event)
+        self.connect("configure-event", self.on_configure_event)
         self._setup_view()
         self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
@@ -66,6 +83,16 @@ class Window(Gtk.ApplicationWindow):
                                             None)
         self._grab_media_player_keys()
         self.proxy.connect('g-signal', self._handle_media_keys)
+
+    def on_configure_event(self, widget, event):
+        size = widget.get_size()
+        self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
+
+        position = widget.get_position()
+        self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
+
+    def on_window_state_event(self, widget, event):
+        self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
     def _grab_media_player_keys(self):
         self.proxy.call_sync('GrabMediaPlayerKeys',
