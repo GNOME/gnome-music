@@ -152,6 +152,8 @@ class Window(Gtk.ApplicationWindow):
             self._show_searchbar(not self.toolbar.searchbar.get_child_revealed())
         elif (event.keyval == Gdk.KEY_Escape and (event.state & modifiers) == 0):
             self._show_searchbar(False)
+            if self.toolbar._selectionMode:
+                self.toolbar.set_selection_mode(False)
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
