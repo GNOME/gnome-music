@@ -542,7 +542,7 @@ class Player(GObject.GObject):
 
     def _update_position_callback(self):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
-        if position >= 0:
+        if position > 0:
             self.progressScale.set_value(position * 60)
         return True
 
