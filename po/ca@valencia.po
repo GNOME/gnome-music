@@ -1,0 +1,290 @@
+# Catalan translation for gnome-calendar.
+# Copyright (C) 2012 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-calendar package.
+#
+# Jordi Mas i Hernandez <jmas@softcatala.org>, 2013.
+# Pau Iranzo <paugnu@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-10-06 22:13+0200\n"
+"PO-Revision-Date: 2013-09-15 11:08+0100\n"
+"Last-Translator: Pau Iranzo <paugnu@gmail.com>\n"
+"Language-Team: Catalan <tradgnome@softcatala.org>\n"
+"Language: ca-XV\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Mida de la finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Mida de la finestra (amplada i alçada)"
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posició de la finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Posició de la finestra (x i y)"
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Finestra maximitzada"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Estat de la finestra maximitzada."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Mode de repetició de la reproducció"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"El valor estableix si es reprodueix la col·lecció en mode de repetició o "
+"aleatori. Els valors que s'accepten són: «none» (cap), «song» (cançó), "
+"«all» (tot) i «shuffle» (aleatori)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Mode de cerca"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Si és cert, es mostra la barra de cerca."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Música"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Reproductor de música"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Reproduïu i organitzeu la col·lecció de música"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Music"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "El Music és la nova aplicació de reproducció de música del GNOME."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Sense títol"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "No s'està reproduint"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
+msgid "Unknown Artist"
+msgstr "Artista desconegut"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr "Àlbum desconegut"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "per %s, a %s"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "Anterior"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "Fes una pausa"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "Reprodueix"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "Següent"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"No s'ha trobat música\n"
+" Copieu alguns fitxers a la carpeta: %s"
+
+#: ../gnomemusic/view.py:301
+msgid "Albums"
+msgstr "Àlbums"
+
+#: ../gnomemusic/view.py:333
+msgid "Songs"
+msgstr "Cançons"
+
+#: ../gnomemusic/view.py:484
+msgid "Playlists"
+msgstr "Llistes de reproducció"
+
+#: ../gnomemusic/view.py:490
+msgid "Artists"
+msgstr "Artistes"
+
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "Tots els artistes"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Carrega'n més"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "S'està carregant..."
+
+#: ../gnomemusic/window.py:165
+msgid "Empty"
+msgstr "Buit"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 Desenvolupadors del GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Una aplicació de reproducció i gestió de música pel GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Visiteu el lloc web del GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"El GNOME Music és programari lliure; podeu redistribuir-lo i/o modificar-lo "
+"segons els termes de la llicència pública general GNU publicada per la Free "
+"Software Foundation; siga la versió 2 de la llicència o (segons la vostra "
+"opció) qualsevol versió posterior.\n"
+"\n"
+"El GNOME Music es distribueix amb l'esperança que siga útil, però SENSE CAP "
+"GARANTIA; ni tan sols amb la garantia implícita de COMERCIALITZACIÓ o "
+"IDONEÏTAT PER A UN PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General "
+"GNU per més detalls.\n"
+"\n"
+"Heu de rebre una còpia de la Llicència Pública General GNU amb el GNOME "
+"Music; si no és el cas, escriviu a la Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"L'autors del GNOME Music presents permeten l'ús i distribució conjunta del "
+"GNOME Music amb connectors GStreamer no compatibles amb la GPL. Este permís "
+"està per sobre del permisos garantits per la llicència GPL sota la qual es "
+"troba el GNOME Music. Si modifiqueu este codi, haureu d'estendre esta "
+"excepció a la vostra versió del codi, però no esteu obligats a fer-ho. Si no "
+"voleu fer-ho, elimineu esta declaració d'excepció de la vostra versió."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Publicat"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Durada"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Llista de reproducció nova"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "_S'està reproduint"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_En quant al Music"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "I_x"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Mescla"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Repeteix-ho tot"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Repeteix la cançó"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Aleatori/Repetició desactivada"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "No s'ha trobat música"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Selecciona-ho tot"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "No en seleccionis cap"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Feu clic als elements per seleccionar-los"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Afig a la llista de reproducció"
