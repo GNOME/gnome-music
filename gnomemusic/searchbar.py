@@ -1,8 +1,8 @@
 from gi.repository import Gtk, Gd, GObject, Pango
+from gnomemusic.grilo import grilo
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
-
 
 
 class BaseModelColumns():
@@ -10,6 +10,68 @@ class BaseModelColumns():
     NAME = 1
     HEADING_TEXT = 2
 
+
+class BaseManager:
+
+    def __init__(self, id, label, entry):
+        self.id = id
+        self.label = label
+        self.entry = entry
+        self.tag = Gd.TaggedEntryTag()
+        self.tag.manager = self
+        self.values = []
+
+    def fill_in_values(self, model):
+        if self.id == "search":
+            self.values = [
+                ["search_all", "All fields", self.label],
+                ["search_artist", "Artist", ""],
+                ["search_album", "Album", ""],
+                ["search_track", "Track", ""],
+            ]
+        for value in self.values:
+            _iter = model.append()
+            model.set(_iter, [0, 1, 2], value)
+        self.selected_id = self.values[0][BaseModelColumns.ID]
+
+    def get_active(self):
+        return self.selected_id
+
+    def set_active(self, selected_id):
+        selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
+        if selected_value != []:
+            selected_value = selected_value[0]
+            self.selected_id = selected_value[BaseModelColumns.ID]
+
+            # If selected values has non-empty HEADING_TEXT then it is a default value
+            # No need to set the tag there
+            if selected_value[BaseModelColumns.HEADING_TEXT] == "":
+                self.entry.add_tag(self.tag)
+                self.tag.set_label(selected_value[BaseModelColumns.NAME])
+            else:
+                self.entry.remove_tag(self.tag)
+
+    def reset_to_default(self):
+        self.set_active(self.values[0][BaseModelColumns.ID])
+
+
+class SourceManager(BaseManager):
+    def fill_in_values(self, model):
+        if self.id == "source":
+            # First one should always be 'Filesystem'
+            src = grilo.sources['grl-filesystem']
+            self.values.append([src.get_id(), src.get_name(), self.label])
+            for key in grilo.sources:
+                source = grilo.sources[key]
+                if source.get_id() == 'grl-filesystem':
+                    continue
+                self.values.append([source.get_id(), source.get_name(), ""])
+        super(SourceManager, self).fill_in_values(model)
+
+    def set_active(self, selected_id):
+        super(SourceManager, self).set_active(selected_id)
+        src = grilo.sources[selected_id]
+        grilo.search_source = src
 
 class FilterView():
     def __init__(self, manager, dropdown):
@@ -81,7 +143,7 @@ class DropDown(Gd.Revealer):
         self.add(frame)
 
     def initialize_filters(self, searchbar):
-        sourcesManager = BaseManager('source', "Sources", searchbar._search_entry)
+        sourcesManager = SourceManager('source', "Sources", searchbar._search_entry)
         sourcesFilter = FilterView(sourcesManager, self)
         self._grid.add(sourcesFilter.view)
 
@@ -93,57 +155,6 @@ class DropDown(Gd.Revealer):
 
     def do_select(self, manager, id):
         manager.set_active(id)
-
-
-class BaseManager:
-
-    def __init__(self, id, label, entry):
-        self.id = id
-        self.label = label
-        self.entry = entry
-        self.tag = Gd.TaggedEntryTag()
-        self.tag.manager = self
-
-    def fill_in_values(self, model):
-        self.values = []
-        if self.id == "source":
-            self.values = [
-                ["sources_local", "Local", self.label],
-                ["sources_upnp", "UPnP", ""],
-                ["sources_grooveshark", "GrooveShark", ""],
-                ["sources_soundcloud", "SoundCloud", ""],
-            ]
-        if self.id == "search":
-            self.values = [
-                ["search_all", "All fields", self.label],
-                ["search_artist", "Artist", ""],
-                ["search_album", "Album", ""],
-                ["search_track", "Track", ""],
-            ]
-        for value in self.values:
-            _iter = model.append()
-            model.set(_iter, [0, 1, 2], value)
-        self.selected_id = self.values[0][BaseModelColumns.ID]
-
-    def get_active(self):
-        return self.selected_id
-
-    def set_active(self, selected_id):
-        selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
-        if selected_value != []:
-            selected_value = selected_value[0]
-            self.selected_id = selected_value[BaseModelColumns.ID]
-
-            # If selected values has non-empty HEADING_TEXT then it is a default value
-            # No need to set the tag there
-            if selected_value[BaseModelColumns.HEADING_TEXT] == "":
-                self.entry.add_tag(self.tag)
-                self.tag.set_label(selected_value[BaseModelColumns.NAME])
-            else:
-                self.entry.remove_tag(self.tag)
-
-    def reset_to_default(self):
-        self.set_active(self.values[0][BaseModelColumns.ID])
 
 
 class Searchbar(Gd.Revealer):
@@ -229,7 +240,10 @@ class Searchbar(Gd.Revealer):
     def search_entry_changed(self, widget):
         self.search_term = self._search_entry.get_text()
         if self.view:
-            self.view.filter.refilter()
+            self.view._model.clear()
+            grilo.search(self.search_term, self.view._add_item)
+        #if self.view:
+        #    self.view.filter.refilter()
 
     @log
     def show_bar(self, show):

@@ -475,6 +475,8 @@ class Songs(ViewContainer):
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
+        if item.get_url() is None:
+            return
         _iter = self._model.insert_with_valuesv(
             -1,
             [2, 3, 5, 8, 9, 10],

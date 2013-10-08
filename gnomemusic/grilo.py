@@ -133,11 +133,15 @@ class Grilo(GObject.GObject):
 
                     self.sources[id] = mediaSource
                     self.tracker = mediaSource
+                    self.search_source = mediaSource
 
                     if self.tracker is not None:
                         self.emit('ready')
                         self.tracker.notify_change_start()
                         self.tracker.connect('content-changed', self._on_content_changed)
+            elif (mediaSource.supported_operations() & Grl.SupportedOps.SEARCH)\
+             and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+                self.sources[id] = mediaSource
         except Exception as e:
             logger.debug("Source %s: exception %s" % (id, e))
 
@@ -173,16 +177,15 @@ class Grilo(GObject.GObject):
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
     @log
-    def _search_callback(self):
-        pass
-
-    @log
-    def search(self, q):
+    def search(self, q, callback):
         options = self.options.copy()
-        for source in self.sources:
-            logger.debug(source.get_name() + ' - ' + q)
-            source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
-                          options, self._search_callback, source)
+
+	@log
+        def _search_callback(src, param, item, id, offset, data):
+            if item is not None:
+                #print("%s: %s by %s" % (item.get_url(), item.get_title(), item.get_author()))
+                callback(src, param, item)
+        self.search_source.search(q, [Grl.METADATA_KEY_ID], options, _search_callback, None)
 
     @log
     def get_media_from_uri(self, uri, callback):
