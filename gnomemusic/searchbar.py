@@ -12,13 +12,16 @@ class BaseModelColumns():
 
 
 class FilterView():
-    def __init__(self, manager):
+    def __init__(self, manager, dropdown):
         self.manager = manager
+        self.dropdown = dropdown
         self.model = Gtk.ListStore.new([
             GObject.TYPE_STRING,  # ID
             GObject.TYPE_STRING,  # NAME
             GObject.TYPE_STRING,  # TEXT
         ])
+        self.manager.fill_in_values(self.model)
+
         self.view = Gtk.TreeView()
         self.view.set_activate_on_single_click(True)
         self.view.set_headers_visible(False)
@@ -47,7 +50,7 @@ class FilterView():
 
     def _row_activated(self, view, path, col):
         id = self.model.get_value(self.model.get_iter(path), BaseModelColumns.ID)
-        self.manager.set_active(id)
+        self.dropdown.do_select(self.manager, id)
 
     def _render_radio(self, col, cell, model, _iter):
         id = model.get_value(_iter, BaseModelColumns.ID)
@@ -65,40 +68,20 @@ class FilterView():
 
 
 class DropDown(Gd.Revealer):
+    searchbar = None
+
     def __init__(self):
         Gd.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
 
-        sourcesManager = BaseManager("sources_soundcloud")
-        sourcesFilter = FilterView(sourcesManager)
-        _iter = sourcesFilter.model.append()
-        sourcesFilter.model.set(_iter, [0, 1, 2], ["sources_local", "Local", "Sources"])
-        _iter = sourcesFilter.model.append()
-        sourcesFilter.model.set(_iter, [0, 1, 2], ["sources_grooveshark", "GrooveShark", ""])
-        _iter = sourcesFilter.model.append()
-        sourcesFilter.model.set(_iter, [0, 1, 2], ["sources_soundcloud", "SoundCloud", ""])
+        sourcesManager = BaseManager('source', "Sources")
+        sourcesFilter = FilterView(sourcesManager, self)
         self._grid.add(sourcesFilter.view)
 
-        searchFieldsManager = BaseManager("search_artist")
-        searchFieldsFilter = FilterView(searchFieldsManager)
-        _iter = searchFieldsFilter.model.append()
-        searchFieldsFilter.model.set(_iter, [0, 1, 2], ["search_all", "All fields", "Search By"])
-        _iter = searchFieldsFilter.model.append()
-        searchFieldsFilter.model.set(_iter, [0, 1, 2], ["search_artist", "Artist", ""])
-        _iter = searchFieldsFilter.model.append()
-        searchFieldsFilter.model.set(_iter, [0, 1, 2], ["search_album", "Album", ""])
+        searchFieldsManager = BaseManager('search', "Search By")
+        searchFieldsFilter = FilterView(searchFieldsManager, self)
         self._grid.add(searchFieldsFilter.view)
-        searchFieldsFilter.model.set(_iter, [0, 1, 2], ["search_track", "Album", ""])
-        self._grid.add(searchFieldsFilter.view)
-
-        typesManager = BaseManager("type_playable")
-        typesFilter = FilterView(typesManager)
-        _iter = typesFilter.model.append()
-        typesFilter.model.set(_iter, [0, 1, 2], ["type_any", "Any", "Type"])
-        _iter = typesFilter.model.append()
-        typesFilter.model.set(_iter, [0, 1, 2], ["type_playable", "Playable", ""])
-        self._grid.add(typesFilter.view)
 
         self._grid.show_all()
 
@@ -109,17 +92,47 @@ class DropDown(Gd.Revealer):
 
         self.add(frame)
 
+    def do_select(self, manager, id):
+        manager.set_active(id)
+        self.searchbar._search_entry.add_tag(manager.tag)
 
 class BaseManager:
 
-    def __init__(self, id):
+    def __init__(self, id, label):
         self.id = id
+        self.label = label
+        self.tag = Gd.TaggedEntryTag()
+
+    def fill_in_values(self, model):
+        self.values = []
+        if self.id == "source":
+            self.values = [
+                ["sources_local", "Local", self.label],
+                ["sources_upnp", "UPnP", ""],
+                ["sources_grooveshark", "GrooveShark", ""],
+                ["sources_soundcloud", "SoundCloud", ""],
+            ]
+        if self.id == "search":
+            self.values = [
+                ["search_all", "All fields", self.label],
+                ["search_artist", "Artist", ""],
+                ["search_album", "Album", ""],
+                ["search_track", "Track", ""],
+            ]
+        for value in self.values:
+            _iter = model.append()
+            model.set(_iter, [0, 1, 2], value)
+        self.selected_id = self.values[0][BaseModelColumns.ID]
 
     def get_active(self):
-        return self.id
+        return self.selected_id
 
-    def set_active(self, id):
-        self.id = id
+    def set_active(self, selected_id):
+        selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
+        if selected_value != []:
+            selected_value = selected_value[0]
+            self.selected_id = selected_value[BaseModelColumns.ID]
+            self.tag.set_label(selected_value[BaseModelColumns.NAME])
 
 
 class Searchbar(Gd.Revealer):
@@ -131,6 +144,7 @@ class Searchbar(Gd.Revealer):
         self.stack_switcher = stack_switcher
         self._search_button = search_button
         self.dropdown = dropdown
+        self.dropdown.searchbar = self
         self._searchContainer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
         self._searchContainer.get_style_context().add_class('linked')
 
@@ -148,10 +162,6 @@ class Searchbar(Gd.Revealer):
         self._dropDownButton.connect("toggled", self._drop_down_button_toggled)
         self._dropDownButton.show_all()
         self._searchContainer.add(self._dropDownButton)
-
-        self._sourceTag = Gd.TaggedEntryTag()
-        self._typeTag = Gd.TaggedEntryTag()
-        self._matchTag = Gd.TaggedEntryTag()
 
         self._search_entry.connect("tag-clicked", self._search_entry_tag_clicked)
         self._search_entry.connect("tag-button-clicked", self._search_entry_tag_button_clicked)
