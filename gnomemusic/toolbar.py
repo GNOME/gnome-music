@@ -65,6 +65,7 @@ class Toolbar(GObject.GObject):
         self._search_button = self._ui.get_object('search-button')
         self.dropdown = DropDown()
         self.searchbar = Searchbar(self._stack_switcher, self._search_button, self.dropdown)
+        self.dropdown.initialize_filters(self.searchbar)
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
         self._back_button = self._ui.get_object('back-button')
