@@ -102,7 +102,7 @@ class BaseManager:
         self.label = label
         self.entry = entry
         self.tag = Gd.TaggedEntryTag()
-        self.tag.manager =  self
+        self.tag.manager = self
 
     def fill_in_values(self, model):
         self.values = []
