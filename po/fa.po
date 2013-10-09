@@ -1,81 +1,90 @@
 # Persian translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# royaniva <royaniva@outlook.com >, 2013.
+# Arash Mousavi <mousavi.arash@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music gnome-3-10\n"
+"Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-06 20:14+0000\n"
-"PO-Revision-Date: 2013-10-06 20:14+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Persian <fa@li.org>\n"
+"POT-Creation-Date: 2013-09-30 14:31+0000\n"
+"PO-Revision-Date: 2013-10-09 23:38+0330\n"
+"Last-Translator: Arash Mousavi <mousavi.arash@gmail.com>\n"
+"Language-Team: Persian <>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Gtranslator 2.91.6\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
-msgstr ""
+msgstr "اندازه پنجره"
 
 #: ../data/org.gnome.Music.gschema.xml.h:2
 msgid "Window size (width and height)."
-msgstr ""
+msgstr "اندازه پنجره (پهنا و ارتفاع)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:3
 msgid "Window position"
-msgstr ""
+msgstr "موقعیت پنجره"
 
 #: ../data/org.gnome.Music.gschema.xml.h:4
 msgid "Window position (x and y)."
-msgstr ""
+msgstr "موقعیت پنجره (x و y)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:5
 msgid "Window maximized"
-msgstr ""
+msgstr "پنجره حداکثر شد"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
+#| msgid "Window maximized state"
 msgid "Window maximized state."
-msgstr ""
+msgstr "حالت حداکثری پنجره."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
 msgstr ""
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
-msgstr ""
-
-#: ../data/org.gnome.Music.gschema.xml.h:9
-msgid "Search mode"
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "حالت جستجو"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+#| msgid "If true, the search bar is shown"
 msgid "If true, the search bar is shown."
-msgstr ""
+msgstr "اگر درست باشد، نوار جستجو نشان داده شده است."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
 #: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
-msgstr ""
+msgstr "موسیقی"
 
 #: ../data/gnome-music.desktop.in.h:2
 msgid "Music Player"
-msgstr ""
+msgstr "پخش‌کننده‌ی موسیقی"
 
 #: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
-msgstr ""
+msgstr "پخش و سازماندهی مجموعه آهنگ‌های شما"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
+#| msgid "Music"
 msgid "GNOME Music"
-msgstr ""
+msgstr "موسیقی گنوم"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
@@ -86,8 +95,9 @@ msgid "Untitled"
 msgstr ""
 
 #: ../gnomemusic/notification.py:70
+#| msgid "_Now Playing"
 msgid "Not playing"
-msgstr ""
+msgstr "توقف پخش"
 
 #: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
 #: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
@@ -137,8 +147,9 @@ msgid "Songs"
 msgstr ""
 
 #: ../gnomemusic/view.py:484
+#| msgid "_New Playlist"
 msgid "Playlists"
-msgstr ""
+msgstr "فهرست پخش"
 
 #: ../gnomemusic/view.py:490
 msgid "Artists"
@@ -208,23 +219,25 @@ msgstr ""
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
-msgstr ""
+msgstr "_فهرست پخش جدید"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr ""
+#| msgid "_Now Playing"
+msgid "Now _Playing"
+msgstr "_درحال پخش"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About Music"
-msgstr ""
+msgstr "_درباره موسیقی"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
-msgstr ""
+msgstr "_خروج"
 
 #: ../data/PlayerToolbar.ui.h:1
+#| msgid "Shuffle playback"
 msgid "Shuffle"
-msgstr ""
+msgstr "پخش تصادفی"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
@@ -240,7 +253,7 @@ msgstr ""
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "هیچ موسیقی یافت نشد"
 
 #: ../data/headerbar.ui.in.h:1
 msgid "Select All"
@@ -259,5 +272,30 @@ msgid "Cancel"
 msgstr ""
 
 #: ../data/SelectionToolbar.ui.h:1
+#| msgid "_New Playlist"
 msgid "Add to Playlist"
-msgstr ""
+msgstr "اضافه‌کردن فهرست جدید"
+
+#~ msgid "<span color='grey'>Released</span>"
+#~ msgstr "<رنگ طول='grey'>انتشار/>محدوده>"
+
+#~ msgid "<span color='grey'>Running Length</span>"
+#~ msgstr "<رنگ طول='grey'>در حال اجرا طول/>محدوده>"
+
+#~ msgid "----"
+#~ msgstr "----"
+
+#~ msgid "--:--"
+#~ msgstr "--:--"
+
+#~ msgid "If true, do randomized playback through the collection"
+#~ msgstr "اگر درست باشد، پخش تصادفی از طریق مجموعه انجام می شود"
+
+#~ msgid "00:00"
+#~ msgstr "00:00"
+
+#~ msgid "/"
+#~ msgstr "/"
+
+#~ msgid "Back"
+#~ msgstr "برگشت"
