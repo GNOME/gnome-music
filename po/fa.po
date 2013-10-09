@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-30 14:31+0000\n"
-"PO-Revision-Date: 2013-10-09 23:38+0330\n"
+"POT-Creation-Date: 2013-10-09 20:35+0000\n"
+"PO-Revision-Date: 2013-10-10 00:18+0330\n"
 "Last-Translator: Arash Mousavi <mousavi.arash@gmail.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -41,29 +41,26 @@ msgid "Window maximized"
 msgstr "پنجره حداکثر شد"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-#| msgid "Window maximized state"
 msgid "Window maximized state."
 msgstr "حالت حداکثری پنجره."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "حالت پخش تکرار"
 
-#. Translators: Don't translate allowed values, just the description in the brackets
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:8
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
-"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
-"\" (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgstr ""
+"مقدار مشخص میکند که آیا پخش فهرست تکرار یا بصورت اتفاقی باشد یا خیر. مقادیر "
+"معتبر عبارتند از: \"none\", \"song\", \"all\", \"shuffle\"."
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid "Search mode"
 msgstr "حالت جستجو"
 
-#: ../data/org.gnome.Music.gschema.xml.h:11
-#| msgid "If true, the search bar is shown"
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "If true, the search bar is shown."
 msgstr "اگر درست باشد، نوار جستجو نشان داده شده است."
 
@@ -82,20 +79,18 @@ msgid "Play and organize your music collection"
 msgstr "پخش و سازماندهی مجموعه آهنگ‌های شما"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
-#| msgid "Music"
 msgid "GNOME Music"
 msgstr "موسیقی گنوم"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr ""
+msgstr "موسیقی برنامه پخش موسیقی جدید گنوم است."
 
 #: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
-msgstr ""
+msgstr "بدون عنوان"
 
 #: ../gnomemusic/notification.py:70
-#| msgid "_Now Playing"
 msgid "Not playing"
 msgstr "توقف پخش"
 
@@ -103,33 +98,33 @@ msgstr "توقف پخش"
 #: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
 #: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
-msgstr ""
+msgstr "هنرمند ناشناس"
 
 #: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
 msgid "Unknown Album"
-msgstr ""
+msgstr "آلبوم ناشناس"
 
 #. TRANSLATORS: by refers to the artist, from to the album
 #: ../gnomemusic/notification.py:83
 #, python-format
 msgid "by %s, from %s"
-msgstr ""
+msgstr "توسط %s، از آلبوم %s"
 
 #: ../gnomemusic/notification.py:123
 msgid "Previous"
-msgstr ""
+msgstr "قبلی"
 
 #: ../gnomemusic/notification.py:126
 msgid "Pause"
-msgstr ""
+msgstr "مکث"
 
 #: ../gnomemusic/notification.py:129
 msgid "Play"
-msgstr ""
+msgstr "پخش"
 
 #: ../gnomemusic/notification.py:131
 msgid "Next"
-msgstr ""
+msgstr "بعدی"
 
 #: ../gnomemusic/view.py:294
 #, python-format
@@ -137,52 +132,53 @@ msgid ""
 "No Music found!\n"
 " Put some files into the folder %s"
 msgstr ""
+"هیچ موسیقی‌ای پیدا نشد!\n"
+" تعدادی پرونده در پوشه %s بگذارید"
 
 #: ../gnomemusic/view.py:301
 msgid "Albums"
-msgstr ""
+msgstr "آلبوم‌ها"
 
 #: ../gnomemusic/view.py:333
 msgid "Songs"
-msgstr ""
+msgstr "آهنگ‌ها"
 
 #: ../gnomemusic/view.py:484
-#| msgid "_New Playlist"
 msgid "Playlists"
 msgstr "فهرست پخش"
 
 #: ../gnomemusic/view.py:490
 msgid "Artists"
-msgstr ""
+msgstr "هنرمندان"
 
 #: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
 #: ../gnomemusic/widgets.py:443
 msgid "All Artists"
-msgstr ""
+msgstr "تمام هنرمندان"
 
 #: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
-msgstr ""
+msgstr "بارگیری بیشتر"
 
 #: ../gnomemusic/widgets.py:83
 msgid "Loading..."
-msgstr ""
+msgstr "درحال بارگیری..."
 
 #: ../gnomemusic/window.py:165
 msgid "Empty"
-msgstr ""
+msgstr "خالی"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr ""
+msgstr "حق‌رونوشت © توسعه‌دهندگان موسیقی گنوم"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
-msgstr ""
+msgstr "یک برنامه مدیریت و پخش موسیقی برای گنوم."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr ""
+msgstr "پایگاه وب موسیقی گنوم را ببینید"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -208,22 +204,34 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
+"برنامه موسیقی گنوم نرم‌افزار آزاد است؛ شما می‌توانید آن را تحت شرایط "
+"اجازه‌نامه‌ی همگانی عمومی گنو که بنیاد نرم‌افزارهای آزاد منتشر کرده است،‌ تغییر "
+"دهید یا دوباره توزیع کنید. یا نسخه‌ی 2 اجازه‌نامه یا (به اختیار خودتان) هر "
+"نسخه‌ی بالاتر دیگری.\n"
+"\n"
+"برنامه موسیقی گنوم با این امید توزیع شده است که به درد بخور باشد، اما بدون "
+"هر گونه ضمانتی؛ حتی بدون ضمانت ضمنی قابل فروش بودن یا مناسب بودن برای یک هدف "
+"مشخص. برای جزئیات بیشتر به اجازه‌نامه‌ی همگانی عمومی گنو را ببینید.\n"
+"\n"
+"شما باید به همراه ناتیلوس نسخه‌ای از اجازه‌نامه‌ی همگانی عمومی گنو دریافت کرده "
+"باشد؛ اگر این طور نیست برای شرکت بنیاد نرم افزارهای آزاد به آدرس زیر بنویسید:"
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
-msgstr ""
+msgstr "منتشر شده در"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
-msgstr ""
+msgstr "طول اجرا"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
 msgstr "_فهرست پخش جدید"
 
 #: ../data/app-menu.ui.h:2
-#| msgid "_Now Playing"
-msgid "Now _Playing"
+#| msgid "Now _Playing"
+msgid "_Now Playing"
 msgstr "_درحال پخش"
 
 #: ../data/app-menu.ui.h:3
@@ -235,21 +243,20 @@ msgid "_Quit"
 msgstr "_خروج"
 
 #: ../data/PlayerToolbar.ui.h:1
-#| msgid "Shuffle playback"
 msgid "Shuffle"
 msgstr "پخش تصادفی"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "تکرار همه"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "تکرار آهنگ"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
+msgstr "توقف پخش تصادفی/تکرار"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
@@ -257,22 +264,21 @@ msgstr "هیچ موسیقی یافت نشد"
 
 #: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "انتخاب همه"
 
 #: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "انتخاب هیچکدام"
 
 #: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
-msgstr ""
+msgstr "بر روی موارد کلیک کنید تا آنها را انتخاب کنید"
 
 #: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: ../data/SelectionToolbar.ui.h:1
-#| msgid "_New Playlist"
 msgid "Add to Playlist"
 msgstr "اضافه‌کردن فهرست جدید"
 
