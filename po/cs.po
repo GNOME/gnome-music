@@ -224,7 +224,7 @@ msgstr ""
 "které nejsou kompatibilní s GPL, byly používány a šířeny spolu s programy "
 "GStreamer a Hudba GNOME. Toto oprávnění je nad rámec oprávnění poskytovaných "
 "licencí GPL, která pokrývá Hudbu GNOME. Pokud provedete změny v jejím "
-"zdrojovém kódu, můžete tuto vyjímku vztáhnout i na svoji verzi kódu, ale "
+"zdrojovém kódu, můžete tuto výjimku vztáhnout i na svoji verzi kódu, ale "
 "nejste povinni tak učinit. Pokud si tak učinit nepřejete, odstraňte tento "
 "odstavec s výjimkou ze svojí verze."
 
