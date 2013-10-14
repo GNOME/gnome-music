@@ -1,6 +1,29 @@
 Overview of changes in 3.10.0
 =============================
 
+* Bugs fixed:
+ 708279 Two patches for buttons in the headerbar
+ 709033 Album Cover art not displayed in the notifications
+ 705853 Toggle selection mode on right click, cancel on Esc
+ 707633 Window size and maximize status are not saved on shutdown and not loaded on start up
+ 709386 Music progress slider (scale widget) bounces to 0 then back to chosen value
+ 709465 Music progress slider (scale widget) bounces around before zeroing when next song is played
+
+* Added translations:
+ Catalan (Valencian)
+ Persian
+
+* Updated translations:
+ Norwegian bokmål
+ Galician
+ Turkish
+ Serbian
+ Simplified Chinese (zh_CN)
+
+
+Overview of changes in 3.10.0
+=============================
+
 * Added translations:
  Estonian
  Belarusian
