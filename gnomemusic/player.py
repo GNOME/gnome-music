@@ -331,6 +331,7 @@ class Player(GObject.GObject):
         return media
 
     def load(self, media):
+        self.progressScale.set_value(0)
         self._set_duration(media.get_duration())
         self.songTotalTimeLabel.set_label(self.seconds_to_string(media.get_duration()))
         self.progressScale.set_sensitive(True)
