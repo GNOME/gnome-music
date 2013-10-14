@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-08-03 12:36+0000\n"
-"PO-Revision-Date: 2013-08-03 12:31+0800\n"
+"POT-Creation-Date: 2013-10-09 20:51+0000\n"
+"PO-Revision-Date: 2013-10-10 21:30+0800\n"
 "Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -39,31 +39,36 @@ msgid "Window maximized"
 msgstr "窗口最大化"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr "窗口最大化状态"
+msgid "Window maximized state."
+msgstr "窗口最大化状态。"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
 msgstr "重复播放模式"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"该值定义是否重复或随机播放音乐合集。有效值有：“none”(无)、“song”(单"
-"曲)、“all”(全部)、“shuffle”(随机)。"
+"该值定义是否重复或随机播放音乐合集。有效值包括：“none”(关闭重复和随"
+"机)、“song”(重复当前歌曲)、“all”(重复播放列表，非随机)、“shuffle”(随机播放列"
+"表，假定重复全部)。"
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "搜索模式"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr "如果为真，则显示搜索框"
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "如果为真，则显示搜索框。"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:12
-#: ../gnomemusic/window.py:16
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "音乐"
 
@@ -71,50 +76,152 @@ msgstr "音乐"
 msgid "Music Player"
 msgstr "音乐播放器"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "播放与管理您的音乐集"
 
-#: ../gnomemusic/albumArtCache.py:204
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME 音乐"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "“音乐”是一款新的 GNOME 音乐播放应用。"
+
+#: ../gnomemusic/albumArtCache.py:235
 msgid "Untitled"
 msgstr "无标题"
 
-#: ../gnomemusic/player.py:236 ../gnomemusic/view.py:174
-#: ../gnomemusic/view.py:501
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "尚未播放"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
 msgstr "未知艺术家"
 
-#: ../gnomemusic/view.py:237
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr "未知专辑"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "艺术家：%s，专辑：%s"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "上一首"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "暂停"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "播放"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "下一首"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"没有找到音乐！\n"
+"请将音乐文件放入文件夹 %s"
+
+#: ../gnomemusic/view.py:301
 msgid "Albums"
 msgstr "专辑"
 
-#: ../gnomemusic/view.py:267
+#: ../gnomemusic/view.py:333
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../gnomemusic/view.py:411
+#: ../gnomemusic/view.py:484
 msgid "Playlists"
 msgstr "播放列表"
 
-#: ../gnomemusic/view.py:417
+#: ../gnomemusic/view.py:490
 msgid "Artists"
 msgstr "艺术家"
 
-#: ../gnomemusic/view.py:451 ../gnomemusic/widgets.py:394
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "全部艺术家"
 
-#: ../gnomemusic/widgets.py:28 ../gnomemusic/widgets.py:48
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
 msgid "Load More"
 msgstr "加载更多"
 
-#: ../gnomemusic/widgets.py:38
+#: ../gnomemusic/widgets.py:83
 msgid "Loading..."
 msgstr "正在加载..."
 
-#: ../gnomemusic/window.py:93
+#: ../gnomemusic/window.py:165
 msgid "Empty"
 msgstr "空"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "版权所有 © 2013 GNOME 音乐开发者"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "GNOME 音乐播放及管理程序。"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "访问 GNOME 音乐网站"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME 音乐是自由软件；您可以在自由软件基金会发布的 GNU 通用公共许可证的条款下"
+"重新分发和(或)修改它；您可以选择使用 GPL 第二版，或(按照您的意愿)任何更新的版"
+"本。\n"
+"\n"
+"GNOME 音乐分发的目的是希望它物有所用，但是没有任何担保；没有对其适销性和某一"
+"特定目的下的适用性的任何即便是暗示的担保。请查阅 GNU 通用公共许可证以获得更多"
+"信息。\n"
+"\n"
+"您应当已经跟 GNOME 音乐一起收到一份 GNU 通用公众许可证的副本；如果没有，请写"
+"信至：Free Software Foundation, Inc.，\n"
+"51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA\n"
+"\n"
+"GNOME 音乐的作者在此对非 GPL 兼容的 GStreamer 插件同 GNOME 音乐及 GStreamer "
+"一道使用及分发给予许可。该许可优于并在 覆盖 GNOME 音乐的 GPL 授权许可之上。如"
+"果您修改该代码，您可以将该例外扩展到您的代码，但非强制。如果您不愿意如此，从"
+"您的版本中删除该例外声明。"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -129,12 +236,12 @@ msgid "_New Playlist"
 msgstr "新建播放列表(_N)"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "正在播放(_N)"
+msgid "Now _Playing"
+msgstr "正在播放(_P)"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About Music"
-msgstr "关于 Music(_A)"
+msgstr "关于音乐(_A)"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -160,19 +267,19 @@ msgstr "关闭“随机/重复播放”"
 msgid "No Music Found"
 msgstr "没有找到音乐"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
 msgstr "全选"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
 msgstr "全不选"
 
-#: ../data/Headerbar.ui.h:3
+#: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
 msgstr "点击条目以选中它们"
 
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4
 msgid "Cancel"
 msgstr "取消"
 
