@@ -78,7 +78,7 @@ class NotificationManager:
             album = item.get_string(Grl.METADATA_KEY_ALBUM)\
                 or _("Unknown Album")
 
-            self._notification.update(item.get_title(),
+            self._notification.update(AlbumArtCache.get_media_title(item),
                                       # TRANSLATORS: by refers to the artist, from to the album
                                       _("by %s, from %s") % ('<b>' + artist + '</b>',
                                                              '<i>' + album + '</i>'),
