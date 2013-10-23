@@ -291,7 +291,7 @@ class Empty(Stack):
         music_folder_path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
         widget = builder.get_object('container')
         label = builder.get_object('label1')
-        label.set_label(_("No Music found!\n Put some files into the folder %s" %music_folder_path))
+        label.set_label(_("No Music found!\n Put some files into the folder %s") % music_folder_path)
         self.add(widget)
         self.show_all()
 
