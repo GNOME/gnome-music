@@ -1,0 +1,270 @@
+# Afrikaans translation for gnome-music.
+# This file is distributed under the same license as the gnome-music package.
+# Copyright (C) 2013
+# Dawid Loubser <dawid.loubser@ibi.co.za>, 2013.
+# F Wolff <friedel@translate.org.za>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music gnome-3-10\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-10-14 11:25+0000\n"
+"PO-Revision-Date: 2013-10-23 14:43+0200\n"
+"Last-Translator: F Wolff <friedel@translate.org.za>\n"
+"Language-Team: translate-discuss-af@lists.sourceforge.net\n"
+"Language: af\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Venstergrootte"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Venstergrootte (wydte en hoogte)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Vensterposisie"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Vensterposisie (X en Y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Venster-maksimeringstoestand"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Of die venster gemaksimeer is."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Speelherhaalmodus"
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+"Die waarde bepaal of die versameling lukraak of herhalend gespeel word. "
+"Waardes wat toegelaat word, is: \"none\", \"song\", \"all\", \"shuffle\"."
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr "Soekmodus"
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "Indien waar, word die soekbalk vertoon."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musiek"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Musiekspeler"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Speel en organiseer u musiekversameling"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musiek"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musiek is GNOME se musiekspeelprogram."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Naamloos"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Speel nie tans nie"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
+msgid "Unknown Artist"
+msgstr "Onbekende kunstenaar"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr "Onbekende album"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "deur %s, uit %s"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "Vorige"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "Pouseer"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "Speel"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "Volgende"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Geen musiek is opgespoor nie!\n"
+" Plaas musieklêers in die gids %s"
+
+#: ../gnomemusic/view.py:301
+msgid "Albums"
+msgstr "Albums"
+
+#: ../gnomemusic/view.py:333
+msgid "Songs"
+msgstr "Liedjies"
+
+#: ../gnomemusic/view.py:484
+msgid "Playlists"
+msgstr "Speellyste"
+
+#: ../gnomemusic/view.py:490
+msgid "Artists"
+msgstr "Kunstenaars"
+
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "Alle kunstenaars"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Laai meer"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Laai tans..."
+
+#: ../gnomemusic/window.py:165
+msgid "Empty"
+msgstr "Leeg"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Kopiereg © 2013 GNOME-musiek se ontwikkelaars"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "'n Program vir die speel en bestuur van musiek vir GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Besoek GNOME-musiek se webwerf"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Vrygestel"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Speeltyd"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nuwe speellys"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Now Playing"
+msgstr "Speel _tans"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_Aangaande Musiek"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Sluit af"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Skommel"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Herhaal almal"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Herhaal liedjie"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Skommel/Herhaal afgeskakel"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Geen musiek gevind nie"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Selekteer almal"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Selekteer geen"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Klik op items om hulle te selekteer"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Kanselleer"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Voeg by speellys"
