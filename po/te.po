@@ -1,0 +1,292 @@
+# Telugu translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Praveen Illa <mail2ipn@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-10-25 07:19+0000\n"
+"PO-Revision-Date: 2013-10-26 14:51+0530\n"
+"Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
+"Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "కిటికీ పరిమాణం"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "కిటికీ పరిమాణం (వెడల్పు మరియు ఎత్తు)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "కిటికీ స్థానము"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "కిటికీ స్థానము (x మరియు y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "కిటికీ పెద్దగాచేయబడింది"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "కిటికీ పెద్దగాచేయబడిన స్థితి."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "ప్లేబ్యాక్ పునరావృత రీతి"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"మీ పాటల సేకరణను పునరావృతం చేయాలో లేదా యాదృచ్ఛికంగా ఆడాలో మీరిచ్చే ఈ విలువలు గుర్తిస్తాయి. అనుమతించబడిన "
+"విలువలు:  \"none\" (పునరావృతం మరియు గులకరించు ఆపివేయబడి), \"song\" (ప్రస్థుత పాటను "
+"పునరావృతం చేస్తుంది), \"all\" (పాటలజాబితా పునరావృతం చేయబడుతుంది, గులకరించబడదు), \"shuffle"
+"\" (పాటలజాబితాను గులకరిస్తుంది, అన్నిటి పునరావృతాన్ని ప్రెస్యుమ్ చేస్తుంది)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "శోధన రీతి"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "ఒకవేళ నిజమైతే, శోధన పట్టీ చూపించబడును."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "సంగీతం"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "సంగీత ప్రదర్శకం"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "మీ సంగీత సేకరణను ప్రదర్శించి, నిర్వహించుకోండి"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "గ్నోమ్ సంగీతం"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "సంగీతం అనేది సరికొత్త గ్నోమ్ సంగీత ప్రదర్శక అనువర్తనం."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "పేరులేదు"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "ప్రదర్శించుటలేదు"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
+msgid "Unknown Artist"
+msgstr "తెలియని కళాకారుడు"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr "తెలియని ఆల్బమ్"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "గాయకులు %s, %s నుండి"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "మునుపటిది"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "నిలిపివేయి"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "ఆడించు"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "తరువాతది"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"ఎటువంటి సంగీతం కనపడలేదు!\n"
+" దయచేసి %s సంచయంలో కొన్ని సంగీత దస్త్రాలను పెట్టండి"
+
+#: ../gnomemusic/view.py:301
+msgid "Albums"
+msgstr "ఆల్బమ్లు"
+
+#: ../gnomemusic/view.py:333
+msgid "Songs"
+msgstr "పాటలు"
+
+#: ../gnomemusic/view.py:484
+msgid "Playlists"
+msgstr "పాటలజాబితాలు"
+
+#: ../gnomemusic/view.py:490
+msgid "Artists"
+msgstr "గాయకులు"
+
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "అందరు గాయకులు"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "మరిన్ని నింపు"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "ఎక్కిస్తున్నాము..."
+
+#: ../gnomemusic/window.py:165
+msgid "Empty"
+msgstr "ఏమీలేవు"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "నకలుహక్కు © 2013 గ్నోమ్ సంగీతం వికాసకులు"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "సంగీత నిర్వహణకై గ్నోమ్ కోసం రూపొందించిన సంగీత ప్రదర్శక అనువర్తనం."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "గ్నోమ్ సంగీతం జాలగూడును సందర్శించండి"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"గ్నోమ్ సంగీతం అనేది ఒక స్వేచ్ఛా సాఫ్ట్‌వేర్: దీనిని మీరు ఫ్రీ సాఫ్ట్‌వేర్ ఫౌండేషన్ ప్రచురించిన గ్నూ జనరల్ పబ్లిక్ "
+"లైసెన్స్ రూపాంతరం ౨, లేదా (మీ ఇష్టాన్ని బట్టి) ఏదైనా తరువాత రూపాంతరపు నిబంధనలకు అనుగుణంగా "
+"పునఃపంపిణీ చెయ్యవచ్చు మరియు/లేదా సవరించుకోవచ్చు.\n"
+"\n"
+"గ్నోమ్ సంగీతం సమాజానికి ఉపయోగపడుతుంది అనే ఆశతో , ఏవిధమైన పూచీకత్తులు లేకుండా, కనీసం వ్యాపారానికి గాని "
+"లేదా ఒక ఖచ్చితమైన ప్రయోజనానికి ఉపయోగించవచ్చని భావించిన పూచీకత్తులు కూడా లేకుండా పంచబడుతుంది.మరిన్ని "
+"వివరాలకు గ్నూ జనరల్ పబ్లిక్ లైసెన్సుని చూడండి.\n"
+"\n"
+"గ్నోమ్ సంగీతంతో పాటు మీరు గ్నూ జనరల్ పబ్లిక్ లైసెన్సు నకలును పొంది ఉంటారు, లేనిపక్షంలో, Free "
+"Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston. "
+"MA02110-1301, USA కు వ్రాయండి.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "విడుదలైంది"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "నిడివి"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "కొత్త పాటలజాబితా (_N)"
+
+#: ../data/app-menu.ui.h:2
+msgid "Now _Playing"
+msgstr "ఇప్పుడు ఆడుతున్నది (_P)"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "సంగీతం గురించి (_A)"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "నిష్క్రమించు (_Q)"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "గులకరించు"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "అన్నీ పునరావృతం"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "పాటను పునరావృతంచేయి"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "గులకరించు/పునరావృతించు ఆపు"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "ఎటువంటి సంగీతం దొరకలేదు"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "అన్నీ ఎంచుకోండి"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "ఎంపిక రద్దు"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "అంశాలను ఎంచుకోవడానికి వాటిపై నొక్కండి"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "రద్దుచేయి"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "పాటలజాబితాకు కలుపు"
