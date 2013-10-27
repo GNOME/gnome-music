@@ -1,0 +1,267 @@
+# Malayalam translation for gnome-music.
+# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Mohammed Sadiq <sadiqpkp@gmail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-10-26 10:44+0000\n"
+"PO-Revision-Date: 2013-10-26 09:39+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Malayalam <l10n@lists.smc.org.in>\n"
+"Language: ml\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "ജാലകത്തിന്റെ വലിപ്പം"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "ജാലകത്തിന്റെ സ്ഥാനം"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "ജാലകത്തിന്റെ സ്ഥാനം (xഉം yഉം)"
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:8
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid "Search mode"
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "If true, the search bar is shown."
+msgstr "ശരിയാണെങ്കില്‍, തിരച്ചില്‍ പട്ട കാണിക്കുന്നതാണ്."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "സംഗീതം"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr ""
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr ""
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME സംഗീതം"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr ""
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "പേരില്ലാത്ത്"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "പാടുന്നില്ല"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
+msgid "Unknown Artist"
+msgstr ""
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr ""
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr ""
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "മുമ്പിലത്തെ"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr ""
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr ""
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "അടുത്തത്"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"സംഗീതങ്ങൊന്നും കണ്ടെത്തിയില്ല\n"
+"%s എന്ന ഫോള്‍ഡറിലേക്ക് കുറച്ച് രേഖകള്‍ ചേര്‍ക്കുക"
+
+#: ../gnomemusic/view.py:301
+msgid "Albums"
+msgstr ""
+
+#: ../gnomemusic/view.py:333
+msgid "Songs"
+msgstr "പാട്ടുകള്‍"
+
+#: ../gnomemusic/view.py:484
+msgid "Playlists"
+msgstr ""
+
+#: ../gnomemusic/view.py:490
+msgid "Artists"
+msgstr ""
+
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr ""
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "കൂടുതല്‍ ലഭ്യമാക്കുക"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "ലഭ്യമാക്കിക്കൊണ്ടിരിക്കുന്നു..."
+
+#: ../gnomemusic/window.py:165
+msgid "Empty"
+msgstr "കാലി"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "പകര്‍പ്പാവകാശം © 2013 GNOME സംഗീതം Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr ""
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "GNOME Music വെബ്താള്‍ സന്ദര്‍ശിക്കുക"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr ""
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr ""
+
+#: ../data/app-menu.ui.h:2
+#, fuzzy
+#| msgid "Not playing"
+msgid "_Now Playing"
+msgstr "പാടുന്നില്ല"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_സംഗീതത്തെ കുറിച്ച്"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_പൂട്ടുക"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr ""
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "എല്ലാം ആവര്‍ത്തിക്കുക"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "പാട്ട് ആവര്‍ത്തിക്കുക"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr ""
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "സംഗീതങ്ങളൊന്നും കണ്ടില്ല"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "എല്ലാം തിരഞ്ഞെടുക്കുക"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "ഒന്നും തിരഞ്ഞെടുക്കരുത്"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "തിരഞ്ഞെടുക്കാനായി ആ ഇനങ്ങളില്‍ ക്ലിക്ക് ചെയ്യുക"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "റദ്ദാക്കുക"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr ""
