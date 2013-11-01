@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 19:22+0200\n"
-"PO-Revision-Date: 2013-09-12 19:23+0200\n"
+"POT-Creation-Date: 2013-11-01 13:57+0100\n"
+"PO-Revision-Date: 2013-11-01 13:57+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -99,7 +99,7 @@ msgstr "Sen reprodución"
 msgid "Unknown Artist"
 msgstr "Artista descoñecido"
 
-#: ../gnomemusic/notification.py:79
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
 msgid "Unknown Album"
 msgstr "Álbum descoñecido"
 
@@ -109,19 +109,19 @@ msgstr "Álbum descoñecido"
 msgid "by %s, from %s"
 msgstr "por %s, de %s"
 
-#: ../gnomemusic/notification.py:125
+#: ../gnomemusic/notification.py:130
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../gnomemusic/notification.py:128
+#: ../gnomemusic/notification.py:133
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:136
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:138
 msgid "Next"
 msgstr "Seguinte"
 
@@ -238,7 +238,7 @@ msgid "_New Playlist"
 msgstr "Lista de reprodución _nova"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
+msgid "Now _Playing"
 msgstr "Reproducindo _agora"
 
 #: ../data/app-menu.ui.h:3
