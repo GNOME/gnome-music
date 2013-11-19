@@ -1,3 +1,38 @@
+Overview of changes in 3.11.2
+=============================
+
+* Exit selection mode on pressing Esc
+* Pep8 compatibility
+* Broken AppData file was removed from sources
+
+* Bugs fixed:
+ 707590 Fix app menu accelerator conflict
+ 708279 Make the cancel button as center vertically
+ 709033 Album Cover art not displayed in the notifications
+ 707399 Add translator comment to not translate GSettings values
+ 705853 Enter selection mode on right-click
+ 707633 Save window position, size and maximization state
+ 709465 Update position while switching songs
+
+* Added translations:
+ Afrikaans
+ Catalan (Valencian)
+ Malayalam
+ Telugu
+
+* Updated translations:
+ Norwegian bokmål
+ Turkish
+ Persian
+ Simplified Chinese
+ Slovenian
+ Tajik
+ Spanish
+ Galician
+ Greek
+ Dutch
+
+
 Overview of changes in 3.10.0
 =============================
 
