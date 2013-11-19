@@ -1,3 +1,21 @@
+Overview of changes in 3.10.2
+=============================
+
+* Correctly use AlbumArtCache.get_media_title in notifications
+
+* Correctly use gettext call
+
+* Do not ship a broken AppData file
+
+* Added translations:
+ Afrikaans (af)
+ Telugu
+
+* Updated translations:
+ Greek
+ Malayalam
+
+
 Overview of changes in 3.10.1
 =============================
 
