@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-24 19:41+0200\n"
-"PO-Revision-Date: 2013-09-24 19:41+0200\n"
+"POT-Creation-Date: 2013-11-21 21:20+0100\n"
+"PO-Revision-Date: 2013-11-21 21:21+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -44,17 +44,20 @@ msgstr "Vindu maksimert."
 msgid "Playback repeat mode"
 msgstr "Repeteringsmodus for avspilling"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Søkemodus"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr ""
 
@@ -88,13 +91,13 @@ msgstr "Uten tittel"
 msgid "Not playing"
 msgstr "Spiller ikke"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
-#: ../gnomemusic/view.py:587
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
 msgid "Unknown Album"
 msgstr "Ukjent album"
 
@@ -104,23 +107,23 @@ msgstr "Ukjent album"
 msgid "by %s, from %s"
 msgstr "av %s, fra %s"
 
-#: ../gnomemusic/notification.py:130
+#: ../gnomemusic/notification.py:123
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:126
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:136
+#: ../gnomemusic/notification.py:129
 msgid "Play"
 msgstr "Spill av"
 
-#: ../gnomemusic/notification.py:138
+#: ../gnomemusic/notification.py:131
 msgid "Next"
 msgstr "Neste"
 
-#: ../gnomemusic/view.py:290
+#: ../gnomemusic/view.py:294
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -129,23 +132,23 @@ msgstr ""
 "Ingen musikk funnet!\n"
 " Plasser noen filer i mappen %s"
 
-#: ../gnomemusic/view.py:297
+#: ../gnomemusic/view.py:301
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:333
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:480
+#: ../gnomemusic/view.py:484
 msgid "Playlists"
 msgstr "Spillelister"
 
-#: ../gnomemusic/view.py:486
+#: ../gnomemusic/view.py:490
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
 #: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Alle artister"
@@ -158,7 +161,7 @@ msgstr "Last flere"
 msgid "Loading..."
 msgstr "Laster …"
 
-#: ../gnomemusic/window.py:138
+#: ../gnomemusic/window.py:165
 msgid "Empty"
 msgstr "Tom"
 
@@ -212,8 +215,8 @@ msgid "_New Playlist"
 msgstr "_Ny spilleliste"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "Spilles _nå"
+msgid "Now _Playing"
+msgstr "S_pilles nå"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About Music"
