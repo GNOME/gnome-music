@@ -1,0 +1,299 @@
+# Esperanto translation for gnome-music.
+# Copyright (C) 2013 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gnome-music package.
+# dms <detlefkar@gmail.com>, 2013.
+# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-11-21 20:21+0000\n"
+"PO-Revision-Date: 2013-11-24 01:31+0100\n"
+"Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
+"Language-Team: Esperanto <gnome-l10n-eo@lists.launchpad.net>\n"
+"Language: eo\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Grando de fenestro"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Grando de fenestro (larĝo kaj alto)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Pozicio de fenestro"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Pozicio de fenestro (x kaj y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Fenestro maksimumigita"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Maksimumigita stato de fenestro."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Ripeta reĝimo de reproduktado"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Valoro identigas ĉu ripeti aŭ hazardigi la reproduktadon tra la muzika "
+"kolekto. Permesataj valoroj estas: \"none\" (ripetado kaj miksado estas "
+"elŝaltita), \"song\" (ripetas la aktualan trakon), \"all\" (ripeti la "
+"ludliston, neniu mikso), \"shuffle\" (miksas ludliston, supozas ripetadon de "
+"ĉiuj)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Serĉa reĝimo"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Se vera, la serĉa breto estas montrata."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Muziko"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Muzikludilo"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Ludi kaj organizi vian muzikaron"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Muziko"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Muziko estas la nova GNOME muzikludila aplikaĵo."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "Sentitola"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "Ne ludanta"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
+msgid "Unknown Artist"
+msgstr "Nekonata artisto"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr "Nekonata albumo"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "far %s, de %s"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "Antaŭa"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "Paŭzi"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "Ludi"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "Sekva"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Neniu muziko trovita!\n"
+"Metu kelkajn dosierojn en la dosierujon %s"
+
+#: ../gnomemusic/view.py:301
+msgid "Albums"
+msgstr "Albumoj"
+
+#: ../gnomemusic/view.py:333
+msgid "Songs"
+msgstr "Kantoj"
+
+#: ../gnomemusic/view.py:484
+msgid "Playlists"
+msgstr "Ludlistoj"
+
+#: ../gnomemusic/view.py:490
+msgid "Artists"
+msgstr "Artistoj"
+
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "Ĉiuj artistoj"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Ŝarĝi pli"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Ŝarganta..."
+
+#: ../gnomemusic/window.py:165
+msgid "Empty"
+msgstr "Malplena"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Kopirajto © 2013 Programistoj de GNOME Muziko\t"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Muzikludilo kaj organiza aplikaĵo por GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Vizitu la ttt-ejon de GNOME Muziko"
+
+#: ../data/AboutDialog.ui.in.h:5
+#, fuzzy
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Muziko estas libera programaro; vi povas distribui kaj/aŭ modifi ĝin "
+"laŭ la kondiĉoj de la Ĝenerala Publika Permesilo de GNU eldonite de la 'Free "
+"Software Foundation'; aŭ en la 2a versio de la permesilo aŭ (laŭ via volo) "
+"en iu sekva versio.\n"
+"\n"
+"GNOME Muziko estas distribuite kun la espero ke ĝi estos utila, sed SEN IA "
+"AJN GARANTIO; eĉ sen la implica garantio de NEGOCEBLO aŭ ADAPTADO AL IU "
+"APARTA CELO. Vidu la Ĝeneralan Publikan Permesilon de GNU por pli da "
+"detaloj.\n"
+"\n"
+"Vi devintus ricevi kopion de la Ĝenerala Publika Permesilo de GNU kune kun "
+"GNOME Muziko; se ne, skribu al Free Software Foundation, Inc., 51 Franklin "
+"Street, Fifth Floor, Boston, MA 02110-1301 Usono.\n"
+"\n"
+"The GNOME Muziko authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Muziko.  This permission is above and beyond the permissions granted "
+"by the GPL license by which GNOME Muziko is covered.  If you modify this "
+"code, you may extend this exception to your version of the code, but you are "
+"not obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Eldono"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Luda longeco"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Nova ludlisto"
+
+#: ../data/app-menu.ui.h:2
+msgid "Now _Playing"
+msgstr "Nun _ludanta"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About Music"
+msgstr "_Pri Muziko"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "Ĉ_esi"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Hazardigi"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Ripeti ĉion"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Ripetadi kanton"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Hazardigon/Ripetadon elŝalti"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Neniu muziko trovita"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Elekti ĉiujn"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "Elekti neniun"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Klaki sur eroj por elekti ilin"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Aldoni al ludlisto"
