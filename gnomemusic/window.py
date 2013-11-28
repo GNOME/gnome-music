@@ -82,7 +82,11 @@ class Window(Gtk.ApplicationWindow):
                                             'org.gnome.SettingsDaemon.MediaKeys',
                                             None)
         self._grab_media_player_keys()
-        self.proxy.connect('g-signal', self._handle_media_keys)
+        try:
+            self.proxy.connect('g-signal', self._handle_media_keys)
+        except GLib.GError:
+            # We cannot grab media keys if no settings daemon is running
+            pass
 
     def on_configure_event(self, widget, event):
         size = widget.get_size()
@@ -95,11 +99,15 @@ class Window(Gtk.ApplicationWindow):
         self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
     def _grab_media_player_keys(self):
-        self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant('(su)', ('Music', 0)),
-                             Gio.DBusCallFlags.NONE,
-                             -1,
-                             None)
+        try:
+            self.proxy.call_sync('GrabMediaPlayerKeys',
+                                 GLib.Variant('(su)', ('Music', 0)),
+                                 Gio.DBusCallFlags.NONE,
+                                 -1,
+                                 None)
+        except GLib.GError:
+            # We cannot grab media keys if no settings daemon is running
+            pass
 
     def _windows_focus_cb(self, window, event):
         self._grab_media_player_keys()
