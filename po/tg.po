@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-30 09:33+0000\n"
-"PO-Revision-Date: 2013-10-30 23:56+0500\n"
+"POT-Creation-Date: 2013-12-10 10:19+0000\n"
+"PO-Revision-Date: 2013-12-10 15:57+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.1\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -48,9 +48,6 @@ msgstr "Ҳолати такрори пахш"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -101,13 +98,13 @@ msgstr "Беном"
 msgid "Not playing"
 msgstr "Ҳозир пахш намекунад"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
-#: ../gnomemusic/view.py:587
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
 msgstr "Ҳунарманди номаълум"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
 msgid "Unknown Album"
 msgstr "Албоми номаълум"
 
@@ -133,7 +130,7 @@ msgstr "Пахш кардан"
 msgid "Next"
 msgstr "Навбатӣ"
 
-#: ../gnomemusic/view.py:290
+#: ../gnomemusic/view.py:294
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -142,23 +139,23 @@ msgstr ""
 "Ягон мусиқӣ ёфт нашуд!\n"
 "Баъзе файлҳоро ба ҷузвдони %s гузоред"
 
-#: ../gnomemusic/view.py:297
+#: ../gnomemusic/view.py:301
 msgid "Albums"
 msgstr "Албомҳо"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:333
 msgid "Songs"
 msgstr "Сурудҳо"
 
-#: ../gnomemusic/view.py:480
+#: ../gnomemusic/view.py:484
 msgid "Playlists"
 msgstr "Феҳристҳои пахш"
 
-#: ../gnomemusic/view.py:486
+#: ../gnomemusic/view.py:490
 msgid "Artists"
 msgstr "Ҳунармандон"
 
-#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
 #: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Ҳамаи ҳунармандон"
@@ -171,7 +168,7 @@ msgstr "Бештар бор кардан"
 msgid "Loading..."
 msgstr "Бор шуда истодааст..."
 
-#: ../gnomemusic/window.py:138
+#: ../gnomemusic/window.py:173
 msgid "Empty"
 msgstr "Холӣ кардан"
 
@@ -248,13 +245,13 @@ msgid "_New Playlist"
 msgstr "_Феҳристи пахши нав"
 
 #: ../data/app-menu.ui.h:2
-#| msgid "_Now Playing"
 msgid "Now _Playing"
 msgstr "_Ҳозир пахш мекунад"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_Дар бораи Мусиқӣ"
+#| msgid "_About Music"
+msgid "_About"
+msgstr "_Дар бораи барнома"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
