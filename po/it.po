@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 18:43+0200\n"
-"PO-Revision-Date: 2013-09-12 18:42+0200\n"
+"POT-Creation-Date: 2013-12-11 10:31+0100\n"
+"PO-Revision-Date: 2013-12-11 10:33+0100\n"
 "Last-Translator: Milo Casagrande <milo@ubuntu.com>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -58,19 +58,25 @@ msgstr "Lo stato di massimizzazione della finestra."
 msgid "Playback repeat mode"
 msgstr "Modalità ripetizione"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Indica se ripetere o riprodurre a caso la libreria musicale. Valori "
-"consentiti sono: \"none\", \"song\", \"all\", \"shuffle\"."
+"consentiti sono: \"none\" (ripetizione e riproduzione casuale disabilitati), "
+"\"song\" (ripete il brano corrente), \"all\" (ripete playlist, niente "
+"riproduzione casuale), \"shuffle\" (riproduzione casuale della playlist, "
+"assume di ripetere tutto)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Modalità di ricerca"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr "Se VERO, viene mostrata la barra di ricerca."
 
@@ -104,13 +110,13 @@ msgstr "Senza titolo"
 msgid "Not playing"
 msgstr "Non in riproduzione"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
-#: ../gnomemusic/view.py:587
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
 msgstr "Artista sconosciuto"
 
-#: ../gnomemusic/notification.py:79
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
 msgid "Unknown Album"
 msgstr "Album sconosciuto"
 
@@ -120,23 +126,23 @@ msgstr "Album sconosciuto"
 msgid "by %s, from %s"
 msgstr "di %s, da %s"
 
-#: ../gnomemusic/notification.py:125
+#: ../gnomemusic/notification.py:123
 msgid "Previous"
 msgstr "Precedente"
 
-#: ../gnomemusic/notification.py:128
+#: ../gnomemusic/notification.py:126
 msgid "Pause"
 msgstr "Pausa"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:129
 msgid "Play"
 msgstr "Riproduci"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:131
 msgid "Next"
 msgstr "Successiva"
 
-#: ../gnomemusic/view.py:290
+#: ../gnomemusic/view.py:294
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -145,23 +151,23 @@ msgstr ""
 "Nessun brano trovato.\n"
 "Caricare alcuni file nella cartella %s."
 
-#: ../gnomemusic/view.py:297
+#: ../gnomemusic/view.py:301
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:333
 msgid "Songs"
 msgstr "Brani"
 
-#: ../gnomemusic/view.py:480
+#: ../gnomemusic/view.py:484
 msgid "Playlists"
 msgstr "Playlist"
 
-#: ../gnomemusic/view.py:486
+#: ../gnomemusic/view.py:490
 msgid "Artists"
 msgstr "Artisti"
 
-#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
 #: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Tutti gli artisti"
@@ -174,7 +180,7 @@ msgstr "Carica altro"
 msgid "Loading..."
 msgstr "Caricamento..."
 
-#: ../gnomemusic/window.py:138
+#: ../gnomemusic/window.py:173
 msgid "Empty"
 msgstr "Vuota"
 
@@ -249,12 +255,12 @@ msgid "_New Playlist"
 msgstr "_Nuova playlist..."
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
+msgid "Now _Playing"
 msgstr "In _riproduzione"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "I_nformazioni su Musica"
+msgid "_About"
+msgstr "I_nformazioni"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
