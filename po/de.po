@@ -4,14 +4,15 @@
 # Mario Blättermann <mario.blaettermann@gmail.com>, 2013.
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
+# Benjamin Steinwender <b@stbe.at>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-12 15:07+0000\n"
-"PO-Revision-Date: 2013-09-13 20:12+0100\n"
+"POT-Creation-Date: 2013-12-11 09:34+0000\n"
+"PO-Revision-Date: 2013-12-16 11:32+0100\n"
 "Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.2\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -49,25 +50,30 @@ msgstr "Fenstermaximierungsstatus"
 msgid "Playback repeat mode"
 msgstr "Wiederholungsmodus"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Der Wert legt fest, ob die Wiedergabe endlos oder zufällig durch die "
-"Sammlung erfolgt. Gültige Werte sind: »none« (keine), »song« (Titel), "
-"»all« (alle) und »shuffle« (zufällig)."
+"Sammlung erfolgt. Gültige Werte sind: »none« (keine - Wiederholen und "
+"Zufallswiedergabe sind deaktiviert), »song« (den aktuellen Titel "
+"wiederholen), »all« (alle - die gesamte Wiedergabeliste wiederholen, keine "
+"Zufallswiedergabe) und »shuffle« (zufällige Wiedergabe aller Titel)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Suchmodus"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr "Falls wahr, wird ein Suchfeld angezeigt."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:53
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
@@ -93,18 +99,16 @@ msgid "Untitled"
 msgstr "Unbenannt"
 
 #: ../gnomemusic/notification.py:70
-#| msgid "_Now Playing"
 msgid "Not playing"
 msgstr "Keine Wiedergabe"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:322
-#: ../gnomemusic/view.py:225 ../gnomemusic/view.py:359
-#: ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
 msgstr "Unbekannter Künstler"
 
-#: ../gnomemusic/notification.py:79
-#| msgid "Unknown Artist"
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
 msgid "Unknown Album"
 msgstr "Unbekanntes Album"
 
@@ -114,24 +118,23 @@ msgstr "Unbekanntes Album"
 msgid "by %s, from %s"
 msgstr "von %s, aus %s"
 
-#: ../gnomemusic/notification.py:125
+#: ../gnomemusic/notification.py:123
 msgid "Previous"
 msgstr "Vorheriges"
 
-#: ../gnomemusic/notification.py:128
+#: ../gnomemusic/notification.py:126
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:131
-#| msgid "Playlists"
+#: ../gnomemusic/notification.py:129
 msgid "Play"
 msgstr "Abspielen"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:131
 msgid "Next"
 msgstr "Nächstes"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/view.py:294
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -140,24 +143,24 @@ msgstr ""
 "Keine Musik gefunden!\n"
 "Verschieben Sie einige Dateien in den Ordner %s"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:301
 msgid "Albums"
 msgstr "Alben"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:333
 msgid "Songs"
 msgstr "Titel"
 
-#: ../gnomemusic/view.py:466
+#: ../gnomemusic/view.py:484
 msgid "Playlists"
 msgstr "Wiedergabelisten"
 
-#: ../gnomemusic/view.py:472
+#: ../gnomemusic/view.py:490
 msgid "Artists"
 msgstr "Künstler"
 
-#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
-#: ../gnomemusic/widgets.py:441
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Alle Künstler"
 
@@ -169,7 +172,7 @@ msgstr "Mehr Laden"
 msgid "Loading..."
 msgstr "Laden …"
 
-#: ../gnomemusic/window.py:134
+#: ../gnomemusic/window.py:173
 msgid "Empty"
 msgstr "Leer"
 
@@ -240,12 +243,12 @@ msgid "_New Playlist"
 msgstr "_Neue Wiedergabeliste"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
+msgid "Now _Playing"
 msgstr "_Momentan wiedergegeben"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_Info zu Musik"
+msgid "_About"
+msgstr "_Info"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
