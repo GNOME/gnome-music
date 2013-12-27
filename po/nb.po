@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-21 21:20+0100\n"
-"PO-Revision-Date: 2013-11-21 21:21+0100\n"
+"POT-Creation-Date: 2013-12-27 10:23+0100\n"
+"PO-Revision-Date: 2013-12-27 10:24+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -161,7 +161,7 @@ msgstr "Last flere"
 msgid "Loading..."
 msgstr "Laster …"
 
-#: ../gnomemusic/window.py:165
+#: ../gnomemusic/window.py:173
 msgid "Empty"
 msgstr "Tom"
 
@@ -219,8 +219,8 @@ msgid "Now _Playing"
 msgstr "S_pilles nå"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_Om musikk"
+msgid "_About"
+msgstr "_Om"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
