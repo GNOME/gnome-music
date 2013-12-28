@@ -2,15 +2,16 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # tuhaihe <1132321739qq@gmail.com>, 2013.
+# Tong Hui <tonghuix@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-09 20:51+0000\n"
-"PO-Revision-Date: 2013-10-10 21:30+0800\n"
-"Last-Translator: tuhaihe <1132321739qq@gmail.com>\n"
+"POT-Creation-Date: 2013-12-18 21:01+0000\n"
+"PO-Revision-Date: 2013-12-22 00:22+0800\n"
+"Last-Translator: Tong Hui <tonghuix@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +97,7 @@ msgstr "无标题"
 msgid "Not playing"
 msgstr "尚未播放"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
 #: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
 #: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
@@ -166,7 +167,7 @@ msgstr "加载更多"
 msgid "Loading..."
 msgstr "正在加载..."
 
-#: ../gnomemusic/window.py:165
+#: ../gnomemusic/window.py:173
 msgid "Empty"
 msgstr "空"
 
@@ -240,8 +241,8 @@ msgid "Now _Playing"
 msgstr "正在播放(_P)"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "关于音乐(_A)"
+msgid "_About"
+msgstr "关于(_A)"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
