@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-29 00:55+0100\n"
-"PO-Revision-Date: 2013-11-29 00:56+0200\n"
+"POT-Creation-Date: 2013-12-30 00:55+0100\n"
+"PO-Revision-Date: 2013-12-30 00:56+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
 "Language: gl\n"
@@ -56,8 +56,8 @@ msgid ""
 msgstr ""
 "O valor identifica se se debe repetir ou facer aleatoria a reprodución na "
 "colección. Os valores permitidos son: \"none\" (a repetición e aleatoreidade "
-"están desactivadas), \"song\" (repite a canción actual), \"all\" (repite a lista "
-"de reprodución, non de forma aleatoria, \"shuffle\" (reproduce "
+"están desactivadas), \"song\" (repite a canción actual), \"all\" (repite a "
+"lista de reprodución, non de forma aleatoria, \"shuffle\" (reproduce "
 "aleatoriamente, presume repetir todo)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
@@ -247,8 +247,8 @@ msgid "Now _Playing"
 msgstr "Reproducindo _agora"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_Sobre Música"
+msgid "_About"
+msgstr "_Sobre"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
