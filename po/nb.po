@@ -1,14 +1,14 @@
 # Norwegian bokmål translation of gnome-music.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kjartan Maraas <kmaraas@gnome.org>, 2012-2013.
+# Kjartan Maraas <kmaraas@gnome.org>, 2012-2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music 0.1\n"
+"Project-Id-Version: gnome-music 3.11.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-27 10:23+0100\n"
-"PO-Revision-Date: 2013-12-27 10:24+0100\n"
+"POT-Creation-Date: 2014-01-21 20:27+0100\n"
+"PO-Revision-Date: 2014-01-21 20:32+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -201,6 +201,13 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
+"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre programmet under betingelsene gitt i GNU General Public License som utgitt av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du ønsker det) enhver senere versjon.\n"
+"\n"
+"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
+"\n"
+"Du skal ha mottatt en kopi av GNU General Public License sammen med dette programmet. Hvis dette ikke er tilfelle, kan du skrive til Free Software Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"\n"
+"GNOME musikk utviklerene gir herved rettigheter for bruk og distribusjon av GStreamer-tillegg som ikke er kompatible med GPL sammen med GStreamer og GNOME musikk. Denne rettigheten går foran rettighetene som gis av GPL-lisensen som gjelder for GNOME musikk. Hvis du endrer denne koden kan du bruke dette unntaket for din versjon av koden, men du er ikke pliktig til gjøre dette. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten fra din versjon."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
