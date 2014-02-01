@@ -73,6 +73,18 @@ class Toolbar(GObject.GObject):
         if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
             _back_button_image = self._ui.get_object('back-button-image')
             _back_button_image.set_property('icon-name', 'go-previous-rtl-symbolic')
+        if Gtk.get_minor_version() >= 11:
+            self.header_bar.remove(self._close_button)
+            self.header_bar.remove(self._close_separator)
+            self.header_bar.remove(self._select_button)
+            self.header_bar.remove(self._cancel_button)
+            self.header_bar.remove(self._search_button)
+
+            self.header_bar.pack_end(self._close_button)
+            self.header_bar.pack_end(self._close_separator)
+            self.header_bar.pack_end(self._select_button)
+            self.header_bar.pack_end(self._cancel_button)
+            self.header_bar.pack_end(self._search_button)
         self._back_button.connect('clicked', self.on_back_button_clicked)
         self._close_button.connect('clicked', self._close_button_clicked)
         if Gtk.get_minor_version() <= 8:
