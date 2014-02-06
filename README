@@ -20,3 +20,9 @@ $ cd gnome-music
 $ ./autogen.sh
 $ make
 
+
+=== Troubleshooting ===
+
+Jhbuild fires import errors for python packages like:
+"ImportError: /opt/gnome/lib64/python2.7/site-packages/"
+Do "export PYTHONPATH=/opt/gnome/lib/python3.3/site-packages" in Jhbuild shell.
