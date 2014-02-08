@@ -19,6 +19,7 @@ class Searchbar(Gd.Revealer):
         self._search_entry.show()
         item.add(self._search_entry)
         self.connect("notify::child-revealed", self.prepare_search_filter)
+        self.view = None
 
     def set_view_filter(self, model, itr, user_data):
         if self._search_entry.get_property("visible"):
