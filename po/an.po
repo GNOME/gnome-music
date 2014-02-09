@@ -1,0 +1,297 @@
+# Aragonese translation for gnome-music.
+# Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# jorgtum <jorgtum@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-02-08 08:23+0000\n"
+"PO-Revision-Date: 2014-02-08 13:56+0100\n"
+"Last-Translator: Jorge Pérez Pérez <jorgtum@gmail.com>\n"
+"Language-Team: Aragonese <softaragones@googlegroups.com>\n"
+"Language: an\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.3\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Grandaria d'a finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Grandaria d'a finestra (amplaria y altura )"
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posición d'a finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Posición d'a finestra (X y Y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Finestra maximizada"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Estau maximizau d'a finestra"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Modo de repetición d'a lista de reproducción"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Valor que indica si cal repetir u aleatorizar a reproducción d'a colección. "
+"As valors admitidas son: «garra» (as opcions de repetir y mezclar son "
+"desactivadas), «canta» (repetir a canta actual), «todas» (repetir a lista de "
+"reproducción, sin mezclar), «mezclar» (mezclar a lista de reproducción, se "
+"repiten todas)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Modo de busca"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Si ye cierto, s'amuestra a barra de busca."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "mosica"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Reproductor de mosica"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Reproducir y organizar a tuya colección de mosica"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Mosica de GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Mosica ye a nueva aplicación de reproducción demosica de GNOME."
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "sin titol"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "No reproducindo"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
+msgid "Unknown Artist"
+msgstr "Artista desconoixiu"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+msgid "Unknown Album"
+msgstr "Album desconoixiu"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "por %s, en %s"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "Anterior"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "PAUSA"
+
+#: ../gnomemusic/notification.py:129
+msgid "Play"
+msgstr "Reproducir"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "Siguient"
+
+#: ../gnomemusic/view.py:294
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"No s'ha trobau mosica!\n"
+" Mete bells fichers en a carpeta %s"
+
+#: ../gnomemusic/view.py:301
+msgid "Albums"
+msgstr "Albums"
+
+#: ../gnomemusic/view.py:333
+msgid "Songs"
+msgstr "Cantas"
+
+#: ../gnomemusic/view.py:484
+msgid "Playlists"
+msgstr "Lista de reproducción"
+
+#: ../gnomemusic/view.py:490
+msgid "Artists"
+msgstr "Artistas"
+
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
+#: ../gnomemusic/widgets.py:443
+msgid "All Artists"
+msgstr "Totz os artistas"
+
+#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+msgid "Load More"
+msgstr "Cargar-ne mas"
+
+#: ../gnomemusic/widgets.py:83
+msgid "Loading..."
+msgstr "Cargando ..."
+
+#: ../gnomemusic/window.py:173
+msgid "Empty"
+msgstr "Vuedo"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Dreitos d'autor © 2013 Desembolicadors de Mosica de GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+#, fuzzy
+msgid "A music player and management application for GNOME."
+msgstr ""
+"Seleccionar una aplicación que executar quan se connecta un reproductor de "
+"mosica"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Visitar a pachina web d'a mosica de GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"Mosica de GNOME ye software libre; puetz redistribuir-lo y/u modificar-lo "
+"baixo os termins d'a Licencia Publica Cheneral GNU tal como la publica a "
+"Free Software Foundation; ya siga en a versión 2 d'a Licencia, como (a la "
+"tuya esleción) qualsiquier atra versión posterior.\n"
+"\n"
+"Mosica de GNOME se distribuye con o afán que te será util, pero SIN GARRA "
+"GUARENCIA; sin mesmo a guarencia implicita de MERCANTILIDAT u IDONEIDAT TA "
+"UN PROPOSITO DETERMINAU. Vei a Licencia Publica Cheneral de GNU ta mas "
+"detalles.\n"
+"\n"
+"Habrías d'haber recibiu una copia d'a Licencia Publica Cheneral GNU chunto a "
+"Mosica si no, escribe a la Free Software Foundation,Inc., 51 Franklin "
+"Street, Fifth Floor, Boston, MA 02110-1301 EE. UU.\n"
+"\n"
+"Os autors de Mosica de GNOME conceden permiso ta usar y distribuir "
+"complementos de GStreamer no compatibles con a GPL. Iste permiso ye por "
+"dencima y dillá d'os permisos concedius por a GPL, por a quala Mosica de "
+"GNOME ye cubierta. Si modificas iste codigo, puetz enamplar ista excepción a "
+"la tuya versión d'o codigo, pero no yes obligau a fer-lo. Si no quiers fer-"
+"lo, elimina ista sentencia d'excepción d'a tuya versión."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Liberau"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Durada d'a reproducción"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_nueva lista de reproducción"
+
+#: ../data/app-menu.ui.h:2
+msgid "Now _Playing"
+msgstr "Reproduci_ndo agora"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_arredol de"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Salir"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Aleatorio"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Repetir-lo tot"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Repetir a canta"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Mezclar/no repetir"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "No s'hatrobau mosica"
+
+#: ../data/headerbar.ui.in.h:1
+msgid "Select All"
+msgstr "Seleccionar-lo tot"
+
+#: ../data/headerbar.ui.in.h:2
+msgid "Select None"
+msgstr "No seleccionar garra"
+
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Preta sobre os elementos ta seleccionar-los"
+
+#: ../data/headerbar.ui.in.h:4
+msgid "Cancel"
+msgstr "CANCELAR"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "ADHIBIr-ne a la lista de reproducción"
