@@ -91,6 +91,7 @@ class ViewContainer(Stack):
         )
         self.view.set_view_type(Gd.MainViewType.ICON)
         self.filter = self._model.filter_new(None)
+        self.view.set_model(self.filter)
         self.vadjustment = self.view.get_vadjustment()
         self.selection_toolbar = selection_toolbar
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -324,7 +325,6 @@ class Albums(ViewContainer):
     def populate(self):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
-            self.view.set_model(self.filter)
 
 
 class Songs(ViewContainer):
