@@ -7,7 +7,7 @@ class Searchbar(Gd.Revealer):
         Gd.Revealer.__init__(self)
         self.stack_switcher = stack_switcher
         toolbar = Gtk.Toolbar()
-        toolbar.get_style_context().add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR)
+        toolbar.get_style_context().add_class("search-bar")
         toolbar.show()
         self.add(toolbar)
         item = Gtk.ToolItem()
