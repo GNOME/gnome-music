@@ -171,6 +171,8 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.views.append(Views.Empty(self.toolbar, self.player))
             self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
+            self.toolbar._search_button.set_sensitive(False)
+            self.toolbar._select_button.set_sensitive(False)
 
         self.toolbar._search_button.connect('toggled', self._on_search_toggled)
 
