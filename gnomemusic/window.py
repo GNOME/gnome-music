@@ -71,8 +71,8 @@ class Window(Gtk.ApplicationWindow):
         if self.settings.get_value('window-maximized'):
             self.maximize()
 
-        self.connect("window-state-event", self.on_window_state_event)
-        self.connect("configure-event", self.on_configure_event)
+        self.connect("window-state-event", self._on_window_state_event)
+        self.connect("configure-event", self._on_configure_event)
         self._setup_view()
         self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
@@ -88,14 +88,14 @@ class Window(Gtk.ApplicationWindow):
             # We cannot grab media keys if no settings daemon is running
             pass
 
-    def on_configure_event(self, widget, event):
+    def _on_configure_event(self, widget, event):
         size = widget.get_size()
         self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
 
         position = widget.get_position()
         self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
 
-    def on_window_state_event(self, widget, event):
+    def _on_window_state_event(self, widget, event):
         self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
     def _grab_media_player_keys(self):
@@ -182,15 +182,18 @@ class Window(Gtk.ApplicationWindow):
 
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
+
         if (event.keyval == Gdk.KEY_f and
                 (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK):
-            self._show_searchbar(not self.toolbar.searchbar.get_child_revealed())
+            self.toolbar.searchbar.toggle_bar()
         elif (event.keyval == Gdk.KEY_Escape and (event.state & modifiers) == 0):
-            self._show_searchbar(False)
+            self.toolbar.searchbar.show_bar(False)
             if self.toolbar._selectionMode:
                 self.toolbar.set_selection_mode(False)
-        elif (event.state & modifiers) == 0 and not self.toolbar.searchbar.get_reveal_child():
-            self._show_searchbar(True)
+        elif (event.state & modifiers) == 0 and \
+                event.keyval in range(33, 126) and \
+                not self.toolbar.searchbar.get_reveal_child():
+            self.toolbar.searchbar.show_bar(True)
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
@@ -200,18 +203,10 @@ class Window(Gtk.ApplicationWindow):
         if stack.get_visible_child() == self.views[1]:
             stack.get_visible_child().stack.set_visible_child_name('dummy')
             stack.get_visible_child().stack.set_visible_child_name('artists')
-        self._show_searchbar(False)
+        self.toolbar.searchbar.show_bar(False)
 
     def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])
 
     def _on_search_toggled(self, button, data=None):
-        self._show_searchbar(button.get_active())
-
-    def _show_searchbar(self, show):
-        self.toolbar.searchbar.set_reveal_child(show)
-        self.toolbar._search_button.set_active(show)
-        if show:
-            self.toolbar.searchbar._search_entry.grab_focus()
-        else:
-            self.toolbar.searchbar._search_entry.set_text('')
+        self.toolbar.searchbar.show_bar(button.get_active())

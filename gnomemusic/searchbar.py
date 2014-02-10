@@ -3,9 +3,10 @@ from gi.repository import Gtk, Gd
 
 class Searchbar(Gd.Revealer):
 
-    def __init__(self, stack_switcher):
+    def __init__(self, stack_switcher, search_button):
         Gd.Revealer.__init__(self)
         self.stack_switcher = stack_switcher
+        self._search_button = search_button
         toolbar = Gtk.Toolbar()
         toolbar.get_style_context().add_class("search-bar")
         toolbar.show()
@@ -55,3 +56,15 @@ class Searchbar(Gd.Revealer):
         self.search_term = self._search_entry.get_text()
         if self.view:
             self.view.filter.refilter()
+
+    def show_bar(self, show):
+        self.set_reveal_child(show)
+        self._search_button.set_active(show)
+
+        if show:
+            self._search_entry.grab_focus()
+        else:
+            self._search_entry.set_text('')
+
+    def toggle_bar(self):
+        self.show_bar(not self.get_child_revealed())

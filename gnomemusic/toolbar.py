@@ -60,7 +60,8 @@ class Toolbar(GObject.GObject):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/headerbar.ui')
         self.header_bar = self._ui.get_object('header-bar')
-        self.searchbar = Searchbar(self._stack_switcher)
+        self._search_button = self._ui.get_object('search-button')
+        self.searchbar = Searchbar(self._stack_switcher, self._search_button)
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
         self._back_button = self._ui.get_object('back-button')
@@ -69,7 +70,6 @@ class Toolbar(GObject.GObject):
         self._selection_menu = self._ui.get_object('selection-menu')
         self._selection_menu_button = self._ui.get_object('selection-menu-button')
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
-        self._search_button = self._ui.get_object('search-button')
         if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
             _back_button_image = self._ui.get_object('back-button-image')
             _back_button_image.set_property('icon-name', 'go-previous-rtl-symbolic')
