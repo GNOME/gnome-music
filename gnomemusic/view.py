@@ -269,6 +269,7 @@ class ViewContainer(Stack):
             self._model.set_value(
                 _iter, 4,
                 albumArtCache.get_default()._make_icon_frame(icon))
+            self.view.queue_draw()
 
     def _add_list_renderers(self):
         pass
