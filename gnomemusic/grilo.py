@@ -84,8 +84,8 @@ class Grilo(GObject.GObject):
     def _on_source_removed(self, pluginRegistry, mediaSource):
         print('source removed')
 
-    def populate_artists(self, offset, callback):
-        self.populate_items(Query.ARTISTS, offset, callback)
+    def populate_artists(self, offset, callback, count=-1):
+        self.populate_items(Query.ARTISTS, offset, callback, count)
 
     def populate_albums(self, offset, callback, count=50):
         self.populate_items(Query.ALBUMS, offset, callback, count)
