@@ -90,9 +90,7 @@ class ViewContainer(Stack):
             shadow_type=Gtk.ShadowType.NONE
         )
         self.view.set_view_type(Gd.MainViewType.ICON)
-        self.view.set_model(self._model)
         self.filter = self._model.filter_new(None)
-        self.view.set_model(self.filter)
         self.vadjustment = self.view.get_vadjustment()
         self.selection_toolbar = selection_toolbar
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -243,7 +241,7 @@ class ViewContainer(Stack):
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                             [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
-                             -1, icon_name, False, icon_name == self.errorIconName])
+                             0, icon_name, False, icon_name == self.errorIconName])
             GLib.idle_add(self._update_album_art, item, _iter)
 
         GLib.idle_add(add_new_item)
@@ -326,6 +324,7 @@ class Albums(ViewContainer):
     def populate(self):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
+            self.view.set_model(self.filter)
 
 
 class Songs(ViewContainer):
