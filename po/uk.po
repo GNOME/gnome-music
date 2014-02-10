@@ -1,13 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Daniel Korostil <ted.korostiled@gmail.com>, 2013.
+# Daniel Korostil <ted.korostiled@gmail.com>, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-21 14:24+0300\n"
-"PO-Revision-Date: 2013-09-21 14:29+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2013-12-18 21:01+0000\n"
+"PO-Revision-Date: 2014-02-10 11:23+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
 "Language: uk\n"
@@ -17,6 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -46,19 +48,28 @@ msgstr "Стан розгорнутого вікна."
 msgid "Playback repeat mode"
 msgstr "Режим повторного програвання"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+#| msgid ""
+#| "Value identifies whether to repeat or randomize playback through the "
+#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Значення, яке визначає, чи програвати збірку повторно, чи навмання. "
-"Допустимі значення: «none», «song», «all», «shuffle»."
+"Допустимі значення: «none» (без повторювання і перемішування), «song» "
+"(повторювати одну пісню), «all» (повторювати список композицій, без "
+"змішування), «shuffle» (перемішати композиції у списку, допускаються "
+"повторювання)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Режим пошуку"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr "Якщо так, то показується панель пошуку."
 
@@ -92,13 +103,13 @@ msgstr "Неназвано"
 msgid "Not playing"
 msgstr "Не відтворюється"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
-#: ../gnomemusic/view.py:587
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
+#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
+#: ../gnomemusic/view.py:591
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
 msgid "Unknown Album"
 msgstr "Невідомий альбом"
 
@@ -108,23 +119,23 @@ msgstr "Невідомий альбом"
 msgid "by %s, from %s"
 msgstr "від %s, з %s"
 
-#: ../gnomemusic/notification.py:130
+#: ../gnomemusic/notification.py:123
 msgid "Previous"
 msgstr "Попередня"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:126
 msgid "Pause"
 msgstr "Призупинити"
 
-#: ../gnomemusic/notification.py:136
+#: ../gnomemusic/notification.py:129
 msgid "Play"
 msgstr "Грати"
 
-#: ../gnomemusic/notification.py:138
+#: ../gnomemusic/notification.py:131
 msgid "Next"
 msgstr "Наступна"
 
-#: ../gnomemusic/view.py:290
+#: ../gnomemusic/view.py:294
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -133,23 +144,23 @@ msgstr ""
 "Не знайдено музики!\n"
 " Помістіть хоч якісь файли у теку %s"
 
-#: ../gnomemusic/view.py:297
+#: ../gnomemusic/view.py:301
 msgid "Albums"
 msgstr "Альбоми"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:333
 msgid "Songs"
 msgstr "Пісні"
 
-#: ../gnomemusic/view.py:480
+#: ../gnomemusic/view.py:484
 msgid "Playlists"
 msgstr "Списки композицій"
 
-#: ../gnomemusic/view.py:486
+#: ../gnomemusic/view.py:490
 msgid "Artists"
 msgstr "Виконавці"
 
-#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
+#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
 #: ../gnomemusic/widgets.py:443
 msgid "All Artists"
 msgstr "Всі виконавці"
@@ -162,7 +173,7 @@ msgstr "Завантажити ще"
 msgid "Loading..."
 msgstr "Завантаження…"
 
-#: ../gnomemusic/window.py:138
+#: ../gnomemusic/window.py:173
 msgid "Empty"
 msgstr "Пусто"
 
@@ -237,12 +248,14 @@ msgid "_New Playlist"
 msgstr "С_творити список композицій"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "З_араз грає"
+#| msgid "_Now Playing"
+msgid "Now _Playing"
+msgstr "Зараз про_грається"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "П_ро програму"
+#| msgid "_About Music"
+msgid "_About"
+msgstr "_Про програму"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
