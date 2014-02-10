@@ -190,6 +190,16 @@ class Player(GObject.GObject):
     def _on_playlist_size_changed(self, path, _iter=None, data=None):
         self._sync_prev_next()
 
+    def _get_random_iter(self, currentTrack):
+        currentPath = int(self.playlist.get_path(currentTrack).to_string())
+        rows = self.playlist.iter_n_children(None)
+        if rows == 1:
+            return currentTrack
+        rand = currentPath
+        while rand == currentPath:
+            rand = randint(0, rows - 1)
+        return self.playlist.get_iter_from_string(str(rand))
+
     def _get_next_track(self):
         if self.currentTrack and self.currentTrack.valid():
             currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
@@ -212,10 +222,8 @@ class Player(GObject.GObject):
             if currentTrack:
                 nextTrack = self.playlist.iter_next(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
-            nextTrack = self.playlist.get_iter_first()
-            rows = self.playlist.iter_n_children(None)
-            for i in range(1, randint(1, rows)):
-                nextTrack = self.playlist.iter_next(nextTrack)
+            if currentTrack:
+                nextTrack = self._get_random_iter(currentTrack)
 
         if nextTrack:
             return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(nextTrack))
@@ -254,10 +262,8 @@ class Player(GObject.GObject):
             if currentTrack:
                 previousTrack = self.playlist.iter_previous(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
-            previousTrack = self.playlist.get_iter_first()
-            rows = self.playlist.iter_n_children(None)
-            for i in range(1, randint(1, rows)):
-                previousTrack = self.playlist.iter_next(previousTrack)
+            if currentTrack:
+                previousTrack = self._get_random_iter(currentTrack)
 
         if previousTrack:
             return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(previousTrack))
