@@ -160,8 +160,8 @@ class AlbumWidget(Gtk.EventBox):
         list_widget = self.view.get_generic_view()
 
         cols = list_widget.get_columns()
-        cols[0].set_min_width(310)
-        cols[0].set_max_width(470)
+        cols[0].set_min_width(100)
+        cols[0].set_max_width(200)
         cells = cols[0].get_cells()
         cells[2].set_visible(False)
         cells[1].set_visible(False)

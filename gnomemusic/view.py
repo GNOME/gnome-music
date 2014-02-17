@@ -71,7 +71,7 @@ class ViewContainer(Stack):
         Stack.__init__(self,
                        transition_type=StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-        self._iconWidth = -1
+        self._iconWidth = 128
         self._iconHeight = 128
         self._offset = 0
         self._adjustmentValueId = 0

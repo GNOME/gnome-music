@@ -64,7 +64,7 @@ class Window(Gtk.ApplicationWindow):
         selectNone = Gio.SimpleAction.new('selectNone', None)
         selectNone.connect('activate', self._on_select_none)
         self.add_action(selectNone)
-        self.set_size_request(887, 640)
+        self.set_size_request(200, 100)
 
         size_setting = self.settings.get_value('window-size')
         if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
