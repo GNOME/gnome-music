@@ -35,7 +35,7 @@ class Playlists(GObject.GObject):
             for _iter in iterlist:
                 pass
         else:
-            _iter = playlist.append()
+            playlist.append()
         parser.save(playlist, pl_file, name, TotemPlParser.ParserType.PLS)
         self.emit('playlist-created', name)
         return False
