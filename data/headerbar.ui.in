@@ -5,10 +5,12 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
+        <attribute name="action">win.selectAll</attribute>
         <attribute name="accel">&lt;Primary&gt;a</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Select None</attribute>
+        <attribute name="action">win.selectNone</attribute>
       </item>
     </section>
   </menu>

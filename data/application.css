@@ -31,8 +31,22 @@
     background-color: #77757A;
 }
 
+.playlist-controls-white{
+    background-color: #d7dad7;
+}
+.playlist-controls-white:selected{
+    background-color: #888A85;
+}
+.playlist-controls-dark{
+    background-color: #282528;
+}
+.playlist-controls-dark:selected{
+    background-color: #77757A;
+}
+
 .songs-list {
     box-shadow: inset 0 -1px shade(@borders, 1.30);
+    box-shadow: inset 0 1px shade(@borders, 1.30);
     background-color: @theme_bg_color;
 }
 
@@ -127,3 +141,6 @@
     color: mix (@theme_fg_color, @theme_bg_color, 0.50);    
 }
 
+.circle-button {
+    border-radius: 50%;
+}

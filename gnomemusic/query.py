@@ -275,3 +275,24 @@ class Query():
     }
     """.replace("\n", " ").strip() % {'album_id': album_id}
         return query
+
+    @staticmethod
+    def get_song_with_url(url):
+        query = '''
+    SELECT DISTINCT
+        rdf:type(?song)
+        tracker:id(?song) AS id
+        nie:url(?song) AS url
+        nie:title(?song) AS title
+        nmm:artistName(nmm:performer(?song)) AS artist
+        nie:title(nmm:musicAlbum(?song)) AS album
+        nfo:duration(?song) AS duration
+    WHERE {
+        ?song a nmm:MusicPiece .
+        FILTER (
+            nie:url(?song) = '%(url)s'
+        )
+    }
+    '''.replace('\n', ' ').strip() % {'url': url}
+
+        return query

@@ -35,11 +35,13 @@ from gi.repository import Gtk, Gd, GLib, GObject, Pango
 from gi.repository import GdkPixbuf, Gio
 from gi.repository import Grl
 from gi.repository import Tracker
-from gettext import gettext as _
+from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.playlists import Playlists
 
+playlist = Playlists.get_default()
 tracker = Tracker.SparqlConnection.get(None)
 ALBUM_ART_CACHE = AlbumArtCache.get_default()
 if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
@@ -254,6 +256,11 @@ class AlbumWidget(Gtk.EventBox):
         items = self.view.get_selection()
         self.selection_toolbar\
             ._add_to_playlist_button.set_sensitive(len(items) > 0)
+        if len(items) > 0:
+            self.header_bar._selection_menu_label.set_text(
+                ngettext(_("Selected %d item"), _("Selected %d items"), len(items)) % len(items))
+        else:
+            self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
     def _on_header_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
@@ -267,6 +274,7 @@ class AlbumWidget(Gtk.EventBox):
             self.player.eventBox.set_visible(False)
             self.selection_toolbar.eventbox.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
+            self.header_bar.header_bar.set_custom_title(self.header_bar._selection_menu_button)
         else:
             self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
@@ -279,7 +287,7 @@ class AlbumWidget(Gtk.EventBox):
         if error:
             self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
 
-    def _on_populate_album_songs(self, source, prefs, track):
+    def _on_populate_album_songs(self, source, prefs, track, remaining):
         if track:
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
@@ -492,7 +500,7 @@ class AllArtistsAlbums(ArtistAlbums):
             GLib.idle_add(grilo.populate_albums,
                           self._offset, self.add_item, 5)
 
-    def add_item(self, source, param, item):
+    def add_item(self, source, param, item, remaining):
         if item:
             self._offset += 1
             self.add_album(item)
@@ -537,7 +545,7 @@ class ArtistAlbumWidget(Gtk.HBox):
             song_widget.now_playing_sign.show()
             song_widget.can_be_played = False
 
-    def get_songs(self, source, prefs, track):
+    def get_songs(self, source, prefs, track, remaining):
         if track:
             self.tracks.append(track)
         else:
@@ -602,3 +610,83 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.player.set_playlist('Artist', self.album,
                                  widget.model, widget._iter, 5)
         self.player.set_playing(True)
+
+
+class PlaylistDialog():
+    def __init__(self, parent):
+        self.ui = Gtk.Builder()
+        self.ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
+        self.dialog_box = self.ui.get_object('dialog1')
+        self.dialog_box.set_transient_for(parent)
+
+        self.view = self.ui.get_object('treeview1')
+        self.selection = self.ui.get_object('treeview-selection1')
+        self._add_list_renderers()
+        self.view.connect('row-activated', self._on_item_activated)
+
+        self.model = self.ui.get_object('liststore1')
+        playlist_names = playlist.get_playlists()
+        self.populate(playlist_names)
+
+        self.title_bar = self.ui.get_object('headerbar1')
+        if Gtk.get_minor_version() > 8:
+            self.dialog_box.set_titlebar(self.title_bar)
+        else:
+            self.dialog_box.get_content_area().add(self.title_bar)
+            self.dialog_box.get_content_area().reorder_child(self.title_bar, 0)
+
+        self._cancel_button = self.ui.get_object('cancel-button')
+        self._select_button = self.ui.get_object('select-button')
+        self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
+        self._select_button.connect('clicked', self._on_selection)
+
+    def get_selected(self):
+        _iter = self.selection.get_selected()[1]
+
+        if not _iter or self.model[_iter][1]:
+            return None
+
+        return self.model[_iter][0]
+
+    def _add_list_renderers(self):
+        cols = Gtk.TreeViewColumn()
+        type_renderer = Gd.StyledTextRenderer(
+            xpad=16,
+            ypad=16,
+            ellipsize=Pango.EllipsizeMode.END,
+            xalign=0.0,
+            width=220
+        )
+        type_renderer.connect('editing-started', self._on_editing_started, None)
+        cols.pack_start(type_renderer, True)
+        cols.add_attribute(type_renderer, "text", 0)
+        cols.add_attribute(type_renderer, "editable", 1)
+        self.view.append_column(cols)
+
+    def populate(self, items):
+        for playlist_name in sorted(items):
+            self.model.append([playlist_name, False])
+        add_playlist_iter = self.model.append()
+        self.model.set(add_playlist_iter, [0, 1], [_("New Playlist"), True])
+
+    def _on_selection(self, select_button):
+        self.dialog_box.response(Gtk.ResponseType.ACCEPT)
+
+    def _on_cancel_button_clicked(self, cancel_button):
+        self.dialog_box.response(Gtk.ResponseType.REJECT)
+
+    def _on_item_activated(self, view, path, column):
+        _iter = self.model.get_iter(path)
+        if self.model.get_value(_iter, 1):
+            self.view.set_cursor(path, column, True)
+
+    def _on_editing_started(self, renderer, editable, path, data=None):
+        editable.set_text('')
+        editable.connect('editing-done', self._on_editing_done, None)
+
+    def _on_editing_done(self, editable, data=None):
+        _iter = self.selection.get_selected()[1]
+        if editable.get_text() != '':
+            playlist.create_playlist(editable.get_text())
+            new_iter = self.model.insert_before(_iter)
+            self.model.set(new_iter, [0, 1], [editable.get_text(), False])

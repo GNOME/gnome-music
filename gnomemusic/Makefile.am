@@ -9,7 +9,8 @@ app_PYTHON = \
 	notification.py \
 	toolbar.py \
 	view.py \
-	grilo.py \
+	grilo.py  \
+	playlists.py\
 	query.py \
 	widgets.py \
 	searchbar.py \

@@ -48,7 +48,8 @@ class ToolbarState:
 class Toolbar(GObject.GObject):
 
     __gsignals__ = {
-        'state-changed': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'state-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'selection-mode-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
     }
     _selectionMode = False
     _maximized = False
@@ -69,6 +70,7 @@ class Toolbar(GObject.GObject):
         self._close_button = self._ui.get_object('close-button')
         self._selection_menu = self._ui.get_object('selection-menu')
         self._selection_menu_button = self._ui.get_object('selection-menu-button')
+        self._selection_menu_label = self._ui.get_object('selection-menu-button-label')
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
         if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
             _back_button_image = self._ui.get_object('back-button-image')
@@ -129,6 +131,7 @@ class Toolbar(GObject.GObject):
             self._select_button.set_active(False)
             self._select_button.show()
             self._cancel_button.hide()
+        self.emit('selection-mode-changed')
         self._update()
 
     def on_back_button_clicked(self, widget):

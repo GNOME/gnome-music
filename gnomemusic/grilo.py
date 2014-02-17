@@ -50,22 +50,25 @@ class Grilo(GObject.GObject):
 
     def __init__(self):
         GObject.GObject.__init__(self)
-
+        self.playlist_path = GLib.build_filenamev([GLib.get_user_data_dir(),
+                                                  "gnome-music", "playlists"])
+        if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):
+            GLib.mkdir_with_parents(self.playlist_path, int("0755", 8))
         self.options = Grl.OperationOptions()
         self.options.set_flags(Grl.ResolutionFlags.FULL |
                                Grl.ResolutionFlags.IDLE_RELAY)
 
+        self.sources = {}
+        self.tracker = None
+
         self.registry = Grl.Registry.get_default()
+        self.registry.connect('source_added', self._on_source_added)
+        self.registry.connect('source_removed', self._on_source_removed)
+
         try:
             self.registry.load_all_plugins()
         except GLib.GError:
             print('Failed to load plugins.')
-
-        self.sources = {}
-        self.tracker = None
-
-        self.registry.connect('source_added', self._on_source_added)
-        self.registry.connect('source_removed', self._on_source_removed)
 
     def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
@@ -103,7 +106,7 @@ class Grilo(GObject.GObject):
             options.set_count(count)
 
         def _callback(source, param, item, count, data, offset):
-            callback(source, param, item)
+            callback(source, param, item, count)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
     def _search_callback(self):
@@ -120,6 +123,17 @@ class Grilo(GObject.GObject):
         options = self.options.copy()
         query = Query.get_album_for_id(album_id)
         self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, _callback, None)
+
+    def get_media_from_uri(self, uri, callback):
+        options = self.options.copy()
+        query = Query.get_song_with_url(uri)
+
+        def _callback(source, param, item, count, data, error):
+            if not error:
+                callback(source, param, item)
+                return
+
+        self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
 Grl.init(None)
 

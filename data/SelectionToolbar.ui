@@ -35,6 +35,22 @@
             <property name="position">0</property>
           </packing>
         </child>
+        <child>
+          <object class="GtkButton" id="button2">
+            <property name="label" translatable="yes">Remove from Playlist</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <style>
+              <class name="text-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>
