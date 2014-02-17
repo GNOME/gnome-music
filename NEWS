@@ -1,3 +1,47 @@
+Overview of changes in 3.11.90
+=============================
+
+* Initial playlists support
+* Filter-as-you-type
+* Misc fixes and improvements
+
+
+* Bugs fixed:
+ 700022 app no longer fits half maximized
+ 721297 Shuffle is not random enough
+ 723765 Static spinner superimposed over album artwork
+ 708154 Crash when Search button is toggled on No Music view
+ 724027 theme: actionbar has a doubleborder
+ 724025 searchbar isn't styled properly
+ 724016 don't segment artist list sidebar
+ 721595 Typing should trigger a search
+ 723750 The stack switcher is gone when run gnome-music with GTK+ 3.11
+ 709234 Music cannot be run via ssh forwarding
+
+
+* Added translations:
+ Aragonese
+ Esperanto
+
+* Updated translations:
+ Hebrew
+ Lithuanian
+ Traditional Chinese
+ Norwegian bokmål
+ Turkish
+ Finnish
+ Czech
+ Greek
+ Brazilian Portuguese
+ Galician
+ Chinese simplified
+ Slovenian
+ German
+ Italian
+ Spanish
+ Tajik
+
+
 Overview of changes in 3.11.2
 =============================
 
