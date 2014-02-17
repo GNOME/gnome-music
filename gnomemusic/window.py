@@ -55,8 +55,7 @@ class Window(Gtk.ApplicationWindow):
         self.connect('focus-in-event', self._windows_focus_cb)
         self.settings = Gio.Settings('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
-
-        self.set_size_request(887, 640)
+        self.set_size_request(200, 100)
 
         size_setting = self.settings.get_value('window-size')
         if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
