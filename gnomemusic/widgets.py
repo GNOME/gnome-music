@@ -679,6 +679,9 @@ class PlaylistDialog():
         _iter = self.model.get_iter(path)
         if self.model.get_value(_iter, 1):
             self.view.set_cursor(path, column, True)
+            self._select_button.set_sensitive(False)
+        else:
+            self._select_button.set_sensitive(True)
 
     def _on_editing_started(self, renderer, editable, path, data=None):
         editable.set_text('')
