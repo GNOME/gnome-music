@@ -25,4 +25,7 @@ $ make
 
 Jhbuild fires import errors for python packages like:
 "ImportError: /opt/gnome/lib64/python2.7/site-packages/"
-Do "export PYTHONPATH=/opt/gnome/lib/python3.3/site-packages" in Jhbuild shell.
+Do:
+ $ jhbuild shell
+ $ export PYTHONPATH=/opt/gnome/lib/python3.3/site-packages:/opt/gnome/lib64/python3.3/site-packages
+ $ gnome-music
