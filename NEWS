@@ -1,3 +1,18 @@
+Overview of changes in 3.10.3
+=============================
+
+* Bug fixes:
+  * 709234 don't crash if we can't connect to settings daemon
+  * 721595 Typing should trigger a search
+  * 724016 don't segment artist list sidebar
+  * 723942 Search on keypress function opens search bar even when pressing any key
+  * 708154 Crash when Search button is toggled on No Music view
+  * 723765 Static spinner superimposed over album artwork
+  * 721297 Shuffle is not random enough
+  * 700022 app no longer fits half maximized
+  * 707744 Song is being replayed when paused
+
+
 Overview of changes in 3.10.2
 =============================
 
