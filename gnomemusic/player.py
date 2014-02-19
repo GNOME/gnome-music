@@ -375,11 +375,11 @@ class Player(GObject.GObject):
         if self.player.get_state(1)[1] != Gst.State.PAUSED:
             self.stop()
 
-        media = self.get_current_media()
-        if not media:
-            return
+            media = self.get_current_media()
+            if not media:
+                return
 
-        self.load(media)
+            self.load(media)
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
