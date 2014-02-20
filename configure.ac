@@ -19,6 +19,8 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
                    [The prefix for our gettext translation domains.])
 IT_PROG_INTLTOOL(0.26)
 
+YELP_HELP_INIT
+
 AC_PROG_CC
 AM_PROG_CC_C_O
 LT_INIT([disable-static])
@@ -42,6 +44,7 @@ PKG_CHECK_MODULES(GRL, grilo-0.2 >= $GRL_MIN_VERSION)
 AC_CONFIG_FILES([
   Makefile
   data/Makefile
+  help/Makefile
   data/headerbar.ui
   data/AboutDialog.ui
   data/PlaylistDialog.ui
