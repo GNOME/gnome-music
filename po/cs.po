@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-21 07:56+0000\n"
-"PO-Revision-Date: 2014-02-21 10:46+0100\n"
+"POT-Creation-Date: 2014-02-21 22:00+0000\n"
+"PO-Revision-Date: 2014-02-21 23:02+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -137,13 +137,10 @@ msgstr "Následující"
 #: ../gnomemusic/window.py:211
 #, python-format
 msgid "Selected %d item"
-msgstr ""
-
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:211
-#, python-format
-msgid "Selected %d items"
-msgstr ""
+msgid_plural "Selected %d items"
+msgstr[0] "Vybrána %d položka"
+msgstr[1] "Vybrány %d položky"
+msgstr[2] "Vybráno %d položek"
 
 #: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
 #: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
@@ -182,16 +179,12 @@ msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
 #: ../gnomemusic/view.py:978
-#, fuzzy, python-format
-#| msgid "Songs"
+#, python-format
 msgid "%d Song"
-msgstr "Skladby"
-
-#: ../gnomemusic/view.py:978
-#, fuzzy, python-format
-#| msgid "Songs"
-msgid "%d Songs"
-msgstr "Skladby"
+msgid_plural "%d Songs"
+msgstr[0] "%d skladba"
+msgstr[1] "%d skladby"
+msgstr[2] "%d skladeb"
 
 #: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
