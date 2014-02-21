@@ -208,7 +208,7 @@ class Window(Gtk.ApplicationWindow):
             count = count + 1
         if count > 0:
             self.toolbar._selection_menu_label.set_text(
-                ngettext(_("Selected %d item"), _("Selected %d items"), count) % count)
+                ngettext("Selected %d item", "Selected %d items", count) % count)
             self.selection_toolbar._add_to_playlist_button.set_sensitive(True)
             self.selection_toolbar._remove_from_playlist_button.set_sensitive(True)
         elif count == 0:
