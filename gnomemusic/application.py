@@ -67,6 +67,10 @@ class Application(Gtk.Application):
         aboutAction.connect('activate', self.about)
         self.add_action(aboutAction)
 
+        helpAction = Gio.SimpleAction.new('help', None)
+        helpAction.connect('activate', self.help)
+        self.add_action(helpAction)
+
         newPlaylistAction = Gio.SimpleAction.new('newPlaylist', None)
         newPlaylistAction.connect('activate', self.new_playlist)
         self.add_action(newPlaylistAction)
@@ -84,6 +88,9 @@ class Application(Gtk.Application):
 
     def now_playing(self, action, param):
         pass
+
+    def help(self, action, param):
+        Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
 
     def about(self, action, param):
         builder = Gtk.Builder()
