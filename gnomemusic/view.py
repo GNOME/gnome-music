@@ -190,7 +190,7 @@ class ViewContainer(Stack):
             set_sensitive(len(items) > 0)
         if len(items) > 0:
             self.header_bar._selection_menu_label.set_text(
-                ngettext(_("Selected %d item"), _("Selected %d items"), len(items)) % len(items))
+                ngettext("Selected %d item", "Selected %d items", len(items)) % len(items))
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
@@ -975,7 +975,7 @@ class Playlist(ViewContainer):
 
     def _update_songs_count(self):
         self.songs_count_label.set_text(
-            ngettext(_("%d Song"), _("%d Songs"), self.songs_count)
+            ngettext("%d Song", "%d Songs", self.songs_count)
             % self.songs_count)
 
     def _on_selection_mode_changed(self, widget, data=None):
