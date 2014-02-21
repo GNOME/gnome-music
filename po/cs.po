@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 21:01+0000\n"
-"PO-Revision-Date: 2014-01-14 14:22+0100\n"
+"POT-Creation-Date: 2014-02-21 07:56+0000\n"
+"PO-Revision-Date: 2014-02-21 10:46+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -57,11 +57,11 @@ msgid ""
 "\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Hodnota určuje, jestli opakovaně nebo náhodně přehrávat z celé sbírku. Platné "
-"hodnoty jsou: „none“ (opakování a náhodný výběr vypnuty), „song“ (opakovat "
-"aktuální skladbu), „all“ (opakovat vše ze seznamu k přehrání, ne náhodně), "
-"„shuffle“ (náhodně přehrávat ze seznamu k přehrání, předpokládá se opakování "
-"všeho)."
+"Hodnota určuje, jestli opakovaně nebo náhodně přehrávat z celé sbírku. "
+"Platné hodnoty jsou: „none“ (opakování a náhodný výběr vypnuty), "
+"„song“ (opakovat aktuální skladbu), „all“ (opakovat vše ze seznamu k "
+"přehrání, ne náhodně), „shuffle“ (náhodně přehrávat ze seznamu k přehrání, "
+"předpokládá se opakování všeho)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -72,7 +72,7 @@ msgid "If true, the search bar is shown."
 msgstr "Je-li zapnuto, je zobrazena vyhledávací lišta."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Hudba"
@@ -101,13 +101,13 @@ msgstr "Bez názvu"
 msgid "Not playing"
 msgstr "Nepřehrává se"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:356
+#: ../gnomemusic/view.py:248 ../gnomemusic/view.py:434
+#: ../gnomemusic/view.py:647 ../gnomemusic/view.py:961
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:532
 msgid "Unknown Album"
 msgstr "Neznámé album"
 
@@ -133,7 +133,25 @@ msgstr "Přehrát"
 msgid "Next"
 msgstr "Následující"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+msgid "Selected %d item"
+msgstr ""
+
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+msgid "Selected %d items"
+msgstr ""
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Klikáním vyberte položky"
+
+#: ../gnomemusic/view.py:317
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -142,36 +160,52 @@ msgstr ""
 "Žádná hudba nenalezana!\n"
 "Uložte nějakou do složky %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:324
 msgid "Albums"
 msgstr "Alba"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:390
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "Seznamy k přehrání"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:545
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:584
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Všichni umělci"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:714
+msgid "Playlists"
+msgstr "Seznamy k přehrání"
+
+#: ../gnomemusic/view.py:978
+#, fuzzy, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgstr "Skladby"
+
+#: ../gnomemusic/view.py:978
+#, fuzzy, python-format
+#| msgid "Songs"
+msgid "%d Songs"
+msgstr "Skladby"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Načíst další"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "Načítá se…"
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "Nový seznam k přehrání"
+
+#: ../gnomemusic/window.py:181
 msgid "Empty"
 msgstr "Prázdné"
 
@@ -285,14 +319,30 @@ msgstr "Vybrat vše"
 msgid "Select None"
 msgstr "Zrušit výběr"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Klikáním vyberte položky"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Zrušit"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Přidat do seznamu k přehrání"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Odebrat ze seznamu k přehrání"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Přehrát"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Smazat"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "Vybrat seznam k přehrání"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "Vybrat"
