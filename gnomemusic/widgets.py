@@ -258,7 +258,7 @@ class AlbumWidget(Gtk.EventBox):
             ._add_to_playlist_button.set_sensitive(len(items) > 0)
         if len(items) > 0:
             self.header_bar._selection_menu_label.set_text(
-                ngettext(_("Selected %d item"), _("Selected %d items"), len(items)) % len(items))
+                ngettext("Selected %d item", "Selected %d items", len(items)) % len(items))
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
