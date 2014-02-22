@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-21 19:56+0000\n"
-"PO-Revision-Date: 2014-02-21 17:26-0300\n"
+"POT-Creation-Date: 2014-02-21 22:00+0000\n"
+"PO-Revision-Date: 2014-02-21 22:14-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -139,14 +139,11 @@ msgstr "Próxima"
 #: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
 #: ../gnomemusic/window.py:211
 #, python-format
+#| msgid "Selected %d item"
 msgid "Selected %d item"
-msgstr "%d item selecionado"
-
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:211
-#, python-format
-msgid "Selected %d items"
-msgstr "%d itens selecionados"
+msgid_plural "Selected %d items"
+msgstr[0] "%d item selecionado"
+msgstr[1] "%d itens selecionados"
 
 #: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
 #: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
@@ -186,15 +183,11 @@ msgstr "Listas de reprodução"
 
 #: ../gnomemusic/view.py:978
 #, python-format
-#| msgid "Songs"
+#| msgid "%d Song"
 msgid "%d Song"
-msgstr "%d música"
-
-#: ../gnomemusic/view.py:978
-#, python-format
-#| msgid "Songs"
-msgid "%d Songs"
-msgstr "%d músicas"
+msgid_plural "%d Songs"
+msgstr[0] "%d música"
+msgstr[1] "%d músicas"
 
 #: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
@@ -205,7 +198,6 @@ msgid "Loading..."
 msgstr "Carregando..."
 
 #: ../gnomemusic/widgets.py:670
-#| msgid "_New Playlist"
 msgid "New Playlist"
 msgstr "Nova lista de reprodução"
 
@@ -339,12 +331,10 @@ msgid "Add to Playlist"
 msgstr "Adicionar para lista de reprodução"
 
 #: ../data/SelectionToolbar.ui.h:2
-#| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "Remover da lista de reprodução"
 
 #: ../data/PlaylistControls.ui.h:1
-#| msgid "Play"
 msgid "_Play"
 msgstr "_Reproduzir"
 
@@ -353,11 +343,16 @@ msgid "_Delete"
 msgstr "E_xcluir"
 
 #: ../data/PlaylistDialog.ui.in.h:1
-#| msgid "Select All"
 msgid "Select Playlist"
 msgstr "Selecionar lista de reprodução"
 
 #: ../data/PlaylistDialog.ui.in.h:3
-#| msgid "Select All"
 msgid "Select"
 msgstr "Selecionar"
+
+#~ msgid "Selected %d items"
+#~ msgstr "%d itens selecionados"
+
+#~| msgid "Songs"
+#~ msgid "%d Songs"
+#~ msgstr "%d músicas"
