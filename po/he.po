@@ -2,14 +2,14 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
-# Yosef Or Boczko <yoseforb@gmail.com>, 2013.
+# Yosef Or Boczko <yoseforb@gnome.org>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-03 16:14+0200\n"
-"PO-Revision-Date: 2014-02-03 16:32+0200\n"
+"POT-Creation-Date: 2014-02-22 20:01+0200\n"
+"PO-Revision-Date: 2014-02-22 20:03+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -52,8 +52,14 @@ msgstr "Playback repeat mode"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-msgid "Value identifies whether to repeat or randomize playback through the collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle\" (shuffle playlist, presumes repeat all)."
-msgstr "Value identifies whether to repeat or randomize playback through the collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -63,10 +69,8 @@ msgstr "Search mode"
 msgid "If true, the search bar is shown."
 msgstr "If true, the search bar is shown."
 
-#: ../data/gnome-music.desktop.in.h:1
-#: ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102
-#: ../gnomemusic/window.py:54
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "מוזיקה"
@@ -75,8 +79,7 @@ msgstr "מוזיקה"
 msgid "Music Player"
 msgstr "נגן מוזיקה"
 
-#: ../data/gnome-music.desktop.in.h:3
-#: ../data/gnome-music.appdata.xml.in.h:2
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "לנגן ולארגן את אוסף המוזיקה שלך"
 
@@ -96,16 +99,13 @@ msgstr "ללא כותרת"
 msgid "Not playing"
 msgstr "לא מתנגן"
 
-#: ../gnomemusic/notification.py:77
-#: ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229
-#: ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:356
+#: ../gnomemusic/view.py:248 ../gnomemusic/view.py:434
+#: ../gnomemusic/view.py:647 ../gnomemusic/view.py:961
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
-#: ../gnomemusic/notification.py:79
-#: ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:532
 msgid "Unknown Album"
 msgstr "אלבום לא ידוע"
 
@@ -131,7 +131,22 @@ msgstr "ניגון"
 msgid "Next"
 msgstr "הבא"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, c-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "פריט אחד נבחר"
+msgstr[1] "%d פריטים נבחרו"
+msgstr[2] "שני פריטים נבחרו"
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
+
+#: ../gnomemusic/view.py:317
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -140,38 +155,48 @@ msgstr ""
 "לא נמצא מוזיקה!\n"
 " שים כמה קבצים בתיקייה %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:324
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:390
 msgid "Songs"
 msgstr "שירים"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "רשימות השמעה"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:545
 msgid "Artists"
 msgstr "אמנים"
 
-#: ../gnomemusic/view.py:526
-#: ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:584
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "כל האמנים"
 
-#: ../gnomemusic/widgets.py:73
-#: ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:714
+msgid "Playlists"
+msgstr "רשימות השמעה"
+
+#: ../gnomemusic/view.py:978
+#, c-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "שיר אחד"
+msgstr[1] "%d שירים"
+msgstr[2] "שני שירים"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "טעינת עוד"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "בטעינה…"
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "רשימת השמעה חדשה"
+
+#: ../gnomemusic/window.py:181
 msgid "Empty"
 msgstr "ריק"
 
@@ -189,19 +214,44 @@ msgstr "בקר באתר GNOME מוזיקה"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
-"‏GNOME Music היא תכנה חופשית; ניתן להפיצה מחדש ו/או לשנות אותה לפי תנאי הרישיון הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם גרסה 2 של הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר.\n"
+"‏GNOME Music היא תכנה חופשית; ניתן להפיצה מחדש ו/או לשנות אותה לפי תנאי "
+"הרישיון הציבורי הכללי של GNU כפי שפורסם על ידי קרן התכנה החופשית; בין אם "
+"גרסה 2 של הרישיון ובין אם (לבחירתך) כל גרסה מאוחרת יותר.\n"
 "\n"
-"תכנית זו מופצת בתקווה שתביא תועלת אך ללא אחריות כלשהי; אפילו לא האחריות המשתמעת בדבר מסחריותה או התאמתה למטרה מסוימת. לפרטים נוספים ניתן לעיין ברישיון הציבורי הכללי של GNU.לתכנית זו אמור היה להיות מצורף עותק של הרישיון הציבורי הכללי של GNU; במידה שלא, ניתן לכתוב ל־Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"תכנית זו מופצת בתקווה שתביא תועלת אך ללא אחריות כלשהי; אפילו לא האחריות "
+"המשתמעת בדבר מסחריותה או התאמתה למטרה מסוימת. לפרטים נוספים ניתן לעיין "
+"ברישיון הציבורי הכללי של GNU.לתכנית זו אמור היה להיות מצורף עותק של הרישיון "
+"הציבורי הכללי של GNU; במידה שלא, ניתן לכתוב ל־Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"היוצרים של GNOME Music מצהירים בזאת כי הם מעניקים הרשאה להפצה של תוספי GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה זו תקפה על פני ההרשאה הניתנת על־ידי רישיון ה־GPL תחתיו מוגנת התכנית GNOME Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, אך אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את הצהרת החריגה הזאת מהגרסה שלך."
+"היוצרים של GNOME Music מצהירים בזאת כי הם מעניקים הרשאה להפצה של תוספי "
+"GStreamer שאינם מעוגנים תחת ה־GPL יחד עם GStreamer ו־GNOME Music. הרשאה זו "
+"תקפה על פני ההרשאה הניתנת על־ידי רישיון ה־GPL תחתיו מוגנת התכנית GNOME "
+"Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, אך "
+"אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את הצהרת "
+"החריגה הזאת מהגרסה שלך."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -255,17 +305,33 @@ msgstr "בחירת הכול"
 msgid "Select None"
 msgstr "ביטול הבחירה"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "ביטול"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "הוספה לרשימת השמעה"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "הסרה מרשימת השמעה"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_ניגון"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_מחיקה"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "בחירת רשימת השמעה"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "בחירה"
 
 #~ msgid "----"
 #~ msgstr "----"
