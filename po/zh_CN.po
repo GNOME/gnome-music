@@ -3,21 +3,23 @@
 # This file is distributed under the same license as the gnome-music package.
 # tuhaihe <1132321739qq@gmail.com>, 2013.
 # Tong Hui <tonghuix@gmail.com>, 2013.
+# sphinx <yishanj@gmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 21:01+0000\n"
+"POT-Creation-Date: 2014-02-22 01:16+0000\n"
 "PO-Revision-Date: 2013-12-22 00:22+0800\n"
-"Last-Translator: Tong Hui <tonghuix@gmail.com>\n"
+"Last-Translator: sphinx <yishanj@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -68,7 +70,7 @@ msgid "If true, the search bar is shown."
 msgstr "如果为真，则显示搜索框。"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "音乐"
@@ -97,13 +99,13 @@ msgstr "无标题"
 msgid "Not playing"
 msgstr "尚未播放"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:356
+#: ../gnomemusic/view.py:248 ../gnomemusic/view.py:434
+#: ../gnomemusic/view.py:647 ../gnomemusic/view.py:961
 msgid "Unknown Artist"
 msgstr "未知艺术家"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:532
 msgid "Unknown Album"
 msgstr "未知专辑"
 
@@ -129,7 +131,20 @@ msgstr "播放"
 msgid "Next"
 msgstr "下一首"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "已选择 %d 个项目"
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "点击条目以选中它们"
+
+#: ../gnomemusic/view.py:317
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -138,36 +153,46 @@ msgstr ""
 "没有找到音乐！\n"
 "请将音乐文件放入文件夹 %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:324
 msgid "Albums"
 msgstr "专辑"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:390
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "播放列表"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:545
 msgid "Artists"
 msgstr "艺术家"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:584
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "全部艺术家"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:714
+msgid "Playlists"
+msgstr "播放列表"
+
+#: ../gnomemusic/view.py:978
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d 首歌曲"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "加载更多"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "正在加载..."
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "新建播放列表"
+
+#: ../gnomemusic/window.py:181
 msgid "Empty"
 msgstr "空"
 
@@ -276,17 +301,33 @@ msgstr "全选"
 msgid "Select None"
 msgstr "全不选"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "点击条目以选中它们"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "取消"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "添加到播放列表"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "从播放列表移除"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "播放(_P)"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "移除(_D)"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "选择播放列表"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "选择"
 
 #~ msgid "----"
 #~ msgstr "----"
