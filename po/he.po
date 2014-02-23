@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-22 20:01+0200\n"
-"PO-Revision-Date: 2014-02-22 20:03+0200\n"
+"POT-Creation-Date: 2014-02-23 14:24+0200\n"
+"PO-Revision-Date: 2014-02-23 14:24+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -70,7 +70,7 @@ msgid "If true, the search bar is shown."
 msgstr "If true, the search bar is shown."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
+#: ../gnomemusic/application.py:109 ../gnomemusic/window.py:57
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "מוזיקה"
@@ -270,10 +270,14 @@ msgid "Now _Playing"
 msgstr "מת_נגן כעת"
 
 #: ../data/app-menu.ui.h:3
+msgid "_Help"
+msgstr "_עזרה"
+
+#: ../data/app-menu.ui.h:4
 msgid "_About"
 msgstr "על _אודות"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:5
 msgid "_Quit"
 msgstr "י_ציאה"
 
