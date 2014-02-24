@@ -75,18 +75,11 @@ class Application(Gtk.Application):
         newPlaylistAction.connect('activate', self.new_playlist)
         self.add_action(newPlaylistAction)
 
-        nowPlayingAction = Gio.SimpleAction.new('nowPlaying', None)
-        nowPlayingAction.connect('activate', self.now_playing)
-        self.add_action(nowPlayingAction)
-
         quitAction = Gio.SimpleAction.new('quit', None)
         quitAction.connect('activate', self.quit)
         self.add_action(quitAction)
 
     def new_playlist(self, action, param):
-        pass
-
-    def now_playing(self, action, param):
         pass
 
     def help(self, action, param):
