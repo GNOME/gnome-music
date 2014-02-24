@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 21:01+0000\n"
-"PO-Revision-Date: 2014-01-28 23:23+0200\n"
+"POT-Creation-Date: 2014-02-24 19:58+0000\n"
+"PO-Revision-Date: 2014-02-24 23:00+0200\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -50,9 +50,6 @@ msgstr "Grojimo kartojimo veiksena"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -73,7 +70,7 @@ msgid "If true, the search bar is shown."
 msgstr "Jei teigiama, paieškos juosta yra rodoma."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:109 ../gnomemusic/window.py:57
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzika"
@@ -102,13 +99,13 @@ msgstr "Nepavadinta"
 msgid "Not playing"
 msgstr "Negroja"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:356
+#: ../gnomemusic/view.py:248 ../gnomemusic/view.py:434
+#: ../gnomemusic/view.py:647 ../gnomemusic/view.py:961
 msgid "Unknown Artist"
 msgstr "Nežinomas atlikėjas"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:532
 msgid "Unknown Album"
 msgstr "Nežinomas albumas"
 
@@ -134,7 +131,22 @@ msgstr "Groti"
 msgid "Next"
 msgstr "Kita"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Pasirinktas %d elementas"
+msgstr[1] "Pasirinkti %d elementai"
+msgstr[2] "Pasirinkta %d elementų"
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Spauskite ant elementų jiems pažymėti"
+
+#: ../gnomemusic/view.py:317
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -143,36 +155,50 @@ msgstr ""
 "Nerasta muzikos!\n"
 " Įdėkite failų į aplanką %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:324
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:390
 msgid "Songs"
 msgstr "Dainos"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "Grojaraščiai"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:545
 msgid "Artists"
 msgstr "Atlikėjai"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:584
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Visi atlikėjai"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:714
+msgid "Playlists"
+msgstr "Grojaraščiai"
+
+#: ../gnomemusic/view.py:978
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d daina"
+msgstr[1] "%d dainos"
+msgstr[2] "%d dainų"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Įkelti daugiau"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "Įkeliama..."
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+#| msgid "_New Playlist"
+msgid "New Playlist"
+msgstr "Naujas grojaraštis"
+
+#: ../gnomemusic/window.py:181
 msgid "Empty"
 msgstr "Tuščia"
 
@@ -245,16 +271,18 @@ msgid "_New Playlist"
 msgstr "_Naujas grojaraštis"
 
 #: ../data/app-menu.ui.h:2
-#| msgid "_Now Playing"
 msgid "Now _Playing"
 msgstr "_Dabar groja"
 
 #: ../data/app-menu.ui.h:3
-#| msgid "_About Music"
+msgid "_Help"
+msgstr "_Žinynas"
+
+#: ../data/app-menu.ui.h:4
 msgid "_About"
 msgstr "_Apie"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:5
 msgid "_Quit"
 msgstr "_Išeiti"
 
@@ -286,14 +314,34 @@ msgstr "Žymėti viską"
 msgid "Select None"
 msgstr "Nieko nežymėti"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Spauskite ant elementų jiems pažymėti"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Atsisakyti"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Pridėti į grojaraštį"
+
+#: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
+msgid "Remove from Playlist"
+msgstr "Pašalinti iš grojaraščio"
+
+#: ../data/PlaylistControls.ui.h:1
+#| msgid "Play"
+msgid "_Play"
+msgstr "_Groti"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Trinti"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+#| msgid "Select All"
+msgid "Select Playlist"
+msgstr "Žymėti grojaraštį"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+#| msgid "Select All"
+msgid "Select"
+msgstr "Žymėti"
