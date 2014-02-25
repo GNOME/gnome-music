@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-21 22:00+0000\n"
-"PO-Revision-Date: 2014-02-21 22:14-0300\n"
+"POT-Creation-Date: 2014-02-25 10:56+0000\n"
+"PO-Revision-Date: 2014-02-25 13:33-0300\n"
 "Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
@@ -139,7 +139,6 @@ msgstr "Próxima"
 #: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
 #: ../gnomemusic/window.py:211
 #, python-format
-#| msgid "Selected %d item"
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d item selecionado"
@@ -183,7 +182,6 @@ msgstr "Listas de reprodução"
 
 #: ../gnomemusic/view.py:978
 #, python-format
-#| msgid "%d Song"
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d música"
@@ -211,7 +209,7 @@ msgstr "Copyright © 2013 Desenvolvedores do aplicativo GNOME Música"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
-msgstr "Um reprodutor de música e aplicativo de gerenciamento para o GNOME."
+msgstr "Um reprodutor de músicas e aplicativo de gerenciamento para o GNOME."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
@@ -263,8 +261,8 @@ msgstr ""
 "uso de plug-ins compatíveis GStreamer\n"
 "não consoantes com a GPL e distribuição junto com o GStreamer e aplicativo "
 "GNOME Música. Esta permissão\n"
-"está acima e além das permissões concedidas pela  licença GPL a qual cobre   "
-"o aplicativo GNOME Música.\n"
+"está acima e além das permissões concedidas pela  licença GPL a qual cobre o "
+"aplicativo GNOME Música.\n"
 "Se você modificar esse código, você pode estender essa exceção para a sua "
 "versão do código, mas você não é obrigado\n"
 "a fazê-lo. Se você não desejar fazer isto, exclua esta declaração de exceção "
@@ -283,8 +281,8 @@ msgid "_New Playlist"
 msgstr "_Nova lista de reprodução"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "_Reproduzindo agora"
+msgid "_Help"
+msgstr "A_juda"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
@@ -349,6 +347,9 @@ msgstr "Selecionar lista de reprodução"
 #: ../data/PlaylistDialog.ui.in.h:3
 msgid "Select"
 msgstr "Selecionar"
+
+#~ msgid "Now _Playing"
+#~ msgstr "_Reproduzindo agora"
 
 #~ msgid "Selected %d items"
 #~ msgstr "%d itens selecionados"
