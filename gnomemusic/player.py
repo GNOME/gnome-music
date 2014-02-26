@@ -106,6 +106,7 @@ class Player(GObject.GObject):
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
+            print("The item %s doesn't have a URL set" % item)
             return
 
         obj = (callback, data)

@@ -237,6 +237,7 @@ class ViewContainer(Stack):
 
     def _on_discovered(self, info, error, _iter):
         if error:
+            print("Info %s: error: %s" % (info, error))
             self._model.set(_iter, [8, 10], [self.errorIconName, True])
 
     def _add_item(self, source, param, item, remaining):
