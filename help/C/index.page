@@ -1,0 +1,34 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" id="index">
+
+  <info>
+    <title type="link">Music</title>
+    <title type="text">Music</title>
+    <revision pkgversion="3.12" date="2014-02-24" status="review"/>
+
+    <credit type="author">
+      <name>Shobha Tyagi</name>
+      <email its:translate="no">tyagishobha@gmail.com</email>
+      <years>2014</years>
+    </credit>
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+  </info>
+
+  <title>
+  <media type="image" mime="image/png" src="figures/gnome-music-3.12.png"
+  its:translate="no"/>
+  Music
+  </title>
+
+  <section id="create" style= "2column">
+    <title>Create playlist</title>
+  </section>
+  <section id="use" style= "2column">
+    <title>Play a song</title>
+  </section>
+  <section id="delete" style= "2column">
+    <title>Remove songs and playlist</title>
+  </section>
+
+</page>
