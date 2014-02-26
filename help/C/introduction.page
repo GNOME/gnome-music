@@ -1,0 +1,26 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" style="2column task"
+      id="introduction">
+
+  <info>
+    <link type="guide" xref="index" group="#first"/>
+    <revision pkgversion="3.12" date="2014-02-24" status="review"/>
+
+    <credit type="author">
+      <name>Shobha Tyagi</name>
+      <email its:translate="no">tyagishobha@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>A simple and elegant replacement for using files to show the music
+    directory.</desc>
+  </info>
+
+  <title>Introduction to Music</title>
+    <p>A simple and elegant replacement for using files to show the music
+    directory.</p>
+
+</page>
