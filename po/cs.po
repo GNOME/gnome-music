@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-21 22:00+0000\n"
-"PO-Revision-Date: 2014-02-21 23:02+0100\n"
+"POT-Creation-Date: 2014-02-25 19:57+0000\n"
+"PO-Revision-Date: 2014-02-26 08:30+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -273,8 +273,8 @@ msgid "_New Playlist"
 msgstr "_Nový seznam k přehrání"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "_Právě se přehrává"
+msgid "_Help"
+msgstr "_Nápověda"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
@@ -339,3 +339,6 @@ msgstr "Vybrat seznam k přehrání"
 #: ../data/PlaylistDialog.ui.in.h:3
 msgid "Select"
 msgstr "Vybrat"
+
+#~ msgid "Now _Playing"
+#~ msgstr "_Právě se přehrává"
