@@ -2,8 +2,12 @@
 
 HELP_ID = gnome-music
 
-HELP_FILES =
+HELP_FILES = \
+        introduction.page \
+        index.page \
+        legal.xml
 
-HELP_MEDIA =
+HELP_MEDIA = \
+        figures/gnome-music-3.12.png
 
 HELP_LINGUAS =
