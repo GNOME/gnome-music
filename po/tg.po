@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-19 07:58+0000\n"
-"PO-Revision-Date: 2014-02-20 14:30+0500\n"
+"POT-Creation-Date: 2014-02-26 21:05+0000\n"
+"PO-Revision-Date: 2014-02-27 12:24+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: Tajik <tg@li.org>\n"
 "Language: tg\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.6.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -98,13 +99,13 @@ msgstr "Беном"
 msgid "Not playing"
 msgstr "Ҳозир пахш намекунад"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:356
-#: ../gnomemusic/view.py:248 ../gnomemusic/view.py:434
-#: ../gnomemusic/view.py:647 ../gnomemusic/view.py:961
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:357
+#: ../gnomemusic/view.py:249 ../gnomemusic/view.py:435
+#: ../gnomemusic/view.py:648 ../gnomemusic/view.py:962
 msgid "Unknown Artist"
 msgstr "Ҳунарманди номаълум"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:532
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:533
 msgid "Unknown Album"
 msgstr "Албоми номаълум"
 
@@ -133,14 +134,11 @@ msgstr "Навбатӣ"
 #: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
 #: ../gnomemusic/window.py:211
 #, python-format
+#| msgid "Selected %d item"
 msgid "Selected %d item"
-msgstr "%d объект интихоб шудааст"
-
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:211
-#, python-format
-msgid "Selected %d items"
-msgstr "%d объект интихоб шудаанд"
+msgid_plural "Selected %d items"
+msgstr[0] "%d объект интихоб шудааст"
+msgstr[1] "%d объект интихоб шудаанд"
 
 #: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
 #: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
@@ -148,7 +146,7 @@ msgstr "%d объект интихоб шудаанд"
 msgid "Click on items to select them"
 msgstr "Барои интихоби объект онро зер кунед"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:318
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -157,38 +155,34 @@ msgstr ""
 "Ягон мусиқӣ ёфт нашуд!\n"
 "Баъзе файлҳоро ба ҷузвдони %s гузоред"
 
-#: ../gnomemusic/view.py:324
+#: ../gnomemusic/view.py:325
 msgid "Albums"
 msgstr "Албомҳо"
 
-#: ../gnomemusic/view.py:390
+#: ../gnomemusic/view.py:391
 msgid "Songs"
 msgstr "Сурудҳо"
 
-#: ../gnomemusic/view.py:545
+#: ../gnomemusic/view.py:546
 msgid "Artists"
 msgstr "Ҳунармандон"
 
-#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:584
+#: ../gnomemusic/view.py:583 ../gnomemusic/view.py:585
 #: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Ҳамаи ҳунармандон"
 
-#: ../gnomemusic/view.py:714
+#: ../gnomemusic/view.py:715
 msgid "Playlists"
 msgstr "Феҳристҳои пахш"
 
-#: ../gnomemusic/view.py:978
+#: ../gnomemusic/view.py:979
 #, python-format
-#| msgid "Songs"
+#| msgid "%d Song"
 msgid "%d Song"
-msgstr "%d суруд"
-
-#: ../gnomemusic/view.py:978
-#, python-format
-#| msgid "Songs"
-msgid "%d Songs"
-msgstr "%d суруд"
+msgid_plural "%d Songs"
+msgstr[0] "%d суруд"
+msgstr[1] "%d суруд"
 
 #: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
@@ -199,7 +193,6 @@ msgid "Loading..."
 msgstr "Бор шуда истодааст..."
 
 #: ../gnomemusic/widgets.py:670
-#| msgid "_New Playlist"
 msgid "New Playlist"
 msgstr "Феҳристи пахши нав"
 
@@ -280,8 +273,8 @@ msgid "_New Playlist"
 msgstr "_Феҳристи пахши нав"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "_Ҳозир пахш мекунад"
+msgid "_Help"
+msgstr "_Кӯмак"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
@@ -328,12 +321,10 @@ msgid "Add to Playlist"
 msgstr "Илова кардан ба феҳристи пахш"
 
 #: ../data/SelectionToolbar.ui.h:2
-#| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "Тоза кардан аз феҳристи пахш"
 
 #: ../data/PlaylistControls.ui.h:1
-#| msgid "Play"
 msgid "_Play"
 msgstr "_Пахш кардан"
 
@@ -342,11 +333,19 @@ msgid "_Delete"
 msgstr "_Нест кардан"
 
 #: ../data/PlaylistDialog.ui.in.h:1
-#| msgid "Select All"
 msgid "Select Playlist"
 msgstr "Интихоби феҳристи пахш"
 
 #: ../data/PlaylistDialog.ui.in.h:3
-#| msgid "Select All"
 msgid "Select"
 msgstr "Интихоб кардан"
+
+#~ msgid "Selected %d items"
+#~ msgstr "%d объект интихоб шудаанд"
+
+#~| msgid "Songs"
+#~ msgid "%d Songs"
+#~ msgstr "%d суруд"
+
+#~ msgid "Now _Playing"
+#~ msgstr "_Ҳозир пахш мекунад"
