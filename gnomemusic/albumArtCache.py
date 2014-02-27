@@ -237,7 +237,11 @@ class AlbumArtCache:
         uri_file = Gio.File.new_for_path(uri)
         basename = uri_file.get_basename()
 
-        title = GLib.uri_unescape_string(basename, '')
+        try:
+            title = GLib.uri_unescape_string(basename, '')
+        except:
+            title = "Filename could not be decoded..."
+            pass
         if escaped:
             return GLib.markup_escape_text(title)
 
