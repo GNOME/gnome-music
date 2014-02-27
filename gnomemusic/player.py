@@ -35,6 +35,7 @@ GIRepository.Repository.prepend_search_path('libgd')
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from gettext import gettext as _
 from random import randint
+from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
 
 ART_SIZE = 34
@@ -56,6 +57,7 @@ class PlaybackStatus:
 class Player(GObject.GObject):
     nextTrack = None
     timeout = None
+    shuffleHistory = LifoQueue(maxsize=10)
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
@@ -225,6 +227,9 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SHUFFLE:
             if currentTrack:
                 nextTrack = self._get_random_iter(currentTrack)
+                if self.shuffleHistory.full():
+                    self.shuffleHistory.get_nowait()
+                self.shuffleHistory.put_nowait(currentTrack)
 
         if nextTrack:
             return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(nextTrack))
@@ -264,7 +269,10 @@ class Player(GObject.GObject):
                 previousTrack = self.playlist.iter_previous(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             if currentTrack:
-                previousTrack = self._get_random_iter(currentTrack)
+                if not self.shuffleHistory.empty():
+                    previousTrack = self.shuffleHistory.get_nowait()
+                else:
+                    previousTrack = self._get_random_iter(currentTrack)
 
         if previousTrack:
             return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(previousTrack))
