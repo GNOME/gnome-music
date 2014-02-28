@@ -213,6 +213,7 @@ class Window(Gtk.ApplicationWindow):
             self.selection_toolbar._remove_from_playlist_button.set_sensitive(True)
         elif count == 0:
             self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
+        self._stack.get_visible_child().queue_draw()
 
     def _on_select_none(self, action, param):
         if self.toolbar._state != ToolbarState.SINGLE:
@@ -226,6 +227,7 @@ class Window(Gtk.ApplicationWindow):
             model.set(_iter, [6], [False])
             _iter = model.iter_next(_iter)
         self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
+        self._stack.get_visible_child().queue_draw()
 
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
