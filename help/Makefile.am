@@ -10,4 +10,4 @@ HELP_FILES = \
 HELP_MEDIA = \
         figures/gnome-music-3.12.png
 
-HELP_LINGUAS =
+HELP_LINGUAS = cs
