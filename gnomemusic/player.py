@@ -435,8 +435,12 @@ class Player(GObject.GObject):
         if self.prevBtn.get_sensitive() is False:
             return
 
+        position = self.get_position() / 1000000;
+
         self.stop()
-        self.currentTrack = self._get_previous_track()
+
+        if position < 5:
+            self.currentTrack = self._get_previous_track()
 
         if self.currentTrack:
             self.play()
