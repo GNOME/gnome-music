@@ -240,7 +240,7 @@ class AlbumArtCache:
         try:
             title = GLib.uri_unescape_string(basename, '')
         except:
-            title = "Filename could not be decoded..."
+            title = _("Untitled")
             pass
         if escaped:
             return GLib.markup_escape_text(title)
