@@ -435,7 +435,7 @@ class Player(GObject.GObject):
         if self.prevBtn.get_sensitive() is False:
             return
 
-        position = self.get_position() / 1000000;
+        position = self.get_position() / 1000000
 
         self.stop()
 

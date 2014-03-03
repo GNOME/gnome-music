@@ -229,19 +229,29 @@ class Window(Gtk.ApplicationWindow):
 
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
+        event_and_modifiers = (event.state & modifiers)
 
-        if (event.keyval == Gdk.KEY_f and
-                (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK):
-            self.toolbar.searchbar.toggle_bar()
-        elif (event.keyval == Gdk.KEY_Escape and (event.state & modifiers) == 0):
-            self.toolbar.searchbar.show_bar(False)
-            if self.toolbar._selectionMode:
-                self.toolbar.set_selection_mode(False)
-        elif (event.state & modifiers) == Gdk.ModifierType.SHIFT_MASK or (event.state & modifiers) == 0 and \
-                GLib.unichar_isprint(chr((Gdk.keyval_to_unicode(event.keyval)))) and \
-                not event.keyval == Gdk.KEY_space and \
-                not self.toolbar.searchbar.get_reveal_child():
-            self.toolbar.searchbar.show_bar(True)
+        if event_and_modifiers != 0:
+            # Open search bar on Ctrl + F
+            if (event.keyval == Gdk.KEY_f and
+                    event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self.toolbar.searchbar.toggle_bar()
+        else:
+            # Close search bar after Esc is pressed
+            if event.keyval == Gdk.KEY_Escape:
+                self.toolbar.searchbar.show_bar(False)
+                # Also disable selection
+                if self.toolbar._selectionMode:
+                    self.toolbar.set_selection_mode(False)
+
+        # Open search bar when typing printable chars if it not opened
+        # Make sure we skip unprintable chars and don't grab space press
+        # (this is used for play/pause)
+        if not self.toolbar.searchbar.get_reveal_child() and not event.keyval == Gdk.KEY_space:
+            if (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK or
+                    event_and_modifiers == 0) and \
+                    GLib.unichar_isprint(chr(Gdk.keyval_to_unicode(event.keyval))):
+                self.toolbar.searchbar.show_bar(True)
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
