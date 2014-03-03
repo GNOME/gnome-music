@@ -1,3 +1,35 @@
+Overview of changes in 3.11.91
+=============================
+
+* Initial help infrastructure
+* More info is printed if the track cannot be played
+* Last 10 played tracks are stored in shuffle history
+* Other minor improvements and bug fixes
+
+
+* Bugs fixed:
+ 707744 Song is being replayed when paused
+ 724228 Remove 'now playing' from the app menu
+ 707457 Restart current track when Previous button was clicked and position is more than 3 seconds
+ 725355 Do not crash if we happen to come across a filename we can't decode
+ 723942 Search on keypress function opens search bar even when pressing any key
+ 724954 Selecting all albums is not visible at first
+ 707376 Set the position of the view scrollbar to current song when a song is changed
+
+
+* Updated translations:
+ Spanish
+ Norwegian bokmål
+ Tajik
+ Czech
+ Brazilian Portuguese
+ Hebrew
+ Chinese
+ Lithuanian
+ Italian
+ Hungarian
+ Finnish
+
 Overview of changes in 3.11.90
 =============================
 
