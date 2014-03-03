@@ -421,6 +421,8 @@ class Songs(ViewContainer):
 
         child_iter = self.filter.convert_iter_to_child_iter(currentIter)
         self._model.set_value(child_iter, 10, True)
+        path = self._model.get_path(child_iter)
+        self.view.get_generic_view().scroll_to_path(path)
         if self._model.get_value(child_iter, 8) != self.errorIconName:
             self.iter_to_clean = child_iter.copy()
         return False
