@@ -237,9 +237,8 @@ class Window(Gtk.ApplicationWindow):
             self.toolbar.searchbar.show_bar(False)
             if self.toolbar._selectionMode:
                 self.toolbar.set_selection_mode(False)
-        elif (event.state & modifiers) == 0 | Gdk.ModifierType.SHIFT_MASK and \
-                GLib.unichar_isprint(chr((Gdk.keyval_to_unicode(event.keyval)))) and \
-                not event.keyval == Gdk.KEY_space and \
+        elif (event.state & modifiers) == 0 and \
+                event.keyval in range(33, 126) and \
                 not self.toolbar.searchbar.get_reveal_child():
             self.toolbar.searchbar.show_bar(True)
 
