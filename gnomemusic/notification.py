@@ -72,6 +72,8 @@ class NotificationManager:
             self._notification.show()
         else:
             item = self._player.get_current_media()
+            if not item:
+                return
             artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
                 or item.get_author()\
                 or _("Unknown Artist")
