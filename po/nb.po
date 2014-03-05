@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 3.11.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-19 20:10+0100\n"
-"PO-Revision-Date: 2014-02-19 20:11+0100\n"
+"POT-Creation-Date: 2014-03-05 06:55+0100\n"
+"PO-Revision-Date: 2014-03-05 06:56+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: \n"
@@ -59,7 +59,7 @@ msgstr "Søkemodus"
 
 #: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
-msgstr ""
+msgstr "Vis søkelinje hvis denne er satt til «true»."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
 #: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
@@ -83,7 +83,7 @@ msgstr "GNOME Musikk"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musikk er det nye GNOME programmet for avspilling av musikk."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
 msgstr "Uten tittel"
 
@@ -91,13 +91,13 @@ msgstr "Uten tittel"
 msgid "Not playing"
 msgstr "Spiller ikke"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:356
-#: ../gnomemusic/view.py:248 ../gnomemusic/view.py:434
-#: ../gnomemusic/view.py:647 ../gnomemusic/view.py:961
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:365
+#: ../gnomemusic/view.py:249 ../gnomemusic/view.py:437
+#: ../gnomemusic/view.py:650 ../gnomemusic/view.py:964
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:532
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:535
 msgid "Unknown Album"
 msgstr "Ukjent album"
 
@@ -127,21 +127,17 @@ msgstr "Neste"
 #: ../gnomemusic/window.py:211
 #, python-format
 msgid "Selected %d item"
-msgstr "%d oppføring valgt"
-
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:211
-#, python-format
-msgid "Selected %d items"
-msgstr "%d oppføringer valgt"
+msgid_plural "Selected %d items"
+msgstr[0] "%d oppføring valgt"
+msgstr[1] "%d oppføringer valgt"
 
 #: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
-#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:229
 #: ../data/headerbar.ui.in.h:3
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:318
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -150,36 +146,33 @@ msgstr ""
 "Ingen musikk funnet!\n"
 " Plasser noen filer i mappen %s"
 
-#: ../gnomemusic/view.py:324
+#: ../gnomemusic/view.py:325
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:390
+#: ../gnomemusic/view.py:391
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:545
+#: ../gnomemusic/view.py:548
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:584
+#: ../gnomemusic/view.py:585 ../gnomemusic/view.py:587
 #: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Alle artister"
 
-#: ../gnomemusic/view.py:714
+#: ../gnomemusic/view.py:717
 msgid "Playlists"
 msgstr "Spillelister"
 
-#: ../gnomemusic/view.py:978
+#: ../gnomemusic/view.py:981
 #, python-format
 msgid "%d Song"
-msgstr "%d sang"
-
-#: ../gnomemusic/view.py:978
-#, python-format
-msgid "%d Songs"
-msgstr "%d sanger"
+msgid_plural "%d Songs"
+msgstr[0] "%d sang"
+msgstr[1] "%d sanger"
 
 #: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
@@ -268,8 +261,8 @@ msgid "_New Playlist"
 msgstr "_Ny spilleliste"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "S_pilles nå"
+msgid "_Help"
+msgstr "_Hjelp"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
