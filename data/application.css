@@ -11,7 +11,19 @@
 @define-color music_selection_button_dark_a #3b3b3b;
 @define-color music_selection_button_dark_b #1c1c1c;
 @define-color music_selection_box_dark_border #3e7b05;
-
+@binding-set UnbindSpace{
+    unbind "space";
+}
+ 
+GdMainListView{
+    gtk-key-bindings: UnbindSpace;
+}
+GdMainView{
+    gtk-key-bindings: UnbindSpace;
+}
+GtkTreeView{
+    gtk-key-bindings: UnbindSpace;
+}
 .cover{
     padding-left:24px;
 }

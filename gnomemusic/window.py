@@ -34,7 +34,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gettext import gettext as _, ngettext
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
-from gnomemusic.player import Player, SelectionToolbar
+from gnomemusic.player import Player, SelectionToolbar, PlaybackStatus
 from gnomemusic.query import Query
 import gnomemusic.view as Views
 import gnomemusic.widgets as Widgets
@@ -143,7 +143,8 @@ class Window(Gtk.ApplicationWindow):
         self._stack = Stack(
             transition_type=StackTransitionType.CROSSFADE,
             transition_duration=100,
-            visible=True)
+            visible=True,
+            can_focus=False)
         if Gtk.get_minor_version() > 8:
             self.set_titlebar(self.toolbar.header_bar)
         else:
@@ -254,6 +255,9 @@ class Window(Gtk.ApplicationWindow):
                     event_and_modifiers == 0) and \
                     GLib.unichar_isprint(chr(Gdk.keyval_to_unicode(event.keyval))):
                 self.toolbar.searchbar.show_bar(True)
+        else:
+            if not self.toolbar.searchbar.get_reveal_child() and event.keyval == Gdk.KEY_space:
+                self.player.play_pause()
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)

@@ -61,7 +61,7 @@
     <child>
       <object class="GtkToggleButton" id="search-button">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
         <style>
@@ -83,7 +83,7 @@
     <child>
       <object class="GtkToggleButton" id="select-button">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
         <style>
@@ -106,7 +106,7 @@
       <object class="GtkButton" id="done-button">
         <property name="visible">False</property>
         <property name="no_show_all">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="label" translatable="yes">Cancel</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
@@ -121,7 +121,7 @@
     <child>
       <object class="GtkButton" id="back-button">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
         <style>
@@ -153,7 +153,7 @@
     <child>
       <object class="GtkButton" id="close-button">
         <property name="visible">True</property>
-        <property name="can_focus">True</property>
+        <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="relief">none</property>
         <property name="sensitive">True</property>
