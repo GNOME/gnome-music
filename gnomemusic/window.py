@@ -34,7 +34,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gettext import gettext as _
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
-from gnomemusic.player import Player, SelectionToolbar
+from gnomemusic.player import Player, SelectionToolbar, PlaybackStatus
 from gnomemusic.query import Query
 import gnomemusic.view as Views
 
@@ -139,7 +139,8 @@ class Window(Gtk.ApplicationWindow):
         self._stack = Stack(
             transition_type=StackTransitionType.CROSSFADE,
             transition_duration=100,
-            visible=True)
+            visible=True,
+            can_focus=False)
         if Gtk.get_minor_version() > 8:
             self.set_titlebar(self.toolbar.header_bar)
         else:
@@ -188,18 +189,31 @@ class Window(Gtk.ApplicationWindow):
 
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
+        event_and_modifiers = (event.state & modifiers)
+        if event_and_modifiers != 0:
+            # Open search bar on Ctrl + F
+            if (event.keyval == Gdk.KEY_f and
+                    event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self.toolbar.searchbar.toggle_bar()
+        else:
+            # Close search bar after Esc is pressed
+            if event.keyval == Gdk.KEY_Escape:
+                self.toolbar.searchbar.show_bar(False)
+                # Also disable selection
+                if self.toolbar._selectionMode:
+                    self.toolbar.set_selection_mode(False)
 
-        if (event.keyval == Gdk.KEY_f and
-                (event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK):
-            self.toolbar.searchbar.toggle_bar()
-        elif (event.keyval == Gdk.KEY_Escape and (event.state & modifiers) == 0):
-            self.toolbar.searchbar.show_bar(False)
-            if self.toolbar._selectionMode:
-                self.toolbar.set_selection_mode(False)
-        elif (event.state & modifiers) == 0 and \
-                event.keyval in range(33, 126) and \
-                not self.toolbar.searchbar.get_reveal_child():
-            self.toolbar.searchbar.show_bar(True)
+        # Open search bar when typing printable chars if it not opened
+        # Make sure we skip unprintable chars and don't grab space press
+        # (this is used for play/pause)
+        if not self.toolbar.searchbar.get_reveal_child() and not event.keyval == Gdk.KEY_space:
+            if (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK or
+                    event_and_modifiers == 0) and \
+                    GLib.unichar_isprint(chr(Gdk.keyval_to_unicode(event.keyval))):
+                self.toolbar.searchbar.show_bar(True)
+        else:
+            if not self.toolbar.searchbar.get_reveal_child() and event.keyval == Gdk.KEY_space:
+                self.player.play_pause()
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)

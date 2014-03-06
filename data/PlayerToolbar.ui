@@ -60,7 +60,7 @@
                         <property name="width_request">42</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="receives_default">True</property>
                         <property name="image">previous_image</property>
                         <property name="always_show_image">True</property>
@@ -76,7 +76,7 @@
                         <property name="width_request">60</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="receives_default">True</property>
                         <property name="image">play_image</property>
                         <property name="always_show_image">True</property>
@@ -92,7 +92,7 @@
                         <property name="width_request">42</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="receives_default">True</property>
                         <property name="image">next_image</property>
                         <property name="always_show_image">True</property>
@@ -201,7 +201,7 @@
                 <child>
                   <object class="GtkScale" id="progress_scale">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
+                    <property name="can_focus">False</property>
                     <property name="valign">center</property>
                     <property name="hexpand">True</property>
                     <property name="draw_value">False</property>
@@ -304,7 +304,7 @@
                     <child>
                       <object class="GtkMenuButton" id="menuButton">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
+                        <property name="can_focus">False</property>
                         <property name="has_focus">False</property>
                         <property name="is_focus">False</property>
                         <property name="receives_default">True</property>
