@@ -34,7 +34,8 @@ from gnomemusic.query import Query
 class Grilo(GObject.GObject):
 
     __gsignals__ = {
-        'ready': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'ready': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'changes-pending': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
     METADATA_KEYS = [
@@ -48,6 +49,9 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
+    CHANGED_MEDIA_MAX_ITEMS = 500
+    CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
+
     def __init__(self):
         GObject.GObject.__init__(self)
         self.playlist_path = GLib.build_filenamev([GLib.get_user_data_dir(),
@@ -60,6 +64,8 @@ class Grilo(GObject.GObject):
 
         self.sources = {}
         self.tracker = None
+        self.changed_media_ids = []
+        self.pending_event_id = 0
 
         self.registry = Grl.Registry.get_default()
         self.registry.connect('source_added', self._on_source_added)
@@ -69,6 +75,25 @@ class Grilo(GObject.GObject):
             self.registry.load_all_plugins()
         except GLib.GError:
             print('Failed to load plugins.')
+        if self.tracker is not None:
+            print("tracker is not none")
+
+    def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
+        if changeType == Grl.SourceChangeType.ADDED or changeType == Grl.SourceChangeType.REMOVED:
+            self.changed_media_ids.append(changedMedias[0].get_id())
+            if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
+                self.emit_change_signal()
+            else:
+                if self.pending_event_id > 0:
+                    GLib.Source.remove(self.pending_event_id)
+                    self.pending_event_id = 0
+                self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
+
+    def emit_change_signal(self):
+        self.changed_media_ids = []
+        self.pending_event_id = 0
+        self.emit('changes-pending')
+        return False
 
     def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
@@ -83,6 +108,8 @@ class Grilo(GObject.GObject):
 
                 if self.tracker is not None:
                     self.emit('ready')
+                    self.tracker.notify_change_start()
+                    self.tracker.connect('content-changed', self._on_content_changed)
 
     def _on_source_removed(self, pluginRegistry, mediaSource):
         print('source removed')

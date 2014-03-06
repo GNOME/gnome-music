@@ -39,6 +39,7 @@ from gnomemusic.query import Query
 import gnomemusic.view as Views
 import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
+from gnomemusic.grilo import grilo
 
 playlist = Playlists.get_default()
 tracker = Tracker.SparqlConnection.get(None)
@@ -95,6 +96,31 @@ class Window(Gtk.ApplicationWindow):
         except GLib.GError:
             # We cannot grab media keys if no settings daemon is running
             pass
+        grilo.connect('changes-pending', self._on_changes_pending)
+
+    def _on_changes_pending(self, data=None):
+        count = 1
+        cursor = tracker.query(Query.SONGS_COUNT, None)
+        if cursor is not None and cursor.next(None):
+            count = cursor.get_integer(0)
+        if not count > 0:
+            print("switching to Empty view")
+            self._stack.disconnect(self._on_notify_model_id)
+            self.disconnect(self._key_press_event_id)
+            for i in range(0, 4):
+                view = self.views.pop()
+                view.destroy()
+            self.toolbar.hide_stack()
+            self._switch_to_empty_view()
+        else:
+            if (self.views[0] == self.views[-1]):
+                print("switching to player view")
+                view = self.views.pop()
+                view.destroy()
+                self._switch_to_player_view()
+                self.toolbar._search_button.set_sensitive(True)
+                self.toolbar._select_button.set_sensitive(True)
+                self.toolbar.show_stack()
 
     def _on_configure_event(self, widget, event):
         size = widget.get_size()
@@ -160,28 +186,10 @@ class Window(Gtk.ApplicationWindow):
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:
-            self.views.append(Views.Albums(self.toolbar, self.selection_toolbar, self.player))
-            self.views.append(Views.Artists(self.toolbar, self.selection_toolbar, self.player))
-            self.views.append(Views.Songs(self.toolbar, self.selection_toolbar, self.player))
-            self.views.append(Views.Playlist(self.toolbar, self.selection_toolbar, self.player))
-
-            for i in self.views:
-                self._stack.add_titled(i, i.title, i.title)
-
-            self.toolbar.set_stack(self._stack)
-            self.toolbar.searchbar.show()
-
-            self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
-            self.connect('destroy', self._notify_mode_disconnect)
-            self.connect('key_press_event', self._on_key_press)
-
-            self.views[0].populate()
+            self._switch_to_player_view()
         #To revert to the No Music View when no songs are found
         else:
-            self.views.append(Views.Empty(self.toolbar, self.player))
-            self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
-            self.toolbar._search_button.set_sensitive(False)
-            self.toolbar._select_button.set_sensitive(False)
+            self._switch_to_empty_view()
 
         self.toolbar._search_button.connect('toggled', self._on_search_toggled)
         self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
@@ -195,6 +203,30 @@ class Window(Gtk.ApplicationWindow):
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
+
+    def _switch_to_empty_view(self):
+        self.views.append(Views.Empty(self.toolbar, self.player))
+        self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
+        self.toolbar._search_button.set_sensitive(False)
+        self.toolbar._select_button.set_sensitive(False)
+
+    def _switch_to_player_view(self):
+        self.views.append(Views.Albums(self.toolbar, self.selection_toolbar, self.player))
+        self.views.append(Views.Artists(self.toolbar, self.selection_toolbar, self.player))
+        self.views.append(Views.Songs(self.toolbar, self.selection_toolbar, self.player))
+        self.views.append(Views.Playlist(self.toolbar, self.selection_toolbar, self.player))
+
+        for i in self.views:
+            self._stack.add_titled(i, i.title, i.title)
+
+        self.toolbar.set_stack(self._stack)
+        self.toolbar.searchbar.show()
+
+        self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
+        self.connect('destroy', self._notify_mode_disconnect)
+        self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
+
+        self.views[0].populate()
 
     def _on_select_all(self, action, param):
         if self.toolbar._state != ToolbarState.SINGLE:

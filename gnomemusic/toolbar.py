@@ -56,7 +56,7 @@ class Toolbar(GObject.GObject):
 
     def __init__(self):
         GObject.GObject.__init__(self)
-        self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2)
+        self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2, can_focus=False)
         self._stack_switcher.show()
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/headerbar.ui')
@@ -118,6 +118,12 @@ class Toolbar(GObject.GObject):
 
     def get_stack(self):
         return self._stack_switcher.get_stack()
+
+    def hide_stack(self):
+        self._stack_switcher.hide()
+
+    def show_stack(self):
+        self._stack_switcher.show()
 
     def set_selection_mode(self, selectionMode):
         self._selectionMode = selectionMode

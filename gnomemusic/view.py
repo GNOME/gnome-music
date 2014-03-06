@@ -149,6 +149,10 @@ class ViewContainer(Stack):
                           self._on_view_selection_changed)
 
         self._discovering_urls = {}
+        grilo.connect('changes-pending', self._on_changes_pending)
+
+    def _on_changes_pending(self, data=None):
+        pass
 
     def _get_remaining_item_count(self):
         if self._cached_count < 0:
@@ -333,6 +337,13 @@ class Albums(ViewContainer):
         self.items_selected = []
         self.items_selected_callback = None
 
+    def _on_changes_pending(self, data=None):
+        if (self._init):
+            self._offset = 0
+            self._cached_count = -1
+            self._model.clear()
+            self.populate()
+
     def _back_button_clicked(self, widget, data=None):
         self.set_visible_child(self._grid)
 
@@ -405,6 +416,13 @@ class Songs(ViewContainer):
         self._add_list_renderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
+
+    def _on_changes_pending(self, data=None):
+        if (self._init):
+            self._model.clear()
+            self._offset = 0
+            self._cached_count = -1
+            self.populate()
 
     def _on_item_activated(self, widget, id, path):
         _iter = self.filter.get_iter(path)
@@ -578,6 +596,14 @@ class Artists (ViewContainer):
             self.view.get_generic_view().get_style_context().\
                 add_class('artist-panel-white')
         self.show_all()
+
+    def _on_changes_pending(self, data=None):
+        if (self._init):
+            self._model.clear()
+            self._artists.clear()
+            self._offset = 0
+            self._cached_count = -1
+            self._populate()
 
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
