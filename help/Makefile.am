@@ -6,6 +6,7 @@ HELP_FILES = \
         introduction.page \
         index.page \
         playlist-delete.page \
+        playlist-remove-songs.page \
         search.page \
         legal.xml
 

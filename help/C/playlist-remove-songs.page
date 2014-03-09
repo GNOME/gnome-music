@@ -1,0 +1,42 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" style="2column task"
+      id="playlist-remove-songs">
+
+  <info>
+    <link type="guide" xref="index#delete"/>
+    <revision pkgversion="3.12" date="2014-03-09" status="review"/>
+
+    <credit type="author">
+      <name>Shobha Tyagi</name>
+      <email its:translate="no">tyagishobha@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Delete songs from the playlist.</desc>
+
+  </info>
+
+  <title>Remove songs</title>
+
+  <p>You can remove any unwanted songs from a playlist.</p>
+
+  <steps>
+    <title>While in <em>Playlists</em>:</title>
+    <item>
+      <p>Select the playlist from which you want to remove songs.</p>
+    </item>
+    <item>
+      <p>Click on the check button on the toolbar.</p>
+    </item>
+    <item>
+      <p>Select all the songs which you want to remove.</p>
+    </item>
+    <item>
+      <p>Click on <gui style="button">Remove from Playlist</gui>.</p>
+    </item>
+  </steps>
+
+</page>
