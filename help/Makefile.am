@@ -6,6 +6,7 @@ HELP_FILES = \
         introduction.page \
         index.page \
         playlist-delete.page \
+        search.page \
         legal.xml
 
 HELP_MEDIA = \
