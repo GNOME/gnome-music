@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-01-21 19:33+0000\n"
-"PO-Revision-Date: 2014-01-27 17:44+0800\n"
+"POT-Creation-Date: 2014-03-08 19:58+0000\n"
+"PO-Revision-Date: 2014-03-09 11:54+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -67,7 +68,7 @@ msgid "If true, the search bar is shown."
 msgstr "如果設定為 true，則顯示搜尋工具列。"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "音樂"
@@ -86,49 +87,62 @@ msgstr "GNOME Music"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr "Music 是新的 GNOME 音樂播放應用程式。"
+msgstr "「音樂」是新的 GNOME 音樂播放應用程式。"
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
-msgstr "無標題"
+msgstr "無題"
 
 #: ../gnomemusic/notification.py:70
 msgid "Not playing"
 msgstr "不播放"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
+#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
+#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
 msgid "Unknown Artist"
 msgstr "不明的演出者"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
 msgid "Unknown Album"
 msgstr "不明的專輯"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:85
 #, python-format
 msgid "by %s, from %s"
 msgstr "歌手 %s，專輯 %s"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:125
 msgid "Previous"
 msgstr "前一首"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:128
 msgid "Pause"
 msgstr "暫停"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:131
 msgid "Play"
 msgstr "播放"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:133
 msgid "Next"
 msgstr "下一首"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:244
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "已選取 %d 個項目"
+
+#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "點按項目來選取它們"
+
+#: ../gnomemusic/view.py:322
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -137,36 +151,48 @@ msgstr ""
 "找不到音樂！\n"
 " 請將檔案放到資料夾 %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:329
 msgid "Albums"
 msgstr "專輯"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:402
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "播放清單"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:566
 msgid "Artists"
 msgstr "演出者"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "所有演出者"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:743
+msgid "Playlists"
+msgstr "播放清單"
+
+#: ../gnomemusic/view.py:1007
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d 首歌曲"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "載入更多"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "正在載入…"
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+#| msgid "_New Playlist"
+msgid "New Playlist"
+msgstr "新增播放清單"
+
+#: ../gnomemusic/window.py:209
 msgid "Empty"
 msgstr "清空"
 
@@ -236,8 +262,8 @@ msgid "_New Playlist"
 msgstr "新增播放清單(_N)"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "現正播放(_N)"
+msgid "_Help"
+msgstr "求助(_H)"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
@@ -275,14 +301,37 @@ msgstr "全選"
 msgid "Select None"
 msgstr "取消全選"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "點按項目來選取它們"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "取消"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "加入至播放清單"
+
+#: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
+msgid "Remove from Playlist"
+msgstr "從播放清單移除"
+
+#: ../data/PlaylistControls.ui.h:1
+#| msgid "Play"
+msgid "_Play"
+msgstr "播放(_P)"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "刪除(_D)"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+#| msgid "Select All"
+msgid "Select Playlist"
+msgstr "選取播放清單"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+#| msgid "Select All"
+msgid "Select"
+msgstr "選取"
+
+#~ msgid "Now _Playing"
+#~ msgstr "現正播放(_N)"
