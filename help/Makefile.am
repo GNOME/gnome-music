@@ -5,6 +5,7 @@ HELP_ID = gnome-music
 HELP_FILES = \
         introduction.page \
         index.page \
+        playlist-delete.page \
         legal.xml
 
 HELP_MEDIA = \
