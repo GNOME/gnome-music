@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-02-28 07:56+0000\n"
-"PO-Revision-Date: 2014-02-28 16:34+0100\n"
+"POT-Creation-Date: 2014-03-10 08:00+0000\n"
+"PO-Revision-Date: 2014-03-10 13:56+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: Gtranslator 2.91.5\n"
 
@@ -24,12 +24,14 @@ msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11
+#: C/introduction.page:11 C/index.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13
+#: C/introduction.page:13 C/index.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
 
@@ -78,6 +80,106 @@ msgstr "Reproducir una canción"
 #: C/index.page:31
 msgid "Remove songs and playlist"
 msgstr "Quitar canciones y lista de reproducción"
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+#| msgid "Remove songs and playlist"
+msgid "Remove an unwanted playlist."
+msgstr "Quitar una lista de reproducción."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+#| msgid "Create playlist"
+msgid "Delete a playlist"
+msgstr "Eliminar una lista de reproducción"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+#| msgid "Remove songs and playlist"
+msgid "You can remove an old and unwanted playlist."
+msgstr ""
+"Puede quitar una canción antigua o una lista de reproducción que no quiera"
+
+#. (itstool) path: steps/title
+#: C/playlist-delete.page:27 C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "Estando en <em>Listas de reproducción</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "Seleccione la lista de reproducción que quiere eliminar"
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Pulse en el icono de la rueda dentada en la parte de la derecha."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "Pulse en <gui>Eliminar</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+#| msgid "Remove songs and playlist"
+msgid "Delete songs from the playlist."
+msgstr "Quitar canciones de la lista de reproducción."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+#| msgid "Remove songs and playlist"
+msgid "Remove songs"
+msgstr "Quitar canciones"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr ""
+"Puede quitar cualquier canción que no quiera de una lista de reproducción."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr ""
+"Seleccione la lista de reproducción de la que quiere quitar las canciones."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "Pulse el botón «Marcar» en la barra de herramientas."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "Seleccione todas las canciones que quiere eliminar."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr ""
+"Pulse en <gui style=\"button\">Quitar de la lista de reproducción</gui>."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "Buscar en su colección de música."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "Buscar música"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr ""
+"Buscar en sus álbumes, artistas, canciones y listas de reproducción. "
+"Seleccione lo que quiere buscar y pulse el botón <gui>Buscar</gui> para "
+"empezar a buscar."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
