@@ -1,20 +1,19 @@
 # Czech translation for gnome-music.
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-#
 # Marek Černocký <marek@manet.cz>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-02-27 19:57+0000\n"
-"PO-Revision-Date: 2014-02-28 05:03+0100\n"
+"POT-Creation-Date: 2014-03-11 19:59+0000\n"
+"PO-Revision-Date: 2014-03-11 21:42+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
@@ -24,12 +23,14 @@ msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11
+#: C/introduction.page:11 C/index.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13
+#: C/introduction.page:13 C/index.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
 
@@ -78,6 +79,97 @@ msgstr "Jak přehrát skladbu"
 #: C/index.page:31
 msgid "Remove songs and playlist"
 msgstr "Jak odstranit skladbu a seznam k přehrání"
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+msgid "Remove an unwanted playlist."
+msgstr "Jak odstranit nepotřebný seznam k přehrání."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+msgid "Delete a playlist"
+msgstr "Mazání seznamů k přehrání"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+msgid "You can remove an old and unwanted playlist."
+msgstr "Staré a nepotřebné seznamy k přehrání můžete odstranit."
+
+#. (itstool) path: steps/title
+#: C/playlist-delete.page:27 C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "Když jste v <em>Seznamech k přehrání</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "Vyberte seznam k přehrání, který chcete smazat."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Klikněte na tlačítko s ozubeným kolem na pravé straně."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "Klikněte na <gui>Smazat</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+msgid "Delete songs from the playlist."
+msgstr "Jak smazat skladbu ze seznamu k přehrání."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+msgid "Remove songs"
+msgstr "Odebrání skladby"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr "Skladby, které už v seznamu k přehrání nechcete, můžete odebrat."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr "Vyberte seznam k přehrání, ze kterého chcete skladby odebrat."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "Klikněte na tlačítko se zaškrtávátkem na nástrojové liště."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "Vyberte skladby, které chcete odebrat."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr "Klikněte na <gui style=\"button\">Odebrat ze seznamu k přehrání</gui>."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "Jak vyhledávat ve své sbírce hudby."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "Hledání hudby"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr ""
+"Je možné vyhledávat svá alba, umělce, skladby a seznamy k přehrání. Co "
+"chcete hledat zvolte kliknutím na tlačítko <gui>Hledat</gui> a můžete s "
+"hledáním začít."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
