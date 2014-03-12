@@ -5,9 +5,9 @@ HELP_ID = gnome-music
 HELP_FILES = \
         introduction.page \
         index.page \
-        playlist-create-albums \
-        playlist-create-songs \
-        playlist-create-artists \
+        playlist-create-albums.page \
+        playlist-create-songs.page \
+        playlist-create-artists.page \
         playlist-delete.page \
         playlist-remove-songs.page \
         search.page \
