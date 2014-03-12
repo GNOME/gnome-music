@@ -123,8 +123,8 @@ class Grilo(GObject.GObject):
     def populate_songs(self, offset, callback, count=-1):
         self.populate_items(Query.SONGS, offset, callback, count)
 
-    def populate_album_songs(self, album_id, callback):
-        self.populate_items(Query.album_songs(album_id), 0, callback)
+    def populate_album_songs(self, album_id, callback, count=-1):
+        self.populate_items(Query.album_songs(album_id), 0, callback, count)
 
     def populate_items(self, query, offset, callback, count=50):
         options = self.options.copy()
