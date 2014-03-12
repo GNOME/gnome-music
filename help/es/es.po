@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-03-10 08:00+0000\n"
-"PO-Revision-Date: 2014-03-10 13:56+0100\n"
+"POT-Creation-Date: 2014-03-12 10:24+0000\n"
+"PO-Revision-Date: 2014-03-12 17:08+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -24,13 +24,17 @@ msgid "translator-credits"
 msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/playlist-delete.page:11
+#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/playlist-delete.page:13
+#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
@@ -82,38 +86,272 @@ msgid "Remove songs and playlist"
 msgstr "Quitar canciones y lista de reproducción"
 
 #. (itstool) path: info/desc
+#: C/play-music.page:18
+#| msgid "Play a song"
+msgid "Play your favorite songs."
+msgstr "Reproducir sus canciones favoritas."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+#| msgid "Find music"
+msgid "Play music"
+msgstr "Reproducir música"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr ""
+"Puede reproducir su música favorita creando una lista de reproducción o "
+"simplemente pulsando en la canción que quiera desde cualquier vista."
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "Estando en <em>Listas de reproducción</em>:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+#| msgid "Delete a playlist"
+msgid "Select a playlist."
+msgstr "Seleccionar una lista de reproducción."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Pulse en el icono de la rueda dentada en la parte de la derecha."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+#| msgid "Click on <gui>Delete</gui>."
+msgid "Click on <gui>Play</gui>."
+msgstr "Pulse en <gui>Reproducir</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "Añadir canciones a las listas de reproducción usando álbumes."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+#| msgid "Create playlist"
+msgid "Create a playlist using albums"
+msgstr "Crear una lista de reproducción usando álbumes"
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui style=\"button"
+"\">Albums</gui> button."
+msgstr ""
+"Puede ver todos sus álbumes pulsando el botón <gui style=\"button\">Álbumes</"
+"gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "Para añadir todas las canciones de un álbum:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+#| msgid "Click on the gear button on the right hand side."
+msgid "Click on the check button in the top-right of the window."
+msgstr "Pulse el botón «Marcar» en la parte superior derecha de la ventana."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "Seleccione los álbumes."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr ""
+"Pulse en el botón <gui style=\"button\">Añadir a la lista de reproducción</"
+"gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr ""
+"Pulse en <gui>Nueva lista de reproducción</gui> y escriba el nombre de la "
+"lista."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "Pulse en <gui style=\"button\">Seleccionar</gui>."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr ""
+"También puede crear una lista de reproducción con canciones específicas."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "Para añadir las canciones seleccionadas de un álbum:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "Pulse sobre un álbum."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+#| msgid "Click on the check button on the toolbar."
+msgid "Click on the check button."
+msgstr "Pulse el botón «Marcar»."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+#| msgid "Remove songs"
+msgid "Select songs."
+msgstr "Seleccionar canciones."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr ""
+"Para seleccionar todas las canciones, pulse en <guiseq><gui>Pulse sobre los "
+"elementos para seleccionarlos</gui><gui>Seleccionar todo</gui></guiseq> en "
+"la barra de herramientas o pulse <keyseq><key>Ctrl</key><key>A</key></"
+"keyseq>."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr ""
+"Para limpiar la selección, pulse en <guiseq><gui>Pulse sobre los elementos "
+"para seleccionarlos</gui><gui>Seleccionar ninguno</gui></guiseq> en la barra "
+"de herramientas."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "Crear listas de reproducción seleccionando sus canciones favoritas."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+#| msgid "Create playlist"
+msgid "Create playlists using songs"
+msgstr "Crear una lista de reproducción usando canciones"
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui style=\"button\">Songs</"
+"gui> button."
+msgstr ""
+"Puede ver todas las canciones pulsando el botón <gui style=\"button"
+"\">Canciones</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr ""
+"Para crear una lista de reproducción nueva estando en la vista de "
+"<em>Canciones</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+#| msgid "Select all the songs which you want to remove."
+msgid "Select all the songs you want to add to the playlist."
+msgstr ""
+"Seleccione todas las canciones que quiere añadir a la lista de reproducción."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr ""
+"Pulse en <gui style=\"button\">Nueva lista de reproducción</gui> y escriba "
+"un nombre para la lista."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:42
+#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgid "Click on <gui styl=\"button\">Select</gui>."
+msgstr "Pulse en <gui style=\"button\">Seleccionar</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "Crear una lista de reproducción seleccionando sus artistas favoritos."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+#| msgid "Create playlist"
+msgid "Create playlists using artists"
+msgstr "Crear listas de reproducción usando artistas"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui syle="
+"\"button\">Artists</gui> button."
+msgstr ""
+"Puede ver todos los artistas y sus canciones pulsando el botón <gui syle="
+"\"button\">Artistas</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr ""
+"Para crear una lista de reproducción nueva estando en la vista de "
+"<em>Artistas</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+#| msgid "Select the playlist which you want to delete."
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr ""
+"Seleccione todos los artistas cuyas canciones quiere añadir a la lista de "
+"reproducción."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+#| msgid "Click on <gui>Delete</gui>."
+msgid "Click on <gui>Select</gui>."
+msgstr "Pulse en <gui>Seleccionar</gui>."
+
+#. (itstool) path: info/desc
 #: C/playlist-delete.page:18
-#| msgid "Remove songs and playlist"
 msgid "Remove an unwanted playlist."
 msgstr "Quitar una lista de reproducción."
 
 #. (itstool) path: page/title
 #: C/playlist-delete.page:22
-#| msgid "Create playlist"
 msgid "Delete a playlist"
 msgstr "Eliminar una lista de reproducción"
 
 #. (itstool) path: page/p
 #: C/playlist-delete.page:24
-#| msgid "Remove songs and playlist"
 msgid "You can remove an old and unwanted playlist."
 msgstr ""
 "Puede quitar una canción antigua o una lista de reproducción que no quiera"
-
-#. (itstool) path: steps/title
-#: C/playlist-delete.page:27 C/playlist-remove-songs.page:27
-msgid "While in <em>Playlists</em>:"
-msgstr "Estando en <em>Listas de reproducción</em>:"
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:29
 msgid "Select the playlist which you want to delete."
 msgstr "Seleccione la lista de reproducción que quiere eliminar"
-
-#. (itstool) path: item/p
-#: C/playlist-delete.page:32
-msgid "Click on the gear button on the right hand side."
-msgstr "Pulse en el icono de la rueda dentada en la parte de la derecha."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:35
@@ -122,13 +360,11 @@ msgstr "Pulse en <gui>Eliminar</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-remove-songs.page:18
-#| msgid "Remove songs and playlist"
 msgid "Delete songs from the playlist."
 msgstr "Quitar canciones de la lista de reproducción."
 
 #. (itstool) path: page/title
 #: C/playlist-remove-songs.page:22
-#| msgid "Remove songs and playlist"
 msgid "Remove songs"
 msgstr "Quitar canciones"
 
