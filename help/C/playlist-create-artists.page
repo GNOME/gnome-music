@@ -1,0 +1,57 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" style="2column task"
+      id="playlist-create-artists">
+
+  <info>
+    <link type="guide" xref="index#create"/>
+    <revision pkgversion="3.12" date="2014-03-08" status="review"/>
+
+    <credit type="author">
+      <name>Shobha Tyagi</name>
+      <email its:translate="no">tyagishobha@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Create playlist by selecting your favorite artists.</desc>
+
+  </info>
+
+  <title>Create playlists using artists</title>
+
+  <p>You can view all the artists and their songs by clicking on the
+  <gui syle="button">Artists</gui> button.</p>
+
+  <steps>
+    <title>To create a new playlist while in <em>Artists</em> view:</title>
+    <item>
+      <p>Click on the check button in the top-right of the window.</p>
+    </item>
+    <item>
+      <p>Select all the artists whose songs you want to add to the
+      playlist.</p>
+    </item>
+    <item>
+      <p>Click on the <gui style="button">Add to Playlist</gui> button.</p>
+    </item>
+    <item>
+      <p>Click on <gui>New Playlist</gui> and type a name for your
+      playlist.</p>
+    </item>
+    <item>
+      <p>Click on <gui>Select</gui>.</p>
+    </item>
+  </steps>
+
+  <note>
+    <p>To select all the songs click
+    <guiseq><gui>Click on items to select them</gui><gui>Select All</gui></guiseq>
+    in the toolbar or press <keyseq><key>Ctrl</key><key>A</key></keyseq>.</p>
+
+    <p>To clear the selection click
+    <guiseq><gui>Click on items to select them</gui><gui>Select None</gui></guiseq>
+    in the toolbar.</p>
+  </note>
+</page>
