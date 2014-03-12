@@ -1,0 +1,81 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" style="2column task"
+      id="playlist-create-albums">
+
+  <info>
+    <link type="guide" xref="index#create"/>
+    <revision pkgversion="3.12" date="2014-02-22" status="review"/>
+
+    <credit type="author">
+      <name>Shobha Tyagi</name>
+      <email its:translate="no">tyagishobha@gmail.com</email>
+      <years>2014</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Add songs to playlists using albums.</desc>
+  </info>
+
+  <title>Create a playlist using albums</title>
+
+  <p>You can view all your albums by clicking on the
+  <gui style="button">Albums</gui> button.</p>
+
+  <steps>
+    <title>To add all the songs in an album:</title>
+    <item>
+      <p>Click on the check button in the top-right of the window.</p>
+    </item>
+    <item>
+      <p>Select albums.</p>
+    </item>
+    <item>
+      <p>Click on the <gui style="button">Add to Playlist</gui> button.</p>
+    </item>
+    <item>
+      <p>Click on <gui>New Playlist</gui> and type a name for your
+      playlist.</p>
+    </item>
+    <item>
+      <p>Click on <gui style="button">Select</gui>.</p>
+    </item>
+  </steps>
+
+  <p>You can also create a playlist from specific songs.</p>
+
+  <steps>
+    <title>To add selected songs from an album:</title>
+    <item>
+      <p>Click on an album.</p>
+    </item>
+    <item>
+      <p>Click on the check button.</p>
+    </item>
+    <item>
+      <p>Select songs.</p>
+    </item>
+    <item>
+      <p>Click on the <gui style="button">Add to Playlist</gui> button.</p>
+    </item>
+    <item>
+      <p>Click on <gui>New Playlist</gui> and type a name for your
+      playlist.</p>
+    </item>
+    <item>
+      <p>Click on <gui style="button">Select</gui>.</p>
+    </item>
+  </steps>
+
+  <note>
+    <p>To select all the songs click
+    <guiseq><gui>Click on items to select them</gui><gui>Select All</gui></guiseq>
+    in the toolbar or press <keyseq><key>Ctrl</key><key>A</key></keyseq>.</p>
+
+    <p>To clear the selection click
+    <guiseq><gui>Click on items to select them</gui><gui>Select None</gui></guiseq>
+    in the toolbar.</p>
+  </note>
+
+</page>
