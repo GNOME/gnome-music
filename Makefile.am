@@ -3,7 +3,7 @@ NULL =
 
 bin_SCRIPTS = gnome-music
 
-SUBDIRS = help libgd gnomemusic data po
+SUBDIRS = libgd gnomemusic data po help
 
 EXTRA_DIST = \
 	AUTHORS.in \
