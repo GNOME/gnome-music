@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-03-11 19:59+0000\n"
-"PO-Revision-Date: 2014-03-11 21:42+0100\n"
+"POT-Creation-Date: 2014-03-13 08:00+0000\n"
+"PO-Revision-Date: 2014-03-13 13:49+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -23,13 +23,17 @@ msgid "translator-credits"
 msgstr "Marek Černocký <marek@manet.cz>"
 
 #. (itstool) path: credit/name
-#: C/introduction.page:11 C/index.page:11 C/playlist-delete.page:11
+#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
 #: C/playlist-remove-songs.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
 #. (itstool) path: credit/years
-#: C/introduction.page:13 C/index.page:13 C/playlist-delete.page:13
+#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
 #: C/playlist-remove-songs.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
@@ -81,6 +85,229 @@ msgid "Remove songs and playlist"
 msgstr "Jak odstranit skladbu a seznam k přehrání"
 
 #. (itstool) path: info/desc
+#: C/play-music.page:18
+msgid "Play your favorite songs."
+msgstr "Jak přehrát své oblíbené skladby."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+msgid "Play music"
+msgstr "Přehrávání hudby"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr ""
+"Svoji oblíbenou hudbu si můžete přehrávat tak, že si vytvoříte seznamy k "
+"přehrání, nebo jednoduše jen kliknete na skladbu v libovolném výpisu."
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "Když jste v <em>Seznamech k přehrání</em>:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+msgid "Select a playlist."
+msgstr "Vyberte seznam k přehrání."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Klikněte na tlačítko s ozubeným kolem na pravé straně."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+msgid "Click on <gui>Play</gui>."
+msgstr "Klikněte na <gui>Přehrát</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "Jak pomocí alb přidat skladby do seznamů k přehrání."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+msgid "Create a playlist using albums"
+msgstr "Vytvoření seznamu k přehrání pomocí alb"
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui style=\"button"
+"\">Albums</gui> button."
+msgstr ""
+"Všechna svá alba si můžete zobrazit kliknutím na tlačítko <gui style=\"button"
+"\">Alba</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "Abyste přidali všechny skladby z alba:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+msgid "Click on the check button in the top-right of the window."
+msgstr "Klikněte na tlačítko se zaškrtávátkem v pravé horní části okna."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "Vyberte alba."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr ""
+"Klikněte na tlačítko <gui style=\"button\">Přidat do seznamu k přehrání</"
+"gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr "Klikněte na <gui>Nový seznam k přehrání</gui> a napište pro něj název."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "Klikněte na <gui style=\"button\">Vybrat</gui>."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr "Seznam k přehrání můžete vytvořit také jen z konkrétních skladeb."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "Pro přidání vybraných skladeb z alba:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "Klikněte na album."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+msgid "Click on the check button."
+msgstr "Klikněte na tlačítko se zaškrtávátkem."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+msgid "Select songs."
+msgstr "Vyberte skladby."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr ""
+"Abyste vybrali všechny skladby, klikněte na <guiseq><gui>Klikáním vyberte "
+"položky</gui><gui>Vybrat vše</gui></guiseq> na nástrojové liště nebo "
+"zmáčkněte <keyseq><key>Ctrl</key><key>A</key></keyseq>."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr ""
+"Pro zrušení výběru stačí kliknout na <guiseq><gui>Klikáním vyberte položky</"
+"gui><gui>Zrušit výběr</gui></guiseq> na nástrojové liště."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "Jak pomocí výběru svých oblíbených skladeb vytvořit seznam k přehrání."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+msgid "Create playlists using songs"
+msgstr "Vytvoření seznamu k přehrání pomocí skladeb"
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui style=\"button\">Songs</"
+"gui> button."
+msgstr ""
+"Všechny své skladby si můžete zobrazit kliknutím na tlačítko <gui style="
+"\"button\">Skladby</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr ""
+"Když máte zobrazeny <em>Skladby</em>, nový seznam k přehrání vytvoříte "
+"následovně:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+msgid "Select all the songs you want to add to the playlist."
+msgstr "Vyberte všechny skladby, které chcete přidat do seznamu k přehrání."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr ""
+"Klikněte na <gui style=\"button\">Nový seznam k přehrání</gui> a napište pro "
+"něj název."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:42
+msgid "Click on <gui styl=\"button\">Select</gui>."
+msgstr "Klikněte na <gui style=\"button\">Vybrat</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "Jak pomocí výběru svých oblíbených umělců vytvořit seznam k přehrání."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+msgid "Create playlists using artists"
+msgstr "Vytvoření seznamu k přehrání pomocí umělců"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui syle="
+"\"button\">Artists</gui> button."
+msgstr ""
+"Všechny své umělce si můžete zobrazit kliknutím na tlačítko <gui style="
+"\"button\">Umělci</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr ""
+"Když máte zobrazeny <em>Umělce</em>, nový seznam k přehrání vytvoříte "
+"následovně:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr ""
+"Vyberte všechny umělce, jejichž skladby chcete přidat do seznamu k přehrání."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+msgid "Click on <gui>Select</gui>."
+msgstr "Klikněte na <gui>Vybrat</gui>."
+
+#. (itstool) path: info/desc
 #: C/playlist-delete.page:18
 msgid "Remove an unwanted playlist."
 msgstr "Jak odstranit nepotřebný seznam k přehrání."
@@ -95,20 +322,10 @@ msgstr "Mazání seznamů k přehrání"
 msgid "You can remove an old and unwanted playlist."
 msgstr "Staré a nepotřebné seznamy k přehrání můžete odstranit."
 
-#. (itstool) path: steps/title
-#: C/playlist-delete.page:27 C/playlist-remove-songs.page:27
-msgid "While in <em>Playlists</em>:"
-msgstr "Když jste v <em>Seznamech k přehrání</em>:"
-
 #. (itstool) path: item/p
 #: C/playlist-delete.page:29
 msgid "Select the playlist which you want to delete."
 msgstr "Vyberte seznam k přehrání, který chcete smazat."
-
-#. (itstool) path: item/p
-#: C/playlist-delete.page:32
-msgid "Click on the gear button on the right hand side."
-msgstr "Klikněte na tlačítko s ozubeným kolem na pravé straně."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:35
