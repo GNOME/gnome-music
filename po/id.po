@@ -2,23 +2,23 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# Andika Triwidada <andika@gmail.com>, 2013.
+# Andika Triwidada <andika@gmail.com>, 2013, 2014.
 # Dirgita <dirgitadevina@yahoo.co.id>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-16 16:59+0000\n"
-"PO-Revision-Date: 2013-09-17 20:25+0700\n"
-"Last-Translator: Dirgita <dirgitadevina@yahoo.co.id>\n"
+"POT-Creation-Date: 2014-02-26 21:05+0000\n"
+"PO-Revision-Date: 2014-03-14 18:32+0700\n"
+"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.5\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -48,25 +48,30 @@ msgstr "Keadaan dimaksimalkan jendela."
 msgid "Playback repeat mode"
 msgstr "Mode ulang pemutaran."
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Nilai mengidentifikasi apakah mengulang atau mengacak pemutaran ulang "
-"koleksi. Nilai yang diijinkan adalah: \"none\" (nihil), \"song\" (lagu), "
-"\"all\" (semua), \"shuffle\" (acak)."
+"koleksi. Nilai yang diijinkan adalah: \"none\" (tanpa pengulangan atau "
+"pengacakan), \"song\" (ulangi lagu saat ini), \"all\" (ulang daftar putar, "
+"tanpa pengacakan), \"shuffle\" (acak daftar putar, mengasumsikan ulang "
+"semua)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Mode cari"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr "Bila berisi true, bilah pencarian ditampilkan."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
@@ -95,13 +100,13 @@ msgstr "Tanpa judul"
 msgid "Not playing"
 msgstr "Tidak diputar"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
-#: ../gnomemusic/view.py:587
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:357
+#: ../gnomemusic/view.py:249 ../gnomemusic/view.py:435
+#: ../gnomemusic/view.py:648 ../gnomemusic/view.py:962
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:533
 msgid "Unknown Album"
 msgstr "Album Tak Dikenal"
 
@@ -111,23 +116,36 @@ msgstr "Album Tak Dikenal"
 msgid "by %s, from %s"
 msgstr "oleh %s, dari %s"
 
-#: ../gnomemusic/notification.py:130
+#: ../gnomemusic/notification.py:123
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:126
 msgid "Pause"
 msgstr "Tahan"
 
-#: ../gnomemusic/notification.py:136
+#: ../gnomemusic/notification.py:129
 msgid "Play"
 msgstr "Putar"
 
-#: ../gnomemusic/notification.py:138
+#: ../gnomemusic/notification.py:131
 msgid "Next"
 msgstr "Selanjutnya"
 
-#: ../gnomemusic/view.py:290
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Dipilih %d butir"
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Klik pada butir untuk memilihnya"
+
+#: ../gnomemusic/view.py:318
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -136,36 +154,46 @@ msgstr ""
 "Tak ditemukan musik!\n"
 " Letakkan beberapa berkas ke folder %s"
 
-#: ../gnomemusic/view.py:297
+#: ../gnomemusic/view.py:325
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:391
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../gnomemusic/view.py:480
-msgid "Playlists"
-msgstr "Daftar Putar"
-
-#: ../gnomemusic/view.py:486
+#: ../gnomemusic/view.py:546
 msgid "Artists"
 msgstr "Artis"
 
-#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:583 ../gnomemusic/view.py:585
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Semua Artis"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:715
+msgid "Playlists"
+msgstr "Daftar Putar"
+
+#: ../gnomemusic/view.py:979
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d Lagu"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Muat Lebih Banyak"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "Memuat..."
 
-#: ../gnomemusic/window.py:138
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "Daftar Putar Baru"
+
+#: ../gnomemusic/window.py:181
 msgid "Empty"
 msgstr "Kosong"
 
@@ -239,12 +267,12 @@ msgid "_New Playlist"
 msgstr "Daftar Putar _Baru"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "Seda_ng Diputar"
+msgid "_Help"
+msgstr "_Bantuan"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "Tent_ang Musik"
+msgid "_About"
+msgstr "Tent_ang"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -278,14 +306,30 @@ msgstr "Pilih Semua"
 msgid "Select None"
 msgstr "Pilih Tak Satupun"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Klik pada butir untuk memilihnya"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Batal"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Tambah ke Daftar Putar"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Hapus dari Daftar Putar"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Putar"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Hapus"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "Pilih Daftar Putar"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "Pilih"
