@@ -5,22 +5,23 @@
 # Tobias Endrigkeit <tobiasendrigkeit@outlook.com>, 2013.
 # Christian Kirbach <christian.kirbach@gmail.com>, 2013.
 # Benjamin Steinwender <b@stbe.at>, 2013.
+# Wolfgang Stöggl <c72578@yahoo.de>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-11 09:34+0000\n"
-"PO-Revision-Date: 2013-12-16 11:32+0100\n"
-"Last-Translator: Benjamin Steinwender <b@stbe.at>\n"
+"POT-Creation-Date: 2014-03-16 07:56+0000\n"
+"PO-Revision-Date: 2014-03-16 15:09+0100\n"
+"Last-Translator: Wolfgang Stoeggl <c72578@yahoo.de>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.2\n"
+"X-Generator: Poedit 1.6.4\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -73,7 +74,7 @@ msgid "If true, the search bar is shown."
 msgstr "Falls wahr, wird ein Suchfeld angezeigt."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
@@ -94,7 +95,7 @@ msgstr "GNOME Musik"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musik ist die neue GNOME-Anwendung zum Abspielen von Musik."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
 msgstr "Unbenannt"
 
@@ -102,39 +103,53 @@ msgstr "Unbenannt"
 msgid "Not playing"
 msgstr "Keine Wiedergabe"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
+#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
+#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
 msgid "Unknown Artist"
 msgstr "Unbekannter Künstler"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
 msgid "Unknown Album"
 msgstr "Unbekanntes Album"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:85
 #, python-format
 msgid "by %s, from %s"
 msgstr "von %s, aus %s"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:125
 msgid "Previous"
 msgstr "Vorheriges"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:128
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:131
 msgid "Play"
 msgstr "Abspielen"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:133
 msgid "Next"
 msgstr "Nächstes"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:244
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d Objekt gewählt"
+msgstr[1] "%d Objekte gewählt"
+
+#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Klicken Sie auf ein Objekt, um es auszuwählen"
+
+#: ../gnomemusic/view.py:322
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -143,36 +158,49 @@ msgstr ""
 "Keine Musik gefunden!\n"
 "Verschieben Sie einige Dateien in den Ordner %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:329
 msgid "Albums"
 msgstr "Alben"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:402
 msgid "Songs"
 msgstr "Titel"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "Wiedergabelisten"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:566
 msgid "Artists"
 msgstr "Künstler"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Alle Künstler"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:743
+msgid "Playlists"
+msgstr "Wiedergabelisten"
+
+#: ../gnomemusic/view.py:1007
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d Titel"
+msgstr[1] "%d Titel"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Mehr Laden"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "Laden …"
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+#| msgid "_New Playlist"
+msgid "New Playlist"
+msgstr "Neue Wiedergabeliste"
+
+#: ../gnomemusic/window.py:209
 msgid "Empty"
 msgstr "Leer"
 
@@ -243,8 +271,8 @@ msgid "_New Playlist"
 msgstr "_Neue Wiedergabeliste"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "_Momentan wiedergegeben"
+msgid "_Help"
+msgstr "_Hilfe"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
@@ -282,17 +310,40 @@ msgstr "Alle auswählen"
 msgid "Select None"
 msgstr "Keinen auswählen"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Klicken Sie auf ein Objekt, um es auszuwählen"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Abbrechen"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Zur Wiedergabeliste hinzufügen"
+
+#: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
+msgid "Remove from Playlist"
+msgstr "Aus der Wiedergabeliste entfernen"
+
+#: ../data/PlaylistControls.ui.h:1
+#| msgid "Play"
+msgid "_Play"
+msgstr "_Wiedergabe"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Entfernen"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+#| msgid "Select All"
+msgid "Select Playlist"
+msgstr "Wiedergabeliste auswählen"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+#| msgid "Select All"
+msgid "Select"
+msgstr "Auswählen"
+
+#~ msgid "Now _Playing"
+#~ msgstr "_Momentan wiedergegeben"
 
 #~ msgid "----"
 #~ msgstr "----"
