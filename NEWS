@@ -1,3 +1,19 @@
+Overview of changes in 3.11.92
+=============================
+
+* Improved and tranlated help
+* Space now plays/pauses the current song
+* Minor UI updates to playlists
+
+
+* Bugs fixed:
+ 707454 Space switches to next item
+ 724627 Make select button insensitive while creating New Playlist
+ 725904 Tracks don't appear in artists view for albums that have many tracks
+
+
+* Updated translations
+
 Overview of changes in 3.11.91
 =============================
 
