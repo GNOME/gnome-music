@@ -2,13 +2,14 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# A S Alam <aalam@users.sf.net>, 2013.
+# A S Alam <aalam@users.sf.net>, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 00:07+0800\n"
-"PO-Revision-Date: 2013-03-03 07:42+0530\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-02-26 21:05+0000\n"
+"PO-Revision-Date: 2014-03-18 20:44-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
 "Language: pa\n"
@@ -39,29 +40,39 @@ msgid "Window maximized"
 msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਕੀਤੀ"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state"
-msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਆਕਾਰ ਸਥਿਤੀ"
+#| msgid "Window maximized state"
+msgid "Window maximized state."
+msgstr "ਵਿੰਡੋ ਵੱਧੋ-ਵੱਧ ਆਕਾਰ ਸਥਿਤੀ।"
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
-msgstr ""
+msgstr "ਪਲੇਅਬੈਕ ਦੁਹਰਾਓ ਢੰਗ"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Legal values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
+"ਭੰਡਾਰ ਰਾਹੀਂ ਦੁਹਰਾਉਣ ਜਾਂ ਰਲਵੇਂ ਰੂਪ ਵਿੱਚ ਚਲਾਉਣ ਦੀ ਚੋਣ ਵਾਸਤੇ ਮੁੱਲ ਪਛਾਣਕਰਤਾ। "
+"ਮਨਜ਼ੂਰ "
+"ਮੁੱਲ ਹਨ: \"none\" (ਦੁਹਰਾਉਣਾ ਤੇ ਰਲਾਉਣਾ ਬੰਦ ਹੈ), \"song\" (ਮੌਜੂਦਾ ਗੀਤ ਦੁਹਰਾਉ), "
+"\"all\" (ਪਲੇਅਲਿਸਟ ਦੁਹਰਾਉ, ਰਲਵੇਂ ਨਹੀਂ), \"shuffle\"  (ਪਲੇਅਲਿਸਟ ਰਲਵਾ ਕੇ ਚਲਾਉ "
+"ਅਤੇ ਸਭ ਦੁਹਰਾਉ)।"
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "ਖੋਜ ਢੰਗ"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "If true, the search bar is shown"
-msgstr ""
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "ਜੇ ਸਹੀਂ ਹੈ ਤਾਂ ਖੋਜ ਪੱਟੀ ਵੇਖਾਈ ਜਾਂਦੀ ਹੈ।"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:11
-#: ../gnomemusic/window.py:15
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "ਸੰਗੀਤ"
 
@@ -69,46 +80,191 @@ msgstr "ਸੰਗੀਤ"
 msgid "Music Player"
 msgstr "ਸੰਗੀਤ ਪਲੇਅਰ"
 
-#: ../data/gnome-music.desktop.in.h:3
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "ਆਪਣੇ ਸੰਗੀਤ ਭੰਡਾਰ ਨੂੰ ਚਲਾਉ ਅਤੇ ਪਰਬੰਧ ਕਰੋ"
 
-#: ../gnomemusic/albumArtCache.py:38
-msgid "Untitled"
-msgstr ""
+#: ../data/gnome-music.appdata.xml.in.h:1
+#| msgid "Music"
+msgid "GNOME Music"
+msgstr "ਗਨੋਮ ਸੰਗੀਤ"
 
-#: ../gnomemusic/view.py:233
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "ਸੰਗੀਤ ਨਵੀਂ ਗਨੋਮ ਸੰਗੀਤ ਚਲਾਉਣ ਵਾਲੀ ਐਪਲੀਕੇਸ਼ਨ ਹੈ।"
+
+#: ../gnomemusic/albumArtCache.py:235
+msgid "Untitled"
+msgstr "ਬਿਨ-ਟਾਈਟਲ"
+
+#: ../gnomemusic/notification.py:70
+msgid "Not playing"
+msgstr "ਚੱਲ ਨਹੀਂ ਰਿਹਾ"
+
+#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:357
+#: ../gnomemusic/view.py:249 ../gnomemusic/view.py:435
+#: ../gnomemusic/view.py:648 ../gnomemusic/view.py:962
+msgid "Unknown Artist"
+msgstr "ਅਣਜਾਣ ਕਲਾਕਾਰ"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:533
+msgid "Unknown Album"
+msgstr "ਅਣਜਾਣ ਐਲਬਮ"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:83
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s ਵਲੋਂ, %s ਵਿੱਚੋਂ"
+
+#: ../gnomemusic/notification.py:123
+msgid "Previous"
+msgstr "ਪਿੱਛੇ"
+
+#: ../gnomemusic/notification.py:126
+msgid "Pause"
+msgstr "ਵਿਰਾਮ"
+
+#: ../gnomemusic/notification.py:129
+#| msgid "Playlists"
+msgid "Play"
+msgstr "ਚਲਾਓ"
+
+#: ../gnomemusic/notification.py:131
+msgid "Next"
+msgstr "ਅੱਗੇ"
+
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:211
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "ਚੁਣੀ %d ਆਈਟਮ"
+msgstr[1] "ਚੁਣੀਆਂ %d ਆਈਟਮਾਂ"
+
+#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "ਆਈਟਮਾਂ ਨੂੰ ਚੁਣਨ ਲਈ ਉਹਨਾਂ ਉੱਤੇ ਕਲਿੱਕ ਕਰੋ"
+
+#: ../gnomemusic/view.py:318
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"ਕੋਈ ਸੰਗੀਤ ਨਹੀਂ ਲੱਭਿਆ!\n"
+" %s ਫੋਲਡਰ ਵਿੱਚ ਕੁਝ ਫਾਇਲਾਂ ਰੱਖੋ"
+
+#: ../gnomemusic/view.py:325
 msgid "Albums"
 msgstr "ਐਲਬਮ"
 
-#: ../gnomemusic/view.py:269
+#: ../gnomemusic/view.py:391
 msgid "Songs"
 msgstr "ਗੀਤ"
 
-#: ../gnomemusic/view.py:408
-msgid "Playlists"
-msgstr "ਪਲੇਅਲਿਸਟ"
-
-#: ../gnomemusic/view.py:414
+#: ../gnomemusic/view.py:546
 msgid "Artists"
 msgstr "ਕਲਾਕਾਰ"
 
-#: ../gnomemusic/widgets.py:27 ../gnomemusic/widgets.py:47
-msgid "Load More"
-msgstr ""
-
-#: ../gnomemusic/widgets.py:37
-msgid "Loading..."
-msgstr ""
-
-#: ../gnomemusic/widgets.py:396
-#, fuzzy
+#: ../gnomemusic/view.py:583 ../gnomemusic/view.py:585
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
-msgstr "ਕਲਾਕਾਰ"
+msgstr "ਸਭ ਕਲਾਕਾਰ"
 
-#: ../gnomemusic/window.py:92
+#: ../gnomemusic/view.py:715
+msgid "Playlists"
+msgstr "ਪਲੇਅਲਿਸਟ"
+
+#: ../gnomemusic/view.py:979
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d ਗੀਤ"
+msgstr[1] "%d ਗੀਤ"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
+msgid "Load More"
+msgstr "ਹੋਰ ਲੋਡ ਕਰੋ"
+
+#: ../gnomemusic/widgets.py:85
+msgid "Loading..."
+msgstr "...ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
+
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "ਨਵੀਂ ਪਲੇਅਲਿਸਟ"
+
+#: ../gnomemusic/window.py:181
 msgid "Empty"
+msgstr "ਖਾਲੀ"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME Music Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "ਗਨੋਮ ਲਈ ਸੰਗੀਤ ਪਲੇਅਰ ਅਤੇ ਪ੍ਰਬੰਧਕ ਐਪਲੀਕੇਸ਼ਨ ਹੈ।"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "ਗਨੋਮ ਸੰਗੀਤ ਵੈੱਬਸਾਈਟ ਵੇਖੋ"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
+"ਗਨੋਮ ਸੰਗੀਤ ਇੱਕ ਮੁਕਤ ਸਾਫਟਵੇਅਰ ਹੈ, ਜਿਸ ਨੂੰ ਤੁਸੀਂ ਫਰੀ ਸਾਫਟਵੇਅਰ ਫਾਊਂਨਡੇਸ਼ਨ ਵਲੋਂ "
+"ਜਾਰੀ ਗਨੂ "
+"ਜਰਨਲ ਪਬਲਿਕ ਲਾਇਸੈਂਸ ਦੇ ਵਰਜਨ ੨ ਜਾਂ (ਤੁਹਾਡੀ ਚੋਣ ਮੁਤਾਬਕ) ਨਵੇਂ ਵਰਜਨ ਅਧੀਨ "
+"ਵੰਡ ਅਤੇ/ਜਾਂ ਸੋਧ ਜਾ ਸਕਦੇ ਹੋ।\n"
+"\n"
+"ਗਨੋਮ ਸੰਗੀਤ  ਨੂੰ ਇਸ ਭਰੋਸੇ ਨਾਲ ਵੰਡਿਆ ਜਾ ਰਿਹਾ ਹੈ ਕਿ ਉਹ ਲਾਭਦਾਇਕ ਹੋਵੇਗਾ, ਪਰ ਬਿਨਾਂ "
+"ਕਿਸੇ "
+"ਵਾਰੰਟੀ ਦੇ, ਬਿਨਾਂ ਕਿਸੇ ਖਾਸ ਮਕਸਦ ਲਈ ਠੀਕ ਜਾਂ ਲਾਭਦਾਇਕ ਰਹਿਣ ਦੇ। ਵਧੇਰੇ ਜਾਣਕਾਰੀ ਲਈ "
+"ਗਨੂ ਜਰਨਲ "
+"ਪਬਲਿਕ ਲਾਇਸੈਂਸ ਨੂੰ ਵੇਖੋ।\n"
+"\n"
+"ਤੁਸੀਂ ਗਨੂ ਜਰਨਲ ਪਬਲਿਕ ਲਾਇਸੈਂਸ ਦੀ ਨਕਲ ਗਨੋਮ ਸੰਗੀਤ  ਨਾਲ ਪਰਾਪਤ ਕੀਤੀ ਹੋਵੇਗੀ, ਜੇਕਰ "
+"ਨਹੀਂ "
+"ਤਾਂ ਫਰੀ ਸਾਫਟਵੇਅਰ ਫਾਊਂਨਡੇਸ਼ਨ ੫੧ ਫਰੈਕਲਿਨ ਸਟਰੀਟ, ਪੰਜਵੀਂ ਮੰਜ਼ਲ, ਬੋਸਟਨ, ਐਮ ਏ "
+"੦੨੧੧੦-੧੩੦੧  "
+"ਅਮਰੀਕਾ ਤੋਂ ਪਰਾਪਤ ਕਰਨ ਲਈ ਲਿਖੋ।\n"
+"\n"
+"ਗਨੋਮ ਸੰਗੀਤ ਲੇਖਕਾਂ ਨੇ ਗ਼ੈਰ-GPL ਅਨੁਕੂਲ ਜੀਸਟਰੀਮਰ ਪਲੱਗਇਨ ਨੂੰ ਜੀਸਟਰੀਮਰ ਅਤੇ ਗਨੋਮ "
+"ਸੰਗੀਤ "
+"ਨਾਲ ਵਰਤਣ ਅਤੇ ਵੰਡਣ ਲਈ ਮਨਜ਼ੂਰੀ ਦਿੱਤੀ ਹੈ। ਇਹ ਮਨਜ਼ੂਰੀ ਜੀਪੀਐਲ ਲਾਈਸੈਂਸ ਰਾਹੀਂ ਦਿੱਤੀ ਗਈ "
+"ਮਨਜੂਰੀ "
+"ਤੋਂ ਉੱਤੇ ਅਤੇ ਵੱਧ ਹੈ, ਜਿਸ ਅਧੀਨ ਗਨੋਮ ਸੰਗੀਤ ਆਉਂਦਾ ਹੈ। ਜੇ ਤੁਸੀਂ ਇਹ ਕੋਡ ਵਿੱਚ ਸੋਧ "
+"ਕਰਦੇ ਹੋ, "
+"ਤਾਂ ਤੁਸੀਂ ਕੋਡ ਦੇ ਆਪਣੇ ਵਰਜਨ ਲਈ ਇਹ ਛੋਟ ਨੂੰ ਵਧਾ ਸਕਦੇ ਹੋ, ਪਰ ਇਹ ਕਰਨ ਲਈ ਤੁਹਾਡੇ "
+"ਉੱਤੇ ਕੋਈ ਪਾਬੰਦੀ "
+"ਨਹੀਂ ਹੈ। ਜੇ ਤੁਸੀਂ ਇੰਝ ਨਹੀਂ ਚਾਹੁੰਦੇ ਹੋ ਤਾਂ ਤੁਸੀਂ ਆਪਣੇ ਵਰਜਨ ਤੋਂ ਇਹ ਛੋਟ ਬਿਆਨ ਨੂੰ "
+"ਹਟਾ ਸਕਦੇ ਹੋ।"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -118,81 +274,77 @@ msgstr "ਰੀਲਿਜ਼"
 msgid "Running Length"
 msgstr "ਚੱਲਣ ਲੰਬਾਈ"
 
-#: ../data/AlbumWidget.ui.h:3
-msgid "----"
-msgstr ""
-
-#: ../data/AlbumWidget.ui.h:4
-msgid "--:--"
-msgstr ""
-
 #: ../data/app-menu.ui.h:1
-#, fuzzy
 msgid "_New Playlist"
-msgstr "ਪਲੇਅਲਿਸਟ"
+msgstr "ਨਵੀਂ ਪਲੇਅਲਿਸਟ(_N)"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr ""
+msgid "_Help"
+msgstr "ਮੱਦਦ(_H)"
 
 #: ../data/app-menu.ui.h:3
-#, fuzzy
-msgid "_About Music"
-msgstr "ਸੰਗੀਤ ਬਾਰੇ"
+msgid "_About"
+msgstr "ਇਸ ਬਾਰੇ(_A)"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "ਬੰਦ ਕਰੋ(_Q)"
 
 #: ../data/PlayerToolbar.ui.h:1
-#, fuzzy
 msgid "Shuffle"
-msgstr "ਰਲਵੇਂ ਚਲਾਉ"
+msgstr "ਰਲਵੇਂ"
 
 #: ../data/PlayerToolbar.ui.h:2
 msgid "Repeat All"
-msgstr ""
+msgstr "ਸਭ ਦੁਹਰਾਓ"
 
 #: ../data/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
-msgstr ""
+msgstr "ਗਾਣਾ ਦੁਹਰਾਓ"
 
 #: ../data/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:5
-msgid "0:00"
-msgstr ""
-
-#: ../data/PlayerToolbar.ui.h:6
-msgid "/"
-msgstr ""
+msgstr "ਰਲਵਾਂ/ਦੁਹਰਾਉਣਾ ਬੰਦ"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr ""
+msgstr "ਕੋਈ ਸੰਗੀਤ ਨਹੀਂ ਲੱਭਿਆ"
 
-#: ../data/Headerbar.ui.h:1
+#: ../data/headerbar.ui.in.h:1
 msgid "Select All"
-msgstr ""
+msgstr "ਸਭ ਚੁਣੋ"
 
-#: ../data/Headerbar.ui.h:2
+#: ../data/headerbar.ui.in.h:2
 msgid "Select None"
-msgstr ""
+msgstr "ਕੋਈ ਨਾ ਚੁਣੋ"
 
-#: ../data/Headerbar.ui.h:3
-msgid "Click on items to select them"
-msgstr ""
-
-#: ../data/Headerbar.ui.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "ਰੱਦ ਕਰੋ"
 
 #: ../data/SelectionToolbar.ui.h:1
-#, fuzzy
 msgid "Add to Playlist"
-msgstr "ਪਲੇਅਲਿਸਟ"
+msgstr "ਪਲੇਅਲਿਸਟ ਵਿੱਚ ਸ਼ਾਮਿਲ"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "ਪਲੇਅਲਿਸਟ ਵਿੱਚੋਂ ਹਟਾਓ"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "ਚਲਾਓ(_P)"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "ਹਟਾਓ(_D)"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "ਪਲੇਅਲਿਸਟ ਚੁਣੋ"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "ਚੁਣੋ"
 
 #~ msgid "New"
 #~ msgstr "ਨਵਾਂ"
