@@ -625,16 +625,16 @@ class Artists (ViewContainer):
         cells = cols[0].get_cells()
         cells[1].set_visible(False)
         cells[2].set_visible(False)
-        type_renderer = Gd.StyledTextRenderer(
+        self.text_renderer = Gd.StyledTextRenderer(
             xpad=16,
             ypad=16,
             ellipsize=Pango.EllipsizeMode.END,
             xalign=0.0,
             width=220
         )
-        list_widget.add_renderer(type_renderer, lambda *args: None, None)
-        cols[0].clear_attributes(type_renderer)
-        cols[0].add_attribute(type_renderer, 'text', 2)
+        list_widget.add_renderer(self.text_renderer, lambda *args: None, None)
+        cols[0].clear_attributes(self.text_renderer)
+        cols[0].add_attribute(self.text_renderer, 'text', 2)
 
     def _on_item_activated(self, widget, item_id, path):
         # Prepare a new artistAlbumsWidget here
@@ -688,11 +688,13 @@ class Artists (ViewContainer):
         ViewContainer._on_header_bar_toggled(self, button)
 
         if button.get_active():
+            self.text_renderer.set_fixed_size(178, -1)
             self._last_selection =\
                 self.view.get_generic_view().get_selection().get_selected()[1]
             self.view.get_generic_view().get_selection().set_mode(
                 Gtk.SelectionMode.NONE)
         else:
+            self.text_renderer.set_fixed_size(220, -1)
             self.view.get_generic_view().get_selection().set_mode(
                 Gtk.SelectionMode.SINGLE)
             if self._last_selection is not None:
