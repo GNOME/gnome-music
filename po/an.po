@@ -2,21 +2,23 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # jorgtum <jorgtum@gmail.com>, 2014.
+# Daniel Martinez <dmartinez@src.gnome.org>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-08 08:23+0000\n"
-"PO-Revision-Date: 2014-02-08 13:56+0100\n"
-"Last-Translator: Jorge Pérez Pérez <jorgtum@gmail.com>\n"
-"Language-Team: Aragonese <softaragones@googlegroups.com>\n"
+"POT-Creation-Date: 2014-03-07 10:04+0000\n"
+"PO-Revision-Date: 2014-03-20 18:16+0100\n"
+"Last-Translator: Daniel Martinez <dmartinez@src.gnome.org>\n"
+"Language-Team: Aragonés <softaragones@googlegroups.com>\n"
 "Language: an\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Gtranslator 2.91.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -32,7 +34,7 @@ msgstr "Posición d'a finestra"
 
 #: ../data/org.gnome.Music.gschema.xml.h:4
 msgid "Window position (x and y)."
-msgstr "Posición d'a finestra (X y Y)."
+msgstr "Posición d'a finestra (X e Y)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:5
 msgid "Window maximized"
@@ -55,10 +57,10 @@ msgid ""
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Valor que indica si cal repetir u aleatorizar a reproducción d'a colección. "
-"As valors admitidas son: «garra» (as opcions de repetir y mezclar son "
-"desactivadas), «canta» (repetir a canta actual), «todas» (repetir a lista de "
-"reproducción, sin mezclar), «mezclar» (mezclar a lista de reproducción, se "
-"repiten todas)."
+"As valors admitidas son: \"garra\" (as opcions de repetir y mezclar son "
+"desactivadas), \"canta\" (repetir a canta actual), \"todas\" (repetir a "
+"lista de reproducción, sin mezclar), \"mezclar\" (mezclar a lista de "
+"reproducción, se repiten todas)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -69,10 +71,10 @@ msgid "If true, the search bar is shown."
 msgstr "Si ye cierto, s'amuestra a barra de busca."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
-msgstr "mosica"
+msgstr "Mosica"
 
 #: ../data/gnome-music.desktop.in.h:2
 msgid "Music Player"
@@ -90,47 +92,61 @@ msgstr "Mosica de GNOME"
 msgid "Music is the new GNOME music playing application."
 msgstr "Mosica ye a nueva aplicación de reproducción demosica de GNOME."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
-msgstr "sin titol"
+msgstr "Sin titol"
 
 #: ../gnomemusic/notification.py:70
 msgid "Not playing"
 msgstr "No reproducindo"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
+#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
+#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
 msgid "Unknown Artist"
 msgstr "Artista desconoixiu"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
 msgid "Unknown Album"
 msgstr "Album desconoixiu"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:85
 #, python-format
 msgid "by %s, from %s"
 msgstr "por %s, en %s"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:125
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:128
 msgid "Pause"
-msgstr "PAUSA"
+msgstr "Pausa"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:131
 msgid "Play"
 msgstr "Reproducir"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:133
 msgid "Next"
 msgstr "Siguient"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:244
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d elemento trigau"
+msgstr[1] "%d elementos trigaus"
+
+#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Preta sobre os elementos ta trigar-los"
+
+#: ../gnomemusic/view.py:322
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -139,36 +155,49 @@ msgstr ""
 "No s'ha trobau mosica!\n"
 " Mete bells fichers en a carpeta %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:329
 msgid "Albums"
 msgstr "Albums"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:402
 msgid "Songs"
 msgstr "Cantas"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "Lista de reproducción"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:566
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Totz os artistas"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:743
+msgid "Playlists"
+msgstr "Lista de reproducción"
+
+#: ../gnomemusic/view.py:1007
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d canta"
+msgstr[1] "%d cantas"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Cargar-ne mas"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
-msgstr "Cargando ..."
+msgstr "Cargando..."
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:670
+#| msgid "_New Playlist"
+msgid "New Playlist"
+msgstr "Nueva lista de reproducción"
+
+#: ../gnomemusic/window.py:209
 msgid "Empty"
 msgstr "Vuedo"
 
@@ -177,11 +206,8 @@ msgid "Copyright © 2013 GNOME Music Developers"
 msgstr "Dreitos d'autor © 2013 Desembolicadors de Mosica de GNOME"
 
 #: ../data/AboutDialog.ui.in.h:3
-#, fuzzy
 msgid "A music player and management application for GNOME."
-msgstr ""
-"Seleccionar una aplicación que executar quan se connecta un reproductor de "
-"mosica"
+msgstr "Una aplicación de reproducción y administración de mosica ta lo GNOME."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
@@ -242,15 +268,15 @@ msgstr "Durada d'a reproducción"
 
 #: ../data/app-menu.ui.h:1
 msgid "_New Playlist"
-msgstr "_nueva lista de reproducción"
+msgstr "_Nueva lista de reproducción"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "Reproduci_ndo agora"
+msgid "_Help"
+msgstr "Ad_uya"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
-msgstr "_arredol de"
+msgstr "_Arredol de"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -274,7 +300,7 @@ msgstr "Mezclar/no repetir"
 
 #: ../data/NoMusic.ui.h:1
 msgid "No Music Found"
-msgstr "No s'hatrobau mosica"
+msgstr "No s'ha trobau mosica"
 
 #: ../data/headerbar.ui.in.h:1
 msgid "Select All"
@@ -284,14 +310,37 @@ msgstr "Seleccionar-lo tot"
 msgid "Select None"
 msgstr "No seleccionar garra"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Preta sobre os elementos ta seleccionar-los"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
-msgstr "CANCELAR"
+msgstr "Cancelar"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
-msgstr "ADHIBIr-ne a la lista de reproducción"
+msgstr "Adhibir-ne a la lista de reproducción"
+
+#: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
+msgid "Remove from Playlist"
+msgstr "Sacar d'a lista de reproducción"
+
+#: ../data/PlaylistControls.ui.h:1
+#| msgid "Play"
+msgid "_Play"
+msgstr "Re_producir"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Eliminar"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+#| msgid "Select All"
+msgid "Select Playlist"
+msgstr "Trigar lista de reproducción"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+#| msgid "Select All"
+msgid "Select"
+msgstr "Trigar"
+
+#~ msgid "Now _Playing"
+#~ msgstr "Reproduci_ndo agora"
