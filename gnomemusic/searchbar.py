@@ -1,4 +1,5 @@
 from gi.repository import Gtk, Gd
+from gettext import gettext as _
 
 
 class Searchbar(Gd.Revealer):
@@ -27,13 +28,14 @@ class Searchbar(Gd.Revealer):
             search_string = self._search_entry.get_text().lower()
             media = model.get_value(itr, 5)
             searchable_fields = []
-            artist = None
+            artist = _("Unknown Artist")
+            album = _("Unknown Album")
             if media and media.get_url():
-                artist = media.get_artist()
-            if media and artist:
-                searchable_fields = [media.get_artist(),
-                                     media.get_album(),
-                                     media.get_title()]
+                if media.get_artist() is not None:
+                    artist = media.get_artist()
+                if media.get_album() is not None:
+                    album = media.get_album()
+                searchable_fields = [artist, album, media.get_title()]
             else:
                 searchable_fields = [model.get_value(itr, 2),
                                      model.get_value(itr, 3)]
