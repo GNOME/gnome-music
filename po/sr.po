@@ -1,23 +1,22 @@
 # Serbian translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013.
+# Мирослав Николић <miroslavnikolic@rocketmail.com>, 2013—2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-04 14:46+0000\n"
-"PO-Revision-Date: 2013-09-05 09:52+0200\n"
+"POT-Creation-Date: 2014-03-21 14:38+0000\n"
+"PO-Revision-Date: 2014-03-21 20:39+0200\n"
 "Last-Translator: Мирослав Николић <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Virtaal 0.6.1\n"
+"Plural-Forms: nplurals=4; plural=n==1? 3 : n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -48,24 +47,33 @@ msgstr "Стање увећаног прозора."
 msgid "Playback repeat mode"
 msgstr "Режим понављања пуштања"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+#| msgid ""
+#| "Value identifies whether to repeat or randomize playback through the "
+#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Вредност која одређује да ли ће пуштање кроз збирку бити поновљено или "
-"насумично. Допуштене вредности су: „none“, „song“, „all“, „shuffle“."
+"насумично. Допуштене вредности су: „none“ (понављање и мешање су искључени), "
+"„song“ (понавља текућу песму), „all“ (понавља списак нумера, не меша), "
+"„shuffle“ (меша списак нумера, подразумева понављање свега)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Режим претраге"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr "Ако је изабрано, биће приказана трака за претрагу."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:45
-#: ../gnomemusic/window.py:53 ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Музичко"
 
@@ -78,7 +86,6 @@ msgid "Play and organize your music collection"
 msgstr "Слушајте и уређујте музичку збирку"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
-#| msgid "Music"
 msgid "GNOME Music"
 msgstr "Гномова музика"
 
@@ -86,16 +93,66 @@ msgstr "Гномова музика"
 msgid "Music is the new GNOME music playing application."
 msgstr "Музичко је нови Гномов програм за пуштање музике."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
 msgstr "Без наслова"
 
-#: ../gnomemusic/player.py:319 ../gnomemusic/view.py:225
-#: ../gnomemusic/view.py:359 ../gnomemusic/view.py:572
+#: ../gnomemusic/notification.py:70
+#| msgid "_Now Playing"
+msgid "Not playing"
+msgstr "Сада пуштам"
+
+#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
+#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
+#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
 msgid "Unknown Artist"
 msgstr "Непознат извођач"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
+#| msgid "Unknown Artist"
+msgid "Unknown Album"
+msgstr "Непознат албум"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:85
+#, python-format
+msgid "by %s, from %s"
+msgstr "изводи %s, са „%s“"
+
+#: ../gnomemusic/notification.py:125
+msgid "Previous"
+msgstr "Претходно"
+
+#: ../gnomemusic/notification.py:128
+msgid "Pause"
+msgstr "Застани"
+
+#: ../gnomemusic/notification.py:131
+#| msgid "Playlists"
+msgid "Play"
+msgstr "Пусти"
+
+#: ../gnomemusic/notification.py:133
+msgid "Next"
+msgstr "Наредно"
+
+#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:244
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Изабрана је %d ставка"
+msgstr[1] "Изабране су %d ставке"
+msgstr[2] "Изабрано је %d ставки"
+msgstr[3] "Изабрана је %d ставка"
+
+#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Кликните на ставке да их изаберете"
+
+#: ../gnomemusic/view.py:322
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -104,36 +161,51 @@ msgstr ""
 "Нисам пронашао музику!\n"
 " Пребаците неке датотеке у фасциклу „%s“"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:329
 msgid "Albums"
 msgstr "Албуми"
 
-#: ../gnomemusic/view.py:317
+#: ../gnomemusic/view.py:402
 msgid "Songs"
 msgstr "Песме"
 
-#: ../gnomemusic/view.py:466
-msgid "Playlists"
-msgstr "Списак нумера"
-
-#: ../gnomemusic/view.py:472
+#: ../gnomemusic/view.py:566
 msgid "Artists"
 msgstr "Извођачи"
 
-#: ../gnomemusic/view.py:508 ../gnomemusic/view.py:510
-#: ../gnomemusic/widgets.py:441
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Сви извођачи"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:743
+msgid "Playlists"
+msgstr "Списак нумера"
+
+#: ../gnomemusic/view.py:1007
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d песма"
+msgstr[1] "%d песме"
+msgstr[2] "%d песама"
+msgstr[3] "%d песма"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Учитај још"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "Учитавам..."
 
-#: ../gnomemusic/window.py:134
+#: ../gnomemusic/widgets.py:670
+#| msgid "_New Playlist"
+msgid "New Playlist"
+msgstr "Нови списак нумера"
+
+#: ../gnomemusic/window.py:209
 msgid "Empty"
 msgstr "Празно"
 
@@ -209,12 +281,13 @@ msgid "_New Playlist"
 msgstr "_Нови списак нумера"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "_Сад пуштам"
+msgid "_Help"
+msgstr "По_моћ"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_О Музици"
+#| msgid "_About Music"
+msgid "_About"
+msgstr "_О програму"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -248,14 +321,33 @@ msgstr "Изабери све"
 msgid "Select None"
 msgstr "Поништи избор"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Кликните на ставке да их изаберете"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Откажи"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Додај на списак нумера"
+
+#: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
+msgid "Remove from Playlist"
+msgstr "Уклони са списка нумера"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Пусти"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Обриши"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+#| msgid "Select All"
+msgid "Select Playlist"
+msgstr "Изаберите списак нумера"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+#| msgid "Select All"
+msgid "Select"
+msgstr "Изабери"
