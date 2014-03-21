@@ -1,22 +1,23 @@
 # Telugu translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Praveen Illa <mail2ipn@gmail.com>, 2013.
-#
+# Praveen Illa <mail2ipn@gmail.com>, 2013, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-10-25 07:19+0000\n"
-"PO-Revision-Date: 2013-10-26 14:51+0530\n"
+"POT-Creation-Date: 2014-03-21 15:21+0000\n"
+"PO-Revision-Date: 2014-03-21 23:06+0530\n"
 "Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
-"Language-Team: Telugu <indlinux-telugu@lists.sourceforge.net>\n"
+"Language-Team: indlinux-telugu@lists.sourceforge.net\n"
 "Language: te\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.4\n"
+"X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -68,7 +69,7 @@ msgid "If true, the search bar is shown."
 msgstr "ఒకవేళ నిజమైతే, శోధన పట్టీ చూపించబడును."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "సంగీతం"
@@ -89,7 +90,7 @@ msgstr "గ్నోమ్ సంగీతం"
 msgid "Music is the new GNOME music playing application."
 msgstr "సంగీతం అనేది సరికొత్త గ్నోమ్ సంగీత ప్రదర్శక అనువర్తనం."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
 msgstr "పేరులేదు"
 
@@ -97,39 +98,55 @@ msgstr "పేరులేదు"
 msgid "Not playing"
 msgstr "ప్రదర్శించుటలేదు"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
+#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
+#: ../gnomemusic/searchbar.py:31 ../gnomemusic/view.py:253
+#: ../gnomemusic/view.py:455 ../gnomemusic/view.py:676
+#: ../gnomemusic/view.py:990
 msgid "Unknown Artist"
 msgstr "తెలియని కళాకారుడు"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/notification.py:81 ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/view.py:553
 msgid "Unknown Album"
 msgstr "తెలియని ఆల్బమ్"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:85
 #, python-format
 msgid "by %s, from %s"
 msgstr "గాయకులు %s, %s నుండి"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:125
 msgid "Previous"
 msgstr "మునుపటిది"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:128
 msgid "Pause"
 msgstr "నిలిపివేయి"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:131
 msgid "Play"
 msgstr "ఆడించు"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:133
 msgid "Next"
 msgstr "తరువాతది"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:244
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d అంశం ఎంచుకోబడింది"
+msgstr[1] "%d అంశాలు ఎంచుకోబడ్డాయి"
+
+#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "అంశాలను ఎంచుకోవడానికి వాటిపై నొక్కండి"
+
+#: ../gnomemusic/view.py:322
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -138,36 +155,47 @@ msgstr ""
 "ఎటువంటి సంగీతం కనపడలేదు!\n"
 " దయచేసి %s సంచయంలో కొన్ని సంగీత దస్త్రాలను పెట్టండి"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:329
 msgid "Albums"
 msgstr "ఆల్బమ్లు"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:402
 msgid "Songs"
 msgstr "పాటలు"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "పాటలజాబితాలు"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:566
 msgid "Artists"
 msgstr "గాయకులు"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "అందరు గాయకులు"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:743
+msgid "Playlists"
+msgstr "పాటలజాబితాలు"
+
+#: ../gnomemusic/view.py:1007
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d పాట"
+msgstr[1] "%d పాటలు"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "మరిన్ని నింపు"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "ఎక్కిస్తున్నాము..."
 
-#: ../gnomemusic/window.py:165
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "కొత్త పాటలజాబితా"
+
+#: ../gnomemusic/window.py:209
 msgid "Empty"
 msgstr "ఏమీలేవు"
 
@@ -240,12 +268,12 @@ msgid "_New Playlist"
 msgstr "కొత్త పాటలజాబితా (_N)"
 
 #: ../data/app-menu.ui.h:2
-msgid "Now _Playing"
-msgstr "ఇప్పుడు ఆడుతున్నది (_P)"
+msgid "_Help"
+msgstr "సహాయం (_H)"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "సంగీతం గురించి (_A)"
+msgid "_About"
+msgstr "గురించి (_A)"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -279,14 +307,33 @@ msgstr "అన్నీ ఎంచుకోండి"
 msgid "Select None"
 msgstr "ఎంపిక రద్దు"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "అంశాలను ఎంచుకోవడానికి వాటిపై నొక్కండి"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "రద్దుచేయి"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "పాటలజాబితాకు కలుపు"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "జాబితా నుండి తీసివేయి"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "ఆడించు (_P)"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "తొలగించు (_D)"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "పాటలజాబితాను ఎంచుకోండి"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "ఎంచుకోండి"
+
+#~ msgid "Now _Playing"
+#~ msgstr "ఇప్పుడు ఆడుతున్నది (_P)"
