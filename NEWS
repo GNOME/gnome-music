@@ -1,3 +1,24 @@
+Overview of changes in 3.12.0
+=============================
+
+* Bugs fixed:
+ 726721  'MediaVideo' object has no attribute 'get_artist'
+
+
+* Updated translations:
+  Aragonese
+  Basque
+  Danish
+  Hungarian
+  Korean
+  Norwegian bokmål
+  Polish
+  Punjabi
+  Serbian
+  Slovak
+  Telugu
+
+
 Overview of changes in 3.11.92
 =============================
 
