@@ -288,8 +288,9 @@ class Window(Gtk.ApplicationWindow):
                     GLib.unichar_isprint(chr(Gdk.keyval_to_unicode(event.keyval))):
                 self.toolbar.searchbar.show_bar(True)
         else:
-            if not self.toolbar.searchbar.get_reveal_child() and event.keyval == Gdk.KEY_space:
-                self.player.play_pause()
+            if not self.toolbar.searchbar.get_reveal_child():
+                if event.keyval == Gdk.KEY_space and self.player.eventBox.get_visible():
+                    self.player.play_pause()
 
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
