@@ -170,7 +170,7 @@ class ViewContainer(Stack):
         else:
             self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
-            self.player.eventBox.set_visible(self.player.currentTrack != None)
+            self.player.eventBox.set_visible(self.player.currentTrack is not None)
             self.selection_toolbar.eventbox.set_visible(False)
 
     def _on_cancel_button_clicked(self, button):
