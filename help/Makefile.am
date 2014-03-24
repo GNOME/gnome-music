@@ -11,6 +11,7 @@ HELP_FILES = \
         playlist-create-artists.page \
         playlist-delete.page \
         playlist-remove-songs.page \
+        playlist-repeat.page \
         playlist-shuffle.page \
         search.page \
         legal.xml
