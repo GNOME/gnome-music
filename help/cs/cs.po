@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-03-13 08:00+0000\n"
-"PO-Revision-Date: 2014-03-13 13:49+0100\n"
+"Project-Id-Version: gnome-music gnome-3-12\n"
+"POT-Creation-Date: 2014-03-25 08:18+0000\n"
+"PO-Revision-Date: 2014-03-25 11:22+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -26,7 +26,8 @@ msgstr "Marek Černocký <marek@manet.cz>"
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
-#: C/playlist-remove-songs.page:11 C/search.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
@@ -34,7 +35,8 @@ msgstr "Shobha Tyagi"
 #: C/introduction.page:13 C/index.page:13 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
-#: C/playlist-remove-songs.page:13 C/search.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
 
@@ -175,6 +177,7 @@ msgstr "Klikněte na <gui>Nový seznam k přehrání</gui> a napište pro něj n
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
 msgid "Click on <gui style=\"button\">Select</gui>."
 msgstr "Klikněte na <gui style=\"button\">Vybrat</gui>."
 
@@ -264,11 +267,6 @@ msgid ""
 msgstr ""
 "Klikněte na <gui style=\"button\">Nový seznam k přehrání</gui> a napište pro "
 "něj název."
-
-#. (itstool) path: item/p
-#: C/playlist-create-songs.page:42
-msgid "Click on <gui styl=\"button\">Select</gui>."
-msgstr "Klikněte na <gui style=\"button\">Vybrat</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
@@ -366,6 +364,50 @@ msgstr "Vyberte skladby, které chcete odebrat."
 #: C/playlist-remove-songs.page:38
 msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
 msgstr "Klikněte na <gui style=\"button\">Odebrat ze seznamu k přehrání</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr "Opakování všech nebo jen jedné skladby stále dokola."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "Jak mohu přehrávat sklady opakovaně dokola?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "Na liště úloh klikněte na tlačítko na pravé straně:"
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "Aby se jedna skladba opakovat stále dokola, vyberte <gui>Opakovat skladbu</gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr "Aby se opakovaly dokola všechny skladby v seznam k přehrání, vyberte <gui>Opakovat vše</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "Promíchání skladeb v seznamu k přehrání."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "Jak mohu skladby přehrávat v náhodném pořadí?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr ""
+"Na liště úloh klikněte na tlačítko na pravé straně a vyberte <gui>"
+"Náhodně zamíchat</gui>."
 
 #. (itstool) path: info/desc
 #: C/search.page:18
