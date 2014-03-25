@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-03-12 10:24+0000\n"
-"PO-Revision-Date: 2014-03-12 17:08+0100\n"
+"POT-Creation-Date: 2014-03-25 08:18+0000\n"
+"PO-Revision-Date: 2014-03-25 10:14+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -27,7 +27,8 @@ msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014"
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
-#: C/playlist-remove-songs.page:11 C/search.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
@@ -35,7 +36,8 @@ msgstr "Shobha Tyagi"
 #: C/introduction.page:13 C/index.page:13 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
-#: C/playlist-remove-songs.page:13 C/search.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
 
@@ -87,13 +89,11 @@ msgstr "Quitar canciones y lista de reproducción"
 
 #. (itstool) path: info/desc
 #: C/play-music.page:18
-#| msgid "Play a song"
 msgid "Play your favorite songs."
 msgstr "Reproducir sus canciones favoritas."
 
 #. (itstool) path: page/title
 #: C/play-music.page:22
-#| msgid "Find music"
 msgid "Play music"
 msgstr "Reproducir música"
 
@@ -114,7 +114,6 @@ msgstr "Estando en <em>Listas de reproducción</em>:"
 
 #. (itstool) path: item/p
 #: C/play-music.page:30
-#| msgid "Delete a playlist"
 msgid "Select a playlist."
 msgstr "Seleccionar una lista de reproducción."
 
@@ -125,7 +124,6 @@ msgstr "Pulse en el icono de la rueda dentada en la parte de la derecha."
 
 #. (itstool) path: item/p
 #: C/play-music.page:36
-#| msgid "Click on <gui>Delete</gui>."
 msgid "Click on <gui>Play</gui>."
 msgstr "Pulse en <gui>Reproducir</gui>."
 
@@ -136,7 +134,6 @@ msgstr "Añadir canciones a las listas de reproducción usando álbumes."
 
 #. (itstool) path: page/title
 #: C/playlist-create-albums.page:21
-#| msgid "Create playlist"
 msgid "Create a playlist using albums"
 msgstr "Crear una lista de reproducción usando álbumes"
 
@@ -157,7 +154,6 @@ msgstr "Para añadir todas las canciones de un álbum:"
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
 #: C/playlist-create-artists.page:30
-#| msgid "Click on the gear button on the right hand side."
 msgid "Click on the check button in the top-right of the window."
 msgstr "Pulse el botón «Marcar» en la parte superior derecha de la ventana."
 
@@ -169,7 +165,6 @@ msgstr "Seleccione los álbumes."
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
 #: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
-#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
 msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
 msgstr ""
 "Pulse en el botón <gui style=\"button\">Añadir a la lista de reproducción</"
@@ -185,7 +180,7 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
-#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+#: C/playlist-create-songs.page:42
 msgid "Click on <gui style=\"button\">Select</gui>."
 msgstr "Pulse en <gui style=\"button\">Seleccionar</gui>."
 
@@ -207,13 +202,11 @@ msgstr "Pulse sobre un álbum."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:54
-#| msgid "Click on the check button on the toolbar."
 msgid "Click on the check button."
 msgstr "Pulse el botón «Marcar»."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:57
-#| msgid "Remove songs"
 msgid "Select songs."
 msgstr "Seleccionar canciones."
 
@@ -248,7 +241,6 @@ msgstr "Crear listas de reproducción seleccionando sus canciones favoritas."
 
 #. (itstool) path: page/title
 #: C/playlist-create-songs.page:21
-#| msgid "Create playlist"
 msgid "Create playlists using songs"
 msgstr "Crear una lista de reproducción usando canciones"
 
@@ -270,26 +262,18 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:32
-#| msgid "Select all the songs which you want to remove."
 msgid "Select all the songs you want to add to the playlist."
 msgstr ""
 "Seleccione todas las canciones que quiere añadir a la lista de reproducción."
 
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:38
-#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
 msgid ""
 "Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
 "playlist."
 msgstr ""
 "Pulse en <gui style=\"button\">Nueva lista de reproducción</gui> y escriba "
 "un nombre para la lista."
-
-#. (itstool) path: item/p
-#: C/playlist-create-songs.page:42
-#| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
-msgid "Click on <gui styl=\"button\">Select</gui>."
-msgstr "Pulse en <gui style=\"button\">Seleccionar</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
@@ -298,7 +282,6 @@ msgstr "Crear una lista de reproducción seleccionando sus artistas favoritos."
 
 #. (itstool) path: page/title
 #: C/playlist-create-artists.page:22
-#| msgid "Create playlist"
 msgid "Create playlists using artists"
 msgstr "Crear listas de reproducción usando artistas"
 
@@ -320,7 +303,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:33
-#| msgid "Select the playlist which you want to delete."
 msgid "Select all the artists whose songs you want to add to the playlist."
 msgstr ""
 "Seleccione todos los artistas cuyas canciones quiere añadir a la lista de "
@@ -328,7 +310,6 @@ msgstr ""
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:44
-#| msgid "Click on <gui>Delete</gui>."
 msgid "Click on <gui>Select</gui>."
 msgstr "Pulse en <gui>Seleccionar</gui>."
 
@@ -397,6 +378,56 @@ msgstr ""
 "Pulse en <gui style=\"button\">Quitar de la lista de reproducción</gui>."
 
 #. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr ""
+"Repetir todas las canciones de la lista de reproducción o sólo la canción "
+"actual."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "¿Cómo se repiten las canciones?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+#| msgid "Click on the gear button on the right hand side."
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "En la barra de tareas, pulse el botón de la parte de la derecha:"
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "Seleccione <gui>Repetir canción</gui> para repetir una sola canción."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr ""
+"Seleccione <gui>Repetir todas</gui> para repetir todas las canciones de la "
+"lista de reproducción."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+#| msgid "Delete songs from the playlist."
+msgid "Shuffle songs in the playlist."
+msgstr "Mezclar las canciones de la lista de reproducción."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "¿Cómo mezclar las canciones?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr ""
+"En la barra de tareas, pulse el botón de la parte de la derecha y seleccione "
+"<gui>Mezclar</gui>."
+
+#. (itstool) path: info/desc
 #: C/search.page:18
 msgid "Search through your music collection."
 msgstr "Buscar en su colección de música."
@@ -426,3 +457,7 @@ msgstr "Creative Commons de Atribución-Compartir Igual 3.0 sin soporte"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
 msgstr "Este trabajo está licenciado bajo la <_:link-1/>."
+
+#~| msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+#~ msgid "Click on <gui styl=\"button\">Select</gui>."
+#~ msgstr "Pulse en <gui style=\"button\">Seleccionar</gui>."
