@@ -27,18 +27,10 @@ class Searchbar(Gd.Revealer):
         if self._search_entry.get_property("visible"):
             search_string = self._search_entry.get_text().lower()
             media = model.get_value(itr, 5)
-            searchable_fields = []
-            artist = _("Unknown Artist")
-            album = _("Unknown Album")
+            searchable_fields = [model.get_value(itr, 2),
+                                 model.get_value(itr, 3)]
             if media and media.get_url():
-                if media.get_artist() is not None:
-                    artist = media.get_artist()
-                if media.get_album() is not None:
-                    album = media.get_album()
-                searchable_fields = [artist, album, media.get_title()]
-            else:
-                searchable_fields = [model.get_value(itr, 2),
-                                     model.get_value(itr, 3)]
+                searchable_fields.append(media.get_title())
             for field in searchable_fields:
                 if field and search_string in field.lower():
                     return True
