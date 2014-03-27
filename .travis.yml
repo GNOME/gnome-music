@@ -9,7 +9,7 @@ install:
   - pip install pep8 pyflakes --use-mirrors
 script:
   - "pyflakes gnomemusic"
-  - "pep8 --ignore=E501,E225 --show-source --show-pep8 gnomemusic"
+  - "pep8 --ignore=E501,E225,E265 --show-source --show-pep8 gnomemusic"
   - "./autogen.sh"
   - "make"
   - "make distcheck"
