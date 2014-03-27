@@ -1,5 +1,4 @@
 from gi.repository import Gtk, Gd
-from gettext import gettext as _
 
 
 class Searchbar(Gd.Revealer):
