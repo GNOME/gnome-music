@@ -31,6 +31,9 @@ from dbus.mainloop.glib import DBusGMainLoop
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.albumArtCache import AlbumArtCache
 
+from gettext import gettext as _
+from gi.repository import Grl
+
 
 class MediaPlayer2Service(dbus.service.Object):
     MEDIA_PLAYER2_IFACE = 'org.mpris.MediaPlayer2'
@@ -75,40 +78,93 @@ class MediaPlayer2Service(dbus.service.Object):
 
         metadata = {
             'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % media.get_id(),
-            'xesam:url': media.get_url(),
-            'mpris:length': dbus.Int64(media.get_duration() * 1000000),
-            'xesam:trackNumber': media.get_track_number(),
-            'xesam:useCount': media.get_play_count(),
-            'xesam:userRating': media.get_rating(),
+            'xesam:url': media.get_url()
         }
 
         try:
+            length = dbus.Int64(media.get_duration() * 1000000)
+            assert length is not None
+            metadata['mpris:length'] = length
+        except (AssertionError, ValueError):
+            pass
+
+        try:
+            trackNumber = media.get_track_number()
+            assert trackNumber is not None
+            metadata['xesam:trackNumber'] = trackNumber
+        except (AssertionError, ValueError):
+            pass
+
+        try:
+            useCount = media.get_play_count()
+            assert useCount is not None
+            metadata['xesam:useCount'] = useCount
+        except (AssertionError, ValueError):
+            pass
+
+        try:
+            userRating = media.get_rating()
+            assert userRating is not None
+            metadata['xesam:userRating'] = userRating
+        except (AssertionError, ValueError):
+            pass
+
+        try:
             title = AlbumArtCache.get_media_title(media)
-            if title:
-                metadata['xesam:title'] = title
+            assert title is not None
+            metadata['xesam:title'] = title
+        except (AssertionError, ValueError):
+            pass
 
+        try:
             album = media.get_album()
-            if album:
-                metadata['xesam:album'] = album
+            assert album is not None
+        except (AssertionError, ValueError):
+            try:
+                album = media.get_string(Grl.METADATA_KEY_ALBUM)
+                assert album is not None
+            except (AssertionError, ValueError):
+                album = _("Unknown Album")
+        finally:
+            metadata['xesam:album'] = album
 
+        try:
             artist = media.get_artist()
-            if artist:
-                metadata['xesam:artist'] = [artist]
-                metadata['xesam:albumArtist'] = [artist]
+            assert artist is not None
+        except (AssertionError, ValueError):
+            try:
+                artist = media.get_string(Grl.METADATA_KEY_ARTIST)
+                assert artist is not None
+            except (AssertionError, ValueError):
+                try:
+                    artist = media.get_author()
+                    assert artist is not None
+                except (AssertionError, ValueError):
+                    artist = _("Unknown Artist")
+        finally:
+            metadata['xesam:artist'] = [artist]
+            metadata['xesam:albumArtist'] = [artist]
 
+        try:
             genre = media.get_genre()
-            if genre:
-                metadata['xesam:genre'] = [genre]
+            assert genre is not None
+            metadata['xesam:genre'] = genre
+        except (AssertionError, ValueError):
+            pass
 
-            last_played = media.get_last_played()
-            if last_played:
-                metadata['xesam:lastUsed'] = last_played
+        try:
+            lastUsed = media.get_last_played()
+            assert genre is not None
+            metadata['xesam:lastUsed'] = lastUsed
+        except (AssertionError, ValueError):
+            pass
 
-            thumbnail = media.get_thumbnail()
-            if thumbnail:
-                metadata['mpris:artUrl'] = thumbnail
-        except Exception as e:
-            print("mpris._get_metadata error: %s" + e.message)
+        try:
+            artUrl = media.get_thumbnail()
+            assert genre is not None
+            metadata['mpris:artUrl'] = artUrl
+        except (AssertionError, ValueError):
+            pass
 
         return metadata
 
