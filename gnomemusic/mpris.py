@@ -82,30 +82,33 @@ class MediaPlayer2Service(dbus.service.Object):
             'xesam:userRating': media.get_rating(),
         }
 
-        title = AlbumArtCache.get_media_title(media)
-        if title:
-            metadata['xesam:title'] = title
+        try:
+            title = AlbumArtCache.get_media_title(media)
+            if title:
+                metadata['xesam:title'] = title
 
-        album = media.get_album()
-        if album:
-            metadata['xesam:album'] = album
+            album = media.get_album()
+            if album:
+                metadata['xesam:album'] = album
 
-        artist = media.get_artist()
-        if artist:
-            metadata['xesam:artist'] = [artist]
-            metadata['xesam:albumArtist'] = [artist]
+            artist = media.get_artist()
+            if artist:
+                metadata['xesam:artist'] = [artist]
+                metadata['xesam:albumArtist'] = [artist]
 
-        genre = media.get_genre()
-        if genre:
-            metadata['xesam:genre'] = [genre]
+            genre = media.get_genre()
+            if genre:
+                metadata['xesam:genre'] = [genre]
 
-        last_played = media.get_last_played()
-        if last_played:
-            metadata['xesam:lastUsed'] = last_played
+            last_played = media.get_last_played()
+            if last_played:
+                metadata['xesam:lastUsed'] = last_played
 
-        thumbnail = media.get_thumbnail()
-        if thumbnail:
-            metadata['mpris:artUrl'] = thumbnail
+            thumbnail = media.get_thumbnail()
+            if thumbnail:
+                metadata['mpris:artUrl'] = thumbnail
+        except Exception as e:
+            print("mpris._get_metadata error: %s" + e.message)
 
         return metadata
 
