@@ -85,45 +85,45 @@ class MediaPlayer2Service(dbus.service.Object):
             length = dbus.Int64(media.get_duration() * 1000000)
             assert length is not None
             metadata['mpris:length'] = length
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             trackNumber = media.get_track_number()
             assert trackNumber is not None
             metadata['xesam:trackNumber'] = trackNumber
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             useCount = media.get_play_count()
             assert useCount is not None
             metadata['xesam:useCount'] = useCount
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             userRating = media.get_rating()
             assert userRating is not None
             metadata['xesam:userRating'] = userRating
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             title = AlbumArtCache.get_media_title(media)
             assert title is not None
             metadata['xesam:title'] = title
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             album = media.get_album()
             assert album is not None
-        except (AssertionError, ValueError):
+        except:
             try:
                 album = media.get_string(Grl.METADATA_KEY_ALBUM)
                 assert album is not None
-            except (AssertionError, ValueError):
+            except:
                 album = _("Unknown Album")
         finally:
             metadata['xesam:album'] = album
@@ -131,11 +131,11 @@ class MediaPlayer2Service(dbus.service.Object):
         try:
             artist = media.get_artist()
             assert artist is not None
-        except (AssertionError, ValueError):
+        except:
             try:
                 artist = media.get_string(Grl.METADATA_KEY_ARTIST)
                 assert artist is not None
-            except (AssertionError, ValueError):
+            except:
                 try:
                     artist = media.get_author()
                     assert artist is not None
@@ -149,21 +149,21 @@ class MediaPlayer2Service(dbus.service.Object):
             genre = media.get_genre()
             assert genre is not None
             metadata['xesam:genre'] = genre
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             lastUsed = media.get_last_played()
             assert genre is not None
             metadata['xesam:lastUsed'] = lastUsed
-        except (AssertionError, ValueError):
+        except:
             pass
 
         try:
             artUrl = media.get_thumbnail()
             assert genre is not None
             metadata['mpris:artUrl'] = artUrl
-        except (AssertionError, ValueError):
+        except:
             pass
 
         return metadata
