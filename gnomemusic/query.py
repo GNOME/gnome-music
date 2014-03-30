@@ -290,7 +290,7 @@ class Query():
     WHERE {
         ?song a nmm:MusicPiece .
         FILTER (
-            nie:url(?song) = '%(url)s'
+            nie:url(?song) = "%(url)s"
         )
     }
     '''.replace('\n', ' ').strip() % {'url': url}
