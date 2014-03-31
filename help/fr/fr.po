@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-03-15 07:57+0000\n"
-"PO-Revision-Date: 2014-03-15 16:08+0100\n"
+"POT-Creation-Date: 2014-03-31 07:22+0000\n"
+"PO-Revision-Date: 2014-03-31 18:40+0200\n"
 "Last-Translator: Julien Hardelin <jhardlin@orange.fr>\n"
 "Language-Team: français <GNOME French Team <gnomefr@traduc.org>>\n"
 "Language: fr\n"
@@ -28,7 +28,8 @@ msgstr ""
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
 #: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
 #: C/playlist-create-artists.page:11 C/playlist-delete.page:11
-#: C/playlist-remove-songs.page:11 C/search.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
 msgid "Shobha Tyagi"
 msgstr "Shobha Tyagi"
 
@@ -36,7 +37,8 @@ msgstr "Shobha Tyagi"
 #: C/introduction.page:13 C/index.page:13 C/play-music.page:13
 #: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
 #: C/playlist-create-artists.page:13 C/playlist-delete.page:13
-#: C/playlist-remove-songs.page:13 C/search.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
 msgid "2014"
 msgstr "2014"
 
@@ -179,6 +181,7 @@ msgstr "Cliquez sur <gui>Nouvelle liste de lecture</gui> et donnez-lui un nom."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
 msgid "Click on <gui style=\"button\">Select</gui>."
 msgstr "Cliquez sur <gui style=\"button\">Sélectionner</gui>."
 
@@ -270,11 +273,6 @@ msgid ""
 msgstr ""
 "cliquez sur <gui style=\"button\">Nouvelle liste de lecture</gui> et donnez-"
 "lui un nom."
-
-#. (itstool) path: item/p
-#: C/playlist-create-songs.page:42
-msgid "Click on <gui styl=\"button\">Select</gui>."
-msgstr "Cliquez sur <gui styl=\"button\">Sélectionner</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
@@ -375,6 +373,49 @@ msgstr ""
 "cliquez sur <gui style=\"button\">Supprimer de la liste de lecture</gui>."
 
 #. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr "Répéter tous les tittres d'une liste de lecture ou seulement la chanson en cours de lecture."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "Répétition de pistes"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "Dans la barre de tâches, Cliquez sur le bouton situé à droite."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "Sélectionnez <gui>Répéter le morceau</gui> pour répéter un seul titre."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr "Sélectionnez <gui>Tout répéter</gui> pour répéter tous les morceaux de la liste de lecture."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "Mélanger des titres de la liste de lecture."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "Lecture aléatoire de titres"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr ""
+"Dans la barre des tâches, cliquez sur le bouton sur la droite et sélectionnez <gui>Mélanger</gui>."
+
+#. (itstool) path: info/desc
 #: C/search.page:18
 msgid "Search through your music collection."
 msgstr "Effectuer une recherche dans votre discothèque."
@@ -404,3 +445,6 @@ msgstr "Licence Creative Commons Attribution-ShareAlike 3.0 Unported"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
 msgstr "Cette œuvre est distribuée sous licence <_:link-1/>."
+
+#~ msgid "Click on <gui styl=\"button\">Select</gui>."
+#~ msgstr "Cliquez sur <gui styl=\"button\">Sélectionner</gui>."
