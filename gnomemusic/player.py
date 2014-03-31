@@ -359,9 +359,11 @@ class Player(GObject.GObject):
 
         self.titleLabel.set_label(AlbumArtCache.get_media_title(media))
 
-        if media.get_artist() is not None:
-            self.artistLabel.set_label(media.get_artist())
-        else:
+        try:
+            artist = media.get_artist()
+            assert artist is not None
+            self.artistLabel.set_label(artist)
+        except:
             self.artistLabel.set_label(_("Unknown Artist"))
 
         url = media.get_url()
