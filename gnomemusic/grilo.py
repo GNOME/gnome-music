@@ -98,19 +98,22 @@ class Grilo(GObject.GObject):
 
     def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
-        if id == 'grl-tracker-source':
-            ops = mediaSource.supported_operations()
-            if ops & Grl.SupportedOps.SEARCH:
-                print('Detected new source available: \'%s\' and it supports search' %
-                      mediaSource.get_name())
+        try:
+            if id == 'grl-tracker-source':
+                ops = mediaSource.supported_operations()
+                if ops & Grl.SupportedOps.SEARCH:
+                    print('Detected new source available: \'%s\' and it supports search' %
+                          mediaSource.get_name())
 
-                self.sources[id] = mediaSource
-                self.tracker = mediaSource
+                    self.sources[id] = mediaSource
+                    self.tracker = mediaSource
 
-                if self.tracker is not None:
-                    self.emit('ready')
-                    self.tracker.notify_change_start()
-                    self.tracker.connect('content-changed', self._on_content_changed)
+                    if self.tracker is not None:
+                        self.emit('ready')
+                        self.tracker.notify_change_start()
+                        self.tracker.connect('content-changed', self._on_content_changed)
+        except Exception as e:
+            log.debug("Source %s: exception %s" % (id, e))
 
     def _on_source_removed(self, pluginRegistry, mediaSource):
         print('source removed')
