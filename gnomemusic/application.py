@@ -37,11 +37,12 @@ from gnomemusic.window import Window
 from gnomemusic.mpris import MediaPlayer2Service
 from gnomemusic.notification import NotificationManager
 import logging
+log = logging.getLogger(__name__)
 
 
 class Application(Gtk.Application):
     def __init__(self):
-        logging.debug("Creating app")
+        log.debug("Creating app")
         Gtk.Application.__init__(self,
                                  application_id='org.gnome.Music',
                                  flags=Gio.ApplicationFlags.FLAGS_NONE)
@@ -58,7 +59,7 @@ class Application(Gtk.Application):
         self._window = None
 
     def build_app_menu(self):
-        logging.debug("building app menu")
+        log.debug("building app menu")
         builder = Gtk.Builder()
 
         builder.add_from_resource('/org/gnome/Music/app-menu.ui')
@@ -83,15 +84,15 @@ class Application(Gtk.Application):
         self.add_action(quitAction)
 
     def new_playlist(self, action, param):
-        logging.debug("TODO: New playlist action")
+        log.debug("TODO: New playlist action")
         pass
 
     def help(self, action, param):
-        logging.debug("Open Help action")
+        log.debug("Open Help action")
         Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
 
     def about(self, action, param):
-        logging.debug("About action")
+        log.debug("About action")
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/AboutDialog.ui')
         about = builder.get_object('about_dialog')
@@ -100,11 +101,11 @@ class Application(Gtk.Application):
         about.show()
 
     def about_response(self, dialog, response):
-        logging.debug("Close about")
+        log.debug("Close about")
         dialog.destroy()
 
     def do_startup(self):
-        logging.debug("app is starting up")
+        log.debug("app is starting up")
         Gtk.Application.do_startup(self)
 
         Notify.init(_("Music"))
@@ -116,7 +117,7 @@ class Application(Gtk.Application):
         self._window.destroy()
 
     def do_activate(self):
-        logging.debug("App is activated")
+        log.debug("App is activated")
         if not self._window:
             self._window = Window(self)
             self.service = MediaPlayer2Service(self)

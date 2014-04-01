@@ -66,7 +66,9 @@ if __name__ == "__main__":
         if '--debug' in sys.argv:
             sys.argv.remove("--debug")
     else:
-        logging.basicConfig(level=logging.WARN)
+        logging.basicConfig(level=logging.WARN,
+                            format='%(asctime)s %(levelname)s\t%(filename)s:%(lineno)d \t%(message)s',
+                            datefmt='%H:%M:%S')
 
     locale.bindtextdomain('gnome-music', localedir)
     locale.textdomain('gnome-music')
