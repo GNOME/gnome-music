@@ -28,7 +28,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Grl, Gdk
+from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Grl, Gdk, MediaArt
 from gettext import gettext as _
 import cairo
 from math import pi
@@ -50,11 +50,10 @@ class LookupRequest:
         self.callback = callback
         self.data = data
         self.path = ''
-        self.key = ''
         self.key_index = 0
         self.icon_format = 'jpeg'
-        self.artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_string(Grl.METADATA_KEY_AUTHOR)
-        self.album = item.get_string(Grl.METADATA_KEY_ALBUM)
+        self.artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_string(Grl.METADATA_KEY_AUTHOR) or ''
+        self.album = item.get_string(Grl.METADATA_KEY_ALBUM) or ''
         self.started = False
 
     @log
@@ -79,8 +78,7 @@ class LookupRequest:
                 self._on_try_load_finished(None)
                 return
 
-        self.key = AlbumArtCache.get_default()._keybuilder_funcs[self.key_index].__call__(self.artist, self.album)
-        self.path = GLib.build_filenamev([AlbumArtCache.get_default().cacheDir, '%s.%s' % (self.key, self.icon_format)])
+        self.path = MediaArt.get_path(self.artist, self.album, "album", None)[0]
         f = Gio.File.new_for_path(self.path)
 
         f.read_async(GLib.PRIORITY_DEFAULT, None, self._on_read_ready, None)
@@ -158,8 +156,7 @@ class GetUriRequest:
         self.data = data
         self.callbacks = []
         self.path = ''
-        self.key = AlbumArtCache.get_default()._keybuilder_funcs[0].__call__(artist, album)
-        self.path = GLib.build_filenamev([AlbumArtCache.get_default().cacheDir, self.key])
+        self.path = MediaArt.get_path(artist, album, "album", None)[0]
         self.stream = None
         self.started = False
 
@@ -270,13 +267,6 @@ class AlbumArtCache:
         self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
         self.frame_cache = {}
         self.frame_lock = threading.Lock()
-
-        self._keybuilder_funcs = [
-            lambda artist, album: 'album-%s-%s' % (
-                self._normalize_and_hash(artist), self._normalize_and_hash(album)),
-            lambda artist, album: 'album-%s-%s' % (
-                self._normalize_and_hash(album), self._normalize_and_hash(None))
-        ]
 
         try:
             Gio.file_new_for_path(self.cacheDir).make_directory(None)
