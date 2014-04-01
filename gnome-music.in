@@ -1,16 +1,22 @@
 #!/usr/bin/env python3
 
-import sys, signal, os, locale, gettext
+import sys
+import signal
+import os
+import locale
+import gettext
 
 # Make sure we'll find the pygobject module, even in JHBuild
 sys.path.insert(1, '@pyexecdir@')
 # Make sure we'll find the gnomemusic module, even in JHBuild
 sys.path.insert(1, '@pythondir@')
 
-from gi.repository import Gio, Gtk
+from optparse import OptionParser
+import logging
+from gi.repository import Gio
 import gnomemusic
 
-localedir='@localedir@'
+localedir = '@localedir@'
 srcdir = os.path.abspath(os.path.join(os.path.dirname(gnomemusic.__file__), '..'))
 if os.path.exists(os.path.join(srcdir, 'gnome-music.doap')):
     print('Running from source tree, using local files')
@@ -31,10 +37,12 @@ GIRepository.Repository.prepend_library_path(libgd_libdir)
 
 from gnomemusic.application import Application
 
+
 def install_excepthook():
     """ Make sure we exit when an unhandled exception occurs. """
     from gi.repository import Gtk
     old_hook = sys.excepthook
+
     def new_hook(etype, evalue, etb):
         old_hook(etype, evalue, etb)
         while Gtk.main_level():
@@ -44,6 +52,21 @@ def install_excepthook():
 
 if __name__ == "__main__":
     install_excepthook()
+
+    parser = OptionParser()
+    parser.add_option('-d', "--debug", action="store_true", default=False, dest="debug")
+    opts, args = parser.parse_args()
+    if opts.debug:
+        logging.basicConfig(level=logging.DEBUG,
+                            format='%(asctime)s %(levelname)s\t%(filename)s:%(lineno)d \t%(message)s',
+                            datefmt='%H:%M:%S')
+        # Gtk hates "-d" switch, so lets drop it
+        if '-d' in sys.argv:
+            sys.argv.remove("-d")
+        if '--debug' in sys.argv:
+            sys.argv.remove("--debug")
+    else:
+        logging.basicConfig(level=logging.WARN)
 
     locale.bindtextdomain('gnome-music', localedir)
     locale.textdomain('gnome-music')
