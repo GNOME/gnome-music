@@ -1007,6 +1007,14 @@ class Playlist(ViewContainer):
         if not _iter:
             return
 
+        iter_next = self.playlists_model.iter_next(_iter)\
+            or self.playlists_model.iter_previous(_iter)
+        if iter_next:
+            selection = self.playlists_sidebar.get_generic_view().get_selection()
+            selection.select_iter(iter_next)
+            self.playlists_sidebar.emit('item-activated', '0',
+                           self.playlists_model.get_path(iter_next))
+
         playlist = self.playlists_model.get_value(_iter, 2)
         playlists.delete_playlist(playlist)
         self.playlists_model.remove(_iter)
