@@ -92,6 +92,8 @@ class Playlists(GObject.GObject):
                 playlist.set_value(_iter, TotemPlParser.PARSER_FIELD_URI, uri)
 
         def end_callback(parser, uri, data):
+            if playlist.size() == 0:
+                playlist.append()
             parser.save(playlist, pl_file, playlist_name, TotemPlParser.ParserType.PLS)
 
         parser.connect('entry-parsed', parse_callback, playlist)
