@@ -34,7 +34,6 @@ import cairo
 from math import pi
 import threading
 import os
-import re
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -49,17 +48,16 @@ class LookupRequest:
         self.height = height or -1
         self.callback = callback
         self.data = data
-        self.path = ''
-        self.key_index = 0
-        self.icon_format = 'jpeg'
         self.artist = item.get_string(Grl.METADATA_KEY_ARTIST) or item.get_string(Grl.METADATA_KEY_AUTHOR) or ''
         self.album = item.get_string(Grl.METADATA_KEY_ALBUM) or ''
+        self.path = MediaArt.get_path(self.artist, self.album, "album", None)[0]
         self.started = False
 
     @log
     def start(self):
         self.started = True
-        self._try_load()
+        f = Gio.File.new_for_path(self.path)
+        f.read_async(GLib.PRIORITY_DEFAULT, None, self._on_read_ready, None)
 
     @log
     def finish(self, pixbuf):
@@ -67,21 +65,6 @@ class LookupRequest:
             # Cache the path on the original item for faster retrieval
             self.item.set_thumbnail(GLib.filename_to_uri(self.path, None))
         self.callback(pixbuf, self.path, self.data)
-
-    @log
-    def _try_load(self):
-        if self.key_index >= 2:
-            if self.icon_format == 'jpeg':
-                self.key_index = 0
-                self.icon_format = 'png'
-            else:
-                self._on_try_load_finished(None)
-                return
-
-        self.path = MediaArt.get_path(self.artist, self.album, "album", None)[0]
-        f = Gio.File.new_for_path(self.path)
-
-        f.read_async(GLib.PRIORITY_DEFAULT, None, self._on_read_ready, None)
 
     @log
     def _on_read_ready(self, obj, res, data=None):
@@ -95,15 +78,14 @@ class LookupRequest:
             if AlbumArtCache.get_default().logLookupErrors:
                 print('ERROR:', error)
 
-        self.key_index += 1
-        self._try_load()
+        self._on_load_fail()
 
     @log
     def _on_pixbuf_ready(self, source, res, data=None):
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res)
             if self.width < 0 and self.height < 0:
-                self._on_try_load_finished(pixbuf)
+                self.finish(pixbuf)
                 return
 
             width = pixbuf.get_width()
@@ -115,21 +97,16 @@ class LookupRequest:
                     self.width *= (width / height)
                 scale = max(width / self.width, height / self.height)
                 pixbuf = pixbuf.scale_simple(width / scale, height / scale, 2)
-                self._on_try_load_finished(pixbuf)
+                self.finish(pixbuf)
                 return
         except Exception as error:
             if AlbumArtCache.get_default().logLookupErrors:
                 print('ERROR:', error)
 
-        self.key_index += 1
-        self._try_load()
+        self._on_load_fail()
 
     @log
-    def _on_try_load_finished(self, icon, data=None):
-        if icon:
-            self.finish(icon)
-            return
-
+    def _on_load_fail(self):
         options = Grl.OperationOptions()
         options.set_flags(Grl.ResolutionFlags.FULL |
                           Grl.ResolutionFlags.IDLE_RELAY)
@@ -222,10 +199,6 @@ class GetUriRequest:
 class AlbumArtCache:
     instance = None
     degrees = pi / 180
-
-    blocks = re.compile('(\[(.*?)\]|\{(.*?)\}|\<(.*?)\>|\((.*?)\))', re.DOTALL)
-    invalid_chars = re.compile('[()<>\[\]{}_!@#$^&*+=|\\\/"\'?~]', re.DOTALL)
-    multiple_spaces = re.compile('\t|\s+', re.DOTALL)
 
     @classmethod
     def get_default(self):
@@ -346,30 +319,6 @@ class AlbumArtCache:
     def lookup(self, item, width, height, callback, data=None):
         request = LookupRequest(item, width, height, callback, data)
         request.start()
-
-    @log
-    def _normalize_and_hash(self, input_str):
-        normalized = ' '
-
-        if input_str and len(input_str) > 0:
-            normalized = self._strip_invalid_entities(input_str)
-            normalized = GLib.utf8_normalize(normalized, -1,
-                                             GLib.NormalizeMode.NFKD)
-            normalized = normalized.lower()
-
-        return GLib.compute_checksum_for_string(GLib.ChecksumType.MD5,
-                                                normalized, -1)
-
-    @log
-    def _strip_invalid_entities(self, original):
-        # Strip blocks
-        string = self.blocks.sub('', original)
-        # Strip invalid chars
-        string = self.invalid_chars.sub('', string)
-        # Remove double spaces
-        string = self.multiple_spaces.sub(' ', string)
-        # Remove trailing spaces and convert to lowercase
-        return string.strip().lower()
 
     @log
     def get_from_uri(self, uri, artist, album, width, height, callback, data=None):
