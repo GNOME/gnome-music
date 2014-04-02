@@ -1050,6 +1050,12 @@ class Playlist(ViewContainer):
     def populate(self):
         for item in sorted(self.playlists_list):
             self._add_playlist_item(item)
+        if len(self.playlists_list):
+            _iter = self.playlists_model.get_iter_first()
+            selection = self.playlists_sidebar.get_generic_view().get_selection()
+            selection.select_iter(_iter)
+            self.playlists_sidebar.emit('item-activated', '0',
+                           self.playlists_model.get_path(_iter))
 
     def get_selected_track_uris(self, callback):
         callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
