@@ -1021,6 +1021,12 @@ class Playlist(ViewContainer):
 
     def _on_playlist_created(self, playlists, name):
         self._add_playlist_item(name)
+        if self.playlists_model.iter_n_children(None) == 1:
+            _iter = self.playlists_model.get_iter_first()
+            selection = self.playlists_sidebar.get_generic_view().get_selection()
+            selection.select_iter(_iter)
+            self.playlists_sidebar.emit('item-activated', '0',
+                           self.playlists_model.get_path(_iter))
 
     def _on_song_added_to_playlist(self, playlists, name, item):
         if name == self.current_playlist:
