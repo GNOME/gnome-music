@@ -1009,7 +1009,7 @@ class Playlist(ViewContainer):
             selection = self.playlists_sidebar.get_generic_view().get_selection()
             selection.select_iter(iter_next)
             self.playlists_sidebar.emit('item-activated', '0',
-                           self.playlists_model.get_path(iter_next))
+                                        self.playlists_model.get_path(iter_next))
 
         playlist = self.playlists_model.get_value(_iter, 2)
         playlists.delete_playlist(playlist)
@@ -1022,7 +1022,7 @@ class Playlist(ViewContainer):
             selection = self.playlists_sidebar.get_generic_view().get_selection()
             selection.select_iter(_iter)
             self.playlists_sidebar.emit('item-activated', '0',
-                           self.playlists_model.get_path(_iter))
+                                        self.playlists_model.get_path(_iter))
 
     def _on_song_added_to_playlist(self, playlists, name, item):
         if name == self.current_playlist:
@@ -1057,7 +1057,7 @@ class Playlist(ViewContainer):
             selection = self.playlists_sidebar.get_generic_view().get_selection()
             selection.select_iter(_iter)
             self.playlists_sidebar.emit('item-activated', '0',
-                           self.playlists_model.get_path(_iter))
+                                        self.playlists_model.get_path(_iter))
 
     def get_selected_track_uris(self, callback):
         callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
