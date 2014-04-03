@@ -900,7 +900,7 @@ class Playlist(ViewContainer):
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
-            cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM))
+            cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
 
     def _populate(self):
         self._init = True
