@@ -3,6 +3,10 @@ from gnomemusic.grilo import grilo
 
 import os
 
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
+
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
@@ -21,12 +25,14 @@ class Playlists(GObject.GObject):
             self.instance = Playlists()
         return self.instance
 
+    @log
     def __init__(self):
         GObject.GObject.__init__(self)
         self.playlist_dir = os.path.join(GLib.get_user_data_dir(),
                                          'gnome-music',
                                          'playlists')
 
+    @log
     def create_playlist(self, name, iterlist=None):
         parser = TotemPlParser.Parser()
         playlist = TotemPlParser.Playlist()
@@ -40,6 +46,7 @@ class Playlists(GObject.GObject):
         self.emit('playlist-created', name)
         return False
 
+    @log
     def get_playlists(self):
         playlist_files = [pl_file for pl_file in os.listdir(self.playlist_dir)
                           if os.path.isfile(os.path.join(self.playlist_dir,
@@ -51,6 +58,7 @@ class Playlists(GObject.GObject):
                 playlist_names.append(name)
         return playlist_names
 
+    @log
     def add_to_playlist(self, playlist_name, uris):
         parser = TotemPlParser.Parser()
         playlist = TotemPlParser.Playlist()
@@ -78,6 +86,7 @@ class Playlists(GObject.GObject):
             False, None, None, None
         )
 
+    @log
     def remove_from_playlist(self, playlist_name, uris):
         parser = TotemPlParser.Parser()
         playlist = TotemPlParser.Playlist()
@@ -103,15 +112,18 @@ class Playlists(GObject.GObject):
             False, None, None, None
         )
 
+    @log
     def delete_playlist(self, playlist_name):
         playlist_file = self.get_path_to_playlist(playlist_name)
         if os.path.isfile(playlist_file):
             os.remove(playlist_file)
             self.emit('playlist-deleted', playlist_name)
 
+    @log
     def get_path_to_playlist(self, playlist_name):
         return os.path.join(self.playlist_dir, "%s.pls" % playlist_name)
 
+    @log
     def parse_playlist(self, playlist_name, callback):
         parser = TotemPlParser.Parser()
         parser.connect('entry-parsed', self._on_entry_parsed, callback)
@@ -120,6 +132,7 @@ class Playlists(GObject.GObject):
             False, None, None, None
         )
 
+    @log
     def _on_entry_parsed(self, parser, uri, metadata, data=None):
         filename = GLib.filename_from_uri(uri)[0]
         if filename and not os.path.isfile(filename):

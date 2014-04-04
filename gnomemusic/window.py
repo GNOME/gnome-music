@@ -40,6 +40,9 @@ import gnomemusic.view as Views
 import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
 
 playlist = Playlists.get_default()
 tracker = Tracker.SparqlConnection.get(None)
@@ -52,6 +55,7 @@ else:
 
 class Window(Gtk.ApplicationWindow):
 
+    @log
     def __init__(self, app):
         Gtk.ApplicationWindow.__init__(self,
                                        application=app,
@@ -98,6 +102,7 @@ class Window(Gtk.ApplicationWindow):
             pass
         grilo.connect('changes-pending', self._on_changes_pending)
 
+    @log
     def _on_changes_pending(self, data=None):
         count = 1
         cursor = tracker.query(Query.SONGS_COUNT, None)
@@ -122,6 +127,7 @@ class Window(Gtk.ApplicationWindow):
                 self.toolbar._select_button.set_sensitive(True)
                 self.toolbar.show_stack()
 
+    @log
     def _on_configure_event(self, widget, event):
         size = widget.get_size()
         self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
@@ -129,9 +135,11 @@ class Window(Gtk.ApplicationWindow):
         position = widget.get_position()
         self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
 
+    @log
     def _on_window_state_event(self, widget, event):
         self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
+    @log
     def _grab_media_player_keys(self):
         try:
             self.proxy.call_sync('GrabMediaPlayerKeys',
@@ -143,9 +151,11 @@ class Window(Gtk.ApplicationWindow):
             # We cannot grab media keys if no settings daemon is running
             pass
 
+    @log
     def _windows_focus_cb(self, window, event):
         self._grab_media_player_keys()
 
+    @log
     def _handle_media_keys(self, proxy, sender, signal, parameters):
         if signal != 'MediaPlayerKeyPressed':
             print('Received an unexpected signal \'%s\' from media player'.format(signal))
@@ -160,6 +170,7 @@ class Window(Gtk.ApplicationWindow):
         elif 'Previous' in response:
             self.player.play_previous()
 
+    @log
     def _setup_view(self):
         self._box = Gtk.VBox()
         self.player = Player()
@@ -204,12 +215,14 @@ class Window(Gtk.ApplicationWindow):
         self._box.show()
         self.show()
 
+    @log
     def _switch_to_empty_view(self):
         self.views.append(Views.Empty(self.toolbar, self.player))
         self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
         self.toolbar._search_button.set_sensitive(False)
         self.toolbar._select_button.set_sensitive(False)
 
+    @log
     def _switch_to_player_view(self):
         self.views.append(Views.Albums(self.toolbar, self.selection_toolbar, self.player))
         self.views.append(Views.Artists(self.toolbar, self.selection_toolbar, self.player))
@@ -228,6 +241,7 @@ class Window(Gtk.ApplicationWindow):
 
         self.views[0].populate()
 
+    @log
     def _on_select_all(self, action, param):
         if self.toolbar._state != ToolbarState.SINGLE:
             model = self._stack.get_visible_child()._model
@@ -248,6 +262,7 @@ class Window(Gtk.ApplicationWindow):
             self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
         self._stack.get_visible_child().queue_draw()
 
+    @log
     def _on_select_none(self, action, param):
         if self.toolbar._state != ToolbarState.SINGLE:
             model = self._stack.get_visible_child()._model
@@ -262,6 +277,7 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
         self._stack.get_visible_child().queue_draw()
 
+    @log
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         event_and_modifiers = (event.state & modifiers)
@@ -292,9 +308,11 @@ class Window(Gtk.ApplicationWindow):
                 if event.keyval == Gdk.KEY_space and self.player.eventBox.get_visible():
                     self.player.play_pause()
 
+    @log
     def _notify_mode_disconnect(self, data=None):
         self._stack.disconnect(self._on_notify_model_id)
 
+    @log
     def _on_notify_mode(self, stack, param):
         #Slide out artist list on switching to artists view
         if stack.get_visible_child() == self.views[1] or \
@@ -303,18 +321,22 @@ class Window(Gtk.ApplicationWindow):
             stack.get_visible_child().stack.set_visible_child_name('sidebar')
         self.toolbar.searchbar.show_bar(False)
 
+    @log
     def _toggle_view(self, btn, i):
         self._stack.set_visible_child(self.views[i])
 
+    @log
     def _on_search_toggled(self, button, data=None):
         self.toolbar.searchbar.show_bar(button.get_active())
 
+    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if self.toolbar._selectionMode:
             in_playlist = self._stack.get_visible_child() == self.views[3]
             self.selection_toolbar._add_to_playlist_button.set_visible(not in_playlist)
             self.selection_toolbar._remove_from_playlist_button.set_visible(in_playlist)
 
+    @log
     def _on_add_to_playlist_button_clicked(self, widget):
         if self._stack.get_visible_child() == self.views[3]:
             return
@@ -333,6 +355,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.get_visible_child().get_selected_track_uris(callback)
 
+    @log
     def _on_remove_from_playlist_button_clicked(self, widget):
         if self._stack.get_visible_child() != self.views[3]:
             return

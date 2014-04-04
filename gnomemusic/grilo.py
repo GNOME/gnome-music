@@ -25,11 +25,11 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
-log = logging.getLogger(__name__)
 from gi.repository import Grl, GLib, GObject
-
 from gnomemusic.query import Query
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
 
 class Grilo(GObject.GObject):
 
@@ -52,8 +52,8 @@ class Grilo(GObject.GObject):
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
 
+    @log
     def __init__(self):
-        log.debug("initializing grilo")
         GObject.GObject.__init__(self)
         self.playlist_path = GLib.build_filenamev([GLib.get_user_data_dir(),
                                                   "gnome-music", "playlists"])
@@ -75,12 +75,12 @@ class Grilo(GObject.GObject):
         try:
             self.registry.load_all_plugins()
         except GLib.GError:
-            print('Failed to load plugins.')
+            logger.error('Failed to load plugins.')
         if self.tracker is not None:
-            print("tracker is not none")
+            logger.debug("tracker found")
 
+    @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
-        log.debug("content changed")
         if changeType == Grl.SourceChangeType.ADDED or changeType == Grl.SourceChangeType.REMOVED:
             self.changed_media_ids.append(changedMedias[0].get_id())
             if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
@@ -91,16 +91,17 @@ class Grilo(GObject.GObject):
                     self.pending_event_id = 0
                 self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
 
+    @log
     def emit_change_signal(self):
-        log.debug("emitting changes-pending signal")
         self.changed_media_ids = []
         self.pending_event_id = 0
         self.emit('changes-pending')
         return False
 
+    @log
     def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
-        log.debug("new grilo source %s was added" % id)
+        logger.debug("new grilo source %s was added" % id)
         try:
             if id == 'grl-tracker-source':
                 ops = mediaSource.supported_operations()
@@ -116,29 +117,30 @@ class Grilo(GObject.GObject):
                         self.tracker.notify_change_start()
                         self.tracker.connect('content-changed', self._on_content_changed)
         except Exception as e:
-            log.debug("Source %s: exception %s" % (id, e))
+            logger.debug("Source %s: exception %s" % (id, e))
 
+    @log
     def _on_source_removed(self, pluginRegistry, mediaSource):
-        log.debug("source removed")
+        pass
 
+    @log
     def populate_artists(self, offset, callback, count=-1):
-        log.debug("populating artists")
         self.populate_items(Query.ARTISTS, offset, callback, count)
 
+    @log
     def populate_albums(self, offset, callback, count=50):
-        log.debug("populating albums")
         self.populate_items(Query.ALBUMS, offset, callback, count)
 
+    @log
     def populate_songs(self, offset, callback, count=-1):
-        log.debug("populating songs")
         self.populate_items(Query.SONGS, offset, callback, count)
 
+    @log
     def populate_album_songs(self, album_id, callback, count=-1):
-        log.debug("populating album songs")
         self.populate_items(Query.album_songs(album_id), 0, callback, count)
 
+    @log
     def populate_items(self, query, offset, callback, count=50):
-        log.debug("populating items")
         options = self.options.copy()
         options.set_skip(offset)
         if count != -1:
@@ -148,25 +150,26 @@ class Grilo(GObject.GObject):
             callback(source, param, item, count)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
+    @log
     def _search_callback(self):
-        log.debug("populating search callback")
+        pass
 
+    @log
     def search(self, q):
-        log.debug("searching for '%s'" % q)
         options = self.options.copy()
         for source in self.sources:
-            print(source.get_name() + ' - ' + q)
+            logger.debug(source.get_name() + ' - ' + q)
             source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
                           options, self._search_callback, source)
 
+    @log
     def get_album_art_for_album_id(self, album_id, _callback):
-        log.debug("fetching album art for album with id %s" % album_id)
         options = self.options.copy()
         query = Query.get_album_for_id(album_id)
         self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, _callback, None)
 
+    @log
     def get_media_from_uri(self, uri, callback):
-        log.debug("get song for uri '%s'" % uri)
         options = self.options.copy()
         query = Query.get_song_with_url(uri)
 
