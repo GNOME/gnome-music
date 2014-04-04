@@ -637,6 +637,7 @@ class PlaylistDialog():
 
         self._cancel_button = self.ui.get_object('cancel-button')
         self._select_button = self.ui.get_object('select-button')
+        self._select_button.set_sensitive(len(playlist_names) > 0)
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
