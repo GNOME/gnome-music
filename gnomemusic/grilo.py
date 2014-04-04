@@ -82,15 +82,24 @@ class Grilo(GObject.GObject):
 
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
-        if changeType == Grl.SourceChangeType.ADDED or changeType == Grl.SourceChangeType.REMOVED:
-            self.changed_media_ids.append(changedMedias[0].get_id())
-            if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
-                self.emit_change_signal()
-            else:
-                if self.pending_event_id > 0:
-                    GLib.Source.remove(self.pending_event_id)
-                    self.pending_event_id = 0
-                self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
+        try:
+            if changeType == Grl.SourceChangeType.ADDED or changeType == Grl.SourceChangeType.REMOVED:
+                for media in changedMedias:
+                    media_id = media.get_id()
+                    query = "select DISTINCT rdf:type nie:mimeType(?urn) as mime-type" +\
+                            " { ?urn rdf:type nie:InformationElement . FILTER (tracker:id(?urn) = %s) }" % media_id
+                    mimeType = grilo.tracker.query_sync(query, [Grl.METADATA_KEY_MIME], grilo.options)[0].get_mime()
+                    if mimeType.startswith("audio"):
+                        self.changed_media_ids.append(media.get_id())
+                if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
+                    self.emit_change_signal()
+                elif self.changed_media_ids != []:
+                    if self.pending_event_id > 0:
+                        GLib.Source.remove(self.pending_event_id)
+                        self.pending_event_id = 0
+                    self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
+        except Exception as e:
+            logger.warn("Exception in _on_content_changed: %s" % e)
 
     @log
     def emit_change_signal(self):
