@@ -30,8 +30,6 @@ log = logging.getLogger(__name__)
 from gi.repository import Grl, GLib, GObject
 
 from gnomemusic.query import Query
-import logging
-log = logging.getLogger(__name__)
 
 class Grilo(GObject.GObject):
 
