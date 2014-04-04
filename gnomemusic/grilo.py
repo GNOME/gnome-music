@@ -31,6 +31,7 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
+
 class Grilo(GObject.GObject):
 
     __gsignals__ = {

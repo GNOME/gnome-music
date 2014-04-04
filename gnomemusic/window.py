@@ -34,7 +34,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gettext import gettext as _, ngettext
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
-from gnomemusic.player import Player, SelectionToolbar, PlaybackStatus
+from gnomemusic.player import Player, SelectionToolbar
 from gnomemusic.query import Query
 import gnomemusic.view as Views
 import gnomemusic.widgets as Widgets
