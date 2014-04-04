@@ -32,13 +32,17 @@ from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Grl, Gdk
 from gettext import gettext as _
 import cairo
 from math import pi
-
 import threading
 import os
 import re
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
 
 
 class LookupRequest:
+
+    @log
     def __init__(self, item, width, height, callback, data=None):
         self.item = item
         self.width = width or -1
@@ -53,16 +57,19 @@ class LookupRequest:
         self.album = item.get_string(Grl.METADATA_KEY_ALBUM)
         self.started = False
 
+    @log
     def start(self):
         self.started = True
         self._try_load()
 
+    @log
     def finish(self, pixbuf):
         if pixbuf:
             # Cache the path on the original item for faster retrieval
             self.item.set_thumbnail(GLib.filename_to_uri(self.path, None))
         self.callback(pixbuf, self.path, self.data)
 
+    @log
     def _try_load(self):
         if self.key_index >= 2:
             if self.icon_format == 'jpeg':
@@ -78,6 +85,7 @@ class LookupRequest:
 
         f.read_async(GLib.PRIORITY_DEFAULT, None, self._on_read_ready, None)
 
+    @log
     def _on_read_ready(self, obj, res, data=None):
         try:
             stream = obj.read_finish(res)
@@ -92,6 +100,7 @@ class LookupRequest:
         self.key_index += 1
         self._try_load()
 
+    @log
     def _on_pixbuf_ready(self, source, res, data=None):
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(res)
@@ -117,6 +126,7 @@ class LookupRequest:
         self.key_index += 1
         self._try_load()
 
+    @log
     def _on_try_load_finished(self, icon, data=None):
         if icon:
             self.finish(icon)
@@ -138,6 +148,8 @@ class LookupRequest:
 
 
 class GetUriRequest:
+
+    @log
     def __init__(self, uri, artist, album, callback, data=None):
         self.uri = uri
         self.artist = artist
@@ -151,11 +163,13 @@ class GetUriRequest:
         self.stream = None
         self.started = False
 
+    @log
     def start(self):
         self.started = True
         f = Gio.File.new_for_uri(self.uri)
         f.read_async(300, None, self._on_read_ready, None)
 
+    @log
     def _on_read_ready(self, outstream, res, user_data=None):
         try:
             self.stream = outstream.read_finish(res)
@@ -186,12 +200,14 @@ class GetUriRequest:
         except Exception as e:
             print(e)
 
+    @log
     def _on_replace_ready(self, new_file, res, user_data=None):
         outstream = new_file.replace_finish(res)
         outstream.splice_async(self.stream,
                                Gio.IOStreamSpliceFlags.NONE,
                                300, None, self._on_splice_ready, None)
 
+    @log
     def _on_splice_ready(self, outstream, res, user_data=None):
         for values in self.callbacks:
             width, height, callback, data = values
@@ -247,6 +263,7 @@ class AlbumArtCache:
 
         return title
 
+    @log
     def __init__(self):
         self.logLookupErrors = False
         self.requested_uris = {}
@@ -266,6 +283,7 @@ class AlbumArtCache:
         except:
             pass
 
+    @log
     def make_default_icon(self, width, height):
         # get a small pixbuf with the given path
         icon = Gtk.IconTheme.get_default().load_icon('folder-music-symbolic', max(width, height) / 4, 0)
@@ -288,6 +306,7 @@ class AlbumArtCache:
                        GdkPixbuf.InterpType.NEAREST, 0xff)
         return self._make_icon_frame(result)
 
+    @log
     def _make_icon_frame(self, pixbuf):
         border = 1.5
         w = pixbuf.get_width()
@@ -306,6 +325,7 @@ class AlbumArtCache:
 
         return result
 
+    @log
     def _draw_rounded_path(self, x, y, width, height, radius):
         key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
         self.frame_lock.acquire()
@@ -332,10 +352,12 @@ class AlbumArtCache:
         self.frame_lock.release()
         return res
 
+    @log
     def lookup(self, item, width, height, callback, data=None):
         request = LookupRequest(item, width, height, callback, data)
         request.start()
 
+    @log
     def _normalize_and_hash(self, input_str):
         normalized = ' '
 
@@ -348,6 +370,7 @@ class AlbumArtCache:
         return GLib.compute_checksum_for_string(GLib.ChecksumType.MD5,
                                                 normalized, -1)
 
+    @log
     def _strip_invalid_entities(self, original):
         # Strip blocks
         string = self.blocks.sub('', original)
@@ -358,6 +381,7 @@ class AlbumArtCache:
         # Remove trailing spaces and convert to lowercase
         return string.strip().lower()
 
+    @log
     def get_from_uri(self, uri, artist, album, width, height, callback, data=None):
         if not uri:
             return
@@ -372,5 +396,6 @@ class AlbumArtCache:
         if not request.started:
             request.start()
 
+    @log
     def _on_get_uri_request_finish(self, request, data=None):
         del self.requested_uris[request.uri]

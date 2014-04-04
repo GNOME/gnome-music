@@ -36,6 +36,10 @@ else:
     from gi.repository.Gd import StackSwitcher
 from gnomemusic.searchbar import Searchbar
 
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
+
 
 class ToolbarState:
     SINGLE = 0
@@ -54,6 +58,7 @@ class Toolbar(GObject.GObject):
     _selectionMode = False
     _maximized = False
 
+    @log
     def __init__(self):
         GObject.GObject.__init__(self)
         self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2, can_focus=False)
@@ -92,15 +97,18 @@ class Toolbar(GObject.GObject):
         if Gtk.get_minor_version() <= 8:
             self._close_button.connect('hierarchy-changed', self._on_hierarchy_changed)
 
+    @log
     def _close_button_clicked(self, btn):
         if Gtk.get_minor_version() > 8:
             self._close_button.get_toplevel().close()
         else:
             self._close_button.get_toplevel().destroy()
 
+    @log
     def reset_header_title(self):
         self.header_bar.set_custom_title(self._stack_switcher)
 
+    @log
     def _on_hierarchy_changed(self, widget, previous_toplevel):
         if previous_toplevel:
             previous_toplevel.disconnect(self._window_state_handler)
@@ -108,23 +116,29 @@ class Toolbar(GObject.GObject):
         self._window_state_handler = \
             self._close_button.get_toplevel().connect('window-state-event', self._on_window_state_event)
 
+    @log
     def _on_window_state_event(self, widget, event):
         if event.changed_mask & Gdk.WindowState.MAXIMIZED:
             self._maximized = bool(event.new_window_state & Gdk.WindowState.MAXIMIZED)
             self._update()
 
+    @log
     def set_stack(self, stack):
         self._stack_switcher.set_stack(stack)
 
+    @log
     def get_stack(self):
         return self._stack_switcher.get_stack()
 
+    @log
     def hide_stack(self):
         self._stack_switcher.hide()
 
+    @log
     def show_stack(self):
         self._stack_switcher.show()
 
+    @log
     def set_selection_mode(self, selectionMode):
         self._selectionMode = selectionMode
         if selectionMode:
@@ -140,16 +154,19 @@ class Toolbar(GObject.GObject):
         self.emit('selection-mode-changed')
         self._update()
 
+    @log
     def on_back_button_clicked(self, widget):
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
         self.set_state(ToolbarState.ALBUMS)
 
+    @log
     def set_state(self, state, btn=None):
         self._state = state
         self._update()
         self.emit('state-changed')
 
+    @log
     def _update(self):
         if self._state == ToolbarState.SINGLE:
             self.header_bar.set_custom_title(None)

@@ -1,8 +1,12 @@
 from gi.repository import Gtk, Gd
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
 
 
 class Searchbar(Gd.Revealer):
 
+    @log
     def __init__(self, stack_switcher, search_button):
         Gd.Revealer.__init__(self)
         self.stack_switcher = stack_switcher
@@ -22,6 +26,7 @@ class Searchbar(Gd.Revealer):
         self.connect("notify::child-revealed", self.prepare_search_filter)
         self.view = None
 
+    @log
     def set_view_filter(self, model, itr, user_data):
         if self._search_entry.get_property("visible"):
             search_string = self._search_entry.get_text().lower()
@@ -36,6 +41,7 @@ class Searchbar(Gd.Revealer):
             return False
         return True
 
+    @log
     def prepare_search_filter(self, widget, data):
         self.view = self.stack_switcher.get_stack().get_visible_child()
         if self.view.header_bar._state == 0:
@@ -45,11 +51,13 @@ class Searchbar(Gd.Revealer):
             self.view.filter.set_visible_func(self.set_view_filter)
             self.view.filter.visible_function_set = True
 
+    @log
     def search_entry_changed(self, widget):
         self.search_term = self._search_entry.get_text()
         if self.view:
             self.view.filter.refilter()
 
+    @log
     def show_bar(self, show):
         self.set_reveal_child(show)
         self._search_button.set_active(show)
@@ -59,5 +67,6 @@ class Searchbar(Gd.Revealer):
         else:
             self._search_entry.set_text('')
 
+    @log
     def toggle_bar(self):
         self.show_bar(not self.get_child_revealed())

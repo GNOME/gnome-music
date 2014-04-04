@@ -47,6 +47,10 @@ import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
+
 tracker = Tracker.SparqlConnection.get(None)
 playlists = Playlists.get_default()
 
@@ -66,6 +70,7 @@ class ViewContainer(Stack):
     countQuery = None
     filter = None
 
+    @log
     def __init__(self, title, header_bar, selection_toolbar, view_type, use_sidebar=False, sidebar=None):
         Stack.__init__(self,
                        transition_type=StackTransitionType.CROSSFADE)
@@ -150,14 +155,17 @@ class ViewContainer(Stack):
         self._discovering_urls = {}
         grilo.connect('changes-pending', self._on_changes_pending)
 
+    @log
     def _on_changes_pending(self, data=None):
         pass
 
+    @log
     def _get_remaining_item_count(self):
         if self._cached_count < 0:
             self._cached_count = Widgets.get_count(self.countQuery)
         return self._cached_count - self._offset
 
+    @log
     def _on_header_bar_toggled(self, button):
         if button.get_active():
             self.view.set_selection_mode(True)
@@ -172,10 +180,12 @@ class ViewContainer(Stack):
             self.player.eventBox.set_visible(self.player.currentTrack is not None)
             self.selection_toolbar.eventbox.set_visible(False)
 
+    @log
     def _on_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
         self.header_bar.set_selection_mode(False)
 
+    @log
     def _on_grilo_ready(self, data=None):
         if (self.header_bar.get_stack().get_visible_child() == self
                 and not self._init):
@@ -183,10 +193,12 @@ class ViewContainer(Stack):
         self.header_bar.get_stack().connect('notify::visible-child',
                                             self._on_headerbar_visible)
 
+    @log
     def _on_headerbar_visible(self, widget, param):
         if self == widget.get_visible_child() and not self._init:
             self._populate()
 
+    @log
     def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
         self.selection_toolbar._add_to_playlist_button.\
@@ -199,21 +211,26 @@ class ViewContainer(Stack):
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
+    @log
     def _populate(self, data=None):
         self._init = True
         self.populate()
 
+    @log
     def _on_state_changed(self, widget, data=None):
         pass
 
+    @log
     def _on_selection_mode_changed(self, widget, data=None):
         pass
 
+    @log
     def _connect_view(self):
         self._adjustmentValueId = self.vadjustment.connect(
             'value-changed',
             self._on_scrolled_win_change)
 
+    @log
     def _on_scrolled_win_change(self, data=None):
         vScrollbar = self.view.get_vscrollbar()
         revealAreaHeight = 32
@@ -237,14 +254,17 @@ class ViewContainer(Stack):
             end = False
         self._loadMore.set_block(not end)
 
+    @log
     def populate(self):
         print('populate')
 
+    @log
     def _on_discovered(self, info, error, _iter):
         if error:
             print("Info %s: error: %s" % (info, error))
             self._model.set(_iter, [8, 10], [self.errorIconName, True])
 
+    @log
     def _add_item(self, source, param, item, remaining):
         if not item:
             return
@@ -273,6 +293,7 @@ class ViewContainer(Stack):
 
         GLib.idle_add(add_new_item)
 
+    @log
     def _insert_album_art(self, item, cb_item, itr, x=False):
         if item and cb_item and not item.get_thumbnail():
             if cb_item.get_thumbnail():
@@ -283,6 +304,7 @@ class ViewContainer(Stack):
                 self._iconHeight,
                 self._on_lookup_ready, itr)
 
+    @log
     def _update_album_art(self, item, itr):
         grilo.get_album_art_for_album_id(
             item.get_id(),
@@ -290,6 +312,7 @@ class ViewContainer(Stack):
             self._insert_album_art(item, cb_item, itr, True)
         )
 
+    @log
     def _on_lookup_ready(self, icon, path, _iter):
         if icon:
             self._model.set_value(
@@ -297,21 +320,26 @@ class ViewContainer(Stack):
                 albumArtCache.get_default()._make_icon_frame(icon))
             self.view.queue_draw()
 
+    @log
     def _add_list_renderers(self):
         pass
 
+    @log
     def _on_item_activated(self, widget, id, path):
         pass
 
+    @log
     def _on_selection_mode_request(self, *args):
         self.header_bar._select_button.clicked()
 
+    @log
     def get_selected_track_uris(self, callback):
         callback([])
 
 
 #Class for the Empty View
 class Empty(Stack):
+    @log
     def __init__(self, header_bar, player):
         Stack.__init__(self,
                        transition_type=StackTransitionType.CROSSFADE)
@@ -326,6 +354,7 @@ class Empty(Stack):
 
 
 class Albums(ViewContainer):
+    @log
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Albums"), header_bar,
                                selection_toolbar, Gd.MainViewType.ICON)
@@ -337,6 +366,7 @@ class Albums(ViewContainer):
         self.items_selected = []
         self.items_selected_callback = None
 
+    @log
     def _on_changes_pending(self, data=None):
         if (self._init):
             self._offset = 0
@@ -344,9 +374,11 @@ class Albums(ViewContainer):
             self._model.clear()
             self.populate()
 
+    @log
     def _back_button_clicked(self, widget, data=None):
         self.set_visible_child(self._grid)
 
+    @log
     def _on_item_activated(self, widget, id, path):
         child_path = self.filter.convert_path_to_child_path(path)
         _iter = self._model.get_iter(child_path)
@@ -361,10 +393,12 @@ class Albums(ViewContainer):
         self.header_bar.header_bar.sub_title = artist
         self.set_visible_child(self._albumWidget)
 
+    @log
     def populate(self):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
 
+    @log
     def get_selected_track_uris(self, callback):
         if self.header_bar._state == ToolbarState.SINGLE:
             uris = []
@@ -381,12 +415,14 @@ class Albums(ViewContainer):
             if len(self.albums_selected):
                 self._get_selected_album_songs()
 
+    @log
     def _get_selected_album_songs(self):
         grilo.populate_album_songs(
             self.albums_selected[self.albums_index].get_id(),
             self._add_selected_item)
         self.albums_index += 1
 
+    @log
     def _add_selected_item(self, source, param, item, remaining):
         if item:
             self.items_selected.append(item.get_url())
@@ -398,6 +434,7 @@ class Albums(ViewContainer):
 
 
 class Songs(ViewContainer):
+    @log
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar, Gd.MainViewType.LIST)
         self.countQuery = Query.SONGS_COUNT
@@ -415,6 +452,7 @@ class Songs(ViewContainer):
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
 
+    @log
     def _on_changes_pending(self, data=None):
         if (self._init):
             self._model.clear()
@@ -422,6 +460,7 @@ class Songs(ViewContainer):
             self._cached_count = -1
             self.populate()
 
+    @log
     def _on_item_activated(self, widget, id, path):
         _iter = self.filter.get_iter(path)
         child_iter = self.filter.convert_iter_to_child_iter(_iter)
@@ -429,6 +468,7 @@ class Songs(ViewContainer):
             self.player.set_playlist('Songs', None, self.filter, _iter, 5)
             self.player.set_playing(True)
 
+    @log
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
             self._model.set_value(self.iter_to_clean, 10, False)
@@ -443,6 +483,7 @@ class Songs(ViewContainer):
             self.iter_to_clean = child_iter.copy()
         return False
 
+    @log
     def _add_item(self, source, param, item, remaining):
         if not item:
             return
@@ -458,6 +499,7 @@ class Songs(ViewContainer):
              artist, item, self.nowPlayingIconName, False, False])
         self.player.discover_item(item, self._on_discovered, _iter)
 
+    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
         cols = list_widget.get_columns()
@@ -518,12 +560,15 @@ class Songs(ViewContainer):
         list_widget.add_renderer(type_renderer,
                                  self._on_list_widget_type_render, None)
 
+    @log
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
@@ -532,24 +577,29 @@ class Songs(ViewContainer):
             seconds %= 60
             cell.set_property('text', '%i:%02i' % (minutes, seconds))
 
+    @log
     def _on_list_widget_artist_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
 
+    @log
     def populate(self):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
+    @log
     def get_selected_track_uris(self, callback):
         callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
                   for path in self.view.get_selection()])
 
 
 class Artists (ViewContainer):
+    @log
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Artists"), header_bar,
                                selection_toolbar, Gd.MainViewType.LIST, True)
@@ -584,6 +634,7 @@ class Artists (ViewContainer):
                 add_class('artist-panel-white')
         self.show_all()
 
+    @log
     def _on_changes_pending(self, data=None):
         if (self._init):
             self._model.clear()
@@ -592,6 +643,7 @@ class Artists (ViewContainer):
             self._cached_count = -1
             self._populate()
 
+    @log
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
         if not selection.get_selected()[1]:
@@ -605,6 +657,7 @@ class Artists (ViewContainer):
         self._init = True
         self.populate()
 
+    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
 
@@ -623,6 +676,7 @@ class Artists (ViewContainer):
         cols[0].clear_attributes(self.text_renderer)
         cols[0].add_attribute(self.text_renderer, 'text', 2)
 
+    @log
     def _on_item_activated(self, widget, item_id, path):
         # Prepare a new artistAlbumsWidget here
         self.new_artistAlbumsWidget = Gtk.Frame(
@@ -654,6 +708,7 @@ class Artists (ViewContainer):
         self._artistAlbumsWidget = self.new_artistAlbumsWidget
         GLib.idle_add(self.artistAlbumsStack.set_visible_child_name, child_name)
 
+    @log
     def _add_item(self, source, param, item, remaining):
         if item is None:
             return
@@ -667,10 +722,12 @@ class Artists (ViewContainer):
 
         self._artists[artist.lower()]['albums'].append(item)
 
+    @log
     def populate(self):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_artists, self._offset, self._add_item)
 
+    @log
     def _on_header_bar_toggled(self, button):
         ViewContainer._on_header_bar_toggled(self, button)
 
@@ -688,6 +745,7 @@ class Artists (ViewContainer):
                 self.view.get_generic_view().get_selection().select_iter(
                     self._last_selection)
 
+    @log
     def get_selected_track_uris(self, callback):
         self.items_selected = []
         self.items_selected_callback = callback
@@ -705,12 +763,14 @@ class Artists (ViewContainer):
         if len(self.albums_selected):
             self._get_selected_album_songs()
 
+    @log
     def _get_selected_album_songs(self):
         grilo.populate_album_songs(
             self.albums_selected[self.albums_index].get_id(),
             self._add_selected_item)
         self.albums_index += 1
 
+    @log
     def _add_selected_item(self, source, param, item, remaining):
         if item:
             self.items_selected.append(item.get_url())
@@ -724,6 +784,7 @@ class Artists (ViewContainer):
 class Playlist(ViewContainer):
     playlists_list = playlists.get_playlists()
 
+    @log
     def __init__(self, header_bar, selection_toolbar, player):
         self.playlists_sidebar = Gd.MainView(
             shadow_type=Gtk.ShadowType.NONE
@@ -793,6 +854,7 @@ class Playlist(ViewContainer):
         playlists.connect('song-removed-from-playlist', self._on_song_removed_from_playlist)
         self.show_all()
 
+    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
         cols = list_widget.get_columns()
@@ -853,6 +915,7 @@ class Playlist(ViewContainer):
         list_widget.add_renderer(type_renderer,
                                  self._on_list_widget_type_render, None)
 
+    @log
     def _add_sidebar_renderers(self):
         list_widget = self.playlists_sidebar.get_generic_view()
 
@@ -871,12 +934,15 @@ class Playlist(ViewContainer):
         cols[0].clear_attributes(type_renderer)
         cols[0].add_attribute(type_renderer, "text", 2)
 
+    @log
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
@@ -885,18 +951,22 @@ class Playlist(ViewContainer):
             seconds %= 60
             cell.set_property('text', '%i:%02i' % (minutes, seconds))
 
+    @log
     def _on_list_widget_artist_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
 
+    @log
     def _populate(self):
         self._init = True
         self.populate()
 
+    @log
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
             self.iter_to_clean_model.set_value(self.iter_to_clean, 10, False)
@@ -910,10 +980,12 @@ class Playlist(ViewContainer):
             self.iter_to_clean_model = self._model
         return False
 
+    @log
     def _add_playlist_item(self, item):
         _iter = self.playlists_model.append()
         self.playlists_model.set(_iter, [2], [item])
 
+    @log
     def _on_item_activated(self, widget, id, path):
         _iter = self.filter.get_iter(path)
         child_iter = self.filter.convert_iter_to_child_iter(_iter)
@@ -921,6 +993,7 @@ class Playlist(ViewContainer):
             self.player.set_playlist('Playlist', self.current_playlist, self.filter, _iter, 5)
             self.player.set_playing(True)
 
+    @log
     def _on_playlist_activated(self, widget, item_id, path):
         _iter = self.playlists_model.get_iter(path)
         playlist = self.playlists_model.get_value(_iter, 2)
@@ -959,9 +1032,11 @@ class Playlist(ViewContainer):
             self.songs_count = 0
             self._update_songs_count()
 
+    @log
     def _add_item(self, source, param, item):
         self._add_item_to_model(item, self._model)
 
+    @log
     def _add_item_to_model(self, item, model):
         if not item:
             return
@@ -979,15 +1054,18 @@ class Playlist(ViewContainer):
         self.songs_count += 1
         self._update_songs_count()
 
+    @log
     def _update_songs_count(self):
         self.songs_count_label.set_text(
             ngettext("%d Song", "%d Songs", self.songs_count)
             % self.songs_count)
 
+    @log
     def _on_selection_mode_changed(self, widget, data=None):
         self.playlists_sidebar.set_sensitive(not self.header_bar._selectionMode)
         self.menubutton.set_sensitive(not self.header_bar._selectionMode)
 
+    @log
     def _on_play_activate(self, menuitem, data=None):
         _iter = self._model.get_iter_first()
         if not _iter:
@@ -998,6 +1076,7 @@ class Playlist(ViewContainer):
         self.view.emit('item-activated', '0',
                        self._model.get_path(_iter))
 
+    @log
     def _on_delete_activate(self, menuitem, data=None):
         self._model.clear()
         _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
@@ -1016,6 +1095,7 @@ class Playlist(ViewContainer):
         playlists.delete_playlist(playlist)
         self.playlists_model.remove(_iter)
 
+    @log
     def _on_playlist_created(self, playlists, name):
         self._add_playlist_item(name)
         if self.playlists_model.iter_n_children(None) == 1:
@@ -1025,6 +1105,7 @@ class Playlist(ViewContainer):
             self.playlists_sidebar.emit('item-activated', '0',
                                         self.playlists_model.get_path(_iter))
 
+    @log
     def _on_song_added_to_playlist(self, playlists, name, item):
         if name == self.current_playlist:
             self._add_item_to_model(item, self._model)
@@ -1033,6 +1114,7 @@ class Playlist(ViewContainer):
             if cached_playlist and cached_playlist != self._model:
                 self._add_item_to_model(item, cached_playlist)
 
+    @log
     def _on_song_removed_from_playlist(self, playlists, name, uri):
         if name == self.current_playlist:
             model = self._model
@@ -1050,6 +1132,7 @@ class Playlist(ViewContainer):
                 self._update_songs_count()
                 return
 
+    @log
     def populate(self):
         for item in sorted(self.playlists_list):
             self._add_playlist_item(item)
@@ -1060,6 +1143,7 @@ class Playlist(ViewContainer):
             self.playlists_sidebar.emit('item-activated', '0',
                                         self.playlists_model.get_path(_iter))
 
+    @log
     def get_selected_track_uris(self, callback):
         callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
                   for path in self.view.get_selection()])

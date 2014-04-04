@@ -40,6 +40,9 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.playlists import Playlists
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
 
 playlist = Playlists.get_default()
 tracker = Tracker.SparqlConnection.get(None)
@@ -51,6 +54,7 @@ else:
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
 
+@log
 def get_count(countQuery):
     count = -1
     if countQuery:
@@ -61,6 +65,7 @@ def get_count(countQuery):
 
 
 class LoadMoreButton:
+    @log
     def __init__(self, counter):
         self._block = False
         self._counter = counter
@@ -81,11 +86,13 @@ class LoadMoreButton:
         self.widget.connect('clicked', self._on_load_more_clicked)
         self._on_item_count_changed()
 
+    @log
     def _on_load_more_clicked(self, data=None):
         self._label.set_label(_("Loading..."))
         self._spinner.show()
         self._spinner.start()
 
+    @log
     def _on_item_count_changed(self):
         remaining_docs = self._counter()
         visible = remaining_docs >= 0 and not self._block
@@ -96,6 +103,7 @@ class LoadMoreButton:
             self._spinner.stop()
             self._spinner.hide()
 
+    @log
     def set_block(self, block):
         if (self._block == block):
             return
@@ -111,6 +119,7 @@ class AlbumWidget(Gtk.EventBox):
     symbolicIcon = ALBUM_ART_CACHE.make_default_icon(256, 256)
     filter = None
 
+    @log
     def __init__(self, player):
         super(Gtk.EventBox, self).__init__()
         self.player = player
@@ -143,6 +152,7 @@ class AlbumWidget(Gtk.EventBox):
         self.get_style_context().add_class('content-view')
         self.show_all()
 
+    @log
     def _on_item_activated(self, widget, id, path):
         child_path = self.filter.convert_path_to_child_path(path)
         _iter = self.model.get_iter(child_path)
@@ -156,6 +166,7 @@ class AlbumWidget(Gtk.EventBox):
             self.player.set_playlist('Album', self.album, self.model, _iter, 5)
             self.player.set_playing(True)
 
+    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
 
@@ -198,6 +209,7 @@ class AlbumWidget(Gtk.EventBox):
         cols[0].clear_attributes(durationRenderer)
         cols[0].add_attribute(durationRenderer, 'markup', 1)
 
+    @log
     def _create_model(self):
         self.model = Gtk.ListStore(
             GObject.TYPE_STRING,  # title
@@ -212,6 +224,7 @@ class AlbumWidget(Gtk.EventBox):
             GObject.TYPE_BOOLEAN,  # icon shown
         )
 
+    @log
     def update(self, artist, album, item, header_bar, selection_toolbar):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
@@ -252,6 +265,7 @@ class AlbumWidget(Gtk.EventBox):
             self.ui.get_object('released_label_info').set_text('----')
         self.player.connect('playlist-item-changed', self.update_model)
 
+    @log
     def _on_view_selection_changed(self, widget):
         items = self.view.get_selection()
         self.selection_toolbar\
@@ -262,11 +276,13 @@ class AlbumWidget(Gtk.EventBox):
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
+    @log
     def _on_header_cancel_button_clicked(self, button):
         self.view.set_selection_mode(False)
         self.header_bar.set_selection_mode(False)
         self.header_bar.header_bar.title = self.album
 
+    @log
     def _on_header_select_button_toggled(self, button):
         if button.get_active():
             self.view.set_selection_mode(True)
@@ -283,10 +299,12 @@ class AlbumWidget(Gtk.EventBox):
             if(self.player.get_playback_status() != 2):
                 self.player.eventBox.set_visible(True)
 
+    @log
     def _on_discovered(self, info, error, _iter):
         if error:
             self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
 
+    @log
     def _on_populate_album_songs(self, source, prefs, track, remaining):
         if track:
             self.tracks.append(track)
@@ -308,11 +326,13 @@ class AlbumWidget(Gtk.EventBox):
             self.ui.get_object('running_length_label_info').set_text(
                 '%d min' % (int(self.duration / 60) + 1))
 
+    @log
     def _on_item_changed(self, monitor, file1, file2, event_type, _iter):
         if self.model.iter_is_valid(_iter):
             if event_type == Gio.FileMonitorEvent.DELETED:
                 self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
 
+    @log
     def _on_look_up(self, pixbuf, path, data=None):
         _iter = self.iterToClean
         if pixbuf:
@@ -320,6 +340,7 @@ class AlbumWidget(Gtk.EventBox):
             if _iter:
                 self.model.set(_iter, [4], [pixbuf])
 
+    @log
     def update_model(self, player, playlist, currentIter):
         #self is not our playlist, return
         if (playlist != self.model):
@@ -352,6 +373,8 @@ class AlbumWidget(Gtk.EventBox):
 
 
 class ArtistAlbums(Gtk.VBox):
+
+    @log
     def __init__(self, artist, albums, player):
         Gtk.VBox.__init__(self)
         self.player = player
@@ -391,11 +414,13 @@ class ArtistAlbums(Gtk.VBox):
         self.show_all()
         self.player.connect('playlist-item-changed', self.update_model)
 
+    @log
     def add_album(self, album):
         widget = ArtistAlbumWidget(album, self.player, self.model)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
+    @log
     def update_model(self, player, playlist, currentIter):
         #this is not our playlist, return
         if playlist != self.model:
@@ -432,6 +457,7 @@ class ArtistAlbums(Gtk.VBox):
             itr = playlist.iter_next(itr)
         return False
 
+    @log
     def clean_model(self):
         itr = self.model.get_iter_first()
         while itr:
@@ -447,6 +473,7 @@ class ArtistAlbums(Gtk.VBox):
 
 class AllArtistsAlbums(ArtistAlbums):
 
+    @log
     def __init__(self, player):
         ArtistAlbums.__init__(self, _("All Artists"), [], player)
         self._offset = 0
@@ -459,11 +486,13 @@ class AllArtistsAlbums(ArtistAlbums):
         self._connect_view()
         self._populate()
 
+    @log
     def _get_remaining_item_count(self):
         if self._cached_count < 0:
             self._cached_count = get_count(self.countQuery)
         return self._cached_count - self._offset
 
+    @log
     def _connect_view(self):
         self._adjustmentValueId =\
             self.vadjustment.connect('value-changed', self._on_scrolled_win_change)
@@ -475,6 +504,7 @@ class AllArtistsAlbums(ArtistAlbums):
                 self._on_scrolled_win_change)
         self._on_scrolled_win_change()
 
+    @log
     def _on_scrolled_win_change(self, scrollbar=None, pspec=None, data=None):
         vScrollbar = self._scrolledWindow.get_vscrollbar()
         revealAreaHeight = 32
@@ -495,11 +525,13 @@ class AllArtistsAlbums(ArtistAlbums):
             end = not (value < (upper - page_size - revealAreaHeight))
         self._load_more.set_block(not end)
 
+    @log
     def _populate(self, data=None):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_albums,
                           self._offset, self.add_item, 5)
 
+    @log
     def add_item(self, source, param, item, remaining):
         if item:
             self._offset += 1
@@ -508,6 +540,7 @@ class AllArtistsAlbums(ArtistAlbums):
 
 class ArtistAlbumWidget(Gtk.HBox):
 
+    @log
     def __init__(self, album, player, model):
         super(Gtk.HBox, self).__init__()
         self.player = player
@@ -536,6 +569,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
         self.show_all()
 
+    @log
     def _on_discovered(self, info, error, song_widget):
         if error:
             self.model.set(song_widget._iter, [4], [ERROR_ICON_NAME])
@@ -545,6 +579,7 @@ class ArtistAlbumWidget(Gtk.HBox):
             song_widget.now_playing_sign.show()
             song_widget.can_be_played = False
 
+    @log
     def get_songs(self, source, prefs, track, remaining):
         if track:
             self.tracks.append(track)
@@ -590,18 +625,22 @@ class ArtistAlbumWidget(Gtk.HBox):
                                     self.track_selected)
             self.ui.get_object('grid1').show_all()
 
+    @log
     def _on_item_changed(self, monitor, file1, file2, event_type, _iter):
         if self.model.iter_is_valid(_iter):
             if event_type == Gio.FileMonitorEvent.DELETED:
                 self.model.set(_iter, [3, 4], [True, ERROR_ICON_NAME])
 
+    @log
     def _update_album_art(self):
         ALBUM_ART_CACHE.lookup(self.album, 128, 128, self._get_album_cover)
 
+    @log
     def _get_album_cover(self, pixbuf, path, data=None):
         if pixbuf:
             self.ui.get_object('cover').set_from_pixbuf(pixbuf)
 
+    @log
     def track_selected(self, widget, _iter):
         if not widget.can_be_played:
             return
@@ -613,6 +652,7 @@ class ArtistAlbumWidget(Gtk.HBox):
 
 
 class PlaylistDialog():
+    @log
     def __init__(self, parent):
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
@@ -641,6 +681,7 @@ class PlaylistDialog():
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
+    @log
     def get_selected(self):
         _iter = self.selection.get_selected()[1]
 
@@ -649,6 +690,7 @@ class PlaylistDialog():
 
         return self.model[_iter][0]
 
+    @log
     def _add_list_renderers(self):
         cols = Gtk.TreeViewColumn()
         type_renderer = Gd.StyledTextRenderer(
@@ -664,18 +706,22 @@ class PlaylistDialog():
         cols.add_attribute(type_renderer, "editable", 1)
         self.view.append_column(cols)
 
+    @log
     def populate(self, items):
         for playlist_name in sorted(items):
             self.model.append([playlist_name, False])
         add_playlist_iter = self.model.append()
         self.model.set(add_playlist_iter, [0, 1], [_("New Playlist"), True])
 
+    @log
     def _on_selection(self, select_button):
         self.dialog_box.response(Gtk.ResponseType.ACCEPT)
 
+    @log
     def _on_cancel_button_clicked(self, cancel_button):
         self.dialog_box.response(Gtk.ResponseType.REJECT)
 
+    @log
     def _on_item_activated(self, view, path, column):
         _iter = self.model.get_iter(path)
         if self.model.get_value(_iter, 1):
@@ -684,10 +730,12 @@ class PlaylistDialog():
         else:
             self._select_button.set_sensitive(True)
 
+    @log
     def _on_editing_started(self, renderer, editable, path, data=None):
         editable.set_text('')
         editable.connect('editing-done', self._on_editing_done, None)
 
+    @log
     def _on_editing_done(self, editable, data=None):
         _iter = self.selection.get_selected()[1]
         if editable.get_text() != '':

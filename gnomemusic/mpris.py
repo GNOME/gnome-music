@@ -33,6 +33,9 @@ from gnomemusic.albumArtCache import AlbumArtCache
 
 from gettext import gettext as _
 from gi.repository import Grl
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
 
 
 class MediaPlayer2Service(dbus.service.Object):
@@ -54,6 +57,7 @@ class MediaPlayer2Service(dbus.service.Object):
         self.player.connect('seeked', self._on_seeked)
         self.first_song_handler = 0
 
+    @log
     def _get_playback_status(self):
         state = self.player.get_playback_status()
         if state == PlaybackStatus.PLAYING:
@@ -63,6 +67,7 @@ class MediaPlayer2Service(dbus.service.Object):
         else:
             return 'Stopped'
 
+    @log
     def _get_loop_status(self):
         if self.player.repeat == RepeatType.NONE:
             return 'None'
@@ -71,6 +76,7 @@ class MediaPlayer2Service(dbus.service.Object):
         else:
             return 'Playlist'
 
+    @log
     def _get_metadata(self):
         media = self.player.get_current_media()
         if not media:
@@ -168,6 +174,7 @@ class MediaPlayer2Service(dbus.service.Object):
 
         return metadata
 
+    @log
     def _on_current_changed(self, player, data=None):
         if self.player.repeat == RepeatType.SONG:
             self.Seeked(0)
@@ -181,6 +188,7 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    @log
     def _on_thumbnail_updated(self, player, path, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
@@ -189,6 +197,7 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    @log
     def _on_playback_status_changed(self, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
@@ -196,6 +205,7 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    @log
     def _on_repeat_mode_changed(self, player, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
@@ -204,6 +214,7 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    @log
     def _on_volume_changed(self, player, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
@@ -211,6 +222,7 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    @log
     def _on_prev_next_invalidated(self, player, data=None):
         self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
@@ -219,6 +231,7 @@ class MediaPlayer2Service(dbus.service.Object):
                                },
                                [])
 
+    @log
     def _play_first_song(self, model, path, iter_, data=None):
         if self.first_song_handler:
             model.disconnect(self.first_song_handler)
@@ -226,6 +239,7 @@ class MediaPlayer2Service(dbus.service.Object):
         self.player.set_playlist('Songs', None, model, iter_, 5)
         self.player.set_playing(True)
 
+    @log
     def _on_seeked(self, player, position, data=None):
         self.Seeked(position)
 

@@ -28,10 +28,15 @@ from gnomemusic.albumArtCache import AlbumArtCache
 
 from gettext import gettext as _
 
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
+
 IMAGE_SIZE = 125
 
 
 class NotificationManager:
+    @log
     def __init__(self, player):
         self._player = player
 
@@ -50,6 +55,7 @@ class NotificationManager:
         self._player.connect('playing-changed', self._on_playing_changed)
         self._player.connect('current-changed', self._update_track)
 
+    @log
     def _on_playing_changed(self, player):
         # this function might be called from one of the action handlers
         # from libnotify, and we can't call _set_actions() from there
@@ -57,6 +63,7 @@ class NotificationManager:
         # the stack)
         GLib.idle_add(self._update_playing)
 
+    @log
     def _update_playing(self):
         isPlaying = self._player.playing
 
@@ -65,6 +72,7 @@ class NotificationManager:
             self._set_actions(isPlaying)
             self._update_track(self._player)
 
+    @log
     def _update_track(self, player):
         if not self._player.currentTrack:
             self._notification.update(_("Not playing"), None, 'gnome-music')
@@ -88,6 +96,7 @@ class NotificationManager:
 
             self._albumArtCache.lookup(item, IMAGE_SIZE, IMAGE_SIZE, self._album_art_loaded)
 
+    @log
     def _album_art_loaded(self, image, path, data):
         if path:
             self._notification.set_hint('image-path', GLib.Variant('s', path))
@@ -113,6 +122,7 @@ class NotificationManager:
 
         self._notification.show()
 
+    @log
     def _set_actions(self, playing):
         self._notification.clear_actions()
 
@@ -133,14 +143,18 @@ class NotificationManager:
             self._notification.add_action('media-skip-forward%s' % postfix, _("Next"),
                                           self._go_next, None)
 
+    @log
     def _go_previous(self, notification, action, data):
         self._player.play_previous()
 
+    @log
     def _go_next(self, notification, action, data):
         self._player.play_next()
 
+    @log
     def _play(self, notification, action, data):
         self._player.play()
 
+    @log
     def _pause(self, notification, action, data):
         self._player.pause()

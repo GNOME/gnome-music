@@ -38,6 +38,10 @@ from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
 
+from gnomemusic import log
+import logging
+logger = logging.getLogger(__name__)
+
 ART_SIZE = 34
 
 
@@ -71,6 +75,7 @@ class Player(GObject.GObject):
         'thumbnail-updated': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
     }
 
+    @log
     def __init__(self):
         GObject.GObject.__init__(self)
         self.playlist = None
@@ -105,6 +110,7 @@ class Player(GObject.GObject):
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
 
+    @log
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
@@ -119,6 +125,7 @@ class Player(GObject.GObject):
             self._discovering_urls[url] = [obj]
             self.discoverer.discover_uri_async(url)
 
+    @log
     def _on_discovered(self, discoverer, info, error):
         try:
             cbs = self._discovering_urls[info.get_uri()]
@@ -133,11 +140,13 @@ class Player(GObject.GObject):
             # Not something we're interested in
             return
 
+    @log
     def _on_settings_changed(self, settings, value):
         self.repeat = settings.get_enum('repeat')
         self._sync_prev_next()
         self._sync_repeat_image()
 
+    @log
     def _on_bus_state_changed(self, bus, message):
         #Note: not all state changes are signaled through here, in particular
         #transitions between Gst.State.READY and Gst.State.NULL are never async
@@ -145,6 +154,7 @@ class Player(GObject.GObject):
         #In practice, self means only Gst.State.PLAYING and Gst.State.PAUSED are
         self._sync_playing()
 
+    @log
     def _onBusError(self, bus, message):
         media = self.get_current_media()
         if media is not None:
@@ -161,6 +171,7 @@ class Player(GObject.GObject):
         self.play_next()
         return True
 
+    @log
     def _on_bus_eos(self, bus, message):
         self.nextTrack = self._get_next_track()
 
@@ -186,13 +197,16 @@ class Player(GObject.GObject):
             self.progressScale.set_sensitive(False)
             self.emit('playback-status-changed')
 
+    @log
     def _on_glib_idle(self):
         self.currentTrack = self.nextTrack
         self.play()
 
+    @log
     def _on_playlist_size_changed(self, path, _iter=None, data=None):
         self._sync_prev_next()
 
+    @log
     def _get_random_iter(self, currentTrack):
         currentPath = int(self.playlist.get_path(currentTrack).to_string())
         rows = self.playlist.iter_n_children(None)
@@ -203,6 +217,7 @@ class Player(GObject.GObject):
             rand = randint(0, rows - 1)
         return self.playlist.get_iter_from_string(str(rand))
 
+    @log
     def _get_next_track(self):
         if self.currentTrack and self.currentTrack.valid():
             currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
@@ -236,6 +251,7 @@ class Player(GObject.GObject):
         else:
             return None
 
+    @log
     def _get_iter_last(self):
         iter = self.playlist.get_iter_first()
         last = None
@@ -246,6 +262,7 @@ class Player(GObject.GObject):
 
         return last
 
+    @log
     def _get_previous_track(self):
         if self.currentTrack and self.currentTrack.valid():
             currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
@@ -279,6 +296,7 @@ class Player(GObject.GObject):
         else:
             return None
 
+    @log
     def has_next(self):
         if not self.playlist or self.playlist.iter_n_children(None) < 1:
             return False
@@ -292,6 +310,7 @@ class Player(GObject.GObject):
         else:
             return True
 
+    @log
     def has_previous(self):
         if not self.playlist or self.playlist.iter_n_children(None) < 1:
             return False
@@ -305,6 +324,7 @@ class Player(GObject.GObject):
         else:
             return True
 
+    @log
     def _get_playing(self):
         ok, state, pending = self.player.get_state(0)
         #log('get playing(), [ok, state, pending] = [%s, %s, %s]'.format(ok, state, pending))
@@ -319,11 +339,13 @@ class Player(GObject.GObject):
     def playing(self):
         return self._get_playing()
 
+    @log
     def _sync_playing(self):
         image = self._pauseImage if self._get_playing() else self._playImage
         if self.playBtn.get_image() != image:
             self.playBtn.set_image(image)
 
+    @log
     def _sync_prev_next(self):
         hasNext = self.has_next()
         hasPrevious = self.has_previous()
@@ -333,6 +355,7 @@ class Player(GObject.GObject):
 
         self.emit('prev-next-invalidated')
 
+    @log
     def set_playing(self, value):
         self.eventBox.show()
 
@@ -345,6 +368,7 @@ class Player(GObject.GObject):
         self.playBtn.set_image(self._pauseImage)
         return media
 
+    @log
     def load(self, media):
         self.progressScale.set_value(0)
         self._set_duration(media.get_duration())
@@ -374,11 +398,13 @@ class Player(GObject.GObject):
         self.emit('playlist-item-changed', self.playlist, currentTrack)
         self.emit('current-changed')
 
+    @log
     def _on_cache_lookup(self, pixbuf, path, data=None):
         if pixbuf is not None:
             self.coverImg.set_from_pixbuf(pixbuf)
         self.emit('thumbnail-updated', path)
 
+    @log
     def play(self):
         if self.playlist is None:
             return
@@ -400,6 +426,7 @@ class Player(GObject.GObject):
         self.emit('playback-status-changed')
         self.emit('playing-changed')
 
+    @log
     def pause(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
@@ -409,6 +436,7 @@ class Player(GObject.GObject):
         self.emit('playback-status-changed')
         self.emit('playing-changed')
 
+    @log
     def stop(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
@@ -417,6 +445,7 @@ class Player(GObject.GObject):
         self.player.set_state(Gst.State.NULL)
         self.emit('playing-changed')
 
+    @log
     def play_next(self):
         if self.playlist is None:
             return True
@@ -430,6 +459,7 @@ class Player(GObject.GObject):
         if self.currentTrack:
             self.play()
 
+    @log
     def play_previous(self):
         if self.playlist is None:
             return
@@ -447,12 +477,14 @@ class Player(GObject.GObject):
         if self.currentTrack:
             self.play()
 
+    @log
     def play_pause(self):
         if self.player.get_state(1)[1] == Gst.State.PLAYING:
             self.set_playing(False)
         else:
             self.set_playing(True)
 
+    @log
     def set_playlist(self, type, id, model, iter, field):
         self.stop()
 
@@ -472,12 +504,14 @@ class Player(GObject.GObject):
 
         self.emit('current-changed')
 
+    @log
     def running_playlist(self, type, id):
         if type == self.playlistType and id == self.playlistId:
             return self.playlist
         else:
             return None
 
+    @log
     def _setup_view(self):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/PlayerToolbar.ui')
@@ -519,6 +553,7 @@ class Player(GObject.GObject):
             self._nextImage.set_property('icon-name', 'media-skip-forward-rtl-symbolic')
             self._playImage.set_property('icon-name', 'media-playback-start-rtl-symbolic')
 
+    @log
     def _on_progress_scale_button_released(self, scale, data):
         self.on_progress_scale_change_value(self.progressScale)
         self._update_position_callback()
@@ -531,6 +566,7 @@ class Player(GObject.GObject):
         self.songPlaybackTimeLabel.set_label(self.seconds_to_string(seconds))
         return False
 
+    @log
     def _on_progress_scale_event(self, scale, data):
         self._lastState = self.player.get_state(1)[1]
         self.player.set_state(Gst.State.PAUSED)
@@ -539,6 +575,7 @@ class Player(GObject.GObject):
             self.timeout = None
         return False
 
+    @log
     def seconds_to_string(self, duration):
         seconds = duration
         minutes = seconds // 60
@@ -546,28 +583,34 @@ class Player(GObject.GObject):
 
         return '%i:%02i' % (minutes, seconds)
 
+    @log
     def _on_play_btn_clicked(self, btn):
         if self._get_playing():
             self.pause()
         else:
             self.play()
 
+    @log
     def _on_next_btn_clicked(self, btn):
         self.play_next()
 
+    @log
     def _on_prev_btn_clicked(self, btn):
         self.play_previous()
 
+    @log
     def _set_duration(self, duration):
         self.duration = duration
         self.progressScale.set_range(0.0, duration * 60)
 
+    @log
     def _update_position_callback(self):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position > 0:
             self.progressScale.set_value(position * 60)
         return True
 
+    @log
     def _sync_repeat_image(self):
         icon = None
         if self.repeat == RepeatType.NONE:
@@ -594,6 +637,7 @@ class Player(GObject.GObject):
         self.repeatBtnImage.set_from_icon_name(icon, Gtk.IconSize.MENU)
         self.emit('repeat-mode-changed')
 
+    @log
     def on_progress_scale_change_value(self, scroll):
         seconds = scroll.get_value() / 60
         if seconds != self.duration:
@@ -609,6 +653,7 @@ class Player(GObject.GObject):
 
     #MPRIS
 
+    @log
     def Stop(self):
         self.progressScale.set_value(0)
         self.progressScale.set_sensitive(False)
@@ -616,6 +661,7 @@ class Player(GObject.GObject):
         self.stop()
         self.emit('playback-status-changed')
 
+    @log
     def get_playback_status(self):
         ok, state, pending = self.player.get_state(0)
         if ok == Gst.StateChangeReturn.ASYNC:
@@ -630,16 +676,20 @@ class Player(GObject.GObject):
         else:
             return PlaybackStatus.STOPPED
 
+    @log
     def get_repeat_mode(self):
         return self.repeat
 
+    @log
     def set_repeat_mode(self, mode):
         self.repeat = mode
         self._sync_repeat_image()
 
+    @log
     def get_position(self):
         return self.player.query_position(Gst.Format.TIME)[1] / 1000
 
+    @log
     def set_position(self, offset, start_if_ne=False, next_on_overflow=False):
         if offset < 0:
             if start_if_ne:
@@ -657,13 +707,16 @@ class Player(GObject.GObject):
         elif next_on_overflow:
             self.play_next()
 
+    @log
     def get_volume(self):
         return self.player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
 
+    @log
     def set_volume(self, rate):
         self.player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
         self.emit('volume-changed')
 
+    @log
     def get_current_media(self):
         if not self.currentTrack or not self.currentTrack.valid():
             return None
@@ -672,6 +725,8 @@ class Player(GObject.GObject):
 
 
 class SelectionToolbar():
+
+    @log
     def __init__(self):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
