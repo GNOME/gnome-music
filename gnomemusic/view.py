@@ -999,6 +999,7 @@ class Playlist(ViewContainer):
                        self._model.get_path(_iter))
 
     def _on_delete_activate(self, menuitem, data=None):
+        self._model.clear()
         _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
         if not _iter:
             return
