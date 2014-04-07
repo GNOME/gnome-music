@@ -64,6 +64,7 @@ class Window(Gtk.ApplicationWindow):
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
         selectAll = Gio.SimpleAction.new('selectAll', None)
+        app.add_accelerator('<Primary>a', 'win.selectAll', None)
         selectAll.connect('activate', self._on_select_all)
         self.add_action(selectAll)
         selectNone = Gio.SimpleAction.new('selectNone', None)
@@ -243,6 +244,8 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_select_all(self, action, param):
+        if self.toolbar._selectionMode is False:
+            return
         if self.toolbar._state != ToolbarState.SINGLE:
             model = self._stack.get_visible_child()._model
         else:
