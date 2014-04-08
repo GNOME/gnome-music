@@ -170,7 +170,7 @@ class Searchbar(Gd.Revealer):
         self._searchContainer.get_style_context().add_class('linked')
 
         self._search_entry = Gd.TaggedEntry(width_request=500, halign=Gtk.Align.CENTER)
-        self._search_entry.connect("changed", self.search_entry_changed)
+        self._search_entry.connect("changed", self.search_entry_timeout)
         self._search_entry.show()
         self.connect("notify::child-revealed", self.prepare_search_filter)
         self._searchContainer.add(self._search_entry)
