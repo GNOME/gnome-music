@@ -222,29 +222,12 @@ class Searchbar(Gd.Revealer):
     def _search_entry_tag_button_clicked(self, entry, tag):
         tag.manager.reset_to_default()
 
-    def set_view_filter(self, model, itr, user_data):
-        if self._search_entry.get_property("visible"):
-            search_string = self._search_entry.get_text().lower()
-            media = model.get_value(itr, 5)
-            searchable_fields = [model.get_value(itr, 2),
-                                 model.get_value(itr, 3)]
-            if media and media.get_url():
-                searchable_fields.append(media.get_title())
-            for field in searchable_fields:
-                if field and search_string in field.lower():
-                    return True
-            return False
-        return True
-
     @log
     def prepare_search_filter(self, widget, data):
         self.view = self.stack_switcher.get_stack().get_visible_child()
         if self.view.header_bar._state == 0:
             # album was selected on album view, view needs to be redefined
             self.view = self.view._albumWidget
-        if not hasattr(self.view.filter, "visible_function_set"):
-            self.view.filter.set_visible_func(self.set_view_filter)
-            self.view.filter.visible_function_set = True
 
     @log
     def search_entry_timeout(self, widget):
@@ -258,8 +241,6 @@ class Searchbar(Gd.Revealer):
         if self.view:
             self.view._model.clear()
             grilo.search(self.search_term, self.view._add_item)
-        #if self.view:
-        #    self.view.filter.refilter()
 
     @log
     def show_bar(self, show):

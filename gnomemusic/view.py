@@ -68,7 +68,6 @@ class ViewContainer(Gtk.Stack):
         nowPlayingIconName = 'media-playback-start-rtl-symbolic'
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
-    filter = None
 
     @log
     def __init__(self, title, header_bar, selection_toolbar, view_type, use_sidebar=False, sidebar=None):
@@ -99,8 +98,7 @@ class ViewContainer(Gtk.Stack):
             shadow_type=Gtk.ShadowType.NONE
         )
         self.view.set_view_type(view_type)
-        self.filter = self._model.filter_new(None)
-        self.view.set_model(self.filter)
+        self.view.set_model(self._model)
         self.vadjustment = self.view.get_vadjustment()
         self.selection_toolbar = selection_toolbar
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -365,8 +363,7 @@ class Albums(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        child_path = self.filter.convert_path_to_child_path(path)
-        _iter = self._model.get_iter(child_path)
+        _iter = self._model.get_iter(path)
         title = self._model.get_value(_iter, 2)
         artist = self._model.get_value(_iter, 3)
         item = self._model.get_value(_iter, 5)
@@ -395,7 +392,7 @@ class Albums(ViewContainer):
             self.items_selected = []
             self.items_selected_callback = callback
             self.albums_index = 0
-            self.albums_selected = [self.filter.get_value(self.filter.get_iter(path), 5)
+            self.albums_selected = [self._model.get_value(self._model.get_iter(path), 5)
                                     for path in self.view.get_selection()]
             if len(self.albums_selected):
                 self._get_selected_album_songs()
@@ -445,28 +442,25 @@ class Songs(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        _iter = self.filter.get_iter(path)
-        child_iter = self.filter.convert_iter_to_child_iter(_iter)
-        if self._model.get_value(child_iter, 8) != self.errorIconName:
-            self.player.set_playlist('Songs', None, self.filter, _iter, 5)
+        _iter = self._model.get_iter(path)
+        if self._model.get_value(_iter, 8) != self.errorIconName:
+            self.player.set_playlist('Songs', None, self._model, _iter, 5)
             self.player.set_playing(True)
 
     @log
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
             self._model.set_value(self.iter_to_clean, 10, False)
-        if playlist != self.filter:
+        if playlist != self._model:
             return False
 
-        child_iter = self.filter.convert_iter_to_child_iter(currentIter)
-        self._model.set_value(child_iter, 10, True)
-        path = self._model.get_path(child_iter)
+        self._model.set_value(currentIter, 10, True)
+        path = self._model.get_path(currentIter)
         self.view.get_generic_view().scroll_to_path(path)
-        if self._model.get_value(child_iter, 8) != self.errorIconName:
-            self.iter_to_clean = child_iter.copy()
+        if self._model.get_value(currentIter, 8) != self.errorIconName:
+            self.iter_to_clean = currentIter.copy()
         return False
 
-    @log
     def _add_item(self, source, param, item, remaining=0):
         if not item:
             return
@@ -574,7 +568,7 @@ class Songs(ViewContainer):
 
     @log
     def get_selected_track_uris(self, callback):
-        callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
+        callback([self._model.get_value(self._model.get_iter(path), 5).get_url()
                   for path in self.view.get_selection()])
 
 
@@ -656,8 +650,7 @@ class Artists (ViewContainer):
 
     @log
     def _on_item_activated(self, widget, item_id, path):
-        child_path = self.filter.convert_path_to_child_path(path)
-        _iter = self._model.get_iter(child_path)
+        _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
         albums = self._artists[artist.lower()]['albums']
@@ -740,11 +733,11 @@ class Artists (ViewContainer):
         self.albums_selected = []
 
         for path in self.view.get_selection():
-            _iter = self.filter.get_iter(path)
-            artist = self.filter.get_value(_iter, 2)
+            _iter = self._model.get_iter(path)
+            artist = self._model.get_value(_iter, 2)
             albums = self._artists[artist.lower()]['albums']
-            if (self.filter.get_string_from_iter(_iter) !=
-                    self.filter.get_string_from_iter(self._allIter)):
+            if (self._model.get_string_from_iter(_iter) !=
+                    self._model.get_string_from_iter(self._allIter)):
                 self.albums_selected.extend(albums)
 
         if len(self.albums_selected):
@@ -952,13 +945,12 @@ class Playlist(ViewContainer):
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
             self.iter_to_clean_model.set_value(self.iter_to_clean, 10, False)
-        if playlist != self.filter:
+        if playlist != self._model:
             return False
 
-        child_iter = self.filter.convert_iter_to_child_iter(currentIter)
-        self._model.set_value(child_iter, 10, True)
-        if self._model.get_value(child_iter, 8) != self.errorIconName:
-            self.iter_to_clean = child_iter.copy()
+        self._model.set_value(currentIter, 10, True)
+        if self._model.get_value(currentIter, 8) != self.errorIconName:
+            self.iter_to_clean = currentIter.copy()
             self.iter_to_clean_model = self._model
         return False
 
@@ -969,10 +961,9 @@ class Playlist(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        _iter = self.filter.get_iter(path)
-        child_iter = self.filter.convert_iter_to_child_iter(_iter)
-        if self._model.get_value(child_iter, 8) != self.errorIconName:
-            self.player.set_playlist('Playlist', self.current_playlist, self.filter, _iter, 5)
+        _iter = self._model.get_iter(path)
+        if self._model.get_value(_iter, 8) != self.errorIconName:
+            self.player.set_playlist('Playlist', self.current_playlist, self._model, _iter, 5)
             self.player.set_playing(True)
 
     @log
@@ -991,11 +982,11 @@ class Playlist(ViewContainer):
         cached_playlist = self.player.running_playlist('Playlist', playlist)
         if cached_playlist:
             self._model = cached_playlist.get_model()
-            self.filter = cached_playlist
+            self._model = cached_playlist
             currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
             self.update_model(self.player, cached_playlist,
                               currentTrack)
-            self.view.set_model(self.filter)
+            self.view.set_model(self._model)
             self.songs_count = self._model.iter_n_children(None)
             self._update_songs_count()
         else:
@@ -1012,8 +1003,7 @@ class Playlist(ViewContainer):
                 GObject.TYPE_BOOLEAN,
                 GObject.TYPE_BOOLEAN
             )
-            self.filter = self._model.filter_new(None)
-            self.view.set_model(self.filter)
+            self.view.set_model(self._model)
             playlists.parse_playlist(playlist, self._add_item)
             self.songs_count = 0
             self._update_songs_count()
@@ -1158,5 +1148,5 @@ class Playlist(ViewContainer):
 
     @log
     def get_selected_track_uris(self, callback):
-        callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
+        callback([self._model.get_value(self._model.get_iter(path), 5).get_url()
                   for path in self.view.get_selection()])
