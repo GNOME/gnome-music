@@ -399,5 +399,259 @@ class Query():
         )
     }
     '''.replace('\n', ' ').strip() % {'url': url}
+        return query
+
+
+    #Functions for search
+    # TODO: make those queries actualyl return something
+    @staticmethod
+    def get_albums_with_any_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_albums_with_artist_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_albums_with_album_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_albums_with_track_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_artists_with_any_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_artists_with_artist_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_artists_with_album_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_artists_with_track_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_songs_with_any_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_songs_with_artist_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
+
+        return query
+
+    @staticmethod
+    def get_songs_with_album_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    fn:contains(fn:lower-case(nie:title(nmm:musicAlbum(?song))), '%(name)s')
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'name': name.lower()}
+
+        return query
+
+    @staticmethod
+    def get_songs_with_track_match(name):
+        query = '''
+            SELECT DISTINCT
+                rdf:type(?song)
+                tracker:id(?song) AS id
+                nie:url(?song) AS url
+                nie:title(?song) AS title
+                nmm:artistName(nmm:performer(?song)) AS artist
+                nie:title(nmm:musicAlbum(?song)) AS album
+                nfo:duration(?song) AS duration
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER (
+                    nie:url(?song) = "%(url)s"
+                )
+            }
+            '''.replace('\n', ' ').strip() % {'url': name}
 
         return query

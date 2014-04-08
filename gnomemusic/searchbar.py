@@ -1,5 +1,6 @@
-from gi.repository import Gtk, Gd, GObject, Pango, GLib
+from gi.repository import Gtk, Gd, GObject, Pango, GLib, Grl
 from gnomemusic.grilo import grilo
+from gnomemusic.query import Query
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -157,12 +158,12 @@ class DropDown(Gd.Revealer):
 
     @log
     def initialize_filters(self, searchbar):
-        sourcesManager = SourceManager('source', "Sources", searchbar._search_entry)
-        sourcesFilter = FilterView(sourcesManager, self)
+        self.sourcesManager = SourceManager('source', "Sources", searchbar._search_entry)
+        sourcesFilter = FilterView(self.sourcesManager, self)
         self._grid.add(sourcesFilter.view)
 
-        searchFieldsManager = BaseManager('search', "Search By", searchbar._search_entry)
-        searchFieldsFilter = FilterView(searchFieldsManager, self)
+        self.searchFieldsManager = BaseManager('search', "Search By", searchbar._search_entry)
+        searchFieldsFilter = FilterView(self.searchFieldsManager, self)
         self._grid.add(searchFieldsFilter.view)
 
         self._grid.show_all()
@@ -237,10 +238,39 @@ class Searchbar(Gd.Revealer):
 
     @log
     def search_entry_changed(self, widget):
+        query_matcher = {
+            'Albums': {
+                'search_all': Query.get_albums_with_any_match,
+                'search_artist': Query.get_albums_with_artist_match,
+                'search_album': Query.get_albums_with_album_match,
+                'search_track': Query.get_albums_with_track_match,
+            },
+            'Artists': {
+                'search_all': Query.get_artists_with_any_match,
+                'search_artist': Query.get_artists_with_artist_match,
+                'search_album': Query.get_artists_with_album_match,
+                'search_track': Query.get_artists_with_track_match,
+            },
+            'Songs': {
+                'search_all': Query.get_songs_with_any_match,
+                'search_artist': Query.get_songs_with_artist_match,
+                'search_album': Query.get_songs_with_album_match,
+                'search_track': Query.get_songs_with_track_match,
+            },
+        }
+
+        fields_filter = self.dropdown.searchFieldsManager.get_active()
+
         self.search_term = self._search_entry.get_text()
         if self.view:
             self.view._model.clear()
-            grilo.search(self.search_term, self.view._add_item)
+            # Check that current source can do Query
+            if grilo.search_source.supported_operations() & Grl.SupportedOps.QUERY:
+                query = query_matcher[self.view.__class__.__name__][fields_filter](self.search_term)
+                grilo.populate_custom_query(query, self.view._add_item)
+            else:
+                # nope, can't do - reverting to Search
+                grilo.search(self.search_term, self.view._add_item)
 
     @log
     def show_bar(self, show):
