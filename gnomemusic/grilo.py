@@ -128,9 +128,7 @@ class Grilo(GObject.GObject):
             if id == 'grl-tracker-source':
                 ops = mediaSource.supported_operations()
                 if ops & Grl.SupportedOps.SEARCH:
-                    print('Detected new source available: \'%s\' and it supports search' %
-                          mediaSource.get_name())
-
+                    logger.debug("found searchable tracker source")
                     self.sources[id] = mediaSource
                     self.tracker = mediaSource
                     self.search_source = mediaSource
@@ -141,6 +139,7 @@ class Grilo(GObject.GObject):
                         self.tracker.connect('content-changed', self._on_content_changed)
             elif (mediaSource.supported_operations() & Grl.SupportedOps.SEARCH)\
              and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+                logger.debug("source is searchable")
                 self.sources[id] = mediaSource
         except Exception as e:
             logger.debug("Source %s: exception %s" % (id, e))

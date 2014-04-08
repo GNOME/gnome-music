@@ -12,7 +12,7 @@ class BaseModelColumns():
 
 
 class BaseManager:
-
+    @log
     def __init__(self, id, label, entry):
         self.id = id
         self.label = label
@@ -21,6 +21,7 @@ class BaseManager:
         self.tag.manager = self
         self.values = []
 
+    @log
     def fill_in_values(self, model):
         if self.id == "search":
             self.values = [
@@ -34,9 +35,11 @@ class BaseManager:
             model.set(_iter, [0, 1, 2], value)
         self.selected_id = self.values[0][BaseModelColumns.ID]
 
+    @log
     def get_active(self):
         return self.selected_id
 
+    @log
     def set_active(self, selected_id):
         selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
         if selected_value != []:
@@ -51,11 +54,14 @@ class BaseManager:
             else:
                 self.entry.remove_tag(self.tag)
 
+    @log
     def reset_to_default(self):
         self.set_active(self.values[0][BaseModelColumns.ID])
 
 
 class SourceManager(BaseManager):
+
+    @log
     def fill_in_values(self, model):
         if self.id == "source":
             # First one should always be 'Filesystem'
@@ -68,12 +74,15 @@ class SourceManager(BaseManager):
                 self.values.append([source.get_id(), source.get_name(), ""])
         super(SourceManager, self).fill_in_values(model)
 
+    @log
     def set_active(self, selected_id):
         super(SourceManager, self).set_active(selected_id)
         src = grilo.sources[selected_id]
         grilo.search_source = src
 
+
 class FilterView():
+    @log
     def __init__(self, manager, dropdown):
         self.manager = manager
         self.dropdown = dropdown
@@ -110,14 +119,17 @@ class FilterView():
 
         self.view.show()
 
+    @log
     def _row_activated(self, view, path, col):
         id = self.model.get_value(self.model.get_iter(path), BaseModelColumns.ID)
         self.dropdown.do_select(self.manager, id)
 
+    @log
     def _render_radio(self, col, cell, model, _iter):
         id = model.get_value(_iter, BaseModelColumns.ID)
         cell.set_active(self.manager.get_active() == id)
 
+    @log
     def _visibilityForHeading(self, col, cell, model, _iter, additional_arguments):
         additionalFunc = None
         visible = additional_arguments
@@ -130,6 +142,7 @@ class FilterView():
 
 
 class DropDown(Gd.Revealer):
+    @log
     def __init__(self):
         Gd.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
 
@@ -142,6 +155,7 @@ class DropDown(Gd.Revealer):
 
         self.add(frame)
 
+    @log
     def initialize_filters(self, searchbar):
         sourcesManager = SourceManager('source', "Sources", searchbar._search_entry)
         sourcesFilter = FilterView(sourcesManager, self)
@@ -153,6 +167,7 @@ class DropDown(Gd.Revealer):
 
         self._grid.show_all()
 
+    @log
     def do_select(self, manager, id):
         manager.set_active(id)
 
@@ -199,11 +214,11 @@ class Searchbar(Gd.Revealer):
         self.view = None
         item.add(self._searchContainer)
 
-
     @log
     def _drop_down_button_toggled(self, *args):
         self.dropdown.set_reveal_child(self._dropDownButton.get_active())
 
+    @log
     def _search_entry_tag_button_clicked(self, entry, tag):
         tag.manager.reset_to_default()
 
@@ -231,6 +246,7 @@ class Searchbar(Gd.Revealer):
             self.view.filter.set_visible_func(self.set_view_filter)
             self.view.filter.visible_function_set = True
 
+    @log
     def search_entry_timeout(self, widget):
         if self.timeout:
             GLib.source_remove(self.timeout)
