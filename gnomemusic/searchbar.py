@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gd, GObject, Pango
+from gi.repository import Gtk, Gd, GObject, Pango, GLib
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 import logging
@@ -233,8 +233,8 @@ class Searchbar(Gd.Revealer):
 
     def search_entry_timeout(self, widget):
         if self.timeout:
-            GObject.source_remove(self.timeout)
-        self.timeout = GObject.timeout_add(500, self.search_entry_changed, widget)
+            GLib.source_remove(self.timeout)
+        self.timeout = GLib.timeout_add(500, self.search_entry_changed, widget)
 
     @log
     def search_entry_changed(self, widget):
