@@ -180,7 +180,7 @@ class Grilo(GObject.GObject):
     def search(self, q, callback):
         options = self.options.copy()
 
-	@log
+        @log
         def _search_callback(src, param, item, id, offset, data):
             if item is not None:
                 #print("%s: %s by %s" % (item.get_url(), item.get_title(), item.get_author()))

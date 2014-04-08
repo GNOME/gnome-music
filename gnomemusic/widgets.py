@@ -435,7 +435,7 @@ class AllArtistsAlbums(ArtistAlbums):
                           self._offset, self.add_item, -1)
 
     @log
-    def add_item(self, source, param, item, remaining):
+    def add_item(self, source, param, item, remaining=0):
         if item:
             self._offset += 1
             self.add_album(item)
