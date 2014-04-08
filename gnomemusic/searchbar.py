@@ -9,6 +9,7 @@ class Searchbar(Gd.Revealer):
     @log
     def __init__(self, stack_switcher, search_button):
         Gd.Revealer.__init__(self)
+        self.timeout = None
         self.stack_switcher = stack_switcher
         self._search_button = search_button
         toolbar = Gtk.Toolbar()
@@ -50,6 +51,11 @@ class Searchbar(Gd.Revealer):
         if not hasattr(self.view.filter, "visible_function_set"):
             self.view.filter.set_visible_func(self.set_view_filter)
             self.view.filter.visible_function_set = True
+
+    def search_entry_timeout(self, widget):
+        if self.timeout:
+            GObject.source_remove(self.timeout)
+        self.timeout = GObject.timeout_add(500, self.search_entry_changed, widget)
 
     @log
     def search_entry_changed(self, widget):
