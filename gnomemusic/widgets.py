@@ -741,3 +741,7 @@ class PlaylistDialog():
             playlist.create_playlist(editable.get_text())
             new_iter = self.model.insert_before(_iter)
             self.model.set(new_iter, [0, 1], [editable.get_text(), False])
+            self.view.set_cursor(self.model.get_path(new_iter),
+                                 self.view.get_columns()[0], False)
+            self.view.row_activated(self.model.get_path(new_iter),
+                                    self.view.get_columns()[0])
