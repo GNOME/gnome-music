@@ -468,12 +468,14 @@ class Player(GObject.GObject):
             return
 
         position = self.get_position() / 1000000
+        if position >= 5:
+            self.progressScale.set_value(0)
+            self.on_progress_scale_change_value(self.progressScale)
+            return
 
         self.stop()
 
-        if position < 5:
-            self.currentTrack = self._get_previous_track()
-
+        self.currentTrack = self._get_previous_track()
         if self.currentTrack:
             self.play()
 
