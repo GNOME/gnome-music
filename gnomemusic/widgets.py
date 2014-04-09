@@ -703,6 +703,7 @@ class PlaylistDialog():
         cols.pack_start(type_renderer, True)
         cols.add_attribute(type_renderer, "text", 0)
         cols.add_attribute(type_renderer, "editable", 1)
+        cols.set_cell_data_func(type_renderer, self._on_list_text_render)
         self.view.append_column(cols)
 
     @log
@@ -711,6 +712,14 @@ class PlaylistDialog():
             self.model.append([playlist_name, False])
         add_playlist_iter = self.model.append()
         self.model.set(add_playlist_iter, [0, 1], [_("New Playlist"), True])
+
+    @log
+    def _on_list_text_render(self, col, cell, model, _iter, data):
+        editable = model.get_value(_iter, 1)
+        if editable:
+            cell.add_class("dim-label")
+        else:
+            cell.remove_class("dim-label")
 
     @log
     def _on_selection(self, select_button):
