@@ -660,7 +660,7 @@ class Artists (ViewContainer):
             self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
             self._last_selection = self._allIter
             self._artists[_("All Artists").lower()] =\
-                {'iter': self._allIter, 'albums': []}
+                {'iter': self._allIter, 'albums': [], 'widget': None}
             selection.select_path(self._model.get_path(self._allIter))
             self.view.emit('item-activated', '0',
                            self._model.get_path(self._allIter))
@@ -688,35 +688,44 @@ class Artists (ViewContainer):
 
     @log
     def _on_item_activated(self, widget, item_id, path):
-        # Prepare a new artistAlbumsWidget here
-        self.new_artistAlbumsWidget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE,
-            hexpand=True
-        )
-        child_name = "artists_%i" % self.artists_counter
-        self.artistAlbumsStack.add_named(self.new_artistAlbumsWidget, child_name)
         child_path = self.filter.convert_path_to_child_path(path)
         _iter = self._model.get_iter(child_path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
         albums = self._artists[artist.lower()]['albums']
-        self.artistAlbums = None
+
+        widget = self._artists[artist.lower()]['widget']
+        if widget:
+            if widget.model == self.player.running_playlist('Artist', widget.artist):
+                self._artistAlbumsWidget = widget.get_parent()
+                GLib.idle_add(self.artistAlbumsStack.set_visible_child,
+                              self._artistAlbumsWidget)
+                return
+            elif widget.get_parent() == self._artistAlbumsWidget:
+                return
+            else:
+                widget.get_parent().destroy()
+
+        # Prepare a new artistAlbumsWidget here
+        new_artistAlbumsWidget = Gtk.Frame(
+            shadow_type=Gtk.ShadowType.NONE,
+            hexpand=True
+        )
+        self.artistAlbumsStack.add(new_artistAlbumsWidget)
+
+        artistAlbums = None
         if (self._model.get_string_from_iter(_iter) ==
                 self._model.get_string_from_iter(self._allIter)):
-            self.artistAlbums = Widgets.AllArtistsAlbums(self.player)
+            artistAlbums = Widgets.AllArtistsAlbums(self.player)
         else:
-            self.artistAlbums = Widgets.ArtistAlbums(artist, albums,
-                                                     self.player)
-        self.new_artistAlbumsWidget.add(self.artistAlbums)
-        self.new_artistAlbumsWidget.show()
-
-        # Switch visible child
-        child_name = "artists_%i" % self.artists_counter
-        self.artists_counter += 1
+            artistAlbums = Widgets.ArtistAlbums(artist, albums, self.player)
+        self._artists[artist.lower()]['widget'] = artistAlbums
+        new_artistAlbumsWidget.add(artistAlbums)
+        new_artistAlbumsWidget.show()
 
         # Replace previous widget
-        self._artistAlbumsWidget = self.new_artistAlbumsWidget
-        GLib.idle_add(self.artistAlbumsStack.set_visible_child_name, child_name)
+        self._artistAlbumsWidget = new_artistAlbumsWidget
+        GLib.idle_add(self.artistAlbumsStack.set_visible_child, new_artistAlbumsWidget)
 
     @log
     def _add_item(self, source, param, item, remaining):
@@ -728,7 +737,7 @@ class Artists (ViewContainer):
             or _("Unknown Artist")
         if not artist.lower() in self._artists:
             _iter = self._model.insert_with_valuesv(-1, [2], [artist])
-            self._artists[artist.lower()] = {'iter': _iter, 'albums': []}
+            self._artists[artist.lower()] = {'iter': _iter, 'albums': [], 'widget': None}
 
         self._artists[artist.lower()]['albums'].append(item)
 
