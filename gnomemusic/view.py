@@ -1006,6 +1006,10 @@ class Playlist(ViewContainer):
     def _on_playlist_activated(self, widget, item_id, path):
         _iter = self.playlists_model.get_iter(path)
         playlist = self.playlists_model.get_value(_iter, 2)
+
+        if self.current_playlist == playlist:
+            return
+
         self.current_playlist = playlist
         self.name_label.set_text(playlist)
 
