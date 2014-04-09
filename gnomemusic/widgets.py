@@ -416,7 +416,7 @@ class ArtistAlbums(Gtk.VBox):
 
     @log
     def add_album(self, album):
-        widget = ArtistAlbumWidget(album, self.player, self.model)
+        widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -541,11 +541,11 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.HBox):
 
     @log
-    def __init__(self, album, player, model):
+    def __init__(self, artist, album, player, model):
         super(Gtk.HBox, self).__init__()
         self.player = player
         self.album = album
-        self.artist = album.get_string(Grl.METADATA_KEY_ARTIST)
+        self.artist = artist
         self.model = model
         self.songs = []
         self.monitors = []
@@ -646,7 +646,7 @@ class ArtistAlbumWidget(Gtk.HBox):
             return
 
         self.player.stop()
-        self.player.set_playlist('Artist', self.album,
+        self.player.set_playlist('Artist', self.artist,
                                  widget.model, widget._iter, 5)
         self.player.set_playing(True)
 
