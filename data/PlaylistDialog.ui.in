@@ -13,9 +13,10 @@
       <object class="GtkBox" id="dialog-vbox1">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
+        <property name="spacing">0</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
+            <property name="visible">False</property>
             <property name="can_focus">False</property>
           </object>
           <packing>
@@ -29,7 +30,7 @@
           <object class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="shadow_type">in</property>
+            <property name="margin">12</property>
             <child>
               <object class="GtkTreeView" id="treeview1">
                 <property name="visible">True</property>
@@ -37,6 +38,9 @@
                 <property name="model">liststore1</property>
                 <property name="headers_visible">False</property>
                 <property name="activate_on_single_click">True</property>
+                <style>
+                  <class name="playlists-list"/>
+                </style>
                 <child internal-child="selection">
                   <object class="GtkTreeSelection" id="treeview-selection1"/>
                 </child>

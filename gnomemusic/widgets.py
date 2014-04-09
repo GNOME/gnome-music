@@ -694,11 +694,10 @@ class PlaylistDialog():
     def _add_list_renderers(self):
         cols = Gtk.TreeViewColumn()
         type_renderer = Gd.StyledTextRenderer(
-            xpad=16,
-            ypad=16,
+            xpad=8,
+            ypad=8,
             ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0,
-            width=220
+            xalign=0.0
         )
         type_renderer.connect('editing-started', self._on_editing_started, None)
         cols.pack_start(type_renderer, True)
