@@ -56,6 +56,10 @@ GtkTreeView{
     background-color: #77757A;
 }
 
+.playlists-list {
+    box-shadow: inset 0 -1px @view_separators;
+}
+
 .songs-list {
     box-shadow: inset 0 -1px shade(@borders, 1.30);
     box-shadow: inset 0 1px shade(@borders, 1.30);
