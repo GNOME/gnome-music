@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Gd
+from gi.repository import Gtk, Gd, GObject
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)

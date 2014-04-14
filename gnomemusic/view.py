@@ -234,7 +234,7 @@ class ViewContainer(Stack):
         vScrollbar = self.view.get_vscrollbar()
         revealAreaHeight = 32
 
-        #if there's no vscrollbar, or if it's not visible, hide the button
+        # if there's no vscrollbar, or if it's not visible, hide the button
         if not vScrollbar or not vScrollbar.get_visible():
             self._loadMore.set_block(True)
             return
@@ -244,7 +244,7 @@ class ViewContainer(Stack):
         page_size = self.vadjustment.get_page_size()
 
         end = False
-        #special case self values which happen at construction
+        # special case self values which happen at construction
         if (value == 0) and (upper == 1) and (page_size == 1):
             end = False
         else:
@@ -336,7 +336,7 @@ class ViewContainer(Stack):
         callback([])
 
 
-#Class for the Empty View
+# Class for the Empty View
 class Empty(Stack):
     @log
     def __init__(self, header_bar, player):

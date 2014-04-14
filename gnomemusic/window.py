@@ -199,7 +199,7 @@ class Window(Gtk.ApplicationWindow):
             count = cursor.get_integer(0)
         if count > 0:
             self._switch_to_player_view()
-        #To revert to the No Music View when no songs are found
+        # To revert to the No Music View when no songs are found
         else:
             self._switch_to_empty_view()
 
@@ -317,7 +317,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_notify_mode(self, stack, param):
-        #Slide out artist list on switching to artists view
+        # Slide out artist list on switching to artists view
         if stack.get_visible_child() == self.views[1] or \
            stack.get_visible_child() == self.views[3]:
             stack.get_visible_child().stack.set_visible_child_name('dummy')

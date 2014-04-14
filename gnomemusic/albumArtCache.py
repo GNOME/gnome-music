@@ -329,7 +329,7 @@ class AlbumArtCache:
     def _draw_rounded_path(self, x, y, width, height, radius):
         key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
         self.frame_lock.acquire()
-        if not key in self.frame_cache:
+        if key not in self.frame_cache:
             surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
             ctx = cairo.Context(surface)
             ctx.new_sub_path()
@@ -386,7 +386,7 @@ class AlbumArtCache:
         if not uri:
             return
 
-        if not uri in self.requested_uris:
+        if uri not in self.requested_uris:
             request = GetUriRequest(uri, artist, album, self._on_get_uri_request_finish, data)
             self.requested_uris[uri] = request
         else:

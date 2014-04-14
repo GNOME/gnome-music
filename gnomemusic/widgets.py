@@ -33,7 +33,6 @@
 
 from gi.repository import Gtk, Gd, GLib, GObject, Pango
 from gi.repository import GdkPixbuf, Gio
-from gi.repository import Grl
 from gi.repository import Tracker
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
@@ -161,7 +160,7 @@ class AlbumWidget(Gtk.EventBox):
                 item = self.model.get_value(self.iterToClean, 5)
                 title = AlbumArtCache.get_media_title(item)
                 self.model.set_value(self.iterToClean, 0, title)
-                #Hide now playing icon
+                # Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
             self.player.set_playlist('Album', self.album, self.model, _iter, 5)
             self.player.set_playing(True)
@@ -342,7 +341,7 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def update_model(self, player, playlist, currentIter):
-        #self is not our playlist, return
+        # self is not our playlist, return
         if (playlist != self.model):
             return False
         currentSong = playlist.get_value(currentIter, 5)
@@ -422,11 +421,11 @@ class ArtistAlbums(Gtk.VBox):
 
     @log
     def update_model(self, player, playlist, currentIter):
-        #this is not our playlist, return
+        # this is not our playlist, return
         if playlist != self.model:
-            #TODO, only clean once, but that can wait util we have clean
-            #the code a bit, and until the playlist refactoring.
-            #the overhead is acceptable for now
+            # TODO, only clean once, but that can wait util we have clean
+            # the code a bit, and until the playlist refactoring.
+            # the overhead is acceptable for now
             self.clean_model()
             return False
 
