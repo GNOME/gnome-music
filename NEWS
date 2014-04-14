@@ -1,3 +1,15 @@
+Overview of changes in 3.12.1
+=============================
+
+* Bugs fixed:
+ 726721  'MediaVideo' object has no attribute 'get_artist'
+ 727444  gnome-music crashed with OSError in_on_source_added(): [Errno 5] I/O error
+ 727522  Accelerator for Select All doesn't work
+
+
+* Updated translations:
+
+
 Overview of changes in 3.12.0
 =============================
 
