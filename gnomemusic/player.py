@@ -148,10 +148,10 @@ class Player(GObject.GObject):
 
     @log
     def _on_bus_state_changed(self, bus, message):
-        #Note: not all state changes are signaled through here, in particular
-        #transitions between Gst.State.READY and Gst.State.NULL are never async
-        #and thus don't cause a message
-        #In practice, self means only Gst.State.PLAYING and Gst.State.PAUSED are
+        # Note: not all state changes are signaled through here, in particular
+        # transitions between Gst.State.READY and Gst.State.NULL are never async
+        # and thus don't cause a message
+        # In practice, self means only Gst.State.PLAYING and Gst.State.PAUSED are
         self._sync_playing()
 
     @log
@@ -190,7 +190,7 @@ class Player(GObject.GObject):
                     self.currentTrack = None
                 self.load(self.get_current_media())
         else:
-            #Stop playback
+            # Stop playback
             self.stop()
             self.playBtn.set_image(self._playImage)
             self.progressScale.set_value(0)
@@ -327,7 +327,7 @@ class Player(GObject.GObject):
     @log
     def _get_playing(self):
         ok, state, pending = self.player.get_state(0)
-        #log('get playing(), [ok, state, pending] = [%s, %s, %s]'.format(ok, state, pending))
+        # log('get playing(), [ok, state, pending] = [%s, %s, %s]'.format(ok, state, pending))
         if ok == Gst.StateChangeReturn.ASYNC:
             return pending == Gst.State.PLAYING
         elif ok == Gst.StateChangeReturn.SUCCESS:
@@ -648,12 +648,12 @@ class Player(GObject.GObject):
         else:
             duration = self.player.query_duration(Gst.Format.TIME)
             if duration:
-                #Rewind a second back before the track end
+                # Rewind a second back before the track end
                 self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
                 self.emit('seeked', (duration[1] - 1000000000) / 1000)
         return True
 
-    #MPRIS
+    # MPRIS
 
     @log
     def Stop(self):
