@@ -570,15 +570,12 @@ class Songs(ViewContainer):
         list_widget.add_renderer(type_renderer,
                                  self._on_list_widget_type_render, None)
 
-    @log
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
@@ -587,11 +584,9 @@ class Songs(ViewContainer):
             seconds %= 60
             cell.set_property('text', '%i:%02i' % (minutes, seconds))
 
-    @log
     def _on_list_widget_artist_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
@@ -952,15 +947,12 @@ class Playlist(ViewContainer):
         cols[0].clear_attributes(type_renderer)
         cols[0].add_attribute(type_renderer, "text", 2)
 
-    @log
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
@@ -969,11 +961,9 @@ class Playlist(ViewContainer):
             seconds %= 60
             cell.set_property('text', '%i:%02i' % (minutes, seconds))
 
-    @log
     def _on_list_widget_artist_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:

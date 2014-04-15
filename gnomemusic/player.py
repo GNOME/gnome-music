@@ -110,7 +110,6 @@ class Player(GObject.GObject):
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
 
-    @log
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
@@ -125,7 +124,6 @@ class Player(GObject.GObject):
             self._discovering_urls[url] = [obj]
             self.discoverer.discover_uri_async(url)
 
-    @log
     def _on_discovered(self, discoverer, info, error):
         try:
             cbs = self._discovering_urls[info.get_uri()]
