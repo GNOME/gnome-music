@@ -78,8 +78,6 @@ gnome-music
 *.valid
 /gnomemusic/Makefile.in
 /data/AboutDialog.ui
-/data/headerbar.ui
-/data/PlaylistDialog.ui
 /data/gnome-music.appdata.xml
 /help/Makefile.in
 /help/**/*.page
