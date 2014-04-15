@@ -1133,11 +1133,10 @@ class Playlist(ViewContainer):
             if row[5].get_url() == uri:
                 # Is the removed track now being played?
                 if name == self.current_playlist:
-                    currentTrackpath = self.player.currentTrack.get_path().to_string()
-                    logger.debug("row.path=%s", row.path)
-                    logger.debug("currentTrackpath=%s", currentTrackpath)
-                    if row.path is not None and row.path.to_string() == currentTrackpath:
-                        update_playing_track = True
+                    if self.player.currentTrack is not None:
+                        currentTrackpath = self.player.currentTrack.get_path().to_string()
+                        if row.path is not None and row.path.to_string() == currentTrackpath:
+                            update_playing_track = True
 
                 model.remove(row.iter)
 
