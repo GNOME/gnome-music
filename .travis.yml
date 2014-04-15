@@ -4,7 +4,7 @@ python:
 before_install:
   - echo "deb http://archive.ubuntu.com/ubuntu/ trusty main restricted universe multiverse" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
-  - sudo apt-get install -qq gnome-common gnome-doc-utils libgrilo-0.2-dev gnome-pkg-tools gobject-introspection libgirepository1.0-dev libglib2.0-dev libgtk-3-dev yelp-tools
+  - sudo apt-get install -qq gnome-common gnome-doc-utils libgrilo-0.2-dev gnome-pkg-tools gobject-introspection libgirepository1.0-dev libglib2.0-dev libgtk-3-dev libexpat1-dev yelp-tools
 install:
   - pip install pep8 pyflakes --use-mirrors
 script:
