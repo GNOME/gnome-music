@@ -135,8 +135,8 @@ class ViewContainer(Gtk.Stack):
         self._loadMore.widget.hide()
         self._connect_view()
         self.cache = albumArtCache.get_default()
-        self._symbolicIcon = self.cache.make_default_icon(self._iconHeight,
-                                                          self._iconWidth)
+        self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
+                                                         self._iconWidth)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -284,7 +284,7 @@ class ViewContainer(Gtk.Stack):
                             [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
                              0, icon_name, False, icon_name == self.errorIconName])
-            GLib.idle_add(self._update_album_art, item, _iter)
+            self._update_album_art(item, _iter)
 
         GLib.idle_add(add_new_item)
 
@@ -312,7 +312,7 @@ class ViewContainer(Gtk.Stack):
         if icon:
             self._model.set_value(
                 _iter, 4,
-                albumArtCache.get_default()._make_icon_frame(icon))
+                icon)
             self.view.queue_draw()
 
     @log
@@ -441,8 +441,8 @@ class Songs(ViewContainer):
         self._iconHeight = 32
         self._iconWidth = 32
         self.cache = albumArtCache.get_default()
-        self._symbolicIcon = self.cache.make_default_icon(self._iconHeight,
-                                                          self._iconWidth)
+        self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
+                                                         self._iconWidth)
         self._add_list_renderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)

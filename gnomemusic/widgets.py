@@ -115,7 +115,7 @@ class AlbumWidget(Gtk.EventBox):
 
     tracks = []
     duration = 0
-    symbolicIcon = ALBUM_ART_CACHE.make_default_icon(256, 256)
+    symbolicIcon = ALBUM_ART_CACHE.get_default_icon(256, 256)
     filter = None
 
     @log
@@ -552,7 +552,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
         self.cache = AlbumArtCache.get_default()
-        pixbuf = self.cache.make_default_icon(128, 128)
+        pixbuf = self.cache.get_default_icon(128, 128)
         GLib.idle_add(self._update_album_art)
 
         self.ui.get_object('cover').set_from_pixbuf(pixbuf)

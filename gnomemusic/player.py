@@ -85,7 +85,7 @@ class Player(GObject.GObject):
         self.currentTrack = None
         self._lastState = Gst.State.PAUSED
         self.cache = AlbumArtCache.get_default()
-        self._symbolicIcon = self.cache.make_default_icon(ART_SIZE, ART_SIZE)
+        self._symbolicIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE)
 
         Gst.init(None)
 

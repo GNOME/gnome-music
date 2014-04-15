@@ -37,6 +37,56 @@ import os
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
+frame_lock = threading.Lock()
+
+
+@log
+def _make_icon_frame(pixbuf, path=None):
+
+    border = 1.5
+    w = pixbuf.get_width()
+    h = pixbuf.get_height()
+    pixbuf = pixbuf.scale_simple(w - border * 2,
+                                 h - border * 2,
+                                 0)
+
+    result = _draw_rounded_path(0, 0, w, h, 3)
+
+    pixbuf.copy_area(border, border,
+                     w - border * 4,
+                     h - border * 4,
+                     result,
+                     border * 2, border * 2)
+    return pixbuf
+
+
+@log
+def _draw_rounded_path(x, y, width, height, radius):
+    degrees = pi / 180
+
+    global frame_lock
+    frame_lock.acquire()
+    #if key not in frame_cache:
+    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+    ctx = cairo.Context(surface)
+    ctx.new_sub_path()
+    ctx.arc(x + width - radius, y + radius, radius - 0.5,
+            -90 * degrees, 0 * degrees)
+    ctx.arc(x + width - radius, y + height - radius, radius - 0.5,
+            0 * degrees, 90 * degrees)
+    ctx.arc(x + radius, y + height - radius, radius - 0.5,
+            90 * degrees, 180 * degrees)
+    ctx.arc(x + radius, y + radius, radius - 0.5, 180 * degrees,
+            270 * degrees)
+    ctx.close_path()
+    ctx.set_line_width(0.6)
+    ctx.set_source_rgb(0.2, 0.2, 0.2)
+    ctx.stroke_preserve()
+    ctx.set_source_rgb(1, 1, 1)
+    ctx.fill()
+    res = Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)
+    frame_lock.release()
+    return res
 
 
 class LookupRequest:
@@ -61,9 +111,6 @@ class LookupRequest:
 
     @log
     def finish(self, pixbuf):
-        if pixbuf:
-            # Cache the path on the original item for faster retrieval
-            self.item.set_thumbnail(GLib.filename_to_uri(self.path, None))
         self.callback(pixbuf, self.path, self.data)
 
     @log
@@ -97,8 +144,9 @@ class LookupRequest:
                     self.width *= (width / height)
                 scale = max(width / self.width, height / self.height)
                 pixbuf = pixbuf.scale_simple(width / scale, height / scale, 2)
-                self.finish(pixbuf)
-                return
+            pixbuf = _make_icon_frame(pixbuf)
+            self.finish(pixbuf)
+            return
         except Exception as error:
             if AlbumArtCache.get_default().logLookupErrors:
                 print('ERROR:', error)
@@ -147,25 +195,6 @@ class GetUriRequest:
     def _on_read_ready(self, outstream, res, user_data=None):
         try:
             self.stream = outstream.read_finish(res)
-
-            try:
-                streamInfo =\
-                    self.stream.query_info('standard::content-type', None)
-                contentType = streamInfo.get_content_type()
-
-                if contentType == 'image/png':
-                    self.path += '.png'
-                elif contentType == 'image/jpeg':
-                    self.path += '.jpeg'
-                else:
-                    print('Thumbnail format not supported, not caching')
-                    self.stream.close(None)
-                    return
-            except Exception as e:
-                print('Failed to query thumbnail content type')
-                self.path += '.jpeg'
-                return
-
             newFile = Gio.File.new_for_path(self.path)
             newFile.replace_async(None, False,
                                   Gio.FileCreateFlags.REPLACE_DESTINATION,
@@ -198,7 +227,6 @@ class GetUriRequest:
 
 class AlbumArtCache:
     instance = None
-    degrees = pi / 180
 
     @classmethod
     def get_default(self):
@@ -238,8 +266,6 @@ class AlbumArtCache:
         self.logLookupErrors = False
         self.requested_uris = {}
         self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
-        self.frame_cache = {}
-        self.frame_lock = threading.Lock()
 
         try:
             Gio.file_new_for_path(self.cacheDir).make_directory(None)
@@ -247,7 +273,7 @@ class AlbumArtCache:
             pass
 
     @log
-    def make_default_icon(self, width, height):
+    def get_default_icon(self, width, height):
         # get a small pixbuf with the given path
         icon = Gtk.IconTheme.get_default().load_icon('folder-music-symbolic', max(width, height) / 4, 0)
 
@@ -267,53 +293,7 @@ class AlbumArtCache:
                        icon.get_height() * 3 / 2,
                        1, 1,
                        GdkPixbuf.InterpType.NEAREST, 0xff)
-        return self._make_icon_frame(result)
-
-    @log
-    def _make_icon_frame(self, pixbuf):
-        border = 1.5
-        w = pixbuf.get_width()
-        h = pixbuf.get_height()
-        pixbuf = pixbuf.scale_simple(w - border * 2,
-                                     h - border * 2,
-                                     0)
-
-        result = self._draw_rounded_path(0, 0, w, h, 3)
-
-        pixbuf.copy_area(border, border,
-                         w - border * 4,
-                         h - border * 4,
-                         result,
-                         border * 2, border * 2)
-
         return result
-
-    @log
-    def _draw_rounded_path(self, x, y, width, height, radius):
-        key = "%dx%d@%dx%d:%d" % (width, height, x, y, radius)
-        self.frame_lock.acquire()
-        if key not in self.frame_cache:
-            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-            ctx = cairo.Context(surface)
-            ctx.new_sub_path()
-            ctx.arc(x + width - radius, y + radius, radius - 0.5,
-                    -90 * self.degrees, 0 * self.degrees)
-            ctx.arc(x + width - radius, y + height - radius, radius - 0.5,
-                    0 * self.degrees, 90 * self.degrees)
-            ctx.arc(x + radius, y + height - radius, radius - 0.5,
-                    90 * self.degrees, 180 * self.degrees)
-            ctx.arc(x + radius, y + radius, radius - 0.5, 180 * self.degrees,
-                    270 * self.degrees)
-            ctx.close_path()
-            ctx.set_line_width(0.6)
-            ctx.set_source_rgb(0.2, 0.2, 0.2)
-            ctx.stroke_preserve()
-            ctx.set_source_rgb(1, 1, 1)
-            ctx.fill()
-            self.frame_cache[key] = Gdk.pixbuf_get_from_surface(surface, 0, 0, width, height)
-        res = self.frame_cache[key].copy()
-        self.frame_lock.release()
-        return res
 
     @log
     def lookup(self, item, width, height, callback, data=None):

@@ -163,8 +163,8 @@ class Grilo(GObject.GObject):
         if count != -1:
             options.set_count(count)
 
-        def _callback(source, param, item, count, data, offset):
-            callback(source, param, item, count)
+        def _callback(source, param, item, remaining, data, offset):
+            callback(source, param, item, remaining)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
     @log

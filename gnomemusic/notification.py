@@ -50,7 +50,7 @@ class NotificationManager:
         self._isPlaying = False
 
         self._albumArtCache = AlbumArtCache.get_default()
-        self._symbolicIcon = self._albumArtCache.make_default_icon(IMAGE_SIZE, IMAGE_SIZE)
+        self._symbolicIcon = self._albumArtCache.get_default_icon(IMAGE_SIZE, IMAGE_SIZE)
 
         self._player.connect('playing-changed', self._on_playing_changed)
         self._player.connect('current-changed', self._update_track)
@@ -107,8 +107,6 @@ class NotificationManager:
             if not image:
                 image = self._symbolicIcon
 
-            width = image.get_width()
-            height = image.get_height()
             rowStride = image.get_rowstride()
             hasAlpha = image.get_has_alpha()
             bitsPerSample = image.get_bits_per_sample()
@@ -116,7 +114,7 @@ class NotificationManager:
             data = image.get_pixels()
 
             serialized = GLib.Variant('(iiibiiay)',
-                                      [width, height, rowStride, hasAlpha,
+                                      [IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha,
                                        bitsPerSample, nChannels, data])
             self._notification.set_hint('image-data', serialized)
 
