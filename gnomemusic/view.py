@@ -1130,9 +1130,37 @@ class Playlist(ViewContainer):
             else:
                 return
 
+        update_playing_track = False
         for row in model:
             if row[5].get_url() == uri:
-                self._model.remove(row.iter)
+                # Is the removed track now being played?
+                if name == self.current_playlist:
+                    currentTrackpath = self.player.currentTrack.get_path().to_string()
+                    logger.debug("row.path=%s", row.path)
+                    logger.debug("currentTrackpath=%s", currentTrackpath)
+                    if row.path is not None and row.path.to_string() == currentTrackpath:
+                        update_playing_track = True
+
+                model.remove(row.iter)
+
+                # Reload the model and switch to next song
+                if update_playing_track:
+                    if row.iter is None:
+                        # Get first track if next track is not valid
+                        row.iter = model.get_iter_first()
+                        if row.iter is None:
+                            # Last track was removed
+                            return
+
+                    self.iter_to_clean = None
+                    # row.iter will give us next iter to start playing
+                    # convert it to filter iter
+                    row.iter = self.filter.convert_child_iter_to_iter(row.iter)[1]
+                    self.update_model(self.player, self.filter, row.iter)
+                    self.player.set_playlist('Playlist', name, self.filter, row.iter, 5)
+                    self.player.set_playing(True)
+
+                # Update songs count
                 self.songs_count -= 1
                 self._update_songs_count()
                 return
