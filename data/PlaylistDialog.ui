@@ -56,7 +56,7 @@
       </object>
     </child>
   </object>
-  <object class="@GTK_OR_GD@HeaderBar" id="headerbar1">
+  <object class="GtkHeaderBar" id="headerbar1">
     <property name="title" translatable="yes">Select Playlist</property>
     <property name="visible">True</property>
     <child>

@@ -668,11 +668,7 @@ class PlaylistDialog():
         self.populate(playlist_names)
 
         self.title_bar = self.ui.get_object('headerbar1')
-        if Gtk.get_minor_version() > 8:
-            self.dialog_box.set_titlebar(self.title_bar)
-        else:
-            self.dialog_box.get_content_area().add(self.title_bar)
-            self.dialog_box.get_content_area().reorder_child(self.title_bar, 0)
+        self.dialog_box.set_titlebar(self.title_bar)
 
         self._cancel_button = self.ui.get_object('cancel-button')
         self._select_button = self.ui.get_object('select-button')

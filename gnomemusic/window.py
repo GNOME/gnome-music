@@ -47,11 +47,6 @@ logger = logging.getLogger(__name__)
 playlist = Playlists.get_default()
 tracker = Tracker.SparqlConnection.get(None)
 
-if Gtk.get_minor_version() > 8:
-    from gi.repository.Gtk import Stack, StackTransitionType
-else:
-    from gi.repository.Gd import Stack, StackTransitionType
-
 
 class Window(Gtk.ApplicationWindow):
 
@@ -178,16 +173,12 @@ class Window(Gtk.ApplicationWindow):
         self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
         self.views = []
-        self._stack = Stack(
-            transition_type=StackTransitionType.CROSSFADE,
+        self._stack = Gtk.Stack(
+            transition_type=Gtk.StackTransitionType.CROSSFADE,
             transition_duration=100,
             visible=True,
             can_focus=False)
-        if Gtk.get_minor_version() > 8:
-            self.set_titlebar(self.toolbar.header_bar)
-        else:
-            self._box.pack_start(self.toolbar.header_bar, False, False, 0)
-            self.set_hide_titlebar_when_maximized(True)
+        self.set_titlebar(self.toolbar.header_bar)
         self._box.pack_start(self.toolbar.searchbar, False, False, 0)
         self._box.pack_start(self._stack, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)

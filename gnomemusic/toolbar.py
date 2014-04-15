@@ -30,10 +30,6 @@
 
 from gi.repository import Gtk, Gdk, GObject
 
-if Gtk.get_minor_version() > 8:
-    from gi.repository.Gtk import StackSwitcher
-else:
-    from gi.repository.Gd import StackSwitcher
 from gnomemusic.searchbar import Searchbar
 
 from gnomemusic import log
@@ -56,12 +52,11 @@ class Toolbar(GObject.GObject):
         'selection-mode-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
     }
     _selectionMode = False
-    _maximized = False
 
     @log
     def __init__(self):
         GObject.GObject.__init__(self)
-        self._stack_switcher = StackSwitcher(margin_top=2, margin_bottom=2, can_focus=False)
+        self._stack_switcher = Gtk.StackSwitcher(margin_top=2, margin_bottom=2, can_focus=False)
         self._stack_switcher.show()
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/headerbar.ui')
@@ -71,8 +66,6 @@ class Toolbar(GObject.GObject):
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
         self._back_button = self._ui.get_object('back-button')
-        self._close_separator = self._ui.get_object('close-button-separator')
-        self._close_button = self._ui.get_object('close-button')
         self._selection_menu = self._ui.get_object('selection-menu')
         self._selection_menu_button = self._ui.get_object('selection-menu-button')
         self._selection_menu_label = self._ui.get_object('selection-menu-button-label')
@@ -81,46 +74,18 @@ class Toolbar(GObject.GObject):
             _back_button_image = self._ui.get_object('back-button-image')
             _back_button_image.set_property('icon-name', 'go-previous-rtl-symbolic')
         if Gtk.get_minor_version() >= 11:
-            self.header_bar.remove(self._close_button)
-            self.header_bar.remove(self._close_separator)
             self.header_bar.remove(self._select_button)
             self.header_bar.remove(self._cancel_button)
             self.header_bar.remove(self._search_button)
 
-            self.header_bar.pack_end(self._close_button)
-            self.header_bar.pack_end(self._close_separator)
             self.header_bar.pack_end(self._select_button)
             self.header_bar.pack_end(self._cancel_button)
             self.header_bar.pack_end(self._search_button)
         self._back_button.connect('clicked', self.on_back_button_clicked)
-        self._close_button.connect('clicked', self._close_button_clicked)
-        if Gtk.get_minor_version() <= 8:
-            self._close_button.connect('hierarchy-changed', self._on_hierarchy_changed)
-
-    @log
-    def _close_button_clicked(self, btn):
-        if Gtk.get_minor_version() > 8:
-            self._close_button.get_toplevel().close()
-        else:
-            self._close_button.get_toplevel().destroy()
 
     @log
     def reset_header_title(self):
         self.header_bar.set_custom_title(self._stack_switcher)
-
-    @log
-    def _on_hierarchy_changed(self, widget, previous_toplevel):
-        if previous_toplevel:
-            previous_toplevel.disconnect(self._window_state_handler)
-        self._close_button.get_toplevel().add_events(Gdk.EventMask.STRUCTURE_MASK)
-        self._window_state_handler = \
-            self._close_button.get_toplevel().connect('window-state-event', self._on_window_state_event)
-
-    @log
-    def _on_window_state_event(self, widget, event):
-        if event.changed_mask & Gdk.WindowState.MAXIMIZED:
-            self._maximized = bool(event.new_window_state & Gdk.WindowState.MAXIMIZED)
-            self._update()
 
     @log
     def set_stack(self, stack):
@@ -176,10 +141,4 @@ class Toolbar(GObject.GObject):
             self.reset_header_title()
 
         self._back_button.set_visible(not self._selectionMode and self._state == ToolbarState.SINGLE)
-
-        if Gtk.get_minor_version() > 8:
-            self._close_separator.set_visible(not self._selectionMode)
-            self._close_button.set_visible(not self._selectionMode)
-        else:
-            self._close_separator.set_visible(not self._selectionMode and self._maximized)
-            self._close_button.set_visible(not self._selectionMode and self._maximized)
+        self.header_bar.set_show_close_button(not self._selectionMode)

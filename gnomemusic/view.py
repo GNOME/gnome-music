@@ -54,13 +54,8 @@ logger = logging.getLogger(__name__)
 tracker = Tracker.SparqlConnection.get(None)
 playlists = Playlists.get_default()
 
-if Gtk.get_minor_version() > 8:
-    from gi.repository.Gtk import Stack, StackTransitionType
-else:
-    from gi.repository.Gd import Stack, StackTransitionType
 
-
-class ViewContainer(Stack):
+class ViewContainer(Gtk.Stack):
     if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
         nowPlayingIconName = 'media-playback-start-symbolic'
     else:
@@ -72,8 +67,8 @@ class ViewContainer(Stack):
 
     @log
     def __init__(self, title, header_bar, selection_toolbar, view_type, use_sidebar=False, sidebar=None):
-        Stack.__init__(self,
-                       transition_type=StackTransitionType.CROSSFADE)
+        Gtk.Stack.__init__(self,
+                           transition_type=Gtk.StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
         self._iconWidth = 128
         self._iconHeight = 128
@@ -105,8 +100,8 @@ class ViewContainer(Stack):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
         if use_sidebar:
-            self.stack = Stack(
-                transition_type=StackTransitionType.SLIDE_RIGHT,
+            self.stack = Gtk.Stack(
+                transition_type=Gtk.StackTransitionType.SLIDE_RIGHT,
             )
             dummy = Gtk.Frame(visible=False)
             self.stack.add_named(dummy, 'dummy')
@@ -338,11 +333,11 @@ class ViewContainer(Stack):
 
 
 # Class for the Empty View
-class Empty(Stack):
+class Empty(Gtk.Stack):
     @log
     def __init__(self, header_bar, player):
-        Stack.__init__(self,
-                       transition_type=StackTransitionType.CROSSFADE)
+        Gtk.Stack.__init__(self,
+                           transition_type=Gtk.StackTransitionType.CROSSFADE)
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
         music_folder_path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
@@ -605,8 +600,8 @@ class Artists (ViewContainer):
         self.items_selected = []
         self.items_selected_callback = None
         self.countQuery = Query.ARTISTS_COUNT
-        self.artistAlbumsStack = Stack(
-            transition_type=StackTransitionType.CROSSFADE,
+        self.artistAlbumsStack = Gtk.Stack(
+            transition_type=Gtk.StackTransitionType.CROSSFADE,
         )
         self._artistAlbumsWidget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE,

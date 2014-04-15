@@ -25,7 +25,7 @@ gnomemusic/window.py
 [type: gettext/glade]data/PlayerToolbar.ui
 [type: gettext/glade]data/TrackWidget.ui
 [type: gettext/glade]data/NoMusic.ui
-[type: gettext/glade]data/headerbar.ui.in
+[type: gettext/glade]data/headerbar.ui
 [type: gettext/glade]data/SelectionToolbar.ui
 [type: gettext/glade]data/PlaylistControls.ui
-[type: gettext/glade]data/PlaylistDialog.ui.in
+[type: gettext/glade]data/PlaylistDialog.ui
