@@ -32,7 +32,7 @@
 
 
 from gi.repository import Gtk, Gd, GLib, GObject, Pango
-from gi.repository import GdkPixbuf, Gio
+from gi.repository import GdkPixbuf, Gio, Grl
 from gi.repository import Tracker
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
@@ -228,7 +228,10 @@ class AlbumWidget(Gtk.EventBox):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
         self.album = album
-        ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, artist, album)
+        real_artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
+            or item.get_author()\
+            or _("Unknown Artist")
+        ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
 
         # if the active queue has been set by self album,
         # use it as model, otherwise build the liststore
@@ -630,9 +633,12 @@ class ArtistAlbumWidget(Gtk.HBox):
 
     @log
     def _update_album_art(self):
+        real_artist = self.album.get_string(Grl.METADATA_KEY_ARTIST)\
+            or self.album.get_author()\
+            or _("Unknown Artist")
         ALBUM_ART_CACHE.lookup(
             self.album, 128, 128, self._get_album_cover, None,
-            self.artist, self.album.get_title())
+            real_artist, self.album.get_title())
 
     @log
     def _get_album_cover(self, pixbuf, path, data=None):
