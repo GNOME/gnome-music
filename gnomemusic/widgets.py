@@ -231,6 +231,7 @@ class AlbumWidget(Gtk.EventBox):
         real_artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
+        self.ui.get_object('cover').set_from_pixbuf(self.symbolicIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
 
         # if the active queue has been set by self album,
