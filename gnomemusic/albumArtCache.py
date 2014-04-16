@@ -146,15 +146,15 @@ class AlbumArtCache:
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
-            try:
-                width = width or -1
-                height = height or -1
-                path = MediaArt.get_path(artist, album, "album", None)[0]
-                if not os.path.exists(path):
-                    self.cached_thumb_not_found(item, album, artist, path, callback, itr)
-                self.read_cached_pixbuf(path, width, height, callback, itr)
-            except Exception as e:
-                logger.warn("Error: %s" % e)
+        try:
+            width = width or -1
+            height = height or -1
+            path = MediaArt.get_path(artist, album, "album", None)[0]
+            if not os.path.exists(path):
+                self.cached_thumb_not_found(item, album, artist, path, callback, itr)
+            self.read_cached_pixbuf(path, width, height, callback, itr)
+        except Exception as e:
+            logger.warn("Error: %s" % e)
 
     @log
     def read_cached_pixbuf(self, path, width, height, callback, itr):
@@ -167,7 +167,6 @@ class AlbumArtCache:
     @log
     def finish(self, pixbuf, path, callback, itr):
         try:
-            grilo.reset_fast_options()
             callback(pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
@@ -177,8 +176,8 @@ class AlbumArtCache:
         try:
             uri = item.get_thumbnail()
             if uri is None:
-                grilo.set_full_options()
-                uri = item.get_thumbnail()
+                new_item = grilo.get_album_art_for_album_id(item.get_id())[0]
+                uri = new_item.get_thumbnail()
                 if uri is None:
                     logger.warn("can't find URL for album '%s' by %s" % (album, artist))
                     self.finish(None, path, callback, itr)

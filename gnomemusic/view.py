@@ -296,6 +296,7 @@ class ViewContainer(Gtk.Stack):
             self._model.set_value(
                 _iter, 4,
                 icon)
+            self.view.queue_draw()
 
     @log
     def _add_list_renderers(self):

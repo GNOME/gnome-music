@@ -46,6 +46,11 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_CREATION_DATE,
         Grl.METADATA_KEY_THUMBNAIL]
 
+    METADATA_THUMBNAIL_KEYS = [
+        Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_THUMBNAIL,
+    ]
+
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
 
@@ -56,7 +61,13 @@ class Grilo(GObject.GObject):
                                                   "gnome-music", "playlists"])
         if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):
             GLib.mkdir_with_parents(self.playlist_path, int("0755", 8))
-        self.reset_fast_options()
+        self.options = Grl.OperationOptions()
+        self.options.set_flags(Grl.ResolutionFlags.FAST_ONLY |
+                               Grl.ResolutionFlags.IDLE_RELAY)
+
+        self.full_options = Grl.OperationOptions()
+        self.full_options.set_flags(Grl.ResolutionFlags.FULL |
+                                    Grl.ResolutionFlags.IDLE_RELAY)
 
         self.sources = {}
         self.tracker = None
@@ -73,18 +84,6 @@ class Grilo(GObject.GObject):
             logger.error('Failed to load plugins.')
         if self.tracker is not None:
             logger.debug("tracker found")
-
-    @log
-    def set_full_options(self):
-        self.options = Grl.OperationOptions()
-        self.options.set_flags(Grl.ResolutionFlags.FULL |
-                               Grl.ResolutionFlags.IDLE_RELAY)
-
-    @log
-    def reset_fast_options(self):
-        self.options = Grl.OperationOptions()
-        self.options.set_flags(Grl.ResolutionFlags.FAST_ONLY |
-                               Grl.ResolutionFlags.IDLE_RELAY)
 
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
@@ -196,6 +195,13 @@ class Grilo(GObject.GObject):
                 return
 
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
+
+    @log
+    def get_album_art_for_album_id(self, album_id):
+        options = self.full_options.copy()
+        query = Query.get_album_for_id(album_id)
+        return self.tracker.query_sync(query, self.METADATA_THUMBNAIL_KEYS, options)
+
 
 Grl.init(None)
 
