@@ -58,7 +58,7 @@ def _make_icon_frame(pixbuf, path=None):
     ctx.arc(w - radius, radius, radius - 0.5, -90 * degrees, 0 * degrees)
     ctx.arc(w - radius, h - radius, radius - 0.5, 0 * degrees, 90 * degrees)
     ctx.arc(radius, h - radius, radius - 0.5, 90 * degrees, 180 * degrees)
-    ctx.arc(radius,  radius, radius - 0.5, 180 * degrees, 270 * degrees)
+    ctx.arc(radius, radius, radius - 0.5, 180 * degrees, 270 * degrees)
     ctx.close_path()
     ctx.set_line_width(0.6)
     ctx.set_source_rgb(0.2, 0.2, 0.2)
