@@ -376,17 +376,25 @@ class Player(GObject.GObject):
         self.playBtn.set_sensitive(True)
         self._sync_prev_next()
 
+        artist = _("Unknown Artist")
+        try:
+            assert media.get_artist() is not None
+            artist = media.get_artist()
+        finally:
+            self.artistLabel.set_label(artist)
+
+        album = _("Unknown Album")
+        try:
+            assert media.get_album() is not None
+            album = media.get_album()
+        except:
+            pass
+
         self.coverImg.set_from_pixbuf(self._symbolicIcon)
-        self.cache.lookup(media, ART_SIZE, ART_SIZE, self._on_cache_lookup)
+        self.cache.lookup(
+            media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None, artist, album)
 
         self.titleLabel.set_label(AlbumArtCache.get_media_title(media))
-
-        try:
-            artist = media.get_artist()
-            assert artist is not None
-            self.artistLabel.set_label(artist)
-        except:
-            self.artistLabel.set_label(_("Unknown Artist"))
 
         url = media.get_url()
         if url != self.player.get_value('current-uri', 0):

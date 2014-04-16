@@ -632,7 +632,9 @@ class ArtistAlbumWidget(Gtk.HBox):
 
     @log
     def _update_album_art(self):
-        ALBUM_ART_CACHE.lookup(self.album, 128, 128, self._get_album_cover)
+        ALBUM_ART_CACHE.lookup(
+            self.album, 128, 128, self._get_album_cover, None,
+            self.artist, self.album.get_title())
 
     @log
     def _get_album_cover(self, pixbuf, path, data=None):

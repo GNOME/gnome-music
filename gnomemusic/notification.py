@@ -94,7 +94,8 @@ class NotificationManager:
                                                              '<i>' + album + '</i>'),
                                       'gnome-music')
 
-            self._albumArtCache.lookup(item, IMAGE_SIZE, IMAGE_SIZE, self._album_art_loaded)
+            self._albumArtCache.lookup(
+                item, IMAGE_SIZE, IMAGE_SIZE, self._album_art_loaded, None, artist, album)
 
     @log
     def _album_art_loaded(self, image, path, data):

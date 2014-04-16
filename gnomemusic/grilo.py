@@ -43,12 +43,8 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_ID, Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_ARTIST, Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_DURATION,
-        Grl.METADATA_KEY_CREATION_DATE]
-
-    METADATA_THUMBNAIL_KEYS = [
-        Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_THUMBNAIL,
-    ]
+        Grl.METADATA_KEY_CREATION_DATE,
+        Grl.METADATA_KEY_THUMBNAIL]
 
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
@@ -61,7 +57,7 @@ class Grilo(GObject.GObject):
         if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):
             GLib.mkdir_with_parents(self.playlist_path, int("0755", 8))
         self.options = Grl.OperationOptions()
-        self.options.set_flags(Grl.ResolutionFlags.FULL |
+        self.options.set_flags(Grl.ResolutionFlags.FAST_ONLY |
                                Grl.ResolutionFlags.IDLE_RELAY)
 
         self.sources = {}
@@ -178,12 +174,6 @@ class Grilo(GObject.GObject):
             logger.debug(source.get_name() + ' - ' + q)
             source.search(q, [Grl.METADATA_KEY_ID], 0, 10,
                           options, self._search_callback, source)
-
-    @log
-    def get_album_art_for_album_id(self, album_id, _callback):
-        options = self.options.copy()
-        query = Query.get_album_for_id(album_id)
-        self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, _callback, None)
 
     @log
     def get_media_from_uri(self, uri, callback):
