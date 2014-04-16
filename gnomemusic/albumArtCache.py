@@ -72,7 +72,7 @@ def _make_icon_frame(pixbuf, path=None):
                          h - border * 4,
                          border_pixbuf,
                          border * 2, border * 2)
-    return new_pixbuf
+    return border_pixbuf
 
 
 class AlbumArtCache:
