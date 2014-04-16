@@ -33,8 +33,7 @@ from gettext import gettext as _
 import cairo
 from math import pi
 import os
-from threading import Thread
-from queue import Queue, Empty
+from _thread import start_new_thread
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
@@ -78,7 +77,6 @@ def _make_icon_frame(pixbuf, path=None):
 
 class AlbumArtCache:
     instance = None
-    num_worker_threads = 5
 
     @classmethod
     def get_default(self):
@@ -119,12 +117,6 @@ class AlbumArtCache:
         except:
             pass
 
-        self.q = Queue()
-        for i in range(self.num_worker_threads):
-            t = Thread(target=self.lookup_worker)
-            t.daemon = True
-            t.start()
-
     @log
     def get_default_icon(self, width, height):
         # get a small pixbuf with the given path
@@ -150,21 +142,17 @@ class AlbumArtCache:
 
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
-        self.q.put((item, width, height, callback, itr, artist, album))
+        start_new_thread(self.lookup_worker, (item, width, height, callback, itr, artist, album))
 
     @log
-    def lookup_worker(self):
-        while True:
+    def lookup_worker(self, item, width, height, callback, itr, artist, album):
             try:
-                (item, width, height, callback, itr, artist, album) = self.q.get_nowait()
                 width = width or -1
                 height = height or -1
                 path = MediaArt.get_path(artist, album, "album", None)[0]
                 if not os.path.exists(path):
                     self.cached_thumb_not_found(item, album, artist, path, callback, itr)
                 self.read_cached_pixbuf(path, width, height, callback, itr)
-            except Empty:
-                pass
             except Exception as e:
                 logger.warn("Error: %s" % e)
 
@@ -183,7 +171,6 @@ class AlbumArtCache:
             callback(pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
-        self.q.task_done()
 
     @log
     def cached_thumb_not_found(self, item, album, artist, path, callback, itr):
