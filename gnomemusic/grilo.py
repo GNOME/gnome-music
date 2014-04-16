@@ -56,9 +56,7 @@ class Grilo(GObject.GObject):
                                                   "gnome-music", "playlists"])
         if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):
             GLib.mkdir_with_parents(self.playlist_path, int("0755", 8))
-        self.options = Grl.OperationOptions()
-        self.options.set_flags(Grl.ResolutionFlags.FAST_ONLY |
-                               Grl.ResolutionFlags.IDLE_RELAY)
+        self.reset_fast_options()
 
         self.sources = {}
         self.tracker = None
@@ -75,6 +73,18 @@ class Grilo(GObject.GObject):
             logger.error('Failed to load plugins.')
         if self.tracker is not None:
             logger.debug("tracker found")
+
+    @log
+    def set_full_options(self):
+        self.options = Grl.OperationOptions()
+        self.options.set_flags(Grl.ResolutionFlags.FULL |
+                               Grl.ResolutionFlags.IDLE_RELAY)
+
+    @log
+    def reset_fast_options(self):
+        self.options = Grl.OperationOptions()
+        self.options.set_flags(Grl.ResolutionFlags.FAST_ONLY |
+                               Grl.ResolutionFlags.IDLE_RELAY)
 
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):

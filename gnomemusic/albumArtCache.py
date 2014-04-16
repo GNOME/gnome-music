@@ -36,6 +36,7 @@ import os
 from threading import Thread
 from queue import Queue, Empty
 from gnomemusic import log
+from gnomemusic.grilo import grilo
 import logging
 logger = logging.getLogger(__name__)
 
@@ -116,7 +117,7 @@ class AlbumArtCache:
             self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
             Gio.file_new_for_path(self.cacheDir).make_directory(None)
         except:
-            logger.warn("Cannot create media-art dir")
+            pass
 
         self.q = Queue()
         for i in range(self.num_worker_threads):
@@ -178,6 +179,7 @@ class AlbumArtCache:
     @log
     def finish(self, pixbuf, path, callback, itr):
         try:
+            grilo.reset_fast_options()
             callback(pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
@@ -188,9 +190,12 @@ class AlbumArtCache:
         try:
             uri = item.get_thumbnail()
             if uri is None:
-                logger.warn("can't find URL for album '%s' by %s" % (album, artist))
-                self.finish(None, path, callback, itr)
-                return
+                grilo.set_full_options()
+                uri = item.get_thumbnail()
+                if uri is None:
+                    logger.warn("can't find URL for album '%s' by %s" % (album, artist))
+                    self.finish(None, path, callback, itr)
+                    return
 
             src = Gio.File.new_for_uri(uri)
             dest = Gio.File.new_for_path(path)
