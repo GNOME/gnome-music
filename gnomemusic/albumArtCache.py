@@ -167,7 +167,7 @@ class AlbumArtCache:
     @log
     def finish(self, pixbuf, path, callback, itr):
         try:
-            callback(pixbuf, path, itr)
+            GLib.idle_add(callback, pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
 
