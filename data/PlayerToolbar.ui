@@ -308,6 +308,7 @@
                         <property name="has_focus">False</property>
                         <property name="is_focus">False</property>
                         <property name="receives_default">True</property>
+                        <property name="use_popover">True</property>
                         <property name="menu-model">repeatMenu</property>
                         <child>
                           <object class="GtkBox" id="replayBox">
