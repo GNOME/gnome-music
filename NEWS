@@ -3,6 +3,12 @@ Overview of changes in 3.10.3
 
 * Bug fixes:
   * 709234 don't crash if we can't connect to settings daemon
+
+Overview of changes in 3.10.3
+=============================
+
+* Bug fixes:
+  * 709234 don't crash if we can't connect to settings daemon
   * 721595 Typing should trigger a search
   * 724016 don't segment artist list sidebar
   * 723942 Search on keypress function opens search bar even when pressing any key
