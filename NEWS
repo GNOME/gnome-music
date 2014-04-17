@@ -1,8 +1,10 @@
-Overview of changes in 3.10.3
+Overview of changes in 3.10.4
 =============================
 
 * Bug fixes:
-  * 709234 don't crash if we can't connect to settings daemon
+  * 724112 Crashes when cannot connect to tracker
+  * 726721 Some tracks are identified as 'MediaVideo' and crash in various places
+
 
 Overview of changes in 3.10.3
 =============================
