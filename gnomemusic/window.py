@@ -38,7 +38,12 @@ from gnomemusic.player import Player, SelectionToolbar
 from gnomemusic.query import Query
 import gnomemusic.view as Views
 
-tracker = Tracker.SparqlConnection.get(None)
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    print("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
 
 if Gtk.get_minor_version() > 8:
     from gi.repository.Gtk import Stack, StackTransitionType

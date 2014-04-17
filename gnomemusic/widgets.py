@@ -40,7 +40,13 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
 
-tracker = Tracker.SparqlConnection.get(None)
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    print("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
+
 ALBUM_ART_CACHE = AlbumArtCache.get_default()
 if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
     NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'

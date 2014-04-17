@@ -45,7 +45,13 @@ from gnomemusic.grilo import grilo
 import gnomemusic.widgets as Widgets
 from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
-tracker = Tracker.SparqlConnection.get(None)
+
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    print("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
 
 if Gtk.get_minor_version() > 8:
     from gi.repository.Gtk import Stack, StackTransitionType
