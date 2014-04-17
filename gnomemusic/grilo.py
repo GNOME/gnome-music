@@ -197,10 +197,11 @@ class Grilo(GObject.GObject):
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
     @log
-    def get_album_art_for_album_id(self, album_id):
+    def get_album_art_for_album_id(self, album_id, callback, data=None):
         options = self.full_options.copy()
+        options.set_count(1)
         query = Query.get_album_for_id(album_id)
-        return self.tracker.query_sync(query, self.METADATA_THUMBNAIL_KEYS, options)
+        self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
 
 
 Grl.init(None)

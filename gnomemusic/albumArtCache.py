@@ -147,22 +147,16 @@ class AlbumArtCache:
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
         try:
-            width = width or -1
-            height = height or -1
             path = MediaArt.get_path(artist, album, "album", None)[0]
             if not os.path.exists(path):
-                self.cached_thumb_not_found(item, album, artist, path, callback, itr)
-            self.read_cached_pixbuf(path, width, height, callback, itr)
-        except Exception as e:
-            logger.warn("Error: %s" % e)
-
-    @log
-    def read_cached_pixbuf(self, path, width, height, callback, itr):
-        try:
+                GLib.idle_add(self.cached_thumb_not_found, item, width, height, path, callback, itr, artist, album)
+                return
+            width = width or -1
+            height = height or -1
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
             self.finish(_make_icon_frame(pixbuf), path, callback, itr)
         except Exception as e:
-            logger.debug("Error: %s" % e)
+            logger.warn("Error: %s" % e)
 
     @log
     def finish(self, pixbuf, path, callback, itr):
@@ -172,19 +166,39 @@ class AlbumArtCache:
             logger.warn("Error: %s" % e)
 
     @log
-    def cached_thumb_not_found(self, item, album, artist, path, callback, itr):
+    def cached_thumb_not_found(self, item, width, height, path, callback, itr, artist, album):
         try:
             uri = item.get_thumbnail()
             if uri is None:
-                new_item = grilo.get_album_art_for_album_id(item.get_id())[0]
-                uri = new_item.get_thumbnail()
-                if uri is None:
-                    logger.warn("can't find URL for album '%s' by %s" % (album, artist))
-                    self.finish(None, path, callback, itr)
-                    return
+                grilo.get_album_art_for_album_id(item.get_id(), self.album_art_for_album_id_callback,
+                                                 (item, width, height, path, callback, itr, artist, album))
+                return
 
+            start_new_thread(self.download_worker,
+                             (item, width, height, path, callback, itr, artist, album, uri))
+        except Exception as e:
+            logger.warn("Error: %s" % e)
+
+    @log
+    def album_art_for_album_id_callback(self, source, param, item, count, data, error):
+        old_item, width, height, path, callback, itr, artist, album = data
+        try:
+            uri = item.get_thumbnail()
+            if uri is None:
+                logger.warn("can't find URL for album '%s' by %s" % (album, artist))
+                self.finish(None, path, callback, itr)
+                return
+
+            start_new_thread(self.download_worker, (item, width, height, path, callback, itr, artist, album, uri))
+        except Exception as e:
+            logger.warn("Error: %s" % e)
+
+    @log
+    def download_worker(self, item, width, height, path, callback, itr, artist, album, uri):
+        try:
             src = Gio.File.new_for_uri(uri)
             dest = Gio.File.new_for_path(path)
             src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
+            self.lookup_worker(item, width, height, callback, itr, artist, album)
         except Exception as e:
             logger.warn("Error: %s" % e)
