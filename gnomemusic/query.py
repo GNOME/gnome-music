@@ -25,6 +25,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gi.repository import GLib, Tracker
+
 
 class Query():
 
@@ -280,6 +282,169 @@ class Query():
     '''.replace('\n', ' ').strip()
 
     @staticmethod
+    def albums(where_clause):
+        query = '''
+    SELECT DISTINCT
+        rdf:type(?album)
+        tracker:id(?album) AS id
+        (
+            SELECT
+                nmm:artistName(?artist)
+            WHERE {
+                ?album nmm:albumArtist ?artist
+            }
+            LIMIT 1
+        ) AS artist
+        nie:title(?album) AS title
+        nie:title(?album) AS album
+        tracker:coalesce(
+            (
+                SELECT
+                    GROUP_CONCAT(
+                        nmm:artistName(?artist),
+                        ','
+                    )
+                WHERE {
+                    ?album nmm:albumArtist ?artist
+                }
+            ),
+            (
+                SELECT
+                    GROUP_CONCAT(
+                        (
+                            SELECT
+                                nmm:artistName(nmm:performer(?_12)) AS perf
+                            WHERE {
+                                ?_12 nmm:musicAlbum ?album
+                            }
+                            GROUP BY ?perf
+                        ),
+                        ','
+                    ) AS album_performer
+                WHERE {
+                }
+            )
+        ) AS author
+        xsd:integer(
+            tracker:coalesce(
+                nmm:albumTrackCount(?album),
+                (
+                    SELECT
+                        COUNT(?_1)
+                    WHERE {
+                        ?_1 nmm:musicAlbum ?album ;
+                            tracker:available 'true'
+                    }
+                )
+            )
+        ) AS childcount
+        (
+            SELECT
+                fn:year-from-dateTime(?c)
+            WHERE {
+                ?_2 nmm:musicAlbum ?album ;
+                    nie:contentCreated ?c ;
+                    tracker:available 'true'
+            }
+            LIMIT 1
+        ) AS creation-date
+        {
+            %(where_clause)s
+            FILTER (
+                EXISTS {
+                    ?_3 nmm:musicAlbum ?album ;
+                        tracker:available 'true'
+                }
+            )
+        }
+    ORDER BY fn:lower-case(?title) ?author ?albumyear
+    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
+
+        return query
+
+    @staticmethod
+    def artists(where_clause):
+        query = '''
+    SELECT DISTINCT
+        rdf:type(?album)
+        tracker:id(?album) AS id
+        (
+            SELECT
+                nmm:artistName(?artist)
+            WHERE {
+                ?album nmm:albumArtist ?artist
+            }
+            LIMIT 1
+        ) AS artist
+        nie:title(?album) AS title
+        nie:title(?album) AS album
+        tracker:coalesce(
+            (
+                SELECT
+                    GROUP_CONCAT(
+                        nmm:artistName(?artist),
+                        ','
+                    )
+                WHERE {
+                    ?album nmm:albumArtist ?artist
+                }
+            ),
+            (
+                SELECT
+                    GROUP_CONCAT(
+                        (
+                            SELECT
+                                nmm:artistName(nmm:performer(?_12)) AS perf
+                            WHERE {
+                                ?_12 nmm:musicAlbum ?album
+                            }
+                            GROUP BY ?perf
+                        ),
+                        ','
+                    ) AS album_performer
+                WHERE {
+                }
+            )
+        ) AS author
+        xsd:integer(
+            tracker:coalesce(
+                nmm:albumTrackCount(?album),
+                (
+                    SELECT
+                        COUNT(?_1)
+                    WHERE {
+                        ?_1 nmm:musicAlbum ?album ;
+                        tracker:available 'true'
+                    }
+                )
+            )
+        ) AS childcount
+        (
+            SELECT
+                fn:year-from-dateTime(?c)
+            WHERE {
+                ?_2 nmm:musicAlbum ?album ;
+                    nie:contentCreated ?c ;
+                    tracker:available 'true'
+            }
+            LIMIT 1
+        ) AS creation-date
+        {
+            %(where_clause)s
+            FILTER (
+                EXISTS {
+                    ?_3 nmm:musicAlbum ?album ;
+                        tracker:available 'true'
+                }
+            )
+        }
+    ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
+    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
+
+        return query
+
+
+    @staticmethod
     def album_songs(album_id):
         query = '''
     SELECT DISTINCT
@@ -406,174 +571,157 @@ class Query():
     # TODO: make those queries actualyl return something
     @staticmethod
     def get_albums_with_any_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    nmm:musicAlbum(?song) AS album
+                WHERE {
+                    ?song a nmm:MusicPiece .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nie:title(nmm:musicAlbum(?song))), "%(name)s") ||
+                        fn:contains(tracker:case-fold(nmm:artistName(nmm:performer(?song))), "%(name)s") ||
+                        fn:contains(tracker:case-fold(nie:title(?song)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.albums(query)
 
     @staticmethod
     def get_albums_with_artist_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    ?album
+                WHERE {
+                    ?album a nmm:MusicAlbum ;
+                        nmm:albumArtist ?artist .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nmm:artistName(?artist)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.albums(query)
 
     @staticmethod
     def get_albums_with_album_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    ?album
+                WHERE {
+                    ?album a nmm:MusicAlbum .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nie:title(?album)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.albums(query)
 
     @staticmethod
     def get_albums_with_track_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    nmm:musicAlbum(?song) AS album
+                WHERE {
+                    ?song a nmm:MusicPiece .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nie:title(?song)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.albums(query)
 
     @staticmethod
     def get_artists_with_any_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    nmm:musicAlbum(?song) AS album
+                WHERE {
+                    ?song a nmm:MusicPiece .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nie:title(nmm:musicAlbum(?song))), "%(name)s") ||
+                        fn:contains(tracker:case-fold(nmm:artistName(nmm:performer(?song))), "%(name)s") ||
+                        fn:contains(tracker:case-fold(nie:title(?song)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.artists(query)
 
     @staticmethod
     def get_artists_with_artist_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    ?album
+                WHERE {
+                    ?album a nmm:MusicAlbum ;
+                        nmm:albumArtist ?artist .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nmm:artistName(?artist)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.artists(query)
 
     @staticmethod
     def get_artists_with_album_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    ?album
+                WHERE {
+                    ?album a nmm:MusicAlbum .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nie:title(?album)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.artists(query)
 
     @staticmethod
     def get_artists_with_track_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
-            SELECT DISTINCT
-                rdf:type(?song)
-                tracker:id(?song) AS id
-                nie:url(?song) AS url
-                nie:title(?song) AS title
-                nmm:artistName(nmm:performer(?song)) AS artist
-                nie:title(nmm:musicAlbum(?song)) AS album
-                nfo:duration(?song) AS duration
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER (
-                    nie:url(?song) = "%(url)s"
-                )
+            {
+                SELECT DISTINCT
+                    nmm:musicAlbum(?song) AS album
+                WHERE {
+                    ?song a nmm:MusicPiece .
+                    FILTER (
+                        fn:contains(tracker:case-fold(nie:title(?song)), "%(name)s")
+                    )
+                }
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
-        return query
+        return Query.artists(query)
 
     @staticmethod
     def get_songs_with_any_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
             SELECT DISTINCT
                 rdf:type(?song)
@@ -586,15 +734,18 @@ class Query():
             WHERE {
                 ?song a nmm:MusicPiece .
                 FILTER (
-                    nie:url(?song) = "%(url)s"
+                    fn:contains(tracker:case-fold(nie:title(?song)), "%(name)s") ||
+                    fn:contains(tracker:case-fold(nmm:artistName(nmm:performer(?song))), "%(name)s") ||
+                    fn:contains(tracker:case-fold(nie:title(nmm:musicAlbum(?song))), "%(name)s")
                 )
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
         return query
 
     @staticmethod
     def get_songs_with_artist_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
             SELECT DISTINCT
                 rdf:type(?song)
@@ -607,15 +758,16 @@ class Query():
             WHERE {
                 ?song a nmm:MusicPiece .
                 FILTER (
-                    nie:url(?song) = "%(url)s"
+                    fn:contains(tracker:case-fold(nmm:artistName(nmm:performer(?song))), "%(name)s")
                 )
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
         return query
 
     @staticmethod
     def get_songs_with_album_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
             SELECT DISTINCT
                 rdf:type(?song)
@@ -628,15 +780,16 @@ class Query():
             WHERE {
                 ?song a nmm:MusicPiece .
                 FILTER (
-                    fn:contains(fn:lower-case(nie:title(nmm:musicAlbum(?song))), '%(name)s')
+                    fn:contains(tracker:case-fold(nie:title(nmm:musicAlbum(?song))), "%(name)s")
                 )
             }
-            '''.replace('\n', ' ').strip() % {'name': name.lower()}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
         return query
 
     @staticmethod
     def get_songs_with_track_match(name):
+        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
         query = '''
             SELECT DISTINCT
                 rdf:type(?song)
@@ -649,9 +802,9 @@ class Query():
             WHERE {
                 ?song a nmm:MusicPiece .
                 FILTER (
-                    nie:url(?song) = "%(url)s"
+                    fn:contains(tracker:case-fold(nie:title(?song)), "%(name)s")
                 )
             }
-            '''.replace('\n', ' ').strip() % {'url': name}
+            '''.replace('\n', ' ').strip() % {'name': name}
 
         return query
