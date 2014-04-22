@@ -321,6 +321,7 @@ class Query():
         nmm:artistName(nmm:performer(?song)) AS artist
         nie:title(nmm:musicAlbum(?song)) AS album
         nfo:duration(?song) AS duration
+        nie:usageCounter(?song) AS play-count
     WHERE {
         ?song a nmm:MusicPiece .
         FILTER (
@@ -332,11 +333,13 @@ class Query():
         return query
 
     @staticmethod
-    def set_last_played_for_url(url):
+    def set_play_count_and_date_for_url(url, count):
         date = datetime.now().isoformat()
         query = '''
-            DELETE { ?song nie:contentAccessed ?time }
-            INSERT { ?song nie:contentAccessed '%(date)s'}
-            WHERE  { ?song nie:url '%(url)s' }
-        '''.replace('\n', ' ').strip() % {'url': url, "date": date}
+            INSERT OR REPLACE {
+                ?song a nmm:MusicPiece, nfo:FileDataObject;
+                nie:usageCounter '%(count)s';
+                nie:contentAccessed '%(date)s'.
+            } WHERE { ?song nie:url '%(url)s' }
+        '''.replace('\n', ' ').strip() % {'url': url, "date": date, "count": count}
         return query

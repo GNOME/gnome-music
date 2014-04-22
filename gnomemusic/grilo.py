@@ -51,11 +51,13 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_ARTIST, Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_CREATION_DATE,
-        Grl.METADATA_KEY_THUMBNAIL]
+        Grl.METADATA_KEY_THUMBNAIL,
+        Grl.METADATA_KEY_PLAY_COUNT
+    ]
 
     METADATA_THUMBNAIL_KEYS = [
         Grl.METADATA_KEY_ID,
-        Grl.METADATA_KEY_THUMBNAIL,
+        Grl.METADATA_KEY_THUMBNAIL
     ]
 
     CHANGED_MEDIA_MAX_ITEMS = 500
@@ -212,9 +214,15 @@ class Grilo(GObject.GObject):
 
     @log
     def update_play_data(self, url, data=None):
-        # Update play time
-        query = Query.set_last_played_for_url(url)
-        tracker.update(query, 0, None)
+
+        # Fetch play count
+        def callback(source, param, item, count=0, data=None, error=None):
+            if item:
+                playCount = 1
+                playCount = item.get_play_count() + 1
+                tracker.update(Query.set_play_count_and_date_for_url(url, playCount), 0, None)
+
+        self.get_media_from_uri(url, callback)
 
 Grl.init(None)
 
