@@ -1166,6 +1166,7 @@ class Playlist(ViewContainer):
     @log
     def add_predefined_playlists(self):
         self.add_predefined_playlist(_("Recently Added"), Query.RECENTLY_ADDED)
+        self.add_predefined_playlist(_("Recently Played"), Query.RECENTLY_PLAYED)
 
     @log
     def add_predefined_playlist(self, name, query):
@@ -1176,4 +1177,3 @@ class Playlist(ViewContainer):
                 self._on_song_added_to_playlist(None, name, item)
 
         grilo.populate_items(query, 0, _add_predefined_playlist_cb)
-
