@@ -37,6 +37,7 @@ from gettext import gettext as _
 from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.grilo import grilo
 
 from gnomemusic import log
 import logging
@@ -403,6 +404,9 @@ class Player(GObject.GObject):
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
         self.emit('playlist-item-changed', self.playlist, currentTrack)
         self.emit('current-changed')
+
+        # Update play count and last date played
+        grilo.update_play_data(url)
 
     @log
     def _on_cache_lookup(self, pixbuf, path, data=None):

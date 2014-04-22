@@ -24,6 +24,7 @@
 # modify this code, you may extend this exception to your version of the
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
+from datetime import datetime
 
 
 class Query():
@@ -254,7 +255,7 @@ class Query():
           ?song a nmm:MusicPiece ;
                 a nfo:FileDataObject
         }
-        ORDER BY nie:contentAccessed(?song)
+        ORDER BY DESC(nie:contentAccessed(?song))
     '''.replace('\n', ' ').strip()
 
     @staticmethod
@@ -328,4 +329,14 @@ class Query():
     }
     '''.replace('\n', ' ').strip() % {'url': url}
 
+        return query
+
+    @staticmethod
+    def set_last_played_for_url(url):
+        date = datetime.now().isoformat()
+        query = '''
+            DELETE { ?song nie:contentAccessed ?time }
+            INSERT { ?song nie:contentAccessed '%(date)s'}
+            WHERE  { ?song nie:url '%(url)s' }
+        '''.replace('\n', ' ').strip() % {'url': url, "date": date}
         return query

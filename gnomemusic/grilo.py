@@ -25,11 +25,18 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Grl, GLib, GObject
+from gi.repository import Grl, GLib, GObject, Tracker
 from gnomemusic.query import Query
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
+
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
 
 
 class Grilo(GObject.GObject):
@@ -203,6 +210,11 @@ class Grilo(GObject.GObject):
         query = Query.get_album_for_id(album_id)
         self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
 
+    @log
+    def update_play_data(self, url, data=None):
+        # Update play time
+        query = Query.set_last_played_for_url(url)
+        tracker.update(query, 0, None)
 
 Grl.init(None)
 
