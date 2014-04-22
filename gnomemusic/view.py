@@ -771,6 +771,11 @@ class Artists (ViewContainer):
 
 class Playlist(ViewContainer):
     playlists_list = playlists.get_playlists()
+    predefined_playlists = {
+        _("Recently Added"): Query.RECENTLY_ADDED,
+        _("Recently Played"): Query.RECENTLY_PLAYED,
+        _("Most Played"): Query.MOST_PLAYED
+    }
 
     @log
     def __init__(self, header_bar, selection_toolbar, player):
@@ -987,6 +992,19 @@ class Playlist(ViewContainer):
         self.current_playlist = playlist
         self.name_label.set_text(playlist)
 
+        if playlist in self.predefined_playlists:
+            # Playlists should be updated on each access
+            query = self.predefined_playlists[playlist]
+
+            def _add_predefined_playlist_cb(source, param, item, remaining):
+                if item and item.get_url():
+                    self._on_song_added_to_playlist(None, playlist, item)
+
+            self._model.clear()
+            grilo.populate_items(query, 0, _add_predefined_playlist_cb)
+            self._update_songs_count()
+            return
+
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
         cached_playlist = self.player.running_playlist('Playlist', playlist)
@@ -1165,8 +1183,8 @@ class Playlist(ViewContainer):
 
     @log
     def add_predefined_playlists(self):
-        self.add_predefined_playlist(_("Recently Added"), Query.RECENTLY_ADDED)
-        self.add_predefined_playlist(_("Recently Played"), Query.RECENTLY_PLAYED)
+        for playlist in self.predefined_playlists:
+            self._on_playlist_created(None, playlist)
 
     @log
     def add_predefined_playlist(self, name, query):

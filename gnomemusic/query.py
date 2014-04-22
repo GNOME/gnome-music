@@ -251,11 +251,28 @@ class Query():
             nmm:artistName(nmm:performer(?song)) AS artist
             nie:title(nmm:musicAlbum(?song)) AS album
             nfo:duration(?song) AS duration
+            nie:contentAccessed(?song) as date
         WHERE {
           ?song a nmm:MusicPiece ;
                 a nfo:FileDataObject
         }
         ORDER BY DESC(nie:contentAccessed(?song))
+    '''.replace('\n', ' ').strip()
+
+    MOST_PLAYED = '''
+        SELECT DISTINCT
+            rdf:type(?song)
+            tracker:id(?song) AS id
+            nie:url(?song) AS url
+            nie:title(?song) AS title
+            nmm:artistName(nmm:performer(?song)) AS artist
+            nie:title(nmm:musicAlbum(?song)) AS album
+            nfo:duration(?song) AS duration
+        WHERE {
+          ?song a nmm:MusicPiece ;
+                a nfo:FileDataObject
+        }
+        ORDER BY ASC(nie:usageCounter(?song))
     '''.replace('\n', ' ').strip()
 
     @staticmethod
