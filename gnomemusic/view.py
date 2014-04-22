@@ -1148,6 +1148,7 @@ class Playlist(ViewContainer):
 
     @log
     def populate(self):
+        self.add_predefined_playlists()
         for item in sorted(self.playlists_list):
             self._add_playlist_item(item)
         if len(self.playlists_list):
@@ -1161,3 +1162,18 @@ class Playlist(ViewContainer):
     def get_selected_track_uris(self, callback):
         callback([self.filter.get_value(self.filter.get_iter(path), 5).get_url()
                   for path in self.view.get_selection()])
+
+    @log
+    def add_predefined_playlists(self):
+        self.add_predefined_playlist(_("Recently Added"), Query.RECENTLY_ADDED)
+
+    @log
+    def add_predefined_playlist(self, name, query):
+        self._on_playlist_created(None, name)
+
+        def _add_predefined_playlist_cb(source, param, item, remaining):
+            if item and item.get_url():
+                self._on_song_added_to_playlist(None, name, item)
+
+        grilo.populate_items(query, 0, _add_predefined_playlist_cb)
+

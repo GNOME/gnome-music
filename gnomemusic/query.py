@@ -224,6 +224,23 @@ class Query():
     }
     '''.replace('\n', ' ').strip()
 
+    RECENTLY_ADDED = '''
+        SELECT DISTINCT
+            rdf:type(?song)
+            tracker:id(?song) AS id
+            nie:url(?song) AS url
+            nie:title(?song) AS title
+            nmm:artistName(nmm:performer(?song)) AS artist
+            nie:title(nmm:musicAlbum(?song)) AS album
+            nfo:duration(?song) AS duration
+            nie:contentCreated(?song) AS time
+        WHERE {
+          ?song a nmm:MusicPiece ;
+                a nfo:FileDataObject
+        }
+        ORDER BY DESC(?time)
+    '''.replace('\n', ' ').strip()
+
     @staticmethod
     def album_songs(album_id):
         query = '''
