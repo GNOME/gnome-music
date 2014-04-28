@@ -77,6 +77,7 @@ def _make_icon_frame(pixbuf, path=None):
 
 class AlbumArtCache:
     instance = None
+    blacklist = {}
 
     @classmethod
     def get_default(self):
@@ -148,6 +149,9 @@ class AlbumArtCache:
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
         try:
             path = MediaArt.get_path(artist, album, "album", None)[0]
+            if artist in self.blacklist and album in self.blacklist[artist]:
+                self.finish(None, path, callback, itr)
+                return
             if not os.path.exists(path):
                 GLib.idle_add(self.cached_thumb_not_found, item, width, height, path, callback, itr, artist, album)
                 return
@@ -185,6 +189,11 @@ class AlbumArtCache:
         try:
             uri = item.get_thumbnail()
             if uri is None:
+                # Blacklist artist-album combination
+                if artist not in self.blacklist:
+                    self.blacklist[artist] = []
+                self.blacklist[artist].append(album)
+
                 logger.warn("can't find URL for album '%s' by %s" % (album, artist))
                 self.finish(None, path, callback, itr)
                 return
