@@ -46,7 +46,6 @@ from gnomemusic.grilo import grilo
 from gnomemusic.toolbar import ToolbarState
 import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
-from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 from gnomemusic import log
 import logging
@@ -69,7 +68,6 @@ class ViewContainer(Gtk.Stack):
         nowPlayingIconName = 'media-playback-start-rtl-symbolic'
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
-    countQuery = None
     filter = None
 
     @log
@@ -122,10 +120,6 @@ class ViewContainer(Gtk.Stack):
         if not use_sidebar or sidebar:
             self._grid.add(box)
 
-        self._cached_count = -1
-        self._loadMore = Widgets.LoadMoreButton(self._get_remaining_item_count)
-        box.pack_end(self._loadMore.widget, False, False, 0)
-        self._loadMore.widget.connect('clicked', self._populate)
         self.view.connect('item-activated', self._on_item_activated)
         self.view.connect('selection-mode-request', self._on_selection_mode_request)
         self._cursor = None
@@ -140,7 +134,6 @@ class ViewContainer(Gtk.Stack):
 
         self.show_all()
         self._items = []
-        self._loadMore.widget.hide()
         self._connect_view()
         self.cache = albumArtCache.get_default()
         self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
@@ -161,12 +154,6 @@ class ViewContainer(Gtk.Stack):
     @log
     def _on_changes_pending(self, data=None):
         pass
-
-    @log
-    def _get_remaining_item_count(self):
-        if self._cached_count < 0:
-            self._cached_count = Widgets.get_count(self.countQuery)
-        return self._cached_count - self._offset
 
     @log
     def _on_header_bar_toggled(self, button):
@@ -229,9 +216,6 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _connect_view(self):
-        self._adjustmentValueId = self.vadjustment.connect(
-            'value-changed',
-            self._on_scrolled_win_change)
         self.view.connect_after('draw', self._on_view_draw)
         self.view.add_events(Gdk.EventMask.EXPOSURE_MASK)
 
@@ -279,30 +263,6 @@ class ViewContainer(Gtk.Stack):
             except ValueError:
                 # No such path
                 break
-
-    @log
-    def _on_scrolled_win_change(self, adjustment=None):
-        vScrollbar = self.view.get_vscrollbar()
-        revealAreaHeight = 32
-
-        # if there's no vscrollbar, or if it's not visible, hide the button
-        if not vScrollbar or not vScrollbar.get_visible():
-            self._loadMore.set_block(True)
-            return
-
-        value = self.vadjustment.get_value()
-        upper = self.vadjustment.get_upper()
-        page_size = self.vadjustment.get_page_size()
-
-        end = False
-        # special case self values which happen at construction
-        if (value == 0) and (upper == 1) and (page_size == 1):
-            end = False
-        else:
-            end = not (value < (upper - page_size - revealAreaHeight))
-        if self._get_remaining_item_count() <= 0:
-            end = False
-        self._loadMore.set_block(not end)
 
     @log
     def populate(self):
@@ -385,7 +345,6 @@ class Albums(ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Albums"), header_bar,
                                selection_toolbar, Gd.MainViewType.ICON)
-        self.countQuery = Query.ALBUMS_COUNT
         self._albumWidget = Widgets.AlbumWidget(player)
         self.player = player
         self.add(self._albumWidget)
@@ -397,7 +356,6 @@ class Albums(ViewContainer):
     def _on_changes_pending(self, data=None):
         if (self._init):
             self._offset = 0
-            self._cached_count = -1
             self._model.clear()
             self.populate()
 
@@ -464,7 +422,6 @@ class Songs(ViewContainer):
     @log
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar, Gd.MainViewType.LIST)
-        self.countQuery = Query.SONGS_COUNT
         self._items = {}
         self.isStarred = None
         self.iter_to_clean = None
@@ -484,7 +441,6 @@ class Songs(ViewContainer):
         if (self._init):
             self._model.clear()
             self._offset = 0
-            self._cached_count = -1
             self.populate()
 
     @log
@@ -631,7 +587,6 @@ class Artists (ViewContainer):
         self.albums_selected = []
         self.items_selected = []
         self.items_selected_callback = None
-        self.countQuery = Query.ARTISTS_COUNT
         self.artistAlbumsStack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
         )
@@ -662,7 +617,6 @@ class Artists (ViewContainer):
             self._model.clear()
             self._artists.clear()
             self._offset = 0
-            self._cached_count = -1
             self._populate()
 
     @log

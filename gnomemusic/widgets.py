@@ -36,7 +36,6 @@ from gi.repository import GdkPixbuf, Gio, Grl
 from gi.repository import Tracker
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
-from gnomemusic.query import Query
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.playlists import Playlists
 from gnomemusic import log
@@ -58,64 +57,6 @@ if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
 else:
     NOW_PLAYING_ICON_NAME = 'media-playback-start-rtl-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
-
-
-@log
-def get_count(countQuery):
-    count = -1
-    if countQuery:
-        cursor = tracker.query(countQuery, None)
-        if cursor and cursor.next(None):
-            count = cursor.get_integer(0)
-    return count
-
-
-class LoadMoreButton:
-    @log
-    def __init__(self, counter):
-        self._block = False
-        self._counter = counter
-        child = Gtk.Grid(column_spacing=10,
-                         hexpand=False,
-                         halign=Gtk.Align.CENTER,
-                         visible=True)
-        self._spinner = Gtk.Spinner(halign=Gtk.Align.CENTER,
-                                    no_show_all=True)
-        self._spinner.set_size_request(16, 16)
-        child.add(self._spinner)
-        self._label = Gtk.Label(label=_("Load More"),
-                                visible=True)
-        child.add(self._label)
-        self.widget = Gtk.Button(no_show_all=True,
-                                 child=child)
-        self.widget.get_style_context().add_class('documents-load-more')
-        self.widget.connect('clicked', self._on_load_more_clicked)
-        self._on_item_count_changed()
-
-    @log
-    def _on_load_more_clicked(self, data=None):
-        self._label.set_label(_("Loading..."))
-        self._spinner.show()
-        self._spinner.start()
-
-    @log
-    def _on_item_count_changed(self):
-        remaining_docs = self._counter()
-        visible = remaining_docs >= 0 and not self._block
-        self.widget.set_visible(visible)
-
-        if visible:
-            self._label.set_label(_("Load More"))
-            self._spinner.stop()
-            self._spinner.hide()
-
-    @log
-    def set_block(self, block):
-        if (self._block == block):
-            return
-
-        self._block = block
-        self._on_item_count_changed()
 
 
 class AlbumWidget(Gtk.EventBox):
@@ -485,59 +426,13 @@ class AllArtistsAlbums(ArtistAlbums):
     def __init__(self, player):
         ArtistAlbums.__init__(self, _("All Artists"), [], player)
         self._offset = 0
-        self.countQuery = Query.ALBUMS_COUNT
-        self._cached_count = -1
-        self._load_more = LoadMoreButton(self._get_remaining_item_count)
-        self.pack_end(self._load_more.widget, False, False, 0)
-        self._load_more.widget.connect('clicked', self._populate)
-        self.vadjustment = self._scrolledWindow.get_vadjustment()
-        self._connect_view()
         self._populate()
-
-    @log
-    def _get_remaining_item_count(self):
-        if self._cached_count < 0:
-            self._cached_count = get_count(self.countQuery)
-        return self._cached_count - self._offset
-
-    @log
-    def _connect_view(self):
-        self._adjustmentValueId =\
-            self.vadjustment.connect('value-changed', self._on_scrolled_win_change)
-        self._adjustmentChangedId =\
-            self.vadjustment.connect('changed', self._on_scrolled_win_change)
-        self._scrollbarVisibleId =\
-            self._scrolledWindow.get_vscrollbar().connect(
-                'notify::visible',
-                self._on_scrolled_win_change)
-        self._on_scrolled_win_change()
-
-    @log
-    def _on_scrolled_win_change(self, scrollbar=None, pspec=None, data=None):
-        vScrollbar = self._scrolledWindow.get_vscrollbar()
-        revealAreaHeight = 32
-
-        # if there's no vscrollbar, or if it's not visible, hide the button
-        if not vScrollbar or not vScrollbar.get_visible():
-            self._load_more.set_block(True)
-            return
-
-        value = self.vadjustment.get_value()
-        upper = self.vadjustment.get_upper()
-        page_size = self.vadjustment.get_page_size()
-        end = False
-
-        # special case this values which happen at construction
-        if (((value != 0) or (upper != 1) or (page_size != 1))
-                and self._get_remaining_item_count() > 0):
-            end = not (value < (upper - page_size - revealAreaHeight))
-        self._load_more.set_block(not end)
 
     @log
     def _populate(self, data=None):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_albums,
-                          self._offset, self.add_item, 5)
+                          self._offset, self.add_item, -1)
 
     @log
     def add_item(self, source, param, item, remaining):
