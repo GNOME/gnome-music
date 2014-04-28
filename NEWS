@@ -1,3 +1,27 @@
+Overview of changes in 3.13.1
+=============================
+
+* Thumbnail fetching was reworked. now should be much faster
+* New dependency: libmediaart
+* Updated playlist UI
+* Now requires GTK 3.10
+* Shuffle menu is now a popover
+* Load More button was removed
+
+* Bugs fixed:
+ 724627 Playlists UX review
+ 726721 Some tracks are identified as 'MediaVideo' and crash in various places
+ 727444 gnome-music crashed with OSError in_on_source_added(): [Errno 5] I/O error
+ 727522 Accelerator for Select All doesn't work
+ 728323 Set the icon name of the window as "gnome-music"
+ 724112 Crashes when cannot connect to tracker
+ 702565 Load cover art on scroll in Albums and Artists view
+ 699832 Replace Load More with autoloading on pressure
+ 729096 Media art is not shown in MPRIS clients
+
+* Updated translations and help files
+
+
 Overview of changes in 3.11.92
 =============================
 
