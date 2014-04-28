@@ -197,10 +197,17 @@ class Grilo(GObject.GObject):
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
 
     @log
-    def get_album_art_for_album_id(self, album_id, callback, data=None):
+    def get_album_art_for_item(self, item, callback, data=None):
+        item_id = item.get_id()
+
+        query = None
+        if isinstance(item, Grl.MediaAudio):
+            query = Query.get_album_for_song_id(item_id)
+        else:
+            query = Query.get_album_for_album_id(item_id)
+
         options = self.full_options.copy()
         options.set_count(1)
-        query = Query.get_album_for_id(album_id)
         self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
 
 

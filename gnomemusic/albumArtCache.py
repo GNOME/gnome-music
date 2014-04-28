@@ -176,8 +176,8 @@ class AlbumArtCache:
         try:
             uri = item.get_thumbnail()
             if uri is None:
-                grilo.get_album_art_for_album_id(item.get_id(), self.album_art_for_album_id_callback,
-                                                 (item, width, height, path, callback, itr, artist, album))
+                grilo.get_album_art_for_item(item, self.album_art_for_item_callback,
+                                             (item, width, height, path, callback, itr, artist, album))
                 return
 
             start_new_thread(self.download_worker,
@@ -186,7 +186,7 @@ class AlbumArtCache:
             logger.warn("Error: %s" % e)
 
     @log
-    def album_art_for_album_id_callback(self, source, param, item, count, data, error):
+    def album_art_for_item_callback(self, source, param, item, count, data, error):
         old_item, width, height, path, callback, itr, artist, album = data
         try:
             uri = item.get_thumbnail()
