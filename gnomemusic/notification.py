@@ -52,8 +52,19 @@ class NotificationManager:
         self._albumArtCache = AlbumArtCache.get_default()
         self._symbolicIcon = self._albumArtCache.get_default_icon(IMAGE_SIZE, IMAGE_SIZE)
 
+        rowStride = self._symbolicIcon.get_rowstride()
+        hasAlpha = self._symbolicIcon.get_has_alpha()
+        bitsPerSample = self._symbolicIcon.get_bits_per_sample()
+        nChannels = self._symbolicIcon.get_n_channels()
+        data = self._symbolicIcon.get_pixels()
+
+        self._symbolicIconSerialized = GLib.Variant('(iiibiiay)',
+                                                    (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha,
+                                                     bitsPerSample, nChannels, data))
+
         self._player.connect('playing-changed', self._on_playing_changed)
         self._player.connect('current-changed', self._update_track)
+        self._player.connect('thumbnail-updated', self._on_thumbnail_updated)
 
     @log
     def _on_playing_changed(self, player):
@@ -94,32 +105,16 @@ class NotificationManager:
                                                              '<i>' + album + '</i>'),
                                       'gnome-music')
 
-            self._albumArtCache.lookup(
-                item, IMAGE_SIZE, IMAGE_SIZE, self._album_art_loaded, None, artist, album)
+            self._notification.set_hint('image-path', None)
+            self._notification.set_hint('image-data', self._symbolicIconSerialized)
+            self._notification.show()
 
     @log
-    def _album_art_loaded(self, image, path, data):
+    def _on_thumbnail_updated(self, player, path, data=None):
         if path:
             self._notification.set_hint('image-path', GLib.Variant('s', path))
             self._notification.set_hint('image-data', None)
-        else:
-            self._notification.set_hint('image-path', None)
-
-            if not image:
-                image = self._symbolicIcon
-
-            rowStride = image.get_rowstride()
-            hasAlpha = image.get_has_alpha()
-            bitsPerSample = image.get_bits_per_sample()
-            nChannels = image.get_n_channels()
-            data = image.get_pixels()
-
-            serialized = GLib.Variant('(iiibiiay)',
-                                      (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha,
-                                       bitsPerSample, nChannels, data))
-            self._notification.set_hint('image-data', serialized)
-
-        self._notification.show()
+            self._notification.show()
 
     @log
     def _set_actions(self, playing):
