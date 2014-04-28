@@ -160,14 +160,14 @@ class MediaPlayer2Service(dbus.service.Object):
 
         try:
             lastUsed = media.get_last_played()
-            assert genre is not None
+            assert lastUsed is not None
             metadata['xesam:lastUsed'] = lastUsed
         except:
             pass
 
         try:
             artUrl = media.get_thumbnail()
-            assert genre is not None
+            assert artUrl is not None
             metadata['mpris:artUrl'] = artUrl
         except:
             pass
