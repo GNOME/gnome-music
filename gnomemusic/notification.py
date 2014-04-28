@@ -115,8 +115,8 @@ class NotificationManager:
             data = image.get_pixels()
 
             serialized = GLib.Variant('(iiibiiay)',
-                                      [IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha,
-                                       bitsPerSample, nChannels, data])
+                                      (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha,
+                                       bitsPerSample, nChannels, data))
             self._notification.set_hint('image-data', serialized)
 
         self._notification.show()
