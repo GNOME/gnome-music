@@ -150,7 +150,7 @@ class AlbumArtCache:
         try:
             path = MediaArt.get_path(artist, album, "album", None)[0]
             if artist in self.blacklist and album in self.blacklist[artist]:
-                self.finish(None, path, callback, itr)
+                self.finish(item, None, path, callback, itr)
                 return
             if not os.path.exists(path):
                 GLib.idle_add(self.cached_thumb_not_found, item, width, height, path, callback, itr, artist, album)
@@ -158,13 +158,14 @@ class AlbumArtCache:
             width = width or -1
             height = height or -1
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
-            self.finish(_make_icon_frame(pixbuf), path, callback, itr)
+            self.finish(item, _make_icon_frame(pixbuf), path, callback, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
 
     @log
-    def finish(self, pixbuf, path, callback, itr):
+    def finish(self, item, pixbuf, path, callback, itr):
         try:
+            item.set_thumbnail(GLib.filename_to_uri(path, None))
             GLib.idle_add(callback, pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
@@ -195,7 +196,7 @@ class AlbumArtCache:
                 self.blacklist[artist].append(album)
 
                 logger.warn("can't find URL for album '%s' by %s" % (album, artist))
-                self.finish(None, path, callback, itr)
+                self.finish(item, None, path, callback, itr)
                 return
 
             start_new_thread(self.download_worker, (item, width, height, path, callback, itr, artist, album, uri))
