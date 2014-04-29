@@ -107,14 +107,13 @@ class NotificationManager:
 
             self._notification.set_hint('image-path', None)
             self._notification.set_hint('image-data', self._symbolicIconSerialized)
-            self._notification.show()
 
     @log
     def _on_thumbnail_updated(self, player, path, data=None):
         if path:
             self._notification.set_hint('image-path', GLib.Variant('s', path))
             self._notification.set_hint('image-data', None)
-            self._notification.show()
+        self._notification.show()
 
     @log
     def _set_actions(self, playing):
