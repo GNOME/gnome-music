@@ -34,6 +34,7 @@ import cairo
 from math import pi
 import os
 from _thread import start_new_thread
+from time import sleep
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
@@ -78,6 +79,7 @@ def _make_icon_frame(pixbuf, path=None):
 class AlbumArtCache:
     instance = None
     blacklist = {}
+    queue = []
 
     @classmethod
     def get_default(self):
@@ -149,6 +151,10 @@ class AlbumArtCache:
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
         try:
             path = MediaArt.get_path(artist, album, "album", None)[0]
+            while path in self.queue:
+                sleep(0.5)
+            self.queue.append(path)
+
             if artist in self.blacklist and album in self.blacklist[artist]:
                 self.finish(item, None, None, callback, itr)
                 return
@@ -167,6 +173,7 @@ class AlbumArtCache:
         try:
             if path:
                 item.set_thumbnail(GLib.filename_to_uri(path, None))
+                self.queue.remove(path)
             GLib.idle_add(callback, pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
