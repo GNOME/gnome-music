@@ -184,10 +184,11 @@ class Window(Gtk.ApplicationWindow):
             transition_duration=100,
             visible=True,
             can_focus=False)
+        self._overlay = Gtk.Overlay(child=self._stack)
+        self._overlay.add_overlay(self.toolbar.dropdown)
         self.set_titlebar(self.toolbar.header_bar)
         self._box.pack_start(self.toolbar.searchbar, False, False, 0)
-        self._box.pack_start(self.toolbar.dropdown, False, False, 0)
-        self._box.pack_start(self._stack, True, True, 0)
+        self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self.player.eventBox, False, False, 0)
         self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
         self.add(self._box)
@@ -210,6 +211,7 @@ class Window(Gtk.ApplicationWindow):
 
         self.toolbar.set_state(ToolbarState.ALBUMS)
         self.toolbar.header_bar.show()
+        self._overlay.show()
         self.player.eventBox.show_all()
         self._box.show()
         self.show()
