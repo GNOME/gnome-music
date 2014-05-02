@@ -79,6 +79,14 @@ class Query():
                     WHERE {
                         ?_1 nmm:musicAlbum ?album ;
                             tracker:available 'true'
+                        FILTER (
+                            NOT EXISTS {
+                                ?_1 a nmm:Video
+                            } &&
+                            NOT EXISTS {
+                                ?_1 a nmm:Playlist
+                            }
+                        )
                     }
                 )
             )
@@ -90,6 +98,14 @@ class Query():
                 ?_2 nmm:musicAlbum ?album ;
                     nie:contentCreated ?c ;
                     tracker:available 'true'
+                FILTER (
+                    NOT EXISTS {
+                        ?song a nmm:Video
+                    } &&
+                    NOT EXISTS {
+                        ?song a nmm:Playlist
+                    }
+                )
             }
             LIMIT 1
         ) AS creation-date
@@ -99,6 +115,14 @@ class Query():
                 EXISTS {
                     ?_3 nmm:musicAlbum ?album ;
                         tracker:available 'true'
+                    FILTER (
+                        NOT EXISTS {
+                            ?_3 a nmm:Video
+                        } &&
+                        NOT EXISTS {
+                            ?_3 a nmm:Playlist
+                        }
+                    )
                 }
             )
         }
@@ -146,6 +170,14 @@ class Query():
                                 nmm:artistName(nmm:performer(?_12)) AS perf
                             WHERE {
                                 ?_12 nmm:musicAlbum ?album
+                                FILTER (
+                                    NOT EXISTS {
+                                        ?_12 a nmm:Video
+                                    } &&
+                                    NOT EXISTS {
+                                        ?_12 a nmm:Playlist
+                                    }
+                                )
                             }
                             GROUP BY ?perf
                         ),
@@ -164,6 +196,14 @@ class Query():
                     WHERE {
                         ?_1 nmm:musicAlbum ?album ;
                         tracker:available 'true'
+                        FILTER (
+                            NOT EXISTS {
+                                ?_1 a nmm:Video
+                            } &&
+                            NOT EXISTS {
+                                ?_1 a nmm:Playlist
+                            }
+                        )
                     }
                 )
             )
@@ -175,6 +215,14 @@ class Query():
                 ?_2 nmm:musicAlbum ?album ;
                     nie:contentCreated ?c ;
                     tracker:available 'true'
+                FILTER (
+                    NOT EXISTS {
+                        ?_2 a nmm:Video
+                    } &&
+                    NOT EXISTS {
+                        ?_2 a nmm:Playlist
+                    }
+                )
             }
             LIMIT 1
         ) AS creation-date
@@ -184,6 +232,14 @@ class Query():
                 EXISTS {
                     ?_3 nmm:musicAlbum ?album ;
                         tracker:available 'true'
+                FILTER (
+                    NOT EXISTS {
+                        ?_3 a nmm:Video
+                    } &&
+                    NOT EXISTS {
+                        ?_3 a nmm:Playlist
+                    }
+                )
                 }
             )
         }
@@ -211,6 +267,14 @@ class Query():
         {
             ?song a nmm:MusicPiece ;
                   a nfo:FileDataObject
+            FILTER (
+                NOT EXISTS {
+                    ?song a nmm:Video
+                } &&
+                NOT EXISTS {
+                    ?song a nmm:Playlist
+                }
+            )
         }
     ORDER BY tracker:added(?song)
     '''.replace('\n', ' ').strip()
@@ -221,6 +285,14 @@ class Query():
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject
+        FILTER (
+            NOT EXISTS {
+                ?song a nmm:Video
+            } &&
+            NOT EXISTS {
+                ?song a nmm:Playlist
+            }
+        )
     }
     '''.replace('\n', ' ').strip()
 
@@ -241,6 +313,14 @@ class Query():
               nmm:musicAlbum ?album .
         FILTER (
             tracker:id(?album) = %(album_id)s
+        )
+        FILTER (
+            NOT EXISTS {
+                ?song a nmm:Video
+            } &&
+            NOT EXISTS {
+                ?song a nmm:Playlist
+            }
         )
     }
     ORDER BY
@@ -291,6 +371,14 @@ class Query():
         ?song a nmm:MusicPiece .
         FILTER (
             nie:url(?song) = "%(url)s"
+        )
+        FILTER (
+            NOT EXISTS {
+                ?song a nmm:Video
+            } &&
+            NOT EXISTS {
+                ?song a nmm:Playlist
+            }
         )
     }
     '''.replace('\n', ' ').strip() % {'url': url}
