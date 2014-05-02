@@ -105,14 +105,6 @@ class Query():
     ORDER BY fn:lower-case(?title) ?author ?albumyear
     '''.replace('\n', ' ').strip()
 
-    ALBUMS_COUNT = '''
-    SELECT
-        COUNT(?album) AS childcount
-    WHERE {
-        ?album a nmm:MusicAlbum
-    }
-    '''.replace('\n', ' ').strip()
-
     ARTISTS = '''
     SELECT DISTINCT
         rdf:type(?album)
@@ -188,15 +180,6 @@ class Query():
             )
         }
     ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
-    '''.replace('\n', ' ').strip()
-
-    ARTISTS_COUNT = '''
-    SELECT
-        COUNT(DISTINCT ?artist)
-    WHERE {
-        ?artist a nmm:Artist .
-        ?album nmm:performer ?artist
-    }
     '''.replace('\n', ' ').strip()
 
     SONGS = '''
