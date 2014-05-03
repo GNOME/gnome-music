@@ -1170,12 +1170,19 @@ class Search(ViewContainer):
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
+        self.songs_model = self._model
 
         self.view.get_generic_view().set_show_expanders(False)
 
     @log
     def _on_item_activated(self, widget, id, path):
-        pass
+        child_path = self.filter_model.convert_path_to_child_path(path)
+        _iter = self._model.get_iter(child_path)
+        if self._model[_iter][11] == 'song':
+            if self._model.get_value(_iter, 8) != self.errorIconName:
+                child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
+                self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5)
+                self.player.set_playing(True)
 
     def _add_item(self, source, param, item, remaining=0, data=None):
         if data is None:
@@ -1299,6 +1306,7 @@ class Search(ViewContainer):
         playlists_iter = self._model.insert_with_values(None, -1, [2], ['Playlists'])
 
         self.head_iters = [albums_iter, artists_iter, songs_iter, playlists_iter]
+        self.songs_model = self._model.filter_new(self._model.get_path(songs_iter))
 
         # Check that current source can do Query
         if grilo.search_source.supported_operations() & Grl.SupportedOps.QUERY:
