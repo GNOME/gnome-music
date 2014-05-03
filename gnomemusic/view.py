@@ -70,7 +70,7 @@ class ViewContainer(Gtk.Stack):
     starIconName = 'starred-symbolic'
 
     @log
-    def __init__(self, title, header_bar, selection_toolbar, view_type, use_sidebar=False, sidebar=None):
+    def __init__(self, name, title, header_bar, selection_toolbar, view_type, use_sidebar=False, sidebar=None):
         Gtk.Stack.__init__(self,
                            transition_type=Gtk.StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
@@ -127,6 +127,7 @@ class ViewContainer(Gtk.Stack):
         self.header_bar._cancel_button.connect(
             'clicked', self._on_cancel_button_clicked)
 
+        self.name = name
         self.title = title
         self.add(self._grid)
 
@@ -342,7 +343,7 @@ class Empty(Gtk.Stack):
 class Albums(ViewContainer):
     @log
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, _("Albums"), header_bar,
+        ViewContainer.__init__(self, 'albums', _("Albums"), header_bar,
                                selection_toolbar, Gd.MainViewType.ICON)
         self._albumWidget = Widgets.AlbumWidget(player)
         self.player = player
@@ -419,7 +420,7 @@ class Albums(ViewContainer):
 class Songs(ViewContainer):
     @log
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar, Gd.MainViewType.LIST)
+        ViewContainer.__init__(self, 'songs', _("Songs"), header_bar, selection_toolbar, Gd.MainViewType.LIST)
         self._items = {}
         self.isStarred = None
         self.iter_to_clean = None
@@ -576,7 +577,7 @@ class Songs(ViewContainer):
 class Artists (ViewContainer):
     @log
     def __init__(self, header_bar, selection_toolbar, player):
-        ViewContainer.__init__(self, _("Artists"), header_bar,
+        ViewContainer.__init__(self, 'artists', _("Artists"), header_bar,
                                selection_toolbar, Gd.MainViewType.LIST, True)
         self.artists_counter = 0
         self.player = player
@@ -771,7 +772,7 @@ class Playlist(ViewContainer):
             shadow_type=Gtk.ShadowType.NONE
         )
 
-        ViewContainer.__init__(self, _("Playlists"), header_bar,
+        ViewContainer.__init__(self, 'playlists', _("Playlists"), header_bar,
                                selection_toolbar, Gd.MainViewType.LIST, True, self.playlists_sidebar)
 
         self.view.get_generic_view().get_style_context()\

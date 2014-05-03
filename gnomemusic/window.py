@@ -231,7 +231,10 @@ class Window(Gtk.ApplicationWindow):
         self.views.append(Views.Playlist(self.toolbar, self.selection_toolbar, self.player))
 
         for i in self.views:
-            self._stack.add_titled(i, i.title, i.title)
+            if i.title:
+                self._stack.add_titled(i, i.name, i.title)
+            else:
+                self._stack.add_named(i, i.name)
 
         self.toolbar.set_stack(self._stack)
         self.toolbar.searchbar.show()
