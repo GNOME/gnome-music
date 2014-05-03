@@ -229,6 +229,7 @@ class Window(Gtk.ApplicationWindow):
         self.views.append(Views.Artists(self.toolbar, self.selection_toolbar, self.player))
         self.views.append(Views.Songs(self.toolbar, self.selection_toolbar, self.player))
         self.views.append(Views.Playlist(self.toolbar, self.selection_toolbar, self.player))
+        self.views.append(Views.Search(self.toolbar, self.selection_toolbar, self.player))
 
         for i in self.views:
             if i.title:
@@ -326,7 +327,8 @@ class Window(Gtk.ApplicationWindow):
            stack.get_visible_child() == self.views[3]:
             stack.get_visible_child().stack.set_visible_child_name('dummy')
             stack.get_visible_child().stack.set_visible_child_name('sidebar')
-        self.toolbar.searchbar.show_bar(False)
+        if stack.get_visible_child() != self.views[4]:
+            self.toolbar.searchbar.show_bar(False)
 
     @log
     def _toggle_view(self, btn, i):

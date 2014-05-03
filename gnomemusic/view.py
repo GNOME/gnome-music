@@ -43,6 +43,7 @@ from gi.repository import Tracker
 
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
+from gnomemusic.query import Query
 from gnomemusic.toolbar import ToolbarState
 import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
@@ -1152,3 +1153,158 @@ class Playlist(ViewContainer):
     def get_selected_track_uris(self, callback):
         callback([self._model.get_value(self._model.get_iter(path), 5).get_url()
                   for path in self.view.get_selection()])
+
+
+class Search(ViewContainer):
+    @log
+    def __init__(self, header_bar, selection_toolbar, player):
+        ViewContainer.__init__(self, 'search', None, header_bar, selection_toolbar, Gd.MainViewType.LIST)
+        self._items = {}
+        self.isStarred = None
+        self.iter_to_clean = None
+        self._iconHeight = 48
+        self._iconWidth = 48
+        self.cache = albumArtCache.get_default()
+        self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
+                                                         self._iconWidth)
+        self._add_list_renderers()
+        self.player = player
+        self.head_iters = [None, None, None, None]
+
+        self.view.get_generic_view().set_show_expanders(False)
+
+    @log
+    def _on_item_activated(self, widget, id, path):
+        pass
+
+    def _add_item(self, source, param, item, remaining=0, data=None):
+        if data is None:
+            return
+
+        model, category = data
+        if not item or model != self._model:
+            return
+
+        self._offset += 1
+        title = albumArtCache.get_media_title(item)
+        item.set_title(title)
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
+            or item.get_author() \
+            or _("Unknown Artist")
+
+        group = 0 if category == 'album' else \
+                1 if category == 'artist' else \
+                2 if category == 'song' else 3
+
+        _iter = self._model.insert_with_values(
+            self.head_iters[group], -1,
+            [0, 2, 3, 4, 5, 8, 9, 10, 11],
+            [str(item.get_id()), title, artist,
+            self._symbolicIcon, item, self.nowPlayingIconName, False, False, category])
+        albumArtCache.get_default().lookup(
+            item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+            _iter, artist, title)
+
+        if category == 'song':
+            self.player.discover_item(item, self._on_discovered, _iter)
+
+        self.view.get_generic_view().expand_all()
+
+    @log
+    def _add_list_renderers(self):
+        list_widget = self.view.get_generic_view()
+        cols = list_widget.get_columns()
+
+        title_renderer = Gtk.CellRendererText(
+            xpad=12,
+            xalign=0.0,
+            yalign=0.5,
+            height=32,
+            ellipsize=Pango.EllipsizeMode.END,
+            weight=Pango.Weight.BOLD
+        )
+        list_widget.add_renderer(title_renderer,
+                                 self._on_list_widget_title_render, None)
+        cols[0].add_attribute(title_renderer, 'text', 2)
+
+        cells = cols[0].get_cells()
+        cols[0].reorder(cells[0], -1)
+        cols[0].set_cell_data_func(cells[0], self._on_list_widget_selection_render, None)
+
+    def _on_list_widget_selection_render(self, col, cell, model, _iter, data):
+        cell.set_visible(self.view.get_selection_mode() and model.iter_parent(_iter) is not None)
+
+    def _on_list_widget_title_render(self, col, cell, model, _iter, data):
+        cells = col.get_cells()
+        cells[0].set_visible(model.iter_parent(_iter) is not None)
+        cells[1].set_visible(model.iter_parent(_iter) is not None)
+        cells[2].set_visible(model.iter_parent(_iter) is None)
+
+    @log
+    def populate(self):
+        pass
+
+    @log
+    def get_selected_track_uris(self, callback):
+        pass
+
+    @log
+    def _filter_visible_func(self, model, _iter, data=None):
+        return model.iter_parent(_iter) is not None or model.iter_has_child(_iter)
+
+    @log
+    def set_search_text(self, search_term, fields_filter):
+        query_matcher = {
+            'album': {
+                'search_all': Query.get_albums_with_any_match,
+                'search_artist': Query.get_albums_with_artist_match,
+                'search_album': Query.get_albums_with_album_match,
+                'search_track': Query.get_albums_with_track_match,
+            },
+            'artist': {
+                'search_all': Query.get_artists_with_any_match,
+                'search_artist': Query.get_artists_with_artist_match,
+                'search_album': Query.get_artists_with_album_match,
+                'search_track': Query.get_artists_with_track_match,
+            },
+            'song': {
+                'search_all': Query.get_songs_with_any_match,
+                'search_artist': Query.get_songs_with_artist_match,
+                'search_album': Query.get_songs_with_album_match,
+                'search_track': Query.get_songs_with_track_match,
+            },
+        }
+
+        self._model = Gtk.TreeStore(
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,    # item title or header text
+            GObject.TYPE_STRING,    # artist for albums and songs
+            GdkPixbuf.Pixbuf,       # album art
+            GObject.TYPE_OBJECT,    # item
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,
+            GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_STRING     # type
+        )
+        self.filter_model = self._model.filter_new(None)
+        self.filter_model.set_visible_func(self._filter_visible_func)
+        self.view.set_model(self.filter_model)
+
+        albums_iter = self._model.insert_with_values(None, -1, [2], ['Albums'])
+        artists_iter = self._model.insert_with_values(None, -1, [2], ['Artists'])
+        songs_iter = self._model.insert_with_values(None, -1, [2], ['Songs'])
+        playlists_iter = self._model.insert_with_values(None, -1, [2], ['Playlists'])
+
+        self.head_iters = [albums_iter, artists_iter, songs_iter, playlists_iter]
+
+        # Check that current source can do Query
+        if grilo.search_source.supported_operations() & Grl.SupportedOps.QUERY:
+            for category in ('album', 'artist', 'song'):
+                query = query_matcher[category][fields_filter](search_term)
+                grilo.populate_custom_query(query, self._add_item, -1, [self._model, category])
+        else:
+            # nope, can't do - reverting to Search
+            grilo.search(search_term, self._add_item)

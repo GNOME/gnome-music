@@ -188,7 +188,6 @@ class Searchbar(Gd.Revealer):
         self._search_entry = Gd.TaggedEntry(width_request=500, halign=Gtk.Align.CENTER)
         self._search_entry.connect("changed", self.search_entry_timeout)
         self._search_entry.show()
-        self.connect("notify::child-revealed", self.prepare_search_filter)
         self._searchContainer.add(self._search_entry)
 
         self._dropDownButtonArrow = Gtk.Arrow(arrow_type=Gtk.ArrowType.DOWN, shadow_type=Gtk.ShadowType.NONE)
@@ -212,7 +211,6 @@ class Searchbar(Gd.Revealer):
         item.set_expand(True)
         item.show()
         toolbar.insert(item, 0)
-        self.view = None
         item.add(self._searchContainer)
 
     @log
@@ -222,13 +220,6 @@ class Searchbar(Gd.Revealer):
     @log
     def _search_entry_tag_button_clicked(self, entry, tag):
         tag.manager.reset_to_default()
-
-    @log
-    def prepare_search_filter(self, widget, data):
-        self.view = self.stack_switcher.get_stack().get_visible_child()
-        if self.view.header_bar._state == 0:
-            # album was selected on album view, view needs to be redefined
-            self.view = self.view._albumWidget
 
     @log
     def search_entry_timeout(self, widget):
@@ -260,17 +251,11 @@ class Searchbar(Gd.Revealer):
         }
 
         fields_filter = self.dropdown.searchFieldsManager.get_active()
+        search_term = self._search_entry.get_text()
 
-        self.search_term = self._search_entry.get_text()
-        if self.view:
-            self.view._model.clear()
-            # Check that current source can do Query
-            if grilo.search_source.supported_operations() & Grl.SupportedOps.QUERY:
-                query = query_matcher[self.view.__class__.__name__][fields_filter](self.search_term)
-                grilo.populate_custom_query(query, self.view._add_item)
-            else:
-                # nope, can't do - reverting to Search
-                grilo.search(self.search_term, self.view._add_item)
+        view = self.stack_switcher.get_stack().get_child_by_name('search')
+        self.stack_switcher.get_stack().set_visible_child(view)
+        view.set_search_text(search_term, fields_filter)
 
     @log
     def show_bar(self, show):
