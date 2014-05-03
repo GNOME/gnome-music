@@ -113,7 +113,7 @@ class Player(GObject.GObject):
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
-            print("The item %s doesn't have a URL set" % item)
+            logger.warn("The item %s doesn't have a URL set" % item)
             return
 
         obj = (callback, data)
@@ -159,13 +159,13 @@ class Player(GObject.GObject):
             uri = media.get_url()
         else:
             uri = 'none'
-            print('URI: ' + uri)
+        logger.warn('URI: ' + uri)
         error, debug = message.parse_error()
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        print('Error from element ' + message.src.get_name() + ': ' + error.message)
-        print('Debugging info:\n' + debug)
+        logger.warn('Error from element ' + message.src.get_name() + ': ' + error.message)
+        logger.warn('Debugging info:\n' + debug)
         self.play_next()
         return True
 
