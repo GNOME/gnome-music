@@ -214,8 +214,9 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _connect_view(self):
-        self.view.connect_after('draw', self._on_view_draw)
-        self.view.add_events(Gdk.EventMask.EXPOSURE_MASK)
+        if self.view.get_view_type() == Gd.MainViewType.ICON:
+            self.view.connect_after('draw', self._on_view_draw)
+            self.view.add_events(Gdk.EventMask.EXPOSURE_MASK)
 
     @log
     def _on_view_draw(self, widget, cr):
