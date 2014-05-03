@@ -550,10 +550,8 @@ class Query():
         nie:title(nmm:musicAlbum(?song)) AS album
         nfo:duration(?song) AS duration
     WHERE {
-        ?song a nmm:MusicPiece .
-        FILTER (
-            nie:url(?song) = "%(url)s"
-        )
+        ?song a nmm:MusicPiece ;
+              nie:url "%(url)s"
         FILTER (
             NOT EXISTS {
                 ?song a nmm:Video
