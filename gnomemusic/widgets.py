@@ -192,8 +192,7 @@ class AlbumWidget(Gtk.EventBox):
         else:
             self.duration = 0
             self._create_model()
-            GLib.idle_add(grilo.populate_album_songs, item.get_id(),
-                          self._on_populate_album_songs)
+            GLib.idle_add(grilo.populate_album_songs, item.get_id(), self.add_item)
         header_bar._select_button.connect(
             'toggled', self._on_header_select_button_toggled)
         header_bar._cancel_button.connect(
@@ -252,7 +251,7 @@ class AlbumWidget(Gtk.EventBox):
             self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
 
     @log
-    def _on_populate_album_songs(self, source, prefs, track, remaining):
+    def add_item(self, source, prefs, track, remaining, data=None):
         if track:
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
@@ -433,7 +432,7 @@ class AllArtistsAlbums(ArtistAlbums):
                           self._offset, self.add_item, -1)
 
     @log
-    def add_item(self, source, param, item, remaining=0):
+    def add_item(self, source, param, item, remaining=0, data=None):
         if item:
             self._offset += 1
             self.add_album(item)
@@ -465,8 +464,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 str(album.get_creation_date().get_year())
             )
         self.tracks = []
-        GLib.idle_add(grilo.populate_album_songs,
-                      album.get_id(), self.get_songs)
+        GLib.idle_add(grilo.populate_album_songs, album.get_id(), self.add_item)
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
         self.show_all()
 
@@ -481,7 +479,7 @@ class ArtistAlbumWidget(Gtk.HBox):
             song_widget.can_be_played = False
 
     @log
-    def get_songs(self, source, prefs, track, remaining):
+    def add_item(self, source, prefs, track, remaining, data=None):
         if track:
             self.tracks.append(track)
         else:

@@ -275,7 +275,7 @@ class ViewContainer(Gtk.Stack):
             self._model.set(_iter, [8, 10], [self.errorIconName, True])
 
     @log
-    def _add_item(self, source, param, item, remaining=0):
+    def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
             return
         self._offset += 1
@@ -407,7 +407,7 @@ class Albums(ViewContainer):
         self.albums_index += 1
 
     @log
-    def _add_selected_item(self, source, param, item, remaining=0):
+    def _add_selected_item(self, source, param, item, remaining=0, data=None):
         if item:
             self.items_selected.append(item.get_url())
         if remaining == 0:
@@ -463,7 +463,7 @@ class Songs(ViewContainer):
             self.iter_to_clean = currentIter.copy()
         return False
 
-    def _add_item(self, source, param, item, remaining=0):
+    def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
             return
         self._offset += 1
@@ -691,7 +691,7 @@ class Artists (ViewContainer):
         GLib.idle_add(self.artistAlbumsStack.set_visible_child, new_artistAlbumsWidget)
 
     @log
-    def _add_item(self, source, param, item, remaining=0):
+    def _add_item(self, source, param, item, remaining=0, data=None):
         if item is None:
             return
         self._offset += 1
@@ -753,7 +753,7 @@ class Artists (ViewContainer):
         self.albums_index += 1
 
     @log
-    def _add_selected_item(self, source, param, item, remaining=0):
+    def _add_selected_item(self, source, param, item, remaining=0, data=None):
         if item:
             self.items_selected.append(item.get_url())
         if remaining == 0:
@@ -1011,7 +1011,7 @@ class Playlist(ViewContainer):
             self._update_songs_count()
 
     @log
-    def _add_item(self, source, param, item, remaining=0):
+    def _add_item(self, source, param, item, remaining=0, data=None):
         self._add_item_to_model(item, self._model)
 
     @log

@@ -165,29 +165,28 @@ class Grilo(GObject.GObject):
         self.populate_items(Query.album_songs(album_id), 0, callback, count)
 
     @log
-    def populate_custom_query(self, query, callback, count=-1):
-        self.populate_items(query, 0, callback, count)
+    def populate_custom_query(self, query, callback, count=-1, data=None):
+        self.populate_items(query, 0, callback, count, data)
 
     @log
-    def populate_items(self, query, offset, callback, count=-1):
+    def populate_items(self, query, offset, callback, count=-1, data=None):
         options = self.options.copy()
         options.set_skip(offset)
         if count != -1:
             options.set_count(count)
 
-        def _callback(source, param, item, remaining, data, offset):
-            callback(source, param, item, remaining)
-        self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
+        def _callback(source, param, item, remaining, data, error):
+            callback(source, param, item, remaining, data)
+        self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
 
     @log
-    def search(self, q, callback):
+    def search(self, q, callback, data=None):
         options = self.options.copy()
 
         @log
-        def _search_callback(src, param, item, id, offset, data):
-            if item is not None:
-                callback(src, param, item)
-        self.search_source.search(q, self.METADATA_KEYS, options, _search_callback, None)
+        def _search_callback(source, param, item, remaining, data, error):
+            callback(source, param, item, remaining, data)
+        self.search_source.search(q, self.METADATA_KEYS, options, _search_callback, data)
 
     @log
     def get_media_from_uri(self, uri, callback):
