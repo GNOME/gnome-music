@@ -73,6 +73,9 @@ class Window(Gtk.ApplicationWindow):
         self.set_size_request(200, 100)
         self.set_icon_name('gnome-music')
 
+        self.prev_view = None
+        self.curr_view = None
+
         size_setting = self.settings.get_value('window-size')
         if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
             self.resize(size_setting[0], size_setting[1])
@@ -225,6 +228,10 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _switch_to_player_view(self):
+        self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
+        self.connect('destroy', self._notify_mode_disconnect)
+        self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
+
         self.views.append(Views.Albums(self, self.player))
         self.views.append(Views.Artists(self, self.player))
         self.views.append(Views.Songs(self, self.player))
@@ -240,10 +247,6 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.set_stack(self._stack)
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()
-
-        self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
-        self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
 
         self.views[0].populate()
 
@@ -322,12 +325,15 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_notify_mode(self, stack, param):
-        # Slide out artist list on switching to artists view
-        if stack.get_visible_child() == self.views[1] or \
-           stack.get_visible_child() == self.views[3]:
-            stack.get_visible_child().stack.set_visible_child_name('dummy')
-            stack.get_visible_child().stack.set_visible_child_name('sidebar')
-        if stack.get_visible_child() != self.views[4]:
+        self.prev_view = self.curr_view
+        self.curr_view = stack.get_visible_child()
+
+        # Slide out sidebar on switching to Artists or Playlists view
+        if self.curr_view == self.views[1] or \
+           self.curr_view == self.views[3]:
+            self.curr_view.stack.set_visible_child_name('dummy')
+            self.curr_view.stack.set_visible_child_name('sidebar')
+        if self.curr_view != self.views[4]:
             self.toolbar.searchbar.show_bar(False)
 
     @log
