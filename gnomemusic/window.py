@@ -218,18 +218,18 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _switch_to_empty_view(self):
-        self.views.append(Views.Empty(self.toolbar, self.player))
+        self.views.append(Views.Empty(self, self.player))
         self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
         self.toolbar._search_button.set_sensitive(False)
         self.toolbar._select_button.set_sensitive(False)
 
     @log
     def _switch_to_player_view(self):
-        self.views.append(Views.Albums(self.toolbar, self.selection_toolbar, self.player))
-        self.views.append(Views.Artists(self.toolbar, self.selection_toolbar, self.player))
-        self.views.append(Views.Songs(self.toolbar, self.selection_toolbar, self.player))
-        self.views.append(Views.Playlist(self.toolbar, self.selection_toolbar, self.player))
-        self.views.append(Views.Search(self.toolbar, self.selection_toolbar, self.player))
+        self.views.append(Views.Albums(self, self.player))
+        self.views.append(Views.Artists(self, self.player))
+        self.views.append(Views.Songs(self, self.player))
+        self.views.append(Views.Playlist(self, self.player))
+        self.views.append(Views.Search(self, self.player))
 
         for i in self.views:
             if i.title:
