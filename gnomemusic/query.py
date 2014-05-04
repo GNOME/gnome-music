@@ -30,7 +30,38 @@ from gi.repository import GLib, Tracker
 
 class Query():
 
-    ALBUMS = '''
+    @staticmethod
+    def all_albums():
+        return Query.albums('?album a nmm:MusicAlbum .')
+
+    @staticmethod
+    def all_artists():
+        return Query.artists('?album a nmm:MusicAlbum .')
+
+    @staticmethod
+    def all_songs():
+        return Query.songs('?song a nmm:MusicPiece ; a nfo:FileDataObject .')
+
+    SONGS_COUNT = '''
+    SELECT
+        COUNT(?song) AS childcount
+    WHERE {
+        ?song a nmm:MusicPiece ;
+              a nfo:FileDataObject
+        FILTER (
+            NOT EXISTS {
+                ?song a nmm:Video
+            } &&
+            NOT EXISTS {
+                ?song a nmm:Playlist
+            }
+        )
+    }
+    '''.replace('\n', ' ').strip()
+
+    @staticmethod
+    def albums(where_clause):
+        query = '''
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS id
@@ -112,7 +143,7 @@ class Query():
             LIMIT 1
         ) AS creation-date
         {
-            ?album a nmm:MusicAlbum .
+            %(where_clause)s
             FILTER (
                 EXISTS {
                     ?_3 nmm:musicAlbum ?album ;
@@ -129,9 +160,13 @@ class Query():
             )
         }
     ORDER BY fn:lower-case(?title) ?author ?albumyear
-    '''.replace('\n', ' ').strip()
+    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
 
-    ARTISTS = '''
+        return query
+
+    @staticmethod
+    def artists(where_clause):
+        query = '''
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS id
@@ -221,220 +256,19 @@ class Query():
             LIMIT 1
         ) AS creation-date
         {
-            ?album a nmm:MusicAlbum .
-            FILTER (
-                EXISTS {
-                    ?_3 nmm:musicAlbum ?album ;
-                        tracker:available 'true'
-                FILTER (
-                    NOT EXISTS {
-                        ?_3 a nmm:Video
-                    } &&
-                    NOT EXISTS {
-                        ?_3 a nmm:Playlist
-                    }
-                )
-                }
-            )
-        }
-    ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
-    '''.replace('\n', ' ').strip()
-
-    SONGS = '''
-    SELECT DISTINCT
-        rdf:type(?song)
-        tracker:id(?song) AS id
-        nie:url(?song) AS url
-        nie:title(?song) AS title
-        nmm:artistName(nmm:performer(?song)) AS artist
-        nie:title(nmm:musicAlbum(?song)) AS album
-        nfo:duration(?song) AS duration
-        {
-            ?song a nmm:MusicPiece ;
-                  a nfo:FileDataObject
-            FILTER (
-                NOT EXISTS {
-                    ?song a nmm:Video
-                } &&
-                NOT EXISTS {
-                    ?song a nmm:Playlist
-                }
-            )
-        }
-    ORDER BY tracker:added(?song)
-    '''.replace('\n', ' ').strip()
-
-    SONGS_COUNT = '''
-    SELECT
-        COUNT(?song) AS childcount
-    WHERE {
-        ?song a nmm:MusicPiece ;
-              a nfo:FileDataObject
-        FILTER (
-            NOT EXISTS {
-                ?song a nmm:Video
-            } &&
-            NOT EXISTS {
-                ?song a nmm:Playlist
-            }
-        )
-    }
-    '''.replace('\n', ' ').strip()
-
-    @staticmethod
-    def albums(where_clause):
-        query = '''
-    SELECT DISTINCT
-        rdf:type(?album)
-        tracker:id(?album) AS id
-        (
-            SELECT
-                nmm:artistName(?artist)
-            WHERE {
-                ?album nmm:albumArtist ?artist
-            }
-            LIMIT 1
-        ) AS artist
-        nie:title(?album) AS title
-        nie:title(?album) AS album
-        tracker:coalesce(
-            (
-                SELECT
-                    GROUP_CONCAT(
-                        nmm:artistName(?artist),
-                        ','
-                    )
-                WHERE {
-                    ?album nmm:albumArtist ?artist
-                }
-            ),
-            (
-                SELECT
-                    GROUP_CONCAT(
-                        (
-                            SELECT
-                                nmm:artistName(nmm:performer(?_12)) AS perf
-                            WHERE {
-                                ?_12 nmm:musicAlbum ?album
-                            }
-                            GROUP BY ?perf
-                        ),
-                        ','
-                    ) AS album_performer
-                WHERE {
-                }
-            )
-        ) AS author
-        xsd:integer(
-            tracker:coalesce(
-                nmm:albumTrackCount(?album),
-                (
-                    SELECT
-                        COUNT(?_1)
-                    WHERE {
-                        ?_1 nmm:musicAlbum ?album ;
-                            tracker:available 'true'
-                    }
-                )
-            )
-        ) AS childcount
-        (
-            SELECT
-                fn:year-from-dateTime(?c)
-            WHERE {
-                ?_2 nmm:musicAlbum ?album ;
-                    nie:contentCreated ?c ;
-                    tracker:available 'true'
-            }
-            LIMIT 1
-        ) AS creation-date
-        {
             %(where_clause)s
             FILTER (
                 EXISTS {
                     ?_3 nmm:musicAlbum ?album ;
                         tracker:available 'true'
-                }
-            )
-        }
-    ORDER BY fn:lower-case(?title) ?author ?albumyear
-    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
-
-        return query
-
-    @staticmethod
-    def artists(where_clause):
-        query = '''
-    SELECT DISTINCT
-        rdf:type(?album)
-        tracker:id(?album) AS id
-        (
-            SELECT
-                nmm:artistName(?artist)
-            WHERE {
-                ?album nmm:albumArtist ?artist
-            }
-            LIMIT 1
-        ) AS artist
-        nie:title(?album) AS title
-        nie:title(?album) AS album
-        tracker:coalesce(
-            (
-                SELECT
-                    GROUP_CONCAT(
-                        nmm:artistName(?artist),
-                        ','
+                    FILTER (
+                        NOT EXISTS {
+                            ?_3 a nmm:Video
+                        } &&
+                        NOT EXISTS {
+                            ?_3 a nmm:Playlist
+                        }
                     )
-                WHERE {
-                    ?album nmm:albumArtist ?artist
-                }
-            ),
-            (
-                SELECT
-                    GROUP_CONCAT(
-                        (
-                            SELECT
-                                nmm:artistName(nmm:performer(?_12)) AS perf
-                            WHERE {
-                                ?_12 nmm:musicAlbum ?album
-                            }
-                            GROUP BY ?perf
-                        ),
-                        ','
-                    ) AS album_performer
-                WHERE {
-                }
-            )
-        ) AS author
-        xsd:integer(
-            tracker:coalesce(
-                nmm:albumTrackCount(?album),
-                (
-                    SELECT
-                        COUNT(?_1)
-                    WHERE {
-                        ?_1 nmm:musicAlbum ?album ;
-                        tracker:available 'true'
-                    }
-                )
-            )
-        ) AS childcount
-        (
-            SELECT
-                fn:year-from-dateTime(?c)
-            WHERE {
-                ?_2 nmm:musicAlbum ?album ;
-                    nie:contentCreated ?c ;
-                    tracker:available 'true'
-            }
-            LIMIT 1
-        ) AS creation-date
-        {
-            %(where_clause)s
-            FILTER (
-                EXISTS {
-                    ?_3 nmm:musicAlbum ?album ;
-                        tracker:available 'true'
                 }
             )
         }
@@ -456,6 +290,14 @@ class Query():
         nfo:duration(?song) AS duration
         {
             %(where_clause)s
+            FILTER (
+                NOT EXISTS {
+                    ?song a nmm:Video
+                } &&
+                NOT EXISTS {
+                    ?song a nmm:Playlist
+                }
+            )
         }
     ORDER BY tracker:added(?song)
     '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
