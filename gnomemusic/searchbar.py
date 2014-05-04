@@ -268,6 +268,7 @@ class Searchbar(Gd.Revealer):
             self._search_entry.grab_focus()
         else:
             self._search_entry.set_text('')
+            self._dropDownButton.set_active(False)
 
     @log
     def toggle_bar(self):
