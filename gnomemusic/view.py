@@ -372,7 +372,7 @@ class Albums(ViewContainer):
         item = self._model.get_value(_iter, 5)
         self._albumWidget.update(artist, title, item,
                                  self.header_bar, self.selection_toolbar)
-        self.header_bar.set_state(0)
+        self.header_bar.set_state(ToolbarState.CHILD_VIEW)
         escaped_title = albumArtCache.get_media_title(item)
         self.header_bar.header_bar.set_title(escaped_title)
         self.header_bar.header_bar.sub_title = artist
@@ -385,7 +385,7 @@ class Albums(ViewContainer):
 
     @log
     def get_selected_track_uris(self, callback):
-        if self.header_bar._state == ToolbarState.SINGLE:
+        if self.header_bar._state == ToolbarState.CHILD_VIEW:
             uris = []
             for path in self._albumWidget.view.get_selection():
                 _iter = self._albumWidget.model.get_iter(path)

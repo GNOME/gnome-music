@@ -209,7 +209,7 @@ class Window(Gtk.ApplicationWindow):
         self.selection_toolbar._remove_from_playlist_button.connect(
             'clicked', self._on_remove_from_playlist_button_clicked)
 
-        self.toolbar.set_state(ToolbarState.ALBUMS)
+        self.toolbar.set_state(ToolbarState.MAIN)
         self.toolbar.header_bar.show()
         self._overlay.show()
         self.player.eventBox.show_all()
@@ -251,7 +251,7 @@ class Window(Gtk.ApplicationWindow):
     def _on_select_all(self, action, param):
         if self.toolbar._selectionMode is False:
             return
-        if self.toolbar._state != ToolbarState.SINGLE:
+        if self.toolbar._state == ToolbarState.MAIN:
             model = self._stack.get_visible_child()._model
         else:
             model = self._stack.get_visible_child()._albumWidget.model
@@ -272,7 +272,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_select_none(self, action, param):
-        if self.toolbar._state != ToolbarState.SINGLE:
+        if self.toolbar._state == ToolbarState.MAIN:
             model = self._stack.get_visible_child()._model
         else:
             model = self._stack.get_visible_child()._albumWidget.model

@@ -38,11 +38,9 @@ logger = logging.getLogger(__name__)
 
 
 class ToolbarState:
-    SINGLE = 0
-    ALBUMS = 1
-    ARTISTS = 2
-    PLAYLISTS = 3
-    SONGS = 4
+    MAIN = 0
+    CHILD_VIEW = 1
+    SEARCH_VIEW = 2
 
 
 class Toolbar(GObject.GObject):
@@ -126,7 +124,7 @@ class Toolbar(GObject.GObject):
     def on_back_button_clicked(self, widget):
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
-        self.set_state(ToolbarState.ALBUMS)
+        self.set_state(ToolbarState.MAIN)
 
     @log
     def set_state(self, state, btn=None):
@@ -136,12 +134,13 @@ class Toolbar(GObject.GObject):
 
     @log
     def _update(self):
-        if self._state == ToolbarState.SINGLE:
+        if self._state != ToolbarState.MAIN:
             self.header_bar.set_custom_title(None)
         elif self._selectionMode:
             self.header_bar.set_custom_title(self._selection_menu_button)
         else:
             self.reset_header_title()
 
-        self._back_button.set_visible(not self._selectionMode and self._state == ToolbarState.SINGLE)
+        self._search_button.set_visible(self._state != ToolbarState.SEARCH_VIEW)
+        self._back_button.set_visible(not self._selectionMode and self._state != ToolbarState.MAIN)
         self.header_bar.set_show_close_button(not self._selectionMode)
