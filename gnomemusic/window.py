@@ -343,6 +343,9 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_search_toggled(self, button, data=None):
         self.toolbar.searchbar.show_bar(button.get_active())
+        if not button.get_active() and self.curr_view == self.views[4] and \
+           self.toolbar._state == ToolbarState.MAIN:
+            self._stack.set_visible_child(self.prev_view)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):

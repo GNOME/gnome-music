@@ -1300,6 +1300,9 @@ class Search(ViewContainer):
         self.filter_model.set_visible_func(self._filter_visible_func)
         self.view.set_model(self.filter_model)
 
+        if search_term == "":
+            return
+
         albums_iter = self._model.insert_with_values(None, -1, [2], ['Albums'])
         artists_iter = self._model.insert_with_values(None, -1, [2], ['Artists'])
         songs_iter = self._model.insert_with_values(None, -1, [2], ['Songs'])
