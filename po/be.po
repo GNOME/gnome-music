@@ -1,19 +1,20 @@
 # Belarusian translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Ihar Hrachyshka <ihar.hrachyshka@gmail.com>, 2013.
+# Ihar Hrachyshka <ihar.hrachyshka@gmail.com>, 2013, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-09-17 14:20+0000\n"
+"POT-Creation-Date: 2014-03-21 14:38+0000\n"
 "PO-Revision-Date: 2013-09-17 14:20+0000\n"
 "Last-Translator: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>\n"
 "Language-Team: Belarusian <i18n-bel-gnome@googlegroups.com>\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
@@ -45,23 +46,29 @@ msgstr "Максімалізацыя акна."
 msgid "Playback repeat mode"
 msgstr "Рэжым паўтору прайгравання"
 
-#: ../data/org.gnome.Music.gschema.xml.h:8
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Значэнне ключа вызначае, ці трэба паўтараць або выпадкова прайграваць музычную калекцыю. Магчымыя значэнні: \"none\" (нічога), \"song\" (песня), \"all\" (усё) і \"shuffle\" (ператасаваць)."
+"Значэнне ключа вызначае, ці трэба паўтараць або выпадкова прайграваць "
+"музычную калекцыю. Магчымыя значэнні: \"none\" (паўтор і выпадковае прайграванне "
+"выключаныя), \"song\" (паўтор бягучай песні), \"all\" (паўтор спіса прайгравання без "
+"выпадковасці) і \"shuffle\" (ператасаванне спіса прайгравання з паўторам)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
 msgstr "Рэжым пошуку"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
 msgstr "Калі ўключана, паліца пошуку будзе паказана."
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Музыка"
@@ -82,7 +89,7 @@ msgstr "Музыка GNOME"
 msgid "Music is the new GNOME music playing application."
 msgstr "Гэта новы музычны прайгравальнік для GNOME."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
 msgid "Untitled"
 msgstr "Без назвы"
 
@@ -90,39 +97,54 @@ msgstr "Без назвы"
 msgid "Not playing"
 msgstr "Не грае"
 
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:228 ../gnomemusic/view.py:373
-#: ../gnomemusic/view.py:587
+#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
+#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
+#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
 msgid "Unknown Artist"
 msgstr "Невядомы выканаўца"
 
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:471
+#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
 msgid "Unknown Album"
 msgstr "Невядомы альбом"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:85
 #, python-format
 msgid "by %s, from %s"
 msgstr "выкананне %s, з альбома %s"
 
-#: ../gnomemusic/notification.py:130
+#: ../gnomemusic/notification.py:125
 msgid "Previous"
 msgstr "Раней"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:128
 msgid "Pause"
 msgstr "Прыпыніць"
 
-#: ../gnomemusic/notification.py:136
+#: ../gnomemusic/notification.py:131
 msgid "Play"
 msgstr "Зайграць"
 
-#: ../gnomemusic/notification.py:138
+#: ../gnomemusic/notification.py:133
 msgid "Next"
 msgstr "Далей"
 
-#: ../gnomemusic/view.py:290
+#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
+#: ../gnomemusic/window.py:244
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Выбрана %d песня"
+msgstr[1] "Выбрана %d песні"
+msgstr[2] "Выбрана %d песень"
+
+#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
+#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Каб вылучыць аб'екты, пстрыкайце ў іх"
+
+#: ../gnomemusic/view.py:322
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -131,36 +153,48 @@ msgstr ""
 "Музыка не знойдзена!\n"
 " Пакладзіце файлы з музыкай у папку %s"
 
-#: ../gnomemusic/view.py:297
+#: ../gnomemusic/view.py:329
 msgid "Albums"
 msgstr "Альбомы"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:402
 msgid "Songs"
 msgstr "Песні"
 
-#: ../gnomemusic/view.py:480
-msgid "Playlists"
-msgstr "Спісы прайгравання"
-
-#: ../gnomemusic/view.py:486
+#: ../gnomemusic/view.py:566
 msgid "Artists"
 msgstr "Выканаўцы"
 
-#: ../gnomemusic/view.py:522 ../gnomemusic/view.py:524
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Усе выканаўцы"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:743
+msgid "Playlists"
+msgstr "Спісы прайгравання"
+
+#: ../gnomemusic/view.py:1007
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d песня"
+msgstr[1] "%d песні"
+msgstr[2] "%d песень"
+
+#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
 msgid "Load More"
 msgstr "Паказаць больш"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:85
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: ../gnomemusic/window.py:138
+#: ../gnomemusic/widgets.py:670
+msgid "New Playlist"
+msgstr "Новы спіс прайгравання"
+
+#: ../gnomemusic/window.py:209
 msgid "Empty"
 msgstr "Пуста"
 
@@ -200,16 +234,27 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"Музыка GNOME з'яўляецца свабодным апраграмаваннем. Вы можаце распаўсюджваць гэту праграму згодна з умовамі Агульнай Грамадскай Ліцэнзіі GNU (GPL), апублікаванай Фондам свабоднага апраграмавання, версіі 2 ці любой пазнейшай.\n"
+"Музыка GNOME з'яўляецца свабодным апраграмаваннем. Вы можаце распаўсюджваць "
+"гэту праграму згодна з умовамі Агульнай Грамадскай Ліцэнзіі GNU (GPL), "
+"апублікаванай Фондам свабоднага апраграмавання, версіі 2 ці любой "
+"пазнейшай.\n"
 "\n"
-"Музыка GNOME распаўсюджваецца з надзеяй, што яна будзе карыснай, але без ніякіх гарантый, у тым ліку камерцыйнай вартасці праграмы і наогул яе карысці. Падрабязней глядзіце ў тэксце Агульнай Грамадскай Ліцэнзіі GNU (GPL).\n"
+"Музыка GNOME распаўсюджваецца з надзеяй, што яна будзе карыснай, але без "
+"ніякіх гарантый, у тым ліку камерцыйнай вартасці праграмы і наогул яе "
+"карысці. Падрабязней глядзіце ў тэксце Агульнай Грамадскай Ліцэнзіі GNU "
+"(GPL).\n"
 "\n"
-"Вы павінны былі атрымаць копію Агульнай Грамадскай Ліцэнзіі GNU (GPL) разам з гэтай праграмай. Калі вы не атрымалі яе, паведаміце пра гэта Фонду свабоднага апраграмавання на адрас: the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"Вы павінны былі атрымаць копію Агульнай Грамадскай Ліцэнзіі GNU (GPL) разам "
+"з гэтай праграмай. Калі вы не атрымалі яе, паведаміце пра гэта Фонду "
+"свабоднага апраграмавання на адрас: the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"Аўтары Музыкі GNOME даюць дазвол на распаўсюджванне плугінаў GStreamer, не сумяшчальных з GPL, разам з GStreamer і Музыкай GNOME. "
-"Гэты дазвол носіць дадатковы характар і дапаўняе правы, гарантаваныя ліцэнзіяй GPL, якая ахоўвае Музыку GNOME. "
-"Калі вы змяняеце гэты код, вы можаце распаўсюдзіць гэты дазвол на вашу версію коду, хаця вы і не абавязаны гэта рабіць. "
-"Калі вы не хочаце рабіць гэта, проста выдаліце тэкст гэтага дадатковага дазволу."
+"Аўтары Музыкі GNOME даюць дазвол на распаўсюджванне плугінаў GStreamer, не "
+"сумяшчальных з GPL, разам з GStreamer і Музыкай GNOME. Гэты дазвол носіць "
+"дадатковы характар і дапаўняе правы, гарантаваныя ліцэнзіяй GPL, якая "
+"ахоўвае Музыку GNOME. Калі вы змяняеце гэты код, вы можаце распаўсюдзіць "
+"гэты дазвол на вашу версію коду, хаця вы і не абавязаны гэта рабіць. Калі вы "
+"не хочаце рабіць гэта, проста выдаліце тэкст гэтага дадатковага дазволу."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -224,12 +269,12 @@ msgid "_New Playlist"
 msgstr "_Новы спіс прайгравання"
 
 #: ../data/app-menu.ui.h:2
-msgid "_Now Playing"
-msgstr "_Грае"
+msgid "_Help"
+msgstr "_Дапамога"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_Аб Музыцы"
+msgid "_About"
+msgstr "_Аб праграме"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -263,14 +308,31 @@ msgstr "Вылучыць усё"
 msgid "Select None"
 msgstr "Скасаваць вылучэнне"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Каб вылучыць аб'екты, пстрыкайце ў іх"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Скасаваць"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Дадаць у спіс прайгравання"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Выдаліць са спіса прайгравання"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Зайграць"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Выдаліць"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "Выбар спіса прайгравання"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "Выбраць"
+
