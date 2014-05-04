@@ -1172,13 +1172,33 @@ class Search(ViewContainer):
         self.head_iters = [None, None, None, None]
         self.songs_model = self._model
 
+        self._albumWidget = Widgets.AlbumWidget(player)
+        self.add(self._albumWidget)
+
         self.view.get_generic_view().set_show_expanders(False)
+
+    @log
+    def _back_button_clicked(self, widget, data=None):
+        self.window._stack.set_visible_child(self.window.prev_view)
+        self.set_visible_child(self._grid)
 
     @log
     def _on_item_activated(self, widget, id, path):
         child_path = self.filter_model.convert_path_to_child_path(path)
         _iter = self._model.get_iter(child_path)
-        if self._model[_iter][11] == 'song':
+        if self._model[_iter][11] == 'album':
+            title = self._model.get_value(_iter, 2)
+            artist = self._model.get_value(_iter, 3)
+            item = self._model.get_value(_iter, 5)
+            self._albumWidget.update(artist, title, item,
+                                     self.header_bar, self.selection_toolbar)
+            self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
+            escaped_title = albumArtCache.get_media_title(item)
+            self.header_bar.header_bar.set_title(escaped_title)
+            self.header_bar.header_bar.sub_title = artist
+            self.set_visible_child(self._albumWidget)
+            self.header_bar.searchbar.show_bar(False)
+        elif self._model[_iter][11] == 'song':
             if self._model.get_value(_iter, 8) != self.errorIconName:
                 child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5)
