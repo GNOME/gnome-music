@@ -1172,10 +1172,13 @@ class Search(ViewContainer):
         self.head_iters = [None, None, None, None]
         self.songs_model = self._model
 
+        self.albums_selected = []
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
 
         self.view.get_generic_view().set_show_expanders(False)
+        self.items_selected = []
+        self.items_selected_callback = None
 
     @log
     def _back_button_clicked(self, widget, data=None):
@@ -1273,7 +1276,53 @@ class Search(ViewContainer):
 
     @log
     def get_selected_track_uris(self, callback):
-        pass
+        if self.get_visible_child() == self._albumWidget:
+            uris = []
+            for path in self._albumWidget.view.get_selection():
+                _iter = self._albumWidget.model.get_iter(path)
+                uris.append(self._albumWidget.model.get_value(_iter, 5).get_url())
+            callback(uris)
+        else:
+            self.items_selected = []
+            self.items_selected_callback = callback
+            self._get_selected_albums()
+
+    @log
+    def _get_selected_albums(self):
+        self.albums_index = 0
+        self.albums_selected = [self._model[child_path][5]
+                                for child_path in [self.filter_model.convert_path_to_child_path(path)
+                                                   for path in self.view.get_selection()]
+                                if self._model[child_path][11] == 'album']
+        if len(self.albums_selected):
+            self._get_selected_albums_songs()
+        else:
+            self._get_selected_songs()
+
+    @log
+    def _get_selected_albums_songs(self):
+        grilo.populate_album_songs(
+            self.albums_selected[self.albums_index].get_id(),
+            self._add_selected_albums_songs)
+        self.albums_index += 1
+
+    @log
+    def _add_selected_albums_songs(self, source, param, item, remaining=0, data=None):
+        if item:
+            self.items_selected.append(item.get_url())
+        if remaining == 0:
+            if self.albums_index < len(self.albums_selected):
+                self._get_selected_albums_songs()
+            else:
+                self._get_selected_songs()
+
+    @log
+    def _get_selected_songs(self):
+        self.items_selected.extend([self._model[child_path][5].get_url()
+                                    for child_path in [self.filter_model.convert_path_to_child_path(path)
+                                                       for path in self.view.get_selection()]
+                                    if self._model[child_path][11] == 'song'])
+        self.items_selected_callback(self.items_selected)
 
     @log
     def _filter_visible_func(self, model, _iter, data=None):
