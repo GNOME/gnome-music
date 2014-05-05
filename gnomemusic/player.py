@@ -380,6 +380,8 @@ class Player(GObject.GObject):
         try:
             assert media.get_artist() is not None
             artist = media.get_artist()
+        except:
+            pass
         finally:
             self.artistLabel.set_label(artist)
 
