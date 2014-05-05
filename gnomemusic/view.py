@@ -1177,6 +1177,7 @@ class Search(ViewContainer):
         self.add(self._albumWidget)
 
         self._artists = {}
+        self._artistAlbumsWidget = None
 
         self.view.get_generic_view().set_show_expanders(False)
         self.items_selected = []
@@ -1184,6 +1185,9 @@ class Search(ViewContainer):
 
     @log
     def _back_button_clicked(self, widget, data=None):
+        if self.get_visible_child() == self._artistAlbumsWidget:
+            self._artistAlbumsWidget.destroy()
+            self._artistAlbumsWidget = None
         self.window._stack.set_visible_child(self.window.prev_view)
         self.set_visible_child(self._grid)
 
@@ -1202,6 +1206,17 @@ class Search(ViewContainer):
             self.header_bar.header_bar.set_title(escaped_title)
             self.header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._albumWidget)
+            self.header_bar.searchbar.show_bar(False)
+        elif self._model[_iter][11] == 'artist':
+            artist = self._model.get_value(_iter, 2)
+            albums = self._artists[artist.casefold()]['albums']
+
+            self._artistAlbumsWidget = Widgets.ArtistAlbums(artist, albums, self.player)
+            self.add(self._artistAlbumsWidget)
+
+            self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
+            self.header_bar.header_bar.set_title(artist)
+            self.set_visible_child(self._artistAlbumsWidget)
             self.header_bar.searchbar.show_bar(False)
         elif self._model[_iter][11] == 'song':
             if self._model.get_value(_iter, 8) != self.errorIconName:
