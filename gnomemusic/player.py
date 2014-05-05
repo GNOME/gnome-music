@@ -339,9 +339,17 @@ class Player(GObject.GObject):
 
     @log
     def _sync_playing(self):
-        image = self._pauseImage if self._get_playing() else self._playImage
+        if self._get_playing():
+            image = self._pauseImage
+            tooltip = _("Pause")
+        else:
+            image = self._playImage
+            tooltip = _("Play")
+
         if self.playBtn.get_image() != image:
             self.playBtn.set_image(image)
+
+        self.playBtn.set_tooltip_text(tooltip)
 
     @log
     def _sync_prev_next(self):
