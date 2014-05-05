@@ -1176,6 +1176,7 @@ class Search(ViewContainer):
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
 
+        self.artists_albums_selected = []
         self._artists = {}
         self._artistAlbumsWidget = None
 
@@ -1330,7 +1331,7 @@ class Search(ViewContainer):
         if len(self.albums_selected):
             self._get_selected_albums_songs()
         else:
-            self._get_selected_songs()
+            self._get_selected_artists()
 
     @log
     def _get_selected_albums_songs(self):
@@ -1346,6 +1347,40 @@ class Search(ViewContainer):
         if remaining == 0:
             if self.albums_index < len(self.albums_selected):
                 self._get_selected_albums_songs()
+            else:
+                self._get_selected_artists()
+
+    @log
+    def _get_selected_artists(self):
+        self.artists_albums_index = 0
+        self.artists_selected = [self._artists[self._model[child_path][2].casefold()]
+                                 for child_path in [self.filter_model.convert_path_to_child_path(path)
+                                                    for path in self.view.get_selection()]
+                                 if self._model[child_path][11] == 'artist']
+
+        self.artists_albums_selected = []
+        for artist in self.artists_selected:
+            self.artists_albums_selected.extend(artist['albums'])
+
+        if len(self.artists_albums_selected):
+            self._get_selected_artists_albums_songs()
+        else:
+            self._get_selected_songs()
+
+    @log
+    def _get_selected_artists_albums_songs(self):
+        grilo.populate_album_songs(
+            self.artists_albums_selected[self.artists_albums_index].get_id(),
+            self._add_selected_artists_albums_songs)
+        self.artists_albums_index += 1
+
+    @log
+    def _add_selected_artists_albums_songs(self, source, param, item, remaining=0, data=None):
+        if item:
+            self.items_selected.append(item.get_url())
+        if remaining == 0:
+            if self.artists_albums_index < len(self.artists_albums_selected):
+                self._get_selected_artists_albums_songs()
             else:
                 self._get_selected_songs()
 
