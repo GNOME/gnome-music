@@ -64,6 +64,7 @@
         <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
+        <property name="tooltip_text" translatable="yes">Search</property>
         <style>
           <class name="image-button"/>
         </style>
@@ -86,6 +87,7 @@
         <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
+        <property name="tooltip_text" translatable="yes">Select</property>
         <style>
           <class name="image-button"/>
         </style>
@@ -124,6 +126,7 @@
         <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
+        <property name="tooltip_text" translatable="yes">Back</property>
         <style>
               <class name="image-button"/>
         </style>
