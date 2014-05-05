@@ -26,7 +26,8 @@ class BaseManager:
     def fill_in_values(self, model):
         if self.id == "search":
             self.values = [
-                ["search_all", "All fields", self.label],
+                ["", "", self.label],
+                ["search_all", "All fields", ""],
                 ["search_artist", "Artist", ""],
                 ["search_album", "Album", ""],
                 ["search_track", "Track", ""],
@@ -34,7 +35,7 @@ class BaseManager:
         for value in self.values:
             _iter = model.append()
             model.set(_iter, [0, 1, 2], value)
-        self.selected_id = self.values[0][BaseModelColumns.ID]
+        self.selected_id = self.values[1][BaseModelColumns.ID]
 
     @log
     def get_active(self):
@@ -42,14 +43,17 @@ class BaseManager:
 
     @log
     def set_active(self, selected_id):
+        if selected_id == "":
+            return
+
         selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
         if selected_value != []:
             selected_value = selected_value[0]
             self.selected_id = selected_value[BaseModelColumns.ID]
 
-            # If selected values has non-empty HEADING_TEXT then it is a default value
+            # If selected values has first entry then it is a default value
             # No need to set the tag there
-            if selected_value[BaseModelColumns.HEADING_TEXT] == "":
+            if selected_value[BaseModelColumns.ID] != self.values[1][BaseModelColumns.ID]:
                 self.entry.add_tag(self.tag)
                 self.tag.set_label(selected_value[BaseModelColumns.NAME])
             else:
@@ -67,7 +71,8 @@ class SourceManager(BaseManager):
         if self.id == "source":
             # First one should always be 'Filesystem'
             src = grilo.sources['grl-filesystem']
-            self.values.append([src.get_id(), src.get_name(), self.label])
+            self.values.append(["", "", self.label])
+            self.values.append([src.get_id(), src.get_name(), ""])
             for key in grilo.sources:
                 source = grilo.sources[key]
                 if source.get_id() == 'grl-filesystem':
@@ -77,6 +82,9 @@ class SourceManager(BaseManager):
 
     @log
     def set_active(self, selected_id):
+        if selected_id == "":
+            return
+
         super(SourceManager, self).set_active(selected_id)
         src = grilo.sources[selected_id]
         grilo.search_source = src
@@ -99,6 +107,7 @@ class FilterView():
         self.view.set_headers_visible(False)
         self.view.set_enable_search(False)
         self.view.set_model(self.model)
+        self.view.get_selection().set_mode(Gtk.SelectionMode.NONE)
         self.view.connect("row-activated", self._row_activated)
 
         col = Gtk.TreeViewColumn()
@@ -111,12 +120,12 @@ class FilterView():
 
         self._rendererRadio = Gtk.CellRendererToggle(radio=True, mode=Gtk.CellRendererMode.INERT)
         col.pack_start(self._rendererRadio, False)
-        col.set_cell_data_func(self._rendererRadio, self._visibilityForHeading, [True, self._render_radio])
+        col.set_cell_data_func(self._rendererRadio, self._visibilityForHeading, [False, self._render_radio])
 
         self._rendererText = Gtk.CellRendererText()
         col.pack_start(self._rendererText, True)
         col.add_attribute(self._rendererText, 'text', BaseModelColumns.NAME)
-        col.set_cell_data_func(self._rendererText, self._visibilityForHeading, True)
+        col.set_cell_data_func(self._rendererText, self._visibilityForHeading, False)
 
         self.view.show()
 
@@ -137,7 +146,7 @@ class FilterView():
         if isinstance(additional_arguments, list):
             visible = additional_arguments[0]
             additionalFunc = additional_arguments[1]
-        cell.set_visible(visible)
+        cell.set_visible(visible == (model[_iter][BaseModelColumns.HEADING_TEXT] != ""))
         if additionalFunc:
             additionalFunc(col, cell, model, _iter)
 
