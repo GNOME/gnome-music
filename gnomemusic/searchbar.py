@@ -27,7 +27,7 @@ class BaseManager:
         if self.id == "search":
             self.values = [
                 ["", "", self.label],
-                ["search_all", "All fields", ""],
+                ["search_all", "All", ""],
                 ["search_artist", "Artist", ""],
                 ["search_album", "Album", ""],
                 ["search_track", "Track", ""],
@@ -171,7 +171,7 @@ class DropDown(Gd.Revealer):
         sourcesFilter = FilterView(self.sourcesManager, self)
         self._grid.add(sourcesFilter.view)
 
-        self.searchFieldsManager = BaseManager('search', "Search By", searchbar._search_entry)
+        self.searchFieldsManager = BaseManager('search', "Match", searchbar._search_entry)
         searchFieldsFilter = FilterView(self.searchFieldsManager, self)
         self._grid.add(searchFieldsFilter.view)
 
