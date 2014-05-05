@@ -229,6 +229,8 @@ class Searchbar(Gd.Revealer):
 
     @log
     def search_entry_changed(self, widget):
+        self.timeout = None
+
         query_matcher = {
             'Albums': {
                 'search_all': Query.get_albums_with_any_match,
@@ -258,6 +260,8 @@ class Searchbar(Gd.Revealer):
         if search_term != "":
             stack.set_visible_child(view)
         view.set_search_text(search_term, fields_filter)
+
+        return False
 
     @log
     def show_bar(self, show):
