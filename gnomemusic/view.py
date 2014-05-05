@@ -1176,6 +1176,8 @@ class Search(ViewContainer):
         self._albumWidget = Widgets.AlbumWidget(player)
         self.add(self._albumWidget)
 
+        self._artists = {}
+
         self.view.get_generic_view().set_show_expanders(False)
         self.items_selected = []
         self.items_selected_callback = None
@@ -1226,14 +1228,30 @@ class Search(ViewContainer):
                 1 if category == 'artist' else \
                 2 if category == 'song' else 3
 
-        _iter = self._model.insert_with_values(
-            self.head_iters[group], -1,
-            [0, 2, 3, 4, 5, 8, 9, 10, 11],
-            [str(item.get_id()), title, artist,
-            self._symbolicIcon, item, self.nowPlayingIconName, False, False, category])
-        albumArtCache.get_default().lookup(
-            item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-            _iter, artist, title)
+        _iter = None
+        if category == 'album' or category == 'song':
+            _iter = self._model.insert_with_values(
+                self.head_iters[group], -1,
+                [0, 2, 3, 4, 5, 8, 9, 10, 11],
+                [str(item.get_id()), title, artist,
+                self._symbolicIcon, item, self.nowPlayingIconName,
+                False, False, category])
+        else:
+            if not artist.casefold() in self._artists:
+                _iter = self._model.insert_with_values(
+                    self.head_iters[group], -1,
+                    [0, 2, 4, 5, 8, 9, 10, 11],
+                    [str(item.get_id()), artist,
+                    self._symbolicIcon, item, self.nowPlayingIconName,
+                    False, False, category])
+                self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
+
+            self._artists[artist.casefold()]['albums'].append(item)
+
+        if _iter:
+            albumArtCache.get_default().lookup(
+                item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                _iter, artist, title)
 
         if category == 'song':
             self.player.discover_item(item, self._on_discovered, _iter)
@@ -1368,6 +1386,8 @@ class Search(ViewContainer):
         self.filter_model = self._model.filter_new(None)
         self.filter_model.set_visible_func(self._filter_visible_func)
         self.view.set_model(self.filter_model)
+
+        self._artists = {}
 
         if search_term == "":
             return
