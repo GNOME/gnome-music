@@ -624,7 +624,7 @@ class Artists (ViewContainer):
         if not selection.get_selected()[1]:
             self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
             self._last_selection = self._allIter
-            self._artists[_("All Artists").lower()] =\
+            self._artists[_("All Artists").casefold()] =\
                 {'iter': self._allIter, 'albums': [], 'widget': None}
             selection.select_path(self._model.get_path(self._allIter))
             self.view.emit('item-activated', '0',
@@ -656,9 +656,9 @@ class Artists (ViewContainer):
         _iter = self._model.get_iter(path)
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
-        albums = self._artists[artist.lower()]['albums']
+        albums = self._artists[artist.casefold()]['albums']
 
-        widget = self._artists[artist.lower()]['widget']
+        widget = self._artists[artist.casefold()]['widget']
         if widget:
             if widget.model == self.player.running_playlist('Artist', widget.artist):
                 self._artistAlbumsWidget = widget.get_parent()
@@ -683,7 +683,7 @@ class Artists (ViewContainer):
             artistAlbums = Widgets.AllArtistsAlbums(self.player)
         else:
             artistAlbums = Widgets.ArtistAlbums(artist, albums, self.player)
-        self._artists[artist.lower()]['widget'] = artistAlbums
+        self._artists[artist.casefold()]['widget'] = artistAlbums
         new_artistAlbumsWidget.add(artistAlbums)
         new_artistAlbumsWidget.show()
 
@@ -699,11 +699,11 @@ class Artists (ViewContainer):
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
-        if not artist.lower() in self._artists:
+        if not artist.casefold() in self._artists:
             _iter = self._model.insert_with_valuesv(-1, [2], [artist])
-            self._artists[artist.lower()] = {'iter': _iter, 'albums': [], 'widget': None}
+            self._artists[artist.casefold()] = {'iter': _iter, 'albums': [], 'widget': None}
 
-        self._artists[artist.lower()]['albums'].append(item)
+        self._artists[artist.casefold()]['albums'].append(item)
 
     @log
     def populate(self):
@@ -738,7 +738,7 @@ class Artists (ViewContainer):
         for path in self.view.get_selection():
             _iter = self._model.get_iter(path)
             artist = self._model.get_value(_iter, 2)
-            albums = self._artists[artist.lower()]['albums']
+            albums = self._artists[artist.casefold()]['albums']
             if (self._model.get_string_from_iter(_iter) !=
                     self._model.get_string_from_iter(self._allIter)):
                 self.albums_selected.extend(albums)
