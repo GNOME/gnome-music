@@ -1,4 +1,5 @@
 from gi.repository import Gtk, Gd, GObject, Pango, GLib, Grl
+from gettext import gettext as _
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gnomemusic import log
@@ -26,11 +27,11 @@ class BaseManager:
     def fill_in_values(self, model):
         if self.id == "search":
             self.values = [
-                ["", "", self.label],
-                ["search_all", "All", ""],
-                ["search_artist", "Artist", ""],
-                ["search_album", "Album", ""],
-                ["search_track", "Track", ""],
+                ['', '', self.label],
+                ['search_all', _("All"), ''],
+                ['search_artist', _("Artist"), ''],
+                ['search_album', _("Album"), ''],
+                ['search_track', _("Track"), ''],
             ]
         for value in self.values:
             _iter = model.append()
