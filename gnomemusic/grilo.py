@@ -186,7 +186,14 @@ class Grilo(GObject.GObject):
         @log
         def _search_callback(source, param, item, remaining, data, error):
             callback(source, param, item, remaining, data)
-        self.search_source.search(q, self.METADATA_KEYS, options, _search_callback, data)
+        if self.search_source:
+            self.search_source.search(q, self.METADATA_KEYS, options,
+                                      _search_callback, data)
+        else:
+            Grl.multiple_search([self.sources[key] for key in self.sources
+                                 if key != 'grl-filesystem' and key != 'grl-tracker-source'],
+                                q, self.METADATA_KEYS, options,
+                                _search_callback, data)
 
     @log
     def get_media_from_uri(self, uri, callback):

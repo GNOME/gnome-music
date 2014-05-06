@@ -71,6 +71,7 @@ class SourceManager(BaseManager):
     def fill_in_values(self, model):
         if self.id == "source":
             self.values.append(['', '', self.label])
+            self.values.append(['all', _("All"), ""])
             self.values.append(['grl-tracker-source', _("Local"), ''])
             for key in grilo.sources:
                 source = grilo.sources[key]
@@ -86,7 +87,7 @@ class SourceManager(BaseManager):
             return
 
         super(SourceManager, self).set_active(selected_id)
-        src = grilo.sources[selected_id]
+        src = grilo.sources[selected_id] if selected_id != 'all' else None
         grilo.search_source = src
 
 

@@ -1451,10 +1451,12 @@ class Search(ViewContainer):
         self.songs_model = self._model.filter_new(self._model.get_path(songs_iter))
 
         # Use queries for Tracker
-        if grilo.search_source.get_id() == 'grl-tracker-source':
+        if not grilo.search_source or \
+           grilo.search_source.get_id() == 'grl-tracker-source':
             for category in ('album', 'artist', 'song'):
                 query = query_matcher[category][fields_filter](search_term)
                 grilo.populate_custom_query(query, self._add_item, -1, [self._model, category])
-        else:
+        if not grilo.search_source or \
+           grilo.search_source.get_id() != 'grl-tracker-source':
             # nope, can't do - reverting to Search
             grilo.search(search_term, self._add_item, [self._model, 'song'])
