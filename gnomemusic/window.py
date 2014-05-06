@@ -251,6 +251,20 @@ class Window(Gtk.ApplicationWindow):
         self.views[0].populate()
 
     @log
+    def _set_selection(self, model, value, parent=None):
+        count = 0
+        _iter = model.iter_children(parent)
+        while _iter is not None:
+            if model.iter_has_child(_iter):
+                count += self._set_selection(model, value, _iter)
+            if model[_iter][5]:
+                model.set(_iter, [6], [value])
+                count += 1
+            _iter = model.iter_next(_iter)
+        return count
+
+
+    @log
     def _on_select_all(self, action, param):
         if self.toolbar._selectionMode is False:
             return
@@ -258,12 +272,7 @@ class Window(Gtk.ApplicationWindow):
             model = self._stack.get_visible_child()._model
         else:
             model = self._stack.get_visible_child()._albumWidget.model
-        _iter = model.get_iter_first()
-        count = 0
-        while _iter is not None:
-            model.set(_iter, [6], [True])
-            _iter = model.iter_next(_iter)
-            count = count + 1
+        count = self._set_selection(model, True)
         if count > 0:
             self.toolbar._selection_menu_label.set_text(
                 ngettext("Selected %d item", "Selected %d items", count) % count)
@@ -279,12 +288,9 @@ class Window(Gtk.ApplicationWindow):
             model = self._stack.get_visible_child()._model
         else:
             model = self._stack.get_visible_child()._albumWidget.model
-        _iter = model.get_iter_first()
+        self._set_selection(model, False)
         self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
         self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
-        while _iter is not None:
-            model.set(_iter, [6], [False])
-            _iter = model.iter_next(_iter)
         self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
         self._stack.get_visible_child().queue_draw()
 
