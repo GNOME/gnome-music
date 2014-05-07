@@ -70,6 +70,7 @@ class Grilo(GObject.GObject):
                                     Grl.ResolutionFlags.IDLE_RELAY)
 
         self.sources = {}
+        self.blacklist = ['grl-filesystem', 'grl-bookmarks', 'grl-metadata-store', 'grl-podcasts']
         self.tracker = None
         self.changed_media_ids = []
         self.pending_event_id = 0
@@ -138,7 +139,8 @@ class Grilo(GObject.GObject):
                         self.tracker.notify_change_start()
                         self.tracker.connect('content-changed', self._on_content_changed)
             elif (mediaSource.supported_operations() & Grl.SupportedOps.SEARCH)\
-             and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+             and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO)\
+             and id not in self.blacklist:
                 logger.debug("source is searchable")
                 self.sources[id] = mediaSource
         except Exception as e:
@@ -191,7 +193,7 @@ class Grilo(GObject.GObject):
                                       _search_callback, data)
         else:
             Grl.multiple_search([self.sources[key] for key in self.sources
-                                 if key != 'grl-filesystem' and key != 'grl-tracker-source'],
+                                 if key != 'grl-tracker-source'],
                                 q, self.METADATA_KEYS, options,
                                 _search_callback, data)
 

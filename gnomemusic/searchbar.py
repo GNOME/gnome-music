@@ -75,8 +75,7 @@ class SourceManager(BaseManager):
             self.values.append(['grl-tracker-source', _("Local"), ''])
             for key in grilo.sources:
                 source = grilo.sources[key]
-                if source.get_id() == 'grl-filesystem' or \
-                   source.get_id() == 'grl-tracker-source':
+                if source.get_id() == 'grl-tracker-source':
                     continue
                 self.values.append([source.get_id(), source.get_name(), ""])
         super(SourceManager, self).fill_in_values(model)
