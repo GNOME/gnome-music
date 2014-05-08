@@ -1127,10 +1127,8 @@ class Playlist(ViewContainer):
 
                     self.iter_to_clean = None
                     # row.iter will give us next iter to start playing
-                    # convert it to filter iter
-                    row.iter = self.filter.convert_child_iter_to_iter(row.iter)[1]
-                    self.update_model(self.player, self.filter, row.iter)
-                    self.player.set_playlist('Playlist', name, self.filter, row.iter, 5)
+                    self.update_model(self.player, model, row.iter)
+                    self.player.set_playlist('Playlist', name, model, row.iter, 5)
                     self.player.set_playing(True)
 
                 # Update songs count
