@@ -404,7 +404,7 @@ class Albums(ViewContainer):
     @log
     def _get_selected_album_songs(self):
         grilo.populate_album_songs(
-            self.albums_selected[self.albums_index].get_id(),
+            self.albums_selected[self.albums_index],
             self._add_selected_item)
         self.albums_index += 1
 
@@ -759,7 +759,7 @@ class Artists (ViewContainer):
     @log
     def _get_selected_album_songs(self):
         grilo.populate_album_songs(
-            self.albums_selected[self.albums_index].get_id(),
+            self.albums_selected[self.albums_index],
             self._add_selected_item)
         self.albums_index += 1
 
@@ -1181,6 +1181,7 @@ class Search(ViewContainer):
         self.songs_model = self._model
 
         self.albums_selected = []
+        self._albums = {}
         self._albumWidget = Widgets.AlbumWidget(player)
         self._albumWidget.view.connect('selection-mode-request', self._on_selection_mode_request)
         self.add(self._albumWidget)
@@ -1242,6 +1243,31 @@ class Search(ViewContainer):
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.set_selection_mode(self.header_bar._selectionMode)
 
+    @log
+    def _add_search_item(self, source, param, item, remaining=0, data=None):
+        if not item or data != self._model:
+            return
+
+        artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
+            or item.get_author() \
+            or _("Unknown Artist")
+        album = item.get_string(Grl.METADATA_KEY_ALBUM) \
+            or _("Unknown Album")
+
+        key = '%s-%s' % (artist, album)
+        if not key in self._albums:
+            self._albums[key] = Grl.MediaBox()
+            self._albums[key].set_title(album)
+            self._albums[key].add_author(artist)
+            self._albums[key].set_source(source.get_id())
+            self._albums[key].tracks = []
+            self._add_item(source, None, self._albums[key], 0, [self._model, 'album'])
+            self._add_item(source, None, self._albums[key], 0, [self._model, 'artist'])
+
+        self._albums[key].tracks.append(item)
+        self._add_item(source, None, item, 0, [self._model, 'song'])
+
+    @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if data is None:
             return
@@ -1359,7 +1385,7 @@ class Search(ViewContainer):
     @log
     def _get_selected_albums_songs(self):
         grilo.populate_album_songs(
-            self.albums_selected[self.albums_index].get_id(),
+            self.albums_selected[self.albums_index],
             self._add_selected_albums_songs)
         self.albums_index += 1
 
@@ -1393,7 +1419,7 @@ class Search(ViewContainer):
     @log
     def _get_selected_artists_albums_songs(self):
         grilo.populate_album_songs(
-            self.artists_albums_selected[self.artists_albums_index].get_id(),
+            self.artists_albums_selected[self.artists_albums_index],
             self._add_selected_artists_albums_songs)
         self.artists_albums_index += 1
 
@@ -1460,6 +1486,7 @@ class Search(ViewContainer):
         self.filter_model.set_visible_func(self._filter_visible_func)
         self.view.set_model(self.filter_model)
 
+        self._albums = {}
         self._artists = {}
 
         if search_term == "":
@@ -1482,4 +1509,4 @@ class Search(ViewContainer):
         if not grilo.search_source or \
            grilo.search_source.get_id() != 'grl-tracker-source':
             # nope, can't do - reverting to Search
-            grilo.search(search_term, self._add_item, [self._model, 'song'])
+            grilo.search(search_term, self._add_search_item, self._model)

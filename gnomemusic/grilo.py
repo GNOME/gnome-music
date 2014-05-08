@@ -163,8 +163,15 @@ class Grilo(GObject.GObject):
         self.populate_items(Query.all_songs(), offset, callback, count)
 
     @log
-    def populate_album_songs(self, album_id, callback, count=-1):
-        self.populate_items(Query.album_songs(album_id), 0, callback, count)
+    def populate_album_songs(self, album, callback, count=-1):
+        if album.get_source() == 'grl-tracker-source':
+            self.populate_items(Query.album_songs(album.get_id()), 0, callback, count)
+        else:
+            source = self.sources[album.get_source()]
+            length = len(album.tracks)
+            for i, track in enumerate(album.tracks):
+                callback(source, None, track, length-(i+1), None)
+            callback(source, None, None, 0, None)
 
     @log
     def populate_custom_query(self, query, callback, count=-1, data=None):
