@@ -320,11 +320,14 @@ class AlbumWidget(Gtk.EventBox):
 class ArtistAlbums(Gtk.VBox):
 
     @log
-    def __init__(self, artist, albums, player):
+    def __init__(self, artist, albums, player, header_bar, selection_toolbar):
         Gtk.VBox.__init__(self)
         self.player = player
         self.artist = artist
         self.albums = albums
+        self.selectionMode = False
+        self.selection_toolbar = selection_toolbar
+        self.header_bar = header_bar
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumsWidget.ui')
         self.set_border_width(0)
@@ -415,12 +418,19 @@ class ArtistAlbums(Gtk.VBox):
             itr = self.model.iter_next(itr)
         return False
 
+    @log
+    def set_selection_mode(self, selectionMode):
+        self.selectionMode = selectionMode
+        for widget in self.widgets:
+            widget.set_selection_mode(selectionMode)
+
 
 class AllArtistsAlbums(ArtistAlbums):
 
     @log
-    def __init__(self, player):
-        ArtistAlbums.__init__(self, _("All Artists"), [], player)
+    def __init__(self, player, header_bar, selection_toolbar):
+        ArtistAlbums.__init__(self, _("All Artists"), [], player,
+                              header_bar, selection_toolbar)
         self._offset = 0
         self._populate()
 
@@ -446,6 +456,8 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.album = album
         self.artist = artist
         self.model = model
+        self.model.connect('row-changed', self._model_row_changed)
+        self.selectionMode = False
         self.songs = []
         self.monitors = []
         self.ui = Gtk.Builder()
@@ -503,6 +515,11 @@ class ArtistAlbumWidget(Gtk.HBox):
                 song_widget._iter = itr
                 song_widget.model = self.model
                 song_widget.title = ui.get_object('title')
+                song_widget.checkButton = ui.get_object('select')
+                song_widget.checkButton.set_visible(self.selectionMode)
+                song_widget.checkButton.connect(
+                    'toggled', self._check_button_toggled, song_widget
+                )
                 self.player.discover_item(track, self._on_discovered, song_widget)
                 g_file = Gio.file_new_for_uri(track.get_url())
                 self.monitors.append(g_file.monitor_file(Gio.FileMonitorFlags.NONE,
@@ -548,10 +565,36 @@ class ArtistAlbumWidget(Gtk.HBox):
         if not widget.can_be_played:
             return
 
+        if self.selectionMode:
+            self.model[widget._iter][6] = not self.model[widget._iter][6]
+            return
+
         self.player.stop()
         self.player.set_playlist('Artist', self.artist,
                                  widget.model, widget._iter, 5)
         self.player.set_playing(True)
+
+    @log
+    def set_selection_mode(self, selectionMode):
+        self.selectionMode = selectionMode
+        for songWidget in self.songs:
+            songWidget.checkButton.set_visible(selectionMode)
+            if not selectionMode:
+                songWidget.model[songWidget._iter][6] = False
+
+    @log
+    def _check_button_toggled(self, button, songWidget):
+        if songWidget.model[songWidget._iter][6] != button.get_active():
+            songWidget.model[songWidget._iter][6] = button.get_active()
+
+    @log
+    def _model_row_changed(self, model, path, _iter):
+        if not model[_iter][5]:
+            return
+        songWidget = model[_iter][5].song_widget
+        selected = model[_iter][6]
+        if selected != songWidget.checkButton.get_active():
+            songWidget.checkButton.set_active(selected)
 
 
 class PlaylistDialog():

@@ -680,9 +680,14 @@ class Artists (ViewContainer):
         artistAlbums = None
         if (self._model.get_string_from_iter(_iter) ==
                 self._model.get_string_from_iter(self._allIter)):
-            artistAlbums = Widgets.AllArtistsAlbums(self.player)
+            artistAlbums = Widgets.AllArtistsAlbums(
+                self.player, self.header_bar, self.selection_toolbar
+            )
         else:
-            artistAlbums = Widgets.ArtistAlbums(artist, albums, self.player)
+            artistAlbums = Widgets.ArtistAlbums(
+                artist, albums, self.player,
+                self.header_bar, self.selection_toolbar
+            )
         self._artists[artist.casefold()]['widget'] = artistAlbums
         new_artistAlbumsWidget.add(artistAlbums)
         new_artistAlbumsWidget.show()
@@ -1210,7 +1215,10 @@ class Search(ViewContainer):
             artist = self._model.get_value(_iter, 2)
             albums = self._artists[artist.casefold()]['albums']
 
-            self._artistAlbumsWidget = Widgets.ArtistAlbums(artist, albums, self.player)
+            self._artistAlbumsWidget = Widgets.ArtistAlbums(
+                artist, albums, self.player,
+                self.header_bar, self.selection_toolbar
+            )
             self.add(self._artistAlbumsWidget)
 
             self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
