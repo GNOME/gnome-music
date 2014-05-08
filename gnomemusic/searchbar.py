@@ -168,18 +168,24 @@ class DropDown(Gd.Revealer):
     @log
     def initialize_filters(self, searchbar):
         self.sourcesManager = SourceManager('source', "Sources", searchbar._search_entry)
-        sourcesFilter = FilterView(self.sourcesManager, self)
-        self._grid.add(sourcesFilter.view)
+        self.sourcesFilter = FilterView(self.sourcesManager, self)
+        self._grid.add(self.sourcesFilter.view)
 
         self.searchFieldsManager = BaseManager('search', "Match", searchbar._search_entry)
-        searchFieldsFilter = FilterView(self.searchFieldsManager, self)
-        self._grid.add(searchFieldsFilter.view)
+        self.searchFieldsFilter = FilterView(self.searchFieldsManager, self)
+        self._grid.add(self.searchFieldsFilter.view)
 
         self._grid.show_all()
+
+        self.searchFieldsFilter.view.set_sensitive(
+            self.sourcesManager.get_active() == 'grl-tracker-source'
+        )
 
     @log
     def do_select(self, manager, id):
         manager.set_active(id)
+        if manager == self.sourcesManager:
+            self.searchFieldsFilter.view.set_sensitive(id == 'grl-tracker-source')
 
 
 class Searchbar(Gd.Revealer):
@@ -261,8 +267,11 @@ class Searchbar(Gd.Revealer):
             },
         }
 
-        fields_filter = self.dropdown.searchFieldsManager.get_active()
         search_term = self._search_entry.get_text()
+        if grilo.search_source:
+            fields_filter = self.dropdown.searchFieldsManager.get_active()
+        else:
+            fields_filter = 'search_all'
 
         stack = self.stack_switcher.get_stack()
         view = stack.get_child_by_name('search')
