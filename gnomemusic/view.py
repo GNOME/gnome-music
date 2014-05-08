@@ -735,6 +735,10 @@ class Artists (ViewContainer):
                     self._last_selection)
 
     @log
+    def _on_selection_mode_changed(self, widget, data=None):
+        self.artistAlbumsStack.set_sensitive(not self.header_bar._selectionMode)
+
+    @log
     def get_selected_track_uris(self, callback):
         self.items_selected = []
         self.items_selected_callback = callback
