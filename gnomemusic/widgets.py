@@ -342,6 +342,7 @@ class ArtistAlbums(Gtk.VBox):
                                    GObject.TYPE_OBJECT,   # song object
                                    GObject.TYPE_BOOLEAN
                                    )
+        self.model.connect('row-changed', self._model_row_changed)
 
         self._hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._albumBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
@@ -423,6 +424,22 @@ class ArtistAlbums(Gtk.VBox):
         self.selectionMode = selectionMode
         for widget in self.widgets:
             widget.set_selection_mode(selectionMode)
+
+    @log
+    def _model_row_changed(self, model, path, _iter):
+        if not self.selectionMode:
+            return
+        selected_items = 0
+        for row in model:
+            if row[6]:
+                selected_items += 1
+        self.selection_toolbar\
+            ._add_to_playlist_button.set_sensitive(selected_items > 0)
+        if selected_items > 0:
+            self.header_bar._selection_menu_label.set_text(
+                ngettext("Selected %d item", "Selected %d items", selected_items) % selected_items)
+        else:
+            self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
 
 class AllArtistsAlbums(ArtistAlbums):
