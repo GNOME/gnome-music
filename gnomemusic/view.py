@@ -1231,6 +1231,11 @@ class Search(ViewContainer):
                 self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5)
                 self.player.set_playing(True)
 
+    @log
+    def _on_selection_mode_changed(self, widget, data=None):
+        if self.get_visible_child() == self._artistAlbumsWidget:
+            self._artistAlbumsWidget.set_selection_mode(self.header_bar._selectionMode)
+
     def _add_item(self, source, param, item, remaining=0, data=None):
         if data is None:
             return
@@ -1321,6 +1326,12 @@ class Search(ViewContainer):
             for path in self._albumWidget.view.get_selection():
                 _iter = self._albumWidget.model.get_iter(path)
                 uris.append(self._albumWidget.model.get_value(_iter, 5).get_url())
+            callback(uris)
+        elif self.get_visible_child() == self._artistAlbumsWidget:
+            uris = []
+            for row in self._artistAlbumsWidget.model:
+                if row[6]:
+                    uris.append(row[5].get_url())
             callback(uris)
         else:
             self.items_selected = []
