@@ -321,12 +321,14 @@ class AlbumWidget(Gtk.EventBox):
 class ArtistAlbums(Gtk.VBox):
 
     @log
-    def __init__(self, artist, albums, player, header_bar, selection_toolbar):
+    def __init__(self, artist, albums, player,
+                 header_bar, selection_toolbar, selectionModeAllowed=False):
         Gtk.VBox.__init__(self)
         self.player = player
         self.artist = artist
         self.albums = albums
         self.selectionMode = False
+        self.selectionModeAllowed = selectionModeAllowed
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
         self.ui = Gtk.Builder()
@@ -366,7 +368,10 @@ class ArtistAlbums(Gtk.VBox):
 
     @log
     def add_album(self, album):
-        widget = ArtistAlbumWidget(self.artist, album, self.player, self.model, self.header_bar)
+        widget = ArtistAlbumWidget(
+            self.artist, album, self.player, self.model,
+            self.header_bar, self.selectionModeAllowed
+        )
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -446,9 +451,9 @@ class ArtistAlbums(Gtk.VBox):
 class AllArtistsAlbums(ArtistAlbums):
 
     @log
-    def __init__(self, player, header_bar, selection_toolbar):
+    def __init__(self, player, header_bar, selection_toolbar, selectionModeAllowed=False):
         ArtistAlbums.__init__(self, _("All Artists"), [], player,
-                              header_bar, selection_toolbar)
+                              header_bar, selection_toolbar, selectionModeAllowed)
         self._offset = 0
         self._populate()
 
@@ -468,7 +473,7 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.HBox):
 
     @log
-    def __init__(self, artist, album, player, model, header_bar):
+    def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
         super(Gtk.HBox, self).__init__()
         self.player = player
         self.album = album
@@ -477,6 +482,7 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.model.connect('row-changed', self._model_row_changed)
         self.header_bar = header_bar
         self.selectionMode = False
+        self.selectionModeAllowed = selectionModeAllowed
         self.songs = []
         self.monitors = []
         self.ui = Gtk.Builder()
@@ -587,7 +593,10 @@ class ArtistAlbumWidget(Gtk.HBox):
         if not self.selectionMode and \
            (event.button == Gdk.BUTTON_SECONDARY or \
             (event.button == 1 and event.state & Gdk.ModifierType.CONTROL_MASK)):
-           self.header_bar._select_button.set_active(True)
+            if self.selectionModeAllowed:
+                self.header_bar._select_button.set_active(True)
+            else:
+                return
 
         if self.selectionMode:
             self.model[widget._iter][6] = not self.model[widget._iter][6]

@@ -1224,7 +1224,7 @@ class Search(ViewContainer):
 
             self._artistAlbumsWidget = Widgets.ArtistAlbums(
                 artist, albums, self.player,
-                self.header_bar, self.selection_toolbar
+                self.header_bar, self.selection_toolbar, True
             )
             self.add(self._artistAlbumsWidget)
 
