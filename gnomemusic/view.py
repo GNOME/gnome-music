@@ -1095,10 +1095,10 @@ class Playlist(ViewContainer):
 
     @log
     def _on_song_removed_from_playlist(self, playlists, name, uri):
+        cached_playlist = self.player.running_playlist('Playlist', name)
         if name == self.current_playlist:
             model = self._model
         else:
-            cached_playlist = self.player.running_playlist('Playlist', name)
             if cached_playlist and cached_playlist != self._model:
                 model = cached_playlist
             else:
@@ -1108,7 +1108,7 @@ class Playlist(ViewContainer):
         for row in model:
             if row[5].get_url() == uri:
                 # Is the removed track now being played?
-                if name == self.current_playlist:
+                if name == self.current_playlist and cached_playlist == model:
                     if self.player.currentTrack is not None:
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:
