@@ -31,7 +31,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gd, GLib, GObject, Pango
+from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango
 from gi.repository import GdkPixbuf, Gio, Grl
 from gi.repository import Tracker
 from gettext import gettext as _, ngettext
@@ -101,6 +101,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_item_activated(self, widget, id, path):
         _iter = self.model.get_iter(path)
+
         if(self.model.get_value(_iter, 7) != ERROR_ICON_NAME):
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
@@ -365,7 +366,7 @@ class ArtistAlbums(Gtk.VBox):
 
     @log
     def add_album(self, album):
-        widget = ArtistAlbumWidget(self.artist, album, self.player, self.model)
+        widget = ArtistAlbumWidget(self.artist, album, self.player, self.model, self.header_bar)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -467,13 +468,14 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.HBox):
 
     @log
-    def __init__(self, artist, album, player, model):
+    def __init__(self, artist, album, player, model, header_bar):
         super(Gtk.HBox, self).__init__()
         self.player = player
         self.album = album
         self.artist = artist
         self.model = model
         self.model.connect('row-changed', self._model_row_changed)
+        self.header_bar = header_bar
         self.selectionMode = False
         self.songs = []
         self.monitors = []
@@ -578,9 +580,14 @@ class ArtistAlbumWidget(Gtk.HBox):
             self.ui.get_object('cover').set_from_pixbuf(pixbuf)
 
     @log
-    def track_selected(self, widget, _iter):
+    def track_selected(self, widget, event):
         if not widget.can_be_played:
             return
+
+        if not self.selectionMode and \
+           (event.button == Gdk.BUTTON_SECONDARY or \
+            (event.button == 1 and event.state & Gdk.ModifierType.CONTROL_MASK)):
+           self.header_bar._select_button.set_active(True)
 
         if self.selectionMode:
             self.model[widget._iter][6] = not self.model[widget._iter][6]
