@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-06 22:13+0200\n"
-"PO-Revision-Date: 2013-09-15 11:08+0100\n"
+"POT-Creation-Date: 2014-05-09 00:22+0200\n"
+"PO-Revision-Date: 2014-03-01 09:00+0100\n"
 "Last-Translator: Pau Iranzo <paugnu@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca-XV\n"
@@ -49,7 +49,6 @@ msgstr "Mode de repetició de la reproducció"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#, fuzzy
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -57,8 +56,11 @@ msgid ""
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "El valor estableix si es reprodueix la col·lecció en mode de repetició o "
-"aleatori. Els valors que s'accepten són: «none» (cap), «song» (cançó), "
-"«all» (tot) i «shuffle» (aleatori)."
+"aleatori. Els valors que s'accepten són: «none» (cap, ni es repeteix ni es "
+"reprodueix aleatòriament), «song» (cançó, es repeteix la cançó actual), "
+"«all» (tot, repeteix la llista de reproducció, no es reprodueix "
+"aleatòriament) i «shuffle» (reprodueix aleatòriament la llista, se suposa "
+"que es repeteixen totes)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -68,8 +70,8 @@ msgstr "Mode de cerca"
 msgid "If true, the search bar is shown."
 msgstr "Si és cert, es mostra la barra de cerca."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:67
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Música"
@@ -90,47 +92,63 @@ msgstr "GNOME Music"
 msgid "Music is the new GNOME music playing application."
 msgstr "El Music és la nova aplicació de reproducció de música del GNOME."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:251 ../gnomemusic/albumArtCache.py:259
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: ../gnomemusic/notification.py:70
-msgid "Not playing"
-msgstr "No s'està reproduint"
-
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:349
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
-msgid "Unknown Artist"
-msgstr "Artista desconegut"
-
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:89
+#: ../gnomemusic/view.py:599 ../gnomemusic/view.py:976
 msgid "Unknown Album"
 msgstr "Àlbum desconegut"
 
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:87
+#: ../gnomemusic/player.py:389 ../gnomemusic/view.py:279
+#: ../gnomemusic/view.py:500 ../gnomemusic/view.py:738
+#: ../gnomemusic/view.py:1067
+msgid "Unknown Artist"
+msgstr "Artista desconegut"
+
+#: ../gnomemusic/notification.py:78
+msgid "Not playing"
+msgstr "No s'està reproduint"
+
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:93
 #, python-format
 msgid "by %s, from %s"
 msgstr "per %s, a %s"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:135
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:138
 msgid "Pause"
 msgstr "Fes una pausa"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:141
 msgid "Play"
 msgstr "Reprodueix"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:143
 msgid "Next"
 msgstr "Següent"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/view.py:215 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/window.py:267
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d element seleccionat"
+msgstr[1] "%d elements seleccionats"
+
+#: ../gnomemusic/view.py:217 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/window.py:271 ../gnomemusic/window.py:286
+#: ../data/headerbar.ui.in.h:3
+msgid "Click on items to select them"
+msgstr "Feu clic als elements per seleccionar-los"
+
+#: ../gnomemusic/view.py:356
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -139,36 +157,47 @@ msgstr ""
 "No s'ha trobat música\n"
 " Copieu alguns fitxers a la carpeta: %s"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:364
 msgid "Albums"
 msgstr "Àlbums"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:444
 msgid "Songs"
 msgstr "Cançons"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "Llistes de reproducció"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:615
 msgid "Artists"
 msgstr "Artistes"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:661 ../gnomemusic/view.py:663
+#: ../gnomemusic/widgets.py:484
 msgid "All Artists"
 msgstr "Tots els artistes"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
+#: ../gnomemusic/view.py:811
+msgid "Playlists"
+msgstr "Llistes de reproducció"
+
+#: ../gnomemusic/view.py:1085
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d cançó"
+msgstr[1] "%d cançons"
+
+#: ../gnomemusic/widgets.py:86 ../gnomemusic/widgets.py:108
 msgid "Load More"
 msgstr "Carrega'n més"
 
-#: ../gnomemusic/widgets.py:83
+#: ../gnomemusic/widgets.py:97
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: ../gnomemusic/window.py:165
+#: ../gnomemusic/widgets.py:720
+msgid "New Playlist"
+msgstr "Llista de reproducció nova"
+
+#: ../gnomemusic/window.py:228
 msgid "Empty"
 msgstr "Buit"
 
@@ -242,13 +271,12 @@ msgid "_New Playlist"
 msgstr "_Llista de reproducció nova"
 
 #: ../data/app-menu.ui.h:2
-#, fuzzy
-msgid "Now _Playing"
-msgstr "_S'està reproduint"
+msgid "_Help"
+msgstr "_Ajuda"
 
 #: ../data/app-menu.ui.h:3
-msgid "_About Music"
-msgstr "_En quant al Music"
+msgid "_About"
+msgstr "_Quant a"
 
 #: ../data/app-menu.ui.h:4
 msgid "_Quit"
@@ -282,14 +310,30 @@ msgstr "Selecciona-ho tot"
 msgid "Select None"
 msgstr "No en seleccionis cap"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "Feu clic als elements per seleccionar-los"
-
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
 msgid "Cancel"
 msgstr "Cancel·la"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Afig a la llista de reproducció"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Elimina de la llista de reproducció"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Reprodueix"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Suprimeix"
+
+#: ../data/PlaylistDialog.ui.in.h:1
+msgid "Select Playlist"
+msgstr "Seleccioneu una llista de reproducció"
+
+#: ../data/PlaylistDialog.ui.in.h:3
+msgid "Select"
+msgstr "Selecciona"
