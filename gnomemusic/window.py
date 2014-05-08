@@ -271,7 +271,7 @@ class Window(Gtk.ApplicationWindow):
         if self.toolbar._state == ToolbarState.MAIN:
             model = self._stack.get_visible_child()._model
         else:
-            model = self._stack.get_visible_child()._albumWidget.model
+            model = self._stack.get_visible_child().get_visible_child().model
         count = self._set_selection(model, True)
         if count > 0:
             self.toolbar._selection_menu_label.set_text(
@@ -287,7 +287,7 @@ class Window(Gtk.ApplicationWindow):
         if self.toolbar._state == ToolbarState.MAIN:
             model = self._stack.get_visible_child()._model
         else:
-            model = self._stack.get_visible_child()._albumWidget.model
+            model = self._stack.get_visible_child().get_visible_child().model
         self._set_selection(model, False)
         self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
         self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
