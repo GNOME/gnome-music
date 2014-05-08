@@ -134,10 +134,10 @@ class Toolbar(GObject.GObject):
 
     @log
     def _update(self):
-        if self._state != ToolbarState.MAIN:
-            self.header_bar.set_custom_title(None)
-        elif self._selectionMode:
+        if self._selectionMode:
             self.header_bar.set_custom_title(self._selection_menu_button)
+        elif self._state != ToolbarState.MAIN:
+            self.header_bar.set_custom_title(None)
         else:
             self.reset_header_title()
 
