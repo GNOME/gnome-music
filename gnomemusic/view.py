@@ -347,6 +347,7 @@ class Albums(ViewContainer):
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'albums', _("Albums"), window, Gd.MainViewType.ICON)
         self._albumWidget = Widgets.AlbumWidget(player)
+        self._albumWidget.view.connect('selection-mode-request', self._on_selection_mode_request)
         self.player = player
         self.add(self._albumWidget)
         self.albums_selected = []
@@ -1177,6 +1178,7 @@ class Search(ViewContainer):
 
         self.albums_selected = []
         self._albumWidget = Widgets.AlbumWidget(player)
+        self._albumWidget.view.connect('selection-mode-request', self._on_selection_mode_request)
         self.add(self._albumWidget)
 
         self.artists_albums_selected = []
