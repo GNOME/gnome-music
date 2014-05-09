@@ -1237,6 +1237,11 @@ class Search(ViewContainer):
                 child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5)
                 self.player.set_playing(True)
+        else: # Headers
+            if self.view.get_generic_view().row_expanded(path):
+                self.view.get_generic_view().collapse_row(path)
+            else:
+                self.view.get_generic_view().expand_row(path, False)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -1315,7 +1320,9 @@ class Search(ViewContainer):
         if category == 'song':
             self.player.discover_item(item, self._on_discovered, _iter)
 
-        self.view.get_generic_view().expand_all()
+        if self._model.iter_n_children(self.head_iters[group]) == 1:
+            path = self._model.get_path(self.head_iters[group])
+            self.view.get_generic_view().expand_row(path, False)
 
     @log
     def _add_list_renderers(self):
