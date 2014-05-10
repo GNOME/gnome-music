@@ -45,6 +45,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_ARTIST, Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_CREATION_DATE,
+        Grl.METADATA_KEY_URL,
         Grl.METADATA_KEY_THUMBNAIL]
 
     METADATA_THUMBNAIL_KEYS = [
@@ -206,7 +207,10 @@ class Grilo(GObject.GObject):
         @log
         def _search_callback(source, param, item, remaining, data, error):
             callback(source, param, item, remaining, data)
+
         if self.search_source:
+            if self.search_source.get_id().startswith('grl-upnp'):
+                options.set_type_filter(Grl.TypeFilter.AUDIO)
             self.search_source.search(q, self.METADATA_KEYS, options,
                                       _search_callback, data)
         else:
