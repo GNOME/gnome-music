@@ -36,7 +36,8 @@ class Grilo(GObject.GObject):
 
     __gsignals__ = {
         'ready': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'changes-pending': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'changes-pending': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'new-source-added': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Source, ))
     }
 
     METADATA_KEYS = [
@@ -74,8 +75,10 @@ class Grilo(GObject.GObject):
         self.tracker = None
         self.changed_media_ids = []
         self.pending_event_id = 0
-
         self.registry = Grl.Registry.get_default()
+
+    @log
+    def _find_sources(self):
         self.registry.connect('source_added', self._on_source_added)
         self.registry.connect('source_removed', self._on_source_removed)
 
@@ -126,8 +129,9 @@ class Grilo(GObject.GObject):
         id = mediaSource.get_id()
         logger.debug("new grilo source %s was added" % id)
         try:
+            ops = mediaSource.supported_operations()
+
             if id == 'grl-tracker-source':
-                ops = mediaSource.supported_operations()
                 if ops & Grl.SupportedOps.SEARCH:
                     logger.debug("found searchable tracker source")
                     self.sources[id] = mediaSource
@@ -138,11 +142,18 @@ class Grilo(GObject.GObject):
                         self.emit('ready')
                         self.tracker.notify_change_start()
                         self.tracker.connect('content-changed', self._on_content_changed)
-            elif (mediaSource.supported_operations() & Grl.SupportedOps.SEARCH)\
-             and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO)\
-             and id not in self.blacklist:
-                logger.debug("source is searchable")
+
+            elif (id.startswith('grl-upnp')):
+                logger.debug("found upnp source %s" % id)
                 self.sources[id] = mediaSource
+                self.emit('new-source-added', mediaSource)
+
+            elif (id not in self.blacklist) and (ops & Grl.SupportedOps.SEARCH)\
+             and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+                logger.debug("source %s is searchable" % id)
+                self.sources[id] = mediaSource
+                self.emit('new-source-added', mediaSource)
+
         except Exception as e:
             logger.debug("Source %s: exception %s" % (id, e))
 

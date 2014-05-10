@@ -1,7 +1,6 @@
-from gi.repository import Gtk, Gd, GObject, Pango, GLib, Grl
+from gi.repository import Gtk, Gd, GObject, Pango, GLib
 from gettext import gettext as _
 from gnomemusic.grilo import grilo
-from gnomemusic.query import Query
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -68,17 +67,23 @@ class BaseManager:
 class SourceManager(BaseManager):
 
     @log
+    def __init__(self, id, label, entry):
+        super(SourceManager, self).__init__(id, label, entry)
+        self.values.append(['', '', self.label])
+        self.values.append(['all', _("All"), ""])
+        self.values.append(['grl-tracker-source', _("Local"), ''])
+
+    @log
     def fill_in_values(self, model):
-        if self.id == "source":
-            self.values.append(['', '', self.label])
-            self.values.append(['all', _("All"), ""])
-            self.values.append(['grl-tracker-source', _("Local"), ''])
-            for key in grilo.sources:
-                source = grilo.sources[key]
-                if source.get_id() == 'grl-tracker-source':
-                    continue
-                self.values.append([source.get_id(), source.get_name(), ""])
+        self.model = model
         super(SourceManager, self).fill_in_values(model)
+
+    @log
+    def add_new_source(self, klass, source):
+        value = [source.get_id(), source.get_name(), '']
+        _iter = self.model.append()
+        self.model.set(_iter, [0, 1, 2], value)
+        self.values.append(value)
 
     @log
     def set_active(self, selected_id):
@@ -171,6 +176,9 @@ class DropDown(Gd.Revealer):
         self.sourcesFilter = FilterView(self.sourcesManager, self)
         self._grid.add(self.sourcesFilter.view)
 
+        grilo.connect('new-source-added', self.sourcesManager.add_new_source)
+        grilo._find_sources()
+
         self.searchFieldsManager = BaseManager('search', "Match", searchbar._search_entry)
         self.searchFieldsFilter = FilterView(self.searchFieldsManager, self)
         self._grid.add(self.searchFieldsFilter.view)
@@ -245,27 +253,6 @@ class Searchbar(Gd.Revealer):
     @log
     def search_entry_changed(self, widget):
         self.timeout = None
-
-        query_matcher = {
-            'Albums': {
-                'search_all': Query.get_albums_with_any_match,
-                'search_artist': Query.get_albums_with_artist_match,
-                'search_album': Query.get_albums_with_album_match,
-                'search_track': Query.get_albums_with_track_match,
-            },
-            'Artists': {
-                'search_all': Query.get_artists_with_any_match,
-                'search_artist': Query.get_artists_with_artist_match,
-                'search_album': Query.get_artists_with_album_match,
-                'search_track': Query.get_artists_with_track_match,
-            },
-            'Songs': {
-                'search_all': Query.get_songs_with_any_match,
-                'search_artist': Query.get_songs_with_artist_match,
-                'search_album': Query.get_songs_with_album_match,
-                'search_track': Query.get_songs_with_track_match,
-            },
-        }
 
         search_term = self._search_entry.get_text()
         if grilo.search_source:
