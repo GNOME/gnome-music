@@ -1,3 +1,9 @@
+Overview of changes in 3.12.2.1
+=============================
+
+* Reverted a fix for bug 725949 as it causes a string change
+
+
 Overview of changes in 3.12.2
 =============================
 
