@@ -242,7 +242,7 @@ class Searchbar(Gd.Revealer):
 
     @log
     def _search_entry_tag_button_clicked(self, entry, tag):
-        tag.manager.reset_to_default()
+        tag.manager.set_active(tag.manager.values[1][BaseModelColumns.ID])
 
     @log
     def search_entry_timeout(self, widget):
