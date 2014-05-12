@@ -29,6 +29,12 @@ from gi.repository import GLib, Tracker
 
 
 class Query():
+    MUSIC_DIR = Tracker.sparql_escape_string(GLib.filename_to_uri(
+        GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+    ))
+    DOWNLOAD_DIR = Tracker.sparql_escape_string(GLib.filename_to_uri(
+        GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+    ))
 
     @staticmethod
     def all_albums():
@@ -42,12 +48,22 @@ class Query():
     def all_songs():
         return Query.songs('?song a nmm:MusicPiece ; a nfo:FileDataObject .')
 
-    SONGS_COUNT = '''
+    @staticmethod
+    def all_songs_count():
+        query = '''
     SELECT
         COUNT(?song) AS childcount
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject
+        FILTER (
+            tracker:uri-is-descendant(
+                '%(music_dir)s', nie:url(?song)
+            ) ||
+            tracker:uri-is-descendant(
+                '%(download_dir)s', nie:url(?song)
+            )
+        )
         FILTER (
             NOT EXISTS {
                 ?song a nmm:Video
@@ -57,7 +73,12 @@ class Query():
             }
         )
     }
-    '''.replace('\n', ' ').strip()
+    '''.replace('\n', ' ').strip() % {
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
+
+        return query
 
     @staticmethod
     def albums(where_clause):
@@ -113,6 +134,14 @@ class Query():
                         ?_1 nmm:musicAlbum ?album ;
                             tracker:available 'true'
                         FILTER (
+                            tracker:uri-is-descendant(
+                                '%(music_dir)s', nie:url(?_1)
+                            ) ||
+                            tracker:uri-is-descendant(
+                                '%(download_dir)s', nie:url(?_1)
+                            )
+                        )
+                        FILTER (
                             NOT EXISTS {
                                 ?_1 a nmm:Video
                             } &&
@@ -132,11 +161,19 @@ class Query():
                     nie:contentCreated ?c ;
                     tracker:available 'true'
                 FILTER (
+                    tracker:uri-is-descendant(
+                        '%(music_dir)s', nie:url(?_2)
+                    ) ||
+                    tracker:uri-is-descendant(
+                        '%(download_dir)s', nie:url(?_2)
+                    )
+                )
+                FILTER (
                     NOT EXISTS {
-                        ?song a nmm:Video
+                        ?_2 a nmm:Video
                     } &&
                     NOT EXISTS {
-                        ?song a nmm:Playlist
+                        ?_2 a nmm:Playlist
                     }
                 )
             }
@@ -149,6 +186,14 @@ class Query():
                     ?_3 nmm:musicAlbum ?album ;
                         tracker:available 'true'
                     FILTER (
+                        tracker:uri-is-descendant(
+                            '%(music_dir)s', nie:url(?_3)
+                        ) ||
+                        tracker:uri-is-descendant(
+                            '%(download_dir)s', nie:url(?_3)
+                        )
+                    )
+                    FILTER (
                         NOT EXISTS {
                             ?_3 a nmm:Video
                         } &&
@@ -160,7 +205,11 @@ class Query():
             )
         }
     ORDER BY fn:lower-case(?title) ?author ?albumyear
-    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
+    '''.replace('\n', ' ').strip() % {
+        'where_clause': where_clause.replace('\n', ' ').strip(),
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
 
         return query
 
@@ -200,6 +249,14 @@ class Query():
                             WHERE {
                                 ?_12 nmm:musicAlbum ?album
                                 FILTER (
+                                    tracker:uri-is-descendant(
+                                        '%(music_dir)s', nie:url(?_12)
+                                    ) ||
+                                    tracker:uri-is-descendant(
+                                        '%(download_dir)s', nie:url(?_12)
+                                    )
+                                )
+                                FILTER (
                                     NOT EXISTS {
                                         ?_12 a nmm:Video
                                     } &&
@@ -226,6 +283,14 @@ class Query():
                         ?_1 nmm:musicAlbum ?album ;
                         tracker:available 'true'
                         FILTER (
+                            tracker:uri-is-descendant(
+                                '%(music_dir)s', nie:url(?_1)
+                            ) ||
+                            tracker:uri-is-descendant(
+                                '%(download_dir)s', nie:url(?_1)
+                            )
+                        )
+                        FILTER (
                             NOT EXISTS {
                                 ?_1 a nmm:Video
                             } &&
@@ -245,6 +310,14 @@ class Query():
                     nie:contentCreated ?c ;
                     tracker:available 'true'
                 FILTER (
+                    tracker:uri-is-descendant(
+                        '%(music_dir)s', nie:url(?_2)
+                    ) ||
+                    tracker:uri-is-descendant(
+                        '%(download_dir)s', nie:url(?_2)
+                    )
+                )
+                FILTER (
                     NOT EXISTS {
                         ?_2 a nmm:Video
                     } &&
@@ -262,6 +335,14 @@ class Query():
                     ?_3 nmm:musicAlbum ?album ;
                         tracker:available 'true'
                     FILTER (
+                        tracker:uri-is-descendant(
+                            '%(music_dir)s', nie:url(?_3)
+                        ) ||
+                        tracker:uri-is-descendant(
+                            '%(download_dir)s', nie:url(?_3)
+                        )
+                    )
+                    FILTER (
                         NOT EXISTS {
                             ?_3 a nmm:Video
                         } &&
@@ -273,7 +354,11 @@ class Query():
             )
         }
     ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
-    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
+    '''.replace('\n', ' ').strip() % {
+        'where_clause': where_clause.replace('\n', ' ').strip(),
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
 
         return query
 
@@ -291,6 +376,14 @@ class Query():
         {
             %(where_clause)s
             FILTER (
+                tracker:uri-is-descendant(
+                    '%(music_dir)s', nie:url(?song)
+                ) ||
+                tracker:uri-is-descendant(
+                    '%(download_dir)s', nie:url(?song)
+                )
+            )
+            FILTER (
                 NOT EXISTS {
                     ?song a nmm:Video
                 } &&
@@ -300,7 +393,11 @@ class Query():
             )
         }
     ORDER BY tracker:added(?song)
-    '''.replace('\n', ' ').strip() % {'where_clause': where_clause.replace('\n', ' ').strip()}
+    '''.replace('\n', ' ').strip() % {
+        'where_clause': where_clause.replace('\n', ' ').strip(),
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
 
         return query
 
@@ -323,6 +420,14 @@ class Query():
             tracker:id(?album) = %(album_id)s
         )
         FILTER (
+            tracker:uri-is-descendant(
+                '%(music_dir)s', nie:url(?song)
+            ) ||
+            tracker:uri-is-descendant(
+                '%(download_dir)s', nie:url(?song)
+            )
+        )
+        FILTER (
             NOT EXISTS {
                 ?song a nmm:Video
             } &&
@@ -335,7 +440,11 @@ class Query():
          nmm:setNumber(nmm:musicAlbumDisc(?song))
          nmm:trackNumber(?song)
          tracker:added(?song)
-    '''.replace('\n', ' ').strip() % {'album_id': album_id}
+    '''.replace('\n', ' ').strip() % {
+        'album_id': album_id,
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
 
         return query
 
@@ -361,7 +470,11 @@ class Query():
             tracker:id(?album) = %(album_id)s
         )
     }
-    """.replace("\n", " ").strip() % {'album_id': album_id}
+    """.replace("\n", " ").strip() % {
+        'album_id': album_id,
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
         return query
 
     @staticmethod
@@ -387,6 +500,14 @@ class Query():
             tracker:id(?song) = %(song_id)s
         )
         FILTER (
+            tracker:uri-is-descendant(
+                '%(music_dir)s', nie:url(?song)
+            ) ||
+            tracker:uri-is-descendant(
+                '%(download_dir)s', nie:url(?song)
+            )
+        )
+        FILTER (
             NOT EXISTS {
                 ?song a nmm:Video
             } &&
@@ -395,7 +516,11 @@ class Query():
             }
         )
     }
-    """.replace("\n", " ").strip() % {'song_id': song_id}
+    """.replace("\n", " ").strip() % {
+        'song_id': song_id,
+        'music_dir': Query.MUSIC_DIR,
+        'download_dir': Query.DOWNLOAD_DIR
+    }
         return query
 
     @staticmethod
