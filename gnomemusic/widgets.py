@@ -483,7 +483,7 @@ class AllArtistsAlbums(ArtistAlbums):
     def __init__(self, player):
         ArtistAlbums.__init__(self, _("All Artists"), [], player)
         self._offset = 0
-        self.countQuery = Query.ALBUMS_COUNT
+        self.countQuery = Query.get_albums_count()
         self._cached_count = -1
         self._load_more = LoadMoreButton(self._get_remaining_item_count)
         self.pack_end(self._load_more.widget, False, False, 0)

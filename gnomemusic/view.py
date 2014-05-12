@@ -363,7 +363,7 @@ class Albums(ViewContainer):
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Albums"), header_bar,
                                selection_toolbar, Gd.MainViewType.ICON)
-        self.countQuery = Query.ALBUMS_COUNT
+        self.countQuery = Query.get_albums_count()
         self._albumWidget = Widgets.AlbumWidget(player)
         self.player = player
         self.add(self._albumWidget)
@@ -442,7 +442,7 @@ class Songs(ViewContainer):
     @log
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar, Gd.MainViewType.LIST)
-        self.countQuery = Query.SONGS_COUNT
+        self.countQuery = Query.get_songs_count()
         self._items = {}
         self.monitors = []
         self.isStarred = None

@@ -112,7 +112,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_changes_pending(self, data=None):
         count = 1
-        cursor = tracker.query(Query.SONGS_COUNT, None)
+        cursor = tracker.query(Query.get_songs_count(), None)
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if not count > 0:
@@ -200,7 +200,7 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
         self.add(self._box)
         count = 1
-        cursor = tracker.query(Query.SONGS_COUNT, None)
+        cursor = tracker.query(Query.get_songs_count(), None)
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if count > 0:

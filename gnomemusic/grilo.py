@@ -142,15 +142,15 @@ class Grilo(GObject.GObject):
 
     @log
     def populate_artists(self, offset, callback, count=-1):
-        self.populate_items(Query.ARTISTS, offset, callback, count)
+        self.populate_items(Query.get_artists(), offset, callback, count)
 
     @log
     def populate_albums(self, offset, callback, count=50):
-        self.populate_items(Query.ALBUMS, offset, callback, count)
+        self.populate_items(Query.get_all_albums(), offset, callback, count)
 
     @log
     def populate_songs(self, offset, callback, count=-1):
-        self.populate_items(Query.SONGS, offset, callback, count)
+        self.populate_items(Query.get_songs(), offset, callback, count)
 
     @log
     def populate_album_songs(self, album_id, callback, count=-1):
