@@ -304,7 +304,6 @@ class Query():
 
         return query
 
-
     @staticmethod
     def album_songs(album_id):
         query = '''
@@ -424,7 +423,6 @@ class Query():
     }
     '''.replace('\n', ' ').strip() % {'url': url}
         return query
-
 
     #Functions for search
     # TODO: make those queries actualyl return something

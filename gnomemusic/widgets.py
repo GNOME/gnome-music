@@ -591,8 +591,8 @@ class ArtistAlbumWidget(Gtk.HBox):
             return
 
         if not self.selectionMode and \
-           (event.button == Gdk.BUTTON_SECONDARY or \
-            (event.button == 1 and event.state & Gdk.ModifierType.CONTROL_MASK)):
+            (event.button == Gdk.BUTTON_SECONDARY or
+                (event.button == 1 and event.state & Gdk.ModifierType.CONTROL_MASK)):
             if self.selectionModeAllowed:
                 self.header_bar._select_button.set_active(True)
             else:

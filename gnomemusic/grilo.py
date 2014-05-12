@@ -149,8 +149,8 @@ class Grilo(GObject.GObject):
                 self.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
 
-            elif (id not in self.blacklist) and (ops & Grl.SupportedOps.SEARCH)\
-             and (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+            elif (id not in self.blacklist) and (ops & Grl.SupportedOps.SEARCH) and \
+                 (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
                 logger.debug("source %s is searchable" % id)
                 self.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
@@ -182,7 +182,7 @@ class Grilo(GObject.GObject):
             source = self.sources[album.get_source()]
             length = len(album.tracks)
             for i, track in enumerate(album.tracks):
-                callback(source, None, track, length-(i+1), None)
+                callback(source, None, track, length - (i + 1), None)
             callback(source, None, None, 0, None)
 
     @log

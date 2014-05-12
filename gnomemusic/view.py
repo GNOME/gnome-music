@@ -1237,7 +1237,7 @@ class Search(ViewContainer):
                 child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5)
                 self.player.set_playing(True)
-        else: # Headers
+        else:  # Headers
             if self.view.get_generic_view().row_expanded(path):
                 self.view.get_generic_view().collapse_row(path)
             else:
@@ -1260,7 +1260,7 @@ class Search(ViewContainer):
             or _("Unknown Album")
 
         key = '%s-%s' % (artist, album)
-        if not key in self._albums:
+        if key not in self._albums:
             self._albums[key] = Grl.MediaBox()
             self._albums[key].set_title(album)
             self._albums[key].add_author(artist)
@@ -1288,9 +1288,11 @@ class Search(ViewContainer):
             or item.get_author() \
             or _("Unknown Artist")
 
-        group = 0 if category == 'album' else \
-                1 if category == 'artist' else \
-                2 if category == 'song' else 3
+        group = 3
+        try:
+            group = {'album': 0, 'artist': 1, 'song': 2}[category]
+        except:
+            pass
 
         _iter = None
         if category == 'album' or category == 'song':
@@ -1298,16 +1300,16 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 8, 9, 10, 11],
                 [str(item.get_id()), title, artist,
-                self._symbolicIcon, item, self.nowPlayingIconName,
-                False, False, category])
+                 self._symbolicIcon, item, self.nowPlayingIconName,
+                 False, False, category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self._model.insert_with_values(
                     self.head_iters[group], -1,
                     [0, 2, 4, 5, 8, 9, 10, 11],
                     [str(item.get_id()), artist,
-                    self._symbolicIcon, item, self.nowPlayingIconName,
-                    False, False, category])
+                     self._symbolicIcon, item, self.nowPlayingIconName,
+                     False, False, category])
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 
             self._artists[artist.casefold()]['albums'].append(item)

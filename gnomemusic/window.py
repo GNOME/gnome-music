@@ -263,7 +263,6 @@ class Window(Gtk.ApplicationWindow):
             _iter = model.iter_next(_iter)
         return count
 
-
     @log
     def _on_select_all(self, action, param):
         if self.toolbar._selectionMode is False:
