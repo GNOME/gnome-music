@@ -1,3 +1,22 @@
+Overview of changes in 3.12.2
+=============================
+
+* Loggins is now less agressive
+* Several improvements for playlist UI
+* Audio files ouside XDG_MUSIC_DIR and XDG_DOWNLOADS_DIR are ignored
+
+* Bugs fixed:
+ 728323 Set the icon name of the window as "gnome-music"
+ 724112 Crashes when cannot connect to tracker
+ 729096 Media art is not shown in MPRIS clients
+ 726459 random crash after a couple of minutes
+ 728255 Don't show playlists in Songs
+ 725949 gnome-music buttons have no tooltips
+ 706948  Only show music from my ~/Music folder
+
+* Updated translations:
+
+
 Overview of changes in 3.12.1
 =============================
 
