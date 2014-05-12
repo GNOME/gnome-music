@@ -994,7 +994,6 @@ class Playlist(ViewContainer):
         # use it as model, otherwise build the liststore
         cached_playlist = self.player.running_playlist('Playlist', playlist)
         if cached_playlist:
-            self._model = cached_playlist.get_model()
             self._model = cached_playlist
             currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
             self.update_model(self.player, cached_playlist,
