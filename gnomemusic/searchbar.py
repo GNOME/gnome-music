@@ -138,9 +138,7 @@ class FilterView():
     def _row_activated(self, view, path, col):
         id = self.model.get_value(self.model.get_iter(path), BaseModelColumns.ID)
         self.dropdown.do_select(self.manager, id)
-
-        if (self.manager.entry.get_text() != ''):
-            self.manager.entry.emit('changed')
+        self.manager.entry.emit('changed')
 
     @log
     def _render_radio(self, col, cell, model, _iter):
