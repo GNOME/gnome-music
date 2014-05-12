@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 14:05+0300\n"
+"POT-Creation-Date: 2014-05-12 14:11+0300\n"
 "PO-Revision-Date: 2014-05-12 14:05+0300\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
@@ -150,8 +150,8 @@ msgid "Album"
 msgstr "אלבום"
 
 #: ../gnomemusic/searchbar.py:33
-msgid "Track"
-msgstr "נתיב"
+msgid "Track Title"
+msgstr "כותרת רצועה"
 
 #: ../gnomemusic/searchbar.py:74
 msgid "Local"
