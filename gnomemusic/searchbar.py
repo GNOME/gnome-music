@@ -175,14 +175,14 @@ class DropDown(Gd.Revealer):
 
     @log
     def initialize_filters(self, searchbar):
-        self.sourcesManager = SourceManager('source', "Sources", searchbar._search_entry)
+        self.sourcesManager = SourceManager('source', _("Sources"), searchbar._search_entry)
         self.sourcesFilter = FilterView(self.sourcesManager, self)
         self._grid.add(self.sourcesFilter.view)
 
         grilo.connect('new-source-added', self.sourcesManager.add_new_source)
         grilo._find_sources()
 
-        self.searchFieldsManager = BaseManager('search', "Match", searchbar._search_entry)
+        self.searchFieldsManager = BaseManager('search', _("Match"), searchbar._search_entry)
         self.searchFieldsFilter = FilterView(self.searchFieldsManager, self)
         self._grid.add(self.searchFieldsFilter.view)
 

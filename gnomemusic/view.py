@@ -1501,10 +1501,10 @@ class Search(ViewContainer):
         if search_term == "":
             return
 
-        albums_iter = self._model.insert_with_values(None, -1, [2], ['Albums'])
-        artists_iter = self._model.insert_with_values(None, -1, [2], ['Artists'])
-        songs_iter = self._model.insert_with_values(None, -1, [2], ['Songs'])
-        playlists_iter = self._model.insert_with_values(None, -1, [2], ['Playlists'])
+        albums_iter = self._model.insert_with_values(None, -1, [2], [_("Albums")])
+        artists_iter = self._model.insert_with_values(None, -1, [2], [_("Artists")])
+        songs_iter = self._model.insert_with_values(None, -1, [2], [_("Songs")])
+        playlists_iter = self._model.insert_with_values(None, -1, [2], [_("Playlists")])
 
         self.head_iters = [albums_iter, artists_iter, songs_iter, playlists_iter]
         self.songs_model = self._model.filter_new(self._model.get_path(songs_iter))
