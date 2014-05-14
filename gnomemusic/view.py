@@ -1123,21 +1123,21 @@ class Playlist(ViewContainer):
                         if row.path is not None and row.path.to_string() == currentTrackpath:
                             update_playing_track = True
 
+                nextIter = model.iter_next(row.iter)
                 model.remove(row.iter)
 
                 # Reload the model and switch to next song
                 if update_playing_track:
-                    if row.iter is None:
+                    if nextIter is None:
                         # Get first track if next track is not valid
-                        row.iter = model.get_iter_first()
-                        if row.iter is None:
+                        nextIter = model.get_iter_first()
+                        if nextIter is None:
                             # Last track was removed
                             return
 
                     self.iter_to_clean = None
-                    # row.iter will give us next iter to start playing
-                    self.update_model(self.player, model, row.iter)
-                    self.player.set_playlist('Playlist', name, model, row.iter, 5)
+                    self.update_model(self.player, model, nextIter)
+                    self.player.set_playlist('Playlist', name, model, nextIter, 5)
                     self.player.set_playing(True)
 
                 # Update songs count
