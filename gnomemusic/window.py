@@ -351,6 +351,8 @@ class Window(Gtk.ApplicationWindow):
         if not button.get_active() and self.curr_view == self.views[4] and \
            self.toolbar._state == ToolbarState.MAIN:
             self._stack.set_visible_child(self.prev_view)
+            if self.toolbar._selectionMode:
+                self.toolbar.set_selection_mode(False)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
