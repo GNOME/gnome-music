@@ -262,10 +262,10 @@ class Searchbar(Gd.Revealer):
             fields_filter = 'search_all'
 
         stack = self.stack_switcher.get_stack()
-        view = stack.get_child_by_name('search')
         if search_term != "":
-            stack.set_visible_child(view)
-        view.set_search_text(search_term, fields_filter)
+            stack.set_visible_child_name('search')
+            view = stack.get_visible_child()
+            view.set_search_text(search_term, fields_filter)
 
         self._dropDownButton.set_active(False)
         self.dropdown.set_reveal_child(False)
