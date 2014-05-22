@@ -68,6 +68,8 @@ class Grilo(GObject.GObject):
         self.tracker = None
         self.changed_media_ids = []
         self.pending_event_id = 0
+        self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
+        self.registry = Grl.Registry.get_default()
 
         self.registry = Grl.Registry.get_default()
         self.registry.connect('source_added', self._on_source_added)
@@ -112,6 +114,9 @@ class Grilo(GObject.GObject):
     def emit_change_signal(self):
         self.changed_media_ids = []
         self.pending_event_id = 0
+        self.changes_pending['Albums'] = True
+        self.changes_pending['Artists'] = True
+        self.changes_pending['Songs'] = True 
         self.emit('changes-pending')
         return False
 
