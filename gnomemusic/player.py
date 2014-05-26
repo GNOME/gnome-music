@@ -116,6 +116,10 @@ class Player(GObject.GObject):
             logger.warn("The item %s doesn't have a URL set" % item)
             return
 
+        if not url.startswith("file://"):
+            logger.log("Skipping discovery of %s as a remote url" % url)
+            return
+
         obj = (callback, data)
 
         if url in self._discovering_urls:
