@@ -1108,7 +1108,6 @@ class Playlist(ViewContainer):
         self.playlists_sidebar.set_sensitive(not self.header_bar._selectionMode)
         self.menubutton.set_sensitive(not self.header_bar._selectionMode)
 
-
     @log
     def _on_play_activate(self, menuitem, data=None):
         _iter = self._model.get_iter_first()
