@@ -1,3 +1,25 @@
+Overview of changes in 3.13.2
+=============================
+
+* Improved search with source and match type selection
+* Remote sources support: Jamendo, Magnatune, UPnP/DLNA
+* Player bar now looks better when window is small
+
+* Bugs fixed:
+ 729100 Media art in notifications is blank instead of symbolic when media art is not found
+ 729102 Notification doesn't show up when media art doesn't exist
+ 728255 Don't show playlists in Songs
+ 725949 gnome-music buttons have no tooltips
+ 728407 Enabling selection mode via right-click doesn't work inside albums in Albums view
+ 729521 Albums list in Artists view shouldn't be sensitive when in selection mode
+ 706948 Only show music from my ~/Music folder
+ 699807 PlayerToolbar - artist and track name can shrink to nothing
+ 730205 AttributeError: 'Stack' object has no attribute 'get_child_by_name'
+ 726713 Update of songs interferes with selection mode
+
+* Updated translations and help files
+
+
 Overview of changes in 3.13.1
 =============================
 
