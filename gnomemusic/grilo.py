@@ -247,7 +247,8 @@ class Grilo(GObject.GObject):
 
         options = self.full_options.copy()
         options.set_count(1)
-        self.tracker.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
+
+        self.search_source.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
 
 
 Grl.init(None)
