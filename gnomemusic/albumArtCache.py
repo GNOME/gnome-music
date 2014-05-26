@@ -150,14 +150,16 @@ class AlbumArtCache:
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
         try:
+
+            if artist in self.blacklist and album in self.blacklist[artist]:
+                self.finish(item, None, None, callback, itr)
+                return
+
             path = MediaArt.get_path(artist, album, "album", None)[0]
             while path in self.queue:
                 sleep(0.5)
             self.queue.append(path)
 
-            if artist in self.blacklist and album in self.blacklist[artist]:
-                self.finish(item, None, None, callback, itr)
-                return
             if not os.path.exists(path):
                 GLib.idle_add(self.cached_thumb_not_found, item, width, height, path, callback, itr, artist, album)
                 return
@@ -173,7 +175,8 @@ class AlbumArtCache:
         try:
             if path:
                 item.set_thumbnail(GLib.filename_to_uri(path, None))
-                self.queue.remove(path)
+                if path in self.queue:
+                    self.queue.remove(path)
             GLib.idle_add(callback, pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
@@ -183,6 +186,8 @@ class AlbumArtCache:
         try:
             uri = item.get_thumbnail()
             if uri is None:
+                if path in self.queue:
+                    self.queue.remove(path)
                 grilo.get_album_art_for_item(item, self.album_art_for_item_callback,
                                              (item, width, height, path, callback, itr, artist, album))
                 return
@@ -196,6 +201,9 @@ class AlbumArtCache:
     def album_art_for_item_callback(self, source, param, item, count, data, error):
         old_item, width, height, path, callback, itr, artist, album = data
         try:
+            if item is None:
+                return
+
             uri = item.get_thumbnail()
             if uri is None:
                 # Blacklist artist-album combination
@@ -217,6 +225,8 @@ class AlbumArtCache:
             src = Gio.File.new_for_uri(uri)
             dest = Gio.File.new_for_path(path)
             src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
+            if path in self.queue:
+                self.queue.remove(path)
             self.lookup_worker(item, width, height, callback, itr, artist, album)
         except Exception as e:
             logger.warn("Error: %s" % e)
