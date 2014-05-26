@@ -74,9 +74,9 @@ class Query():
         )
     }
     '''.replace('\n', ' ').strip() % {
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
 
         return query
 
@@ -206,10 +206,10 @@ class Query():
         }
     ORDER BY fn:lower-case(?title) ?author ?albumyear
     '''.replace('\n', ' ').strip() % {
-        'where_clause': where_clause.replace('\n', ' ').strip(),
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'where_clause': where_clause.replace('\n', ' ').strip(),
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
 
         return query
 
@@ -355,10 +355,10 @@ class Query():
         }
     ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
     '''.replace('\n', ' ').strip() % {
-        'where_clause': where_clause.replace('\n', ' ').strip(),
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'where_clause': where_clause.replace('\n', ' ').strip(),
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
 
         return query
 
@@ -394,10 +394,10 @@ class Query():
         }
     ORDER BY tracker:added(?song)
     '''.replace('\n', ' ').strip() % {
-        'where_clause': where_clause.replace('\n', ' ').strip(),
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'where_clause': where_clause.replace('\n', ' ').strip(),
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
 
         return query
 
@@ -441,10 +441,10 @@ class Query():
          nmm:trackNumber(?song)
          tracker:added(?song)
     '''.replace('\n', ' ').strip() % {
-        'album_id': album_id,
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'album_id': album_id,
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
 
         return query
 
@@ -471,10 +471,10 @@ class Query():
         )
     }
     """.replace("\n", " ").strip() % {
-        'album_id': album_id,
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'album_id': album_id,
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
         return query
 
     @staticmethod
@@ -517,10 +517,10 @@ class Query():
         )
     }
     """.replace("\n", " ").strip() % {
-        'song_id': song_id,
-        'music_dir': Query.MUSIC_DIR,
-        'download_dir': Query.DOWNLOAD_DIR
-    }
+            'song_id': song_id,
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
         return query
 
     @staticmethod

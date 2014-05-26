@@ -125,7 +125,7 @@ class Grilo(GObject.GObject):
         self.pending_event_id = 0
         self.changes_pending['Albums'] = True
         self.changes_pending['Artists'] = True
-        self.changes_pending['Songs'] = True 
+        self.changes_pending['Songs'] = True
         self.emit('changes-pending')
         return False
 
