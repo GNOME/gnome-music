@@ -117,7 +117,7 @@ class Player(GObject.GObject):
             return
 
         if not url.startswith("file://"):
-            logger.log("Skipping discovery of %s as a remote url" % url)
+            logger.debug("Skipping discovery of %s as a remote url" % url)
             return
 
         obj = (callback, data)
