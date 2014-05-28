@@ -139,8 +139,6 @@ class ViewContainer(Gtk.Stack):
         self.cache = albumArtCache.get_default()
         self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
                                                          self._iconWidth)
-        self._symbolicIconLoading = self.cache.get_default_icon(self._iconHeight,
-                                                                self._iconWidth)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -229,7 +227,7 @@ class ViewContainer(Gtk.Stack):
         if not vsbl_range or self.old_vsbl_range == vsbl_range:
             return
         self.old_vsbl_range = vsbl_range
-        self.on_scroll_event(self.view)
+        GLib.idle_add(self.on_scroll_event, self.view)
 
     @log
     def on_scroll_event(self, widget, event=None):
@@ -247,7 +245,6 @@ class ViewContainer(Gtk.Stack):
                 artist = self._model.get_value(_iter, 3)
                 thumbnail = self._model.get_value(_iter, 4)
                 if thumbnail == self._symbolicIcon:
-                    self._model.set_value(_iter, 4, self._symbolicIconLoading)
                     albumArtCache.get_default().lookup(
                         item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                         _iter, artist, title)
