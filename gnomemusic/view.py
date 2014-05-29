@@ -1006,17 +1006,18 @@ class Playlist(ViewContainer):
     @log
     def _on_playlist_activated(self, widget, item_id, path):
         _iter = self.playlists_model.get_iter(path)
-        playlist = self.playlists_model.get_value(_iter, 2)
+        playlist_name = self.playlists_model.get_value(_iter, 2)
+        playlist = self.playlists_model.get_value(_iter, 5)
 
-        if self.current_playlist == playlist:
+        if self.current_playlist == playlist_name:
             return
 
-        self.current_playlist = playlist
-        self.name_label.set_text(playlist)
+        self.current_playlist = playlist_name
+        self.name_label.set_text(playlist_name)
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
-        cached_playlist = self.player.running_playlist('Playlist', playlist)
+        cached_playlist = self.player.running_playlist('Playlist', playlist_name)
         if cached_playlist:
             self._model = cached_playlist
             currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
@@ -1040,7 +1041,7 @@ class Playlist(ViewContainer):
                 GObject.TYPE_BOOLEAN
             )
             self.view.set_model(self._model)
-            playlists.parse_playlist(playlist, self._add_item)
+            GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
             self.songs_count = 0
             self._update_songs_count()
 
