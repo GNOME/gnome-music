@@ -49,6 +49,10 @@ class Query():
         return Query.songs('?song a nmm:MusicPiece ; a nfo:FileDataObject .')
 
     @staticmethod
+    def all_playlists():
+        return Query.playlists('?playlist a nmm:Playlist .')
+
+    @staticmethod
     def all_songs_count():
         query = '''
     SELECT
@@ -393,6 +397,42 @@ class Query():
             )
         }
     ORDER BY tracker:added(?song)
+    '''.replace('\n', ' ').strip() % {
+            'where_clause': where_clause.replace('\n', ' ').strip(),
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
+
+        return query
+
+    @staticmethod
+    def playlists(where_clause):
+        query = '''
+    SELECT DISTINCT
+        rdf:type(?playlist)
+        tracker:id(?playlist) AS id
+        nie:title(?playlist) AS title
+        nfo:entryCounter(?playlist) AS childcount
+        {
+            %(where_clause)s
+            OPTIONAL {
+                ?playlist a nfo:FileDataObject .
+                FILTER (
+                    EXISTS {
+                        ?playlist tracker:available 'true'
+                        FILTER (
+                            tracker:uri-is-descendant(
+                                '%(music_dir)s', nie:url(?playlist)
+                            ) ||
+                            tracker:uri-is-descendant(
+                                '%(download_dir)s', nie:url(?playlist)
+                            )
+                        )
+                    }
+                )
+            }
+        }
+    ORDER BY fn:lower-case(?title) ?author ?albumyear
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_DIR,
