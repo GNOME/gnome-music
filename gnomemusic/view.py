@@ -982,9 +982,19 @@ class Playlist(ViewContainer):
         return False
 
     @log
-    def _add_playlist_item(self, item):
-        _iter = self.playlists_model.append()
-        self.playlists_model.set(_iter, [2], [item])
+    def _add_playlist_item(self, source, param, item, remaining=0, data=None):
+        if not item:
+            return
+        _iter = self.playlists_model.insert_with_valuesv(
+            -1,
+            [2, 5],
+            [albumArtCache.get_media_title(item), item])
+        if self.playlists_model.iter_n_children(None) == 1:
+            _iter = self.playlists_model.get_iter_first()
+            selection = self.playlists_sidebar.get_generic_view().get_selection()
+            selection.select_iter(_iter)
+            self.playlists_sidebar.emit('item-activated', '0',
+                                        self.playlists_model.get_path(_iter))
 
     @log
     def _on_item_activated(self, widget, id, path):
@@ -1161,14 +1171,9 @@ class Playlist(ViewContainer):
 
     @log
     def populate(self):
-        for item in sorted(self.playlists_list):
-            self._add_playlist_item(item)
-        if len(self.playlists_list):
-            _iter = self.playlists_model.get_iter_first()
-            selection = self.playlists_sidebar.get_generic_view().get_selection()
-            selection.select_iter(_iter)
-            self.playlists_sidebar.emit('item-activated', '0',
-                                        self.playlists_model.get_path(_iter))
+        if grilo.tracker:
+            GLib.idle_add(grilo.populate_playlists, self._offset,
+                          self._add_playlist_item)
 
     @log
     def get_selected_track_uris(self, callback):
