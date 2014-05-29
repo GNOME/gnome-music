@@ -489,6 +489,48 @@ class Query():
         return query
 
     @staticmethod
+    def playlist_songs(playlist_id):
+        query = '''
+    SELECT
+        rdf:type(?song)
+        tracker:id(?song) AS id
+        nie:url(?song) AS url
+        nie:title(?song) AS title
+        nmm:artistName(nmm:performer(?song)) AS artist
+        nie:title(nmm:musicAlbum(?song)) AS album
+        nfo:duration(?song) AS duration
+    WHERE {
+        ?playlist a nmm:Playlist ;
+            a nfo:MediaList ;
+            nfo:hasMediaFileListEntry ?entry .
+        ?entry a nfo:MediaFileListEntry ;
+            nfo:entryUrl ?url .
+        ?song a nmm:MusicPiece ;
+             a nfo:FileDataObject ;
+             nie:url ?url .
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s
+        )
+        FILTER (
+            NOT EXISTS {
+                ?song a nmm:Video
+            } &&
+            NOT EXISTS {
+                ?song a nmm:Playlist
+            }
+        )
+    }
+    ORDER BY
+         nfo:listPosition(?entry)
+    '''.replace('\n', ' ').strip() % {
+            'playlist_id': playlist_id,
+            'music_dir': Query.MUSIC_DIR,
+            'download_dir': Query.DOWNLOAD_DIR
+        }
+
+        return query
+
+    @staticmethod
     def get_album_for_album_id(album_id):
         query = """
     SELECT DISTINCT
