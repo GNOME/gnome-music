@@ -16,6 +16,8 @@ appdata_in_files = gnome-music.appdata.xml.in
 
 @INTLTOOL_XML_RULE@
 
+man1_MANS = gnome-music.1
+
 # icons
 icon16dir = $(datadir)/icons/hicolor/16x16/apps
 icon16_DATA = icons/hicolor/16x16/apps/gnome-music.png
@@ -64,6 +66,7 @@ EXTRA_DIST = \
 	gnome-music.desktop.in \
 	gnome-music.gresource.xml \
 	org.gnome.Music.gschema.xml \
+	$(man1_MANS) \
 	$(NULL)
 
 CLEANFILES = \
