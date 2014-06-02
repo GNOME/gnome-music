@@ -1,5 +1,7 @@
 from gi.repository import TotemPlParser, Grl, GLib, Gio, GObject
+from gi.repository import Tracker
 from gnomemusic.grilo import grilo
+from gnomemusic.query import Query
 
 import os
 
@@ -7,10 +9,17 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
+
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
-        'playlist-created': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        'playlist-created': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
         'playlist-deleted': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
         'song-added-to-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, Grl.Media)),
         'song-removed-from-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, str)),
@@ -33,18 +42,29 @@ class Playlists(GObject.GObject):
                                          'playlists')
 
     @log
-    def create_playlist(self, name, iterlist=None):
-        parser = TotemPlParser.Parser()
-        playlist = TotemPlParser.Playlist()
-        pl_file = Gio.file_new_for_path(self.get_path_to_playlist(name))
-        if iterlist is not None:
-            for _iter in iterlist:
-                pass
-        else:
-            playlist.append()
-        parser.save(playlist, pl_file, name, TotemPlParser.ParserType.PLS)
-        self.emit('playlist-created', name)
-        return False
+    def create_playlist(self, name):
+        def get_callback(source, param, item, count, data, error):
+            if item:
+                self.emit('playlist-created', item)
+
+        def query_callback(conn, res, data):
+            cursor = conn.query_finish(res)
+            if not cursor or not cursor.next():
+                return
+            playlist_id = cursor.get_integer(0)
+            grilo.get_playlist_with_id(playlist_id, get_callback)
+
+        def update_callback(conn, res, data):
+            playlist_urn = conn.update_blank_finish(res)[0][0]['playlist']
+            tracker.query_async(
+                Query.get_playlist_with_urn(playlist_urn),
+                None, query_callback, None
+            )
+
+        tracker.update_blank_async(
+            Query.create_playlist(name), GLib.PRIORITY_DEFAULT,
+            None, update_callback, None
+        )
 
     @log
     def get_playlists(self):
