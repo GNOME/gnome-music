@@ -662,6 +662,8 @@ class PlaylistDialog():
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
+        playlist.connect('playlist-created', self._on_playlist_created)
+
     @log
     def get_selected(self):
         _iter = self.selection.get_selected()[1]
@@ -691,8 +693,8 @@ class PlaylistDialog():
     def populate(self, items):
         for playlist_name in sorted(items):
             self.model.append([playlist_name, False])
-        add_playlist_iter = self.model.append()
-        self.model.set(add_playlist_iter, [0, 1], [_("New Playlist"), True])
+        self.add_playlist_iter = self.model.append()
+        self.model.set(self.add_playlist_iter, [0, 1], [_("New Playlist"), True])
 
     @log
     def _on_list_text_render(self, col, cell, model, _iter, data):
@@ -726,12 +728,18 @@ class PlaylistDialog():
 
     @log
     def _on_editing_done(self, editable, data=None):
-        _iter = self.selection.get_selected()[1]
         if editable.get_text() != '':
             playlist.create_playlist(editable.get_text())
-            new_iter = self.model.insert_before(_iter)
-            self.model.set(new_iter, [0, 1], [editable.get_text(), False])
-            self.view.set_cursor(self.model.get_path(new_iter),
-                                 self.view.get_columns()[0], False)
-            self.view.row_activated(self.model.get_path(new_iter),
-                                    self.view.get_columns()[0])
+
+    @log
+    def _on_playlist_created(self, playlists, item):
+        new_iter = self.model.insert_before(self.add_playlist_iter)
+        self.model.set(
+            new_iter,
+            [0, 1],
+            [AlbumArtCache.get_media_title(item), False]
+        )
+        self.view.set_cursor(self.model.get_path(new_iter),
+                             self.view.get_columns()[0], False)
+        self.view.row_activated(self.model.get_path(new_iter),
+                                self.view.get_columns()[0])
