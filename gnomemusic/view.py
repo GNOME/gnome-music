@@ -983,6 +983,10 @@ class Playlist(ViewContainer):
 
     @log
     def _add_playlist_item(self, source, param, item, remaining=0, data=None):
+        self._add_playlist_item_to_model(item)
+
+    @log
+    def _add_playlist_item_to_model(self, item):
         if not item:
             return
         _iter = self.playlists_model.insert_with_valuesv(
@@ -1109,8 +1113,8 @@ class Playlist(ViewContainer):
         self.playlists_model.remove(_iter)
 
     @log
-    def _on_playlist_created(self, playlists, name):
-        self._add_playlist_item(name)
+    def _on_playlist_created(self, playlists, item):
+        self._add_playlist_item_to_model(item)
         if self.playlists_model.iter_n_children(None) == 1:
             _iter = self.playlists_model.get_iter_first()
             selection = self.playlists_sidebar.get_generic_view().get_selection()
