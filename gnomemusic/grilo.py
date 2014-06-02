@@ -258,6 +258,13 @@ class Grilo(GObject.GObject):
 
         self.search_source.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
 
+    @log
+    def get_playlist_with_id(self, playlist_id, callback):
+        options = self.options.copy()
+        query = Query.get_playlist_with_id(playlist_id)
+
+        self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
+
 
 Grl.init(None)
 
