@@ -606,6 +606,42 @@ class Query():
         return query
 
     @staticmethod
+    def create_playlist(title):
+        query = """
+    INSERT {
+        _:playlist
+            a nmm:Playlist ;
+            a nfo:MediaList ;
+            nie:title "%(title)s" .
+    }
+    """.replace("\n", " ").strip() % {
+            'title': title
+        }
+        return query
+
+    @staticmethod
+    def get_playlist_with_id(playlist_id):
+        query = """
+    ?playlist a nmm:Playlist .
+    FILTER (
+        tracker:id(?playlist) = %(playlist_id)s
+    )
+    """.replace('\n', ' ').strip() % {'playlist_id': playlist_id}
+
+        return Query.playlists(query)
+
+    @staticmethod
+    def get_playlist_with_urn(playlist_urn):
+        query = """
+    SELECT DISTINCT
+        tracker:id(<%(playlist_urn)s>) AS id
+    WHERE {
+        <%(playlist_urn)s> a nmm:Playlist
+    }
+    """.replace('\n', ' ').strip() % {'playlist_urn': playlist_urn}
+        return query
+
+    @staticmethod
     def get_song_with_url(url):
         query = '''
     SELECT DISTINCT
