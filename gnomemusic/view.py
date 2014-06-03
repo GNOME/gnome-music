@@ -1138,21 +1138,25 @@ class Playlist(ViewContainer):
                 self._add_item_to_model(item, cached_playlist)
 
     @log
-    def _on_song_removed_from_playlist(self, playlists, name, uri):
-        cached_playlist = self.player.running_playlist('Playlist', name)
-        if name == self.current_playlist:
+    def _on_song_removed_from_playlist(self, playlists, playlist, item):
+        cached_playlist = self.player.running_playlist(
+            'Playlist', playlist.get_id()
+        )
+        if self.current_playlist and \
+           playlist.get_id() == self.current_playlist.get_id():
             model = self._model
+        elif cached_playlist and cached_playlist != self._model:
+            model = cached_playlist
         else:
-            if cached_playlist and cached_playlist != self._model:
-                model = cached_playlist
-            else:
-                return
+            return
 
         update_playing_track = False
         for row in model:
-            if row[5].get_url() == uri:
+            if row[5].get_id() == item.get_id():
                 # Is the removed track now being played?
-                if name == self.current_playlist and cached_playlist == model:
+                if self.current_playlist and \
+                   playlist.get_id() == self.current_playlist.get_id() and \
+                   cached_playlist == model:
                     if self.player.currentTrack is not None:
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:
@@ -1172,7 +1176,7 @@ class Playlist(ViewContainer):
 
                     self.iter_to_clean = None
                     self.update_model(self.player, model, nextIter)
-                    self.player.set_playlist('Playlist', name, model, nextIter, 5)
+                    self.player.set_playlist('Playlist', playlist.get_id(), model, nextIter, 5)
                     self.player.set_playing(True)
 
                 # Update songs count
