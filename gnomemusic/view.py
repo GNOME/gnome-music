@@ -1108,7 +1108,7 @@ class Playlist(ViewContainer):
             self.playlists_sidebar.emit('item-activated', '0',
                                         self.playlists_model.get_path(iter_next))
 
-        playlist = self.playlists_model.get_value(_iter, 2)
+        playlist = self.playlists_model.get_value(_iter, 5)
         playlists.delete_playlist(playlist)
         self.playlists_model.remove(_iter)
 
