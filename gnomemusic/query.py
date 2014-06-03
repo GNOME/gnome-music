@@ -796,32 +796,6 @@ class Query():
     """.replace('\n', ' ').strip() % {'entry_urn': entry_urn}
         return query
 
-    @staticmethod
-    def get_song_with_url(url):
-        query = '''
-    SELECT DISTINCT
-        rdf:type(?song)
-        tracker:id(?song) AS id
-        nie:url(?song) AS url
-        nie:title(?song) AS title
-        nmm:artistName(nmm:performer(?song)) AS artist
-        nie:title(nmm:musicAlbum(?song)) AS album
-        nfo:duration(?song) AS duration
-    WHERE {
-        ?song a nmm:MusicPiece ;
-              nie:url "%(url)s"
-        FILTER (
-            NOT EXISTS {
-                ?song a nmm:Video
-            } &&
-            NOT EXISTS {
-                ?song a nmm:Playlist
-            }
-        )
-    }
-    '''.replace('\n', ' ').strip() % {'url': url}
-        return query
-
     #Functions for search
     # TODO: make those queries actualyl return something
     @staticmethod
