@@ -1004,7 +1004,10 @@ class Playlist(ViewContainer):
     def _on_item_activated(self, widget, id, path):
         _iter = self._model.get_iter(path)
         if self._model.get_value(_iter, 8) != self.errorIconName:
-            self.player.set_playlist('Playlist', self.current_playlist, self._model, _iter, 5)
+            self.player.set_playlist(
+                'Playlist', self.current_playlist.get_id(),
+                self._model, _iter, 5
+            )
             self.player.set_playing(True)
 
     @log
@@ -1013,10 +1016,10 @@ class Playlist(ViewContainer):
         playlist_name = self.playlists_model.get_value(_iter, 2)
         playlist = self.playlists_model.get_value(_iter, 5)
 
-        if self.current_playlist == playlist_name:
+        if self.current_playlist == playlist:
             return
 
-        self.current_playlist = playlist_name
+        self.current_playlist = playlist
         self.name_label.set_text(playlist_name)
 
         # if the active queue has been set by this playlist,
@@ -1123,11 +1126,14 @@ class Playlist(ViewContainer):
                                         self.playlists_model.get_path(_iter))
 
     @log
-    def _on_song_added_to_playlist(self, playlists, name, item):
-        if name == self.current_playlist:
+    def _on_song_added_to_playlist(self, playlists, playlist, item):
+        if self.current_playlist and \
+           playlist.get_id() == self.current_playlist.get_id():
             self._add_item_to_model(item, self._model)
         else:
-            cached_playlist = self.player.running_playlist('Playlist', name)
+            cached_playlist = self.player.running_playlist(
+                'Playlist', playlist.get_id()
+            )
             if cached_playlist and cached_playlist != self._model:
                 self._add_item_to_model(item, cached_playlist)
 
