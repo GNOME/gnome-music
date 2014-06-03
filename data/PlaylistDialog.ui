@@ -92,6 +92,8 @@
       <column type="gchararray"/>
       <!-- column-name editable -->
       <column type="gboolean"/>
+      <!-- column-name item -->
+      <column type="GObject"/>
     </columns>
   </object>
 </interface>

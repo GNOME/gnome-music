@@ -650,15 +650,14 @@ class PlaylistDialog():
         self.view.connect('row-activated', self._on_item_activated)
 
         self.model = self.ui.get_object('liststore1')
-        playlist_names = playlist.get_playlists()
-        self.populate(playlist_names)
+        self.populate()
 
         self.title_bar = self.ui.get_object('headerbar1')
         self.dialog_box.set_titlebar(self.title_bar)
 
         self._cancel_button = self.ui.get_object('cancel-button')
         self._select_button = self.ui.get_object('select-button')
-        self._select_button.set_sensitive(len(playlist_names) > 0)
+        self._select_button.set_sensitive(False)
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
@@ -690,11 +689,26 @@ class PlaylistDialog():
         self.view.append_column(cols)
 
     @log
-    def populate(self, items):
-        for playlist_name in sorted(items):
-            self.model.append([playlist_name, False])
+    def populate(self):
         self.add_playlist_iter = self.model.append()
         self.model.set(self.add_playlist_iter, [0, 1], [_("New Playlist"), True])
+        if grilo.tracker:
+            GLib.idle_add(grilo.populate_playlists, 0, self._add_item)
+
+    @log
+    def _add_item(self, source, param, item, remaining=0, data=None):
+        if item:
+            self._add_item_to_model(item)
+
+    @log
+    def _add_item_to_model(self, item):
+        new_iter = self.model.insert_before(self.add_playlist_iter)
+        self.model.set(
+            new_iter,
+            [0, 1, 2],
+            [AlbumArtCache.get_media_title(item), False, item]
+        )
+        return new_iter
 
     @log
     def _on_list_text_render(self, col, cell, model, _iter, data):
@@ -733,12 +747,7 @@ class PlaylistDialog():
 
     @log
     def _on_playlist_created(self, playlists, item):
-        new_iter = self.model.insert_before(self.add_playlist_iter)
-        self.model.set(
-            new_iter,
-            [0, 1],
-            [AlbumArtCache.get_media_title(item), False]
-        )
+        new_iter = self._add_item_to_model(item)
         self.view.set_cursor(self.model.get_path(new_iter),
                              self.view.get_columns()[0], False)
         self.view.row_activated(self.model.get_path(new_iter),
