@@ -24,7 +24,9 @@ class Playlists(GObject.GObject):
         'song-added-to-playlist': (
             GObject.SIGNAL_RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
-        'song-removed-from-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, str)),
+        'song-removed-from-playlist': (
+            GObject.SIGNAL_RUN_FIRST, None, (Grl.Media, Grl.Media)
+        ),
     }
     instance = None
 
@@ -124,30 +126,19 @@ class Playlists(GObject.GObject):
             )
 
     @log
-    def remove_from_playlist(self, playlist_name, uris):
-        parser = TotemPlParser.Parser()
-        playlist = TotemPlParser.Playlist()
-        pl_file = Gio.file_new_for_path(self.get_path_to_playlist(playlist_name))
+    def remove_from_playlist(self, playlist, items):
+        def update_callback(conn, res, data):
+            conn.update_finish(res)
+            self.emit('song-removed-from-playlist', playlist, data)
 
-        def parse_callback(parser, uri, metadata, data):
-            if uri in uris:
-                uris.remove(uri)
-                self.emit('song-removed-from-playlist', playlist_name, uri)
-            else:
-                _iter = playlist.append()
-                playlist.set_value(_iter, TotemPlParser.PARSER_FIELD_URI, uri)
-
-        def end_callback(parser, uri, data):
-            if playlist.size() == 0:
-                playlist.append()
-            parser.save(playlist, pl_file, playlist_name, TotemPlParser.ParserType.PLS)
-
-        parser.connect('entry-parsed', parse_callback, playlist)
-        parser.connect('playlist-ended', end_callback, playlist)
-        parser.parse_async(
-            GLib.filename_to_uri(self.get_path_to_playlist(playlist_name), None),
-            False, None, None, None
-        )
+        for item in items:
+            tracker.update_async(
+                Query.remove_song_from_playlist(
+                    playlist.get_id(), item.get_id()
+                ),
+                GLib.PRIORITY_DEFAULT,
+                None, update_callback, item
+            )
 
     @log
     def get_path_to_playlist(self, playlist_name):
