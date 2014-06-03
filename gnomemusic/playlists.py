@@ -20,7 +20,7 @@ except Exception as e:
 class Playlists(GObject.GObject):
     __gsignals__ = {
         'playlist-created': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
-        'playlist-deleted': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        'playlist-deleted': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
         'song-added-to-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, Grl.Media)),
         'song-removed-from-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, str)),
     }
@@ -63,6 +63,17 @@ class Playlists(GObject.GObject):
 
         tracker.update_blank_async(
             Query.create_playlist(name), GLib.PRIORITY_DEFAULT,
+            None, update_callback, None
+        )
+
+    @log
+    def delete_playlist(self, item):
+        def update_callback(conn, res, data):
+            conn.update_finish(res)
+            self.emit('playlist-deleted', item)
+
+        tracker.update_async(
+            Query.delete_playlist(item.get_id()), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
 
@@ -131,13 +142,6 @@ class Playlists(GObject.GObject):
             GLib.filename_to_uri(self.get_path_to_playlist(playlist_name), None),
             False, None, None, None
         )
-
-    @log
-    def delete_playlist(self, playlist_name):
-        playlist_file = self.get_path_to_playlist(playlist_name)
-        if os.path.isfile(playlist_file):
-            os.remove(playlist_file)
-            self.emit('playlist-deleted', playlist_name)
 
     @log
     def get_path_to_playlist(self, playlist_name):
