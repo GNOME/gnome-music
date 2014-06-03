@@ -681,6 +681,83 @@ class Query():
         return query
 
     @staticmethod
+    def remove_song_from_playlist(playlist_id, song_id):
+        query = """
+    INSERT OR REPLACE {
+        ?entry
+            nfo:listPosition ?position .
+    }
+    WHERE {
+        SELECT
+            ?entry
+            (?old_position - 1) AS position
+        WHERE {
+            ?entry
+                a nfo:MediaFileListEntry ;
+                nfo:listPosition ?old_position .
+            ?playlist
+                nfo:hasMediaFileListEntry ?entry .
+            FILTER (?old_position > ?removed_position)
+            {
+                SELECT
+                    ?playlist
+                    ?removed_position
+                WHERE {
+                    ?playlist
+                        a nmm:Playlist ;
+                        a nfo:MediaList ;
+                        nfo:hasMediaFileListEntry ?removed_entry .
+                    ?removed_entry
+                        nfo:listPosition ?removed_position .
+                    FILTER (
+                        tracker:id(?playlist) = %(playlist_id)s &&
+                        tracker:id(?removed_entry) = %(song_id)s
+                    )
+                }
+            }
+        }
+    }
+    INSERT OR REPLACE {
+        ?playlist
+            nfo:entryCounter ?new_counter .
+    }
+    WHERE {
+        SELECT
+            ?playlist
+            (?counter - 1) AS new_counter
+        WHERE {
+            ?playlist
+                a nmm:Playlist ;
+                a nfo:MediaList ;
+                nfo:entryCounter ?counter .
+            FILTER (
+                tracker:id(?playlist) = %(playlist_id)s
+            )
+        }
+    }
+    DELETE {
+        ?playlist
+            nfo:hasMediaFileListEntry ?entry .
+        ?entry
+            a rdfs:Resource .
+    }
+    WHERE {
+        ?playlist
+            a nmm:Playlist ;
+            a nfo:MediaList ;
+            nfo:hasMediaFileListEntry ?entry .
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s &&
+            tracker:id(?entry) = %(song_id)s
+        )
+    }
+    """.replace("\n", " ").strip() % {
+            'playlist_id': playlist_id,
+            'song_id': song_id
+        }
+        return query
+
+    @staticmethod
     def get_playlist_with_id(playlist_id):
         query = """
     ?playlist a nmm:Playlist .
