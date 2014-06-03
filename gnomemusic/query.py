@@ -620,6 +620,32 @@ class Query():
         return query
 
     @staticmethod
+    def delete_playlist(playlist_id):
+        query = """
+    DELETE {
+        ?playlist
+            a rdfs:Resource .
+        ?entry
+            a rdfs:Resource .
+    }
+    WHERE {
+        ?playlist
+            a nmm:Playlist ;
+            a nfo:MediaList .
+        OPTIONAL {
+            ?playlist
+                nfo:hasMediaFileListEntry ?entry .
+        }
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s
+        )
+    }
+    """.replace("\n", " ").strip() % {
+            'playlist_id': playlist_id
+        }
+        return query
+
+    @staticmethod
     def get_playlist_with_id(playlist_id):
         query = """
     ?playlist a nmm:Playlist .
