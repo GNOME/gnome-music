@@ -21,7 +21,9 @@ class Playlists(GObject.GObject):
     __gsignals__ = {
         'playlist-created': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
         'playlist-deleted': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
-        'song-added-to-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, Grl.Media)),
+        'song-added-to-playlist': (
+            GObject.SIGNAL_RUN_FIRST, None, (Grl.Media, Grl.Media)
+        ),
         'song-removed-from-playlist': (GObject.SIGNAL_RUN_FIRST, None, (str, str)),
     }
     instance = None
@@ -90,32 +92,36 @@ class Playlists(GObject.GObject):
         return playlist_names
 
     @log
-    def add_to_playlist(self, playlist_name, uris):
-        parser = TotemPlParser.Parser()
-        playlist = TotemPlParser.Playlist()
-        pl_file = Gio.file_new_for_path(self.get_path_to_playlist(playlist_name))
+    def add_to_playlist(self, playlist, items):
+        def get_callback(source, param, item, count, data, error):
+            if item:
+                self.emit('song-added-to-playlist', playlist, item)
 
-        def parse_callback(parser, uri, metadata, data):
-            _iter = playlist.append()
-            playlist.set_value(_iter, TotemPlParser.PARSER_FIELD_URI, uri)
+        def query_callback(conn, res, data):
+            cursor = conn.query_finish(res)
+            if not cursor or not cursor.next():
+                return
+            entry_id = cursor.get_integer(0)
+            grilo.get_playlist_song_with_id(
+                playlist.get_id(), entry_id, get_callback
+            )
 
-        def end_callback(parser, uri, data):
-            for uri in uris:
-                _iter = playlist.append()
-                playlist.set_value(_iter, TotemPlParser.PARSER_FIELD_URI, uri)
+        def update_callback(conn, res, data):
+            entry_urn = conn.update_blank_finish(res)[0][0]['entry']
+            tracker.query_async(
+                Query.get_playlist_song_with_urn(entry_urn),
+                None, query_callback, None
+            )
 
-                def get_callback(source, param, item):
-                    self.emit('song-added-to-playlist', playlist_name, item)
-                grilo.get_media_from_uri(uri, get_callback)
-
-            parser.save(playlist, pl_file, playlist_name, TotemPlParser.ParserType.PLS)
-
-        parser.connect('entry-parsed', parse_callback, playlist)
-        parser.connect('playlist-ended', end_callback, playlist)
-        parser.parse_async(
-            GLib.filename_to_uri(self.get_path_to_playlist(playlist_name), None),
-            False, None, None, None
-        )
+        for item in items:
+            uri = item.get_url()
+            if not uri:
+                continue
+            tracker.update_blank_async(
+                Query.add_song_to_playlist(playlist.get_id(), uri),
+                GLib.PRIORITY_DEFAULT,
+                None, update_callback, None
+            )
 
     @log
     def remove_from_playlist(self, playlist_name, uris):
