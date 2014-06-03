@@ -493,7 +493,7 @@ class Query():
         query = '''
     SELECT
         rdf:type(?song)
-        tracker:id(?song) AS id
+        tracker:id(?entry) AS id
         nie:url(?song) AS url
         nie:title(?song) AS title
         nmm:artistName(nmm:performer(?song)) AS artist
