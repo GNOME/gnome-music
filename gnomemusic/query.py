@@ -489,7 +489,7 @@ class Query():
         return query
 
     @staticmethod
-    def playlist_songs(playlist_id):
+    def playlist_songs(playlist_id, filter_clause=None):
         query = '''
     SELECT
         rdf:type(?song)
@@ -509,7 +509,7 @@ class Query():
              a nfo:FileDataObject ;
              nie:url ?url .
         FILTER (
-            tracker:id(?playlist) = %(playlist_id)s
+            %(filter_clause)s
         )
         FILTER (
             NOT EXISTS {
@@ -524,6 +524,8 @@ class Query():
          nfo:listPosition(?entry)
     '''.replace('\n', ' ').strip() % {
             'playlist_id': playlist_id,
+            'filter_clause':
+                filter_clause or 'tracker:id(?playlist) = ' + playlist_id,
             'music_dir': Query.MUSIC_DIR,
             'download_dir': Query.DOWNLOAD_DIR
         }
@@ -612,7 +614,8 @@ class Query():
         _:playlist
             a nmm:Playlist ;
             a nfo:MediaList ;
-            nie:title "%(title)s" .
+            nie:title "%(title)s" ;
+            nfo:entryCounter 0 .
     }
     """.replace("\n", " ").strip() % {
             'title': title
@@ -646,6 +649,38 @@ class Query():
         return query
 
     @staticmethod
+    def add_song_to_playlist(playlist_id, song_uri):
+        query = """
+    INSERT OR REPLACE {
+        _:entry
+            a nfo:MediaFileListEntry ;
+            nfo:entryUrl "%(song_uri)s" ;
+            nfo:listPosition ?position .
+        ?playlist
+            nfo:entryCounter ?position ;
+            nfo:hasMediaFileListEntry _:entry .
+    }
+    WHERE {
+        SELECT
+            ?playlist
+            (?counter + 1) AS position
+        WHERE {
+            ?playlist
+                a nmm:Playlist ;
+                a nfo:MediaList ;
+                nfo:entryCounter ?counter .
+            FILTER (
+                tracker:id(?playlist) = %(playlist_id)s
+            )
+        }
+    }
+    """.replace("\n", " ").strip() % {
+            'playlist_id': playlist_id,
+            'song_uri': song_uri
+        }
+        return query
+
+    @staticmethod
     def get_playlist_with_id(playlist_id):
         query = """
     ?playlist a nmm:Playlist .
@@ -665,6 +700,23 @@ class Query():
         <%(playlist_urn)s> a nmm:Playlist
     }
     """.replace('\n', ' ').strip() % {'playlist_urn': playlist_urn}
+        return query
+
+    @staticmethod
+    def get_playlist_song_with_id(playlist_id, entry_id):
+        return Query.playlist_songs(
+            playlist_id, 'tracker:id(?entry) = ' + str(entry_id)
+        )
+
+    @staticmethod
+    def get_playlist_song_with_urn(entry_urn):
+        query = """
+    SELECT DISTINCT
+        tracker:id(<%(entry_urn)s>) AS id
+    WHERE {
+        <%(entry_urn)s> a nfo:MediaFileListEntry
+    }
+    """.replace('\n', ' ').strip() % {'entry_urn': entry_urn}
         return query
 
     @staticmethod
