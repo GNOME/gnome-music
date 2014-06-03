@@ -322,7 +322,7 @@ class ViewContainer(Gtk.Stack):
         self.header_bar._select_button.clicked()
 
     @log
-    def get_selected_track_uris(self, callback):
+    def get_selected_tracks(self, callback):
         callback([])
 
 
@@ -390,13 +390,13 @@ class Albums(ViewContainer):
             GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
 
     @log
-    def get_selected_track_uris(self, callback):
+    def get_selected_tracks(self, callback):
         if self.header_bar._state == ToolbarState.CHILD_VIEW:
-            uris = []
+            items = []
             for path in self._albumWidget.view.get_selection():
                 _iter = self._albumWidget.model.get_iter(path)
-                uris.append(self._albumWidget.model.get_value(_iter, 5).get_url())
-            callback(uris)
+                items.append(self._albumWidget.model.get_value(_iter, 5))
+            callback(items)
         else:
             self.items_selected = []
             self.items_selected_callback = callback
@@ -416,7 +416,7 @@ class Albums(ViewContainer):
     @log
     def _add_selected_item(self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item.get_url())
+            self.items_selected.append(item)
         if remaining == 0:
             if self.albums_index < len(self.albums_selected):
                 self._get_selected_album_songs()
@@ -582,8 +582,8 @@ class Songs(ViewContainer):
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
     @log
-    def get_selected_track_uris(self, callback):
-        callback([self._model.get_value(self._model.get_iter(path), 5).get_url()
+    def get_selected_tracks(self, callback):
+        callback([self._model.get_value(self._model.get_iter(path), 5)
                   for path in self.view.get_selection()])
 
 
@@ -753,7 +753,7 @@ class Artists (ViewContainer):
             self._on_changes_pending()
 
     @log
-    def get_selected_track_uris(self, callback):
+    def get_selected_tracks(self, callback):
         self.items_selected = []
         self.items_selected_callback = callback
         self.albums_index = 0
@@ -780,7 +780,7 @@ class Artists (ViewContainer):
     @log
     def _add_selected_item(self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item.get_url())
+            self.items_selected.append(item)
         if remaining == 0:
             if self.albums_index < len(self.albums_selected):
                 self._get_selected_album_songs()
@@ -1187,8 +1187,8 @@ class Playlist(ViewContainer):
                           self._add_playlist_item)
 
     @log
-    def get_selected_track_uris(self, callback):
-        callback([self._model.get_value(self._model.get_iter(path), 5).get_url()
+    def get_selected_tracks(self, callback):
+        callback([self._model.get_value(self._model.get_iter(path), 5)
                   for path in self.view.get_selection()])
 
 
@@ -1389,19 +1389,19 @@ class Search(ViewContainer):
         pass
 
     @log
-    def get_selected_track_uris(self, callback):
+    def get_selected_tracks(self, callback):
         if self.get_visible_child() == self._albumWidget:
-            uris = []
+            items = []
             for path in self._albumWidget.view.get_selection():
                 _iter = self._albumWidget.model.get_iter(path)
-                uris.append(self._albumWidget.model.get_value(_iter, 5).get_url())
-            callback(uris)
+                items.append(self._albumWidget.model.get_value(_iter, 5))
+            callback(items)
         elif self.get_visible_child() == self._artistAlbumsWidget:
-            uris = []
+            items = []
             for row in self._artistAlbumsWidget.model:
                 if row[6]:
-                    uris.append(row[5].get_url())
-            callback(uris)
+                    items.append(row[5])
+            callback(items)
         else:
             self.items_selected = []
             self.items_selected_callback = callback
@@ -1429,7 +1429,7 @@ class Search(ViewContainer):
     @log
     def _add_selected_albums_songs(self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item.get_url())
+            self.items_selected.append(item)
         if remaining == 0:
             if self.albums_index < len(self.albums_selected):
                 self._get_selected_albums_songs()
@@ -1463,7 +1463,7 @@ class Search(ViewContainer):
     @log
     def _add_selected_artists_albums_songs(self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item.get_url())
+            self.items_selected.append(item)
         if remaining == 0:
             if self.artists_albums_index < len(self.artists_albums_selected):
                 self._get_selected_artists_albums_songs()
@@ -1472,7 +1472,7 @@ class Search(ViewContainer):
 
     @log
     def _get_selected_songs(self):
-        self.items_selected.extend([self._model[child_path][5].get_url()
+        self.items_selected.extend([self._model[child_path][5]
                                     for child_path in [self.filter_model.convert_path_to_child_path(path)
                                                        for path in self.view.get_selection()]
                                     if self._model[child_path][11] == 'song'])

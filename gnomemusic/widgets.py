@@ -670,7 +670,7 @@ class PlaylistDialog():
         if not _iter or self.model[_iter][1]:
             return None
 
-        return self.model[_iter][0]
+        return self.model[_iter][2]
 
     @log
     def _add_list_renderers(self):

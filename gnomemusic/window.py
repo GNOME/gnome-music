@@ -369,32 +369,32 @@ class Window(Gtk.ApplicationWindow):
         if self._stack.get_visible_child() == self.views[3]:
             return
 
-        def callback(selected_uris):
-            if len(selected_uris) < 1:
+        def callback(selected_tracks):
+            if len(selected_tracks) < 1:
                 return
 
             add_to_playlist = Widgets.PlaylistDialog(self)
             if add_to_playlist.dialog_box.run() == Gtk.ResponseType.ACCEPT:
                 playlist.add_to_playlist(
                     add_to_playlist.get_selected(),
-                    selected_uris)
+                    selected_tracks)
             self.toolbar.set_selection_mode(False)
             add_to_playlist.dialog_box.destroy()
 
-        self._stack.get_visible_child().get_selected_track_uris(callback)
+        self._stack.get_visible_child().get_selected_tracks(callback)
 
     @log
     def _on_remove_from_playlist_button_clicked(self, widget):
         if self._stack.get_visible_child() != self.views[3]:
             return
 
-        def callback(selected_uris):
-            if len(selected_uris) < 1:
+        def callback(selected_tracks):
+            if len(selected_tracks) < 1:
                 return
 
             playlist.remove_from_playlist(
                 self.views[3].current_playlist,
-                selected_uris)
+                selected_tracks)
             self.toolbar.set_selection_mode(False)
 
-        self._stack.get_visible_child().get_selected_track_uris(callback)
+        self._stack.get_visible_child().get_selected_tracks(callback)
