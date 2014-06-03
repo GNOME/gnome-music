@@ -232,18 +232,6 @@ class Grilo(GObject.GObject):
                                 _search_callback, data)
 
     @log
-    def get_media_from_uri(self, uri, callback):
-        options = self.options.copy()
-        query = Query.get_song_with_url(uri)
-
-        def _callback(source, param, item, count, data, error):
-            if not error:
-                callback(source, param, item)
-                return
-
-        self.tracker.query(query, self.METADATA_KEYS, options, _callback, None)
-
-    @log
     def get_album_art_for_item(self, item, callback, data=None):
         item_id = item.get_id()
 
