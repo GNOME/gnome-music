@@ -789,7 +789,6 @@ class Artists (ViewContainer):
 
 
 class Playlist(ViewContainer):
-    playlists_list = playlists.get_playlists()
 
     @log
     def __init__(self, window, player):

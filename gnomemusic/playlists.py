@@ -1,9 +1,7 @@
-from gi.repository import TotemPlParser, Grl, GLib, Gio, GObject
+from gi.repository import Grl, GLib, GObject
 from gi.repository import Tracker
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
-
-import os
 
 from gnomemusic import log
 import logging
@@ -41,9 +39,6 @@ class Playlists(GObject.GObject):
     @log
     def __init__(self):
         GObject.GObject.__init__(self)
-        self.playlist_dir = os.path.join(GLib.get_user_data_dir(),
-                                         'gnome-music',
-                                         'playlists')
 
     @log
     def create_playlist(self, name):
@@ -80,18 +75,6 @@ class Playlists(GObject.GObject):
             Query.delete_playlist(item.get_id()), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
-
-    @log
-    def get_playlists(self):
-        playlist_files = [pl_file for pl_file in os.listdir(self.playlist_dir)
-                          if os.path.isfile(os.path.join(self.playlist_dir,
-                                                         pl_file))]
-        playlist_names = []
-        for playlist_file in playlist_files:
-            name, ext = os.path.splitext(playlist_file)
-            if ext == '.pls':
-                playlist_names.append(name)
-        return playlist_names
 
     @log
     def add_to_playlist(self, playlist, items):
@@ -139,24 +122,3 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_DEFAULT,
                 None, update_callback, item
             )
-
-    @log
-    def get_path_to_playlist(self, playlist_name):
-        return os.path.join(self.playlist_dir, "%s.pls" % playlist_name)
-
-    @log
-    def parse_playlist(self, playlist_name, callback):
-        parser = TotemPlParser.Parser()
-        parser.connect('entry-parsed', self._on_entry_parsed, callback)
-        parser.parse_async(
-            GLib.filename_to_uri(self.get_path_to_playlist(playlist_name), None),
-            False, None, None, None
-        )
-
-    @log
-    def _on_entry_parsed(self, parser, uri, metadata, data=None):
-        filename = GLib.filename_from_uri(uri)[0]
-        if filename and not os.path.isfile(filename):
-            return
-
-        grilo.get_media_from_uri(uri, data)
