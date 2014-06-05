@@ -796,8 +796,8 @@ class Query():
     """.replace('\n', ' ').strip() % {'entry_urn': entry_urn}
         return query
 
-    #Functions for search
-    # TODO: make those queries actualyl return something
+    # Functions for search
+    # TODO: make those queries actually return something
     @staticmethod
     def get_albums_with_any_match(name):
         name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
