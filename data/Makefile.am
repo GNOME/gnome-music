@@ -1,6 +1,6 @@
-resource_files = $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --sourcedir=$(builddir) --generate-dependencies $(srcdir)/gnome-music.gresource.xml) 
+resource_files = $(shell $(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --sourcedir=$(builddir) --generate-dependencies $(builddir)/gnome-music.gresource.xml) 
 gnome-music.gresource: gnome-music.gresource.xml $(resource_files)
-	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) $<
+	$(AM_V_GEN) $(GLIB_COMPILE_RESOURCES) --target=$@ --sourcedir=$(srcdir) --sourcedir=$(builddir) $<
 
 resourcedir = $(pkgdatadir)
 resource_DATA = gnome-music.gresource
