@@ -1,0 +1,347 @@
+# Swedish translation for gnome-music.
+# Copyright © 2014 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-05-05 18:53+0000\n"
+"PO-Revision-Date: 2014-05-31 21:41+0100\n"
+"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+"Language-Team: Swedish <tp-sv@lists.tp-sv.se>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Fönsterstorlek"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Fönsterstorlek (bredd och höjd)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Fönsterposition"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Fönsterposition (x och y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Fönster maximerat"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Tillstånd för maximerat fönster."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Upprepningsläge för uppspelning"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Värdet avgör om uppspelning av samlingen ska upprepas eller vara i "
+"slumpmässig ordning. Tillåtna värden är \"none\" (låtar spelas i ordning "
+"utan att upprepas), \"song\" (aktuell låt upprepas), \"all\" (spellistan "
+"spelas i ordning och börjar sedan om), \"shuffle\" (låtar spelas i "
+"slumpmässig ordning, detta medför upprepning av alla)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Sökläge"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Visar sökraden om sant."
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musik"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Musikspelare"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Spela och organisera din musiksamling"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musik"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musik är det nya GNOME-programmet för att spela musik."
+
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "Namnlös"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:396 ../gnomemusic/view.py:566
+#: ../gnomemusic/view.py:942
+msgid "Unknown Album"
+msgstr "Okänt album"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:387 ../gnomemusic/view.py:284
+#: ../gnomemusic/view.py:477 ../gnomemusic/view.py:703
+#: ../gnomemusic/view.py:1031 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:541
+msgid "Unknown Artist"
+msgstr "Okänd artist"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Spelar inte"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "av %s, från %s"
+
+#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Föregående"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:344
+msgid "Pause"
+msgstr "Gör paus"
+
+#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:347
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Spela"
+
+#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Nästa"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/window.py:258
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Markerade %d objekt"
+msgstr[1] "Markerade %d objekt"
+
+#: ../gnomemusic/view.py:202 ../gnomemusic/widgets.py:226
+#: ../gnomemusic/window.py:262 ../gnomemusic/window.py:277
+#: ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Klicka på objekt för att välja dem"
+
+#: ../gnomemusic/view.py:338
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+"Ingen musik hittades!\n"
+" Lägg några filer i mappen %s"
+
+#: ../gnomemusic/view.py:346
+msgid "Albums"
+msgstr "Album"
+
+#: ../gnomemusic/view.py:424
+msgid "Songs"
+msgstr "Låtar"
+
+#: ../gnomemusic/view.py:582
+msgid "Artists"
+msgstr "Artister"
+
+#: ../gnomemusic/view.py:626 ../gnomemusic/view.py:628
+#: ../gnomemusic/widgets.py:427
+msgid "All Artists"
+msgstr "Alla artister"
+
+#: ../gnomemusic/view.py:778
+msgid "Playlists"
+msgstr "Spellistor"
+
+#: ../gnomemusic/view.py:1044
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d låt"
+msgstr[1] "%d låtar"
+
+#: ../gnomemusic/widgets.py:618
+msgid "New Playlist"
+msgstr "Ny spellista"
+
+#: ../gnomemusic/window.py:219
+msgid "Empty"
+msgstr "Tom"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME Musik-utvecklarna"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Ett program för uppspelning och hantering av musik för GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Besök webbplatsen för GNOME Musik"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Musik är fri programvara. Du kan distribuera det och/eller modifiera "
+"det under villkoren i GNU General Public License, publicerad av Free "
+"Software Foundation, antingen version 2 eller (om du så vill) någon senare "
+"version.\n"
+"\n"
+"GNOME Musik distribueras i hopp om att det ska vara användbart, men UTAN "
+"NÅGON SOM HELST GARANTI, även utan underförstådd garanti om SÄLJBARHET eller "
+"LÄMPLIGHET FÖR NÅGOT SPECIELLT ÄNDAMÅL. Se GNU General Public License för "
+"ytterligare information.\n"
+"\n"
+"Du bör ha fått en kopia av GNU General Public License tillsammans med GNOME "
+"Musik. Om inte, skriv till Free Software Foundation, Inc., 51 Franklin "
+"Street, Fifth Floor, Boston, MA 02110-130159 USA.\n"
+"\n"
+"Upphovmännen för GNOME Musik ger härmed tillåtelse för användning och "
+"distribution av ej GPL-kompatibla GStreamer-insticksmoduler tillsammans med "
+"GStreamer och GNOME Musik.  Denna tillåtelse är bortom tillåtelserna som ges "
+"av GPL-licensen, vilken täcker GNOME Musik.  Om du ändrar denna kod kan du "
+"om du vill överföra detta undantag till din version av koden, men du är inte "
+"tvungen att göra det.  Ta bort detta undantag från din version om du inte "
+"vill använda det."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Utgiven"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Speltid"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Ny spellista"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_Om"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "A_vsluta"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Spela i slumpmässig ordning"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Upprepa alla"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Upprepa låt"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Spela i ordning utan upprepning"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "Ingen musik hittades"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Markera alla"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Avmarkera alla"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Sök"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Välj"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Bakåt"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Lägg till spellista"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Ta bort från spellista"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Spela"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Ta bort"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Välj spellista"
+
+#~ msgid "Load More"
+#~ msgstr "Läs in fler"
+
+#~ msgid "Loading..."
+#~ msgstr "Läser in…"
