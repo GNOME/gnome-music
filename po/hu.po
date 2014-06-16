@@ -2,16 +2,17 @@
 # Copyright (C) 2013. Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-music package.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
+# Balázs Úr <urbalazs@gmail.com>, 2013, 2014.
+# Balázs Meskó <meskobalazs at gmail dot com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-02-26 21:05+0000\n"
-"PO-Revision-Date: 2014-02-28 22:05+0100\n"
-"Last-Translator: Balázs Úr <urbalazs at gmail dot com>\n"
+"POT-Creation-Date: 2014-06-16 18:57+0000\n"
+"PO-Revision-Date: 2014-06-16 23:42+0200\n"
+"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -50,9 +51,6 @@ msgstr "Lejátszás ismétlési módja"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -73,8 +71,8 @@ msgstr "Keresési mód"
 msgid "If true, the search bar is shown."
 msgstr "Ha igaz, megjelenik a keresési sáv."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:57
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Zene"
@@ -95,61 +93,97 @@ msgstr "GNOME Zene"
 msgid "Music is the new GNOME music playing application."
 msgstr "A Zene a GNOME új zenelejátszó alkalmazása."
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
 msgid "Untitled"
 msgstr "Névtelen"
 
-#: ../gnomemusic/notification.py:70
-msgid "Not playing"
-msgstr "Lejátszás áll"
-
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:357
-#: ../gnomemusic/view.py:249 ../gnomemusic/view.py:435
-#: ../gnomemusic/view.py:648 ../gnomemusic/view.py:962
-msgid "Unknown Artist"
-msgstr "Ismeretlen előadó"
-
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:533
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:963 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "Ismeretlen album"
 
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:719
+#: ../gnomemusic/view.py:1066 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:186
+#: ../gnomemusic/widgets.py:584
+msgid "Unknown Artist"
+msgstr "Ismeretlen előadó"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Lejátszás áll"
+
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
 msgstr "előadó: %s, album: %s"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Előző"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Szünet"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Következő"
 
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:211
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Mind"
+
+#: ../gnomemusic/searchbar.py:31
+#| msgid "Artists"
+msgid "Artist"
+msgstr "Előadó"
+
+#: ../gnomemusic/searchbar.py:32
+#| msgid "Albums"
+msgid "Album"
+msgstr "Album"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Szám címe"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Helyi"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Források"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Találat"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d elem kijelölve"
 msgstr[1] "%d elem kijelölve"
 
-#: ../gnomemusic/view.py:195 ../gnomemusic/widgets.py:263
-#: ../gnomemusic/window.py:215 ../gnomemusic/window.py:228
-#: ../data/headerbar.ui.in.h:3
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:229
+#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
-#: ../gnomemusic/view.py:318
+#: ../gnomemusic/view.py:340
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -158,49 +192,39 @@ msgstr ""
 "Nem találhatók zenék!\n"
 " Helyezzen néhány fájlt a %s mappába"
 
-#: ../gnomemusic/view.py:325
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../gnomemusic/view.py:391
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
 msgid "Songs"
 msgstr "Számok"
 
-#: ../gnomemusic/view.py:546
+#: ../gnomemusic/view.py:593 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "Előadók"
 
-#: ../gnomemusic/view.py:583 ../gnomemusic/view.py:585
-#: ../gnomemusic/widgets.py:451
+#: ../gnomemusic/view.py:638 ../gnomemusic/view.py:640
+#: ../gnomemusic/widgets.py:461
 msgid "All Artists"
 msgstr "Minden előadó"
 
-#: ../gnomemusic/view.py:715
+#: ../gnomemusic/view.py:799 ../gnomemusic/view.py:1538
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
-#: ../gnomemusic/view.py:979
+#: ../gnomemusic/view.py:1079
 #, python-format
-#| msgid "Songs"
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d szám"
 msgstr[1] "%d szám"
 
-#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
-msgid "Load More"
-msgstr "Több betöltése"
-
-#: ../gnomemusic/widgets.py:85
-msgid "Loading..."
-msgstr "Betöltés…"
-
-#: ../gnomemusic/widgets.py:670
-#| msgid "_New Playlist"
+#: ../gnomemusic/widgets.py:694
 msgid "New Playlist"
 msgstr "Új lejátszólista"
 
-#: ../gnomemusic/window.py:181
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "Üres"
 
@@ -277,7 +301,6 @@ msgid "_Help"
 msgstr "_Súgó"
 
 #: ../data/app-menu.ui.h:3
-#| msgid "_About Music"
 msgid "_About"
 msgstr "_Névjegy"
 
@@ -305,29 +328,40 @@ msgstr "Véletlen/Ismétlés kikapcsolva"
 msgid "No Music Found"
 msgstr "Nem található zene"
 
-#: ../data/headerbar.ui.in.h:1
+#: ../data/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Összes kijelölése"
 
-#: ../data/headerbar.ui.in.h:2
+#: ../data/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Kijelölés törlése"
 
-#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
+#: ../data/headerbar.ui.h:4
+#| msgid "Search mode"
+msgid "Search"
+msgstr "Keresés"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Kiválasztás"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Mégse"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Vissza"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
 #: ../data/SelectionToolbar.ui.h:2
-#| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "Eltávolítás a lejátszólistáról"
 
 #: ../data/PlaylistControls.ui.h:1
-#| msgid "Play"
 msgid "_Play"
 msgstr "_Lejátszás"
 
@@ -335,15 +369,15 @@ msgstr "_Lejátszás"
 msgid "_Delete"
 msgstr "_Törlés"
 
-#: ../data/PlaylistDialog.ui.in.h:1
-#| msgid "Select All"
+#: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Lejátszólista kiválasztása"
 
-#: ../data/PlaylistDialog.ui.in.h:3
-#| msgid "Select All"
-msgid "Select"
-msgstr "Kiválasztás"
+#~ msgid "Load More"
+#~ msgstr "Több betöltése"
+
+#~ msgid "Loading..."
+#~ msgstr "Betöltés…"
 
 #~ msgid "_Now Playing"
 #~ msgstr "_Most játszott"
