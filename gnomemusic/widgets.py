@@ -32,7 +32,7 @@
 
 
 from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango
-from gi.repository import GdkPixbuf, Gio, Grl
+from gi.repository import GdkPixbuf, Grl
 from gi.repository import Tracker
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
@@ -81,7 +81,6 @@ class AlbumWidget(Gtk.EventBox):
         self.album = None
         self.header_bar = None
         self.view.connect('item-activated', self._on_item_activated)
-        self.monitors = []
         view_box = self.ui.get_object('view')
         self.ui.get_object('scrolledWindow').set_placement(Gtk.CornerType.
                                                            TOP_LEFT)
@@ -262,10 +261,6 @@ class AlbumWidget(Gtk.EventBox):
             self.duration = self.duration + track.get_duration()
             _iter = self.model.append()
             self.player.discover_item(track, self._on_discovered, _iter)
-            g_file = Gio.file_new_for_uri(track.get_url())
-            self.monitors.append(g_file.monitor_file(Gio.FileMonitorFlags.NONE,
-                                                     None))
-            self.monitors[-1].connect('changed', self._on_item_changed, _iter)
             escapedTitle = AlbumArtCache.get_media_title(track, True)
             self.model.set(_iter,
                            [0, 1, 2, 3, 4, 5, 7, 9],
@@ -278,10 +273,6 @@ class AlbumWidget(Gtk.EventBox):
                 '%d min' % (int(self.duration / 60) + 1))
 
     @log
-    def _on_item_changed(self, monitor, file1, file2, event_type, _iter):
-        if self.model.iter_is_valid(_iter):
-            if event_type == Gio.FileMonitorEvent.DELETED:
-                self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
 
     @log
     def _on_look_up(self, pixbuf, path, data=None):
@@ -493,7 +484,6 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.selectionMode = False
         self.selectionModeAllowed = selectionModeAllowed
         self.songs = []
-        self.monitors = []
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
@@ -553,10 +543,6 @@ class ArtistAlbumWidget(Gtk.HBox):
                     'toggled', self._check_button_toggled, song_widget
                 )
                 self.player.discover_item(track, self._on_discovered, song_widget)
-                g_file = Gio.file_new_for_uri(track.get_url())
-                self.monitors.append(g_file.monitor_file(Gio.FileMonitorFlags.NONE,
-                                                         None))
-                self.monitors[-1].connect('changed', self._on_item_changed, itr)
                 self.model.set(itr,
                                [0, 1, 2, 3, 4, 5],
                                [title, '', '', False,
@@ -573,10 +559,6 @@ class ArtistAlbumWidget(Gtk.HBox):
             self.ui.get_object('grid1').show_all()
 
     @log
-    def _on_item_changed(self, monitor, file1, file2, event_type, _iter):
-        if self.model.iter_is_valid(_iter):
-            if event_type == Gio.FileMonitorEvent.DELETED:
-                self.model.set(_iter, [3, 4], [True, ERROR_ICON_NAME])
 
     @log
     def _update_album_art(self):
