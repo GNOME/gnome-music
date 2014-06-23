@@ -1061,15 +1061,15 @@ class Playlist(ViewContainer):
         if not item:
             return
         self._offset += 1
-        item.set_title(albumArtCache.get_media_title(item))
+        title = albumArtCache.get_media_title(item)
+        item.set_title(title)
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
         _iter = model.insert_with_valuesv(
             -1,
             [2, 3, 5, 8, 9, 10],
-            [albumArtCache.get_media_title(item),
-             artist, item, self.nowPlayingIconName, False, False])
+            [title, artist, item, self.nowPlayingIconName, False, False])
         self.player.discover_item(item, self._on_discovered, _iter)
         self.songs_count += 1
         self._update_songs_count()
