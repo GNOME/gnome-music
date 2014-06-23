@@ -70,7 +70,6 @@ class AlbumWidget(Gtk.EventBox):
         super(Gtk.EventBox, self).__init__()
         self.player = player
         self.iterToClean = None
-        self.cache = AlbumArtCache.get_default()
 
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
@@ -433,6 +432,8 @@ class ArtistAlbums(Gtk.VBox):
 
     @log
     def set_selection_mode(self, selectionMode):
+        if self.selectionMode == selectionMode:
+            return
         self.selectionMode = selectionMode
         for widget in self.widgets:
             widget.set_selection_mode(selectionMode)
@@ -478,6 +479,8 @@ class AllArtistsAlbums(ArtistAlbums):
 
 class ArtistAlbumWidget(Gtk.HBox):
 
+    pixbuf = AlbumArtCache.get_default().get_default_icon(128, 128)
+
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
         super(Gtk.HBox, self).__init__()
@@ -494,11 +497,9 @@ class ArtistAlbumWidget(Gtk.HBox):
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
-        self.cache = AlbumArtCache.get_default()
-        pixbuf = self.cache.get_default_icon(128, 128)
         GLib.idle_add(self._update_album_art)
 
-        self.ui.get_object('cover').set_from_pixbuf(pixbuf)
+        self.ui.get_object('cover').set_from_pixbuf(self.pixbuf)
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
             self.ui.get_object('year').set_markup(
