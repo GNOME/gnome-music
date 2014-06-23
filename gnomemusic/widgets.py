@@ -273,8 +273,6 @@ class AlbumWidget(Gtk.EventBox):
                 '%d min' % (int(self.duration / 60) + 1))
 
     @log
-
-    @log
     def _on_look_up(self, pixbuf, path, data=None):
         _iter = self.iterToClean
         if pixbuf:
@@ -557,8 +555,6 @@ class ArtistAlbumWidget(Gtk.HBox):
                 song_widget.connect('button-release-event',
                                     self.track_selected)
             self.ui.get_object('grid1').show_all()
-
-    @log
 
     @log
     def _update_album_art(self):
