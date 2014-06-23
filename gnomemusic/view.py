@@ -641,10 +641,10 @@ class Artists (ViewContainer):
             self._artists[_("All Artists").casefold()] =\
                 {'iter': self._allIter, 'albums': [], 'widget': None}
             selection.select_path(self._model.get_path(self._allIter))
-            self.view.emit('item-activated', '0',
-                           self._model.get_path(self._allIter))
         self._init = True
         self.populate()
+        self.view.emit('item-activated', '0',
+                           self._model.get_path(self._allIter))
 
     @log
     def _add_list_renderers(self):
