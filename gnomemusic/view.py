@@ -1231,7 +1231,6 @@ class Search(ViewContainer):
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.destroy()
             self._artistAlbumsWidget = None
-        self.window._stack.set_visible_child(self.window.prev_view)
         self.set_visible_child(self._grid)
 
     @log
