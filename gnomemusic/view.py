@@ -578,6 +578,7 @@ class Songs(ViewContainer):
 
     @log
     def populate(self):
+        self._init = True
         if grilo.tracker:
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
