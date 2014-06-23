@@ -1,3 +1,19 @@
+Overview of changes in 3.13.3
+=============================
+
+* Playlists are now stored in Tracker
+* Back button now returns back to Search if available
+
+* Bugs fixed:
+ 707461 add man page
+ 729311 Use Tracker to save Playlists
+ 728254 Incorrect item is removed in playlists if it has duplicates
+ 728255 Don't show playlists in Songs
+ 728330 Crash when the name of the new playlist contains special characters
+
+* Updated translations and help files
+
+
 Overview of changes in 3.13.2
 =============================
 
