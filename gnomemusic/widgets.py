@@ -616,6 +616,8 @@ class ArtistAlbumWidget(Gtk.HBox):
 
     @log
     def set_selection_mode(self, selectionMode):
+        if self.selectionMode == selectionMode:
+            return
         self.selectionMode = selectionMode
         for songWidget in self.songs:
             songWidget.checkButton.set_visible(selectionMode)
@@ -629,6 +631,8 @@ class ArtistAlbumWidget(Gtk.HBox):
 
     @log
     def _model_row_changed(self, model, path, _iter):
+        if not self.selectionMode:
+            return
         if not model[_iter][5]:
             return
         songWidget = model[_iter][5].song_widget
