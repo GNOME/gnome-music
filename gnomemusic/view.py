@@ -248,7 +248,7 @@ class ViewContainer(Stack):
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                             [str(item.get_id()), '', title,
                              artist, self._symbolicIcon, item,
-                             0, icon_name, False, icon_name == self.errorIconName])
+                             -1, icon_name, False, icon_name == self.errorIconName])
             GLib.idle_add(self._update_album_art, item, _iter)
 
         GLib.idle_add(add_new_item)
