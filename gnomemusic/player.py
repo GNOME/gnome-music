@@ -664,13 +664,21 @@ class Player(GObject.GObject):
         seconds = scroll.get_value() / 60
         if seconds != self.duration:
             self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000)
-            self.emit('seeked', seconds * 1000000)
+            try:
+                self.emit('seeked', seconds * 1000000)
+            except TypeError:
+                # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
+                pass
         else:
             duration = self.player.query_duration(Gst.Format.TIME)
             if duration:
                 # Rewind a second back before the track end
                 self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
-                self.emit('seeked', (duration[1] - 1000000000) / 1000)
+                try:
+                    self.emit('seeked', (duration[1] - 1000000000) / 1000)
+                except TypeError:
+                    # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
+                    pass
         return True
 
     # MPRIS
