@@ -11,7 +11,7 @@ AM_INIT_AUTOMAKE([1.11 tar-ustar dist-xz no-dist-gzip -Wno-portability subdir-ob
 AM_MAINTAINER_MODE([enable])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-AM_PATH_PYTHON([3])
+AM_PATH_PYTHON([3.3])
 
 GETTEXT_PACKAGE=gnome-music
 AC_SUBST(GETTEXT_PACKAGE)
