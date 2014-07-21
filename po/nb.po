@@ -2,14 +2,15 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Kjartan Maraas <kmaraas@gnome.org>, 2012-2014.
+# Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 3.13.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-08 11:17+0200\n"
-"PO-Revision-Date: 2014-06-08 11:18+0200\n"
-"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
+"POT-Creation-Date: 2014-07-21 12:03+0200\n"
+"PO-Revision-Date: 2014-06-13 14:45+0100\n"
+"Last-Translator: Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
 "MIME-Version: 1.0\n"
@@ -53,6 +54,11 @@ msgid ""
 "\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
+"Verdien bestemmer om samlingen skal spilles av i blandet rekkefølge og/eller "
+"om avspilling skal gjentas. Gyldige verdier er «none» (gjentakelse og "
+"blanding er slått av), «song» (gjenta sangen som spilles av nå), "
+"«all» (gjenta spillelista, uten å blande den) og «shuffle» (bland "
+"spillelista, og - implisitt - gjenta den)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -74,7 +80,7 @@ msgstr "Musikkavspiller"
 
 #: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
-msgstr "Spill av og organiser din musikksamling"
+msgstr "Spill av og organiser musikksamlingen din"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
@@ -90,16 +96,16 @@ msgstr "Uten tittel"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
 #: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
-#: ../gnomemusic/view.py:963 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "Ukjent album"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
 #: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
-#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:719
-#: ../gnomemusic/view.py:1066 ../gnomemusic/view.py:1289
-#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:186
-#: ../gnomemusic/widgets.py:584
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
@@ -158,16 +164,16 @@ msgstr "Kilder"
 msgid "Match"
 msgstr "Treff"
 
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:227
-#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:278
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d oppføring valgt"
 msgstr[1] "%d oppføringer valgt"
 
-#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:229
-#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:282
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
 #: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
@@ -178,8 +184,8 @@ msgid ""
 "No Music found!\n"
 " Put some files into the folder %s"
 msgstr ""
-"Ingen musikk funnet!\n"
-" Plasser noen filer i mappen %s"
+"Ingen musikk ble funnet!\n"
+" Plasser noen filer i mappa %s"
 
 #: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
 msgid "Albums"
@@ -189,27 +195,27 @@ msgstr "Album"
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:593 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:638 ../gnomemusic/view.py:640
-#: ../gnomemusic/widgets.py:461
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Alle artister"
 
-#: ../gnomemusic/view.py:799 ../gnomemusic/view.py:1538
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
 msgid "Playlists"
 msgstr "Spillelister"
 
-#: ../gnomemusic/view.py:1079
+#: ../gnomemusic/view.py:1080
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sanger"
 
-#: ../gnomemusic/widgets.py:694
+#: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
 msgstr "Ny spilleliste"
 
@@ -219,7 +225,7 @@ msgstr "Tom"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Opphavsrett © 2013 GNOME Music utviklerene"
+msgstr "Opphavsrett © 2013 GNOME Music-utviklerene"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
