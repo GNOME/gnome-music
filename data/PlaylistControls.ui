@@ -74,16 +74,10 @@
         <property name="valign">center</property>
         <property name="focus_on_click">False</property>
         <property name="popup">menu1</property>
+        <property name="direction">none</property>
         <style>
           <class name="image-button"/>
         </style>
-        <child>
-          <object class="GtkImage" id="image1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="icon_name">emblem-system-symbolic</property>
-          </object>
-        </child>
       </object>
       <packing>
         <property name="left_attach">1</property>
