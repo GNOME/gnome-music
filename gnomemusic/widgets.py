@@ -237,17 +237,17 @@ class AlbumWidget(Gtk.EventBox):
         if button.get_active():
             self.view.set_selection_mode(True)
             self.header_bar.set_selection_mode(True)
-            self.player.eventBox.set_visible(False)
-            self.selection_toolbar.eventbox.set_visible(True)
+            self.player.actionbar.set_visible(False)
+            self.selection_toolbar.actionbar.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
             self.header_bar.header_bar.set_custom_title(self.header_bar._selection_menu_button)
         else:
             self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
             self.header_bar.title = self.album
-            self.selection_toolbar.eventbox.set_visible(False)
+            self.selection_toolbar.actionbar.set_visible(False)
             if(self.player.get_playback_status() != 2):
-                self.player.eventBox.set_visible(True)
+                self.player.actionbar.set_visible(True)
 
     @log
     def _on_discovered(self, info, error, _iter):

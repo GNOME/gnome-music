@@ -161,15 +161,15 @@ class ViewContainer(Gtk.Stack):
         if button.get_active():
             self.view.set_selection_mode(True)
             self.header_bar.set_selection_mode(True)
-            self.player.eventBox.set_visible(False)
-            self.selection_toolbar.eventbox.set_visible(True)
+            self.player.actionbar.set_visible(False)
+            self.selection_toolbar.actionbar.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
             self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
         else:
             self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
-            self.player.eventBox.set_visible(self.player.currentTrack is not None)
-            self.selection_toolbar.eventbox.set_visible(False)
+            self.player.actionbar.set_visible(self.player.currentTrack is not None)
+            self.selection_toolbar.actionbar.set_visible(False)
 
     @log
     def _on_cancel_button_clicked(self, button):

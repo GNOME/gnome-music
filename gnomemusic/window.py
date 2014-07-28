@@ -192,8 +192,8 @@ class Window(Gtk.ApplicationWindow):
         self.set_titlebar(self.toolbar.header_bar)
         self._box.pack_start(self.toolbar.searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
-        self._box.pack_start(self.player.eventBox, False, False, 0)
-        self._box.pack_start(self.selection_toolbar.eventbox, False, False, 0)
+        self._box.pack_start(self.player.actionbar, False, False, 0)
+        self._box.pack_start(self.selection_toolbar.actionbar, False, False, 0)
         self.add(self._box)
         count = 1
         cursor = tracker.query(Query.all_songs_count(), None)
@@ -216,7 +216,7 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.set_state(ToolbarState.MAIN)
         self.toolbar.header_bar.show()
         self._overlay.show()
-        self.player.eventBox.show_all()
+        self.player.actionbar.show_all()
         self._box.show()
         self.show()
 
@@ -322,7 +322,7 @@ class Window(Gtk.ApplicationWindow):
                 self.toolbar.searchbar.show_bar(True)
         else:
             if not self.toolbar.searchbar.get_reveal_child():
-                if event.keyval == Gdk.KEY_space and self.player.eventBox.get_visible():
+                if event.keyval == Gdk.KEY_space and self.player.actionbar.get_visible():
                     self.player.play_pause()
 
     @log
