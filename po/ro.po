@@ -2,24 +2,23 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014.
-# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-29 09:17+0000\n"
-"PO-Revision-Date: 2014-07-29 21:40+0200\n"
-"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
-"Language-Team: Gnome Romanian Translation Team\n"
+"POT-Creation-Date: 2014-07-28 06:59+0000\n"
+"PO-Revision-Date: 2014-07-29 12:15+0300\n"
+"Last-Translator: Bogdan Mințoi <mintoi.bogdan@gmail.com>\n"
+"Language-Team: Română <>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
-"X-Generator: Virtaal 0.7.1\n"
-"X-Project-Style: gnome\n"
+"20)) ? 1 : 2);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -58,10 +57,10 @@ msgid ""
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Valoarea identifică dacă redarea se face repetitiv sau aleatoriu din "
-"colecție. Valori permise sunt: „nespecificat” (repetiția și redarea "
-"aleatorie sunt dezactivate), „melodie” (se repetă doar melodia actuală), "
-"„tot” (se repetă toată lista de redare, fără amestecare), „amestecare” "
-"(amestecă lista de redare, probabil se repetă tot)."
+"colecție. Valori permise sunt: „nimic” (repetiția și redarea aleatorie sunt "
+"dezactivate), „melodie” (se repetă doar melodia actuală), „tot” (se repetă "
+"toată lista de redare, fără amestecare), „amestecare” (amestecă lista de "
+"redare, probabil se repetă tot)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -144,10 +143,12 @@ msgid "All"
 msgstr "Toate"
 
 #: ../gnomemusic/searchbar.py:31
+#| msgid "Artists"
 msgid "Artist"
 msgstr "Artist"
 
 #: ../gnomemusic/searchbar.py:32
+#| msgid "Albums"
 msgid "Album"
 msgstr "Album"
 
@@ -172,9 +173,9 @@ msgstr "Potrivire"
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
-msgstr[0] "%d element selectat"
-msgstr[1] "%d elemente selectate"
-msgstr[2] "%d de elemente selectate"
+msgstr[0] "Selectat %d element"
+msgstr[1] "Selectat %d elemente"
+msgstr[2] "Selectat %d de elemente"
 
 #: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
 #: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
@@ -214,6 +215,7 @@ msgstr "Liste de redare"
 
 #: ../gnomemusic/view.py:1080
 #, python-format
+#| msgid "Songs"
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d melodie"
@@ -221,6 +223,7 @@ msgstr[1] "%d melodii"
 msgstr[2] "%d de melodii"
 
 #: ../gnomemusic/widgets.py:677
+#| msgid "_New Playlist"
 msgid "New Playlist"
 msgstr "Listă de redare nouă"
 
@@ -230,7 +233,7 @@ msgstr "Gol"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Drepturi de autor © 2013 Dezvoltatorii Muzică GNOME"
+msgstr "Drepturi de autor © 2013 Dezvoltatorii GNOME Music"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
@@ -238,7 +241,7 @@ msgstr "O aplicație de administrare și redare de muzică pentru GNOME"
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr "Vizitați pagina web a Muzică GNOME"
+msgstr "Vizitați portalul web al GNOME Music"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -339,10 +342,12 @@ msgid "Select None"
 msgstr "Deselectare totală"
 
 #: ../data/headerbar.ui.h:4
+#| msgid "Search mode"
 msgid "Search"
 msgstr "Caută"
 
 #: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#| msgid "Select All"
 msgid "Select"
 msgstr "Selectează"
 
@@ -359,10 +364,12 @@ msgid "Add to Playlist"
 msgstr "Adaugă în lista de redare"
 
 #: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "Elimină din lista de redare"
 
 #: ../data/PlaylistControls.ui.h:1
+#| msgid "Play"
 msgid "_Play"
 msgstr "_Redare"
 
@@ -371,6 +378,7 @@ msgid "_Delete"
 msgstr "Ș_terge"
 
 #: ../data/PlaylistDialog.ui.h:1
+#| msgid "Select All"
 msgid "Select Playlist"
 msgstr "Selectează lista de redare"
 
