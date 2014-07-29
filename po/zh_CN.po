@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-08 07:58+0000\n"
-"PO-Revision-Date: 2013-12-22 00:22+0800\n"
-"Last-Translator: sphinx <yishanj@gmail.com>\n"
+"POT-Creation-Date: 2014-06-23 12:17+0000\n"
+"PO-Revision-Date: 2014-05-29 22:00+0800\n"
+"Last-Translator: irisgyq <gouyingqiyanxuan321@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -69,8 +69,8 @@ msgstr "搜索模式"
 msgid "If true, the search bar is shown."
 msgstr "如果为真，则显示搜索框。"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "音乐"
@@ -91,60 +91,94 @@ msgstr "GNOME 音乐"
 msgid "Music is the new GNOME music playing application."
 msgstr "“音乐”是一款新的 GNOME 音乐播放应用。"
 
-#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
 msgid "Untitled"
 msgstr "无标题"
 
-#: ../gnomemusic/notification.py:70
-msgid "Not playing"
-msgstr "尚未播放"
-
-#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
-#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
-#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
-msgid "Unknown Artist"
-msgstr "未知艺术家"
-
-#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "未知专辑"
 
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
+msgid "Unknown Artist"
+msgstr "未知艺术家"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "尚未播放"
+
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:85
+#: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
 msgstr "艺术家：%s，专辑：%s"
 
-#: ../gnomemusic/notification.py:125
+#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "上一首"
 
-#: ../gnomemusic/notification.py:128
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "暂停"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "播放"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "下一首"
 
-#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:244
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "全部"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "艺术家"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "专辑"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "音轨标题"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "本地"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "来源"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "匹配"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "已选择 %d 个项目"
 
-#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
-#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
-#: ../data/headerbar.ui.in.h:3
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "点击条目以选中它们"
 
-#: ../gnomemusic/view.py:322
+#: ../gnomemusic/view.py:340
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -153,46 +187,38 @@ msgstr ""
 "没有找到音乐！\n"
 "请将音乐文件放入文件夹 %s"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
 msgid "Albums"
 msgstr "专辑"
 
-#: ../gnomemusic/view.py:402
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../gnomemusic/view.py:566
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "艺术家"
 
-#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
 #: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "全部艺术家"
 
-#: ../gnomemusic/view.py:743
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
 msgid "Playlists"
 msgstr "播放列表"
 
-#: ../gnomemusic/view.py:1007
+#: ../gnomemusic/view.py:1080
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d 首歌曲"
 
-#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
-msgid "Load More"
-msgstr "加载更多"
-
-#: ../gnomemusic/widgets.py:85
-msgid "Loading..."
-msgstr "正在加载..."
-
-#: ../gnomemusic/widgets.py:670
+#: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
 msgstr "新建播放列表"
 
-#: ../gnomemusic/window.py:209
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "空"
 
@@ -293,17 +319,29 @@ msgstr "关闭“随机/重复播放”"
 msgid "No Music Found"
 msgstr "没有找到音乐"
 
-#: ../data/headerbar.ui.in.h:1
+#: ../data/headerbar.ui.h:1
 msgid "Select All"
 msgstr "全选"
 
-#: ../data/headerbar.ui.in.h:2
+#: ../data/headerbar.ui.h:2
 msgid "Select None"
 msgstr "全不选"
 
-#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "搜索"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "选择"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "取消"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "后退"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
@@ -321,13 +359,15 @@ msgstr "播放(_P)"
 msgid "_Delete"
 msgstr "移除(_D)"
 
-#: ../data/PlaylistDialog.ui.in.h:1
+#: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "选择播放列表"
 
-#: ../data/PlaylistDialog.ui.in.h:3
-msgid "Select"
-msgstr "选择"
+#~ msgid "Load More"
+#~ msgstr "加载更多"
+
+#~ msgid "Loading..."
+#~ msgstr "正在加载..."
 
 #~ msgid "Now _Playing"
 #~ msgstr "正在播放(_P)"
@@ -344,6 +384,3 @@ msgstr "选择"
 
 #~ msgid "/"
 #~ msgstr "/"
-
-#~ msgid "Back"
-#~ msgstr "后退"
