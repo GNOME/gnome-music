@@ -11,6 +11,7 @@
   <bug-database rdf:resource="https://bugzilla.gnome.org/browse.cgi?product=gnome-music" />
 
   <category rdf:resource="http://api.gnome.org/doap-extensions#apps" />
+  <programming-language>Python</programming-language>
 
   <maintainer>
     <foaf:Person>
