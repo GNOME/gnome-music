@@ -107,6 +107,7 @@ class NotificationManager:
 
             self._notification.set_hint('image-path', None)
             self._notification.set_hint('image-data', self._symbolicIconSerialized)
+            self._notification.show()
 
     @log
     def _on_thumbnail_updated(self, player, path, data=None):
