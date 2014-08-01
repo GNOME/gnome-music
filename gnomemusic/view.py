@@ -1389,7 +1389,7 @@ class Search(ViewContainer):
 
     @log
     def populate(self):
-        pass
+        self.header_bar.set_state(ToolbarState.MAIN)
 
     @log
     def get_selected_tracks(self, callback):

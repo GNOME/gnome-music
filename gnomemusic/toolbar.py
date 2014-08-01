@@ -142,5 +142,6 @@ class Toolbar(GObject.GObject):
             self.reset_header_title()
 
         self._search_button.set_visible(self._state != ToolbarState.SEARCH_VIEW)
+        print("Toolbar state: %s" % self._state)
         self._back_button.set_visible(not self._selectionMode and self._state != ToolbarState.MAIN)
         self.header_bar.set_show_close_button(not self._selectionMode)
