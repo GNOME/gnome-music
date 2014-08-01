@@ -334,6 +334,10 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = self.curr_view
         self.curr_view = stack.get_visible_child()
 
+        # Switch to all albums view when we're clicking Albums
+        if self.curr_view == self.views[0]:
+            self.curr_view.set_visible_child(self.curr_view._grid)
+
         # Slide out sidebar on switching to Artists or Playlists view
         if self.curr_view == self.views[1] or \
            self.curr_view == self.views[3]:
