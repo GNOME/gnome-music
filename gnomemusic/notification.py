@@ -105,8 +105,6 @@ class NotificationManager:
                                                              '<i>' + album + '</i>'),
                                       'gnome-music')
 
-            self._notification.set_hint('image-path', None)
-            self._notification.set_hint('image-data', self._symbolicIconSerialized)
             self._notification.show()
 
     @log
@@ -114,6 +112,9 @@ class NotificationManager:
         if path:
             self._notification.set_hint('image-path', GLib.Variant('s', path))
             self._notification.set_hint('image-data', None)
+        else:
+            self._notification.set_hint('image-path', None)
+            self._notification.set_hint('image-data', self._symbolicIconSerialized)
         self._notification.show()
 
     @log
