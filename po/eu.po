@@ -4,12 +4,14 @@
 #
 # asiersar <asiersar@yahoo.com>, 2013.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-22 11:52+0100\n"
-"PO-Revision-Date: 2014-03-22 11:55+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-08-07 12:06+0200\n"
+"PO-Revision-Date: 2014-07-29 19:24+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
@@ -57,11 +59,9 @@ msgid ""
 msgstr ""
 "Balioak erreprodukzioa errepikatuko edo ausaz erreproduzituko den bilduman "
 "zehar zehazten du. Balio erabilgarriak: 'none' (errepikatzea edo ausaz "
-"erreproduzitzea desgaituta), "
-"'song' (errepikatu uneko abestia), 'all' (errepikatu erreprodukzio-zerrenda, "
-"ez-ausaz) "
-"eta 'shuffle' (ausaz erreproduzitu zerrenda, osoa errepikatuko duela "
-"suposatzen da)."
+"erreproduzitzea desgaituta), 'song' (errepikatu uneko abestia), "
+"'all' (errepikatu erreprodukzio-zerrenda, ez-ausaz) eta 'shuffle' (ausaz "
+"erreproduzitu zerrenda, osoa errepikatuko duela suposatzen da)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -71,8 +71,8 @@ msgstr "Bilaketa-modua"
 msgid "If true, the search bar is shown."
 msgstr "Egia bada, bilaketa-barra erakutsiko da."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musika"
@@ -93,63 +93,95 @@ msgstr "GNOME Musika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musika GNOMEren musika erreproduzitzeko aplikazio berria da."
 
-#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
 msgid "Untitled"
 msgstr "Izengabea"
 
-#: ../gnomemusic/notification.py:70
-msgid "Not playing"
-msgstr "Ez da erreproduzitzen ari"
-
-#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
-#: ../gnomemusic/searchbar.py:31 ../gnomemusic/view.py:255
-#: ../gnomemusic/view.py:457 ../gnomemusic/view.py:678
-#: ../gnomemusic/view.py:994
-msgid "Unknown Artist"
-msgstr "Artista ezezaguna"
-
-#: ../gnomemusic/notification.py:81 ../gnomemusic/searchbar.py:32
-#: ../gnomemusic/view.py:555
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "Album ezezaguna"
 
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
+msgid "Unknown Artist"
+msgstr "Artista ezezaguna"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Ez da erreproduzitzen ari"
+
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:85
+#: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
 msgstr "'%s'(e)k,  '%s'(e)n"
 
-#: ../gnomemusic/notification.py:125
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: ../gnomemusic/notification.py:128
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Pausarazi"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Erreproduzitu"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Hurrengoa"
 
-#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:244
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Denak"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "Artista"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "Albuma"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Pistaren titulua"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Lokala"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Iturburuak"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Parekatu"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Elementu %d hautatuta"
 msgstr[1] "%d elementu hautatuta"
 
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:263
-#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
-#: ../data/headerbar.ui.in.h:3
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
-#: ../gnomemusic/view.py:324
+#: ../gnomemusic/view.py:340
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -158,47 +190,39 @@ msgstr ""
 "Ez da musikarik aurkitu.\n"
 "Jarri fitxategi batzuk '%s' karpetan"
 
-#: ../gnomemusic/view.py:331
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
 msgid "Albums"
 msgstr "Albumak"
 
-#: ../gnomemusic/view.py:404
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
 msgid "Songs"
 msgstr "Abestiak"
 
-#: ../gnomemusic/view.py:568
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "Artistak"
 
-#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:615
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
 #: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Artista guztiak"
 
-#: ../gnomemusic/view.py:747
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
 msgid "Playlists"
 msgstr "Erreprodukzio-zerrendak"
 
-#: ../gnomemusic/view.py:1011
+#: ../gnomemusic/view.py:1080
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "Abesti %d"
 msgstr[1] "%d abesti"
 
-#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
-msgid "Load More"
-msgstr "Kargatu gehiago"
-
-#: ../gnomemusic/widgets.py:85
-msgid "Loading..."
-msgstr "Kargatzen..."
-
-#: ../gnomemusic/widgets.py:670
+#: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
 msgstr "Zerrenda berria"
 
-#: ../gnomemusic/window.py:209
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "Hutsik"
 
@@ -304,17 +328,29 @@ msgstr "Ausaz/Ez errepikatu"
 msgid "No Music Found"
 msgstr "Ez da musikarik aurkitu"
 
-#: ../data/headerbar.ui.in.h:1
+#: ../data/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Hautatu dena"
 
-#: ../data/headerbar.ui.in.h:2
+#: ../data/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Hautatu bat ere ez"
 
-#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Bilatu"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Hautatu"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Utzi"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Atzera"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
@@ -332,13 +368,15 @@ msgstr "_Erreproduzitu"
 msgid "_Delete"
 msgstr "_Ezabatu"
 
-#: ../data/PlaylistDialog.ui.in.h:1
+#: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Hautatu zerrenda"
 
-#: ../data/PlaylistDialog.ui.in.h:3
-msgid "Select"
-msgstr "Hautatu"
+#~ msgid "Load More"
+#~ msgstr "Kargatu gehiago"
+
+#~ msgid "Loading..."
+#~ msgstr "Kargatzen..."
 
 #~ msgid "_Now Playing"
 #~ msgstr "_Orain erreproduzitzen"
