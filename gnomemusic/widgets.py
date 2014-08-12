@@ -270,7 +270,7 @@ class AlbumWidget(Gtk.EventBox):
                             '', '', None, track, NOW_PLAYING_ICON_NAME,
                             False])
             self.ui.get_object('running_length_label_info').set_text(
-                '%d min' % (int(self.duration / 60) + 1))
+                _("%d min") % (int(self.duration / 60) + 1))
 
     @log
     def _on_look_up(self, pixbuf, path, data=None):
@@ -308,7 +308,7 @@ class AlbumWidget(Gtk.EventBox):
                 playlist.set_value(_iter, 9, iconVisible)
             _iter = playlist.iter_next(_iter)
             self.ui.get_object('running_length_label_info').set_text(
-                '%d min' % (int(self.duration / 60) + 1))
+                _("%d min") % (int(self.duration / 60) + 1))
         return False
 
 
