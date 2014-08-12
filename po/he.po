@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-12 14:11+0300\n"
-"PO-Revision-Date: 2014-05-12 14:05+0300\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
+"POT-Creation-Date: 2014-08-12 12:17+0300\n"
+"PO-Revision-Date: 2014-08-12 12:17+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -96,17 +96,17 @@ msgid "Untitled"
 msgstr "ללא כותרת"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:396 ../gnomemusic/view.py:566
-#: ../gnomemusic/view.py:950 ../gnomemusic/view.py:1260
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "אלבום לא ידוע"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:387 ../gnomemusic/view.py:286
-#: ../gnomemusic/view.py:475 ../gnomemusic/view.py:707
-#: ../gnomemusic/view.py:1036 ../gnomemusic/view.py:1258
-#: ../gnomemusic/view.py:1289 ../gnomemusic/widgets.py:180
-#: ../gnomemusic/widgets.py:578
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -120,20 +120,20 @@ msgstr "לא מתנגן"
 msgid "by %s, from %s"
 msgstr "של %s, מ־%s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "הקודם"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:344
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "השהיה"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:347
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "ניגון"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "הבא"
 
@@ -157,16 +157,16 @@ msgstr "כותרת רצועה"
 msgid "Local"
 msgstr "מקומי"
 
-#: ../gnomemusic/searchbar.py:178
+#: ../gnomemusic/searchbar.py:176
 msgid "Sources"
 msgstr "מקורות"
 
-#: ../gnomemusic/searchbar.py:185
+#: ../gnomemusic/searchbar.py:183
 msgid "Match"
 msgstr "התאמה"
 
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:221
-#: ../gnomemusic/widgets.py:446 ../gnomemusic/window.py:277
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -174,9 +174,9 @@ msgstr[0] "פריט %d נבחר"
 msgstr[1] "%d פריטים נבחרו"
 msgstr[2] "%d פריטים נבחרו"
 
-#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:223
-#: ../gnomemusic/widgets.py:448 ../gnomemusic/window.py:281
-#: ../gnomemusic/window.py:293 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
@@ -189,28 +189,28 @@ msgstr ""
 "לא נמצאה מוזיקה!\n"
 " שים כמה קבצים בתיקייה %s"
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1504
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../gnomemusic/view.py:425 ../gnomemusic/view.py:1506
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
 msgid "Songs"
 msgstr "שירים"
 
-#: ../gnomemusic/view.py:582 ../gnomemusic/view.py:1505
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "אמנים"
 
-#: ../gnomemusic/view.py:626 ../gnomemusic/view.py:628
-#: ../gnomemusic/widgets.py:455
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "כל האמנים"
 
-#: ../gnomemusic/view.py:786 ../gnomemusic/view.py:1507
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
 msgid "Playlists"
 msgstr "רשימות השמעה"
 
-#: ../gnomemusic/view.py:1049
+#: ../gnomemusic/view.py:1080
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -218,11 +218,16 @@ msgstr[0] "שיר %d"
 msgstr[1] "%d שירים"
 msgstr[2] "%d שירים"
 
-#: ../gnomemusic/widgets.py:689
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d דקות"
+
+#: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
 msgstr "רשימת השמעה חדשה"
 
-#: ../gnomemusic/window.py:225
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "ריק"
 
