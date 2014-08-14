@@ -1200,6 +1200,8 @@ class Search(ViewContainer):
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'search', None, window, Gd.MainViewType.LIST)
+        self.view.set_halign(Gtk.Align.CENTER)
+        self.view.set_size_request(530, -1)
         self._items = {}
         self.isStarred = None
         self.iter_to_clean = None

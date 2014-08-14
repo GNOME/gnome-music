@@ -146,3 +146,5 @@ GtkTreeView{
     font-weight: bold;
     color: mix (@theme_fg_color, @theme_bg_color, 0.50);    
 }
+
+.content-view { background-color: @theme_bg; }
