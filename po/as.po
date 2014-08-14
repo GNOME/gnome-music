@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-12-18 21:01+0000\n"
-"PO-Revision-Date: 2014-02-11 20:54+0630\n"
+"POT-Creation-Date: 2014-08-14 06:56+0000\n"
+"PO-Revision-Date: 2014-08-14 17:58+0530\n"
 "Last-Translator: Nilamdyuti Goswami <ngoswami@redhat.com>\n"
 "Language-Team: Assamese <kde-i18n-doc@kde.org>\n"
 "Language: as\n"
@@ -49,9 +49,6 @@ msgstr "প্লেবেক পুনৰাবৃত্তি অৱস্থ�
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -63,8 +60,7 @@ msgstr ""
 "মান: \"none\" (পুনৰাবৃত্তি আৰু ছাফল বন্ধ থাকে), \"song\" (বৰ্তমান গীতৰ "
 "পুনৰাবৃত্তি), "
 "\"all\" (প্লেলিস্টৰ পুনৰাবৃত্তি, ছাফল নাই), \"shuffle\" (প্লেলিস্ট ছাফল কৰক, "
-"পুনৰাবৃত্তি "
-"ভাৱি লয়)।"
+"পুনৰাবৃত্তি ভাৱি লয়)।"
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -74,8 +70,8 @@ msgstr "সন্ধান অৱস্থা"
 msgid "If true, the search bar is shown."
 msgstr "যদি সত্য, সন্ধান বাৰ দেখুৱা হয়।"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:54
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "সংগীত"
@@ -96,47 +92,97 @@ msgstr "GNOME সংগীত"
 msgid "Music is the new GNOME music playing application."
 msgstr "সংগীত হল নতুন GNOME সংগীত বজোৱা এপ্লিকেচন।"
 
-#: ../gnomemusic/albumArtCache.py:235
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
 msgid "Untitled"
 msgstr "শীৰ্ষকহীন"
 
-#: ../gnomemusic/notification.py:70
-msgid "Not playing"
-msgstr "বজোৱা নাই"
-
-#: ../gnomemusic/notification.py:77 ../gnomemusic/player.py:350
-#: ../gnomemusic/view.py:229 ../gnomemusic/view.py:377
-#: ../gnomemusic/view.py:591
-msgid "Unknown Artist"
-msgstr "অজ্ঞাত শিল্পী"
-
-#: ../gnomemusic/notification.py:79 ../gnomemusic/view.py:475
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "অজ্ঞাত এলবাম"
 
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
+msgid "Unknown Artist"
+msgstr "অজ্ঞাত শিল্পী"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "বজোৱা নাই"
+
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:83
+#: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
 msgstr "%s দ্বাৰা, %s ৰ পৰা"
 
-#: ../gnomemusic/notification.py:123
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "পূৰ্বৱৰ্তী"
 
-#: ../gnomemusic/notification.py:126
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "বিৰাম দিয়ক"
 
-#: ../gnomemusic/notification.py:129
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "বজাওক"
 
-#: ../gnomemusic/notification.py:131
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "পৰৱৰ্তী"
 
-#: ../gnomemusic/view.py:294
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "সকলো"
+
+#: ../gnomemusic/searchbar.py:31
+#| msgid "Artists"
+msgid "Artist"
+msgstr "শিল্পী"
+
+#: ../gnomemusic/searchbar.py:32
+#| msgid "Albums"
+msgid "Album"
+msgstr "এলবাম"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "ট্ৰেকৰ শীৰ্ষক"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "স্থানীয়"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "উৎসসমূহ"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "মিল"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "নিৰ্বাচিত %d বস্তু"
+msgstr[1] "নিৰ্বাচিত %d বস্তুবোৰ"
+
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "বস্তুবোৰ নিৰ্বাচন কৰিবলৈ সিহতক ক্লিক কৰক"
+
+#: ../gnomemusic/view.py:340
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -145,36 +191,46 @@ msgstr ""
 "কোনো সংগীত পোৱা নগল!\n"
 " ফোল্ডাৰ %s ত কিছুমান ফাইল থওক"
 
-#: ../gnomemusic/view.py:301
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
 msgid "Albums"
 msgstr "এলবামসমূহ"
 
-#: ../gnomemusic/view.py:333
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
 msgid "Songs"
 msgstr "সংগীতবোৰ"
 
-#: ../gnomemusic/view.py:484
-msgid "Playlists"
-msgstr "প্লেলিস্টসমূহ"
-
-#: ../gnomemusic/view.py:490
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "শিল্পীসকল"
 
-#: ../gnomemusic/view.py:526 ../gnomemusic/view.py:528
-#: ../gnomemusic/widgets.py:443
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "সকলো শিল্পী"
 
-#: ../gnomemusic/widgets.py:73 ../gnomemusic/widgets.py:93
-msgid "Load More"
-msgstr "অধিক ল'ড কৰক"
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
+msgid "Playlists"
+msgstr "প্লেলিস্টসমূহ"
 
-#: ../gnomemusic/widgets.py:83
-msgid "Loading..."
-msgstr "ল'ড কৰা হৈছে..."
+#: ../gnomemusic/view.py:1080
+#, python-format
+#| msgid "Songs"
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d গান"
+msgstr[1] "%d গানসমূহ"
 
-#: ../gnomemusic/window.py:173
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d মিন"
+
+#: ../gnomemusic/widgets.py:677
+#| msgid "_New Playlist"
+msgid "New Playlist"
+msgstr "নতুন প্লেলিস্ট"
+
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "ৰিক্ত"
 
@@ -252,12 +308,10 @@ msgid "_New Playlist"
 msgstr "নতুন প্লেলিস্ট (_N)"
 
 #: ../data/app-menu.ui.h:2
-#| msgid "_Now Playing"
-msgid "Now _Playing"
-msgstr "এতিয়া বজোৱা হৈছে (_P)"
+msgid "_Help"
+msgstr "সহায় (_H)"
 
 #: ../data/app-menu.ui.h:3
-#| msgid "_About Music"
 msgid "_About"
 msgstr "বিষয়ে (_A)"
 
@@ -285,23 +339,61 @@ msgstr "সানমিহলি/পুনৰাবৃত্তি বন্ধ"
 msgid "No Music Found"
 msgstr "কোনো সংগীত পোৱা নগল"
 
-#: ../data/headerbar.ui.in.h:1
+#: ../data/headerbar.ui.h:1
 msgid "Select All"
 msgstr "সকলো বাছক"
 
-#: ../data/headerbar.ui.in.h:2
+#: ../data/headerbar.ui.h:2
 msgid "Select None"
 msgstr "একো নাবাছিব"
 
-#: ../data/headerbar.ui.in.h:3
-msgid "Click on items to select them"
-msgstr "বস্তুবোৰ নিৰ্বাচন কৰিবলৈ সিহতক ক্লিক কৰক"
+#: ../data/headerbar.ui.h:4
+#| msgid "Search mode"
+msgid "Search"
+msgstr "সন্ধান কৰক"
 
-#: ../data/headerbar.ui.in.h:4
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#| msgid "Select All"
+msgid "Select"
+msgstr "বাছক"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "বাতিল কৰক"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "পিছলৈ"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "প্লেলিস্টলৈ যোগ কৰক"
 
+#: ../data/SelectionToolbar.ui.h:2
+#| msgid "Add to Playlist"
+msgid "Remove from Playlist"
+msgstr "প্লেলিস্টৰ পৰা আতৰাওক"
+
+#: ../data/PlaylistControls.ui.h:1
+#| msgid "Play"
+msgid "_Play"
+msgstr "বজাওক (_P)"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "মচি পেলাওক (_D)"
+
+#: ../data/PlaylistDialog.ui.h:1
+#| msgid "Select All"
+msgid "Select Playlist"
+msgstr "প্লেলিস্ট বাছক"
+
+#~ msgid "Load More"
+#~ msgstr "অধিক ল'ড কৰক"
+
+#~ msgid "Loading..."
+#~ msgstr "ল'ড কৰা হৈছে..."
+
+#~| msgid "_Now Playing"
+#~ msgid "Now _Playing"
+#~ msgstr "এতিয়া বজোৱা হৈছে (_P)"
