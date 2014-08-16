@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 3.13.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-16 11:48+0200\n"
-"PO-Revision-Date: 2014-06-13 14:45+0100\n"
-"Last-Translator: Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>\n"
+"POT-Creation-Date: 2014-08-16 11:50+0200\n"
+"PO-Revision-Date: 2014-08-16 11:50+0200\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
 "MIME-Version: 1.0\n"
@@ -96,15 +96,15 @@ msgstr "Uten tittel"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
 #: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
-#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1293
 msgid "Unknown Album"
 msgstr "Ukjent album"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
 #: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
 #: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
-#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
-#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:1322 ../gnomemusic/widgets.py:184
 #: ../gnomemusic/widgets.py:563
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
@@ -119,20 +119,20 @@ msgstr "Spiller ikke"
 msgid "by %s, from %s"
 msgstr "av %s, fra %s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Spill av"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Neste"
 
@@ -187,15 +187,15 @@ msgstr ""
 "Ingen musikk ble funnet!\n"
 " Plasser noen filer i mappa %s"
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1537
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1539
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1538
 msgid "Artists"
 msgstr "Artister"
 
@@ -204,7 +204,7 @@ msgstr "Artister"
 msgid "All Artists"
 msgstr "Alle artister"
 
-#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1540
 msgid "Playlists"
 msgstr "Spillelister"
 
@@ -214,6 +214,11 @@ msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sanger"
+
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d min"
 
 #: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
