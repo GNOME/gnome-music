@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-06-27 18:54+0000\n"
-"PO-Revision-Date: 2014-06-28 10:20+0200\n"
+"POT-Creation-Date: 2014-08-15 07:02+0000\n"
+"PO-Revision-Date: 2014-08-15 14:57+0200\n"
 "Last-Translator: Tom Tryfonidis <tomtryf@gmail.com>\n"
 "Language-Team: www.gnome.gr\n"
 "Language: el\n"
@@ -87,7 +87,7 @@ msgstr "Αναπαραγωγή και οργάνωση της μουσικής �
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
-msgstr "GNOME Music"
+msgstr "Μουσική GNOME"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
@@ -99,15 +99,15 @@ msgstr "Χωρίς τίτλο"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
 #: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
-#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1293
 msgid "Unknown Album"
 msgstr "Άγνωστο άλμπουμ"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
 #: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
 #: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
-#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
-#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:1322 ../gnomemusic/widgets.py:184
 #: ../gnomemusic/widgets.py:563
 msgid "Unknown Artist"
 msgstr "Άγνωστος καλλιτέχνης"
@@ -122,22 +122,22 @@ msgstr "Δεν αναπαράγεται"
 msgid "by %s, from %s"
 msgstr "από τον %s, από το %s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Παύση"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
-msgstr "Επόμενο"
+msgstr "Επόμενο"
 
 #: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
 msgid "All"
@@ -190,15 +190,15 @@ msgstr ""
 "Δεν βρέθηκε μουσική!\n"
 " Τοποθετήστε μερικά αρχεία στον φάκελο %s"
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1537
 msgid "Albums"
 msgstr "Άλμπουμ"
 
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1539
 msgid "Songs"
 msgstr "Τραγούδια"
 
-#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1538
 msgid "Artists"
 msgstr "Καλλιτέχνες"
 
@@ -207,7 +207,7 @@ msgstr "Καλλιτέχνες"
 msgid "All Artists"
 msgstr "Όλοι οι καλλιτέχνες"
 
-#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1540
 msgid "Playlists"
 msgstr "Λίστες αναπαραγωγής"
 
@@ -217,6 +217,11 @@ msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d τραγούδι"
 msgstr[1] "%d τραγούδια"
+
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d λεπτ."
 
 #: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
@@ -236,7 +241,7 @@ msgstr "Εφαρμογή για αναπαραγωγή και διαχείρισ
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr "Επισκεφθείτε την ιστοσελίδα του GNOME Music"
+msgstr "Επισκεφθείτε τον ιστότοπο της εφαρμογής Μουσική GNOME"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -262,7 +267,7 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"To GNOME Music είναι ελεύθερο λογισμικό. Μπορείτε να το αναδιανείμετε ή/και "
+"Η Μουσική GNOME είναι ελεύθερο λογισμικό. Μπορείτε να το αναδιανείμετε ή/και "
 "να το τροποποιήσετε, υπό τους όρους της άδειας GNU General Public License, "
 "όπως αυτή εκδίδεται από το Ίδρυμα Ελεύθερου Λογισμικού (Free Software "
 "Foundation), είτε της έκδοσης 2 της άδειας, είτε (κατ'επιλογήν σας) "
