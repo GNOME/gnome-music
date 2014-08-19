@@ -1,3 +1,24 @@
+Overview of changes in 3.13.90
+=============================
+
+* Ported to GtkActionbBar - now requires GTK+ 3.12
+* Correct icoin is displayed for playlist menu (https://wiki.gnome.org/Initiatives/GnomeGoals/GearIcons)
+* Better search UI
+* HighContrast icons
+* Improved Back navigation
+* Notifications now behave correctly when paused and less flicker
+
+* Bugs fixed:
+ 734786 center the search results
+ 734404 Missing high contrast icon
+ 734122 unable to switch to all albums view after return from search view
+ 734117 Pause button does not change to play button in the notification
+ 732150 Remove custom player bar styling
+ 732951 Don't use emblem-system-symbolic
+
+* Updated translations and help files
+
+
 Overview of changes in 3.13.4
 =============================
 
