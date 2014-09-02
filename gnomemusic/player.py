@@ -568,13 +568,6 @@ class Player(GObject.GObject):
         self.progressScale.connect('value-changed', self._on_progress_value_changed)
         self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
 
-        if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
-            self._prevImage = self._ui.get_object('previous_image')
-            self._nextImage = self._ui.get_object('next_image')
-            self._prevImage.set_property('icon-name', 'media-skip-backward-rtl-symbolic')
-            self._nextImage.set_property('icon-name', 'media-skip-forward-rtl-symbolic')
-            self._playImage.set_property('icon-name', 'media-playback-start-rtl-symbolic')
-
     @log
     def _on_progress_scale_button_released(self, scale, data):
         self.on_progress_scale_change_value(self.progressScale)
@@ -636,25 +629,13 @@ class Player(GObject.GObject):
     def _sync_repeat_image(self):
         icon = None
         if self.repeat == RepeatType.NONE:
-            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
-                icon = 'media-playlist-consecutive-symbolic'
-            else:
-                icon = 'media-playlist-consecutive-rtl-symbolic'
+            icon = 'media-playlist-consecutive-symbolic'
         elif self.repeat == RepeatType.SHUFFLE:
-            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
-                icon = 'media-playlist-shuffle-symbolic'
-            else:
-                icon = 'media-playlist-shuffle-rtl-symbolic'
+            icon = 'media-playlist-shuffle-symbolic'
         elif self.repeat == RepeatType.ALL:
-            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
-                icon = 'media-playlist-repeat-symbolic'
-            else:
-                icon = 'media-playlist-repeat-rtl-symbolic'
+            icon = 'media-playlist-repeat-symbolic'
         elif self.repeat == RepeatType.SONG:
-            if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
-                icon = 'media-playlist-repeat-song-symbolic'
-            else:
-                icon = 'media-playlist-repeat-song-rtl-symbolic'
+            icon = 'media-playlist-repeat-song-symbolic'
 
         self.repeatBtnImage.set_from_icon_name(icon, Gtk.IconSize.MENU)
         self.emit('repeat-mode-changed')

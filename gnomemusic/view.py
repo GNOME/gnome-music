@@ -63,10 +63,7 @@ playlists = Playlists.get_default()
 
 
 class ViewContainer(Gtk.Stack):
-    if Gtk.Widget.get_default_direction() is not Gtk.TextDirection.RTL:
-        nowPlayingIconName = 'media-playback-start-symbolic'
-    else:
-        nowPlayingIconName = 'media-playback-start-rtl-symbolic'
+    nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
     starIconName = 'starred-symbolic'
 

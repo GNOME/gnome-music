@@ -71,9 +71,6 @@ class Toolbar(GObject.GObject):
         self._selection_menu_button = self._ui.get_object('selection-menu-button')
         self._selection_menu_label = self._ui.get_object('selection-menu-button-label')
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
-        if Gtk.Widget.get_default_direction() is Gtk.TextDirection.RTL:
-            _back_button_image = self._ui.get_object('back-button-image')
-            _back_button_image.set_property('icon-name', 'go-previous-rtl-symbolic')
         if Gtk.get_minor_version() >= 11:
             self.header_bar.remove(self._select_button)
             self.header_bar.remove(self._cancel_button)
