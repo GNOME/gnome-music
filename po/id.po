@@ -9,15 +9,15 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-05-24 18:54+0000\n"
-"PO-Revision-Date: 2014-05-25 14:14+0700\n"
+"POT-Creation-Date: 2014-09-02 07:02+0000\n"
+"PO-Revision-Date: 2014-09-04 11:14+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.6.9\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -97,17 +97,17 @@ msgid "Untitled"
 msgstr "Tanpa judul"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:396 ../gnomemusic/view.py:565
-#: ../gnomemusic/view.py:949 ../gnomemusic/view.py:1257
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1293
 msgid "Unknown Album"
 msgstr "Album Tak Dikenal"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:387 ../gnomemusic/view.py:286
-#: ../gnomemusic/view.py:474 ../gnomemusic/view.py:706
-#: ../gnomemusic/view.py:1034 ../gnomemusic/view.py:1255
-#: ../gnomemusic/view.py:1286 ../gnomemusic/widgets.py:186
-#: ../gnomemusic/widgets.py:584
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:1322 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
@@ -121,20 +121,20 @@ msgstr "Tidak diputar"
 msgid "by %s, from %s"
 msgstr "oleh %s, dari %s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:344
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Tahan"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:347
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Putar"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Selanjutnya"
 
@@ -166,16 +166,16 @@ msgstr "Sumber"
 msgid "Match"
 msgstr "Cocok"
 
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:227
-#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:277
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Dipilih %d butir"
 
-#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:229
-#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:281
-#: ../gnomemusic/window.py:293 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
@@ -188,38 +188,43 @@ msgstr ""
 "Tak ditemukan musik!\n"
 " Letakkan beberapa berkas ke folder %s"
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1501
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1537
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1503
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1539
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../gnomemusic/view.py:581 ../gnomemusic/view.py:1502
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1538
 msgid "Artists"
 msgstr "Artis"
 
-#: ../gnomemusic/view.py:625 ../gnomemusic/view.py:627
-#: ../gnomemusic/widgets.py:461
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Semua Artis"
 
-#: ../gnomemusic/view.py:785 ../gnomemusic/view.py:1504
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1540
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: ../gnomemusic/view.py:1047
+#: ../gnomemusic/view.py:1080
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d Lagu"
 
-#: ../gnomemusic/widgets.py:695
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d mnt"
+
+#: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
 msgstr "Daftar Putar Baru"
 
-#: ../gnomemusic/window.py:225
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "Kosong"
 
