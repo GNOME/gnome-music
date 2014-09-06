@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-05-05 18:53+0000\n"
-"PO-Revision-Date: 2014-05-31 21:41+0100\n"
-"Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
+"POT-Creation-Date: 2014-08-25 07:01+0000\n"
+"PO-Revision-Date: 2014-08-26 19:26+0100\n"
+"Last-Translator: Mattias Eriksson <snaggen@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@lists.tp-sv.se>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
@@ -95,16 +95,17 @@ msgid "Untitled"
 msgstr "Namnlös"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:396 ../gnomemusic/view.py:566
-#: ../gnomemusic/view.py:942
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1293
 msgid "Unknown Album"
 msgstr "Okänt album"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:387 ../gnomemusic/view.py:284
-#: ../gnomemusic/view.py:477 ../gnomemusic/view.py:703
-#: ../gnomemusic/view.py:1031 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:541
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
+#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
+#: ../gnomemusic/view.py:1322 ../gnomemusic/widgets.py:184
+#: ../gnomemusic/widgets.py:563
 msgid "Unknown Artist"
 msgstr "Okänd artist"
 
@@ -118,38 +119,68 @@ msgstr "Spelar inte"
 msgid "by %s, from %s"
 msgstr "av %s, från %s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Föregående"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:344
+#: ../gnomemusic/notification.py:133 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Gör paus"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:347
+#: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Spela"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Nästa"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/window.py:258
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Alla"
+
+#: ../gnomemusic/searchbar.py:31
+#| msgid "Artists"
+msgid "Artist"
+msgstr "Artist"
+
+#: ../gnomemusic/searchbar.py:32
+#| msgid "Albums"
+msgid "Album"
+msgstr "Album"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Låttitel"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Lokal"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Källor"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Träff"
+
+#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Markerade %d objekt"
 msgstr[1] "Markerade %d objekt"
 
-#: ../gnomemusic/view.py:202 ../gnomemusic/widgets.py:226
-#: ../gnomemusic/window.py:262 ../gnomemusic/window.py:277
-#: ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
+#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klicka på objekt för att välja dem"
 
-#: ../gnomemusic/view.py:338
+#: ../gnomemusic/view.py:340
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -158,39 +189,44 @@ msgstr ""
 "Ingen musik hittades!\n"
 " Lägg några filer i mappen %s"
 
-#: ../gnomemusic/view.py:346
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1537
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:424
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1539
 msgid "Songs"
 msgstr "Låtar"
 
-#: ../gnomemusic/view.py:582
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1538
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:626 ../gnomemusic/view.py:628
-#: ../gnomemusic/widgets.py:427
+#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
+#: ../gnomemusic/widgets.py:451
 msgid "All Artists"
 msgstr "Alla artister"
 
-#: ../gnomemusic/view.py:778
+#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1540
 msgid "Playlists"
 msgstr "Spellistor"
 
-#: ../gnomemusic/view.py:1044
+#: ../gnomemusic/view.py:1080
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d låt"
 msgstr[1] "%d låtar"
 
-#: ../gnomemusic/widgets.py:618
+#: ../gnomemusic/widgets.py:273 ../gnomemusic/widgets.py:311
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:677
 msgid "New Playlist"
 msgstr "Ny spellista"
 
-#: ../gnomemusic/window.py:219
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "Tom"
 
