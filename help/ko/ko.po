@@ -1,0 +1,428 @@
+# Korean translation for gnome-music.
+# Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Seong-ho Cho <shcho@gnome.org>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"POT-Creation-Date: 2014-09-13 07:01+0000\n"
+"PO-Revision-Date: 2014-09-13 23:01+0900\n"
+"Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
+"Language-Team: Korean <gnome-kr@googlegroups.com>\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.5\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "조성호 <shcho@gnome.org>"
+
+#. (itstool) path: credit/name
+#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
+msgid "Shobha Tyagi"
+msgstr "Shobha Tyagi"
+
+#. (itstool) path: credit/years
+#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
+msgid "2014"
+msgstr "2014"
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/p
+#: C/introduction.page:18 C/introduction.page:23
+msgid ""
+"A simple and elegant replacement for using files to show the music directory."
+msgstr "음악 디렉터리를 표시할 파일을 활용하는 단순하고 매력적인 대안입니다."
+
+#. (itstool) path: page/title
+#: C/introduction.page:22
+msgid "Introduction to Music"
+msgstr "음악 소개"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link"
+msgid "Music"
+msgstr "음악"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Music"
+msgstr "음악"
+
+#. (itstool) path: page/title
+#: C/index.page:18
+msgid "<_:media-1/> Music"
+msgstr "<_:media-1/> 음악"
+
+#. (itstool) path: section/title
+#: C/index.page:25
+msgid "Create playlist"
+msgstr "재생 목록 만들기"
+
+#. (itstool) path: section/title
+#: C/index.page:28
+msgid "Play a song"
+msgstr "노래 재생하기"
+
+#. (itstool) path: section/title
+#: C/index.page:31
+msgid "Remove songs and playlist"
+msgstr "음악과 재생 목록 제거하기"
+
+#. (itstool) path: info/desc
+#: C/play-music.page:18
+msgid "Play your favorite songs."
+msgstr "원하는 노래를 재생합니다."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+msgid "Play music"
+msgstr "음악 재생"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr ""
+"재생 목록을 만들거나 어떤 뷰에서든 여러분이 선택한 노래를 눌러 듣고 싶은 음악"
+"을 재생할 수 있습니다."
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "<em>재생 목록</em>에서:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+msgid "Select a playlist."
+msgstr "재생 목록을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "오른편에 있는 톱니바퀴 단추를 누르십시오."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+msgid "Click on <gui>Play</gui>."
+msgstr "<gui>재생</gui>을 누르십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "앨범을 사용하여 노래를 재생 목록에 추가합니다."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+msgid "Create a playlist using albums"
+msgstr "앨범을 사용하여 재생 목록 만들기"
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui style=\"button"
+"\">Albums</gui> button."
+msgstr ""
+"<gui style=\"button\">앨범</gui> 단추를 누르면 모든 앨범을 볼 수 있습니다."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "앨범의 모든 노래를 추가하려면:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+msgid "Click on the check button in the top-right of the window."
+msgstr "창의 우측 상단에 있는 표시 단추를 누르십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "앨범을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr "<gui style=\"button\">재생 목록에 추가</gui> 단추를 누르십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr "<gui>새 재생 목록</gui>을 누르고 재생 목록 이름을 입력하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "<gui style=\"button\">선택</gui>을 누르십시오."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr "개별 노래로 재생 목록을 만들 수도 있습니다."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "앨범에서 선택한 노래를 추가하려면:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "앨범을 누르십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+msgid "Click on the check button."
+msgstr "표시 단추를 누르십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+msgid "Select songs."
+msgstr "노래를 선택하십시오."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr ""
+"모든 노래를 선택하려면 도구 모음에서 <guiseq><gui>선택할 항목 누름</gui><gui>"
+"모두 선택</gui></guiseq> 을 누르거나 <keyseq><key>Ctrl</key><key>A</key></"
+"keyseq>키 조합을 누르십시오."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr ""
+"선택을 취소하려면 도구 모음에서 <guiseq><gui>선택할 항목 누름</gui><gui>선택 "
+"안함</gui></guiseq>을 누르십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "듣고 싶은 노래를 선택하여 재생 목록을 만듭니다."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+msgid "Create playlists using songs"
+msgstr "노래로 재생 목록 만들기"
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui style=\"button\">Songs</"
+"gui> button."
+msgstr ""
+"<gui style=\"button\">노래</gui> 단추를 눌러 모든 노래를 볼 수 있습니다."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr "<em>노래</em> 보기에서 새 재생 목록을 만들려면:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+msgid "Select all the songs you want to add to the playlist."
+msgstr "재생 목록에 추가할 모든 노래를 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr ""
+"<gui style=\"button\">새 재생 목록</gui>을 누른 후 재생 목록에서 이름을 입력"
+"하십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "원하는 음악가를 선택하여 재생 목록을 만듭니다."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+msgid "Create playlists using artists"
+msgstr "음악가 기준으로 재생 목록 만들기"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui syle="
+"\"button\">Artists</gui> button."
+msgstr ""
+"<gui syle=\"button\">음악가</gui> 단추를 눌러 모든 음악가와 해당 음악가의 노"
+"래를 볼 수 있습니다."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr "<em>음악가</em> 보기에서 새 재생 목록을 만들려면:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr "재생 목록에 추가할 노래의 모든 음악가를 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+msgid "Click on <gui>Select</gui>."
+msgstr "<gui>선택</gui>을 누르십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+msgid "Remove an unwanted playlist."
+msgstr "원하지 않는 재생 목록을 제거합니다."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+msgid "Delete a playlist"
+msgstr "재생 목록 제거"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+msgid "You can remove an old and unwanted playlist."
+msgstr "오래되어 원하지 않는 재생 목록을 제거할 수 있습니다."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "삭제할 재생 목록을 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "<gui>삭제</gui>를 누르십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+msgid "Delete songs from the playlist."
+msgstr "재생 목록에서 노래를 삭제합니다."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+msgid "Remove songs"
+msgstr "노래 제거"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr "재생 목록에서 원하지 않는 노래를 제거할 수 있습니다."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr "제거하려는 노래를 재생 목록에서 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "도구 모음의 표시 단추를 누르십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "제거할 모든 노래를 선택하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr "<gui style=\"button\">재생 목록에서 제거</gui>를 누르십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr "재생 목록의 모든 노래 또는 현재 노래에 대해 반복하십시오."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "노래 재생을 어떻게 반복하죠?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "작업 표시줄에서 오른편의 단추를 누르십시오:"
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "<gui>노래 반복</gui>을 선택하여 단일 노래를 반복하십시오."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr "<gui>모두 반복</gui>을 선택하여 재생 목록의 모든 노래를 반복하십시오."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "재생 목록의 노래를 뒤섞습니다."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "어떻게 노래를 뒤섞을까요?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr ""
+"작업 표시줄의 오른편에 있는 단추를 누르고 <gui>뒤섞기</gui>를 선택하십시오."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "음악 모음에서 검색하십시오."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "음악 찾기"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr ""
+"앨범, 음악가, 노래, 재생 목록을 검색할 수 있습니다. 검색할 요소를 선택한 후 "
+"<gui>검색</gui> 단추를 누르면 검색을 시작합니다."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "크리에이티브 커먼즈 저작권 표시 3.0 Unported 라이선스"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "이 문서는 <_:link-1/>에 따른 활용을 허가합니다."
