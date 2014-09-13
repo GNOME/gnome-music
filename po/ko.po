@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-07 10:39+0000\n"
-"PO-Revision-Date: 2014-09-07 17:30+0900\n"
+"POT-Creation-Date: 2014-09-13 07:01+0000\n"
+"PO-Revision-Date: 2014-09-13 23:00+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -175,7 +175,7 @@ msgstr[0] "항목 %d개 선택함"
 #: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
 #: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
-msgstr "선택할 항목을 누르십시오"
+msgstr "선택할 항목 누름"
 
 #: ../gnomemusic/view.py:337
 #, python-format
