@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-06-16 18:57+0000\n"
-"PO-Revision-Date: 2014-06-16 22:28+0100\n"
+"POT-Creation-Date: 2014-09-14 07:02+0000\n"
+"PO-Revision-Date: 2014-09-14 19:36+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -99,17 +99,17 @@ msgid "Untitled"
 msgstr "Neimenovano"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
-#: ../gnomemusic/view.py:963 ../gnomemusic/view.py:1291
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
 msgid "Unknown Album"
 msgstr "Neznan album"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
-#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:719
-#: ../gnomemusic/view.py:1066 ../gnomemusic/view.py:1289
-#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:186
-#: ../gnomemusic/widgets.py:584
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
+#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
@@ -123,20 +123,20 @@ msgstr "Ni predvajanja"
 msgid "by %s, from %s"
 msgstr "%s (album %s)"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Predhodna"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Premor"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Predvajaj"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Naslednja"
 
@@ -168,8 +168,8 @@ msgstr "Viri"
 msgid "Match"
 msgstr "Se sklada"
 
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:227
-#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:278
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -178,13 +178,13 @@ msgstr[1] "Izbran je %d predmet"
 msgstr[2] "Izbrana sta %d predmeta"
 msgstr[3] "Izbrani so %d predmeti"
 
-#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:229
-#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:282
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
 #: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
-#: ../gnomemusic/view.py:340
+#: ../gnomemusic/view.py:337
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -193,28 +193,28 @@ msgstr ""
 "Posnetkov ni mogoče najti!\n"
 " Nekaj datotek je treba kopirati v mapo %s"
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
 msgid "Songs"
 msgstr "Skladbe"
 
-#: ../gnomemusic/view.py:593 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
 msgid "Artists"
 msgstr "Izvajalci"
 
-#: ../gnomemusic/view.py:638 ../gnomemusic/view.py:640
-#: ../gnomemusic/widgets.py:461
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:448
 msgid "All Artists"
 msgstr "Vsi izvajalci"
 
-#: ../gnomemusic/view.py:799 ../gnomemusic/view.py:1538
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: ../gnomemusic/view.py:1079
+#: ../gnomemusic/view.py:1077
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -223,7 +223,12 @@ msgstr[1] "%d skladba"
 msgstr[2] "%d skladbi"
 msgstr[3] "%d skladbe"
 
-#: ../gnomemusic/widgets.py:694
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:674
 msgid "New Playlist"
 msgstr "Nov seznam predvajanja"
 
