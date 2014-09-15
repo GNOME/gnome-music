@@ -1,3 +1,11 @@
+Overview of changes in 3.13.92
+=============================
+
+* Bugs fixed:
+ 735890 Fix the icons in RTL with new GTK+
+
+* Updated translations and help files
+
 Overview of changes in 3.13.90
 =============================
 
