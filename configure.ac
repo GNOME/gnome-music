@@ -1,6 +1,6 @@
 AC_PREREQ(2.63)
 AC_INIT([gnome-music],
-        [3.13.92],
+        [3.13.99],
         [https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music],
         [gnome-music],
         [https://wiki.gnome.org/Apps/Music])
