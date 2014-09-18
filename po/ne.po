@@ -1,0 +1,351 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music gnome 3.14\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-09-18 07:05+0000\n"
+"PO-Revision-Date: 2014-09-18 13:32+0400\n"
+"Last-Translator: Pawan Chitrakar <chautari@gmail.com>\n"
+"Language-Team: Nepali Translation Team <chautari@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.9\n"
+"Language: ne\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "सञ्झ्याल साइज"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "सञ्झ्यालको उचाइ र चौडाई"
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "सञ्झ्यालको स्थिति"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "सञ्झ्यालको  स्थान(X र Y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "सञ्झ्यालको अधिकतम स्थिति"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "सञ्झ्यालको अधिकतम स्थिति"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "मोड दोहोर्याउनुहोस्"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+#, fuzzy
+msgid "Search mode"
+msgstr "मोड:"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+#, fuzzy
+msgid "If true, the search bar is shown."
+msgstr "विण्डो टास्कबारमा छैनभने ठीक "
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "सङ्गित"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "सङ्गित बजाउने"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr ""
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "जिनोम सङ्गित"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr ""
+
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+msgid "Untitled"
+msgstr "शीर्षक नदिएको"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+msgid "Unknown Album"
+msgstr "अज्ञात एल्बम:"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
+#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
+msgid "Unknown Artist"
+msgstr "अज्ञात कलाकार:"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "बजेन"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s बाट %s देखि"
+
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "अघिल्लो"
+
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "पज गर्नुहोस्"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "प्ले गर्नुहोस्"
+
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "पछिल्लो:"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "सबै"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "कलाकार:"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "एल्बम:"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "गाना शीर्षक"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "स्थानीय"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "स्रोत"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "सबै मिलाउनुहोस्"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d बस्तु चयन भयो"
+msgstr[1] "%d बस्तु चयन भयो"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "वस्तुहरू चयनका लागि क्लिक गर्नुहोस्"
+
+#: ../gnomemusic/view.py:337
+#, python-format
+msgid ""
+"No Music found!\n"
+" Put some files into the folder %s"
+msgstr ""
+
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+msgid "Albums"
+msgstr "एल्बमहरू"
+
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+msgid "Songs"
+msgstr "गीतहरू "
+
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+msgid "Artists"
+msgstr "कलाकारहरू"
+
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:448
+msgid "All Artists"
+msgstr "कलाकारहरू"
+
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+msgid "Playlists"
+msgstr "सुचिहरू"
+
+#: ../gnomemusic/view.py:1077
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d गाना"
+msgstr[1] "%d गानाहरू"
+
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:674
+msgid "New Playlist"
+msgstr "नयाँ सूची"
+
+#: ../gnomemusic/window.py:226
+msgid "Empty"
+msgstr "खाली"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "प्रतिलिपीअधिकार  © २०१३ जिनोम सङ्गीत शीर्षकर्ता"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "जिनोम सङ्गित बजाउने र  व्यवस्थापन अनुप्रयोग"
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr ""
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:2
+#, fuzzy
+msgid "Running Length"
+msgstr "चलिरहेको"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "नयाँ सूची"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "सहयोग"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "बारेमा"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "अन्त्य गर्नुहोस्"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "फिट्नुहोस्"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "सबै दोहोर्याउनुस्"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "गाना दोहोर्याउनुस्"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "फिट्नुहोस्/दोहोर्याउनुस् बन्द"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No Music Found"
+msgstr "सङ्गित भेटिएन"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "सबै छान्नुहोस्"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "कुनै पनि चयन नगर्नुहोस्"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "खोजी"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "चयन गर्नुहोस्..."
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "रद्द गर्नुहोस्"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "पछाडि"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "सुचिमा थप्नुहोस्..."
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "सूचीबाट हटाउनुहोस्"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "प्ले गर्नुहोस्"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "मेट्नुहोस्"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "सूचिचयन गर्नुहोस्..."
