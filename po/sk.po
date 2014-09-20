@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-17 06:59+0000\n"
+"POT-Creation-Date: 2014-09-19 21:46+0000\n"
 "PO-Revision-Date: 2014-09-17 19:12+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
@@ -380,6 +380,11 @@ msgstr "_Prehrať"
 #: ../data/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "O_dstrániť"
+
+#: ../data/PlaylistControls.ui.h:3
+#| msgid "Playlists"
+msgid "Playlist Name"
+msgstr "Názov zoznamu skladieb"
 
 # dialog title
 #: ../data/PlaylistDialog.ui.h:1
