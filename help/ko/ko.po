@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-09-13 07:01+0000\n"
-"PO-Revision-Date: 2014-09-13 23:01+0900\n"
+"POT-Creation-Date: 2014-09-17 18:56+0000\n"
+"PO-Revision-Date: 2014-09-20 18:16+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -45,7 +45,7 @@ msgstr "2014"
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
 "A simple and elegant replacement for using files to show the music directory."
-msgstr "음악 디렉터리를 표시할 파일을 활용하는 단순하고 매력적인 대안입니다."
+msgstr "음악 디렉터리를 표시할 때 파일 관리자보다 단순하고 매력적인 대안입니다."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -420,7 +420,7 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "크리에이티브 커먼즈 저작권 표시 3.0 Unported 라이선스"
+msgstr "크리에이티브 커먼즈 저작권표시-동일조건변경허락 3.0 Unported 라이선스"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
