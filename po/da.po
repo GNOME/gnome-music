@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-16 20:59+0200\n"
-"PO-Revision-Date: 2014-09-07 22:22+0200\n"
+"POT-Creation-Date: 2014-09-20 17:35+0200\n"
+"PO-Revision-Date: 2014-09-20 17:07+0200\n"
 "Last-Translator: Kris Thomsen <mail@kristhomsen.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -367,6 +367,10 @@ msgstr "_Afspil"
 #: ../data/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Slet"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Navn på afspilningsliste"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
