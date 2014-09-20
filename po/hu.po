@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
-# Balázs Úr <urbalazs@gmail.com>, 2013, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014.
 # Balázs Meskó <meskobalazs at gmail dot com>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-09 18:59+0000\n"
-"PO-Revision-Date: 2014-09-09 23:58+0200\n"
+"POT-Creation-Date: 2014-09-20 19:02+0000\n"
+"PO-Revision-Date: 2014-09-20 23:05+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -370,6 +370,11 @@ msgstr "_Lejátszás"
 #: ../data/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Törlés"
+
+#: ../data/PlaylistControls.ui.h:3
+#| msgid "Playlists"
+msgid "Playlist Name"
+msgstr "Lejátszólista neve"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
