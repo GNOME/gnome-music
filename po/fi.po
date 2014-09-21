@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-06 07:00+0000\n"
-"PO-Revision-Date: 2014-09-06 13:52+0300\n"
+"POT-Creation-Date: 2014-09-20 07:04+0000\n"
+"PO-Revision-Date: 2014-09-20 10:29+0300\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -49,7 +49,6 @@ msgstr "Toiston kertaustila"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#, fuzzy
 #| msgid ""
 #| "Value identifies whether to repeat or randomize playback through the "
 #| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
@@ -60,7 +59,9 @@ msgid ""
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Arvo esittää, kerrataanko tai sekoitetaanko toistoa kokoelmaa käyttäen. "
-"Sallitut arvot ovat: \"none\", \"song\", \"all\" ja \"shuffle\""
+"Sallitut arvot ovat: \"none\" (ei kertausta tai sekoitusta), \"song"
+"\" (kertaa nykyistä kappaletta), \"all\" (kertaa soittolistaa, ei "
+"sekoitusta) ja \"shuffle\" (sekoita soittolista, kertaus kaiken suhteen)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -143,12 +144,10 @@ msgid "All"
 msgstr "Kaikki"
 
 #: ../gnomemusic/searchbar.py:31
-#| msgid "Artists"
 msgid "Artist"
 msgstr "Esittäjä"
 
 #: ../gnomemusic/searchbar.py:32
-#| msgid "Albums"
 msgid "Album"
 msgstr "Levy"
 
@@ -322,7 +321,6 @@ msgid "Select None"
 msgstr "Älä valitse mitään"
 
 #: ../data/headerbar.ui.h:4
-#| msgid "Search mode"
 msgid "Search"
 msgstr "Hae"
 
@@ -353,6 +351,11 @@ msgstr "_Toista"
 #: ../data/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Poista"
+
+#: ../data/PlaylistControls.ui.h:3
+#| msgid "Playlists"
+msgid "Playlist Name"
+msgstr "Soittolistan nimi"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
