@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-08 18:57+0000\n"
-"PO-Revision-Date: 2014-09-08 21:01-0500\n"
+"POT-Creation-Date: 2014-09-21 06:53+0000\n"
+"PO-Revision-Date: 2014-09-21 07:51-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
 "Language: pa\n"
@@ -142,12 +142,10 @@ msgid "All"
 msgstr "ਸਭ"
 
 #: ../gnomemusic/searchbar.py:31
-#| msgid "Artists"
 msgid "Artist"
 msgstr "ਕਲਾਕਾਰ"
 
 #: ../gnomemusic/searchbar.py:32
-#| msgid "Albums"
 msgid "Album"
 msgstr "ਐਲਬਮ"
 
@@ -308,7 +306,7 @@ msgstr "ਨਵੀਂ ਪਲੇਅਲਿਸਟ(_N)"
 
 #: ../data/app-menu.ui.h:2
 msgid "_Help"
-msgstr "ਮੱਦਦ(_H)"
+msgstr "ਮਦਦ(_H)"
 
 #: ../data/app-menu.ui.h:3
 msgid "_About"
@@ -347,7 +345,6 @@ msgid "Select None"
 msgstr "ਕੋਈ ਨਾ ਚੁਣੋ"
 
 #: ../data/headerbar.ui.h:4
-#| msgid "Search mode"
 msgid "Search"
 msgstr "ਖੋਜ"
 
@@ -378,6 +375,11 @@ msgstr "ਚਲਾਓ(_P)"
 #: ../data/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "ਹਟਾਓ(_D)"
+
+#: ../data/PlaylistControls.ui.h:3
+#| msgid "Playlists"
+msgid "Playlist Name"
+msgstr "ਪਲੇਅਲਿਸਟ ਨਾਂ"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
