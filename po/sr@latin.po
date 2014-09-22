@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-03-21 14:38+0000\n"
-"PO-Revision-Date: 2014-03-21 20:39+0200\n"
+"POT-Creation-Date: 2014-09-22 07:00+0000\n"
+"PO-Revision-Date: 2014-09-22 11:49+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: Serbian <gnom@prevod.org>\n"
 "Language: sr\n"
@@ -49,9 +49,6 @@ msgstr "Režim ponavljanja puštanja"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -71,8 +68,8 @@ msgstr "Režim pretrage"
 msgid "If true, the search bar is shown."
 msgstr "Ako je izabrano, biće prikazana traka za pretragu."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:46
-#: ../gnomemusic/application.py:102 ../gnomemusic/window.py:58
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzičko"
@@ -93,51 +90,84 @@ msgstr "Gnomova muzika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Muzičko je novi Gnomov program za puštanje muzike."
 
-#: ../gnomemusic/albumArtCache.py:235 ../gnomemusic/albumArtCache.py:243
+#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
 msgid "Untitled"
 msgstr "Bez naslova"
 
-#: ../gnomemusic/notification.py:70
-#| msgid "_Now Playing"
-msgid "Not playing"
-msgstr "Sada puštam"
-
-#: ../gnomemusic/notification.py:79 ../gnomemusic/player.py:365
-#: ../gnomemusic/view.py:253 ../gnomemusic/view.py:455
-#: ../gnomemusic/view.py:676 ../gnomemusic/view.py:990
-msgid "Unknown Artist"
-msgstr "Nepoznat izvođač"
-
-#: ../gnomemusic/notification.py:81 ../gnomemusic/view.py:553
-#| msgid "Unknown Artist"
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
 msgid "Unknown Album"
 msgstr "Nepoznat album"
 
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
+#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
+msgid "Unknown Artist"
+msgstr "Nepoznat izvođač"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Sada puštam"
+
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:85
+#: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
 msgstr "izvodi %s, sa „%s“"
 
-#: ../gnomemusic/notification.py:125
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Prethodno"
 
-#: ../gnomemusic/notification.py:128
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Zastani"
 
-#: ../gnomemusic/notification.py:131
-#| msgid "Playlists"
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Pusti"
 
-#: ../gnomemusic/notification.py:133
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Naredno"
 
-#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:261
-#: ../gnomemusic/window.py:244
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Sve"
+
+#: ../gnomemusic/searchbar.py:31
+#| msgid "Artists"
+msgid "Artist"
+msgstr "Izvođač"
+
+#: ../gnomemusic/searchbar.py:32
+#| msgid "Albums"
+msgid "Album"
+msgstr "Album"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Naslov numere"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Mesno"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Izvori"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Poklopi"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -146,13 +176,13 @@ msgstr[1] "Izabrane su %d stavke"
 msgstr[2] "Izabrano je %d stavki"
 msgstr[3] "Izabrana je %d stavka"
 
-#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:263
-#: ../gnomemusic/window.py:248 ../gnomemusic/window.py:262
-#: ../data/headerbar.ui.in.h:3
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
+#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kliknite na stavke da ih izaberete"
 
-#: ../gnomemusic/view.py:322
+#: ../gnomemusic/view.py:337
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -161,30 +191,29 @@ msgstr ""
 "Nisam pronašao muziku!\n"
 " Prebacite neke datoteke u fasciklu „%s“"
 
-#: ../gnomemusic/view.py:329
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../gnomemusic/view.py:402
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
 msgid "Songs"
 msgstr "Pesme"
 
-#: ../gnomemusic/view.py:566
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
 msgid "Artists"
 msgstr "Izvođači"
 
-#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
-#: ../gnomemusic/widgets.py:451
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:448
 msgid "All Artists"
 msgstr "Svi izvođači"
 
-#: ../gnomemusic/view.py:743
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
 msgid "Playlists"
 msgstr "Spisak numera"
 
-#: ../gnomemusic/view.py:1007
+#: ../gnomemusic/view.py:1077
 #, python-format
-#| msgid "Songs"
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d pesma"
@@ -192,20 +221,16 @@ msgstr[1] "%d pesme"
 msgstr[2] "%d pesama"
 msgstr[3] "%d pesma"
 
-#: ../gnomemusic/widgets.py:75 ../gnomemusic/widgets.py:95
-msgid "Load More"
-msgstr "Učitaj još"
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:85
-msgid "Loading..."
-msgstr "Učitavam..."
-
-#: ../gnomemusic/widgets.py:670
-#| msgid "_New Playlist"
+#: ../gnomemusic/widgets.py:674
 msgid "New Playlist"
 msgstr "Novi spisak numera"
 
-#: ../gnomemusic/window.py:209
+#: ../gnomemusic/window.py:226
 msgid "Empty"
 msgstr "Prazno"
 
@@ -285,7 +310,6 @@ msgid "_Help"
 msgstr "Po_moć"
 
 #: ../data/app-menu.ui.h:3
-#| msgid "_About Music"
 msgid "_About"
 msgstr "_O programu"
 
@@ -313,24 +337,36 @@ msgstr "Isključi mešanje/ponavljanje"
 msgid "No Music Found"
 msgstr "Nisam pronašao muziku"
 
-#: ../data/headerbar.ui.in.h:1
+#: ../data/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Izaberi sve"
 
-#: ../data/headerbar.ui.in.h:2
+#: ../data/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Poništi izbor"
 
-#: ../data/headerbar.ui.in.h:4 ../data/PlaylistDialog.ui.in.h:2
+#: ../data/headerbar.ui.h:4
+#| msgid "Search mode"
+msgid "Search"
+msgstr "Potraži"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Izaberi"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Otkaži"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Nazad"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Dodaj na spisak numera"
 
 #: ../data/SelectionToolbar.ui.h:2
-#| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "Ukloni sa spiska numera"
 
@@ -342,12 +378,17 @@ msgstr "_Pusti"
 msgid "_Delete"
 msgstr "_Obriši"
 
-#: ../data/PlaylistDialog.ui.in.h:1
-#| msgid "Select All"
+#: ../data/PlaylistControls.ui.h:3
+#| msgid "Playlists"
+msgid "Playlist Name"
+msgstr "Naziv spiska numera"
+
+#: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Izaberite spisak numera"
 
-#: ../data/PlaylistDialog.ui.in.h:3
-#| msgid "Select All"
-msgid "Select"
-msgstr "Izaberi"
+#~ msgid "Load More"
+#~ msgstr "Učitaj još"
+
+#~ msgid "Loading..."
+#~ msgstr "Učitavam..."
