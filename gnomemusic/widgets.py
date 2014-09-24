@@ -64,7 +64,7 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def __init__(self, player):
-        super(Gtk.EventBox, self).__init__()
+        Gtk.EventBox.__init__(self)
         self.player = player
         self.iterToClean = None
 
@@ -85,7 +85,7 @@ class AlbumWidget(Gtk.EventBox):
         child_view = self.view.get_children()[0]
         child_view.set_margin_top(64)
         child_view.set_margin_bottom(64)
-        child_view.set_margin_right(32)
+        child_view.set_margin_end(32)
         self.view.remove(child_view)
         view_box.add(child_view)
         self.add(self.ui.get_object('AlbumWidget'))
@@ -309,12 +309,12 @@ class AlbumWidget(Gtk.EventBox):
         return False
 
 
-class ArtistAlbums(Gtk.VBox):
+class ArtistAlbums(Gtk.Box):
 
     @log
     def __init__(self, artist, albums, player,
                  header_bar, selection_toolbar, selectionModeAllowed=False):
-        Gtk.VBox.__init__(self)
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.player = player
         self.artist = artist
         self.albums = albums
@@ -463,13 +463,13 @@ class AllArtistsAlbums(ArtistAlbums):
             self.add_album(item)
 
 
-class ArtistAlbumWidget(Gtk.HBox):
+class ArtistAlbumWidget(Gtk.Box):
 
     pixbuf = AlbumArtCache.get_default().get_default_icon(128, 128)
 
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
-        super(Gtk.HBox, self).__init__()
+        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
         self.player = player
         self.album = album
         self.artist = artist
