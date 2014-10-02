@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-10-02 07:06+0000\n"
-"PO-Revision-Date: 2014-10-02 20:05+0800\n"
+"PO-Revision-Date: 2014-10-02 20:39+0800\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <chinese-l10n@googlegroups.com>\n"
 "Language: zh_TW\n"
@@ -83,11 +83,11 @@ msgstr "播放與組織您的音樂收藏集"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
-msgstr "GNOME Music"
+msgstr "GNOME 音樂"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr "Music 是新的 GNOME 音樂播放應用程式。"
+msgstr "《音樂》是新的 GNOME 音樂播放應用程式。"
 
 #: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
 msgid "Untitled"
@@ -227,7 +227,7 @@ msgstr "清空"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "版權所有 © 2013 GNOME Music 開發團隊"
+msgstr "版權所有 © 2013 GNOME 音樂開發團隊"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
@@ -235,7 +235,7 @@ msgstr "GNOME 的音樂播放器與管理程式。"
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr "參訪 GNOME Music 網站"
+msgstr "參訪《GNOME 音樂》網站"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -261,9 +261,9 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"GNOME Music 是自由軟體，您可以遵照自由軟體基金會 (Free Software Foundation) "
-"出版的 GNU 通用公共授權條款 (GNU General Public License) 第二版來修改和重新發"
-"佈這一程式，或者自由選擇使用之後的任何版本。\n"
+"《GNOME 音樂》是自由軟體，您可以遵照自由軟體基金會 (Free Software "
+"Foundation) 出版的 GNU 通用公共授權條款 (GNU General Public License) 第二版來"
+"修改和重新發佈這一程式，或者自由選擇使用之後的任何版本。\n"
 "\n"
 "發佈 GNOME Music 程式的目的是希望它有用，但「沒有任何擔保」；甚至也沒有「可以"
 "銷售」或「適合特定目的」等隱示性擔保。詳細內容請參閱 GNU 通用公共授權。\n"
