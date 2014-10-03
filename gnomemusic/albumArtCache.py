@@ -79,7 +79,6 @@ def _make_icon_frame(pixbuf, path=None):
 class AlbumArtCache:
     instance = None
     blacklist = {}
-    queue = []
 
     @classmethod
     def get_default(self):
@@ -164,9 +163,6 @@ class AlbumArtCache:
                 if isinstance(i, str):
                     path = i
                     break
-            while path in self.queue:
-                sleep(0.5)
-            self.queue.append(path)
 
             if not os.path.exists(path):
                 GLib.idle_add(self.cached_thumb_not_found, item, width, height, path, callback, itr, artist, album)
@@ -183,8 +179,6 @@ class AlbumArtCache:
         try:
             if path:
                 item.set_thumbnail(GLib.filename_to_uri(path, None))
-                if path in self.queue:
-                    self.queue.remove(path)
             GLib.idle_add(callback, pixbuf, path, itr)
         except Exception as e:
             logger.warn("Error: %s" % e)
@@ -194,8 +188,6 @@ class AlbumArtCache:
         try:
             uri = item.get_thumbnail()
             if uri is None:
-                if path in self.queue:
-                    self.queue.remove(path)
                 grilo.get_album_art_for_item(item, self.album_art_for_item_callback,
                                              (item, width, height, path, callback, itr, artist, album))
                 return
@@ -233,8 +225,6 @@ class AlbumArtCache:
             src = Gio.File.new_for_uri(uri)
             dest = Gio.File.new_for_path(path)
             src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
-            if path in self.queue:
-                self.queue.remove(path)
             self.lookup_worker(item, width, height, callback, itr, artist, album)
         except Exception as e:
             logger.warn("Error: %s" % e)
