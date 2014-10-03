@@ -145,7 +145,10 @@ class AlbumArtCache:
 
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
-        start_new_thread(self.lookup_worker, (item, width, height, callback, itr, artist, album))
+        try:
+            start_new_thread(self.lookup_worker, (item, width, height, callback, itr, artist, album))
+        except Exception as e:
+            logger.warn("Error: %s" % e)
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
