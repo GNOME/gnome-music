@@ -158,7 +158,12 @@ class AlbumArtCache:
                 self.finish(item, None, None, callback, itr)
                 return
 
-            path = MediaArt.get_path(artist, album, "album", None)[0]
+            path = None
+            mediaart_tuple = MediaArt.get_path(artist, album, "album", None)
+            for i in mediaart_tuple:
+                if isinstance(i, str):
+                    path = i
+                    break
             while path in self.queue:
                 sleep(0.5)
             self.queue.append(path)
