@@ -24,11 +24,13 @@
 # modify this code, you may extend this exception to your version of the
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
-
-from gi.repository import Grl, GLib, GObject
+from gi.repository import GLib, GObject
 from gnomemusic.query import Query
 from gnomemusic import log
 import logging
+import os
+os.environ['GRL_PLUGIN_RANKS'] = 'local-metadata:3,filesystem:2,tracker:1,lastfm-albumart:0'
+from gi.repository import Grl
 logger = logging.getLogger(__name__)
 
 
@@ -77,6 +79,7 @@ class Grilo(GObject.GObject):
         self.changed_media_ids = []
         self.pending_event_id = 0
         self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
+
         self.registry = Grl.Registry.get_default()
 
     @log
