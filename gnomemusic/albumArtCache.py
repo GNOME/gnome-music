@@ -38,7 +38,10 @@ from time import sleep
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
+from queue import Queue
 logger = logging.getLogger(__name__)
+
+WORKER_THREADS = 2
 
 
 @log
@@ -112,13 +115,33 @@ class AlbumArtCache:
 
         return title
 
+    def worker(self, id):
+        while True:
+            try:
+                item = self.thread_queue.get()
+                item.setDaemon(True)
+                item.start()
+                item.join(30)
+                self.thread_queue.task_done()
+            except Exception as e:
+                logger.warn("worker %d item %s: error %s" % (id, item, str(e)))
+
     @log
     def __init__(self):
         try:
             self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
             Gio.file_new_for_path(self.cacheDir).make_directory(None)
-        except:
-            pass
+        except Exception as e:
+            logger.warn("Error: %s" % e)
+
+        try:
+            self.thread_queue = Queue()
+            for i in range(WORKER_THREADS):
+                t = Thread(target=self.worker, args=(i,))
+                t.setDaemon(True)
+                t.start()
+        except Exception as e:
+            logger.warn("Error: %s" % e)
 
     @log
     def get_default_icon(self, width, height):
@@ -147,9 +170,9 @@ class AlbumArtCache:
     def lookup(self, item, width, height, callback, itr, artist, album):
         try:
             t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
-            t.start()
+            self.thread_queue.put(t)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s" % e.__class__)
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
@@ -202,7 +225,7 @@ class AlbumArtCache:
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            t.start()
+            self.thread_queue.put(t)
         except Exception as e:
             logger.warn("Error: %s" % e)
 
@@ -225,7 +248,7 @@ class AlbumArtCache:
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            t.start()
+            self.thread_queue.put(t)
         except Exception as e:
             logger.warn("Error: %s" % e)
 
