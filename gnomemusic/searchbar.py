@@ -157,10 +157,10 @@ class FilterView():
             additionalFunc(col, cell, model, _iter)
 
 
-class DropDown(Gd.Revealer):
+class DropDown(Gtk.Revealer):
     @log
     def __init__(self):
-        Gd.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
+        Gtk.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -197,11 +197,11 @@ class DropDown(Gd.Revealer):
             self.searchFieldsFilter.view.set_sensitive(id == 'grl-tracker-source')
 
 
-class Searchbar(Gd.Revealer):
+class Searchbar(Gtk.Revealer):
 
     @log
     def __init__(self, stack_switcher, search_button, dropdown):
-        Gd.Revealer.__init__(self)
+        Gtk.Revealer.__init__(self)
         self.timeout = None
         self.stack_switcher = stack_switcher
         self._search_button = search_button
