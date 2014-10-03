@@ -33,7 +33,7 @@ from gettext import gettext as _
 import cairo
 from math import pi
 import os
-from _thread import start_new_thread
+from threading import Thread
 from time import sleep
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -146,7 +146,8 @@ class AlbumArtCache:
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
         try:
-            start_new_thread(self.lookup_worker, (item, width, height, callback, itr, artist, album))
+            t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
+            t.start()
         except Exception as e:
             logger.warn("Error: %s" % e)
 
@@ -200,8 +201,8 @@ class AlbumArtCache:
                                              (item, width, height, path, callback, itr, artist, album))
                 return
 
-            start_new_thread(self.download_worker,
-                             (item, width, height, path, callback, itr, artist, album, uri))
+            t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
+            t.start()
         except Exception as e:
             logger.warn("Error: %s" % e)
 
@@ -223,7 +224,8 @@ class AlbumArtCache:
                 self.finish(item, None, None, callback, itr)
                 return
 
-            start_new_thread(self.download_worker, (item, width, height, path, callback, itr, artist, album, uri))
+            t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
+            t.start()
         except Exception as e:
             logger.warn("Error: %s" % e)
 
