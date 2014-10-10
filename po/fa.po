@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2014-10-03 12:35+0000\n"
-"PO-Revision-Date: 2014-10-10 11:21+0330\n"
+"PO-Revision-Date: 2014-10-10 11:26+0330\n"
 "Last-Translator: Arash Mousavi <mousavi.arash@gmail.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
@@ -171,7 +171,7 @@ msgstr "هماهنگ"
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
-msgstr[0] "تعداد %Id مورد انتخاب شد"
+msgstr[0] "تعداد %d مورد انتخاب شد"
 
 #: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
 #: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
@@ -213,12 +213,12 @@ msgstr "فهرست‌های پخش"
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
-msgstr[0] "%Id آهنگ"
+msgstr[0] "%d آهنگ"
 
 #: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
 #, python-format
 msgid "%d min"
-msgstr "%Id دقیقه"
+msgstr "%d دقیقه"
 
 #: ../gnomemusic/widgets.py:674
 msgid "New Playlist"
