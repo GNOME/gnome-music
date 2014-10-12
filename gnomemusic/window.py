@@ -310,6 +310,12 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_f and
                     event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self.toolbar.searchbar.toggle_bar()
+            # Go back from Album view on Alt + Left
+            if (event.keyval == Gdk.KEY_Left and
+                    event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
+                if (self.toolbar._state != ToolbarState.MAIN):
+                    self.curr_view.set_visible_child(self.curr_view._grid)
+                    self.toolbar.set_state(ToolbarState.MAIN)
         else:
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
