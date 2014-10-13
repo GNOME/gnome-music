@@ -447,7 +447,7 @@ class Songs(ViewContainer):
     @log
     def __init__(self, header_bar, selection_toolbar, player):
         ViewContainer.__init__(self, _("Songs"), header_bar, selection_toolbar, Gd.MainViewType.LIST)
-        self.countQuery = Query.get_songs_count()
+        self.countQuery = Query.all_songs_count()
         self._items = {}
         self.monitors = []
         self.isStarred = None

@@ -112,7 +112,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_changes_pending(self, data=None):
         count = 1
-        cursor = tracker.query(Query.get_songs_count(), None)
+        cursor = tracker.query(Query.all_songs_count(), None)
         if cursor is not None and cursor.next(None):
             count = cursor.get_integer(0)
         if not count > 0:

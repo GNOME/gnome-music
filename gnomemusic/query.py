@@ -350,7 +350,7 @@ class Query():
                                           'download_dir': Query.DOWNLOAD_DIR}
 
     @staticmethod
-    def get_songs_count():
+    def all_songs_count():
         return '''
         SELECT
             COUNT(?song) AS childcount
