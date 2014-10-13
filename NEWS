@@ -1,3 +1,14 @@
+Overview of changes in 3.14.1
+=============================
+
+* Bugs fixed:
+ 736925 Remove deprecation warnings from AlbumWidget.ui
+ 737571 No covers loaded on libmediaart 0.6.0
+ 736241 Prefer embedded album art over downloaded
+ 733686 Gnome music will not launch
+
+* Updated translations and help files
+
 Overview of changes in 3.14.0
 =============================
 
