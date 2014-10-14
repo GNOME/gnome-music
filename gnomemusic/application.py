@@ -49,6 +49,7 @@ class Application(Gtk.Application):
                                  flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name(_("Music"))
         GLib.set_prgname('gnome-music')
+        self.settings = Gio.Settings.new('org.gnome.Music')
         cssProviderFile = Gio.File.new_for_uri('resource:///org/gnome/Music/application.css')
         cssProvider = Gtk.CssProvider()
         cssProvider.load_from_file(cssProviderFile)
@@ -121,6 +122,7 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self.service = MediaPlayer2Service(self)
-            self._notifications = NotificationManager(self._window.player)
+            if self.settings.get_value('notifications'):
+                self._notifications = NotificationManager(self._window.player)
 
         self._window.present()
