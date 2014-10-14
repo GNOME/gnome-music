@@ -331,10 +331,7 @@ class Empty(Gtk.Stack):
                            transition_type=Gtk.StackTransitionType.CROSSFADE)
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
-        music_folder_path = GLib.get_user_special_dir(GLib.USER_DIRECTORY_MUSIC)
         widget = builder.get_object('container')
-        label = builder.get_object('label1')
-        label.set_label(_("No Music found!\n Put some files into the folder %s") % music_folder_path)
         self.add(widget)
         self.show_all()
 
