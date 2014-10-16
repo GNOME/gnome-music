@@ -29,12 +29,10 @@ from gi.repository import GLib, Tracker
 
 
 class Query():
-    MUSIC_DIR = Tracker.sparql_escape_string(GLib.filename_to_uri(
-        GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-    ))
-    DOWNLOAD_DIR = Tracker.sparql_escape_string(GLib.filename_to_uri(
-        GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
-    ))
+    music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+    MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
+    download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+    DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
 
     @staticmethod
     def all_albums():
@@ -78,8 +76,8 @@ class Query():
         )
     }
     '''.replace('\n', ' ').strip() % {
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -211,8 +209,8 @@ class Query():
     ORDER BY fn:lower-case(?title) ?author ?albumyear
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -360,8 +358,8 @@ class Query():
     ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -399,8 +397,8 @@ class Query():
     ORDER BY tracker:added(?song)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -435,8 +433,8 @@ class Query():
     ORDER BY fn:lower-case(?title) ?author ?albumyear
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -482,8 +480,8 @@ class Query():
          tracker:added(?song)
     '''.replace('\n', ' ').strip() % {
             'album_id': album_id,
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -526,8 +524,8 @@ class Query():
             'playlist_id': playlist_id,
             'filter_clause':
                 filter_clause or 'tracker:id(?playlist) = ' + playlist_id,
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
 
         return query
@@ -556,8 +554,8 @@ class Query():
     }
     """.replace("\n", " ").strip() % {
             'album_id': album_id,
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
         return query
 
@@ -602,8 +600,8 @@ class Query():
     }
     """.replace("\n", " ").strip() % {
             'song_id': song_id,
-            'music_dir': Query.MUSIC_DIR,
-            'download_dir': Query.DOWNLOAD_DIR
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
         }
         return query
 
