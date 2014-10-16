@@ -128,7 +128,8 @@ class AlbumArtCache:
     def __init__(self):
         try:
             self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
-            Gio.file_new_for_path(self.cacheDir).make_directory(None)
+            if not os.path.exists(self.cacheDir):
+                Gio.file_new_for_path(self.cacheDir).make_directory(None)
         except Exception as e:
             logger.warn("Error: %s" % e)
 
