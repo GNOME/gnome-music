@@ -25,6 +25,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gettext import gettext as _
 from gi.repository import GLib, Tracker
 import os
 import logging
@@ -44,6 +45,25 @@ class Query():
             i = len(next(os.walk(folder))[2])
             logger.debug("Found %d files in %s" % (i, folder))
 
+
+    @staticmethod
+    def order_by_statement(attr):
+        """Returns a SPARQL ORDER BY statement sorting by the given attribute, ignoring
+            articles as defined in _("the"). 'Attr' should be given without parentheses,
+            e.g., "attr='?author'"."""
+        return_statement = "fn:lower-case(%(attribute)s)" % {'attribute' : attr }
+        # TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+            # (such as 'the') that should be ignored when alphabetizing artists/albums. This
+            # list should include 'the' regardless of language. If some articles occur more
+            # frequently than others, most common should appear first, least common last.
+        for article in reversed(_("the").split(" ")):
+            return_statement = '''IF(fn:starts-with(fn:lower-case(%(attribute)s), "%(article)s"),
+            fn:substring(fn:lower-case(%(attribute)s), %(substr_start)s),
+            %(nested_if)s)''' % {'attribute' : attr,
+                'article' : article+" ",
+                'substr_start' : str(len(article)+2),
+                'nested_if' : return_statement }
+        return return_statement
 
     @staticmethod
     def all_albums():
@@ -217,15 +237,15 @@ class Query():
                 }
             )
         }
-    ORDER BY IF(fn:starts-with(fn:lower-case(?title), "the "),
-        fn:substring(fn:lower-case(?title), 5), fn:lower-case(?title))
-        IF(fn:starts-with(fn:lower-case(?author), "the "),
-            fn:substring(fn:lower-case(?author), 5), fn:lower-case(?author))
+    ORDER BY %(album_order)s
+        %(artist_order)s
         ?albumyear
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'download_dir': Query.DOWNLOAD_URI
+            'download_dir': Query.DOWNLOAD_URI,
+            'album_order' : Query.order_by_statement("?title"),
+            'artist_order' : Query.order_by_statement("?author")
         }
 
         return query
@@ -370,15 +390,15 @@ class Query():
                 }
             )
         }
-    ORDER BY IF(fn:starts-with(fn:lower-case(?author), "the "),
-        fn:substring(fn:lower-case(?author), 5), fn:lower-case(?author))
+    ORDER BY %(artist_order)s
         ?albumyear
-        IF(fn:starts-with(fn:lower-case(nie:title(?album)), "the "),
-            fn:substring(fn:lower-case(nie:title(?album)), 5), fn:lower-case(nie:title(?album)))
+        %(album_order)s
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'download_dir': Query.DOWNLOAD_URI
+            'download_dir': Query.DOWNLOAD_URI,
+            'artist_order': Query.order_by_statement("?author"),
+            'album_order' : Query.order_by_statement("nie:title(?album)")
         }
 
         return query
