@@ -34,7 +34,6 @@ import cairo
 from math import pi
 import os
 from threading import Thread
-from time import sleep
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
