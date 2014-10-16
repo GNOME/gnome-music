@@ -26,6 +26,9 @@
 # delete this exception statement from your version.
 
 from gi.repository import GLib, Tracker
+import os
+import logging
+logger = logging.getLogger(__name__)
 
 
 class Query():
@@ -33,6 +36,14 @@ class Query():
     MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
     download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
     DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
+
+    for folder in [music_folder, download_folder]:
+        if os.path.islink(folder):
+            logger.warn("%s is a symlink, this folder will be omitted" % folder)
+        else:
+            i = len(next(os.walk(folder))[2])
+            logger.debug("Found %d files in %s" % (i, folder))
+
 
     @staticmethod
     def all_albums():
