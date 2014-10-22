@@ -217,7 +217,11 @@ class Query():
                 }
             )
         }
-    ORDER BY fn:lower-case(?title) ?author ?albumyear
+    ORDER BY IF(fn:starts-with(fn:lower-case(?title), "the "),
+        fn:substring(fn:lower-case(?title), 5), fn:lower-case(?title))
+        IF(fn:starts-with(fn:lower-case(?author), "the "),
+            fn:substring(fn:lower-case(?author), 5), fn:lower-case(?author))
+        ?albumyear
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
@@ -366,7 +370,11 @@ class Query():
                 }
             )
         }
-    ORDER BY fn:lower-case(?author) ?albumyear nie:title(?album)
+    ORDER BY IF(fn:starts-with(fn:lower-case(?author), "the "),
+        fn:substring(fn:lower-case(?author), 5), fn:lower-case(?author))
+        ?albumyear
+        IF(fn:starts-with(fn:lower-case(nie:title(?album)), "the "),
+            fn:substring(fn:lower-case(nie:title(?album)), 5), fn:lower-case(nie:title(?album)))
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
