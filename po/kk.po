@@ -1,0 +1,381 @@
+# Kazakh translation for gnome-music.
+# Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Baurzhan Muftakhidinov <baurthefirst@gmail.com>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-10-25 18:51+0000\n"
+"PO-Revision-Date: 2014-10-26 09:04+0600\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
+"Language: kk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Терезе өлшемі"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Терезе өлшемі (ені мен биіктігі)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Терезе орны"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Терезе орны (x және y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Терезе максималды етілген"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Терезе күйі: мыс. максималды"
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Ойнату қайталау режимі"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Бұл мән ойнату кезінде жинақ ішінде қайталау және араластыру режимдерін "
+"көрсетеді. Рұқсат етілген мәндері: \"none\" (қайталау және араластыру жоқ), "
+"\"song\" (ағымдағы өлеңді қайталау), \"all\" (ойнату тізімін қайталау, "
+"араластыру жоқ), \"shuffle\" (ойнату тізімін араластырып қолдану, барлығын "
+"қайталауды білдіреді)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Іздеу режимі"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Ақиқат болса, іздеу панелі көрсетіледі."
+
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Хабарламалар режимі"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Ойнату хабарламаларын іске қосу не сөндіру"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Музыка"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Музыка ойнатқышы"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Музыкалық жинағыңызды ойнау және реттеу"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME музыкасы"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "GNOME музыкасы - бұл музыканы ойнайтын жаңа қолданба."
+
+#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+msgid "Untitled"
+msgstr "Атаусыз"
+
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:571
+#: ../gnomemusic/view.py:958 ../gnomemusic/view.py:1287
+msgid "Unknown Album"
+msgstr "Белгісіз альбом"
+
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
+#: ../gnomemusic/view.py:1062 ../gnomemusic/view.py:1285
+#: ../gnomemusic/view.py:1316 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:560
+msgid "Unknown Artist"
+msgstr "Белгісіз әртіс"
+
+#: ../gnomemusic/notification.py:89
+msgid "Not playing"
+msgstr "Ойнап тұрған жоқ"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "%s әртісі, %s альбомынан"
+
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Алдыңғы"
+
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+msgid "Pause"
+msgstr "Аялдату"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Ойнату"
+
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Келесі"
+
+#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+msgid "All"
+msgstr "Барлығы"
+
+#: ../gnomemusic/searchbar.py:31
+msgid "Artist"
+msgstr "Әртіс"
+
+#: ../gnomemusic/searchbar.py:32
+msgid "Album"
+msgstr "Альбом"
+
+#: ../gnomemusic/searchbar.py:33
+msgid "Track Title"
+msgstr "Трек аты"
+
+#: ../gnomemusic/searchbar.py:74
+msgid "Local"
+msgstr "Жергілікті"
+
+#: ../gnomemusic/searchbar.py:176
+msgid "Sources"
+msgstr "Қайнар көздер"
+
+#: ../gnomemusic/searchbar.py:183
+msgid "Match"
+msgstr "Сәйкес"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "%d нәрсе таңдалды"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
+#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Бірнәрсені таңдау үшін оның үстіне шертіңіз"
+
+#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1531
+msgid "Albums"
+msgstr "Альбомдар"
+
+#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1533
+msgid "Songs"
+msgstr "Өлеңдер"
+
+#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1532
+msgid "Artists"
+msgstr "Әртістер"
+
+#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
+#: ../gnomemusic/widgets.py:448
+msgid "All Artists"
+msgstr "Барлық әртістер"
+
+#: ../gnomemusic/view.py:794 ../gnomemusic/view.py:1534
+msgid "Playlists"
+msgstr "Ойнату тізімдері"
+
+#: ../gnomemusic/view.py:1074
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d өлең"
+
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d мин"
+
+#: ../gnomemusic/widgets.py:674
+msgid "New Playlist"
+msgstr "Жаңа ойнату тізімі"
+
+#: ../gnomemusic/window.py:232
+msgid "Empty"
+msgstr "Бос"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME Music Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Музыканы ойнау және басқаруға арналған GNOME қолданбасы."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "GNOME музыкасы веб сайтын шолу"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME музыкасы еркін бағдарлама; сіз оны Free Software Foundation шығарған "
+"GNU General Public License аясында еркін тарата не/және өзгерте аласыз; "
+"лицензия нұсқасы 3 не (тандауыңызша) кез-келген кейін шыққан.\n"
+"\n"
+"GNOME музыкасы пайдалы болады деген сеніммен таратылады, бірақ ЕШҚАНДАЙ "
+"КЕПІЛДЕМЕ берілмейді; КОММЕРЦИЯЛЫҚ ҚҰНДЫЛЫҚ немесе белгілі бір МАҚСАТТАРҒА "
+"СӘЙКЕС КЕЛЕТІНІ үшін де.  Көбірек білу үшін GNU General Public License "
+"қараңыз.\n"
+"\n"
+"Сіз осы GNOME музыкасы бағдарламасымен бірге GNU General Public License "
+"көшірмесін алуыңыз керек еді; олай болмаса, Free Software Foundation, Inc. "
+"ұйымына, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA адресі "
+"бойынша хабарласыңыз.\n"
+"\n"
+"GNOME музыкасы авторлары GPL үйлесімсіз GStreamer плагиндерін GStreamer және "
+"GNOME музыкасы қолданбасымен бірге қолданылып, таратылу құқығын рұқсат "
+"етеді. Бұл рұқсат GNOME музыкасы өзінің GPL лицензиясынан басымды болады. "
+"Егер сіз бұл кодты түрлендіретін болсаңыз, осы рұқсатты кодтың өз "
+"бөлігіңізге де іске асыра аласыз, бірақ бұл міндетті емес. Егер сіз оны "
+"жасамауды таңдасаңыз, лицензияның бұл ерекше бөлігін өз нұсқаңыздан алып "
+"тастаңыз."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Шығарылған"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Ұзақтығы"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Жаңа ойнату тізімі"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Көмек"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "О_сы туралы"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Шығу"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Араластыру"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Барлығын қайталау"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Тректі қайталау"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Араластыру/қайталау сөндірілген"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "Музыка табылмады"
+
+#: ../data/NoMusic.ui.h:2
+msgid "The contents of your music folder will appear here."
+msgstr "Музыка бумаңыздың құрамасы осында көрсетіледі."
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Барлығын таңдау"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Ештеңе таңдамау"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Іздеу"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Таңдау"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Бас тарту"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Кері"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Ойнату тізіміне қосу"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Ойнату тізімінен өшіру"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "Ой_нату"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "Ө_шіру"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Ойнату тізімінің аты"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Ойнату тізімін таңдау"
