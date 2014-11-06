@@ -4,15 +4,16 @@
 # Stas Solovey <whats_up@tut.by>, 2012, 2013.
 # Yuri Myasoedov <ymyasoedov@yandex.ru>, 2012, 2014.
 # Andrew Archer <razandale@gmail.com>, 2014.
+# Mihail Gurin <mikegurin@yandex.ru>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-17 13:52+0000\n"
-"PO-Revision-Date: 2014-10-20 18:52+0300\n"
-"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
+"POT-Creation-Date: 2014-11-05 19:56+0000\n"
+"PO-Revision-Date: 2014-11-06 10:48+0300\n"
+"Last-Translator: Mihail Gurin <mikegurin@yandex.ru>\n"
 "Language-Team: русский <gnome-cyr@gnome.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -151,6 +152,14 @@ msgstr "Воспроизвести"
 #: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Следующая"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:59
+msgid "the"
+msgstr "the"
 
 #: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
 msgid "All"
