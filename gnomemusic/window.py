@@ -335,7 +335,8 @@ class Window(Gtk.ApplicationWindow):
         else:
             if not self.toolbar.searchbar.get_reveal_child():
                 if event.keyval == Gdk.KEY_space and self.player.actionbar.get_visible():
-                    self.player.play_pause()
+                    if self.get_focus() != self.player.playBtn:
+                        self.player.play_pause()
 
     @log
     def _notify_mode_disconnect(self, data=None):
