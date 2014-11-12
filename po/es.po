@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-14 20:12+0000\n"
-"PO-Revision-Date: 2014-10-20 12:52+0200\n"
+"POT-Creation-Date: 2014-11-12 07:53+0000\n"
+"PO-Revision-Date: 2014-11-12 12:28+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -100,7 +100,7 @@ msgstr "GNOME Música"
 msgid "Music is the new GNOME music playing application."
 msgstr "Música es la nueva aplicación de GNOME para reproducir música."
 
-#: ../gnomemusic/albumArtCache.py:102 ../gnomemusic/albumArtCache.py:110
+#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
 msgid "Untitled"
 msgstr "Sin título"
 
@@ -145,6 +145,14 @@ msgstr "Reproducir"
 #: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Siguiente"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:59
+msgid "the"
+msgstr "el la"
 
 #: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
 msgid "All"
@@ -327,7 +335,6 @@ msgid "Shuffle/Repeat Off"
 msgstr "Mezclar/no repetir"
 
 #: ../data/NoMusic.ui.h:1
-#| msgid "No Music Found"
 msgid "No music found"
 msgstr "No se ha encontrado música"
 
