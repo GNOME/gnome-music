@@ -65,6 +65,7 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'playlist-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)),
         'current-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'playback-status-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
@@ -510,20 +511,23 @@ class Player(GObject.GObject):
     def set_playlist(self, type, id, model, iter, field):
         self.stop()
 
-        if self.playlist_insert_handler:
-            self.playlist.disconnect(self.playlist_insert_handler)
-        if self.playlist_delete_handler:
-            self.playlist.disconnect(self.playlist_delete_handler)
+        old_playlist = self.playlist
+        if old_playlist != model:
+            self.playlist = model
+            if self.playlist_insert_handler:
+                old_playlist.disconnect(self.playlist_insert_handler)
+            if self.playlist_delete_handler:
+                old_playlist.disconnect(self.playlist_delete_handler)
 
-        self.playlist = model
         self.playlistType = type
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
         self.playlistField = field
 
-        self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
-        self.playlist_delete_handler = model.connect('row-deleted', self._on_playlist_size_changed)
-
+        if old_playlist != model:
+            self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
+            self.playlist_delete_handler = model.connect('row-deleted', self._on_playlist_size_changed)
+            self.emit('playlist-changed')
         self.emit('current-changed')
 
     @log
