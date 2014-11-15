@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 class MediaPlayer2Service(dbus.service.Object):
     MEDIA_PLAYER2_IFACE = 'org.mpris.MediaPlayer2'
     MEDIA_PLAYER2_PLAYER_IFACE = 'org.mpris.MediaPlayer2.Player'
+    MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
 
     def __init__(self, app):
         DBusGMainLoop(set_as_default=True)
@@ -55,6 +56,10 @@ class MediaPlayer2Service(dbus.service.Object):
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seeked', self._on_seeked)
+        self.player.connect('playlist-changed', self._on_playlist_changed)
+        self.playlist = None
+        self.playlist_insert_handler = 0
+        self.playlist_delete_handler = 0
         self.first_song_handler = 0
 
     @log
@@ -77,13 +82,14 @@ class MediaPlayer2Service(dbus.service.Object):
             return 'Playlist'
 
     @log
-    def _get_metadata(self):
-        media = self.player.get_current_media()
+    def _get_metadata(self, media=None):
+        if not media:
+            media = self.player.get_current_media()
         if not media:
             return {}
 
         metadata = {
-            'mpris:trackid': '/org/mpris/MediaPlayer2/Track/%s' % media.get_id(),
+            'mpris:trackid': self._get_media_id(media),
             'xesam:url': media.get_url()
         }
 
@@ -175,6 +181,26 @@ class MediaPlayer2Service(dbus.service.Object):
         return metadata
 
     @log
+    def _get_media_id(self, media):
+        return '/org/mpris/MediaPlayer2/Track/%s' % media.get_id()
+
+    @log
+    def _get_media_from_id(self, track_id):
+        for track in self.player.playlist:
+            media = track[self.player.playlistField]
+            if track_id == self._get_media_id(media):
+                return media
+        return None
+
+    @log
+    def _get_track_list(self):
+        if self.player.playlist:
+            return [self._get_media_id(track[self.player.playlistField])
+                    for track in self.player.playlist]
+        else:
+            return []
+
+    @log
     def _on_current_changed(self, player, data=None):
         if self.player.repeat == RepeatType.SONG:
             self.Seeked(0)
@@ -243,6 +269,34 @@ class MediaPlayer2Service(dbus.service.Object):
     def _on_seeked(self, player, position, data=None):
         self.Seeked(position)
 
+    @log
+    def _on_playlist_changed(self, player, data=None):
+        if self.playlist:
+            if self.playlist_insert_handler:
+                self.playlist.disconnect(self.playlist_insert_handler)
+            if self.playlist_delete_handler:
+                self.playlist.disconnect(self.playlist_delete_handler)
+
+        self.playlist = self.player.playlist
+        self._on_playlist_modified()
+
+        self.playlist_insert_handler = \
+            self.playlist.connect('row-inserted', self._on_playlist_modified)
+        self.playlist_delete_handler = \
+            self.playlist.connect('row-deleted', self._on_playlist_modified)
+
+    @log
+    def _on_playlist_modified(self, path=None, _iter=None, data=None):
+        path = self.player.currentTrack.get_path()
+        currentTrack = self.player.playlist[path][self.player.playlistField]
+        track_list = self._get_track_list()
+        self.TrackListReplaced(track_list, self._get_media_id(currentTrack))
+        self.PropertiesChanged(self.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                               {
+                                   'Tracks': track_list,
+                               },
+                               [])
+
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
     def Raise(self):
         self.app.do_activate()
@@ -307,6 +361,58 @@ class MediaPlayer2Service(dbus.service.Object):
     def Seeked(self, position):
         pass
 
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         in_signature='ao', out_signature='aa{sv}')
+    def GetTracksMetadata(self, track_ids):
+        metadata = []
+        for track_id in track_ids:
+            metadata.append(self._get_metadata(self._get_media_from_id(track_id)))
+        return metadata
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         in_signature='sob')
+    def AddTrack(self, uri, after_track, set_as_current):
+        pass
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         in_signature='o')
+    def RemoveTrack(self, track_id):
+        pass
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         in_signature='o')
+    def GoTo(self, track_id):
+        for track in self.player.playlist:
+            media = track[self.player.playlistField]
+            if track_id == self._get_media_id(media):
+                self.player.set_playlist(self.player.playlistType,
+                                         self.player.playlistId,
+                                         self.player.playlist,
+                                         track.iter,
+                                         self.player.playlistField)
+                self.player.play()
+                return
+
+    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         signature='aoo')
+    def TrackListReplaced(self, tracks, current_track):
+        pass
+
+    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         signature='a{sv}o')
+    def TrackAdded(self, metadata, after_track):
+        pass
+
+    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         signature='o')
+    def TrackRemoved(self, track_id):
+        pass
+
+    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
+                         signature='oa{sv}')
+    def TrackMetadataChanged(self, track_id, metadata):
+        pass
+
     @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
                          in_signature='ss', out_signature='v')
     def Get(self, interface_name, property_name):
@@ -319,7 +425,7 @@ class MediaPlayer2Service(dbus.service.Object):
             return {
                 'CanQuit': True,
                 'CanRaise': True,
-                'HasTrackList': False,
+                'HasTrackList': True,
                 'Identity': 'Music',
                 'DesktopEntry': 'gnome-music',
                 'SupportedUriSchemes': [
@@ -349,6 +455,11 @@ class MediaPlayer2Service(dbus.service.Object):
                 'CanPause': self.player.currentTrack is not None,
                 'CanSeek': True,
                 'CanControl': True,
+            }
+        elif interface_name == self.MEDIA_PLAYER2_TRACKLIST_IFACE:
+            return {
+                'Tracks': self._get_track_list(),
+                'CanEditTracks': False,
             }
         else:
             raise dbus.exceptions.DBusException(
