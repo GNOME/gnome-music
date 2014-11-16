@@ -30,8 +30,11 @@ from dbus.mainloop.glib import DBusGMainLoop
 
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.grilo import grilo
+from gnomemusic.playlists import Playlists
 
 from gettext import gettext as _
+from gi.repository import GLib
 from gi.repository import Grl
 from gnomemusic import log
 import logging
@@ -42,6 +45,7 @@ class MediaPlayer2Service(dbus.service.Object):
     MEDIA_PLAYER2_IFACE = 'org.mpris.MediaPlayer2'
     MEDIA_PLAYER2_PLAYER_IFACE = 'org.mpris.MediaPlayer2.Player'
     MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
+    MEDIA_PLAYER2_PLAYLISTS_IFACE = 'org.mpris.MediaPlayer2.Playlists'
 
     def __init__(self, app):
         DBusGMainLoop(set_as_default=True)
@@ -57,6 +61,11 @@ class MediaPlayer2Service(dbus.service.Object):
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seeked', self._on_seeked)
         self.player.connect('playlist-changed', self._on_playlist_changed)
+        playlists = Playlists.get_default()
+        playlists.connect('playlist-created', self._on_playlists_count_changed)
+        playlists.connect('playlist-deleted', self._on_playlists_count_changed)
+        grilo.connect('ready', self._on_grilo_ready)
+        self.playlists = []
         self.playlist = None
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
@@ -201,6 +210,49 @@ class MediaPlayer2Service(dbus.service.Object):
             return []
 
     @log
+    def _get_playlist_path(self, playlist):
+        return '/org/mpris/MediaPlayer2/Playlist/%s' % \
+            (playlist.get_id() if playlist else 'Invalid')
+
+    @log
+    def _get_playlist_from_path(self, playlist_path):
+        for playlist in self.playlists:
+            if playlist_path == self._get_playlist_path(playlist):
+                return playlist
+        return None
+
+    @log
+    def _get_playlist_from_id(self, playlist_id):
+        for playlist in self.playlists:
+            if playlist_id == playlist.get_id():
+                return playlist
+        return None
+
+    @log
+    def _get_playlists(self, callback):
+        playlists = []
+
+        def populate_callback(source, param, item, remaining=0, data=None):
+            if item:
+                playlists.append(item)
+            else:
+                callback(playlists)
+
+        if grilo.tracker:
+            GLib.idle_add(grilo.populate_playlists, 0, populate_callback)
+        else:
+            callback(playlists)
+
+    @log
+    def _get_active_playlist(self):
+        playlist = self._get_playlist_from_id(self.player.playlistId) \
+            if self.player.playlistType == 'Playlist' else None
+        playlistName = AlbumArtCache.get_media_title(playlist) \
+            if playlist else ''
+        return (playlist is not None,
+                (self._get_playlist_path(playlist), playlistName, ''))
+
+    @log
     def _on_current_changed(self, player, data=None):
         if self.player.repeat == RepeatType.SONG:
             self.Seeked(0)
@@ -280,6 +332,12 @@ class MediaPlayer2Service(dbus.service.Object):
         self.playlist = self.player.playlist
         self._on_playlist_modified()
 
+        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                               {
+                                   'ActivePlaylist': self._get_active_playlist(),
+                               },
+                               [])
+
         self.playlist_insert_handler = \
             self.playlist.connect('row-inserted', self._on_playlist_modified)
         self.playlist_delete_handler = \
@@ -296,6 +354,26 @@ class MediaPlayer2Service(dbus.service.Object):
                                    'Tracks': track_list,
                                },
                                [])
+
+    @log
+    def _reload_playlists(self):
+        def get_playlists_callback(playlists):
+            self.playlists = playlists
+            self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                                   {
+                                       'PlaylistCount': len(playlists),
+                                   },
+                                   [])
+
+        self._get_playlists(get_playlists_callback)
+
+    @log
+    def _on_playlists_count_changed(self, playlists, item):
+        self._reload_playlists()
+
+    @log
+    def _on_grilo_ready(self, grilo):
+        self._reload_playlists()
 
     @dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
     def Raise(self):
@@ -413,6 +491,28 @@ class MediaPlayer2Service(dbus.service.Object):
     def TrackMetadataChanged(self, track_id, metadata):
         pass
 
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                         in_signature='o')
+    def ActivatePlaylist(self, playlist_path):
+        playlist_id = self._get_playlist_from_path(playlist_path).get_id()
+        self.app._window.views[3].activate_playlist(playlist_id)
+
+    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                         in_signature='uusb', out_signature='a(oss)')
+    def GetPlaylists(self, index, max_count, order, reverse):
+        if order != 'Alphabetical':
+            return []
+        playlists = [(self._get_playlist_path(playlist),
+                      AlbumArtCache.get_media_title(playlist) or '', '')
+                     for playlist in self.playlists]
+        return playlists[index:index + max_count] if not reverse \
+            else playlists[index + max_count - 1:index - 1 if index - 1 >= 0 else None:-1]
+
+    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                         signature='(oss)')
+    def PlaylistChanged(self, playlist):
+        pass
+
     @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
                          in_signature='ss', out_signature='v')
     def Get(self, interface_name, property_name):
@@ -460,6 +560,12 @@ class MediaPlayer2Service(dbus.service.Object):
             return {
                 'Tracks': self._get_track_list(),
                 'CanEditTracks': False,
+            }
+        elif interface_name == self.MEDIA_PLAYER2_PLAYLISTS_IFACE:
+            return {
+                'PlaylistCount': len(self.playlists),
+                'Orderings': ['Alphabetical'],
+                'ActivePlaylist': self._get_active_playlist(),
             }
         else:
             raise dbus.exceptions.DBusException(
