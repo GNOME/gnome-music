@@ -469,7 +469,7 @@ class Query():
                 )
             }
         }
-    ORDER BY fn:lower-case(?title) ?author ?albumyear
+    ORDER BY fn:lower-case(?title)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
