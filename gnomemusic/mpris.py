@@ -524,6 +524,8 @@ class MediaPlayer2Service(dbus.service.Object):
         if interface_name == self.MEDIA_PLAYER2_IFACE:
             return {
                 'CanQuit': True,
+                'Fullscreen': False,
+                'CanSetFullscreen': False,
                 'CanRaise': True,
                 'HasTrackList': True,
                 'Identity': 'Music',
@@ -577,7 +579,8 @@ class MediaPlayer2Service(dbus.service.Object):
                          in_signature='ssv')
     def Set(self, interface_name, property_name, new_value):
         if interface_name == self.MEDIA_PLAYER2_IFACE:
-            pass
+            if property_name == 'Fullscreen':
+                pass
         elif interface_name == self.MEDIA_PLAYER2_PLAYER_IFACE:
             if property_name == 'Rate':
                 pass
