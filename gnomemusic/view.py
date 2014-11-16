@@ -784,6 +784,10 @@ class Artists (ViewContainer):
 
 
 class Playlist(ViewContainer):
+    __gsignals__ = {
+        'playlists-loaded': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'playlist-songs-loaded': (GObject.SIGNAL_RUN_FIRST, None, ()),
+    }
 
     @log
     def __init__(self, window, player):
@@ -982,6 +986,7 @@ class Playlist(ViewContainer):
     @log
     def _add_playlist_item_to_model(self, item):
         if not item:
+            self.emit('playlists-loaded')
             return
         _iter = self.playlists_model.insert_with_valuesv(
             -1,
@@ -1003,6 +1008,47 @@ class Playlist(ViewContainer):
                 self._model, _iter, 5
             )
             self.player.set_playing(True)
+
+    @log
+    def activate_playlist(self, playlist_id):
+        def find_and_activate_playlist():
+            for playlist in self.playlists_model:
+                if playlist[5].get_id() == playlist_id:
+                    selection = self.playlists_sidebar.get_generic_view().get_selection()
+                    if selection.iter_is_selected(playlist.iter):
+                        self._on_play_activate(None)
+                    else:
+                        selection.select_iter(playlist.iter)
+                        handler = 0
+
+                        def songs_loaded_callback(view):
+                            self.disconnect(handler)
+                            self._on_play_activate(None)
+
+                        handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
+                        self.playlists_sidebar.emit('item-activated', '0', playlist.path)
+
+                    return
+
+        if self._init:
+            find_and_activate_playlist()
+        else:
+            handler = 0
+
+            def playlists_loaded_callback(view):
+                self.disconnect(handler)
+                def_handler = 0
+
+                def songs_loaded_callback(view):
+                    self.disconnect(def_handler)
+                    find_and_activate_playlist()
+
+                # Skip load of default playlist
+                def_handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
+
+            handler = self.connect('playlists-loaded', playlists_loaded_callback)
+
+            self._populate()
 
     @log
     def _on_playlist_activated(self, widget, item_id, path):
@@ -1027,6 +1073,7 @@ class Playlist(ViewContainer):
             self.view.set_model(self._model)
             self.songs_count = self._model.iter_n_children(None)
             self._update_songs_count()
+            self.emit('playlist-songs-loaded')
         else:
             self._model = Gtk.ListStore(
                 GObject.TYPE_STRING,
@@ -1053,6 +1100,7 @@ class Playlist(ViewContainer):
     @log
     def _add_item_to_model(self, item, model):
         if not item:
+            self.emit('playlist-songs-loaded')
             return
         self._offset += 1
         title = albumArtCache.get_media_title(item)
