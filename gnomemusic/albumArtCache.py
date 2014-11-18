@@ -162,7 +162,7 @@ class AlbumArtCache:
                        icon.get_width() * 3 / 2,
                        icon.get_height() * 3 / 2,
                        1, 1,
-                       GdkPixbuf.InterpType.NEAREST, 0xff)
+                       GdkPixbuf.InterpType.NEAREST, 0x33)
         return _make_icon_frame(result)
 
     @log
