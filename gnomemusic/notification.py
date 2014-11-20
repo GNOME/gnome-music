@@ -88,7 +88,10 @@ class NotificationManager:
         if not self._player.currentTrack:
             self._notification.update(_("Not playing"), None, 'gnome-music')
             self._notification.set_hint('image-data', None)
-            self._notification.show()
+            try:
+                self._notification.show()
+            except:
+                pass
         else:
             item = self._player.get_current_media()
             if not item:
@@ -104,8 +107,10 @@ class NotificationManager:
                                       _("by %s, from %s") % ('<b>' + artist + '</b>',
                                                              '<i>' + album + '</i>'),
                                       'gnome-music')
-
-            self._notification.show()
+            try:
+                self._notification.show()
+            except:
+                pass
 
     @log
     def _on_thumbnail_updated(self, player, path, data=None):
@@ -115,7 +120,10 @@ class NotificationManager:
         else:
             self._notification.set_hint('image-path', None)
             self._notification.set_hint('image-data', self._symbolicIconSerialized)
-        self._notification.show()
+        try:
+            self._notification.show()
+        except:
+            pass
 
     @log
     def _set_actions(self, playing):
