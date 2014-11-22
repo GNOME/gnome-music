@@ -350,6 +350,7 @@ class ArtistAlbums(Gtk.VBox):
                               False, False, 0)
         self._hbox.pack_start(self._albumBox, False, False, 16)
         self._coverSizeGroup = Gtk.SizeGroup.new(Gtk.SizeGroupMode.HORIZONTAL)
+        self._songsGridSizeGroup = Gtk.SizeGroup.new(Gtk.SizeGroupMode.HORIZONTAL)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
         for album in albums:
@@ -365,6 +366,7 @@ class ArtistAlbums(Gtk.VBox):
             self.header_bar, self.selectionModeAllowed
         )
         self._coverSizeGroup.add_widget(widget.cover)
+        self._songsGridSizeGroup.add_widget(widget.songsGrid)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -488,6 +490,7 @@ class ArtistAlbumWidget(Gtk.HBox):
 
         self.cover = self.ui.get_object('cover')
         self.cover.set_from_pixbuf(self.pixbuf)
+        self.songsGrid = self.ui.get_object('grid1')
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
             self.ui.get_object('year').set_markup(
@@ -525,7 +528,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 title = AlbumArtCache.get_media_title(track)
                 ui.get_object('title').set_text(title)
                 ui.get_object('title').set_alignment(0.0, 0.5)
-                self.ui.get_object('grid1').attach(
+                self.songsGrid.attach(
                     song_widget,
                     int(i / (len(self.tracks) / 2)),
                     int(i % (len(self.tracks) / 2)), 1, 1
@@ -554,7 +557,7 @@ class ArtistAlbumWidget(Gtk.HBox):
                 song_widget.can_be_played = True
                 song_widget.connect('button-release-event',
                                     self.track_selected)
-            self.ui.get_object('grid1').show_all()
+            self.songsGrid.show_all()
 
     @log
     def _update_album_art(self):
