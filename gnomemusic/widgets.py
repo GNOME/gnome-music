@@ -349,6 +349,7 @@ class ArtistAlbums(Gtk.VBox):
         self._hbox.pack_start(self.ui.get_object('ArtistAlbumsWidget'),
                               False, False, 0)
         self._hbox.pack_start(self._albumBox, False, False, 16)
+        self._coverSizeGroup = Gtk.SizeGroup.new(Gtk.SizeGroupMode.HORIZONTAL)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
         for album in albums:
@@ -363,6 +364,7 @@ class ArtistAlbums(Gtk.VBox):
             self.artist, album, self.player, self.model,
             self.header_bar, self.selectionModeAllowed
         )
+        self._coverSizeGroup.add_widget(widget.cover)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -484,7 +486,8 @@ class ArtistAlbumWidget(Gtk.HBox):
 
         GLib.idle_add(self._update_album_art)
 
-        self.ui.get_object('cover').set_from_pixbuf(self.pixbuf)
+        self.cover = self.ui.get_object('cover')
+        self.cover.set_from_pixbuf(self.pixbuf)
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
             self.ui.get_object('year').set_markup(
@@ -565,7 +568,7 @@ class ArtistAlbumWidget(Gtk.HBox):
     @log
     def _get_album_cover(self, pixbuf, path, data=None):
         if pixbuf:
-            self.ui.get_object('cover').set_from_pixbuf(pixbuf)
+            self.cover.set_from_pixbuf(pixbuf)
 
     @log
     def track_selected(self, widget, event):
