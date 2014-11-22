@@ -300,14 +300,15 @@ class Searchbar(Gtk.Revealer):
         return False
 
     @log
-    def show_bar(self, show):
+    def show_bar(self, show, clear=True):
         self.set_reveal_child(show)
         self._search_button.set_active(show)
 
         if show:
+            if clear:
+                self._search_entry.set_text('')
             self._search_entry.grab_focus()
         else:
-            self._search_entry.set_text('')
             self._dropDownButton.set_active(False)
 
     @log
