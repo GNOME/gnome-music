@@ -1227,6 +1227,7 @@ class Search(ViewContainer):
 
     @log
     def _back_button_clicked(self, widget, data=None):
+        self.header_bar.searchbar.show_bar(True, False)
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.destroy()
             self._artistAlbumsWidget = None
