@@ -191,7 +191,8 @@ class MediaPlayer2Service(dbus.service.Object):
 
     @log
     def _get_media_id(self, media):
-        return '/org/mpris/MediaPlayer2/Track/%s' % media.get_id()
+        return '/org/mpris/MediaPlayer2/TrackList/%s' % \
+            (media.get_id() if media else 'NoTrack')
 
     @log
     def _get_media_from_id(self, track_id):
