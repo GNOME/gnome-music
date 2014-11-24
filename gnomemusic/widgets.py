@@ -31,7 +31,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango
+from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango, Gio
 from gi.repository import GdkPixbuf, Grl
 from gi.repository import Tracker
 from gettext import gettext as _, ngettext
@@ -502,6 +502,13 @@ class ArtistAlbumWidget(Gtk.Box):
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
         self.show_all()
 
+        try:
+            self.settings = Gio.Settings.new('org.gnome.Music')
+            self.max_title_width = self.settings.get_int('max-width-chars')
+        except Exception as e:
+            self.max_title_width = 20
+            logger.error("Error on setting widget max-width-chars: %s" % str(e))
+
     @log
     def _on_discovered(self, info, error, song_widget):
         if error:
@@ -528,6 +535,8 @@ class ArtistAlbumWidget(Gtk.Box):
                 title = AlbumArtCache.get_media_title(track)
                 ui.get_object('title').set_text(title)
                 ui.get_object('title').set_alignment(0.0, 0.5)
+                ui.get_object('title').set_max_width_chars(self.max_title_width)
+
                 self.songsGrid.attach(
                     song_widget,
                     int(i / (len(self.tracks) / 2)),

@@ -38,5 +38,10 @@
             <summary>Notifications mode</summary>
             <description>Enables or disables playback notifications</description>
         </key>
+        <key type="i" name="max-width-chars">
+            <default>20</default>
+            <summary>Max chars to display in track name on Artist view</summary>
+            <description>This setting modifies the amount of chars for track title on Artist view before its been ellipsized. Set this to -1 to disable</description>
+        </key>
     </schema>
 </schemalist>
