@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-11-12 07:53+0000\n"
-"PO-Revision-Date: 2014-11-12 12:28+0100\n"
+"POT-Creation-Date: 2014-11-26 07:57+0000\n"
+"PO-Revision-Date: 2014-11-26 12:18+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -78,6 +78,21 @@ msgstr "Modo de notificaciones"
 msgid "Enables or disables playback notifications"
 msgstr "Activa o desactiva las notificaciones de la reproducción"
 
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"Número máximo de caracteres que mostrar en la vista del nombre de la pista o "
+"del artista"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Este valor modifica la cantidad de caracteres que mostrar en la vista del "
+"título de la pista de del artista antes de recortarlo. Establecer a -1 para "
+"desactivarlo"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
 #: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
@@ -104,18 +119,18 @@ msgstr "Música es la nueva aplicación de GNOME para reproducir música."
 msgid "Untitled"
 msgstr "Sin título"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:958 ../gnomemusic/view.py:1287
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:401 ../gnomemusic/view.py:571
+#: ../gnomemusic/view.py:962 ../gnomemusic/view.py:1336
 msgid "Unknown Album"
 msgstr "Álbum desconocido"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:392 ../gnomemusic/view.py:283
 #: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1062 ../gnomemusic/view.py:1285
-#: ../gnomemusic/view.py:1316 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/view.py:1110 ../gnomemusic/view.py:1334
+#: ../gnomemusic/view.py:1365 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:575
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
 
@@ -133,11 +148,11 @@ msgstr "por %s, en %s"
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:349
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:352
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Reproducir"
@@ -154,36 +169,36 @@ msgstr "Siguiente"
 msgid "the"
 msgstr "el la"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
 msgid "All"
 msgstr "Todas"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:58
 msgid "Artist"
 msgstr "Artista"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:59
 msgid "Album"
 msgstr "Álbum"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:60
 msgid "Track Title"
 msgstr "Título de la pista"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:101
 msgid "Local"
 msgstr "Local"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:203
 msgid "Sources"
 msgstr "Fuentes"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:210
 msgid "Match"
 msgstr "Coincidencia"
 
 #: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -191,33 +206,33 @@ msgstr[0] "%d elemento seleccionado"
 msgstr[1] "%d elementos seleccionados"
 
 #: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
+#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
 #: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1531
+#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1580
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1533
+#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1582
 msgid "Songs"
 msgstr "Canciones"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1532
+#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1581
 msgid "Artists"
 msgstr "Artistas"
 
 #: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:448
+#: ../gnomemusic/widgets.py:452
 msgid "All Artists"
 msgstr "Todos los artistas"
 
-#: ../gnomemusic/view.py:794 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:798 ../gnomemusic/view.py:1583
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: ../gnomemusic/view.py:1074
+#: ../gnomemusic/view.py:1122
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -229,7 +244,7 @@ msgstr[1] "%d canciones"
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:689
 msgid "New Playlist"
 msgstr "Lista de reproducción nueva"
 
