@@ -2,23 +2,24 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014.
-#
+# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-07-28 06:59+0000\n"
-"PO-Revision-Date: 2014-07-29 12:15+0300\n"
-"Last-Translator: Bogdan Mințoi <mintoi.bogdan@gmail.com>\n"
-"Language-Team: Română <>\n"
+"POT-Creation-Date: 2014-11-24 12:31+0000\n"
+"PO-Revision-Date: 2014-12-07 18:36+0200\n"
+"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
+"Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"20)) ? 1 : 2);;\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -92,22 +93,22 @@ msgstr "Muzică GNOME"
 msgid "Music is the new GNOME music playing application."
 msgstr "Muzică este noua aplicație GNOME pentru redare de muzică."
 
-#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+#: ../gnomemusic/albumArtCache.py:99 ../gnomemusic/albumArtCache.py:107
 msgid "Untitled"
 msgstr "Fără titlu"
 
 #: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:577
-#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1291
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
+#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1291
 msgid "Unknown Album"
 msgstr "Album necunoscut"
 
 #: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
-#: ../gnomemusic/view.py:486 ../gnomemusic/view.py:720
-#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1289
-#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:184
-#: ../gnomemusic/widgets.py:563
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
+#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1289
+#: ../gnomemusic/view.py:1320 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:566
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
@@ -121,55 +122,53 @@ msgstr "Nu este în redare"
 msgid "by %s, from %s"
 msgstr "de %s, de la %s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Precedent"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Pauză"
 
-#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Redare"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Următorul"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
 msgid "All"
 msgstr "Toate"
 
-#: ../gnomemusic/searchbar.py:31
-#| msgid "Artists"
+#: ../gnomemusic/searchbar.py:58
 msgid "Artist"
 msgstr "Artist"
 
-#: ../gnomemusic/searchbar.py:32
-#| msgid "Albums"
+#: ../gnomemusic/searchbar.py:59
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:60
 msgid "Track Title"
 msgstr "Numele melodiei"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:101
 msgid "Local"
 msgstr "Local"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:203
 msgid "Sources"
 msgstr "Surse"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:210
 msgid "Match"
 msgstr "Potrivire"
 
-#: ../gnomemusic/view.py:201 ../gnomemusic/widgets.py:225
-#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:278
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -177,57 +176,60 @@ msgstr[0] "Selectat %d element"
 msgstr[1] "Selectat %d elemente"
 msgstr[2] "Selectat %d de elemente"
 
-#: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
-#: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
+#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Clic pe obiecte pentru a le selecta"
 
-#: ../gnomemusic/view.py:340
+#: ../gnomemusic/view.py:337
 #, python-format
 msgid ""
 "No Music found!\n"
 " Put some files into the folder %s"
 msgstr ""
-"Nu s-a găsit nicio muzică!\n"
+"Nu s-a găsit niciun fișier audio!\n"
 " Adăugați câteva fișiere în dosarul %s"
 
-#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1535
 msgid "Albums"
 msgstr "Albume"
 
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1537
 msgid "Songs"
 msgstr "Melodii"
 
-#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1536
 msgid "Artists"
 msgstr "Artiști"
 
-#: ../gnomemusic/view.py:639 ../gnomemusic/view.py:641
-#: ../gnomemusic/widgets.py:451
+#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
+#: ../gnomemusic/widgets.py:452
 msgid "All Artists"
 msgstr "Toți artiștii"
 
-#: ../gnomemusic/view.py:800 ../gnomemusic/view.py:1538
+#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1538
 msgid "Playlists"
 msgstr "Liste de redare"
 
-#: ../gnomemusic/view.py:1080
+#: ../gnomemusic/view.py:1077
 #, python-format
-#| msgid "Songs"
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d melodie"
 msgstr[1] "%d melodii"
 msgstr[2] "%d de melodii"
 
-#: ../gnomemusic/widgets.py:677
-#| msgid "_New Playlist"
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:680
 msgid "New Playlist"
 msgstr "Listă de redare nouă"
 
-#: ../gnomemusic/window.py:226
+#: ../gnomemusic/window.py:232
 msgid "Empty"
 msgstr "Gol"
 
@@ -342,12 +344,10 @@ msgid "Select None"
 msgstr "Deselectare totală"
 
 #: ../data/headerbar.ui.h:4
-#| msgid "Search mode"
 msgid "Search"
 msgstr "Caută"
 
 #: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
-#| msgid "Select All"
 msgid "Select"
 msgstr "Selectează"
 
@@ -364,12 +364,10 @@ msgid "Add to Playlist"
 msgstr "Adaugă în lista de redare"
 
 #: ../data/SelectionToolbar.ui.h:2
-#| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "Elimină din lista de redare"
 
 #: ../data/PlaylistControls.ui.h:1
-#| msgid "Play"
 msgid "_Play"
 msgstr "_Redare"
 
@@ -377,8 +375,11 @@ msgstr "_Redare"
 msgid "_Delete"
 msgstr "Ș_terge"
 
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Numele listei de redare"
+
 #: ../data/PlaylistDialog.ui.h:1
-#| msgid "Select All"
 msgid "Select Playlist"
 msgstr "Selectează lista de redare"
 
