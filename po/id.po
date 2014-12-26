@@ -7,16 +7,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-19 21:46+0000\n"
-"PO-Revision-Date: 2014-09-20 10:06+0700\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-12-24 07:58+0000\n"
+"PO-Revision-Date: 2014-12-26 18:24+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -50,18 +51,16 @@ msgstr "Mode ulang pemutaran."
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
-"Value identifies whether to repeat or randomize playback "
-"through the collection. Allowed values are: \"none\" "
-"(repeat and shuffle are off), \"song\" (repeat current "
-"song), \"all\" (repeat playlist, no shuffle), \"shuffle\" "
-"(shuffle playlist, presumes repeat all)."
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Nilai yang mengidentifikasi apakah mengulang atau mengacak "
-"pemutaran ulang koleksi. Nilai yang diizinkan adalah: "
-"\"none\" (tanpa pengulangan atau pengacakan), \"song\" "
-"(ulangi lagu saat ini), \"all\" (ulang daftar putar, tanpa "
-"pengacakan), \"shuffle\" (acak daftar putar, mengasumsikan "
-"ulang semua)."
+"Nilai yang mengidentifikasi apakah mengulang atau mengacak pemutaran ulang "
+"koleksi. Nilai yang diizinkan adalah: \"none\" (tanpa pengulangan atau "
+"pengacakan), \"song\" (ulangi lagu saat ini), \"all\" (ulang daftar putar, "
+"tanpa pengacakan), \"shuffle\" (acak daftar putar, mengasumsikan ulang "
+"semua)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -71,8 +70,28 @@ msgstr "Mode cari"
 msgid "If true, the search bar is shown."
 msgstr "Bila berisi true, bilah pencarian ditampilkan."
 
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Mode pemberitahuan"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Mengaktifkan atau menonaktifkan pemberitahuan pemutaran"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr "Maks karakter yang ditampilkan dalam nama trek pada tampilan Artis"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Pengaturan ini memodifikasi banyaknya karakter untuk judul trek pada "
+"tampilan Artis sebelum disingkat. Set ini ke -1 untuk menonaktifkan"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
@@ -85,6 +104,10 @@ msgstr "Pemutar Musik"
 msgid "Play and organize your music collection"
 msgstr "Putar dan tata koleksi musik Anda"
 
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Pemutar;Musik;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "GNOME Musik"
@@ -93,22 +116,22 @@ msgstr "GNOME Musik"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musik adalah aplikasi pemutar musik GNOME yang baru."
 
-#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
 msgid "Untitled"
 msgstr "Tanpa judul"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
-#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:401 ../gnomemusic/view.py:571
+#: ../gnomemusic/view.py:962 ../gnomemusic/view.py:1336
 msgid "Unknown Album"
 msgstr "Album Tak Dikenal"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
-#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
-#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:392 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
+#: ../gnomemusic/view.py:1110 ../gnomemusic/view.py:1334
+#: ../gnomemusic/view.py:1365 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:575
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
@@ -126,11 +149,11 @@ msgstr "oleh %s, dari %s"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:349
 msgid "Pause"
 msgstr "Tahan"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:352
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Putar"
@@ -139,78 +162,77 @@ msgstr "Putar"
 msgid "Next"
 msgstr "Selanjutnya"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:59
+msgid "the"
+msgstr "the a an"
+
+#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
 msgid "All"
 msgstr "Semua"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:58
 msgid "Artist"
 msgstr "Artis"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:59
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:60
 msgid "Track Title"
 msgstr "Judul Trek"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:101
 msgid "Local"
 msgstr "Lokal"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:203
 msgid "Sources"
 msgstr "Sumber"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:210
 msgid "Match"
 msgstr "Cocok"
 
 #: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
+#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Dipilih %d butir"
 
 #: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
+#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
-#: ../gnomemusic/view.py:337
-#, python-format
-msgid ""
-"No Music found!\n"
-" Put some files into the folder %s"
-msgstr ""
-"Tak ditemukan musik!\n"
-" Letakkan beberapa berkas ke folder %s"
-
-#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1580
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1582
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1581
 msgid "Artists"
 msgstr "Artis"
 
-#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
-#: ../gnomemusic/widgets.py:448
+#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
+#: ../gnomemusic/widgets.py:452
 msgid "All Artists"
 msgstr "Semua Artis"
 
-#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:798 ../gnomemusic/view.py:1583
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: ../gnomemusic/view.py:1077
+#: ../gnomemusic/view.py:1122
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -221,11 +243,11 @@ msgstr[0] "%d Lagu"
 msgid "%d min"
 msgstr "%d mnt"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:689
 msgid "New Playlist"
 msgstr "Daftar Putar Baru"
 
-#: ../gnomemusic/window.py:226
+#: ../gnomemusic/window.py:232
 msgid "Empty"
 msgstr "Kosong"
 
@@ -243,21 +265,48 @@ msgstr "Kunjungi situs web Musik GNOME"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
 msgstr ""
-"GNOME Musik adalah perangkat lunak bebas; Anda dapat mendistribusikannya dan/atau mengubahnya di bawah persyaratan GNU General Public License sebagaimana dipublikasikan oleh Free Software Foundation; dengan Lisensi versi 2, atau (sesuai pilihan Anda) sebarang versi lebih baru.\n"
+"GNOME Musik adalah perangkat lunak bebas; Anda dapat mendistribusikannya dan/"
+"atau mengubahnya di bawah persyaratan GNU General Public License sebagaimana "
+"dipublikasikan oleh Free Software Foundation; dengan Lisensi versi 2, atau "
+"(sesuai pilihan Anda) sebarang versi lebih baru.\n"
 "\n"
-"GNOME Musik didistribusikan dengan harapan dapat berguna, tetapi TANPA ADANYA JAMINAN; termasuk tanpa jaminan DAYA JUAL atau KELAIKAN UNTUK TUJUAN TERTENTU. Lihat GNU General Public License untuk rincian lebih lanjut.\n"
+"GNOME Musik didistribusikan dengan harapan dapat berguna, tetapi TANPA "
+"ADANYA JAMINAN; termasuk tanpa jaminan DAYA JUAL atau KELAIKAN UNTUK TUJUAN "
+"TERTENTU. Lihat GNU General Public License untuk rincian lebih lanjut.\n"
 "\n"
-"Anda seharusnya menerima salinan dari GNU General Public License bersama GNOME Musik; jika tidak, kirimkan surat Anda ke Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"Anda seharusnya menerima salinan dari GNU General Public License bersama "
+"GNOME Musik; jika tidak, kirimkan surat Anda ke Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
 "\n"
-"Para penulis GNOME Musik dengan ini memberikan ijin untuk plugin GStreamer yang tak kompatibel GPL untuk dipakai dan didistribusikan bersama dengan GStreamer dan GNOME Musik. Ijin ini di atas dan di luar hak yang diberikan oleh lisensi GPL yang mencakup GNOME Musik. Bila Anda mengubah kode ini, Anda boleh memperluas pengecualian ini ke versi kode Anda, tapi Anda tidak wajib melakukannya. Bila Anda tak ingin seperti itu, hapuslah pernyataan pengecualian ini dari versi Anda."
+"Para penulis GNOME Musik dengan ini memberikan ijin untuk plugin GStreamer "
+"yang tak kompatibel GPL untuk dipakai dan didistribusikan bersama dengan "
+"GStreamer dan GNOME Musik. Ijin ini di atas dan di luar hak yang diberikan "
+"oleh lisensi GPL yang mencakup GNOME Musik. Bila Anda mengubah kode ini, "
+"Anda boleh memperluas pengecualian ini ke versi kode Anda, tapi Anda tidak "
+"wajib melakukannya. Bila Anda tak ingin seperti itu, hapuslah pernyataan "
+"pengecualian ini dari versi Anda."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -300,8 +349,12 @@ msgid "Shuffle/Repeat Off"
 msgstr "Acak/Ulang Mati"
 
 #: ../data/NoMusic.ui.h:1
-msgid "No Music Found"
-msgstr "Tak Ada Musik"
+msgid "No music found"
+msgstr "Tak ada musik"
+
+#: ../data/NoMusic.ui.h:2
+msgid "The contents of your music folder will appear here."
+msgstr "Isi folder musik Anda akan muncul di sini."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -344,11 +397,9 @@ msgid "_Delete"
 msgstr "_Hapus"
 
 #: ../data/PlaylistControls.ui.h:3
-#| msgid "Playlists"
 msgid "Playlist Name"
 msgstr "Nama Daftar Putar"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Pilih Daftar Putar"
-
