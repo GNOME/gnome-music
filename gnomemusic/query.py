@@ -56,7 +56,7 @@ class Query():
             # (such as 'the') that should be ignored when alphabetizing artists/albums. This
             # list should include 'the' regardless of language. If some articles occur more
             # frequently than others, most common should appear first, least common last.
-        for article in reversed(_("the").split(" ")):
+        for article in reversed(_("the a an").split(" ")):
             return_statement = '''IF(fn:starts-with(fn:lower-case(%(attribute)s), "%(article)s"),
             fn:substring(fn:lower-case(%(attribute)s), %(substr_start)s),
             %(nested_if)s)''' % {'attribute' : attr,
