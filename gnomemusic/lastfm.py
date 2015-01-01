@@ -83,28 +83,50 @@ class LastFm:
         GLib.timeout_add_seconds(5, self._check_session, url_params, signature)
 
     @log
-    def scrobble(self, track):
+    def nowPlaying(self, track, artist, album=None):
+        """
+        Send now playing track
+        http://www.last.fm/api/show/track.updateNowPlaying
+        """
+
+        self._track('track.updateNowPlaying', track, artist, album)
+
+    @log
+    def scrobble(self, track, artist, album=None):
         """
         Scrobble a track
         http://www.last.fm/api/show/track.scrobble
         """
 
+        self._track('track.scrobble', track, artist, album)
+
+    @log
+    def _track(self, method, track, artist, album):
+        """
+        Post track information to last.fm web service
+        """
+
         params = {
-            'method': 'track.scrobble',
+            'method': method,
             'api_key': self.api_key,
-            'sk': self.settings.get_string('lastfm-session'),
-            'timestamp': str(int(datetime.utcnow().timestamp()))
+            'sk': self.settings.get_string('lastfm-session')
         }
-        params.update(track)
+        params['track'] = track
+        params['artist'] = artist
 
-        params['api_sig'] = _get_signature(params)
+        if album:
+            params['album'] = album
+        if method == 'track.scrobble':
+            params['timestamp'] = str(int(datetime.utcnow().timestamp()))
 
+        # Create signature from parameters
+        params['api_sig'] = get_signature(params, self.api_secret)
+        
         url = urllib.request.Request(BASE_URL+'?format=json', urllib.parse.urlencode(params).encode('utf8'))
         try:
             response = urllib.request.urlopen(url)
         except urllib.error.HTTPError as e:
             logger.error('Error scrobblig a track: '+e.code)
-            return
 
     @log
     def _check_session(self, params, signature):
