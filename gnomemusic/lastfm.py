@@ -89,7 +89,7 @@ class LastFm:
         http://www.last.fm/api/show/track.updateNowPlaying
         """
 
-        self._track('track.updateNowPlaying', track, artist, album)
+        self._track('updateNowPlaying', track, artist, album)
 
     @log
     def scrobble(self, track, artist, album=None):
@@ -98,7 +98,7 @@ class LastFm:
         http://www.last.fm/api/show/track.scrobble
         """
 
-        self._track('track.scrobble', track, artist, album)
+        self._track('scrobble', track, artist, album)
 
     @log
     def _track(self, method, track, artist, album):
@@ -107,7 +107,7 @@ class LastFm:
         """
 
         params = {
-            'method': method,
+            'method': 'track.'+method,
             'api_key': self.api_key,
             'sk': self.settings.get_string('lastfm-session')
         }
@@ -116,7 +116,7 @@ class LastFm:
 
         if album:
             params['album'] = album
-        if method == 'track.scrobble':
+        if method == 'scrobble':
             params['timestamp'] = str(int(datetime.utcnow().timestamp()))
 
         # Create signature from parameters
