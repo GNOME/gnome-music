@@ -80,6 +80,7 @@ class LastFm:
         url_params = get_url_params(params)
 
         # Start checking for session key
+        self._check_session_count = 0
         GLib.timeout_add_seconds(5, self._check_session, url_params, signature)
 
     @log
@@ -136,10 +137,15 @@ class LastFm:
         Store session key
         """
 
+        self._check_session_count += 1
+        if (self._check_session_count > 10):
+            logger.error('Authentication timeout checking session key.')
+            return False
+
         try:
             response = urllib.request.urlopen(BASE_URL+'?'+params+'&api_sig='+signature+'&format=json')
         except urllib.error.HTTPError as e:
-            logger.error('Error fetching session key: '+e.code)
+            logger.error('Authentication error fetching session key: '+e.code)
             return False
 
         data = json.loads(response.read().decode('utf8'))
