@@ -734,7 +734,8 @@ class PlaylistDialog():
     @log
     def _on_playlist_created(self, playlists, item):
         new_iter = self._add_item_to_model(item)
-        self.view.set_cursor(self.model.get_path(new_iter),
-                             self.view.get_columns()[0], False)
-        self.view.row_activated(self.model.get_path(new_iter),
-                                self.view.get_columns()[0])
+        if self.view.get_columns():
+            self.view.set_cursor(self.model.get_path(new_iter),
+                                 self.view.get_columns()[0], False)
+            self.view.row_activated(self.model.get_path(new_iter),
+                                    self.view.get_columns()[0])
