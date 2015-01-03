@@ -130,6 +130,10 @@ class LastFm:
         except urllib.error.HTTPError as e:
             logger.error('Error scrobblig a track: '+e.code)
 
+        data = json.loads(response.read().decode('utf8'))
+        if 'error' in data:
+            logger.error('Publish '+method+': '+data['message'])
+
     @log
     def _check_session(self, params, signature):
         """
@@ -162,6 +166,10 @@ class LastFm:
         Track started playing signal
         Publish now playing and wait half of duration time to scrobble
         """
+
+        if not (self.settings.get_string('lastfm-session')):
+            logger.error('Trying to scrobble when no session key exists.')
+            return
 
         self.publish(TRACK_PLAYING, data)
 
