@@ -37,6 +37,7 @@ from gnomemusic.window import Window
 from gnomemusic.mpris import MediaPlayer2Service
 from gnomemusic.notification import NotificationManager
 from gnomemusic import log
+from gnomemusic.lastfm import LastFm
 import logging
 logger = logging.getLogger(__name__)
 
@@ -122,6 +123,11 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self.service = MediaPlayer2Service(self)
+
+            # TODO: Pass last.fm API account key and secret
+            # http://www.last.fm/api/accounts
+            self.lastfm = LastFm(self, key='', secret='')
+
             if self.settings.get_value('notifications'):
                 self._notifications = NotificationManager(self._window.player)
 

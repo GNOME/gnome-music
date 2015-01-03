@@ -1,4 +1,4 @@
-# Copyright (c) 2013 Nil Gradisnik <nil.gradisnik@gmail.com>
+# Copyright (c) 2015 Nil Gradisnik <nil.gradisnik@gmail.com>
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,18 +37,34 @@ logger = logging.getLogger(__name__)
 BASE_URL = 'http://ws.audioscrobbler.com/2.0/'
 AUTH_URL = 'http://www.last.fm/api/auth/'
 
+TRACK_PLAYING = 'track.updateNowPlaying'
+TRACK_SCROBBLE = 'track.scrobble'
+
 class LastFm:
 
     @log
-    def __init__(self, key, secret):
+    def __init__(self, app, key, secret):
         """
-        Constructor expects API key and secret
+        Constructor expects application instance, last.fm API key and secret
+
+        In order to scrobble, a track needs to meet certain criteria
+        http://www.last.fm/api/scrobbling
+            - The track must be longer than 30 seconds.
+            - And the track has been played for at least half its duration,
+              or for 4 minutes (whichever occurs earlier.)
         """
+
+        self.app = app
+        self.player = app.get_active_window().player
 
         self.api_key = key
         self.api_secret = secret
 
         self.settings = Gio.Settings.new('org.gnome.Music')
+
+        self.scrobble_timeout_id = 0
+
+        self.player.connect('lastfm-scrobble', self._on_started_playing)
 
     @log
     def authenticate(self):
@@ -84,41 +100,26 @@ class LastFm:
         GLib.timeout_add_seconds(5, self._check_session, url_params, signature)
 
     @log
-    def nowPlaying(self, track, artist, album=None):
+    def publish(self, method, data, timestamp=None):
         """
-        Send now playing track
+        Publish track information to last.fm service.
+
+        method = 'updateNowPlaying' send now playing track
         http://www.last.fm/api/show/track.updateNowPlaying
-        """
 
-        self._track('updateNowPlaying', track, artist, album)
-
-    @log
-    def scrobble(self, track, artist, album=None):
-        """
-        Scrobble a track
+        method = 'scrobble' scrobble a track
         http://www.last.fm/api/show/track.scrobble
         """
 
-        self._track('scrobble', track, artist, album)
-
-    @log
-    def _track(self, method, track, artist, album):
-        """
-        Post track information to last.fm web service
-        """
-
         params = {
-            'method': 'track.'+method,
+            'method': method,
             'api_key': self.api_key,
             'sk': self.settings.get_string('lastfm-session')
         }
-        params['track'] = track
-        params['artist'] = artist
+        params.update(data)
 
-        if album:
-            params['album'] = album
-        if method == 'scrobble':
-            params['timestamp'] = str(int(datetime.utcnow().timestamp()))
+        if method == TRACK_SCROBBLE:
+            params['timestamp'] = timestamp
 
         # Create signature from parameters
         params['api_sig'] = get_signature(params, self.api_secret)
@@ -155,6 +156,30 @@ class LastFm:
 
         self.settings.set_string('lastfm-session', data['session']['key'])
 
+    @log
+    def _on_started_playing(self, player, data):
+        """
+        Track started playing signal
+        Publish now playing and wait half of duration time to scrobble
+        """
+
+        self.publish(TRACK_PLAYING, data)
+
+        timeout = int(player.duration/2)
+        timestamp = str(int(datetime.now().timestamp()))
+
+        if (self.scrobble_timeout_id != 0):
+            GLib.source_remove(self.scrobble_timeout_id)
+        self.scrobble_timeout_id = GLib.timeout_add_seconds(timeout, self._on_scrobble, data, timestamp)
+
+    @log
+    def _on_scrobble(self, data, timestamp):
+        self.scrobble_timeout_id = 0
+
+        self.publish(TRACK_SCROBBLE, data, timestamp)
+
+        return False
+
 def get_signature(params, secret):
     """
     Create an MD5 hash signature from parameters sorted alphabetically
@@ -171,7 +196,7 @@ def get_signature(params, secret):
     
     string += secret
 
-    return hashlib.md5(str(string).encode('utf-8')).hexdigest()
+    return hashlib.md5(string.encode('utf-8')).hexdigest()
         
 def get_url_params(params):
     """

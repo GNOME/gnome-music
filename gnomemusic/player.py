@@ -74,6 +74,7 @@ class Player(GObject.GObject):
         'prev-next-invalidated': (GObject.SIGNAL_RUN_FIRST, None, ()),
         'seeked': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
         'thumbnail-updated': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        'lastfm-scrobble': (GObject.SIGNAL_RUN_FIRST, None, (object,)),
     }
 
     @log
@@ -409,7 +410,9 @@ class Player(GObject.GObject):
         self.cache.lookup(
             media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None, artist, album)
 
-        self.titleLabel.set_label(AlbumArtCache.get_media_title(media))
+        title = AlbumArtCache.get_media_title(media)
+
+        self.titleLabel.set_label(title)
 
         url = media.get_url()
         if url != self.player.get_value('current-uri', 0):
@@ -418,6 +421,10 @@ class Player(GObject.GObject):
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
         self.emit('playlist-item-changed', self.playlist, currentTrack)
         self.emit('current-changed')
+
+        # Send last.fm scrobble signal if boolean setting true and if duration more than 30s
+        if (self._settings.get_boolean('lastfm-scrobble') and self.duration > 30):
+            self.emit('lastfm-scrobble', {'track': title, 'artist': artist, 'album': album})
 
     @log
     def _on_cache_lookup(self, pixbuf, path, data=None):
