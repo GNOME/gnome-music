@@ -49,7 +49,7 @@
             <description>Value holds last.fm session key used to make authenticated API requests</description>
         </key>
         <key type="b" name="lastfm-scrobble">
-            <default>true</default>
+            <default>false</default>
             <summary>Last.fm scrobble</summary>
             <description>Enables or disabled scrobbling to last.fm</description>
         </key>
