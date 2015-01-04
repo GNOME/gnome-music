@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Adam Matoušek <adamatousek@gmail.com>, 2013.
-# Marek Černocký <marek@manet.cz>, 2013, 2014.
+# Marek Černocký <marek@manet.cz>, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-11-26 07:57+0000\n"
-"PO-Revision-Date: 2014-11-26 12:45+0100\n"
+"POT-Creation-Date: 2015-01-04 19:58+0000\n"
+"PO-Revision-Date: 2015-01-05 00:00+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -107,6 +107,10 @@ msgstr "Hudební přehrávač"
 #: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
 msgid "Play and organize your music collection"
 msgstr "Přehrávat a organizovat svou hudební sbírku"
+
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "hudba;muzika;přehrávač;"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
