@@ -37,6 +37,7 @@ from gnomemusic.window import Window
 from gnomemusic.mpris import MediaPlayer2Service
 from gnomemusic.notification import NotificationManager
 from gnomemusic import log
+from gnomemusic.lastfm import LastFm
 import logging
 logger = logging.getLogger(__name__)
 
@@ -81,6 +82,10 @@ class Application(Gtk.Application):
         newPlaylistAction.connect('activate', self.new_playlist)
         self.add_action(newPlaylistAction)
 
+        lastfm = Gio.SimpleAction.new_stateful('lastfm', None, GLib.Variant.new_boolean(self.settings.get_boolean('lastfm-scrobble')))
+        lastfm.connect('activate', self.lastfm_toggle)
+        self.add_action(lastfm)
+
         quitAction = Gio.SimpleAction.new('quit', None)
         quitAction.connect('activate', self.quit)
         self.add_action(quitAction)
@@ -88,6 +93,17 @@ class Application(Gtk.Application):
     @log
     def new_playlist(self, action, param):
         pass
+
+    @log
+    def lastfm_toggle(self, action, param):
+        state = False if action.get_state() else True
+
+        action.change_state(GLib.Variant.new_boolean(state))
+        self.settings.set_boolean('lastfm-scrobble', state)
+
+        # Authenticate if no session exists
+        if not self.settings.get_value('lastfm-session'):
+            self.lastfm.authenticate()
 
     @log
     def help(self, action, param):
@@ -122,6 +138,11 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self.service = MediaPlayer2Service(self)
+
+            # TODO: Pass last.fm API account key and secret
+            # http://www.last.fm/api/accounts
+            self.lastfm = LastFm(self, key='', secret='')
+
             if self.settings.get_value('notifications'):
                 self._notifications = NotificationManager(self._window.player)
 

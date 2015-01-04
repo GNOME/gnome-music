@@ -43,5 +43,15 @@
             <summary>Max chars to display in track name on Artist view</summary>
             <description>This setting modifies the amount of chars for track title on Artist view before its been ellipsized. Set this to -1 to disable</description>
         </key>
+        <key type="s" name="lastfm-session">
+            <default>''</default>
+            <summary>Last.fm session</summary>
+            <description>Value holds last.fm session key used to make authenticated API requests</description>
+        </key>
+        <key type="b" name="lastfm-scrobble">
+            <default>false</default>
+            <summary>Last.fm scrobble</summary>
+            <description>Enables or disabled scrobbling to last.fm</description>
+        </key>
     </schema>
 </schemalist>

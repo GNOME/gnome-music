@@ -5,6 +5,10 @@
         <attribute name="action">app.newPlaylist</attribute>
         <attribute name="label" translatable="yes">_New Playlist</attribute>
       </item>
+      <item>
+        <attribute name="action">app.lastfm</attribute>
+        <attribute name="label" translatable="yes">_Last.fm</attribute>
+      </item>
     </section>
     <section>
       <item>
