@@ -42,6 +42,14 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
+from gi.repository import Tracker
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
+
 ART_SIZE = 34
 
 
@@ -176,6 +184,29 @@ class Player(GObject.GObject):
 
     @log
     def _on_bus_eos(self, bus, message):
+
+        # update playcount
+        cur_song_title = self.get_current_media().get_title()
+        cur_song_id = self.get_current_media().get_id()
+        print("Updating play count on", cur_song_title)
+        print("cur song id:", cur_song_id)
+     
+        query = """
+            INSERT OR REPLACE { ?song nie:usageCounter ?playcount . }
+            WHERE {
+                SELECT
+                    IF(bound(?usage), (?usage + 1), 1) AS playcount
+                    ?song
+                    WHERE {
+                        ?song a nmm:MusicPiece .
+                        OPTIONAL { ?song nie:usageCounter ?usage . }
+                        FILTER ( tracker:id(?song) = %s )
+                    }
+                }
+        """ % cur_song_id # make into a string formatting dict. with more descriptive name
+     
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None)
+
         self.nextTrack = self._get_next_track()
 
         if self.nextTrack:
