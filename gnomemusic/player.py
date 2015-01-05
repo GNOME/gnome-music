@@ -43,6 +43,9 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
+import time
+sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
+
 from gi.repository import Tracker
 try:
     tracker = Tracker.SparqlConnection.get(None)
@@ -189,9 +192,15 @@ class Player(GObject.GObject):
         # update playcount
         cur_song_title = self.get_current_media().get_title() # for testing
         cur_song_id = self.get_current_media().get_id()
-        print("Updating play count on %s (tracker id %s)" % (cur_song_title, cur_song_id)) # for testing
+        cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
+        print("Updating %s (tracker id %s) - UTC time is %s" % (cur_song_title, cur_song_id, cur_time)) # for testing
         query = Query.update_playcount(cur_song_id)
         tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
+
+        # update last played
+        query = Query.update_last_played(cur_song_id, cur_time)
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
+        
 
         self.nextTrack = self._get_next_track()
 
