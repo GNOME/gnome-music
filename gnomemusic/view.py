@@ -803,6 +803,7 @@ class Playlist(ViewContainer):
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
         playlists.connect('playlist-created', self._on_playlist_created)
+        playlists.connect('playlist-updated', self.on_playlist_update)
         playlists.connect('song-added-to-playlist', self._on_song_added_to_playlist)
         playlists.connect('song-removed-from-playlist', self._on_song_removed_from_playlist)
         self.show_all()
@@ -958,7 +959,21 @@ class Playlist(ViewContainer):
             self.player.set_playing(True)
 
     @log
+    def on_playlist_update(self, widget, playlist_id):
+        _iter = self.playlists_model.get_iter_first()
+        while _iter:
+            playlist = self.playlists_model.get_value(_iter, 5)
+            if str(playlist_id) == playlist.get_id() and self.current_playlist == playlist:
+                path = self.playlists_model.get_path(_iter)
+                self._on_playlist_activated(None, None, path, skip_cache=True)
+                selection = self.playlists_sidebar.get_generic_view().get_selection()
+                selection.select_iter(_iter)
+                break
+            _iter = self.playlists_model.iter_next(_iter)
+
+    @log
     def activate_playlist(self, playlist_id):
+
         def find_and_activate_playlist():
             for playlist in self.playlists_model:
                 if playlist[5].get_id() == playlist_id:
@@ -999,7 +1014,7 @@ class Playlist(ViewContainer):
             self._populate()
 
     @log
-    def _on_playlist_activated(self, widget, item_id, path):
+    def _on_playlist_activated(self, widget, item_id, path, skip_cache=False):
         _iter = self.playlists_model.get_iter(path)
         playlist_name = self.playlists_model.get_value(_iter, 2)
         playlist = self.playlists_model.get_value(_iter, 5)
@@ -1013,7 +1028,7 @@ class Playlist(ViewContainer):
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
         cached_playlist = self.player.running_playlist('Playlist', playlist_name)
-        if cached_playlist:
+        if cached_playlist and not skip_cache:
             self._model = cached_playlist
             currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
             self.update_model(self.player, cached_playlist,
@@ -1485,6 +1500,10 @@ class Search(ViewContainer):
     @log
     def _filter_visible_func(self, model, _iter, data=None):
         return model.iter_parent(_iter) is not None or model.iter_has_child(_iter)
+
+    @log
+    def _on_grilo_ready(self, data=None):
+        playlists.fetch_or_create_static_playlists()
 
     @log
     def set_search_text(self, search_term, fields_filter):

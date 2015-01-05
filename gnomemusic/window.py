@@ -44,13 +44,13 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
-playlist = Playlists.get_default()
 try:
     tracker = Tracker.SparqlConnection.get(None)
 except Exception as e:
     from sys import exit
     logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
     exit(1)
+playlist = Playlists.get_default(tracker)
 
 
 class Window(Gtk.ApplicationWindow):

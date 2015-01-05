@@ -39,6 +39,8 @@ from gettext import gettext as _
 from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.playlists import Playlists
+playlists = Playlists.get_default()
 
 from gnomemusic import log
 import logging
@@ -667,6 +669,8 @@ class Player(GObject.GObject):
     @log
     def _set_duration(self, duration):
         self.duration = duration
+        self.played_seconds = 0
+        self.scrobbled = False
         self.progressScale.set_range(0.0, duration * 60)
 
     @log
@@ -674,6 +678,16 @@ class Player(GObject.GObject):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position > 0:
             self.progressScale.set_value(position * 60)
+            self.played_seconds += 1
+            try:
+                percentage = self.played_seconds / self.duration
+                if not self.scrobbled and percentage > 0.4:
+                    just_played_url = self.get_current_media().get_url()
+                    self.scrobbled = True
+                    playlists.update_playcount(just_played_url)
+                    playlists.update_last_played(just_played_url)
+            except Exception as e:
+                logger.warn("Error: %s, %s" % (e.__class__, e))
         return True
 
     @log

@@ -31,6 +31,10 @@ import os
 import logging
 logger = logging.getLogger(__name__)
 
+import time
+sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
+SECONDS_PER_DAY = 86400
+
 
 class Query():
     music_folder = None
@@ -651,6 +655,45 @@ class Query():
         return query
 
     @staticmethod
+    def update_playcount(song_url):
+        query = """
+    INSERT OR REPLACE { ?song nie:usageCounter ?playcount . }
+    WHERE {
+        SELECT
+            IF(bound(?usage), (?usage + 1), 1) AS playcount
+            ?song
+            WHERE {
+                ?song a nmm:MusicPiece .
+                OPTIONAL { ?song nie:usageCounter ?usage . }
+                FILTER ( nie:url(?song) = "%(song_url)s" )
+            }
+        }
+    """.replace("\n", " ").strip() % {
+            'song_url': song_url
+        }
+
+        return query
+
+    @staticmethod
+    def update_last_played(song_url, time):
+        query = """
+    INSERT OR REPLACE { ?song nfo:fileLastAccessed '%(time)s' . }
+    WHERE {
+        SELECT
+            ?song
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER ( nie:url(?song) = "%(song_url)s" )
+            }
+        }
+    """.replace("\n", " ").strip() % {
+            'song_url': song_url,
+            'time': time
+        }
+
+        return query
+
+    @staticmethod
     def create_playlist(title):
         query = """
     INSERT {
@@ -662,6 +705,45 @@ class Query():
     }
     """.replace("\n", " ").strip() % {
             'title': title
+        }
+        return query
+
+    @staticmethod
+    def create_tag(tag_text):
+        query = """
+    INSERT OR REPLACE {
+        _:tag
+            a nao:Tag ;
+            rdfs:comment '%(tag_text)s'.
+    }
+    """.replace("\n", " ").strip() % {
+            'tag_text': tag_text
+        }
+        return query
+
+    @staticmethod
+    def create_playlist_with_tag(title, tag_text):
+        # TODO: make this an extension of 'create playlist' rather than its own func.?
+        # TODO: CREATE TAG IF IT DOESN'T EXIST!
+        query = """
+    INSERT {
+        _:playlist
+            a nmm:Playlist ;
+            a nfo:MediaList ;
+            nie:title "%(title)s" ;
+            nfo:entryCounter 0 ;
+            nao:hasTag ?tag.
+    }
+    WHERE {
+        SELECT ?tag
+        WHERE {
+            ?tag a nao:Tag ;
+                rdfs:comment '%(tag_text)s'.
+        }
+    }
+    """.replace("\n", " ").strip() % {
+            'title': title,
+            'tag_text': tag_text
         }
         return query
 
@@ -812,6 +894,19 @@ class Query():
         return Query.playlists(query)
 
     @staticmethod
+    def get_playlist_with_tag(playlist_tag):
+        query = """
+    ?playlist
+        a nmm:Playlist ;
+        nao:hasTag ?tag .
+    ?tag rdfs:comment ?tag_text .
+    FILTER ( ?tag_text = '%(playlist_tag)s' )
+    """.replace('\n', ' ').strip() % {'playlist_tag': playlist_tag}
+
+        return Query.playlists(query)
+
+
+    @staticmethod
     def get_playlist_with_urn(playlist_urn):
         query = """
     SELECT DISTINCT
@@ -838,6 +933,79 @@ class Query():
     }
     """.replace('\n', ' ').strip() % {'entry_urn': entry_urn}
         return query
+
+    @staticmethod
+    def clear_playlist_with_id(playlist_id):
+        query = """
+        DELETE {
+            ?playlist
+                nfo:hasMediaFileListEntry ?entry .
+            ?entry
+                a rdfs:Resource .
+        }
+        WHERE {
+            ?playlist
+                a nmm:Playlist ;
+                a nfo:MediaList ;
+                nfo:hasMediaFileListEntry ?entry .
+            FILTER (
+                tracker:id(?playlist) = %(playlist_id)s
+            )
+        }
+        """.replace('\n', ' ').strip() % {'playlist_id': playlist_id}
+
+        return query
+
+    @staticmethod
+    def get_most_played_songs():
+        # TODO: set playlist size somewhere? Currently default is 5, this is probably too low...
+        query = """
+        SELECT ?url
+        WHERE {
+            ?song a nmm:MusicPiece ;
+                nie:usageCounter ?count ;
+                nie:isStoredAs ?as .
+          ?as nie:url ?url .
+        } ORDER BY DESC(?count) LIMIT 50
+        """
+
+        return query
+
+    @staticmethod
+    def get_never_played_songs():
+        query = """
+        SELECT ?url
+        WHERE {
+            ?song a nmm:MusicPiece ;
+                nie:isStoredAs ?as .
+            ?as nie:url ?url .
+            FILTER ( NOT EXISTS { ?song nie:usageCounter ?count .} )
+        } ORDER BY nfo:fileLastAccessed(?song)
+        """.replace('\n', ' ').strip()
+
+        return query
+
+    def get_recently_played_songs():
+        #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
+        #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
+        
+        days_difference = 3 # currently hardcoding time interval of 3 days
+        seconds_difference = days_difference * SECONDS_PER_DAY
+        compare_date = time.strftime(sparql_midnight_dateTime_format, time.gmtime(time.time()-seconds_difference))
+
+        query = """
+        SELECT ?url
+        WHERE {
+            ?song a nmm:MusicPiece ;
+                nie:isStoredAs ?as ;
+                nfo:fileLastAccessed ?last_played .
+            ?as nie:url ?url .
+            FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime )
+        } ORDER BY DESC(?last_played)
+        """.replace('\n', ' ').strip() % {'compare_date': compare_date}
+
+        return query
+
 
     # Functions for search
     # TODO: make those queries actually return something
@@ -1064,3 +1232,40 @@ class Query():
             '''.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
+
+    @staticmethod
+    def clear_playlist(playlist_id):
+        # TODO is there a way to do this with only one FILTER statement?
+
+        query = """
+    DELETE {
+        ?playlist
+            nfo:hasMediaFileListEntry ?entry .
+        ?entry
+            a rdfs:Resource .
+    }
+    WHERE {
+        ?playlist
+            a nmm:Playlist ;
+            a nfo:MediaList ;
+            nfo:hasMediaFileListEntry ?entry .
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s
+        )
+    }
+    INSERT OR REPLACE {
+        ?playlist nfo:entryCounter '0'
+    }
+    WHERE {
+        ?playlist
+            a nmm:Playlist ;
+            a nfo:MediaList .
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s
+        )
+    }
+        """.replace("\n", " ").strip() % {
+            'playlist_id': playlist_id
+        }
+
+        return query

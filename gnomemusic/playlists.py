@@ -26,20 +26,41 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Grl, GLib, GObject
-from gi.repository import Tracker
+from gi.repository import Grl, GLib, GObject, Gio, Tracker
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
+import inspect
+import time
+sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
 
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
 
+class StaticPlaylists:
+    class MostPlayed:
+        ID = None
+        QUERY = Query.get_most_played_songs()
+        TAG_TEXT = "MOST_PLAYED"
+        TITLE = "Most Played" # Will eventually be translated
+    class NeverPlayed:
+        ID = None
+        QUERY = Query.get_never_played_songs()
+        TAG_TEXT = "NEVER_PLAYED"
+        TITLE = "Never Played" # Will eventually be translated
+    class RecentlyPlayed:
+        ID = None
+        QUERY = Query.get_recently_played_songs()
+        TAG_TEXT = "RECENTLY_PLAYED"
+        TITLE = "Recently Played" # Will eventually be translated
+
+
 class Playlists(GObject.GObject):
     __gsignals__ = {
         'playlist-created': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
         'playlist-deleted': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
+        'playlist-updated': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
         'song-added-to-playlist': (
             GObject.SIGNAL_RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
@@ -48,27 +69,104 @@ class Playlists(GObject.GObject):
         ),
     }
     instance = None
+    tracker = None
 
     @classmethod
-    def get_default(self):
+    def get_default(self, tracker=None):
         if self.instance:
+            if not self.tracker and tracker:
+                self.instance.tracker = tracker
             return self.instance
         else:
-            self.instance = Playlists()
+            self.instance = Playlists(tracker)
         return self.instance
 
     @log
-    def __init__(self):
+    def __init__(self, tracker):
         GObject.GObject.__init__(self)
-        try:
-            self.tracker = Tracker.SparqlConnection.get(None)
-        except Exception as e:
-            from sys import exit
-            logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
-            exit(1)
+        self.tracker = tracker
 
     @log
-    def create_playlist(self, name):
+    def fetch_or_create_static_playlists(self):
+        """For all static playlists: get ID, if exists; if not, create the playlist and get ID."""
+        for playlist in [cls for name, cls in inspect.getmembers(StaticPlaylists) if inspect.isclass(cls) \
+        and not (name  == "__class__")]: # hacky
+            cursor = self.tracker.query(Query.get_playlist_with_tag(playlist.TAG_TEXT), None)
+            while cursor.next():
+                playlist_id = cursor.get_string(1)[0]
+                playlist.ID = int(playlist_id) # hacky; shouldn't be reassigned every time
+
+            if not playlist.ID:
+                # create the playlist
+                playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
+
+        # then update all smart playlists
+        self.update_most_played_playlist()
+
+    @log
+    def clear_playlist_with_id(self, playlist_id):
+        query = Query.clear_playlist_with_id(playlist_id)
+        self.tracker.update(query, GLib.PRIORITY_DEFAULT, None)
+
+    @log
+    def update_playcount(self, song_url):
+        query = Query.update_playcount(song_url)
+        self.tracker.update(query, GLib.PRIORITY_DEFAULT, None)
+        self.update_all_static_playlists() # not the best place to put this func;
+            # maybe a 'scrobble' func that updates playcount & last played and then updates playlists?
+
+    @log
+    def update_last_played(self, song_url):
+        cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
+        query = Query.update_last_played(song_url, cur_time)
+        self.tracker.update(query, GLib.PRIORITY_DEFAULT, None)
+
+    def update_static_playlist(self, playlist):
+        """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
+        # Clear the playlist
+        self.clear_playlist_with_id(playlist.ID)
+        
+        # Get a list of matching songs
+        cursor = self.tracker.query(playlist.QUERY, None)
+        if not cursor:
+            return
+
+        # For each song run 'add song to playlist'
+        while cursor.next():
+            uri = cursor.get_string(0)[0]
+            self.tracker.update_blank_async(
+                Query.add_song_to_playlist(playlist.ID, uri),
+                GLib.PRIORITY_DEFAULT,
+                None, None, None
+            )
+
+        # tell system we updated the playlist so playlist is reloaded
+        self.emit('playlist-updated', playlist.ID)
+
+    def update_all_static_playlists(self):
+        for playlist in [cls for name, cls in inspect.getmembers(StaticPlaylists) if inspect.isclass(cls) \
+        and not (name  == "__class__")]: # hacky
+            self.update_static_playlist(playlist)
+
+    @log
+    def create_playlist_and_return_id(self, title, tag_text):
+        self.tracker.update_blank(Query.create_tag(tag_text), GLib.PRIORITY_DEFAULT, None)
+
+        data = self.tracker.update_blank(
+            Query.create_playlist_with_tag(title, tag_text), GLib.PRIORITY_DEFAULT,
+            None)
+        playlist_urn = data.get_child_value(0).get_child_value(0).\
+            get_child_value(0).get_child_value(1).get_string()
+
+        cursor = self.tracker.query(
+            Query.get_playlist_with_urn(playlist_urn),
+            None)
+        if not cursor or not cursor.next():
+            return
+        return cursor.get_integer(0)
+
+    @log
+    def create_playlist(self, title):
         def get_callback(source, param, item, count, data, error):
             if item:
                 self.emit('playlist-created', item)
@@ -88,7 +186,7 @@ class Playlists(GObject.GObject):
             )
 
         self.tracker.update_blank_async(
-            Query.create_playlist(name), GLib.PRIORITY_DEFAULT,
+            Query.create_playlist(title), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
 
