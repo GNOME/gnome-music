@@ -645,6 +645,26 @@ class Query():
         return query
 
     @staticmethod
+    def update_playcount(song_id):
+        query = """
+    INSERT OR REPLACE { ?song nie:usageCounter ?playcount . }
+    WHERE {
+        SELECT
+            IF(bound(?usage), (?usage + 1), 1) AS playcount
+            ?song
+            WHERE {
+                ?song a nmm:MusicPiece .
+                OPTIONAL { ?song nie:usageCounter ?usage . }
+                FILTER ( tracker:id(?song) = %(song_id)s )
+            }
+        }
+    """.replace("\n", " ").strip() % {
+            'song_id': song_id
+        }
+
+        return query
+
+    @staticmethod
     def create_playlist(title):
         query = """
     INSERT {

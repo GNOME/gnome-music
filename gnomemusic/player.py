@@ -37,6 +37,7 @@ from gettext import gettext as _
 from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.query import Query
 
 from gnomemusic import log
 import logging
@@ -186,26 +187,11 @@ class Player(GObject.GObject):
     def _on_bus_eos(self, bus, message):
 
         # update playcount
-        cur_song_title = self.get_current_media().get_title()
+        cur_song_title = self.get_current_media().get_title() # for testing
         cur_song_id = self.get_current_media().get_id()
-        print("Updating play count on", cur_song_title)
-        print("cur song id:", cur_song_id)
-     
-        query = """
-            INSERT OR REPLACE { ?song nie:usageCounter ?playcount . }
-            WHERE {
-                SELECT
-                    IF(bound(?usage), (?usage + 1), 1) AS playcount
-                    ?song
-                    WHERE {
-                        ?song a nmm:MusicPiece .
-                        OPTIONAL { ?song nie:usageCounter ?usage . }
-                        FILTER ( tracker:id(?song) = %s )
-                    }
-                }
-        """ % cur_song_id # make into a string formatting dict. with more descriptive name
-     
-        tracker.update(query, GLib.PRIORITY_DEFAULT, None)
+        print("Updating play count on %s (tracker id %s)" % (cur_song_title, cur_song_id)) # for testing
+        query = Query.update_playcount(cur_song_id)
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
 
         self.nextTrack = self._get_next_track()
 
