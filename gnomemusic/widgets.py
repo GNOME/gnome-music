@@ -60,7 +60,7 @@ class AlbumWidget(Gtk.EventBox):
 
     tracks = []
     duration = 0
-    symbolicIcon = ALBUM_ART_CACHE.get_default_icon(256, 256)
+    loadingIcon = ALBUM_ART_CACHE.get_default_icon(256, 256, True)
 
     @log
     def __init__(self, player):
@@ -179,7 +179,7 @@ class AlbumWidget(Gtk.EventBox):
         real_artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
-        self.ui.get_object('cover').set_from_pixbuf(self.symbolicIcon)
+        self.ui.get_object('cover').set_from_pixbuf(self.loadingIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
 
         # if the active queue has been set by self album,
@@ -453,6 +453,7 @@ class AllArtistsAlbums(ArtistAlbums):
                               header_bar, selection_toolbar, selectionModeAllowed)
         self._offset = 0
         self._populate()
+        self.hide()
 
     @log
     def _populate(self, data=None):
@@ -462,6 +463,8 @@ class AllArtistsAlbums(ArtistAlbums):
 
     @log
     def add_item(self, source, param, item, remaining=0, data=None):
+        if remaining == 0:
+            self.show()
         if item:
             self._offset += 1
             self.add_album(item)
@@ -469,7 +472,7 @@ class AllArtistsAlbums(ArtistAlbums):
 
 class ArtistAlbumWidget(Gtk.Box):
 
-    pixbuf = AlbumArtCache.get_default().get_default_icon(128, 128)
+    loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
 
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
@@ -489,7 +492,7 @@ class ArtistAlbumWidget(Gtk.Box):
         GLib.idle_add(self._update_album_art)
 
         self.cover = self.ui.get_object('cover')
-        self.cover.set_from_pixbuf(self.pixbuf)
+        self.cover.set_from_pixbuf(self.loadingIcon)
         self.songsGrid = self.ui.get_object('grid1')
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
@@ -500,7 +503,6 @@ class ArtistAlbumWidget(Gtk.Box):
         self.tracks = []
         GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
-        self.show_all()
 
         try:
             self.settings = Gio.Settings.new('org.gnome.Music')
@@ -743,7 +745,8 @@ class PlaylistDialog():
     @log
     def _on_playlist_created(self, playlists, item):
         new_iter = self._add_item_to_model(item)
-        self.view.set_cursor(self.model.get_path(new_iter),
-                             self.view.get_columns()[0], False)
-        self.view.row_activated(self.model.get_path(new_iter),
-                                self.view.get_columns()[0])
+        if self.view.get_columns():
+            self.view.set_cursor(self.model.get_path(new_iter),
+                                 self.view.get_columns()[0], False)
+            self.view.row_activated(self.model.get_path(new_iter),
+                                    self.view.get_columns()[0])

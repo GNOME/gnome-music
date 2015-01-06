@@ -33,18 +33,24 @@ logger = logging.getLogger(__name__)
 
 
 class Query():
-    music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-    MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
-    download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
-    DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
+    music_folder = None
+    MUSIC_URI = None
+    download_folder = None
+    DOWNLOAD_URI = None
+    try:
+        music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+        MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
+        download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+        DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
 
-    for folder in [music_folder, download_folder]:
-        if os.path.islink(folder):
-            logger.warn("%s is a symlink, this folder will be omitted" % folder)
-        else:
-            i = len(next(os.walk(folder))[2])
-            logger.debug("Found %d files in %s" % (i, folder))
-
+        for folder in [music_folder, download_folder]:
+            if os.path.islink(folder):
+                logger.warn("%s is a symlink, this folder will be omitted" % folder)
+            else:
+                i = len(next(os.walk(folder))[2])
+                logger.debug("Found %d files in %s" % (i, folder))
+    except TypeError:
+        logger.warn("XDG user dirs are not set")
 
     @staticmethod
     def order_by_statement(attr):
@@ -56,7 +62,7 @@ class Query():
             # (such as 'the') that should be ignored when alphabetizing artists/albums. This
             # list should include 'the' regardless of language. If some articles occur more
             # frequently than others, most common should appear first, least common last.
-        for article in reversed(_("the").split(" ")):
+        for article in reversed(_("the a an").split(" ")):
             return_statement = '''IF(fn:starts-with(fn:lower-case(%(attribute)s), "%(article)s"),
             fn:substring(fn:lower-case(%(attribute)s), %(substr_start)s),
             %(nested_if)s)''' % {'attribute' : attr,

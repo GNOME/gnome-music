@@ -197,20 +197,25 @@ class Window(Gtk.ApplicationWindow):
         self.add(self._box)
         count = 1
         cursor = None
-        try:
-            cursor = tracker.query(Query.all_songs_count(), None)
-        except Exception as e:
-            logger.error("Tracker query crashed: %s" % e)
-            count = 0
 
-        if cursor is not None and cursor.next(None):
-            count = cursor.get_integer(0)
-        if count > 0:
-            self._switch_to_player_view()
-        # To revert to the No Music View when no songs are found
+        if Query.music_folder and Query.download_folder:
+            try:
+                cursor = tracker.query(Query.all_songs_count(), None)
+            except Exception as e:
+                logger.error("Tracker query crashed: %s" % e)
+                count = 0
+
+            if cursor is not None and cursor.next(None):
+                count = cursor.get_integer(0)
+            if count > 0:
+                self._switch_to_player_view()
+            # To revert to the No Music View when no songs are found
+            else:
+                if self.toolbar._selectionMode is False:
+                    self._switch_to_empty_view()
         else:
-            if self.toolbar._selectionMode is False:
-                self._switch_to_empty_view()
+            # Revert to No Music view if XDG dirs are not set
+            self._switch_to_empty_view()
 
         self.toolbar._search_button.connect('toggled', self._on_search_toggled)
         self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
