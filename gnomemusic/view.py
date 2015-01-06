@@ -241,7 +241,7 @@ class ViewContainer(Gtk.Stack):
                 artist = self._model.get_value(_iter, 3)
                 thumbnail = self._model.get_value(_iter, 4)
                 if thumbnail == self._loadingIcon:
-                    albumArtCache.get_default().lookup(
+                    self.cache.lookup(
                         item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                         _iter, artist, title)
             except Exception:
@@ -428,7 +428,6 @@ class Songs(ViewContainer):
             .add_class('songs-list')
         self._iconHeight = 32
         self._iconWidth = 32
-        self.cache = albumArtCache.get_default()
         self._add_list_renderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
@@ -1246,7 +1245,6 @@ class Search(ViewContainer):
         self.iter_to_clean = None
         self._iconHeight = 48
         self._iconWidth = 48
-        self.cache = albumArtCache.get_default()
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
@@ -1384,11 +1382,6 @@ class Search(ViewContainer):
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 
             self._artists[artist.casefold()]['albums'].append(item)
-
-        if _iter:
-            albumArtCache.get_default().lookup(
-                item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                _iter, artist, title)
 
         if category == 'song':
             self.player.discover_item(item, self._on_discovered, _iter)
