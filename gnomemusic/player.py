@@ -226,8 +226,7 @@ class Player(GObject.GObject):
     @log
     def _on_bus_eos(self, bus, message):
         # update playcount and time last played of song that just finished
-        just_played_id = self.get_current_media().get_id()
-        print("song id:", just_played_id)        
+        just_played_id = self.get_current_media().get_id()    
         playlists.update_playcount(just_played_id)
         playlists.update_last_played(just_played_id)
         
