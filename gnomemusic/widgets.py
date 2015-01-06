@@ -60,7 +60,7 @@ class AlbumWidget(Gtk.EventBox):
 
     tracks = []
     duration = 0
-    symbolicIcon = ALBUM_ART_CACHE.get_default_icon(256, 256)
+    loadingIcon = ALBUM_ART_CACHE.get_default_icon(256, 256, True)
 
     @log
     def __init__(self, player):
@@ -179,7 +179,7 @@ class AlbumWidget(Gtk.EventBox):
         real_artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
-        self.ui.get_object('cover').set_from_pixbuf(self.symbolicIcon)
+        self.ui.get_object('cover').set_from_pixbuf(self.loadingIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
 
         # if the active queue has been set by self album,
@@ -469,7 +469,7 @@ class AllArtistsAlbums(ArtistAlbums):
 
 class ArtistAlbumWidget(Gtk.Box):
 
-    pixbuf = AlbumArtCache.get_default().get_default_icon(128, 128)
+    loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
 
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
@@ -489,7 +489,7 @@ class ArtistAlbumWidget(Gtk.Box):
         GLib.idle_add(self._update_album_art)
 
         self.cover = self.ui.get_object('cover')
-        self.cover.set_from_pixbuf(self.pixbuf)
+        self.cover.set_from_pixbuf(self.loadingIcon)
         self.songsGrid = self.ui.get_object('grid1')
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():

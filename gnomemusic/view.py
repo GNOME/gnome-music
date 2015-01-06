@@ -134,8 +134,7 @@ class ViewContainer(Gtk.Stack):
         self._items = []
         self._connect_view()
         self.cache = albumArtCache.get_default()
-        self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
-                                                         self._iconWidth)
+        self._loadingIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, True)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -241,7 +240,7 @@ class ViewContainer(Gtk.Stack):
                 title = self._model.get_value(_iter, 2)
                 artist = self._model.get_value(_iter, 3)
                 thumbnail = self._model.get_value(_iter, 4)
-                if thumbnail == self._symbolicIcon:
+                if thumbnail == self._loadingIcon:
                     albumArtCache.get_default().lookup(
                         item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                         _iter, artist, title)
@@ -296,7 +295,7 @@ class ViewContainer(Gtk.Stack):
             self._model.set(_iter,
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
                             [str(item.get_id()), '', title,
-                             artist, self._symbolicIcon, item,
+                             artist, self._loadingIcon, item,
                              0, icon_name, False, icon_name == self.errorIconName])
         GLib.idle_add(add_new_item)
 
@@ -430,8 +429,6 @@ class Songs(ViewContainer):
         self._iconHeight = 32
         self._iconWidth = 32
         self.cache = albumArtCache.get_default()
-        self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
-                                                         self._iconWidth)
         self._add_list_renderers()
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
@@ -1250,8 +1247,6 @@ class Search(ViewContainer):
         self._iconHeight = 48
         self._iconWidth = 48
         self.cache = albumArtCache.get_default()
-        self._symbolicIcon = self.cache.get_default_icon(self._iconHeight,
-                                                         self._iconWidth)
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
@@ -1376,7 +1371,7 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 8, 9, 10, 11],
                 [str(item.get_id()), title, artist,
-                 self._symbolicIcon, item, self.nowPlayingIconName,
+                 self._loadingIcon, item, self.nowPlayingIconName,
                  False, False, category])
         else:
             if not artist.casefold() in self._artists:
@@ -1384,7 +1379,7 @@ class Search(ViewContainer):
                     self.head_iters[group], -1,
                     [0, 2, 4, 5, 8, 9, 10, 11],
                     [str(item.get_id()), artist,
-                     self._symbolicIcon, item, self.nowPlayingIconName,
+                     self._loadingIcon, item, self.nowPlayingIconName,
                      False, False, category])
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 

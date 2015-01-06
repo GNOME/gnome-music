@@ -88,7 +88,8 @@ class Player(GObject.GObject):
         self.currentTrack = None
         self._lastState = Gst.State.PAUSED
         self.cache = AlbumArtCache.get_default()
-        self._symbolicIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE)
+        self._noArtworkIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE)
+        self._loadingIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE, True)
 
         Gst.init(None)
 
@@ -451,7 +452,7 @@ class Player(GObject.GObject):
         except:
             pass
 
-        self.coverImg.set_from_pixbuf(self._symbolicIcon)
+        self.coverImg.set_from_pixbuf(self._noArtworkIcon)
         self.cache.lookup(
             media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None, artist, album)
 

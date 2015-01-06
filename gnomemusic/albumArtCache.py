@@ -143,9 +143,12 @@ class AlbumArtCache:
             logger.warn("Error: %s" % e)
 
     @log
-    def get_default_icon(self, width, height):
+    def get_default_icon(self, width, height, is_loading=False):
         # get a small pixbuf with the given path
-        icon = Gtk.IconTheme.get_default().load_icon('folder-music-symbolic', max(width, height) / 4, 0)
+        icon_name = 'folder-music-symbolic'
+        if is_loading:
+            icon_name = 'content-loading-symbolic'
+        icon = Gtk.IconTheme.get_default().load_icon(icon_name, max(width, height) / 4, 0)
 
         # create an empty pixbuf with the requested size
         result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
@@ -236,7 +239,8 @@ class AlbumArtCache:
                 self.blacklist[artist].append(album)
 
                 logger.warn("can't find URL for album '%s' by %s" % (album, artist))
-                self.finish(item, None, None, callback, itr)
+                noArtworkIcon = self.get_default_icon(width, height, False)
+                self.finish(item, noArtworkIcon, None, callback, itr)
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
