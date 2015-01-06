@@ -5,6 +5,8 @@
 # Copyright (c) 2013 Sai Suman Prayaga <suman.sai14@gmail.com>
 # Copyright (c) 2013 Shivani Poddar <shivani.poddar92@gmail.com>
 # Copyright (c) 2013 Guillaume Quintard <guillaume.quintard@gmail.com>
+# Copyright (c) 2014 Cedric Bellegarde <gnumdk@gmail.com>
+# Copyright (C) 2010 Jonathan Matthew (replay gain code)
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -98,10 +100,14 @@ class Player(GObject.GObject):
         self.player = Gst.ElementFactory.make('playbin', 'player')
         self.bus = self.player.get_bus()
         self.bus.add_signal_watch()
+        self.setup_replaygain()
 
         self._settings = Gio.Settings.new('org.gnome.Music')
-        self._settings.connect('changed::repeat', self._on_settings_changed)
+        self._settings.connect('changed::repeat', self._on_repeat_setting_changed)
+        self._settings.connect('changed::replaygain', self._on_replaygain_setting_changed)
         self.repeat = self._settings.get_enum('repeat')
+        self.replaygain = self._settings.get_value('replaygain') is not None
+        self.toggle_replaygain(self.replaygain)
 
         self.bus.connect('message::state-changed', self._on_bus_state_changed)
         self.bus.connect('message::error', self._onBusError)
@@ -110,6 +116,46 @@ class Player(GObject.GObject):
 
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
+
+    @log
+    def _on_replaygain_setting_changed(self, settings, value):
+        self.replaygain = settings.get_value('replaygain') is not None
+        self.toggle_replaygain(self.replaygain)
+
+    @log
+    def setup_replaygain(self):
+        """
+        Set up replaygain
+        See https://github.com/gnumdk/lollypop/commit/429383c3742e631b34937d8987d780edc52303c0
+        """
+        self._rgfilter = Gst.ElementFactory.make("bin", "bin")
+        self._rg_audioconvert1 = Gst.ElementFactory.make("audioconvert", "audioconvert")
+        self._rg_audioconvert2 = Gst.ElementFactory.make("audioconvert", "audioconvert2")
+        self._rgvolume = Gst.ElementFactory.make("rgvolume", "rgvolume")
+        self._rglimiter = Gst.ElementFactory.make("rglimiter", "rglimiter")
+        self._rg_audiosink = Gst.ElementFactory.make("autoaudiosink", "autoaudiosink")
+        if not self._rgfilter or not self._rg_audioconvert1 or not self._rg_audioconvert2 \
+           or not self._rgvolume or not self._rglimiter or not self._rg_audiosink:
+            logger.debug("Replay Gain is not available")
+            return
+        self._rgvolume.props.pre_amp = 0.0
+        self._rgfilter.add(self._rgvolume)
+        self._rgfilter.add(self._rg_audioconvert1)
+        self._rgfilter.add(self._rg_audioconvert2)
+        self._rgfilter.add(self._rglimiter)
+        self._rgfilter.add(self._rg_audiosink)
+        self._rg_audioconvert1.link(self._rgvolume)
+        self._rgvolume.link(self._rg_audioconvert2)
+        self._rgvolume.link(self._rglimiter)
+        self._rg_audioconvert2.link(self._rg_audiosink)
+        self._rgfilter.add_pad(Gst.GhostPad.new("sink", self._rg_audioconvert1.get_static_pad("sink")))
+
+    @log
+    def toggle_replaygain(self, state=False):
+        if state and self._rgfilter:
+            self.player.set_property("audio-sink", self._rgfilter)
+        else:
+            self.player.set_property("audio-sink", None)
 
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
@@ -144,7 +190,7 @@ class Player(GObject.GObject):
             return
 
     @log
-    def _on_settings_changed(self, settings, value):
+    def _on_repeat_setting_changed(self, settings, value):
         self.repeat = settings.get_enum('repeat')
         self._sync_prev_next()
         self._sync_repeat_image()

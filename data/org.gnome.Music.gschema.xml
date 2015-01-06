@@ -43,5 +43,10 @@
             <summary>Max chars to display in track name on Artist view</summary>
             <description>This setting modifies the amount of chars for track title on Artist view before its been ellipsized. Set this to -1 to disable</description>
         </key>
+        <key type="b" name="replaygain">
+            <default>false</default>
+            <summary>Enable ReplayGain</summary>
+            <description>Enables or disables ReplayGain for albums</description>
+        </key>
     </schema>
 </schemalist>
