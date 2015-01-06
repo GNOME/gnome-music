@@ -33,7 +33,7 @@ from gettext import gettext as _
 import cairo
 from math import pi
 import os
-from threading import Thread
+from threading import Thread, Lock
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
@@ -81,6 +81,8 @@ def _make_icon_frame(pixbuf, path=None):
 class AlbumArtCache:
     instance = None
     blacklist = {}
+    itr_queue = []
+    threading_lock = Lock()
 
     @classmethod
     def get_default(self):
@@ -171,10 +173,17 @@ class AlbumArtCache:
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
         try:
+            # Make sure we don't lookup the same iterators several times
+            with self.threading_lock:
+                if itr:
+                    if itr.user_data in self.itr_queue:
+                        return
+                    self.itr_queue.append(itr.user_data)
+
             t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
             self.thread_queue.put(t)
         except Exception as e:
-            logger.warn("Error: %s" % e.__class__)
+            logger.warn("Error: %s, %s" % (e.__class__, e))
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
