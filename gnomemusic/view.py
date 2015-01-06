@@ -131,8 +131,8 @@ class ViewContainer(Gtk.Stack):
         self.add(self._grid)
 
         self.show_all()
+        self.view.hide()
         self._items = []
-        self._connect_view()
         self.cache = albumArtCache.get_default()
         self._loadingIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, True)
 
@@ -212,57 +212,6 @@ class ViewContainer(Gtk.Stack):
         pass
 
     @log
-    def _connect_view(self):
-        if self.view.get_view_type() == Gd.MainViewType.ICON:
-            self.view.connect_after('draw', self._on_view_draw)
-            self.view.add_events(Gdk.EventMask.EXPOSURE_MASK)
-
-    @log
-    def _on_view_draw(self, widget, cr):
-        vsbl_range = widget.get_children()[0].get_visible_range()
-        if not vsbl_range or self.old_vsbl_range == vsbl_range:
-            return
-        self.old_vsbl_range = vsbl_range
-        GLib.idle_add(self.on_scroll_event, self.view)
-
-    @log
-    def on_scroll_event(self, widget, event=None):
-        vsbl_range = widget.get_children()[0].get_visible_range()
-        if not vsbl_range:
-            return
-
-        def load_album_art_for(path):
-            try:
-                _iter = self._model.get_iter(path)
-                item = self._model.get_value(_iter, 5)
-                if not item:
-                    return
-                title = self._model.get_value(_iter, 2)
-                artist = self._model.get_value(_iter, 3)
-                thumbnail = self._model.get_value(_iter, 4)
-                if thumbnail == self._loadingIcon:
-                    self.cache.lookup(
-                        item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                        _iter, artist, title)
-            except Exception:
-                pass
-
-        # Load thumbnails
-        path = vsbl_range[0]
-        while path <= vsbl_range[1]:
-            load_album_art_for(path)
-            path.next()
-
-        # Add 10 more albums to avoid visible thumbnail loading
-        for i in range(0, 10):
-            try:
-                path.next()
-                load_album_art_for(path)
-            except ValueError:
-                # No such path
-                break
-
-    @log
     def populate(self):
         print('populate')
 
@@ -275,6 +224,8 @@ class ViewContainer(Gtk.Stack):
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
+            if remaining == 0:
+                self.view.show()
             return
         self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
@@ -297,6 +248,8 @@ class ViewContainer(Gtk.Stack):
                             [str(item.get_id()), '', title,
                              artist, self._loadingIcon, item,
                              0, icon_name, False, icon_name == self.errorIconName])
+            self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                              _iter, artist, title)
         GLib.idle_add(add_new_item)
 
     @log
@@ -468,6 +421,8 @@ class Songs(ViewContainer):
 
     def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
+            if remaining == 0:
+                self.view.show()
             return
         self._offset += 1
         item.set_title(albumArtCache.get_media_title(item))
@@ -612,6 +567,7 @@ class Artists (ViewContainer):
             self.view.get_generic_view().get_style_context().\
                 add_class('artist-panel-white')
         self.show_all()
+        self.view.hide()
 
     @log
     def _on_changes_pending(self, data=None):
@@ -633,6 +589,9 @@ class Artists (ViewContainer):
             selection.select_path(self._model.get_path(self._allIter))
         self._init = True
         self.populate()
+
+    @log
+    def add_all_artists_entry(self):
         self.view.emit('item-activated', '0',
                        self._model.get_path(self._allIter))
 
@@ -703,6 +662,9 @@ class Artists (ViewContainer):
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item is None:
+            if remaining == 0:
+                self.add_all_artists_entry()
+                self.view.show()
             return
         self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
@@ -1245,6 +1207,8 @@ class Search(ViewContainer):
         self.iter_to_clean = None
         self._iconHeight = 48
         self._iconWidth = 48
+        self._loadingIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, True)
+        self._noAlbumArtIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, False)
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
@@ -1346,6 +1310,9 @@ class Search(ViewContainer):
         if data is None:
             return
 
+        if remaining == 0:
+            self.view.show()
+
         model, category = data
         if not item or model != self._model:
             return
@@ -1364,12 +1331,21 @@ class Search(ViewContainer):
             pass
 
         _iter = None
-        if category == 'album' or category == 'song':
+        if category == 'album':
             _iter = self._model.insert_with_values(
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 8, 9, 10, 11],
                 [str(item.get_id()), title, artist,
                  self._loadingIcon, item, self.nowPlayingIconName,
+                 False, False, category])
+            self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                              _iter, artist, title)
+        elif category == 'song':
+            _iter = self._model.insert_with_values(
+                self.head_iters[group], -1,
+                [0, 2, 3, 4, 5, 8, 9, 10, 11],
+                [str(item.get_id()), title, artist,
+                 self._noAlbumArtIcon, item, self.nowPlayingIconName,
                  False, False, category])
         else:
             if not artist.casefold() in self._artists:
@@ -1379,6 +1355,8 @@ class Search(ViewContainer):
                     [str(item.get_id()), artist,
                      self._loadingIcon, item, self.nowPlayingIconName,
                      False, False, category])
+                self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                                  _iter, artist, title)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 
             self._artists[artist.casefold()]['albums'].append(item)

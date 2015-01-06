@@ -453,6 +453,7 @@ class AllArtistsAlbums(ArtistAlbums):
                               header_bar, selection_toolbar, selectionModeAllowed)
         self._offset = 0
         self._populate()
+        self.hide()
 
     @log
     def _populate(self, data=None):
@@ -462,6 +463,8 @@ class AllArtistsAlbums(ArtistAlbums):
 
     @log
     def add_item(self, source, param, item, remaining=0, data=None):
+        if remaining == 0:
+            self.show()
         if item:
             self._offset += 1
             self.add_album(item)
@@ -500,7 +503,6 @@ class ArtistAlbumWidget(Gtk.Box):
         self.tracks = []
         GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
-        self.show_all()
 
         try:
             self.settings = Gio.Settings.new('org.gnome.Music')
