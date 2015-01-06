@@ -29,12 +29,18 @@ from gi.repository import GLib, Tracker
 
 
 class Query():
-    MUSIC_DIR = Tracker.sparql_escape_string(GLib.filename_to_uri(
-        GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-    ))
-    DOWNLOAD_DIR = Tracker.sparql_escape_string(GLib.filename_to_uri(
-        GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
-    ))
+    music_folder = None
+    MUSIC_URI = None
+    download_folder = None
+    DOWNLOAD_URI = None
+    try:
+        music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+        MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
+        download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+        DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
+
+    except TypeError:
+        print("XDG user dirs are not set")
 
     @staticmethod
     def all_albums():
