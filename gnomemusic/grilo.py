@@ -32,6 +32,16 @@ import os
 os.environ['GRL_PLUGIN_RANKS'] = 'local-metadata:3,filesystem:2,tracker:1,lastfm-albumart:0'
 from gi.repository import Grl
 logger = logging.getLogger(__name__)
+import time
+sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
+
+from gi.repository import Tracker
+try:
+    tracker = Tracker.SparqlConnection.get(None)
+except Exception as e:
+    from sys import exit
+    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+    exit(1)
 
 
 class Grilo(GObject.GObject):
@@ -214,6 +224,17 @@ class Grilo(GObject.GObject):
         def _callback(source, param, item, remaining, data, error):
             callback(source, param, item, remaining, data)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
+
+    @log
+    def update_playcount(self, song_id):
+        query = Query.update_playcount(song_id)
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
+
+    @log
+    def update_last_played(self, song_id):
+        cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
+        query = Query.update_last_played(song_id, cur_time)
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
 
     @log
     def search(self, q, callback, data=None):

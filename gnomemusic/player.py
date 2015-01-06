@@ -37,22 +37,11 @@ from gettext import gettext as _
 from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
-from gnomemusic.query import Query
+from gnomemusic.grilo import grilo
 
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
-
-import time
-sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
-
-from gi.repository import Tracker
-try:
-    tracker = Tracker.SparqlConnection.get(None)
-except Exception as e:
-    from sys import exit
-    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
-    exit(1)
 
 ART_SIZE = 34
 
@@ -188,20 +177,11 @@ class Player(GObject.GObject):
 
     @log
     def _on_bus_eos(self, bus, message):
-
-        # update playcount
-        cur_song_title = self.get_current_media().get_title() # for testing
-        cur_song_id = self.get_current_media().get_id()
-        cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
-        print("Updating %s (tracker id %s) - UTC time is %s" % (cur_song_title, cur_song_id, cur_time)) # for testing
-        query = Query.update_playcount(cur_song_id)
-        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
-
-        # update last played
-        query = Query.update_last_played(cur_song_id, cur_time)
-        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
+        # update playcount and time last played of song that just finished
+        just_played_id = self.get_current_media().get_id()        
+        grilo.update_playcount(just_played_id)
+        grilo.update_last_played(just_played_id)
         
-
         self.nextTrack = self._get_next_track()
 
         if self.nextTrack:
