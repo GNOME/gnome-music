@@ -30,6 +30,8 @@ from gi.repository import Grl, GLib, GObject
 from gi.repository import Tracker
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
+import time
+sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
 
 from gnomemusic import log
 import logging
@@ -68,6 +70,17 @@ class Playlists(GObject.GObject):
     def __init__(self):
         GObject.GObject.__init__(self)
 
+    @log
+    def update_playcount(self, song_id):
+        query = Query.update_playcount(song_id)
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
+
+    @log
+    def update_last_played(self, song_id):
+        cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
+        query = Query.update_last_played(song_id, cur_time)
+        tracker.update(query, GLib.PRIORITY_DEFAULT, None) # TODO: async? callback funct.?
+        
     @log
     def create_playlist(self, name):
         def get_callback(source, param, item, count, data, error):

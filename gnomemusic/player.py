@@ -39,6 +39,8 @@ from gettext import gettext as _
 from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.playlists import Playlists
+playlists = Playlists.get_default()
 
 from gnomemusic import log
 import logging
@@ -223,6 +225,11 @@ class Player(GObject.GObject):
 
     @log
     def _on_bus_eos(self, bus, message):
+        # update playcount and time last played of song that just finished
+        just_played_id = self.get_current_media().get_id()    
+        playlists.update_playcount(just_played_id)
+        playlists.update_last_played(just_played_id)
+        
         self.nextTrack = self._get_next_track()
 
         if self.nextTrack:
