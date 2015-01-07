@@ -453,7 +453,7 @@ class AllArtistsAlbums(ArtistAlbums):
                               header_bar, selection_toolbar, selectionModeAllowed)
         self._offset = 0
         self._populate()
-        self.hide()
+        self.show()
 
     @log
     def _populate(self, data=None):
@@ -463,11 +463,10 @@ class AllArtistsAlbums(ArtistAlbums):
 
     @log
     def add_item(self, source, param, item, remaining=0, data=None):
-        if remaining == 0:
-            self.show()
         if item:
             self._offset += 1
             self.add_album(item)
+            self.show_all()
 
 
 class ArtistAlbumWidget(Gtk.Box):
