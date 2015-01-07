@@ -33,7 +33,6 @@
 
 from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango, Gio
 from gi.repository import GdkPixbuf, Grl
-from gi.repository import Tracker
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
 from gnomemusic.albumArtCache import AlbumArtCache
@@ -42,18 +41,16 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
-playlist = Playlists.get_default()
-
-try:
-    tracker = Tracker.SparqlConnection.get(None)
-except Exception as e:
-    from sys import exit
-    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
-    exit(1)
-
 ALBUM_ART_CACHE = AlbumArtCache.get_default()
 NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
+
+try:
+    settings = Gio.Settings.new('org.gnome.Music')
+    MAX_TITLE_WIDTH = settings.get_int('max-width-chars')
+except Exception as e:
+    MAX_TITLE_WIDTH = 20
+    logger.error("Error on setting widget max-width-chars: %s" % str(e))
 
 
 class AlbumWidget(Gtk.EventBox):
@@ -503,13 +500,6 @@ class ArtistAlbumWidget(Gtk.Box):
         GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
-        try:
-            self.settings = Gio.Settings.new('org.gnome.Music')
-            self.max_title_width = self.settings.get_int('max-width-chars')
-        except Exception as e:
-            self.max_title_width = 20
-            logger.error("Error on setting widget max-width-chars: %s" % str(e))
-
     @log
     def _on_discovered(self, info, error, song_widget):
         if error:
@@ -536,7 +526,7 @@ class ArtistAlbumWidget(Gtk.Box):
                 title = AlbumArtCache.get_media_title(track)
                 ui.get_object('title').set_text(title)
                 ui.get_object('title').set_alignment(0.0, 0.5)
-                ui.get_object('title').set_max_width_chars(self.max_title_width)
+                ui.get_object('title').set_max_width_chars(MAX_TITLE_WIDTH)
 
                 self.songsGrid.attach(
                     song_widget,
@@ -657,7 +647,8 @@ class PlaylistDialog():
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
-        playlist.connect('playlist-created', self._on_playlist_created)
+        self.playlist = Playlists.get_default()
+        self.playlist.connect('playlist-created', self._on_playlist_created)
 
     @log
     def get_selected(self):
@@ -739,7 +730,7 @@ class PlaylistDialog():
     @log
     def _on_editing_done(self, editable, data=None):
         if editable.get_text() != '':
-            playlist.create_playlist(editable.get_text())
+            self.playlist.create_playlist(editable.get_text())
 
     @log
     def _on_playlist_created(self, playlists, item):

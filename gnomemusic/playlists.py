@@ -35,13 +35,6 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
-try:
-    tracker = Tracker.SparqlConnection.get(None)
-except Exception as e:
-    from sys import exit
-    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
-    exit(1)
-
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
@@ -67,6 +60,12 @@ class Playlists(GObject.GObject):
     @log
     def __init__(self):
         GObject.GObject.__init__(self)
+        try:
+            self.tracker = Tracker.SparqlConnection.get(None)
+        except Exception as e:
+            from sys import exit
+            logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+            exit(1)
 
     @log
     def create_playlist(self, name):
@@ -83,12 +82,12 @@ class Playlists(GObject.GObject):
 
         def update_callback(conn, res, data):
             playlist_urn = conn.update_blank_finish(res)[0][0]['playlist']
-            tracker.query_async(
+            self.trackerquery_async(
                 Query.get_playlist_with_urn(playlist_urn),
                 None, query_callback, None
             )
 
-        tracker.update_blank_async(
+        self.trackerupdate_blank_async(
             Query.create_playlist(name), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
@@ -99,7 +98,7 @@ class Playlists(GObject.GObject):
             conn.update_finish(res)
             self.emit('playlist-deleted', item)
 
-        tracker.update_async(
+        self.trackerupdate_async(
             Query.delete_playlist(item.get_id()), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
@@ -121,7 +120,7 @@ class Playlists(GObject.GObject):
 
         def update_callback(conn, res, data):
             entry_urn = conn.update_blank_finish(res)[0][0]['entry']
-            tracker.query_async(
+            self.trackerquery_async(
                 Query.get_playlist_song_with_urn(entry_urn),
                 None, query_callback, None
             )
@@ -130,7 +129,7 @@ class Playlists(GObject.GObject):
             uri = item.get_url()
             if not uri:
                 continue
-            tracker.update_blank_async(
+            self.trackerupdate_blank_async(
                 Query.add_song_to_playlist(playlist.get_id(), uri),
                 GLib.PRIORITY_DEFAULT,
                 None, update_callback, None
@@ -143,7 +142,7 @@ class Playlists(GObject.GObject):
             self.emit('song-removed-from-playlist', playlist, data)
 
         for item in items:
-            tracker.update_async(
+            self.trackerupdate_async(
                 Query.remove_song_from_playlist(
                     playlist.get_id(), item.get_id()
                 ),

@@ -89,9 +89,11 @@ class Window(Gtk.ApplicationWindow):
         if self.settings.get_value('window-maximized'):
             self.maximize()
 
+        self._setup_view()
+
         self.connect("window-state-event", self._on_window_state_event)
         self.connect("configure-event", self._on_configure_event)
-        self._setup_view()
+
         self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
                                             None,

@@ -32,14 +32,12 @@
 
 
 from gi.repository import Gtk
-from gi.repository import Gdk
 from gi.repository import GObject
 from gi.repository import Gd
 from gi.repository import Grl
 from gi.repository import Pango
 from gi.repository import GLib
 from gi.repository import GdkPixbuf
-from gi.repository import Tracker
 
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
@@ -51,13 +49,6 @@ from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
-
-try:
-    tracker = Tracker.SparqlConnection.get(None)
-except Exception as e:
-    from sys import exit
-    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
-    exit(1)
 
 playlists = Playlists.get_default()
 
@@ -97,7 +88,6 @@ class ViewContainer(Gtk.Stack):
         )
         self.view.set_view_type(view_type)
         self.view.set_model(self._model)
-        self.vadjustment = self.view.get_vadjustment()
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
         if use_sidebar:
@@ -232,7 +222,7 @@ class ViewContainer(Gtk.Stack):
             or item.get_author()\
             or _("Unknown Artist")
         title = albumArtCache.get_media_title(item)
-        item.set_title(title)
+        # item.set_title(title)
 
         def add_new_item():
             _iter = self._model.append(None)
