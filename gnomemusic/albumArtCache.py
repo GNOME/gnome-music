@@ -194,7 +194,7 @@ class AlbumArtCache:
                 return
 
             path = None
-            mediaart_tuple = MediaArt.get_path(artist, album, "album", None)
+            mediaart_tuple = MediaArt.get_path(artist, album, "album")
             for i in mediaart_tuple:
                 if isinstance(i, str):
                     path = i
