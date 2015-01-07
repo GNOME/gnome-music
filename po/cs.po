@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-04 19:58+0000\n"
-"PO-Revision-Date: 2015-01-05 00:00+0100\n"
+"POT-Creation-Date: 2015-01-07 19:55+0000\n"
+"PO-Revision-Date: 2015-01-07 21:53+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -94,6 +94,14 @@ msgstr ""
 "Znaky nad tento počet jsou nahrazeny výpustkem. Pro vypnutí této funkce "
 "nastavte na -1."
 
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Povolit ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Povolí nebo zakáže vyrovnání hlasitosti u alb pomocí ReplayGain"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
 #: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
@@ -120,22 +128,22 @@ msgstr "Hudba GNOME"
 msgid "Music is the new GNOME music playing application."
 msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 
-#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Bez názvu"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:401 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:962 ../gnomemusic/view.py:1336
+#: ../gnomemusic/player.py:448 ../gnomemusic/view.py:512
+#: ../gnomemusic/view.py:910 ../gnomemusic/view.py:1283
 msgid "Unknown Album"
 msgstr "Neznámé album"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:392 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1110 ../gnomemusic/view.py:1334
-#: ../gnomemusic/view.py:1365 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:575
+#: ../gnomemusic/player.py:439 ../gnomemusic/view.py:223
+#: ../gnomemusic/view.py:421 ../gnomemusic/view.py:662
+#: ../gnomemusic/view.py:1058 ../gnomemusic/view.py:1281
+#: ../gnomemusic/view.py:1315 ../gnomemusic/widgets.py:178
+#: ../gnomemusic/widgets.py:566
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
@@ -153,11 +161,11 @@ msgstr "od %s, z alba %s"
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:349
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:396
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:352
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:399
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Přehrát"
@@ -170,8 +178,8 @@ msgstr "Následující"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:59
-msgid "the"
+#: ../gnomemusic/query.py:65
+msgid "the a an"
 msgstr "the"
 
 #: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
@@ -202,8 +210,8 @@ msgstr "Zdroje"
 msgid "Match"
 msgstr "Porovnávat"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:219
+#: ../gnomemusic/widgets.py:440 ../gnomemusic/window.py:291
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -211,34 +219,34 @@ msgstr[0] "Vybrána %d položka"
 msgstr[1] "Vybrány %d položky"
 msgstr[2] "Vybráno %d položek"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:221
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:295
+#: ../gnomemusic/window.py:307 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klikáním vyberte položky"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1580
+#: ../gnomemusic/view.py:284 ../gnomemusic/view.py:1536
 msgid "Albums"
 msgstr "Alba"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1582
+#: ../gnomemusic/view.py:366 ../gnomemusic/view.py:1538
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1581
+#: ../gnomemusic/view.py:529 ../gnomemusic/view.py:1537
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:452
+#: ../gnomemusic/view.py:575 ../gnomemusic/view.py:577
+#: ../gnomemusic/widgets.py:449
 msgid "All Artists"
 msgstr "Všichni umělci"
 
-#: ../gnomemusic/view.py:798 ../gnomemusic/view.py:1583
+#: ../gnomemusic/view.py:746 ../gnomemusic/view.py:1539
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: ../gnomemusic/view.py:1122
+#: ../gnomemusic/view.py:1070
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -246,16 +254,16 @@ msgstr[0] "%d skladba"
 msgstr[1] "%d skladby"
 msgstr[2] "%d skladeb"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:267 ../gnomemusic/widgets.py:305
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:689
+#: ../gnomemusic/widgets.py:681
 msgid "New Playlist"
 msgstr "Nový seznam k přehrání"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:239
 msgid "Empty"
 msgstr "Prázdné"
 
