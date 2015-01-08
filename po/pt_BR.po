@@ -13,9 +13,9 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-24 07:58+0000\n"
-"PO-Revision-Date: 2014-12-24 09:10-0300\n"
-"Last-Translator: Ricardo Barbosa <barbosa.cisco@gmail.com>\n"
+"POT-Creation-Date: 2015-01-08 19:56+0000\n"
+"PO-Revision-Date: 2015-01-08 21:54-0300\n"
+"Last-Translator: Rafael Ferreira <rafael.f.f1@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -94,6 +94,14 @@ msgstr ""
 "Esta configuração modifica a quantidade de caracteres para o nome da faixa "
 "na visão de artista antes de ser recortado. Defina -1 para desabilitar"
 
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Habilitar ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Habilita ou desabilita ReplayGain por álbuns"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
 #: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
@@ -120,22 +128,22 @@ msgstr "GNOME Música"
 msgid "Music is the new GNOME music playing application."
 msgstr "O Música é o novo aplicativo reprodutor de música do GNOME."
 
-#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Sem título"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:401 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:962 ../gnomemusic/view.py:1336
+#: ../gnomemusic/player.py:448 ../gnomemusic/view.py:512
+#: ../gnomemusic/view.py:910 ../gnomemusic/view.py:1283
 msgid "Unknown Album"
 msgstr "Álbum desconhecido"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:392 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1110 ../gnomemusic/view.py:1334
-#: ../gnomemusic/view.py:1365 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:575
+#: ../gnomemusic/player.py:439 ../gnomemusic/view.py:223
+#: ../gnomemusic/view.py:421 ../gnomemusic/view.py:662
+#: ../gnomemusic/view.py:1058 ../gnomemusic/view.py:1281
+#: ../gnomemusic/view.py:1315 ../gnomemusic/widgets.py:178
+#: ../gnomemusic/widgets.py:566
 msgid "Unknown Artist"
 msgstr "Artista desconhecido"
 
@@ -154,11 +162,11 @@ msgstr "por %s, do álbum %s"
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:349
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:396
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:352
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:399
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Reproduzir"
@@ -167,14 +175,13 @@ msgstr "Reproduzir"
 msgid "Next"
 msgstr "Próxima"
 
-# Manter "the" para nomes em inglês e "o" e "a" para nomes em português
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:59
-msgid "the"
-msgstr "the o a"
+#: ../gnomemusic/query.py:65
+msgid "the a an"
+msgstr "the o a um uma no na"
 
 #: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
 msgid "All"
@@ -204,58 +211,58 @@ msgstr "Fontes"
 msgid "Match"
 msgstr "Corresponder"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:219
+#: ../gnomemusic/widgets.py:440 ../gnomemusic/window.py:291
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d item selecionado"
 msgstr[1] "%d itens selecionados"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:221
+#: ../gnomemusic/widgets.py:442 ../gnomemusic/window.py:295
+#: ../gnomemusic/window.py:307 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Clique nos itens para selecioná-los"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1580
+#: ../gnomemusic/view.py:284 ../gnomemusic/view.py:1536
 msgid "Albums"
 msgstr "Álbuns"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1582
+#: ../gnomemusic/view.py:366 ../gnomemusic/view.py:1538
 msgid "Songs"
 msgstr "Músicas"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1581
+#: ../gnomemusic/view.py:529 ../gnomemusic/view.py:1537
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:452
+#: ../gnomemusic/view.py:575 ../gnomemusic/view.py:577
+#: ../gnomemusic/widgets.py:449
 msgid "All Artists"
 msgstr "Todos artistas"
 
-#: ../gnomemusic/view.py:798 ../gnomemusic/view.py:1583
+#: ../gnomemusic/view.py:746 ../gnomemusic/view.py:1539
 msgid "Playlists"
 msgstr "Listas de reprodução"
 
-#: ../gnomemusic/view.py:1122
+#: ../gnomemusic/view.py:1070
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d música"
 msgstr[1] "%d músicas"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:267 ../gnomemusic/widgets.py:305
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:689
+#: ../gnomemusic/widgets.py:681
 msgid "New Playlist"
 msgstr "Nova lista de reprodução"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:239
 msgid "Empty"
 msgstr "Vazio"
 
@@ -419,6 +426,10 @@ msgstr "Nome da lista de reprodução"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Selecionar lista de reprodução"
+
+# Manter "the" para nomes em inglês e "o" e "a" para nomes em português
+#~ msgid "the"
+#~ msgstr "the o a"
 
 #~ msgid ""
 #~ "No Music found!\n"
