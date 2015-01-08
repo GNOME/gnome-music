@@ -785,6 +785,7 @@ class Playlist(ViewContainer):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN
         )
+
         self.playlists_sidebar.set_view_type(Gd.MainViewType.LIST)
         self.playlists_sidebar.set_model(self.playlists_model)
         self.playlists_sidebar.set_hexpand(False)
@@ -807,7 +808,10 @@ class Playlist(ViewContainer):
         self.iter_to_clean = None
         self.iter_to_clean_model = None
         self.current_playlist = None
+        self.pl_todelete = None
+        self.really_delete = True
         self.songs_count = 0
+        self.window = window
         self._update_songs_count()
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
@@ -1114,7 +1118,7 @@ class Playlist(ViewContainer):
                        self._model.get_path(_iter))
 
     @log
-    def _on_delete_activate(self, menuitem, data=None):
+    def delete_selected_playlist(self):
         self._model.clear()
         _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
         if not _iter:
@@ -1129,8 +1133,17 @@ class Playlist(ViewContainer):
                                         self.playlists_model.get_path(iter_next))
 
         playlist = self.playlists_model.get_value(_iter, 5)
-        playlists.delete_playlist(playlist)
+        self.pl_todelete = playlist
         self.playlists_model.remove(_iter)
+
+    @log
+    def undo_playlist(self):
+        self._add_playlist_item_to_model(self.pl_todelete)
+
+    @log
+    def _on_delete_activate(self, menuitem, data=None):
+        self.window._init_notification()
+        self.delete_selected_playlist()
 
     @log
     def _on_playlist_created(self, playlists, item):

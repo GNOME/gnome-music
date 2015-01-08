@@ -31,6 +31,7 @@
 
 
 from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
+from gi.repository import Gd
 from gettext import gettext as _, ngettext
 
 from gnomemusic.toolbar import Toolbar, ToolbarState
@@ -308,6 +309,38 @@ class Window(Gtk.ApplicationWindow):
         self._stack.get_visible_child().queue_draw()
 
     @log
+    def _init_notification(self):
+        self.notification = Gd.Notification()
+        self.notification.set_timeout(20)
+
+        grid = Gtk.Grid()
+        grid.set_column_spacing(8)
+        self.notification.add(grid)
+
+        undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
+        label = _("Playlist %s removed" %(
+            self.views[3].current_playlist.get_title()))
+        grid.add(Gtk.Label.new(label))
+        grid.add(undo_button)
+
+        self.notification.show_all()
+        self._overlay.add_overlay(self.notification)
+
+        self.notification.connect("dismissed", self._notification_dismissed)
+        undo_button.connect("clicked", self._undo_deletion)
+
+    @log
+    def _notification_dismissed(self, widget):
+        if self.views[3].really_delete:
+            Views.playlists.delete_playlist(self.views[3].pl_todelete)
+
+    @log
+    def _undo_deletion(self, widget):
+        self.views[3].really_delete = False
+        self.notification.dismiss()
+        self.views[3].undo_playlist()
+
+    @log
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         event_and_modifiers = (event.state & modifiers)
@@ -324,6 +357,10 @@ class Window(Gtk.ApplicationWindow):
                     self.curr_view.set_visible_child(self.curr_view._grid)
                     self.toolbar.set_state(ToolbarState.MAIN)
         else:
+            if (event.keyval == Gdk.KEY_Delete):
+                if self._stack.get_visible_child() == self.views[3]:
+                    self._init_notification()
+                    self.views[3].delete_selected_playlist()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
                 self.toolbar.searchbar.show_bar(False)
