@@ -1,0 +1,411 @@
+# Friulian translation for gnome-music.
+# Copyright (C) 2015 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Fabio Tomat <f.t.public@gmail.com>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-01-01 07:57+0000\n"
+"PO-Revision-Date: 2015-01-11 11:20+0100\n"
+"Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
+"Language-Team: Friulian <fur@li.org>\n"
+"Language: fur\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Dimension barcon"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Dimension barcon (largjece e altece)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Posizion barcon"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Posizion barcon (x e y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Barcon slargjât"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Stât barcon slargjât."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Modalitât ripetizion"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Il valôr al specifiche se ripeti o riprodusi a câs le colezion. I valôrs "
+"acetâts a son: \"none\" (ripetizion e messedât a son studâts), \"song"
+"\" (ripetizion de cjançon atuâl), \"all\" (ripetizion de liste des cjançons, "
+"cence messedâ),\"shuffle\" (messedâ l'ordin de liste des cjançons, a si "
+"intint ancje ripetizion di dutis)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Modalitât di ricercje"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Se vêr, la sbare di ricercje a ven mostrade."
+
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Modalitât di notificazion"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Abilite o no lis notificazions di riproduzion"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"Numar massim di caratars di mostrâ tal non de cjançon inte visualizazion "
+"Artist"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Cheste impostazion a cambie il cuantitatîf di caratars par il titul de "
+"cjançon inte visualizazion Artist prime che al sedi mitût intun elìs. Met "
+"chest valôr come -1 par no abilitâ"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musiche"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Letôr musicâl"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Sune e organize le tô colezion di musichis"
+
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Musiche;Riprodutôr;"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musiche"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musiche a je le gnove aplicazion GNOME par riprodusi musiche."
+
+#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+msgid "Untitled"
+msgstr "Cence Titul"
+
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:401 ../gnomemusic/view.py:571
+#: ../gnomemusic/view.py:962 ../gnomemusic/view.py:1336
+msgid "Unknown Album"
+msgstr "Album no cognossût"
+
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:392 ../gnomemusic/view.py:283
+#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
+#: ../gnomemusic/view.py:1110 ../gnomemusic/view.py:1334
+#: ../gnomemusic/view.py:1365 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:575
+msgid "Unknown Artist"
+msgstr "Artist no cognossût"
+
+#: ../gnomemusic/notification.py:89
+#, fuzzy
+msgid "Not playing"
+msgstr "Cuiet"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:104
+#, python-format
+msgid "by %s, from %s"
+msgstr "di %s, dal album %s"
+
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+msgid "Previous"
+msgstr "Precedent"
+
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:349
+msgid "Pause"
+msgstr "Pause"
+
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:352
+#: ../data/PlayerToolbar.ui.h:6
+msgid "Play"
+msgstr "Sune"
+
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+msgid "Next"
+msgstr "Prossim"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:59
+msgid "the"
+msgstr ""
+
+#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
+msgid "All"
+msgstr "Dut"
+
+#: ../gnomemusic/searchbar.py:58
+msgid "Artist"
+msgstr "Artist"
+
+#: ../gnomemusic/searchbar.py:59
+msgid "Album"
+msgstr "Album"
+
+#: ../gnomemusic/searchbar.py:60
+msgid "Track Title"
+msgstr "Titul"
+
+#: ../gnomemusic/searchbar.py:101
+msgid "Local"
+msgstr "Locâl"
+
+#: ../gnomemusic/searchbar.py:203
+msgid "Sources"
+msgstr "Sorzints"
+
+#: ../gnomemusic/searchbar.py:210
+msgid "Match"
+msgstr "Corispuindince"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Selezionât %d element"
+msgstr[1] "Selezionâts %d elements"
+
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
+#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Cliche sui elements par selezionaju"
+
+#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1580
+msgid "Albums"
+msgstr "Album"
+
+#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1582
+msgid "Songs"
+msgstr "Cjancçons"
+
+#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1581
+msgid "Artists"
+msgstr "Artiscj"
+
+#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
+#: ../gnomemusic/widgets.py:452
+msgid "All Artists"
+msgstr "Ducj i artiscj"
+
+#: ../gnomemusic/view.py:798 ../gnomemusic/view.py:1583
+msgid "Playlists"
+msgstr "Listis di musichis"
+
+#: ../gnomemusic/view.py:1122
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d cjançon"
+msgstr[1] "%d Cjançons"
+
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
+
+#: ../gnomemusic/widgets.py:689
+msgid "New Playlist"
+msgstr "Gnove liste di musichis"
+
+#: ../gnomemusic/window.py:232
+msgid "Empty"
+msgstr "Vueit"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Copyright © 2013 GNOME Music Developers"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Une aplicazion GNOME par sunâ e ministrâ le proprie musiche."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Visite il sît di GNOME Musiche"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Publicât"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Durade"
+
+#: ../data/app-menu.ui.h:1
+msgid "_New Playlist"
+msgstr "_Gnove liste di musichis"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "_Jutori"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "_Informazions"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Jes"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Messede"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Ripet dut"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Ripet cjançon"
+
+#: ../data/PlayerToolbar.ui.h:4
+msgid "Shuffle/Repeat Off"
+msgstr "Messede/ripet studâts"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "Nissune musiche cjatade"
+
+#: ../data/NoMusic.ui.h:2
+msgid "The contents of your music folder will appear here."
+msgstr "Il contignût de tô cartele di musiche al vegnarà mostrât a chi."
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Selezione dut"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Selezione nuie"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Cîr"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Selezione"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Anule"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Torne indaûr"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Zonte ae liste des musichis"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Gjave de liste des musichis"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Sune"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Scancele"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Non de liste des musichis"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Selezione liste des musichis"
