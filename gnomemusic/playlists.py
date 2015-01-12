@@ -82,12 +82,12 @@ class Playlists(GObject.GObject):
 
         def update_callback(conn, res, data):
             playlist_urn = conn.update_blank_finish(res)[0][0]['playlist']
-            self.trackerquery_async(
+            self.tracker.query_async(
                 Query.get_playlist_with_urn(playlist_urn),
                 None, query_callback, None
             )
 
-        self.trackerupdate_blank_async(
+        self.tracker.update_blank_async(
             Query.create_playlist(name), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
@@ -98,7 +98,7 @@ class Playlists(GObject.GObject):
             conn.update_finish(res)
             self.emit('playlist-deleted', item)
 
-        self.trackerupdate_async(
+        self.tracker.update_async(
             Query.delete_playlist(item.get_id()), GLib.PRIORITY_DEFAULT,
             None, update_callback, None
         )
@@ -120,7 +120,7 @@ class Playlists(GObject.GObject):
 
         def update_callback(conn, res, data):
             entry_urn = conn.update_blank_finish(res)[0][0]['entry']
-            self.trackerquery_async(
+            self.tracker.query_async(
                 Query.get_playlist_song_with_urn(entry_urn),
                 None, query_callback, None
             )
@@ -129,7 +129,7 @@ class Playlists(GObject.GObject):
             uri = item.get_url()
             if not uri:
                 continue
-            self.trackerupdate_blank_async(
+            self.tracker.update_blank_async(
                 Query.add_song_to_playlist(playlist.get_id(), uri),
                 GLib.PRIORITY_DEFAULT,
                 None, update_callback, None
@@ -142,7 +142,7 @@ class Playlists(GObject.GObject):
             self.emit('song-removed-from-playlist', playlist, data)
 
         for item in items:
-            self.trackerupdate_async(
+            self.tracker.update_async(
                 Query.remove_song_from_playlist(
                     playlist.get_id(), item.get_id()
                 ),
