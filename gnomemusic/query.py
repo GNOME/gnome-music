@@ -989,7 +989,7 @@ class Query():
         #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
         #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
 
-        days_difference = 3  # currently hardcoding time interval of 3 days
+        days_difference = 7  # currently hardcoding time interval of 3 days
         seconds_difference = days_difference * SECONDS_PER_DAY
         compare_date = time.strftime(
             sparql_midnight_dateTime_format, time.gmtime(time.time() - seconds_difference))
