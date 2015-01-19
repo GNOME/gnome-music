@@ -29,6 +29,7 @@
 from gi.repository import Grl, GLib, GObject
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
+from gettext import gettext as _
 import inspect
 import time
 sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
@@ -43,19 +44,22 @@ class StaticPlaylists:
         ID = None
         QUERY = Query.get_most_played_songs()
         TAG_TEXT = "MOST_PLAYED"
-        TITLE = "Most Played"  # Will eventually be translated
+        # TRANSLATORS: this is a playlist name
+        TITLE = _("Most Played")
 
     class NeverPlayed:
         ID = None
         QUERY = Query.get_never_played_songs()
         TAG_TEXT = "NEVER_PLAYED"
-        TITLE = "Never Played"  # Will eventually be translated
+        # TRANSLATORS: this is a playlist name
+        TITLE = _("Never Played")
 
     class RecentlyPlayed:
         ID = None
         QUERY = Query.get_recently_played_songs()
         TAG_TEXT = "RECENTLY_PLAYED"
-        TITLE = "Recently Played"  # Will eventually be translated
+        # TRANSLATORS: this is a playlist name
+        TITLE = _("Recently Played")
 
 
 class Playlists(GObject.GObject):
@@ -103,9 +107,6 @@ class Playlists(GObject.GObject):
             if not playlist.ID:
                 # create the playlist
                 playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
-
-        # then update all smart playlists
-        self.update_most_played_playlist()
 
     @log
     def clear_playlist_with_id(self, playlist_id):
