@@ -2,6 +2,24 @@ Overview of changes in 3.14.2
 =============================
 
 * Bugs fixed:
+ 740330 Album view - music icons are badly rendered
+ 740524 Missing license headers in playlists.py and searchbar.py
+ 731639 The pictures have different proportions, influencing the effect of alignment
+ 729459 under Artists, tracks in the same album are very far apart from each other
+ 740490 Music "forgets" search string, but search results remain
+ 731613 gnome-music-3.12.2 fails to start if xdg default directories are not created
+ 726459 Crash on playlist tabs when new media has been scanned
+ 733686 Gnome music will not launch
+ 742123 Hitting 'cancel' while creating new playlist crashes program
+ 743042 Gstreamer error messages should be more detailed
+ 729376 New Playlist in application menu doesn't do anything
+
+* Updated translations and help files
+
+Overview of changes in 3.14.2
+=============================
+
+* Bugs fixed:
  734513 play/pause is activated twice when pressing spacebar and play/pause button is active/selected
 
 * Updated translations and help files
