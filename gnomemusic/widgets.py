@@ -352,14 +352,21 @@ class ArtistAlbums(Gtk.Box):
         self._songsGridSizeGroup = Gtk.SizeGroup.new(Gtk.SizeGroupMode.HORIZONTAL)
         self.pack_start(self._scrolledWindow, True, True, 0)
 
-        for album in albums:
-            self.add_album(album)
+        self.hide()
 
-        self.show_all()
+        for album in albums:
+            is_last_album = False
+            if album == albums[-1]:
+                is_last_album = True
+            self.add_album(album, is_last_album)
+
         self.player.connect('playlist-item-changed', self.update_model)
 
+    def _on_last_album_displayed(self, data=None):
+        self.show_all()
+
     @log
-    def add_album(self, album):
+    def add_album(self, album, is_last_album=False):
         widget = ArtistAlbumWidget(
             self.artist, album, self.player, self.model,
             self.header_bar, self.selectionModeAllowed
@@ -368,6 +375,9 @@ class ArtistAlbums(Gtk.Box):
         self._songsGridSizeGroup.add_widget(widget.songsGrid)
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
+
+        if is_last_album:
+            widget.connect('tracks-loaded', self._on_last_album_displayed)
 
     @log
     def update_model(self, player, playlist, currentIter):
@@ -470,6 +480,10 @@ class AllArtistsAlbums(ArtistAlbums):
 
 class ArtistAlbumWidget(Gtk.Box):
 
+    __gsignals__ = {
+        'tracks-loaded': (GObject.SIGNAL_RUN_FIRST, None, ()),
+    }
+
     loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
     noArtworkIcon = ALBUM_ART_CACHE.get_default_icon(128, 128, False)
 
@@ -500,7 +514,7 @@ class ArtistAlbumWidget(Gtk.Box):
                 str(album.get_creation_date().get_year())
             )
         self.tracks = []
-        GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
+        grilo.populate_album_songs(album, self.add_item)
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
     @log
@@ -515,6 +529,10 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def add_item(self, source, prefs, track, remaining, data=None):
+        if remaining == 0:
+            self.songsGrid.show_all()
+            self.emit("tracks-loaded")
+
         if track:
             self.tracks.append(track)
         else:
@@ -560,7 +578,6 @@ class ArtistAlbumWidget(Gtk.Box):
                 song_widget.can_be_played = True
                 song_widget.connect('button-release-event',
                                     self.track_selected)
-            self.songsGrid.show_all()
 
     @log
     def _update_album_art(self):
