@@ -247,7 +247,7 @@ class AlbumArtCache:
                     self.blacklist[artist] = []
                 self.blacklist[artist].append(album)
 
-                logger.warn("can't find URL for album '%s' by %s" % (album, artist))
+                logger.warn("can't find artwork for album '%s' by %s" % (album, artist))
                 noArtworkIcon = self.get_default_icon(width, height, False)
                 self.finish(item, noArtworkIcon, None, callback, itr)
                 return
