@@ -2,12 +2,6 @@
   <menu id="app-menu">
     <section>
       <item>
-        <attribute name="action">app.newPlaylist</attribute>
-        <attribute name="label" translatable="yes">_New Playlist</attribute>
-      </item>
-    </section>
-    <section>
-      <item>
         <attribute name="label" translatable="yes">_Help</attribute>
         <attribute name="action">app.help</attribute>
         <attribute name="accel">F1</attribute>
