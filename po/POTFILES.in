@@ -12,6 +12,7 @@ gnomemusic/grilo.py
 gnomemusic/mpris.py
 gnomemusic/notification.py
 gnomemusic/player.py
+gnomemusic/playlists.py
 gnomemusic/query.py
 gnomemusic/searchbar.py
 gnomemusic/toolbar.py
