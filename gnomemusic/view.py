@@ -369,7 +369,10 @@ class Albums(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        _iter = self._model.get_iter(path)
+        try:
+            _iter = self._model.get_iter(path)
+        except TypeError:
+            return
         title = self._model.get_value(_iter, 2)
         artist = self._model.get_value(_iter, 3)
         item = self._model.get_value(_iter, 5)
@@ -454,7 +457,10 @@ class Songs(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        _iter = self._model.get_iter(path)
+        try:
+            _iter = self._model.get_iter(path)
+        except TypeError:
+            return
         if self._model.get_value(_iter, 8) != self.errorIconName:
             self.player.set_playlist('Songs', None, self._model, _iter, 5)
             self.player.set_playing(True)
@@ -664,7 +670,10 @@ class Artists (ViewContainer):
 
     @log
     def _on_item_activated(self, widget, item_id, path):
-        _iter = self._model.get_iter(path)
+        try:
+            _iter = self._model.get_iter(path)
+        except TypeError:
+            return
         self._last_selection = _iter
         artist = self._model.get_value(_iter, 2)
         albums = self._artists[artist.casefold()]['albums']
@@ -999,7 +1008,10 @@ class Playlist(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        _iter = self._model.get_iter(path)
+        try:
+            _iter = self._model.get_iter(path)
+        except TypeError:
+            return
         if self._model.get_value(_iter, 8) != self.errorIconName:
             self.player.set_playlist(
                 'Playlist', self.current_playlist.get_id(),
@@ -1235,7 +1247,10 @@ class Search(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        child_path = self.filter_model.convert_path_to_child_path(path)
+        try:
+            child_path = self.filter_model.convert_path_to_child_path(path)
+        except TypeError:
+            return
         _iter = self._model.get_iter(child_path)
         if self._model[_iter][11] == 'album':
             title = self._model.get_value(_iter, 2)
