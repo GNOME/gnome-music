@@ -58,6 +58,7 @@ class AlbumWidget(Gtk.EventBox):
     tracks = []
     duration = 0
     loadingIcon = ALBUM_ART_CACHE.get_default_icon(256, 256, True)
+    noArtworkIcon = ALBUM_ART_CACHE.get_default_icon(256, 256, False)
 
     @log
     def __init__(self, player):
@@ -269,10 +270,11 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_look_up(self, pixbuf, path, data=None):
         _iter = self.iterToClean
-        if pixbuf:
-            self.ui.get_object('cover').set_from_pixbuf(pixbuf)
-            if _iter:
-                self.model.set(_iter, [4], [pixbuf])
+        if not pixbuf:
+            pixbuf = self.noArtworkIcon
+        self.ui.get_object('cover').set_from_pixbuf(pixbuf)
+        if _iter:
+            self.model.set(_iter, [4], [pixbuf])
 
     @log
     def update_model(self, player, playlist, currentIter):
@@ -469,6 +471,7 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.Box):
 
     loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
+    noArtworkIcon = ALBUM_ART_CACHE.get_default_icon(128, 128, False)
 
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
@@ -570,8 +573,9 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _get_album_cover(self, pixbuf, path, data=None):
-        if pixbuf:
-            self.cover.set_from_pixbuf(pixbuf)
+        if not pixbuf:
+            pixbuf = self.noArtworkIcon
+        self.cover.set_from_pixbuf(pixbuf)
 
     @log
     def track_selected(self, widget, event):
