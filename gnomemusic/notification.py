@@ -58,9 +58,9 @@ class NotificationManager:
         nChannels = self._noArtworkIcon.get_n_channels()
         data = self._noArtworkIcon.get_pixels()
 
-        self._noArtworkIconSerialized = GLib.Variant('(iiibiiay)',
-                                                    (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha,
-                                                     bitsPerSample, nChannels, data))
+        self._noArtworkIconSerialized = GLib.Variant(
+            '(iiibiiay)',
+            (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha, bitsPerSample, nChannels, data))
 
         self._player.connect('playing-changed', self._on_playing_changed)
         self._player.connect('current-changed', self._update_track)

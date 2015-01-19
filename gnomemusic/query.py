@@ -61,18 +61,19 @@ class Query():
         """Returns a SPARQL ORDER BY statement sorting by the given attribute, ignoring
             articles as defined in _("the"). 'Attr' should be given without parentheses,
             e.g., "attr='?author'"."""
-        return_statement = "fn:lower-case(%(attribute)s)" % {'attribute' : attr }
+        return_statement = "fn:lower-case(%(attribute)s)" % {'attribute': attr}
         # TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-            # (such as 'the') that should be ignored when alphabetizing artists/albums. This
-            # list should include 'the' regardless of language. If some articles occur more
-            # frequently than others, most common should appear first, least common last.
+        # (such as 'the') that should be ignored when alphabetizing artists/albums. This
+        # list should include 'the' regardless of language. If some articles occur more
+        # frequently than others, most common should appear first, least common last.
         for article in reversed(_("the a an").split(" ")):
             return_statement = '''IF(fn:starts-with(fn:lower-case(%(attribute)s), "%(article)s"),
             fn:substring(fn:lower-case(%(attribute)s), %(substr_start)s),
-            %(nested_if)s)''' % {'attribute' : attr,
-                'article' : article+" ",
-                'substr_start' : str(len(article)+2),
-                'nested_if' : return_statement }
+            %(nested_if)s)''' % {
+                'attribute': attr,
+                'article': article + " ",
+                'substr_start': str(len(article) + 2),
+                'nested_if': return_statement}
         return return_statement
 
     @staticmethod
@@ -254,8 +255,8 @@ class Query():
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
             'download_dir': Query.DOWNLOAD_URI,
-            'album_order' : Query.order_by_statement("?title"),
-            'artist_order' : Query.order_by_statement("?author")
+            'album_order': Query.order_by_statement("?title"),
+            'artist_order': Query.order_by_statement("?author")
         }
 
         return query
@@ -408,7 +409,7 @@ class Query():
             'music_dir': Query.MUSIC_URI,
             'download_dir': Query.DOWNLOAD_URI,
             'artist_order': Query.order_by_statement("?author"),
-            'album_order' : Query.order_by_statement("nie:title(?album)")
+            'album_order': Query.order_by_statement("nie:title(?album)")
         }
 
         return query
@@ -905,7 +906,6 @@ class Query():
 
         return Query.playlists(query)
 
-
     @staticmethod
     def get_playlist_with_urn(playlist_urn):
         query = """
@@ -988,10 +988,11 @@ class Query():
     def get_recently_played_songs():
         #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
         #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
-        
-        days_difference = 3 # currently hardcoding time interval of 3 days
+
+        days_difference = 3  # currently hardcoding time interval of 3 days
         seconds_difference = days_difference * SECONDS_PER_DAY
-        compare_date = time.strftime(sparql_midnight_dateTime_format, time.gmtime(time.time()-seconds_difference))
+        compare_date = time.strftime(
+            sparql_midnight_dateTime_format, time.gmtime(time.time() - seconds_difference))
 
         query = """
         SELECT ?url
@@ -1005,7 +1006,6 @@ class Query():
         """.replace('\n', ' ').strip() % {'compare_date': compare_date}
 
         return query
-
 
     # Functions for search
     # TODO: make those queries actually return something

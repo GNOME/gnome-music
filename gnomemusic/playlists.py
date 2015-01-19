@@ -26,7 +26,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Grl, GLib, GObject, Gio, Tracker
+from gi.repository import Grl, GLib, GObject
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 import inspect
@@ -43,17 +43,19 @@ class StaticPlaylists:
         ID = None
         QUERY = Query.get_most_played_songs()
         TAG_TEXT = "MOST_PLAYED"
-        TITLE = "Most Played" # Will eventually be translated
+        TITLE = "Most Played"  # Will eventually be translated
+
     class NeverPlayed:
         ID = None
         QUERY = Query.get_never_played_songs()
         TAG_TEXT = "NEVER_PLAYED"
-        TITLE = "Never Played" # Will eventually be translated
+        TITLE = "Never Played"  # Will eventually be translated
+
     class RecentlyPlayed:
         ID = None
         QUERY = Query.get_recently_played_songs()
         TAG_TEXT = "RECENTLY_PLAYED"
-        TITLE = "Recently Played" # Will eventually be translated
+        TITLE = "Recently Played"  # Will eventually be translated
 
 
 class Playlists(GObject.GObject):
@@ -89,12 +91,14 @@ class Playlists(GObject.GObject):
     @log
     def fetch_or_create_static_playlists(self):
         """For all static playlists: get ID, if exists; if not, create the playlist and get ID."""
-        for playlist in [cls for name, cls in inspect.getmembers(StaticPlaylists) if inspect.isclass(cls) \
-        and not (name  == "__class__")]: # hacky
+        playlists = [cls for name, cls in inspect.getmembers(StaticPlaylists)
+                     if inspect.isclass(cls) and not (name == "__class__")]  # hacky
+
+        for playlist in playlists:
             cursor = self.tracker.query(Query.get_playlist_with_tag(playlist.TAG_TEXT), None)
             while cursor.next():
                 playlist_id = cursor.get_string(1)[0]
-                playlist.ID = int(playlist_id) # hacky; shouldn't be reassigned every time
+                playlist.ID = int(playlist_id)  # hacky; shouldn't be reassigned every time
 
             if not playlist.ID:
                 # create the playlist
@@ -112,8 +116,8 @@ class Playlists(GObject.GObject):
     def update_playcount(self, song_url):
         query = Query.update_playcount(song_url)
         self.tracker.update(query, GLib.PRIORITY_DEFAULT, None)
-        self.update_all_static_playlists() # not the best place to put this func;
-            # maybe a 'scrobble' func that updates playcount & last played and then updates playlists?
+        self.update_all_static_playlists()  # not the best place to put this func;
+        # maybe a 'scrobble' func that updates playcount & last played and then updates playlists?
 
     @log
     def update_last_played(self, song_url):
@@ -125,7 +129,7 @@ class Playlists(GObject.GObject):
         """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
         # Clear the playlist
         self.clear_playlist_with_id(playlist.ID)
-        
+
         # Get a list of matching songs
         cursor = self.tracker.query(playlist.QUERY, None)
         if not cursor:
@@ -144,8 +148,10 @@ class Playlists(GObject.GObject):
         self.emit('playlist-updated', playlist.ID)
 
     def update_all_static_playlists(self):
-        for playlist in [cls for name, cls in inspect.getmembers(StaticPlaylists) if inspect.isclass(cls) \
-        and not (name  == "__class__")]: # hacky
+        playlists = [cls for name, cls in inspect.getmembers(StaticPlaylists)
+                     if inspect.isclass(cls) and not (name == "__class__")]  # hacky
+
+        for playlist in playlists:
             self.update_static_playlist(playlist)
 
     @log
