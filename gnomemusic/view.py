@@ -208,8 +208,11 @@ class ViewContainer(Gtk.Stack):
     @log
     def _on_discovered(self, info, error, _iter):
         if error:
-            print("Info %s: error: %s" % (info, error))
-            self._model.set(_iter, [8, 10], [self.errorIconName, True])
+            try:
+                logger.warn("File will be skipped: %s\n%s" % (error.message, info.get_uri()))
+                self._model.set(_iter, [8, 10], [self.errorIconName, True])
+            except Exception:
+                pass
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -231,7 +234,7 @@ class ViewContainer(Gtk.Stack):
                 try:
                     self.player.discoverer.discover_uri(item.get_url())
                 except:
-                    print('failed to discover url ' + item.get_url())
+                    logger.warn('failed to discover url ' + item.get_url())
                     icon_name = self.errorIconName
             self._model.set(_iter,
                             [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
