@@ -1,3 +1,33 @@
+Overview of changes in 3.15.4
+=============================
+
+* Smart playlists - Most Played, Never Played, Recently Played
+  The list is not yet final, stay tuned. Note that we use Last.fm's way
+  to count song as 'played' - more than 40% of song content should be played.
+* Chunked loading was removed - scrolling should be faster
+* Content is now hidden before fully loaded - notification on the progress will
+  land in master in next version.
+* Playlists are remvoed after time out, removal can be undone
+* Dependency cnahge: libmediaart-2.0.pc is now required
+* Replaygain tags are now supported
+* Overall performance fixes
+
+* Bugs fixed:
+ 729376 New Playlist in application menu doesn't do anything
+ 704257 Visible content loading
+ 742603 Regression: empty covers are oversized in playbar, still 'in-progress' on artists view
+ 742451 Support Undo when removing playlists
+ 733686 Gnome music will not launch
+ 726459 Crash on playlist tabs when new media has been scanned
+ 702519 Smart playlists
+ 742800 Playlist broken due to typo
+ 742123 Hitting 'cancel' while creating new playlist crashes program
+ 731613 gnome-music-3.12.2 fails to start if xdg default directories are not created
+ 742011 Query: add a/an to articles
+ 730269  ReplayGain support?
+
+* Updated translations and help files
+
 Overview of changes in 3.15.2
 =============================
 
