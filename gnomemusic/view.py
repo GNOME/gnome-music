@@ -825,6 +825,10 @@ class Playlist(ViewContainer):
         self.show_all()
 
     @log
+    def _on_changes_pending(self, data=None):
+        playlists.update_all_static_playlists()
+
+    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
         cols = list_widget.get_columns()
