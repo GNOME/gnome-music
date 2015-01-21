@@ -115,6 +115,8 @@ class Playlists(GObject.GObject):
                 # create the playlist
                 playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
 
+            self.update_static_playlist(playlist)
+
     @log
     def clear_playlist_with_id(self, playlist_id):
         query = Query.clear_playlist_with_id(playlist_id)
