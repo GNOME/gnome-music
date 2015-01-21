@@ -124,8 +124,6 @@ class Playlists(GObject.GObject):
     def update_playcount(self, song_url):
         query = Query.update_playcount(song_url)
         self.tracker.update(query, GLib.PRIORITY_DEFAULT, None)
-        self.update_all_static_playlists()  # not the best place to put this func;
-        # maybe a 'scrobble' func that updates playcount & last played and then updates playlists?
 
     @log
     def update_last_played(self, song_url):

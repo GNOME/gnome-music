@@ -686,6 +686,7 @@ class Player(GObject.GObject):
                     self.scrobbled = True
                     playlists.update_playcount(just_played_url)
                     playlists.update_last_played(just_played_url)
+                    playlists.update_all_static_playlists()
             except Exception as e:
                 logger.warn("Error: %s, %s" % (e.__class__, e))
         return True
