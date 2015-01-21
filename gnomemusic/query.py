@@ -958,7 +958,7 @@ class Query():
 
     @staticmethod
     def get_most_played_songs():
-        # TODO: set playlist size somewhere? Currently default is 5, this is probably too low...
+        # TODO: set playlist size somewhere? Currently default is 50.
         query = """
         SELECT ?url
         WHERE {
@@ -986,23 +986,45 @@ class Query():
         return query
 
     def get_recently_played_songs():
+            #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
+            #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
+
+            days_difference = 7  # currently hardcoding time interval of 7 days
+            seconds_difference = days_difference * SECONDS_PER_DAY
+            compare_date = time.strftime(
+                sparql_midnight_dateTime_format, time.gmtime(time.time() - seconds_difference))
+
+            query = """
+            SELECT ?url
+            WHERE {
+                ?song a nmm:MusicPiece ;
+                    nie:isStoredAs ?as ;
+                    nfo:fileLastAccessed ?last_played .
+                ?as nie:url ?url .
+                FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime )
+                FILTER ( EXISTS { ?song nie:usageCounter ?count .} )
+            } ORDER BY DESC(?last_played)
+            """.replace('\n', ' ').strip() % {'compare_date': compare_date}
+
+            return query
+
+    def get_recently_added_songs():
         #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
         #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
-
-        days_difference = 7  # currently hardcoding time interval of 3 days
+        
+        days_difference = 7 # currently hardcoding time interval of 7 days
         seconds_difference = days_difference * SECONDS_PER_DAY
-        compare_date = time.strftime(
-            sparql_midnight_dateTime_format, time.gmtime(time.time() - seconds_difference))
+        compare_date = time.strftime(sparql_midnight_dateTime_format, time.gmtime(time.time()-seconds_difference))
 
         query = """
         SELECT ?url
         WHERE {
             ?song a nmm:MusicPiece ;
                 nie:isStoredAs ?as ;
-                nfo:fileLastAccessed ?last_played .
+                tracker:added ?added .
             ?as nie:url ?url .
-            FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime )
-        } ORDER BY DESC(?last_played)
+            FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime )
+        } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {'compare_date': compare_date}
 
         return query

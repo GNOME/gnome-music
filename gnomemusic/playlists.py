@@ -61,6 +61,13 @@ class StaticPlaylists:
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Played")
 
+    class RecentlyAdded:
+        ID = None
+        QUERY = Query.get_recently_added_songs()
+        TAG_TEXT = "RECENTLY_ADDED"
+        # TRANSLATORS: this is a playlist name
+        TITLE = _("Recently Added")
+
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
