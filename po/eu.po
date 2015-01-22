@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-06 20:45+0100\n"
-"PO-Revision-Date: 2015-01-06 20:48+0100\n"
+"POT-Creation-Date: 2015-01-22 21:56+0100\n"
+"PO-Revision-Date: 2015-01-22 21:58+0100\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
 "Language-Team: Basque <librezale@librezale.org>\n"
 "Language: eu\n"
@@ -99,8 +99,12 @@ msgstr "Gaitu 'ReplayGain' (erreprodukzioaren irabazia)"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Albumen erreprodukzioen irabazia (ReplayGain) gaitzen/desgaitzen du"
 
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Internal: id for most played playlist"
+msgstr "Barnekoa: gehien erreproduzitutako zerrendaren IDa"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:63
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musika"
@@ -130,17 +134,17 @@ msgid "Untitled"
 msgstr "Izengabea"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:448 ../gnomemusic/view.py:522
-#: ../gnomemusic/view.py:920 ../gnomemusic/view.py:1293
+#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:521
+#: ../gnomemusic/view.py:927 ../gnomemusic/view.py:1329
 msgid "Unknown Album"
 msgstr "Album ezezaguna"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:439 ../gnomemusic/view.py:233
-#: ../gnomemusic/view.py:431 ../gnomemusic/view.py:672
-#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
-#: ../gnomemusic/view.py:1325 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:577
+#: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:674
+#: ../gnomemusic/view.py:1092 ../gnomemusic/view.py:1327
+#: ../gnomemusic/view.py:1361 ../gnomemusic/widgets.py:179
+#: ../gnomemusic/widgets.py:586
 msgid "Unknown Artist"
 msgstr "Artista ezezaguna"
 
@@ -158,11 +162,11 @@ msgstr "'%s'(e)k,  '%s'(e)n"
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:396
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:398
 msgid "Pause"
 msgstr "Pausarazi"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:399
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:401
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Erreproduzitu"
@@ -171,96 +175,125 @@ msgstr "Erreproduzitu"
 msgid "Next"
 msgstr "Hurrengoa"
 
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:48
+msgid "Most Played"
+msgstr "Gehien erreproduzitua"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:55
+msgid "Never Played"
+msgstr "Inoiz erreproduzitu gabea"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:62
+msgid "Recently Played"
+msgstr "Duela gutxi erreproduzitua"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:69
+msgid "Recently Added"
+msgstr "Duela gutxi gehituta"
+
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:65
+#: ../gnomemusic/query.py:69
 msgid "the a an"
 msgstr "the a an los las un"
 
-#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Denak"
 
-#: ../gnomemusic/searchbar.py:58
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Artista"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Albuma"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Pistaren titulua"
 
-#: ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Lokala"
 
-#: ../gnomemusic/searchbar.py:203
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Iturburuak"
 
-#: ../gnomemusic/searchbar.py:210
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Parekatu"
 
-#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:289
+#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:220
+#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:292
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Elementu %d hautatuta"
 msgstr[1] "%d elementu hautatuta"
 
-#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:293
-#: ../gnomemusic/window.py:305 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:296
+#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
-#: ../gnomemusic/view.py:294 ../gnomemusic/view.py:1546
+#: ../gnomemusic/view.py:287 ../gnomemusic/view.py:1586
 msgid "Albums"
 msgstr "Albumak"
 
-#: ../gnomemusic/view.py:376 ../gnomemusic/view.py:1548
+#: ../gnomemusic/view.py:372 ../gnomemusic/view.py:1588
 msgid "Songs"
 msgstr "Abestiak"
 
-#: ../gnomemusic/view.py:539 ../gnomemusic/view.py:1547
+#: ../gnomemusic/view.py:538 ../gnomemusic/view.py:1587
 msgid "Artists"
 msgstr "Artistak"
 
-#: ../gnomemusic/view.py:585 ../gnomemusic/view.py:587
-#: ../gnomemusic/widgets.py:452
+#: ../gnomemusic/view.py:584 ../gnomemusic/view.py:586
+#: ../gnomemusic/widgets.py:461
 msgid "All Artists"
 msgstr "Artista guztiak"
 
-#: ../gnomemusic/view.py:756 ../gnomemusic/view.py:1549
+#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1589
 msgid "Playlists"
 msgstr "Erreprodukzio-zerrendak"
 
-#: ../gnomemusic/view.py:1080
+#: ../gnomemusic/view.py:1104
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "Abesti %d"
 msgstr[1] "%d abesti"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:268 ../gnomemusic/widgets.py:307
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:691
+#: ../gnomemusic/widgets.py:702
 msgid "New Playlist"
 msgstr "Zerrenda berria"
 
-#: ../gnomemusic/window.py:237
+#: ../gnomemusic/window.py:240
 msgid "Empty"
 msgstr "Hutsik"
+
+#: ../gnomemusic/window.py:320
+msgid "_Undo"
+msgstr "_Desegin"
+
+#: ../gnomemusic/window.py:321
+#, python-format
+msgid "Playlist %s removed"
+msgstr "'%s' zerrenda kenduta"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -329,18 +362,14 @@ msgid "Running Length"
 msgstr "Iraupena"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "Zerrenda _berria"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "Honi _buruz"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "I_rten"
 
@@ -415,6 +444,9 @@ msgstr "Zerrendaren izena"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Hautatu zerrenda"
+
+#~ msgid "_New Playlist"
+#~ msgstr "Zerrenda _berria"
 
 #~ msgid "the"
 #~ msgstr "the los las"
