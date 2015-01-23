@@ -25,6 +25,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gi.repository import Tracker
 import logging
 logger = logging.getLogger(__name__)
 tabbing = 0
@@ -47,3 +48,21 @@ def log(fn):
 
         return retval
     return wrapped
+
+class TrackerWrapper:
+    class __TrackerWrapper:
+        def __init__(self):
+            try:
+                self.tracker = Tracker.SparqlConnection.get(None)
+            except Exception as e:
+                from sys import exit
+                logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+                exit(1)
+        def __str__(self):
+            return repr(self)
+    instance = None
+    def __init__(self):
+        if not TrackerWrapper.instance:
+            TrackerWrapper.instance = TrackerWrapper.__TrackerWrapper()
+    def __getattr__(self, name):
+        return getattr(self.instance, name)

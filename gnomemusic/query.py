@@ -425,8 +425,13 @@ class Query():
         nmm:artistName(nmm:performer(?song)) AS artist
         nie:title(nmm:musicAlbum(?song)) AS album
         nfo:duration(?song) AS duration
+        IF(bound(?tag), 'truth!', '') AS lyrics
         {
             %(where_clause)s
+            OPTIONAL {
+                ?song nao:hasTag ?tag .
+                FILTER( ?tag = nao:predefined-tag-favorite )
+            }
             FILTER (
                 tracker:uri-is-descendant(
                     '%(music_dir)s', nie:url(?song)
@@ -547,6 +552,7 @@ class Query():
         nmm:artistName(nmm:performer(?song)) AS artist
         nie:title(nmm:musicAlbum(?song)) AS album
         nfo:duration(?song) AS duration
+        IF(bound(?tag), 'truth!', '') AS lyrics
     WHERE {
         ?playlist a nmm:Playlist ;
             a nfo:MediaList ;
@@ -556,6 +562,10 @@ class Query():
         ?song a nmm:MusicPiece ;
              a nfo:FileDataObject ;
              nie:url ?url .
+        OPTIONAL {
+            ?song nao:hasTag ?tag .
+            FILTER( ?tag = nao:predefined-tag-favorite )
+        }
         FILTER (
             %(filter_clause)s
         )
@@ -967,7 +977,7 @@ class Query():
                 nie:isStoredAs ?as .
           ?as nie:url ?url .
         } ORDER BY DESC(?count) LIMIT 50
-        """
+        """.replace('\n', ' ').strip()
 
         return query
 
@@ -1011,7 +1021,7 @@ class Query():
     def get_recently_added_songs():
         #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
         #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
-        
+
         days_difference = 7 # currently hardcoding time interval of 7 days
         seconds_difference = days_difference * SECONDS_PER_DAY
         compare_date = time.strftime(sparql_midnight_dateTime_format, time.gmtime(time.time()-seconds_difference))
@@ -1026,6 +1036,19 @@ class Query():
             FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime )
         } ORDER BY DESC(?added)
         """.replace('\n', ' ').strip() % {'compare_date': compare_date}
+
+        return query
+
+    def get_favorite_songs():
+        query = """
+    SELECT ?url
+    WHERE {
+        ?song a nmm:MusicPiece ;
+            nie:isStoredAs ?as ;
+            nao:hasTag nao:predefined-tag-favorite .
+        ?as nie:url ?url .
+    } ORDER BY DESC(tracker:added(?song))
+    """.replace('\n', ' ').strip()
 
         return query
 
@@ -1288,6 +1311,37 @@ class Query():
     }
         """.replace("\n", " ").strip() % {
             'playlist_id': playlist_id
+        }
+
+        return query
+
+    def add_favorite(song_url):
+        query = """
+            INSERT {
+                ?song nao:hasTag nao:predefined-tag-favorite
+            }
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER ( nie:url(?song) = "%(song_url)s" )
+            }
+        """.replace("\n", " ").strip() % {
+            'song_url': song_url
+
+        }
+
+        return query
+
+    def remove_favorite(song_url):
+        query = """
+            DELETE {
+                ?song nao:hasTag nao:predefined-tag-favorite
+            }
+            WHERE {
+                ?song a nmm:MusicPiece .
+                FILTER ( nie:url(?song) = "%(song_url)s" )
+            }
+        """.replace("\n", " ").strip() % {
+            'song_url': song_url
         }
 
         return query

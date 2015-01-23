@@ -44,7 +44,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gnomemusic.toolbar import ToolbarState
 import gnomemusic.widgets as Widgets
-from gnomemusic.playlists import Playlists
+from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 from gnomemusic import log
 import logging
@@ -56,7 +56,6 @@ playlists = Playlists.get_default()
 class ViewContainer(Gtk.Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
-    starIconName = 'starred-symbolic'
 
     @log
     def __init__(self, name, title, window, view_type, use_sidebar=False, sidebar=None):
@@ -105,7 +104,8 @@ class ViewContainer(Gtk.Stack):
         if not use_sidebar or sidebar:
             self._grid.add(box)
 
-        self.view.connect('item-activated', self._on_item_activated)
+        self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
+        self.star_renderer_click = False
         self.view.connect('selection-mode-request', self._on_selection_mode_request)
         self._cursor = None
         self.window = window
@@ -267,6 +267,23 @@ class ViewContainer(Gtk.Stack):
     def get_selected_tracks(self, callback):
         callback([])
 
+    @log
+    def _on_star_toggled(self, widget, path):
+        print("_on_star_toggled")
+        try:
+            _iter = self._model.get_iter(path)
+        except TypeError:
+            return
+
+        new_value = not self._model.get_value(_iter, 9)
+        self._model.set_value(_iter, 9, new_value)
+        song_item = self._model.get_value(_iter, 5) # er, will this definitely return MediaAudio obj.?
+        grilo.toggle_favorite(song_item) # toggle favorite status in database
+        playlists.update_static_playlist(StaticPlaylists.Favorites)
+
+        # Use this flag to ignore the upcoming _on_item_activated call
+        self.star_renderer_click = True
+
 
 # Class for the Empty View
 class Empty(Gtk.Stack):
@@ -311,6 +328,10 @@ class Albums(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
+        if self.star_renderer_click:
+            self.star_renderer_click = False
+            return
+
         try:
             _iter = self._model.get_iter(path)
         except TypeError:
@@ -366,6 +387,41 @@ class Albums(ViewContainer):
                 self.items_selected_callback(self.items_selected)
 
 
+class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
+
+    __gsignals__ = {'clicked': (GObject.SIGNAL_RUN_LAST, GObject.TYPE_NONE,
+                                (GObject.TYPE_STRING,))}
+    __gproperties__ = {
+        'show_star': (GObject.TYPE_BOOLEAN, 'Show star', 'show star', False, GObject.PARAM_READWRITE)}
+
+    starIcon = 'starred-symbolic'
+    nonStarIcon = 'non-starred-symbolic'
+
+    def __init__(self, view, *args, **kwargs):
+        Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)
+        self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
+        self.set_property('xpad', 32)
+        self.set_property('icon_name', self.nonStarIcon)
+        self.view = view
+        self.show_star = False
+
+    def do_activate(self, event, widget, path, background_area, cell_area, flags):
+        self.show_star = False
+        self.emit('clicked', path)
+
+    def do_get_property(self, property):
+        if property.name == 'show-star':
+            return self.show_star
+
+    def do_set_property(self, property, value):
+        if property.name == 'show-star':
+            if self.show_star:
+                self.set_property('icon_name', self.starIcon)
+            else:
+                self.set_property('icon_name', self.nonStarIcon)
+            self.show_star = value
+
+
 class Songs(ViewContainer):
     @log
     def __init__(self, window, player):
@@ -396,6 +452,10 @@ class Songs(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
+        if self.star_renderer_click:
+            self.star_renderer_click = False
+            return
+
         try:
             _iter = self._model.get_iter(path)
         except TypeError:
@@ -434,7 +494,8 @@ class Songs(ViewContainer):
             -1,
             [2, 3, 5, 8, 9, 10],
             [albumArtCache.get_media_title(item),
-             artist, item, self.nowPlayingIconName, False, False])
+             artist, item, self.nowPlayingIconName, bool(item.get_lyrics()), False])
+        # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
         self.player.discover_item(item, self._on_discovered, _iter)
 
     @log
@@ -465,13 +526,12 @@ class Songs(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        star_renderer = Gtk.CellRendererPixbuf(
-            xpad=32,
-            icon_name=self.starIconName
-        )
+        # ADD STAR RENDERERS
+        star_renderer = CellRendererClickablePixbuf(self.view)
+        star_renderer.connect("clicked", self._on_star_toggled)
         list_widget.add_renderer(star_renderer,
-                                 self._on_list_widget_star_render, None)
-        cols[0].add_attribute(star_renderer, 'visible', 9)
+                                self._on_list_widget_star_render, None)
+        cols[0].add_attribute(star_renderer, 'show_star', 9)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -615,6 +675,10 @@ class Artists (ViewContainer):
 
     @log
     def _on_item_activated(self, widget, item_id, path):
+        if self.star_renderer_click:
+            self.star_renderer_click = False
+            return
+
         try:
             _iter = self._model.get_iter(path)
         except TypeError:
@@ -856,13 +920,12 @@ class Playlist(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        star_renderer = Gtk.CellRendererPixbuf(
-            xpad=32,
-            icon_name=self.starIconName
-        )
+        # ADD STAR RENDERERS
+        star_renderer = CellRendererClickablePixbuf(self.view)
+        star_renderer.connect("clicked", self._on_star_toggled)
         list_widget.add_renderer(star_renderer,
-                                 self._on_list_widget_star_render, None)
-        cols[0].add_attribute(star_renderer, 'visible', 9)
+                                self._on_list_widget_star_render, None)
+        cols[0].add_attribute(star_renderer, 'show_star', 9)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -970,6 +1033,10 @@ class Playlist(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
+        if self.star_renderer_click:
+            self.star_renderer_click = False
+            return
+
         try:
             _iter = self._model.get_iter(path)
         except TypeError:
@@ -1097,7 +1164,8 @@ class Playlist(ViewContainer):
         _iter = model.insert_with_valuesv(
             -1,
             [2, 3, 5, 8, 9, 10],
-            [title, artist, item, self.nowPlayingIconName, False, False])
+            [title, artist, item, self.nowPlayingIconName, bool(item.get_lyrics()), False])
+        # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
         self.player.discover_item(item, self._on_discovered, _iter)
         self.songs_count += 1
         self._update_songs_count()
@@ -1274,6 +1342,10 @@ class Search(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
+        if self.star_renderer_click:
+            self.star_renderer_click = False
+            return
+
         try:
             child_path = self.filter_model.convert_path_to_child_path(path)
         except TypeError:

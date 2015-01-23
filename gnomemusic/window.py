@@ -34,6 +34,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
 from gi.repository import Gd
 from gettext import gettext as _, ngettext
 
+from gnomemusic import TrackerWrapper
 from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar
 from gnomemusic.query import Query
@@ -45,14 +46,8 @@ from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
-try:
-    tracker = Tracker.SparqlConnection.get(None)
-except Exception as e:
-    from sys import exit
-    logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
-    exit(1)
-playlist = Playlists.get_default(tracker)
-
+tracker = TrackerWrapper().tracker
+playlist = Playlists.get_default()
 
 class Window(Gtk.ApplicationWindow):
 

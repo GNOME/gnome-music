@@ -26,7 +26,7 @@
 # delete this exception statement from your version.
 from gi.repository import GLib, GObject
 from gnomemusic.query import Query
-from gnomemusic import log
+from gnomemusic import log, TrackerWrapper
 import logging
 import os
 os.environ['GRL_PLUGIN_RANKS'] = 'local-metadata:3,filesystem:2,tracker:1,lastfm-albumart:0'
@@ -81,6 +81,8 @@ class Grilo(GObject.GObject):
         self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
 
         self.registry = Grl.Registry.get_default()
+
+        self.sparqltracker = TrackerWrapper().tracker
 
     @log
     def _find_sources(self):
@@ -214,6 +216,17 @@ class Grilo(GObject.GObject):
         def _callback(source, param, item, remaining, data, error):
             callback(source, param, item, remaining, data)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
+
+    @log
+    def toggle_favorite(self, song_item):
+        # TODO: change "bool(song_item.get_lyrics())" --> song_item.get_favourite() once query works properly
+        # TODO: when .set/get_favourite work, set_favourite outside loop: item.set_favourite(!item.get_favourite())
+        if bool(song_item.get_lyrics()): # is favorite
+            self.sparqltracker.update(Query.remove_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
+            song_item.set_lyrics("")
+        else: # not favorite
+            self.sparqltracker.update(Query.add_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
+            song_item.set_lyrics("i'm truthy")
 
     @log
     def search(self, q, callback, data=None):

@@ -27,6 +27,7 @@
 
 
 from gi.repository import Grl, GLib, GObject
+from gnomemusic import TrackerWrapper
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
@@ -68,6 +69,13 @@ class StaticPlaylists:
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Added")
 
+    class Favorites:
+        ID = None
+        QUERY = Query.get_favorite_songs()
+        TAG_TEXT = "FAVORITES"
+        # TRANSLATORS: this is a playlist name
+        TITLE = _("Favorite Songs")
+
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
@@ -87,17 +95,15 @@ class Playlists(GObject.GObject):
     @classmethod
     def get_default(self, tracker=None):
         if self.instance:
-            if not self.tracker and tracker:
-                self.instance.tracker = tracker
             return self.instance
         else:
-            self.instance = Playlists(tracker)
+            self.instance = Playlists()
         return self.instance
 
     @log
-    def __init__(self, tracker):
+    def __init__(self):
         GObject.GObject.__init__(self)
-        self.tracker = tracker
+        self.tracker = TrackerWrapper().tracker
 
     @log
     def fetch_or_create_static_playlists(self):
