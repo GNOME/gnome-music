@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-19 16:45+0000\n"
-"PO-Revision-Date: 2015-01-19 18:19+0100\n"
+"POT-Creation-Date: 2015-01-23 07:55+0000\n"
+"PO-Revision-Date: 2015-01-23 11:30+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -180,7 +180,6 @@ msgstr "Siguiente"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:48
-#| msgid "Music Player"
 msgid "Most Played"
 msgstr "Más reproducidas"
 
@@ -193,6 +192,12 @@ msgstr "No reproducidas nunca"
 #: ../gnomemusic/playlists.py:62
 msgid "Recently Played"
 msgstr "Reproducidas recientemente"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:69
+#| msgid "Recently Played"
+msgid "Recently Added"
+msgstr "Añadidas recientemente"
 
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
@@ -291,7 +296,6 @@ msgstr "_Deshacer"
 
 #: ../gnomemusic/window.py:321
 #, python-format
-#| msgid "Playlist Name"
 msgid "Playlist %s removed"
 msgstr "Lista de reproducción %s eliminada"
 
