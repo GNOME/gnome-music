@@ -237,13 +237,21 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _switch_to_empty_view(self):
-        self.views.append(Views.Empty(self, self.player))
+        did_initial_state = self.settings.get_boolean('did-initial-state')
+        view_class = None
+        if did_initial_state:
+            view_class = Views.Empty
+        else:
+            view_class = Views.InitialState
+        self.views.append(view_class(self, self.player))
+
         self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
         self.toolbar._search_button.set_sensitive(False)
         self.toolbar._select_button.set_sensitive(False)
 
     @log
     def _switch_to_player_view(self):
+        self.settings.set_boolean('did-initial-state', True)
         self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
         self._key_press_event_id = self.connect('key_press_event', self._on_key_press)

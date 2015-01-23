@@ -8,7 +8,7 @@
     <property name="halign">center</property>
     <property name="valign">center</property>
     <child>
-      <object class="GtkImage" id="image1">
+      <object class="GtkImage" id="icon">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
@@ -25,10 +25,10 @@
       </packing>
     </child>
     <child>
-      <object class="GtkBox" id="label">
+      <object class="GtkBox" id="box">
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="label">
             <property name="visible">True</property>
             <property name="opacity">0.5</property>
             <property name="can_focus">False</property>

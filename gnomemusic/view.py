@@ -34,6 +34,7 @@
 from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Gd
+from gi.repository import Gio
 from gi.repository import Grl
 from gi.repository import Gio
 from gi.repository import Pango
@@ -266,17 +267,37 @@ class Empty(Gtk.Stack):
     def __init__(self, window, player):
         Gtk.Stack.__init__(self,
                            transition_type=Gtk.StackTransitionType.CROSSFADE)
-        builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
-        widget = builder.get_object('container')
-        self.update_empty_state_link(builder)
+        self.builder = Gtk.Builder()
+        self.builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
+        widget = self.builder.get_object('container')
+        self.update_empty_state_link()
         self.add(widget)
         self.show_all()
 
-    def update_empty_state_link(self, builder):
-        label = builder.get_object('empty-state-label')
+    def update_empty_state_link(self):
+        label = self.builder.get_object('empty-state-label')
         href_text = '<a href="%s">%s</a>' % (Query.MUSIC_URI, _("Music folder"))
         label.set_label(label.get_label() % href_text)
+
+
+# Class for the Initial State
+class InitialState(Empty):
+    @log
+    def __init__(self, window, player):
+        Empty.__init__(self, window, player)
+
+        # Update image
+        icon = self.builder.get_object('icon')
+        icon.set_margin_bottom(32)
+        icon.set_opacity(1)
+        icon.set_from_resource('/org/gnome/Music/initial-state.png')
+        icon.set_size_request(256, 256)
+
+        # Update label
+        label = self.builder.get_object('label')
+        label.set_label(_("Hey DJ"))
+        label.set_opacity(1)
+        label.set_margin_bottom(18)
 
 
 class Albums(ViewContainer):

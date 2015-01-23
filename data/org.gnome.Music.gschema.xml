@@ -48,5 +48,10 @@
             <summary>Enable ReplayGain</summary>
             <description>Enables or disables ReplayGain for albums</description>
         </key>
+        <key type="b" name="did-initial-state">
+            <default>false</default>
+            <summary>Inital state has been displayed</summary>
+            <description>Set to true when initial state has been displayed</description>
+        </key>
     </schema>
 </schemalist>
