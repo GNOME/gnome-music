@@ -269,8 +269,14 @@ class Empty(Gtk.Stack):
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
         widget = builder.get_object('container')
+        self.update_empty_state_link(builder)
         self.add(widget)
         self.show_all()
+
+    def update_empty_state_link(self, builder):
+        label = builder.get_object('empty-state-label')
+        href_text = '<a href="%s">%s</a>' % (Query.MUSIC_URI, _("Music folder"))
+        label.set_label(label.get_label() % href_text)
 
 
 class Albums(ViewContainer):
