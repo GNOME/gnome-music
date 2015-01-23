@@ -2,23 +2,23 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Dimitris Spingos <dmtrs32@gmail.com>, 2013.
-# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013, 2014.
+# Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013, 2014, 2015.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-11-04 22:00+0000\n"
-"PO-Revision-Date: 2014-11-02 18:24+0200\n"
-"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
-"Language-Team: www.gnome.gr\n"
+"POT-Creation-Date: 2015-01-23 07:55+0000\n"
+"PO-Revision-Date: 2015-01-23 23:52+0300\n"
+"Last-Translator: Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>\n"
+"Language-Team: team@lists.gnome.gr\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -79,8 +79,37 @@ msgstr "Λειτουργία ειδοποιήσεων"
 msgid "Enables or disables playback notifications"
 msgstr "Ενεργοποιεί ή απενεργποιεί τις ειδοποιήσεις αναπαραγωγής"
 
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"Ο μέγιστος αριθμός χαρακτήρων που θα εμφανίζεται στο όνομα του κομματιού "
+"στην προβολή καλλιτέχνη"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Αυτή η ρύθμιση τροποποιεί τον αριθμό των χαρακτήρων για τον τίτλο του "
+"κομματιού στην προβολή καλλιτέχνη πριν την μερική απόκρυψη. Ορίστε το σε -1 "
+"για να το απενεργοποιήσετε."
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Ενεργοποίηση του ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+#| msgid "Enables or disables playback notifications"
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Ενεργοποιεί ή απενεργοποιεί το ReplayGain για συλλογές"
+
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Internal: id for most played playlist"
+msgstr ""
+"Εσωτερικό: αναγνωριστικό για τον περισσότερο παιγμένο κατάλογο αναπαραγωγής"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:63
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Μουσική"
@@ -93,6 +122,11 @@ msgstr "Αναπαραγωγή μουσικής"
 msgid "Play and organize your music collection"
 msgstr "Αναπαραγωγή και οργάνωση της μουσικής σας συλλογής"
 
+#: ../data/gnome-music.desktop.in.h:4
+#| msgid "Music Player"
+msgid "Music;Player;"
+msgstr "Μουσική;Αναπαραγωγή;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "Μουσική GNOME"
@@ -101,22 +135,22 @@ msgstr "Μουσική GNOME"
 msgid "Music is the new GNOME music playing application."
 msgstr "Η νέα εφαρμογή του GNOME για αναπαραγωγή μουσικής λέγεται Μουσική."
 
-#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Χωρίς τίτλο"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:958 ../gnomemusic/view.py:1287
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:521
+#: ../gnomemusic/view.py:927 ../gnomemusic/view.py:1329
 msgid "Unknown Album"
 msgstr "Άγνωστο άλμπουμ"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1062 ../gnomemusic/view.py:1285
-#: ../gnomemusic/view.py:1316 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:674
+#: ../gnomemusic/view.py:1092 ../gnomemusic/view.py:1327
+#: ../gnomemusic/view.py:1361 ../gnomemusic/widgets.py:179
+#: ../gnomemusic/widgets.py:586
 msgid "Unknown Artist"
 msgstr "Άγνωστος καλλιτέχνης"
 
@@ -134,11 +168,11 @@ msgstr "από τον %s, από το %s"
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:398
 msgid "Pause"
 msgstr "Παύση"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:401
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Αναπαραγωγή"
@@ -147,96 +181,127 @@ msgstr "Αναπαραγωγή"
 msgid "Next"
 msgstr "Επόμενο"
 
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:48
+#| msgid "Music Player"
+msgid "Most Played"
+msgstr "Το περισσότερο παιγμένο"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:55
+msgid "Never Played"
+msgstr "Δεν παίχτηκε ποτέ"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:62
+msgid "Recently Played"
+msgstr "Παίχτηκε πρόσφατα"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:69
+msgid "Recently Added"
+msgstr "Προστέθηκε πρόσφατα"
+
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:59
-msgid "the"
-msgstr ""
+#: ../gnomemusic/query.py:69
+msgid "the a an"
+msgstr "the παραλείπεται"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Όλα"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Καλλιτέχνης"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Άλμπουμ"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Τίτλος κομματιού"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Τοπικά"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Πηγές"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Ταίριασμα"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:220
+#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:292
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Επιλέχθηκε %d αντικείμενο"
 msgstr[1] "Επιλέχθηκαν %d αντικείμενα"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:296
+#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Πατήστε σε αντικείμενα για να τα επιλέξετε"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1531
+#: ../gnomemusic/view.py:287 ../gnomemusic/view.py:1586
 msgid "Albums"
 msgstr "Άλμπουμ"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1533
+#: ../gnomemusic/view.py:372 ../gnomemusic/view.py:1588
 msgid "Songs"
 msgstr "Τραγούδια"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1532
+#: ../gnomemusic/view.py:538 ../gnomemusic/view.py:1587
 msgid "Artists"
 msgstr "Καλλιτέχνες"
 
-#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:448
+#: ../gnomemusic/view.py:584 ../gnomemusic/view.py:586
+#: ../gnomemusic/widgets.py:461
 msgid "All Artists"
 msgstr "Όλοι οι καλλιτέχνες"
 
-#: ../gnomemusic/view.py:794 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1589
 msgid "Playlists"
 msgstr "Λίστες αναπαραγωγής"
 
-#: ../gnomemusic/view.py:1074
+#: ../gnomemusic/view.py:1104
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d τραγούδι"
 msgstr[1] "%d τραγούδια"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:268 ../gnomemusic/widgets.py:307
 #, python-format
 msgid "%d min"
 msgstr "%d λεπτ."
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:702
 msgid "New Playlist"
 msgstr "Νέα λίστα αναπαραγωγής"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:240
 msgid "Empty"
 msgstr "Άδειο"
+
+#: ../gnomemusic/window.py:320
+msgid "_Undo"
+msgstr "Α_ναίρεση"
+
+#: ../gnomemusic/window.py:321
+#, python-format
+#| msgid "Playlist Name"
+msgid "Playlist %s removed"
+msgstr "Αφαιρέθηκε ο κατάλογος αναπαραγωγής %s"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -307,18 +372,14 @@ msgid "Running Length"
 msgstr "Εκτελούμενη διάρκεια"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Νέα λίστα αναπαραγωγής"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "_Περί"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "Έ_ξοδος"
 
@@ -393,6 +454,9 @@ msgstr "Όνομα λίστας αναπαραγωγής"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Επιλογή λίστας αναπαραγωγής"
+
+#~ msgid "_New Playlist"
+#~ msgstr "_Νέα λίστα αναπαραγωγής"
 
 #~ msgid ""
 #~ "No Music found!\n"
