@@ -115,7 +115,7 @@ msgstr "Geben Sie Ihre Musik wieder und verwalten Sie Ihre Sammlung"
 
 #: ../data/gnome-music.desktop.in.h:4
 msgid "Music;Player;"
-msgstr "Musik;Wiedergabe"
+msgstr "Musik;Wiedergabe;"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
