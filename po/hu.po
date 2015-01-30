@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
-# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014.
+# Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015.
 # Balázs Meskó <meskobalazs at gmail dot com>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-06 17:07+0000\n"
-"PO-Revision-Date: 2015-01-06 18:18+0100\n"
+"POT-Creation-Date: 2015-01-30 20:03+0000\n"
+"PO-Revision-Date: 2015-01-30 21:41+0100\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -97,12 +97,15 @@ msgid "Enable ReplayGain"
 msgstr "ReplayGain engedélyezése"
 
 #: ../data/org.gnome.Music.gschema.xml.h:17
-#| msgid "Enables or disables playback notifications"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Engedélyezi vagy letiltja a ReplayGain használatát az albumoknál"
 
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Internal: id for most played playlist"
+msgstr "Belső: azonosító a legtöbbet lejátszott lejátszólistához"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:63
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Zene"
@@ -132,17 +135,17 @@ msgid "Untitled"
 msgstr "Névtelen"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:448 ../gnomemusic/view.py:522
-#: ../gnomemusic/view.py:920 ../gnomemusic/view.py:1293
+#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:521
+#: ../gnomemusic/view.py:927 ../gnomemusic/view.py:1329
 msgid "Unknown Album"
 msgstr "Ismeretlen album"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:439 ../gnomemusic/view.py:233
-#: ../gnomemusic/view.py:431 ../gnomemusic/view.py:672
-#: ../gnomemusic/view.py:1068 ../gnomemusic/view.py:1291
-#: ../gnomemusic/view.py:1325 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:577
+#: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
+#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:674
+#: ../gnomemusic/view.py:1092 ../gnomemusic/view.py:1327
+#: ../gnomemusic/view.py:1361 ../gnomemusic/widgets.py:179
+#: ../gnomemusic/widgets.py:586
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
@@ -160,11 +163,11 @@ msgstr "előadó: %s, album: %s"
 msgid "Previous"
 msgstr "Előző"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:396
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:398
 msgid "Pause"
 msgstr "Szünet"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:399
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:401
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Lejátszás"
@@ -173,96 +176,127 @@ msgstr "Lejátszás"
 msgid "Next"
 msgstr "Következő"
 
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:48
+#| msgid "Music Player"
+msgid "Most Played"
+msgstr "Legtöbbet lejátszott"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:55
+msgid "Never Played"
+msgstr "Sosem lejátszott"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:62
+msgid "Recently Played"
+msgstr "Legutóbb lejátszott"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:69
+msgid "Recently Added"
+msgstr "Legutóbb hozzáadott"
+
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:65
+#: ../gnomemusic/query.py:69
 msgid "the a an"
 msgstr "a az egy"
 
-#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Mind"
 
-#: ../gnomemusic/searchbar.py:58
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Előadó"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Dal címe"
 
-#: ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Helyi"
 
-#: ../gnomemusic/searchbar.py:203
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Források"
 
-#: ../gnomemusic/searchbar.py:210
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Találat"
 
-#: ../gnomemusic/view.py:197 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:289
+#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:220
+#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:292
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d elem kijelölve"
 msgstr[1] "%d elem kijelölve"
 
-#: ../gnomemusic/view.py:199 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:293
-#: ../gnomemusic/window.py:305 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:296
+#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
-#: ../gnomemusic/view.py:294 ../gnomemusic/view.py:1546
+#: ../gnomemusic/view.py:287 ../gnomemusic/view.py:1586
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../gnomemusic/view.py:376 ../gnomemusic/view.py:1548
+#: ../gnomemusic/view.py:372 ../gnomemusic/view.py:1588
 msgid "Songs"
 msgstr "Számok"
 
-#: ../gnomemusic/view.py:539 ../gnomemusic/view.py:1547
+#: ../gnomemusic/view.py:538 ../gnomemusic/view.py:1587
 msgid "Artists"
 msgstr "Előadók"
 
-#: ../gnomemusic/view.py:585 ../gnomemusic/view.py:587
-#: ../gnomemusic/widgets.py:452
+#: ../gnomemusic/view.py:584 ../gnomemusic/view.py:586
+#: ../gnomemusic/widgets.py:461
 msgid "All Artists"
 msgstr "Minden előadó"
 
-#: ../gnomemusic/view.py:756 ../gnomemusic/view.py:1549
+#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1589
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
-#: ../gnomemusic/view.py:1080
+#: ../gnomemusic/view.py:1104
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d szám"
 msgstr[1] "%d szám"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:268 ../gnomemusic/widgets.py:307
 #, python-format
 msgid "%d min"
 msgstr "%d perc"
 
-#: ../gnomemusic/widgets.py:691
+#: ../gnomemusic/widgets.py:702
 msgid "New Playlist"
 msgstr "Új lejátszólista"
 
-#: ../gnomemusic/window.py:237
+#: ../gnomemusic/window.py:240
 msgid "Empty"
 msgstr "Üres"
+
+#: ../gnomemusic/window.py:320
+msgid "_Undo"
+msgstr "_Visszavonás"
+
+#: ../gnomemusic/window.py:321
+#, python-format
+#| msgid "Playlist Name"
+msgid "Playlist %s removed"
+msgstr "A(z) %s lejátszólista eltávolítva"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -329,18 +363,14 @@ msgid "Running Length"
 msgstr "Futási hossz"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "Ú_j lejátszólista"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Súgó"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "_Névjegy"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Kilépés"
 
@@ -415,6 +445,9 @@ msgstr "Lejátszólista neve"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Lejátszólista kiválasztása"
+
+#~ msgid "_New Playlist"
+#~ msgstr "Ú_j lejátszólista"
 
 #~ msgid "the"
 #~ msgstr "the a az"
