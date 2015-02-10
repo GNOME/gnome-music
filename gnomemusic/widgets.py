@@ -90,7 +90,7 @@ class AlbumWidget(Gtk.EventBox):
         view_box.add(child_view)
         self.add(self.ui.get_object('AlbumWidget'))
         self._add_list_renderers()
-        # TODO: make this work
+        self.star_renderer_click = False
         self.get_style_context().add_class('view')
         self.get_style_context().add_class('content-view')
         self.show_all()
@@ -101,6 +101,10 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _on_item_activated(self, widget, id, path):
+        if self.star_renderer_click:
+            self.star_renderer_click = False
+            return
+
         _iter = self.model.get_iter(path)
 
         if(self.model.get_value(_iter, 7) != ERROR_ICON_NAME):
