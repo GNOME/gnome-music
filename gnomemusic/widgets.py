@@ -36,7 +36,7 @@ from gi.repository import GdkPixbuf, Grl
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
 from gnomemusic.albumArtCache import AlbumArtCache
-from gnomemusic.playlists import Playlists
+from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -51,6 +51,8 @@ try:
 except Exception as e:
     MAX_TITLE_WIDTH = 20
     logger.error("Error on setting widget max-width-chars: %s" % str(e))
+
+playlists = Playlists.get_default()
 
 
 class AlbumWidget(Gtk.EventBox):
@@ -154,6 +156,12 @@ class AlbumWidget(Gtk.EventBox):
         cols[0].clear_attributes(durationRenderer)
         cols[0].add_attribute(durationRenderer, 'markup', 1)
 
+        star_renderer = CellRendererClickablePixbuf(self.view)
+        star_renderer.connect("clicked", self._on_star_toggled)
+        list_widget.add_renderer(star_renderer, lambda *args: None, None)
+        cols[0].clear_attributes(star_renderer)
+        cols[0].add_attribute(star_renderer, 'show_star', 10)
+
     @log
     def _create_model(self):
         self.model = Gtk.ListStore(
@@ -167,6 +175,7 @@ class AlbumWidget(Gtk.EventBox):
             GObject.TYPE_STRING,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN,  # icon shown
+            GObject.TYPE_BOOLEAN,
         )
 
     @log
@@ -258,12 +267,12 @@ class AlbumWidget(Gtk.EventBox):
             self.player.discover_item(track, self._on_discovered, _iter)
             escapedTitle = AlbumArtCache.get_media_title(track, True)
             self.model.set(_iter,
-                           [0, 1, 2, 3, 4, 5, 7, 9],
+                           [0, 1, 2, 3, 4, 5, 7, 9, 10],
                            [escapedTitle,
                             self.player.seconds_to_string(
                                 track.get_duration()),
                             '', '', None, track, NOW_PLAYING_ICON_NAME,
-                            False])
+                            False, bool(track.get_lyrics())])
             self.ui.get_object('running_length_label_info').set_text(
                 _("%d min") % (int(self.duration / 60) + 1))
 
@@ -306,6 +315,22 @@ class AlbumWidget(Gtk.EventBox):
             self.ui.get_object('running_length_label_info').set_text(
                 _("%d min") % (int(self.duration / 60) + 1))
         return False
+
+    @log
+    def _on_star_toggled(self, widget, path):
+        try:
+            _iter = self.model.get_iter(path)
+        except TypeError:
+            return
+
+        new_value = not self.model.get_value(_iter, 10)
+        self.model.set_value(_iter, 10, new_value)
+        song_item = self.model.get_value(_iter, 5) # er, will this definitely return MediaAudio obj.?
+        grilo.toggle_favorite(song_item) # toggle favorite status in database
+        playlists.update_static_playlist(StaticPlaylists.Favorites)
+
+        # Use this flag to ignore the upcoming _on_item_activated call
+        self.star_renderer_click = True
 
 
 class ArtistAlbums(Gtk.Box):
@@ -761,3 +786,38 @@ class PlaylistDialog():
                                  self.view.get_columns()[0], False)
             self.view.row_activated(self.model.get_path(new_iter),
                                     self.view.get_columns()[0])
+
+
+class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
+
+    __gsignals__ = {'clicked': (GObject.SIGNAL_RUN_LAST, GObject.TYPE_NONE,
+                                (GObject.TYPE_STRING,))}
+    __gproperties__ = {
+        'show_star': (GObject.TYPE_BOOLEAN, 'Show star', 'show star', False, GObject.PARAM_READWRITE)}
+
+    starIcon = 'starred-symbolic'
+    nonStarIcon = 'non-starred-symbolic'
+
+    def __init__(self, view, *args, **kwargs):
+        Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)
+        self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
+        self.set_property('xpad', 32)
+        self.set_property('icon_name', self.nonStarIcon)
+        self.view = view
+        self.show_star = False
+
+    def do_activate(self, event, widget, path, background_area, cell_area, flags):
+        self.show_star = False
+        self.emit('clicked', path)
+
+    def do_get_property(self, property):
+        if property.name == 'show-star':
+            return self.show_star
+
+    def do_set_property(self, property, value):
+        if property.name == 'show-star':
+            if self.show_star:
+                self.set_property('icon_name', self.starIcon)
+            else:
+                self.set_property('icon_name', self.nonStarIcon)
+            self.show_star = value

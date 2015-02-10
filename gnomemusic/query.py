@@ -505,10 +505,15 @@ class Query():
         nmm:artistName(nmm:performer(?song)) AS artist
         nie:title(nmm:musicAlbum(?song)) AS album
         nfo:duration(?song) AS duration
+        IF(bound(?tag), 'truth!', '') AS lyrics
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
               nmm:musicAlbum ?album .
+        OPTIONAL {
+            ?song nao:hasTag ?tag .
+            FILTER( ?tag = nao:predefined-tag-favorite )
+        }
         FILTER (
             tracker:id(?album) = %(album_id)s
         )

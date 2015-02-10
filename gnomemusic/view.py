@@ -267,6 +267,9 @@ class ViewContainer(Gtk.Stack):
     def get_selected_tracks(self, callback):
         callback([])
 
+    def _on_list_widget_star_render(self, col, cell, model, _iter, data):
+        pass
+
     @log
     def _on_star_toggled(self, widget, path):
         try:
@@ -307,6 +310,7 @@ class Albums(ViewContainer):
         self.albums_selected = []
         self.items_selected = []
         self.items_selected_callback = None
+        self._add_list_renderers()
 
     @log
     def _on_changes_pending(self, data=None):
@@ -384,41 +388,6 @@ class Albums(ViewContainer):
                 self._get_selected_album_songs()
             else:
                 self.items_selected_callback(self.items_selected)
-
-
-class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
-
-    __gsignals__ = {'clicked': (GObject.SIGNAL_RUN_LAST, GObject.TYPE_NONE,
-                                (GObject.TYPE_STRING,))}
-    __gproperties__ = {
-        'show_star': (GObject.TYPE_BOOLEAN, 'Show star', 'show star', False, GObject.PARAM_READWRITE)}
-
-    starIcon = 'starred-symbolic'
-    nonStarIcon = 'non-starred-symbolic'
-
-    def __init__(self, view, *args, **kwargs):
-        Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)
-        self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
-        self.set_property('xpad', 32)
-        self.set_property('icon_name', self.nonStarIcon)
-        self.view = view
-        self.show_star = False
-
-    def do_activate(self, event, widget, path, background_area, cell_area, flags):
-        self.show_star = False
-        self.emit('clicked', path)
-
-    def do_get_property(self, property):
-        if property.name == 'show-star':
-            return self.show_star
-
-    def do_set_property(self, property, value):
-        if property.name == 'show-star':
-            if self.show_star:
-                self.set_property('icon_name', self.starIcon)
-            else:
-                self.set_property('icon_name', self.nonStarIcon)
-            self.show_star = value
 
 
 class Songs(ViewContainer):
@@ -526,7 +495,7 @@ class Songs(ViewContainer):
         cols[0].add_attribute(title_renderer, 'text', 2)
 
         # ADD STAR RENDERERS
-        star_renderer = CellRendererClickablePixbuf(self.view)
+        star_renderer = Widgets.CellRendererClickablePixbuf(self.view)
         star_renderer.connect("clicked", self._on_star_toggled)
         list_widget.add_renderer(star_renderer,
                                 self._on_list_widget_star_render, None)
@@ -558,9 +527,6 @@ class Songs(ViewContainer):
                                  self._on_list_widget_type_render, None)
 
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
-        pass
-
-    def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
@@ -920,7 +886,7 @@ class Playlist(ViewContainer):
         cols[0].add_attribute(title_renderer, 'text', 2)
 
         # ADD STAR RENDERERS
-        star_renderer = CellRendererClickablePixbuf(self.view)
+        star_renderer = Widgets.CellRendererClickablePixbuf(self.view)
         star_renderer.connect("clicked", self._on_star_toggled)
         list_widget.add_renderer(star_renderer,
                                 self._on_list_widget_star_render, None)

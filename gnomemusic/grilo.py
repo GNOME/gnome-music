@@ -48,6 +48,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_CREATION_DATE,
         Grl.METADATA_KEY_URL,
+        Grl.METADATA_KEY_LYRICS,
         Grl.METADATA_KEY_THUMBNAIL]
 
     METADATA_THUMBNAIL_KEYS = [
