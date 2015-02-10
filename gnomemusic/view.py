@@ -269,7 +269,6 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _on_star_toggled(self, widget, path):
-        print("_on_star_toggled")
         try:
             _iter = self._model.get_iter(path)
         except TypeError:
