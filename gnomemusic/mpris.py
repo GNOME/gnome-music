@@ -346,15 +346,16 @@ class MediaPlayer2Service(dbus.service.Object):
 
     @log
     def _on_playlist_modified(self, path=None, _iter=None, data=None):
-        path = self.player.currentTrack.get_path()
-        currentTrack = self.player.playlist[path][self.player.playlistField]
-        track_list = self._get_track_list()
-        self.TrackListReplaced(track_list, self._get_media_id(currentTrack))
-        self.PropertiesChanged(self.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                               {
-                                   'Tracks': track_list,
-                               },
-                               [])
+        if self.player.currentTrack and self.player.currentTrack.valid():
+            path = self.player.currentTrack.get_path()
+            currentTrack = self.player.playlist[path][self.player.playlistField]
+            track_list = self._get_track_list()
+            self.TrackListReplaced(track_list, self._get_media_id(currentTrack))
+            self.PropertiesChanged(self.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                                   {
+                                       'Tracks': track_list,
+                                   },
+                                   [])
 
     @log
     def _reload_playlists(self):
