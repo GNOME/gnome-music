@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-01-23 07:55+0000\n"
-"PO-Revision-Date: 2015-01-23 11:30+0100\n"
+"POT-Creation-Date: 2015-02-12 10:27+0000\n"
+"PO-Revision-Date: 2015-02-12 18:37+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -101,13 +101,8 @@ msgstr "Activar ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Activa o desactiva ReplayGain para los álbumes"
 
-#: ../data/org.gnome.Music.gschema.xml.h:18
-msgid "Internal: id for most played playlist"
-msgstr ""
-"Interno: ID para la lista de reproducción de canciones más reproducidas"
-
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:63
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:58
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Música"
@@ -137,17 +132,17 @@ msgid "Untitled"
 msgstr "Sin título"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:521
-#: ../gnomemusic/view.py:927 ../gnomemusic/view.py:1329
+#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:546
+#: ../gnomemusic/view.py:959 ../gnomemusic/view.py:1370
 msgid "Unknown Album"
 msgstr "Álbum desconocido"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
 #: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:674
-#: ../gnomemusic/view.py:1092 ../gnomemusic/view.py:1327
-#: ../gnomemusic/view.py:1361 ../gnomemusic/widgets.py:179
-#: ../gnomemusic/widgets.py:586
+#: ../gnomemusic/view.py:458 ../gnomemusic/view.py:703
+#: ../gnomemusic/view.py:1128 ../gnomemusic/view.py:1368
+#: ../gnomemusic/view.py:1402 ../gnomemusic/widgets.py:192
+#: ../gnomemusic/widgets.py:615
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
 
@@ -179,25 +174,29 @@ msgid "Next"
 msgstr "Siguiente"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:48
+#: ../gnomemusic/playlists.py:49
 msgid "Most Played"
 msgstr "Más reproducidas"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:55
+#: ../gnomemusic/playlists.py:56
 msgid "Never Played"
 msgstr "No reproducidas nunca"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:62
+#: ../gnomemusic/playlists.py:63
 msgid "Recently Played"
 msgstr "Reproducidas recientemente"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:69
-#| msgid "Recently Played"
+#: ../gnomemusic/playlists.py:70
 msgid "Recently Added"
 msgstr "Añadidas recientemente"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "Canciones favoritas"
 
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
@@ -235,66 +234,66 @@ msgstr "Fuentes"
 msgid "Match"
 msgstr "Coincidencia"
 
-#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:220
-#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:233
+#: ../gnomemusic/widgets.py:481 ../gnomemusic/window.py:287
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d elemento seleccionado"
 msgstr[1] "%d elementos seleccionados"
 
-#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/widgets.py:483 ../gnomemusic/window.py:291
+#: ../gnomemusic/window.py:303 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
-#: ../gnomemusic/view.py:287 ../gnomemusic/view.py:1586
+#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1627
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../gnomemusic/view.py:372 ../gnomemusic/view.py:1588
+#: ../gnomemusic/view.py:396 ../gnomemusic/view.py:1629
 msgid "Songs"
 msgstr "Canciones"
 
-#: ../gnomemusic/view.py:538 ../gnomemusic/view.py:1587
+#: ../gnomemusic/view.py:563 ../gnomemusic/view.py:1628
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:584 ../gnomemusic/view.py:586
-#: ../gnomemusic/widgets.py:461
+#: ../gnomemusic/view.py:609 ../gnomemusic/view.py:611
+#: ../gnomemusic/widgets.py:490
 msgid "All Artists"
 msgstr "Todos los artistas"
 
-#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1589
+#: ../gnomemusic/view.py:787 ../gnomemusic/view.py:1630
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: ../gnomemusic/view.py:1104
+#: ../gnomemusic/view.py:1141
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d canción"
 msgstr[1] "%d canciones"
 
-#: ../gnomemusic/widgets.py:268 ../gnomemusic/widgets.py:307
+#: ../gnomemusic/widgets.py:281 ../gnomemusic/widgets.py:320
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:702
+#: ../gnomemusic/widgets.py:731
 msgid "New Playlist"
 msgstr "Lista de reproducción nueva"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:235
 msgid "Empty"
 msgstr "Vacío"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:315
 msgid "_Undo"
 msgstr "_Deshacer"
 
-#: ../gnomemusic/window.py:321
+#: ../gnomemusic/window.py:316
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Lista de reproducción %s eliminada"
@@ -447,6 +446,10 @@ msgstr "Nombre de la lista de reproducción"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Seleccionar lista de reproducción"
+
+#~ msgid "Internal: id for most played playlist"
+#~ msgstr ""
+#~ "Interno: ID para la lista de reproducción de canciones más reproducidas"
 
 #~ msgid "_New Playlist"
 #~ msgstr "_Lista de reproducción nueva"
