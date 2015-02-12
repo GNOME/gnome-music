@@ -329,6 +329,8 @@ class Window(Gtk.ApplicationWindow):
     def _playlist_removal_notification_dismissed(self, widget):
         if self.views[3].really_delete:
             Views.playlists.delete_playlist(self.views[3].pl_todelete)
+        else:
+            self.views[3].really_delete = True
 
     @log
     def _init_loading_notification(self):
@@ -348,7 +350,7 @@ class Window(Gtk.ApplicationWindow):
     def _undo_deletion(self, widget):
         self.views[3].really_delete = False
         self.notification.dismiss()
-        self.views[3].undo_playlist()
+        self.views[3].undo_playlist_deletion()
 
     @log
     def _on_key_press(self, widget, event):

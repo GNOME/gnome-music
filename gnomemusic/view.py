@@ -1179,7 +1179,7 @@ class Playlist(ViewContainer):
         self.playlists_model.remove(_iter)
 
     @log
-    def undo_playlist(self):
+    def undo_playlist_deletion(self):
         self._add_playlist_item_to_model(self.pl_todelete)
 
     @log
