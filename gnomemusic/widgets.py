@@ -136,10 +136,8 @@ class AlbumWidget(Gtk.EventBox):
         column_now_playing = Gtk.TreeViewColumn()
         column_now_playing.set_fixed_width(24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         'visible', 9)
-        column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         'icon_name', 7)
+        column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
+                                              self._on_list_widget_icon_render, None)
         list_widget.insert_column(column_now_playing, 0)
 
         type_renderer = Gd.StyledTextRenderer(
@@ -166,6 +164,20 @@ class AlbumWidget(Gtk.EventBox):
         list_widget.add_renderer(star_renderer, lambda *args: None, None)
         cols[0].clear_attributes(star_renderer)
         cols[0].add_attribute(star_renderer, 'show_star', 10)
+
+    def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
+        if model != self.player.playlist:
+            cell.set_visible(False)
+            return
+
+        if model.get_value(_iter, 10) == DiscoveryStatus.FAILED:
+            cell.set_property('icon-name', ERROR_ICON_NAME)
+            cell.set_visible(True)
+        elif model.get_path(_iter) == self.player.currentTrack.get_path():
+            cell.set_property('icon-name', NOW_PLAYING_ICON_NAME)
+            cell.set_visible(True)
+        else:
+            cell.set_visible(False)
 
     @log
     def _create_model(self):
@@ -260,25 +272,18 @@ class AlbumWidget(Gtk.EventBox):
                 self.player.actionbar.set_visible(True)
 
     @log
-    def _on_discovered(self, info, error, _iter):
-        if error:
-            self.model.set(_iter, [7, 9], [ERROR_ICON_NAME, True])
-
-    @log
     def add_item(self, source, prefs, track, remaining, data=None):
         if track:
             self.tracks.append(track)
             self.duration = self.duration + track.get_duration()
             _iter = self.model.append()
-            self.player.discover_item(track, self._on_discovered, _iter)
             escapedTitle = AlbumArtCache.get_media_title(track, True)
             self.model.set(_iter,
-                           [0, 1, 2, 3, 4, 5, 7, 9, 10],
+                           [0, 1, 2, 3, 4, 5, 10],
                            [escapedTitle,
                             self.player.seconds_to_string(
                                 track.get_duration()),
-                            '', '', None, track, NOW_PLAYING_ICON_NAME,
-                            False, bool(track.get_lyrics())])
+                            '', '', None, track, bool(track.get_lyrics())])
             self.ui.get_object('running_length_label_info').set_text(
                 _("%d min") % (int(self.duration / 60) + 1))
 
@@ -306,17 +311,12 @@ class AlbumWidget(Gtk.EventBox):
             escapedTitle = AlbumArtCache.get_media_title(song, True)
             if (song == currentSong):
                 title = '<b>%s</b>' % escapedTitle
-                iconVisible = True
                 song_passed = True
             elif (song_passed):
                 title = '<span>%s</span>' % escapedTitle
-                iconVisible = False
             else:
                 title = '<span color=\'grey\'>%s</span>' % escapedTitle
-                iconVisible = False
             playlist.set_value(_iter, 0, title)
-            if(playlist.get_value(_iter, 7) != ERROR_ICON_NAME):
-                playlist.set_value(_iter, 9, iconVisible)
             _iter = playlist.iter_next(_iter)
             self.ui.get_object('running_length_label_info').set_text(
                 _("%d min") % (int(self.duration / 60) + 1))
@@ -550,16 +550,6 @@ class ArtistAlbumWidget(Gtk.Box):
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
     @log
-    def _on_discovered(self, info, error, song_widget):
-        if error:
-            self.model.set(song_widget._iter, [4], [ERROR_ICON_NAME])
-            song_widget.now_playing_sign.set_from_icon_name(
-                ERROR_ICON_NAME,
-                Gtk.IconSize.SMALL_TOOLBAR)
-            song_widget.now_playing_sign.show()
-            song_widget.can_be_played = False
-
-    @log
     def add_item(self, source, prefs, track, remaining, data=None):
         if remaining == 0:
             self.songsGrid.show_all()
@@ -596,11 +586,9 @@ class ArtistAlbumWidget(Gtk.Box):
                 song_widget.checkButton.connect(
                     'toggled', self._check_button_toggled, song_widget
                 )
-                self.player.discover_item(track, self._on_discovered, song_widget)
                 self.model.set(itr,
-                               [0, 1, 2, 3, 4, 5],
-                               [title, '', '', False,
-                                NOW_PLAYING_ICON_NAME, track])
+                               [0, 1, 2, 3, 5],
+                               [title, '', '', False, track])
                 song_widget.now_playing_sign = ui.get_object('image1')
                 song_widget.now_playing_sign.set_from_icon_name(
                     NOW_PLAYING_ICON_NAME,
@@ -671,6 +659,14 @@ class ArtistAlbumWidget(Gtk.Box):
             return
         songWidget = model[_iter][5].song_widget
         selected = model[_iter][6]
+
+        if model[_iter][11] == DiscoveryStatus.FAILED:
+            songWidget.now_playing_sign.set_from_icon_name(
+                ERROR_ICON_NAME,
+                Gtk.IconSize.SMALL_TOOLBAR)
+            songWidget.now_playing_sign.show()
+            songWidget.can_be_played = False
+
         if selected != songWidget.checkButton.get_active():
             songWidget.checkButton.set_active(selected)
 
