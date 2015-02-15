@@ -208,15 +208,6 @@ class ViewContainer(Gtk.Stack):
         print('populate')
 
     @log
-    def _on_discovered(self, info, error, _iter):
-        if error:
-            try:
-                logger.warn("File will be skipped: %s\n%s" % (error.message, info.get_uri()))
-                self._model.set(_iter, [8, 10], [self.errorIconName, True])
-            except Exception:
-                pass
-
-    @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
             if remaining == 0:
@@ -231,18 +222,11 @@ class ViewContainer(Gtk.Stack):
 
         def add_new_item():
             _iter = self._model.append(None)
-            icon_name = self.nowPlayingIconName
-            if item.get_url():
-                try:
-                    self.player.discoverer.discover_uri(item.get_url())
-                except:
-                    logger.warn('failed to discover url ' + item.get_url())
-                    icon_name = self.errorIconName
             self._model.set(_iter,
-                            [0, 1, 2, 3, 4, 5, 7, 8, 9, 10],
+                            [0, 1, 2, 3, 4, 5, 7, 9],
                             [str(item.get_id()), '', title,
                              artist, self._loadingIcon, item,
-                             0, icon_name, False, icon_name == self.errorIconName])
+                             0, False])
             self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                               _iter, artist, title)
         GLib.idle_add(add_new_item)
@@ -462,11 +446,10 @@ class Songs(ViewContainer):
             return
         _iter = self._model.insert_with_valuesv(
             -1,
-            [2, 3, 5, 8, 9, 10],
+            [2, 3, 5, 9],
             [albumArtCache.get_media_title(item),
-             artist, item, self.nowPlayingIconName, bool(item.get_lyrics()), False])
+             artist, item, bool(item.get_lyrics())])
         # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
-        self.player.discover_item(item, self._on_discovered, _iter)
 
     @log
     def _add_list_renderers(self):
@@ -479,10 +462,8 @@ class Songs(ViewContainer):
         column_now_playing = Gtk.TreeViewColumn()
         column_now_playing.set_property('fixed_width', 24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         'visible', 10)
-        column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         'icon_name', 8)
+        column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
+                                              self._on_list_widget_icon_render, None)
         list_widget.insert_column(column_now_playing, 0)
 
         title_renderer = Gtk.CellRendererText(
@@ -546,6 +527,20 @@ class Songs(ViewContainer):
         item = model.get_value(_iter, 5)
         if item:
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
+
+    def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
+        if model != self.player.playlist:
+            cell.set_visible(False)
+            return
+
+        if model.get_value(_iter, 11) == DiscoveryStatus.FAILED:
+            cell.set_property('icon-name', self.errorIconName)
+            cell.set_visible(True)
+        elif model.get_path(_iter) == self.player.currentTrack.get_path():
+            cell.set_property('icon-name', self.nowPlayingIconName)
+            cell.set_visible(True)
+        else:
+            cell.set_visible(False)
 
     @log
     def populate(self):
@@ -871,10 +866,8 @@ class Playlist(ViewContainer):
         column_now_playing = Gtk.TreeViewColumn()
         column_now_playing.set_property('fixed_width', 24)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         'visible', 10)
-        column_now_playing.add_attribute(now_playing_symbol_renderer,
-                                         'icon_name', 8)
+        column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
+                                              self._on_list_widget_icon_render, None)
         list_widget.insert_column(column_now_playing, 0)
 
         title_renderer = Gtk.CellRendererText(
@@ -960,6 +953,20 @@ class Playlist(ViewContainer):
         item = model.get_value(_iter, 5)
         if item:
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
+
+    def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
+        if model != self.player.playlist:
+            cell.set_visible(False)
+            return
+
+        if model.get_value(_iter, 11) == DiscoveryStatus.FAILED:
+            cell.set_property('icon-name', self.errorIconName)
+            cell.set_visible(True)
+        elif model.get_path(_iter) == self.player.currentTrack.get_path():
+            cell.set_property('icon-name', self.nowPlayingIconName)
+            cell.set_visible(True)
+        else:
+            cell.set_visible(False)
 
     @log
     def _populate(self):
@@ -1132,10 +1139,8 @@ class Playlist(ViewContainer):
             or _("Unknown Artist")
         _iter = model.insert_with_valuesv(
             -1,
-            [2, 3, 5, 8, 9, 10],
-            [title, artist, item, self.nowPlayingIconName, bool(item.get_lyrics()), False])
-        # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
-        self.player.discover_item(item, self._on_discovered, _iter)
+            [2, 3, 5, 9],
+            [title, artist, item, bool(item.get_lyrics())])
         self.songs_count += 1
         self._update_songs_count()
 
@@ -1415,35 +1420,29 @@ class Search(ViewContainer):
         if category == 'album':
             _iter = self._model.insert_with_values(
                 self.head_iters[group], -1,
-                [0, 2, 3, 4, 5, 8, 9, 10, 11],
+                [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._loadingIcon, item, self.nowPlayingIconName,
-                 False, False, category])
+                 self._loadingIcon, item, False, category])
             self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                               _iter, artist, title)
         elif category == 'song':
             _iter = self._model.insert_with_values(
                 self.head_iters[group], -1,
-                [0, 2, 3, 4, 5, 8, 9, 10, 11],
+                [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._noAlbumArtIcon, item, self.nowPlayingIconName,
-                 False, False, category])
+                 self._noAlbumArtIcon, item, False, category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self._model.insert_with_values(
                     self.head_iters[group], -1,
-                    [0, 2, 4, 5, 8, 9, 10, 11],
+                    [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist,
-                     self._loadingIcon, item, self.nowPlayingIconName,
-                     False, False, category])
+                     self._loadingIcon, item, False, category])
                 self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                                   _iter, artist, title)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 
             self._artists[artist.casefold()]['albums'].append(item)
-
-        if category == 'song':
-            self.player.discover_item(item, self._on_discovered, _iter)
 
         if self._model.iter_n_children(self.head_iters[group]) == 1:
             path = self._model.get_path(self.head_iters[group])
