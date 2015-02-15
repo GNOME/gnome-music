@@ -70,6 +70,7 @@ class ViewContainer(Gtk.Stack):
         self._adjustmentChangedId = 0
         self._scrollbarVisibleId = 0
         self.old_vsbl_range = None
+        self._last_selection = None
         self._model = Gtk.ListStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -601,20 +602,8 @@ class Artists (ViewContainer):
 
     @log
     def _populate(self, data=None):
-        selection = self.view.get_generic_view().get_selection()
-        if not selection.get_selected()[1]:
-            self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
-            self._last_selection = self._allIter
-            self._artists[_("All Artists").casefold()] =\
-                {'iter': self._allIter, 'albums': [], 'widget': None}
-            selection.select_path(self._model.get_path(self._allIter))
         self._init = True
         self.populate()
-
-    @log
-    def add_all_artists_entry(self):
-        self.view.emit('item-activated', '0',
-                       self._model.get_path(self._allIter))
 
     @log
     def _add_list_renderers(self):
@@ -668,17 +657,10 @@ class Artists (ViewContainer):
         )
         self.artistAlbumsStack.add(new_artistAlbumsWidget)
 
-        artistAlbums = None
-        if (self._model.get_string_from_iter(_iter) ==
-                self._model.get_string_from_iter(self._allIter)):
-            artistAlbums = Widgets.AllArtistsAlbums(
-                self.player, self.header_bar, self.selection_toolbar
-            )
-        else:
-            artistAlbums = Widgets.ArtistAlbums(
-                artist, albums, self.player,
-                self.header_bar, self.selection_toolbar
-            )
+        artistAlbums = Widgets.ArtistAlbums(
+            artist, albums, self.player,
+            self.header_bar, self.selection_toolbar
+        )
         self._artists[artist.casefold()]['widget'] = artistAlbums
         new_artistAlbumsWidget.add(artistAlbums)
         new_artistAlbumsWidget.show()
@@ -691,7 +673,6 @@ class Artists (ViewContainer):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item is None:
             if remaining == 0:
-                self.add_all_artists_entry()
                 self.view.show()
             return
         self._offset += 1
@@ -701,6 +682,13 @@ class Artists (ViewContainer):
         if not artist.casefold() in self._artists:
             _iter = self._model.insert_with_valuesv(-1, [2], [artist])
             self._artists[artist.casefold()] = {'iter': _iter, 'albums': [], 'widget': None}
+
+            # Select the first item after we're finished with it
+            prev = self._model.iter_previous(_iter)
+            if (prev is not None and self._last_selection is None):
+                selection = self.view.get_generic_view().get_selection()
+                selection.select_iter(prev)
+                self.view.emit('item-activated', '0', self._model.get_path(prev))
 
         self._artists[artist.casefold()]['albums'].append(item)
 
@@ -744,9 +732,7 @@ class Artists (ViewContainer):
             _iter = self._model.get_iter(path)
             artist = self._model.get_value(_iter, 2)
             albums = self._artists[artist.casefold()]['albums']
-            if (self._model.get_string_from_iter(_iter) !=
-                    self._model.get_string_from_iter(self._allIter)):
-                self.albums_selected.extend(albums)
+            self.albums_selected.extend(albums)
 
         if len(self.albums_selected):
             self._get_selected_album_songs()

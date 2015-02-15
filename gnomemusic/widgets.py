@@ -486,30 +486,6 @@ class ArtistAlbums(Gtk.Box):
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
 
-class AllArtistsAlbums(ArtistAlbums):
-
-    @log
-    def __init__(self, player, header_bar, selection_toolbar, selectionModeAllowed=False):
-        ArtistAlbums.__init__(self, _("All Artists"), [], player,
-                              header_bar, selection_toolbar, selectionModeAllowed)
-        self._offset = 0
-        self._populate()
-        self.show()
-
-    @log
-    def _populate(self, data=None):
-        if grilo.tracker:
-            GLib.idle_add(grilo.populate_albums,
-                          self._offset, self.add_item, -1)
-
-    @log
-    def add_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            self._offset += 1
-            self.add_album(item)
-            self.show_all()
-
-
 class ArtistAlbumWidget(Gtk.Box):
 
     __gsignals__ = {
