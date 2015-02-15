@@ -172,6 +172,10 @@ class AlbumArtCache:
 
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
+        if artist in self.blacklist and album in self.blacklist[artist]:
+            self.finish(item, None, None, callback, itr)
+            return
+
         try:
             # Make sure we don't lookup the same iterators several times
             with self.threading_lock:
@@ -206,12 +210,21 @@ class AlbumArtCache:
             width = width or -1
             height = height or -1
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
-            self.finish(item, _make_icon_frame(pixbuf), path, callback, itr)
+            self.finish(item, _make_icon_frame(pixbuf), path, callback, itr, width, height)
         except Exception as e:
             logger.warn("Error: %s" % e)
 
     @log
-    def finish(self, item, pixbuf, path, callback, itr):
+    def finish(self, item, pixbuf, path, callback, itr, width=-1, height=-1, artist=None, album=None):
+        if (pixbuf is None and artist is not None):
+            # Blacklist artist-album combination
+            if artist not in self.blacklist:
+                self.blacklist[artist] = []
+            self.blacklist[artist].append(album)
+
+        if pixbuf is None:
+            pixbuf = self.get_default_icon(width, height, False)
+
         try:
             if path:
                 item.set_thumbnail(GLib.filename_to_uri(path, None))
@@ -232,6 +245,7 @@ class AlbumArtCache:
             self.thread_queue.put(t)
         except Exception as e:
             logger.warn("Error: %s" % e)
+            self.finish(item, None, None, callback, itr, width, height, artist, album)
 
     @log
     def album_art_for_item_callback(self, source, param, item, count, data, error):
@@ -242,20 +256,15 @@ class AlbumArtCache:
 
             uri = item.get_thumbnail()
             if uri is None:
-                # Blacklist artist-album combination
-                if artist not in self.blacklist:
-                    self.blacklist[artist] = []
-                self.blacklist[artist].append(album)
-
                 logger.warn("can't find artwork for album '%s' by %s" % (album, artist))
-                noArtworkIcon = self.get_default_icon(width, height, False)
-                self.finish(item, noArtworkIcon, None, callback, itr)
+                self.finish(item, None, None, callback, itr, width, height, artist, album)
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
             self.thread_queue.put(t)
         except Exception as e:
             logger.warn("Error: %s" % e)
+            self.finish(item, None, None, callback, itr, width, height, artist, album)
 
     @log
     def download_worker(self, item, width, height, path, callback, itr, artist, album, uri):
@@ -266,3 +275,4 @@ class AlbumArtCache:
             self.lookup_worker(item, width, height, callback, itr, artist, album)
         except Exception as e:
             logger.warn("Error: %s" % e)
+            self.finish(item, None, None, callback, itr, width, height, artist, album)
