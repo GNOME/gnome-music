@@ -36,6 +36,7 @@ from gi.repository import GdkPixbuf, Grl
 from gettext import gettext as _, ngettext
 from gnomemusic.grilo import grilo
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic import log
 import logging
@@ -107,14 +108,14 @@ class AlbumWidget(Gtk.EventBox):
 
         _iter = self.model.get_iter(path)
 
-        if(self.model.get_value(_iter, 7) != ERROR_ICON_NAME):
+        if self.model.get_value(_iter, 10) != DiscoveryStatus.FAILED:
             if (self.iterToClean and self.player.playlistId == self.album):
                 item = self.model.get_value(self.iterToClean, 5)
                 title = AlbumArtCache.get_media_title(item)
                 self.model.set_value(self.iterToClean, 0, title)
                 # Hide now playing icon
                 self.model.set_value(self.iterToClean, 6, False)
-            self.player.set_playlist('Album', self.album, self.model, _iter, 5)
+            self.player.set_playlist('Album', self.album, self.model, _iter, 5, 11)
             self.player.set_playing(True)
 
     @log
@@ -180,6 +181,7 @@ class AlbumWidget(Gtk.EventBox):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN,  # icon shown
             GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT
         )
 
     @log
@@ -362,7 +364,8 @@ class ArtistAlbums(Gtk.Box):
                                    GObject.TYPE_BOOLEAN,  # icon shown
                                    GObject.TYPE_STRING,   # icon
                                    GObject.TYPE_OBJECT,   # song object
-                                   GObject.TYPE_BOOLEAN
+                                   GObject.TYPE_BOOLEAN,
+                                   GObject.TYPE_INT
                                    )
         self.model.connect('row-changed', self._model_row_changed)
 
@@ -642,7 +645,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self.player.stop()
         self.player.set_playlist('Artist', self.artist,
-                                 widget.model, widget._iter, 5)
+                                 widget.model, widget._iter, 5, 6)
         self.player.set_playing(True)
 
     @log

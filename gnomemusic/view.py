@@ -44,6 +44,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gnomemusic.toolbar import ToolbarState
 import gnomemusic.widgets as Widgets
+from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 from gnomemusic import log
@@ -80,7 +81,8 @@ class ViewContainer(Gtk.Stack):
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_BOOLEAN
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT
         )
         self.view = Gd.MainView(
             shadow_type=Gtk.ShadowType.NONE
@@ -429,7 +431,7 @@ class Songs(ViewContainer):
         except TypeError:
             return
         if self._model.get_value(_iter, 8) != self.errorIconName:
-            self.player.set_playlist('Songs', None, self._model, _iter, 5)
+            self.player.set_playlist('Songs', None, self._model, _iter, 5, 11)
             self.player.set_playing(True)
 
     @log
@@ -815,7 +817,8 @@ class Playlist(ViewContainer):
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_BOOLEAN
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT
         )
 
         self.playlists_sidebar.set_view_type(Gd.MainViewType.LIST)
@@ -1009,7 +1012,7 @@ class Playlist(ViewContainer):
         if self._model.get_value(_iter, 8) != self.errorIconName:
             self.player.set_playlist(
                 'Playlist', self.current_playlist.get_id(),
-                self._model, _iter, 5
+                self._model, _iter, 5, 11
             )
             self.player.set_playing(True)
 
@@ -1104,7 +1107,8 @@ class Playlist(ViewContainer):
                 GObject.TYPE_INT,
                 GObject.TYPE_STRING,
                 GObject.TYPE_BOOLEAN,
-                GObject.TYPE_BOOLEAN
+                GObject.TYPE_BOOLEAN,
+                GObject.TYPE_INT
             )
             self.view.set_model(self._model)
             GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
@@ -1246,7 +1250,7 @@ class Playlist(ViewContainer):
 
                     self.iter_to_clean = None
                     self.update_model(self.player, model, nextIter)
-                    self.player.set_playlist('Playlist', playlist.get_id(), model, nextIter, 5)
+                    self.player.set_playlist('Playlist', playlist.get_id(), model, nextIter, 5, 11)
                     self.player.set_playing(True)
 
                 # Update songs count
@@ -1343,9 +1347,9 @@ class Search(ViewContainer):
             self.set_visible_child(self._artistAlbumsWidget)
             self.header_bar.searchbar.show_bar(False)
         elif self._model[_iter][11] == 'song':
-            if self._model.get_value(_iter, 8) != self.errorIconName:
+            if self._model.get_value(_iter, 12) != DiscoveryStatus.FAILED:
                 child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
-                self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5)
+                self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5, 12)
                 self.player.set_playing(True)
         else:  # Headers
             if self.view.get_generic_view().row_expanded(path):
@@ -1612,7 +1616,8 @@ class Search(ViewContainer):
             GObject.TYPE_STRING,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_STRING     # type
+            GObject.TYPE_STRING,    # type
+            GObject.TYPE_INT
         )
         self.filter_model = self._model.filter_new(None)
         self.filter_model.set_visible_func(self._filter_visible_func)

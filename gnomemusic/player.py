@@ -61,6 +61,10 @@ class PlaybackStatus:
     PAUSED = 1
     STOPPED = 2
 
+class DiscoveryStatus:
+    PENDING = 0
+    FAILED = 1
+    SUCCEEDED = 2
 
 class Player(GObject.GObject):
     nextTrack = None
@@ -210,6 +214,8 @@ class Player(GObject.GObject):
     def _onBusError(self, bus, message):
         media = self.get_current_media()
         if media is not None:
+            currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
+            self.playlist.set_value(currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
             uri = media.get_url()
         else:
             uri = 'none'
@@ -225,8 +231,6 @@ class Player(GObject.GObject):
 
     @log
     def _on_bus_eos(self, bus, message):
-        self.nextTrack = self._get_next_track()
-
         if self.nextTrack:
             GLib.idle_add(self._on_glib_idle)
         elif (self.repeat == RepeatType.NONE):
@@ -468,6 +472,37 @@ class Player(GObject.GObject):
         self.emit('playlist-item-changed', self.playlist, currentTrack)
         self.emit('current-changed')
 
+        self._validate_next_track();
+
+    def _on_next_item_validated(self, info, error, _iter):
+        if error:
+            print("Info %s: error: %s" % (info, error))
+            self.playlist.set_value(_iter, self.discovery_status_field, DiscoveryStatus.FAILED);
+            nextTrack = self.playlist.iter_next(_iter)
+
+            if nextTrack:
+                self._validate_next_track(Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(nextTrack)))
+
+    def _validate_next_track(self, track=None):
+        if track is None:
+            track = self._get_next_track()
+
+        if track is None:
+            return
+
+        self.nextTrack = track
+
+        _iter = self.playlist.get_iter(self.nextTrack.get_path())
+        status = self.playlist.get_value(_iter, self.discovery_status_field)
+        nextSong = self.playlist.get_value(_iter, self.playlistField)
+
+        if status == DiscoveryStatus.PENDING:
+            self.discover_item(nextSong, self._on_next_item_validated, _iter)
+        elif status == DiscoveryStatus.FAILED:
+            GLib.idle_add(self._validate_next_track())
+
+        return False;
+
     @log
     def _on_cache_lookup(self, pixbuf, path, data=None):
         if pixbuf is not None:
@@ -524,7 +559,7 @@ class Player(GObject.GObject):
             return True
 
         self.stop()
-        self.currentTrack = self._get_next_track()
+        self.currentTrack = self.nextTrack
 
         if self.currentTrack:
             self.play()
@@ -557,7 +592,7 @@ class Player(GObject.GObject):
             self.set_playing(True)
 
     @log
-    def set_playlist(self, type, id, model, iter, field):
+    def set_playlist(self, type, id, model, iter, field, discovery_status_field):
         self.stop()
 
         old_playlist = self.playlist
@@ -572,6 +607,7 @@ class Player(GObject.GObject):
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
         self.playlistField = field
+        self.discovery_status_field = discovery_status_field
 
         if old_playlist != model:
             self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
@@ -798,6 +834,8 @@ class Player(GObject.GObject):
         if not self.currentTrack or not self.currentTrack.valid():
             return None
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
+        if self.playlist.get_value(currentTrack, self.discovery_status_field) == DiscoveryStatus.FAILED:
+            return None
         return self.playlist.get_value(currentTrack, self.playlistField)
 
 
