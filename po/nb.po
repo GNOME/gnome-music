@@ -1,15 +1,15 @@
 # Norwegian bokmål translation of gnome-music.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kjartan Maraas <kmaraas@gnome.org>, 2012-2014.
+# Kjartan Maraas <kmaraas@gnome.org>, 2012-2015.
 # Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 3.15.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-08 21:21+0100\n"
-"PO-Revision-Date: 2015-01-27 10:37+0100\n"
+"POT-Creation-Date: 2015-02-16 18:07+0100\n"
+"PO-Revision-Date: 2015-02-16 18:08+0100\n"
 "Last-Translator: Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
@@ -66,11 +66,11 @@ msgstr "Søkemodus"
 
 #: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
-msgstr "Vis søkelinje hvis denne er satt til «true»."
+msgstr "Hvis denne verdien er positiv («true»), vises søkefeltet."
 
 #: ../data/org.gnome.Music.gschema.xml.h:12
 msgid "Notifications mode"
-msgstr "Varslingsområde"
+msgstr "Varslingsmouds"
 
 #: ../data/org.gnome.Music.gschema.xml.h:13
 msgid "Enables or disables playback notifications"
@@ -96,12 +96,8 @@ msgstr "Slå på ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Slår på eller av ReplayGain for album"
 
-#: ../data/org.gnome.Music.gschema.xml.h:18
-msgid "Internal: id for most played playlist"
-msgstr "Intern: id for for mest spilte spilleliste"
-
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:63
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musikk"
@@ -131,17 +127,17 @@ msgid "Untitled"
 msgstr "Uten tittel"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:521
-#: ../gnomemusic/view.py:927 ../gnomemusic/view.py:1329
+#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:533
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1390
 msgid "Unknown Album"
 msgstr "Ukjent album"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:674
-#: ../gnomemusic/view.py:1092 ../gnomemusic/view.py:1327
-#: ../gnomemusic/view.py:1361 ../gnomemusic/widgets.py:179
-#: ../gnomemusic/widgets.py:586
+#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:221
+#: ../gnomemusic/view.py:448 ../gnomemusic/view.py:705
+#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1388
+#: ../gnomemusic/view.py:1423 ../gnomemusic/widgets.py:206
+#: ../gnomemusic/widgets.py:610
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
@@ -159,11 +155,11 @@ msgstr "av %s, fra %s"
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:398
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:402
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:401
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:405
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Spill av"
@@ -173,24 +169,29 @@ msgid "Next"
 msgstr "Neste"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:48
+#: ../gnomemusic/playlists.py:49
 msgid "Most Played"
 msgstr "Mest spilt"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:55
+#: ../gnomemusic/playlists.py:56
 msgid "Never Played"
 msgstr "Aldri spilt"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:62
+#: ../gnomemusic/playlists.py:63
 msgid "Recently Played"
 msgstr "Nylig spilt"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:69
+#: ../gnomemusic/playlists.py:70
 msgid "Recently Added"
 msgstr "Nylig lagt til"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "Favorittlåter"
 
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
@@ -228,69 +229,73 @@ msgstr "Kilder"
 msgid "Match"
 msgstr "Treff"
 
-#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:220
-#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:247
+#: ../gnomemusic/widgets.py:487 ../gnomemusic/window.py:288
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d oppføring valgt"
 msgstr[1] "%d oppføringer valgt"
 
-#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:249
+#: ../gnomemusic/widgets.py:489 ../gnomemusic/window.py:292
+#: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../gnomemusic/view.py:287 ../gnomemusic/view.py:1586
+#: ../gnomemusic/view.py:294 ../gnomemusic/view.py:1650
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:372 ../gnomemusic/view.py:1588
+#: ../gnomemusic/view.py:385 ../gnomemusic/view.py:1652
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:538 ../gnomemusic/view.py:1587
+#: ../gnomemusic/view.py:565 ../gnomemusic/view.py:1651
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:584 ../gnomemusic/view.py:586
-#: ../gnomemusic/widgets.py:461
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:496
 msgid "All Artists"
 msgstr "Alle artister"
 
-#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1589
+#: ../gnomemusic/view.py:790 ../gnomemusic/view.py:1653
 msgid "Playlists"
 msgstr "Spillelister"
 
-#: ../gnomemusic/view.py:1104
+#: ../gnomemusic/view.py:1161
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sanger"
 
-#: ../gnomemusic/widgets.py:268 ../gnomemusic/widgets.py:307
+#: ../gnomemusic/widgets.py:288 ../gnomemusic/widgets.py:322
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:702
+#: ../gnomemusic/widgets.py:734
 msgid "New Playlist"
 msgstr "Ny spilleliste"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:236
 msgid "Empty"
 msgstr "Tom"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:316
 msgid "_Undo"
 msgstr "_Angre"
 
-#: ../gnomemusic/window.py:321
+#: ../gnomemusic/window.py:317
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Spilleliste %s fjernet"
+
+#: ../gnomemusic/window.py:341
+msgid "Loading"
+msgstr "Laster"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -392,7 +397,7 @@ msgstr "Fant ingen musikk"
 
 #: ../data/NoMusic.ui.h:2
 msgid "The contents of your music folder will appear here."
-msgstr "Innholdet i musikkmappen din vil vises her."
+msgstr "Innholdet i musikkmappen din vises her."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -441,9 +446,3 @@ msgstr "Navn på spilleliste"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Velg spilleliste"
-
-#~ msgid "the"
-#~ msgstr "the"
-
-#~ msgid "_New Playlist"
-#~ msgstr "_Ny spilleliste"
