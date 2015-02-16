@@ -173,7 +173,7 @@ class AlbumArtCache:
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
         if artist in self.blacklist and album in self.blacklist[artist]:
-            self.finish(item, None, None, callback, itr)
+            self.finish(item, None, None, callback, itr, width, height)
             return
 
         try:
@@ -194,7 +194,7 @@ class AlbumArtCache:
         try:
 
             if artist in self.blacklist and album in self.blacklist[artist]:
-                self.finish(item, None, None, callback, itr)
+                self.finish(item, None, None, callback, itr, width, height)
                 return
 
             path = None
