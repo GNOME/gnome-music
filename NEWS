@@ -1,3 +1,26 @@
+Overview of changes in 3.15.90
+=============================
+
+* New smart playlist - Favourite tracks, all views updated to allow
+  making a track favourite
+* All Artists is not selected by default - improves performance
+* All smart playlists now retyurn max 50 items
+* Playlists menu now uses popover
+* Notification appears on loading operations
+* Favourite songs are now displayed on search view
+* GStreamer discoverer performance fixes from garnacho
+* Minor UI fixes
+
+
+* Bugs fixed:
+ 744005 stars in Album/Artist/Search views
+ 729525 Show a loading animation when Add to Playlist is clicked in Albums and Artists view
+ 729377 Convert menu of gear button in the Playlists view into a popover
+ 743310 Updates to Smart Playlist functionality in 3.15.4
+
+
+* Updated translations and help files
+
 Overview of changes in 3.15.4
 =============================
 
