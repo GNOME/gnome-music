@@ -212,6 +212,7 @@ class ViewContainer(Gtk.Stack):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
             if remaining == 0:
+                self.window.notification.dismiss()
                 self.view.show()
             return
         self._offset += 1
@@ -340,6 +341,7 @@ class Albums(ViewContainer):
     @log
     def populate(self):
         if grilo.tracker:
+            self.window._init_loading_notification()
             GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
 
     @log
@@ -436,6 +438,7 @@ class Songs(ViewContainer):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
             if remaining == 0:
+                self.window.notification.dismiss()
                 self.view.show()
             return
         self._offset += 1
@@ -547,6 +550,7 @@ class Songs(ViewContainer):
     def populate(self):
         self._init = True
         if grilo.tracker:
+            self.window._init_loading_notification()
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
     @log
@@ -673,12 +677,12 @@ class Artists (ViewContainer):
         if (self._model.get_string_from_iter(_iter) ==
                 self._model.get_string_from_iter(self._allIter)):
             artistAlbums = Widgets.AllArtistsAlbums(
-                self.player, self.header_bar, self.selection_toolbar
+                self.player, self.header_bar, self.selection_toolbar, self.window
             )
         else:
             artistAlbums = Widgets.ArtistAlbums(
                 artist, albums, self.player,
-                self.header_bar, self.selection_toolbar
+                self.header_bar, self.selection_toolbar, self.window
             )
         self._artists[artist.casefold()]['widget'] = artistAlbums
         new_artistAlbumsWidget.add(artistAlbums)
@@ -692,7 +696,7 @@ class Artists (ViewContainer):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item is None:
             if remaining == 0:
-                #self.add_all_artists_entry()
+                self.window.notification.dismiss()
                 self.view.show()
             return
         self._offset += 1
@@ -708,6 +712,7 @@ class Artists (ViewContainer):
     @log
     def populate(self):
         if grilo.tracker:
+            self.window._init_loading_notification()
             GLib.idle_add(grilo.populate_artists, self._offset, self._add_item)
 
     @log
@@ -974,6 +979,7 @@ class Playlist(ViewContainer):
     @log
     def _populate(self):
         self._init = True
+        self.window._init_loading_notification()
         self.populate()
 
     @log
@@ -996,6 +1002,7 @@ class Playlist(ViewContainer):
     @log
     def _add_playlist_item_to_model(self, item):
         if not item:
+            self.window.notification.dismiss()
             self.emit('playlists-loaded')
             return
         _iter = self.playlists_model.insert_with_valuesv(
@@ -1194,7 +1201,7 @@ class Playlist(ViewContainer):
 
     @log
     def _on_delete_activate(self, menuitem, data=None):
-        self.window._init_notification()
+        self.window._init_playlist_removal_notification()
         self.delete_selected_playlist()
 
     @log
@@ -1346,7 +1353,7 @@ class Search(ViewContainer):
 
             self._artistAlbumsWidget = Widgets.ArtistAlbums(
                 artist, albums, self.player,
-                self.header_bar, self.selection_toolbar, True
+                self.header_bar, self.selection_toolbar, self.window, True
             )
             self.add(self._artistAlbumsWidget)
 
@@ -1400,6 +1407,7 @@ class Search(ViewContainer):
             return
 
         if remaining == 0:
+            self.window.notification.dismiss()
             self.view.show()
 
         model, category = data
@@ -1483,6 +1491,7 @@ class Search(ViewContainer):
 
     @log
     def populate(self):
+        self.window._init_loading_notification()
         self.header_bar.set_state(ToolbarState.MAIN)
 
     @log

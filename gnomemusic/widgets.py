@@ -343,11 +343,12 @@ class ArtistAlbums(Gtk.Box):
 
     @log
     def __init__(self, artist, albums, player,
-                 header_bar, selection_toolbar, selectionModeAllowed=False):
+                 header_bar, selection_toolbar, window, selectionModeAllowed=False):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
         self.player = player
         self.artist = artist
         self.albums = albums
+        self.window = window
         self.selectionMode = False
         self.selectionModeAllowed = selectionModeAllowed
         self.selection_toolbar = selection_toolbar
@@ -385,6 +386,7 @@ class ArtistAlbums(Gtk.Box):
         self.pack_start(self._scrolledWindow, True, True, 0)
 
         self.hide()
+        self.window._init_loading_notification()
 
         for album in albums:
             is_last_album = False
@@ -395,6 +397,7 @@ class ArtistAlbums(Gtk.Box):
         self.player.connect('playlist-item-changed', self.update_model)
 
     def _on_last_album_displayed(self, data=None):
+        self.window.notification.dismiss()
         self.show_all()
 
     @log
@@ -494,20 +497,21 @@ class AllArtistsAlbums(ArtistAlbums):
                               header_bar, selection_toolbar, selectionModeAllowed)
         self._offset = 0
         self._populate()
-        self.show()
 
     @log
     def _populate(self, data=None):
         if grilo.tracker:
             GLib.idle_add(grilo.populate_albums,
-                          self._offset, self.add_item, -1)
+                          self._offset, self.add_item)
 
     @log
     def add_item(self, source, param, item, remaining=0, data=None):
+        if remaining == 0:
+            self._on_last_album_displayed()
+
         if item:
             self._offset += 1
             self.add_album(item)
-            self.show_all()
 
 
 class ArtistAlbumWidget(Gtk.Box):

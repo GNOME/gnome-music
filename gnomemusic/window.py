@@ -305,7 +305,7 @@ class Window(Gtk.ApplicationWindow):
         self._stack.get_visible_child().queue_draw()
 
     @log
-    def _init_notification(self):
+    def _init_playlist_removal_notification(self):
         self.notification = Gd.Notification()
         self.notification.set_timeout(20)
 
@@ -322,13 +322,26 @@ class Window(Gtk.ApplicationWindow):
         self.notification.show_all()
         self._overlay.add_overlay(self.notification)
 
-        self.notification.connect("dismissed", self._notification_dismissed)
+        self.notification.connect("dismissed", self._playlist_removal_notification_dismissed)
         undo_button.connect("clicked", self._undo_deletion)
 
     @log
-    def _notification_dismissed(self, widget):
+    def _playlist_removal_notification_dismissed(self, widget):
         if self.views[3].really_delete:
             Views.playlists.delete_playlist(self.views[3].pl_todelete)
+
+    @log
+    def _init_loading_notification(self):
+        self.notification = Gd.Notification()
+        grid = Gtk.Grid()
+        grid.set_column_spacing(8)
+        self.notification.add(grid)
+        spinner = Gtk.Spinner()
+        grid.add(spinner)
+        grid.add(Gtk.Label.new(_("Loading")))
+        spinner.start()
+        self.notification.show_all()
+        self._overlay.add_overlay(self.notification)
 
     @log
     def _undo_deletion(self, widget):
@@ -355,7 +368,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             if (event.keyval == Gdk.KEY_Delete):
                 if self._stack.get_visible_child() == self.views[3]:
-                    self._init_notification()
+                    self._init_playlist_removal_notification()
                     self.views[3].delete_selected_playlist()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
