@@ -35,6 +35,7 @@ from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Gd
 from gi.repository import Grl
+from gi.repository import Gio
 from gi.repository import Pango
 from gi.repository import GLib
 from gi.repository import GdkPixbuf
@@ -794,10 +795,12 @@ class Playlist(ViewContainer):
         self.name_label = builder.get_object('playlist_name')
         self.songs_count_label = builder.get_object('songs_count')
         self.menubutton = builder.get_object('playlist_menubutton')
-        self.play_menuitem = builder.get_object('menuitem_play')
-        self.play_menuitem.connect('activate', self._on_play_activate)
-        self.delete_menuitem = builder.get_object('menuitem_delete')
-        self.delete_menuitem.connect('activate', self._on_delete_activate)
+        playlistPlayAction = Gio.SimpleAction.new('playlist_play', None)
+        playlistPlayAction.connect('activate', self._on_play_activate)
+        window.add_action(playlistPlayAction)
+        playlistDeleteAction = Gio.SimpleAction.new('playlist_delete', None)
+        playlistDeleteAction.connect('activate', self._on_delete_activate)
+        window.add_action(playlistDeleteAction)
         self._grid.insert_row(0)
         self._grid.attach(self.headerbar, 1, 0, 1, 1)
 

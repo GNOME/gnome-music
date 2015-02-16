@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.12 -->
-  <object class="GtkMenu" id="menu1">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="halign">end</property>
-    <child>
-      <object class="GtkMenuItem" id="menuitem_play">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">_Play</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menuitem_delete">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">_Delete</property>
-        <property name="use_underline">True</property>
-      </object>
-    </child>
-  </object>
+  <menu id="playlistMenu">
+    <item>
+      <attribute name="label" translatable="yes">_Play</attribute>
+      <attribute name="action">win.playlist_play</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Delete</attribute>
+      <attribute name="action">win.playlist_delete</attribute>
+    </item>
+  </menu>
   <object class="GtkGrid" id="grid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -73,8 +62,9 @@
         <property name="halign">end</property>
         <property name="valign">center</property>
         <property name="focus_on_click">False</property>
-        <property name="popup">menu1</property>
+        <property name="menu-model">playlistMenu</property>
         <property name="direction">none</property>
+        <property name="use_popover">True</property>
         <style>
           <class name="image-button"/>
         </style>
