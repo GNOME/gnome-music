@@ -607,7 +607,7 @@ class Artists (ViewContainer):
             self._last_selection = self._allIter
             self._artists[_("All Artists").casefold()] =\
                 {'iter': self._allIter, 'albums': [], 'widget': None}
-            selection.select_path(self._model.get_path(self._allIter))
+            #selection.select_path(self._model.get_path(self._allIter))
         self._init = True
         self.populate()
 
@@ -691,7 +691,7 @@ class Artists (ViewContainer):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item is None:
             if remaining == 0:
-                self.add_all_artists_entry()
+                #self.add_all_artists_entry()
                 self.view.show()
             return
         self._offset += 1
