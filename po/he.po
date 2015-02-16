@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-26 21:20+0200\n"
-"PO-Revision-Date: 2015-01-26 21:22+0200\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
+"POT-Creation-Date: 2015-02-16 23:09+0200\n"
+"PO-Revision-Date: 2015-02-16 23:09+0200\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -97,12 +97,8 @@ msgstr "Enable ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Enables or disables ReplayGain for albums"
 
-#: ../data/org.gnome.Music.gschema.xml.h:18
-msgid "Internal: id for most played playlist"
-msgstr "Internal: id for most played playlist"
-
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:63
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "מוזיקה"
@@ -132,17 +128,17 @@ msgid "Untitled"
 msgstr "ללא כותרת"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:521
-#: ../gnomemusic/view.py:927 ../gnomemusic/view.py:1329
+#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:533
+#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1390
 msgid "Unknown Album"
 msgstr "אלבום לא ידוע"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:430 ../gnomemusic/view.py:674
-#: ../gnomemusic/view.py:1092 ../gnomemusic/view.py:1327
-#: ../gnomemusic/view.py:1361 ../gnomemusic/widgets.py:179
-#: ../gnomemusic/widgets.py:586
+#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:221
+#: ../gnomemusic/view.py:448 ../gnomemusic/view.py:705
+#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1388
+#: ../gnomemusic/view.py:1423 ../gnomemusic/widgets.py:206
+#: ../gnomemusic/widgets.py:610
 msgid "Unknown Artist"
 msgstr "אמן לא ידוע"
 
@@ -160,11 +156,11 @@ msgstr "של %s, מ־%s"
 msgid "Previous"
 msgstr "הקודם"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:398
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:402
 msgid "Pause"
 msgstr "השהיה"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:401
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:405
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "ניגון"
@@ -174,24 +170,29 @@ msgid "Next"
 msgstr "הבא"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:48
+#: ../gnomemusic/playlists.py:49
 msgid "Most Played"
 msgstr "הושמע ביותר"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:55
+#: ../gnomemusic/playlists.py:56
 msgid "Never Played"
 msgstr "לעולם לא הושמע"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:62
+#: ../gnomemusic/playlists.py:63
 msgid "Recently Played"
 msgstr "הושמע לאחרונה"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:69
+#: ../gnomemusic/playlists.py:70
 msgid "Recently Added"
 msgstr "נוסף לאחרונה"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "שירים מועדפים"
 
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
@@ -229,8 +230,8 @@ msgstr "מקורות"
 msgid "Match"
 msgstr "התאמה"
 
-#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:220
-#: ../gnomemusic/widgets.py:452 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:247
+#: ../gnomemusic/widgets.py:487 ../gnomemusic/window.py:288
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -238,34 +239,34 @@ msgstr[0] "פריט %d נבחר"
 msgstr[1] "%d פריטים נבחרו"
 msgstr[2] "%d פריטים נבחרו"
 
-#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:454 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:249
+#: ../gnomemusic/widgets.py:489 ../gnomemusic/window.py:292
+#: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../gnomemusic/view.py:287 ../gnomemusic/view.py:1586
+#: ../gnomemusic/view.py:294 ../gnomemusic/view.py:1650
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../gnomemusic/view.py:372 ../gnomemusic/view.py:1588
+#: ../gnomemusic/view.py:385 ../gnomemusic/view.py:1652
 msgid "Songs"
 msgstr "שירים"
 
-#: ../gnomemusic/view.py:538 ../gnomemusic/view.py:1587
+#: ../gnomemusic/view.py:565 ../gnomemusic/view.py:1651
 msgid "Artists"
 msgstr "אמנים"
 
-#: ../gnomemusic/view.py:584 ../gnomemusic/view.py:586
-#: ../gnomemusic/widgets.py:461
+#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
+#: ../gnomemusic/widgets.py:496
 msgid "All Artists"
 msgstr "כל האמנים"
 
-#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1589
+#: ../gnomemusic/view.py:790 ../gnomemusic/view.py:1653
 msgid "Playlists"
 msgstr "רשימות השמעה"
 
-#: ../gnomemusic/view.py:1104
+#: ../gnomemusic/view.py:1161
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -273,27 +274,31 @@ msgstr[0] "שיר %d"
 msgstr[1] "%d שירים"
 msgstr[2] "%d שירים"
 
-#: ../gnomemusic/widgets.py:268 ../gnomemusic/widgets.py:307
+#: ../gnomemusic/widgets.py:288 ../gnomemusic/widgets.py:322
 #, python-format
 msgid "%d min"
 msgstr "%d דקות"
 
-#: ../gnomemusic/widgets.py:702
+#: ../gnomemusic/widgets.py:734
 msgid "New Playlist"
 msgstr "רשימת השמעה חדשה"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:236
 msgid "Empty"
 msgstr "ריק"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:316
 msgid "_Undo"
 msgstr "_ביטול"
 
-#: ../gnomemusic/window.py:321
+#: ../gnomemusic/window.py:317
 #, python-format
 msgid "Playlist %s removed"
 msgstr "רשימת ההשמעה %s הוסרה"
+
+#: ../gnomemusic/window.py:341
+msgid "Loading"
+msgstr "בטעינה"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -440,6 +445,9 @@ msgstr "שם רשימת השמעה"
 msgid "Select Playlist"
 msgstr "בחירת רשימת השמעה"
 
+#~ msgid "Internal: id for most played playlist"
+#~ msgstr "Internal: id for most played playlist"
+
 #~ msgid "the"
 #~ msgstr "ה"
 
@@ -455,9 +463,6 @@ msgstr "בחירת רשימת השמעה"
 
 #~ msgid "Load More"
 #~ msgstr "טעינת עוד"
-
-#~ msgid "Loading..."
-#~ msgstr "בטעינה…"
 
 #~ msgid "Now _Playing"
 #~ msgstr "מת_נגן כעת"
