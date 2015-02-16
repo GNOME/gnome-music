@@ -116,11 +116,11 @@ class Playlists(GObject.GObject):
             while (cursor.next(None)):
                 playlist.ID = cursor.get_integer(1)
 
-                if not playlist.ID:
-                    # create the playlist
-                    playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
+            if not playlist.ID:
+                # create the playlist
+                playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
 
-                self.update_static_playlist(playlist)
+            self.update_static_playlist(playlist)
 
         for playlist in playlists:
             self.tracker.query_async(
