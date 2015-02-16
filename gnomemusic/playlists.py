@@ -149,6 +149,8 @@ class Playlists(GObject.GObject):
         # Clear the playlist
         self.clear_playlist_with_id(playlist.ID)
 
+        final_query = ''
+
         # Get a list of matching songs
         cursor = self.tracker.query(playlist.QUERY, None)
         if not cursor:
@@ -157,11 +159,10 @@ class Playlists(GObject.GObject):
         # For each song run 'add song to playlist'
         while cursor.next():
             uri = cursor.get_string(0)[0]
-            self.tracker.update_blank_async(
-                Query.add_song_to_playlist(playlist.ID, uri),
-                GLib.PRIORITY_DEFAULT,
-                None, None, None
-            )
+            final_query += Query.add_song_to_playlist(playlist.ID, uri)
+
+        self.tracker.update_blank_async(final_query, GLib.PRIORITY_DEFAULT,
+                                        None, None, None)
 
         # tell system we updated the playlist so playlist is reloaded
         self.emit('playlist-updated', playlist.ID)
