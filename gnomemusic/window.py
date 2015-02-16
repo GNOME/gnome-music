@@ -30,7 +30,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, Gdk, Gio, GLib, Tracker
+from gi.repository import Gtk, Gdk, Gio, GLib
 from gi.repository import Gd
 from gettext import gettext as _, ngettext
 
@@ -48,6 +48,7 @@ logger = logging.getLogger(__name__)
 
 tracker = TrackerWrapper().tracker
 playlist = Playlists.get_default()
+
 
 class Window(Gtk.ApplicationWindow):
 
