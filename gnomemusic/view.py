@@ -1441,7 +1441,7 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._noAlbumArtIcon, item, False, category])
+                 self._noAlbumArtIcon, item, bool(item.get_lyrics()), category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self._model.insert_with_values(
@@ -1475,6 +1475,12 @@ class Search(ViewContainer):
         list_widget.add_renderer(title_renderer,
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
+
+        star_renderer = Widgets.CellRendererClickablePixbuf(self.view, hidden=True)
+        star_renderer.connect("clicked", self._on_star_toggled)
+        list_widget.add_renderer(star_renderer,
+                                 self._on_list_widget_star_render, None)
+        cols[0].add_attribute(star_renderer, 'show_star', 9)
 
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)

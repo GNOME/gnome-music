@@ -805,12 +805,13 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
     starIcon = 'starred-symbolic'
     nonStarIcon = 'non-starred-symbolic'
 
-    def __init__(self, view, *args, **kwargs):
+    def __init__(self, view, hidden=False, *args, **kwargs):
         Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)
         self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
         self.set_property('xpad', 32)
         self.set_property('icon_name', self.nonStarIcon)
         self.view = view
+        self.hidden = hidden
         self.show_star = False
 
     def do_activate(self, event, widget, path, background_area, cell_area, flags):
@@ -826,5 +827,8 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
             if self.show_star:
                 self.set_property('icon_name', self.starIcon)
             else:
-                self.set_property('icon_name', self.nonStarIcon)
+                if not self.hidden:
+                    self.set_property('icon_name', self.nonStarIcon)
+                else:
+                    self.set_property('icon_name', '')
             self.show_star = value
