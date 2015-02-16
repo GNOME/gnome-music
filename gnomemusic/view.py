@@ -580,11 +580,11 @@ class Artists (ViewContainer):
         self.artistAlbumsStack.add_named(self._artistAlbumsWidget, "sidebar")
         self.artistAlbumsStack.set_visible_child_name("sidebar")
         self.view.set_hexpand(False)
-        self.view.get_style_context().add_class('artist-panel')
         self.view.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
         self._grid.attach(self.artistAlbumsStack, 2, 0, 2, 2)
         self._add_list_renderers()
+        self.view.get_generic_view().get_style_context().remove_class('content-view')
         if (Gtk.Settings.get_default().get_property(
                 'gtk_application_prefer_dark_theme')):
             self.view.get_generic_view().get_style_context().\
