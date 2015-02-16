@@ -111,17 +111,21 @@ class Playlists(GObject.GObject):
         playlists = [cls for name, cls in inspect.getmembers(StaticPlaylists)
                      if inspect.isclass(cls) and not (name == "__class__")]  # hacky
 
+        def callback(obj, result, playlist):
+            cursor = obj.query_finish(result)
+            while (cursor.next(None)):
+                playlist.ID = cursor.get_integer(1)
+
+                if not playlist.ID:
+                    # create the playlist
+                    playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
+
+                self.update_static_playlist(playlist)
+
         for playlist in playlists:
-            cursor = self.tracker.query(Query.get_playlist_with_tag(playlist.TAG_TEXT), None)
-            while cursor.next():
-                playlist_id = cursor.get_string(1)[0]
-                playlist.ID = int(playlist_id)  # hacky; shouldn't be reassigned every time
-
-            if not playlist.ID:
-                # create the playlist
-                playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
-
-            self.update_static_playlist(playlist)
+            self.tracker.query_async(
+                Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
+                callback, playlist)
 
     @log
     def clear_playlist_with_id(self, playlist_id):
@@ -139,6 +143,7 @@ class Playlists(GObject.GObject):
         query = Query.update_last_played(song_url, cur_time)
         self.tracker.update(query, GLib.PRIORITY_DEFAULT, None)
 
+    @log
     def update_static_playlist(self, playlist):
         """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
         # Clear the playlist
@@ -161,6 +166,7 @@ class Playlists(GObject.GObject):
         # tell system we updated the playlist so playlist is reloaded
         self.emit('playlist-updated', playlist.ID)
 
+    @log
     def update_all_static_playlists(self):
         playlists = [cls for name, cls in inspect.getmembers(StaticPlaylists)
                      if inspect.isclass(cls) and not (name == "__class__")]  # hacky
