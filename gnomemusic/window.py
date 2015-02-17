@@ -309,7 +309,7 @@ class Window(Gtk.ApplicationWindow):
         self.notification = Gd.Notification()
         self.notification.set_timeout(20)
 
-        grid = Gtk.Grid()
+        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_right=8)
         grid.set_column_spacing(8)
         self.notification.add(grid)
 
@@ -333,13 +333,14 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _init_loading_notification(self):
         self.notification = Gd.Notification()
-        grid = Gtk.Grid()
+        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_right=8)
         grid.set_column_spacing(8)
-        self.notification.add(grid)
         spinner = Gtk.Spinner()
-        grid.add(spinner)
-        grid.add(Gtk.Label.new(_("Loading")))
         spinner.start()
+        grid.add(spinner)
+        label = Gtk.Label.new(_("Loading"))
+        grid.add(label)
+        self.notification.add(grid)
         self.notification.show_all()
         GLib.timeout_add(1000, self._overlay.add_overlay, self.notification)
 
