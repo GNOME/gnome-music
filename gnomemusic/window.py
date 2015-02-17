@@ -341,7 +341,7 @@ class Window(Gtk.ApplicationWindow):
         grid.add(Gtk.Label.new(_("Loading")))
         spinner.start()
         self.notification.show_all()
-        self._overlay.add_overlay(self.notification)
+        GLib.timeout_add(1000, self._overlay.add_overlay, self.notification)
 
     @log
     def _undo_deletion(self, widget):
