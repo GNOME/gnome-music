@@ -305,6 +305,20 @@ class Window(Gtk.ApplicationWindow):
         self._stack.get_visible_child().queue_draw()
 
     @log
+    def _init_loading_notification(self):
+        self.notification = Gd.Notification()
+        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_right=8)
+        grid.set_column_spacing(8)
+        spinner = Gtk.Spinner()
+        spinner.start()
+        grid.add(spinner)
+        label = Gtk.Label.new(_("Loading"))
+        grid.add(label)
+        self.notification.add(grid)
+        self.notification.show_all()
+        GLib.timeout_add(1000, self._overlay.add_overlay, self.notification)
+
+    @log
     def _init_playlist_removal_notification(self):
         self.notification = Gd.Notification()
         self.notification.set_timeout(20)
@@ -331,20 +345,6 @@ class Window(Gtk.ApplicationWindow):
             Views.playlists.delete_playlist(self.views[3].pl_todelete)
         else:
             self.views[3].really_delete = True
-
-    @log
-    def _init_loading_notification(self):
-        self.notification = Gd.Notification()
-        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_right=8)
-        grid.set_column_spacing(8)
-        spinner = Gtk.Spinner()
-        spinner.start()
-        grid.add(spinner)
-        label = Gtk.Label.new(_("Loading"))
-        grid.add(label)
-        self.notification.add(grid)
-        self.notification.show_all()
-        GLib.timeout_add(1000, self._overlay.add_overlay, self.notification)
 
     @log
     def _undo_deletion(self, widget):
