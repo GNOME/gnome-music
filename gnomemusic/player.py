@@ -472,12 +472,12 @@ class Player(GObject.GObject):
         self.emit('playlist-item-changed', self.playlist, currentTrack)
         self.emit('current-changed')
 
-        self._validate_next_track();
+        self._validate_next_track()
 
     def _on_next_item_validated(self, info, error, _iter):
         if error:
             print("Info %s: error: %s" % (info, error))
-            self.playlist.set_value(_iter, self.discovery_status_field, DiscoveryStatus.FAILED);
+            self.playlist.set_value(_iter, self.discovery_status_field, DiscoveryStatus.FAILED)
             nextTrack = self.playlist.iter_next(_iter)
 
             if nextTrack:
@@ -495,13 +495,17 @@ class Player(GObject.GObject):
         _iter = self.playlist.get_iter(self.nextTrack.get_path())
         status = self.playlist.get_value(_iter, self.discovery_status_field)
         nextSong = self.playlist.get_value(_iter, self.playlistField)
+        url = self.playlist.get_value(_iter, 5).get_url()
 
-        if status == DiscoveryStatus.PENDING:
+        # Skip remote tracks discovery
+        if url.startswith("http://"):
+            status = DiscoveryStatus.SUCCEEDED
+        elif status == DiscoveryStatus.PENDING:
             self.discover_item(nextSong, self._on_next_item_validated, _iter)
         elif status == DiscoveryStatus.FAILED:
-            GLib.idle_add(self._validate_next_track())
+            GLib.idle_add(self._validate_next_track)
 
-        return False;
+        return False
 
     @log
     def _on_cache_lookup(self, pixbuf, path, data=None):
