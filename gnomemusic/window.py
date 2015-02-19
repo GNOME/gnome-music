@@ -336,6 +336,8 @@ class Window(Gtk.ApplicationWindow):
         self.notification.show_all()
         self._overlay.add_overlay(self.notification)
 
+        self.notification.deletion_index = self.views[3].current_playlist_index
+
         self.notification.connect("dismissed", self._playlist_removal_notification_dismissed)
         undo_button.connect("clicked", self._undo_deletion)
 
@@ -350,7 +352,7 @@ class Window(Gtk.ApplicationWindow):
     def _undo_deletion(self, widget):
         self.views[3].really_delete = False
         self.notification.dismiss()
-        self.views[3].undo_playlist_deletion()
+        self.views[3].undo_playlist_deletion(self.notification.deletion_index)
 
     @log
     def _on_key_press(self, widget, event):
@@ -372,7 +374,7 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_Delete):
                 if self._stack.get_visible_child() == self.views[3]:
                     self._init_playlist_removal_notification()
-                    self.views[3].delete_selected_playlist()
+                    self.views[3].stage_playlist_for_deletion()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
                 self.toolbar.searchbar.show_bar(False)

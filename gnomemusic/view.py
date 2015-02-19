@@ -826,6 +826,7 @@ class Playlist(ViewContainer):
         self.iter_to_clean = None
         self.iter_to_clean_model = None
         self.current_playlist = None
+        self.current_playlist_index = None
         self.pl_todelete = None
         self.really_delete = True
         self.songs_count = 0
@@ -975,13 +976,15 @@ class Playlist(ViewContainer):
         self._add_playlist_item_to_model(item)
 
     @log
-    def _add_playlist_item_to_model(self, item):
+    def _add_playlist_item_to_model(self, item, index=None):
+        if index is None:
+            index = -1
         if not item:
             self.window.notification.dismiss()
             self.emit('playlists-loaded')
             return
         _iter = self.playlists_model.insert_with_valuesv(
-            -1,
+            index,
             [2, 5],
             [albumArtCache.get_media_title(item), item])
         if self.playlists_model.iter_n_children(None) == 1:
@@ -1074,6 +1077,7 @@ class Playlist(ViewContainer):
 
         self.current_playlist = playlist
         self.name_label.set_text(playlist_name)
+        self.current_playlist_index = int(path.to_string())
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
@@ -1163,6 +1167,7 @@ class Playlist(ViewContainer):
     def stage_playlist_for_deletion(self):
         self.model.clear()
         _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
+
         if not _iter:
             return
 
@@ -1179,13 +1184,13 @@ class Playlist(ViewContainer):
         self.playlists_model.remove(_iter)
 
     @log
-    def undo_playlist_deletion(self):
-        self._add_playlist_item_to_model(self.pl_todelete)
+    def undo_playlist_deletion(self, deletion_index):
+        self._add_playlist_item_to_model(self.pl_todelete, index=deletion_index)
 
     @log
     def _on_delete_activate(self, menuitem, data=None):
         self.window._init_playlist_removal_notification()
-        self.delete_selected_playlist()
+        self.stage_playlist_for_deletion()
 
     @log
     def _on_playlist_created(self, playlists, item):
