@@ -76,6 +76,11 @@ class StaticPlaylists:
         # TRANSLATORS: this is a playlist name
         TITLE = _("Favorite Songs")
 
+    @classmethod
+    def get_protected_ids(self):
+        return [str(cls.ID) for name, cls in inspect.getmembers(StaticPlaylists)
+                     if inspect.isclass(cls) and not (name == "__class__")]
+
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
