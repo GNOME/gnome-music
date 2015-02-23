@@ -35,7 +35,7 @@ from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path('libgd')
 
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
-from gettext import gettext as _
+from gettext import gettext as _, ngettext
 from random import randint
 from queue import LifoQueue
 from gnomemusic.albumArtCache import AlbumArtCache
@@ -85,8 +85,9 @@ class Player(GObject.GObject):
     }
 
     @log
-    def __init__(self):
+    def __init__(self, parent_window):
         GObject.GObject.__init__(self)
+        self._parent_window = parent_window
         self.playlist = None
         self.playlistType = None
         self.playlistId = None
@@ -96,8 +97,10 @@ class Player(GObject.GObject):
         self.cache = AlbumArtCache.get_default()
         self._noArtworkIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE)
         self._loadingIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE, True)
+        self._missingPluginMessages = []
 
         Gst.init(None)
+        GstPbutils.pb_utils_init()
 
         self.discoverer = GstPbutils.Discoverer()
         self.discoverer.connect('discovered', self._on_discovered)
@@ -118,6 +121,7 @@ class Player(GObject.GObject):
 
         self.bus.connect('message::state-changed', self._on_bus_state_changed)
         self.bus.connect('message::error', self._onBusError)
+        self.bus.connect('message::element', self._on_bus_element)
         self.bus.connect('message::eos', self._on_bus_eos)
         self._setup_view()
 
@@ -211,7 +215,91 @@ class Player(GObject.GObject):
         self._sync_playing()
 
     @log
+    def _start_plugin_installation(self, missing_plugin_messages, confirm_search):
+        install_ctx = GstPbutils.InstallPluginsContext.new()
+
+        install_ctx.set_desktop_id('gnome-music.desktop');
+        install_ctx.set_confirm_search(confirm_search);
+
+        startup_id = '_TIME%u' % Gtk.get_current_event_time()
+        install_ctx.set_startup_notification_id(startup_id)
+
+        installer_details = []
+        for message in missing_plugin_messages:
+            installer_detail = GstPbutils.missing_plugin_message_get_installer_detail(message)
+            installer_details.append(installer_detail)
+
+        def on_install_done(res):
+            # We get the callback too soon, before the installation has
+            # actually finished. Do nothing for now.
+            pass
+
+        GstPbutils.install_plugins_async(installer_details, install_ctx, on_install_done)
+
+    @log
+    def _show_codec_confirmation_dialog(self, install_helper_name, missing_plugin_messages):
+        dialog = MissingCodecsDialog(self._parent_window, install_helper_name)
+
+        def on_dialog_response(dialog, response_type):
+            if response_type == Gtk.ResponseType.ACCEPT:
+                self._start_plugin_installation(missing_plugin_messages, False)
+
+            dialog.destroy()
+
+        descriptions = []
+        for message in missing_plugin_messages:
+            description = GstPbutils.missing_plugin_message_get_description(message)
+            descriptions.append(description)
+
+        dialog.set_codec_names(descriptions)
+        dialog.connect('response', on_dialog_response)
+        dialog.present()
+
+    @log
+    def _handle_missing_plugins(self):
+        if not self._missingPluginMessages:
+            return
+
+        missing_plugin_messages = self._missingPluginMessages
+        self._missingPluginMessages = []
+
+        proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
+                                       Gio.DBusProxyFlags.NONE,
+                                       None,
+                                       'org.freedesktop.PackageKit',
+                                       '/org/freedesktop/PackageKit',
+                                       'org.freedesktop.PackageKit.Modify2',
+                                       None)
+        prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
+        if prop:
+            display_name = prop.get_string()
+            if display_name:
+                self._show_codec_confirmation_dialog(display_name, missing_plugin_messages)
+                return
+
+        # If the above failed, fall back to immediately starting the codec installation
+        self._start_plugin_installation(missing_plugin_messages, True)
+
+    @log
+    def _is_missing_plugin_message(self, message):
+        error, debug = message.parse_error()
+
+        if error.matches(Gst.CoreError.quark(), Gst.CoreError.MISSING_PLUGIN):
+            return True
+
+        return False
+
+    @log
+    def _on_bus_element(self, bus, message):
+        if GstPbutils.is_missing_plugin_message(message):
+            self._missingPluginMessages.append(message)
+
     def _onBusError(self, bus, message):
+        if self._is_missing_plugin_message(message):
+            self.pause()
+            self._handle_missing_plugins()
+            return True
+
         media = self.get_current_media()
         if media is not None:
             currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
@@ -842,6 +930,39 @@ class Player(GObject.GObject):
             return None
         return self.playlist.get_value(currentTrack, self.playlistField)
 
+
+class MissingCodecsDialog(Gtk.MessageDialog):
+
+    @log
+    def __init__(self, parent_window, install_helper_name):
+        Gtk.MessageDialog.__init__(self,
+                                   transient_for=parent_window,
+                                   modal=True,
+                                   destroy_with_parent=True,
+                                   message_type=Gtk.MessageType.ERROR,
+                                   buttons=Gtk.ButtonsType.CANCEL,
+                                   text=_("Unable to play the file"))
+
+        # TRANSLATORS: this is a button to launch a codec installer.
+        # %s will be replaced with the software installer's name, e.g.
+        # 'Software' in case of gnome-software.
+        self.find_button = self.add_button(_("_Find in %s") % install_helper_name,
+                                            Gtk.ResponseType.ACCEPT)
+        self.set_default_response(Gtk.ResponseType.ACCEPT)
+        Gtk.StyleContext.add_class(self.find_button.get_style_context(), 'suggested-action')
+
+    @log
+    def set_codec_names(self, codec_names):
+        n_codecs = len(codec_names)
+        if n_codecs == 2:
+            # TRANSLATORS: separator for a list of codecs
+            text = _(" and ").join(codec_names)
+        else:
+            # TRANSLATORS: separator for a list of codecs
+            text = _(", ").join(codec_names)
+        self.format_secondary_text(ngettext("%s is required to play the file, but is not installed.",
+                                            "%s are required to play the file, but are not installed.",
+                                            n_codecs) % text)
 
 class SelectionToolbar():
 
