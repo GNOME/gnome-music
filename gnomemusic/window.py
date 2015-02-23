@@ -181,7 +181,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.player = Player()
+        self.player = Player(self)
         self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
         self.views = []
