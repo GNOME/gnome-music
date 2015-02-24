@@ -71,7 +71,7 @@ class ViewContainer(Gtk.Stack):
         self._adjustmentChangedId = 0
         self._scrollbarVisibleId = 0
         self.old_vsbl_range = None
-        self._model = Gtk.ListStore(
+        self.model = Gtk.ListStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -89,7 +89,7 @@ class ViewContainer(Gtk.Stack):
             shadow_type=Gtk.ShadowType.NONE
         )
         self.view.set_view_type(view_type)
-        self.view.set_model(self._model)
+        self.view.set_model(self.model)
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         box.pack_start(self.view, True, True, 0)
         if use_sidebar:
@@ -107,8 +107,9 @@ class ViewContainer(Gtk.Stack):
         if not use_sidebar or sidebar:
             self._grid.add(box)
 
+        self.star_handler = Widgets.StarHandler(self, 9)
         self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
-        self.star_renderer_click = False
+        # self.star_handler.star_renderer_click = False
         self.view.connect('selection-mode-request', self._on_selection_mode_request)
         self._cursor = None
         self.window = window
@@ -223,8 +224,8 @@ class ViewContainer(Gtk.Stack):
         # item.set_title(title)
 
         def add_new_item():
-            _iter = self._model.append(None)
-            self._model.set(_iter,
+            _iter = self.model.append(None)
+            self.model.set(_iter,
                             [0, 1, 2, 3, 4, 5, 7, 9],
                             [str(item.get_id()), '', title,
                              artist, self._loadingIcon, item,
@@ -236,7 +237,7 @@ class ViewContainer(Gtk.Stack):
     @log
     def _on_lookup_ready(self, icon, path, _iter):
         if icon:
-            self._model.set_value(_iter, 4, icon)
+            self.model.set_value(_iter, 4, icon)
             self.view.queue_draw()
 
     @log
@@ -258,23 +259,6 @@ class ViewContainer(Gtk.Stack):
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
-    @log
-    def _on_star_toggled(self, widget, path):
-        try:
-            _iter = self._model.get_iter(path)
-        except TypeError:
-            return
-
-        new_value = not self._model.get_value(_iter, 9)
-        self._model.set_value(_iter, 9, new_value)
-        song_item = self._model.get_value(_iter, 5) # er, will this definitely return MediaAudio obj.?
-        grilo.toggle_favorite(song_item) # toggle favorite status in database
-        playlists.update_static_playlist(StaticPlaylists.Favorites)
-
-        # Use this flag to ignore the upcoming _on_item_activated call
-        self.star_renderer_click = True
-
-
 # Class for the Empty View
 class Empty(Gtk.Stack):
     @log
@@ -292,7 +276,7 @@ class Albums(ViewContainer):
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'albums', _("Albums"), window, Gd.MainViewType.ICON)
-        self._albumWidget = Widgets.AlbumWidget(player)
+        self._albumWidget = Widgets.AlbumWidget(player, self)
         self.player = player
         self.add(self._albumWidget)
         self.albums_selected = []
@@ -304,7 +288,7 @@ class Albums(ViewContainer):
     def _on_changes_pending(self, data=None):
         if (self._init and self.header_bar._selectionMode is False):
             self._offset = 0
-            self._model.clear()
+            self.model.clear()
             self.populate()
             grilo.changes_pending['Albums'] = False
 
@@ -319,17 +303,17 @@ class Albums(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        if self.star_renderer_click:
-            self.star_renderer_click = False
+        if self.star_handler.star_renderer_click:
+            self.star_handler.star_renderer_click = False
             return
 
         try:
-            _iter = self._model.get_iter(path)
+            _iter = self.model.get_iter(path)
         except TypeError:
             return
-        title = self._model.get_value(_iter, 2)
-        artist = self._model.get_value(_iter, 3)
-        item = self._model.get_value(_iter, 5)
+        title = self.model.get_value(_iter, 2)
+        artist = self.model.get_value(_iter, 3)
+        item = self.model.get_value(_iter, 5)
         self._albumWidget.update(artist, title, item,
                                  self.header_bar, self.selection_toolbar)
         self.header_bar.set_state(ToolbarState.CHILD_VIEW)
@@ -356,7 +340,7 @@ class Albums(ViewContainer):
             self.items_selected = []
             self.items_selected_callback = callback
             self.albums_index = 0
-            self.albums_selected = [self._model.get_value(self._model.get_iter(path), 5)
+            self.albums_selected = [self.model.get_value(self.model.get_iter(path), 5)
                                     for path in self.view.get_selection()]
             if len(self.albums_selected):
                 self._get_selected_album_songs()
@@ -397,7 +381,7 @@ class Songs(ViewContainer):
     @log
     def _on_changes_pending(self, data=None):
         if (self._init and self.header_bar._selectionMode is False):
-            self._model.clear()
+            self.model.clear()
             self._offset = 0
             self.populate()
             grilo.changes_pending['Songs'] = False
@@ -409,29 +393,29 @@ class Songs(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        if self.star_renderer_click:
-            self.star_renderer_click = False
+        if self.star_handler.star_renderer_click:
+            self.star_handler.star_renderer_click = False
             return
 
         try:
-            _iter = self._model.get_iter(path)
+            _iter = self.model.get_iter(path)
         except TypeError:
             return
-        if self._model.get_value(_iter, 8) != self.errorIconName:
-            self.player.set_playlist('Songs', None, self._model, _iter, 5, 11)
+        if self.model.get_value(_iter, 8) != self.errorIconName:
+            self.player.set_playlist('Songs', None, self.model, _iter, 5, 11)
             self.player.set_playing(True)
 
     @log
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
-            self._model.set_value(self.iter_to_clean, 10, False)
-        if playlist != self._model:
+            self.model.set_value(self.iter_to_clean, 10, False)
+        if playlist != self.model:
             return False
 
-        self._model.set_value(currentIter, 10, True)
-        path = self._model.get_path(currentIter)
+        self.model.set_value(currentIter, 10, True)
+        path = self.model.get_path(currentIter)
         self.view.get_generic_view().scroll_to_path(path)
-        if self._model.get_value(currentIter, 8) != self.errorIconName:
+        if self.model.get_value(currentIter, 8) != self.errorIconName:
             self.iter_to_clean = currentIter.copy()
         return False
 
@@ -448,7 +432,7 @@ class Songs(ViewContainer):
             or _("Unknown Artist")
         if item.get_url() is None:
             return
-        _iter = self._model.insert_with_valuesv(
+        _iter = self.model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
             [albumArtCache.get_media_title(item),
@@ -481,12 +465,7 @@ class Songs(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        # ADD STAR RENDERERS
-        star_renderer = Widgets.CellRendererClickablePixbuf(self.view)
-        star_renderer.connect("clicked", self._on_star_toggled)
-        list_widget.add_renderer(star_renderer,
-                                self._on_list_widget_star_render, None)
-        cols[0].add_attribute(star_renderer, 'show_star', 9)
+        self.star_handler._add_star_renderers(list_widget, cols)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -555,7 +534,7 @@ class Songs(ViewContainer):
 
     @log
     def get_selected_tracks(self, callback):
-        callback([self._model.get_value(self._model.get_iter(path), 5)
+        callback([self.model.get_value(self.model.get_iter(path), 5)
                   for path in self.view.get_selection()])
 
 
@@ -598,7 +577,7 @@ class Artists (ViewContainer):
     @log
     def _on_changes_pending(self, data=None):
         if (self._init and self.header_bar._selectionMode is False):
-            self._model.clear()
+            self.model.clear()
             self._artists.clear()
             self._offset = 0
             self._populate()
@@ -608,18 +587,18 @@ class Artists (ViewContainer):
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
         if not selection.get_selected()[1]:
-            self._allIter = self._model.insert_with_valuesv(-1, [2], [_("All Artists")])
+            self._allIter = self.model.insert_with_valuesv(-1, [2], [_("All Artists")])
             self._last_selection = self._allIter
             self._artists[_("All Artists").casefold()] =\
                 {'iter': self._allIter, 'albums': [], 'widget': None}
-            #selection.select_path(self._model.get_path(self._allIter))
+            #selection.select_path(self.model.get_path(self._allIter))
         self._init = True
         self.populate()
 
     @log
     def add_all_artists_entry(self):
         self.view.emit('item-activated', '0',
-                       self._model.get_path(self._allIter))
+                       self.model.get_path(self._allIter))
 
     @log
     def _add_list_renderers(self):
@@ -642,16 +621,16 @@ class Artists (ViewContainer):
 
     @log
     def _on_item_activated(self, widget, item_id, path):
-        if self.star_renderer_click:
-            self.star_renderer_click = False
+        if self.star_handler.star_renderer_click:
+            self.star_handler.star_renderer_click = False
             return
 
         try:
-            _iter = self._model.get_iter(path)
+            _iter = self.model.get_iter(path)
         except TypeError:
             return
         self._last_selection = _iter
-        artist = self._model.get_value(_iter, 2)
+        artist = self.model.get_value(_iter, 2)
         albums = self._artists[artist.casefold()]['albums']
 
         widget = self._artists[artist.casefold()]['widget']
@@ -674,8 +653,8 @@ class Artists (ViewContainer):
         self.artistAlbumsStack.add(new_artistAlbumsWidget)
 
         artistAlbums = None
-        if (self._model.get_string_from_iter(_iter) ==
-                self._model.get_string_from_iter(self._allIter)):
+        if (self.model.get_string_from_iter(_iter) ==
+                self.model.get_string_from_iter(self._allIter)):
             artistAlbums = Widgets.AllArtistsAlbums(
                 self.player, self.header_bar, self.selection_toolbar, self.window
             )
@@ -704,7 +683,7 @@ class Artists (ViewContainer):
             or item.get_author()\
             or _("Unknown Artist")
         if not artist.casefold() in self._artists:
-            _iter = self._model.insert_with_valuesv(-1, [2], [artist])
+            _iter = self.model.insert_with_valuesv(-1, [2], [artist])
             self._artists[artist.casefold()] = {'iter': _iter, 'albums': [], 'widget': None}
 
         self._artists[artist.casefold()]['albums'].append(item)
@@ -747,11 +726,11 @@ class Artists (ViewContainer):
         self.albums_selected = []
 
         for path in self.view.get_selection():
-            _iter = self._model.get_iter(path)
-            artist = self._model.get_value(_iter, 2)
+            _iter = self.model.get_iter(path)
+            artist = self.model.get_value(_iter, 2)
             albums = self._artists[artist.casefold()]['albums']
-            if (self._model.get_string_from_iter(_iter) !=
-                    self._model.get_string_from_iter(self._allIter)):
+            if (self.model.get_string_from_iter(_iter) !=
+                    self.model.get_string_from_iter(self._allIter)):
                 self.albums_selected.extend(albums)
 
         if len(self.albums_selected):
@@ -890,12 +869,7 @@ class Playlist(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        # ADD STAR RENDERERS
-        star_renderer = Widgets.CellRendererClickablePixbuf(self.view)
-        star_renderer.connect("clicked", self._on_star_toggled)
-        list_widget.add_renderer(star_renderer,
-                                self._on_list_widget_star_render, None)
-        cols[0].add_attribute(star_renderer, 'show_star', 9)
+        self.star_handler._add_star_renderers(list_widget, cols)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -987,13 +961,13 @@ class Playlist(ViewContainer):
     def update_model(self, player, playlist, currentIter):
         if self.iter_to_clean:
             self.iter_to_clean_model.set_value(self.iter_to_clean, 10, False)
-        if playlist != self._model:
+        if playlist != self.model:
             return False
 
-        self._model.set_value(currentIter, 10, True)
-        if self._model.get_value(currentIter, 8) != self.errorIconName:
+        self.model.set_value(currentIter, 10, True)
+        if self.model.get_value(currentIter, 8) != self.errorIconName:
             self.iter_to_clean = currentIter.copy()
-            self.iter_to_clean_model = self._model
+            self.iter_to_clean_model = self.model
         return False
 
     @log
@@ -1019,18 +993,18 @@ class Playlist(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        if self.star_renderer_click:
-            self.star_renderer_click = False
+        if self.star_handler.star_renderer_click:
+            self.star_handler.star_renderer_click = False
             return
 
         try:
-            _iter = self._model.get_iter(path)
+            _iter = self.model.get_iter(path)
         except TypeError:
             return
-        if self._model.get_value(_iter, 8) != self.errorIconName:
+        if self.model.get_value(_iter, 8) != self.errorIconName:
             self.player.set_playlist(
                 'Playlist', self.current_playlist.get_id(),
-                self._model, _iter, 5, 11
+                self.model, _iter, 5, 11
             )
             self.player.set_playing(True)
 
@@ -1105,16 +1079,16 @@ class Playlist(ViewContainer):
         # use it as model, otherwise build the liststore
         cached_playlist = self.player.running_playlist('Playlist', playlist_name)
         if cached_playlist and not skip_cache:
-            self._model = cached_playlist
+            self.model = cached_playlist
             currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
             self.update_model(self.player, cached_playlist,
                               currentTrack)
-            self.view.set_model(self._model)
-            self.songs_count = self._model.iter_n_children(None)
+            self.view.set_model(self.model)
+            self.songs_count = self.model.iter_n_children(None)
             self._update_songs_count()
             self.emit('playlist-songs-loaded')
         else:
-            self._model = Gtk.ListStore(
+            self.model = Gtk.ListStore(
                 GObject.TYPE_STRING,
                 GObject.TYPE_STRING,
                 GObject.TYPE_STRING,
@@ -1128,14 +1102,14 @@ class Playlist(ViewContainer):
                 GObject.TYPE_BOOLEAN,
                 GObject.TYPE_INT
             )
-            self.view.set_model(self._model)
+            self.view.set_model(self.model)
             GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
             self.songs_count = 0
             self._update_songs_count()
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
-        self._add_item_to_model(item, self._model)
+        self._add_item_to_model(item, self.model)
 
     @log
     def _add_item_to_model(self, item, model):
@@ -1168,18 +1142,26 @@ class Playlist(ViewContainer):
 
     @log
     def _on_play_activate(self, menuitem, data=None):
-        _iter = self._model.get_iter_first()
+        _iter = self.model.get_iter_first()
         if not _iter:
             return
 
         self.view.get_generic_view().get_selection().\
-            select_path(self._model.get_path(_iter))
+            select_path(self.model.get_path(_iter))
         self.view.emit('item-activated', '0',
-                       self._model.get_path(_iter))
+                       self.model.get_path(_iter))
 
     @log
-    def delete_selected_playlist(self):
-        self._model.clear()
+    def current_playlist_is_protected(self):
+        current_playlist_id = self.current_playlist.get_id()
+        if current_playlist_id in StaticPlaylists.get_protected_ids():
+            return True
+        else:
+            return False
+
+    @log
+    def stage_playlist_for_deletion(self):
+        self.model.clear()
         _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
         if not _iter:
             return
@@ -1219,12 +1201,12 @@ class Playlist(ViewContainer):
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if self.current_playlist and \
            playlist.get_id() == self.current_playlist.get_id():
-            self._add_item_to_model(item, self._model)
+            self._add_item_to_model(item, self.model)
         else:
             cached_playlist = self.player.running_playlist(
                 'Playlist', playlist.get_id()
             )
-            if cached_playlist and cached_playlist != self._model:
+            if cached_playlist and cached_playlist != self.model:
                 self._add_item_to_model(item, cached_playlist)
 
     @log
@@ -1234,8 +1216,8 @@ class Playlist(ViewContainer):
         )
         if self.current_playlist and \
            playlist.get_id() == self.current_playlist.get_id():
-            model = self._model
-        elif cached_playlist and cached_playlist != self._model:
+            model = self.model
+        elif cached_playlist and cached_playlist != self.model:
             model = cached_playlist
         else:
             return
@@ -1282,7 +1264,7 @@ class Playlist(ViewContainer):
 
     @log
     def get_selected_tracks(self, callback):
-        callback([self._model.get_value(self._model.get_iter(path), 5)
+        callback([self.model.get_value(self.model.get_iter(path), 5)
                   for path in self.view.get_selection()])
 
 
@@ -1302,11 +1284,11 @@ class Search(ViewContainer):
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
-        self.songs_model = self._model
+        self.songs_model = self.model
 
         self.albums_selected = []
         self._albums = {}
-        self._albumWidget = Widgets.AlbumWidget(player)
+        self._albumWidget = Widgets.AlbumWidget(player, self)
         self.add(self._albumWidget)
 
         self.artists_albums_selected = []
@@ -1327,19 +1309,19 @@ class Search(ViewContainer):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        if self.star_renderer_click:
-            self.star_renderer_click = False
+        if self.star_handler.star_renderer_click:
+            self.star_handler.star_renderer_click = False
             return
 
         try:
             child_path = self.filter_model.convert_path_to_child_path(path)
         except TypeError:
             return
-        _iter = self._model.get_iter(child_path)
-        if self._model[_iter][11] == 'album':
-            title = self._model.get_value(_iter, 2)
-            artist = self._model.get_value(_iter, 3)
-            item = self._model.get_value(_iter, 5)
+        _iter = self.model.get_iter(child_path)
+        if self.model[_iter][11] == 'album':
+            title = self.model.get_value(_iter, 2)
+            artist = self.model.get_value(_iter, 3)
+            item = self.model.get_value(_iter, 5)
             self._albumWidget.update(artist, title, item,
                                      self.header_bar, self.selection_toolbar)
             self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
@@ -1348,8 +1330,8 @@ class Search(ViewContainer):
             self.header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._albumWidget)
             self.header_bar.searchbar.show_bar(False)
-        elif self._model[_iter][11] == 'artist':
-            artist = self._model.get_value(_iter, 2)
+        elif self.model[_iter][11] == 'artist':
+            artist = self.model.get_value(_iter, 2)
             albums = self._artists[artist.casefold()]['albums']
 
             self._artistAlbumsWidget = Widgets.ArtistAlbums(
@@ -1362,8 +1344,8 @@ class Search(ViewContainer):
             self.header_bar.header_bar.set_title(artist)
             self.set_visible_child(self._artistAlbumsWidget)
             self.header_bar.searchbar.show_bar(False)
-        elif self._model[_iter][11] == 'song':
-            if self._model.get_value(_iter, 12) != DiscoveryStatus.FAILED:
+        elif self.model[_iter][11] == 'song':
+            if self.model.get_value(_iter, 12) != DiscoveryStatus.FAILED:
                 child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5, 12)
                 self.player.set_playing(True)
@@ -1380,7 +1362,7 @@ class Search(ViewContainer):
 
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):
-        if not item or data != self._model:
+        if not item or data != self.model:
             return
 
         artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
@@ -1396,11 +1378,11 @@ class Search(ViewContainer):
             self._albums[key].add_author(artist)
             self._albums[key].set_source(source.get_id())
             self._albums[key].tracks = []
-            self._add_item(source, None, self._albums[key], 0, [self._model, 'album'])
-            self._add_item(source, None, self._albums[key], 0, [self._model, 'artist'])
+            self._add_item(source, None, self._albums[key], 0, [self.model, 'album'])
+            self._add_item(source, None, self._albums[key], 0, [self.model, 'artist'])
 
         self._albums[key].tracks.append(item)
-        self._add_item(source, None, item, 0, [self._model, 'song'])
+        self._add_item(source, None, item, 0, [self.model, 'song'])
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -1412,7 +1394,7 @@ class Search(ViewContainer):
             self.view.show()
 
         model, category = data
-        if not item or model != self._model:
+        if not item or model != self.model:
             return
 
         self._offset += 1
@@ -1430,7 +1412,7 @@ class Search(ViewContainer):
 
         _iter = None
         if category == 'album':
-            _iter = self._model.insert_with_values(
+            _iter = self.model.insert_with_values(
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
@@ -1438,14 +1420,14 @@ class Search(ViewContainer):
             self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                               _iter, artist, title)
         elif category == 'song':
-            _iter = self._model.insert_with_values(
+            _iter = self.model.insert_with_values(
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
                  self._noAlbumArtIcon, item, bool(item.get_lyrics()), category])
         else:
             if not artist.casefold() in self._artists:
-                _iter = self._model.insert_with_values(
+                _iter = self.model.insert_with_values(
                     self.head_iters[group], -1,
                     [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist,
@@ -1456,8 +1438,8 @@ class Search(ViewContainer):
 
             self._artists[artist.casefold()]['albums'].append(item)
 
-        if self._model.iter_n_children(self.head_iters[group]) == 1:
-            path = self._model.get_path(self.head_iters[group])
+        if self.model.iter_n_children(self.head_iters[group]) == 1:
+            path = self.model.get_path(self.head_iters[group])
             self.view.get_generic_view().expand_row(path, False)
 
     @log
@@ -1477,11 +1459,7 @@ class Search(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        star_renderer = Widgets.CellRendererClickablePixbuf(self.view, hidden=True)
-        star_renderer.connect("clicked", self._on_star_toggled)
-        list_widget.add_renderer(star_renderer,
-                                 self._on_list_widget_star_render, None)
-        cols[0].add_attribute(star_renderer, 'show_star', 9)
+        self.star_handler._add_star_renderers(list_widget, cols, hidden=True)
 
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
@@ -1523,10 +1501,10 @@ class Search(ViewContainer):
     @log
     def _get_selected_albums(self):
         self.albums_index = 0
-        self.albums_selected = [self._model[child_path][5]
+        self.albums_selected = [self.model[child_path][5]
                                 for child_path in [self.filter_model.convert_path_to_child_path(path)
                                                    for path in self.view.get_selection()]
-                                if self._model[child_path][11] == 'album']
+                                if self.model[child_path][11] == 'album']
         if len(self.albums_selected):
             self._get_selected_albums_songs()
         else:
@@ -1552,10 +1530,10 @@ class Search(ViewContainer):
     @log
     def _get_selected_artists(self):
         self.artists_albums_index = 0
-        self.artists_selected = [self._artists[self._model[child_path][2].casefold()]
+        self.artists_selected = [self._artists[self.model[child_path][2].casefold()]
                                  for child_path in [self.filter_model.convert_path_to_child_path(path)
                                                     for path in self.view.get_selection()]
-                                 if self._model[child_path][11] == 'artist']
+                                 if self.model[child_path][11] == 'artist']
 
         self.artists_albums_selected = []
         for artist in self.artists_selected:
@@ -1585,10 +1563,10 @@ class Search(ViewContainer):
 
     @log
     def _get_selected_songs(self):
-        self.items_selected.extend([self._model[child_path][5]
+        self.items_selected.extend([self.model[child_path][5]
                                     for child_path in [self.filter_model.convert_path_to_child_path(path)
                                                        for path in self.view.get_selection()]
-                                    if self._model[child_path][11] == 'song'])
+                                    if self.model[child_path][11] == 'song'])
         self.items_selected_callback(self.items_selected)
 
     @log
@@ -1622,7 +1600,7 @@ class Search(ViewContainer):
             },
         }
 
-        self._model = Gtk.TreeStore(
+        self.model = Gtk.TreeStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,    # item title or header text
@@ -1637,7 +1615,7 @@ class Search(ViewContainer):
             GObject.TYPE_STRING,    # type
             GObject.TYPE_INT
         )
-        self.filter_model = self._model.filter_new(None)
+        self.filter_model = self.model.filter_new(None)
         self.filter_model.set_visible_func(self._filter_visible_func)
         self.view.set_model(self.filter_model)
 
@@ -1647,21 +1625,21 @@ class Search(ViewContainer):
         if search_term == "":
             return
 
-        albums_iter = self._model.insert_with_values(None, -1, [2], [_("Albums")])
-        artists_iter = self._model.insert_with_values(None, -1, [2], [_("Artists")])
-        songs_iter = self._model.insert_with_values(None, -1, [2], [_("Songs")])
-        playlists_iter = self._model.insert_with_values(None, -1, [2], [_("Playlists")])
+        albums_iter = self.model.insert_with_values(None, -1, [2], [_("Albums")])
+        artists_iter = self.model.insert_with_values(None, -1, [2], [_("Artists")])
+        songs_iter = self.model.insert_with_values(None, -1, [2], [_("Songs")])
+        playlists_iter = self.model.insert_with_values(None, -1, [2], [_("Playlists")])
 
         self.head_iters = [albums_iter, artists_iter, songs_iter, playlists_iter]
-        self.songs_model = self._model.filter_new(self._model.get_path(songs_iter))
+        self.songs_model = self.model.filter_new(self.model.get_path(songs_iter))
 
         # Use queries for Tracker
         if not grilo.search_source or \
            grilo.search_source.get_id() == 'grl-tracker-source':
             for category in ('album', 'artist', 'song'):
                 query = query_matcher[category][fields_filter](search_term)
-                grilo.populate_custom_query(query, self._add_item, -1, [self._model, category])
+                grilo.populate_custom_query(query, self._add_item, -1, [self.model, category])
         if not grilo.search_source or \
            grilo.search_source.get_id() != 'grl-tracker-source':
             # nope, can't do - reverting to Search
-            grilo.search(search_term, self._add_search_item, self._model)
+            grilo.search(search_term, self._add_search_item, self.model)

@@ -279,7 +279,7 @@ class Window(Gtk.ApplicationWindow):
         if self.toolbar._selectionMode is False:
             return
         if self.toolbar._state == ToolbarState.MAIN:
-            model = self._stack.get_visible_child()._model
+            model = self._stack.get_visible_child().model
         else:
             model = self._stack.get_visible_child().get_visible_child().model
         count = self._set_selection(model, True)
@@ -295,7 +295,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_select_none(self, action, param):
         if self.toolbar._state == ToolbarState.MAIN:
-            model = self._stack.get_visible_child()._model
+            model = self._stack.get_visible_child().model
         else:
             model = self._stack.get_visible_child().get_visible_child().model
         self._set_selection(model, False)
