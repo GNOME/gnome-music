@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-16 23:09+0200\n"
-"PO-Revision-Date: 2015-02-16 23:09+0200\n"
+"POT-Creation-Date: 2015-02-24 20:55+0200\n"
+"PO-Revision-Date: 2015-02-24 20:56+0200\n"
 "Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
@@ -150,7 +150,7 @@ msgstr "לא מתנגן"
 #: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
-msgstr "של %s, מ־%s"
+msgstr "של %s, מתוך %s"
 
 #: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
