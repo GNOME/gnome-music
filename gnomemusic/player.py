@@ -218,14 +218,23 @@ class Player(GObject.GObject):
         self._sync_playing()
 
     @log
+    def _gst_plugins_base_check_version(self, major, minor, micro):
+        gst_major, gst_minor, gst_micro, gst_nano = GstPbutils.plugins_base_version()
+        return ((gst_major > major) or
+                (gst_major == major and gst_minor > minor) or
+                (gst_major == major and gst_minor == minor and gst_micro >= micro) or
+                (gst_major == major and gst_minor == minor and gst_micro + 1 == micro and gst_nano > 0))
+
+    @log
     def _start_plugin_installation(self, missing_plugin_messages, confirm_search):
         install_ctx = GstPbutils.InstallPluginsContext.new()
 
-        install_ctx.set_desktop_id('gnome-music.desktop');
-        install_ctx.set_confirm_search(confirm_search);
+        if self._gst_plugins_base_check_version(1, 5, 0):
+            install_ctx.set_desktop_id('gnome-music.desktop');
+            install_ctx.set_confirm_search(confirm_search);
 
-        startup_id = '_TIME%u' % Gtk.get_current_event_time()
-        install_ctx.set_startup_notification_id(startup_id)
+            startup_id = '_TIME%u' % Gtk.get_current_event_time()
+            install_ctx.set_startup_notification_id(startup_id)
 
         installer_details = []
         for message in missing_plugin_messages:
@@ -266,19 +275,20 @@ class Player(GObject.GObject):
         missing_plugin_messages = self._missingPluginMessages
         self._missingPluginMessages = []
 
-        proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
-                                       Gio.DBusProxyFlags.NONE,
-                                       None,
-                                       'org.freedesktop.PackageKit',
-                                       '/org/freedesktop/PackageKit',
-                                       'org.freedesktop.PackageKit.Modify2',
-                                       None)
-        prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
-        if prop:
-            display_name = prop.get_string()
-            if display_name:
-                self._show_codec_confirmation_dialog(display_name, missing_plugin_messages)
-                return
+        if self._gst_plugins_base_check_version(1, 5, 0):
+            proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
+                                           Gio.DBusProxyFlags.NONE,
+                                           None,
+                                           'org.freedesktop.PackageKit',
+                                           '/org/freedesktop/PackageKit',
+                                           'org.freedesktop.PackageKit.Modify2',
+                                           None)
+            prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
+            if prop:
+                display_name = prop.get_string()
+                if display_name:
+                    self._show_codec_confirmation_dialog(display_name, missing_plugin_messages)
+                    return
 
         # If the above failed, fall back to immediately starting the codec installation
         self._start_plugin_installation(missing_plugin_messages, True)
