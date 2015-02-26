@@ -5,18 +5,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-12 10:27+0000\n"
-"PO-Revision-Date: 2015-02-12 16:17+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-02-26 02:53+0200\n"
+"PO-Revision-Date: 2015-02-26 02:54+0300\n"
 "Last-Translator: Daniel Korostil <ted.korostiled@gmail.com>\n"
 "Language-Team: linux.org.ua\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Virtaal 0.7.1\n"
 "X-Project-Style: gnome\n"
 
@@ -99,7 +98,7 @@ msgid "Enables or disables ReplayGain for albums"
 msgstr "Увімкнути або вимкнути ReplayGain для альбомів"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:58
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Музика"
@@ -113,7 +112,6 @@ msgid "Play and organize your music collection"
 msgstr "Грати та впорядковувати вашу музичну збірку"
 
 #: ../data/gnome-music.desktop.in.h:4
-#| msgid "Music Player"
 msgid "Music;Player;"
 msgstr "Музика;Програвач;Плеєр;"
 
@@ -130,17 +128,17 @@ msgid "Untitled"
 msgstr "Без назви"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:450 ../gnomemusic/view.py:546
-#: ../gnomemusic/view.py:959 ../gnomemusic/view.py:1370
+#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:512
+#: ../gnomemusic/view.py:938 ../gnomemusic/view.py:1372
 msgid "Unknown Album"
 msgstr "Невідомий альбом"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:441 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:458 ../gnomemusic/view.py:703
-#: ../gnomemusic/view.py:1128 ../gnomemusic/view.py:1368
-#: ../gnomemusic/view.py:1402 ../gnomemusic/widgets.py:192
-#: ../gnomemusic/widgets.py:615
+#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:222
+#: ../gnomemusic/view.py:432 ../gnomemusic/view.py:684
+#: ../gnomemusic/view.py:1124 ../gnomemusic/view.py:1370
+#: ../gnomemusic/view.py:1405 ../gnomemusic/widgets.py:234
+#: ../gnomemusic/widgets.py:638
 msgid "Unknown Artist"
 msgstr "Невідомий виконавець"
 
@@ -158,11 +156,11 @@ msgstr "від %s, з %s"
 msgid "Previous"
 msgstr "Попередня"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:398
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:402
 msgid "Pause"
 msgstr "Призупинити"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:401
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:405
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Грати"
@@ -173,7 +171,6 @@ msgstr "Наступна"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:49
-#| msgid "Music Player"
 msgid "Most Played"
 msgstr "Часто слухали"
 
@@ -233,8 +230,8 @@ msgstr "Джерела"
 msgid "Match"
 msgstr "Збіг"
 
-#: ../gnomemusic/view.py:187 ../gnomemusic/widgets.py:233
-#: ../gnomemusic/widgets.py:481 ../gnomemusic/window.py:287
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:275
+#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:288
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -242,34 +239,34 @@ msgstr[0] "Вибрано %d об'єкт"
 msgstr[1] "Вибрано %d об'єкти"
 msgstr[2] "Вибрано %d об'єктів"
 
-#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:483 ../gnomemusic/window.py:291
-#: ../gnomemusic/window.py:303 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:277
+#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:292
+#: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Натисніть на об'єкти, щоб вибрати їх"
 
-#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1627
+#: ../gnomemusic/view.py:278 ../gnomemusic/view.py:1628
 msgid "Albums"
 msgstr "Альбоми"
 
-#: ../gnomemusic/view.py:396 ../gnomemusic/view.py:1629
+#: ../gnomemusic/view.py:369 ../gnomemusic/view.py:1630
 msgid "Songs"
 msgstr "Пісні"
 
-#: ../gnomemusic/view.py:563 ../gnomemusic/view.py:1628
+#: ../gnomemusic/view.py:544 ../gnomemusic/view.py:1629
 msgid "Artists"
 msgstr "Виконавці"
 
-#: ../gnomemusic/view.py:609 ../gnomemusic/view.py:611
-#: ../gnomemusic/widgets.py:490
+#: ../gnomemusic/view.py:590 ../gnomemusic/view.py:592
+#: ../gnomemusic/widgets.py:524
 msgid "All Artists"
 msgstr "Всі виконавці"
 
-#: ../gnomemusic/view.py:787 ../gnomemusic/view.py:1630
+#: ../gnomemusic/view.py:769 ../gnomemusic/view.py:1631
 msgid "Playlists"
 msgstr "Списки композицій"
 
-#: ../gnomemusic/view.py:1141
+#: ../gnomemusic/view.py:1135
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -277,28 +274,31 @@ msgstr[0] "%d пісня"
 msgstr[1] "%d пісні"
 msgstr[2] "%d пісень"
 
-#: ../gnomemusic/widgets.py:281 ../gnomemusic/widgets.py:320
+#: ../gnomemusic/widgets.py:316 ../gnomemusic/widgets.py:350
 #, python-format
 msgid "%d min"
 msgstr "%d хв"
 
-#: ../gnomemusic/widgets.py:731
+#: ../gnomemusic/widgets.py:762
 msgid "New Playlist"
 msgstr "Створити список композицій"
 
-#: ../gnomemusic/window.py:235
+#: ../gnomemusic/window.py:236
 msgid "Empty"
 msgstr "Пусто"
 
-#: ../gnomemusic/window.py:315
+#: ../gnomemusic/window.py:316
 msgid "_Undo"
 msgstr "_Повернути"
 
-#: ../gnomemusic/window.py:316
+#: ../gnomemusic/window.py:317
 #, python-format
-#| msgid "Playlists"
 msgid "Playlist %s removed"
 msgstr "Список композицій %s вилучено"
+
+#: ../gnomemusic/window.py:341
+msgid "Loading"
+msgstr "Завантаження"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -395,7 +395,6 @@ msgid "Shuffle/Repeat Off"
 msgstr "Вимкнути перемішування/повторювання"
 
 #: ../data/NoMusic.ui.h:1
-#| msgid "No Music Found"
 msgid "No music found"
 msgstr "Не знайдено музики"
 
@@ -444,7 +443,6 @@ msgid "_Delete"
 msgstr "В_илучити"
 
 #: ../data/PlaylistControls.ui.h:3
-#| msgid "Playlists"
 msgid "Playlist Name"
 msgstr "Назва списку композицій"
 
@@ -464,9 +462,6 @@ msgstr "Вибрати список композицій"
 
 #~ msgid "Load More"
 #~ msgstr "Завантажити ще"
-
-#~ msgid "Loading..."
-#~ msgstr "Завантаження…"
 
 #~| msgid "_Now Playing"
 #~ msgid "Now _Playing"
