@@ -229,7 +229,7 @@ class Player(GObject.GObject):
     def _start_plugin_installation(self, missing_plugin_messages, confirm_search):
         install_ctx = GstPbutils.InstallPluginsContext.new()
 
-        if self._gst_plugins_base_check_version(1, 5, 0):
+        if self._gst_plugins_base_check_version(1, 4, 5):
             install_ctx.set_desktop_id('gnome-music.desktop');
             install_ctx.set_confirm_search(confirm_search);
 
@@ -275,7 +275,7 @@ class Player(GObject.GObject):
         missing_plugin_messages = self._missingPluginMessages
         self._missingPluginMessages = []
 
-        if self._gst_plugins_base_check_version(1, 5, 0):
+        if self._gst_plugins_base_check_version(1, 4, 5):
             proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                            Gio.DBusProxyFlags.NONE,
                                            None,
