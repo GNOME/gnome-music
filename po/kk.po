@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-25 18:51+0000\n"
-"PO-Revision-Date: 2014-10-26 09:04+0600\n"
+"POT-Creation-Date: 2015-02-27 08:06+0000\n"
+"PO-Revision-Date: 2015-02-27 21:52+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.7.3\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -77,8 +77,28 @@ msgstr "Хабарламалар режимі"
 msgid "Enables or disables playback notifications"
 msgstr "Ойнату хабарламаларын іске қосу не сөндіру"
 
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr "Әртіс көрінісінде трек атында көрсетілетін таңбалар саны"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Бұл баптау әртіс көрінісінде трек атында қысқартылғанша дейін көрсетілетін "
+"таңбалар санын анықтайды. Сөндіру үшін -1 етіп орнатыңыз"
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "ReplayGain іске қосу"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Альбомдар үшін ReplayGain іске қосу не сөндіру"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Музыка"
@@ -91,6 +111,10 @@ msgstr "Музыка ойнатқышы"
 msgid "Play and organize your music collection"
 msgstr "Музыкалық жинағыңызды ойнау және реттеу"
 
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Музыка;Плеер;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "GNOME музыкасы"
@@ -99,22 +123,22 @@ msgstr "GNOME музыкасы"
 msgid "Music is the new GNOME music playing application."
 msgstr "GNOME музыкасы - бұл музыканы ойнайтын жаңа қолданба."
 
-#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Атаусыз"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:958 ../gnomemusic/view.py:1287
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:512
+#: ../gnomemusic/view.py:938 ../gnomemusic/view.py:1372
 msgid "Unknown Album"
 msgstr "Белгісіз альбом"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1062 ../gnomemusic/view.py:1285
-#: ../gnomemusic/view.py:1316 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:222
+#: ../gnomemusic/view.py:432 ../gnomemusic/view.py:684
+#: ../gnomemusic/view.py:1124 ../gnomemusic/view.py:1370
+#: ../gnomemusic/view.py:1405 ../gnomemusic/widgets.py:234
+#: ../gnomemusic/widgets.py:638
 msgid "Unknown Artist"
 msgstr "Белгісіз әртіс"
 
@@ -132,11 +156,11 @@ msgstr "%s әртісі, %s альбомынан"
 msgid "Previous"
 msgstr "Алдыңғы"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:402
 msgid "Pause"
 msgstr "Аялдату"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:405
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Ойнату"
@@ -145,86 +169,133 @@ msgstr "Ойнату"
 msgid "Next"
 msgstr "Келесі"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:49
+msgid "Most Played"
+msgstr "Ең жиі ойнатылған"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:56
+msgid "Never Played"
+msgstr "Ешқашан ойналмаған"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:63
+msgid "Recently Played"
+msgstr "Жақында ойналған"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Жақында қосылған"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "Таңдамалы өлеңдер"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:69
+msgid "the a an"
+msgstr "the a an"
+
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Барлығы"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Әртіс"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Альбом"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Трек аты"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Жергілікті"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Қайнар көздер"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Сәйкес"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:275
+#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:288
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d нәрсе таңдалды"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:277
+#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:292
+#: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Бірнәрсені таңдау үшін оның үстіне шертіңіз"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1531
+#: ../gnomemusic/view.py:278 ../gnomemusic/view.py:1628
 msgid "Albums"
 msgstr "Альбомдар"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1533
+#: ../gnomemusic/view.py:369 ../gnomemusic/view.py:1630
 msgid "Songs"
 msgstr "Өлеңдер"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1532
+#: ../gnomemusic/view.py:544 ../gnomemusic/view.py:1629
 msgid "Artists"
 msgstr "Әртістер"
 
-#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:448
+#: ../gnomemusic/view.py:590 ../gnomemusic/view.py:592
+#: ../gnomemusic/widgets.py:524
 msgid "All Artists"
 msgstr "Барлық әртістер"
 
-#: ../gnomemusic/view.py:794 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:769 ../gnomemusic/view.py:1631
 msgid "Playlists"
 msgstr "Ойнату тізімдері"
 
-#: ../gnomemusic/view.py:1074
+#: ../gnomemusic/view.py:1135
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d өлең"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:316 ../gnomemusic/widgets.py:350
 #, python-format
 msgid "%d min"
 msgstr "%d мин"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:762
 msgid "New Playlist"
 msgstr "Жаңа ойнату тізімі"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:236
 msgid "Empty"
 msgstr "Бос"
+
+#: ../gnomemusic/window.py:316
+msgid "_Undo"
+msgstr "Бол_дырмау"
+
+#: ../gnomemusic/window.py:317
+#, python-format
+#| msgid "Playlist Name"
+msgid "Playlist %s removed"
+msgstr "%s ойнату тізімі өшірілген"
+
+#: ../gnomemusic/window.py:341
+msgid "Loading"
+msgstr "Жүктелуде"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -293,18 +364,14 @@ msgid "Running Length"
 msgstr "Ұзақтығы"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Жаңа ойнату тізімі"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Көмек"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "О_сы туралы"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Шығу"
 
@@ -379,3 +446,6 @@ msgstr "Ойнату тізімінің аты"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Ойнату тізімін таңдау"
+
+#~ msgid "_New Playlist"
+#~ msgstr "_Жаңа ойнату тізімі"
