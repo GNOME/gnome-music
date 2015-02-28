@@ -49,6 +49,7 @@ def log(fn):
         return retval
     return wrapped
 
+
 class TrackerWrapper:
     class __TrackerWrapper:
         def __init__(self):
@@ -58,11 +59,14 @@ class TrackerWrapper:
                 from sys import exit
                 logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
                 exit(1)
+
         def __str__(self):
             return repr(self)
     instance = None
+
     def __init__(self):
         if not TrackerWrapper.instance:
             TrackerWrapper.instance = TrackerWrapper.__TrackerWrapper()
+
     def __getattr__(self, name):
         return getattr(self.instance, name)

@@ -61,10 +61,12 @@ class PlaybackStatus:
     PAUSED = 1
     STOPPED = 2
 
+
 class DiscoveryStatus:
     PENDING = 0
     FAILED = 1
     SUCCEEDED = 2
+
 
 class Player(GObject.GObject):
     nextTrack = None

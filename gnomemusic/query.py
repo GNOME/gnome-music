@@ -587,8 +587,7 @@ class Query():
          nfo:listPosition(?entry)
     '''.replace('\n', ' ').strip() % {
             'playlist_id': playlist_id,
-            'filter_clause':
-                filter_clause or 'tracker:id(?playlist) = ' + playlist_id,
+            'filter_clause': filter_clause or 'tracker:id(?playlist) = ' + playlist_id,
             'music_dir': Query.MUSIC_URI,
             'download_dir': Query.DOWNLOAD_URI
         }
@@ -1027,9 +1026,11 @@ class Query():
         #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
         #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
 
-        days_difference = 7 # currently hardcoding time interval of 7 days
+        days_difference = 7  # currently hardcoding time interval of 7 days
         seconds_difference = days_difference * SECONDS_PER_DAY
-        compare_date = time.strftime(sparql_midnight_dateTime_format, time.gmtime(time.time()-seconds_difference))
+        compare_date = time.strftime(
+            sparql_midnight_dateTime_format,
+            time.gmtime(time.time() - seconds_difference))
 
         query = """
         SELECT ?url

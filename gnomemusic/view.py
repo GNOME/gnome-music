@@ -168,8 +168,7 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _on_grilo_ready(self, data=None):
-        if (self.header_bar.get_stack().get_visible_child() == self
-                and not self._init):
+        if (self.header_bar.get_stack().get_visible_child() == self and not self._init):
             self._populate()
         self.header_bar.get_stack().connect('notify::visible-child',
                                             self._on_headerbar_visible)
@@ -226,10 +225,10 @@ class ViewContainer(Gtk.Stack):
         def add_new_item():
             _iter = self.model.append(None)
             self.model.set(_iter,
-                            [0, 1, 2, 3, 4, 5, 7, 9],
-                            [str(item.get_id()), '', title,
-                             artist, self._loadingIcon, item,
-                             0, False])
+                           [0, 1, 2, 3, 4, 5, 7, 9],
+                           [str(item.get_id()), '', title,
+                            artist, self._loadingIcon, item,
+                            0, False])
             self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                               _iter, artist, title)
         GLib.idle_add(add_new_item)
@@ -258,6 +257,7 @@ class ViewContainer(Gtk.Stack):
 
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
+
 
 # Class for the Empty View
 class Empty(Gtk.Stack):

@@ -81,11 +81,12 @@ class StarHandler():
         new_value = not self.parent.model.get_value(_iter, self.star_index)
         self.parent.model.set_value(_iter, self.star_index, new_value)
         song_item = self.parent.model.get_value(_iter, 5)
-        grilo.toggle_favorite(song_item) # toggle favorite status in database
+        grilo.toggle_favorite(song_item)  # toggle favorite status in database
         playlists.update_static_playlist(StaticPlaylists.Favorites)
 
         # Use this flag to ignore the upcoming _on_item_activated call
         self.star_renderer_click = True
+
 
 class AlbumWidget(Gtk.EventBox):
 

@@ -328,7 +328,7 @@ class Window(Gtk.ApplicationWindow):
         self.notification.add(grid)
 
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
-        label = _("Playlist %s removed" %(
+        label = _("Playlist %s removed" % (
             self.views[3].current_playlist.get_title()))
         grid.add(Gtk.Label.new(label))
         grid.add(undo_button)

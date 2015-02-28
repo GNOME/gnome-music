@@ -222,10 +222,10 @@ class Grilo(GObject.GObject):
     def toggle_favorite(self, song_item):
         # TODO: change "bool(song_item.get_lyrics())" --> song_item.get_favourite() once query works properly
         # TODO: when .set/get_favourite work, set_favourite outside loop: item.set_favourite(!item.get_favourite())
-        if bool(song_item.get_lyrics()): # is favorite
+        if bool(song_item.get_lyrics()):  # is favorite
             self.sparqltracker.update(Query.remove_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
             song_item.set_lyrics("")
-        else: # not favorite
+        else:  # not favorite
             self.sparqltracker.update(Query.add_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
             song_item.set_lyrics("i'm truthy")
 
