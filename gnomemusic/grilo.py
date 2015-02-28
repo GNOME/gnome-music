@@ -100,28 +100,34 @@ class Grilo(GObject.GObject):
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
         try:
-            for media in changedMedias:
-                media_id = media.get_id()
-                if changeType == Grl.SourceChangeType.ADDED:
-                    # Check that this media is an audio file
-                    query = "select DISTINCT rdf:type nie:mimeType(?urn) as mime-type" +\
-                            " { ?urn rdf:type nie:InformationElement . FILTER (tracker:id(?urn) = %s) }" % media_id
-                    mimeType = grilo.tracker.query_sync(query, [Grl.METADATA_KEY_MIME], grilo.options)[0].get_mime()
-                    if mimeType and mimeType.startswith("audio"):
-                        self.changed_media_ids.append(media_id)
-                if changeType == Grl.SourceChangeType.REMOVED:
-                    # There is no way to check that removed item is a media
-                    # so always do the refresh
-                    # todo: remove one single url
-                    self.changed_media_ids.append(media.get_id())
+            with self.tracker.handler_block(self.notification_handler):
+                for media in changedMedias:
+                    media_id = media.get_id()
+                    if changeType == Grl.SourceChangeType.ADDED:
+                        # Check that this media is an audio file
+                        query = "select DISTINCT rdf:type nie:mimeType(?urn) as mime-type" +\
+                                " { ?urn rdf:type nie:InformationElement . FILTER (tracker:id(?urn) = %s) }" % media_id
+                        mimeType = grilo.tracker.query_sync(query, [Grl.METADATA_KEY_MIME], grilo.options)[0].get_mime()
+                        if mimeType and mimeType.startswith("audio"):
+                            self.changed_media_ids.append(media_id)
+                    if changeType == Grl.SourceChangeType.REMOVED:
+                        # There is no way to check that removed item is a media
+                        # so always do the refresh
+                        # todo: remove one single url
+                        self.changed_media_ids.append(media.get_id())
 
-            if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
-                self.emit_change_signal()
-            elif self.changed_media_ids != []:
-                if self.pending_event_id > 0:
-                    GLib.Source.remove(self.pending_event_id)
-                    self.pending_event_id = 0
-                self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
+                if self.changed_media_ids == []:
+                    return
+                self.changed_media_ids = list(set(self.changed_media_ids))
+                logger.debug("Changed medias: %s" % self.changed_media_ids)
+
+                if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
+                    self.emit_change_signal()
+                elif self.changed_media_ids != []:
+                    if self.pending_event_id > 0:
+                        GLib.Source.remove(self.pending_event_id)
+                        self.pending_event_id = 0
+                    self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
         except Exception as e:
             logger.warn("Exception in _on_content_changed: %s" % e)
 
@@ -152,7 +158,8 @@ class Grilo(GObject.GObject):
                     if self.tracker is not None:
                         self.emit('ready')
                         self.tracker.notify_change_start()
-                        self.tracker.connect('content-changed', self._on_content_changed)
+                        self.notification_handler = self.tracker.connect(
+                            'content-changed', self._on_content_changed)
 
             elif (id.startswith('grl-upnp')):
                 logger.debug("found upnp source %s" % id)
