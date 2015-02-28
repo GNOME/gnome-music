@@ -1018,7 +1018,7 @@ class Playlist(ViewContainer):
             playlist = self.playlists_model.get_value(_iter, 5)
             if str(playlist_id) == playlist.get_id() and self.current_playlist == playlist:
                 path = self.playlists_model.get_path(_iter)
-                self._on_playlist_activated(None, None, path, skip_cache=True)
+                self._on_playlist_activated(None, None, path)
                 selection = self.playlists_sidebar.get_generic_view().get_selection()
                 selection.select_iter(_iter)
                 break
@@ -1067,7 +1067,7 @@ class Playlist(ViewContainer):
             self._populate()
 
     @log
-    def _on_playlist_activated(self, widget, item_id, path, skip_cache=False):
+    def _on_playlist_activated(self, widget, item_id, path):
         _iter = self.playlists_model.get_iter(path)
         playlist_name = self.playlists_model.get_value(_iter, 2)
         playlist = self.playlists_model.get_value(_iter, 5)
@@ -1081,35 +1081,24 @@ class Playlist(ViewContainer):
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
-        cached_playlist = self.player.running_playlist('Playlist', playlist_name)
-        if cached_playlist and not skip_cache:
-            self.model = cached_playlist
-            currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
-            self.update_model(self.player, cached_playlist,
-                              currentTrack)
-            self.view.set_model(self.model)
-            self.songs_count = self.model.iter_n_children(None)
-            self._update_songs_count()
-            self.emit('playlist-songs-loaded')
-        else:
-            self.model = Gtk.ListStore(
-                GObject.TYPE_STRING,
-                GObject.TYPE_STRING,
-                GObject.TYPE_STRING,
-                GObject.TYPE_STRING,
-                GdkPixbuf.Pixbuf,
-                GObject.TYPE_OBJECT,
-                GObject.TYPE_BOOLEAN,
-                GObject.TYPE_INT,
-                GObject.TYPE_STRING,
-                GObject.TYPE_BOOLEAN,
-                GObject.TYPE_BOOLEAN,
-                GObject.TYPE_INT
-            )
-            self.view.set_model(self.model)
-            GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
-            self.songs_count = 0
-            self._update_songs_count()
+        self.model = Gtk.ListStore(
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GdkPixbuf.Pixbuf,
+            GObject.TYPE_OBJECT,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,
+            GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT
+        )
+        self.view.set_model(self.model)
+        GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
+        self.songs_count = 0
+        self._update_songs_count()
 
         # disable delete button if current playlist is a smart playlist
         if self.current_playlist_is_protected():
@@ -1213,23 +1202,12 @@ class Playlist(ViewContainer):
         if self.current_playlist and \
            playlist.get_id() == self.current_playlist.get_id():
             self._add_item_to_model(item, self.model)
-        else:
-            cached_playlist = self.player.running_playlist(
-                'Playlist', playlist.get_id()
-            )
-            if cached_playlist and cached_playlist != self.model:
-                self._add_item_to_model(item, cached_playlist)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
-        cached_playlist = self.player.running_playlist(
-            'Playlist', playlist.get_id()
-        )
         if self.current_playlist and \
            playlist.get_id() == self.current_playlist.get_id():
             model = self.model
-        elif cached_playlist and cached_playlist != self.model:
-            model = cached_playlist
         else:
             return
 
@@ -1238,8 +1216,7 @@ class Playlist(ViewContainer):
             if row[5].get_id() == item.get_id():
                 # Is the removed track now being played?
                 if self.current_playlist and \
-                   playlist.get_id() == self.current_playlist.get_id() and \
-                   cached_playlist == model:
+                   playlist.get_id() == self.current_playlist.get_id():
                     if self.player.currentTrack is not None:
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:

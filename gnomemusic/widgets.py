@@ -236,18 +236,9 @@ class AlbumWidget(Gtk.EventBox):
         self.ui.get_object('cover').set_from_pixbuf(self.loadingIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
 
-        # if the active queue has been set by self album,
-        # use it as model, otherwise build the liststore
-        cached_playlist = self.player.running_playlist('Album', album)
-        if cached_playlist:
-            self.model = cached_playlist
-            currentTrack = self.player.playlist.get_iter(self.player.currentTrack.get_path())
-            self.update_model(self.player, cached_playlist,
-                              currentTrack)
-        else:
-            self.duration = 0
-            self._create_model()
-            GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
+        self.duration = 0
+        self._create_model()
+        GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
         header_bar._select_button.connect(
             'toggled', self._on_header_select_button_toggled)
         header_bar._cancel_button.connect(
