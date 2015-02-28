@@ -432,7 +432,7 @@ class Songs(ViewContainer):
             or _("Unknown Artist")
         if item.get_url() is None:
             return
-        _iter = self.model.insert_with_valuesv(
+        self.model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
             [albumArtCache.get_media_title(item),
@@ -1132,7 +1132,7 @@ class Playlist(ViewContainer):
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
             or _("Unknown Artist")
-        _iter = model.insert_with_valuesv(
+        model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
             [title, artist, item, bool(item.get_lyrics())])
@@ -1160,14 +1160,6 @@ class Playlist(ViewContainer):
             select_path(self.model.get_path(_iter))
         self.view.emit('item-activated', '0',
                        self.model.get_path(_iter))
-
-    @log
-    def current_playlist_is_protected(self):
-        current_playlist_id = self.current_playlist.get_id()
-        if current_playlist_id in StaticPlaylists.get_protected_ids():
-            return True
-        else:
-            return False
 
     @log
     def current_playlist_is_protected(self):
