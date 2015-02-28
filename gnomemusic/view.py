@@ -1019,8 +1019,6 @@ class Playlist(ViewContainer):
             if str(playlist_id) == playlist.get_id() and self.current_playlist == playlist:
                 path = self.playlists_model.get_path(_iter)
                 self._on_playlist_activated(None, None, path)
-                selection = self.playlists_sidebar.get_generic_view().get_selection()
-                selection.select_iter(_iter)
                 break
             _iter = self.playlists_model.iter_next(_iter)
 
@@ -1071,9 +1069,6 @@ class Playlist(ViewContainer):
         _iter = self.playlists_model.get_iter(path)
         playlist_name = self.playlists_model.get_value(_iter, 2)
         playlist = self.playlists_model.get_value(_iter, 5)
-
-        if self.current_playlist == playlist:
-            return
 
         self.current_playlist = playlist
         self.name_label.set_text(playlist_name)
