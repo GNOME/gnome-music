@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-25 08:55+0100\n"
+"POT-Creation-Date: 2015-02-28 16:35+0100\n"
 "PO-Revision-Date: 2015-02-25 09:03+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
@@ -130,17 +130,17 @@ msgid "Untitled"
 msgstr "Sen título"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:533
-#: ../gnomemusic/view.py:964 ../gnomemusic/view.py:1390
+#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:512
+#: ../gnomemusic/view.py:939 ../gnomemusic/view.py:1391
 msgid "Unknown Album"
 msgstr "Álbum descoñecido"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:221
-#: ../gnomemusic/view.py:448 ../gnomemusic/view.py:705
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1388
-#: ../gnomemusic/view.py:1423 ../gnomemusic/widgets.py:206
-#: ../gnomemusic/widgets.py:610
+#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:222
+#: ../gnomemusic/view.py:432 ../gnomemusic/view.py:684
+#: ../gnomemusic/view.py:1134 ../gnomemusic/view.py:1389
+#: ../gnomemusic/view.py:1424 ../gnomemusic/widgets.py:234
+#: ../gnomemusic/widgets.py:638
 msgid "Unknown Artist"
 msgstr "Artista descoñecido"
 
@@ -232,54 +232,54 @@ msgstr "Orixes"
 msgid "Match"
 msgstr "Coincidir"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:247
-#: ../gnomemusic/widgets.py:487 ../gnomemusic/window.py:288
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:275
+#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:288
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d elemento seleccionado"
 msgstr[1] "%d elementos seleccionados"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:249
-#: ../gnomemusic/widgets.py:489 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:277
+#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:292
 #: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Prema nos elementos para seleccionalos"
 
-#: ../gnomemusic/view.py:294 ../gnomemusic/view.py:1650
+#: ../gnomemusic/view.py:278 ../gnomemusic/view.py:1647
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../gnomemusic/view.py:385 ../gnomemusic/view.py:1652
+#: ../gnomemusic/view.py:369 ../gnomemusic/view.py:1649
 msgid "Songs"
 msgstr "Cancións"
 
-#: ../gnomemusic/view.py:565 ../gnomemusic/view.py:1651
+#: ../gnomemusic/view.py:544 ../gnomemusic/view.py:1648
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:611 ../gnomemusic/view.py:613
-#: ../gnomemusic/widgets.py:496
+#: ../gnomemusic/view.py:590 ../gnomemusic/view.py:592
+#: ../gnomemusic/widgets.py:524
 msgid "All Artists"
 msgstr "Todos os artistas"
 
-#: ../gnomemusic/view.py:790 ../gnomemusic/view.py:1653
+#: ../gnomemusic/view.py:769 ../gnomemusic/view.py:1650
 msgid "Playlists"
 msgstr "Listas de reprodución"
 
-#: ../gnomemusic/view.py:1161
+#: ../gnomemusic/view.py:1145
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d canción"
 msgstr[1] "%d cancións"
 
-#: ../gnomemusic/widgets.py:288 ../gnomemusic/widgets.py:322
+#: ../gnomemusic/widgets.py:316 ../gnomemusic/widgets.py:350
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:734
+#: ../gnomemusic/widgets.py:762
 msgid "New Playlist"
 msgstr "Nova lista de reprodución"
 
@@ -287,18 +287,18 @@ msgstr "Nova lista de reprodución"
 msgid "Empty"
 msgstr "Baleiro"
 
-#: ../gnomemusic/window.py:316
+#: ../gnomemusic/window.py:315
+msgid "Loading"
+msgstr "Cargando"
+
+#: ../gnomemusic/window.py:330
 msgid "_Undo"
 msgstr "_Desfacer"
 
-#: ../gnomemusic/window.py:317
+#: ../gnomemusic/window.py:331
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Elminouse a lista de reprodución %s"
-
-#: ../gnomemusic/window.py:341
-msgid "Loading"
-msgstr "Cargando"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
