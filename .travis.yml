@@ -13,3 +13,10 @@ script:
   - "./autogen.sh"
   - "make"
   - "make distcheck"
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/288e384c48dc6f7d1de0
+    on_success: change
+    on_failure: always
+    on_start: false
