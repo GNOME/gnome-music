@@ -417,6 +417,8 @@ class Songs(ViewContainer):
         self.view.get_generic_view().scroll_to_path(path)
         if self.model.get_value(currentIter, 8) != self.errorIconName:
             self.iter_to_clean = currentIter.copy()
+
+        self.view.queue_draw()
         return False
 
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -512,14 +514,14 @@ class Songs(ViewContainer):
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if model != self.player.playlist:
+        if not self.player.currentTrackUri:
             cell.set_visible(False)
             return
 
         if model.get_value(_iter, 11) == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self.errorIconName)
             cell.set_visible(True)
-        elif model.get_path(_iter) == self.player.currentTrack.get_path():
+        elif model.get_value(_iter, 5).get_url() == self.player.currentTrackUri:
             cell.set_property('icon-name', self.nowPlayingIconName)
             cell.set_visible(True)
         else:
@@ -940,14 +942,14 @@ class Playlist(ViewContainer):
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if model != self.player.playlist:
+        if not self.player.currentTrackUri:
             cell.set_visible(False)
             return
 
         if model.get_value(_iter, 11) == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self.errorIconName)
             cell.set_visible(True)
-        elif model.get_path(_iter) == self.player.currentTrack.get_path():
+        elif model.get_value(_iter, 5).get_url() == self.player.currentTrackUri:
             cell.set_property('icon-name', self.nowPlayingIconName)
             cell.set_visible(True)
         else:
@@ -970,6 +972,8 @@ class Playlist(ViewContainer):
         if self.model.get_value(currentIter, 8) != self.errorIconName:
             self.iter_to_clean = currentIter.copy()
             self.iter_to_clean_model = self.model
+
+        self.view.queue_draw()
         return False
 
     @log

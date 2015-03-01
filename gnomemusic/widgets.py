@@ -195,14 +195,14 @@ class AlbumWidget(Gtk.EventBox):
         self.star_handler._add_star_renderers(list_widget, cols)
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if model != self.player.playlist:
+        if not self.player.currentTrackUri:
             cell.set_visible(False)
             return
 
         if model.get_value(_iter, 10) == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', ERROR_ICON_NAME)
             cell.set_visible(True)
-        elif model.get_path(_iter) == self.player.currentTrack.get_path():
+        elif model.get_value(_iter, 5).get_url() == self.player.currentTrackUri:
             cell.set_property('icon-name', NOW_PLAYING_ICON_NAME)
             cell.set_visible(True)
         else:

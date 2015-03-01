@@ -94,6 +94,7 @@ class Player(GObject.GObject):
         self.playlistId = None
         self.playlistField = None
         self.currentTrack = None
+        self.currentTrackUri = None
         self._lastState = Gst.State.PAUSED
         self.cache = AlbumArtCache.get_default()
         self._noArtworkIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE)
@@ -244,6 +245,8 @@ class Player(GObject.GObject):
                 currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
                 if currentTrack:
                     self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
+                    self.currentTrackUri = self.playlist.get_value(
+                        self.playlist.get_iter(currentTrack.get_path()), 5).get_url()
                 else:
                     self.currentTrack = None
                 self.load(self.get_current_media())
@@ -258,6 +261,8 @@ class Player(GObject.GObject):
     @log
     def _on_glib_idle(self):
         self.currentTrack = self.nextTrack
+        self.currentTrackUri = self.playlist.get_value(
+            self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
         self.play()
 
     @log
@@ -566,8 +571,9 @@ class Player(GObject.GObject):
 
         self.stop()
         self.currentTrack = self.nextTrack
-
         if self.currentTrack:
+            self.currentTrackUri = self.playlist.get_value(
+                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
             self.play()
 
     @log
@@ -588,6 +594,8 @@ class Player(GObject.GObject):
 
         self.currentTrack = self._get_previous_track()
         if self.currentTrack:
+            self.currentTrackUri = self.playlist.get_value(
+                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
             self.play()
 
     @log
@@ -612,6 +620,9 @@ class Player(GObject.GObject):
         self.playlistType = type
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
+        if self.currentTrack:
+            self.currentTrackUri = self.playlist.get_value(
+                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
         self.playlistField = field
         self.discovery_status_field = discovery_status_field
 
