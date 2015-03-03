@@ -1,3 +1,44 @@
+Overview of changes in 3.15.91
+=============================
+
+* Bug fix release
+
+Bugs fixed:
+ 705852 Now playing indicator is lost on switching views / artists / artist albums
+ 729377 Convert menu of gear button in the Playlists view into a popover
+ 729525 Show a loading animation when Add to Playlist is clicked in Albums and Artists view
+ 743310 Updates to Smart Playlist functionality in 3.15.4
+ 743883 Refresh Playlists/Songs view when star toggled
+ 743884 Protect smart playlists
+ 743901 Favorite Playlist and Starring implementation
+ 744005 stars in Album/Artist/Search views
+ 744655 Loading in-app notification is malformed
+ 744807 Last song on album view keeps repeating in "mix/no repeat" mode
+ 744832 Undo playlist delete --> reinsert at previous position
+
+Translations updated:
+ Basque language
+ Brazilian Portuguese
+ Chinese (Taiwan)
+ Czech
+ Fix German desktop file keyword
+ French
+ Galician s
+ Greek
+ Hebrew
+ Hungarian
+ Italian
+ Kazakh
+ Lithuanian
+ Norwegian bokmål  from Åka Sikrom
+ Russian
+ Slovak
+ Spanish
+ Swedish
+ Ukrainian
+ Update Aragonese
+
+
 Overview of changes in 3.15.90
 =============================
 
