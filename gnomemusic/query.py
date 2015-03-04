@@ -449,7 +449,7 @@ class Query():
                 }
             )
         }
-    ORDER BY tracker:added(?song)
+    ORDER BY ?artist ?album nmm:setNumber(nmm:musicAlbumDisc(?song)) nmm:trackNumber(?song)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
