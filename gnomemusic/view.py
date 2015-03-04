@@ -463,9 +463,14 @@ class Songs(ViewContainer):
             height=48,
             ellipsize=Pango.EllipsizeMode.END
         )
-        list_widget.add_renderer(title_renderer,
-                                 self._on_list_widget_title_render, None)
-        cols[0].add_attribute(title_renderer, 'text', 2)
+
+        col = Gtk.TreeViewColumn()
+        col.set_expand(True)
+        col.pack_start(title_renderer, True)
+        col.set_cell_data_func(title_renderer,
+                               self._on_list_widget_title_render, None)
+        col.add_attribute(title_renderer, 'text', 2)
+        list_widget.insert_column(col, 1)
 
         self.star_handler._add_star_renderers(list_widget, cols)
 
@@ -474,25 +479,38 @@ class Songs(ViewContainer):
             xalign=1.0
         )
         duration_renderer.add_class('dim-label')
-        list_widget.add_renderer(duration_renderer,
-                                 self._on_list_widget_duration_render, None)
+
+        col = Gtk.TreeViewColumn()
+        col.pack_start(duration_renderer, False)
+        col.set_cell_data_func(duration_renderer,
+                               self._on_list_widget_duration_render, None)
+        list_widget.append_column(col)
 
         artist_renderer = Gd.StyledTextRenderer(
             xpad=32,
+            width=100,
             ellipsize=Pango.EllipsizeMode.END
         )
         artist_renderer.add_class('dim-label')
-        list_widget.add_renderer(artist_renderer,
-                                 self._on_list_widget_artist_render, None)
-        cols[0].add_attribute(artist_renderer, 'text', 3)
+
+        col = Gtk.TreeViewColumn()
+        col.set_expand(True)
+        col.pack_start(artist_renderer, True)
+        col.set_cell_data_func(artist_renderer,
+                               self._on_list_widget_artist_render, None)
+        col.add_attribute(artist_renderer, 'text', 3)
+        list_widget.append_column(col)
 
         type_renderer = Gd.StyledTextRenderer(
             xpad=32,
+            width=100,
             ellipsize=Pango.EllipsizeMode.END
         )
         type_renderer.add_class('dim-label')
-        list_widget.add_renderer(type_renderer,
-                                 self._on_list_widget_type_render, None)
+
+        col.pack_end(type_renderer, True)
+        col.set_cell_data_func(type_renderer,
+                               self._on_list_widget_type_render, None)
 
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
