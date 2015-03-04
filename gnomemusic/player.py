@@ -37,7 +37,7 @@ GIRepository.Repository.prepend_search_path('libgd')
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from gettext import gettext as _
 from random import randint
-from queue import LifoQueue
+from collections import deque
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.playlists import Playlists
 playlists = Playlists.get_default()
@@ -71,7 +71,7 @@ class DiscoveryStatus:
 class Player(GObject.GObject):
     nextTrack = None
     timeout = None
-    shuffleHistory = LifoQueue(maxsize=10)
+    shuffleHistory = deque(maxlen=10)
 
     __gsignals__ = {
         'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
@@ -305,9 +305,7 @@ class Player(GObject.GObject):
         elif self.repeat == RepeatType.SHUFFLE:
             if currentTrack:
                 nextTrack = self._get_random_iter(currentTrack)
-                if self.shuffleHistory.full():
-                    self.shuffleHistory.get_nowait()
-                self.shuffleHistory.put_nowait(currentTrack)
+                self.shuffleHistory.append(currentTrack)
 
         if nextTrack:
             return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(nextTrack))
@@ -349,8 +347,15 @@ class Player(GObject.GObject):
                 previousTrack = self.playlist.iter_previous(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
             if currentTrack:
-                if not self.shuffleHistory.empty():
-                    previousTrack = self.shuffleHistory.get_nowait()
+                if self.played_seconds < 10 and len(self.shuffleHistory) > 0:
+                    previousTrack = self.shuffleHistory.pop()
+
+                    # Discard the current song, which is already queued
+                    if self.playlist.get_path(previousTrack) == self.playlist.get_path(currentTrack):
+                        previousTrack = None
+
+                if previousTrack is None and len(self.shuffleHistory) > 0:
+                    previousTrack = self.shuffleHistory.pop()
                 else:
                     previousTrack = self._get_random_iter(currentTrack)
 
