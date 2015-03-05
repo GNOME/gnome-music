@@ -205,7 +205,7 @@
         <property name="window_placement">top-right</property>
         <child>
           <object class="GtkViewport" id="view">
-            <property name="width_request">350</property>
+            <property name="width_request">600</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>
