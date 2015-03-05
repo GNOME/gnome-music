@@ -1240,7 +1240,7 @@ class Playlist(ViewContainer):
                 # Is the removed track now being played?
                 if self.current_playlist and \
                    playlist.get_id() == self.current_playlist.get_id():
-                    if self.player.currentTrack is not None:
+                    if self.player.currentTrack is not None and self.player.currentTrack.valid():
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:
                             update_playing_track = True

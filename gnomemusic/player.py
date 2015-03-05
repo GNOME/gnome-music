@@ -217,8 +217,9 @@ class Player(GObject.GObject):
     def _onBusError(self, bus, message):
         media = self.get_current_media()
         if media is not None:
-            currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-            self.playlist.set_value(currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
+            if self.currentTrack and self.currentTrack.valid():
+                currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
+                self.playlist.set_value(currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
             uri = media.get_url()
         else:
             uri = 'none'
@@ -261,8 +262,9 @@ class Player(GObject.GObject):
     @log
     def _on_glib_idle(self):
         self.currentTrack = self.nextTrack
-        self.currentTrackUri = self.playlist.get_value(
-            self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
+        if self.currentTrack and self.currentTrack.valid():
+            self.currentTrackUri = self.playlist.get_value(
+                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
         self.play()
 
     @log
@@ -271,6 +273,8 @@ class Player(GObject.GObject):
 
     @log
     def _get_random_iter(self, currentTrack):
+        if not currentTrack or not self.playlist.iter_is_valid(currentTrack):
+            return None
         currentPath = int(self.playlist.get_path(currentTrack).to_string())
         rows = self.playlist.iter_n_children(None)
         if rows == 1:
@@ -480,9 +484,10 @@ class Player(GObject.GObject):
         if url != self.player.get_value('current-uri', 0):
             self.player.set_property('uri', url)
 
-        currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-        self.emit('playlist-item-changed', self.playlist, currentTrack)
-        self.emit('current-changed')
+        if self.currentTrack and self.currentTrack.valid():
+            currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
+            self.emit('playlist-item-changed', self.playlist, currentTrack)
+            self.emit('current-changed')
 
         self._validate_next_track()
 
@@ -576,7 +581,7 @@ class Player(GObject.GObject):
 
         self.stop()
         self.currentTrack = self.nextTrack
-        if self.currentTrack:
+        if self.currentTrack and self.currentTrack.valid():
             self.currentTrackUri = self.playlist.get_value(
                 self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
             self.play()
@@ -598,7 +603,7 @@ class Player(GObject.GObject):
         self.stop()
 
         self.currentTrack = self._get_previous_track()
-        if self.currentTrack:
+        if self.currentTrack and self.currentTrack.valid():
             self.currentTrackUri = self.playlist.get_value(
                 self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
             self.play()
@@ -625,7 +630,7 @@ class Player(GObject.GObject):
         self.playlistType = type
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
-        if self.currentTrack:
+        if self.currentTrack and self.currentTrack.valid():
             self.currentTrackUri = self.playlist.get_value(
                 self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
         self.playlistField = field
