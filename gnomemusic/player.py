@@ -745,11 +745,13 @@ class Player(GObject.GObject):
             try:
                 percentage = self.played_seconds / self.duration
                 if not self.scrobbled and percentage > 0.4:
-                    just_played_url = self.get_current_media().get_url()
+                    current_media = self.get_current_media()
                     self.scrobbled = True
-                    playlists.update_playcount(just_played_url)
-                    playlists.update_last_played(just_played_url)
-                    playlists.update_all_static_playlists()
+                    if current_media:
+                        just_played_url = self.get_current_media().get_url()
+                        playlists.update_playcount(just_played_url)
+                        playlists.update_last_played(just_played_url)
+                        playlists.update_all_static_playlists()
             except Exception as e:
                 logger.warn("Error: %s, %s" % (e.__class__, e))
         return True
