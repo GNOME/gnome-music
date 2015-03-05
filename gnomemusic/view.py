@@ -288,6 +288,7 @@ class Albums(ViewContainer):
     def _on_changes_pending(self, data=None):
         if (self._init and self.header_bar._selectionMode is False):
             self._offset = 0
+            self._init = True
             self.model.clear()
             self.populate()
             grilo.changes_pending['Albums'] = False
@@ -1486,6 +1487,7 @@ class Search(ViewContainer):
 
     @log
     def populate(self):
+        self._init = True
         self.window._init_loading_notification()
         self.header_bar.set_state(ToolbarState.MAIN)
 
