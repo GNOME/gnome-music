@@ -210,6 +210,7 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
+        self.window.notification.set_timeout(0)
         if not item:
             if remaining == 0:
                 self.window.notification.dismiss()
@@ -423,6 +424,7 @@ class Songs(ViewContainer):
         return False
 
     def _add_item(self, source, param, item, remaining=0, data=None):
+        self.window.notification.set_timeout(0)
         if not item:
             if remaining == 0:
                 self.window.notification.dismiss()
@@ -696,6 +698,7 @@ class Artists (ViewContainer):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
+        self.window.notification.set_timeout(0)
         if item is None:
             if remaining == 0:
                 self.window.notification.dismiss()
@@ -1005,6 +1008,7 @@ class Playlist(ViewContainer):
 
     @log
     def _add_playlist_item_to_model(self, item, index=None):
+        self.window.notification.set_timeout(0)
         if index is None:
             index = -1
         if not item:
@@ -1397,6 +1401,7 @@ class Search(ViewContainer):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
+        self.window.notification.set_timeout(0)
         if data is None:
             return
 

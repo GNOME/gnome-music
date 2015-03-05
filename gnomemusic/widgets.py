@@ -422,6 +422,7 @@ class ArtistAlbums(Gtk.Box):
 
     @log
     def add_album(self, album, is_last_album=False):
+        self.window.notification.set_timeout(0)
         widget = ArtistAlbumWidget(
             self.artist, album, self.player, self.model,
             self.header_bar, self.selectionModeAllowed
