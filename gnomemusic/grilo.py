@@ -114,7 +114,10 @@ class Grilo(GObject.GObject):
                         # There is no way to check that removed item is a media
                         # so always do the refresh
                         # todo: remove one single url
-                        self.changed_media_ids.append(media.get_id())
+                        try:
+                            self.changed_media_ids.append(media.get_id())
+                        except Exception as e:
+                            logger.warn("Skipping %s" % media)
 
                 if self.changed_media_ids == []:
                     return
