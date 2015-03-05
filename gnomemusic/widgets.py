@@ -163,11 +163,11 @@ class AlbumWidget(Gtk.EventBox):
         cells[1].set_visible(False)
 
         now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0,
-                                                             xalign=1.0,
+                                                             xalign=0.5,
                                                              yalign=0.5)
 
         column_now_playing = Gtk.TreeViewColumn()
-        column_now_playing.set_fixed_width(24)
+        column_now_playing.set_fixed_width(48)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
         column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
                                               self._on_list_widget_icon_render, None)
