@@ -3,21 +3,22 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Emin Tufan Çetin <etcetin@gmail.con>, 2013.
-# Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2014.
-# Muhammet Kara <muhammetk@gmail.com>, 2013, 2014.
+# Necdet Yücel <necdetyucel@gmail.com>, 2014.
+# Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2014, 2015.
+# Muhammet Kara <muhammetk@gmail.com>, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-11-09 07:54+0000\n"
-"PO-Revision-Date: 2014-11-09 20:48+0000\n"
+"POT-Creation-Date: 2015-03-10 08:09+0000\n"
+"PO-Revision-Date: 2015-03-10 19:00+0000\n"
 "Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
-"Language-Team: Turkish (Turkey) (http://www.transifex.com/projects/p/gnome-turk/language/tr_TR/)\n"
+"Language-Team: Türkçe <gnome-turk@gnome.org>\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: tr_TR\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -74,8 +75,26 @@ msgstr "Bildirim kipi"
 msgid "Enables or disables playback notifications"
 msgstr "Oynatma bildirimlerini etkinleştirir veya devre dışı bırakır"
 
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr "Sanatçı görünümünde gösterilen parça adı için en fazla karakter sayısı"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr "Bu ayar sanatçı görünümünde gösterilen parça adının üç nokta koyulmadan önce görünecek karakter sayısını değiştirir. Devre dışı bırakmak için -1 olarak ayarlayın."
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "ReplayGain'i Etkinleştir"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Albümler için ReplayGain'i etkinleştirir ya da devre dışı bırakır"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Müzik"
@@ -88,6 +107,10 @@ msgstr "Müzik Çalar"
 msgid "Play and organize your music collection"
 msgstr "Müzik koleksiyonunuzu çalın ve yönetin"
 
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Müzik;Yürütücü;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "GNOME Müzik"
@@ -96,22 +119,22 @@ msgstr "GNOME Müzik"
 msgid "Music is the new GNOME music playing application."
 msgstr "Müzik, GNOME'un yeni müzik çalma uygulamasıdır."
 
-#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Başlıksız"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:958 ../gnomemusic/view.py:1287
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:470 ../gnomemusic/view.py:537
+#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
 msgid "Unknown Album"
 msgstr "Bilinmeyen Albüm"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1062 ../gnomemusic/view.py:1285
-#: ../gnomemusic/view.py:1316 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:461 ../gnomemusic/view.py:222
+#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
+#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
+#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/widgets.py:631
 msgid "Unknown Artist"
 msgstr "Bilinmeyen Sanatçı"
 
@@ -129,11 +152,11 @@ msgstr "%s tarafından, %s albümünde"
 msgid "Previous"
 msgstr "Önceki"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:418
 msgid "Pause"
 msgstr "Duraklat"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Yürüt"
@@ -142,6 +165,31 @@ msgstr "Yürüt"
 msgid "Next"
 msgstr "Sonraki"
 
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:49
+msgid "Most Played"
+msgstr "En Çok Çalınanlar"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:56
+msgid "Never Played"
+msgstr "Hiç Çalınmayanlar"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:63
+msgid "Recently Played"
+msgstr "Son Çalınanlar"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Yeni Eklenenler"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "En Sevdiğiniz Şarkılar"
+
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase
 #. articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums.
@@ -149,90 +197,103 @@ msgstr "Sonraki"
 #. list should include 'the' regardless of language. If some articles occur
 #. more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:59
-msgid "the"
+#: ../gnomemusic/query.py:69
+msgid "the a an"
 msgstr "the"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Tümü"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Sanatçı"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Albüm"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Parça Adı"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Yerel"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Kaynaklar"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Eşleştir"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
+#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d öge seçildi"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
+#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
+#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Seçmek için ögelere tıklayın"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1531
+#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
 msgid "Albums"
 msgstr "Albümler"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1533
+#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
 msgid "Songs"
 msgstr "Şarkılar"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1532
+#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
 msgid "Artists"
 msgstr "Sanatçılar"
 
-#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:448
+#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
+#: ../gnomemusic/widgets.py:517
 msgid "All Artists"
 msgstr "Tüm Sanatçılar"
 
-#: ../gnomemusic/view.py:794 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
 msgid "Playlists"
 msgstr "Çalma listeleri"
 
-#: ../gnomemusic/view.py:1074
+#: ../gnomemusic/view.py:1161
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d Şarkı"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
 #, python-format
 msgid "%d min"
 msgstr "%d dk"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:755
 msgid "New Playlist"
 msgstr "Yeni Çalma Listesi"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:240
 msgid "Empty"
 msgstr "Boş"
+
+#: ../gnomemusic/window.py:320
+msgid "Loading"
+msgstr "Yükleniyor"
+
+#: ../gnomemusic/window.py:335
+msgid "_Undo"
+msgstr "_Geri Al"
+
+#: ../gnomemusic/window.py:336
+#, python-format
+msgid "Playlist %s removed"
+msgstr "%s çalma listesi kaldırıldı"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -255,7 +316,7 @@ msgid ""
 "You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
 "The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version."
-msgstr ""
+msgstr "GNOME Müzik, bir özgür yazılmdır; Özgür Yazılım Vakfı tarafından yayınlanan GNU Genel Kamu Lisansı'nın 2. sürümü ya da (isteğe bağlı olarak) sonraki sürümleri koşulları altında yeniden dağıtabilir ve/veya değiştirebilirsiniz.\n\nGNOME Müzik kullanışlı olması maksadıyla dağıtılmaktadır, ancak HİÇBİR GARANTİSİ YOKTUR; aynı zamanda BİR AMACA UYGUNLUĞU ya da SATILABİLİRLİĞİ garanti etmez. Daha fazla ayrıntı için GNU Genel Kamu Lisansına bakınız.\n\nGNU Genel Kamu Lisansı'nın bir kopyasını GNOME Müzik ile almış olmalısınız; eğer almadıysanız  Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA adresine yazın.\n\nGNOME Müzik yazarları GPL uyumlu olmayan GStreamer eklentilerinin GStreamer ve GNOME Müzik ile birlikte kullanılmasına ve dağıtılmasına izin vermektedirler. Bu izin GNOME Müzik'in lisansı olan GPL lisansının üzerinde ve onu kapsayıcı olarak verilmektedir. Eğer bu kodu değiştirirseniz zorunlu olmamakla birlikte bu genişletmeyi kendi kodunuza uygulayabilirsiniz. Bunu yapmak istemezseniz kendi sürümünüzden bu istisna ifadesini kaldırabilirsiniz."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -266,18 +327,14 @@ msgid "Running Length"
 msgstr "Uzunluk"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "Ye_ni Çalma Listesi"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Yardım"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "H_akkında"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Çıkış"
 
