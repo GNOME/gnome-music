@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-10 20:04+0000\n"
+"POT-Creation-Date: 2015-03-14 08:04+0000\n"
 "PO-Revision-Date: 2015-02-21 09:17+0100\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -71,11 +71,11 @@ msgstr "Visar sökraden om sant."
 
 #: ../data/org.gnome.Music.gschema.xml.h:12
 msgid "Notifications mode"
-msgstr "Notifieringsläge"
+msgstr "Aviseringsläge"
 
 #: ../data/org.gnome.Music.gschema.xml.h:13
 msgid "Enables or disables playback notifications"
-msgstr "Aktiverar eller inaktiverar uppspelningsnotifieringar"
+msgstr "Aktiverar eller inaktiverar uppspelningsaviseringar"
 
 #: ../data/org.gnome.Music.gschema.xml.h:14
 msgid "Max chars to display in track name on Artist view"
