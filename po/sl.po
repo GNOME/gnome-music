@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-08 20:04+0000\n"
-"PO-Revision-Date: 2015-03-08 21:39+0100\n"
+"POT-Creation-Date: 2015-03-15 07:57+0000\n"
+"PO-Revision-Date: 2015-03-15 09:52+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -82,13 +82,15 @@ msgstr "Omogoči prikaz obvestil predvajanja"
 
 #: ../data/org.gnome.Music.gschema.xml.h:14
 msgid "Max chars to display in track name on Artist view"
-msgstr ""
+msgstr "Največje število znakov naslova sledi v pogledu izvajalca"
 
 #: ../data/org.gnome.Music.gschema.xml.h:15
 msgid ""
 "This setting modifies the amount of chars for track title on Artist view "
 "before its been ellipsized. Set this to -1 to disable"
 msgstr ""
+"Nastavitev določa število znakov naslova sledi v pogledu izvajalcev, preden "
+"je okrajšan. Vrednost -1 onemogoči nastavitev."
 
 #: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Enable ReplayGain"
@@ -96,7 +98,7 @@ msgstr "_Omogoči ReplayGain"
 
 #: ../data/org.gnome.Music.gschema.xml.h:17
 msgid "Enables or disables ReplayGain for albums"
-msgstr ""
+msgstr "Omogoči ali onemogoči podporo ReplayGain za albume"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
 #: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
@@ -201,7 +203,7 @@ msgstr "Priljubljeni posnetki"
 #. frequently than others, most common should appear first, least common last.
 #: ../gnomemusic/query.py:69
 msgid "the a an"
-msgstr ""
+msgstr "the a an"
 
 #: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
@@ -402,7 +404,7 @@ msgstr "Ni shranjene glasbe"
 
 #: ../data/NoMusic.ui.h:2
 msgid "The contents of your music folder will appear here."
-msgstr ""
+msgstr "Vsebina mape z glasbo bo prikazana tu."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
