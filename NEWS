@@ -1,3 +1,28 @@
+Overview of changes in 3.15.92
+=============================
+
+* Bug fix release
+
+Bugs fixed:
+ 744657 Loading in-app notification gets stuck
+ 745646 Improve sorting of "songs" view
+ 745647 shuffleHistory fixes
+ 745648 Song view elements jump around
+ 745650 Not Enough Space Given For Track Titles in Album View
+
+Translations updated:
+ Added Bosnian
+ Danish
+ German
+ Korean
+ Polish
+ Serbian
+ Slovenian
+ Swedish
+ Turkish
+ l10n: Update Japanese
+
+
 Overview of changes in 3.15.91
 =============================
 
