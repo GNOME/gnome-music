@@ -113,7 +113,7 @@ msgstr "Izvodite i organizirajte svoju muzičku zbirku"
 
 #: ../data/gnome-music.desktop.in.h:4
 msgid "Music;Player;"
-msgstr "Muzika;Plejer:"
+msgstr "Muzika;Plejer;"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
