@@ -1,15 +1,15 @@
 # Finnish translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013, 2014.
+# Jiri Grönroos <jiri.gronroos+l10n@iki.fi>, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-09-20 07:04+0000\n"
-"PO-Revision-Date: 2014-09-20 10:29+0300\n"
+"POT-Creation-Date: 2015-03-11 08:06+0000\n"
+"PO-Revision-Date: 2015-03-11 19:44+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <gnome-fi-laatu@lists.sourceforge.net>\n"
 "Language: fi\n"
@@ -49,9 +49,6 @@ msgstr "Toiston kertaustila"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\", \"song\", \"all\", \"shuffle\"."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
@@ -71,8 +68,38 @@ msgstr "Hakutila"
 msgid "If true, the search bar is shown."
 msgstr "Jos tosi, hakupalkki näytetään."
 
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Ilmoitustila"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Ota käyttöön/poista käytöstä ilmoitus toistettavista kappaleista"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"Kappaleen nimessä näytettävien merkkien enimmäismäärä esittäjänäkymässä"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Tämä asetus muokkaa näytettävien merkkien määrää esittäjänäkymän "
+"kappalenimessä, ennen kuin nimi typistetään. Jos et halua typistää kappaleen "
+"nimeä, aseta arvoksi -1."
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Käytä ReplayGainia"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Ottaa käyttöön/poistaa käytöstä ReplayGainin albumeille"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musiikki"
@@ -85,6 +112,11 @@ msgstr "Musiikkisoitin"
 msgid "Play and organize your music collection"
 msgstr "Toista ja hallitse musiikkikokoelmaasi"
 
+#: ../data/gnome-music.desktop.in.h:4
+#| msgid "Music Player"
+msgid "Music;Player;"
+msgstr "Music;Player;Musiikkisoitin;Musiikki;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "Gnomen musiikki"
@@ -93,22 +125,22 @@ msgstr "Gnomen musiikki"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musiikki on Gnomen uusi musiikintoistosovellus."
 
-#: ../gnomemusic/albumArtCache.py:100 ../gnomemusic/albumArtCache.py:108
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
-#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:470 ../gnomemusic/view.py:537
+#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
 msgid "Unknown Album"
 msgstr "Tuntematon levy"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
-#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
-#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:461 ../gnomemusic/view.py:222
+#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
+#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
+#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/widgets.py:631
 msgid "Unknown Artist"
 msgstr "Tuntematon esittäjä"
 
@@ -126,11 +158,11 @@ msgstr "esittäjä %s, levy %s"
 msgid "Previous"
 msgstr "Edellinen"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:418
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Toista"
@@ -139,97 +171,137 @@ msgstr "Toista"
 msgid "Next"
 msgstr "Seuraava"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:49
+#| msgid "Music Player"
+msgid "Most Played"
+msgstr "Eniten toistettu"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:56
+msgid "Never Played"
+msgstr "Ei koskaan toistettu"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:63
+msgid "Recently Played"
+msgstr "Äskettäin toistettu"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Äskettäin lisätty"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "Suosikkikappaleet"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:69
+msgid "the a an"
+msgstr "the a an"
+
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Kaikki"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Esittäjä"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Levy"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Kappaleen nimi"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Paikalliset"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Lähteet"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Vastaavuus"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:278
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
+#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Valittu %d kohde"
 msgstr[1] "Valittu %d kohdetta"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
+#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
+#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: ../gnomemusic/view.py:337
-#, python-format
-msgid ""
-"No Music found!\n"
-" Put some files into the folder %s"
-msgstr ""
-"Musiikkia ei löytynyt!\n"
-" Laita musiikkitiedostoja kansioon %s"
-
-#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
 msgid "Albums"
 msgstr "Levyt"
 
-#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
 msgid "Songs"
 msgstr "Kappaleet"
 
-#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
 msgid "Artists"
 msgstr "Esittäjät"
 
-#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
-#: ../gnomemusic/widgets.py:448
+#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
+#: ../gnomemusic/widgets.py:517
 msgid "All Artists"
 msgstr "Kaikki esittäjät"
 
-#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
 msgid "Playlists"
 msgstr "Soittolistat"
 
-#: ../gnomemusic/view.py:1077
+#: ../gnomemusic/view.py:1161
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d kappale"
 msgstr[1] "%d kappaletta"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:755
 msgid "New Playlist"
 msgstr "Uusi soittolista"
 
-#: ../gnomemusic/window.py:226
+#: ../gnomemusic/window.py:240
 msgid "Empty"
 msgstr "Tyhjä"
+
+#: ../gnomemusic/window.py:320
+#| msgid "Loading..."
+msgid "Loading"
+msgstr "Ladataan"
+
+#: ../gnomemusic/window.py:335
+msgid "_Undo"
+msgstr "_Kumoa"
+
+#: ../gnomemusic/window.py:336
+#, python-format
+#| msgid "Playlist Name"
+msgid "Playlist %s removed"
+msgstr "Soittolista %s poistettu"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -277,18 +349,14 @@ msgid "Running Length"
 msgstr "Kesto"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Uusi soittolista"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Ohje"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "_Tietoja"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Lopeta"
 
@@ -309,8 +377,13 @@ msgid "Shuffle/Repeat Off"
 msgstr "Sekoitus/kertaus pois"
 
 #: ../data/NoMusic.ui.h:1
-msgid "No Music Found"
+#| msgid "No Music Found"
+msgid "No music found"
 msgstr "Musiikkia ei löytynyt"
+
+#: ../data/NoMusic.ui.h:2
+msgid "The contents of your music folder will appear here."
+msgstr "Musiikkikansiosi sisältö ilmestyy tähän."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -353,7 +426,6 @@ msgid "_Delete"
 msgstr "_Poista"
 
 #: ../data/PlaylistControls.ui.h:3
-#| msgid "Playlists"
 msgid "Playlist Name"
 msgstr "Soittolistan nimi"
 
@@ -361,11 +433,18 @@ msgstr "Soittolistan nimi"
 msgid "Select Playlist"
 msgstr "Valitse soittolista"
 
+#~ msgid ""
+#~ "No Music found!\n"
+#~ " Put some files into the folder %s"
+#~ msgstr ""
+#~ "Musiikkia ei löytynyt!\n"
+#~ " Laita musiikkitiedostoja kansioon %s"
+
+#~ msgid "_New Playlist"
+#~ msgstr "_Uusi soittolista"
+
 #~ msgid "Load More"
 #~ msgstr "Lataa lisää"
-
-#~ msgid "Loading..."
-#~ msgstr "Ladataan..."
 
 #~ msgid "Now _Playing"
 #~ msgstr "_Nyt toistetaan"
