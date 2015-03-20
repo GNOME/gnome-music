@@ -2,15 +2,15 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# Andika Triwidada <andika@gmail.com>, 2013, 2014.
+# Andika Triwidada <andika@gmail.com>, 2013, 2014, 2015.
 # Dirgita <dirgitadevina@yahoo.co.id>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-12-24 07:58+0000\n"
-"PO-Revision-Date: 2014-12-26 18:24+0700\n"
+"POT-Creation-Date: 2015-03-20 08:00+0000\n"
+"PO-Revision-Date: 2015-03-20 19:12+0700\n"
 "Last-Translator: Andika Triwidada <andika@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -90,8 +90,16 @@ msgstr ""
 "Pengaturan ini memodifikasi banyaknya karakter untuk judul trek pada "
 "tampilan Artis sebelum disingkat. Set ini ke -1 untuk menonaktifkan"
 
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Fungsikan ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Mengaktifkan atau menonaktifkan pemberitahuan pemutaran"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:62
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
@@ -116,22 +124,22 @@ msgstr "GNOME Musik"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musik adalah aplikasi pemutar musik GNOME yang baru."
 
-#: ../gnomemusic/albumArtCache.py:101 ../gnomemusic/albumArtCache.py:109
+#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
 msgstr "Tanpa judul"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:401 ../gnomemusic/view.py:571
-#: ../gnomemusic/view.py:962 ../gnomemusic/view.py:1336
+#: ../gnomemusic/player.py:470 ../gnomemusic/view.py:537
+#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
 msgid "Unknown Album"
 msgstr "Album Tak Dikenal"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:392 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:480 ../gnomemusic/view.py:714
-#: ../gnomemusic/view.py:1110 ../gnomemusic/view.py:1334
-#: ../gnomemusic/view.py:1365 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:575
+#: ../gnomemusic/player.py:461 ../gnomemusic/view.py:222
+#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
+#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
+#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/widgets.py:631
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
@@ -149,11 +157,11 @@ msgstr "oleh %s, dari %s"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:349
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:418
 msgid "Pause"
 msgstr "Tahan"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:352
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Putar"
@@ -162,94 +170,132 @@ msgstr "Putar"
 msgid "Next"
 msgstr "Selanjutnya"
 
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:49
+msgid "Most Played"
+msgstr "Paling Sering Diputar"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:56
+msgid "Never Played"
+msgstr "Tak Pernah Diputar"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:63
+msgid "Recently Played"
+msgstr "Baru-baru Ini Diputar"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Baru-baru Ini Ditambahkan"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:77
+msgid "Favorite Songs"
+msgstr "Lagu Favorit"
+
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:59
-msgid "the"
+#: ../gnomemusic/query.py:69
+msgid "the a an"
 msgstr "the a an"
 
-#: ../gnomemusic/searchbar.py:57 ../gnomemusic/searchbar.py:100
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
 msgstr "Semua"
 
-#: ../gnomemusic/searchbar.py:58
+#: ../gnomemusic/searchbar.py:59
 msgid "Artist"
 msgstr "Artis"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:60
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:61
 msgid "Track Title"
 msgstr "Judul Trek"
 
-#: ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:102
 msgid "Local"
 msgstr "Lokal"
 
-#: ../gnomemusic/searchbar.py:203
+#: ../gnomemusic/searchbar.py:204
 msgid "Sources"
 msgstr "Sumber"
 
-#: ../gnomemusic/searchbar.py:210
+#: ../gnomemusic/searchbar.py:211
 msgid "Match"
 msgstr "Cocok"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
+#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Dipilih %d butir"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
+#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
+#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
-#: ../gnomemusic/view.py:342 ../gnomemusic/view.py:1580
+#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:424 ../gnomemusic/view.py:1582
+#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
 msgid "Songs"
 msgstr "Lagu"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1581
+#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
 msgid "Artists"
 msgstr "Artis"
 
-#: ../gnomemusic/view.py:633 ../gnomemusic/view.py:635
-#: ../gnomemusic/widgets.py:452
+#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
+#: ../gnomemusic/widgets.py:517
 msgid "All Artists"
 msgstr "Semua Artis"
 
-#: ../gnomemusic/view.py:798 ../gnomemusic/view.py:1583
+#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: ../gnomemusic/view.py:1122
+#: ../gnomemusic/view.py:1161
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d Lagu"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
 #, python-format
 msgid "%d min"
 msgstr "%d mnt"
 
-#: ../gnomemusic/widgets.py:689
+#: ../gnomemusic/widgets.py:755
 msgid "New Playlist"
 msgstr "Daftar Putar Baru"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:240
 msgid "Empty"
 msgstr "Kosong"
+
+#: ../gnomemusic/window.py:320
+msgid "Loading"
+msgstr "Memuat"
+
+#: ../gnomemusic/window.py:335
+msgid "_Undo"
+msgstr "Tak _Jadi"
+
+#: ../gnomemusic/window.py:336
+#, python-format
+msgid "Playlist %s removed"
+msgstr "Daftar putar %s dihapus"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -317,18 +363,14 @@ msgid "Running Length"
 msgstr "Lama Putar"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "Daftar Putar _Baru"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Bantuan"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "Tent_ang"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Keluar"
 
@@ -403,3 +445,9 @@ msgstr "Nama Daftar Putar"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Pilih Daftar Putar"
+
+#~ msgid "the"
+#~ msgstr "the a an"
+
+#~ msgid "_New Playlist"
+#~ msgstr "Daftar Putar _Baru"
