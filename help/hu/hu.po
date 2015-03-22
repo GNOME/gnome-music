@@ -4,20 +4,20 @@
 #
 # Balázs Úr <urbalazs@gmail.com>, 2014.
 # Balázs Úr <urbalazs at gmail dot com>, 2014.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2014.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-03-30 19:21+0000\n"
-"PO-Revision-Date: 2014-03-31 18:17+0200\n"
-"Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
+"POT-Creation-Date: 2015-03-20 20:00+0000\n"
+"PO-Revision-Date: 2015-03-22 01:40+0100\n"
+"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -50,9 +50,7 @@ msgstr "2014"
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
 "A simple and elegant replacement for using files to show the music directory."
-msgstr ""
-"Egy egyszerű és elegáns helyettesítő fájlok használatára a zenekönyvtár "
-"megjelenítéséhez."
+msgstr "Egyszerű és elegáns eszköz a zenegyűjtemény megjelenítésére."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -417,8 +415,8 @@ msgid ""
 "In the taskbar, click on the button on right hand side and select "
 "<gui>Shuffle</gui>."
 msgstr ""
-"A tálca jobb oldalán kattintson a gombra, majd válassza a <gui>Véletlenszerű</"
-"gui> lehetőséget."
+"A tálca jobb oldalán kattintson a gombra, majd válassza a "
+"<gui>Véletlenszerű</gui> lehetőséget."
 
 #. (itstool) path: info/desc
 #: C/search.page:18
