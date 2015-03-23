@@ -28,7 +28,8 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, GObject, GLib
+from gettext import gettext as _
 
 from gnomemusic.searchbar import Searchbar, DropDown
 
@@ -136,6 +137,7 @@ class Toolbar(GObject.GObject):
         elif self._state != ToolbarState.MAIN:
             self.header_bar.set_custom_title(None)
         else:
+            GLib.set_application_name(_("Music"))
             self.reset_header_title()
 
         self._search_button.set_visible(self._state != ToolbarState.SEARCH_VIEW)
