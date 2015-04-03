@@ -8,19 +8,19 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music\n"
+"Project-Id-Version: gnome-music 3.14\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-04-17 11:23+0000\n"
-"PO-Revision-Date: 2014-03-13 17:42-0000\n"
-"Last-Translator: Wouter Bolsterlee <wbolster@gnome.org>\n"
+"POT-Creation-Date: 2015-01-19 14:51+0000\n"
+"PO-Revision-Date: 2014-11-17 20:59+0100\n"
+"Last-Translator: Erwin Poeze <donnut@outlook.com>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.10\n"
 "X-Project-Style: gnome\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -45,7 +45,7 @@ msgstr "Venster gemaximaliseerd"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
 msgid "Window maximized state."
-msgstr "Venster is gemaximaliseerd."
+msgstr "Venstermaximalisatiestaat."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
@@ -59,7 +59,7 @@ msgid ""
 "\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Waarde bepaalt of de verzameling herhaald of gehusseld afgespeeld moet "
+"Waarde bepaalt of de verzameling herhaald of wisselkeurig afgespeeld moet "
 "worden. Toegestaan zijn: ‘none’ (uit), ‘song’ (huidige nummer herhalen), "
 "‘all’ (speellijst herhalen), ‘shuffle’ (speellijst husselen en herhalen)."
 
@@ -75,7 +75,7 @@ msgstr "Bij 'true' wordt de zoekbalk getoond."
 #: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
-msgstr "Muziek"
+msgstr "Gnome Muziek"
 
 #: ../data/gnome-music.desktop.in.h:2
 msgid "Music Player"
@@ -93,65 +93,95 @@ msgstr "Gnome Muziek"
 msgid "Music is the new GNOME music playing application."
 msgstr "Muziek is de nieuwe muziekspeler van Gnome."
 
-#: ../gnomemusic/albumArtCache.py:97 ../gnomemusic/albumArtCache.py:105
+#: ../gnomemusic/albumArtCache.py:99 ../gnomemusic/albumArtCache.py:107
 msgid "Untitled"
 msgstr "Naamloos"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:89
-#: ../gnomemusic/player.py:386 ../gnomemusic/view.py:567
-#: ../gnomemusic/view.py:945
+#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
+#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:583
+#: ../gnomemusic/view.py:973 ../gnomemusic/view.py:1309
 msgid "Unknown Album"
 msgstr "Onbekend album"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:87
-#: ../gnomemusic/player.py:379 ../gnomemusic/view.py:275
-#: ../gnomemusic/view.py:478 ../gnomemusic/view.py:706
-#: ../gnomemusic/view.py:1034 ../gnomemusic/widgets.py:240
-#: ../gnomemusic/widgets.py:646
+#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
+#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:492 ../gnomemusic/view.py:729
+#: ../gnomemusic/view.py:1080 ../gnomemusic/view.py:1307
+#: ../gnomemusic/view.py:1338 ../gnomemusic/widgets.py:181
+#: ../gnomemusic/widgets.py:566
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
-#: ../gnomemusic/notification.py:78
+#: ../gnomemusic/notification.py:89
 msgid "Not playing"
 msgstr "Afspelen gestopt"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:93
+#: ../gnomemusic/notification.py:104
 #, python-format
 msgid "by %s, from %s"
 msgstr "door %s, van %s"
 
-#: ../gnomemusic/notification.py:134
+#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Vorige"
 
-#: ../gnomemusic/notification.py:137
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
 msgid "Pause"
 msgstr "Pauzeren"
 
-#: ../gnomemusic/notification.py:140
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Afspelen"
 
-#: ../gnomemusic/notification.py:142
+#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Volgende"
 
-#: ../gnomemusic/view.py:211 ../gnomemusic/widgets.py:283
-#: ../gnomemusic/window.py:258
+#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+msgid "All"
+msgstr "Alles"
+
+#: ../gnomemusic/searchbar.py:59
+msgid "Artist"
+msgstr "Artiest"
+
+#: ../gnomemusic/searchbar.py:60
+msgid "Album"
+msgstr "Muziekalbum"
+
+#: ../gnomemusic/searchbar.py:61
+msgid "Track Title"
+msgstr "Titel nummer"
+
+#: ../gnomemusic/searchbar.py:102
+msgid "Local"
+msgstr "Lokaal"
+
+#: ../gnomemusic/searchbar.py:204
+msgid "Sources"
+msgstr "Bronnen"
+
+#: ../gnomemusic/searchbar.py:211
+msgid "Match"
+msgstr "Zoek"
+
+#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
+#: ../gnomemusic/widgets.py:443 ../gnomemusic/window.py:289
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d item geselecteerd"
 msgstr[1] "%d items geselecteerd"
 
-#: ../gnomemusic/view.py:213 ../gnomemusic/widgets.py:285
-#: ../gnomemusic/window.py:262 ../gnomemusic/window.py:277
-#: ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
+#: ../gnomemusic/widgets.py:445 ../gnomemusic/window.py:293
+#: ../gnomemusic/window.py:305 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klik op items om deze te selecteren"
 
-#: ../gnomemusic/view.py:335
+#: ../gnomemusic/view.py:340
 #, python-format
 msgid ""
 "No Music found!\n"
@@ -160,61 +190,58 @@ msgstr ""
 "Geen muziek gevonden!\n"
 " Zet enkele muziekbestanden in map %s"
 
-#: ../gnomemusic/view.py:343
+#: ../gnomemusic/view.py:348 ../gnomemusic/view.py:1553
 msgid "Albums"
 msgstr "Muziekalbum"
 
-#: ../gnomemusic/view.py:423
+#: ../gnomemusic/view.py:433 ../gnomemusic/view.py:1555
 msgid "Songs"
 msgstr "Nummers"
 
-#: ../gnomemusic/view.py:583
+#: ../gnomemusic/view.py:600 ../gnomemusic/view.py:1554
 msgid "Artists"
 msgstr "Artiesten"
 
-#: ../gnomemusic/view.py:629 ../gnomemusic/view.py:631
-#: ../gnomemusic/widgets.py:486
+#: ../gnomemusic/view.py:645 ../gnomemusic/view.py:647
+#: ../gnomemusic/widgets.py:452
 msgid "All Artists"
 msgstr "Alle artiesten"
 
-#: ../gnomemusic/view.py:781
+#: ../gnomemusic/view.py:809 ../gnomemusic/view.py:1556
 msgid "Playlists"
 msgstr "Afspeellijsten"
 
-#: ../gnomemusic/view.py:1047
+#: ../gnomemusic/view.py:1092
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d nummer"
 msgstr[1] "%d nummers"
 
-#: ../gnomemusic/widgets.py:86 ../gnomemusic/widgets.py:108
-msgid "Load More"
-msgstr "Meer laden"
+#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#, python-format
+msgid "%d min"
+msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:97
-msgid "Loading..."
-msgstr "Laden…"
-
-#: ../gnomemusic/widgets.py:723
+#: ../gnomemusic/widgets.py:680
 msgid "New Playlist"
 msgstr "Nieuwe afspeellijst"
 
-#: ../gnomemusic/window.py:219
+#: ../gnomemusic/window.py:237
 msgid "Empty"
 msgstr "Leeg"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Copyright © 2013 Gnome Music ontwikkelaars"
+msgstr "Copyright © 2013 Gnome Muziek ontwikkelaars"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
-msgstr "Een muziekspeler en beheertoepassing voor GNOME."
+msgstr "Een muziekspeler en beheertoepassing voor Gnome."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr "Bezoek de Gnome Music-website"
+msgstr "Bezoek de website van Gnome Muziek"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -240,13 +267,13 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version."
 msgstr ""
-"Gnome Music is vrije software; u mag het verder verspreiden en/of wijzigen "
+"Gnome Muziek is vrije software; u mag het verder verspreiden en/of wijzigen "
 "onder de voorwaarden van de GNU General Public License zoals gepubliceerd "
 "door de Free Software Foundation, naar keuze ofwel onder versie 3 ofwel "
 "onder een nieuwere versie van die licentie.\n"
 "\n"
-"Gnome Music wordt uitgegeven in de hoop dat het nuttig is, maar ZONDER ENIGE "
-"GARANTIE; zelfs zonder de impliciete garantie van VERKOOPBAARHEID of "
+"Gnome Muziek wordt uitgegeven in de hoop dat het nuttig is, maar ZONDER "
+"ENIGE GARANTIE; zelfs zonder de impliciete garantie van VERKOOPBAARHEID of "
 "GESCHIKTHEID VOOR EEN BEPAALD DOEL. Zie de GNU General Public License voor "
 "meer details.\n"
 "\n"
@@ -255,14 +282,14 @@ msgstr ""
 "Free Software Foundation, Inc.,  51 Franklin Street, Fifth Floor, Boston, MA "
 "02110-1301,  USA.\n"
 "\n"
-"De makers van Gnome Music verlenen hierbij toestemming om niet-GPL "
+"De makers van Gnome Muziek verlenen hierbij toestemming om niet-GPL "
 "overeenkomende GStreamer-plugins te gebruiken en te distribueren samen met "
-"GStreamer en Gnome Music. Deze toestemming overstijgt en gaat verder dan de "
-"toestemming verleend door de GPL-licentie waaronder Gnome Music ressorteert. "
-"Als u deze code bewerkt kunt u deze uitzondering van toepassing verklaren op "
-"uw versie van de code, maar u bent hiertoe niet verplicht. Als u besluit de "
-"uitzondering niet van toepassing te verklaring, verwijder dan deze "
-"verklaring uit uw versie."
+"GStreamer en Gnome Muziek. Deze toestemming overstijgt en gaat verder dan de "
+"toestemming verleend door de GPL-licentie waaronder Gnome Muziek "
+"ressorteert. Als u deze code bewerkt kunt u deze uitzondering van toepassing "
+"verklaren op uw versie van de code, maar u bent hiertoe niet verplicht. Als "
+"u besluit de uitzondering niet van toepassing te verklaring, verwijder dan "
+"deze verklaring uit uw versie."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -273,18 +300,14 @@ msgid "Running Length"
 msgstr "Speelduur"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "_Nieuwe afspeellijst"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Hulp"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "_Info"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Afsluiten"
 
@@ -316,9 +339,21 @@ msgstr "Alles selecteren"
 msgid "Select None"
 msgstr "Niets selecteren"
 
-#: ../data/headerbar.ui.h:4 ../data/PlaylistDialog.ui.h:2
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Zoeken"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Selecteren"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Annuleren"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Terug"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
@@ -336,13 +371,22 @@ msgstr "Afs_pelen"
 msgid "_Delete"
 msgstr "_Verwijderen"
 
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Naam afspeellijst"
+
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Afspeellijst selecteren"
 
-#: ../data/PlaylistDialog.ui.h:3
-msgid "Select"
-msgstr "Selecteren"
+#~ msgid "_New Playlist"
+#~ msgstr "_Nieuwe afspeellijst"
+
+#~ msgid "Load More"
+#~ msgstr "Meer laden"
+
+#~ msgid "Loading..."
+#~ msgstr "Laden…"
 
 #~ msgid "Now _Playing"
 #~ msgstr "_Nu aan het afspelen"
