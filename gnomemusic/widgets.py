@@ -123,7 +123,7 @@ class AlbumWidget(Gtk.EventBox):
         self.view.remove(child_view)
         view_box.add(child_view)
         self.add(self.ui.get_object('AlbumWidget'))
-        self.star_handler = StarHandler(self, 10)
+        self.star_handler = StarHandler(self, 9)
         self._add_list_renderers()
         self.get_style_context().add_class('view')
         self.get_style_context().add_class('content-view')
@@ -299,7 +299,7 @@ class AlbumWidget(Gtk.EventBox):
             _iter = self.model.append()
             escapedTitle = AlbumArtCache.get_media_title(track, True)
             self.model.set(_iter,
-                           [0, 1, 2, 3, 4, 5, 10],
+                           [0, 1, 2, 3, 4, 5, 9],
                            [escapedTitle,
                             self.player.seconds_to_string(
                                 track.get_duration()),
