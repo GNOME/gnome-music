@@ -4,14 +4,16 @@
 # DanielaHidemiOyafuso <danielaoyafuso@gmail.com>, 2013.
 # Ikuya Awashiro <ikuya@fruitsbasket.info>, 2014.
 # Kento Tsuji <tuziemon@pclives.org>, 2014.
+# Hajime Taira <htaira@redhat.com>, 2015.
+# Jiro Matsuzawa <jmatsuzawa@gnome.org>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-05 13:25+0000\n"
-"PO-Revision-Date: 2014-09-15 11:33+0900\n"
-"Last-Translator: Kento Tsuji <tuziemon@pclives.org>\n"
+"POT-Creation-Date: 2015-03-24 08:11+0000\n"
+"PO-Revision-Date: 2015-03-24 23:21+0900\n"
+"Last-Translator: Hajime Taira <htaira@redhat.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
@@ -62,33 +64,33 @@ msgstr "trueにすると検索バーを表示します。"
 
 #: ../data/org.gnome.Music.gschema.xml.h:12
 msgid "Notifications mode"
-msgstr ""
+msgstr "通知モード"
 
 #: ../data/org.gnome.Music.gschema.xml.h:13
 msgid "Enables or disables playback notifications"
-msgstr ""
+msgstr "再生中の曲の通知を有効にするかどうかの設定です。"
 
 #: ../data/org.gnome.Music.gschema.xml.h:14
 msgid "Max chars to display in track name on Artist view"
-msgstr ""
+msgstr "アーティストビューに表示するトラック名の最大文字数"
 
 #: ../data/org.gnome.Music.gschema.xml.h:15
 msgid "This setting modifies the amount of chars for track title on Artist view before its been ellipsized. Set this to -1 to disable"
-msgstr ""
+msgstr "アーティストビューに表示されるトラック名の文字数を設定します。設定値を超えるとトラック名が省略されます。無効にするには -1 を設定します"
 
 #: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Enable ReplayGain"
-msgstr ""
+msgstr "ReplayGainを有効にする"
 
 #: ../data/org.gnome.Music.gschema.xml.h:17
 msgid "Enables or disables ReplayGain for albums"
-msgstr ""
+msgstr "アルバムのReplayGainを有効にするかどうかの設定で。"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
-#: ../data/AboutDialog.ui.in.h:1
+#: ../gnomemusic/application.py:113 ../gnomemusic/toolbar.py:140
+#: ../gnomemusic/window.py:59 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
-msgstr "Music"
+msgstr "ミュージック"
 
 #: ../data/gnome-music.desktop.in.h:2
 msgid "Music Player"
@@ -99,18 +101,16 @@ msgid "Play and organize your music collection"
 msgstr "音楽コレクションの再生と整理"
 
 #: ../data/gnome-music.desktop.in.h:4
-#, fuzzy
-#| msgid "Music Player"
 msgid "Music;Player;"
-msgstr "音楽プレイヤー"
+msgstr "Music;Player;音楽;ミュージック;再生;プレイヤー;"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
-msgstr "GNOME Music"
+msgstr "GNOME ミュージック"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr "Musicは新しいGNOMEの音楽再生アプリケーションです。"
+msgstr "ミュージックは GNOME の新しい音楽再生アプリケーションです。"
 
 #: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
 msgid "Untitled"
@@ -160,30 +160,28 @@ msgstr "次"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:49
-#, fuzzy
-#| msgid "Music Player"
 msgid "Most Played"
-msgstr "音楽プレイヤー"
+msgstr "最も再生した曲"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:56
 msgid "Never Played"
-msgstr ""
+msgstr "未再生の曲"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:63
 msgid "Recently Played"
-msgstr ""
+msgstr "最近再生した曲"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:70
 msgid "Recently Added"
-msgstr ""
+msgstr "最近追加した曲"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:77
 msgid "Favorite Songs"
-msgstr ""
+msgstr "お気に入りの曲"
 
 #. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
@@ -191,11 +189,11 @@ msgstr ""
 #. frequently than others, most common should appear first, least common last.
 #: ../gnomemusic/query.py:69
 msgid "the a an"
-msgstr ""
+msgstr "the a an"
 
 #: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
 msgid "All"
-msgstr "全て"
+msgstr "すべて"
 
 #: ../gnomemusic/searchbar.py:59
 msgid "Artist"
@@ -275,20 +273,17 @@ msgid "Empty"
 msgstr "空"
 
 #: ../gnomemusic/window.py:320
-#, fuzzy
-#| msgid "Loading..."
 msgid "Loading"
-msgstr "読み込み中..."
+msgstr "読み込み中"
 
 #: ../gnomemusic/window.py:335
 msgid "_Undo"
-msgstr ""
+msgstr "元に戻す(_U)"
 
 #: ../gnomemusic/window.py:336
-#, fuzzy, python-format
-#| msgid "Playlists"
+#, python-format
 msgid "Playlist %s removed"
-msgstr "プレイリスト"
+msgstr "プレイリスト %s を削除しました"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -300,7 +295,7 @@ msgstr "GNOME 向け音楽プレイヤーと管理アプリケーション"
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr "GNOME Music Webサイトにアクセスする"
+msgstr "GNOME ミュージックの Web サイトにアクセスする"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -357,14 +352,12 @@ msgid "Shuffle/Repeat Off"
 msgstr "シャッフル/リピートオフ"
 
 #: ../data/NoMusic.ui.h:1
-#, fuzzy
-#| msgid "No Music Found"
 msgid "No music found"
-msgstr "音楽が見つかりません"
+msgstr "曲が見つかりません"
 
 #: ../data/NoMusic.ui.h:2
 msgid "The contents of your music folder will appear here."
-msgstr ""
+msgstr "あなたの音楽フォルダーの内容がここに表示されます。"
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -407,10 +400,8 @@ msgid "_Delete"
 msgstr "削除(_D)"
 
 #: ../data/PlaylistControls.ui.h:3
-#, fuzzy
-#| msgid "Playlists"
 msgid "Playlist Name"
-msgstr "プレイリスト"
+msgstr "プレイリスト名"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
