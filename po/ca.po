@@ -297,7 +297,7 @@ msgstr "_Desfés"
 #: ../gnomemusic/window.py:336
 #, python-format
 msgid "Playlist %s removed"
-msgstr "S'ha suprimir llista de reproducció %s"
+msgstr "S'ha suprimit la llista de reproducció %s"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
