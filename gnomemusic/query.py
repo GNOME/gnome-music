@@ -980,8 +980,19 @@ class Query():
                 nie:usageCounter ?count ;
                 nie:isStoredAs ?as .
           ?as nie:url ?url .
+          FILTER (
+            tracker:uri-is-descendant(
+              '%(music_dir)s', nie:url(?song)
+            ) ||
+            tracker:uri-is-descendant(
+              '%(download_dir)s', nie:url(?song)
+            )
+          )
         } ORDER BY DESC(?count) LIMIT 50
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
+        }
 
         return query
 
@@ -994,8 +1005,19 @@ class Query():
                 nie:isStoredAs ?as .
             ?as nie:url ?url .
             FILTER ( NOT EXISTS { ?song nie:usageCounter ?count .} )
+            FILTER (
+            tracker:uri-is-descendant(
+                '%(music_dir)s', nie:url(?song)
+            ) ||
+            tracker:uri-is-descendant(
+                '%(download_dir)s', nie:url(?song)
+            )
+        )
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
+        }
 
         return query
 
@@ -1017,8 +1039,20 @@ class Query():
                 ?as nie:url ?url .
                 FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime )
                 FILTER ( EXISTS { ?song nie:usageCounter ?count .} )
+                FILTER (
+                  tracker:uri-is-descendant(
+                    '%(music_dir)s', nie:url(?song)
+                  ) ||
+                  tracker:uri-is-descendant(
+                    '%(download_dir)s', nie:url(?song)
+                  )
+                )
             } ORDER BY DESC(?last_played) LIMIT 50
-            """.replace('\n', ' ').strip() % {'compare_date': compare_date}
+            """.replace('\n', ' ').strip() % {
+                'compare_date': compare_date,
+                'music_dir': Query.MUSIC_URI,
+                'download_dir': Query.DOWNLOAD_URI
+            }
 
             return query
 
@@ -1040,8 +1074,20 @@ class Query():
                 tracker:added ?added .
             ?as nie:url ?url .
             FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime )
+            FILTER (
+              tracker:uri-is-descendant(
+                '%(music_dir)s', nie:url(?song)
+              ) ||
+              tracker:uri-is-descendant(
+                '%(download_dir)s', nie:url(?song)
+              )
+            )
         } ORDER BY DESC(?added) LIMIT 50
-        """.replace('\n', ' ').strip() % {'compare_date': compare_date}
+        """.replace('\n', ' ').strip() % {
+            'compare_date': compare_date,
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
+        }
 
         return query
 
@@ -1053,8 +1099,19 @@ class Query():
             nie:isStoredAs ?as ;
             nao:hasTag nao:predefined-tag-favorite .
         ?as nie:url ?url .
+        FILTER (
+          tracker:uri-is-descendant(
+            '%(music_dir)s', nie:url(?song)
+          ) ||
+          tracker:uri-is-descendant(
+            '%(download_dir)s', nie:url(?song)
+          )
+        )
     } ORDER BY DESC(tracker:added(?song))
-    """.replace('\n', ' ').strip()
+    """.replace('\n', ' ').strip() % {
+            'music_dir': Query.MUSIC_URI,
+            'download_dir': Query.DOWNLOAD_URI
+        }
 
         return query
 
