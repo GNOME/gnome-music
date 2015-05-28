@@ -137,7 +137,6 @@ class Toolbar(GObject.GObject):
         elif self._state != ToolbarState.MAIN:
             self.header_bar.set_custom_title(None)
         else:
-            GLib.set_application_name(_("Music"))
             self.reset_header_title()
 
         self._search_button.set_visible(self._state != ToolbarState.SEARCH_VIEW)
