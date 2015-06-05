@@ -141,7 +141,7 @@ class Application(Gtk.Application):
 
             # TODO: Pass last.fm API account key and secret
             # http://www.last.fm/api/accounts
-            self.lastfm = LastFm(self, key='', secret='')
+            self.lastfm = LastFm(self, key='f56cefecb72e219b58bb9018d2600617', secret='d6ba6dc209fb808a4aa90300cfe2f08a')
 
             if self.settings.get_value('notifications'):
                 self._notifications = NotificationManager(self._window.player)
