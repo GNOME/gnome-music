@@ -26,13 +26,15 @@
 # delete this exception statement from your version.
 
 from gi.repository import Tracker
+from itertools import chain
 import logging
 logger = logging.getLogger(__name__)
 tabbing = 0
 
 
 def log(fn):
-    from itertools import chain
+    if logger.getEffectiveLevel() > logging.DEBUG:
+        return fn
 
     def wrapped(*v, **k):
         global tabbing

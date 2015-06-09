@@ -35,8 +35,6 @@ from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path(libgd_typelibdir)
 GIRepository.Repository.prepend_library_path(libgd_libdir)
 
-from gnomemusic.application import Application
-
 
 def install_excepthook():
     """ Make sure we exit when an unhandled exception occurs. """
@@ -77,6 +75,8 @@ if __name__ == "__main__":
 
     resource = Gio.resource_load(os.path.join(pkgdatadir, 'gnome-music.gresource'))
     Gio.Resource._register(resource)
+
+    from gnomemusic.application import Application
 
     app = Application()
     signal.signal(signal.SIGINT, signal.SIG_DFL)
