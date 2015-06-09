@@ -51,7 +51,7 @@ try:
     MAX_TITLE_WIDTH = settings.get_int('max-width-chars')
 except Exception as e:
     MAX_TITLE_WIDTH = 20
-    logger.error("Error on setting widget max-width-chars: %s" % str(e))
+    logger.error("Error on setting widget max-width-chars: %s", str(e))
 
 playlists = Playlists.get_default()
 

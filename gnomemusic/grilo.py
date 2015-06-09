@@ -117,12 +117,12 @@ class Grilo(GObject.GObject):
                         try:
                             self.changed_media_ids.append(media.get_id())
                         except Exception as e:
-                            logger.warn("Skipping %s" % media)
+                            logger.warn("Skipping %s", media)
 
                 if self.changed_media_ids == []:
                     return
                 self.changed_media_ids = list(set(self.changed_media_ids))
-                logger.debug("Changed medias: %s" % self.changed_media_ids)
+                logger.debug("Changed medias: %s", self.changed_media_ids)
 
                 if len(self.changed_media_ids) >= self.CHANGED_MEDIA_MAX_ITEMS:
                     self.emit_change_signal()
@@ -132,7 +132,7 @@ class Grilo(GObject.GObject):
                         self.pending_event_id = 0
                     self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
         except Exception as e:
-            logger.warn("Exception in _on_content_changed: %s" % e)
+            logger.warn("Exception in _on_content_changed: %s", e)
 
     @log
     def emit_change_signal(self):
@@ -147,7 +147,7 @@ class Grilo(GObject.GObject):
     @log
     def _on_source_added(self, pluginRegistry, mediaSource):
         id = mediaSource.get_id()
-        logger.debug("new grilo source %s was added" % id)
+        logger.debug("new grilo source %s was added", id)
         try:
             ops = mediaSource.supported_operations()
 
@@ -165,18 +165,18 @@ class Grilo(GObject.GObject):
                             'content-changed', self._on_content_changed)
 
             elif (id.startswith('grl-upnp')):
-                logger.debug("found upnp source %s" % id)
+                logger.debug("found upnp source %s", id)
                 self.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
 
             elif (id not in self.blacklist) and (ops & Grl.SupportedOps.SEARCH) and \
                  (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
-                logger.debug("source %s is searchable" % id)
+                logger.debug("source %s is searchable", id)
                 self.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
 
         except Exception as e:
-            logger.debug("Source %s: exception %s" % (id, e))
+            logger.debug("Source %s: exception %s", id, e)
 
     @log
     def _on_source_removed(self, pluginRegistry, mediaSource):

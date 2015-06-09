@@ -49,10 +49,10 @@ class Query():
 
         for folder in [music_folder, download_folder]:
             if os.path.islink(folder):
-                logger.warn("%s is a symlink, this folder will be omitted" % folder)
+                logger.warn("%s is a symlink, this folder will be omitted", folder)
             else:
                 i = len(next(os.walk(folder))[2])
-                logger.debug("Found %d files in %s" % (i, folder))
+                logger.debug("Found %d files in %s", i, folder)
     except TypeError:
         logger.warn("XDG user dirs are not set")
 

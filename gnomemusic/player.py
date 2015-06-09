@@ -170,11 +170,11 @@ class Player(GObject.GObject):
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
-            logger.warn("The item %s doesn't have a URL set" % item)
+            logger.warn("The item %s doesn't have a URL set", item)
             return
 
         if not url.startswith("file://"):
-            logger.debug("Skipping discovery of %s as not a local file" % url)
+            logger.debug("Skipping discovery of %s as not a local file", url)
             return
 
         obj = (callback, data)
@@ -223,13 +223,13 @@ class Player(GObject.GObject):
             uri = media.get_url()
         else:
             uri = 'none'
-        logger.warn('URI: ' + uri)
+        logger.warn('URI: %s', uri)
         error, debug = message.parse_error()
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warn('Error from element ' + message.src.get_name() + ': ' + error.message)
-        logger.warn('Debugging info:\n' + debug)
+        logger.warn('Error from element %s: %s', message.src.get_name(), error.message)
+        logger.warn('Debugging info:\n%s', debug)
         self.play_next()
         return True
 
@@ -753,7 +753,7 @@ class Player(GObject.GObject):
                         playlists.update_last_played(just_played_url)
                         playlists.update_all_static_playlists()
             except Exception as e:
-                logger.warn("Error: %s, %s" % (e.__class__, e))
+                logger.warn("Error: %s, %s", e.__class__, e)
         return True
 
     @log

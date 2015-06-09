@@ -207,7 +207,7 @@ class Window(Gtk.ApplicationWindow):
                 if cursor is not None and cursor.next(None):
                     count = cursor.get_integer(0)
             except Exception as e:
-                logger.error("Tracker query crashed: %s" % e)
+                logger.error("Tracker query crashed: %s", e)
                 count = 0
 
             if count > 0:

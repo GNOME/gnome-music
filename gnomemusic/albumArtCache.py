@@ -124,7 +124,7 @@ class AlbumArtCache:
                 item.join(30)
                 self.thread_queue.task_done()
             except Exception as e:
-                logger.warn("worker %d item %s: error %s" % (id, item, str(e)))
+                logger.warn("worker %d item %s: error %s", id, item, str(e))
 
     @log
     def __init__(self):
@@ -133,7 +133,7 @@ class AlbumArtCache:
             if not os.path.exists(self.cacheDir):
                 Gio.file_new_for_path(self.cacheDir).make_directory(None)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
 
         try:
             self.thread_queue = Queue()
@@ -142,7 +142,7 @@ class AlbumArtCache:
                 t.setDaemon(True)
                 t.start()
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
 
     @log
     def get_default_icon(self, width, height, is_loading=False):
@@ -187,7 +187,7 @@ class AlbumArtCache:
             t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
             self.thread_queue.put(t)
         except Exception as e:
-            logger.warn("Error: %s, %s" % (e.__class__, e))
+            logger.warn("Error: %s, %s", e.__class__, e)
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
@@ -212,7 +212,7 @@ class AlbumArtCache:
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
             self.finish(item, _make_icon_frame(pixbuf), path, callback, itr, width, height)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
 
     @log
     def finish(self, item, pixbuf, path, callback, itr, width=-1, height=-1, artist=None, album=None):
@@ -230,7 +230,7 @@ class AlbumArtCache:
                 item.set_thumbnail(GLib.filename_to_uri(path, None))
             GLib.idle_add(callback, pixbuf, path, itr)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
 
     @log
     def cached_thumb_not_found(self, item, width, height, path, callback, itr, artist, album):
@@ -244,7 +244,7 @@ class AlbumArtCache:
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
             self.thread_queue.put(t)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
 
     @log
@@ -256,14 +256,14 @@ class AlbumArtCache:
 
             uri = item.get_thumbnail()
             if uri is None:
-                logger.warn("can't find artwork for album '%s' by %s" % (album, artist))
+                logger.warn("can't find artwork for album '%s' by %s", album, artist)
                 self.finish(item, None, None, callback, itr, width, height, artist, album)
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
             self.thread_queue.put(t)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
 
     @log
@@ -274,5 +274,5 @@ class AlbumArtCache:
             src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
             self.lookup_worker(item, width, height, callback, itr, artist, album)
         except Exception as e:
-            logger.warn("Error: %s" % e)
+            logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)

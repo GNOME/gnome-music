@@ -40,11 +40,11 @@ def log(fn):
         module = fn.__module__
         params = ", ".join(map(repr, chain(v, k.values())))
 
-        logger.debug("%s%s.%s(%s)" % ('|' * tabbing, module, name, params))
+        logger.debug("%s%s.%s(%s)", '|' * tabbing, module, name, params)
         tabbing += 1
         retval = fn(*v, **k)
         tabbing -= 1
-        logger.debug("%sreturned %s" % ('|' * tabbing, retval))
+        logger.debug("%sreturned %s", '|' * tabbing, retval)
 
         return retval
     return wrapped
@@ -57,7 +57,7 @@ class TrackerWrapper:
                 self.tracker = Tracker.SparqlConnection.get(None)
             except Exception as e:
                 from sys import exit
-                logger.error("Cannot connect to tracker, error '%s'\Exiting" % str(e))
+                logger.error("Cannot connect to tracker, error '%s'\Exiting", str(e))
                 exit(1)
 
         def __str__(self):
