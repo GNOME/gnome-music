@@ -43,11 +43,15 @@ def log(fn):
         module = fn.__module__
         params = ", ".join(map(repr, chain(v, k.values())))
 
-        logger.debug("%s%s.%s(%s)", '|' * tabbing, module, name, params)
         tabbing += 1
+        start = time.time()
         retval = fn(*v, **k)
+        elapsed = time.time() - start
         tabbing -= 1
-        logger.debug("%sreturned %s", '|' * tabbing, retval)
+        elapsed_time = ''
+        if elapsed > 0.5:
+            elapsed_time = ', took %02f' % elapsed
+        logger.debug("%s%s.%s(%s), returned %s%s", '|' * tabbing, module, name, params, retval, elapsed_time)
 
         return retval
     return wrapped
