@@ -807,7 +807,6 @@ class Player(GObject.GObject):
             self.timeout = None
         return False
 
-    @log
     def seconds_to_string(self, duration):
         seconds = duration
         minutes = seconds // 60
@@ -837,7 +836,6 @@ class Player(GObject.GObject):
         self.scrobbled = False
         self.progressScale.set_range(0.0, duration * 60)
 
-    @log
     def _update_position_callback(self):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position > 0:
