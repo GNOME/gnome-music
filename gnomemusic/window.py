@@ -42,7 +42,7 @@ import gnomemusic.view as Views
 import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
-from gnomemusic import log
+from gnomemusic import log, RateLimited
 import logging
 logger = logging.getLogger(__name__)
 
@@ -136,6 +136,7 @@ class Window(Gtk.ApplicationWindow):
             GLib.idle_add(self.store_window_size_and_position, widget, priority=GLib.PRIORITY_LOW)
 
     @log
+    @RateLimited(2)
     def store_window_size_and_position(self, widget):
         size = widget.get_size()
         self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
