@@ -388,7 +388,7 @@ class ArtistAlbums(Gtk.Box):
                                    GObject.TYPE_BOOLEAN,
                                    GObject.TYPE_INT
                                    )
-        self.model.connect('row-changed', self._model_row_changed)
+        self.row_changed_source_id = None
 
         self._hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._albumBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
@@ -490,6 +490,13 @@ class ArtistAlbums(Gtk.Box):
         if self.selectionMode == selectionMode:
             return
         self.selectionMode = selectionMode
+        try:
+            if self.row_changed_source_id:
+                self.model.disconnect(self.row_changed_source_id)
+            self.row_changed_source_id = self.model.connect('row-changed', self._model_row_changed)
+        except Exception as e:
+            logger.warning("Exception while tracking row-changed: %s", e)
+
         for widget in self.widgets:
             widget.set_selection_mode(selectionMode)
 
