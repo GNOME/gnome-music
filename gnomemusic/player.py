@@ -273,7 +273,10 @@ class Player(GObject.GObject):
 
     @log
     def _get_random_iter(self, currentTrack):
-        if not currentTrack or not self.playlist.iter_is_valid(currentTrack):
+        if not currentTrack:
+            return None
+        if hasattr(self.playlist, "iter_is_valid") and\
+           not self.playlist.iter_is_valid(currentTrack):
             return None
         currentPath = int(self.playlist.get_path(currentTrack).to_string())
         rows = self.playlist.iter_n_children(None)
