@@ -3,23 +3,26 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Emin Tufan Çetin <etcetin@gmail.con>, 2013.
-# Necdet Yücel <necdetyucel@gmail.com>, 2014.
 # Gökhan Gurbetoğlu <ggurbet@gmail.com>, 2014, 2015.
 # Muhammet Kara <muhammetk@gmail.com>, 2013, 2014, 2015.
+# Necdet Yücel <necdetyucel@gmail.com>, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-10 08:09+0000\n"
-"PO-Revision-Date: 2015-03-10 19:00+0000\n"
-"Last-Translator: Muhammet Kara <muhammetk@gmail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-06-01 19:21+0000\n"
+"PO-Revision-Date: 2015-06-03 20:31+0000\n"
+"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1433363480.000000\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -49,15 +52,19 @@ msgstr "Pencerenin büyütülmüş durumu."
 msgid "Playback repeat mode"
 msgstr "Yürütme tekrar kipi"
 
-#. Translators: Don't translate allowed values, just the description in the
-#. brackets
+#. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), "
-"\"song\" (repeat current song), \"all\" (repeat playlist, no shuffle), "
-"\"shuffle\" (shuffle playlist, presumes repeat all)."
-msgstr "Bu değer, koleksiyondaki parçaların tekrarlı mı yoksa karışık mı çalınacağını belirtir. İzin verilen değerler şunlardır: \"hiçbiri\" (tekrar ve karıştırma kapalı), \"parça\" (geçerli parçayı tekrar et), \"tümü\" (çalma listesini tekrarla, karıştırma), \"karıştır\" (çalma listesini karıştır, tümü tekrarlanabilir)."
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Bu değer, koleksiyondaki parçaların tekrarlı mı yoksa karışık mı "
+"çalınacağını belirtir. İzin verilen değerler şunlardır: \"hiçbiri\" (tekrar "
+"ve karıştırma kapalı), \"parça\" (geçerli parçayı tekrar et), \"tümü"
+"\" (çalma listesini tekrarla, karıştırma), \"karıştır\" (çalma listesini "
+"karıştır, tümü tekrarlanabilir)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -83,7 +90,10 @@ msgstr "Sanatçı görünümünde gösterilen parça adı için en fazla karakte
 msgid ""
 "This setting modifies the amount of chars for track title on Artist view "
 "before its been ellipsized. Set this to -1 to disable"
-msgstr "Bu ayar sanatçı görünümünde gösterilen parça adının üç nokta koyulmadan önce görünecek karakter sayısını değiştirir. Devre dışı bırakmak için -1 olarak ayarlayın."
+msgstr ""
+"Bu ayar sanatçı görünümünde gösterilen parça adının üç nokta koyulmadan önce "
+"görünecek karakter sayısını değiştirir. Devre dışı bırakmak için -1 olarak "
+"ayarlayın."
 
 #: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Enable ReplayGain"
@@ -124,13 +134,13 @@ msgid "Untitled"
 msgstr "Başlıksız"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:470 ../gnomemusic/view.py:537
+#: ../gnomemusic/player.py:568 ../gnomemusic/view.py:537
 #: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
 msgid "Unknown Album"
 msgstr "Bilinmeyen Albüm"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:461 ../gnomemusic/view.py:222
+#: ../gnomemusic/player.py:559 ../gnomemusic/view.py:222
 #: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
 #: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
 #: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
@@ -152,11 +162,11 @@ msgstr "%s tarafından, %s albümünde"
 msgid "Previous"
 msgstr "Önceki"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:418
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:516
 msgid "Pause"
 msgstr "Duraklat"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:519
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Yürüt"
@@ -164,6 +174,34 @@ msgstr "Yürüt"
 #: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Sonraki"
+
+#: ../gnomemusic/player.py:979
+msgid "Unable to play the file"
+msgstr "Dosya çalınamıyor"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:984
+#, python-format
+msgid "_Find in %s"
+msgstr "%s içinde _ara"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:994
+msgid " and "
+msgstr " ve "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:997
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:998
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "gerekli olan %s kurulmamış"
 
 #. TRANSLATORS: this is a playlist name
 #: ../gnomemusic/playlists.py:49
@@ -190,12 +228,9 @@ msgstr "Yeni Eklenenler"
 msgid "Favorite Songs"
 msgstr "En Sevdiğiniz Şarkılar"
 
-#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase
-#. articles
-#. (such as 'the') that should be ignored when alphabetizing artists/albums.
-#. This
-#. list should include 'the' regardless of language. If some articles occur
-#. more
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
 #: ../gnomemusic/query.py:69
 msgid "the a an"
@@ -309,14 +344,48 @@ msgstr "GNOME Müzik web sitesini ziyaret et"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version."
-msgstr "GNOME Müzik, bir özgür yazılmdır; Özgür Yazılım Vakfı tarafından yayınlanan GNU Genel Kamu Lisansı'nın 2. sürümü ya da (isteğe bağlı olarak) sonraki sürümleri koşulları altında yeniden dağıtabilir ve/veya değiştirebilirsiniz.\n\nGNOME Müzik kullanışlı olması maksadıyla dağıtılmaktadır, ancak HİÇBİR GARANTİSİ YOKTUR; aynı zamanda BİR AMACA UYGUNLUĞU ya da SATILABİLİRLİĞİ garanti etmez. Daha fazla ayrıntı için GNU Genel Kamu Lisansına bakınız.\n\nGNU Genel Kamu Lisansı'nın bir kopyasını GNOME Müzik ile almış olmalısınız; eğer almadıysanız  Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA adresine yazın.\n\nGNOME Müzik yazarları GPL uyumlu olmayan GStreamer eklentilerinin GStreamer ve GNOME Müzik ile birlikte kullanılmasına ve dağıtılmasına izin vermektedirler. Bu izin GNOME Müzik'in lisansı olan GPL lisansının üzerinde ve onu kapsayıcı olarak verilmektedir. Eğer bu kodu değiştirirseniz zorunlu olmamakla birlikte bu genişletmeyi kendi kodunuza uygulayabilirsiniz. Bunu yapmak istemezseniz kendi sürümünüzden bu istisna ifadesini kaldırabilirsiniz."
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version."
+msgstr ""
+"GNOME Müzik, bir özgür yazılmdır; Özgür Yazılım Vakfı tarafından yayınlanan "
+"GNU Genel Kamu Lisansı'nın 2. sürümü ya da (isteğe bağlı olarak) sonraki "
+"sürümleri koşulları altında yeniden dağıtabilir ve/veya "
+"değiştirebilirsiniz.\n"
+"\n"
+"GNOME Müzik kullanışlı olması maksadıyla dağıtılmaktadır, ancak HİÇBİR "
+"GARANTİSİ YOKTUR; aynı zamanda BİR AMACA UYGUNLUĞU ya da SATILABİLİRLİĞİ "
+"garanti etmez. Daha fazla ayrıntı için GNU Genel Kamu Lisansına bakınız.\n"
+"\n"
+"GNU Genel Kamu Lisansı'nın bir kopyasını GNOME Müzik ile almış olmalısınız; "
+"eğer almadıysanız  Free Software Foundation, Inc., 51 Franklin Street, Fifth "
+"Floor, Boston, MA 02110-1301 USA adresine yazın.\n"
+"\n"
+"GNOME Müzik yazarları GPL uyumlu olmayan GStreamer eklentilerinin GStreamer "
+"ve GNOME Müzik ile birlikte kullanılmasına ve dağıtılmasına izin "
+"vermektedirler. Bu izin GNOME Müzik'in lisansı olan GPL lisansının üzerinde "
+"ve onu kapsayıcı olarak verilmektedir. Eğer bu kodu değiştirirseniz zorunlu "
+"olmamakla birlikte bu genişletmeyi kendi kodunuza uygulayabilirsiniz. Bunu "
+"yapmak istemezseniz kendi sürümünüzden bu istisna ifadesini "
+"kaldırabilirsiniz."
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
