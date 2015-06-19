@@ -91,8 +91,8 @@ class ViewContainer(Gtk.Stack):
         )
         self.view.set_view_type(view_type)
         self.view.set_model(self.model)
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        box.pack_start(self.view, True, True, 0)
+        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self._box.pack_start(self.view, True, True, 0)
         if use_sidebar:
             self.stack = Gtk.Stack(
                 transition_type=Gtk.StackTransitionType.SLIDE_RIGHT,
@@ -102,11 +102,11 @@ class ViewContainer(Gtk.Stack):
             if sidebar:
                 self.stack.add_named(sidebar, 'sidebar')
             else:
-                self.stack.add_named(box, 'sidebar')
+                self.stack.add_named(self._box, 'sidebar')
             self.stack.set_visible_child_name('dummy')
             self._grid.add(self.stack)
         if not use_sidebar or sidebar:
-            self._grid.add(box)
+            self._grid.add(self._box)
 
         self.star_handler = Widgets.StarHandler(self, 9)
         self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
@@ -1310,7 +1310,36 @@ class Playlist(ViewContainer):
                   for path in self.view.get_selection()])
 
 
+class EmptySearch(ViewContainer):
+    @log
+    def __init__(self, window, player):
+        ViewContainer.__init__(self, 'emptysearch', None, window, Gd.MainViewType.LIST)
+        self._artistAlbumsWidget = None
+        self.player = player
+
+        builder = Gtk.Builder()
+        builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
+        widget = builder.get_object('container')
+        widget.set_vexpand(True)
+        widget.set_hexpand(True)
+        widget.get_children()[1].get_children()[1].set_text("Try a different search")
+        widget.show_all()
+        self._box.add(widget)
+
+    @log
+    def _back_button_clicked(self, widget, data=None):
+        self.header_bar.searchbar.show_bar(True, False)
+        if self.get_visible_child() == self._artistAlbumsWidget:
+            self._artistAlbumsWidget.destroy()
+            self._artistAlbumsWidget = None
+        self.set_visible_child(self._grid)
+
+
 class Search(ViewContainer):
+    __gsignals__ = {
+        'no-music-found': (GObject.SIGNAL_RUN_FIRST, None, ())
+    }
+
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'search', None, window, Gd.MainViewType.LIST)
@@ -1327,6 +1356,8 @@ class Search(ViewContainer):
         self.player = player
         self.head_iters = [None, None, None, None]
         self.songs_model = self.model
+        self.previous_view = None
+        self.connect('no-music-found', self._no_music_found_callback)
 
         self.albums_selected = []
         self._albums = {}
@@ -1340,6 +1371,12 @@ class Search(ViewContainer):
         self.view.get_generic_view().set_show_expanders(False)
         self.items_selected = []
         self.items_selected_callback = None
+
+    @log
+    def _no_music_found_callback(self, view):
+        self.window._stack.set_visible_child_name('emptysearch')
+        self.window._stack.get_child_by_name('emptysearch')._artistAlbumsWidget =\
+	        self._artistAlbumsWidget
 
     @log
     def _back_button_clicked(self, widget, data=None):
@@ -1432,9 +1469,20 @@ class Search(ViewContainer):
         if data is None:
             return
 
+        # We need to remember the view before the search view
+        if self.window.curr_view != self.window.views[5] and \
+           self.window.prev_view != self.window.views[5]:
+            self.previous_view = self.window.prev_view
+
         if remaining == 0:
             self.window.notification.dismiss()
             self.view.show()
+
+        if (self.model.iter_n_children(self.head_iters[0])+
+                self.model.iter_n_children(self.head_iters[1])+
+                self.model.iter_n_children(self.head_iters[2])+
+                self.model.iter_n_children(self.head_iters[3]) == 0) and remaining == 0:
+            self.emit('no-music-found')
 
         model, category = data
         if not item or model != self.model:

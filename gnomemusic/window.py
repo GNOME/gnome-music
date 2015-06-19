@@ -261,6 +261,7 @@ class Window(Gtk.ApplicationWindow):
         self.views.append(Views.Songs(self, self.player))
         self.views.append(Views.Playlist(self, self.player))
         self.views.append(Views.Search(self, self.player))
+        self.views.append(Views.EmptySearch(self, self.player))
 
         for i in self.views:
             if i.title:
@@ -427,8 +428,14 @@ class Window(Gtk.ApplicationWindow):
            self.curr_view == self.views[3]:
             self.curr_view.stack.set_visible_child_name('dummy')
             self.curr_view.stack.set_visible_child_name('sidebar')
-        if self.curr_view != self.views[4]:
+        if self.curr_view != self.views[4] and self.curr_view != self.views[5]:
             self.toolbar.searchbar.show_bar(False)
+
+        # Toggle the selection button for the EmptySearch view
+        if self.curr_view == self.views[5] or \
+           self.prev_view == self.views[5]:
+            self.toolbar._select_button.set_sensitive(
+                not self.toolbar._select_button.get_sensitive())
 
     @log
     def _toggle_view(self, btn, i):
@@ -438,9 +445,11 @@ class Window(Gtk.ApplicationWindow):
     def _on_search_toggled(self, button, data=None):
         self.toolbar.searchbar.show_bar(button.get_active(),
                                         self.curr_view != self.views[4])
-        if not button.get_active() and self.curr_view == self.views[4] and \
+        if not button.get_active() and \
+           	(self.curr_view == self.views[4] or self.curr_view == self.views[5])and \
            self.toolbar._state == ToolbarState.MAIN:
-            self._stack.set_visible_child(self.prev_view)
+            # We should get back to the view before the search
+            self._stack.set_visible_child(self.views[4].previous_view)
             if self.toolbar._selectionMode:
                 self.toolbar.set_selection_mode(False)
 
