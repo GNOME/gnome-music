@@ -1,3 +1,28 @@
+Overview of changes in 3.17.3
+=============================
+
+Bugs fixed:
+ 743362 Give a nicer welcome
+ 744464 No results screen for Search
+ 747749 Cant't play favourite song in Album view
+ 748375 #!/bin/bash in autogen.sh
+ 749981 Tracks outside Music and Downloads are displayed in playlists
+
+Translations updated:
+ Added Occitan
+ Dutch  316
+ Esperanto
+ Fix to Catalan
+ Greek
+ Norwegian bokmål
+ Slovak
+ Spanish
+ Tajik
+ Turkish
+ l10n: Update Japanese
+ update zh_CN
+
+
 Overview of changes in 3.16.0
 =============================
 
