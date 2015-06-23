@@ -1322,7 +1322,7 @@ class EmptySearch(ViewContainer):
         widget = builder.get_object('container')
         widget.set_vexpand(True)
         widget.set_hexpand(True)
-        widget.get_children()[1].get_children()[1].set_text("Try a different search")
+        widget.get_children()[1].get_children()[1].set_text(_("Try a different search"))
         widget.show_all()
         self._box.add(widget)
 
