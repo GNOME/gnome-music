@@ -1,5 +1,5 @@
 # Hungarian translation for gnome-music.
-# Copyright (C) 2013. Free Software Foundation, Inc.
+# Copyright (C) 2013, 2014, 2015. Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-music package.
 #
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-06-23 07:23+0000\n"
-"PO-Revision-Date: 2015-06-23 16:21+0200\n"
+"POT-Creation-Date: 2015-06-24 07:22+0000\n"
+"PO-Revision-Date: 2015-06-24 19:33+0200\n"
 "Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -140,15 +140,15 @@ msgstr "Névtelen"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
 #: ../gnomemusic/player.py:571 ../gnomemusic/view.py:564
-#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1414
+#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1451
 msgid "Unknown Album"
 msgstr "Ismeretlen album"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
 #: ../gnomemusic/player.py:562 ../gnomemusic/view.py:223
 #: ../gnomemusic/view.py:464 ../gnomemusic/view.py:737
-#: ../gnomemusic/view.py:1177 ../gnomemusic/view.py:1412
-#: ../gnomemusic/view.py:1448 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/view.py:1177 ../gnomemusic/view.py:1449
+#: ../gnomemusic/view.py:1496 ../gnomemusic/widgets.py:235
 #: ../gnomemusic/widgets.py:638
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
@@ -271,7 +271,7 @@ msgid "Match"
 msgstr "Találat"
 
 #: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:301
+#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:302
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -279,13 +279,12 @@ msgstr[0] "%d elem kijelölve"
 msgstr[1] "%d elem kijelölve"
 
 #: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:305
-#: ../gnomemusic/window.py:317 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:306
+#: ../gnomemusic/window.py:318 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
 #: ../gnomemusic/view.py:279
-#| msgid "Music Player"
 msgid "Music folder"
 msgstr "Zenemappa"
 
@@ -293,15 +292,15 @@ msgstr "Zenemappa"
 msgid "Hey DJ"
 msgstr "Hé DJ"
 
-#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1672
+#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1720
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../gnomemusic/view.py:398 ../gnomemusic/view.py:1674
+#: ../gnomemusic/view.py:398 ../gnomemusic/view.py:1722
 msgid "Songs"
 msgstr "Számok"
 
-#: ../gnomemusic/view.py:596 ../gnomemusic/view.py:1673
+#: ../gnomemusic/view.py:596 ../gnomemusic/view.py:1721
 msgid "Artists"
 msgstr "Előadók"
 
@@ -310,7 +309,7 @@ msgstr "Előadók"
 msgid "All Artists"
 msgstr "Minden előadó"
 
-#: ../gnomemusic/view.py:822 ../gnomemusic/view.py:1675
+#: ../gnomemusic/view.py:822 ../gnomemusic/view.py:1723
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
@@ -320,6 +319,10 @@ msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d szám"
 msgstr[1] "%d szám"
+
+#: ../gnomemusic/view.py:1325
+msgid "Try a different search"
+msgstr "Próbáljon egy másik keresést"
 
 #: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
 #, python-format
@@ -334,15 +337,15 @@ msgstr "Új lejátszólista"
 msgid "Empty"
 msgstr "Üres"
 
-#: ../gnomemusic/window.py:329
+#: ../gnomemusic/window.py:330
 msgid "Loading"
 msgstr "Betöltés"
 
-#: ../gnomemusic/window.py:344
+#: ../gnomemusic/window.py:345
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: ../gnomemusic/window.py:345
+#: ../gnomemusic/window.py:346
 #, python-format
 msgid "Playlist %s removed"
 msgstr "A(z) %s lejátszólista eltávolítva"
@@ -360,28 +363,6 @@ msgid "Visit GNOME Music website"
 msgstr "A GNOME Zene honlapjának felkeresése"
 
 #: ../data/AboutDialog.ui.in.h:5
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version."
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -473,7 +454,6 @@ msgstr "Nem található zene"
 
 #: ../data/NoMusic.ui.h:3
 #, no-c-format
-#| msgid "The contents of your music folder will appear here."
 msgid "The contents of your %s will appear here."
 msgstr "A(z) %s mappájának tartalma itt fog megjelenni."
 
