@@ -1,15 +1,15 @@
 # Slovak translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Dušan Kazik <prescott66@gmail.com>, 2013.
+# Dušan Kazik <prescott66@gmail.com>, 2013, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-19 07:25+0000\n"
-"PO-Revision-Date: 2015-05-19 11:52+0100\n"
+"POT-Creation-Date: 2015-06-25 07:21+0000\n"
+"PO-Revision-Date: 2015-06-25 10:29+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.1\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -98,9 +98,17 @@ msgstr "Povoliť ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Povolí alebo zakáže ReplayGain pre albumy"
 
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Počiatočný stav bol zobrazený"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Nastavte na hodnotu TRUE, keď počiatočný stav bol zobrazený"
+
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/toolbar.py:140
-#: ../gnomemusic/window.py:59 ../data/AboutDialog.ui.in.h:1
+#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Hudba"
 
@@ -130,17 +138,17 @@ msgid "Untitled"
 msgstr "Nepomenovaný"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:568 ../gnomemusic/view.py:537
-#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
+#: ../gnomemusic/player.py:571 ../gnomemusic/view.py:564
+#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1451
 msgid "Unknown Album"
 msgstr "Neznámy album"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:559 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
-#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:631
+#: ../gnomemusic/player.py:562 ../gnomemusic/view.py:223
+#: ../gnomemusic/view.py:464 ../gnomemusic/view.py:737
+#: ../gnomemusic/view.py:1177 ../gnomemusic/view.py:1449
+#: ../gnomemusic/view.py:1496 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/widgets.py:638
 msgid "Unknown Artist"
 msgstr "Neznámy interpret"
 
@@ -158,11 +166,11 @@ msgstr "od interpreta %s, z albumu %s"
 msgid "Previous"
 msgstr "Predchádzajúca"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:516
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:519
 msgid "Pause"
 msgstr "Pozastaviť"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:519
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:522
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Prehrať"
@@ -172,29 +180,29 @@ msgstr "Prehrať"
 msgid "Next"
 msgstr "Nasledujúca"
 
-#: ../gnomemusic/player.py:979
+#: ../gnomemusic/player.py:980
 msgid "Unable to play the file"
 msgstr "Nie je možné prehrať tento súbor"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:984
+#: ../gnomemusic/player.py:985
 #, python-format
 msgid "_Find in %s"
 msgstr "_Nájsť pomocou programu %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:994
+#: ../gnomemusic/player.py:995
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:997
+#: ../gnomemusic/player.py:998
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:998
+#: ../gnomemusic/player.py:999
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -266,8 +274,8 @@ msgstr "Zdroje"
 msgid "Match"
 msgstr "Vhodné hľadanému výrazu"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:267
+#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:302
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -275,34 +283,42 @@ msgstr[0] "Vybraných %d položiek"
 msgstr[1] "Vybraná %d položka"
 msgstr[2] "Vybrané %d položky"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:269
+#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:306
+#: ../gnomemusic/window.py:318 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ju vyberiete"
 
-#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
+#: ../gnomemusic/view.py:279
+msgid "Music folder"
+msgstr "Priečinok s hudbou"
+
+#: ../gnomemusic/view.py:298
+msgid "Hey DJ"
+msgstr "Hey DJ"
+
+#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1720
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
+#: ../gnomemusic/view.py:398 ../gnomemusic/view.py:1722
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
+#: ../gnomemusic/view.py:596 ../gnomemusic/view.py:1721
 msgid "Artists"
 msgstr "Interpreti"
 
-#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
-#: ../gnomemusic/widgets.py:517
+#: ../gnomemusic/view.py:642 ../gnomemusic/view.py:644
+#: ../gnomemusic/widgets.py:524
 msgid "All Artists"
 msgstr "Všetci interpreti"
 
-#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
+#: ../gnomemusic/view.py:822 ../gnomemusic/view.py:1723
 msgid "Playlists"
 msgstr "Zoznamy skladieb"
 
-#: ../gnomemusic/view.py:1161
+#: ../gnomemusic/view.py:1188
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -310,28 +326,32 @@ msgstr[0] "%d skladieb"
 msgstr[1] "%d skladba"
 msgstr[2] "%d skladby"
 
+#: ../gnomemusic/view.py:1325
+msgid "Try a different search"
+msgstr "Skúste vyhľadať niečo iné"
+
 #: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:755
+#: ../gnomemusic/widgets.py:762
 msgid "New Playlist"
 msgstr "Nový zoznam skladieb"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:248
 msgid "Empty"
 msgstr "Prázdne"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:330
 msgid "Loading"
 msgstr "Načítava sa"
 
-#: ../gnomemusic/window.py:335
+#: ../gnomemusic/window.py:345
 msgid "_Undo"
 msgstr "Vrátiť _späť"
 
-#: ../gnomemusic/window.py:336
+#: ../gnomemusic/window.py:346
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Zoznam skladieb %s bol odstránený"
@@ -370,7 +390,10 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "Program Hudba prostredia GNOME je slobodný softvér; môžete ho ďalej šíriť a "
 "upravovať podľa ustanovení licencie GNU General Public Licence (Všeobecná "
@@ -393,7 +416,10 @@ msgstr ""
 "zaručených licenciou GPL, pod ktorú tento program spadá.  Ak upravíte "
 "zdrojový kód tohto programu, môžete túto výnimku použiť aj na vašu verziu "
 "kódu, no nie ste povinný tak urobiť. Ak to nechcete urobiť, vymažte z túto "
-"výnimku z vyhlásenia vo vašej verzii kódu."
+"výnimku z vyhlásenia vo vašej verzii kódu.\n"
+"\n"
+"Obrázok „Magic of the vinyl“ od Samiho Pyylampiho je vytvorený pod licenciou "
+"CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -437,9 +463,10 @@ msgstr "Vypnúť zamiešanie/opakovanie"
 msgid "No music found"
 msgstr "Nenašla sa žiadna hudba"
 
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "Tu sa zobrazí obsah vášho priečinku s hudbou."
+#: ../data/NoMusic.ui.h:3
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Tu sa zobrazí obsah vášho priečinku %s."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
