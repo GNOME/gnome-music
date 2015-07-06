@@ -1372,6 +1372,8 @@ class Search(ViewContainer):
         self.items_selected = []
         self.items_selected_callback = None
 
+        self.found_items_number = None
+
     @log
     def _no_music_found_callback(self, view):
         self.window._stack.set_visible_child_name('emptysearch')
@@ -1442,6 +1444,8 @@ class Search(ViewContainer):
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):
         if not item or data != self.model:
+            if grilo._search_callback_counter == 0 and grilo.search_source:
+                self.emit('no-music-found')
             return
 
         artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
@@ -1469,6 +1473,17 @@ class Search(ViewContainer):
         if data is None:
             return
 
+        model, category = data
+
+        self.found_items_number = (self.model.iter_n_children(self.head_iters[0])+
+            self.model.iter_n_children(self.head_iters[1])+
+            self.model.iter_n_children(self.head_iters[2])+
+            self.model.iter_n_children(self.head_iters[3]))
+
+        if category == 'song' and self.found_items_number == 0 and remaining == 0:
+            if grilo.search_source:
+                self.emit('no-music-found')
+
         # We need to remember the view before the search view
         if self.window.curr_view != self.window.views[5] and \
            self.window.prev_view != self.window.views[5]:
@@ -1478,13 +1493,6 @@ class Search(ViewContainer):
             self.window.notification.dismiss()
             self.view.show()
 
-        if (self.model.iter_n_children(self.head_iters[0])+
-                self.model.iter_n_children(self.head_iters[1])+
-                self.model.iter_n_children(self.head_iters[2])+
-                self.model.iter_n_children(self.head_iters[3]) == 0) and remaining == 0:
-            self.emit('no-music-found')
-
-        model, category = data
         if not item or model != self.model:
             return
 

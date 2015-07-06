@@ -243,9 +243,15 @@ class Grilo(GObject.GObject):
     @log
     def search(self, q, callback, data=None):
         options = self.options.copy()
+        self._search_callback_counter = 0
 
         @log
         def _search_callback(source, param, item, remaining, data, error):
+            callback(source, param, item, remaining, data)
+            self._search_callback_counter += 1
+
+        @log
+        def _multiple_search_callback(source, param, item, remaining, data, error):
             callback(source, param, item, remaining, data)
 
         if self.search_source:
@@ -257,7 +263,7 @@ class Grilo(GObject.GObject):
             Grl.multiple_search([self.sources[key] for key in self.sources
                                  if key != 'grl-tracker-source'],
                                 q, self.METADATA_KEYS, options,
-                                _search_callback, data)
+                                _multiple_search_callback, data)
 
     @log
     def get_album_art_for_item(self, item, callback, data=None):
