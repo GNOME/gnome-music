@@ -1443,9 +1443,12 @@ class Search(ViewContainer):
 
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):
-        if not item or data != self.model:
+        if not item:
             if grilo._search_callback_counter == 0 and grilo.search_source:
                 self.emit('no-music-found')
+            return
+
+        if data != self.model:
             return
 
         artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
