@@ -11,7 +11,7 @@ sys.path.insert(1, '@pyexecdir@')
 # Make sure we'll find the gnomemusic module, even in JHBuild
 sys.path.insert(1, '@pythondir@')
 
-from optparse import OptionParser
+import argparse
 import logging
 from gi.repository import Gio
 import gnomemusic
@@ -51,10 +51,10 @@ def install_excepthook():
 if __name__ == "__main__":
     install_excepthook()
 
-    parser = OptionParser()
-    parser.add_option('-d', "--debug", action="store_true", default=False, dest="debug")
-    opts, args = parser.parse_args()
-    if opts.debug:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', "--debug", action="store_true", default=False, dest="debug")
+    args = parser.parse_args()
+    if args.debug:
         logging.basicConfig(level=logging.DEBUG,
                             format='%(asctime)s %(levelname)s\t%(filename)s:%(lineno)d \t%(message)s',
                             datefmt='%H:%M:%S')
