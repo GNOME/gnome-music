@@ -42,6 +42,9 @@ from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.playlists import Playlists
 playlists = Playlists.get_default()
 
+from hashlib import md5
+import requests
+
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -130,6 +133,25 @@ class Player(GObject.GObject):
 
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
+
+        self._check_last_fm()
+
+    @log
+    def _check_last_fm(self):
+        try:
+            from gi.repository import Goa
+            client = Goa.Client.new_sync(None)
+            accounts = client.get_accounts()
+
+            for obj in accounts:
+                account = obj.get_account()
+                if account.props.provider_name == "Last.fm":
+                    self.last_fm = obj.get_oauth2_based()
+                    return
+        except Exception as e:
+            logger.info("Error reading Last.fm credentials: %s" % str(e))
+        finally:
+            self.last_fm = None
 
     @log
     def _on_replaygain_setting_changed(self, settings, value):
@@ -567,19 +589,21 @@ class Player(GObject.GObject):
             pass
         finally:
             self.artistLabel.set_label(artist)
+            self._currentArtist = artist
 
         album = _("Unknown Album")
         try:
             assert media.get_album() is not None
             album = media.get_album()
         except:
-            pass
+            self._currentAlbum = album
 
         self.coverImg.set_from_pixbuf(self._noArtworkIcon)
         self.cache.lookup(
             media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None, artist, album)
 
-        self.titleLabel.set_label(AlbumArtCache.get_media_title(media))
+        self._currentTitle = AlbumArtCache.get_media_title(media)
+        self.titleLabel.set_label(self._currentTitle)
 
         url = media.get_url()
         if url != self.player.get_value('current-uri', 0):
@@ -647,6 +671,7 @@ class Player(GObject.GObject):
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
+        self.GLib.idle_add(self.update_now_playing_in_lastfm, media.get_url())
         if not self.timeout:
             self.timeout = GLib.timeout_add(1000, self._update_position_callback)
 
@@ -836,6 +861,38 @@ class Player(GObject.GObject):
         self.scrobbled = False
         self.progressScale.set_range(0.0, duration * 60)
 
+    def scrobble_song(self, url):
+        # Update playlists
+        playlists.update_playcount(url)
+        playlists.update_last_played(url)
+        playlists.update_all_static_playlists()
+
+    def update_now_playing_in_lastfm(self, url):
+        if self.last_fm:
+            api_key = self.last_fm.props.client_id
+            sk = self.last_fm.call_get_access_token_sync(None)[0]
+            secret = self.last_fm.props.client_secret
+
+            sig = "api_key%sartist%smethodtrack.updateNowPlayingsk%strack%s%s" % \
+                (api_key, self._currentArtist, sk, self._currentTitle, secret)
+
+            api_sig = md5(sig.encode()).hexdigest()
+            r = requests.post(
+                "https://ws.audioscrobbler.com/2.0/", {
+                    "api_key": api_key,
+                    "method": "track.updateNowPlaying",
+                    "artist": self._currentArtist,
+                    "track": self._currentTitle,
+                    "sk": sk,
+                    "api_sig": api_sig
+                }
+            )
+            if r.status_code != 200:
+                logger.warn("Failed to update currently played track")
+                logger.warn(r.status_code)
+                logger.warn(r.reason)
+                logger.warn(r.text)
+
     def _update_position_callback(self):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position > 0:
@@ -848,9 +905,7 @@ class Player(GObject.GObject):
                     self.scrobbled = True
                     if current_media:
                         just_played_url = self.get_current_media().get_url()
-                        playlists.update_playcount(just_played_url)
-                        playlists.update_last_played(just_played_url)
-                        playlists.update_all_static_playlists()
+                        GLib.idle_add(self.scrobble_song, just_played_url)
             except Exception as e:
                 logger.warn("Error: %s, %s", e.__class__, e)
         return True
