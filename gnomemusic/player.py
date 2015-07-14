@@ -44,6 +44,7 @@ playlists = Playlists.get_default()
 
 from hashlib import md5
 import requests
+import time
 
 from gnomemusic import log
 import logging
@@ -139,6 +140,7 @@ class Player(GObject.GObject):
     @log
     def _check_last_fm(self):
         try:
+            self.last_fm = None
             from gi.repository import Goa
             client = Goa.Client.new_sync(None)
             accounts = client.get_accounts()
@@ -150,7 +152,6 @@ class Player(GObject.GObject):
                     return
         except Exception as e:
             logger.info("Error reading Last.fm credentials: %s" % str(e))
-        finally:
             self.last_fm = None
 
     @log
@@ -605,6 +606,8 @@ class Player(GObject.GObject):
         self._currentTitle = AlbumArtCache.get_media_title(media)
         self.titleLabel.set_label(self._currentTitle)
 
+        self._currentTimestamp = int(time.time())
+
         url = media.get_url()
         if url != self.player.get_value('current-uri', 0):
             self.player.set_property('uri', url)
@@ -671,7 +674,7 @@ class Player(GObject.GObject):
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
-        self.GLib.idle_add(self.update_now_playing_in_lastfm, media.get_url())
+        GLib.idle_add(self.update_now_playing_in_lastfm, media.get_url())
         if not self.timeout:
             self.timeout = GLib.timeout_add(1000, self._update_position_callback)
 
@@ -861,12 +864,38 @@ class Player(GObject.GObject):
         self.scrobbled = False
         self.progressScale.set_range(0.0, duration * 60)
 
+    @log
     def scrobble_song(self, url):
         # Update playlists
         playlists.update_playcount(url)
         playlists.update_last_played(url)
         playlists.update_all_static_playlists()
 
+        if self.last_fm:
+            api_key = self.last_fm.props.client_id
+            sk = self.last_fm.call_get_access_token_sync(None)[0]
+            secret = self.last_fm.props.client_secret
+
+            sig = "api_key%sartist[0]%smethodtrack.scrobblesk%stimestamp[0]%strack[0]%s%s" %\
+                (api_key, self._currentArtist, sk, self._currentTimestamp, self._currentTitle, secret)
+
+            api_sig = md5(sig.encode()).hexdigest()
+            r = requests.post(
+                "https://ws.audioscrobbler.com/2.0/", {
+                    "api_key": api_key,
+                    "method": "track.scrobble",
+                    "artist[0]": self._currentArtist,
+                    "track[0]": self._currentTitle,
+                    "timestamp[0]": self._currentTitle,
+                    "sk": sk,
+                    "api_sig": api_sig
+                }
+            )
+            if r.status_code != 200:
+                logger.warn("Failed to scrobble track")
+                logger.warn(r.status_code, r.reason, r.text)
+
+    @log
     def update_now_playing_in_lastfm(self, url):
         if self.last_fm:
             api_key = self.last_fm.props.client_id
