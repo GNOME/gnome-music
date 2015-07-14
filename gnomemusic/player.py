@@ -880,20 +880,22 @@ class Player(GObject.GObject):
                 (api_key, self._currentArtist, sk, self._currentTimestamp, self._currentTitle, secret)
 
             api_sig = md5(sig.encode()).hexdigest()
-            r = requests.post(
-                "https://ws.audioscrobbler.com/2.0/", {
-                    "api_key": api_key,
-                    "method": "track.scrobble",
-                    "artist[0]": self._currentArtist,
-                    "track[0]": self._currentTitle,
-                    "timestamp[0]": self._currentTitle,
-                    "sk": sk,
-                    "api_sig": api_sig
-                }
-            )
-            if r.status_code != 200:
-                logger.warn("Failed to scrobble track")
-                logger.warn(r.status_code, r.reason, r.text)
+            requests_dict = {
+                "api_key": api_key,
+                "method": "track.scrobble",
+                "artist[0]": self._currentArtist,
+                "track[0]": self._currentTitle,
+                "timestamp[0]": self._currentTimestamp,
+                "sk": sk,
+                "api_sig": api_sig
+            }
+            try:
+                r = requests.post("https://ws.audioscrobbler.com/2.0/", requests_dict)
+                if r.status_code != 200:
+                    logger.warn("Failed to scrobble track: %s %s" % (r.status_code, r.reason))
+                    logger.warn(r.text)
+            except Exception as e:
+                logger.warn(e)
 
     @log
     def update_now_playing_in_lastfm(self, url):
@@ -906,21 +908,21 @@ class Player(GObject.GObject):
                 (api_key, self._currentArtist, sk, self._currentTitle, secret)
 
             api_sig = md5(sig.encode()).hexdigest()
-            r = requests.post(
-                "https://ws.audioscrobbler.com/2.0/", {
-                    "api_key": api_key,
-                    "method": "track.updateNowPlaying",
-                    "artist": self._currentArtist,
-                    "track": self._currentTitle,
-                    "sk": sk,
-                    "api_sig": api_sig
-                }
-            )
-            if r.status_code != 200:
-                logger.warn("Failed to update currently played track")
-                logger.warn(r.status_code)
-                logger.warn(r.reason)
-                logger.warn(r.text)
+            request_dict = {
+                "api_key": api_key,
+                "method": "track.updateNowPlaying",
+                "artist": self._currentArtist,
+                "track": self._currentTitle,
+                "sk": sk,
+                "api_sig": api_sig
+            }
+            try:
+                r = requests.post("https://ws.audioscrobbler.com/2.0/", request_dict)
+                if r.status_code != 200:
+                    logger.warn("Failed to update currently played track: %s %s" % (r.status_code, r.reason))
+                    logger.warn(r.text)
+            except Exception as e:
+                logger.warn(e)
 
     def _update_position_callback(self):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
