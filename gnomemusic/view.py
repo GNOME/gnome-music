@@ -133,8 +133,6 @@ class ViewContainer(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
-        self.header_bar.header_bar.connect('state-changed',
-                                           self._on_state_changed)
         self.header_bar.connect('selection-mode-changed',
                                 self._on_selection_mode_changed)
         self.view.connect('view-selection-changed',
@@ -196,10 +194,6 @@ class ViewContainer(Gtk.Stack):
     def _populate(self, data=None):
         self._init = True
         self.populate()
-
-    @log
-    def _on_state_changed(self, widget, data=None):
-        pass
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):

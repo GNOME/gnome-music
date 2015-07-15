@@ -47,7 +47,6 @@ class ToolbarState:
 class Toolbar(GObject.GObject):
 
     __gsignals__ = {
-        'state-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'selection-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
     _selectionMode = False
@@ -128,7 +127,6 @@ class Toolbar(GObject.GObject):
     def set_state(self, state, btn=None):
         self._state = state
         self._update()
-        self.emit('state-changed')
 
     @log
     def _update(self):
