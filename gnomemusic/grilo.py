@@ -99,6 +99,9 @@ class Grilo(GObject.GObject):
             logger.error('Failed to load plugins.')
         if self.tracker is not None:
             logger.debug("tracker found")
+            self.tracker.notify_change_start()
+            self.notification_handler = self.tracker.connect(
+                'content-changed', self._on_content_changed)
 
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
@@ -163,9 +166,6 @@ class Grilo(GObject.GObject):
 
                     if self.tracker is not None:
                         self.emit('ready')
-                        self.tracker.notify_change_start()
-                        self.notification_handler = self.tracker.connect(
-                            'content-changed', self._on_content_changed)
 
             elif (id.startswith('grl-upnp')):
                 logger.debug("found upnp source %s", id)
