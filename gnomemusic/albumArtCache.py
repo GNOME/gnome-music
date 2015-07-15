@@ -39,6 +39,7 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
 from queue import Queue
+import urllib.request
 logger = logging.getLogger(__name__)
 
 WORKER_THREADS = 2
@@ -272,7 +273,12 @@ class AlbumArtCache:
         try:
             src = Gio.File.new_for_uri(uri)
             dest = Gio.File.new_for_path(path)
-            src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
+            try:
+                # First lets use GLib
+                src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
+            except Exception as e:
+                # Try the native python way
+                urllib.request.urlretrieve(uri, path)
             self.lookup_worker(item, width, height, callback, itr, artist, album)
         except Exception as e:
             logger.warn("Error: %s", e)
