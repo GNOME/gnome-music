@@ -85,6 +85,10 @@ class AlbumArtCache(GObject.GObject):
     blacklist = {}
     itr_queue = []
     threading_lock = Lock()
+    default_icons_cache = {}
+
+    default_icon_width = 256
+    default_icon_height = 256
 
     @classmethod
     def get_default(self):
@@ -138,6 +142,10 @@ class AlbumArtCache(GObject.GObject):
         except Exception as e:
             logger.warn("Error: %s", e)
 
+        # Prepare default icons
+        self.make_default_icon(is_loading=False)
+        self.make_default_icon(is_loading=True)
+
         try:
             self.thread_queue = Queue()
             for i in range(WORKER_THREADS):
@@ -147,8 +155,9 @@ class AlbumArtCache(GObject.GObject):
         except Exception as e:
             logger.warn("Error: %s", e)
 
-    @log
-    def get_default_icon(self, width, height, is_loading=False):
+    def make_default_icon(self, is_loading=False):
+        width = self.default_icon_width
+        height = self.default_icon_height
         # get a small pixbuf with the given path
         icon_name = 'folder-music-symbolic'
         if is_loading:
@@ -171,7 +180,32 @@ class AlbumArtCache(GObject.GObject):
                        icon.get_height() * 3 / 2,
                        1, 1,
                        GdkPixbuf.InterpType.NEAREST, 0x33)
-        return _make_icon_frame(result)
+        final_icon = _make_icon_frame(result)
+        if width not in self.default_icons_cache:
+            self.default_icons_cache[width] = {}
+        if height not in self.default_icons_cache[width]:
+            self.default_icons_cache[width][height] = {}
+        self.default_icons_cache[width][height][is_loading] = final_icon
+
+    @log
+    def get_default_icon(self, width, height, is_loading=False):
+        # Try to fetch the icon from cache
+        try:
+            return self.default_icons_cache[width][height][is_loading]
+        except:
+            pass
+
+        # Scale the image down
+        orig_icon = self.default_icons_cache[self.default_icon_width][self.default_icon_height][is_loading].copy()
+        final_icon = orig_icon.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
+
+        # Create a cache reference
+        if width not in self.default_icons_cache:
+            self.default_icons_cache[width] = {}
+        if height not in self.default_icons_cache[width]:
+            self.default_icons_cache[width][height] = {}
+        self.default_icons_cache[width][height][is_loading] = final_icon
+        return final_icon
 
     @log
     def lookup(self, item, width, height, callback, itr, artist, album):
