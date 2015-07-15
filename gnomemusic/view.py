@@ -310,7 +310,6 @@ class Albums(ViewContainer):
         if (self._init and self.header_bar._selectionMode is False):
             self._offset = 0
             self._init = True
-            self.model.clear()
             self.populate()
             grilo.changes_pending['Albums'] = False
 

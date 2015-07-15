@@ -163,7 +163,6 @@ class Grilo(GObject.GObject):
         self.changes_pending['Artists'] = True
         self.changes_pending['Songs'] = True
         self.emit('changes-pending')
-        print("_on_content_changed-")
         return False
 
     @log
