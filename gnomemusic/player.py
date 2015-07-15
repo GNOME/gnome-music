@@ -49,6 +49,7 @@ playlists = Playlists.get_default()
 from hashlib import md5
 import requests
 import time
+from threading import Thread
 
 from gnomemusic import log
 import logging
@@ -679,7 +680,9 @@ class Player(GObject.GObject):
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
-        GLib.idle_add(self.update_now_playing_in_lastfm, media.get_url())
+        t = Thread(target=self.update_now_playing_in_lastfm, args=(media.get_url(),))
+        t.setDaemon(True)
+        t.start()
         if not self.timeout:
             self.timeout = GLib.timeout_add(1000, self._update_position_callback)
 
@@ -941,7 +944,9 @@ class Player(GObject.GObject):
                     self.scrobbled = True
                     if current_media:
                         just_played_url = self.get_current_media().get_url()
-                        GLib.idle_add(self.scrobble_song, just_played_url)
+                        t = Thread(target=self.scrobble_song, args=(just_played_url,))
+                        t.setDaemon(True)
+                        t.start()
             except Exception as e:
                 logger.warn("Error: %s, %s", e.__class__, e)
         return True
