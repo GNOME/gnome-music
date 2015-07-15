@@ -809,8 +809,8 @@ class Artists (ViewContainer):
 
 class Playlist(ViewContainer):
     __gsignals__ = {
-        'playlists-loaded': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-songs-loaded': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'playlists-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'playlist-songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     @log
@@ -1337,7 +1337,7 @@ class EmptySearch(ViewContainer):
 
 class Search(ViewContainer):
     __gsignals__ = {
-        'no-music-found': (GObject.SIGNAL_RUN_FIRST, None, ())
+        'no-music-found': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     @log

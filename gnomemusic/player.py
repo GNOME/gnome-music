@@ -82,16 +82,16 @@ class Player(GObject.GObject):
     shuffleHistory = deque(maxlen=10)
 
     __gsignals__ = {
-        'playing-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playlist-item-changed': (GObject.SIGNAL_RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)),
-        'current-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'playback-status-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'repeat-mode-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'volume-changed': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'prev-next-invalidated': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'seeked': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
-        'thumbnail-updated': (GObject.SIGNAL_RUN_FIRST, None, (str,)),
+        'playing-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'playlist-item-changed': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)),
+        'current-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
     }
 
     @log

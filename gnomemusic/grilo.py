@@ -40,9 +40,9 @@ logger = logging.getLogger(__name__)
 class Grilo(GObject.GObject):
 
     __gsignals__ = {
-        'ready': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'changes-pending': (GObject.SIGNAL_RUN_FIRST, None, ()),
-        'new-source-added': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Source, ))
+        'ready': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'changes-pending': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'new-source-added': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, ))
     }
 
     METADATA_KEYS = [

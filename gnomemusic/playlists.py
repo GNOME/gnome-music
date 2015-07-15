@@ -84,14 +84,14 @@ class StaticPlaylists:
 
 class Playlists(GObject.GObject):
     __gsignals__ = {
-        'playlist-created': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
-        'playlist-deleted': (GObject.SIGNAL_RUN_FIRST, None, (Grl.Media,)),
-        'playlist-updated': (GObject.SIGNAL_RUN_FIRST, None, (int,)),
+        'playlist-created': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)),
+        'playlist-deleted': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)),
+        'playlist-updated': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-added-to-playlist': (
-            GObject.SIGNAL_RUN_FIRST, None, (Grl.Media, Grl.Media)
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
         'song-removed-from-playlist': (
-            GObject.SIGNAL_RUN_FIRST, None, (Grl.Media, Grl.Media)
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
     }
     instance = None

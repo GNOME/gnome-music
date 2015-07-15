@@ -545,7 +545,7 @@ class AllArtistsAlbums(ArtistAlbums):
 class ArtistAlbumWidget(Gtk.Box):
 
     __gsignals__ = {
-        'tracks-loaded': (GObject.SIGNAL_RUN_FIRST, None, ()),
+        'tracks-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
@@ -825,7 +825,7 @@ class PlaylistDialog():
 
 class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
 
-    __gsignals__ = {'clicked': (GObject.SIGNAL_RUN_LAST, GObject.TYPE_NONE,
+    __gsignals__ = {'clicked': (GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE,
                                 (GObject.TYPE_STRING,))}
     __gproperties__ = {
         'show_star': (GObject.TYPE_BOOLEAN, 'Show star', 'show star', False, GObject.PARAM_READWRITE)}
