@@ -29,7 +29,7 @@
 
 import gi
 gi.require_version('MediaArt', '2.0')
-from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Gdk, MediaArt
+from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Gdk, MediaArt, GObject
 from gettext import gettext as _
 import cairo
 from math import pi
@@ -80,7 +80,7 @@ def _make_icon_frame(pixbuf, path=None):
     return border_pixbuf
 
 
-class AlbumArtCache:
+class AlbumArtCache(GObject.GObject):
     instance = None
     blacklist = {}
     itr_queue = []
@@ -130,6 +130,7 @@ class AlbumArtCache:
 
     @log
     def __init__(self):
+        GObject.GObject.__init__(self)
         try:
             self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
             if not os.path.exists(self.cacheDir):
