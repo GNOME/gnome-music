@@ -43,6 +43,9 @@ def log(fn):
         global tabbing
         name = fn.__name__
         module = fn.__module__
+        filename = fn.__code__.co_filename.split('/')[-1]
+        lineno = fn.__code__.co_firstlineno
+
         params = ", ".join(map(repr, chain(v, k.values())))
 
         tabbing += 1
@@ -53,7 +56,8 @@ def log(fn):
         elapsed_time = ''
         if elapsed > 0.5:
             elapsed_time = ', took %02f' % elapsed
-        logger.debug("%s%s.%s(%s), returned %s%s", '|' * tabbing, module, name, params, retval, elapsed_time)
+        logger.debug("%s:%s %s%s.%s(%s), returned %s%s",
+                     filename, lineno, '|' * tabbing, module, name, params, retval, elapsed_time)
 
         return retval
     return wrapped
