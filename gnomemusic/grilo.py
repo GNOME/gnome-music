@@ -83,6 +83,7 @@ class Grilo(GObject.GObject):
         self.changed_media_ids = []
         self.pending_event_id = 0
         self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
+        self.pending_changed_medias = []
 
         self.registry = Grl.Registry.get_default()
 
@@ -99,9 +100,12 @@ class Grilo(GObject.GObject):
             logger.error('Failed to load plugins.')
         if self.tracker is not None:
             logger.debug("tracker found")
-            self.tracker.notify_change_start()
-            self.notification_handler = self.tracker.connect(
-                'content-changed', self._on_content_changed)
+
+    def _rate_limited_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
+        [self.pending_changed_medias.append(media) for media in changedMedias]
+        if self.content_changed_timeout is None:
+            self.content_changed_timeout = GLib.timeout_add(
+                500, self._on_content_changed, mediaSource, self.pending_changed_medias, changeType, locationUnknown)
 
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
@@ -126,7 +130,12 @@ class Grilo(GObject.GObject):
                             logger.warn("Skipping %s", media)
 
                 if self.changed_media_ids == []:
-                    return
+                    self.pending_changed_medias = []
+                    if self.content_changed_timeout is not None:
+                        GLib.source_remove(self.content_changed_timeout)
+                        self.content_changed_timeout = None
+                    return False
+
                 self.changed_media_ids = list(set(self.changed_media_ids))
                 logger.debug("Changed medias: %s", self.changed_media_ids)
 
@@ -139,6 +148,12 @@ class Grilo(GObject.GObject):
                     self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
         except Exception as e:
             logger.warn("Exception in _on_content_changed: %s", e)
+        finally:
+            self.pending_changed_medias = []
+            if self.content_changed_timeout is not None:
+                GLib.source_remove(self.content_changed_timeout)
+                self.content_changed_timeout = None
+            return False
 
     @log
     def emit_change_signal(self):
@@ -148,6 +163,7 @@ class Grilo(GObject.GObject):
         self.changes_pending['Artists'] = True
         self.changes_pending['Songs'] = True
         self.emit('changes-pending')
+        print("_on_content_changed-")
         return False
 
     @log
@@ -166,6 +182,10 @@ class Grilo(GObject.GObject):
 
                     if self.tracker is not None:
                         self.emit('ready')
+                        self.tracker.notify_change_start()
+                        self.content_changed_timeout = None
+                        self.notification_handler = self.tracker.connect(
+                            'content-changed', self._rate_limited_content_changed)
 
             elif (id.startswith('grl-upnp')):
                 logger.debug("found upnp source %s", id)
