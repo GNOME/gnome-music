@@ -26,7 +26,7 @@
 # delete this exception statement from your version.
 from gi.repository import GLib, GObject
 from gnomemusic.query import Query
-from gnomemusic import log, RateLimited, TrackerWrapper
+from gnomemusic import log, TrackerWrapper
 import logging
 import os
 os.environ['GRL_PLUGIN_RANKS'] = 'local-metadata:3,filesystem:2,tracker:1,lastfm-albumart:0'
@@ -98,7 +98,6 @@ class Grilo(GObject.GObject):
             logger.debug("tracker found")
 
     @log
-    @RateLimited(2)
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
         try:
             with self.tracker.handler_block(self.notification_handler):
