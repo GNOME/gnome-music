@@ -29,9 +29,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-
-from gi.repository import Gtk, Gdk, Gio, GLib
-from gi.repository import Gd
+import gi
+gi.require_version('Gd', '1.0')
+from gi.repository import Gtk, Gdk, Gio, GLib, Gd
 from gettext import gettext as _, ngettext
 
 from gnomemusic import TrackerWrapper

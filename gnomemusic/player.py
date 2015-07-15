@@ -34,6 +34,10 @@
 from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path('libgd')
 
+import gi
+gi.require_version('Gst', '1.0')
+gi.require_version('GstAudio', '1.0')
+gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from gettext import gettext as _, ngettext
 from random import randint
@@ -141,6 +145,7 @@ class Player(GObject.GObject):
     def _check_last_fm(self):
         try:
             self.last_fm = None
+            gi.require_version('Goa', '1.0')
             from gi.repository import Goa
             client = Goa.Client.new_sync(None)
             accounts = client.get_accounts()

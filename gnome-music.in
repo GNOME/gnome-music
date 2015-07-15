@@ -13,6 +13,7 @@ sys.path.insert(1, '@pythondir@')
 
 import argparse
 import logging
+import gi
 from gi.repository import Gio
 import gnomemusic
 
@@ -31,6 +32,7 @@ else:
     libgd_typelibdir = '@pkglibdir@/girepository-1.0'
 
 # We use our own libgd.so, so let gi.repository find it
+gi.require_version('GIRepository', '2.0')
 from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path(libgd_typelibdir)
 GIRepository.Repository.prepend_library_path(libgd_libdir)
@@ -38,6 +40,7 @@ GIRepository.Repository.prepend_library_path(libgd_libdir)
 
 def install_excepthook():
     """ Make sure we exit when an unhandled exception occurs. """
+    gi.require_version('Gtk', '3.0')
     from gi.repository import Gtk
     old_hook = sys.excepthook
 

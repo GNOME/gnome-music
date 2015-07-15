@@ -27,7 +27,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-
+import gi
+gi.require_version('MediaArt', '2.0')
 from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Gdk, MediaArt
 from gettext import gettext as _
 import cairo

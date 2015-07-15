@@ -24,6 +24,9 @@
 # modify this code, you may extend this exception to your version of the
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
+
+import gi
+gi.require_version('Grl', '0.2')
 from gi.repository import GLib, GObject
 from gnomemusic.query import Query
 from gnomemusic import log, TrackerWrapper
