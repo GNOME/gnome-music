@@ -88,8 +88,9 @@ class Window(Gtk.ApplicationWindow):
 
         self._setup_view()
 
+        self.window_size_update_timeout = None
         self.connect("window-state-event", self._on_window_state_event)
-        self.configure_event_handler = self.connect("configure-event", self._on_configure_event)
+        self.connect("configure-event", self._on_configure_event)
 
         self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
@@ -132,8 +133,8 @@ class Window(Gtk.ApplicationWindow):
                 self.toolbar.show_stack()
 
     def _on_configure_event(self, widget, event):
-        with self.handler_block(self.configure_event_handler):
-            GLib.idle_add(self.store_window_size_and_position, widget, priority=GLib.PRIORITY_LOW)
+        if self.window_size_update_timeout is None:
+            self.window_size_update_timeout = GLib.timeout_add(500, self.store_window_size_and_position, widget)
 
     @log
     def store_window_size_and_position(self, widget):
@@ -142,6 +143,9 @@ class Window(Gtk.ApplicationWindow):
 
         position = widget.get_position()
         self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
+        GLib.source_remove(self.window_size_update_timeout)
+        self.window_size_update_timeout = None
+        return False
 
     @log
     def _on_window_state_event(self, widget, event):
