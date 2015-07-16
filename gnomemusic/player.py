@@ -669,6 +669,8 @@ class Player(GObject.GObject):
         if self.playlist is None:
             return
 
+        media = None
+
         if self.player.get_state(1)[1] != Gst.State.PAUSED:
             self.stop()
 
