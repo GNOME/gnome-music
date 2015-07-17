@@ -682,9 +682,10 @@ class Player(GObject.GObject):
 
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
-        t = Thread(target=self.update_now_playing_in_lastfm, args=(media.get_url(),))
-        t.setDaemon(True)
-        t.start()
+        if media:
+            t = Thread(target=self.update_now_playing_in_lastfm, args=(media.get_url(),))
+            t.setDaemon(True)
+            t.start()
         if not self.timeout:
             self.timeout = GLib.timeout_add(1000, self._update_position_callback)
 
