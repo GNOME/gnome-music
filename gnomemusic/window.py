@@ -448,9 +448,9 @@ class Window(Gtk.ApplicationWindow):
     def _on_search_toggled(self, button, data=None):
         self.toolbar.searchbar.show_bar(button.get_active(),
                                         self.curr_view != self.views[4])
-        if not button.get_active() and \
-           	(self.curr_view == self.views[4] or self.curr_view == self.views[5])and \
-           self.toolbar._state == ToolbarState.MAIN:
+        if (not button.get_active() and
+                (self.curr_view == self.views[4] or self.curr_view == self.views[5]) and
+                self.toolbar._state == ToolbarState.MAIN):
             # We should get back to the view before the search
             self._stack.set_visible_child(self.views[4].previous_view)
             if self.toolbar._selectionMode:

@@ -1369,8 +1369,8 @@ class Search(ViewContainer):
     @log
     def _no_music_found_callback(self, view):
         self.window._stack.set_visible_child_name('emptysearch')
-        self.window._stack.get_child_by_name('emptysearch')._artistAlbumsWidget =\
-	        self._artistAlbumsWidget
+        emptysearch = self.window._stack.get_child_by_name('emptysearch')
+        emptysearch._artistAlbumsWidget = self._artistAlbumsWidget
 
     @log
     def _back_button_clicked(self, widget, data=None):
