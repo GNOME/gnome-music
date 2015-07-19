@@ -630,19 +630,8 @@ class Artists (ViewContainer):
     @log
     def _populate(self, data=None):
         selection = self.view.get_generic_view().get_selection()
-        if not selection.get_selected()[1]:
-            self._allIter = self.model.insert_with_valuesv(-1, [2], [_("All Artists")])
-            self._last_selection = self._allIter
-            self._artists[_("All Artists").casefold()] =\
-                {'iter': self._allIter, 'albums': [], 'widget': None}
-            #selection.select_path(self.model.get_path(self._allIter))
         self._init = True
         self.populate()
-
-    @log
-    def add_all_artists_entry(self):
-        self.view.emit('item-activated', '0',
-                       self.model.get_path(self._allIter))
 
     @log
     def _add_list_renderers(self):
@@ -697,16 +686,11 @@ class Artists (ViewContainer):
         self.artistAlbumsStack.add(new_artistAlbumsWidget)
 
         artistAlbums = None
-        if (self.model.get_string_from_iter(_iter) ==
-                self.model.get_string_from_iter(self._allIter)):
-            artistAlbums = Widgets.AllArtistsAlbums(
-                self.player, self.header_bar, self.selection_toolbar, self.window
-            )
-        else:
-            artistAlbums = Widgets.ArtistAlbums(
-                artist, albums, self.player,
-                self.header_bar, self.selection_toolbar, self.window
-            )
+
+        artistAlbums = Widgets.ArtistAlbums(
+		    artist, albums, self.player,
+		    self.header_bar, self.selection_toolbar, self.window
+        )
         self._artists[artist.casefold()]['widget'] = artistAlbums
         new_artistAlbumsWidget.add(artistAlbums)
         new_artistAlbumsWidget.show()
@@ -774,9 +758,7 @@ class Artists (ViewContainer):
             _iter = self.model.get_iter(path)
             artist = self.model.get_value(_iter, 2)
             albums = self._artists[artist.casefold()]['albums']
-            if (self.model.get_string_from_iter(_iter) !=
-                    self.model.get_string_from_iter(self._allIter)):
-                self.albums_selected.extend(albums)
+            self.albums_selected.extend(albums)
 
         if len(self.albums_selected):
             self._get_selected_album_songs()
