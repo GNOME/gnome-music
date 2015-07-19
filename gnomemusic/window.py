@@ -325,7 +325,7 @@ class Window(Gtk.ApplicationWindow):
     def _init_loading_notification(self):
         self.notification = Gd.Notification()
         self.notification.set_timeout(5)
-        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_right=8)
+        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_end=8)
         grid.set_column_spacing(8)
         spinner = Gtk.Spinner()
         spinner.start()
