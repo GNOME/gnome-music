@@ -56,7 +56,7 @@ def log(fn):
         elapsed_time = ''
         if elapsed > 0.5:
             elapsed_time = ', took %02f' % elapsed
-        logger.debug("%s:%s %s%s.%s(%s), returned %s%s",
+        logger.debug("%s:%s\t%s%s.%s(%s), returned %s%s",
                      filename, lineno, '|' * tabbing, module, name, params, retval, elapsed_time)
 
         return retval
