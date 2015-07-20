@@ -1,3 +1,17 @@
+Overview of changes in 3.17.4
+=============================
+
+Bugs fixed:
+ 705070 Last.fm/libre.fm integration
+ 747233 Remove "All Artists"
+ 752591 Convert margin_right to margin_end
+ 752592 Trivial code formatting cleanups
+
+Several deprecations were removed
+More performance improvements
+Translations updated
+
+
 Overview of changes in 3.17.3
 =============================
 
