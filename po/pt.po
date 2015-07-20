@@ -115,7 +115,7 @@ msgstr "Reproduz e organiza a sua coleção de música"
 #: ../data/gnome-music.desktop.in.h:4
 #| msgid "Music Player"
 msgid "Music;Player;"
-msgstr "Reprodutor;Música"
+msgstr "Reprodutor;Música;"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
