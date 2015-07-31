@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music 3.17.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-14 15:45+0200\n"
-"PO-Revision-Date: 2015-05-14 15:46+0200\n"
-"Last-Translator: Åka Sikrom <a4NOSPAMPLEASETHANKYOU@hush.com>\n"
+"POT-Creation-Date: 2015-07-31 11:37+0200\n"
+"PO-Revision-Date: 2015-07-31 11:40+0200\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
 "Language: no\n"
 "MIME-Version: 1.0\n"
@@ -96,9 +96,17 @@ msgstr "Slå på ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Slår på eller av ReplayGain for album"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/toolbar.py:140
-#: ../gnomemusic/window.py:59 ../data/AboutDialog.ui.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Første tilstand er vist"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Sett til «true» når første tilstand har blitt vist"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:51
+#: ../gnomemusic/application.py:114 ../gnomemusic/window.py:59
+#: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musikk"
 
@@ -122,22 +130,22 @@ msgstr "GNOME Musikk"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musikk er det nye GNOME-programmet for musikkavspilling."
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumArtCache.py:109 ../gnomemusic/albumArtCache.py:117
 msgid "Untitled"
 msgstr "Uten tittel"
 
 #: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:568 ../gnomemusic/view.py:537
-#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
+#: ../gnomemusic/player.py:601 ../gnomemusic/view.py:556
+#: ../gnomemusic/view.py:969 ../gnomemusic/view.py:1432
 msgid "Unknown Album"
 msgstr "Ukjent album"
 
 #: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:559 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
-#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:631
+#: ../gnomemusic/player.py:591 ../gnomemusic/view.py:216
+#: ../gnomemusic/view.py:456 ../gnomemusic/view.py:713
+#: ../gnomemusic/view.py:1151 ../gnomemusic/view.py:1430
+#: ../gnomemusic/view.py:1481 ../gnomemusic/widgets.py:235
+#: ../gnomemusic/widgets.py:638
 msgid "Unknown Artist"
 msgstr "Ukjent artist"
 
@@ -155,11 +163,11 @@ msgstr "av %s, fra %s"
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:516
+#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:548
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:519
+#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:551
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Spill av"
@@ -168,29 +176,29 @@ msgstr "Spill av"
 msgid "Next"
 msgstr "Neste"
 
-#: ../gnomemusic/player.py:979
+#: ../gnomemusic/player.py:1079
 msgid "Unable to play the file"
 msgstr "Kan ikke spille av filen"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:984
+#: ../gnomemusic/player.py:1084
 #, python-format
 msgid "_Find in %s"
 msgstr "_Finn i %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:994
+#: ../gnomemusic/player.py:1094
 msgid " and "
 msgstr " og "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:997
+#: ../gnomemusic/player.py:1097
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:998
+#: ../gnomemusic/player.py:1098
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -258,70 +266,81 @@ msgstr "Kilder"
 msgid "Match"
 msgstr "Treff"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:188 ../gnomemusic/widgets.py:267
+#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:305
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d oppføring valgt"
 msgstr[1] "%d oppføringer valgt"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:269
+#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:309
+#: ../gnomemusic/window.py:321 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
-#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
+#: ../gnomemusic/view.py:272
+msgid "Music folder"
+msgstr "Musikkmappe"
+
+#: ../gnomemusic/view.py:291
+msgid "Hey DJ"
+msgstr "Hey DJ"
+
+#: ../gnomemusic/view.py:299 ../gnomemusic/view.py:1705
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
+#: ../gnomemusic/view.py:390 ../gnomemusic/view.py:1707
 msgid "Songs"
 msgstr "Sanger"
 
-#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
+#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1706
 msgid "Artists"
 msgstr "Artister"
 
-#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
-#: ../gnomemusic/widgets.py:517
-msgid "All Artists"
-msgstr "Alle artister"
-
-#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
+#: ../gnomemusic/view.py:796 ../gnomemusic/view.py:1708
 msgid "Playlists"
 msgstr "Spillelister"
 
-#: ../gnomemusic/view.py:1161
+#: ../gnomemusic/view.py:1162
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sanger"
 
+#: ../gnomemusic/view.py:1299
+msgid "Try a different search"
+msgstr "Prøv et annet søk"
+
 #: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:755
+#: ../gnomemusic/widgets.py:524
+msgid "All Artists"
+msgstr "Alle artister"
+
+#: ../gnomemusic/widgets.py:762
 msgid "New Playlist"
 msgstr "Ny spilleliste"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:251
 msgid "Empty"
 msgstr "Tom"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:333
 msgid "Loading"
 msgstr "Laster"
 
-#: ../gnomemusic/window.py:335
+#: ../gnomemusic/window.py:348
 msgid "_Undo"
 msgstr "_Angre"
 
-#: ../gnomemusic/window.py:336
+#: ../gnomemusic/window.py:349
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Spilleliste %s fjernet"
@@ -360,29 +379,20 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
-"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre "
-"programmet under betingelsene gitt i GNU General Public License som utgitt "
-"av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du "
-"ønsker det) enhver senere versjon.\n"
+"GNOME musikk er fri programvare. Du kan redistribuere og/eller endre programmet under betingelsene gitt i GNU General Public License som utgitt av Free Software Foundation; enten versjon 2 av lisensen, eller (hvis du ønsker det) enhver senere versjon.\n"
 "\n"
-"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN "
-"GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET "
-"BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
+"GNOME musikk distribueres i håp om at programmet er nyttig, men uten NOEN GARANTI, ikke engang implisitt garanti om at det er SALGBART eller PASSER ET BESTEMT FORMÅL. Se GNU General Public License for detaljer.\n"
 "\n"
-"Du skal ha mottatt en kopi av GNU General Public License sammen med dette "
-"programmet. Hvis dette ikke er tilfelle, kan du skrive til Free Software "
-"Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
-"USA.\n"
+"Du skal ha mottatt en kopi av GNU General Public License sammen med dette programmet. Hvis dette ikke er tilfelle, kan du skrive til Free Software Foundation, Inc. 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
 "\n"
-"GNOME musikk utviklerene gir herved rettigheter for bruk og distribusjon av "
-"GStreamer-tillegg som ikke er kompatible med GPL sammen med GStreamer og "
-"GNOME musikk. Denne rettigheten går foran rettighetene som gis av GPL-"
-"lisensen som gjelder for GNOME musikk. Hvis du endrer denne koden kan du "
-"bruke dette unntaket for din versjon av koden, men du er ikke pliktig til "
-"gjøre dette. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten "
-"fra din versjon."
+"GNOME musikk utviklerene gir herved rettigheter for bruk og distribusjon av GStreamer-tillegg som ikke er kompatible med GPL sammen med GStreamer og GNOME musikk. Denne rettigheten går foran rettighetene som gis av GPL-lisensen som gjelder for GNOME musikk. Hvis du endrer denne koden kan du bruke dette unntaket for din versjon av koden, men du er ikke pliktig til gjøre dette. Hvis du ikke ønsker å gjøre dette kan du slette denne teksten fra din versjon.\n"
+"\n"
+"Bildet «Magic of the vinyl» av Sami Pyylampi er lisensiert med CC-BY-SA 2.0. https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -424,9 +434,10 @@ msgstr "Bland/Gjenta av"
 msgid "No music found"
 msgstr "Fant ingen musikk"
 
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "Innholdet i musikkmappen din vises her."
+#: ../data/NoMusic.ui.h:3
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Innholdet i %s din vises her."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
