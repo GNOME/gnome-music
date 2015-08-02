@@ -638,10 +638,10 @@ class Player(GObject.GObject):
         if track is None:
             track = self._get_next_track()
 
+        self.nextTrack = track
+
         if track is None:
             return
-
-        self.nextTrack = track
 
         _iter = self.playlist.get_iter(self.nextTrack.get_path())
         status = self.playlist.get_value(_iter, self.discovery_status_field)
