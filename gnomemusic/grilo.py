@@ -62,6 +62,9 @@ class Grilo(GObject.GObject):
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
 
+    def __repr__(self):
+        return '<Grilo>'
+
     @log
     def __init__(self):
         GObject.GObject.__init__(self)

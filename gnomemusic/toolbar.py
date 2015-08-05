@@ -50,6 +50,9 @@ class Toolbar(GObject.GObject):
     }
     _selectionMode = False
 
+    def __repr__(self):
+        return '<Toolbar>'
+
     @log
     def __init__(self):
         GObject.GObject.__init__(self)

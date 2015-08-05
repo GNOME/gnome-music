@@ -36,6 +36,10 @@ IMAGE_SIZE = 125
 
 
 class NotificationManager:
+
+    def __repr__(self):
+        return '<NotificationManager>'
+
     @log
     def __init__(self, player):
         self._player = player

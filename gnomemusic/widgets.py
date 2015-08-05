@@ -57,6 +57,10 @@ playlists = Playlists.get_default()
 
 
 class StarHandler():
+
+    def __repr__(self):
+        return '<StarHandler>'
+
     @log
     def __init__(self, parent, star_index):
         self.star_index = star_index
@@ -94,6 +98,9 @@ class AlbumWidget(Gtk.EventBox):
     duration = 0
     loadingIcon = ALBUM_ART_CACHE.get_default_icon(256, 256, True)
     noArtworkIcon = ALBUM_ART_CACHE.get_default_icon(256, 256, False)
+
+    def __repr__(self):
+        return '<AlbumWidget>'
 
     @log
     def __init__(self, player, parentview):
@@ -361,6 +368,9 @@ class AlbumWidget(Gtk.EventBox):
 
 class ArtistAlbums(Gtk.Box):
 
+    def __repr__(self):
+        return '<ArtistAlbums>'
+
     @log
     def __init__(self, artist, albums, player,
                  header_bar, selection_toolbar, window, selectionModeAllowed=False):
@@ -519,6 +529,9 @@ class ArtistAlbums(Gtk.Box):
 
 class AllArtistsAlbums(ArtistAlbums):
 
+    def __repr__(self):
+        return '<AllArtistsAlbums>'
+
     @log
     def __init__(self, player, header_bar, selection_toolbar, selectionModeAllowed=False):
         ArtistAlbums.__init__(self, _("All Artists"), [], player,
@@ -550,6 +563,9 @@ class ArtistAlbumWidget(Gtk.Box):
 
     loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
     noArtworkIcon = ALBUM_ART_CACHE.get_default_icon(128, 128, False)
+
+    def __repr__(self):
+        return '<ArtistAlbumWidget>'
 
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
@@ -704,6 +720,10 @@ class ArtistAlbumWidget(Gtk.Box):
 
 
 class PlaylistDialog():
+
+    def __repr__(self):
+        return '<PlaylistDialog>'
+
     @log
     def __init__(self, parent):
         self.ui = Gtk.Builder()
@@ -832,6 +852,9 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
 
     starIcon = 'starred-symbolic'
     nonStarIcon = 'non-starred-symbolic'
+
+    def __repr__(self):
+        return '<CellRendererClickablePixbuf>'
 
     def __init__(self, view, hidden=False, *args, **kwargs):
         Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)

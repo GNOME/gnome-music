@@ -43,6 +43,10 @@ logger = logging.getLogger(__name__)
 
 
 class Application(Gtk.Application):
+
+    def __repr__(self):
+        return '<Application>'
+
     @log
     def __init__(self):
         Gtk.Application.__init__(self,

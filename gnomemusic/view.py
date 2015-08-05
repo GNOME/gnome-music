@@ -59,6 +59,9 @@ class ViewContainer(Gtk.Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
 
+    def __repr__(self):
+        return '<ViewContainer>'
+
     @log
     def __init__(self, name, title, window, view_type, use_sidebar=False, sidebar=None):
         Gtk.Stack.__init__(self,
@@ -256,6 +259,10 @@ class ViewContainer(Gtk.Stack):
 
 # Class for the Empty View
 class Empty(Gtk.Stack):
+
+    def __repr__(self):
+        return '<EmptyView>'
+
     @log
     def __init__(self, window, player):
         Gtk.Stack.__init__(self,
@@ -275,6 +282,10 @@ class Empty(Gtk.Stack):
 
 # Class for the Initial State
 class InitialState(Empty):
+
+    def __repr__(self):
+        return '<InitialState>'
+
     @log
     def __init__(self, window, player):
         Empty.__init__(self, window, player)
@@ -294,6 +305,10 @@ class InitialState(Empty):
 
 
 class Albums(ViewContainer):
+
+    def __repr__(self):
+        return '<Albums>'
+
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'albums', _("Albums"), window, Gd.MainViewType.ICON)
@@ -385,6 +400,10 @@ class Albums(ViewContainer):
 
 
 class Songs(ViewContainer):
+
+    def __repr__(self):
+        return '<Songs>'
+
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'songs', _("Songs"), window, Gd.MainViewType.LIST)
@@ -583,6 +602,10 @@ class Songs(ViewContainer):
 
 
 class Artists (ViewContainer):
+
+    def __repr__(self):
+        return '<Artists>'
+
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'artists', _("Artists"),
@@ -786,6 +809,9 @@ class Playlist(ViewContainer):
         'playlists-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
+
+    def __repr__(self):
+        return '<Playlist>'
 
     @log
     def __init__(self, window, player):
@@ -1285,6 +1311,10 @@ class Playlist(ViewContainer):
 
 
 class EmptySearch(ViewContainer):
+
+    def __repr__(self):
+        return '<EmptySearch>'
+
     @log
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'emptysearch', None, window, Gd.MainViewType.LIST)
@@ -1313,6 +1343,9 @@ class Search(ViewContainer):
     __gsignals__ = {
         'no-music-found': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
+
+    def __repr__(self):
+        return '<Search>'
 
     @log
     def __init__(self, window, player):

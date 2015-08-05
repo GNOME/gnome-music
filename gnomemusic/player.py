@@ -95,6 +95,9 @@ class Player(GObject.GObject):
         'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
     }
 
+    def __repr__(self):
+        return '<Player>'
+
     @log
     def __init__(self, parent_window):
         GObject.GObject.__init__(self)
@@ -1068,6 +1071,9 @@ class Player(GObject.GObject):
 
 class MissingCodecsDialog(Gtk.MessageDialog):
 
+    def __repr__(self):
+        return '<MissingCodecsDialog>'
+
     @log
     def __init__(self, parent_window, install_helper_name):
         Gtk.MessageDialog.__init__(self,
@@ -1101,6 +1107,9 @@ class MissingCodecsDialog(Gtk.MessageDialog):
 
 
 class SelectionToolbar():
+
+    def __repr__(self):
+        return '<SelectionToolbar>'
 
     @log
     def __init__(self):

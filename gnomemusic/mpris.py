@@ -47,6 +47,9 @@ class MediaPlayer2Service(dbus.service.Object):
     MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
     MEDIA_PLAYER2_PLAYLISTS_IFACE = 'org.mpris.MediaPlayer2.Playlists'
 
+    def __repr__(self):
+        return '<MediaPlayer2Service>'
+
     def __init__(self, app):
         DBusGMainLoop(set_as_default=True)
         name = dbus.service.BusName('org.mpris.MediaPlayer2.GnomeMusic', dbus.SessionBus())

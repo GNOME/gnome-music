@@ -40,6 +40,10 @@ class BaseModelColumns():
 
 
 class BaseManager:
+
+    def __repr__(self):
+        return '<BaseManager>'
+
     @log
     def __init__(self, id, label, entry):
         self.id = id
@@ -94,6 +98,9 @@ class BaseManager:
 
 class SourceManager(BaseManager):
 
+    def __repr__(self):
+        return '<SourceManager>'
+
     @log
     def __init__(self, id, label, entry):
         super(SourceManager, self).__init__(id, label, entry)
@@ -124,6 +131,10 @@ class SourceManager(BaseManager):
 
 
 class FilterView():
+
+    def __repr__(self):
+        return '<FilterView>'
+
     @log
     def __init__(self, manager, dropdown):
         self.manager = manager
@@ -186,6 +197,10 @@ class FilterView():
 
 
 class DropDown(Gtk.Revealer):
+
+    def __repr__(self):
+        return '<DropDown>'
+
     @log
     def __init__(self):
         Gtk.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
@@ -226,6 +241,9 @@ class DropDown(Gtk.Revealer):
 
 
 class Searchbar(Gtk.Revealer):
+
+    def __repr__(self):
+        return '<Searchbar>'
 
     @log
     def __init__(self, stack_switcher, search_button, dropdown):

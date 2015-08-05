@@ -41,6 +41,10 @@ logger = logging.getLogger(__name__)
 
 
 class StaticPlaylists:
+
+    def __repr__(self):
+        return '<StaticPlaylists>'
+
     class MostPlayed:
         ID = None
         QUERY = Query.get_most_played_songs()
@@ -96,6 +100,9 @@ class Playlists(GObject.GObject):
     }
     instance = None
     tracker = None
+
+    def __repr__(self):
+        return '<Playlists>'
 
     @classmethod
     def get_default(self, tracker=None):

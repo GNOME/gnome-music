@@ -52,6 +52,9 @@ playlist = Playlists.get_default()
 
 class Window(Gtk.ApplicationWindow):
 
+    def __repr__(self):
+        return '<Window>'
+
     @log
     def __init__(self, app):
         Gtk.ApplicationWindow.__init__(self,

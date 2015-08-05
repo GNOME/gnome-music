@@ -90,6 +90,9 @@ class AlbumArtCache(GObject.GObject):
     default_icon_width = 256
     default_icon_height = 256
 
+    def __repr__(self):
+        return '<AlbumArt>'
+
     @classmethod
     def get_default(self):
         if not self.instance:

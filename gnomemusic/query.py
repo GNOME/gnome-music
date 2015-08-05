@@ -56,6 +56,9 @@ class Query():
     except TypeError:
         logger.warn("XDG user dirs are not set")
 
+    def __repr__(self):
+        return '<Query>'
+
     @staticmethod
     def order_by_statement(attr):
         """Returns a SPARQL ORDER BY statement sorting by the given attribute, ignoring
