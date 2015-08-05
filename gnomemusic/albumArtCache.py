@@ -38,11 +38,10 @@ from threading import Thread, Lock
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
-from queue import Queue
 import urllib.request
 logger = logging.getLogger(__name__)
 
-WORKER_THREADS = 2
+THREAD_QUEUE = []
 
 
 @log
@@ -93,6 +92,10 @@ class AlbumArtCache(GObject.GObject):
     def __repr__(self):
         return '<AlbumArt>'
 
+    __gsignals__ = {
+        'thread-added': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+    }
+
     @classmethod
     def get_default(self):
         if not self.instance:
@@ -124,16 +127,14 @@ class AlbumArtCache(GObject.GObject):
 
         return title
 
-    def worker(self, id):
-        while True:
-            try:
-                item = self.thread_queue.get()
-                item.setDaemon(True)
-                item.start()
-                item.join(30)
-                self.thread_queue.task_done()
-            except Exception as e:
-                logger.warn("worker %d item %s: error %s", id, item, str(e))
+    def worker(self, object, id):
+        try:
+            item = THREAD_QUEUE[id]
+            item.setDaemon(True)
+            item.start()
+            item.join()
+        except Exception as e:
+            logger.warn("worker item %s: error %s",  item, str(e))
 
     @log
     def __init__(self):
@@ -148,15 +149,7 @@ class AlbumArtCache(GObject.GObject):
         # Prepare default icons
         self.make_default_icon(is_loading=False)
         self.make_default_icon(is_loading=True)
-
-        try:
-            self.thread_queue = Queue()
-            for i in range(WORKER_THREADS):
-                t = Thread(target=self.worker, args=(i,))
-                t.setDaemon(True)
-                t.start()
-        except Exception as e:
-            logger.warn("Error: %s", e)
+        self.connect('thread-added', self.worker)
 
     def make_default_icon(self, is_loading=False):
         width = self.default_icon_width
@@ -225,7 +218,8 @@ class AlbumArtCache(GObject.GObject):
                     self.itr_queue.append(itr.user_data)
 
             t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
-            self.thread_queue.put(t)
+            THREAD_QUEUE.append(t)
+            self.emit('thread-added', len(THREAD_QUEUE)-1)
         except Exception as e:
             logger.warn("Error: %s, %s", e.__class__, e)
 
@@ -282,7 +276,8 @@ class AlbumArtCache(GObject.GObject):
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            self.thread_queue.put(t)
+            THREAD_QUEUE.append(t)
+            self.emit('thread-added', len(THREAD_QUEUE)-1)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
@@ -301,7 +296,8 @@ class AlbumArtCache(GObject.GObject):
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            self.thread_queue.put(t)
+            THREAD_QUEUE.append(t)
+            self.emit('thread-added', len(THREAD_QUEUE)-1)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
