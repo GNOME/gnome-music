@@ -41,23 +41,24 @@ def log(fn):
 
     def wrapped(*v, **k):
         global tabbing
-        name = fn.__name__
-        module = fn.__module__
+        name = fn.__qualname__
         filename = fn.__code__.co_filename.split('/')[-1]
         lineno = fn.__code__.co_firstlineno
 
         params = ", ".join(map(repr, chain(v, k.values())))
 
+        logger.debug("%s%s(%s)[%s:%s]",
+                     '|' * tabbing, name, params, filename, lineno,)
         tabbing += 1
         start = time.time()
         retval = fn(*v, **k)
         elapsed = time.time() - start
         tabbing -= 1
         elapsed_time = ''
-        if elapsed > 0.5:
+        if elapsed > 0.1:
             elapsed_time = ', took %02f' % elapsed
-        logger.debug("%s:%s\t%s%s.%s(%s), returned %s%s",
-                     filename, lineno, '|' * tabbing, module, name, params, retval, elapsed_time)
+        if elapsed_time or retval is not None:
+            logger.debug("%s  returned %s%s", '|' * tabbing, repr(retval), elapsed_time)
 
         return retval
     return wrapped

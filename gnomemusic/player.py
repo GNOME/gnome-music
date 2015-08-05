@@ -1099,6 +1099,7 @@ class MissingCodecsDialog(Gtk.MessageDialog):
                                             "%s are required to play the file, but are not installed.",
                                             n_codecs) % text)
 
+
 class SelectionToolbar():
 
     @log
