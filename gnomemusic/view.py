@@ -1135,24 +1135,11 @@ class Playlist(ViewContainer):
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
-        self.model = Gtk.ListStore(
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,
-            GObject.TYPE_OBJECT,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
-        self.view.set_model(self.model)
+        self.model = self.view.get_model()
+        self.model.clear()
         GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
         self.songs_count = 0
-        self._update_songs_count()
+        GLib.idle_add(self._update_songs_count)
 
         # disable delete button if current playlist is a smart playlist
         if self.current_playlist_is_protected():
