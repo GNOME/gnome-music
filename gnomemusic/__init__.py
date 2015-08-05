@@ -63,7 +63,7 @@ def RateLimited(maxPerSecond):
             elapsed = time.clock() - lastTimeCalled[0]
             leftToWait = minInterval - elapsed
             if leftToWait > 0:
-                time.sleep(leftToWait)
+                return
             ret = func(*args, **kargs)
             lastTimeCalled[0] = time.clock()
             return ret
