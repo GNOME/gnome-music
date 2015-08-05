@@ -28,7 +28,7 @@
 # delete this exception statement from your version.
 
 
-from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Gdk, MediaArt
+from gi.repository import Gtk, GdkPixbuf, GObject, Gio, GLib, Gdk, MediaArt
 from gettext import gettext as _
 import cairo
 from math import pi
@@ -37,10 +37,9 @@ from threading import Thread, Lock
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
-from queue import Queue
 logger = logging.getLogger(__name__)
 
-WORKER_THREADS = 2
+THREAD_QUEUE = []
 
 
 @log
@@ -78,11 +77,15 @@ def _make_icon_frame(pixbuf, path=None):
     return border_pixbuf
 
 
-class AlbumArtCache:
+class AlbumArtCache(GObject.GObject):
     instance = None
     blacklist = {}
     itr_queue = []
     threading_lock = Lock()
+
+    __gsignals__ = {
+        'thread-added': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+    }
 
     @classmethod
     def get_default(self):
@@ -115,19 +118,18 @@ class AlbumArtCache:
 
         return title
 
-    def worker(self, id):
-        while True:
-            try:
-                item = self.thread_queue.get()
-                item.setDaemon(True)
-                item.start()
-                item.join(30)
-                self.thread_queue.task_done()
-            except Exception as e:
-                logger.warn("worker %d item %s: error %s", id, item, str(e))
+    def worker(self, object, id):
+        try:
+            item = THREAD_QUEUE[id]
+            item.setDaemon(True)
+            item.start()
+            item.join()
+        except Exception as e:
+            logger.warn("worker item %s: error %s",  item, str(e))
 
     @log
     def __init__(self):
+        GObject.GObject.__init__(self)
         try:
             self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
             if not os.path.exists(self.cacheDir):
@@ -135,14 +137,7 @@ class AlbumArtCache:
         except Exception as e:
             logger.warn("Error: %s", e)
 
-        try:
-            self.thread_queue = Queue()
-            for i in range(WORKER_THREADS):
-                t = Thread(target=self.worker, args=(i,))
-                t.setDaemon(True)
-                t.start()
-        except Exception as e:
-            logger.warn("Error: %s", e)
+        self.connect('thread-added', self.worker)
 
     @log
     def get_default_icon(self, width, height, is_loading=False):
@@ -185,7 +180,8 @@ class AlbumArtCache:
                     self.itr_queue.append(itr.user_data)
 
             t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
-            self.thread_queue.put(t)
+            THREAD_QUEUE.append(t)
+            self.emit('thread-added', len(THREAD_QUEUE)-1)
         except Exception as e:
             logger.warn("Error: %s, %s", e.__class__, e)
 
@@ -242,7 +238,8 @@ class AlbumArtCache:
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            self.thread_queue.put(t)
+            THREAD_QUEUE.append(t)
+            self.emit('thread-added', len(THREAD_QUEUE)-1)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
@@ -261,7 +258,8 @@ class AlbumArtCache:
                 return
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            self.thread_queue.put(t)
+            THREAD_QUEUE.append(t)
+            self.emit('thread-added', len(THREAD_QUEUE)-1)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
