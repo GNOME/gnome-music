@@ -979,6 +979,9 @@ class Playlist(ViewContainer):
         pass
 
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
+        if not model.iter_is_valid(_iter):
+            return
+
         item = model.get_value(_iter, 5)
         if item:
             seconds = item.get_duration()
@@ -990,6 +993,9 @@ class Playlist(ViewContainer):
         pass
 
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
+        if not model.iter_is_valid(_iter):
+            return
+
         item = model.get_value(_iter, 5)
         if item:
             cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
@@ -997,6 +1003,9 @@ class Playlist(ViewContainer):
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
         if not self.player.currentTrackUri:
             cell.set_visible(False)
+            return
+
+        if not model.iter_is_valid(_iter):
             return
 
         if model.get_value(_iter, 11) == DiscoveryStatus.FAILED:

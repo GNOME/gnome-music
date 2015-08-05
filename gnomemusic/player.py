@@ -403,8 +403,9 @@ class Player(GObject.GObject):
 
     @log
     def _get_random_iter(self, currentTrack):
+        first_iter = self.playlist.get_iter_first()
         if not currentTrack:
-            return None
+            currentTrack = first_iter
         if hasattr(self.playlist, "iter_is_valid") and\
            not self.playlist.iter_is_valid(currentTrack):
             return None
@@ -440,8 +441,8 @@ class Player(GObject.GObject):
             if currentTrack:
                 nextTrack = self.playlist.iter_next(currentTrack)
         elif self.repeat == RepeatType.SHUFFLE:
+            nextTrack = self._get_random_iter(currentTrack)
             if currentTrack:
-                nextTrack = self._get_random_iter(currentTrack)
                 self.shuffleHistory.append(currentTrack)
 
         if nextTrack:
@@ -637,6 +638,7 @@ class Player(GObject.GObject):
             if nextTrack:
                 self._validate_next_track(Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(nextTrack)))
 
+    @log
     def _validate_next_track(self, track=None):
         if track is None:
             track = self._get_next_track()
@@ -723,7 +725,8 @@ class Player(GObject.GObject):
             return True
 
         self.stop()
-        self.currentTrack = self.nextTrack
+        self.currentTrack = self._get_next_track()
+
         if self.currentTrack and self.currentTrack.valid():
             self.currentTrackUri = self.playlist.get_value(
                 self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
