@@ -132,7 +132,7 @@ class AlbumArtCache(GObject.GObject):
             item = THREAD_QUEUE[id]
             item.setDaemon(True)
             item.start()
-            item.join()
+            item.join(30)
         except Exception as e:
             logger.warn("worker item %s: error %s",  item, str(e))
 
