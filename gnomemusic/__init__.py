@@ -47,8 +47,9 @@ def log(fn):
 
         params = ", ".join(map(repr, chain(v, k.values())))
 
-        logger.debug("%s%s(%s)[%s:%s]",
-                     '|' * tabbing, name, params, filename, lineno,)
+        if 'rateLimitedFunction' not in name:
+            logger.debug("%s%s(%s)[%s:%s]",
+                         '|' * tabbing, name, params, filename, lineno,)
         tabbing += 1
         start = time.time()
         retval = fn(*v, **k)
@@ -58,7 +59,8 @@ def log(fn):
         if elapsed > 0.1:
             elapsed_time = ', took %02f' % elapsed
         if elapsed_time or retval is not None:
-            logger.debug("%s  returned %s%s", '|' * tabbing, repr(retval), elapsed_time)
+            if 'rateLimitedFunction' not in name:
+                logger.debug("%s  returned %s%s", '|' * tabbing, repr(retval), elapsed_time)
 
         return retval
     return wrapped
