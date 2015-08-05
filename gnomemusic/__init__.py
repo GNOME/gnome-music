@@ -64,6 +64,24 @@ def log(fn):
     return wrapped
 
 
+def RateLimited(maxPerSecond):
+    minInterval = 1.0 / float(maxPerSecond)
+
+    def decorate(func):
+        lastTimeCalled = [0.0]
+
+        def rateLimitedFunction(*args, **kargs):
+            elapsed = time.clock() - lastTimeCalled[0]
+            leftToWait = minInterval - elapsed
+            if leftToWait > 0:
+                return
+            ret = func(*args, **kargs)
+            lastTimeCalled[0] = time.clock()
+            return ret
+        return rateLimitedFunction
+    return decorate
+
+
 class TrackerWrapper:
     class __TrackerWrapper:
         def __init__(self):

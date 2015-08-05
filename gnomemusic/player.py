@@ -51,7 +51,7 @@ import requests
 import time
 from threading import Thread
 
-from gnomemusic import log
+from gnomemusic import log, RateLimited
 import logging
 logger = logging.getLogger(__name__)
 
@@ -241,7 +241,6 @@ class Player(GObject.GObject):
         self._sync_prev_next()
         self._sync_repeat_image()
 
-    @log
     def _on_bus_state_changed(self, bus, message):
         # Note: not all state changes are signaled through here, in particular
         # transitions between Gst.State.READY and Gst.State.NULL are never async
@@ -546,6 +545,7 @@ class Player(GObject.GObject):
         return self._get_playing()
 
     @log
+    @RateLimited(1)
     def _sync_playing(self):
         if self._get_playing():
             image = self._pauseImage
