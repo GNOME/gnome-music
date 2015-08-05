@@ -91,20 +91,6 @@ class Window(Gtk.ApplicationWindow):
         self.window_size_update_timeout = None
         self.connect("window-state-event", self._on_window_state_event)
         self.connect("configure-event", self._on_configure_event)
-
-        self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
-                                            Gio.DBusProxyFlags.NONE,
-                                            None,
-                                            'org.gnome.SettingsDaemon',
-                                            '/org/gnome/SettingsDaemon/MediaKeys',
-                                            'org.gnome.SettingsDaemon.MediaKeys',
-                                            None)
-        self._grab_media_player_keys()
-        try:
-            self.proxy.connect('g-signal', self._handle_media_keys)
-        except GLib.GError:
-            # We cannot grab media keys if no settings daemon is running
-            pass
         grilo.connect('changes-pending', self._on_changes_pending)
 
     @log
@@ -153,19 +139,27 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _grab_media_player_keys(self):
-        try:
-            self.proxy.call_sync('GrabMediaPlayerKeys',
-                                 GLib.Variant('(su)', ('Music', 0)),
-                                 Gio.DBusCallFlags.NONE,
-                                 -1,
-                                 None)
-        except GLib.GError:
-            # We cannot grab media keys if no settings daemon is running
-            pass
+        self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
+                                            Gio.DBusProxyFlags.NONE,
+                                            None,
+                                            'org.gnome.SettingsDaemon',
+                                            '/org/gnome/SettingsDaemon/MediaKeys',
+                                            'org.gnome.SettingsDaemon.MediaKeys',
+                                            None)
+        self.proxy.call_sync('GrabMediaPlayerKeys',
+                             GLib.Variant('(su)', ('Music', 0)),
+                             Gio.DBusCallFlags.NONE,
+                             -1,
+                             None)
+        self.proxy.connect('g-signal', self._handle_media_keys)
 
     @log
     def _windows_focus_cb(self, window, event):
-        self._grab_media_player_keys()
+        try:
+            self._grab_media_player_keys()
+        except GLib.GError:
+            # We cannot grab media keys if no settings daemon is running
+            pass
 
     @log
     def _handle_media_keys(self, proxy, sender, signal, parameters):
