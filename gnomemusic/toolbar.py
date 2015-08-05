@@ -105,17 +105,25 @@ class Toolbar(GObject.GObject):
 
     @log
     def set_selection_mode(self, selectionMode):
+        self._selection_handler = None
         self._selectionMode = selectionMode
         if selectionMode:
             self._select_button.hide()
             self._cancel_button.show()
             self.header_bar.get_style_context().add_class('selection-mode')
             self._cancel_button.get_style_context().remove_class('selection-mode')
+            view = self._stack_switcher.get_stack().get_visible_child()
+            self._selection_handler = view.view.connect(
+                'view-selection-changed', view._on_view_selection_changed)
         else:
             self.header_bar.get_style_context().remove_class('selection-mode')
             self._select_button.set_active(False)
             self._select_button.show()
             self._cancel_button.hide()
+            view = self._stack_switcher.get_stack().get_visible_child()
+            if self._selection_handler:
+                view.view.disconnect(self._selection_handler)
+            self._selection_handler = None
         self.emit('selection-mode-changed')
         self._update()
 

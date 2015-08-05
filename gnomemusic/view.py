@@ -135,10 +135,9 @@ class ViewContainer(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
+        self.selection_socket = None
         self.header_bar.connect('selection-mode-changed',
                                 self._on_selection_mode_changed)
-        self.view.connect('view-selection-changed',
-                          self._on_view_selection_changed)
 
         self._discovering_urls = {}
         grilo.connect('changes-pending', self._on_changes_pending)
