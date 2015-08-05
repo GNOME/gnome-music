@@ -1085,7 +1085,7 @@ class Playlist(ViewContainer):
             playlist = self.playlists_model.get_value(_iter, 5)
             if str(playlist_id) == playlist.get_id() and self.current_playlist == playlist:
                 path = self.playlists_model.get_path(_iter)
-                self._on_playlist_activated(None, None, path)
+                GLib.idle_add(self._on_playlist_activated, None, None, path)
                 break
             _iter = self.playlists_model.iter_next(_iter)
 
