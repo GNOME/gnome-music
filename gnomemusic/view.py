@@ -652,7 +652,6 @@ class Artists (ViewContainer):
 
     @log
     def _populate(self, data=None):
-        selection = self.view.get_generic_view().get_selection()
         self._init = True
         self.populate()
 
@@ -711,8 +710,8 @@ class Artists (ViewContainer):
         artistAlbums = None
 
         artistAlbums = Widgets.ArtistAlbums(
-		    artist, albums, self.player,
-		    self.header_bar, self.selection_toolbar, self.window
+            artist, albums, self.player,
+            self.header_bar, self.selection_toolbar, self.window
         )
         self._artists[artist.casefold()]['widget'] = artistAlbums
         new_artistAlbumsWidget.add(artistAlbums)
@@ -1482,9 +1481,10 @@ class Search(ViewContainer):
 
         model, category = data
 
-        self.found_items_number = (self.model.iter_n_children(self.head_iters[0])+
-            self.model.iter_n_children(self.head_iters[1])+
-            self.model.iter_n_children(self.head_iters[2])+
+        self.found_items_number = (
+            self.model.iter_n_children(self.head_iters[0]) +
+            self.model.iter_n_children(self.head_iters[1]) +
+            self.model.iter_n_children(self.head_iters[2]) +
             self.model.iter_n_children(self.head_iters[3]))
 
         if category == 'song' and self.found_items_number == 0 and remaining == 0:

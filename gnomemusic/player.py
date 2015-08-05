@@ -1091,7 +1091,7 @@ class MissingCodecsDialog(Gtk.MessageDialog):
         # %s will be replaced with the software installer's name, e.g.
         # 'Software' in case of gnome-software.
         self.find_button = self.add_button(_("_Find in %s") % install_helper_name,
-                                            Gtk.ResponseType.ACCEPT)
+                                           Gtk.ResponseType.ACCEPT)
         self.set_default_response(Gtk.ResponseType.ACCEPT)
         Gtk.StyleContext.add_class(self.find_button.get_style_context(), 'suggested-action')
 
