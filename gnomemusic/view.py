@@ -1146,9 +1146,8 @@ class Playlist(ViewContainer):
         # use it as model, otherwise build the liststore
         self.model = self.view.get_model()
         self.model.clear()
-        GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
         self.songs_count = 0
-        GLib.idle_add(self._update_songs_count)
+        GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
 
         # disable delete button if current playlist is a smart playlist
         if self.current_playlist_is_protected():
@@ -1163,6 +1162,9 @@ class Playlist(ViewContainer):
     @log
     def _add_item_to_model(self, item, model):
         if not item:
+            self._update_songs_count()
+            if self.player.playlist:
+                self.player._validate_next_track()
             self.emit('playlist-songs-loaded')
             return
         self._offset += 1
@@ -1176,7 +1178,6 @@ class Playlist(ViewContainer):
             [2, 3, 5, 9],
             [title, artist, item, bool(item.get_lyrics())])
         self.songs_count += 1
-        self._update_songs_count()
 
     @log
     def _update_songs_count(self):
