@@ -583,19 +583,14 @@ class Artists (ViewContainer):
         )
         self.artistAlbumsStack.add_named(self._artistAlbumsWidget, "sidebar")
         self.artistAlbumsStack.set_visible_child_name("sidebar")
+        self.view.set_shadow_type(Gtk.ShadowType.IN)
+        self.view.get_style_context().add_class('side-panel')
         self.view.set_hexpand(False)
         self.view.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
         self._grid.attach(self.artistAlbumsStack, 2, 0, 2, 2)
         self._add_list_renderers()
         self.view.get_generic_view().get_style_context().remove_class('content-view')
-        if (Gtk.Settings.get_default().get_property(
-                'gtk_application_prefer_dark_theme')):
-            self.view.get_generic_view().get_style_context().\
-                add_class('artist-panel-dark')
-        else:
-            self.view.get_generic_view().get_style_context().\
-                add_class('artist-panel-white')
         self.show_all()
         self.view.hide()
 
@@ -788,9 +783,7 @@ class Playlist(ViewContainer):
 
     @log
     def __init__(self, window, player):
-        self.playlists_sidebar = Gd.MainView(
-            shadow_type=Gtk.ShadowType.NONE
-        )
+        self.playlists_sidebar = Gd.MainView()
 
         ViewContainer.__init__(self, 'playlists', _("Playlists"), window,
                                Gd.MainViewType.LIST, True, self.playlists_sidebar)
@@ -832,7 +825,7 @@ class Playlist(ViewContainer):
         self.playlists_sidebar.set_view_type(Gd.MainViewType.LIST)
         self.playlists_sidebar.set_model(self.playlists_model)
         self.playlists_sidebar.set_hexpand(False)
-        #self.playlists_sidebar.get_style_context().add_class('artist-panel')
+        self.playlists_sidebar.get_style_context().add_class('side-panel')
         self.playlists_sidebar.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
         self.playlists_sidebar.connect('item-activated', self._on_playlist_activated)
@@ -841,13 +834,6 @@ class Playlist(ViewContainer):
         self._grid.child_set_property(self.stack, 'height', 2)
         self._add_sidebar_renderers()
         self.playlists_sidebar.get_generic_view().get_style_context().remove_class('content-view')
-        if (Gtk.Settings.get_default().get_property(
-                'gtk_application_prefer_dark_theme')):
-            self.playlists_sidebar.get_generic_view().get_style_context().\
-                add_class("artist-panel-dark")
-        else:
-            self.playlists_sidebar.get_generic_view().get_style_context().\
-                add_class("artist-panel-white")
 
         self.iter_to_clean = None
         self.iter_to_clean_model = None
