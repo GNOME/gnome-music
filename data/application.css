@@ -30,19 +30,29 @@ GtkTreeView{
 .title{
     padding-left:24px;
 }
-.artist-panel-white{
-    border-right: 1px solid #a1a1a1;
-    background-color: #d7dad7;
+
+.side-panel:dir(ltr) {
+    border-width: 0 1px 0 0;
 }
-.artist-panel-white:selected{
-    background-color: #888A85;
+
+.side-panel:dir(rtl) {
+    border-width: 0 0 0 1px;
 }
-.artist-panel-dark{
-    border-right: 1px solid #a1a1a1;
-    background-color: #282528;
+
+.side-panel .view {
+    background-color: mix(@theme_fg_color, @theme_bg_color, 0.9);
 }
-.artist-panel-dark:selected{
-    background-color: #77757A;
+
+.side-panel .view:dir(ltr) {
+    box-shadow: inset -10px 0 5px -10px @borders;
+}
+
+.side-panel .view:dir(rtl) {
+    box-shadow: inset 10px 0 5px -10px @borders;
+}
+
+.side-panel .view:selected {
+    background-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
 }
 
 .playlist-controls-white{
