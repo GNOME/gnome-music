@@ -1,3 +1,18 @@
+Overview of changes in 3.16.2
+=============================
+
+* Bug fix release
+* Performance improvements
+
+Bugs fixed:
+ 749981 Tracks outside Music and Downloads are displayed in playlists
+ 750686 Improve the logging code
+ 749307 Gnome-music Crashes When Selecting A Song From Search
+ 744658 Playlists sidebar - border is cut off
+ 753488 Clicking on artist on search results does nothing
+
+Translations updated
+
 Overview of changes in 3.16.1
 =============================
 
