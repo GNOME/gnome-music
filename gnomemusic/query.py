@@ -27,6 +27,7 @@
 
 from gettext import gettext as _
 from gi.repository import GLib, Tracker
+from gnomemusic import log
 import os
 import logging
 logger = logging.getLogger(__name__)
@@ -37,31 +38,35 @@ SECONDS_PER_DAY = 86400
 
 
 class Query():
+
     music_folder = None
     MUSIC_URI = None
     download_folder = None
     DOWNLOAD_URI = None
-    try:
-        music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-    except TypeError:
-        logger.warn("XDG Music dir is not set")
-        return
 
-    try:
-        download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
-    except TypeError:
-        logger.warn("XDG Download dir is not set")
-        return
+    @log
+    def __init__(self):
+        try:
+            Query.music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+        except TypeError:
+            logger.warn("XDG Music dir is not set")
+            return
 
-    MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
-    DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
+        try:
+            Query.download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+        except TypeError:
+            logger.warn("XDG Download dir is not set")
+            return
 
-    for folder in [music_folder, download_folder]:
-        if os.path.islink(folder):
-            logger.warn("%s is a symlink, this folder will be omitted", folder)
-        else:
-            i = len(next(os.walk(folder))[2])
-            logger.debug("Found %d files in %s", i, folder)
+        Query.MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(Query.music_folder))
+        Query.DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(Query.download_folder))
+
+        for folder in [Query.music_folder, Query.download_folder]:
+            if os.path.islink(folder):
+                logger.warn("%s is a symlink, this folder will be omitted", folder)
+            else:
+                i = len(next(os.walk(folder))[2])
+                logger.debug("Found %d files in %s", i, folder)
 
     def __repr__(self):
         return '<Query>'

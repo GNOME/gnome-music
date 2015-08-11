@@ -202,6 +202,7 @@ class Window(Gtk.ApplicationWindow):
         count = 0
         cursor = None
 
+        Query()
         if Query.music_folder and Query.download_folder:
             try:
                 cursor = tracker.query(Query.all_songs_count(), None)
