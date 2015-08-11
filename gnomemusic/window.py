@@ -69,6 +69,7 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(selectNone)
         self.set_size_request(200, 100)
         self.set_icon_name('gnome-music')
+        self.notification_handler = None
 
         self.prev_view = None
         self.curr_view = None
@@ -321,8 +322,11 @@ class Window(Gtk.ApplicationWindow):
         label = Gtk.Label.new(_("Loading"))
         grid.add(label)
         self.notification.add(grid)
-        self.notification.show_all()
-        GLib.timeout_add(1000, self._overlay.add_overlay, self.notification)
+        self._overlay.add_overlay(self.notification)
+        if self.notification_handler:
+            GLib.Source.remove(self.notification_handler)
+            self.notification_handler = None
+        self.notification_handler = GLib.timeout_add(1000, self.notification.show_all)
 
     @log
     def _init_playlist_removal_notification(self):
