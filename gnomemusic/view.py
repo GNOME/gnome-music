@@ -1408,6 +1408,7 @@ class Search(ViewContainer):
                 self.header_bar, self.selection_toolbar, self.window, True
             )
             self.add(self._artistAlbumsWidget)
+            self._artistAlbumsWidget.show()
 
             self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
             self.header_bar.header_bar.set_title(artist)
