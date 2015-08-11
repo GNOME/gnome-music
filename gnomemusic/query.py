@@ -43,18 +43,25 @@ class Query():
     DOWNLOAD_URI = None
     try:
         music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-        MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
-        download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
-        DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
-
-        for folder in [music_folder, download_folder]:
-            if os.path.islink(folder):
-                logger.warn("%s is a symlink, this folder will be omitted", folder)
-            else:
-                i = len(next(os.walk(folder))[2])
-                logger.debug("Found %d files in %s", i, folder)
     except TypeError:
-        logger.warn("XDG user dirs are not set")
+        logger.warn("XDG Music dir is not set")
+        return
+
+    try:
+        download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+    except TypeError:
+        logger.warn("XDG Download dir is not set")
+        return
+
+    MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(music_folder))
+    DOWNLOAD_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(download_folder))
+
+    for folder in [music_folder, download_folder]:
+        if os.path.islink(folder):
+            logger.warn("%s is a symlink, this folder will be omitted", folder)
+        else:
+            i = len(next(os.walk(folder))[2])
+            logger.debug("Found %d files in %s", i, folder)
 
     def __repr__(self):
         return '<Query>'
