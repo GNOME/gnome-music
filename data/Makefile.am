@@ -63,11 +63,11 @@ update-icon-cache:
 		echo "Updating Gtk hicolor icon cache."; \
 		$(gtk_update_hicolor_icon_cache); \
 		echo "Updating Gtk highcontrast icon cache."; \
-		$(gtk_update_hicolor_icon_cache); \
+		$(gtk_update_hicontrast_icon_cache); \
 	else \
 		echo "*** Icon cache not updated.  After (un)install, run this:"; \
 		echo "***   $(gtk_update_hicolor_icon_cache)"; \
-		echo "***   $(gtk_update_hicolor_icon_cache)"; \
+		echo "***   $(gtk_update_hicontrast_icon_cache)"; \
 	fi
 
 
