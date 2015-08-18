@@ -134,7 +134,7 @@ class AlbumArtCache(GObject.GObject):
             item.start()
             item.join(30)
         except Exception as e:
-            logger.warn("worker item %s: error %s",  item, str(e))
+            logger.warn("worker item %s: error %s", item, str(e))
 
     @log
     def __init__(self):
@@ -219,7 +219,7 @@ class AlbumArtCache(GObject.GObject):
 
             t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
             THREAD_QUEUE.append(t)
-            self.emit('thread-added', len(THREAD_QUEUE)-1)
+            self.emit('thread-added', len(THREAD_QUEUE) - 1)
         except Exception as e:
             logger.warn("Error: %s, %s", e.__class__, e)
 
@@ -277,7 +277,7 @@ class AlbumArtCache(GObject.GObject):
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
             THREAD_QUEUE.append(t)
-            self.emit('thread-added', len(THREAD_QUEUE)-1)
+            self.emit('thread-added', len(THREAD_QUEUE) - 1)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
@@ -297,7 +297,7 @@ class AlbumArtCache(GObject.GObject):
 
             t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
             THREAD_QUEUE.append(t)
-            self.emit('thread-added', len(THREAD_QUEUE)-1)
+            self.emit('thread-added', len(THREAD_QUEUE) - 1)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
