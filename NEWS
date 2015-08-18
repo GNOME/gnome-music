@@ -1,3 +1,19 @@
+Overview of changes in 3.17.90
+=============================
+
+Bugs fixed:
+ 744658 Playlists sidebar - border is cut off
+ 753488 Clicking on artist on search results does nothing
+
+Translations updated:
+ Brazilian Portuguese
+ Czech
+ Fix Portuguese desktop keywords
+ Friulian
+ Norwegian bokmål
+ Turkish
+
+
 Overview of changes in 3.17.4
 =============================
 
