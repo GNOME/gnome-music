@@ -48,13 +48,15 @@ class Query():
     def __init__(self):
         try:
             Query.music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-        except TypeError:
+            assert Query.music_folder is not None
+        except (TypeError, AssertionError):
             logger.warn("XDG Music dir is not set")
             return
 
         try:
             Query.download_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
-        except TypeError:
+            assert Query.download_folder is not None
+        except (TypeError, AssertionError):
             logger.warn("XDG Download dir is not set")
             return
 
