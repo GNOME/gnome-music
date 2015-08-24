@@ -322,6 +322,7 @@ class Albums(ViewContainer):
     @log
     def _on_changes_pending(self, data=None):
         if (self._init and self.header_bar._selectionMode is False):
+            self.model.clear()
             self._offset = 0
             self._init = True
             self.populate()
