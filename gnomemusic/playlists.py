@@ -47,38 +47,41 @@ class StaticPlaylists:
 
     class MostPlayed:
         ID = None
-        QUERY = Query.get_most_played_songs()
         TAG_TEXT = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Most Played")
 
     class NeverPlayed:
         ID = None
-        QUERY = Query.get_never_played_songs()
         TAG_TEXT = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Never Played")
 
     class RecentlyPlayed:
         ID = None
-        QUERY = Query.get_recently_played_songs()
         TAG_TEXT = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Played")
 
     class RecentlyAdded:
         ID = None
-        QUERY = Query.get_recently_added_songs()
         TAG_TEXT = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Added")
 
     class Favorites:
         ID = None
-        QUERY = Query.get_favorite_songs()
         TAG_TEXT = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Favorite Songs")
+
+    def __init__(self):
+        Query()
+        self.MostPlayed.QUERY = Query.get_most_played_songs()
+        self.NeverPlayed.QUERY = Query.get_never_played_songs()
+        self.RecentlyPlayed.QUERY = Query.get_recently_played_songs()
+        self.RecentlyAdded.QUERY = Query.get_recently_added_songs()
+        self.Favorites.QUERY = Query.get_favorite_songs()
 
     @classmethod
     def get_protected_ids(self):
@@ -116,6 +119,7 @@ class Playlists(GObject.GObject):
     def __init__(self):
         GObject.GObject.__init__(self)
         self.tracker = TrackerWrapper().tracker
+        StaticPlaylists()
 
     @log
     def fetch_or_create_static_playlists(self):
