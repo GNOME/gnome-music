@@ -407,7 +407,7 @@ msgstr ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -502,60 +502,4 @@ msgstr "Nome da lista de reprodución"
 msgid "Select Playlist"
 msgstr "Seleccionar lista de reprodución"
 
-#~ msgid "_New Playlist"
-#~ msgstr "Lista de reprodución _nova"
 
-#~ msgid ""
-#~ "No Music found!\n"
-#~ " Put some files into the folder %s"
-#~ msgstr ""
-#~ "Non se atopou música!\n"
-#~ " Poña algúns ficheiros no cartafol %s"
-
-#~ msgid "Load More"
-#~ msgstr "Cargar máis"
-
-#~ msgid "Now _Playing"
-#~ msgstr "Reproducindo _agora"
-
-#~ msgid "----"
-#~ msgstr "----"
-
-#~ msgid "--:--"
-#~ msgstr "--:--"
-
-#, fuzzy
-#~ msgid "0:00"
-#~ msgstr "00:00"
-
-#~ msgid "/"
-#~ msgstr "/"
-
-#~ msgid "Shuffle playback"
-#~ msgstr "Desordenar lista de reprodución"
-
-#~ msgid "If true, do randomized playback through the collection"
-#~ msgstr "Se é verdadeiro, a reprodución será aleatoria a través da colección"
-
-#~ msgid "New"
-#~ msgstr "Nova"
-
-#~ msgid "Quit"
-#~ msgstr "Saír"
-
-#~ msgid "translator-credits"
-#~ msgstr "Fran Dieguez <frandieguez@gnome.org>, 2012-2013"
-
-#~ msgid "A GNOME 3 application to listen and manage music playlists"
-#~ msgstr ""
-#~ "Un aplicativo de GNOME 3 para escoitar e xestionar listas de reprodución "
-#~ "de música"
-
-#~ msgid "Collection name"
-#~ msgstr "Nome da colección"
-
-#~ msgid "%02u:%02u:%02u"
-#~ msgstr "%02u:%02u:%02u"
-
-#~ msgid "%02u:%02u"
-#~ msgstr "%02u:%02u"
