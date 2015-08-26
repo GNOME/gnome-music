@@ -406,6 +406,8 @@ class Player(GObject.GObject):
         first_iter = self.playlist.get_iter_first()
         if not currentTrack:
             currentTrack = first_iter
+        if not currentTrack:
+            return None
         if hasattr(self.playlist, "iter_is_valid") and\
            not self.playlist.iter_is_valid(currentTrack):
             return None
