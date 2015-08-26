@@ -212,6 +212,14 @@ class ViewContainer(Gtk.Stack):
                 self.window.notification.dismiss()
                 self.view.show()
             return
+        # Make sure the item with this ID is not added
+        _iter = self.model.get_iter_first()
+        while _iter:
+            item_id = self.model.get_value(_iter, 0)
+            if str(item_id) == item.get_id():
+                return
+            _iter = self.model.iter_next(_iter)
+
         self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
             or item.get_author()\
@@ -324,7 +332,7 @@ class Albums(ViewContainer):
         if (self._init and self.header_bar._selectionMode is False):
             self._offset = 0
             self._init = True
-            self.populate()
+            GLib.idle_add(self.populate)
             grilo.changes_pending['Albums'] = False
 
     @log
@@ -422,7 +430,7 @@ class Songs(ViewContainer):
         if (self._init and self.header_bar._selectionMode is False):
             self.model.clear()
             self._offset = 0
-            self.populate()
+            GLib.idle_add(self.populate)
             grilo.changes_pending['Songs'] = False
 
     @log
@@ -641,7 +649,7 @@ class Artists (ViewContainer):
             self.model.clear()
             self._artists.clear()
             self._offset = 0
-            self._populate()
+            GLib.idle_add(self._populate)
             grilo.changes_pending['Artists'] = False
 
     @log
