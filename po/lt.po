@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-02-28 15:55+0000\n"
-"PO-Revision-Date: 2015-02-28 18:14+0200\n"
+"POT-Creation-Date: 2015-09-03 07:29+0000\n"
+"PO-Revision-Date: 2015-09-03 15:17+0300\n"
 "Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -97,8 +97,16 @@ msgstr "Įjungti ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Įjungia arba išjungia ReplayGain albumams"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Pradinė būsena buvo parodyta"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Nustatyti teigiamai kai pradinė būsena buvo parodyta"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:118 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzika"
@@ -112,7 +120,6 @@ msgid "Play and organize your music collection"
 msgstr "Groti ir tvarkyti muzikos kolekciją"
 
 #: ../data/gnome-music.desktop.in.h:4
-#| msgid "Music Player"
 msgid "Music;Player;"
 msgstr "Muzika;Grotuvas;"
 
@@ -124,65 +131,94 @@ msgstr "GNOME muzika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Muzika yra nauja GNOME muzikos grojimo programa."
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
 msgid "Untitled"
 msgstr "Nepavadinta"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:454 ../gnomemusic/view.py:512
-#: ../gnomemusic/view.py:939 ../gnomemusic/view.py:1391
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
+#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:582
+#: ../gnomemusic/view.py:993 ../gnomemusic/view.py:1455
 msgid "Unknown Album"
 msgstr "Nežinomas albumas"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:445 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:432 ../gnomemusic/view.py:684
-#: ../gnomemusic/view.py:1134 ../gnomemusic/view.py:1389
-#: ../gnomemusic/view.py:1424 ../gnomemusic/widgets.py:234
-#: ../gnomemusic/widgets.py:638
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
+#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226
+#: ../gnomemusic/view.py:482 ../gnomemusic/view.py:737
+#: ../gnomemusic/view.py:1167 ../gnomemusic/view.py:1453
+#: ../gnomemusic/view.py:1505 ../gnomemusic/widgets.py:242
+#: ../gnomemusic/widgets.py:654
 msgid "Unknown Artist"
 msgstr "Nežinomas atlikėjas"
 
-#: ../gnomemusic/notification.py:89
+#: ../gnomemusic/notification.py:93
 msgid "Not playing"
 msgstr "Negroja"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
+#: ../gnomemusic/notification.py:108
 #, python-format
 msgid "by %s, from %s"
 msgstr "atlieka %s iš albumo %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Ankstesnė"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:402
+#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pristabdyti"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:405
+#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Groti"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Kita"
 
+#: ../gnomemusic/player.py:1090
+msgid "Unable to play the file"
+msgstr "Nepavyksta groti failo"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1095
+#, python-format
+msgid "_Find in %s"
+msgstr "_Rasti %s"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid " and "
+msgstr " ir "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1108
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:1109
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "Failui pagroti reikalingas %s, bet jis neįdiegtas."
+msgstr[1] "Failui pagroti reikalingi %s, bet jie neįdiegti."
+msgstr[2] "Failui pagroti reikalingi %s, bet jie neįdiegti."
+
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
-#| msgid "Music Player"
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "Dažniausiai grojama"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "Niekada negrota"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "Neseniai grota"
 
@@ -192,7 +228,7 @@ msgid "Recently Added"
 msgstr "Neseniai pridėta"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "Mėgiama daina"
 
@@ -200,40 +236,40 @@ msgstr "Mėgiama daina"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#: ../gnomemusic/query.py:86
 msgid "the a an"
 msgstr "the"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:108
 msgid "All"
 msgstr "Visi"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Atlikėjai"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Albumai"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Takelio pavadinimas"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:109
 msgid "Local"
 msgstr "Vietinis"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:219
 msgid "Sources"
 msgstr "Šaltiniai"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:226
 msgid "Match"
 msgstr "Atitikmuo"
 
-#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:275
-#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:288
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:274
+#: ../gnomemusic/widgets.py:525 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -241,34 +277,38 @@ msgstr[0] "Pasirinktas %d elementas"
 msgstr[1] "Pasirinkti %d elementai"
 msgstr[2] "Pasirinkta %d elementų"
 
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:277
-#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:292
-#: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:276
+#: ../gnomemusic/widgets.py:527 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Spauskite ant elementų jiems pažymėti"
 
-#: ../gnomemusic/view.py:278 ../gnomemusic/view.py:1647
+#: ../gnomemusic/view.py:286
+#| msgid "Music Player"
+msgid "Music folder"
+msgstr "Muzikos aplankas"
+
+#: ../gnomemusic/view.py:309
+msgid "Hey DJ"
+msgstr "Sveikas, DJ"
+
+#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1729
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../gnomemusic/view.py:369 ../gnomemusic/view.py:1649
+#: ../gnomemusic/view.py:416 ../gnomemusic/view.py:1731
 msgid "Songs"
 msgstr "Dainos"
 
-#: ../gnomemusic/view.py:544 ../gnomemusic/view.py:1648
+#: ../gnomemusic/view.py:618 ../gnomemusic/view.py:1730
 msgid "Artists"
 msgstr "Atlikėjai"
 
-#: ../gnomemusic/view.py:590 ../gnomemusic/view.py:592
-#: ../gnomemusic/widgets.py:524
-msgid "All Artists"
-msgstr "Visi atlikėjai"
-
-#: ../gnomemusic/view.py:769 ../gnomemusic/view.py:1650
+#: ../gnomemusic/view.py:821 ../gnomemusic/view.py:1732
 msgid "Playlists"
 msgstr "Grojaraščiai"
 
-#: ../gnomemusic/view.py:1145
+#: ../gnomemusic/view.py:1177
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -276,30 +316,37 @@ msgstr[0] "%d daina"
 msgstr[1] "%d dainos"
 msgstr[2] "%d dainų"
 
-#: ../gnomemusic/widgets.py:316 ../gnomemusic/widgets.py:350
+#: ../gnomemusic/view.py:1318
+msgid "Try a different search"
+msgstr "Bandykite kitą paiešką"
+
+#: ../gnomemusic/widgets.py:315 ../gnomemusic/widgets.py:349
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:762
+#: ../gnomemusic/widgets.py:537
+msgid "All Artists"
+msgstr "Visi atlikėjai"
+
+#: ../gnomemusic/widgets.py:782
 msgid "New Playlist"
 msgstr "Naujas grojaraštis"
 
-#: ../gnomemusic/window.py:236
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "Tuščia"
 
-#: ../gnomemusic/window.py:315
+#: ../gnomemusic/window.py:332
 msgid "Loading"
 msgstr "Įkeliama"
 
-#: ../gnomemusic/window.py:330
+#: ../gnomemusic/window.py:350
 msgid "_Undo"
 msgstr "_Atšaukti"
 
-#: ../gnomemusic/window.py:331
+#: ../gnomemusic/window.py:351
 #, python-format
-#| msgid "Playlist Name"
 msgid "Playlist %s removed"
 msgstr "Grojaraštis %s pašalintas"
 
@@ -316,6 +363,28 @@ msgid "Visit GNOME Music website"
 msgstr "Apsilankykite GNOME Music tinklapyje"
 
 #: ../data/AboutDialog.ui.in.h:5
+#| msgid ""
+#| "GNOME Music is free software; you can redistribute it and/or modify it "
+#| "under the terms of the GNU General Public License as published by the "
+#| "Free Software Foundation; either version 2 of the License, or (at your "
+#| "option) any later version.\n"
+#| "\n"
+#| "GNOME Music is distributed in the hope that it will be useful, but "
+#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#| "Public License for more details.\n"
+#| "\n"
+#| "You should have received a copy of the GNU General Public License along "
+#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#| "\n"
+#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#| "GStreamer plugins to be used and distributed together with GStreamer and "
+#| "GNOME Music.  This permission is above and beyond the permissions granted "
+#| "by the GPL license by which GNOME Music is covered.  If you modify this "
+#| "code, you may extend this exception to your version of the code, but you "
+#| "are not obligated to do so.  If you do not wish to do so, delete this "
+#| "exception statement from your version."
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -337,7 +406,10 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "GNOME Music yra laisva programinė įranga; galite ją platinti ir(arba) keisti "
 "pagal GNU bendrosios viešos licencijos (GPL) sąlygas, kaip jas pateikia Free "
@@ -357,7 +429,10 @@ msgstr ""
 "yra aukščiau ir plačiau GPL licencijos teikiamų leidimų leidimų, kurie "
 "galioja GNOME Music.  Jei pakeisite šį kodą, galite šią išimtį pritaikyti "
 "savo kodo versijai, bet neprivalote to daryti.  Jei nepageidaujate, "
-"ištrinkite šį punktą iš savo versijos."
+"ištrinkite šį punktą iš savo versijos.\n"
+"\n"
+"Sami Pyylampi „Magic of the vinyl“ paveikslėlis platinas pagal CC-BY-SA 2.0 "
+"licenciją https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -396,13 +471,14 @@ msgid "Shuffle/Repeat Off"
 msgstr "Maišyti/nekartoti"
 
 #: ../data/NoMusic.ui.h:1
-#| msgid "No Music Found"
 msgid "No music found"
 msgstr "Nerasta muzikos"
 
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "Čia matysite muzikos aplanko turinį"
+#: ../data/NoMusic.ui.h:3
+#, no-c-format
+#| msgid "The contents of your music folder will appear here."
+msgid "The contents of your %s will appear here."
+msgstr "Čia matysite savo %s aplanko turinį"
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
