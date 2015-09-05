@@ -84,7 +84,7 @@ class ViewContainer(Gtk.Stack):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
@@ -850,7 +850,7 @@ class Playlist(ViewContainer):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
@@ -1516,7 +1516,7 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._loadingIcon, item, False, category])
+                 self._loadingIcon, item, 2, category])
             self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                               _iter, artist, title)
         elif category == 'song':
@@ -1524,14 +1524,14 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._noAlbumArtIcon, item, bool(item.get_lyrics()), category])
+                 self._noAlbumArtIcon, item, 2 if source.get_id() != 'grl-tracker-source' else bool(item.get_lyrics()), category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
                     self.head_iters[group], -1,
                     [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist,
-                     self._loadingIcon, item, False, category])
+                     self._loadingIcon, item, 2, category])
                 self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                                   _iter, artist, title)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
@@ -1559,7 +1559,7 @@ class Search(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self.star_handler._add_star_renderers(list_widget, cols, hidden=True)
+        self.star_handler._add_star_renderers(list_widget, cols, hidden=False)
 
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
@@ -1711,7 +1711,7 @@ class Search(ViewContainer):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_STRING,    # type
             GObject.TYPE_INT
@@ -1726,10 +1726,10 @@ class Search(ViewContainer):
         if search_term == "":
             return
 
-        albums_iter = self.model.insert_with_values(None, -1, [2], [_("Albums")])
-        artists_iter = self.model.insert_with_values(None, -1, [2], [_("Artists")])
-        songs_iter = self.model.insert_with_values(None, -1, [2], [_("Songs")])
-        playlists_iter = self.model.insert_with_values(None, -1, [2], [_("Playlists")])
+        albums_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Albums"), 2])
+        artists_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Artists"), 2])
+        songs_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Songs"), 2])
+        playlists_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Playlists"), 2])
 
         self.head_iters = [albums_iter, artists_iter, songs_iter, playlists_iter]
         self.songs_model = self.model.filter_new(self.model.get_path(songs_iter))

@@ -82,6 +82,12 @@ class StarHandler():
         except TypeError:
             return
 
+        try:
+            if self.parent.model.get_value(_iter, 9) == 2:
+                return
+        except AttributeError:
+            return
+
         new_value = not self.parent.model.get_value(_iter, self.star_index)
         self.parent.model.set_value(_iter, self.star_index, new_value)
         song_item = self.parent.model.get_value(_iter, 5)
@@ -227,7 +233,7 @@ class AlbumWidget(Gtk.EventBox):
             GObject.TYPE_BOOLEAN,  # item selected
             GObject.TYPE_STRING,
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_BOOLEAN,  # icon shown
+            GObject.TYPE_INT,  # icon shown
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
@@ -848,7 +854,7 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
     __gsignals__ = {'clicked': (GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE,
                                 (GObject.TYPE_STRING,))}
     __gproperties__ = {
-        'show_star': (GObject.TYPE_BOOLEAN, 'Show star', 'show star', False, GObject.PARAM_READWRITE)}
+        'show_star': (GObject.TYPE_INT, 'Show star', 'show star',0 ,2 ,1 , GObject.PARAM_READWRITE)}
 
     starIcon = 'starred-symbolic'
     nonStarIcon = 'non-starred-symbolic'
@@ -860,13 +866,13 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
         Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)
         self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
         self.set_property('xpad', 32)
-        self.set_property('icon_name', self.nonStarIcon)
+        self.set_property('icon_name', '')
         self.view = view
         self.hidden = hidden
-        self.show_star = False
+        self.show_star = 0
 
     def do_activate(self, event, widget, path, background_area, cell_area, flags):
-        self.show_star = False
+        self.show_star = 0
         self.emit('clicked', path)
 
     def do_get_property(self, property):
@@ -875,11 +881,10 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
 
     def do_set_property(self, property, value):
         if property.name == 'show-star':
-            if self.show_star:
+            if self.show_star == 1:
                 self.set_property('icon_name', self.starIcon)
+            elif self.show_star == 0:
+	            self.set_property('icon_name', self.nonStarIcon)
             else:
-                if not self.hidden:
-                    self.set_property('icon_name', self.nonStarIcon)
-                else:
-                    self.set_property('icon_name', '')
+                self.set_property('icon_name', '')
             self.show_star = value
