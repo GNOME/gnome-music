@@ -1038,6 +1038,7 @@ class Query():
 
         return query
 
+    @staticmethod
     def get_recently_played_songs():
             #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
             #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
@@ -1073,6 +1074,7 @@ class Query():
 
             return query
 
+    @staticmethod
     def get_recently_added_songs():
         #TODO: or this could take comparison date as an argument so we don't need to make a date string in query.py...
         #TODO: set time interval somewhere? A settings file? (Default is maybe 2 weeks...?)
@@ -1108,6 +1110,7 @@ class Query():
 
         return query
 
+    @staticmethod
     def get_favorite_songs():
         query = """
     SELECT ?url
@@ -1395,6 +1398,7 @@ class Query():
 
         return query
 
+    @staticmethod
     def add_favorite(song_url):
         query = """
             INSERT {
@@ -1411,6 +1415,7 @@ class Query():
 
         return query
 
+    @staticmethod
     def remove_favorite(song_url):
         query = """
             DELETE {

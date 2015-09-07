@@ -83,8 +83,8 @@ class StaticPlaylists:
         self.RecentlyAdded.QUERY = Query.get_recently_added_songs()
         self.Favorites.QUERY = Query.get_favorite_songs()
 
-    @classmethod
-    def get_protected_ids(self):
+    @staticmethod
+    def get_protected_ids():
         return [str(cls.ID) for name, cls in inspect.getmembers(StaticPlaylists)
                 if inspect.isclass(cls) and not (name == "__class__")]
 
@@ -108,12 +108,12 @@ class Playlists(GObject.GObject):
         return '<Playlists>'
 
     @classmethod
-    def get_default(self, tracker=None):
-        if self.instance:
-            return self.instance
+    def get_default(cls, tracker=None):
+        if cls.instance:
+            return cls.instance
         else:
-            self.instance = Playlists()
-        return self.instance
+            cls.instance = Playlists()
+        return cls.instance
 
     @log
     def __init__(self):

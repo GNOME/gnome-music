@@ -97,13 +97,13 @@ class AlbumArtCache(GObject.GObject):
     }
 
     @classmethod
-    def get_default(self):
-        if not self.instance:
-            self.instance = AlbumArtCache()
-        return self.instance
+    def get_default(cls):
+        if not cls.instance:
+            cls.instance = AlbumArtCache()
+        return cls.instance
 
-    @classmethod
-    def get_media_title(self, media, escaped=False):
+    @staticmethod
+    def get_media_title(media, escaped=False):
         title = media.get_title()
         if title:
             if escaped:
