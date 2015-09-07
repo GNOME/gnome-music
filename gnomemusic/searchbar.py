@@ -81,7 +81,8 @@ class BaseManager:
 
             # If selected values has first entry then it is a default value
             # No need to set the tag there
-            if selected_value[BaseModelColumns.ID] != self.values[1][BaseModelColumns.ID]:
+            if (selected_value[BaseModelColumns.ID] != 'search_all' and
+                    selected_value[BaseModelColumns.ID] != 'grl-tracker-source'):
                 self.entry.add_tag(self.tag)
                 self.tag.set_label(selected_value[BaseModelColumns.NAME])
             else:
@@ -105,6 +106,8 @@ class SourceManager(BaseManager):
     def fill_in_values(self, model):
         self.model = model
         super(SourceManager, self).fill_in_values(model)
+
+        super(SourceManager, self).set_active('grl-tracker-source')
 
     @log
     def add_new_source(self, klass, source):
