@@ -425,7 +425,7 @@ class Window(Gtk.ApplicationWindow):
         self.curr_view = stack.get_visible_child()
 
         # Switch to all albums view when we're clicking Albums
-        if self.curr_view == self.views[0]:
+        if self.curr_view == self.views[0] and not (self.prev_view == self.views[4] or self.prev_view == self.views[5]):
             self.curr_view.set_visible_child(self.curr_view._grid)
 
         # Slide out sidebar on switching to Artists or Playlists view
@@ -451,10 +451,14 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.searchbar.show_bar(button.get_active(),
                                         self.curr_view != self.views[4])
         if (not button.get_active() and
-                (self.curr_view == self.views[4] or self.curr_view == self.views[5]) and
-                self.toolbar._state == ToolbarState.MAIN):
-            # We should get back to the view before the search
-            self._stack.set_visible_child(self.views[4].previous_view)
+                (self.curr_view == self.views[4] or self.curr_view == self.views[5])):
+            if self.toolbar._state == ToolbarState.MAIN:
+                # We should get back to the view before the search
+                self._stack.set_visible_child(self.views[4].previous_view)
+            elif (self.views[4].previous_view == self.views[0] and
+                 self.curr_view.get_visible_child() != self.curr_view._albumWidget):
+                self._stack.set_visible_child(self.views[0])
+
             if self.toolbar._selectionMode:
                 self.toolbar.set_selection_mode(False)
 

@@ -82,6 +82,7 @@ class Toolbar(GObject.GObject):
             self.header_bar.pack_end(self._cancel_button)
             self.header_bar.pack_end(self._search_button)
         self._back_button.connect('clicked', self.on_back_button_clicked)
+        self._window = self.header_bar.get_parent()
 
     @log
     def reset_header_title(self):
@@ -129,9 +130,20 @@ class Toolbar(GObject.GObject):
 
     @log
     def on_back_button_clicked(self, widget):
+        self._window = self.header_bar.get_parent()
+        visible_child = self._window.curr_view.get_visible_child()
+
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
-        self.set_state(ToolbarState.MAIN)
+
+        if not ((self._window.curr_view == self._window.views[4] or
+                 self._window.curr_view == self._window.views[5]) and
+                 visible_child != self._window.curr_view._grid):
+            self.set_state(ToolbarState.MAIN)
+        else:
+            self._window.views[0].update_title()
+            self._search_button.set_visible(True)
+
 
     @log
     def set_state(self, state, btn=None):

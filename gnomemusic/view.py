@@ -355,15 +355,20 @@ class Albums(ViewContainer):
         except TypeError:
             return
         title = self.model.get_value(_iter, 2)
-        artist = self.model.get_value(_iter, 3)
+        self._artist = self.model.get_value(_iter, 3)
         item = self.model.get_value(_iter, 5)
-        self._albumWidget.update(artist, title, item,
+        self._albumWidget.update(self._artist, title, item,
                                  self.header_bar, self.selection_toolbar)
         self.header_bar.set_state(ToolbarState.CHILD_VIEW)
-        escaped_title = albumArtCache.get_media_title(item)
-        self.header_bar.header_bar.set_title(escaped_title)
-        self.header_bar.header_bar.sub_title = artist
+        self._escaped_title = albumArtCache.get_media_title(item)
+        self.header_bar.header_bar.set_title(self._escaped_title)
+        self.header_bar.header_bar.sub_title = self._artist
         self.set_visible_child(self._albumWidget)
+
+    @log
+    def update_title(self):
+        self.header_bar.header_bar.set_title(self._escaped_title)
+        self.header_bar.header_bar.sub_title = self._artist
 
     @log
     def populate(self):
@@ -1308,6 +1313,7 @@ class EmptySearch(ViewContainer):
     def __init__(self, window, player):
         ViewContainer.__init__(self, 'emptysearch', None, window, Gd.MainViewType.LIST)
         self._artistAlbumsWidget = None
+        self._albumWidget = None
         self.player = player
 
         builder = Gtk.Builder()
@@ -1325,6 +1331,9 @@ class EmptySearch(ViewContainer):
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.destroy()
             self._artistAlbumsWidget = None
+        elif self.get_visible_child() == self._grid:
+            self.window.views[0].set_visible_child(self.window.views[0]._grid)
+            self.window.toolbar.set_state(ToolbarState.CHILD_VIEW)
         self.set_visible_child(self._grid)
 
 
@@ -1382,7 +1391,11 @@ class Search(ViewContainer):
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.destroy()
             self._artistAlbumsWidget = None
+        elif self.get_visible_child() == self._grid:
+            self.window.views[0].set_visible_child(self.window.views[0]._grid)
+            self.window.toolbar.set_state(ToolbarState.CHILD_VIEW)
         self.set_visible_child(self._grid)
+
 
     @log
     def _on_item_activated(self, widget, id, path):
