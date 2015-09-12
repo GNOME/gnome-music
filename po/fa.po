@@ -2,7 +2,7 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # royaniva <royaniva@outlook.com >, 2013.
-# Arash Mousavi <mousavi.arash@gmail.com>, 2013, 2014.
+# Arash Mousavi <mousavi.arash@gmail.com>, 2013, 2014, 2015.
 # Danial Behzadi <dani.behzi@ubuntu.com>, 2014.
 #
 msgid ""
@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-03 12:35+0000\n"
-"PO-Revision-Date: 2014-10-10 11:26+0330\n"
+"POT-Creation-Date: 2015-09-12 07:34+0000\n"
+"PO-Revision-Date: 2015-09-13 02:12+0430\n"
 "Last-Translator: Arash Mousavi <mousavi.arash@gmail.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.8.4\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -52,15 +52,15 @@ msgstr "حالت تکرار پخش"
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
-"Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
-"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
-"\" (shuffle playlist, presumes repeat all)."
+"Value identifies whether to repeat or randomize playback through the collection. "
+"Allowed values are: \"none\" (repeat and shuffle are off), \"song\" (repeat "
+"current song), \"all\" (repeat playlist, no shuffle), \"shuffle\" (shuffle "
+"playlist, presumes repeat all)."
 msgstr ""
 "مقدار مشخص می‌کند که آیا پخش در میان مجموعه تکرار شود یا به صورت تصادفی باشد. "
-"مقادیر معتبر عبارتند از: «none» (تکرار و بر زدن خاموش)، «song» (آواز کنونی "
-"تکرار می‌شود)، «all» (فهرست پخش بدون بر زدن تکرار می‌شود)، «shuffle» (بر زدن "
-"فهرست پخش با حفظ تکرار همه)."
+"مقادیر معتبر عبارتند از: «none» (تکرار و بر زدن خاموش)، «song» (آواز کنونی تکرار "
+"می‌شود)، «all» (فهرست پخش بدون بر زدن تکرار می‌شود)، «shuffle» (بر زدن فهرست پخش با "
+"حفظ تکرار همه)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -70,8 +70,44 @@ msgstr "حالت جست‌وجو"
 msgid "If true, the search bar is shown."
 msgstr "اگر درست باشد، نوار جست‌وجو نشان داده می‌شود."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "حالت اعلان"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "فعال یا غیرفعال‌سازی اعلان‌های پخش"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr "بیشینه‌ی نویسه‌ها جهت نمایش نام قطعه در نمای هنرمند"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view before "
+"its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"این تنظیم تعداد نویسه‌های عنوان قطعه را در نمای هنرمند قبل از خلاصه شدن تعیین "
+"می‌کند. برو روی -1 تنظیم کنید تا غیرفعال شود"
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "فعال‌سازی ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "فعال یا غیرفعال‌سازی ReplayGain برای آلبوم‌ها"
+
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "وضعیت ابتدایی نمایش داده شده"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "وقتی وضعیت ابتدایی نمایش داده شده، بر درست تنظیم شود"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:118 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "آهنگ‌ها"
@@ -84,6 +120,10 @@ msgstr "پخش‌کننده‌ی آهنگ"
 msgid "Play and organize your music collection"
 msgstr "پخش و سازمان‌دهی مجموعه آهنگ‌های شما"
 
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Music;Player;پخش‌کننده‌;موزیک;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "آهنگ‌های گنوم"
@@ -92,141 +132,216 @@ msgstr "آهنگ‌های گنوم"
 msgid "Music is the new GNOME music playing application."
 msgstr "آهنگ‌ها برنامه پخش آهنگ جدید گنوم است."
 
-#: ../gnomemusic/albumArtCache.py:102 ../gnomemusic/albumArtCache.py:110
+#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
-#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
+#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:582 ../gnomemusic/view.py:993
+#: ../gnomemusic/view.py:1455
 msgid "Unknown Album"
 msgstr "آلبوم ناشناس"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
-#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
-#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
+#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226 ../gnomemusic/view.py:482
+#: ../gnomemusic/view.py:737 ../gnomemusic/view.py:1167 ../gnomemusic/view.py:1453
+#: ../gnomemusic/view.py:1505 ../gnomemusic/widgets.py:248
+#: ../gnomemusic/widgets.py:660
 msgid "Unknown Artist"
 msgstr "هنرمند ناشناس"
 
-#: ../gnomemusic/notification.py:89
+#: ../gnomemusic/notification.py:93
 msgid "Not playing"
 msgstr "چیزی پخش نمی‌شود"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
+#: ../gnomemusic/notification.py:108
 #, python-format
 msgid "by %s, from %s"
 msgstr "توسّط %s، از آلبوم %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "قبلی"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "مکث"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
+#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "پخش"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "بعدی"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#: ../gnomemusic/player.py:1090
+msgid "Unable to play the file"
+msgstr "نمی‌توان پرونده را پخش کرد"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1095
+#, python-format
+msgid "_Find in %s"
+msgstr "_جست‌وجو در %s"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid " and "
+msgstr "و"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1108
+msgid ", "
+msgstr "،"
+
+#: ../gnomemusic/player.py:1109
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "برای پخش پرونده %s لازم است، اما نصب نشده است."
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:52
+msgid "Most Played"
+msgstr "بیشترین پخش شده"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:58
+msgid "Never Played"
+msgstr "هیچ وقت پخش نشده"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:64
+msgid "Recently Played"
+msgstr "اخیرا پخش شده"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "اخیرا اضافه شده"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:76
+msgid "Favorite Songs"
+msgstr "آهنگ‌های مورد علاقه"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:86
+msgid "the a an"
+msgstr "the a an"
+
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "همه"
 
-#: ../gnomemusic/searchbar.py:31
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "هنرمند"
 
-#: ../gnomemusic/searchbar.py:32
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "آلبوم"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "نام آهنگ"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "محلی"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "منابع"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "هماهنگ"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:280
+#: ../gnomemusic/widgets.py:531 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "تعداد %d مورد انتخاب شد"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:282
+#: ../gnomemusic/widgets.py:533 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "برای انتخاب موارد رویشان کلیک کنید"
 
-#: ../gnomemusic/view.py:337
-#, python-format
-msgid ""
-"No Music found!\n"
-" Put some files into the folder %s"
-msgstr ""
-"هیچ آهنگی پیدا نشد!\n"
-" تعدادی پرونده در پوشه‌ی %s بگذارید"
+#: ../gnomemusic/view.py:286
+msgid "Music folder"
+msgstr "پوشه موسیقی"
 
-#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:309
+msgid "Hey DJ"
+msgstr "هی دی‌جی"
+
+#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1729
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
-#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:416 ../gnomemusic/view.py:1731
 msgid "Songs"
 msgstr "آهنگ‌ها"
 
-#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:618 ../gnomemusic/view.py:1730
 msgid "Artists"
 msgstr "هنرمندان"
 
-#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
-#: ../gnomemusic/widgets.py:448
-msgid "All Artists"
-msgstr "تمام هنرمندان"
-
-#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:821 ../gnomemusic/view.py:1732
 msgid "Playlists"
 msgstr "فهرست‌های پخش"
 
-#: ../gnomemusic/view.py:1077
+#: ../gnomemusic/view.py:1177
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d آهنگ"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/view.py:1318
+msgid "Try a different search"
+msgstr "جست‌وجو دیگری را امتحان کنید"
+
+#: ../gnomemusic/widgets.py:321 ../gnomemusic/widgets.py:355
 #, python-format
 msgid "%d min"
 msgstr "%d دقیقه"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:543
+msgid "All Artists"
+msgstr "تمام هنرمندان"
+
+#: ../gnomemusic/widgets.py:788
 msgid "New Playlist"
 msgstr "فهرست‌پخش جدید"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "خالی"
+
+#: ../gnomemusic/window.py:332
+msgid "Loading"
+msgstr "درحال بار کردن"
+
+#: ../gnomemusic/window.py:350
+msgid "_Undo"
+msgstr "_برگردان"
+
+#: ../gnomemusic/window.py:351
+#, python-format
+msgid "Playlist %s removed"
+msgstr "فهرست‌پخش %s حذف شد"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -242,48 +357,50 @@ msgstr "پایگاه وب آهنگ‌های گنوم را ببینید"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under the "
+"terms of the GNU General Public License as published by the Free Software "
+"Foundation; either version 2 of the License, or (at your option) any later "
+"version.\n"
 "\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
+"PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
 "\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"You should have received a copy of the GNU General Public License along with GNOME "
+"Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, "
+"Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer "
+"plugins to be used and distributed together with GStreamer and GNOME Music.  This "
+"permission is above and beyond the permissions granted by the GPL license by which "
+"GNOME Music is covered.  If you modify this code, you may extend this exception to "
+"your version of the code, but you are not obligated to do so.  If you do not wish "
+"to do so, delete this exception statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://"
+"www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
-"برنامه‌ی آهنگ‌های گنوم یک نرم‌افزار آزاد است؛ شما می‌توانید آن را تحت شرایط "
-"پروانه‌ی همگانی عمومی گنو که بنیاد نرم‌افزارهای آزاد منتشر کرده است،‌ تغییر "
-"دهید یا دوباره توزیع کنید. یا نسخه‌ی ۲ اجازه‌نامه یا (به اختیار خودتان) هر "
-"نسخه‌ی بالاتر دیگری.\n"
+"برنامه‌ی آهنگ‌های گنوم یک نرم‌افزار آزاد است؛ شما می‌توانید آن را تحت شرایط پروانه‌ی "
+"همگانی عمومی گنو که بنیاد نرم‌افزارهای آزاد منتشر کرده است،‌ تغییر دهید یا دوباره "
+"توزیع کنید. یا نسخه‌ی ۲ اجازه‌نامه یا (به اختیار خودتان) هر نسخه‌ی بالاتر دیگری.\n"
 "\n"
-"برنامه‌ی آهنگ‌های گنوم با این امید توزیع شده است که مفید باشد، ولی بدون هر "
-"گونه ضمانتی؛ حتا ضمانت ضمنی قابل فروش بودن یا مناسب بودن برای یک هدف مشخّص. "
-"برای جزئیات بیش‌تر پروانه‌ی همگانی عمومی گنو را ببینید.\n"
+"برنامه‌ی آهنگ‌های گنوم با این امید توزیع شده است که مفید باشد، ولی بدون هر گونه "
+"ضمانتی؛ حتا ضمانت ضمنی قابل فروش بودن یا مناسب بودن برای یک هدف مشخّص. برای جزئیات "
+"بیش‌تر پروانه‌ی همگانی عمومی گنو را ببینید.\n"
 "\n"
-"شما باید به همراه آهنگ‌های گنوم نسخه‌ای از پروانه‌ی همگانی عمومی گنو را دریافت "
-"کرده باشد؛ اگر این طور نیست با شرکت بنیاد نرم‌افزارهای آزاد به آدرس زیر "
-"مکاتبه کنید: Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 "
-"USA\n"
+"شما باید به همراه آهنگ‌های گنوم نسخه‌ای از پروانه‌ی همگانی عمومی گنو را دریافت کرده "
+"باشد؛ اگر این طور نیست با شرکت بنیاد نرم‌افزارهای آزاد به آدرس زیر مکاتبه کنید: "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA\n"
 "\n"
 "نگارندگان آهنگ‌های گنوم در این‌جا اجازه می‌دهند پلاگین‌های GStreamer ناسازگار با "
-"جی‌پی‌ال به همراه GStreamer در آهنگ‌های گنوم استفاده و توزیع شوند. این اجازه "
-"فراتر از اجازه‌هایی است که توسّط پروانه‌ی جی‌پی‌ال که آهنگ‌های گنوم را پوشش می‌دهد "
-"داده شده است. اگر این کد را دست‌کاری می‌کنید، ممکن است این استثنا را به نگارش "
-"خودتان از کد گسترش دهید، ولی تعهّدی برای این کار ندارید. اکر نمی‌خواهید چنین "
-"کنید، این عبارت استثنا را از نگارشتان حذف کنید."
+"جی‌پی‌ال به همراه GStreamer در آهنگ‌های گنوم استفاده و توزیع شوند. این اجازه فراتر از "
+"اجازه‌هایی است که توسّط پروانه‌ی جی‌پی‌ال که آهنگ‌های گنوم را پوشش می‌دهد داده شده است. "
+"اگر این کد را دست‌کاری می‌کنید، ممکن است این استثنا را به نگارش خودتان از کد گسترش "
+"دهید، ولی تعهّدی برای این کار ندارید. اکر نمی‌خواهید چنین کنید، این عبارت استثنا را "
+"از نگارشتان حذف کنید.\n"
+"\n"
+"تصویر «Magic of the vinyl» توسط Sami Pyylampi تحت لیسانس CC-BY-SA 2.0 از https://"
+"www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -294,18 +411,14 @@ msgid "Running Length"
 msgstr "طول اجرا"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "فهرست پخش _جدید"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_راهنما"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "_درباره"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_خروج"
 
@@ -326,8 +439,13 @@ msgid "Shuffle/Repeat Off"
 msgstr "توقف پخش تصادفی/تکرار"
 
 #: ../data/NoMusic.ui.h:1
-msgid "No Music Found"
+msgid "No music found"
 msgstr "هیچ آهنگی یافت نشد"
+
+#: ../data/NoMusic.ui.h:3
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "محتویات %s شما در اینجا نمایان می‌شوند."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -377,11 +495,18 @@ msgstr "نام فهرست‌پخش"
 msgid "Select Playlist"
 msgstr "انتخاب فهرست‌پخش"
 
+#~ msgid ""
+#~ "No Music found!\n"
+#~ " Put some files into the folder %s"
+#~ msgstr ""
+#~ "هیچ آهنگی پیدا نشد!\n"
+#~ " تعدادی پرونده در پوشه‌ی %s بگذارید"
+
+#~ msgid "_New Playlist"
+#~ msgstr "فهرست پخش _جدید"
+
 #~ msgid "Load More"
 #~ msgstr "بار کردن بیش‌تر"
-
-#~ msgid "Loading..."
-#~ msgstr "درحال بار کردن…"
 
 #~| msgid "_Now Playing"
 #~ msgid "Now _Playing"
