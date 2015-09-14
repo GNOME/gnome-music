@@ -1,3 +1,25 @@
+Overview of changes in 3.17.92
+=============================
+
+Bugs fixed:
+ 744827 Empty stars in 'Search' view
+ 754654 Fixes for staticmethod definitions
+ 754702 Search drop-down doesn't show the right default source
+ 754836 Toggling search of  when on a albumWidget doesn't make search view disappear
+ 754977 gnomemusic/widgets.py using depreciated PARAM_READWRITE
+
+Translations updated:
+ Added Icelandic
+ Finnish  update
+ Fix FSF address in Polish
+ French
+ Kazakh
+ Korean
+ Lithuanian
+ Turkish
+ Persian
+
+
 Overview of changes in 3.17.91
 =============================
 
