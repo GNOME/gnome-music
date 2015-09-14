@@ -854,7 +854,7 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
     __gsignals__ = {'clicked': (GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE,
                                 (GObject.TYPE_STRING,))}
     __gproperties__ = {
-        'show_star': (GObject.TYPE_INT, 'Show star', 'show star',0 ,2 ,1 , GObject.PARAM_READWRITE)}
+        'show_star': (GObject.TYPE_INT, 'Show star', 'show star',0 ,2 ,1 , GObject.ParamFlags.READWRITE)}
 
     starIcon = 'starred-symbolic'
     nonStarIcon = 'non-starred-symbolic'
