@@ -1,13 +1,10 @@
 sudo: required
 services: docker
 language: python
-python:
-  - "3.3"
 env:
  - TEST="pyflakes"
  - TEST="pep8"
  - TEST="build"
- - TEST="tarball"
 
 matrix:
   allow_failures:

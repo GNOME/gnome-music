@@ -6,3 +6,8 @@ dnf install -y gnome-common make which intltool python3 \
 git submodule update --init
 /mnt/autogen.sh
 make
+
+if [ git describe --exact-match HEAD ]; then
+    echo "Its a tag!"
+    make distcheck
+fi
