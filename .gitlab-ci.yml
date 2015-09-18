@@ -1,26 +1,39 @@
-image: fedora:rawhide
-
-before_script:
-  - bundle_install
-
 stages:
   - pyflakes
   - build
   - pep8
   - deploy
 
-job:
+variables:
+  DEPENDENCIES: python3 gobject-introspection-devel gtk3-devel libmediaart-devel grilo-devel
+
+pyflakes:
   stage: pyflakes
   script:
-    - sh ci_pyflakes.sh
+    - dnf install -y python3-pep8
+    - python3-pyflakes .
 
-job:
+build:
   stage: build
   script:
-    - sh ci_build.sh
+    - dnf install -y $DEPENDENCIES
+    - git submodule update --init
+    - ./autogen.sh
+    - make
 
-job:
+deploy:
+  stage: deploy
+  script:
+    - dnf install -y $DEPENDENCIES
+    - git submodule update --init
+    - ./autogen.sh
+    - make distcheck
+  only:
+    - tags
+
+pep8:
   stage: pep8
   script:
-    - sh ci_pep8.sh
+    - dnf install -y python3-pep8
+    - python3-pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 .
   allow_failure: true
