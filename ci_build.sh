@@ -3,13 +3,19 @@ set -x
 
 cd /mnt
 
-dnf install -y gnome-common make which intltool python3 \
-    gobject-introspection-devel gtk3-devel libmediaart-devel grilo-devel git
+# Dependencies
+dnf install -y python3 gobject-introspection-devel gtk3-devel \
+               libmediaart-devel grilo-devel
+
+# Other boring stuff
+dnf install -y gnome-common make which intltool git xz
+
 git submodule update --init
 ./autogen.sh
-make
 
 if [ $(git describe --exact-match HEAD) ]; then
-    echo "Its a tag!"
+    echo "New release"
     make distcheck
+else
+    make
 fi
