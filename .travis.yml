@@ -1,17 +1,28 @@
+sudo: false
 language: python
 python:
   - "3.3"
+env:
+ - TESTS="pyflakes"
+ - TESTS="pep8"
+ - TESTS="build"
+ - TESTS="tarball"
+
+matrix:
+  allow_failures:
+    - env: TESTS="pep8"
+    - env: TESTS="pyflakes"
+
 install:
   - pip install pep8 pyflakes --use-mirrors
+
 script:
-  - "pyflakes gnomemusic"
-#  - "pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 gnomemusic"
-after_success:
-  - if [ -z "$TRAVIS_TAG" ]; then
-      echo "Making a package"
-    else
-      echo "NOPE!"
-    fi
+- case $TESTS in
+  pep8) pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 gnomemusic ;;
+  pyflakes) pyflakes gnomemusic ;;
+  build) make distcheck ;;
+  tarball) echo "$$TRAVIS_TAG" ;;
+  esac
 notifications:
   webhooks:
     urls:
