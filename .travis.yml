@@ -6,6 +6,12 @@ install:
 script:
   - "pyflakes gnomemusic"
   - "pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 gnomemusic"
+after_success:
+  - if [ -z "$TRAVIS_TAG" ]; then
+      echo "Making a package"
+    else
+      echo "NOPE!"
+    fi
 notifications:
   webhooks:
     urls:
