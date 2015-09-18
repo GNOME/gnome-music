@@ -1,4 +1,5 @@
-sudo: false
+sudo: required
+services: docker
 language: python
 python:
   - "3.3"
@@ -13,14 +14,15 @@ matrix:
     - env: TESTS="pep8"
     - env: TESTS="pyflakes"
 
-install:
+before_install:
+  - docker pull fedora
   - pip install pep8 pyflakes --use-mirrors
 
 script:
 - case $TESTS in
   pep8) pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 gnomemusic ;;
   pyflakes) pyflakes gnomemusic ;;
-  build) make distcheck ;;
+  build) docker run -P -v $(pwd):/app --rm fedora "/bin/sh" "/app/ci_build.sh" ;;
   tarball) echo "$$TRAVIS_TAG" ;;
   esac
 notifications:
