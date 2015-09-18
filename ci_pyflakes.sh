@@ -1,4 +1,7 @@
 #/bin/sh
 set -x
 
-echo "pyflakes check goes here"
+cd /mnt
+
+dnf install -y python3-pyflakes
+python3-pyflakes .
