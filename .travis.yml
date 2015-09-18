@@ -11,4 +11,4 @@ matrix:
     - env: TEST="pep8"
 
 script:
-- docker run -P -v $(pwd):/mnt --rm fedora:rawhide "/bin/sh" "/mnt/ci_$TEST.sh"
+- docker run -itv $(pwd):/mnt --rm fedora:rawhide "/bin/sh" "/mnt/ci_$TEST.sh"
