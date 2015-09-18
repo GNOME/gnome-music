@@ -1,0 +1,26 @@
+image: fedora:rawhide
+
+before_script:
+  - bundle_install
+
+stages:
+  - pyflakes
+  - build
+  - pep8
+  - deploy
+
+job:
+  stage: pyflakes
+  script:
+    - sh ci_pyflakes.sh
+
+job:
+  stage: build
+  script:
+    - sh ci_build.sh
+
+job:
+  stage: pep8
+  script:
+    - sh ci_pep8.sh
+  allow_failure: true
