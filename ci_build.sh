@@ -15,12 +15,27 @@ git submodule update --init
 
 RELEASE=$(git describe --exact-match HEAD)
 
-if [ ! -z "$RELEASE" ]; then
+if [ -z "$RELEASE" ]; then
     make
 else
     echo "New release: $RELEASE"
     make distcheck
     FILENAME=gnome-music-$RELEASE.tar.xz
-    #scp $FILENAME master.gnome.org
+    echo "Filename: $FILENAME"
+    mkdir -p /root/.ssh
+    cat << EOF >> /root/.ssh/config
+    Host *.gnome.org
+        User $SSH_USER
+        Compression yes
+        CompressionLevel 3
+        ControlPersist 5m
+        StrictHostKeyChecking no
+        IdentityFile /ssh/id_rsa
+
+    ControlMaster auto
+    ControlPath /tmp/%r@%h:%p
+    ControlPersist yes
+EOF
+    scp -vvvvv $FILENAME master.gnome.org
     #ssh -t master.gnome.org "ftpadmin install gnome-music-$RELEASE.tar.xz"
 fi
