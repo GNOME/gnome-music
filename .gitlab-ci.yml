@@ -10,7 +10,7 @@ variables:
 pyflakes:
   stage: pyflakes
   script:
-    - dnf install -y python3-pep8
+    - dnf install -y python3-pyflakes
     - python3-pyflakes .
 
 build:
