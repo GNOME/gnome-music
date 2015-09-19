@@ -11,13 +11,13 @@ variables:
 pyflakes:
   stage: pyflakes
   script:
-    - dnf install -y python3-pyflakes
+    - dnf update -y && dnf install -y python3-pyflakes
     - python3-pyflakes .
 
 build:
   stage: build
   script:
-    - dnf install -y $DEPENDENCIES
+    - dnf update -y && dnf install -y $DEPENDENCIES
     - git submodule update --init
     - ./autogen.sh
     - make
@@ -25,7 +25,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - dnf install -y $DEPENDENCIES
+    - dnf update -y && dnf install -y $DEPENDENCIES
     - git submodule update --init
     - ./autogen.sh
     - make distcheck
@@ -35,6 +35,6 @@ deploy:
 pep8:
   stage: pep8
   script:
-    - dnf install -y python3-pep8
+    - dnf update -y && dnf install -y python3-pep8
     - python3-pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 .
   allow_failure: true
