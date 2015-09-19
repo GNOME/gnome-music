@@ -2,8 +2,8 @@ image: fedora:23
 stages:
   - pyflakes
   - build
-  - pep8
   - deploy
+  - pep8
 
 variables:
   DEPENDENCIES: python3 gobject-introspection-devel gtk3-devel libmediaart-devel grilo-devel
