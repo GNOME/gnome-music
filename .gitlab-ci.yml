@@ -10,7 +10,7 @@ variables:
 build:
   stage: build
   script:
-    - dnf update -y && dnf install -y $DEPENDENCIES
+    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
     - git submodule update --init
     - ./autogen.sh
     - make
@@ -18,7 +18,7 @@ build:
 deploy:
   stage: deploy
   script:
-    - dnf update -y && dnf install -y $DEPENDENCIES
+    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
     - git submodule update --init
     - ./autogen.sh
     - make distcheck
@@ -28,12 +28,12 @@ deploy:
 pyflakes:
   stage: check
   script:
-    - dnf update -y && dnf install -y python3-pyflakes
+    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-pyflakes
     - python3-pyflakes .
 
 pep8:
   stage: check
   script:
-    - dnf update -y && dnf install -y python3-pep8
+    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-pep8
     - python3-pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 .
   allow_failure: true
