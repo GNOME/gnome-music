@@ -50,7 +50,7 @@ class BaseManager:
         self.label = label
         self.entry = entry
         self.tag = Gd.TaggedEntryTag()
-        self.tag.set_style('button')
+        self.tag.set_style('music-entry-tag')
         self.tag.manager = self
         self.values = []
 
