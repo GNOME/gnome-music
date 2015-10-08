@@ -22,7 +22,7 @@
   <title>Create playlists using artists</title>
 
   <p>You can view all the artists and their songs by clicking on the
-  <gui syle="button">Artists</gui> button.</p>
+  <gui style="button">Artists</gui> button.</p>
 
   <steps>
     <title>To create a new playlist while in <em>Artists</em> view:</title>
