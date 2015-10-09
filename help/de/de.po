@@ -6,21 +6,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music gnome-3-14\n"
-"POT-Creation-Date: 2014-10-30 22:57+0000\n"
-"PO-Revision-Date: 2014-10-30 22:12+0100\n"
-"Last-Translator: Bernd Homuth <dev@hmt.im>\n"
+"POT-Creation-Date: 2015-10-09 07:58+0000\n"
+"PO-Revision-Date: 2015-10-09 11:54+0200\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.6.10\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Christian Kirbach <Christian.Kirbach@gmail.com>, 2014"
+msgstr "Christian Kirbach <Christian.Kirbach@gmail.com>, 2014, 2015"
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -282,8 +282,12 @@ msgstr "Wiedergabelisten mit Hilfe von Künstlern anlegen"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
+#, fuzzy
+#| msgid ""
+#| "You can view all the artists and their songs by clicking on the <gui syle="
+#| "\"button\">Artists</gui> button."
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
 "Schauen Sie sich alle Künstler und deren Titel an, indem Sie auf den Knopf "
