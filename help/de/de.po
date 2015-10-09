@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music gnome-3-14\n"
-"POT-Creation-Date: 2015-10-09 07:58+0000\n"
-"PO-Revision-Date: 2015-10-09 11:54+0200\n"
+"POT-Creation-Date: 2015-10-09 09:55+0000\n"
+"PO-Revision-Date: 2015-10-09 12:15+0200\n"
 "Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -282,10 +282,6 @@ msgstr "Wiedergabelisten mit Hilfe von Künstlern anlegen"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
-#, fuzzy
-#| msgid ""
-#| "You can view all the artists and their songs by clicking on the <gui syle="
-#| "\"button\">Artists</gui> button."
 msgid ""
 "You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
