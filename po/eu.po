@@ -2,24 +2,23 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
+#
 # asiersar <asiersar@yahoo.com>, 2013.
 # Iñaki Larrañaga Murgoitio <dooteo@zundan.com>, 2013, 2014, 2015.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-03-21 12:53+0100\n"
-"PO-Revision-Date: 2015-03-21 12:54+0100\n"
+"Project-Id-Version: gnome-music gnome-3-18\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-14 12:21+0200\n"
+"PO-Revision-Date: 2015-10-09 23:28+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@zundan.com>\n"
-"Language-Team: Basque <librezale@librezale.org>\n"
+"Language-Team: Basque <Basque <librezale@librezale.org>>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 1.4\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -99,8 +98,16 @@ msgstr "Gaitu 'ReplayGain' (erreprodukzioaren irabazia)"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Albumen erreprodukzioen irabazia (ReplayGain) gaitzen/desgaitzen du"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Hasierako egoera bistaratu da"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Ezarri TRUE (egia) gisa hasierako egoera bistaratzen denean"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:118 ../gnomemusic/window.py:62
 #: ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musika"
@@ -125,64 +132,95 @@ msgstr "GNOME Musika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musika GNOMEren musika erreproduzitzeko aplikazio berria da."
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
 msgid "Untitled"
 msgstr "Izengabea"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:470 ../gnomemusic/view.py:537
-#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
+#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:587
+#: ../gnomemusic/view.py:998 ../gnomemusic/view.py:1468
 msgid "Unknown Album"
 msgstr "Album ezezaguna"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:461 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
-#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:631
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
+#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226
+#: ../gnomemusic/view.py:487 ../gnomemusic/view.py:742
+#: ../gnomemusic/view.py:1172 ../gnomemusic/view.py:1466
+#: ../gnomemusic/view.py:1518 ../gnomemusic/widgets.py:248
+#: ../gnomemusic/widgets.py:660
 msgid "Unknown Artist"
 msgstr "Artista ezezaguna"
 
-#: ../gnomemusic/notification.py:89
+#: ../gnomemusic/notification.py:93
 msgid "Not playing"
 msgstr "Ez da erreproduzitzen ari"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
+#: ../gnomemusic/notification.py:108
 #, python-format
 msgid "by %s, from %s"
 msgstr "'%s'(e)k,  '%s'(e)n"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Aurrekoa"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:418
+#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pausarazi"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
+#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
 #: ../data/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Erreproduzitu"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Hurrengoa"
 
+#: ../gnomemusic/player.py:1090
+msgid "Unable to play the file"
+msgstr "Ezinezkoa da fitxategia erreproduzitzea"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1095
+#, python-format
+msgid "_Find in %s"
+msgstr "_Bilatu hemen: %s"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid " and "
+msgstr " eta "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1108
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:1109
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] ""
+"'%s' behar da fitxategia erreproduzitzeko, baina ez dago instalatuta."
+msgstr[1] ""
+"'%s' behar dira fitxategia erreproduzitzeko, baina ez daude instalatuta."
+
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "Gehien erreproduzitua"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "Inoiz erreproduzitu gabea"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "Duela gutxi erreproduzitua"
 
@@ -192,7 +230,7 @@ msgid "Recently Added"
 msgstr "Duela gutxi gehituta"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "Gogoko abestiak"
 
@@ -200,102 +238,113 @@ msgstr "Gogoko abestiak"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#: ../gnomemusic/query.py:86
 msgid "the a an"
 msgstr "the a an los las un"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "Denak"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Artista"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Albuma"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Pistaren titulua"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "Lokala"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "Iturburuak"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "Parekatu"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:280
+#: ../gnomemusic/widgets.py:531 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Elementu %d hautatuta"
 msgstr[1] "%d elementu hautatuta"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:282
+#: ../gnomemusic/widgets.py:533 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
-#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
+#: ../gnomemusic/view.py:286
+msgid "Music folder"
+msgstr "Musikaren karpeta"
+
+#: ../gnomemusic/view.py:309
+msgid "Hey DJ"
+msgstr "Hi DJ"
+
+#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1742
 msgid "Albums"
 msgstr "Albumak"
 
-#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
+#: ../gnomemusic/view.py:421 ../gnomemusic/view.py:1744
 msgid "Songs"
 msgstr "Abestiak"
 
-#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
+#: ../gnomemusic/view.py:623 ../gnomemusic/view.py:1743
 msgid "Artists"
 msgstr "Artistak"
 
-#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
-#: ../gnomemusic/widgets.py:517
-msgid "All Artists"
-msgstr "Artista guztiak"
-
-#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
+#: ../gnomemusic/view.py:826 ../gnomemusic/view.py:1745
 msgid "Playlists"
 msgstr "Erreprodukzio-zerrendak"
 
-#: ../gnomemusic/view.py:1161
+#: ../gnomemusic/view.py:1182
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "Abesti %d"
 msgstr[1] "%d abesti"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/view.py:1324
+msgid "Try a different search"
+msgstr "Saiatu bestelako bilaketa"
+
+#: ../gnomemusic/widgets.py:321 ../gnomemusic/widgets.py:355
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:755
+#: ../gnomemusic/widgets.py:543
+msgid "All Artists"
+msgstr "Artista guztiak"
+
+#: ../gnomemusic/widgets.py:788
 msgid "New Playlist"
 msgstr "Zerrenda berria"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "Hutsik"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:332
 msgid "Loading"
 msgstr "Kargatzen"
 
-#: ../gnomemusic/window.py:335
+#: ../gnomemusic/window.py:350
 msgid "_Undo"
 msgstr "_Desegin"
 
-#: ../gnomemusic/window.py:336
+#: ../gnomemusic/window.py:351
 #, python-format
 msgid "Playlist %s removed"
 msgstr "'%s' zerrenda kenduta"
@@ -334,7 +383,10 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "GNOME Music software librea da; birbana eta/edo alda dezakezu Software "
 "Foundation-ek argitaratutako GNU Lizentzia Publiko Orokorraren 2. bertsioan, "
@@ -356,7 +408,10 @@ msgstr ""
 "hau. Kode hau eraldatzen baduzu, salbuespen hau kodearen zure bertsiora "
 "zabal dezakezu, baina ez zaude hori egitera derrigortuta. Ez baduzu "
 "halakorik egiterik nahi, ezabatu salbuespenaren paragrafo hau zure "
-"bertsiotik."
+"bertsiotik.\n"
+"\n"
+"\"Magic of the vinyl\" Sami Pyylampi garatuta, irudia CC-BY-SA 2.0 "
+"lizentziarekin https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -398,9 +453,10 @@ msgstr "Ausaz/Ez errepikatu"
 msgid "No music found"
 msgstr "Ez da musikarik aurkitu"
 
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "Zure Musika karpetako edukia hemen agertuko da."
+#: ../data/NoMusic.ui.h:3
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "'%s'(e)ko edukia hemen agertuko da."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
