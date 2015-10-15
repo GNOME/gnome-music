@@ -2,13 +2,13 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2014.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2014, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-05-20 06:54+0000\n"
-"PO-Revision-Date: 2014-05-20 19:47+0200\n"
+"POT-Creation-Date: 2015-10-15 07:53+0000\n"
+"PO-Revision-Date: 2015-10-15 11:55+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español; Castellano <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -21,7 +21,7 @@ msgstr ""
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014"
+msgstr "Daniel Mustieles <daniel.mustieles@gmail.com>, 2014 - 2015"
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -287,8 +287,11 @@ msgstr "Crear listas de reproducción usando artistas"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
+#| msgid ""
+#| "You can view all the artists and their songs by clicking on the <gui syle="
+#| "\"button\">Artists</gui> button."
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
 "Puede ver todos los artistas y sus canciones pulsando el botón <gui syle="
@@ -391,7 +394,6 @@ msgstr "¿Cómo repito canciones?"
 
 #. (itstool) path: list/title
 #: C/playlist-repeat.page:25
-#| msgid "Click on the gear button on the right hand side."
 msgid "In the taskbar, click on the button on the right side:"
 msgstr "En la barra de tareas, pulse el botón en la parte de la derecha:"
 
@@ -409,7 +411,6 @@ msgstr ""
 
 #. (itstool) path: info/desc
 #: C/playlist-shuffle.page:18
-#| msgid "Delete songs from the playlist."
 msgid "Shuffle songs in the playlist."
 msgstr "Mezclar canciones en la lista de reproducción."
 
