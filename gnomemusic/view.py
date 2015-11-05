@@ -1394,9 +1394,8 @@ class Search(ViewContainer):
             self._artistAlbumsWidget = None
         elif self.get_visible_child() == self._grid:
             self.window.views[0].set_visible_child(self.window.views[0]._grid)
-            self.window.toolbar.set_state(ToolbarState.CHILD_VIEW)
         self.set_visible_child(self._grid)
-
+        self.window.toolbar.set_state(ToolbarState.MAIN)
 
     @log
     def _on_item_activated(self, widget, id, path):
