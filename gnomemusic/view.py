@@ -342,7 +342,7 @@ class Albums(ViewContainer):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self.header_bar.header_bar.set_title(_("Music"))
+        self.header_bar.reset_header_title()
         self.set_visible_child(self._grid)
 
     @log

@@ -30,6 +30,7 @@
 
 from gi.repository import Gtk, GObject
 
+from gettext import gettext as _
 from gnomemusic.searchbar import Searchbar, DropDown
 
 from gnomemusic import log
@@ -86,6 +87,7 @@ class Toolbar(GObject.GObject):
 
     @log
     def reset_header_title(self):
+        self.header_bar.set_title(_("Music"))
         self.header_bar.set_custom_title(self._stack_switcher)
 
     @log
@@ -141,7 +143,6 @@ class Toolbar(GObject.GObject):
                  visible_child != self._window.curr_view._grid):
             self.set_state(ToolbarState.MAIN)
         else:
-            self._window.views[0].update_title()
             self._search_button.set_visible(True)
 
 
