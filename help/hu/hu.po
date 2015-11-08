@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2015-03-20 20:00+0000\n"
-"PO-Revision-Date: 2015-03-22 01:40+0100\n"
+"POT-Creation-Date: 2015-11-05 09:24+0000\n"
+"PO-Revision-Date: 2015-11-08 12:02+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -284,8 +284,11 @@ msgstr "Lejátszólista létrehozása előadók használatával"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
+#| msgid ""
+#| "You can view all the artists and their songs by clicking on the <gui syle="
+#| "\"button\">Artists</gui> button."
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
 "Az összes előadót és számaikat megjelenítheti az <gui style=\"button"
