@@ -1,3 +1,22 @@
+Overview of changes in 3.18.2
+=============================
+
+Bugs fixed:
+ 755601 Fix styling for entry tags (libgd)
+ 756256 Fix XML tag in help
+ 746446 Reset app title to Music after leaving album view
+ 756330 Fix crashes when coming back from search view
+ 757227 Fix missing toolbar when coming back from search resultg
+
+Translations updated:
+ Serbian
+ German
+ Greek
+ Czech
+ Basque
+ Lithuanian
+ Hungarian
+
 Overview of changes in 3.18.0
 =============================
 
