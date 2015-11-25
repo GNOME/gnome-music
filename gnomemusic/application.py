@@ -67,13 +67,6 @@ class Application(Gtk.Application):
 
     @log
     def build_app_menu(self):
-        builder = Gtk.Builder()
-
-        builder.add_from_resource('/org/gnome/Music/app-menu.ui')
-
-        menu = builder.get_object('app-menu')
-        self.set_app_menu(menu)
-
         aboutAction = Gio.SimpleAction.new('about', None)
         aboutAction.connect('activate', self.about)
         self.add_action(aboutAction)
