@@ -67,21 +67,17 @@ class Application(Gtk.Application):
 
     @log
     def build_app_menu(self):
-        aboutAction = Gio.SimpleAction.new('about', None)
-        aboutAction.connect('activate', self.about)
-        self.add_action(aboutAction)
+        actionEntries = [
+            ('about', self.about),
+            ('help', self.help),
+            ('newPlaylist', self.new_playlist),
+            ('quit', self.quit),
+        ]
 
-        helpAction = Gio.SimpleAction.new('help', None)
-        helpAction.connect('activate', self.help)
-        self.add_action(helpAction)
-
-        newPlaylistAction = Gio.SimpleAction.new('newPlaylist', None)
-        newPlaylistAction.connect('activate', self.new_playlist)
-        self.add_action(newPlaylistAction)
-
-        quitAction = Gio.SimpleAction.new('quit', None)
-        quitAction.connect('activate', self.quit)
-        self.add_action(quitAction)
+        for action, callback in actionEntries:
+            simpleAction = Gio.SimpleAction.new(action, None)
+            simpleAction.connect('activate', callback)
+            self.add_action(simpleAction)
 
     @log
     def new_playlist(self, action, param):
