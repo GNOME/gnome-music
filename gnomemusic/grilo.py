@@ -26,7 +26,7 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_version('Grl', '0.2')
+gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
 from gnomemusic.query import Query
 from gnomemusic import log, TrackerWrapper
@@ -73,12 +73,12 @@ class Grilo(GObject.GObject):
         if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):
             GLib.mkdir_with_parents(self.playlist_path, int("0755", 8))
         self.options = Grl.OperationOptions()
-        self.options.set_flags(Grl.ResolutionFlags.FAST_ONLY |
-                               Grl.ResolutionFlags.IDLE_RELAY)
+        self.options.set_resolution_flags(Grl.ResolutionFlags.FAST_ONLY |
+                                          Grl.ResolutionFlags.IDLE_RELAY)
 
         self.full_options = Grl.OperationOptions()
-        self.full_options.set_flags(Grl.ResolutionFlags.FULL |
-                                    Grl.ResolutionFlags.IDLE_RELAY)
+        self.full_options.set_resolution_flags(Grl.ResolutionFlags.FULL |
+                                               Grl.ResolutionFlags.IDLE_RELAY)
 
         self.sources = {}
         self.blacklist = ['grl-filesystem', 'grl-bookmarks', 'grl-metadata-store', 'grl-podcasts']
