@@ -20,13 +20,13 @@
 }
  
 GdMainListView{
-    gtk-key-bindings: UnbindSpace;
+    -gtk-key-bindings: UnbindSpace;
 }
 GdMainView{
-    gtk-key-bindings: UnbindSpace;
+    -gtk-key-bindings: UnbindSpace;
 }
 GtkTreeView{
-    gtk-key-bindings: UnbindSpace;
+    -gtk-key-bindings: UnbindSpace;
 }
 .cover{
     padding-left:24px;
