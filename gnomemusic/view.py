@@ -1553,6 +1553,7 @@ class Search(ViewContainer):
 
         if self.model.iter_n_children(self.head_iters[group]) == 1:
             path = self.model.get_path(self.head_iters[group])
+            path = self.filter_model.convert_child_path_to_path(path)
             self.view.get_generic_view().expand_row(path, False)
 
     @log
