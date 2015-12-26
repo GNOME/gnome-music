@@ -335,39 +335,30 @@ class Query():
     @staticmethod
     def songs(where_clause):
         query = '''
-    SELECT DISTINCT
+    SELECT
         rdf:type(?song)
-        tracker:id(?song) AS id
-        nie:url(?song) AS url
-        nie:title(?song) AS title
-        nmm:artistName(nmm:performer(?song)) AS artist
-        nie:title(nmm:musicAlbum(?song)) AS album
-        nfo:duration(?song) AS duration
-        IF(bound(?tag), 'truth!', '') AS lyrics
-        {
-            %(where_clause)s
-            OPTIONAL {
-                ?song nao:hasTag ?tag .
-                FILTER( ?tag = nao:predefined-tag-favorite )
-            }
-            FILTER (
-                tracker:uri-is-descendant(
-                    '%(music_dir)s', nie:url(?song)
-                ) ||
-                tracker:uri-is-descendant(
-                    '%(download_dir)s', nie:url(?song)
-                )
-            )
-            FILTER (
-                NOT EXISTS {
-                    ?song a nmm:Video
-                } &&
-                NOT EXISTS {
-                    ?song a nmm:Playlist
-                }
-            )
-        }
-    ORDER BY ?artist ?album nmm:setNumber(nmm:musicAlbumDisc(?song)) nmm:trackNumber(?song)
+        tracker:id (?song) AS ?id
+        ?url
+        nie:title(?song) AS ?title
+        nmm:artistName (nmm:performer(?song)) AS ?artist
+        nie:title (nmm:musicAlbum (?song)) AS ?album
+        nfo:duration (?song) AS ?duration
+        IF (BOUND (?tag), 'b', '') AS ?lyrics
+    {
+        %(where_clause)s
+        ?song a nmm:MusicPiece ;
+            nmm:musicAlbumDisc ?disc ;
+            nmm:musicAlbum ?album ;
+            nmm:performer ?performer ;
+            nie:url ?url .
+        ?album nmm:albumArtist ?albumArtist ;
+            nie:title ?title .
+        OPTIONAL { ?song nao:hasTag ?tag .
+                   FILTER (?tag = nao:predefined-tag-favorite) } .
+        FILTER (STRSTARTS (?url, '%(download_dir)s/') ||
+                STRSTARTS (?url, '%(music_dir)s/'))
+    }
+    ORDER BY ?artist ?album nmm:setNumber(?disc) nmm:trackNumber(?song)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
