@@ -92,7 +92,6 @@ class ViewContainer(Gtk.Stack):
             shadow_type=Gtk.ShadowType.NONE
         )
         self.view.set_view_type(view_type)
-        self.view.set_model(self.model)
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._box.pack_start(self.view, True, True, 0)
         if use_sidebar:
@@ -209,6 +208,7 @@ class ViewContainer(Gtk.Stack):
         self.window.notification.set_timeout(0)
         if not item:
             if remaining == 0:
+                self.view.set_model(self.model)
                 self.window.notification.dismiss()
                 self.view.show()
             return
@@ -478,6 +478,7 @@ class Songs(ViewContainer):
         self.window.notification.set_timeout(0)
         if not item:
             if remaining == 0:
+                self.view.set_model(self.model)
                 self.window.notification.dismiss()
                 self.view.show()
             return
@@ -734,6 +735,7 @@ class Artists (ViewContainer):
         self.window.notification.set_timeout(0)
         if item is None:
             if remaining == 0:
+                self.view.set_model(self.model)
                 self.window.notification.dismiss()
                 self.view.show()
             return
@@ -1142,7 +1144,7 @@ class Playlist(ViewContainer):
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
-        self.model = self.view.get_model()
+        self.view.set_model(None)
         self.model.clear()
         self.songs_count = 0
         GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
@@ -1156,6 +1158,8 @@ class Playlist(ViewContainer):
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         self._add_item_to_model(item, self.model)
+        if remaining == 0:
+            self.view.set_model(self.model)
 
     @log
     def _add_item_to_model(self, item, model):
