@@ -83,7 +83,6 @@ class AlbumArtCache(GObject.GObject):
     instance = None
     blacklist = {}
     itr_queue = []
-    threading_lock = Lock()
     default_icons_cache = {}
 
     default_icon_width = 256
@@ -192,8 +191,8 @@ class AlbumArtCache(GObject.GObject):
             pass
 
         # Scale the image down
-        orig_icon = self.default_icons_cache[self.default_icon_width][self.default_icon_height][is_loading].copy()
-        final_icon = orig_icon.scale_simple(width, height, GdkPixbuf.InterpType.BILINEAR)
+        orig_icon = self.default_icons_cache[self.default_icon_width][self.default_icon_height][is_loading]
+        final_icon = orig_icon.scale_simple(width, height, GdkPixbuf.InterpType.NEAREST)
 
         # Create a cache reference
         if width not in self.default_icons_cache:
@@ -211,17 +210,49 @@ class AlbumArtCache(GObject.GObject):
 
         try:
             # Make sure we don't lookup the same iterators several times
-            with self.threading_lock:
-                if itr:
-                    if itr.user_data in self.itr_queue:
-                        return
-                    self.itr_queue.append(itr.user_data)
+            if itr:
+                if itr.user_data in self.itr_queue:
+                    return
+                self.itr_queue.append(itr.user_data)
 
-            t = Thread(target=self.lookup_worker, args=(item, width, height, callback, itr, artist, album))
-            THREAD_QUEUE.append(t)
-            self.emit('thread-added', len(THREAD_QUEUE) - 1)
+            [success, thumb_file] = MediaArt.get_file(artist, album, "album")
+
+            if success == False:
+                self.finish(item, None, None, callback, itr, width, height)
+                return
+
+            if not thumb_file.query_exists():
+                GLib.idle_add(self.cached_thumb_not_found, item, width, height, thumb_file.get_path(), callback, itr, artist, album)
+                return
+            stream = thumb_file.read_async(GLib.PRIORITY_LOW, None, self.stream_open,
+                                           [item, width, height, thumb_file, callback, itr, artist, album])
         except Exception as e:
             logger.warn("Error: %s, %s", e.__class__, e)
+
+    @log
+    def stream_open(self, thumb_file, result, arguments):
+        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
+
+        try:
+            width = width or -1
+            height = height or -1
+            stream = thumb_file.read_finish (result)
+            GdkPixbuf.Pixbuf.new_from_stream_at_scale_async(stream, width, height, True, None, self.pixbuf_loaded,
+                                                            [item, thumb_file, callback, itr, artist, album])
+        except Exception as e:
+            logger.warn("Error: %s, %s", e.__class__, e)
+            self.finish(item, None, None, callback, itr, width, height)
+
+    @log
+    def pixbuf_loaded(self, stream, result, arguments):
+        (item, thumb_file, callback, itr, artist, album) = arguments
+
+        try:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish (result)
+            self.finish(item, _make_icon_frame(pixbuf), thumb_file.get_path(), callback, itr, artist, album)
+        except Exception as e:
+            logger.warn("Error: %s, %s", e.__class__, e)
+            self.finish(item, None, None, callback, itr, None, None)
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
