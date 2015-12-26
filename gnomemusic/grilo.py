@@ -98,7 +98,7 @@ class Grilo(GObject.GObject):
         self.registry.connect('source_removed', self._on_source_removed)
 
         try:
-            self.registry.load_all_plugins()
+            self.registry.load_all_plugins(True)
         except GLib.GError:
             logger.error('Failed to load plugins.')
         if self.tracker is not None:
