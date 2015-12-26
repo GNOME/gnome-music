@@ -320,6 +320,11 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
         self._stack.get_visible_child().queue_draw()
 
+    def _show_notification(self):
+        self.notification_handler = None
+        self.notification.show_all()
+        return False
+
     @log
     def _init_loading_notification(self):
         self.notification = Gd.Notification()
@@ -336,7 +341,7 @@ class Window(Gtk.ApplicationWindow):
         if self.notification_handler:
             GLib.Source.remove(self.notification_handler)
             self.notification_handler = None
-        self.notification_handler = GLib.timeout_add(1000, self.notification.show_all)
+        self.notification_handler = GLib.timeout_add(1000, self._show_notification)
 
     @log
     def _init_playlist_removal_notification(self):
