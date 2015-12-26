@@ -294,7 +294,7 @@ class Grilo(GObject.GObject):
         item_id = item.get_id()
 
         query = None
-        if isinstance(item, Grl.MediaAudio):
+        if item.is_audio():
             query = Query.get_album_for_song_id(item_id)
         else:
             query = Query.get_album_for_album_id(item_id)
