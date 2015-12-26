@@ -55,16 +55,7 @@ class NotificationManager:
 
         self._albumArtCache = AlbumArtCache.get_default()
         self._noArtworkIcon = self._albumArtCache.get_default_icon(IMAGE_SIZE, IMAGE_SIZE)
-
-        rowStride = self._noArtworkIcon.get_rowstride()
-        hasAlpha = self._noArtworkIcon.get_has_alpha()
-        bitsPerSample = self._noArtworkIcon.get_bits_per_sample()
-        nChannels = self._noArtworkIcon.get_n_channels()
-        data = self._noArtworkIcon.get_pixels()
-
-        self._noArtworkIconSerialized = GLib.Variant(
-            '(iiibiiay)',
-            (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha, bitsPerSample, nChannels, data))
+        self._noArtworkIconSerialized = None
 
         self._player.connect('playing-changed', self._on_playing_changed)
         self._player.connect('current-changed', self._update_track)
@@ -117,6 +108,17 @@ class NotificationManager:
             self._notification.set_hint('image-path', GLib.Variant('s', path))
             self._notification.set_hint('image-data', None)
         else:
+            if not self._noArtworkIconSerialized:
+                rowStride = self._noArtworkIcon.get_rowstride()
+                hasAlpha = self._noArtworkIcon.get_has_alpha()
+                bitsPerSample = self._noArtworkIcon.get_bits_per_sample()
+                nChannels = self._noArtworkIcon.get_n_channels()
+                data = self._noArtworkIcon.get_pixels()
+
+                self._noArtworkIconSerialized = GLib.Variant(
+                    '(iiibiiay)',
+                    (IMAGE_SIZE, IMAGE_SIZE, rowStride, hasAlpha, bitsPerSample, nChannels, data))
+
             self._notification.set_hint('image-path', None)
             self._notification.set_hint('image-data', self._noArtworkIconSerialized)
         self._notification.show()
