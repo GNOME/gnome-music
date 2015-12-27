@@ -82,7 +82,6 @@ def _make_icon_frame(pixbuf, path=None):
 class AlbumArtCache(GObject.GObject):
     instance = None
     blacklist = {}
-    itr_queue = []
     default_icons_cache = {}
 
     default_icon_width = 256
@@ -209,12 +208,6 @@ class AlbumArtCache(GObject.GObject):
             return
 
         try:
-            # Make sure we don't lookup the same iterators several times
-            if itr:
-                if itr.user_data in self.itr_queue:
-                    return
-                self.itr_queue.append(itr.user_data)
-
             [success, thumb_file] = MediaArt.get_file(artist, album, "album")
 
             if success == False:
