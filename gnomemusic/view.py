@@ -235,7 +235,6 @@ class ViewContainer(Gtk.Stack):
     def _on_lookup_ready(self, icon, path, _iter):
         if icon:
             self.model.set_value(_iter, 4, icon)
-            self.view.queue_draw()
 
     @log
     def _add_list_renderers(self):
@@ -464,7 +463,6 @@ class Songs(ViewContainer):
         if self.model.get_value(currentIter, 8) != self.errorIconName:
             self.iter_to_clean = currentIter.copy()
 
-        self.view.queue_draw()
         return False
 
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -1028,7 +1026,6 @@ class Playlist(ViewContainer):
             self.iter_to_clean = currentIter.copy()
             self.iter_to_clean_model = self.model
 
-        self.view.queue_draw()
         return False
 
     @log
