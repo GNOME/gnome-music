@@ -212,13 +212,6 @@ class ViewContainer(Gtk.Stack):
                 self.window.notification.dismiss()
                 self.view.show()
             return
-        # Make sure the item with this ID is not added
-        _iter = self.model.get_iter_first()
-        while _iter:
-            item_id = self.model.get_value(_iter, 0)
-            if str(item_id) == item.get_id():
-                return
-            _iter = self.model.iter_next(_iter)
 
         self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
