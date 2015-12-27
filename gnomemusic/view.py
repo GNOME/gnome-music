@@ -220,16 +220,14 @@ class ViewContainer(Gtk.Stack):
         title = albumArtCache.get_media_title(item)
         # item.set_title(title)
 
-        def add_new_item():
-            _iter = self.model.append(None)
-            self.model.set(_iter,
-                           [0, 1, 2, 3, 4, 5, 7, 9],
-                           [str(item.get_id()), '', title,
-                            artist, self._loadingIcon, item,
-                            0, False])
-            self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                              _iter, artist, title)
-        GLib.idle_add(add_new_item)
+        _iter = self.model.append(None)
+        self.model.set(_iter,
+                       [0, 1, 2, 3, 4, 5, 7, 9],
+                       [str(item.get_id()), '', title,
+                        artist, self._loadingIcon, item,
+                        0, False])
+        self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                          _iter, artist, title)
 
     @log
     def _on_lookup_ready(self, icon, path, _iter):
