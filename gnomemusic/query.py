@@ -169,152 +169,40 @@ class Query():
     @staticmethod
     def artists(where_clause):
         query = '''
-    SELECT DISTINCT
+    SELECT
         rdf:type(?album)
         tracker:id(?album) AS id
-        (
-            SELECT
-                nmm:artistName(?artist)
-            WHERE {
-                ?album nmm:albumArtist ?artist
-            }
-            LIMIT 1
-        ) AS artist
-        nie:title(?album) AS title
-        nie:title(?album) AS album
-        tracker:coalesce(
-            (
-                SELECT
-                    GROUP_CONCAT(
-                        nmm:artistName(?artist),
-                        ','
-                    )
-                WHERE {
-                    ?album nmm:albumArtist ?artist
-                }
-            ),
-            (
-                SELECT
-                    GROUP_CONCAT(
-                        (
-                            SELECT
-                                nmm:artistName(nmm:performer(?_12)) AS perf
-                            WHERE {
-                                ?_12 nmm:musicAlbum ?album
-                                FILTER (
-                                    tracker:uri-is-descendant(
-                                        '%(music_dir)s', nie:url(?_12)
-                                    ) ||
-                                    tracker:uri-is-descendant(
-                                        '%(download_dir)s', nie:url(?_12)
-                                    )
-                                )
-                                FILTER (
-                                    NOT EXISTS {
-                                        ?_12 a nmm:Video
-                                    } &&
-                                    NOT EXISTS {
-                                        ?_12 a nmm:Playlist
-                                    }
-                                )
-                            }
-                            GROUP BY ?perf
-                        ),
-                        ','
-                    ) AS album_performer
-                WHERE {
-                }
-            )
-        ) AS author
-        xsd:integer(
-            tracker:coalesce(
-                nmm:albumTrackCount(?album),
-                (
-                    SELECT
-                        COUNT(?_1)
-                    WHERE {
-                        ?_1 nmm:musicAlbum ?album ;
-                        tracker:available 'true'
-                        FILTER (
-                            tracker:uri-is-descendant(
-                                '%(music_dir)s', nie:url(?_1)
-                            ) ||
-                            tracker:uri-is-descendant(
-                                '%(download_dir)s', nie:url(?_1)
-                            )
-                        )
-                        FILTER (
-                            NOT EXISTS {
-                                ?_1 a nmm:Video
-                            } &&
-                            NOT EXISTS {
-                                ?_1 a nmm:Playlist
-                            }
-                        )
-                    }
-                )
-            )
-        ) AS childcount
-        (
-            SELECT
-                fn:year-from-dateTime(?c)
-            WHERE {
-                ?_2 nmm:musicAlbum ?album ;
-                    nie:contentCreated ?c ;
-                    tracker:available 'true'
-                FILTER (
-                    tracker:uri-is-descendant(
-                        '%(music_dir)s', nie:url(?_2)
-                    ) ||
-                    tracker:uri-is-descendant(
-                        '%(download_dir)s', nie:url(?_2)
-                    )
-                )
-                FILTER (
-                    NOT EXISTS {
-                        ?_2 a nmm:Video
-                    } &&
-                    NOT EXISTS {
-                        ?_2 a nmm:Playlist
-                    }
-                )
-            }
-            LIMIT 1
-        ) AS creation-date
-        {
-            %(where_clause)s
-            FILTER (
-                EXISTS {
-                    ?_3 nmm:musicAlbum ?album ;
-                        tracker:available 'true'
-                    FILTER (
-                        tracker:uri-is-descendant(
-                            '%(music_dir)s', nie:url(?_3)
-                        ) ||
-                        tracker:uri-is-descendant(
-                            '%(download_dir)s', nie:url(?_3)
-                        )
-                    )
-                    FILTER (
-                        NOT EXISTS {
-                            ?_3 a nmm:Video
-                        } &&
-                        NOT EXISTS {
-                            ?_3 a nmm:Playlist
-                        }
-                    )
-                }
-            )
-        }
-    ORDER BY %(artist_order)s
-        ?albumyear
-        %(album_order)s
+        ?author
+        ?title
+        tracker:coalesce((SELECT GROUP_CONCAT(nmm:artistName(?albumArtist), ',') { ?album nmm:albumArtist ?albumArtist }),
+                         (SELECT GROUP_CONCAT(nmm:artistName(?performer), ',') { ?song nmm:performer ?performer })) AS ?performer
+        COUNT(?song) AS ?childcount
+        YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+    {
+        %(where_clause)s
+        ?album a nmm:MusicAlbum ;
+               nmm:albumArtist ?albumArtist ;
+               nie:title ?title .
+        ?albumArtist nmm:artistName ?author .
+        ?song nmm:musicAlbum ?album ;
+              nmm:performer ?performer .
+
+        BIND(LCASE(?author) AS ?author_lower) .
+        BIND(LCASE(?title) AS ?title_lower) .
+        BIND((%(artist_order)s) AS ?artist_collation) .
+        BIND((%(album_order)s) AS ?title_collation) .
+
+        FILTER(STRSTARTS(nie:url(?song), '%(download_dir)s/') ||
+               STRSTARTS(nie:url(?song), '%(music_dir)s/'))
+    }
+    GROUP BY ?album
+    ORDER BY ?artist_collation ?creation_date ?album_collation
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
             'download_dir': Query.DOWNLOAD_URI,
-            'artist_order': Query.order_by_statement("?author"),
-            'album_order': Query.order_by_statement("nie:title(?album)")
+            'artist_order': Query.order_by_statement("?author_lower"),
+            'album_order': Query.order_by_statement("?title_lower")
         }
 
         return query
