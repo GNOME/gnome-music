@@ -114,25 +114,12 @@ class Query():
         query = '''
     SELECT
         COUNT(?song) AS childcount
-    WHERE {
+    {
         ?song a nmm:MusicPiece ;
-              a nfo:FileDataObject
-        FILTER (
-            tracker:uri-is-descendant(
-                '%(music_dir)s', nie:url(?song)
-            ) ||
-            tracker:uri-is-descendant(
-                '%(download_dir)s', nie:url(?song)
-            )
-        )
-        FILTER (
-            NOT EXISTS {
-                ?song a nmm:Video
-            } &&
-            NOT EXISTS {
-                ?song a nmm:Playlist
-            }
-        )
+              a nfo:FileDataObject ;
+	      nie:url ?url .
+        FILTER(STRSTARTS(?url, '%(music_dir)s/') ||
+               STRSTARTS(?url, '%(download_dir)s/'))
     }
     '''.replace('\n', ' ').strip() % {
             'music_dir': Query.MUSIC_URI,
