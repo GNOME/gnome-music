@@ -294,29 +294,11 @@ class Query():
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
               nmm:musicAlbum ?album .
-        OPTIONAL {
-            ?song nao:hasTag ?tag .
-            FILTER( ?tag = nao:predefined-tag-favorite )
-        }
-        FILTER (
-            tracker:id(?album) = %(album_id)s
-        )
-        FILTER (
-            tracker:uri-is-descendant(
-                '%(music_dir)s', nie:url(?song)
-            ) ||
-            tracker:uri-is-descendant(
-                '%(download_dir)s', nie:url(?song)
-            )
-        )
-        FILTER (
-            NOT EXISTS {
-                ?song a nmm:Video
-            } &&
-            NOT EXISTS {
-                ?song a nmm:Playlist
-            }
-        )
+        OPTIONAL { ?song nao:hasTag ?tag .
+                   FILTER( ?tag = nao:predefined-tag-favorite ) } .
+        FILTER (tracker:id(?album) = %(album_id)s &&
+                (STRSTARTS(nie:url(?song), '%(music_dir)s/') ||
+                 STRSTARTS(nie:url(?song), '%(download_dir)s/')))
     }
     ORDER BY
          nmm:setNumber(nmm:musicAlbumDisc(?song))
