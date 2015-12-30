@@ -884,15 +884,18 @@ class Query():
             {
                 SELECT DISTINCT
                     nmm:musicAlbum(?song) AS album
-                WHERE {
+                {
                     ?song a nmm:MusicPiece .
+                    BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+                    BIND(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+                    BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
                     FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd')), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd')), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?song), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?song), 'nfkd')), "%(name)s")
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match1), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match2), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match3)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match3), "%(name)s")
                     )
                 }
             }
@@ -902,59 +905,22 @@ class Query():
 
     @staticmethod
     def get_albums_with_artist_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?album
-                WHERE {
-                    ?album a nmm:MusicAlbum ;
-                        nmm:albumArtist ?artist .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nmm:artistName(?artist), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nmm:artistName(?artist), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?performer fts:match "nmm:artistName: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_album_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?album
-                WHERE {
-                    ?album a nmm:MusicAlbum .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?album), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?album), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?album fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_track_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
-            {
-                SELECT DISTINCT
-                    nmm:musicAlbum(?song) AS album
-                WHERE {
-                    ?song a nmm:MusicPiece .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?song), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?song), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?song fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
@@ -965,15 +931,18 @@ class Query():
             {
                 SELECT DISTINCT
                     nmm:musicAlbum(?song) AS album
-                WHERE {
+                {
                     ?song a nmm:MusicPiece .
+                    BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+                    BIND(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+                    BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
                     FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd')), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd')), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?song), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?song), 'nfkd')), "%(name)s")
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match1), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match2), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match3)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match3), "%(name)s")
                     )
                 }
             }
@@ -983,59 +952,22 @@ class Query():
 
     @staticmethod
     def get_artists_with_artist_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?album
-                WHERE {
-                    ?album a nmm:MusicAlbum ;
-                        nmm:albumArtist ?artist .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nmm:artistName(?artist), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nmm:artistName(?artist), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?performer fts:match "nmm:artistName: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_album_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?album
-                WHERE {
-                    ?album a nmm:MusicAlbum .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?album), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?album), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?album fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_track_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
-            {
-                SELECT DISTINCT
-                    nmm:musicAlbum(?song) AS album
-                WHERE {
-                    ?song a nmm:MusicPiece .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?song), 'nfkd'))), "%(name)s")
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?song), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?song fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
@@ -1048,15 +980,16 @@ class Query():
                     ?song
                 WHERE {
                     ?song a nmm:MusicPiece .
+                    BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+                    BIND(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+                    BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
                     FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd')), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd')), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?song), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?song), 'nfkd')), "%(name)s")
-
-
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match1), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match2), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match3)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match3), "%(name)s")
                     )
                 }
             }
@@ -1066,58 +999,22 @@ class Query():
 
     @staticmethod
     def get_songs_with_artist_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?song
-                WHERE {
-                    ?song a nmm:MusicPiece .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nmm:performer(?song), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nmm:performer(?song), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?performer fts:match "nmm:artistName: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_album_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?song
-                WHERE {
-                    ?song a nmm:MusicPiece .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?album fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_track_match(name):
-        name = Tracker.sparql_escape_string(GLib.utf8_casefold(name, -1))
-        query = '''
-            {
-                SELECT DISTINCT
-                    ?song
-                WHERE {
-                    ?song a nmm:MusicPiece .
-                    FILTER (
-                        fn:contains(tracker:case-fold(tracker:unaccent(tracker:normalize(nie:title(?song), 'nfkd'))), "%(name)s") ||
-                        fn:contains(tracker:case-fold(tracker:normalize(nie:title(?song), 'nfkd')), "%(name)s")
-                    )
-                }
-            }
-            '''.replace('\n', ' ').strip() % {'name': name}
+        name = Tracker.sparql_escape_string(name)
+        query = '?song fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
