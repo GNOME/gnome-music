@@ -252,24 +252,15 @@ class Query():
         nfo:entryCounter(?playlist) AS childcount
         {
             %(where_clause)s
+            ?playlist a nmm:Playlist .
             OPTIONAL {
-                ?playlist a nfo:FileDataObject .
-                FILTER (
-                    EXISTS {
-                        ?playlist tracker:available 'true'
-                        FILTER (
-                            tracker:uri-is-descendant(
-                                '%(music_dir)s', nie:url(?playlist)
-                            ) ||
-                            tracker:uri-is-descendant(
-                                '%(download_dir)s', nie:url(?playlist)
-                            )
-                        )
-                    }
-                )
+                ?playlist nie:url ?url ;
+                          tracker:available true .
+            FILTER (STRSTARTS (?url, '%(download_dir)s/') ||
+                    STRSTARTS (?url, '%(music_dir)s/'))
             }
         }
-    ORDER BY fn:lower-case(?title)
+    ORDER BY LCASE(?title)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
