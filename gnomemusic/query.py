@@ -84,8 +84,8 @@ class Query():
         # list should include 'the' regardless of language. If some articles occur more
         # frequently than others, most common should appear first, least common last.
         for article in reversed(_("the a an").split(" ")):
-            return_statement = '''IF(fn:starts-with(fn:lower-case(%(attribute)s), "%(article)s"),
-            fn:substring(fn:lower-case(%(attribute)s), %(substr_start)s),
+            return_statement = '''IF(STRSTARTS(%(attribute)s, "%(article)s"),
+            SUBSTR(%(attribute)s, %(substr_start)s),
             %(nested_if)s)''' % {
                 'attribute': attr,
                 'article': article + " ",
