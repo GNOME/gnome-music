@@ -231,21 +231,21 @@ class AlbumArtCache(GObject.GObject):
             height = height or -1
             stream = thumb_file.read_finish (result)
             GdkPixbuf.Pixbuf.new_from_stream_at_scale_async(stream, width, height, True, None, self.pixbuf_loaded,
-                                                            [item, thumb_file, callback, itr, artist, album])
+                                                            [item, width, height, thumb_file, callback, itr, artist, album])
         except Exception as e:
             logger.warn("Error: %s, %s", e.__class__, e)
             self.finish(item, None, None, callback, itr, width, height)
 
     @log
     def pixbuf_loaded(self, stream, result, arguments):
-        (item, thumb_file, callback, itr, artist, album) = arguments
+        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
 
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish (result)
-            self.finish(item, _make_icon_frame(pixbuf), thumb_file.get_path(), callback, itr, artist, album)
+            self.finish(item, _make_icon_frame(pixbuf), thumb_file.get_path(), callback, itr, width, height, artist, album)
         except Exception as e:
             logger.warn("Error: %s, %s", e.__class__, e)
-            self.finish(item, None, None, callback, itr, None, None)
+            self.finish(item, None, None, callback, itr, width, height)
 
     @log
     def lookup_worker(self, item, width, height, callback, itr, artist, album):
