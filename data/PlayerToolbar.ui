@@ -3,21 +3,25 @@
   <requires lib="gtk+" version="3.12"/>
   <menu id="repeatMenu">
     <item>
+      <!-- Menu item that causes tracks to be played in random order. -->
       <attribute name="label" translatable="yes">Shuffle</attribute>
       <attribute name="action">win.repeat</attribute>
       <attribute name="target">shuffle</attribute>
     </item>
     <item>
+      <!-- Menu item that causes all tracks to be played once in order, and then all repeated. -->
       <attribute name="label" translatable="yes">Repeat All</attribute>
       <attribute name="action">win.repeat</attribute>
       <attribute name="target">all</attribute>
     </item>
     <item>
+      <!-- Menu item that causes the current song to be played repeatedly. -->
       <attribute name="label" translatable="yes">Repeat Song</attribute>
       <attribute name="action">win.repeat</attribute>
       <attribute name="target">song</attribute>
     </item>
     <item>
+      <!-- Menu item that causes tracks to be played once each in order. -->
       <attribute name="label" translatable="yes">Shuffle/Repeat Off</attribute>
       <attribute name="action">win.repeat</attribute>
       <attribute name="target">none</attribute>
@@ -67,6 +71,7 @@
             <property name="receives_default">True</property>
             <property name="image">previous_image</property>
             <property name="always_show_image">True</property>
+            <!-- Tooltip on the button that switches to the previous track, next to Play. -->
             <property name="tooltip_text" translatable="yes">Previous</property>
           </object>
           <packing>
@@ -84,6 +89,7 @@
             <property name="receives_default">True</property>
             <property name="image">play_image</property>
             <property name="always_show_image">True</property>
+            <!-- Tooltip on the Play button. -->
             <property name="tooltip_text" translatable="yes">Play</property>
           </object>
           <packing>
@@ -101,6 +107,7 @@
             <property name="receives_default">True</property>
             <property name="image">next_image</property>
             <property name="always_show_image">True</property>
+            <!-- Tooltip on the button that skips to the next track, next to Play. -->
             <property name="tooltip_text" translatable="yes">Next</property>
           </object>
           <packing>
