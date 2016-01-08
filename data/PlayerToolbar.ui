@@ -18,7 +18,7 @@
       <attribute name="target">song</attribute>
     </item>
     <item>
-      <attribute name="label" translatable="yes">Shuffle/Repeat Off</attribute>
+      <attribute name="label" translatable="yes" comments="Causes tracks to play in random order">Shuffle/Repeat Off</attribute>
       <attribute name="action">win.repeat</attribute>
       <attribute name="target">none</attribute>
     </item>
