@@ -34,14 +34,11 @@ from gettext import gettext as _
 import cairo
 from math import pi
 import os
-from threading import Thread, Lock
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import logging
-import urllib.request
 logger = logging.getLogger(__name__)
 
-THREAD_QUEUE = []
 
 
 @log
@@ -90,10 +87,6 @@ class AlbumArtCache(GObject.GObject):
     def __repr__(self):
         return '<AlbumArt>'
 
-    __gsignals__ = {
-        'thread-added': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
-    }
-
     @classmethod
     def get_default(cls):
         if not cls.instance:
@@ -125,15 +118,6 @@ class AlbumArtCache(GObject.GObject):
 
         return title
 
-    def worker(self, object, id):
-        try:
-            item = THREAD_QUEUE[id]
-            item.setDaemon(True)
-            item.start()
-            item.join(30)
-        except Exception as e:
-            logger.warn("worker item %s: error %s", item, str(e))
-
     @log
     def __init__(self):
         GObject.GObject.__init__(self)
@@ -147,7 +131,6 @@ class AlbumArtCache(GObject.GObject):
         # Prepare default icons
         self.make_default_icon(is_loading=False)
         self.make_default_icon(is_loading=True)
-        self.connect('thread-added', self.worker)
 
     def make_default_icon(self, is_loading=False):
         width = self.default_icon_width
@@ -202,7 +185,7 @@ class AlbumArtCache(GObject.GObject):
         return final_icon
 
     @log
-    def lookup(self, item, width, height, callback, itr, artist, album):
+    def lookup(self, item, width, height, callback, itr, artist, album, first=True):
         if artist in self.blacklist and album in self.blacklist[artist]:
             self.finish(item, None, None, callback, itr, width, height)
             return
@@ -215,8 +198,12 @@ class AlbumArtCache(GObject.GObject):
                 return
 
             if not thumb_file.query_exists():
-                GLib.idle_add(self.cached_thumb_not_found, item, width, height, thumb_file.get_path(), callback, itr, artist, album)
+                if first:
+                    self.cached_thumb_not_found(item, width, height, thumb_file.get_path(), callback, itr, artist, album)
+                else:
+                    self.finish(item, None, None, callback, itr, width, height)
                 return
+
             stream = thumb_file.read_async(GLib.PRIORITY_LOW, None, self.stream_open,
                                            [item, width, height, thumb_file, callback, itr, artist, album])
         except Exception as e:
@@ -248,31 +235,6 @@ class AlbumArtCache(GObject.GObject):
             self.finish(item, None, None, callback, itr, width, height)
 
     @log
-    def lookup_worker(self, item, width, height, callback, itr, artist, album):
-        try:
-
-            if artist in self.blacklist and album in self.blacklist[artist]:
-                self.finish(item, None, None, callback, itr, width, height)
-                return
-
-            path = None
-            mediaart_tuple = MediaArt.get_path(artist, album, "album")
-            for i in mediaart_tuple:
-                if isinstance(i, str):
-                    path = i
-                    break
-
-            if not os.path.exists(path):
-                GLib.idle_add(self.cached_thumb_not_found, item, width, height, path, callback, itr, artist, album)
-                return
-            width = width or -1
-            height = height or -1
-            pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(path, width, height, True)
-            self.finish(item, _make_icon_frame(pixbuf), path, callback, itr, width, height)
-        except Exception as e:
-            logger.warn("Error: %s", e)
-
-    @log
     def finish(self, item, pixbuf, path, callback, itr, width=-1, height=-1, artist=None, album=None):
         if (pixbuf is None and artist is not None):
             # Blacklist artist-album combination
@@ -299,9 +261,7 @@ class AlbumArtCache(GObject.GObject):
                                              (item, width, height, path, callback, itr, artist, album))
                 return
 
-            t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            THREAD_QUEUE.append(t)
-            self.emit('thread-added', len(THREAD_QUEUE) - 1)
+            self.download_thumb(item, width, height, path, callback, itr, artist, album, uri)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
@@ -318,26 +278,54 @@ class AlbumArtCache(GObject.GObject):
                 logger.warn("can't find artwork for album '%s' by %s", album, artist)
                 self.finish(item, None, None, callback, itr, width, height, artist, album)
                 return
-
-            t = Thread(target=self.download_worker, args=(item, width, height, path, callback, itr, artist, album, uri))
-            THREAD_QUEUE.append(t)
-            self.emit('thread-added', len(THREAD_QUEUE) - 1)
+            self.download_thumb(item, width, height, path, callback, itr, artist, album, uri)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
 
     @log
-    def download_worker(self, item, width, height, path, callback, itr, artist, album, uri):
+    def download_thumb(self, item, width, height, thumb_file, callback, itr, artist, album, uri):
+        src = Gio.File.new_for_uri(uri)
+        src.read_async(GLib.PRIORITY_LOW, None, self.open_remote_thumb,
+                       [item, width, height, thumb_file, callback, itr, artist, album])
+
+    @log
+    def open_remote_thumb(self, src, result, arguments):
+        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
+        dest = Gio.File.new_for_path(thumb_file)
+
         try:
-            src = Gio.File.new_for_uri(uri)
-            dest = Gio.File.new_for_path(path)
-            try:
-                # First lets use GLib
-                src.copy(dest, Gio.FileCopyFlags.OVERWRITE)
-            except Exception as e:
-                # Try the native python way
-                urllib.request.urlretrieve(uri, path)
-            self.lookup_worker(item, width, height, callback, itr, artist, album)
+            istream = src.read_finish(result)
+            dest.replace_async(None, False, Gio.FileCreateFlags.REPLACE_DESTINATION,
+                               GLib.PRIORITY_LOW, None, self.open_local_thumb,
+                               [item, width, height, thumb_file, callback, itr, artist, album, istream])
+        except Exception as e:
+            logger.warn("Error: %s", e)
+            self.finish(item, None, None, callback, itr, width, height, artist, album)
+
+    @log
+    def open_local_thumb(self, dest, result, arguments):
+        (item, width, height, thumb_file, callback, itr, artist, album, istream) = arguments
+
+        try:
+            ostream = dest.replace_finish(result)
+            ostream.splice_async(istream,
+                                 Gio.OutputStreamSpliceFlags.CLOSE_SOURCE |
+                                 Gio.OutputStreamSpliceFlags.CLOSE_TARGET,
+                                 GLib.PRIORITY_LOW, None,
+                                 self.copy_finished,
+                                 [item, width, height, thumb_file, callback, itr, artist, album])
+        except Exception as e:
+            logger.warn("Error: %s", e)
+            self.finish(item, None, None, callback, itr, width, height, artist, album)
+
+    @log
+    def copy_finished(self, ostream, result, arguments):
+        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
+
+        try:
+            ostream.splice_finish(result)
+            self.lookup(item, width, height, callback, itr, artist, album, False)
         except Exception as e:
             logger.warn("Error: %s", e)
             self.finish(item, None, None, callback, itr, width, height, artist, album)
