@@ -52,8 +52,7 @@
             <property name="visible">True</property>
             <property name="opacity">0.5</property>
             <property name="can_focus">False</property>
-            <!-- Translators: %s will be replaced with a link with text 'Music folder' -->
-            <property name="label" translatable="yes">The contents of your %s will appear here.</property>
+            <property name="label" translatable="yes" comments="Translators: %s will be replaced with a link with text 'Music folder'">The contents of your %s will appear here.</property>
             <property name="justify">left</property>
             <property name="use_markup">true</property>
           </object>
