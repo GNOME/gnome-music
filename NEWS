@@ -1,3 +1,33 @@
+Overview of changes in 3.19.4
+============================
+
+Bugs fixed:
+ Let GtkApplication automatically load the app-menu
+ Refactor the way we connect menu actions
+ 758942 Use grilo 0.3 for GNOME 3.20
+ 758942 Fix deprecation warnings in GTK+
+ Update libgd from master
+ Scale the playlist name to match the mockups
+ 759024 Use the path of the filter model in search results
+ 739924 Make search find strings with accents
+ 759882 Fix warnings when switching between stack pages
+ Add symbolic icon
+ 760033 Make albumart fetching truly asynchronous
+ 760033 Defer serialization of default icon
+ 760033 Set model on the view after all insertions happened
+ 760033 Remove check for dup jobs
+ 760033 Don't add items on idle
+ 760033 Depend on Tracker >= 1.7.1
+ 759587 Rework songs, artists, playlists, and albums queries
+ Pass width/height during pixbuf loading
+ 751163 Restrict music catalog to the Music folder
+ 760381 Use GIO async APIs to download cover art
+ 734958 Increase the maximum width of the artist and track name
+
+Translations updated:
+ Spanish
+ Slovenian
+
 Overview of changes in 3.18.2
 =============================
 
