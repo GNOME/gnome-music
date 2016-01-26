@@ -418,6 +418,7 @@ class Songs(ViewContainer):
         self._iconHeight = 32
         self._iconWidth = 32
         self._add_list_renderers()
+        self.view.get_generic_view().get_style_context().remove_class('content-view')
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
 
@@ -507,16 +508,13 @@ class Songs(ViewContainer):
             xalign=0.0,
             yalign=0.5,
             height=48,
+            width=500,
             ellipsize=Pango.EllipsizeMode.END
         )
 
-        col = Gtk.TreeViewColumn()
-        col.set_expand(True)
-        col.pack_start(title_renderer, True)
-        col.set_cell_data_func(title_renderer,
-                               self._on_list_widget_title_render, None)
-        col.add_attribute(title_renderer, 'text', 2)
-        list_widget.insert_column(col, 1)
+        list_widget.add_renderer(title_renderer,
+                                 self._on_list_widget_title_render, None)
+        cols[0].add_attribute(title_renderer, 'text', 2)
 
         self.star_handler._add_star_renderers(list_widget, cols)
 
@@ -821,6 +819,7 @@ class Playlist(ViewContainer):
         self.view.get_generic_view().get_style_context()\
             .add_class('songs-list')
         self._add_list_renderers()
+        self.view.get_generic_view().get_style_context().remove_class('content-view')
 
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/PlaylistControls.ui')
