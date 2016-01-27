@@ -103,7 +103,7 @@ class Query():
     def all_songs_count():
         query = '''
     SELECT
-        COUNT(?song) AS childcount
+        COUNT(?song) AS ?childcount
     {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
@@ -157,7 +157,7 @@ class Query():
         query = '''
     SELECT
         rdf:type(?album)
-        tracker:id(?album) AS id
+        tracker:id(?album) AS ?id
         ?author
         ?title
         tracker:coalesce((SELECT GROUP_CONCAT(nmm:artistName(?albumArtist), ',') { ?album nmm:albumArtist ?albumArtist }),
@@ -229,9 +229,9 @@ class Query():
         query = '''
     SELECT DISTINCT
         rdf:type(?playlist)
-        tracker:id(?playlist) AS id
-        nie:title(?playlist) AS title
-        nfo:entryCounter(?playlist) AS childcount
+        tracker:id(?playlist) AS ?id
+        nie:title(?playlist) AS ?title
+        nfo:entryCounter(?playlist) AS ?childcount
         {
             %(where_clause)s
             ?playlist a nmm:Playlist .
@@ -254,13 +254,13 @@ class Query():
         query = '''
     SELECT DISTINCT
         rdf:type(?song)
-        tracker:id(?song) AS id
-        nie:url(?song) AS url
-        nie:title(?song) AS title
-        nmm:artistName(nmm:performer(?song)) AS artist
-        nie:title(nmm:musicAlbum(?song)) AS album
-        nfo:duration(?song) AS duration
-        IF(bound(?tag), 'truth!', '') AS lyrics
+        tracker:id(?song) AS ?id
+        nie:url(?song) AS ?url
+        nie:title(?song) AS ?title
+        nmm:artistName(nmm:performer(?song)) AS ?artist
+        nie:title(nmm:musicAlbum(?song)) AS ?album
+        nfo:duration(?song) AS ?duration
+        IF(bound(?tag), 'truth!', '') AS ?lyrics
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
@@ -286,13 +286,13 @@ class Query():
         query = '''
     SELECT
         rdf:type(?song)
-        tracker:id(?entry) AS id
-        nie:url(?song) AS url
-        nie:title(?song) AS title
-        nmm:artistName(nmm:performer(?song)) AS artist
-        nie:title(nmm:musicAlbum(?song)) AS album
-        nfo:duration(?song) AS duration
-        IF(bound(?tag), 'truth!', '') AS lyrics
+        tracker:id(?entry) AS ?id
+        nie:url(?song) AS ?url
+        nie:title(?song) AS ?title
+        nmm:artistName(nmm:performer(?song)) AS ?artist
+        nie:title(nmm:musicAlbum(?song)) AS ?album
+        nfo:duration(?song) AS ?duration
+        IF(bound(?tag), 'truth!', '') AS ?lyrics
     WHERE {
         ?playlist a nmm:Playlist ;
             a nfo:MediaList ;
@@ -333,7 +333,7 @@ class Query():
         query = """
     SELECT DISTINCT
         rdf:type(?album)
-        tracker:id(?album) AS id
+        tracker:id(?album) AS ?id
         (
             SELECT
                 nmm:artistName(?artist)
@@ -341,9 +341,9 @@ class Query():
                 ?album nmm:albumArtist ?artist
             }
             LIMIT 1
-        ) AS artist
-        nie:title(?album) AS title
-        nie:title(?album) AS album
+        ) AS ?artist
+        nie:title(?album) AS ?title
+        nie:title(?album) AS ?album
     WHERE {
         ?album a nmm:MusicAlbum  .
         FILTER (
@@ -361,7 +361,7 @@ class Query():
         query = """
     SELECT DISTINCT
         rdf:type(?album)
-        tracker:id(?album) AS id
+        tracker:id(?album) AS ?id
         (
             SELECT
                 nmm:artistName(?artist)
@@ -369,9 +369,9 @@ class Query():
                 ?album nmm:albumArtist ?artist
             }
             LIMIT 1
-        ) AS artist
-        nie:title(?album) AS title
-        nie:title(?album) AS album
+        ) AS ?artist
+        nie:title(?album) AS ?title
+        nie:title(?album) AS ?album
     WHERE {
         ?song a nmm:MusicPiece ;
               nmm:musicAlbum ?album .
@@ -404,7 +404,7 @@ class Query():
     INSERT OR REPLACE { ?song nie:usageCounter ?playcount . }
     WHERE {
         SELECT
-            IF(bound(?usage), (?usage + 1), 1) AS playcount
+            IF(bound(?usage), (?usage + 1), 1) AS ?playcount
             ?song
             WHERE {
                 ?song a nmm:MusicPiece .
@@ -532,7 +532,7 @@ class Query():
     WHERE {
         SELECT
             ?playlist
-            (?counter + 1) AS position
+            (?counter + 1) AS ?position
         WHERE {
             ?playlist
                 a nmm:Playlist ;
@@ -559,7 +559,7 @@ class Query():
     WHERE {
         SELECT
             ?entry
-            (?old_position - 1) AS position
+            (?old_position - 1) AS ?position
         WHERE {
             ?entry
                 a nfo:MediaFileListEntry ;
@@ -593,7 +593,7 @@ class Query():
     WHERE {
         SELECT
             ?playlist
-            (?counter - 1) AS new_counter
+            (?counter - 1) AS ?new_counter
         WHERE {
             ?playlist
                 a nmm:Playlist ;
@@ -653,7 +653,7 @@ class Query():
     def get_playlist_with_urn(playlist_urn):
         query = """
     SELECT DISTINCT
-        tracker:id(<%(playlist_urn)s>) AS id
+        tracker:id(<%(playlist_urn)s>) AS ?id
     WHERE {
         <%(playlist_urn)s> a nmm:Playlist
     }
@@ -670,7 +670,7 @@ class Query():
     def get_playlist_song_with_urn(entry_urn):
         query = """
     SELECT DISTINCT
-        tracker:id(<%(entry_urn)s>) AS id
+        tracker:id(<%(entry_urn)s>) AS ?id
     WHERE {
         <%(entry_urn)s> a nfo:MediaFileListEntry
     }
@@ -835,7 +835,7 @@ class Query():
         query = '''
             {
                 SELECT DISTINCT
-                    nmm:musicAlbum(?song) AS album
+                    nmm:musicAlbum(?song) AS ?album
                 {
                     ?song a nmm:MusicPiece .
                     BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
@@ -882,7 +882,7 @@ class Query():
         query = '''
             {
                 SELECT DISTINCT
-                    nmm:musicAlbum(?song) AS album
+                    nmm:musicAlbum(?song) AS ?album
                 {
                     ?song a nmm:MusicPiece .
                     BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
