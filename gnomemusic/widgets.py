@@ -140,6 +140,7 @@ class AlbumWidget(Gtk.EventBox):
         self._add_list_renderers()
         self.get_style_context().add_class('view')
         self.get_style_context().add_class('content-view')
+        self.view.get_generic_view().get_style_context().remove_class('view')
         self.show_all()
 
     @log
