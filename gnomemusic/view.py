@@ -489,6 +489,7 @@ class Songs(ViewContainer):
     @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
+        list_widget.set_halign(Gtk.Align.CENTER)
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
         cells[2].set_visible(False)
@@ -508,7 +509,7 @@ class Songs(ViewContainer):
             xalign=0.0,
             yalign=0.5,
             height=48,
-            width=500,
+            width=300,
             ellipsize=Pango.EllipsizeMode.END
         )
 
@@ -532,7 +533,7 @@ class Songs(ViewContainer):
 
         artist_renderer = Gd.StyledTextRenderer(
             xpad=32,
-            width=100,
+            width=300,
             ellipsize=Pango.EllipsizeMode.END
         )
         artist_renderer.add_class('dim-label')
@@ -547,7 +548,7 @@ class Songs(ViewContainer):
 
         type_renderer = Gd.StyledTextRenderer(
             xpad=32,
-            width=100,
+            width=300,
             ellipsize=Pango.EllipsizeMode.END
         )
         type_renderer.add_class('dim-label')
