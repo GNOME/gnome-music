@@ -234,12 +234,10 @@ class Query():
         nfo:entryCounter(?playlist) AS ?childcount
         {
             %(where_clause)s
-            ?playlist a nmm:Playlist .
-            OPTIONAL {
-                ?playlist nie:url ?url ;
-                          tracker:available true .
-            FILTER (STRSTARTS (?url, '%(music_dir)s/'))
-            }
+            OPTIONAL { ?playlist nie:url ?url;
+                       tracker:available ?available . }
+            FILTER ( (STRSTARTS(?url, '%(music_dir)s/') && ?available)
+                      || !BOUND(nfo:belongsToContainer(?playlist)) )
         }
     ORDER BY LCASE(?title)
     '''.replace('\n', ' ').strip() % {
