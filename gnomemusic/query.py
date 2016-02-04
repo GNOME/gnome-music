@@ -238,8 +238,9 @@ class Query():
                        tracker:available ?available . }
             FILTER ( (STRSTARTS(?url, '%(music_dir)s/') && ?available)
                       || !BOUND(nfo:belongsToContainer(?playlist)) )
+            OPTIONAL { ?playlist nao:hasTag ?tag }
         }
-    ORDER BY LCASE(?title)
+    ORDER BY !BOUND(?tag) LCASE(?title)
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI
