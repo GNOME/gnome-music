@@ -245,7 +245,7 @@ class AlbumWidget(Gtk.EventBox):
         self.header_bar = header_bar
         self.album = album
         real_artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_author()\
+            or item.get_artist()\
             or _("Unknown Artist")
         self.ui.get_object('cover').set_from_pixbuf(self.loadingIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
@@ -657,7 +657,7 @@ class ArtistAlbumWidget(Gtk.Box):
     @log
     def _update_album_art(self):
         real_artist = self.album.get_string(Grl.METADATA_KEY_ARTIST)\
-            or self.album.get_author()\
+            or self.album.get_artist() \
             or _("Unknown Artist")
         ALBUM_ART_CACHE.lookup(
             self.album, 128, 128, self._get_album_cover, None,

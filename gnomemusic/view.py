@@ -215,7 +215,7 @@ class ViewContainer(Gtk.Stack):
 
         self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_author()\
+            or item.get_artist() \
             or _("Unknown Artist")
         title = albumArtCache.get_media_title(item)
         # item.set_title(title)
@@ -475,7 +475,7 @@ class Songs(ViewContainer):
         self._offset += 1
         item.set_title(albumArtCache.get_media_title(item))
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_author()\
+            or item.get_artist() \
             or _("Unknown Artist")
         if item.get_url() is None:
             return
@@ -729,7 +729,7 @@ class Artists (ViewContainer):
             return
         self._offset += 1
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_author()\
+            or item.get_artist()\
             or _("Unknown Artist")
         if not artist.casefold() in self._artists:
             _iter = self.model.insert_with_valuesv(-1, [2], [artist])
@@ -1162,7 +1162,7 @@ class Playlist(ViewContainer):
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
         artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_author()\
+            or item.get_artist()\
             or _("Unknown Artist")
         model.insert_with_valuesv(
             -1,
@@ -1454,7 +1454,7 @@ class Search(ViewContainer):
             return
 
         artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
-            or item.get_author() \
+            or item.get_artist() \
             or _("Unknown Artist")
         album = item.get_string(Grl.METADATA_KEY_ALBUM) \
             or _("Unknown Album")
@@ -1463,7 +1463,7 @@ class Search(ViewContainer):
         if key not in self._albums:
             self._albums[key] = Grl.Media()
             self._albums[key].set_title(album)
-            self._albums[key].add_author(artist)
+            self._albums[key].add_artist(artist)
             self._albums[key].set_source(source.get_id())
             self._albums[key].tracks = []
             self._add_item(source, None, self._albums[key], 0, [self.model, 'album'])
@@ -1506,7 +1506,7 @@ class Search(ViewContainer):
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
         artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
-            or item.get_author() \
+            or item.get_artist() \
             or _("Unknown Artist")
 
         group = 3

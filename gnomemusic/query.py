@@ -158,7 +158,7 @@ class Query():
     SELECT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        ?author
+        ?artist
         ?title
         tracker:coalesce((SELECT GROUP_CONCAT(nmm:artistName(?albumArtist), ',') { ?album nmm:albumArtist ?albumArtist }),
                          (SELECT GROUP_CONCAT(nmm:artistName(?performer), ',') { ?song nmm:performer ?performer })) AS ?performer
@@ -169,11 +169,10 @@ class Query():
         ?album a nmm:MusicAlbum ;
                nmm:albumArtist ?albumArtist ;
                nie:title ?title .
-        ?albumArtist nmm:artistName ?author .
+        ?albumArtist nmm:artistName ?artist .
         ?song nmm:musicAlbum ?album ;
               nmm:performer ?performer .
-
-        BIND(LCASE(?author) AS ?author_lower) .
+        BIND(LCASE(?artist) AS ?artist_lower) .
         BIND(LCASE(?title) AS ?title_lower) .
         BIND((%(artist_order)s) AS ?artist_collation) .
         BIND((%(album_order)s) AS ?title_collation) .
@@ -185,7 +184,7 @@ class Query():
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'artist_order': Query.order_by_statement("?author_lower"),
+            'artist_order': Query.order_by_statement("?artist_lower"),
             'album_order': Query.order_by_statement("?title_lower")
         }
 

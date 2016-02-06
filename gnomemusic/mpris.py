@@ -325,7 +325,7 @@ class MediaPlayer2Service(Server):
                 assert artist is not None
             except:
                 try:
-                    artist = media.get_author()
+                    artist = media.get_artist()
                     assert artist is not None
                 except (AssertionError, ValueError):
                     artist = _("Unknown Artist")
