@@ -1,14 +1,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2014-10-06 19:05+0000\n"
-"PO-Revision-Date: 2014-10-12 14:48+0300\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-mu"
+"sic&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-02-04 09:28+0000\n"
+"PO-Revision-Date: 2016-02-06 12:47+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 2.0\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -68,9 +68,46 @@ msgstr "Meklēšanas režīms"
 msgid "If true, the search bar is shown."
 msgstr "Ja patiess, tiks rādīta meklēšanas josla."
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:112 ../gnomemusic/window.py:62
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Paziņojumu režīms"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Ieslēdz vai izslēdz atskaņošanas paziņojumus"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"Maksimālais rakstzīmju skaits celiņa nosaukumā, ko rādīt izpildītāja skatā"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Šis iestatījums maina rakstzīmju skaitu celiņa nosaukumā izpildītāja skatā, "
+"pirms nosaukumu noslēdz ar trīspunkti. Iestatiet uz -1, lai izslēgtu"
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Ieslēgt ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Ieslēdz vai izslēdz ReplayGain albumiem"
+
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Sākotnējais stāvoklis tika parādīts"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Iestatiet uz “patiess”, kad sākotnējais stāvoklis ir parādīts"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Mūzika"
 
@@ -82,6 +119,11 @@ msgstr "Mūzikas atskaņotājs"
 msgid "Play and organize your music collection"
 msgstr "Atskaņo un organizē savu mūzikas kolekciju"
 
+#: ../data/gnome-music.desktop.in.h:4
+#| msgid "Music Player"
+msgid "Music;Player;"
+msgstr "Mūzika;Atskaņotājs;"
+
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "GNOME Mūzika"
@@ -90,84 +132,146 @@ msgstr "GNOME Mūzika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Mūzika ir jaunā GNOME mūzikas atskaņošanas lietotne."
 
-#: ../gnomemusic/albumArtCache.py:99 ../gnomemusic/albumArtCache.py:107
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Nenosaukts"
 
-#: ../gnomemusic/mpris.py:133 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:400 ../gnomemusic/view.py:574
-#: ../gnomemusic/view.py:961 ../gnomemusic/view.py:1290
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:95
+#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:990 ../gnomemusic/view.py:1458
 msgid "Unknown Album"
 msgstr "Nezināms albums"
 
-#: ../gnomemusic/mpris.py:149 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:391 ../gnomemusic/view.py:283
-#: ../gnomemusic/view.py:483 ../gnomemusic/view.py:717
-#: ../gnomemusic/view.py:1065 ../gnomemusic/view.py:1288
-#: ../gnomemusic/view.py:1319 ../gnomemusic/widgets.py:181
-#: ../gnomemusic/widgets.py:560
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:93
+#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:219
+#: ../gnomemusic/view.py:479 ../gnomemusic/view.py:733
+#: ../gnomemusic/view.py:1165 ../gnomemusic/view.py:1456
+#: ../gnomemusic/view.py:1508 ../gnomemusic/widgets.py:249
+#: ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Nezināms izpildītājs"
 
-#: ../gnomemusic/notification.py:89
+#: ../gnomemusic/notification.py:84
 msgid "Not playing"
 msgstr "Neatskaņo"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
+#: ../gnomemusic/notification.py:99
 #, python-format
 msgid "by %s, from %s"
 msgstr "%s, no %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:131 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Iepriekšējais"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:348
+#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pauzēt"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:137 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Atskaņot"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:139 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Nākamais"
 
-#: ../gnomemusic/searchbar.py:30 ../gnomemusic/searchbar.py:73
+#: ../gnomemusic/player.py:1090
+msgid "Unable to play the file"
+msgstr "Neizdevās atskaņot datni"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1095
+#, python-format
+msgid "_Find in %s"
+msgstr "_Meklēt mapē %s"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid " and "
+msgstr " un "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1108
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:1109
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "Lai atskaņotu datni, nepieciešams %s, bet tas nav uzinstalēts."
+msgstr[1] "Lai atskaņotu datni, nepieciešami %s, bet tie nav uzinstalēti."
+msgstr[2] "Lai atskaņotu datni, nepieciešami %s, bet tie nav uzinstalēti."
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:52
+#| msgid "Music Player"
+msgid "Most Played"
+msgstr "Visbiežāk atskaņotās"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:58
+msgid "Never Played"
+msgstr "Nekad neatskaņotās"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:64
+msgid "Recently Played"
+msgstr "Nesen atskaņotās"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Nesen pievienotās"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:76
+msgid "Favorite Songs"
+msgstr "Iecienītās dziesmas"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:76
+msgid "the a an"
+msgstr "the a an"
+
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "Visi"
 
-#: ../gnomemusic/searchbar.py:31
-#| msgid "Artists"
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Izpildītājs"
 
-#: ../gnomemusic/searchbar.py:32
-#| msgid "Albums"
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Albums"
 
-#: ../gnomemusic/searchbar.py:33
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Celiņa nosaukums"
 
-#: ../gnomemusic/searchbar.py:74
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "Lokāls"
 
-#: ../gnomemusic/searchbar.py:176
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "Avoti"
 
-#: ../gnomemusic/searchbar.py:183
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "Atbilst"
 
-#: ../gnomemusic/view.py:198 ../gnomemusic/widgets.py:222
-#: ../gnomemusic/widgets.py:439 ../gnomemusic/window.py:284
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -175,43 +279,38 @@ msgstr[0] "Izvēlēts %d vienums"
 msgstr[1] "Izvēlēti %d vienumi"
 msgstr[2] "Izvēlēti %d vienumi"
 
-#: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
-#: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:288
-#: ../gnomemusic/window.py:300 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
 
-#: ../gnomemusic/view.py:337
-#, python-format
-msgid ""
-"No Music found!\n"
-" Put some files into the folder %s"
-msgstr ""
-"Mūzika nav atrasta!\n"
-" Ievietojiet kādas datnes mapē %s"
+#: ../gnomemusic/view.py:276
+#| msgid "Music Player"
+msgid "Music folder"
+msgstr "Mūzikas mape"
 
-#: ../gnomemusic/view.py:345 ../gnomemusic/view.py:1534
+#: ../gnomemusic/view.py:299
+msgid "Hey DJ"
+msgstr "Eu DJ"
+
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1735
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../gnomemusic/view.py:427 ../gnomemusic/view.py:1536
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1737
 msgid "Songs"
 msgstr "Dziesmas"
 
-#: ../gnomemusic/view.py:591 ../gnomemusic/view.py:1535
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1736
 msgid "Artists"
 msgstr "Izpildītāji"
 
-#: ../gnomemusic/view.py:636 ../gnomemusic/view.py:638
-#: ../gnomemusic/widgets.py:448
-msgid "All Artists"
-msgstr "Visi izpildītāji"
-
-#: ../gnomemusic/view.py:797 ../gnomemusic/view.py:1537
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1738
 msgid "Playlists"
 msgstr "Repertuāri"
 
-#: ../gnomemusic/view.py:1077
+#: ../gnomemusic/view.py:1175
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -219,18 +318,41 @@ msgstr[0] "%d dziesma"
 msgstr[1] "%d dziesmas"
 msgstr[2] "%d dziesmu"
 
-#: ../gnomemusic/widgets.py:270 ../gnomemusic/widgets.py:308
+#: ../gnomemusic/view.py:1317
+msgid "Try a different search"
+msgstr "Mēģiniet ar citu meklējamo vārdu"
+
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d minūte"
 
-#: ../gnomemusic/widgets.py:674
+#: ../gnomemusic/widgets.py:544
+msgid "All Artists"
+msgstr "Visi izpildītāji"
+
+#: ../gnomemusic/widgets.py:789
 msgid "New Playlist"
 msgstr "Jauns repertuārs"
 
-#: ../gnomemusic/window.py:232
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "Tukšs"
+
+#: ../gnomemusic/window.py:337
+#| msgid "Loading..."
+msgid "Loading"
+msgstr "Ielādē"
+
+#: ../gnomemusic/window.py:355
+msgid "_Undo"
+msgstr "_Atsaukt"
+
+#: ../gnomemusic/window.py:356
+#, python-format
+#| msgid "Playlist Name"
+msgid "Playlist %s removed"
+msgstr "Repertuāra %s ir izņemts"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
@@ -245,6 +367,28 @@ msgid "Visit GNOME Music website"
 msgstr "Apmeklēt GNOME Mūzikas tīmekļa vietni"
 
 #: ../data/AboutDialog.ui.in.h:5
+#| msgid ""
+#| "GNOME Music is free software; you can redistribute it and/or modify it "
+#| "under the terms of the GNU General Public License as published by the "
+#| "Free Software Foundation; either version 2 of the License, or (at your "
+#| "option) any later version.\n"
+#| "\n"
+#| "GNOME Music is distributed in the hope that it will be useful, but "
+#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
+#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
+#| "Public License for more details.\n"
+#| "\n"
+#| "You should have received a copy of the GNU General Public License along "
+#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+#| "\n"
+#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
+#| "GStreamer plugins to be used and distributed together with GStreamer and "
+#| "GNOME Music.  This permission is above and beyond the permissions granted "
+#| "by the GPL license by which GNOME Music is covered.  If you modify this "
+#| "code, you may extend this exception to your version of the code, but you "
+#| "are not obligated to do so.  If you do not wish to do so, delete this "
+#| "exception statement from your version."
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -266,7 +410,10 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "GNOME Mūzika ir brīvā programmatūra; jūs varat izplatīt un/vai modificēt to "
 "saskaņā ar GNU Vispārējās Publiskās Licences 2. vai kādas vēlākas versijas "
@@ -278,14 +425,18 @@ msgstr ""
 "tekstā.\n"
 "GNU Vispārējās Publiskās Licence ir pieejama kopā ar GNOME Mūzika "
 "instalāciju. Ja tā jums nav pieejama, jūs to varat iegūt no Free Software "
-"Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.\n"
+"Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
 "GNOME Mūzika autori dod tiesības ar GPL nesavietojamiem GStreamer spraudņiem "
 "tik izplatītiem kopā ar GStreamer un GNOME Mūziku. Šīs tiesības ir plašākas "
 "kā tās, ko sniedz GPL licence, ko izmanto GNOME Mūzika. Ja vēlaties mainīt "
 "šo kodu, jūs varat šo izņēmumu attiecināt arī uz savas programmas pirmkodu, "
 "bet jums nav pienākuma to darīt. Ja nevēlaties iekļaut izņēmumu, izdzēsiet "
-"šo izņēmuma teikumu no savas versijas."
+"šo izņēmuma teikumu no savas versijas.\n"
+"\n"
+"Sami Pyylampi attēls \"Magic of the vinyl\" ir zem licences CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -296,18 +447,14 @@ msgid "Running Length"
 msgstr "Atskaņošanas ilgums"
 
 #: ../data/app-menu.ui.h:1
-msgid "_New Playlist"
-msgstr "Jau_ns repertuārs"
-
-#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Palīdzība"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:2
 msgid "_About"
 msgstr "P_ar"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "I_ziet"
 
@@ -323,13 +470,21 @@ msgstr "Atkārtot visas"
 msgid "Repeat Song"
 msgstr "Atkārtot dziesmu"
 
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Izslēgt jaukšanu/atkārtošanu"
 
 #: ../data/NoMusic.ui.h:1
-msgid "No Music Found"
-msgstr "Mūzika nav atrasta!"
+#| msgid "No Music Found"
+msgid "No music found"
+msgstr "Nav atrasta mūzika"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Jūsu %s saturs parādīsies šeit"
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -340,7 +495,6 @@ msgid "Select None"
 msgstr "Iezīmēt neko"
 
 #: ../data/headerbar.ui.h:4
-#| msgid "Search mode"
 msgid "Search"
 msgstr "Meklēt"
 
@@ -373,19 +527,9 @@ msgid "_Delete"
 msgstr "_Dzēst"
 
 #: ../data/PlaylistControls.ui.h:3
-#| msgid "Playlists"
 msgid "Playlist Name"
 msgstr "Repertuāra nosaukums"
 
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Izvēlieties repertuāru"
-
-#~ msgid "Load More"
-#~ msgstr "Ielādēt vairāk"
-
-#~ msgid "Loading..."
-#~ msgstr "Ielādē..."
-
-#~ msgid "_Now Playing"
-#~ msgstr "_Tagad atskaņo"
