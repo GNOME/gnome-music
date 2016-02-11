@@ -15,12 +15,12 @@
 
     <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
 
-    <desc>A simple and elegant replacement for using files to show the music
-    directory.</desc>
+    <desc>A simple and elegant replacement for using <app>Files</app> to show
+    the music directory.</desc>
   </info>
 
   <title>Introduction to Music</title>
-    <p>A simple and elegant replacement for using files to show the music
-    directory.</p>
+    <p>A simple and elegant replacement for using <app>Files</app> to show the
+    music directory.</p>
 
 </page>
