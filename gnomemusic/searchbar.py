@@ -87,8 +87,8 @@ class BaseManager:
             # No need to set the tag there
             if (selected_value[BaseModelColumns.ID] != 'search_all' and
                     selected_value[BaseModelColumns.ID] != 'grl-tracker-source'):
-                self.entry.add_tag(self.tag)
                 self.tag.set_label(selected_value[BaseModelColumns.NAME])
+                self.entry.add_tag(self.tag)
             else:
                 self.entry.remove_tag(self.tag)
 
