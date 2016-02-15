@@ -1,0 +1,504 @@
+# Bulgarian translation for gnome-music po-file.
+# Copyright (C) 2016 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gnome-music package.
+# Hristo Kozhuharov "XTard" <ickomcdevill@gmail.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-02-15 19:43+0200\n"
+"PO-Revision-Date: 2016-02-15 19:42+0200\n"
+"Last-Translator: Hristo Kozhuharov <ickomcdevill@gmail.com>\n"
+"Language-Team: Bulgarian <dict-notifications@fsa-bg.org>\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Размер на прозореца"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Размер на прозореца (широчина и височина)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Разположение на прозореца"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Разположение на прозореца (x и y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Прозорецът е максимизиран"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Прозорецът е в максимизирано състояние."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Режим на повторение"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Стойносттa определя дали да се повтарят или да се възпроизвеждат разбъркано "
+"нещата от колекцията. Позволени стойности са: „none“ (без повтаряне или "
+"разбъркване), „song“ (повтаряне на текущата песен), „all“ (повтаряне без "
+"разбъркване на списък за изпълнение) и „shuffle“ (повтаряне на списък за "
+"изпълнение с разбъркване)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Режим на търсене"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Ако е включено, прозорецът за търсене е показан."
+
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Режим за известия"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Включва или изключва известията при изпълнение"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr "Максимален брой знаци за името на песните в прегледа по автори"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Тази настройка определя при колко знака да се съкращава заглавието на песен "
+"в прегледа по автори. Променете това на -1, за да го изключите"
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Включване на автоматичното регулиране на звука"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Превключва автоматичното регулиране на звука за албуми"
+
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Показано е начално състояние"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Истина, когато е показано началното е било показано"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Музика"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Изпълнение на музика"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Слушайте и организирайте колекцията си от музика"
+
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "музика;плеър;песни;слуша;music;player;"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Музика"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "„Музика“ е новото приложение на GNOME за музика."
+
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
+msgid "Untitled"
+msgstr "Без заглавие"
+
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:95
+#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:990 ../gnomemusic/view.py:1458
+msgid "Unknown Album"
+msgstr "Неизвестен албум"
+
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:93
+#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:219
+#: ../gnomemusic/view.py:479 ../gnomemusic/view.py:733
+#: ../gnomemusic/view.py:1165 ../gnomemusic/view.py:1456
+#: ../gnomemusic/view.py:1508 ../gnomemusic/widgets.py:249
+#: ../gnomemusic/widgets.py:661
+msgid "Unknown Artist"
+msgstr "Неизвестен автор"
+
+#: ../gnomemusic/notification.py:84
+msgid "Not playing"
+msgstr "Пауза"
+
+#. TRANSLATORS: by refers to the artist, from to the album
+#: ../gnomemusic/notification.py:99
+#, python-format
+msgid "by %s, from %s"
+msgstr "на %s, от албума „%s“"
+
+#: ../gnomemusic/notification.py:131 ../data/PlayerToolbar.ui.h:6
+msgid "Previous"
+msgstr "Предишна"
+
+#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:554
+msgid "Pause"
+msgstr "Пауза"
+
+#: ../gnomemusic/notification.py:137 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
+msgid "Play"
+msgstr "Изпълнение"
+
+#: ../gnomemusic/notification.py:139 ../data/PlayerToolbar.ui.h:8
+msgid "Next"
+msgstr "Следваща"
+
+#: ../gnomemusic/player.py:1090
+msgid "Unable to play the file"
+msgstr "Файлът не може да се възпроизведе"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1095
+#, python-format
+msgid "_Find in %s"
+msgstr "_Търсене в „%s“"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid " and "
+msgstr "и"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1108
+msgid ", "
+msgstr ","
+
+#: ../gnomemusic/player.py:1109
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "%s е нужен, за да се пусне файла, но не е инсталиран."
+msgstr[1] "%s са нужни, за да се пусне файла, но не са инсталирани."
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:52
+msgid "Most Played"
+msgstr "Най-слушани"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:58
+msgid "Never Played"
+msgstr "Никога слушани"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:64
+msgid "Recently Played"
+msgstr "Скоро слушани"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Скоро добавени"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:76
+msgid "Favorite Songs"
+msgstr "Любими песни"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:76
+msgid "the a an"
+msgstr "the a an"
+
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
+msgid "All"
+msgstr "Всички"
+
+#: ../gnomemusic/searchbar.py:63
+msgid "Artist"
+msgstr "Автор"
+
+#: ../gnomemusic/searchbar.py:64
+msgid "Album"
+msgstr "Албум"
+
+#: ../gnomemusic/searchbar.py:65
+msgid "Track Title"
+msgstr "Име на песента"
+
+#: ../gnomemusic/searchbar.py:110
+msgid "Local"
+msgstr "Локално"
+
+#: ../gnomemusic/searchbar.py:222
+msgid "Sources"
+msgstr "Източници"
+
+#: ../gnomemusic/searchbar.py:229
+msgid "Match"
+msgstr "Съвпадение"
+
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:304
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Избран е %d елемент"
+msgstr[1] "Избрани са %d елемента"
+
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Изберете елементи чрез натискане"
+
+#: ../gnomemusic/view.py:276
+msgid "Music folder"
+msgstr "Папка с музика"
+
+#: ../gnomemusic/view.py:299
+msgid "Hey DJ"
+msgstr "Диджей"
+
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1735
+msgid "Albums"
+msgstr "Албуми"
+
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1737
+msgid "Songs"
+msgstr "Песни"
+
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1736
+msgid "Artists"
+msgstr "Автори"
+
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1738
+msgid "Playlists"
+msgstr "Списъци за изпълнение"
+
+# im not sure what stays on the place of %d, so there might be a mistake
+#: ../gnomemusic/view.py:1175
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d песен"
+msgstr[1] "%d песни"
+
+#: ../gnomemusic/view.py:1317
+msgid "Try a different search"
+msgstr "Потърсете по друг начин"
+
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
+#, python-format
+msgid "%d min"
+msgstr "%d мин."
+
+#: ../gnomemusic/widgets.py:544
+msgid "All Artists"
+msgstr "Всички автори"
+
+#: ../gnomemusic/widgets.py:789
+msgid "New Playlist"
+msgstr "Нов списък"
+
+#: ../gnomemusic/window.py:250
+msgid "Empty"
+msgstr "Празен"
+
+#: ../gnomemusic/window.py:337
+msgid "Loading"
+msgstr "Зареждане"
+
+#: ../gnomemusic/window.py:355
+msgid "_Undo"
+msgstr "_Отмяна"
+
+#: ../gnomemusic/window.py:356
+#, python-format
+msgid "Playlist %s removed"
+msgstr "Списъкът „%s“ е премахнат"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Авторски права: © 2013 Разработчиците на GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Изпълнение и организиране на песни и музика за GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Посетете сайта на GNOME Music"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
+msgstr ""
+"Тази програма (GNOME Music) е свободен софтуер. Можете да я разпространявате "
+"и/или променяте под условията на Общия публичен лиценз на GNU (GNU GPL), "
+"както е публикуван от Фондацията за свободен софтуер — версия 2 на лиценза "
+"или (по ваше решение) по-късна версия.\n"
+"\n"
+"Тази програма се разпространява с надеждата, че ще бъде полезна, но БЕЗ "
+"НИКАКВИ ГАРАНЦИИ, дори и косвените за ПРОДАЖБА или СЪОТВЕТСТВИЕ С КАКВАТО И "
+"ДА Е УПОТРЕБА. За подробности погледнете Общия публичен лиценз на GNU.\n"
+"\n"
+"Трябва да сте получили копие от Общия публичен лиценз на GNU (GNU GPL) "
+"заедно с тази програма. Ако не сте, пишете на Free Software Foundation, "
+"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"Авторите на GNOME Music дават изрично разрешение за съвместно използване и "
+"разпространение на GNOME Music с приставките на GStreamer, които не са "
+"съвместими с GNU GPL. Това право е над и извън правата предоставени от GNU "
+"GPL — лицензът, по който GNOME Music се разпространява. Ако промените този "
+"код, може да разрешите това изключение за вашата версия на кода, но това не "
+"е задължително. Ако не желаете да позволите това изключение, изтрийте тази "
+"клауза от от вашата версия.\n"
+"\n"
+"„Магията на винила“ от Сами Пилампи, изображението е лицензирано по "
+"условията на CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Издаден"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Продължителност"
+
+#: ../data/app-menu.ui.h:1
+msgid "_Help"
+msgstr "Помо_щ"
+
+#: ../data/app-menu.ui.h:2
+msgid "_About"
+msgstr "_Относно"
+
+#: ../data/app-menu.ui.h:3
+msgid "_Quit"
+msgstr "_Спиране на програмата"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Разбъркване"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Повтаряне на всички"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Повтаряне на песента"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "Разбъркване/повтаряне изключено"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "Няма никаква музика"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Съдържанието на „%s“ ще се появи тук."
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Избор на всички"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Избор на някои"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Търсене"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Избор"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Отказ"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Назад"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Добавяне в списък"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Изваждане от списък"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Изпълнение"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Изтриване"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Име на списъка за изпълнение"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Избор на списък за изпълнение"
