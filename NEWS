@@ -1,5 +1,19 @@
+Overview of changes in 3.19.90
+==============================
+
+Bugs fixed:
+ 761173 Update tracker queries to sparql 1.1 syntax
+ 760170 Fix check button appearance on AlbumWidget
+ 760170 Fix check buttons appearance in Songs and Playlist view
+ 736463 Reposition the scrollbar in the search window
+ 760171 Resized songs list for better viewing in large window
+
+Translations updated:
+ Latvian
+ Bulgarian
+
 Overview of changes in 3.19.4
-============================
+=============================
 
 Bugs fixed:
  Let GtkApplication automatically load the app-menu
