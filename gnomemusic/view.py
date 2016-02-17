@@ -1288,6 +1288,7 @@ class Playlist(ViewContainer):
     @log
     def populate(self):
         if grilo.tracker:
+            self.playlists_model.clear()
             GLib.idle_add(grilo.populate_playlists, self._offset,
                           self._add_playlist_item)
 
