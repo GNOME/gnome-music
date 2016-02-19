@@ -3,6 +3,7 @@
   <gresource prefix="/org/gnome/Music">
     <file preprocess="xml-stripblanks">AboutDialog.ui</file>
     <file alias="gtk/menus.ui" preprocess="xml-stripblanks">app-menu.ui</file>
+    <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">help-overlay.ui</file>
     <file>application.css</file>
     <file>initial-state.png</file>
     <file preprocess="xml-stripblanks">AlbumWidget.ui</file>
