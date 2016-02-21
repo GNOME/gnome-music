@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-06-25 07:21+0000\n"
-"PO-Revision-Date: 2015-06-25 10:29+0100\n"
+"POT-Creation-Date: 2016-02-21 09:28+0000\n"
+"PO-Revision-Date: 2016-02-21 11:42+0100\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -106,9 +106,9 @@ msgstr "Počiatočný stav bol zobrazený"
 msgid "Set to true when initial state has been displayed"
 msgstr "Nastavte na hodnotu TRUE, keď počiatočný stav bol zobrazený"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Hudba"
 
@@ -133,76 +133,76 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Hudba je nová aplikácia na prehrávanie hudby v prostredí GNOME."
 
 # uri
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Nepomenovaný"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:571 ../gnomemusic/view.py:564
-#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1451
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:95
+#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:577
+#: ../gnomemusic/view.py:990 ../gnomemusic/view.py:1459
 msgid "Unknown Album"
 msgstr "Neznámy album"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:562 ../gnomemusic/view.py:223
-#: ../gnomemusic/view.py:464 ../gnomemusic/view.py:737
-#: ../gnomemusic/view.py:1177 ../gnomemusic/view.py:1449
-#: ../gnomemusic/view.py:1496 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:638
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:93
+#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:219
+#: ../gnomemusic/view.py:479 ../gnomemusic/view.py:733
+#: ../gnomemusic/view.py:1165 ../gnomemusic/view.py:1457
+#: ../gnomemusic/view.py:1509 ../gnomemusic/widgets.py:249
+#: ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Neznámy interpret"
 
-#: ../gnomemusic/notification.py:89
+#: ../gnomemusic/notification.py:84
 msgid "Not playing"
 msgstr "Neprehráva sa"
 
 #. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
+#: ../gnomemusic/notification.py:99
 #, python-format
 msgid "by %s, from %s"
 msgstr "od interpreta %s, z albumu %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:131 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Predchádzajúca"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:519
+#: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pozastaviť"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:522
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:137 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Prehrať"
 
 # DK: skladba
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:139 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Nasledujúca"
 
-#: ../gnomemusic/player.py:980
+#: ../gnomemusic/player.py:1090
 msgid "Unable to play the file"
 msgstr "Nie je možné prehrať tento súbor"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:985
+#: ../gnomemusic/player.py:1095
 #, python-format
 msgid "_Find in %s"
 msgstr "_Nájsť pomocou programu %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:995
+#: ../gnomemusic/player.py:1105
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:998
+#: ../gnomemusic/player.py:1108
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:999
+#: ../gnomemusic/player.py:1109
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -214,17 +214,17 @@ msgstr[2] ""
 "Kodeky %s sú potrebné na prehranie tohto súboru, ale nie sú nainštalované."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "Najviac prehrávané"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "Nikdy neprehraté"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "Nedávno prehrávané"
 
@@ -234,7 +234,7 @@ msgid "Recently Added"
 msgstr "Nedávno pridané"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "Obľúbené skladby"
 
@@ -242,40 +242,40 @@ msgstr "Obľúbené skladby"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#: ../gnomemusic/query.py:76
 msgid "the a an"
 msgstr "the"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "Všetko"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Interpret"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Názov stopy"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "Miestne"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "Zdroje"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "Vhodné hľadanému výrazu"
 
-#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:302
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -283,42 +283,37 @@ msgstr[0] "Vybraných %d položiek"
 msgstr[1] "Vybraná %d položka"
 msgstr[2] "Vybrané %d položky"
 
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:306
-#: ../gnomemusic/window.py:318 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kliknutím na položku ju vyberiete"
 
-#: ../gnomemusic/view.py:279
+#: ../gnomemusic/view.py:276
 msgid "Music folder"
-msgstr "Priečinok s hudbou"
+msgstr "priečinku s hudbou"
 
-#: ../gnomemusic/view.py:298
+#: ../gnomemusic/view.py:299
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1720
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1736
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../gnomemusic/view.py:398 ../gnomemusic/view.py:1722
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1738
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/view.py:596 ../gnomemusic/view.py:1721
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1737
 msgid "Artists"
 msgstr "Interpreti"
 
-#: ../gnomemusic/view.py:642 ../gnomemusic/view.py:644
-#: ../gnomemusic/widgets.py:524
-msgid "All Artists"
-msgstr "Všetci interpreti"
-
-#: ../gnomemusic/view.py:822 ../gnomemusic/view.py:1723
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1739
 msgid "Playlists"
 msgstr "Zoznamy skladieb"
 
-#: ../gnomemusic/view.py:1188
+#: ../gnomemusic/view.py:1175
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -326,32 +321,36 @@ msgstr[0] "%d skladieb"
 msgstr[1] "%d skladba"
 msgstr[2] "%d skladby"
 
-#: ../gnomemusic/view.py:1325
+#: ../gnomemusic/view.py:1318
 msgid "Try a different search"
 msgstr "Skúste vyhľadať niečo iné"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:762
+#: ../gnomemusic/widgets.py:544
+msgid "All Artists"
+msgstr "Všetci interpreti"
+
+#: ../gnomemusic/widgets.py:789
 msgid "New Playlist"
 msgstr "Nový zoznam skladieb"
 
-#: ../gnomemusic/window.py:248
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "Prázdne"
 
-#: ../gnomemusic/window.py:330
+#: ../gnomemusic/window.py:337
 msgid "Loading"
 msgstr "Načítava sa"
 
-#: ../gnomemusic/window.py:345
+#: ../gnomemusic/window.py:355
 msgid "_Undo"
 msgstr "Vrátiť _späť"
 
-#: ../gnomemusic/window.py:346
+#: ../gnomemusic/window.py:356
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Zoznam skladieb %s bol odstránený"
@@ -455,7 +454,8 @@ msgid "Repeat Song"
 msgstr "Opakovať skladbu"
 
 # GtkRadioMenuItem
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Vypnúť zamiešanie/opakovanie"
 
@@ -463,10 +463,11 @@ msgstr "Vypnúť zamiešanie/opakovanie"
 msgid "No music found"
 msgstr "Nenašla sa žiadna hudba"
 
-#: ../data/NoMusic.ui.h:3
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
-msgstr "Tu sa zobrazí obsah vášho priečinku %s."
+msgstr "Tu sa zobrazí obsah vášho %s."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
