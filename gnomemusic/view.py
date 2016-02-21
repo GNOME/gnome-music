@@ -1460,7 +1460,7 @@ class Search(ViewContainer):
 
         key = '%s-%s' % (artist, album)
         if key not in self._albums:
-            self._albums[key] = Grl.MediaBox()
+            self._albums[key] = Grl.Media()
             self._albums[key].set_title(album)
             self._albums[key].add_author(artist)
             self._albums[key].set_source(source.get_id())
