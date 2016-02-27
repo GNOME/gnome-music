@@ -72,6 +72,8 @@ class Grilo(GObject.GObject):
                                                   "gnome-music", "playlists"])
         if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):
             GLib.mkdir_with_parents(self.playlist_path, int("0755", 8))
+
+        Grl.init(None)
         self.options = Grl.OperationOptions()
         self.options.set_resolution_flags(Grl.ResolutionFlags.FAST_ONLY |
                                           Grl.ResolutionFlags.IDLE_RELAY)
@@ -318,7 +320,5 @@ class Grilo(GObject.GObject):
 
         self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
-
-Grl.init(None)
 
 grilo = Grilo()
