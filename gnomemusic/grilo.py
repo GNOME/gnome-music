@@ -32,7 +32,7 @@ from gnomemusic.query import Query
 from gnomemusic import log, TrackerWrapper
 import logging
 import os
-os.environ['GRL_PLUGIN_RANKS'] = 'local-metadata:3,filesystem:2,tracker:1,lastfm-albumart:0'
+os.environ['GRL_PLUGIN_RANKS'] = 'grl-local-metadata:4,grl-filesystem:3,grl-tracker-source:2,grl-lastfm-cover:1'
 from gi.repository import Grl
 logger = logging.getLogger(__name__)
 
