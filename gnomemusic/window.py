@@ -461,7 +461,8 @@ class Window(Gtk.ApplicationWindow):
                 # We should get back to the view before the search
                 self._stack.set_visible_child(self.views[4].previous_view)
             elif (self.views[4].previous_view == self.views[0] and
-                 self.curr_view.get_visible_child() != self.curr_view._albumWidget):
+                 self.curr_view.get_visible_child() != self.curr_view._albumWidget and
+                 self.curr_view.get_visible_child() != self.curr_view._artistAlbumsWidget):
                 self._stack.set_visible_child(self.views[0])
 
             if self.toolbar._selectionMode:
