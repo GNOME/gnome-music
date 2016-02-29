@@ -1,491 +1,393 @@
-# Occitan translation for gnome-music.
-# Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
-# This file is distributed under the same license as the gnome-music package.
-# 
+# Occitan translation of gnome-mines.
+# Copyright (C) 1998-2015 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gnome-games package.
+#
+#
 # Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>, 2015.
-# Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>, 2015.
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music master\n"
+"Project-Id-Version: gnome-mines master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-13 10:58+0000\n"
-"PO-Revision-Date: 2015-05-24 08:46+0200\n"
-"Last-Translator: Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>\n"
-"Language-Team: Tot en òc (totenoc.eu)\n"
+"mines&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-06-20 01:30+0000\n"
+"PO-Revision-Date: 2015-05-20 09:58+0200\n"
+"Last-Translator: Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>\n"
+"Language-Team: www.totenoc.eu\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: Virtaal 0.7.0\n"
 "X-Project-Style: gnome\n"
 
-#: ../data/org.gnome.Music.gschema.xml.h:1
-msgid "Window size"
-msgstr "Talha de la fenèstra"
+#: ../data/gnome-mines.appdata.xml.in.h:1
+msgid "GNOME Mines"
+msgstr "Desminaire GNOME"
 
-#: ../data/org.gnome.Music.gschema.xml.h:2
-msgid "Window size (width and height)."
-msgstr "La talha de la fenèstra (en largor e nautor)."
+#: ../data/gnome-mines.appdata.xml.in.h:2 ../data/gnome-mines.desktop.in.h:2
+msgid "Clear hidden mines from a minefield"
+msgstr "Netejar un champ de minas de sas minas amagadas"
 
-#: ../data/org.gnome.Music.gschema.xml.h:3
-msgid "Window position"
-msgstr "Posicion de la fenèstra"
-
-#: ../data/org.gnome.Music.gschema.xml.h:4
-msgid "Window position (x and y)."
-msgstr "La posicion de la fenèstra (en x e y)."
-
-#: ../data/org.gnome.Music.gschema.xml.h:5
-msgid "Window maximized"
-msgstr "Fenèstra maximizada"
-
-#: ../data/org.gnome.Music.gschema.xml.h:6
-msgid "Window maximized state."
-msgstr "Estat maximizat de la fenèstra."
-
-#: ../data/org.gnome.Music.gschema.xml.h:7
-msgid "Playback repeat mode"
-msgstr "Mòde de lectura repeticion"
-
-#. Translators: Don't translate allowed values, just the description in the brackets
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: ../data/gnome-mines.appdata.xml.in.h:3
 msgid ""
-"Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
-"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
-"\" (shuffle playlist, presumes repeat all)."
+"GNOME Mines is a puzzle game where you search for hidden mines. Flag the "
+"spaces with mines as quickly as possible to make the board a safer place. "
+"You win the game when you've flagged every mine on the board. Be careful not "
+"to trigger one, or the game is over!"
 msgstr ""
-"Valor qu'indica se cal repetir o rendre aleatòria la lectura de las musicas "
-"de la discotèca. Las valors possiblas son : « none » (pas cap, la repeticion "
-"e la mescla son desactivadas), « song » (repetís lo tròç actual), « all » ("
-"rejòga tota la lista de lectura, sens mescla), « shuffle » (mescla la lista "
-"de lectura, en supausant de rejogar tot)."
+"Lo desminaire GNOME es un copacap ont cercatz de minas amagadas. Senhalatz "
+"las casas que contenon una mina tant viste coma possible per far del platèu "
+"un luòc segur. Ganhatz quand avètz senhalat totas las minas del platèu. "
+"Fasètz atencion a ne desclavar pas qu'una, a la risca de pèrdre la partida !"
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
-msgid "Search mode"
-msgstr "Mòde de recèrca"
-
-#: ../data/org.gnome.Music.gschema.xml.h:11
-msgid "If true, the search bar is shown."
-msgstr "Se true (verai), la barra de recèrca s'aficha."
-
-#: ../data/org.gnome.Music.gschema.xml.h:12
-msgid "Notifications mode"
-msgstr "Mòde de notificacions"
-
-#: ../data/org.gnome.Music.gschema.xml.h:13
-msgid "Enables or disables playback notifications"
-msgstr "Activa o desactiva las notificacions de lectura"
-
-#: ../data/org.gnome.Music.gschema.xml.h:14
-msgid "Max chars to display in track name on Artist view"
-msgstr ""
-"Nombre maximum de caractèrs d'afichar dins lo títol del tròç en mòde vista "
-"per artista"
-
-#: ../data/org.gnome.Music.gschema.xml.h:15
+#: ../data/gnome-mines.appdata.xml.in.h:4
 msgid ""
-"This setting modifies the amount of chars for track title on Artist view "
-"before its been ellipsized. Set this to -1 to disable"
+"You can select the size of the field you want to play on at the start of the "
+"game. If you get stuck, you can ask for a hint: there's a time penalty, but "
+"that's better than hitting a mine!"
 msgstr ""
-"Aqueste paramètre determina lo nombre de caractèrs dins lo títol del tròç en "
-"mòde vista per artista abans que siá acorchida. Definissètz-lo a -1 per lo "
-"desactivar."
+"Podètz causir la talha del platèu que volètz al començament de la partida. "
+"Se sètz blocat, podètz demandar un indici. Recebretz una penalitat de temps, "
+"mas aquò val melhor que de sautar sus una mina !"
 
-#: ../data/org.gnome.Music.gschema.xml.h:16
-msgid "Enable ReplayGain"
-msgstr "Activar ReplayGain"
+#: ../data/gnome-mines.desktop.in.h:1 ../data/interface.ui.h:1
+#: ../src/gnome-mines.vala:162 ../src/gnome-mines.vala:223
+#: ../src/gnome-mines.vala:784
+msgid "Mines"
+msgstr "Minas"
 
-#: ../data/org.gnome.Music.gschema.xml.h:17
-msgid "Enables or disables ReplayGain for albums"
-msgstr "Activa o desactiva ReplayGain pels albums"
+#: ../data/gnome-mines.desktop.in.h:3
+msgid "minesweeper;"
+msgstr "desminaire;"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/toolbar.py:140
-#: ../gnomemusic/window.py:59 ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Musica"
+#: ../data/gnome-mines.desktop.in.h:4
+msgid "Small board"
+msgstr "Pichona grasilha"
 
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Lector de musica"
+#: ../data/gnome-mines.desktop.in.h:5
+msgid "Medium board"
+msgstr "Grasilha mejana"
 
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "Jogar e organizar vòstra discotèca"
+#: ../data/gnome-mines.desktop.in.h:6
+msgid "Big board"
+msgstr "Granda grasilha"
 
-#: ../data/gnome-music.desktop.in.h:4
-msgid "Music;Player;"
-msgstr "musica;lector de musica;"
+#: ../data/org.gnome.mines.gschema.xml.h:1
+msgid "The theme to use"
+msgstr "Tèma d'utilizar"
 
-#: ../data/gnome-music.appdata.xml.in.h:1
-msgid "GNOME Music"
-msgstr "GNOME Musica"
+#: ../data/org.gnome.mines.gschema.xml.h:2
+msgid "The title of the tile theme to use."
+msgstr "Títol del tèma de pèças d'utilizar."
 
-#: ../data/gnome-music.appdata.xml.in.h:3
-msgid "Music is the new GNOME music playing application."
-msgstr "Musica es la novèla aplicacion de lectura de musica de GNOME."
+#: ../data/org.gnome.mines.gschema.xml.h:3
+msgid "Use the unknown flag"
+msgstr "Utilizar la bandièra desconeguda"
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
-msgid "Untitled"
-msgstr "Sens títol"
+#: ../data/org.gnome.mines.gschema.xml.h:4
+msgid "Set to true to be able to mark squares as unknown."
+msgstr ""
+"Definir a verai per èsser capable de marcar los carrats coma desconeguts."
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:568 ../gnomemusic/view.py:537
-#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
-msgid "Unknown Album"
-msgstr "Album desconegut"
+#: ../data/org.gnome.mines.gschema.xml.h:5
+msgid "Warning about too many flags"
+msgstr "Avertiment quand i a tròp de bandièras"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:559 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
-#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:631
-msgid "Unknown Artist"
-msgstr "Artista desconegut"
-
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "Pas de lectura en cors"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "per %s, sus %s"
-
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
-msgid "Previous"
-msgstr "Precedent"
-
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:516
-msgid "Pause"
-msgstr "Pausa"
-
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:519
-#: ../data/PlayerToolbar.ui.h:6
-msgid "Play"
-msgstr "Lectura"
-
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
-msgid "Next"
-msgstr "Seguent"
-
-#: ../gnomemusic/player.py:979
-msgid "Unable to play the file"
-msgstr "Impossible de legir lo fichièr"
-
-#. TRANSLATORS: this is a button to launch a codec installer.
-#. %s will be replaced with the software installer's name, e.g.
-#. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:984
-#, python-format
-msgid "_Find in %s"
-msgstr "Cer_car dins %s"
-
-#. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:994
-msgid " and "
-msgstr " e "
-
-#. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:997
-msgid ", "
-msgstr ", "
-
-#: ../gnomemusic/player.py:998
-#, python-format
-msgid "%s is required to play the file, but is not installed."
-msgid_plural "%s are required to play the file, but are not installed."
-msgstr[0] "%s es requesit per legir aqueste fichièr, mas es pas installat."
-msgstr[1] "%s son requesits per legir aqueste fichièr, mas son pas installats."
-
-#. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
-msgid "Most Played"
-msgstr "Los mai jogats"
-
-#. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
-msgid "Never Played"
-msgstr "Pas jamai jogats"
-
-#. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
-msgid "Recently Played"
-msgstr "Jogats recentament"
-
-#. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:70
-msgid "Recently Added"
-msgstr "Aponduts recentament"
-
-#. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
-msgid "Favorite Songs"
-msgstr "Tròces favorits"
-
-#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
-#. list should include 'the' regardless of language. If some articles occur more
-#. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
-msgid "the a an"
-msgstr "the a an la lo los las"
-
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
-msgid "All"
-msgstr "Tot"
-
-#: ../gnomemusic/searchbar.py:59
-msgid "Artist"
-msgstr "Artistas"
-
-#: ../gnomemusic/searchbar.py:60
-msgid "Album"
-msgstr "Albums"
-
-#: ../gnomemusic/searchbar.py:61
-msgid "Track Title"
-msgstr "Títol del tròç"
-
-#: ../gnomemusic/searchbar.py:102
-msgid "Local"
-msgstr "Locala"
-
-#: ../gnomemusic/searchbar.py:204
-msgid "Sources"
-msgstr "Fonts"
-
-#: ../gnomemusic/searchbar.py:211
-msgid "Match"
-msgstr "Correspondéncia"
-
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "%d element es seleccionat"
-msgstr[1] "%d elements son seleccionats"
-
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
-msgid "Click on items to select them"
-msgstr "Clicatz suls elements per los seleccionar"
-
-#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
-msgid "Albums"
-msgstr "Albums"
-
-#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
-msgid "Songs"
-msgstr "Tròces"
-
-#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
-msgid "Artists"
-msgstr "Artistas"
-
-#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
-#: ../gnomemusic/widgets.py:517
-msgid "All Artists"
-msgstr "Totes los artistas"
-
-#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
-msgid "Playlists"
-msgstr "Listas de lectura"
-
-#: ../gnomemusic/view.py:1161
-#, python-format
-msgid "%d Song"
-msgid_plural "%d Songs"
-msgstr[0] "%d tròç"
-msgstr[1] "%d tròces"
-
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
-#, python-format
-msgid "%d min"
-msgstr "%d min"
-
-#: ../gnomemusic/widgets.py:755
-msgid "New Playlist"
-msgstr "Novèla lista de lectura"
-
-#: ../gnomemusic/window.py:240
-msgid "Empty"
-msgstr "Void"
-
-#: ../gnomemusic/window.py:320
-msgid "Loading"
-msgstr "Cargament en cors"
-
-#: ../gnomemusic/window.py:335
-msgid "_Undo"
-msgstr "_Anullar"
-
-#: ../gnomemusic/window.py:336
-#, python-format
-msgid "Playlist %s removed"
-msgstr "Lista de lectura %s suprimida"
-
-#: ../data/AboutDialog.ui.in.h:2
-msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Copyright © 2013 Desvolopaires de l'aplicacion Musica de GNOME"
-
-#: ../data/AboutDialog.ui.in.h:3
-msgid "A music player and management application for GNOME."
-msgstr "Un lector de musica e una aplicacion de gestion per GNOME."
-
-#: ../data/AboutDialog.ui.in.h:4
-msgid "Visit GNOME Music website"
-msgstr "Visitar lo site Web de GNOME Musica"
-
-#: ../data/AboutDialog.ui.in.h:5
+#: ../data/org.gnome.mines.gschema.xml.h:6
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"Set to true to enable warning icons when too many flags are placed next to a "
+"numbered tile."
 msgstr ""
-"GNOME Musica es un logicial liure ; lo podètz redistribuir e/o lo modificar "
-"al títol de las clausas de la Licéncia Publica Generala GNU, tala coma "
-"publicada per la Free Software Foundation ; siá la version 2 de la Licéncia, "
-"o (a vòstra discrecion) una version ulteriora quala que siá.\n"
-"Aqueste programa es distribuit dins l'espèr que serà utile, mas SENS CAP DE "
-"GARANTIDA ; sens la quita garantida implicita de COMERCIABILITAT o DE "
-"CONFORMITAT A UNA UTILIZACION PARTICULARA. Veire la Licéncia Publica "
-"Generala GNU per mai de detalhs.\n"
-"Vos caldriá aver recebut un exemplar de la Licéncia Publica Generala GNU amb "
-"aqueste programa ; se es pas lo cas, escrivètz a la Free Software Foundation "
-"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
-"Los autors de l'aplicacion Musica de GNOME acòrdan per la presenta "
-"l'autorizacion d'utilizar d'empeutons GStreamer non compatibles amb la "
-"licéncia GPL e de los distribuir conjuntament a GStreamer e a l'aplicacion "
-"Musica de GNOME. Aquesta permission susplanta e va al delà de las "
-"autorizacions acordadas per la licéncia GPL que cobrís l'aplicacion Musica "
-"de GNOME. Se modificatz aqueste còde, podètz espandir aquesta autorizacion a "
-"vòstra version del còde, mas i sètz pas obligats. Se o volètz pas, "
-"suprimissètz aquesta mencion d'excepcion de vòstra version."
+"Definir a verai per activar l'icòna d'avertiment quand tròp de bandièras son "
+"plaçadas al costat d'una casa numerotada."
 
-#: ../data/AlbumWidget.ui.h:1
-msgid "Released"
-msgstr "Publicat"
+#: ../data/org.gnome.mines.gschema.xml.h:7
+msgid "Enable automatic placing of flags"
+msgstr "Activar lo plaçament automatic de las bandièras"
 
-#: ../data/AlbumWidget.ui.h:2
-msgid "Running Length"
-msgstr "Durada"
+#: ../data/org.gnome.mines.gschema.xml.h:8
+msgid ""
+"Set to true to automatically flag squares as mined when enough squares are "
+"revealed"
+msgstr ""
+"Definir a verai per pausar automaticament de bandièras sus las casas quand "
+"pro de casas son reveladas."
 
-#: ../data/app-menu.ui.h:1
+#: ../data/org.gnome.mines.gschema.xml.h:9
+msgid "Enable animations"
+msgstr ""
+
+#: ../data/org.gnome.mines.gschema.xml.h:10
+msgid "Set to false to disable theme-defined transition animations"
+msgstr ""
+
+#: ../data/org.gnome.mines.gschema.xml.h:11
+msgid "Number of columns in a custom game"
+msgstr "Nombre de colomnas dins una partida personalizada"
+
+#: ../data/org.gnome.mines.gschema.xml.h:12
+msgid "Number of rows in a custom game"
+msgstr "Nombre de linhas dins una partida personalizada"
+
+#: ../data/org.gnome.mines.gschema.xml.h:13
+msgid "The number of mines in a custom game"
+msgstr "Lo nombre de minas per una partida personalizada"
+
+#: ../data/org.gnome.mines.gschema.xml.h:14
+msgid "Board size"
+msgstr "Talha del platèu"
+
+#: ../data/org.gnome.mines.gschema.xml.h:15
+msgid "Size of the board (0-2 = small-large, 3=custom)"
+msgstr "Talha del platèu (0-2 = pichon-grand, 3 = personalizat)"
+
+#: ../data/org.gnome.mines.gschema.xml.h:16
+msgid "Width of the window in pixels"
+msgstr "Largor de la fenèstra en pixèls"
+
+#: ../data/org.gnome.mines.gschema.xml.h:17
+msgid "Height of the window in pixels"
+msgstr "Nautor de la fenèstra en pixèls"
+
+#: ../data/org.gnome.mines.gschema.xml.h:18
+msgid "true if the window is maximized"
+msgstr "verai se la fenèstra es maximizada"
+
+#: ../data/interface.ui.h:2
+msgid "_Width"
+msgstr "_Largor"
+
+#: ../data/interface.ui.h:3
+msgid "_Height"
+msgstr "_Nautor"
+
+#: ../data/interface.ui.h:4
+msgid "Percent _mines"
+msgstr "Percentatge de _minas"
+
+#: ../data/interface.ui.h:5
+msgid "_Cancel"
+msgstr "A_nullar"
+
+#: ../data/interface.ui.h:6
+msgid "_Play Game"
+msgstr "_Aviar lo jòc"
+
+#: ../data/interface.ui.h:7 ../src/gnome-mines.vala:589
+#: ../src/gnome-mines.vala:695 ../src/gnome-mines.vala:733
+msgid "_Pause"
+msgstr "_Pausa"
+
+#: ../data/interface.ui.h:8
+msgid "Change _Difficulty"
+msgstr "Cambiar la _dificultat"
+
+#: ../data/interface.ui.h:9
+msgid "_Best Times"
+msgstr "_Melhors tempses"
+
+#: ../data/interface.ui.h:10
+msgid "_Play Again"
+msgstr "_Refar una partida"
+
+#: ../data/interface.ui.h:11
+msgid "Paused"
+msgstr "Suspendut"
+
+#: ../src/gnome-mines.vala:88
+msgid "Print release version and exit"
+msgstr "Aficha la version e quita"
+
+#: ../src/gnome-mines.vala:89
+msgid "Small game"
+msgstr "Pichona grasilha"
+
+#: ../src/gnome-mines.vala:90
+msgid "Medium game"
+msgstr "Grasilha mejana"
+
+#: ../src/gnome-mines.vala:91
+msgid "Big game"
+msgstr "Granda grasilha"
+
+#: ../src/gnome-mines.vala:235 ../src/gnome-mines.vala:254
+msgid "_Scores"
+msgstr "_Marcas"
+
+#: ../src/gnome-mines.vala:236 ../src/gnome-mines.vala:255
+msgid "A_ppearance"
+msgstr "A_paréncia"
+
+#: ../src/gnome-mines.vala:239 ../src/gnome-mines.vala:256
+msgid "_Show Warnings"
+msgstr "Afichar los a_vertiments"
+
+#: ../src/gnome-mines.vala:240 ../src/gnome-mines.vala:257
+msgid "_Use Question Flags"
+msgstr "_Utilizar de bandièras punts d'interrogacion"
+
+#: ../src/gnome-mines.vala:243 ../src/gnome-mines.vala:260
 msgid "_Help"
-msgstr "A_juda"
+msgstr "Aju_da"
 
-#: ../data/app-menu.ui.h:2
+#: ../src/gnome-mines.vala:244 ../src/gnome-mines.vala:262
 msgid "_About"
 msgstr "A _prepaus"
 
-#: ../data/app-menu.ui.h:3
+#: ../src/gnome-mines.vala:245 ../src/gnome-mines.vala:258
 msgid "_Quit"
 msgstr "_Quitar"
 
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "Mesclar"
+#: ../src/gnome-mines.vala:252
+msgid "_Mines"
+msgstr "_Minas"
 
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "Repetir tot"
+#: ../src/gnome-mines.vala:253
+msgid "_New Game"
+msgstr "_Novèla partida"
 
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "Repetir lo tròç"
+#: ../src/gnome-mines.vala:261
+msgid "_Contents"
+msgstr "_Ensenhador"
 
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "Desactivar mesclar/repetir"
+#: ../src/gnome-mines.vala:353
+msgid "Custom"
+msgstr "Personalizada"
 
-#: ../data/NoMusic.ui.h:1
-msgid "No music found"
-msgstr "Cap de musica pas trobada"
+#: ../src/gnome-mines.vala:432
+#, c-format
+msgid "<b>%d</b> mine"
+msgid_plural "<b>%d</b> mines"
+msgstr[0] "<b>%d</b> mina"
+msgstr[1] "<b>%d</b> minas"
 
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "Lo contengut de vòstre dorsièr Musica s'aficharà aicí."
+#: ../src/gnome-mines.vala:546
+msgid "Do you want to start a new game?"
+msgstr "Volètz començar una novèla partida ?"
 
-#: ../data/headerbar.ui.h:1
-msgid "Select All"
-msgstr "Seleccionar tot"
+#: ../src/gnome-mines.vala:547
+msgid "If you start a new game, your current progress will be lost."
+msgstr "Se començatz una novèla partida, vòstra avançada actuala serà perduda."
 
-#: ../data/headerbar.ui.h:2
-msgid "Select None"
-msgstr "Seleccionar pas res"
+#: ../src/gnome-mines.vala:548
+msgid "Keep Current Game"
+msgstr "Contunhar la partida en cors"
 
-#: ../data/headerbar.ui.h:4
-msgid "Search"
-msgstr "Recercar"
+#: ../src/gnome-mines.vala:549
+msgid "Start New Game"
+msgstr "Començar una novèla partida"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
-msgid "Select"
-msgstr "Seleccionar"
+#: ../src/gnome-mines.vala:590
+msgid "St_art Over"
+msgstr "Re_començar"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
-msgid "Cancel"
-msgstr "Anullar"
+#: ../src/gnome-mines.vala:693
+msgid "_Resume"
+msgstr "_Repréner"
 
-#: ../data/headerbar.ui.h:7
-msgid "Back"
-msgstr "Retorn"
+#: ../src/gnome-mines.vala:711
+msgid "Play _Again"
+msgstr "Re_far una partida"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "Apondre a la lista de lectura"
+#: ../src/gnome-mines.vala:757
+msgid "Main game:"
+msgstr "Jòc principal :"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "Suprimir de la lista de lectura"
+#: ../src/gnome-mines.vala:762
+msgid "Score:"
+msgstr "Marca :"
 
-#: ../data/PlaylistControls.ui.h:1
-msgid "_Play"
-msgstr "_Legir"
+#: ../src/gnome-mines.vala:765
+msgid "Resizing and SVG support:"
+msgstr "Redimensionament e presa en carga de SVG :"
 
-#: ../data/PlaylistControls.ui.h:2
-msgid "_Delete"
-msgstr "_Suprimir"
+#: ../src/gnome-mines.vala:787
+msgid "Clear explosive mines off the board"
+msgstr "Neutralizar las minas explosivas d'un platèu"
 
-#: ../data/PlaylistControls.ui.h:3
-msgid "Playlist Name"
-msgstr "Nom de la lista de lectura"
+#: ../src/gnome-mines.vala:794
+msgid "translator-credits"
+msgstr "Cédric Valmary <cvalmary@yahoo.fr>"
 
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "Seleccionar la lista de lectura"
+#: ../src/score-dialog.vala:18
+msgid "_Close"
+msgstr "_Tampar"
 
-#~ msgid ""
-#~ "No Music found!\n"
-#~ " Put some files into the folder %s"
-#~ msgstr ""
-#~ "Aucune musique trouvée !\n"
-#~ " Mettez qualques fichièrs dans le dossier %s"
+#: ../src/score-dialog.vala:20
+msgid "New Game"
+msgstr "Novèla partida"
 
-#~ msgid "_New Playlist"
-#~ msgstr "_Nouvelle lista de lecture"
+#: ../src/score-dialog.vala:24
+msgid "_OK"
+msgstr "_D'acòrdi"
+
+#: ../src/score-dialog.vala:36
+msgid "Size:"
+msgstr "Talha :"
+
+#: ../src/score-dialog.vala:61
+msgid "Date"
+msgstr "Data"
+
+#: ../src/score-dialog.vala:64
+msgid "Time"
+msgstr "Durada"
+
+#: ../src/score-dialog.vala:160
+#, c-format
+msgid "%u × %u, %u mine"
+msgid_plural "%u × %u, %u mines"
+msgstr[0] "%u × %u, %u mina"
+msgstr[1] "%u × %u, %u minas"
+
+#: ../src/theme-selector-dialog.vala:77
+msgid "Use _animations"
+msgstr ""
+
+#: ../src/theme-selector-dialog.vala:93
+msgid "Select Theme"
+msgstr "Causir un tèma"
+
+#: ../src/theme-selector-dialog.vala:116
+msgid "Close"
+msgstr "Tampar"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Préférences"
+
+#~ msgid "Receive a hint for your next move"
+#~ msgstr "Recebre una astuce pour votre prochain coup"
+
+#~ msgid "H_orizontal:"
+#~ msgstr "H_orizontale :"
+
+#~ msgid "_Vertical:"
+#~ msgstr "_Verticale :"
+
+#~ msgid "_Number of mines:"
+#~ msgstr "_Nombre de mines :"
+
+#~ msgid "Faces:"
+#~ msgstr "Figures :"
+
+#~ msgid "Graphics:"
+#~ msgstr "Graphismes :"
+
+#~ msgid "Mines Preferences"
+#~ msgstr "Préférences del démineur GNOME"
+
+#~ msgid "_Use \"I'm not sure\" flags"
+#~ msgstr "_Utiliser le drapeau « Je ne suis pas sûr »"
+
+#~ msgid "_Warn if too many flags are placed next to a number"
+#~ msgstr "_Avertir lorsque trop de drapeaux son à côté d'un nombre"
+
+#~ msgid "Start a new game"
+#~ msgstr "Commence una nouvelle partie"
+
+#~ msgid "Pause the game"
+#~ msgstr "Suspend la partie"
+
+#~ msgid "Unpause the game"
+#~ msgstr "Reprend la partie"
