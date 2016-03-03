@@ -1,3 +1,16 @@
+Overview of changes in 3.19.91
+==============================
+
+Bugs fixed:
+ 744829 No more duplicate playlists on the sidebar
+ 762406 More Grilo 0.3 transition fixes
+ 762265 No more notifications on track changes
+
+Translations updated:
+ Slovak
+ Occitan
+ Ukrainian
+
 Overview of changes in 3.19.90
 ==============================
 
