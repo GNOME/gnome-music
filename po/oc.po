@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-03-01 09:30+0000\n"
-"PO-Revision-Date: 2016-03-04 11:59+0200\n"
+"PO-Revision-Date: 2016-03-04 12:05+0200\n"
 "Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
 "Language: oc\n"
@@ -55,11 +55,11 @@ msgid ""
 "\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Valor qu'indica se cal repetir o rendre aleatòria la lectura des musicas de "
-"la discotèca. Las valors possiblas son : « none » (aucune, la repeticion e "
-"lo mescla son desactivats), « song » (repetís lo tròç actual), « all » ("
+"Valor qu'indica se cal repetir o rendre aleatòria la lectura de las musicas "
+"de la discotèca. Las valors possiblas son : « none » (pas cap, la repeticion "
+"e la mescla son desactivats), « song » (repetís lo tròç actual), « all » ("
 "rejòga tota la lista de lectura, sens mescla), « shuffle » (mescla la lista "
-"de lectura, en supposant de tot rejogar)."
+"de lectura, en supausant de tot rejogar)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -80,8 +80,8 @@ msgstr "Activa o desactiva las notificacions de lectura"
 #: ../data/org.gnome.Music.gschema.xml.h:14
 msgid "Max chars to display in track name on Artist view"
 msgstr ""
-"Nombre maximum de caractèrs a afichar dins lo títol del tròç en mòde vista "
-"par artista"
+"Nombre maximum de caractèrs d'afichar dins lo títol del tròç en mòde vista "
+"per artista"
 
 #: ../data/org.gnome.Music.gschema.xml.h:15
 msgid ""
@@ -106,7 +106,7 @@ msgstr "L'estat initial es estat afichat"
 
 #: ../data/org.gnome.Music.gschema.xml.h:19
 msgid "Set to true when initial state has been displayed"
-msgstr "Vaut « true » (verai) se l'estat inicial es estat afichat"
+msgstr "Val « true » (verai) se l'estat inicial es estat afichat"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
 #: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
@@ -499,4 +499,4 @@ msgstr "Seleccionar la lista de lectura"
 #~ msgstr "Pas de lectura en cors"
 
 #~ msgid "by %s, from %s"
-#~ msgstr "par %s, sus %s"
+#~ msgstr "per %s, sus %s"
