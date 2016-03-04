@@ -1,18 +1,16 @@
 # Occitan translation for gnome-music.
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# 
-# Cédric Valmary (Tot en Òc) <cvalmary@yahoo.fr>, 2015.
-# Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>, 2015.
+# Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-05-13 10:58+0000\n"
-"PO-Revision-Date: 2015-05-24 08:46+0200\n"
-"Last-Translator: Cédric Valmary (Tot en òc) <cvalmary@yahoo.fr>\n"
-"Language-Team: Tot en òc (totenoc.eu)\n"
+"POT-Creation-Date: 2016-03-01 09:30+0000\n"
+"PO-Revision-Date: 2016-03-04 11:59+0200\n"
+"Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
+"Language-Team: Tot En Òc\n"
 "Language: oc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,11 +55,11 @@ msgid ""
 "\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
 "\" (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Valor qu'indica se cal repetir o rendre aleatòria la lectura de las musicas "
-"de la discotèca. Las valors possiblas son : « none » (pas cap, la repeticion "
-"e la mescla son desactivadas), « song » (repetís lo tròç actual), « all » ("
+"Valor qu'indica se cal repetir o rendre aleatòria la lectura des musicas de "
+"la discotèca. Las valors possiblas son : « none » (aucune, la repeticion e "
+"lo mescla son desactivats), « song » (repetís lo tròç actual), « all » ("
 "rejòga tota la lista de lectura, sens mescla), « shuffle » (mescla la lista "
-"de lectura, en supausant de rejogar tot)."
+"de lectura, en supposant de tot rejogar)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -82,8 +80,8 @@ msgstr "Activa o desactiva las notificacions de lectura"
 #: ../data/org.gnome.Music.gschema.xml.h:14
 msgid "Max chars to display in track name on Artist view"
 msgstr ""
-"Nombre maximum de caractèrs d'afichar dins lo títol del tròç en mòde vista "
-"per artista"
+"Nombre maximum de caractèrs a afichar dins lo títol del tròç en mòde vista "
+"par artista"
 
 #: ../data/org.gnome.Music.gschema.xml.h:15
 msgid ""
@@ -91,7 +89,7 @@ msgid ""
 "before its been ellipsized. Set this to -1 to disable"
 msgstr ""
 "Aqueste paramètre determina lo nombre de caractèrs dins lo títol del tròç en "
-"mòde vista per artista abans que siá acorchida. Definissètz-lo a -1 per lo "
+"mòde vista per artista abans que siá acorchit. Definissètz-lo a -1 per lo "
 "desactivar."
 
 #: ../data/org.gnome.Music.gschema.xml.h:16
@@ -102,9 +100,17 @@ msgstr "Activar ReplayGain"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Activa o desactiva ReplayGain pels albums"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/toolbar.py:140
-#: ../gnomemusic/window.py:59 ../data/AboutDialog.ui.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "L'estat initial es estat afichat"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Vaut « true » (verai) se l'estat inicial es estat afichat"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musica"
 
@@ -128,93 +134,82 @@ msgstr "GNOME Musica"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musica es la novèla aplicacion de lectura de musica de GNOME."
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Sens títol"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:568 ../gnomemusic/view.py:537
-#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/player.py:607
+#: ../gnomemusic/view.py:577 ../gnomemusic/view.py:990
+#: ../gnomemusic/view.py:1459
 msgid "Unknown Album"
 msgstr "Album desconegut"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:559 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
-#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:631
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/player.py:597
+#: ../gnomemusic/view.py:219 ../gnomemusic/view.py:479
+#: ../gnomemusic/view.py:733 ../gnomemusic/view.py:1165
+#: ../gnomemusic/view.py:1457 ../gnomemusic/view.py:1509
+#: ../gnomemusic/widgets.py:249 ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Artista desconegut"
 
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "Pas de lectura en cors"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "per %s, sus %s"
-
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:65 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Precedent"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:516
+#: ../gnomemusic/notification.py:68 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pausa"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:519
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:71 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Lectura"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:73 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Seguent"
 
-#: ../gnomemusic/player.py:979
+#: ../gnomemusic/player.py:1090
 msgid "Unable to play the file"
 msgstr "Impossible de legir lo fichièr"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:984
+#: ../gnomemusic/player.py:1095
 #, python-format
 msgid "_Find in %s"
-msgstr "Cer_car dins %s"
+msgstr "_Trobar dins %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:994
+#: ../gnomemusic/player.py:1105
 msgid " and "
 msgstr " e "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:997
+#: ../gnomemusic/player.py:1108
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:998
+#: ../gnomemusic/player.py:1109
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
-msgstr[0] "%s es requesit per legir aqueste fichièr, mas es pas installat."
-msgstr[1] "%s son requesits per legir aqueste fichièr, mas son pas installats."
+msgstr[0] "%s es necessari per legir lo fichièr, mas es pas installat."
+msgstr[1] "%s son necessaris per legir lo fichièr, mas son pas installats."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "Los mai jogats"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "Pas jamai jogats"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "Jogats recentament"
 
@@ -224,7 +219,7 @@ msgid "Recently Added"
 msgstr "Aponduts recentament"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "Tròces favorits"
 
@@ -232,102 +227,113 @@ msgstr "Tròces favorits"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#: ../gnomemusic/query.py:76
 msgid "the a an"
-msgstr "the a an la lo los las"
+msgstr "the a an la lo le les las"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "Tot"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Artistas"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Albums"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Títol del tròç"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "Locala"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "Fonts"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "Correspondéncia"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d element es seleccionat"
 msgstr[1] "%d elements son seleccionats"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Clicatz suls elements per los seleccionar"
 
-#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
+#: ../gnomemusic/view.py:276
+msgid "Music folder"
+msgstr "Dorsièr de musica"
+
+#: ../gnomemusic/view.py:299
+msgid "Hey DJ"
+msgstr "È DJ"
+
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1736
 msgid "Albums"
 msgstr "Albums"
 
-#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1738
 msgid "Songs"
 msgstr "Tròces"
 
-#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1737
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
-#: ../gnomemusic/widgets.py:517
-msgid "All Artists"
-msgstr "Totes los artistas"
-
-#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1739
 msgid "Playlists"
 msgstr "Listas de lectura"
 
-#: ../gnomemusic/view.py:1161
+#: ../gnomemusic/view.py:1175
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d tròç"
 msgstr[1] "%d tròces"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/view.py:1318
+msgid "Try a different search"
+msgstr "Ensajatz una recèrca diferenta"
+
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:755
+#: ../gnomemusic/widgets.py:544
+msgid "All Artists"
+msgstr "Totes los artistas"
+
+#: ../gnomemusic/widgets.py:789
 msgid "New Playlist"
 msgstr "Novèla lista de lectura"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "Void"
 
-#: ../gnomemusic/window.py:320
+#: ../gnomemusic/window.py:337
 msgid "Loading"
 msgstr "Cargament en cors"
 
-#: ../gnomemusic/window.py:335
+#: ../gnomemusic/window.py:355
 msgid "_Undo"
 msgstr "_Anullar"
 
-#: ../gnomemusic/window.py:336
+#: ../gnomemusic/window.py:356
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Lista de lectura %s suprimida"
@@ -366,27 +372,33 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
-"GNOME Musica es un logicial liure ; lo podètz redistribuir e/o lo modificar "
+"GNOME Musica es un logicial liure ; podètz lo redistribuir e/o lo modificar "
 "al títol de las clausas de la Licéncia Publica Generala GNU, tala coma "
 "publicada per la Free Software Foundation ; siá la version 2 de la Licéncia, "
-"o (a vòstra discrecion) una version ulteriora quala que siá.\n"
-"Aqueste programa es distribuit dins l'espèr que serà utile, mas SENS CAP DE "
+"o (coma voldretz) una version ulteriora quina que foguèsse.\n"
+"Aqueste programa es distribuit dins l'esper que serà utile, mas SENS CAP DE "
 "GARANTIDA ; sens la quita garantida implicita de COMERCIABILITAT o DE "
-"CONFORMITAT A UNA UTILIZACION PARTICULARA. Veire la Licéncia Publica "
+"CONFORMITAT A UNA UTILIZACION PARTICULARA. Vejatz la Licéncia Publica "
 "Generala GNU per mai de detalhs.\n"
-"Vos caldriá aver recebut un exemplar de la Licéncia Publica Generala GNU amb "
+"Deuriatz aver recebut un exemplar de la Licéncia Publica Generala GNU amb "
 "aqueste programa ; se es pas lo cas, escrivètz a la Free Software Foundation "
 "Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
 "Los autors de l'aplicacion Musica de GNOME acòrdan per la presenta "
 "l'autorizacion d'utilizar d'empeutons GStreamer non compatibles amb la "
 "licéncia GPL e de los distribuir conjuntament a GStreamer e a l'aplicacion "
-"Musica de GNOME. Aquesta permission susplanta e va al delà de las "
+"Musica de GNOME. Aquesta permission suplanta e va de delà de las "
 "autorizacions acordadas per la licéncia GPL que cobrís l'aplicacion Musica "
 "de GNOME. Se modificatz aqueste còde, podètz espandir aquesta autorizacion a "
-"vòstra version del còde, mas i sètz pas obligats. Se o volètz pas, "
-"suprimissètz aquesta mencion d'excepcion de vòstra version."
+"vòstra version del còde, mas i sètz pas obligats. Se o desiratz pas, "
+"suprimissètz aquesta mencion d'excepcion de vòstra version.\n"
+"\n"
+"L'imatge « Magic of the vinyl » per Sami Pyylampi es jos licéncia CC-BY-SA "
+"2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -420,7 +432,8 @@ msgstr "Repetir tot"
 msgid "Repeat Song"
 msgstr "Repetir lo tròç"
 
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Desactivar mesclar/repetir"
 
@@ -428,9 +441,11 @@ msgstr "Desactivar mesclar/repetir"
 msgid "No music found"
 msgstr "Cap de musica pas trobada"
 
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "Lo contengut de vòstre dorsièr Musica s'aficharà aicí."
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Lo contengut de vòstre %s s'afichara aicí."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -480,12 +495,8 @@ msgstr "Nom de la lista de lectura"
 msgid "Select Playlist"
 msgstr "Seleccionar la lista de lectura"
 
-#~ msgid ""
-#~ "No Music found!\n"
-#~ " Put some files into the folder %s"
-#~ msgstr ""
-#~ "Aucune musique trouvée !\n"
-#~ " Mettez qualques fichièrs dans le dossier %s"
+#~ msgid "Not playing"
+#~ msgstr "Pas de lectura en cors"
 
-#~ msgid "_New Playlist"
-#~ msgstr "_Nouvelle lista de lecture"
+#~ msgid "by %s, from %s"
+#~ msgstr "par %s, sus %s"
