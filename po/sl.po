@@ -2,15 +2,15 @@
 # Copyright (C) 2013 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# Matej Urbančič <mateju@svn.gnome.org>, 2009-2015.
+# Matej Urbančič <mateju@svn.gnome.org>, 2009-2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-12-13 09:25+0000\n"
-"PO-Revision-Date: 2015-12-13 20:05+0100\n"
+"POT-Creation-Date: 2016-03-03 21:43+0100\n"
+"PO-Revision-Date: 2016-03-05 20:04+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.4\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -134,49 +134,38 @@ msgstr "GNOME Glasbe"
 msgid "Music is the new GNOME music playing application."
 msgstr "Glasba je nov program za predvajanje glasbe za namizje GNOME"
 
-#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
-#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:588
-#: ../gnomemusic/view.py:999 ../gnomemusic/view.py:1468
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/player.py:607
+#: ../gnomemusic/view.py:577 ../gnomemusic/view.py:990
+#: ../gnomemusic/view.py:1459
 msgid "Unknown Album"
 msgstr "Neznan album"
 
-#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
-#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:488 ../gnomemusic/view.py:743
-#: ../gnomemusic/view.py:1173 ../gnomemusic/view.py:1466
-#: ../gnomemusic/view.py:1518 ../gnomemusic/widgets.py:248
-#: ../gnomemusic/widgets.py:660
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/player.py:597
+#: ../gnomemusic/view.py:219 ../gnomemusic/view.py:479
+#: ../gnomemusic/view.py:733 ../gnomemusic/view.py:1165
+#: ../gnomemusic/view.py:1457 ../gnomemusic/view.py:1509
+#: ../gnomemusic/widgets.py:249 ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
-#: ../gnomemusic/notification.py:93
-msgid "Not playing"
-msgstr "Ni predvajanja"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:108
-#, python-format
-msgid "by %s, from %s"
-msgstr "%s (album %s)"
-
-#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:65 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Predhodna"
 
-#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
+#: ../gnomemusic/notification.py:68 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Premor"
 
-#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:71 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Predvajaj"
 
-#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:73 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Naslednja"
 
@@ -240,7 +229,7 @@ msgstr "Priljubljeni posnetki"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:86
+#: ../gnomemusic/query.py:76
 msgid "the a an"
 msgstr "the a an"
 
@@ -272,8 +261,8 @@ msgstr "Viri"
 msgid "Match"
 msgstr "Se sklada"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:280
-#: ../gnomemusic/widgets.py:531 ../gnomemusic/window.py:304
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -282,37 +271,37 @@ msgstr[1] "Izbran je %d predmet"
 msgstr[2] "Izbrana sta %d predmeta"
 msgstr[3] "Izbrani so %d predmeti"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:282
-#: ../gnomemusic/widgets.py:533 ../gnomemusic/window.py:308
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
 #: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:276
 msgid "Music folder"
 msgstr "Glasbena mapa"
 
-#: ../gnomemusic/view.py:309
+#: ../gnomemusic/view.py:299
 msgid "Hey DJ"
 msgstr "Hej, DJ"
 
-#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1743
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1736
 msgid "Albums"
 msgstr "Albumi"
 
-#: ../gnomemusic/view.py:422 ../gnomemusic/view.py:1745
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1738
 msgid "Songs"
 msgstr "Skladbe"
 
-#: ../gnomemusic/view.py:624 ../gnomemusic/view.py:1744
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1737
 msgid "Artists"
 msgstr "Izvajalci"
 
-#: ../gnomemusic/view.py:827 ../gnomemusic/view.py:1746
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1739
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: ../gnomemusic/view.py:1183
+#: ../gnomemusic/view.py:1175
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -321,20 +310,20 @@ msgstr[1] "%d skladba"
 msgstr[2] "%d skladbi"
 msgstr[3] "%d skladbe"
 
-#: ../gnomemusic/view.py:1325
+#: ../gnomemusic/view.py:1318
 msgid "Try a different search"
 msgstr "Poskusite drugačno iskanje"
 
-#: ../gnomemusic/widgets.py:321 ../gnomemusic/widgets.py:355
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:543
+#: ../gnomemusic/widgets.py:544
 msgid "All Artists"
 msgstr "Vsi izvajalci"
 
-#: ../gnomemusic/widgets.py:788
+#: ../gnomemusic/widgets.py:789
 msgid "New Playlist"
 msgstr "Nov seznam predvajanja"
 
@@ -342,15 +331,15 @@ msgstr "Nov seznam predvajanja"
 msgid "Empty"
 msgstr "Prazno"
 
-#: ../gnomemusic/window.py:332
+#: ../gnomemusic/window.py:337
 msgid "Loading"
 msgstr "Nalaganje"
 
-#: ../gnomemusic/window.py:350
+#: ../gnomemusic/window.py:355
 msgid "_Undo"
 msgstr "_Razveljavi"
 
-#: ../gnomemusic/window.py:351
+#: ../gnomemusic/window.py:356
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Seznam predvajanja %s je odstranjen"
@@ -394,6 +383,29 @@ msgid ""
 "\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
+"Program Gnome Music je opredeljen kot prosta programska oprema; lahko ga "
+"razširjate in/ali spreminjate pod pogoji Splošnega Javnega Dovoljenja GNU "
+"(angleško: GNU General Public License), kot ga je objavila ustanova Free "
+"Software Foundation; različice 3 ali (po želji) katerekoli kasnejše "
+"različice.\n"
+"\n"
+"Program se razširja v upanju, da bo uporabniku koristen, vendar BREZ "
+"VSAKRŠNE GARANCIJE; tudi brez posrednega zagotovila JAMSTVA CENOVNE "
+"VREDNOSTI in PRIMERNOSTI ZA DOLOČENO UPORABO. Za več podrobnosti si poglejte "
+"določila Splošnega Javnega Dovoljenja GNU.\n"
+"\n"
+"Kopijo tega dokumenta bi morali prejeti skupaj s programom, v kolikor pa je "
+"niste, si dovoljenje poglejte na spletni strani <http://www.gnu.org/"
+"licenses>.\n"
+"\n"
+"Avtorji programa GNOME Music dovoljujejo uporabo ne-GPL skladnih vstavkov "
+"GStreamer skupaj s programom. To dovoljenje presega dovoljenja GPL, ki "
+"pokriva program. V kolikor spreminjate to kodo, lahko razširite izjomo na "
+"vašo različico kodo, ni pa to nujno. Če ne želite, izbrišite to trditev iz "
+"vaše različice.\n"
+"\n"
+"Slika Samija Pyylampija \"Magic of the vinyl\" je objavljena z dovoljenjem "
+"CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -427,7 +439,8 @@ msgstr "Ponovi vse"
 msgid "Repeat Song"
 msgstr "Ponovi skladbo"
 
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Onemogoči premešanje/ponavljanje"
 
@@ -435,7 +448,8 @@ msgstr "Onemogoči premešanje/ponavljanje"
 msgid "No music found"
 msgstr "Ni shranjene glasbe"
 
-#: ../data/NoMusic.ui.h:3
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Vsebina %s bo prikazana v tem oknu."
@@ -487,6 +501,12 @@ msgstr "Ime seznama predvajanja"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Izbor seznama predvajanja"
+
+#~ msgid "Not playing"
+#~ msgstr "Ni predvajanja"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "%s (album %s)"
 
 #~ msgid ""
 #~ "GNOME Music is free software; you can redistribute it and/or modify it "
