@@ -1,13 +1,13 @@
 # Korean translation for gnome-music.
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Seong-ho Cho <shcho@gnome.org>, 2014.
+# Seong-ho Cho <shcho@gnome.org>, 2014, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-09-17 18:56+0000\n"
-"PO-Revision-Date: 2014-09-20 18:16+0900\n"
+"POT-Creation-Date: 2016-03-03 09:25+0000\n"
+"PO-Revision-Date: 2016-03-03 19:11+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "조성호 <shcho@gnome.org>"
+msgstr "조성호 <shcho@gnome.org>, 2014, 2016."
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -45,7 +45,8 @@ msgstr "2014"
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
 "A simple and elegant replacement for using files to show the music directory."
-msgstr "음악 디렉터리를 표시할 때 파일 관리자보다 단순하고 매력적인 대안입니다."
+msgstr ""
+"파일 관리자보다 단순하고 매력적인 음악 디렉터리 표시 대안 프로그램입니다."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -272,12 +273,15 @@ msgstr "음악가 기준으로 재생 목록 만들기"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
+#| msgid ""
+#| "You can view all the artists and their songs by clicking on the <gui syle="
+#| "\"button\">Artists</gui> button."
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
-"<gui syle=\"button\">음악가</gui> 단추를 눌러 모든 음악가와 해당 음악가의 노"
-"래를 볼 수 있습니다."
+"<gui syle=\"button\">음악가</gui> 단추를 누르면 음악가와 해당 음악가의 모든 "
+"노래를 볼 수 있습니다."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-artists.page:28
@@ -420,7 +424,7 @@ msgstr ""
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "크리에이티브 커먼즈 저작권표시-동일조건변경허락 3.0 Unported 라이선스"
+msgstr "크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 Unported 라이선스"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
