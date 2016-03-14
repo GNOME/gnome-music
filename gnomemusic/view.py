@@ -870,6 +870,7 @@ class Playlist(ViewContainer):
         self.current_playlist = None
         self.current_playlist_index = None
         self.pl_todelete = None
+        self.pl_todelete_index = None
         self.really_delete = True
         self.songs_count = 0
         self.window = window
@@ -1202,26 +1203,26 @@ class Playlist(ViewContainer):
     @log
     def stage_playlist_for_deletion(self):
         self.model.clear()
+        self.pl_todelete_index = self.current_playlist_index
         _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
-
+        self.pl_todelete = self.playlists_model.get_value(_iter, 5)
+      
         if not _iter:
             return
 
         iter_next = self.playlists_model.iter_next(_iter)\
             or self.playlists_model.iter_previous(_iter)
+        self.playlists_model.remove(_iter)
+
         if iter_next:
             selection = self.playlists_sidebar.get_generic_view().get_selection()
             selection.select_iter(iter_next)
             self.playlists_sidebar.emit('item-activated', '0',
                                         self.playlists_model.get_path(iter_next))
 
-        playlist = self.playlists_model.get_value(_iter, 5)
-        self.pl_todelete = playlist
-        self.playlists_model.remove(_iter)
-
     @log
-    def undo_playlist_deletion(self, deletion_index):
-        self._add_playlist_item_to_model(self.pl_todelete, index=deletion_index)
+    def undo_playlist_deletion(self):
+        self._add_playlist_item_to_model(self.pl_todelete, self.pl_todelete_index)
 
     @log
     def _on_delete_activate(self, menuitem, data=None):
