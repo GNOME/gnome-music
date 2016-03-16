@@ -23,11 +23,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-
-import dbus
-import dbus.service
-from dbus.mainloop.glib import DBusGMainLoop
-
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.grilo import grilo
@@ -36,12 +31,177 @@ from gnomemusic.playlists import Playlists
 from gettext import gettext as _
 from gi.repository import GLib
 from gi.repository import Grl
+from gi.repository import Gio
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
 
 
-class MediaPlayer2Service(dbus.service.Object):
+class Server:
+    def __init__(self, con, path):
+        method_outargs = {}
+        method_inargs = {}
+        for interface in Gio.DBusNodeInfo.new_for_xml(self.__doc__).interfaces:
+
+            for method in interface.methods:
+                method_outargs[method.name] = '(' + ''.join([arg.signature for arg in method.out_args]) + ')'
+                method_inargs[method.name] = tuple(arg.signature for arg in method.in_args)
+
+            con.register_object(object_path=path,
+                                interface_info=interface,
+                                method_call_closure=self.on_method_call)
+
+        self.method_inargs = method_inargs
+        self.method_outargs = method_outargs
+
+    def on_method_call(self,
+                       connection,
+                       sender,
+                       object_path,
+                       interface_name,
+                       method_name,
+                       parameters,
+                       invocation):
+
+        args = list(parameters.unpack())
+        for i, sig in enumerate(self.method_inargs[method_name]):
+            if sig is 'h':
+                msg = invocation.get_message()
+                fd_list = msg.get_unix_fd_list()
+                args[i] = fd_list.get(args[i])
+
+        result = getattr(self, method_name)(*args)
+
+        if type(result) is list:
+            result = tuple(result)
+        elif not type(result) is tuple:
+            result = (result,)
+
+        out_args = self.method_outargs[method_name]
+        if out_args != '()':
+            variant = GLib.Variant(out_args, result)
+            invocation.return_value(variant)
+        else:
+            invocation.return_value(None)
+
+
+class MediaPlayer2Service(Server):
+    '''
+    <!DOCTYPE node PUBLIC '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
+    'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>
+    <node>
+        <interface name='org.freedesktop.DBus.Introspectable'>
+            <method name='Introspect'>
+                <arg name='data' direction='out' type='s'/>
+            </method>
+        </interface>
+        <interface name='org.freedesktop.DBus.Properties'>
+            <method name='Get'>
+                <arg name='interface' direction='in' type='s'/>
+                <arg name='property' direction='in' type='s'/>
+                <arg name='value' direction='out' type='v'/>
+            </method>
+            <method name="Set">
+                <arg name="interface_name" direction="in" type="s"/>
+                <arg name="property_name" direction="in" type="s"/>
+                <arg name="value" direction="in" type="v"/>
+            </method>
+            <method name='GetAll'>
+                <arg name='interface' direction='in' type='s'/>
+                <arg name='properties' direction='out' type='a{sv}'/>
+            </method>
+        </interface>
+        <interface name='org.mpris.MediaPlayer2'>
+            <method name='Raise'>
+            </method>
+            <method name='Quit'>
+            </method>
+            <property name='CanQuit' type='b' access='read' />
+            <property name='Fullscreen' type='b' access='readwrite' />
+            <property name='CanRaise' type='b' access='read' />
+            <property name='HasTrackList' type='b' access='read'/>
+            <property name='Identity' type='s' access='read'/>
+            <property name='DesktopEntry' type='s' access='read'/>
+            <property name='SupportedUriSchemes' type='as' access='read'/>
+            <property name='SupportedMimeTypes' type='as' access='read'/>
+        </interface>
+        <interface name='org.mpris.MediaPlayer2.Player'>
+            <method name='Next'/>
+            <method name='Previous'/>
+            <method name='Pause'/>
+            <method name='PlayPause'/>
+            <method name='Stop'/>
+            <method name='Play'/>
+            <method name='Seek'>
+                <arg direction='in' name='Offset' type='x'/>
+            </method>
+            <method name='SetPosition'>
+                <arg direction='in' name='TrackId' type='o'/>
+                <arg direction='in' name='Position' type='x'/>
+            </method>
+            <method name='OpenUri'>
+                <arg direction='in' name='Uri' type='s'/>
+            </method>
+            <signal name='Seeked'>
+                <arg name='Position' type='x'/>
+            </signal>
+            <property name='PlaybackStatus' type='s' access='read'/>
+            <property name='LoopStatus' type='s' access='readwrite'/>
+            <property name='Rate' type='d' access='readwrite'/>
+            <property name='Shuffle' type='b' access='readwrite'/>
+            <property name='Metadata' type='a{sv}' access='read'>
+            </property>
+            <property name='Volume' type='d' access='readwrite'/>
+            <property name='Position' type='x' access='read'/>
+            <property name='MinimumRate' type='d' access='read'/>
+            <property name='MaximumRate' type='d' access='read'/>
+            <property name='CanGoNext' type='b' access='read'/>
+            <property name='CanGoPrevious' type='b' access='read'/>
+            <property name='CanPlay' type='b' access='read'/>
+            <property name='CanPause' type='b' access='read'/>
+            <property name='CanSeek' type='b' access='read'/>
+            <property name='CanControl' type='b' access='read'/>
+        </interface>
+        <interface name='org.mpris.MediaPlayer2.TrackList'>
+            <method name='GetTracksMetadata'>
+                <arg direction='in' name='TrackIds' type='ao'/>
+                <arg direction='out' name='Metadata' type='aa{sv}'>
+                </arg>
+            </method>
+            <method name='AddTrack'>
+                <arg direction='in' name='Uri' type='s'/>
+                <arg direction='in' name='AfterTrack' type='o'/>
+                <arg direction='in' name='SetAsCurrent' type='b'/>
+            </method>
+            <method name='RemoveTrack'>
+                <arg direction='in' name='TrackId' type='o'/>
+            </method>
+            <method name='GoTo'>
+                <arg direction='in' name='TrackId' type='o'/>
+            </method>
+            <signal name='TrackListReplaced'>
+                <arg name='Tracks' type='ao'/>
+                <arg name='CurrentTrack' type='o'/>
+            </signal>
+            <signal name='TrackAdded'>
+                <arg name='Metadata' type='a{sv}'>
+                </arg>
+                <arg name='AfterTrack' type='o'/>
+            </signal>
+            <signal name='TrackRemoved'>
+                <arg name='TrackId' type='o'/>
+            </signal>
+            <signal name='TrackMetadataChanged'>
+                <arg name='TrackId' type='o'/>
+                <arg name='Metadata' type='a{sv}'>
+                </arg>
+            </signal>
+            <property name='Tracks' type='ao' access='read'/>
+            <property name='CanEditTracks' type='b' access='read'/>
+        </interface>
+    </node>
+    '''
+
     MEDIA_PLAYER2_IFACE = 'org.mpris.MediaPlayer2'
     MEDIA_PLAYER2_PLAYER_IFACE = 'org.mpris.MediaPlayer2.Player'
     MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
@@ -51,9 +211,14 @@ class MediaPlayer2Service(dbus.service.Object):
         return '<MediaPlayer2Service>'
 
     def __init__(self, app):
-        DBusGMainLoop(set_as_default=True)
-        name = dbus.service.BusName('org.mpris.MediaPlayer2.GnomeMusic', dbus.SessionBus())
-        dbus.service.Object.__init__(self, name, '/org/mpris/MediaPlayer2')
+        self.con = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+        Gio.bus_own_name_on_connection(self.con,
+                                       'org.mpris.MediaPlayer2.GnomeMusic',
+                                       Gio.BusNameOwnerFlags.NONE,
+                                       None,
+                                       None)
+        super().__init__(self.con, '/org/mpris/MediaPlayer2')
+
         self.app = app
         self.player = app.get_active_window().player
         self.player.connect('current-changed', self._on_current_changed)
@@ -101,42 +266,42 @@ class MediaPlayer2Service(dbus.service.Object):
             return {}
 
         metadata = {
-            'mpris:trackid': self._get_media_id(media),
-            'xesam:url': media.get_url()
+            'mpris:trackid': GLib.Variant('o', self._get_media_id(media)),
+            'xesam:url': GLib.Variant('s', media.get_url())
         }
 
         try:
-            length = dbus.Int64(media.get_duration() * 1000000)
+            length = media.get_duration() * 1000000
             assert length is not None
-            metadata['mpris:length'] = length
+            metadata['mpris:length'] = GLib.Variant('x', length)
         except:
             pass
 
         try:
             trackNumber = media.get_track_number()
             assert trackNumber is not None
-            metadata['xesam:trackNumber'] = trackNumber
+            metadata['xesam:trackNumber'] = GLib.Variant('i', trackNumber)
         except:
             pass
 
         try:
             useCount = media.get_play_count()
             assert useCount is not None
-            metadata['xesam:useCount'] = useCount
+            metadata['xesam:useCount'] = GLib.Variant('i', useCount)
         except:
             pass
 
         try:
             userRating = media.get_rating()
             assert userRating is not None
-            metadata['xesam:userRating'] = userRating
+            metadata['xesam:userRating'] = GLib.Variant('d', userRating)
         except:
             pass
 
         try:
             title = AlbumArtCache.get_media_title(media)
             assert title is not None
-            metadata['xesam:title'] = title
+            metadata['xesam:title'] = GLib.Variant('s', title)
         except:
             pass
 
@@ -150,7 +315,7 @@ class MediaPlayer2Service(dbus.service.Object):
             except:
                 album = _("Unknown Album")
         finally:
-            metadata['xesam:album'] = album
+            metadata['xesam:album'] = GLib.Variant('s', album)
 
         try:
             artist = media.get_artist()
@@ -166,27 +331,27 @@ class MediaPlayer2Service(dbus.service.Object):
                 except (AssertionError, ValueError):
                     artist = _("Unknown Artist")
         finally:
-            metadata['xesam:artist'] = [artist]
-            metadata['xesam:albumArtist'] = [artist]
+            metadata['xesam:artist'] = GLib.Variant('as', [artist])
+            metadata['xesam:albumArtist'] = GLib.Variant('as', [artist])
 
         try:
             genre = media.get_genre()
             assert genre is not None
-            metadata['xesam:genre'] = genre
+            metadata['xesam:genre'] = GLib.Variant('as', genre)
         except:
             pass
 
         try:
             lastUsed = media.get_last_played()
             assert lastUsed is not None
-            metadata['xesam:lastUsed'] = lastUsed
+            metadata['xesam:lastUsed'] = GLib.Variant('s', lastUsed)
         except:
             pass
 
         try:
             artUrl = media.get_thumbnail()
             assert artUrl is not None
-            metadata['mpris:artUrl'] = artUrl
+            metadata['mpris:artUrl'] = GLib.Variant('s', artUrl)
         except:
             pass
 
@@ -261,55 +426,53 @@ class MediaPlayer2Service(dbus.service.Object):
         if self.player.repeat == RepeatType.SONG:
             self.Seeked(0)
 
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Metadata': dbus.Dictionary(self._get_metadata(),
-                                                               signature='sv'),
-                                   'CanPlay': True,
-                                   'CanPause': True,
+                                   'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
+                                   'CanPlay': GLib.Variant('b', True),
+                                   'CanPause': GLib.Variant('b', True),
                                },
                                [])
 
     @log
     def _on_thumbnail_updated(self, player, path, data=None):
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Metadata': dbus.Dictionary(self._get_metadata(),
-                                                               signature='sv'),
+                                   'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                                },
                                [])
 
     @log
     def _on_playback_status_changed(self, data=None):
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'PlaybackStatus': self._get_playback_status(),
+                                   'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
                                },
                                [])
 
     @log
     def _on_repeat_mode_changed(self, player, data=None):
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'LoopStatus': self._get_loop_status(),
-                                   'Shuffle': self.player.repeat == RepeatType.SHUFFLE,
+                                   'LoopStatus': GLib.Variant('s', self._get_loop_status()),
+                                   'Shuffle': GLib.Variant('b', self.player.repeat == RepeatType.SHUFFLE),
                                },
                                [])
 
     @log
     def _on_volume_changed(self, player, data=None):
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Volume': dbus.Double(self.player.get_volume()),
+                                   'Volume': GLib.Variant('d', self.player.get_volume()),
                                },
                                [])
 
     @log
     def _on_prev_next_invalidated(self, player, data=None):
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYER_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'CanGoNext': self.player.has_next(),
-                                   'CanGoPrevious': self.player.has_previous(),
+                                   'CanGoNext': GLib.Variant('b', self.player.has_next()),
+                                   'CanGoPrevious': GLib.Variant('b', self.player.has_previous()),
                                },
                                [])
 
@@ -336,9 +499,9 @@ class MediaPlayer2Service(dbus.service.Object):
         self.playlist = self.player.playlist
         self._on_playlist_modified()
 
-        self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                                {
-                                   'ActivePlaylist': self._get_active_playlist(),
+                                'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
                                },
                                [])
 
@@ -354,9 +517,9 @@ class MediaPlayer2Service(dbus.service.Object):
             currentTrack = self.player.playlist[path][self.player.playlistField]
             track_list = self._get_track_list()
             self.TrackListReplaced(track_list, self._get_media_id(currentTrack))
-            self.PropertiesChanged(self.MEDIA_PLAYER2_TRACKLIST_IFACE,
+            self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
                                    {
-                                       'Tracks': track_list,
+                                       'Tracks': GLib.Variant('ao', track_list),
                                    },
                                    [])
 
@@ -364,9 +527,9 @@ class MediaPlayer2Service(dbus.service.Object):
     def _reload_playlists(self):
         def get_playlists_callback(playlists):
             self.playlists = playlists
-            self.PropertiesChanged(self.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+            self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                                    {
-                                       'PlaylistCount': len(playlists),
+                                       'PlaylistCount': GLib.Variant('u', len(playlists)),
                                    },
                                    [])
 
@@ -380,35 +543,27 @@ class MediaPlayer2Service(dbus.service.Object):
     def _on_grilo_ready(self, grilo):
         self._reload_playlists()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
     def Raise(self):
         self.app.do_activate()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_IFACE)
     def Quit(self):
         self.app.quit()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def Next(self):
         self.player.play_next()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def Previous(self):
         self.player.play_previous()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def Pause(self):
         self.player.set_playing(False)
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def PlayPause(self):
         self.player.play_pause()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def Stop(self):
         self.player.Stop()
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE)
     def Play(self):
         if self.player.playlist is not None:
             self.player.set_playing(True)
@@ -422,48 +577,36 @@ class MediaPlayer2Service(dbus.service.Object):
             else:
                 self.first_song_handler = model.connect('row-inserted', self._play_first_song)
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
-                         in_signature='x')
     def Seek(self, offset):
         self.player.set_position(offset, True, True)
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
-                         in_signature='ox')
     def SetPosition(self, track_id, position):
-        if track_id != self._get_metadata().get('mpris:trackid'):
+        if track_id != self._get_metadata().get('mpris:trackid').get_string():
             return
         self.player.set_position(position)
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
-                         in_signature='s')
     def OpenUri(self, uri):
         pass
 
-    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_PLAYER_IFACE,
-                         signature='x')
     def Seeked(self, position):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
+                             'Seeked',
+                             GLib.Variant.new_tuple(GLib.Variant('x', position)))
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         in_signature='ao', out_signature='aa{sv}')
     def GetTracksMetadata(self, track_ids):
         metadata = []
         for track_id in track_ids:
             metadata.append(self._get_metadata(self._get_media_from_id(track_id)))
         return metadata
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         in_signature='sob')
     def AddTrack(self, uri, after_track, set_as_current):
         pass
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         in_signature='o')
     def RemoveTrack(self, track_id):
         pass
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         in_signature='o')
     def GoTo(self, track_id):
         for track in self.player.playlist:
             media = track[self.player.playlistField]
@@ -476,34 +619,41 @@ class MediaPlayer2Service(dbus.service.Object):
                 self.player.play()
                 return
 
-    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         signature='aoo')
     def TrackListReplaced(self, tracks, current_track):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                             'TrackListReplaced',
+                             GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
+                                                    GLib.Variant('o', current_track)))
 
-    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         signature='a{sv}o')
     def TrackAdded(self, metadata, after_track):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                             'TrackAdded',
+                             GLib.Variant.new_tuple(GLib.Variant('a{sv}', metadata),
+                                                    GLib.Variant('o', after_track)))
 
-    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         signature='o')
     def TrackRemoved(self, track_id):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                             'TrackRemoved',
+                             GLib.Variant.new_tuple(GLib.Variant('o', track_id)))
 
-    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_TRACKLIST_IFACE,
-                         signature='oa{sv}')
     def TrackMetadataChanged(self, track_id, metadata):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                             'TrackMetadataChanged',
+                             GLib.Variant.new_tuple(GLib.Variant('o', track_id),
+                                                    GLib.Variant('a{sv}', metadata)))
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                         in_signature='o')
     def ActivatePlaylist(self, playlist_path):
         playlist_id = self._get_playlist_from_path(playlist_path).get_id()
         self.app._window.views[3].activate_playlist(playlist_id)
 
-    @dbus.service.method(dbus_interface=MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                         in_signature='uusb', out_signature='a(oss)')
     def GetPlaylists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':
             return []
@@ -513,80 +663,76 @@ class MediaPlayer2Service(dbus.service.Object):
         return playlists[index:index + max_count] if not reverse \
             else playlists[index + max_count - 1:index - 1 if index - 1 >= 0 else None:-1]
 
-    @dbus.service.signal(dbus_interface=MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                         signature='(oss)')
     def PlaylistChanged(self, playlist):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                             'PlaylistChanged',
+                             GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
 
-    @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
-                         in_signature='ss', out_signature='v')
     def Get(self, interface_name, property_name):
         return self.GetAll(interface_name)[property_name]
 
-    @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
-                         in_signature='s', out_signature='a{sv}')
     def GetAll(self, interface_name):
-        if interface_name == self.MEDIA_PLAYER2_IFACE:
+        if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
             return {
-                'CanQuit': True,
-                'Fullscreen': False,
-                'CanSetFullscreen': False,
-                'CanRaise': True,
-                'HasTrackList': True,
-                'Identity': 'Music',
-                'DesktopEntry': 'gnome-music',
-                'SupportedUriSchemes': [
+                'CanQuit': GLib.Variant('b', True),
+                'Fullscreen': GLib.Variant('b', False),
+                'CanSetFullscreen': GLib.Variant('b', False),
+                'CanRaise': GLib.Variant('b', True),
+                'HasTrackList': GLib.Variant('b', True),
+                'Identity': GLib.Variant('s', 'Music'),
+                'DesktopEntry': GLib.Variant('s', 'gnome-music'),
+                'SupportedUriSchemes': GLib.Variant('as', [
                     'file'
-                ],
-                'SupportedMimeTypes': [
+                ]),
+                'SupportedMimeTypes': GLib.Variant('as', [
                     'application/ogg',
                     'audio/x-vorbis+ogg',
                     'audio/x-flac',
                     'audio/mpeg'
-                ],
+                ]),
             }
-        elif interface_name == self.MEDIA_PLAYER2_PLAYER_IFACE:
+        elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE:
             return {
-                'PlaybackStatus': self._get_playback_status(),
-                'LoopStatus': self._get_loop_status(),
-                'Rate': dbus.Double(1.0),
-                'Shuffle': self.player.repeat == RepeatType.SHUFFLE,
-                'Metadata': dbus.Dictionary(self._get_metadata(), signature='sv'),
-                'Volume': dbus.Double(self.player.get_volume()),
-                'Position': dbus.Int64(self.player.get_position()),
-                'MinimumRate': dbus.Double(1.0),
-                'MaximumRate': dbus.Double(1.0),
-                'CanGoNext': self.player.has_next(),
-                'CanGoPrevious': self.player.has_previous(),
-                'CanPlay': self.player.currentTrack is not None,
-                'CanPause': self.player.currentTrack is not None,
-                'CanSeek': True,
-                'CanControl': True,
+                'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
+                'LoopStatus': GLib.Variant('s', self._get_loop_status()),
+                'Rate': GLib.Variant('d', 1.0),
+                'Shuffle': GLib.Variant('b', self.player.repeat == RepeatType.SHUFFLE),
+                'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
+                'Volume': GLib.Variant('d', self.player.get_volume()),
+                'Position': GLib.Variant('x', self.player.get_position()),
+                'MinimumRate': GLib.Variant('d', 1.0),
+                'MaximumRate': GLib.Variant('d', 1.0),
+                'CanGoNext': GLib.Variant('b', self.player.has_next()),
+                'CanGoPrevious': GLib.Variant('b', self.player.has_previous()),
+                'CanPlay': GLib.Variant('b', self.player.currentTrack is not None),
+                'CanPause': GLib.Variant('b', self.player.currentTrack is not None),
+                'CanSeek': GLib.Variant('b', True),
+                'CanControl': GLib.Variant('b', True),
             }
-        elif interface_name == self.MEDIA_PLAYER2_TRACKLIST_IFACE:
+        elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE:
             return {
-                'Tracks': self._get_track_list(),
-                'CanEditTracks': False,
+                'Tracks': GLib.Variant('ao', self._get_track_list()),
+                'CanEditTracks': GLib.Variant('b', False)
             }
-        elif interface_name == self.MEDIA_PLAYER2_PLAYLISTS_IFACE:
+        elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE:
             return {
-                'PlaylistCount': len(self.playlists),
-                'Orderings': ['Alphabetical'],
-                'ActivePlaylist': self._get_active_playlist(),
+                'PlaylistCount': GLib.Variant('u', len(self.playlists)),
+                'Orderings': GLib.Variant('as', ['Alphabetical']),
+                'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
             }
         else:
-            raise dbus.exceptions.DBusException(
+            raise Exception(
                 'org.mpris.MediaPlayer2.GnomeMusic',
                 'This object does not implement the %s interface'
                 % interface_name)
 
-    @dbus.service.method(dbus_interface=dbus.PROPERTIES_IFACE,
-                         in_signature='ssv')
     def Set(self, interface_name, property_name, new_value):
-        if interface_name == self.MEDIA_PLAYER2_IFACE:
+        if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
             if property_name == 'Fullscreen':
                 pass
-        elif interface_name == self.MEDIA_PLAYER2_PLAYER_IFACE:
+        elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE:
             if property_name == 'Rate':
                 pass
             elif property_name == 'Volume':
@@ -604,13 +750,20 @@ class MediaPlayer2Service(dbus.service.Object):
                 elif new_value and self.player.get_repeat_mode() == RepeatType.SHUFFLE:
                     self.set_repeat_mode(RepeatType.NONE)
         else:
-            raise dbus.exceptions.DBusException(
+            raise Exception(
                 'org.mpris.MediaPlayer2.GnomeMusic',
                 'This object does not implement the %s interface'
                 % interface_name)
 
-    @dbus.service.signal(dbus_interface=dbus.PROPERTIES_IFACE,
-                         signature='sa{sv}as')
     def PropertiesChanged(self, interface_name, changed_properties,
                           invalidated_properties):
-        pass
+        self.con.emit_signal(None,
+                             '/org/mpris/MediaPlayer2',
+                             'org.freedesktop.DBus.Properties',
+                             'PropertiesChanged',
+                             GLib.Variant.new_tuple(GLib.Variant('s', interface_name),
+                                                    GLib.Variant('a{sv}', changed_properties),
+                                                    GLib.Variant('as', invalidated_properties)))
+
+    def Introspect(self):
+        return self.__doc__
