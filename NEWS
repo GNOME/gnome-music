@@ -1,3 +1,27 @@
+Overview of changes in 3.19.92
+==============================
+
+Bugs fixed:
+ 762821 Update Grilo plugin ranks to 0.3 format
+ 761941 Fix Pango critical warnings on searchbar
+ 761890 Check if visible child is ArtistsAlbumsWidget on search toggle
+ 763304 Don't assume that nmm:MusicPieces will have a nie:url in playlists
+ 744821 Properly de/activate select button on PlaylistDialog when navigating w/ arrow keys
+ 744831 Fix crash while deleting multiple playlists
+ a173f2 Update libgd
+
+Translations updated:
+ Occitan
+ Korean
+ Slovenian
+ French
+
+Special thanks to the new contributors:
+ Gaurav Narula
+ Marinus Schraal
+ Prashant Tyagi
+ Saiful B. Khan
+
 Overview of changes in 3.19.91
 ==============================
 
