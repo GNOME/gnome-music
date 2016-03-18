@@ -722,6 +722,10 @@ class MediaPlayer2Service(Server):
                 'Orderings': GLib.Variant('as', ['Alphabetical']),
                 'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
             }
+        elif interface_name == 'org.freedesktop.DBus.Properties':
+            return {}
+        elif interface_name == 'org.freedesktop.DBus.Introspectable':
+            return {}
         else:
             raise Exception(
                 'org.mpris.MediaPlayer2.GnomeMusic',
