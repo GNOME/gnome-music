@@ -2,7 +2,7 @@
 # Copyright (C) 2013, 2014, 2015. Free Software Foundation, Inc.
 # This file is distributed under the same license as the gnome-music package.
 #
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2013.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2013, 2016.
 # Balázs Úr <urbalazs at gmail dot com>, 2013, 2014, 2015.
 # Balázs Meskó <meskobalazs at gmail dot com>, 2014, 2015.
 msgid ""
@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-06-24 07:22+0000\n"
-"PO-Revision-Date: 2015-06-24 19:33+0200\n"
-"Last-Translator: Balázs Úr <urbalazs@gmail.com>\n"
+"POT-Creation-Date: 2016-03-07 21:29+0000\n"
+"PO-Revision-Date: 2016-03-20 19:45+0100\n"
+"Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -108,9 +108,9 @@ msgstr "A kezdeti állapot meg lett jelenítve"
 msgid "Set to true when initial state has been displayed"
 msgstr "Állítsa igazra, ha a kezdeti állapot meg lett jelenítve"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/window.py:59
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Zene"
 
@@ -134,75 +134,64 @@ msgstr "GNOME Zene"
 msgid "Music is the new GNOME music playing application."
 msgstr "A Zene a GNOME új zenelejátszó alkalmazása."
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Névtelen"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:571 ../gnomemusic/view.py:564
-#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1451
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/player.py:607
+#: ../gnomemusic/view.py:577 ../gnomemusic/view.py:990
+#: ../gnomemusic/view.py:1459
 msgid "Unknown Album"
 msgstr "Ismeretlen album"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:562 ../gnomemusic/view.py:223
-#: ../gnomemusic/view.py:464 ../gnomemusic/view.py:737
-#: ../gnomemusic/view.py:1177 ../gnomemusic/view.py:1449
-#: ../gnomemusic/view.py:1496 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:638
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/player.py:597
+#: ../gnomemusic/view.py:219 ../gnomemusic/view.py:479
+#: ../gnomemusic/view.py:733 ../gnomemusic/view.py:1165
+#: ../gnomemusic/view.py:1457 ../gnomemusic/view.py:1509
+#: ../gnomemusic/widgets.py:249 ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "Lejátszás áll"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "előadó: %s, album: %s"
-
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:65 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Előző"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:519
+#: ../gnomemusic/notification.py:68 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Szünet"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:522
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:71 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Lejátszás"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:73 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Következő"
 
-#: ../gnomemusic/player.py:980
+#: ../gnomemusic/player.py:1090
 msgid "Unable to play the file"
 msgstr "Nem lehet lejátszani a fájlt"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:985
+#: ../gnomemusic/player.py:1095
 #, python-format
 msgid "_Find in %s"
 msgstr "_Keresés ebben: %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:995
+#: ../gnomemusic/player.py:1105
 msgid " and "
 msgstr " és "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:998
+#: ../gnomemusic/player.py:1108
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:999
+#: ../gnomemusic/player.py:1109
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -210,17 +199,17 @@ msgstr[0] "%s szükséges a fájl lejátszásához, de nincs telepítve."
 msgstr[1] "%s szükségesek a fájl lejátszásához, de nincsenek telepítve."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "Legtöbbet lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "Sosem lejátszott"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "Legutóbb lejátszott"
 
@@ -230,7 +219,7 @@ msgid "Recently Added"
 msgstr "Legutóbb hozzáadott"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "Kedvenc számok"
 
@@ -238,114 +227,114 @@ msgstr "Kedvenc számok"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#: ../gnomemusic/query.py:76
 msgid "the a an"
 msgstr "a az egy"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "Mind"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Előadó"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Dal címe"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "Helyi"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "Források"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "Találat"
 
-#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:302
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:304
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d elem kijelölve"
 msgstr[1] "%d elem kijelölve"
 
-#: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:306
-#: ../gnomemusic/window.py:318 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
+#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
-#: ../gnomemusic/view.py:279
+# A ~/Zenék
+#: ../gnomemusic/view.py:276
 msgid "Music folder"
-msgstr "Zenemappa"
+msgstr "Zenék mappa"
 
-#: ../gnomemusic/view.py:298
+#: ../gnomemusic/view.py:299
 msgid "Hey DJ"
 msgstr "Hé DJ"
 
-#: ../gnomemusic/view.py:306 ../gnomemusic/view.py:1720
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1736
 msgid "Albums"
 msgstr "Albumok"
 
-#: ../gnomemusic/view.py:398 ../gnomemusic/view.py:1722
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1738
 msgid "Songs"
 msgstr "Számok"
 
-#: ../gnomemusic/view.py:596 ../gnomemusic/view.py:1721
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1737
 msgid "Artists"
 msgstr "Előadók"
 
-#: ../gnomemusic/view.py:642 ../gnomemusic/view.py:644
-#: ../gnomemusic/widgets.py:524
-msgid "All Artists"
-msgstr "Minden előadó"
-
-#: ../gnomemusic/view.py:822 ../gnomemusic/view.py:1723
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1739
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
-#: ../gnomemusic/view.py:1188
+#: ../gnomemusic/view.py:1175
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d szám"
 msgstr[1] "%d szám"
 
-#: ../gnomemusic/view.py:1325
+#: ../gnomemusic/view.py:1318
 msgid "Try a different search"
 msgstr "Próbáljon egy másik keresést"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d perc"
 
-#: ../gnomemusic/widgets.py:762
+#: ../gnomemusic/widgets.py:544
+msgid "All Artists"
+msgstr "Minden előadó"
+
+#: ../gnomemusic/widgets.py:789
 msgid "New Playlist"
 msgstr "Új lejátszólista"
 
-#: ../gnomemusic/window.py:248
+#: ../gnomemusic/window.py:250
 msgid "Empty"
 msgstr "Üres"
 
-#: ../gnomemusic/window.py:330
+#: ../gnomemusic/window.py:337
 msgid "Loading"
 msgstr "Betöltés"
 
-#: ../gnomemusic/window.py:345
+#: ../gnomemusic/window.py:355
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: ../gnomemusic/window.py:346
+#: ../gnomemusic/window.py:356
 #, python-format
 msgid "Playlist %s removed"
 msgstr "A(z) %s lejátszólista eltávolítva"
@@ -444,7 +433,8 @@ msgstr "Összes ismétlése"
 msgid "Repeat Song"
 msgstr "Szám ismétlése"
 
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Véletlen/Ismétlés kikapcsolva"
 
@@ -452,10 +442,12 @@ msgstr "Véletlen/Ismétlés kikapcsolva"
 msgid "No music found"
 msgstr "Nem található zene"
 
-#: ../data/NoMusic.ui.h:3
+# %s = "Zenék mappa"
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
-msgstr "A(z) %s mappájának tartalma itt fog megjelenni."
+msgstr "A %s tartalma itt fog megjelenni."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -504,6 +496,12 @@ msgstr "Lejátszólista neve"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Lejátszólista kiválasztása"
+
+#~ msgid "Not playing"
+#~ msgstr "Lejátszás áll"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "előadó: %s, album: %s"
 
 #~ msgid "Internal: id for most played playlist"
 #~ msgstr "Belső: azonosító a legtöbbet lejátszott lejátszólistához"
