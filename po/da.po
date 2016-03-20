@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-19 19:34+0000\n"
-"PO-Revision-Date: 2015-09-20 16:16+0200\n"
+"POT-Creation-Date: 2016-03-18 09:31+0000\n"
+"PO-Revision-Date: 2015-09-10 11:45+0100\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -110,8 +110,8 @@ msgid "Set to true when initial state has been displayed"
 msgstr "Sæt til true når den oprindelige tilstand har været vist"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
-#: ../gnomemusic/application.py:118 ../gnomemusic/window.py:62
-#: ../data/AboutDialog.ui.in.h:1
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musik"
 
@@ -135,49 +135,38 @@ msgstr "GNOME Musik"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musik er det nye musikafspilningsprogram til GNOME."
 
-#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Unavngivet"
 
-#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
-#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:587
-#: ../gnomemusic/view.py:998 ../gnomemusic/view.py:1468
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/player.py:607
+#: ../gnomemusic/view.py:577 ../gnomemusic/view.py:991
+#: ../gnomemusic/view.py:1460
 msgid "Unknown Album"
 msgstr "Ukendt album"
 
-#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
-#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:487 ../gnomemusic/view.py:742
-#: ../gnomemusic/view.py:1172 ../gnomemusic/view.py:1466
-#: ../gnomemusic/view.py:1518 ../gnomemusic/widgets.py:248
-#: ../gnomemusic/widgets.py:660
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/player.py:597
+#: ../gnomemusic/view.py:219 ../gnomemusic/view.py:479
+#: ../gnomemusic/view.py:733 ../gnomemusic/view.py:1166
+#: ../gnomemusic/view.py:1458 ../gnomemusic/view.py:1510
+#: ../gnomemusic/widgets.py:249 ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
-#: ../gnomemusic/notification.py:93
-msgid "Not playing"
-msgstr "Afspiller ikke"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:108
-#, python-format
-msgid "by %s, from %s"
-msgstr "af %s, fra %s"
-
-#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:65 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
+#: ../gnomemusic/notification.py:68 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:71 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Afspil"
 
-#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:73 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Næste"
 
@@ -239,7 +228,7 @@ msgstr "Yndlingssange"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:86
+#: ../gnomemusic/query.py:76
 msgid "the a an"
 msgstr "en et the"
 
@@ -271,88 +260,88 @@ msgstr "Kilder"
 msgid "Match"
 msgstr "Søg på"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:280
-#: ../gnomemusic/widgets.py:531 ../gnomemusic/window.py:304
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:305
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d element valgt"
 msgstr[1] "%d elementer valgt"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:282
-#: ../gnomemusic/widgets.py:533 ../gnomemusic/window.py:308
-#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:309
+#: ../gnomemusic/window.py:321 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klik på elementerne for at vælge dem"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:276
 msgid "Music folder"
 msgstr "Musikmappe"
 
-#: ../gnomemusic/view.py:309
+#: ../gnomemusic/view.py:299
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1742
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1737
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:421 ../gnomemusic/view.py:1744
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1739
 msgid "Songs"
 msgstr "Sange"
 
-#: ../gnomemusic/view.py:623 ../gnomemusic/view.py:1743
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1738
 msgid "Artists"
 msgstr "Kunstnere"
 
-#: ../gnomemusic/view.py:826 ../gnomemusic/view.py:1745
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1740
 msgid "Playlists"
 msgstr "Afspilningslister"
 
-#: ../gnomemusic/view.py:1182
+#: ../gnomemusic/view.py:1176
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sange"
 
-#: ../gnomemusic/view.py:1324
+#: ../gnomemusic/view.py:1319
 msgid "Try a different search"
 msgstr "Prøv en anden søgning"
 
-#: ../gnomemusic/widgets.py:321 ../gnomemusic/widgets.py:355
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:543
+#: ../gnomemusic/widgets.py:544
 msgid "All Artists"
 msgstr "Alle kunstnere"
 
-#: ../gnomemusic/widgets.py:788
+#: ../gnomemusic/widgets.py:790
 msgid "New Playlist"
 msgstr "Ny afspilningsliste"
 
-#: ../gnomemusic/window.py:250
+#: ../gnomemusic/window.py:251
 msgid "Empty"
 msgstr "Tom"
 
-#: ../gnomemusic/window.py:332
+#: ../gnomemusic/window.py:338
 msgid "Loading"
 msgstr "Indlæser"
 
-#: ../gnomemusic/window.py:350
+#: ../gnomemusic/window.py:361
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: ../gnomemusic/window.py:351
+#: ../gnomemusic/window.py:362
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Afspilningslisten %s fjernet"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Copyright © 2013 GNOME Musik-udviklerne"
+msgstr "Ophavsret © 2013 GNOME Musik-udviklerne"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
@@ -389,15 +378,30 @@ msgid ""
 "\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
-"GNOME Musik er fri software. Du kan redistribuere og/eller modificere det under de betingelserne som er angivet i GNU General Public License, som er udgivet af Free Software Foundation. Enten version 2 af licensen eller (efter eget valg) enhver senere version.\n"
+"GNOME Musik er fri software. Du kan redistribuere og/eller modificere det "
+"under de betingelserne som er angivet i GNU General Public License, som er "
+"udgivet af Free Software Foundation. Enten version 2 af licensen eller "
+"(efter eget valg) enhver senere version.\n"
 "\n"
-"GNOME Musik distribueres i håb om at det vil vise sig nyttigt, men UDEN NOGEN FORM FOR GARANTI, uden selv de underforståede garantier omkring SALGBARHED eller EGNETHED TIL ET BESTEMT FORMÅL. Yderligere detaljer kan læses i GNU General Public License.\n"
+"GNOME Musik distribueres i håb om at det vil vise sig nyttigt, men UDEN "
+"NOGEN FORM FOR GARANTI, uden selv de underforståede garantier omkring "
+"SALGBARHED eller EGNETHED TIL ET BESTEMT FORMÅL. Yderligere detaljer kan "
+"læses i GNU General Public License.\n"
 "\n"
-"Du bør have modtaget en kopi af GNU General Public License sammen med GNOME Musik. Hvis ikke, så skriv til Free software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
+"Du bør have modtaget en kopi af GNU General Public License sammen med GNOME "
+"Musik. Hvis ikke, så skriv til Free software Foundation, Inc., 51 Franklin "
+"Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
 "\n"
-"Forfatterne af GNOME Musik giver hermed tilladelse til at ikke-GPL-kompatible GStreamer-udvidelsesmoduler kan bruges og distribueres sammen med GStreamer og GNOME Musik. Denne tilladelse er en udvidelse af rettighederne givet af GPL-licensen, som GNOME Musik er dækket af. Hvis du ændrer denne kode, kan du udvide denne undtagelse til din version af koden, men du har ikke forpligtet til at gøre det. Hvis du ikke ønsker at gøre dette, sletter du blot denne erklæring om undtagelse fra din version.\n"
+"Forfatterne af GNOME Musik giver hermed tilladelse til at ikke-GPL-"
+"kompatible GStreamer-udvidelsesmoduler kan bruges og distribueres sammen med "
+"GStreamer og GNOME Musik. Denne tilladelse er overstyrer tilladelserne givet "
+"af GPL-licensen, som GNOME Musik er dækket af. Hvis du ændrer denne kode, "
+"kan du udvide denne undtagelse til din version af koden, men du har ikke "
+"forpligtet til at gøre det. Hvis du ikke ønsker at gøre dette, sletter du "
+"blot denne erklæring om undtagelse fra din version.\n"
 "\n"
-"\"Magic of the vinyl\" af Sami Pyylampi, billede er licenseret af CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
+"\"Magic of the vinyl\" af Sami Pyylampi, billede er licenseret af CC-BY-SA "
+"2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -431,7 +435,8 @@ msgstr "Gentag alle"
 msgid "Repeat Song"
 msgstr "Gentag sang"
 
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Bland/gentag fra"
 
@@ -439,7 +444,8 @@ msgstr "Bland/gentag fra"
 msgid "No music found"
 msgstr "Ingen musik fundet"
 
-#: ../data/NoMusic.ui.h:3
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Indholdet af din %s vil blive vist her."
@@ -491,3 +497,9 @@ msgstr "Navn på afspilningsliste"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Vælg afspilningsliste"
+
+#~ msgid "Not playing"
+#~ msgstr "Afspiller ikke"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "af %s, fra %s"
