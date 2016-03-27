@@ -812,6 +812,17 @@ class PlaylistDialog():
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
+        self._new_playlist_button = self.ui.get_object('new-playlist-button')
+        self._new_playlist_button.connect('clicked', self._on_editing_done)
+
+        self._new_playlist_entry = self.ui.get_object('new-playlist-entry')
+        self._new_playlist_entry.connect('changed',
+                                         self._on_new_playlist_entry_changed)
+        self._new_playlist_entry.connect('activate',
+                                         self._on_editing_done)
+        self._new_playlist_entry.connect('focus-in-event',
+                                         self._on_new_playlist_entry_focused)
+
         self.playlist = Playlists.get_default()
         self.playlist.connect('playlist-created', self._on_playlist_created)
 
@@ -833,17 +844,13 @@ class PlaylistDialog():
             ellipsize=Pango.EllipsizeMode.END,
             xalign=0.0
         )
-        type_renderer.connect('editing-started', self._on_editing_started, None)
         cols.pack_start(type_renderer, True)
         cols.add_attribute(type_renderer, "text", 0)
-        cols.add_attribute(type_renderer, "editable", 1)
         cols.set_cell_data_func(type_renderer, self._on_list_text_render)
         self.view.append_column(cols)
 
     @log
     def populate(self):
-        self.add_playlist_iter = self.model.append()
-        self.model.set(self.add_playlist_iter, [0, 1], [_("New Playlist"), True])
         if grilo.tracker:
             GLib.idle_add(grilo.populate_playlists, 0, self._add_item)
 
@@ -854,7 +861,7 @@ class PlaylistDialog():
 
     @log
     def _add_item_to_model(self, item):
-        new_iter = self.model.insert_before(self.add_playlist_iter)
+        new_iter = self.model.append()
         self.model.set(
             new_iter,
             [0, 1, 2],
@@ -880,6 +887,8 @@ class PlaylistDialog():
 
     @log
     def _on_item_activated(self, view, path, column):
+        self._new_playlist_entry.set_text("")
+        self._new_playlist_button.set_sensitive(False)
         _iter = self.model.get_iter(path)
         if self.model.get_value(_iter, 1):
             self.view.set_cursor(path, column, True)
@@ -895,15 +904,11 @@ class PlaylistDialog():
         else:
             self._select_button.set_sensitive(True)
 
-    @log
-    def _on_editing_started(self, renderer, editable, path, data=None):
-        editable.set_text('')
-        editable.connect('editing-done', self._on_editing_done, None)
 
     @log
-    def _on_editing_done(self, editable, data=None):
-        if editable.get_text() != '':
-            self.playlist.create_playlist(editable.get_text())
+    def _on_editing_done(self, sender, data=None):
+        if self._new_playlist_entry.get_text() != '':
+            self.playlist.create_playlist(self._new_playlist_entry.get_text())
 
     @log
     def _on_playlist_created(self, playlists, item):
@@ -913,6 +918,18 @@ class PlaylistDialog():
                                  self.view.get_columns()[0], False)
             self.view.row_activated(self.model.get_path(new_iter),
                                     self.view.get_columns()[0])
+            self.dialog_box.response(Gtk.ResponseType.ACCEPT)
+
+    @log
+    def _on_new_playlist_entry_changed(self, editable, data=None):
+        if editable.get_text() != '':
+            self._new_playlist_button.set_sensitive(True)
+        else:
+            self._new_playlist_button.set_sensitive(False)
+
+    @log
+    def _on_new_playlist_entry_focused(self, editable, data=None):
+        self.selection.unselect_all()
 
 
 class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
