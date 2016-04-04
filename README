@@ -13,13 +13,15 @@ You can join us on the IRC:
 #gnome-music on GIMPNet
 
 
-=== Building from git ===
+=== Building from jhbuild ===
 
-$ git clone git://git.gnome.org/gnome-music
-$ cd gnome-music
-$ ./autogen.sh
-$ make
+Follow the BuildGnome tutorial for newcomers at https://wiki.gnome.org/Newcomers/BuildGnome
 
+After installing jhbuild, you have to build gnome-music and all its dependencies. The task can be done by simply running:
+$ jhbuild build gnome-music
+
+Finally, start gnome music with:
+$ jhbuild run gnome-music"
 
 === Troubleshooting ===
 
