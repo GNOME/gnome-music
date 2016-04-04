@@ -18,10 +18,11 @@ You can join us on the IRC:
 Follow the BuildGnome tutorial for newcomers at https://wiki.gnome.org/Newcomers/BuildGnome
 
 After installing jhbuild, you have to build gnome-music and all its dependencies. The task can be done by simply running:
+$ jhbuild sysdeps --install gnome-music
 $ jhbuild build gnome-music
 
 Finally, start gnome music with:
-$ jhbuild run gnome-music"
+$ jhbuild run gnome-music
 
 === Troubleshooting ===
 
