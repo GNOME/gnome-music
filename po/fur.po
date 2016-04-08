@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-07-26 19:24+0000\n"
-"PO-Revision-Date: 2015-07-27 00:04+0100\n"
+"POT-Creation-Date: 2016-04-08 08:46+0000\n"
+"PO-Revision-Date: 2016-04-08 12:05+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.1\n"
+"X-Generator: Poedit 1.8.5\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -58,8 +58,8 @@ msgstr ""
 "Il valôr al specifiche se ripeti o riprodusi a câs le colezion. I valôrs "
 "acetâts a son: \"none\" (ripetizion e messedât a son studâts), \"song"
 "\" (ripetizion de cjançon atuâl), \"all\" (ripetizion de liste des cjançons, "
-"cence messedâ),\"shuffle\" (messedâ l'ordin de liste des cjançons, a si "
-"intint ancje ripetizion di dutis)."
+"cence messedâ),\"shuffle\" (messedâ l'ordin de liste des cjançons, si intint "
+"ancje ripetizion di dutis)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -108,9 +108,9 @@ msgstr "Il stât iniziâl al è stât mostrât"
 msgid "Set to true when initial state has been displayed"
 msgstr "Imposte a vêr cuant che il stât iniziâl al è stât mostrât"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:51
-#: ../gnomemusic/application.py:114 ../gnomemusic/window.py:59
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Musiche"
 
@@ -132,77 +132,66 @@ msgstr "GNOME Musiche"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr "Musiche a je le gnove aplicazion GNOME par riprodusi musiche."
+msgstr "Musiche e je le gnove aplicazion GNOME par riprodusi musiche."
 
-#: ../gnomemusic/albumArtCache.py:109 ../gnomemusic/albumArtCache.py:117
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
 msgid "Untitled"
 msgstr "Cence Titul"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:601 ../gnomemusic/view.py:556
-#: ../gnomemusic/view.py:969 ../gnomemusic/view.py:1432
+#: ../gnomemusic/mpris.py:316 ../gnomemusic/player.py:607
+#: ../gnomemusic/view.py:577 ../gnomemusic/view.py:991
+#: ../gnomemusic/view.py:1460
 msgid "Unknown Album"
 msgstr "Album no cognossût"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:591 ../gnomemusic/view.py:216
-#: ../gnomemusic/view.py:456 ../gnomemusic/view.py:713
-#: ../gnomemusic/view.py:1151 ../gnomemusic/view.py:1430
-#: ../gnomemusic/view.py:1481 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:638
+#: ../gnomemusic/mpris.py:332 ../gnomemusic/player.py:597
+#: ../gnomemusic/view.py:219 ../gnomemusic/view.py:479
+#: ../gnomemusic/view.py:733 ../gnomemusic/view.py:1166
+#: ../gnomemusic/view.py:1458 ../gnomemusic/view.py:1510
+#: ../gnomemusic/widgets.py:249 ../gnomemusic/widgets.py:661
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
 
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "Cuiet"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "di %s, dal album %s"
-
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:65 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Precedent"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:548
+#: ../gnomemusic/notification.py:68 ../gnomemusic/player.py:554
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:551
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:71 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Sune"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:73 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Prossim"
 
-#: ../gnomemusic/player.py:1079
+#: ../gnomemusic/player.py:1090
 msgid "Unable to play the file"
 msgstr "Impussibil riprodusi il file"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1084
+#: ../gnomemusic/player.py:1095
 #, python-format
 msgid "_Find in %s"
 msgstr "_Cjate in %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1094
+#: ../gnomemusic/player.py:1105
 msgid " and "
 msgstr " e "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1097
+#: ../gnomemusic/player.py:1108
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1098
+#: ../gnomemusic/player.py:1109
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -210,17 +199,17 @@ msgstr[0] "Al covente %s par riprodusi il file, ma nol è instalât."
 msgstr[1] "A coventin %s par riprodusi il file, ma no son instalâts."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "Plui scoltats"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "Mai scoltât"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "Scoltât di recent"
 
@@ -230,7 +219,7 @@ msgid "Recently Added"
 msgstr "Zontât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
@@ -238,97 +227,97 @@ msgstr "Tocs preferîts"
 #. (such as 'the') that should be ignored when alphabetizing artists/albums. This
 #. list should include 'the' regardless of language. If some articles occur more
 #. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#: ../gnomemusic/query.py:76
 msgid "the a an"
 msgstr "Il la i lis the a an un une"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "Dut"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "Artist"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "Titul"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "Locâl"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "Sorzints"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "Corispuindince"
 
-#: ../gnomemusic/view.py:188 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:305
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:305
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Selezionât %d element"
 msgstr[1] "Selezionâts %d elements"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:309
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:309
 #: ../gnomemusic/window.py:321 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionaju"
 
-#: ../gnomemusic/view.py:272
+#: ../gnomemusic/view.py:276
 msgid "Music folder"
 msgstr "Cartele di musiche"
 
-#: ../gnomemusic/view.py:291
+#: ../gnomemusic/view.py:299
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: ../gnomemusic/view.py:299 ../gnomemusic/view.py:1705
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1737
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/view.py:390 ../gnomemusic/view.py:1707
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1739
 msgid "Songs"
 msgstr "Cjancçons"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1706
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1738
 msgid "Artists"
 msgstr "Artiscj"
 
-#: ../gnomemusic/view.py:796 ../gnomemusic/view.py:1708
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1740
 msgid "Playlists"
 msgstr "Listis di musichis"
 
-#: ../gnomemusic/view.py:1162
+#: ../gnomemusic/view.py:1176
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d cjançon"
 msgstr[1] "%d Cjançons"
 
-#: ../gnomemusic/view.py:1299
+#: ../gnomemusic/view.py:1319
 msgid "Try a different search"
 msgstr "Prove une ricercje diferente"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:524
+#: ../gnomemusic/widgets.py:544
 msgid "All Artists"
 msgstr "Ducj i artiscj"
 
-#: ../gnomemusic/widgets.py:762
+#: ../gnomemusic/widgets.py:790
 msgid "New Playlist"
 msgstr "Gnove liste di musichis"
 
@@ -336,15 +325,15 @@ msgstr "Gnove liste di musichis"
 msgid "Empty"
 msgstr "Vueit"
 
-#: ../gnomemusic/window.py:333
+#: ../gnomemusic/window.py:338
 msgid "Loading"
 msgstr "Daûr a cjariâ"
 
-#: ../gnomemusic/window.py:348
+#: ../gnomemusic/window.py:361
 msgid "_Undo"
 msgstr "A_nule"
 
-#: ../gnomemusic/window.py:349
+#: ../gnomemusic/window.py:362
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Playlist %s gjavade"
@@ -444,7 +433,8 @@ msgstr "Ripet dut"
 msgid "Repeat Song"
 msgstr "Ripet cjançon"
 
-#: ../data/PlayerToolbar.ui.h:4
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Messede/ripet studâts"
 
@@ -452,7 +442,8 @@ msgstr "Messede/ripet studâts"
 msgid "No music found"
 msgstr "Nissune musiche cjatade"
 
-#: ../data/NoMusic.ui.h:3
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Il contignût dal to %s al vegnarà mostrât chi."
@@ -504,6 +495,12 @@ msgstr "Non de liste des musichis"
 #: ../data/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Selezione liste des musichis"
+
+#~ msgid "Not playing"
+#~ msgstr "Cuiet"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "di %s, dal album %s"
 
 #~ msgid "_New Playlist"
 #~ msgstr "_Gnove liste di musichis"
