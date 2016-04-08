@@ -381,6 +381,7 @@ class Player(GObject.GObject):
                 else:
                     self.currentTrack = None
                 self.load(self.get_current_media())
+            self.emit('playback-status-changed')
         else:
             # Stop playback
             self.stop()
