@@ -72,10 +72,9 @@ class Server:
 
         result = getattr(self, method_name)(*args)
 
-        if type(result) is list:
-            result = tuple(result)
-        elif not type(result) is tuple:
-            result = (result,)
+        # out_args is atleast (signature1). We therefore always wrap the result
+        # as a tuple. Refer to https://bugzilla.gnome.org/show_bug.cgi?id=765603
+        result = (result,)
 
         out_args = self.method_outargs[method_name]
         if out_args != '()':
