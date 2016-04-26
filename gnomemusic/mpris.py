@@ -748,10 +748,10 @@ class MediaPlayer2Service(Server):
                 elif new_value == 'Playlist':
                     self.player.set_repeat_mode(RepeatType.ALL)
             elif property_name == 'Shuffle':
-                if (new_value and self.player.get_repeat_mode() != RepeatType.SHUFFLE):
-                    self.set_repeat_mode(RepeatType.SHUFFLE)
-                elif new_value and self.player.get_repeat_mode() == RepeatType.SHUFFLE:
-                    self.set_repeat_mode(RepeatType.NONE)
+                if new_value:
+                    self.player.set_repeat_mode(RepeatType.SHUFFLE)
+                else:
+                    self.player.set_repeat_mode(RepeatType.NONE)
         else:
             raise Exception(
                 'org.mpris.MediaPlayer2.GnomeMusic',
