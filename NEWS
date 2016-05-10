@@ -1,3 +1,21 @@
+Overview of changes in 3.20.2
+=============================
+
+Bugs fixed:
+ 705069 Port to Gio GDBUS API
+ 763618 Clarify jhbuild instructions in README
+ 755089 Emit playback-status-changed after playlist ends
+ 744820 Accept response on row-activated in Playlist Dialog
+ 765598 Bump Gtk+ minimum version to 3.19.3
+ 761961 Stop the player when destroying window
+
+Translations updated:
+ Swedish
+ Friulian
+ Esperanto
+ Brazilian Portuguese
+ Occitan
+
 Overview of changes in 3.20.0
 =============================
 
