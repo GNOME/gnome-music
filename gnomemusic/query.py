@@ -194,7 +194,7 @@ class Query():
     @staticmethod
     def songs(where_clause):
         query = '''
-    SELECT
+    SELECT DISTINCT
         rdf:type(?song)
         tracker:id (?song) AS ?id
         ?url
