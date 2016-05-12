@@ -172,6 +172,9 @@ class Grilo(GObject.GObject):
 
     @log
     def _on_source_added(self, pluginRegistry, mediaSource):
+        if "net:plaintext" in mediaSource.get_tags():
+            return
+
         id = mediaSource.get_id()
         logger.debug("new grilo source %s was added", id)
         try:
