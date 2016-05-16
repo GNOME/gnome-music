@@ -30,7 +30,6 @@ from gnomemusic.playlists import Playlists
 
 from gettext import gettext as _
 from gi.repository import GLib
-from gi.repository import Grl
 from gi.repository import Gio
 from gnomemusic import log
 import logging
@@ -309,7 +308,7 @@ class MediaPlayer2Service(Server):
             assert album is not None
         except:
             try:
-                album = media.get_string(Grl.METADATA_KEY_ALBUM)
+                album = media.get_album()
                 assert album is not None
             except:
                 album = _("Unknown Album")
@@ -321,7 +320,7 @@ class MediaPlayer2Service(Server):
             assert artist is not None
         except:
             try:
-                artist = media.get_string(Grl.METADATA_KEY_ARTIST)
+                artist = media.get_artist()
                 assert artist is not None
             except:
                 try:

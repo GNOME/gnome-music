@@ -214,9 +214,7 @@ class ViewContainer(Gtk.Stack):
             return
 
         self._offset += 1
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_artist() \
-            or _("Unknown Artist")
+        artist = item.get_artist() or _("Unknown Artist")
         title = albumArtCache.get_media_title(item)
         # item.set_title(title)
 
@@ -474,9 +472,7 @@ class Songs(ViewContainer):
             return
         self._offset += 1
         item.set_title(albumArtCache.get_media_title(item))
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_artist() \
-            or _("Unknown Artist")
+        artist = item.get_artist() or _("Unknown Artist")
         if item.get_url() is None:
             return
         self.model.insert_with_valuesv(
@@ -574,7 +570,7 @@ class Songs(ViewContainer):
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         item = model.get_value(_iter, 5)
         if item:
-            cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
+            cell.set_property('text', item.get_album() or _("Unknown Album"))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
         if not self.player.currentTrackUri:
@@ -728,9 +724,7 @@ class Artists (ViewContainer):
                 self.view.show()
             return
         self._offset += 1
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_artist()\
-            or _("Unknown Artist")
+        artist = item.get_artist() or _("Unknown Artist")
         if not artist.casefold() in self._artists:
             _iter = self.model.insert_with_valuesv(-1, [2], [artist])
             self._artists[artist.casefold()] = {'iter': _iter, 'albums': [], 'widget': None}
@@ -988,7 +982,7 @@ class Playlist(ViewContainer):
 
         item = model.get_value(_iter, 5)
         if item:
-            cell.set_property('text', item.get_string(Grl.METADATA_KEY_ALBUM) or _("Unknown Album"))
+            cell.set_property('text', item.get_album() or _("Unknown Album"))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
         if not self.player.currentTrackUri:
@@ -1161,9 +1155,7 @@ class Playlist(ViewContainer):
         self._offset += 1
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST)\
-            or item.get_artist()\
-            or _("Unknown Artist")
+        artist = item.get_artist() or _("Unknown Artist")
         model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
@@ -1453,11 +1445,8 @@ class Search(ViewContainer):
         if data != self.model:
             return
 
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
-            or item.get_artist() \
-            or _("Unknown Artist")
-        album = item.get_string(Grl.METADATA_KEY_ALBUM) \
-            or _("Unknown Album")
+        artist = item.get_artist() or _("Unknown Artist")
+        album = item.get_album() or _("Unknown Album")
 
         key = '%s-%s' % (artist, album)
         if key not in self._albums:
@@ -1505,9 +1494,7 @@ class Search(ViewContainer):
         self._offset += 1
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
-        artist = item.get_string(Grl.METADATA_KEY_ARTIST) \
-            or item.get_artist() \
-            or _("Unknown Artist")
+        artist = item.get_artist() or _("Unknown Artist")
 
         group = 3
         try:
