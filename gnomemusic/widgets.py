@@ -58,18 +58,30 @@ playlists = Playlists.get_default()
 
 
 class StarHandler():
+    """Handles the treeview column for favorites (stars)."""
 
     def __repr__(self):
         return '<StarHandler>'
 
     @log
     def __init__(self, parent, star_index):
+        """Initialize.
+
+        :param parent: The parent widget
+        :param int star_index: The column of the stars
+        """
         self.star_renderer_click = False
         self._star_index = star_index
         self._parent = parent
 
     @log
     def add_star_renderers(self, list_widget, cols, hidden=False):
+        """Adds the star renderer column
+
+        :param list_widget: The widget to add the favorites column
+        :param cols: List of the widgets GtkTreeViewColumns
+        :param hidden: Visible state of the column
+        """
         star_renderer = CellRendererClickablePixbuf(self._parent.view,
                                                     hidden=hidden)
         star_renderer.connect("clicked", self._on_star_toggled)
@@ -80,6 +92,7 @@ class StarHandler():
 
     @log
     def _on_star_toggled(self, widget, path):
+        """Called if a star is clicked"""
         try:
             _iter = self._parent.model.get_iter(path)
         except TypeError:
@@ -102,6 +115,11 @@ class StarHandler():
 
 
 class AlbumWidget(Gtk.EventBox):
+    """Album widget.
+
+    The album widget consists of an image with the album art
+    on the left and a list of songs on the right.
+    """
 
     _duration = 0
     _loading_icon = ALBUM_ART_CACHE.get_default_icon(256, 256, True)
@@ -112,6 +130,11 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def __init__(self, player, parent_view):
+        """Initialize the AlbumWidget.
+
+        :param player: The player object
+        :param parent_view: The view this widget is part of
+        """
         Gtk.EventBox.__init__(self)
         self._player = player
         self._iter_to_clean = None
@@ -149,10 +172,12 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _on_selection_mode_request(self, *args):
+        """Selection mode toggled."""
         self._header_bar._select_button.clicked()
 
     @log
     def _on_item_activated(self, widget, id, path):
+        """List row activated."""
         if self._star_handler.star_renderer_click:
             self._star_handler.star_renderer_click = False
             return
@@ -173,6 +198,7 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _add_list_renderers(self):
+        """Create the ListView columns."""
         list_widget = self.view.get_generic_view()
 
         cols = list_widget.get_columns()
@@ -233,6 +259,7 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _create_model(self):
+        """Create the ListStore model for this widget."""
         self.model = Gtk.ListStore(
             GObject.TYPE_STRING,  # title
             GObject.TYPE_STRING,
@@ -250,6 +277,14 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def update(self, artist, album, item, header_bar, selection_toolbar):
+        """Update the album widget.
+
+        :param str artist: The artist name
+        :param str album: The album name
+        :param item: The grilo media item
+        :param header_bar: The header bar object
+        :param selection_toolbar: The selection toolbar object
+        """
         self.selection_toolbar = selection_toolbar
         self._header_bar = header_bar
         self._album = album
@@ -293,12 +328,14 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _on_header_cancel_button_clicked(self, button):
+        """Cancel selection mode callback."""
         self.view.set_selection_mode(False)
         self._header_bar.set_selection_mode(False)
         self._header_bar.header_bar.title = self._album
 
     @log
     def _on_header_select_button_toggled(self, button):
+        """Selection mode button clicked callback."""
         if button.get_active():
             self.view.set_selection_mode(True)
             self._header_bar.set_selection_mode(True)
@@ -317,6 +354,14 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def add_item(self, source, prefs, track, remaining, data=None):
+        """Add a song to the item to album list.
+
+        :param source: The grilo source
+        :param prefs:
+        :param track: The grilo media object
+        :param remaining: Remaining number of items to add
+        :param data: User data
+        """
         if track:
             self._duration = self._duration + track.get_duration()
             _iter = self.model.append()
@@ -335,6 +380,12 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _on_look_up(self, pixbuf, path, data=None):
+        """Albumart retrieved callback.
+
+        :param pixbuf: The GtkPixbuf retrieved
+        :param path: The filesystem location the pixbuf
+        :param data: User data
+        """
         _iter = self._iter_to_clean
         if not pixbuf:
             pixbuf = self._no_artwork_icon
@@ -344,6 +395,12 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _update_model(self, player, playlist, current_iter):
+        """Player changed callback.
+
+        :param player: The player object
+        :param playlist: The current playlist
+        :param current_iter: The current iter of the playlist model
+        """
         # self is not our playlist, return
         if (playlist != self.model):
             return False
