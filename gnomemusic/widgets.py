@@ -30,15 +30,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
 
 from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango, Gio, GdkPixbuf
 from gettext import gettext as _, ngettext
-from gnomemusic.grilo import grilo
+
 from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.grilo import grilo
+from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
-from gnomemusic import log
-import logging
+
 logger = logging.getLogger(__name__)
 
 ALBUM_ART_CACHE = AlbumArtCache.get_default()
