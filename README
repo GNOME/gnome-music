@@ -1,5 +1,5 @@
-GNOME Music 3.19.90 Alpha
-========================
+GNOME Music
+===========
 
 Music is the new GNOME music playing application.
 
@@ -24,6 +24,7 @@ $ jhbuild build gnome-music
 Finally, start gnome music with:
 $ jhbuild run gnome-music
 
+
 === Troubleshooting ===
 
 Jhbuild fires import errors for python packages like:
@@ -32,3 +33,16 @@ Do:
  $ jhbuild shell
  $ export PYTHONPATH=/opt/gnome/lib/python3.3/site-packages:/opt/gnome/lib64/python3.3/site-packages
  $ gnome-music
+
+
+=== Coding style ===
+
+GNOME Music is written in Python and aspires to adhere to the coding style described in PEP-8:
+https://www.python.org/dev/peps/pep-0008/
+
+Use of docstrings is recommended following PEP-257:
+https://www.python.org/dev/peps/pep-0257/
+
+Use PyGI shorthands for manipulating GtkTreeModel:
+ model[iter][0] = "artist"
+ artist, title = model[iter][1, 4]
