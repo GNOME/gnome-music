@@ -514,7 +514,7 @@ class Songs(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self.star_handler._add_star_renderers(list_widget, cols)
+        self.star_handler.add_star_renderers(list_widget, cols)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -911,7 +911,7 @@ class Playlist(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self.star_handler._add_star_renderers(list_widget, cols)
+        self.star_handler.add_star_renderers(list_widget, cols)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -1555,7 +1555,7 @@ class Search(ViewContainer):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self.star_handler._add_star_renderers(list_widget, cols, hidden=False)
+        self.star_handler.add_star_renderers(list_widget, cols, hidden=False)
 
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
