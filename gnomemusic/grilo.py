@@ -172,7 +172,13 @@ class Grilo(GObject.GObject):
 
     @log
     def _on_source_added(self, pluginRegistry, mediaSource):
-        if "net:plaintext" in mediaSource.get_tags():
+        if ("net:plaintext" in mediaSource.get_tags()
+                or mediaSource.get_id() in self.blacklist):
+            try:
+                pluginRegistry.unregister_source(mediaSource)
+            except GLib.GError:
+                logger.error("Failed to unregister %s.",
+                             mediaSource.get_id())
             return
 
         id = mediaSource.get_id()
@@ -199,8 +205,8 @@ class Grilo(GObject.GObject):
                 self.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
 
-            elif (id not in self.blacklist) and (ops & Grl.SupportedOps.SEARCH) and \
-                 (mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+            elif (ops & Grl.SupportedOps.SEARCH
+                  and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
                 logger.debug("source %s is searchable", id)
                 self.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
