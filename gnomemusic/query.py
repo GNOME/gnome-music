@@ -124,8 +124,6 @@ class Query():
         tracker:id(?album) AS ?id
         nmm:artistName(?albumArtist) AS ?artist
         ?title
-        tracker:coalesce((SELECT GROUP_CONCAT(nmm:artistName(?albumArtist), ',') { ?album nmm:albumArtist ?albumArtist }),
-                         (SELECT GROUP_CONCAT(nmm:artistName(?performer), ',') { ?song nmm:performer ?performer })) AS ?performer
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
     {
@@ -160,8 +158,6 @@ class Query():
         tracker:id(?album) AS ?id
         ?artist
         ?title
-        tracker:coalesce((SELECT GROUP_CONCAT(nmm:artistName(?albumArtist), ',') { ?album nmm:albumArtist ?albumArtist }),
-                         (SELECT GROUP_CONCAT(nmm:artistName(?performer), ',') { ?song nmm:performer ?performer })) AS ?performer
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
     {
