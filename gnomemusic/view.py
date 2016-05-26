@@ -47,6 +47,7 @@ from gnomemusic.toolbar import ToolbarState
 import gnomemusic.widgets as Widgets
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
+import gnomemusic.utils as utils
 from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
 from gnomemusic import log
 import logging
@@ -214,7 +215,7 @@ class ViewContainer(Gtk.Stack):
             return
 
         self._offset += 1
-        artist = item.get_artist() or _("Unknown Artist")
+        artist = utils.get_artist_name(item)
         title = albumArtCache.get_media_title(item)
         # item.set_title(title)
 
@@ -472,7 +473,7 @@ class Songs(ViewContainer):
             return
         self._offset += 1
         item.set_title(albumArtCache.get_media_title(item))
-        artist = item.get_artist() or _("Unknown Artist")
+        artist = utils.get_artist_name(item)
         if item.get_url() is None:
             return
         self.model.insert_with_valuesv(
@@ -724,7 +725,7 @@ class Artists (ViewContainer):
                 self.view.show()
             return
         self._offset += 1
-        artist = item.get_artist() or _("Unknown Artist")
+        artist = utils.get_artist_name(item)
         if not artist.casefold() in self._artists:
             _iter = self.model.insert_with_valuesv(-1, [2], [artist])
             self._artists[artist.casefold()] = {'iter': _iter, 'albums': [], 'widget': None}
@@ -1445,7 +1446,7 @@ class Search(ViewContainer):
         if data != self.model:
             return
 
-        artist = item.get_artist() or _("Unknown Artist")
+        artist = utils.get_artist_name(item)
         album = item.get_album() or _("Unknown Album")
 
         key = '%s-%s' % (artist, album)
@@ -1494,7 +1495,7 @@ class Search(ViewContainer):
         self._offset += 1
         title = albumArtCache.get_media_title(item)
         item.set_title(title)
-        artist = item.get_artist() or _("Unknown Artist")
+        artist = utils.get_artist_name(item)
 
         group = 3
         try:

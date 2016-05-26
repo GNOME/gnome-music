@@ -27,6 +27,7 @@ from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
+import gnomemusic.utils as utils
 
 from gettext import gettext as _
 from gi.repository import GLib
@@ -315,22 +316,9 @@ class MediaPlayer2Service(Server):
         finally:
             metadata['xesam:album'] = GLib.Variant('s', album)
 
-        try:
-            artist = media.get_artist()
-            assert artist is not None
-        except:
-            try:
-                artist = media.get_artist()
-                assert artist is not None
-            except:
-                try:
-                    artist = media.get_artist()
-                    assert artist is not None
-                except (AssertionError, ValueError):
-                    artist = _("Unknown Artist")
-        finally:
-            metadata['xesam:artist'] = GLib.Variant('as', [artist])
-            metadata['xesam:albumArtist'] = GLib.Variant('as', [artist])
+        artist = utils.get_artist_name(media)
+        metadata['xesam:artist'] = GLib.Variant('as', [artist])
+        metadata['xesam:albumArtist'] = GLib.Variant('as', [artist])
 
         try:
             genre = media.get_genre()

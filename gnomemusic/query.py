@@ -122,7 +122,8 @@ class Query():
     SELECT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        nmm:artistName(?albumArtist) AS ?artist
+        nmm:artistName(?albumArtist) AS ?album_artist
+        nmm:artistName(?performer) AS ?artist
         ?title
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
@@ -156,7 +157,8 @@ class Query():
     SELECT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        ?artist
+        nmm:artistName(?performer) AS ?artist
+        nmm:artistName(?albumArtist) AS ?album_artist
         ?title
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
@@ -165,14 +167,12 @@ class Query():
         ?album a nmm:MusicAlbum ;
                nmm:albumArtist ?albumArtist ;
                nie:title ?title .
-        ?albumArtist nmm:artistName ?artist .
         ?song nmm:musicAlbum ?album ;
               nmm:performer ?performer .
-        BIND(LCASE(?artist) AS ?artist_lower) .
+        BIND(LCASE(nmm:artistName(?albumArtist)) AS ?artist_lower) .
         BIND(LCASE(?title) AS ?title_lower) .
         BIND((%(artist_order)s) AS ?artist_collation) .
         BIND((%(album_order)s) AS ?title_collation) .
-
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album
@@ -194,10 +194,10 @@ class Query():
         tracker:id (?song) AS ?id
         ?url
         nie:title(?song) AS ?title
-        nmm:artistName (nmm:performer(?song)) AS ?artist
-        nie:title (nmm:musicAlbum (?song)) AS ?album
-        nfo:duration (?song) AS ?duration
-        IF (BOUND (?tag), 'b', '') AS ?lyrics
+        nmm:artistName(nmm:performer(?song)) AS ?artist
+        nie:title(nmm:musicAlbum(?song)) AS ?album
+        nfo:duration(?song) AS ?duration
+        IF (BOUND(?tag), 'b', '') AS ?lyrics
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
@@ -209,7 +209,7 @@ class Query():
             nie:title ?title .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
-        FILTER (STRSTARTS (?url, '%(music_dir)s/'))
+        FILTER(STRSTARTS(?url, '%(music_dir)s/'))
     }
     ORDER BY ?artist ?album nmm:setNumber(?disc) nmm:trackNumber(?song)
     '''.replace('\n', ' ').strip() % {
@@ -330,12 +330,12 @@ class Query():
         tracker:id(?album) AS ?id
         (
             SELECT
-                nmm:artistName(?artist)
+                nmm:artistName(?album_artist)
             WHERE {
-                ?album nmm:albumArtist ?artist
+                ?album nmm:albumArtist ?album_artist
             }
             LIMIT 1
-        ) AS ?artist
+        ) AS ?album_artist
         nie:title(?album) AS ?title
         nie:title(?album) AS ?album
     WHERE {
@@ -358,12 +358,12 @@ class Query():
         tracker:id(?album) AS ?id
         (
             SELECT
-                nmm:artistName(?artist)
+                nmm:artistName(?album_artist)
             WHERE {
-                ?album nmm:albumArtist ?artist
+                ?album nmm:albumArtist ?album_artist
             }
             LIMIT 1
-        ) AS ?artist
+        ) AS ?album_artist
         nie:title(?album) AS ?title
         nie:title(?album) AS ?album
     WHERE {

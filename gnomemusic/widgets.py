@@ -37,6 +37,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
+import gnomemusic.utils as utils
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -243,7 +244,7 @@ class AlbumWidget(Gtk.EventBox):
         self.selection_toolbar = selection_toolbar
         self.header_bar = header_bar
         self.album = album
-        real_artist = item.get_artist() or _("Unknown Artist")
+        real_artist = utils.get_artist_name(item)
         self.ui.get_object('cover').set_from_pixbuf(self.loadingIcon)
         ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None, real_artist, album)
 
@@ -653,10 +654,9 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _update_album_art(self):
-        real_artist = self.album.get_artist() or _("Unknown Artist")
-        ALBUM_ART_CACHE.lookup(
-            self.album, 128, 128, self._get_album_cover, None,
-            real_artist, self.album.get_title())
+        artist = utils.get_artist_name(self.album)
+        ALBUM_ART_CACHE.lookup(self.album, 128, 128, self._get_album_cover,
+                               None, artist, self.album.get_title())
 
     @log
     def _get_album_cover(self, pixbuf, path, data=None):

@@ -44,6 +44,7 @@ from random import randint
 from collections import deque
 from gnomemusic.albumArtCache import AlbumArtCache
 from gnomemusic.playlists import Playlists
+import gnomemusic.utils as utils
 playlists = Playlists.get_default()
 
 from hashlib import md5
@@ -595,15 +596,9 @@ class Player(GObject.GObject):
         self.playBtn.set_sensitive(True)
         self._sync_prev_next()
 
-        artist = _("Unknown Artist")
-        try:
-            assert media.get_artist() is not None
-            artist = media.get_artist()
-        except:
-            pass
-        finally:
-            self.artistLabel.set_label(artist)
-            self._currentArtist = artist
+        artist = utils.get_artist_name(media)
+        self.artistLabel.set_label(artist)
+        self._currentArtist = artist
 
         album = _("Unknown Album")
         try:
