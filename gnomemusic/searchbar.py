@@ -327,6 +327,7 @@ class Searchbar(Gtk.Revealer):
         self._search_button.set_active(show)
 
         if show:
+            self._search_entry.realize()
             if clear:
                 self._search_entry.set_text('')
             self._search_entry.grab_focus()
