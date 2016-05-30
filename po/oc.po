@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-04-29 08:53+0000\n"
+"POT-Creation-Date: 2016-05-09 17:03+0000\n"
 "PO-Revision-Date: 2016-05-08 19:03+0200\n"
 "Last-Translator: Cédric Valmary (totenoc.eu) <cvalmary@yahoo.fr>\n"
 "Language-Team: Tot En Òc\n"
@@ -173,8 +173,8 @@ msgstr "Seguent"
 msgid "Unable to play the file"
 msgstr "Impossible de legir lo fichièr"
 
-#. TRANSLATORS: this is a button to launch a codec installar.
-#. %s will be replaced with the software installar's name, e.g.
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
 #: ../gnomemusic/player.py:1096
 #, python-format
@@ -229,7 +229,7 @@ msgstr "Tròces favorits"
 #. frequently than others, most common should appear first, least common last.
 #: ../gnomemusic/query.py:76
 msgid "the a an"
-msgstr "the a an la le lo les las"
+msgstr "the a an la lo lo les las"
 
 #: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
