@@ -130,11 +130,11 @@ msgstr "Música;Reproductor;"
 
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
-msgstr "GNOME Music"
+msgstr "Música del GNOME"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr "El Music és la nova aplicació de reproducció de música del GNOME."
+msgstr "El Música és la nova aplicació de reproducció de música del GNOME."
 
 #: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
 msgid "Untitled"
@@ -353,7 +353,7 @@ msgstr "S'ha suprimit la llista de reproducció %s"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2013 GNOME Music Developers"
-msgstr "Copyright © 2013 Desenvolupadors del GNOME Music"
+msgstr "Copyright © 2013 desenvolupadors del Música del GNOME"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
@@ -361,7 +361,7 @@ msgstr "Una aplicació de reproducció i gestió de música pel GNOME."
 
 #: ../data/AboutDialog.ui.in.h:4
 msgid "Visit GNOME Music website"
-msgstr "Visiteu el lloc web del GNOME Music"
+msgstr "Visiteu el lloc web del Música del GNOME"
 
 #: ../data/AboutDialog.ui.in.h:5
 msgid ""
@@ -390,12 +390,12 @@ msgid ""
 "\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
-"El GNOME Music és programari lliure; podeu redistribuir-lo i/o modificar-lo "
+"El Música del GNOME és programari lliure; podeu redistribuir-lo i/o modificar-lo "
 "segons els termes de la llicència pública general GNU publicada per la Free "
 "Software Foundation; sigui la versió 2 de la llicència o (segons la vostra "
 "opció) qualsevol versió posterior.\n"
 "\n"
-"El GNOME Music es distribueix amb l'esperança que sigui útil, però SENSE CAP "
+"El Música del GNOME es distribueix amb l'esperança que sigui útil, però SENSE CAP "
 "GARANTIA; ni tan sols amb la garantia implícita de COMERCIALITZACIÓ o "
 "IDONEÏTAT PER A UN PROPÒSIT PARTICULAR. Vegeu la Llicència Pública General "
 "GNU per més detalls.\n"
@@ -404,10 +404,10 @@ msgstr ""
 "Music; si no és el cas, escriviu a la Free Software Foundation, Inc., 51 "
 "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"Els autors del GNOME Music presents permeten l'ús i distribució conjunta del "
-"GNOME Music amb connectors GStreamer no compatibles amb la GPL. Aquest "
+"Els autors del Música del GNOME presents permeten l'ús i distribució conjunta del "
+"Música del GNOME amb connectors GStreamer no compatibles amb la GPL. Aquest "
 "permís està per sobre dels permisos garantits per la llicència GPL sota la "
-"qual es troba el GNOME Music. Si modifiqueu aquest codi, podeu estendre "
+"qual es troba el Música del GNOME. Si modifiqueu aquest codi, podeu estendre "
 "aquesta excepció a la vostra versió del codi, però no esteu obligats a fer-"
 "ho. Si no voleu fer-ho, elimineu aquesta declaració d'excepció de la vostra "
 "versió.\n"
