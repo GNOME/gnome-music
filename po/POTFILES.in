@@ -16,6 +16,7 @@ gnomemusic/playlists.py
 gnomemusic/query.py
 gnomemusic/searchbar.py
 gnomemusic/toolbar.py
+gnomemusic/utils.py
 gnomemusic/view.py
 gnomemusic/widgets.py
 gnomemusic/window.py
