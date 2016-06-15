@@ -11,6 +11,7 @@ app_PYTHON = \
 	view.py \
 	grilo.py  \
 	playlists.py\
+	utils.py \
 	query.py \
 	widgets.py \
 	searchbar.py \
