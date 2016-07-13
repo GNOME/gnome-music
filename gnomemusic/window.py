@@ -36,7 +36,7 @@ from gettext import gettext as _, ngettext
 
 from gnomemusic import TrackerWrapper
 from gnomemusic.toolbar import Toolbar, ToolbarState
-from gnomemusic.player import Player, SelectionToolbar
+from gnomemusic.player import Player, SelectionToolbar, RepeatType
 from gnomemusic.query import Query
 import gnomemusic.view as Views
 import gnomemusic.widgets as Widgets
@@ -395,12 +395,55 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_f and
                     event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self.toolbar.searchbar.toggle_bar()
+            # Play / Pause on Ctrl + P
+            if (event.keyval == Gdk.KEY_p
+                    or event.keyval == Gdk.KEY_space
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                 self.player.play_pause()
+            # Play previous on Ctrl + B
+            if (event.keyval == Gdk.KEY_b
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self.player.play_previous()
+            # Play next on Ctrl + N
+            if (event.keyval == Gdk.KEY_n
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self.player.play_next()
+            # Toggle repeat on Ctrl + R
+            if (event.keyval == Gdk.KEY_r
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                if self.player.get_repeat_mode() == RepeatType.SONG:
+                    self.player.set_repeat_mode(RepeatType.NONE)
+                else:
+                    self.player.set_repeat_mode(RepeatType.SONG)
+            # Toggle shuffle on Ctrl + S
+            if (event.keyval == Gdk.KEY_s
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                if self.player.get_repeat_mode() == RepeatType.SHUFFLE:
+                    self.player.set_repeat_mode(RepeatType.NONE)
+                else:
+                    self.player.set_repeat_mode(RepeatType.SHUFFLE)
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left and
                     event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
                 if (self.toolbar._state != ToolbarState.MAIN):
                     self.curr_view.set_visible_child(self.curr_view._grid)
                     self.toolbar.set_state(ToolbarState.MAIN)
+            # Go to Albums view on Ctrl + 1
+            if (event.keyval == Gdk.KEY_1
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self._toggle_view(0, 0)
+            # Go to Artists view on Ctrl + 2
+            if (event.keyval == Gdk.KEY_2
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self._toggle_view(0, 1)
+            # Go to Songs view on Ctrl + 3
+            if (event.keyval == Gdk.KEY_3
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self._toggle_view(0, 2)
+            # Go to Playlists view on Ctrl + 4
+            if (event.keyval == Gdk.KEY_4
+                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self._toggle_view(0, 3)
         else:
             if (event.keyval == Gdk.KEY_Delete):
                 if self._stack.get_visible_child() == self.views[3]:
