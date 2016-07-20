@@ -65,7 +65,7 @@ class Query():
         return '<Query>'
 
     @staticmethod
-    def order_by_statement(attr):
+    def _order_by_statement(attr):
         """Returns a specifically sorted SPARQL ORDER BY statement.
 
         Returns a SPARQL ORDER BY statement sorting by the given
@@ -82,18 +82,23 @@ class Query():
             'attribute': attr,
             'punctuation': PUNCTUATION_FILTER
         }
-        # TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-        # (such as 'the') that should be ignored when alphabetizing artists/albums. This
-        # list should include 'the' regardless of language. If some articles occur more
-        # frequently than others, most common should appear first, least common last.
+
+        # TRANSLATORS: The following translatable string should be a
+        # space-separated list of all-lowercase articles that should be
+        # ignored when alphabetizing artists/albums. This list should
+        # include the basic english translatable strings regardless of
+        # language because it is so universal.
+        # If some articles occur more frequently than others, the most
+        # common one should appear first, the least common one last.
         for article in reversed(_("the a an").split(" ")):
-            return_statement = '''IF(STRSTARTS(%(attribute)s, "%(article)s"),
-            SUBSTR(%(attribute)s, %(substr_start)s),
-            %(nested_if)s)''' % {
+            return_statement = """IF(STRSTARTS(%(attribute)s, "%(article)s"),
+            SUBSTR(%(attribute)s, %(substr_start)s), %(nested_if)s)
+            """ % {
                 'attribute': attr,
                 'article': article + " ",
                 'substr_start': str(len(article) + 2),
-                'nested_if': return_statement}
+                'nested_if': return_statement
+            }
         return return_statement
 
     @staticmethod
@@ -158,8 +163,8 @@ class Query():
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'album_order': Query.order_by_statement("?title_lower"),
-            'artist_order': Query.order_by_statement("?artist_lower"),
+            'album_order': Query._order_by_statement("?title_lower"),
+            'artist_order': Query._order_by_statement("?artist_lower"),
         }
 
         return query
@@ -193,8 +198,8 @@ class Query():
     '''.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'artist_order': Query.order_by_statement("?artist_lower"),
-            'album_order': Query.order_by_statement("?title_lower")
+            'artist_order': Query._order_by_statement("?artist_lower"),
+            'album_order': Query._order_by_statement("?title_lower")
         }
 
         return query
