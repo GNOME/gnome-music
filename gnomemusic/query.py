@@ -34,8 +34,9 @@ logger = logging.getLogger(__name__)
 
 import time
 sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
-SECONDS_PER_DAY = 86400
 
+SECONDS_PER_DAY = 86400
+PUNCTUATION_FILTER = " !\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~"
 
 class Query():
 
@@ -65,10 +66,22 @@ class Query():
 
     @staticmethod
     def order_by_statement(attr):
-        """Returns a SPARQL ORDER BY statement sorting by the given attribute, ignoring
-            articles as defined in _("the"). 'Attr' should be given without parentheses,
-            e.g., "attr='?author'"."""
-        return_statement = "fn:lower-case(%(attribute)s)" % {'attribute': attr}
+        """Returns a specifically sorted SPARQL ORDER BY statement.
+
+        Returns a SPARQL ORDER BY statement sorting by the given
+        attribute, ignoring articles as defined in _("the") as well as
+        the punctuation at the start and the end of the string.
+
+        :param str attr: The attribute to order by
+        :return: The sparql order by statement
+        :rtype: str
+        """
+        return_statement = """fn:replace(fn:lower-case(%(attribute)s),
+        "^[%(punctuation)s]+|[%(punctuation)s]+$", "")
+        """.replace('\n', ' ').strip() % {
+            'attribute': attr,
+            'punctuation': PUNCTUATION_FILTER
+        }
         # TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
         # (such as 'the') that should be ignored when alphabetizing artists/albums. This
         # list should include 'the' regardless of language. If some articles occur more
