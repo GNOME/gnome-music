@@ -156,6 +156,8 @@ class ViewContainer(Gtk.Stack):
         self.view.bind_property('selection-mode', self, 'selection_mode',
                                 GObject.BindingFlags.BIDIRECTIONAL)
 
+        self.view.connect('view-selection-changed', self._on_view_selection_changed)
+
         self._box.pack_start(self.view, True, True, 0)
 
     @log
@@ -192,6 +194,10 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _on_view_selection_changed(self, widget):
+
+        if not self.selection_mode:
+            return
+
         items = self.view.get_selection()
         self.selection_toolbar._add_to_playlist_button.\
             set_sensitive(len(items) > 0)
