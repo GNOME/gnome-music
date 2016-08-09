@@ -89,10 +89,10 @@ class ViewContainer(Gtk.Stack):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
-        self.view = Gd.MainView(
-            shadow_type=Gtk.ShadowType.NONE
-        )
-        self.view.set_view_type(view_type)
+
+        # Setup the main view
+        self._setup_view(view_type)
+
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._box.pack_start(self.view, True, True, 0)
         if use_sidebar:
@@ -111,9 +111,6 @@ class ViewContainer(Gtk.Stack):
             self._grid.add(self._box)
 
         self.star_handler = Widgets.StarHandler(self, 9)
-        self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
-        # self.star_handler.star_renderer_click = False
-        self.view.connect('selection-mode-request', self._on_selection_mode_request)
         self._cursor = None
         self.window = window
         self.header_bar = window.toolbar
@@ -145,6 +142,14 @@ class ViewContainer(Gtk.Stack):
     @log
     def _on_changes_pending(self, data=None):
         pass
+
+    @log
+    def _setup_view(self, view_type):
+        self.view = Gd.MainView(shadow_type=Gtk.ShadowType.NONE)
+        self.view.set_view_type(view_type)
+
+        self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
+        self.view.connect('selection-mode-request', self._on_selection_mode_request)
 
     @log
     def _on_header_bar_toggled(self, button):
