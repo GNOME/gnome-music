@@ -60,6 +60,8 @@ class ViewContainer(Gtk.Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
 
+    selection_mode = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return '<ViewContainer>'
 
@@ -153,22 +155,28 @@ class ViewContainer(Gtk.Stack):
         self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
         self.view.connect('selection-mode-request', self._on_selection_mode_request)
 
+        self.view.bind_property('selection-mode', self, 'selection_mode',
+                                GObject.BindingFlags.BIDIRECTIONAL)
+
+        self.view.connect('view-selection-changed', self._on_view_selection_changed)
+
         self._box.pack_start(self.view, True, True, 0)
 
     @log
     def _on_header_bar_toggled(self, button):
-        if button.get_active():
-            self.view.set_selection_mode(True)
+        self.selection_mode = button.get_active()
+
+        if self.selection_mode:
             self.header_bar.set_selection_mode(True)
             self.player.actionbar.set_visible(False)
             self.selection_toolbar.actionbar.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
             self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
         else:
-            self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
             self.player.actionbar.set_visible(self.player.currentTrack is not None)
             self.selection_toolbar.actionbar.set_visible(False)
+            self.unselect_all()
 
     @log
     def _on_cancel_button_clicked(self, button):
@@ -189,14 +197,22 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _on_view_selection_changed(self, widget):
+
+        if not self.selection_mode:
+            return
+
         items = self.view.get_selection()
+        self.update_header_from_selection(len(items))
+
+    @log
+    def update_header_from_selection(self, n_items):
         self.selection_toolbar._add_to_playlist_button.\
-            set_sensitive(len(items) > 0)
+            set_sensitive(n_items > 0)
         self.selection_toolbar._remove_from_playlist_button.\
-            set_sensitive(len(items) > 0)
-        if len(items) > 0:
+            set_sensitive(n_items > 0)
+        if n_items > 0:
             self.header_bar._selection_menu_label.set_text(
-                ngettext("Selected %d item", "Selected %d items", len(items)) % len(items))
+                ngettext("Selected %d item", "Selected %d items", n_items) % n_items)
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
@@ -261,6 +277,39 @@ class ViewContainer(Gtk.Stack):
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
+    def _set_selection(self, value, parent=None):
+        count = 0
+        _iter = self.model.iter_children(parent)
+        while _iter is not None:
+            if self.model.iter_has_child(_iter):
+                count += self._set_selection(value, _iter)
+            if self.model[_iter][5]:
+                self.model[_iter][6] = value
+                count += 1
+            _iter = self.model.iter_next(_iter)
+        return count
+
+    @log
+    def select_all(self):
+        """Select all the available tracks."""
+        count = self._set_selection(True)
+
+        if count > 0:
+            self.selection_toolbar._add_to_playlist_button.set_sensitive(True)
+            self.selection_toolbar._remove_from_playlist_button.set_sensitive(True)
+
+        self.update_header_from_selection(count)
+        self.view.queue_draw()
+
+    @log
+    def unselect_all(self):
+        """Unselects all the selected tracks."""
+        self._set_selection(False)
+        self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
+        self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
+        self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
+        self.queue_draw()
 
 # Class for the Empty View
 class Empty(Gtk.Stack):
@@ -316,18 +365,19 @@ class Albums(ViewContainer):
 
     @log
     def __init__(self, window, player):
-        ViewContainer.__init__(self, 'albums', _("Albums"), window, Gd.MainViewType.ICON)
+        ViewContainer.__init__(self, 'albums', _("Albums"), window, None)
         self._albumWidget = Widgets.AlbumWidget(player, self)
         self.player = player
         self.add(self._albumWidget)
         self.albums_selected = []
+        self.all_items = []
         self.items_selected = []
         self.items_selected_callback = None
         self._add_list_renderers()
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and self.header_bar._selectionMode is False):
+        if (self._init and not self.header_bar._selectionMode):
             self._offset = 0
             self._init = True
             GLib.idle_add(self.populate)
@@ -335,8 +385,29 @@ class Albums(ViewContainer):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.header_bar._selectionMode is False and grilo.changes_pending['Albums'] is True:
+        if (not self.header_bar._selectionMode
+                and grilo.changes_pending['Albums']):
             self._on_changes_pending()
+
+    @log
+    def _setup_view(self, view_type):
+        self.view = Gtk.FlowBox(homogeneous=True,
+                                hexpand=True,
+                                halign=Gtk.Align.FILL,
+                                selection_mode=Gtk.SelectionMode.NONE,
+                                margin=18,
+                                row_spacing=12,
+                                column_spacing=6,
+                                min_children_per_line=1,
+                                max_children_per_line=25)
+
+        self.view.connect('child-activated', self._on_child_activated)
+
+        scrolledwin = Gtk.ScrolledWindow()
+        scrolledwin.add(self.view)
+        scrolledwin.show()
+
+        self._box.add(scrolledwin)
 
     @log
     def _back_button_clicked(self, widget, data=None):
@@ -344,22 +415,26 @@ class Albums(ViewContainer):
         self.set_visible_child(self._grid)
 
     @log
-    def _on_item_activated(self, widget, id, path):
+    def _on_child_activated(self, widget, child, user_data=None):
+        item = child.media_item
+
         if self.star_handler.star_renderer_click:
             self.star_handler.star_renderer_click = False
             return
 
-        try:
-            _iter = self.model.get_iter(path)
-        except TypeError:
+        # Toggle the selection when in selection mode
+        if self.selection_mode:
+            child.check.set_active(not child.check.get_active())
             return
-        title = self.model.get_value(_iter, 2)
-        self._artist = self.model.get_value(_iter, 3)
-        item = self.model.get_value(_iter, 5)
+
+        title = AlbumArtCache.get_media_title(item)
+        self._escaped_title = title
+        self._artist = utils.get_artist_name(item)
+
         self._albumWidget.update(self._artist, title, item,
                                  self.header_bar, self.selection_toolbar)
+
         self.header_bar.set_state(ToolbarState.CHILD_VIEW)
-        self._escaped_title = AlbumArtCache.get_media_title(item)
         self.header_bar.header_bar.set_title(self._escaped_title)
         self.header_bar.header_bar.sub_title = self._artist
         self.set_visible_child(self._albumWidget)
@@ -387,10 +462,84 @@ class Albums(ViewContainer):
             self.items_selected = []
             self.items_selected_callback = callback
             self.albums_index = 0
-            self.albums_selected = [self.model.get_value(self.model.get_iter(path), 5)
-                                    for path in self.view.get_selection()]
             if len(self.albums_selected):
                 self._get_selected_album_songs()
+
+    @log
+    def _add_item(self, source, param, item, remaining=0, data=None):
+        self.window.notification.set_timeout(0)
+
+        if item:
+            # Store all items to optimize 'Select All' action
+            self.all_items.append(item)
+
+            # Add to the flowbox
+            child = self._create_album_item(item)
+            self.view.add(child)
+        elif remaining == 0:
+                self.window.notification.dismiss()
+                self.view.show()
+
+    def _create_album_item(self, item):
+        artist = utils.get_artist_name(item)
+        title = AlbumArtCache.get_media_title(item)
+
+        builder = Gtk.Builder.new_from_resource('/org/gnome/Music/AlbumCover.ui')
+
+        child = Gtk.FlowBoxChild()
+        child.image = builder.get_object('image')
+        child.check = builder.get_object('check')
+        child.title = builder.get_object('title')
+        child.subtitle = builder.get_object('subtitle')
+        child.events = builder.get_object('events')
+        child.media_item = item
+
+        child.title.set_label(title)
+        child.subtitle.set_label(artist)
+        child.image.set_from_pixbuf(self._loading_icon)
+        # In the case of off-sized icons (eg. provided in the soundfile)
+        # keep the size request equal to all other icons to get proper
+        # alignment with GtkFlowBox.
+        child.image.set_property("width-request", self._iconWidth)
+        child.image.set_property("height-request", self._iconHeight)
+
+        child.events.connect('button-release-event',
+                             self._on_album_event_triggered,
+                             child)
+
+        child.check_handler_id = child.check.connect('notify::active',
+                                                     self._on_child_toggled,
+                                                     child)
+
+        child.check.bind_property('visible', self, 'selection_mode',
+                                  GObject.BindingFlags.BIDIRECTIONAL)
+
+        child.add(builder.get_object('main_box'))
+        child.show()
+
+        self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
+                          child, artist, title)
+
+        return child
+
+    @log
+    def _on_album_event_triggered(self, evbox, event, child):
+        if event.button is 3:
+            self._on_selection_mode_request()
+            if self.selection_mode:
+                child.check.set_active(True)
+
+    def _on_lookup_ready(self, icon, path, child):
+        child.image.set_from_pixbuf(icon)
+
+    @log
+    def _on_child_toggled(self, check, pspec, child):
+        if check.get_active() and not child.media_item in self.albums_selected:
+            self.albums_selected.append(child.media_item)
+        elif not check.get_active() and child.media_item in self.albums_selected:
+            self.albums_selected.remove(child.media_item)
+
+        self.update_header_from_selection(len(self.albums_selected))
 
     @log
     def _get_selected_album_songs(self):
@@ -408,6 +557,31 @@ class Albums(ViewContainer):
                 self._get_selected_album_songs()
             else:
                 self.items_selected_callback(self.items_selected)
+
+    def _toggle_all_selection(self, selected):
+        """
+        Selects or unselects all items without sending the notify::active
+        signal for performance purposes.
+        """
+        for child in self.view.get_children():
+            GObject.signal_handler_block(child.check, child.check_handler_id)
+
+            # Set the checkbutton state without emiting the signal
+            child.check.set_active(selected)
+
+            GObject.signal_handler_unblock(child.check, child.check_handler_id)
+
+        self.update_header_from_selection(len(self.albums_selected))
+
+    @log
+    def select_all(self):
+        self.albums_selected = list(self.all_items)
+        self._toggle_all_selection(True)
+
+    @log
+    def unselect_all(self):
+        self.albums_selected = []
+        self._toggle_all_selection(False)
 
 
 class Songs(ViewContainer):
