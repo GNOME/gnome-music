@@ -337,27 +337,44 @@ class Albums(ViewContainer):
             self._on_changes_pending()
 
     @log
+    def _setup_view(self, view_type):
+        self.view = Gtk.FlowBox(homogeneous=True,
+                                hexpand=True,
+                                halign=Gtk.Align.FILL,
+                                selection_mode=Gtk.SelectionMode.NONE,
+                                margin=18,
+                                row_spacing=12,
+                                column_spacing=6)
+
+        self.view.connect('child-activated', self._on_child_activated)
+
+        scrolledwin = Gtk.ScrolledWindow()
+        scrolledwin.add(self.view)
+        scrolledwin.show()
+
+        self._box.add(scrolledwin)
+
+    @log
     def _back_button_clicked(self, widget, data=None):
         self.header_bar.reset_header_title()
         self.set_visible_child(self._grid)
 
     @log
-    def _on_item_activated(self, widget, id, path):
+    def _on_child_activated(self, widget, child, user_data=None):
+        item = child.media_item
+
         if self.star_handler.star_renderer_click:
             self.star_handler.star_renderer_click = False
             return
 
-        try:
-            _iter = self.model.get_iter(path)
-        except TypeError:
-            return
-        title = self.model.get_value(_iter, 2)
-        self._artist = self.model.get_value(_iter, 3)
-        item = self.model.get_value(_iter, 5)
+        title = albumArtCache.get_media_title(item)
+        self._escaped_title = title
+        self._artist = utils.get_artist_name(item)
+
         self._albumWidget.update(self._artist, title, item,
                                  self.header_bar, self.selection_toolbar)
+
         self.header_bar.set_state(ToolbarState.CHILD_VIEW)
-        self._escaped_title = albumArtCache.get_media_title(item)
         self.header_bar.header_bar.set_title(self._escaped_title)
         self.header_bar.header_bar.sub_title = self._artist
         self.set_visible_child(self._albumWidget)
@@ -389,6 +406,44 @@ class Albums(ViewContainer):
                                     for path in self.view.get_selection()]
             if len(self.albums_selected):
                 self._get_selected_album_songs()
+
+    @log
+    def _add_item(self, source, param, item, remaining=0, data=None):
+        self.window.notification.set_timeout(0)
+
+        if item:
+            child = self._create_album_item(item)
+            self.view.add(child)
+        elif remaining == 0:
+            self.window.notification.dismiss()
+            self.view.show()
+
+    def _create_album_item(self, item):
+        artist = utils.get_artist_name(item)
+        title = albumArtCache.get_media_title(item)
+
+        builder = Gtk.Builder.new_from_resource('/org/gnome/Music/AlbumCover.ui')
+
+        child = Gtk.FlowBoxChild()
+        child.image = builder.get_object('image')
+        child.check = builder.get_object('check')
+        child.title = builder.get_object('title')
+        child.subtitle = builder.get_object('subtitle')
+        child.media_item = item
+
+        child.title.set_label(title)
+        child.subtitle.set_label(artist)
+
+        child.add(builder.get_object('main_box'))
+        child.show()
+
+        self.cache.lookup(item, self._iconWidth, self._iconHeight,
+                          self._on_lookup_ready, child, artist, title)
+
+        return child
+
+    def _on_lookup_ready(self, icon, path, child):
+        child.image.set_from_pixbuf(icon)
 
     @log
     def _get_selected_album_songs(self):
