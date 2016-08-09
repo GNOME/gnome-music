@@ -279,47 +279,24 @@ class Window(Gtk.ApplicationWindow):
         self.views[0].populate()
 
     @log
-    def _set_selection(self, model, value, parent=None):
-        count = 0
-        _iter = model.iter_children(parent)
-        while _iter is not None:
-            if model.iter_has_child(_iter):
-                count += self._set_selection(model, value, _iter)
-            if model[_iter][5]:
-                model.set(_iter, [6], [value])
-                count += 1
-            _iter = model.iter_next(_iter)
-        return count
-
-    @log
     def _on_select_all(self, action, param):
         if self.toolbar._selectionMode is False:
             return
         if self.toolbar._state == ToolbarState.MAIN:
-            model = self._stack.get_visible_child().model
+            view = self._stack.get_visible_child()
         else:
-            model = self._stack.get_visible_child().get_visible_child().model
-        count = self._set_selection(model, True)
-        if count > 0:
-            self.toolbar._selection_menu_label.set_text(
-                ngettext("Selected %d item", "Selected %d items", count) % count)
-            self.selection_toolbar._add_to_playlist_button.set_sensitive(True)
-            self.selection_toolbar._remove_from_playlist_button.set_sensitive(True)
-        elif count == 0:
-            self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
-        self._stack.get_visible_child().queue_draw()
+            view = self._stack.get_visible_child().get_visible_child()
+
+        view.select_all()
 
     @log
     def _on_select_none(self, action, param):
         if self.toolbar._state == ToolbarState.MAIN:
-            model = self._stack.get_visible_child().model
+            view = self._stack.get_visible_child()
         else:
-            model = self._stack.get_visible_child().get_visible_child().model
-        self._set_selection(model, False)
-        self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
-        self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
-        self.toolbar._selection_menu_label.set_text(_("Click on items to select them"))
-        self._stack.get_visible_child().queue_draw()
+            view = self._stack.get_visible_child().get_visible_child()
+
+        view.unselect_all()
 
     def _show_notification(self):
         self.notification_handler = None

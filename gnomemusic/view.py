@@ -274,6 +274,39 @@ class ViewContainer(Gtk.Stack):
     def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         pass
 
+    @log
+    def _set_selection(self, value, parent=None):
+        count = 0
+        _iter = self.model.iter_children(parent)
+        while _iter is not None:
+            if self.model.iter_has_child(_iter):
+                count += self._set_selection(value, _iter)
+            if self.model[_iter][5]:
+                self.model[_iter][6] = value
+                count += 1
+            _iter = self.model.iter_next(_iter)
+        return count
+
+    @log
+    def select_all(self):
+        """Select all the available tracks."""
+        count = self._set_selection(True)
+
+        if count > 0:
+            self.selection_toolbar._add_to_playlist_button.set_sensitive(True)
+            self.selection_toolbar._remove_from_playlist_button.set_sensitive(True)
+
+        self.update_header_from_selection(count)
+        self.view.queue_draw()
+
+    @log
+    def unselect_all(self):
+        """Unselects all the selected tracks."""
+        self._set_selection(False)
+        self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
+        self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
+        self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
+        self.queue_draw()
 
 # Class for the Empty View
 class Empty(Gtk.Stack):
@@ -422,8 +455,6 @@ class Albums(ViewContainer):
             self.items_selected = []
             self.items_selected_callback = callback
             self.albums_index = 0
-            self.albums_selected = [self.model.get_value(self.model.get_iter(path), 5)
-                                    for path in self.view.get_selection()]
             if len(self.albums_selected):
                 self._get_selected_album_songs()
 
@@ -495,6 +526,18 @@ class Albums(ViewContainer):
                 self._get_selected_album_songs()
             else:
                 self.items_selected_callback(self.items_selected)
+
+    def _toggle_all_selection(self, selected):
+        for child in self.view.get_children():
+            child.check.set_active(selected)
+
+    @log
+    def select_all(self):
+        self._toggle_all_selection(True)
+
+    @log
+    def unselect_all(self):
+        self._toggle_all_selection(False)
 
 
 class Songs(ViewContainer):
