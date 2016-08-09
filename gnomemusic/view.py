@@ -483,24 +483,36 @@ class Albums(ViewContainer):
         child.check = builder.get_object('check')
         child.title = builder.get_object('title')
         child.subtitle = builder.get_object('subtitle')
+        child.main_box = builder.get_object('main_box')
         child.media_item = item
 
         child.title.set_label(title)
         child.subtitle.set_label(artist)
         child.image.set_from_pixbuf(self._loadingIcon)
 
+        child.main_box.connect('button-release-event',
+                               self._on_album_event_triggered,
+                               child)
+
         child.check.connect('notify::active', self._on_child_toggled, child)
 
         child.check.bind_property('visible', self, 'selection_mode',
                                   GObject.BindingFlags.BIDIRECTIONAL)
 
-        child.add(builder.get_object('main_box'))
+        child.add(child.main_box)
         child.show()
 
         self.cache.lookup(item, self._iconWidth, self._iconHeight,
                           self._on_lookup_ready, child, artist, title)
 
         return child
+
+    @log
+    def _on_album_event_triggered(self, evbox, event, child):
+        if event.button is 3:
+            self._on_selection_mode_request()
+            child.check.set_active(not child.check.get_active())
+            child.check.show()
 
     def _on_lookup_ready(self, icon, path, child):
         child.image.set_from_pixbuf(icon)
