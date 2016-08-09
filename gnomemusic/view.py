@@ -60,6 +60,8 @@ class ViewContainer(Gtk.Stack):
     nowPlayingIconName = 'media-playback-start-symbolic'
     errorIconName = 'dialog-error-symbolic'
 
+    selection_mode = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return '<ViewContainer>'
 
@@ -151,19 +153,22 @@ class ViewContainer(Gtk.Stack):
         self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
         self.view.connect('selection-mode-request', self._on_selection_mode_request)
 
+        self.view.bind_property('selection-mode', self, 'selection_mode',
+                                GObject.BindingFlags.BIDIRECTIONAL)
+
         self._box.pack_start(self.view, True, True, 0)
 
     @log
     def _on_header_bar_toggled(self, button):
-        if button.get_active():
-            self.view.set_selection_mode(True)
+        self.selection_mode = button.get_active()
+
+        if self.selection_mode:
             self.header_bar.set_selection_mode(True)
             self.player.actionbar.set_visible(False)
             self.selection_toolbar.actionbar.set_visible(True)
             self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
             self.selection_toolbar._remove_from_playlist_button.set_sensitive(False)
         else:
-            self.view.set_selection_mode(False)
             self.header_bar.set_selection_mode(False)
             self.player.actionbar.set_visible(self.player.currentTrack is not None)
             self.selection_toolbar.actionbar.set_visible(False)
