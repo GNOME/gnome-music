@@ -393,7 +393,9 @@ class Albums(ViewContainer):
                                 selection_mode=Gtk.SelectionMode.NONE,
                                 margin=18,
                                 row_spacing=12,
-                                column_spacing=6)
+                                column_spacing=6,
+                                min_children_per_line=1,
+                                max_children_per_line=10)
 
         self.view.connect('child-activated', self._on_child_activated)
 
