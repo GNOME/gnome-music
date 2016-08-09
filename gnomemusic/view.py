@@ -199,13 +199,17 @@ class ViewContainer(Gtk.Stack):
             return
 
         items = self.view.get_selection()
+        self.update_header_from_selection(len(items))
+
+    @log
+    def update_header_from_selection(self, n_items):
         self.selection_toolbar._add_to_playlist_button.\
-            set_sensitive(len(items) > 0)
+            set_sensitive(n_items > 0)
         self.selection_toolbar._remove_from_playlist_button.\
-            set_sensitive(len(items) > 0)
-        if len(items) > 0:
+            set_sensitive(n_items > 0)
+        if n_items > 0:
             self.header_bar._selection_menu_label.set_text(
-                ngettext("Selected %d item", "Selected %d items", len(items)) % len(items))
+                ngettext("Selected %d item", "Selected %d items", n_items) % n_items)
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
@@ -378,6 +382,11 @@ class Albums(ViewContainer):
             self.star_handler.star_renderer_click = False
             return
 
+        # Toggle the selection when in selection mode
+        if self.selection_mode:
+            child.check.set_active(not child.check.get_active())
+            return
+
         title = albumArtCache.get_media_title(item)
         self._escaped_title = title
         self._artist = utils.get_artist_name(item)
@@ -445,6 +454,11 @@ class Albums(ViewContainer):
         child.title.set_label(title)
         child.subtitle.set_label(artist)
 
+        child.check.connect('notify::active', self._on_child_toggled, child)
+
+        child.check.bind_property('visible', self, 'selection_mode',
+                                  GObject.BindingFlags.BIDIRECTIONAL)
+
         child.add(builder.get_object('main_box'))
         child.show()
 
@@ -455,6 +469,15 @@ class Albums(ViewContainer):
 
     def _on_lookup_ready(self, icon, path, child):
         child.image.set_from_pixbuf(icon)
+
+    @log
+    def _on_child_toggled(self, check, pspec, child):
+        if check.get_active() and not child.media_item in self.albums_selected:
+            self.albums_selected.append(child.media_item)
+        elif not check.get_active() and child.media_item in self.albums_selected:
+            self.albums_selected.remove(child.media_item)
+
+        self.update_header_from_selection(len(self.albums_selected))
 
     @log
     def _get_selected_album_songs(self):
