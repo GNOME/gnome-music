@@ -174,6 +174,7 @@ class ViewContainer(Gtk.Stack):
             self.header_bar.set_selection_mode(False)
             self.player.actionbar.set_visible(self.player.currentTrack is not None)
             self.selection_toolbar.actionbar.set_visible(False)
+            self.unselect_all()
 
     @log
     def _on_cancel_button_clicked(self, button):
