@@ -485,6 +485,7 @@ class Albums(ViewContainer):
 
         child.title.set_label(title)
         child.subtitle.set_label(artist)
+        child.image.set_from_pixbuf(self._loadingIcon)
 
         child.check.connect('notify::active', self._on_child_toggled, child)
 
