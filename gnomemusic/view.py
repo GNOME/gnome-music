@@ -90,11 +90,11 @@ class ViewContainer(Gtk.Stack):
             GObject.TYPE_INT
         )
 
+        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
         # Setup the main view
         self._setup_view(view_type)
 
-        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self._box.pack_start(self.view, True, True, 0)
         if use_sidebar:
             self.stack = Gtk.Stack(
                 transition_type=Gtk.StackTransitionType.SLIDE_RIGHT,
@@ -150,6 +150,8 @@ class ViewContainer(Gtk.Stack):
 
         self.view.click_handler = self.view.connect('item-activated', self._on_item_activated)
         self.view.connect('selection-mode-request', self._on_selection_mode_request)
+
+        self._box.pack_start(self.view, True, True, 0)
 
     @log
     def _on_header_bar_toggled(self, button):
