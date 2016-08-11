@@ -299,3 +299,13 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_LOW,
                 None, update_callback, item
             )
+
+    @log
+    def is_static_playlist(self, playlist):
+        """Checks whether the given playlist is static or not"""
+
+        for static_playlist_id in StaticPlaylists.get_protected_ids():
+            if playlist.get_id() == static_playlist_id:
+                return True
+
+        return False
