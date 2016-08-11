@@ -263,10 +263,10 @@ class Searchbar(Gtk.Revealer):
         self._search_entry.show()
         self._searchContainer.add(self._search_entry)
 
-        self._dropDownButtonArrow = Gtk.Arrow(arrow_type=Gtk.ArrowType.DOWN, shadow_type=Gtk.ShadowType.NONE)
+        arrow = Gtk.Image.new_from_icon_name('pan-down-symbolic',
+                                             Gtk.IconSize.BUTTON)
         self._dropDownButton = Gtk.ToggleButton()
-        self._dropDownButton.add(self._dropDownButtonArrow)
-        self._dropDownButton.get_style_context().add_class('raised')
+        self._dropDownButton.add(arrow)
         self._dropDownButton.get_style_context().add_class('image-button')
         self._dropDownButton.connect("toggled", self._drop_down_button_toggled)
         self._dropDownButton.show_all()
