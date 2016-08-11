@@ -136,6 +136,10 @@ class Playlists(GObject.GObject):
                 # create the playlist
                 playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
 
+            # Clear the playlist
+            self.clear_static_playlist(playlist, on_clear_playlist_ready)
+
+        def on_clear_playlist_ready(conn, res, playlist):
             self.update_static_playlist(playlist)
 
         for playlist in playlists:
@@ -144,9 +148,11 @@ class Playlists(GObject.GObject):
                 callback, playlist)
 
     @log
-    def clear_playlist_with_id(self, playlist_id):
-        query = Query.clear_playlist_with_id(playlist_id)
-        self.tracker.update(query, GLib.PRIORITY_LOW, None)
+    def clear_static_playlist(self, playlist, callback):
+        """Asyncronously clear the given static playlist."""
+        query = Query.clear_playlist_with_id(playlist.ID)
+        self.tracker.update_async(query, GLib.PRIORITY_LOW, None,
+                                  callback, playlist)
 
     @log
     def update_playcount(self, song_url):
@@ -162,13 +168,16 @@ class Playlists(GObject.GObject):
     @log
     def update_static_playlist(self, playlist):
         """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
-        # Clear the playlist
-        self.clear_playlist_with_id(playlist.ID)
 
+        # Asyncronously get a list of matching songs
+        self.tracker.query_async(playlist.QUERY, None,
+                                 self._on_static_playlist_updated, playlist)
+
+    @log
+    def _on_static_playlist_updated(self, conn, res, playlist):
         final_query = ''
 
-        # Get a list of matching songs
-        cursor = self.tracker.query(playlist.QUERY, None)
+        cursor = conn.query_finish(res)
         if not cursor:
             return
 
