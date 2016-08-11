@@ -243,7 +243,7 @@ class DropDown(Gtk.Revealer):
             self.searchFieldsFilter.view.set_sensitive(id == 'grl-tracker-source')
 
 
-class Searchbar(Gtk.Revealer):
+class Searchbar(Gtk.SearchBar):
 
     def __repr__(self):
         return '<Searchbar>'
@@ -275,16 +275,7 @@ class Searchbar(Gtk.Revealer):
         self._search_entry.connect("tag-button-clicked", self._search_entry_tag_button_clicked)
 
         self._searchContainer.show_all()
-        toolbar = Gtk.Toolbar()
-        toolbar.get_style_context().add_class("search-bar")
-        toolbar.show()
-        self.add(toolbar)
-
-        item = Gtk.ToolItem()
-        item.set_expand(True)
-        item.show()
-        toolbar.insert(item, 0)
-        item.add(self._searchContainer)
+        self.add(self._searchContainer)
 
     @log
     def _drop_down_button_toggled(self, *args):
@@ -323,7 +314,7 @@ class Searchbar(Gtk.Revealer):
 
     @log
     def show_bar(self, show, clear=True):
-        self.set_reveal_child(show)
+        self.set_search_mode(show)
         self._search_button.set_active(show)
 
         if show:
@@ -336,4 +327,4 @@ class Searchbar(Gtk.Revealer):
 
     @log
     def toggle_bar(self):
-        self.show_bar(not self.get_child_revealed())
+        self.show_bar(not self.get_search_mode())
