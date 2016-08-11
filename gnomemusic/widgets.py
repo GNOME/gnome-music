@@ -861,6 +861,12 @@ class PlaylistDialog():
 
     @log
     def _add_item_to_model(self, item):
+        """Adds (non-static only) playlists to the model"""
+
+        # Don't show static playlists
+        if self.playlist.is_static_playlist(item):
+            return None
+
         new_iter = self.model.append()
         self.model.set(
             new_iter,
@@ -913,7 +919,7 @@ class PlaylistDialog():
     @log
     def _on_playlist_created(self, playlists, item):
         new_iter = self._add_item_to_model(item)
-        if self.view.get_columns():
+        if new_iter and self.view.get_columns():
             self.view.set_cursor(self.model.get_path(new_iter),
                                  self.view.get_columns()[0], False)
             self.view.row_activated(self.model.get_path(new_iter),
