@@ -34,11 +34,11 @@ GtkTreeView{
 }
 
 .side-panel .view:dir(ltr) {
-    box-shadow: inset -10px 0 5px -10px @borders;
+    box-shadow: inset -10px 0 5px -10px alpha(black, 0.25);
 }
 
 .side-panel .view:dir(rtl) {
-    box-shadow: inset 10px 0 5px -10px @borders;
+    box-shadow: inset 10px 0 5px -10px alpha(black, 0.25);
 }
 
 .side-panel .view:selected {
