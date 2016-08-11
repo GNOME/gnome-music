@@ -368,6 +368,7 @@ class Albums(ViewContainer):
         self.player = player
         self.add(self._albumWidget)
         self.albums_selected = []
+        self.all_items = []
         self.items_selected = []
         self.items_selected_callback = None
         self._add_list_renderers()
@@ -466,6 +467,10 @@ class Albums(ViewContainer):
         self.window.notification.set_timeout(0)
 
         if item:
+            # Store all items to optimize 'Select All' action
+            self.all_items.append(item)
+
+            # Add to the flowbox
             child = self._create_album_item(item)
             self.view.add(child)
         elif remaining == 0:
@@ -494,7 +499,9 @@ class Albums(ViewContainer):
                                self._on_album_event_triggered,
                                child)
 
-        child.check.connect('notify::active', self._on_child_toggled, child)
+        child.check_handler_id = child.check.connect('notify::active',
+                                                     self._on_child_toggled,
+                                                     child)
 
         child.check.bind_property('visible', self, 'selection_mode',
                                   GObject.BindingFlags.BIDIRECTIONAL)
@@ -544,15 +551,28 @@ class Albums(ViewContainer):
                 self.items_selected_callback(self.items_selected)
 
     def _toggle_all_selection(self, selected):
+        """
+        Selects or unselects all items without sending the notify::active
+        signal for performance purposes.
+        """
         for child in self.view.get_children():
+            GObject.signal_handler_block(child.check, child.check_handler_id)
+
+            # Set the checkbutton state without emiting the signal
             child.check.set_active(selected)
+
+            GObject.signal_handler_unblock(child.check, child.check_handler_id)
+
+        self.update_header_from_selection(len(self.albums_selected))
 
     @log
     def select_all(self):
+        self.albums_selected = list(self.all_items)
         self._toggle_all_selection(True)
 
     @log
     def unselect_all(self):
+        self.albums_selected = []
         self._toggle_all_selection(False)
 
 
