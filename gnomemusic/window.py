@@ -193,6 +193,11 @@ class Window(Gtk.ApplicationWindow):
             transition_duration=100,
             visible=True,
             can_focus=False)
+
+        # Add the 'background' styleclass so it properly hides the
+        # bottom line of the searchbar
+        self._stack.get_style_context().add_class('background')
+
         self._overlay = Gtk.Overlay(child=self._stack)
         self._overlay.add_overlay(self.toolbar.dropdown)
         self.set_titlebar(self.toolbar.header_bar)
