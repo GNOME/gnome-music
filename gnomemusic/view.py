@@ -48,7 +48,7 @@ import gnomemusic.widgets as Widgets
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 import gnomemusic.utils as utils
-from gnomemusic.albumArtCache import AlbumArtCache as albumArtCache
+from gnomemusic.albumartcache import AlbumArtCache
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -130,7 +130,7 @@ class ViewContainer(Gtk.Stack):
         self.show_all()
         self.view.hide()
         self._items = []
-        self.cache = albumArtCache.get_default()
+        self.cache = AlbumArtCache.get_default()
         self._loadingIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, True)
 
         self._init = False
@@ -216,7 +216,7 @@ class ViewContainer(Gtk.Stack):
 
         self._offset += 1
         artist = utils.get_artist_name(item)
-        title = albumArtCache.get_media_title(item)
+        title = AlbumArtCache.get_media_title(item)
         # item.set_title(title)
 
         _iter = self.model.append(None)
@@ -350,7 +350,7 @@ class Albums(ViewContainer):
         self._albumWidget.update(self._artist, title, item,
                                  self.header_bar, self.selection_toolbar)
         self.header_bar.set_state(ToolbarState.CHILD_VIEW)
-        self._escaped_title = albumArtCache.get_media_title(item)
+        self._escaped_title = AlbumArtCache.get_media_title(item)
         self.header_bar.header_bar.set_title(self._escaped_title)
         self.header_bar.header_bar.sub_title = self._artist
         self.set_visible_child(self._albumWidget)
@@ -472,14 +472,14 @@ class Songs(ViewContainer):
                 self.view.show()
             return
         self._offset += 1
-        item.set_title(albumArtCache.get_media_title(item))
+        item.set_title(AlbumArtCache.get_media_title(item))
         artist = utils.get_artist_name(item)
         if item.get_url() is None:
             return
         self.model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
-            [albumArtCache.get_media_title(item),
+            [AlbumArtCache.get_media_title(item),
              artist, item, bool(item.get_lyrics())])
         # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
 
@@ -1038,7 +1038,7 @@ class Playlist(ViewContainer):
         _iter = self.playlists_model.insert_with_valuesv(
             index,
             [2, 5],
-            [albumArtCache.get_media_title(item), item])
+            [AlbumArtCache.get_media_title(item), item])
         if self.playlists_model.iter_n_children(None) == 1:
             _iter = self.playlists_model.get_iter_first()
             selection = self.playlists_sidebar.get_generic_view().get_selection()
@@ -1154,7 +1154,7 @@ class Playlist(ViewContainer):
             self.emit('playlist-songs-loaded')
             return
         self._offset += 1
-        title = albumArtCache.get_media_title(item)
+        title = AlbumArtCache.get_media_title(item)
         item.set_title(title)
         artist = item.get_artist() or _("Unknown Artist")
         model.insert_with_valuesv(
@@ -1400,7 +1400,7 @@ class Search(ViewContainer):
             self._albumWidget.update(artist, title, item,
                                      self.header_bar, self.selection_toolbar)
             self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
-            escaped_title = albumArtCache.get_media_title(item)
+            escaped_title = AlbumArtCache.get_media_title(item)
             self.header_bar.header_bar.set_title(escaped_title)
             self.header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._albumWidget)
@@ -1493,7 +1493,7 @@ class Search(ViewContainer):
             return
 
         self._offset += 1
-        title = albumArtCache.get_media_title(item)
+        title = AlbumArtCache.get_media_title(item)
         item.set_title(title)
         artist = utils.get_artist_name(item)
 

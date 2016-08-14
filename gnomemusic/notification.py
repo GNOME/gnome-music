@@ -24,7 +24,7 @@
 
 from gi.repository import GLib, Grl, Notify
 
-from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache
 
 from gettext import gettext as _
 

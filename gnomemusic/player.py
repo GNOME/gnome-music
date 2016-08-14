@@ -42,7 +42,7 @@ from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutil
 from gettext import gettext as _, ngettext
 from random import randint
 from collections import deque
-from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 playlists = Playlists.get_default()

@@ -24,7 +24,7 @@
 # delete this exception statement from your version.
 
 from gnomemusic.player import PlaybackStatus, RepeatType
-from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils

@@ -35,7 +35,7 @@ import logging
 from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango, Gio, GdkPixbuf
 from gettext import gettext as _, ngettext
 
-from gnomemusic.albumArtCache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus

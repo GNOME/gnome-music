@@ -132,6 +132,7 @@ class AlbumArtCache(GObject.GObject):
         self.make_default_icon(is_loading=False)
         self.make_default_icon(is_loading=True)
 
+    @log
     def make_default_icon(self, is_loading=False):
         width = self.default_icon_width
         height = self.default_icon_height
