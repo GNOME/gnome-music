@@ -40,21 +40,23 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-
 @log
-def _make_icon_frame(pixbuf, path=None):
-    border = 1.5
+def _make_icon_frame(pixbuf):
+    border = 3
     degrees = pi / 180
     radius = 3
 
     w = pixbuf.get_width()
     h = pixbuf.get_height()
+
     new_pixbuf = pixbuf.scale_simple(w - border * 2,
                                      h - border * 2,
-                                     0)
+                                     GdkPixbuf.InterpType.HYPER)
 
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w, h)
     ctx = cairo.Context(surface)
+
+    # draw outline
     ctx.new_sub_path()
     ctx.arc(w - radius, radius, radius - 0.5, -90 * degrees, 0 * degrees)
     ctx.arc(w - radius, h - radius, radius - 0.5, 0 * degrees, 90 * degrees)
@@ -64,15 +66,17 @@ def _make_icon_frame(pixbuf, path=None):
     ctx.set_line_width(0.6)
     ctx.set_source_rgb(0.2, 0.2, 0.2)
     ctx.stroke_preserve()
+
+    # fill the center
     ctx.set_source_rgb(1, 1, 1)
     ctx.fill()
+
+    # paste the scaled pixbuf in the center
+    Gdk.cairo_set_source_pixbuf(ctx, new_pixbuf, border, border)
+    ctx.paint()
+
     border_pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0, w, h)
 
-    new_pixbuf.copy_area(border, border,
-                         w - border * 4,
-                         h - border * 4,
-                         border_pixbuf,
-                         border * 2, border * 2)
     return border_pixbuf
 
 
