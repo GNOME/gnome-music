@@ -24,15 +24,11 @@
 
 from gi.repository import GLib, Grl, Notify
 
-from gnomemusic.albumartcache import AlbumArtCache
-
 from gettext import gettext as _
 
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
-
-IMAGE_SIZE = 125
 
 
 class NotificationManager:
@@ -50,12 +46,6 @@ class NotificationManager:
         self._notification.set_hint('action-icons', GLib.Variant('b', True))
         self._notification.set_hint('resident', GLib.Variant('b', True))
         self._notification.set_hint('desktop-entry', GLib.Variant('s', 'gnome-music'))
-
-        self._isPlaying = False
-
-        self._albumArtCache = AlbumArtCache.get_default()
-        self._noArtworkIcon = self._albumArtCache.get_default_icon(IMAGE_SIZE, IMAGE_SIZE)
-        self._noArtworkIconSerialized = None
 
     @log
     def _set_actions(self, playing):

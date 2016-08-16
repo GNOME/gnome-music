@@ -27,16 +27,21 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-gi.require_version('MediaArt', '2.0')
-from gi.repository import Gtk, GdkPixbuf, Gio, GLib, Gdk, MediaArt, GObject
-from gettext import gettext as _
-import cairo
+from enum import Enum
+import logging
 from math import pi
 import os
+
+import cairo
+from gettext import gettext as _
+import gi
+gi.require_version('MediaArt', '2.0')
+from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt
+
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-import logging
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -80,10 +85,69 @@ def _make_icon_frame(pixbuf):
     return border_pixbuf
 
 
+class DefaultIcon(GObject.GObject):
+    """Provides the symbolic fallback and loading icons."""
+
+    class Type(Enum):
+        loading = 'content-loading-symbolic'
+        music = 'folder-music-symbolic'
+
+    _cache = {}
+
+    def __repr__(self):
+        return '<DefaultIcon>'
+
+    @log
+    def _make_default_icon(self, width, height, icon_type):
+        icon = Gtk.IconTheme.get_default().load_icon(icon_type.value,
+                                                     max(width, height) / 4,
+                                                     0)
+
+        # create an empty pixbuf with the requested size
+        result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
+                                      True,
+                                      icon.get_bits_per_sample(),
+                                      width,
+                                      height)
+        result.fill(0xffffffff)
+
+        icon.composite(result,
+                       icon.get_width() * 3 / 2,
+                       icon.get_height() * 3 / 2,
+                       icon.get_width(),
+                       icon.get_height(),
+                       icon.get_width() * 3 / 2,
+                       icon.get_height() * 3 / 2,
+                       1, 1, GdkPixbuf.InterpType.HYPER, 0x33)
+
+        final_icon = _make_icon_frame(result)
+
+        return final_icon
+
+    @log
+    def get(self, width, height, icon_type):
+        """Returns the requested symbolic icon
+
+        Returns a GdkPixbuf of the requested symbolic icon
+        in the given size.
+
+        :param int width: The width of the icon
+        :param int height: The height of the icon
+        :param enum icon_type: The DefaultIcon.Type of the icon
+
+        :return: The symbolic icon
+        :rtype: GdkPixbuf
+        """
+        if (width, height, icon_type) not in self._cache.keys():
+            new_icon = self._make_default_icon(width, height, icon_type)
+            self._cache[(width, height, icon_type)] = new_icon
+
+        return self._cache[(width, height, icon_type)]
+
+
 class AlbumArtCache(GObject.GObject):
     instance = None
     blacklist = {}
-    default_icon_cache = {}
 
     def __repr__(self):
         return '<AlbumArt>'
@@ -129,56 +193,7 @@ class AlbumArtCache(GObject.GObject):
         except Exception as e:
             logger.warn("Error: %s", e)
 
-    @log
-    def _make_default_icon(self, width, height, is_loading=False):
-        icon_name = 'folder-music-symbolic'
-        if is_loading:
-            icon_name = 'content-loading-symbolic'
-
-        icon = Gtk.IconTheme.get_default().load_icon(icon_name,
-                                                     max(width, height) / 4,
-                                                     0)
-
-        # create an empty pixbuf with the requested size
-        result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
-                                      True,
-                                      icon.get_bits_per_sample(),
-                                      width,
-                                      height)
-        result.fill(0xffffffff)
-
-        icon.composite(result,
-                       icon.get_width() * 3 / 2,
-                       icon.get_height() * 3 / 2,
-                       icon.get_width(),
-                       icon.get_height(),
-                       icon.get_width() * 3 / 2,
-                       icon.get_height() * 3 / 2,
-                       1, 1, GdkPixbuf.InterpType.HYPER, 0x33)
-
-        final_icon = _make_icon_frame(result)
-
-        return final_icon
-
-    @log
-    def get_default_icon(self, width, height, is_loading=False):
-        """Returns the requested symbolic icon
-
-        Returns a GdkPixbuf of the requested symbolic icon
-        in the given size.
-
-        :param int width: The width of the icon
-        :param int height: The height of the icon
-        :param bool is_loading: Whether the icon is the symbolic
-        loading icon or the music icon.
-
-        :return: A GdkPixbuf of the icon
-        """
-        if (width, height, is_loading) not in self.default_icon_cache.keys():
-            new_icon = self._make_default_icon(width, height, is_loading=False)
-            self.default_icon_cache[(width, height, is_loading)] = new_icon
-
-        return self.default_icon_cache[(width, height, is_loading)]
+        self.default_icon = DefaultIcon()
 
     @log
     def lookup(self, item, width, height, callback, itr, artist, album, first=True):
@@ -239,7 +254,7 @@ class AlbumArtCache(GObject.GObject):
             self.blacklist[artist].append(album)
 
         if pixbuf is None:
-            pixbuf = self.get_default_icon(width, height, False)
+            pixbuf = self.default_icon.get(width, height, DefaultIcon.Type.music)
 
         try:
             if path:

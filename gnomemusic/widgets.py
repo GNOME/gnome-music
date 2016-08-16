@@ -35,7 +35,7 @@ import logging
 from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango, Gio, GdkPixbuf
 from gettext import gettext as _, ngettext
 
-from gnomemusic.albumartcache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
@@ -124,8 +124,8 @@ class AlbumWidget(Gtk.EventBox):
     """
 
     _duration = 0
-    _loading_icon = ALBUM_ART_CACHE.get_default_icon(256, 256, True)
-    _no_artwork_icon = ALBUM_ART_CACHE.get_default_icon(256, 256, False)
+    _loading_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.loading)
+    _no_artwork_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.music)
 
     def __repr__(self):
         return '<AlbumWidget>'
@@ -626,8 +626,8 @@ class ArtistAlbumWidget(Gtk.Box):
         'tracks-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    loadingIcon = AlbumArtCache.get_default().get_default_icon(128, 128, True)
-    noArtworkIcon = ALBUM_ART_CACHE.get_default_icon(128, 128, False)
+    _loading_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.loading)
+    _no_artwork_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.music)
 
     def __repr__(self):
         return '<ArtistAlbumWidget>'
@@ -650,7 +650,7 @@ class ArtistAlbumWidget(Gtk.Box):
         GLib.idle_add(self._update_album_art)
 
         self.cover = self.ui.get_object('cover')
-        self.cover.set_from_pixbuf(self.loadingIcon)
+        self.cover.set_from_pixbuf(self._loading_icon)
         self.songsGrid = self.ui.get_object('grid1')
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
@@ -721,7 +721,7 @@ class ArtistAlbumWidget(Gtk.Box):
     @log
     def _get_album_cover(self, pixbuf, path, data=None):
         if not pixbuf:
-            pixbuf = self.noArtworkIcon
+            pixbuf = self._no_artwork_icon
         self.cover.set_from_pixbuf(pixbuf)
 
     @log

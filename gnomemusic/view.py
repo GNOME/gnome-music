@@ -48,7 +48,7 @@ import gnomemusic.widgets as Widgets
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 import gnomemusic.utils as utils
-from gnomemusic.albumartcache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -131,7 +131,9 @@ class ViewContainer(Gtk.Stack):
         self.view.hide()
         self._items = []
         self.cache = AlbumArtCache.get_default()
-        self._loadingIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, True)
+        self._loading_icon = DefaultIcon().get(self._iconWidth,
+                                               self._iconHeight,
+                                               DefaultIcon.Type.loading)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -223,7 +225,7 @@ class ViewContainer(Gtk.Stack):
         self.model.set(_iter,
                        [0, 1, 2, 3, 4, 5, 7, 9],
                        [str(item.get_id()), '', title,
-                        artist, self._loadingIcon, item,
+                        artist, self._loading_icon, item,
                         0, False])
         self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                           _iter, artist, title)
@@ -1341,8 +1343,12 @@ class Search(ViewContainer):
         self.iter_to_clean = None
         self._iconHeight = 48
         self._iconWidth = 48
-        self._loadingIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, True)
-        self._noAlbumArtIcon = self.cache.get_default_icon(self._iconWidth, self._iconHeight, False)
+        self._loading_icon = DefaultIcon().get(self._iconWidth,
+                                               self._iconHeight,
+                                               DefaultIcon.Type.loading)
+        self._no_albumart_icon = DefaultIcon().get(self._iconWidth,
+                                                   self._iconHeight,
+                                                   DefaultIcon.Type.music)
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
@@ -1509,7 +1515,7 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._loadingIcon, item, 2, category])
+                 self._loading_icon, item, 2, category])
             self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                               _iter, artist, title)
         elif category == 'song':
@@ -1517,14 +1523,14 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._noAlbumArtIcon, item, 2 if source.get_id() != 'grl-tracker-source' else bool(item.get_lyrics()), category])
+                 self._no_albumart_icon, item, 2 if source.get_id() != 'grl-tracker-source' else bool(item.get_lyrics()), category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
                     self.head_iters[group], -1,
                     [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist,
-                     self._loadingIcon, item, 2, category])
+                     self._loading_icon, item, 2, category])
                 self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
                                   _iter, artist, title)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}

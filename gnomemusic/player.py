@@ -42,7 +42,7 @@ from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutil
 from gettext import gettext as _, ngettext
 from random import randint
 from collections import deque
-from gnomemusic.albumartcache import AlbumArtCache
+from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 playlists = Playlists.get_default()
@@ -111,8 +111,9 @@ class Player(GObject.GObject):
         self.currentTrackUri = None
         self._lastState = Gst.State.PAUSED
         self.cache = AlbumArtCache.get_default()
-        self._noArtworkIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE)
-        self._loadingIcon = self.cache.get_default_icon(ART_SIZE, ART_SIZE, True)
+        self._no_artwork_icon = DefaultIcon().get(ART_SIZE,
+                                                  ART_SIZE,
+                                                  DefaultIcon.Type.music)
         self._missingPluginMessages = []
 
         Gst.init(None)
@@ -607,7 +608,7 @@ class Player(GObject.GObject):
         except:
             self._currentAlbum = album
 
-        self.coverImg.set_from_pixbuf(self._noArtworkIcon)
+        self.coverImg.set_from_pixbuf(self._no_artwork_icon)
         self.cache.lookup(
             media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None, artist, album)
 
