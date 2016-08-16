@@ -1,3 +1,5 @@
+# List of source files that should *not* be translated.
+# Please keep this file sorted alphabetically.
 data/AboutDialog.ui
-sub/data/AboutDialog.ui
 data/gnome-music.appdata.xml
+sub/data/AboutDialog.ui
