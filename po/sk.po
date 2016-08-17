@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-08-16 16:30+0000\n"
-"PO-Revision-Date: 2016-08-16 19:52+0200\n"
+"POT-Creation-Date: 2016-08-17 06:08+0000\n"
+"PO-Revision-Date: 2016-08-17 08:28+0200\n"
 "Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak <gnome-sk-list@gnome.org>\n"
 "Language: sk\n"
@@ -322,10 +322,6 @@ msgstr "%d min"
 msgid "All Artists"
 msgstr "Všetci interpreti"
 
-#: ../gnomemusic/widgets.py:846
-msgid "New Playlist"
-msgstr "Nový zoznam skladieb"
-
 #: ../gnomemusic/window.py:256
 msgid "Empty"
 msgstr "Prázdne"
@@ -445,11 +441,11 @@ msgstr "Zrušiť výber"
 msgid "Search"
 msgstr "Vyhľadávanie"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/headerbar.ui.h:5
 msgid "Select"
 msgstr "Vybrať"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
 msgid "Cancel"
 msgstr "Zrušiť"
 
@@ -585,10 +581,13 @@ msgstr "O_dstrániť"
 msgid "Playlist Name"
 msgstr "Názov zoznamu skladieb"
 
-# dialog title
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "Výber zoznamu skladieb"
+#: ../data/PlaylistDialog.ui.h:2
+msgid "Add"
+msgstr "Pridať"
+
+#: ../data/PlaylistDialog.ui.h:3
+msgid "New Playlist"
+msgstr "Nový zoznam skladieb"
 
 # gtk button
 #: ../data/SelectionToolbar.ui.h:1
@@ -599,6 +598,10 @@ msgstr "Pridať do zoznamu"
 #: ../data/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "Odstrániť zo zoznamu"
+
+# dialog title
+#~ msgid "Select Playlist"
+#~ msgstr "Výber zoznamu skladieb"
 
 #~ msgid "Not playing"
 #~ msgstr "Neprehráva sa"
