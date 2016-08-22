@@ -1,3 +1,56 @@
+Overview of changes in 3.21.90
+==============================
+
+* New keyboard shortcuts and a shortcuts window to go with it
+* Move to cleanup the codebase style (PEP-8) & use docstrings, see README
+* Better sorting in albums and artists view
+* Playlist dialog enhanced with a 'new playlist' entry
+* Move to GtkFlowBox for albums view, a significant performance improvement
+
+Bugs fixed:
+ 761502 Include playlists from Music dir only & order static playlists on top
+ 766115 Return songs only once
+ 746447 Require tracker 1.8 for titled playlists
+ 765609 Fix mpris repeatmode
+ 761625 Cleanup artist/author ambiguity
+ 747953 Don't leak information over http through Grilo & unregister sources
+ 754700 Require Grilo 0.3.1 and use the album-artist key if available
+ 742531 Ignore punctuation when sorting albums and artists, requires tracker 1.9
+ 758637 Implement new keyboard shortcuts
+ 757833 Add GtkShortcut window
+ 769774 Fix sidelist shadow
+ 769772 Use GtkSearchBar for the searchbar + misc fixes
+ 744834 Add new playlist entry to playlist dialog + misc fixes
+ 760164 Use GtkFlowBox for albums view
+
+Thanks to our contributors:
+ Billy Barrow
+ Carlos Garnacho
+ Divyanshu Vishwakarma
+ Elias Entrup
+ Evandro Giovanini
+ Felipe Borges
+ Gaurav Narula
+ Georges Basile Stavracas Neto
+ Kevin Haller
+ Marinus Schraal
+
+Translations updated:
+ Occitan
+ Catalan
+ Spanish
+ French
+ Friulian
+ Slovak
+ Czech
+ Indonesian
+ Brazilian Portuguese
+ German
+ Hungarian
+ Finnish
+ Polish
+ Portuguese
+
 Overview of changes in 3.20.2
 =============================
 
