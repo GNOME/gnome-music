@@ -305,10 +305,9 @@ class Grilo(GObject.GObject):
                                 _multiple_search_callback, data)
 
     @log
-    def get_album_art_for_item(self, item, callback, data=None):
+    def get_album_art_for_item(self, item, callback):
         item_id = item.get_id()
 
-        query = None
         if item.is_audio():
             query = Query.get_album_for_song_id(item_id)
         else:
@@ -317,7 +316,8 @@ class Grilo(GObject.GObject):
         options = self.full_options.copy()
         options.set_count(1)
 
-        self.search_source.query(query, self.METADATA_THUMBNAIL_KEYS, options, callback, data)
+        self.search_source.query(query, self.METADATA_THUMBNAIL_KEYS, options,
+                                 callback)
 
     @log
     def get_playlist_with_id(self, playlist_id, callback):

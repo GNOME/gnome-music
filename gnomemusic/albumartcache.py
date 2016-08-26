@@ -40,6 +40,7 @@ from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+import gnomemusic.utils as utils
 
 
 logger = logging.getLogger(__name__)
@@ -146,17 +147,16 @@ class DefaultIcon(GObject.GObject):
 
 
 class AlbumArtCache(GObject.GObject):
-    instance = None
+    """Album art retrieval class
+
+    On basis of a given media item looks up album art locally and if
+    not found remotely.
+    """
+    _instance = None
     blacklist = {}
 
     def __repr__(self):
-        return '<AlbumArt>'
-
-    @classmethod
-    def get_default(cls):
-        if not cls.instance:
-            cls.instance = AlbumArtCache()
-        return cls.instance
+        return '<AlbumArtCache>'
 
     @staticmethod
     def get_media_title(media, escaped=False):
@@ -186,157 +186,191 @@ class AlbumArtCache(GObject.GObject):
     @log
     def __init__(self):
         GObject.GObject.__init__(self)
-        try:
-            self.cacheDir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
-            if not os.path.exists(self.cacheDir):
-                Gio.file_new_for_path(self.cacheDir).make_directory(None)
-        except Exception as e:
-            logger.warn("Error: %s", e)
 
-        self.default_icon = DefaultIcon()
+        self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
+        if not os.path.exists(self.cache_dir):
+            try:
+                Gio.file_new_for_path(self.cache_dir).make_directory(None)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
 
     @log
-    def lookup(self, item, width, height, callback, itr, artist, album, first=True):
-        if artist in self.blacklist and album in self.blacklist[artist]:
-            self.finish(item, None, None, callback, itr, width, height)
+    def lookup(self, item, width, height, callback, itr):
+        """Find art for the given item
+
+        :param item: Grilo media item
+        :param int width: Width of the icon to return
+        :param int height: Height of the icon to return
+        :param callback: Callback function when retrieved
+        :param itr: Iter to return with callback
+        """
+        self._lookup_local(item, callback, itr, width, height)
+
+    @log
+    def _lookup_local(self, item, callback, itr, width, height):
+        """Checks if there is already a local art file, if not calls
+        the remote lookup function"""
+        album = self.get_media_title(item)
+        artist = utils.get_artist_name(item)
+
+        def stream_open(thumb_file, result, arguments):
+            try:
+                stream = thumb_file.read_finish(result)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                do_callback(None)
+                return
+
+            GdkPixbuf.Pixbuf.new_from_stream_async(stream,
+                                                   None,
+                                                   pixbuf_loaded,
+                                                   None)
+
+        def pixbuf_loaded(stream, result, data):
+            try:
+                pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                do_callback(None)
+                return
+
+            do_callback(pixbuf)
             return
 
-        try:
-            [success, thumb_file] = MediaArt.get_file(artist, album, "album")
+        def do_callback(pixbuf):
+            if not pixbuf:
+                pixbuf = DefaultIcon().get(width, height,
+                                           DefaultIcon.Type.music)
+            else:
+                pixbuf = pixbuf.scale_simple(width, height,
+                                             GdkPixbuf.InterpType.HYPER)
+                pixbuf = _make_icon_frame(pixbuf)
 
-            if success == False:
-                self.finish(item, None, None, callback, itr, width, height)
+                # Sets the thumbnail location for MPRIS to use.
+                item.set_thumbnail(GLib.filename_to_uri(thumb_file.get_path(),
+                                                        None))
+
+            GLib.idle_add(callback, pixbuf, None, itr)
+            return
+
+        [success, thumb_file] = MediaArt.get_file(artist, album, "album")
+
+        if (success
+                and thumb_file.query_exists()):
+            thumb_file.read_async(GLib.PRIORITY_LOW,
+                                  None,
+                                  stream_open,
+                                  None)
+            return
+
+        stripped_album = MediaArt.strip_invalid_entities(album)
+        if (artist in self.blacklist
+                and stripped_album in self.blacklist[artist]):
+            do_callback(None)
+            return
+
+        self._lookup_remote(item, callback, itr, width, height)
+
+    @log
+    def _lookup_remote(self, item, callback, itr, width, height):
+        """Lookup remote art
+
+        Lookup remote art through Grilo and if found copy locally. Call
+        _lookup_local to finish retrieving suitable art.
+        """
+        album = self.get_media_title(item)
+        artist = utils.get_artist_name(item)
+
+        @log
+        def delete_cb(src, result, data):
+            try:
+                src.delete_finish(result)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+
+        @log
+        def splice_cb(src, result, data):
+            tmp_file, iostream = data
+
+            try:
+                src.splice_finish(result)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                art_retrieved(False)
                 return
 
-            if not thumb_file.query_exists():
-                if first:
-                    self.cached_thumb_not_found(item, width, height, thumb_file.get_path(), callback, itr, artist, album)
-                else:
-                    self.finish(item, None, None, callback, itr, width, height)
+            success, cache_path = MediaArt.get_path(artist, album, "album")
+            try:
+                # FIXME: I/O blocking
+                MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                art_retrieved(False)
                 return
 
-            stream = thumb_file.read_async(GLib.PRIORITY_LOW, None, self.stream_open,
-                                           [item, width, height, thumb_file, callback, itr, artist, album])
-        except Exception as e:
-            logger.warn("Error: %s, %s", e.__class__, e)
+            art_retrieved(True)
 
-    @log
-    def stream_open(self, thumb_file, result, arguments):
-        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
+            tmp_file.delete_async(GLib.PRIORITY_LOW,
+                                  None,
+                                  delete_cb,
+                                  None)
 
-        try:
-            width = width or -1
-            height = height or -1
-            stream = thumb_file.read_finish (result)
-            GdkPixbuf.Pixbuf.new_from_stream_at_scale_async(stream, width, height, True, None, self.pixbuf_loaded,
-                                                            [item, width, height, thumb_file, callback, itr, artist, album])
-        except Exception as e:
-            logger.warn("Error: %s, %s", e.__class__, e)
-            self.finish(item, None, None, callback, itr, width, height)
-
-    @log
-    def pixbuf_loaded(self, stream, result, arguments):
-        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
-
-        try:
-            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish (result)
-            self.finish(item, _make_icon_frame(pixbuf), thumb_file.get_path(), callback, itr, width, height, artist, album)
-        except Exception as e:
-            logger.warn("Error: %s, %s", e.__class__, e)
-            self.finish(item, None, None, callback, itr, width, height)
-
-    @log
-    def finish(self, item, pixbuf, path, callback, itr, width=-1, height=-1, artist=None, album=None):
-        if (pixbuf is None and artist is not None):
-            # Blacklist artist-album combination
-            if artist not in self.blacklist:
-                self.blacklist[artist] = []
-            self.blacklist[artist].append(album)
-
-        if pixbuf is None:
-            pixbuf = self.default_icon.get(width, height, DefaultIcon.Type.music)
-
-        try:
-            if path:
-                item.set_thumbnail(GLib.filename_to_uri(path, None))
-            GLib.idle_add(callback, pixbuf, path, itr)
-        except Exception as e:
-            logger.warn("Error: %s", e)
-
-    @log
-    def cached_thumb_not_found(self, item, width, height, path, callback, itr, artist, album):
-        try:
-            uri = item.get_thumbnail()
-            if uri is None:
-                grilo.get_album_art_for_item(item, self.album_art_for_item_callback,
-                                             (item, width, height, path, callback, itr, artist, album))
+        @log
+        def async_read_cb(src, result, data):
+            try:
+                istream = src.read_finish(result)
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                art_retrieved(False)
                 return
 
-            self.download_thumb(item, width, height, path, callback, itr, artist, album, uri)
-        except Exception as e:
-            logger.warn("Error: %s", e)
-            self.finish(item, None, None, callback, itr, width, height, artist, album)
-
-    @log
-    def album_art_for_item_callback(self, source, param, item, count, data, error):
-        old_item, width, height, path, callback, itr, artist, album = data
-        try:
-            if item is None:
+            try:
+                [tmp_file, iostream] = Gio.File.new_tmp()
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                art_retrieved(False)
                 return
 
-            uri = item.get_thumbnail()
-            if uri is None:
-                logger.warn("can't find artwork for album '%s' by %s", album, artist)
-                self.finish(item, None, None, callback, itr, width, height, artist, album)
-                return
-            self.download_thumb(item, width, height, path, callback, itr, artist, album, uri)
-        except Exception as e:
-            logger.warn("Error: %s", e)
-            self.finish(item, None, None, callback, itr, width, height, artist, album)
-
-    @log
-    def download_thumb(self, item, width, height, thumb_file, callback, itr, artist, album, uri):
-        src = Gio.File.new_for_uri(uri)
-        src.read_async(GLib.PRIORITY_LOW, None, self.open_remote_thumb,
-                       [item, width, height, thumb_file, callback, itr, artist, album])
-
-    @log
-    def open_remote_thumb(self, src, result, arguments):
-        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
-        dest = Gio.File.new_for_path(thumb_file)
-
-        try:
-            istream = src.read_finish(result)
-            dest.replace_async(None, False, Gio.FileCreateFlags.REPLACE_DESTINATION,
-                               GLib.PRIORITY_LOW, None, self.open_local_thumb,
-                               [item, width, height, thumb_file, callback, itr, artist, album, istream])
-        except Exception as e:
-            logger.warn("Error: %s", e)
-            self.finish(item, None, None, callback, itr, width, height, artist, album)
-
-    @log
-    def open_local_thumb(self, dest, result, arguments):
-        (item, width, height, thumb_file, callback, itr, artist, album, istream) = arguments
-
-        try:
-            ostream = dest.replace_finish(result)
+            ostream = iostream.get_output_stream()
+            # FIXME: Passing the iostream here, otherwise it gets
+            # closed. PyGI specific issue?
             ostream.splice_async(istream,
                                  Gio.OutputStreamSpliceFlags.CLOSE_SOURCE |
                                  Gio.OutputStreamSpliceFlags.CLOSE_TARGET,
-                                 GLib.PRIORITY_LOW, None,
-                                 self.copy_finished,
-                                 [item, width, height, thumb_file, callback, itr, artist, album])
-        except Exception as e:
-            logger.warn("Error: %s", e)
-            self.finish(item, None, None, callback, itr, width, height, artist, album)
+                                 GLib.PRIORITY_LOW,
+                                 None,
+                                 splice_cb,
+                                 [tmp_file, iostream])
 
-    @log
-    def copy_finished(self, ostream, result, arguments):
-        (item, width, height, thumb_file, callback, itr, artist, album) = arguments
+        @log
+        def album_art_for_item_cb(source, param, item, count, error):
+            if error:
+                logger.warn("Grilo error %s", error)
+                art_retrieved(False)
+                return
 
-        try:
-            ostream.splice_finish(result)
-            self.lookup(item, width, height, callback, itr, artist, album, False)
-        except Exception as e:
-            logger.warn("Error: %s", e)
-            self.finish(item, None, None, callback, itr, width, height, artist, album)
+            thumb_uri = item.get_thumbnail()
+
+            if thumb_uri is None:
+                art_retrieved(False)
+                return
+
+            src = Gio.File.new_for_uri(thumb_uri)
+            src.read_async(GLib.PRIORITY_LOW,
+                           None,
+                           async_read_cb,
+                           None)
+
+        @log
+        def art_retrieved(result):
+            if not result:
+                if artist not in self.blacklist:
+                    self.blacklist[artist] = []
+
+                album_stripped = MediaArt.strip_invalid_entities(album)
+                self.blacklist[artist].append(album_stripped)
+
+            self.lookup(item, width, height, callback, itr)
+
+        grilo.get_album_art_for_item(item, album_art_for_item_cb)

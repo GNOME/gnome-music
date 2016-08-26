@@ -45,7 +45,6 @@ import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
 
-ALBUM_ART_CACHE = AlbumArtCache.get_default()
 NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
@@ -138,6 +137,7 @@ class AlbumWidget(Gtk.EventBox):
         :param parent_view: The view this widget is part of
         """
         Gtk.EventBox.__init__(self)
+        self._cache = AlbumArtCache()
         self._player = player
         self._iter_to_clean = None
 
@@ -290,10 +290,8 @@ class AlbumWidget(Gtk.EventBox):
         self.selection_toolbar = selection_toolbar
         self._header_bar = header_bar
         self._album = album
-        real_artist = utils.get_artist_name(item)
         self._ui.get_object('cover').set_from_pixbuf(self._loading_icon)
-        ALBUM_ART_CACHE.lookup(item, 256, 256, self._on_look_up, None,
-                               real_artist, album)
+        self._cache.lookup(item, 256, 256, self._on_look_up, None)
         self._duration = 0
         self._create_model()
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
@@ -635,6 +633,7 @@ class ArtistAlbumWidget(Gtk.Box):
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+        self._cache = AlbumArtCache()
         self.player = player
         self.album = album
         self.artist = artist
@@ -714,9 +713,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _update_album_art(self):
-        artist = utils.get_artist_name(self.album)
-        ALBUM_ART_CACHE.lookup(self.album, 128, 128, self._get_album_cover,
-                               None, artist, self.album.get_title())
+        self._cache.lookup(self.album, 128, 128, self._get_album_cover, None)
 
     @log
     def _get_album_cover(self, pixbuf, path, data=None):

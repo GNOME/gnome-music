@@ -110,7 +110,7 @@ class Player(GObject.GObject):
         self.currentTrack = None
         self.currentTrackUri = None
         self._lastState = Gst.State.PAUSED
-        self.cache = AlbumArtCache.get_default()
+        self.cache = AlbumArtCache()
         self._no_artwork_icon = DefaultIcon().get(ART_SIZE,
                                                   ART_SIZE,
                                                   DefaultIcon.Type.music)
@@ -610,7 +610,7 @@ class Player(GObject.GObject):
 
         self.coverImg.set_from_pixbuf(self._no_artwork_icon)
         self.cache.lookup(
-            media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None, artist, album)
+            media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None)
 
         self._currentTitle = AlbumArtCache.get_media_title(media)
         self.titleLabel.set_label(self._currentTitle)
