@@ -129,7 +129,7 @@ class ViewContainer(Gtk.Stack):
         self.show_all()
         self.view.hide()
         self._items = []
-        self.cache = AlbumArtCache.get_default()
+        self.cache = AlbumArtCache()
         self._loading_icon = DefaultIcon().get(self._iconWidth,
                                                self._iconHeight,
                                                DefaultIcon.Type.loading)
@@ -242,7 +242,6 @@ class ViewContainer(Gtk.Stack):
         self._offset += 1
         artist = utils.get_artist_name(item)
         title = AlbumArtCache.get_media_title(item)
-        # item.set_title(title)
 
         _iter = self.model.append(None)
         self.model.set(_iter,
@@ -250,8 +249,8 @@ class ViewContainer(Gtk.Stack):
                        [str(item.get_id()), '', title,
                         artist, self._loading_icon, item,
                         0, False])
-        self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                          _iter, artist, title)
+        self.cache.lookup(item, self._iconWidth, self._iconHeight,
+                          self._on_lookup_ready, _iter)
 
     @log
     def _on_lookup_ready(self, icon, path, _iter):
@@ -518,8 +517,8 @@ class Albums(ViewContainer):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                          child, artist, title)
+        self.cache.lookup(item, self._iconWidth, self._iconHeight,
+                          self._on_lookup_ready, child)
 
         return child
 
@@ -1703,8 +1702,8 @@ class Search(ViewContainer):
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
                  self._loading_icon, item, 2, category])
-            self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                              _iter, artist, title)
+            self.cache.lookup(item, self._iconWidth, self._iconHeight,
+                              self._on_lookup_ready, _iter)
         elif category == 'song':
             _iter = self.model.insert_with_values(
                 self.head_iters[group], -1,
@@ -1718,8 +1717,8 @@ class Search(ViewContainer):
                     [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist,
                      self._loading_icon, item, 2, category])
-                self.cache.lookup(item, self._iconWidth, self._iconHeight, self._on_lookup_ready,
-                                  _iter, artist, title)
+                self.cache.lookup(item, self._iconWidth, self._iconHeight,
+                                  self._on_lookup_ready, _iter)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 
             self._artists[artist.casefold()]['albums'].append(item)
