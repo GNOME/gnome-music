@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-11-03 09:26+0000\n"
-"PO-Revision-Date: 2015-11-03 21:33+0200\n"
-"Last-Translator: Aurimas Černius <aurisc4@gmail.com>\n"
+"POT-Creation-Date: 2016-09-03 17:59+0000\n"
+"PO-Revision-Date: 2016-09-03 22:10+0300\n"
+"Last-Translator: Moo\n"
 "Language-Team: Lietuvių <gnome-lt@lists.akl.lt>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
 "%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Poedit 1.8.8\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -106,7 +106,7 @@ msgid "Set to true when initial state has been displayed"
 msgstr "Nustatyti teigiamai kai pradinė būsena buvo parodyta"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
-#: ../gnomemusic/application.py:118 ../gnomemusic/view.py:345
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
 #: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzika"
@@ -131,75 +131,56 @@ msgstr "GNOME muzika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Muzika yra nauja GNOME muzikos grojimo programa."
 
-#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
+#: ../gnomemusic/albumartcache.py:171 ../gnomemusic/albumartcache.py:179
 msgid "Untitled"
 msgstr "Nepavadinta"
 
-#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
-#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:588
-#: ../gnomemusic/view.py:999 ../gnomemusic/view.py:1469
+#: ../gnomemusic/mpris.py:315 ../gnomemusic/player.py:604
+#: ../gnomemusic/view.py:757 ../gnomemusic/view.py:1169
+#: ../gnomemusic/view.py:1637
 msgid "Unknown Album"
 msgstr "Nežinomas albumas"
 
-#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
-#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226
-#: ../gnomemusic/view.py:488 ../gnomemusic/view.py:743
-#: ../gnomemusic/view.py:1173 ../gnomemusic/view.py:1467
-#: ../gnomemusic/view.py:1519 ../gnomemusic/widgets.py:248
-#: ../gnomemusic/widgets.py:660
-msgid "Unknown Artist"
-msgstr "Nežinomas atlikėjas"
-
-#: ../gnomemusic/notification.py:93
-msgid "Not playing"
-msgstr "Negroja"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:108
-#, python-format
-msgid "by %s, from %s"
-msgstr "atlieka %s iš albumo %s"
-
-#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Ankstesnė"
 
-#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:557
 msgid "Pause"
 msgstr "Pristabdyti"
 
-#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:560
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Groti"
 
-#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Kita"
 
-#: ../gnomemusic/player.py:1090
+#: ../gnomemusic/player.py:1087
 msgid "Unable to play the file"
 msgstr "Nepavyksta groti failo"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1095
+#: ../gnomemusic/player.py:1092
 #, python-format
 msgid "_Find in %s"
 msgstr "_Rasti %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1105
+#: ../gnomemusic/player.py:1102
 msgid " and "
 msgstr " ir "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1108
+#: ../gnomemusic/player.py:1105
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1109
+#: ../gnomemusic/player.py:1106
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -232,11 +213,14 @@ msgstr "Neseniai pridėta"
 msgid "Favorite Songs"
 msgstr "Mėgiama daina"
 
-#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
-#. list should include 'the' regardless of language. If some articles occur more
-#. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:86
+#. TRANSLATORS: The following translatable string should be a
+#. space-separated list of all-lowercase articles that should be
+#. ignored when alphabetizing artists/albums. This list should
+#. include the basic english translatable strings regardless of
+#. language because it is so universal.
+#. If some articles occur more frequently than others, the most
+#. common one should appear first, the least common one last.
+#: ../gnomemusic/query.py:93
 msgid "the a an"
 msgstr "the"
 
@@ -268,8 +252,12 @@ msgstr "Šaltiniai"
 msgid "Match"
 msgstr "Atitikmuo"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:280
-#: ../gnomemusic/widgets.py:531 ../gnomemusic/window.py:304
+#: ../gnomemusic/utils.py:44 ../gnomemusic/view.py:1342
+msgid "Unknown Artist"
+msgstr "Nežinomas atlikėjas"
+
+#: ../gnomemusic/view.py:215 ../gnomemusic/widgets.py:325
+#: ../gnomemusic/widgets.py:590
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -277,37 +265,37 @@ msgstr[0] "Pasirinktas %d elementas"
 msgstr[1] "Pasirinkti %d elementai"
 msgstr[2] "Pasirinkta %d elementų"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:282
-#: ../gnomemusic/widgets.py:533 ../gnomemusic/window.py:308
-#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:217 ../gnomemusic/view.py:311
+#: ../gnomemusic/widgets.py:329 ../gnomemusic/widgets.py:592
+#: ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Spauskite ant elementų jiems pažymėti"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:333
 msgid "Music folder"
 msgstr "Muzikos aplankas"
 
-#: ../gnomemusic/view.py:309
+#: ../gnomemusic/view.py:356
 msgid "Hey DJ"
 msgstr "Sveikas, DJ"
 
-#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1743
+#: ../gnomemusic/view.py:368 ../gnomemusic/view.py:1912
 msgid "Albums"
 msgstr "Albumai"
 
-#: ../gnomemusic/view.py:422 ../gnomemusic/view.py:1745
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1914
 msgid "Songs"
 msgstr "Dainos"
 
-#: ../gnomemusic/view.py:624 ../gnomemusic/view.py:1744
+#: ../gnomemusic/view.py:793 ../gnomemusic/view.py:1913
 msgid "Artists"
 msgstr "Atlikėjai"
 
-#: ../gnomemusic/view.py:827 ../gnomemusic/view.py:1746
+#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1915
 msgid "Playlists"
 msgstr "Grojaraščiai"
 
-#: ../gnomemusic/view.py:1183
+#: ../gnomemusic/view.py:1352
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -315,36 +303,32 @@ msgstr[0] "%d daina"
 msgstr[1] "%d dainos"
 msgstr[2] "%d dainų"
 
-#: ../gnomemusic/view.py:1325
+#: ../gnomemusic/view.py:1495
 msgid "Try a different search"
 msgstr "Bandykite kitą paiešką"
 
-#: ../gnomemusic/widgets.py:321 ../gnomemusic/widgets.py:355
+#: ../gnomemusic/widgets.py:381 ../gnomemusic/widgets.py:429
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets.py:543
+#: ../gnomemusic/widgets.py:602
 msgid "All Artists"
 msgstr "Visi atlikėjai"
 
-#: ../gnomemusic/widgets.py:788
-msgid "New Playlist"
-msgstr "Naujas grojaraštis"
-
-#: ../gnomemusic/window.py:250
+#: ../gnomemusic/window.py:256
 msgid "Empty"
 msgstr "Tuščia"
 
-#: ../gnomemusic/window.py:332
+#: ../gnomemusic/window.py:320
 msgid "Loading"
 msgstr "Įkeliama"
 
-#: ../gnomemusic/window.py:350
+#: ../gnomemusic/window.py:343
 msgid "_Undo"
 msgstr "_Atšaukti"
 
-#: ../gnomemusic/window.py:351
+#: ../gnomemusic/window.py:344
 #, python-format
 msgid "Playlist %s removed"
 msgstr "Grojaraštis %s pašalintas"
@@ -420,41 +404,20 @@ msgid "Running Length"
 msgstr "Grojimo trukmė"
 
 #: ../data/app-menu.ui.h:1
+msgid "_Keyboard Shortcuts"
+msgstr "_Klaviatūros trumpiniai"
+
+#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Žinynas"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/app-menu.ui.h:3
 msgid "_About"
 msgstr "_Apie"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_Išeiti"
-
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "Maišyti"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "Kartoti visus"
-
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "Kartoti dainą"
-
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "Maišyti/nekartoti"
-
-#: ../data/NoMusic.ui.h:1
-msgid "No music found"
-msgstr "Nerasta muzikos"
-
-#: ../data/NoMusic.ui.h:3
-#, no-c-format
-msgid "The contents of your %s will appear here."
-msgstr "Čia matysite savo %s aplanko turinį"
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -468,11 +431,11 @@ msgstr "Nieko nežymėti"
 msgid "Search"
 msgstr "Paieška"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/headerbar.ui.h:5
 msgid "Select"
 msgstr "Žymėti"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
 msgid "Cancel"
 msgstr "Atsisakyti"
 
@@ -480,13 +443,117 @@ msgstr "Atsisakyti"
 msgid "Back"
 msgstr "Grįžti"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "Pridėti į grojaraštį"
+#: ../data/help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Bendra"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "Pašalinti iš grojaraščio"
+#: ../data/help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Užverti langą"
+
+#: ../data/help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Paieška"
+
+#: ../data/help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Žinynas"
+
+#: ../data/help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "Trumpiniai"
+
+#: ../data/help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Grojimas"
+
+#: ../data/help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Groti/Pristabdyti"
+
+#: ../data/help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Kita daina"
+
+#: ../data/help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Ankstesnė daina"
+
+#: ../data/help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Perjungti kartojimą"
+
+#: ../data/help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Perjungti maišymą"
+
+#: ../data/help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Naršymas"
+
+#: ../data/help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Pereiti į albumus"
+
+#: ../data/help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Pereiti į atlikėjus"
+
+#: ../data/help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "Pereiti į dainas"
+
+#: ../data/help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Pereiti į grojaraščius"
+
+#: ../data/help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Grįžti"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "Nerasta muzikos"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Čia matysite savo %s aplanko turinį"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Maišyti"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Kartoti visus"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Kartoti dainą"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "Maišyti/nekartoti"
 
 #: ../data/PlaylistControls.ui.h:1
 msgid "_Play"
@@ -500,9 +567,30 @@ msgstr "_Trinti"
 msgid "Playlist Name"
 msgstr "Grojaraščio pavadinimas"
 
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "Žymėti grojaraštį"
+#: ../data/PlaylistDialog.ui.h:2
+msgid "Add"
+msgstr "Pridėti"
+
+#: ../data/PlaylistDialog.ui.h:3
+msgid "New Playlist"
+msgstr "Naujas grojaraštis"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Pridėti į grojaraštį"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Pašalinti iš grojaraščio"
+
+#~ msgid "Not playing"
+#~ msgstr "Negroja"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "atlieka %s iš albumo %s"
+
+#~ msgid "Select Playlist"
+#~ msgstr "Žymėti grojaraštį"
 
 #~ msgid ""
 #~ "No Music found!\n"
