@@ -1,0 +1,557 @@
+# Vietnamese translations for gnome-music package
+# Bản dịch Tiếng Việt dành cho gói gnome-music.
+# This file is distributed under the same license as the gnome-music package.
+# Trần Ngọc Quân <vnwildman@gmail.com>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-09-04 14:24+0000\n"
+"PO-Revision-Date: 2016-09-06 14:36+0700\n"
+"Last-Translator: Trần Ngọc Quân <vnwildman@gmail.com>\n"
+"Language-Team: Vietnamese <gnome-vi-list@gnome.org>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.7\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Kích cỡ cửa sổ"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Kích thước cửa sổ (rộng và cao)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Vị trí cửa sổ"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Vị trí cửa sổ (x và y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Cửa sổ đã phóng to"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Cửa sổ ở trạng thái phóng to hết cỡ."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Chế độ lặp phát lại"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Giá trị định nghĩa xem có lặp hay phát ngẫu nhiên xuyên suốt bộ sưu tập. Các "
+"giá trị được phép là: \"none\" (tắt lặp và xáo trộn), \"song\" (lặp bài hát "
+"hiện tại), \"all\" (lặp mọi danh sách phát, không xáo trộn), \"shuffle"
+"\" (xáo trộn danh sách phát, giải định là lặp tất cả)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Chế độ tìm kiếm"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Nếu được chọn, thanh tìm kiếm sẽ được hiển thị."
+
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Chế độ thông báo"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Bật hay tắt thông báo phát lại"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"Số lượng ký tự tối đa được hiện thị trong tên rãnh trên bộ hiển thị Nghệ sỹ"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Cài đặt này sửa đổi số lượng ký tự cho tiêu đề rãnh trên bộ trình bày Nghệ "
+"sỹ trước khi nó được lửng hóa. Đặt nó bằng -1 để tắt"
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Bật ReplayGain"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr "Bật hay tắt ReplayGain với các tuyển tập"
+
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Tình trạng khởi tạo đã được hiển thị"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "Chọn nó khi muốn hiển thị tình trạng ban đầu"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Nhạc"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Bộ phát nhạc"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Phát nhạc và tổ chức các tập nhạc"
+
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Music;Player;Nhạc;Phát nhạc;Nhac;Phat Nhac;"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Nhạc GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Nhạc là một ứng dụng phát nhạc mới dành cho GNOME."
+
+#: ../gnomemusic/albumartcache.py:171 ../gnomemusic/albumartcache.py:179
+msgid "Untitled"
+msgstr "Không tiêu đề"
+
+#: ../gnomemusic/mpris.py:315 ../gnomemusic/player.py:604
+#: ../gnomemusic/view.py:757 ../gnomemusic/view.py:1169
+#: ../gnomemusic/view.py:1637
+msgid "Unknown Album"
+msgstr "Tập nhạc chưa biết"
+
+#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+msgid "Previous"
+msgstr "Kế trước"
+
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:557
+msgid "Pause"
+msgstr "Tạm dừng"
+
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:560
+#: ../data/PlayerToolbar.ui.h:7
+msgid "Play"
+msgstr "Phát"
+
+#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+msgid "Next"
+msgstr "Kế tiếp"
+
+#: ../gnomemusic/player.py:1087
+msgid "Unable to play the file"
+msgstr "Không thể phát tập tin"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1092
+#, python-format
+msgid "_Find in %s"
+msgstr "_Tìm trong %s"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1102
+msgid " and "
+msgstr " và "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:1106
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] ""
+"%s cần thiết để có thể phát tập tin nhưng mà nó lại chưa được cài đặt."
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:52
+msgid "Most Played"
+msgstr "Phát nhiều nhất"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:58
+msgid "Never Played"
+msgstr "Chưa phát lần nào"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:64
+msgid "Recently Played"
+msgstr "Mới phát"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Mới thêm"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:76
+msgid "Favorite Songs"
+msgstr "Bài hát ưa thích"
+
+#. TRANSLATORS: The following translatable string should be a
+#. space-separated list of all-lowercase articles that should be
+#. ignored when alphabetizing artists/albums. This list should
+#. include the basic english translatable strings regardless of
+#. language because it is so universal.
+#. If some articles occur more frequently than others, the most
+#. common one should appear first, the least common one last.
+#: ../gnomemusic/query.py:93
+msgid "the a an"
+msgstr "cái một"
+
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
+msgid "All"
+msgstr "Tất cả"
+
+#: ../gnomemusic/searchbar.py:63
+msgid "Artist"
+msgstr "Nghệ sĩ"
+
+#: ../gnomemusic/searchbar.py:64
+msgid "Album"
+msgstr "Tuyển tập"
+
+#: ../gnomemusic/searchbar.py:65
+msgid "Track Title"
+msgstr "Tiêu đề rãnh"
+
+#: ../gnomemusic/searchbar.py:110
+msgid "Local"
+msgstr "Nội bộ"
+
+#: ../gnomemusic/searchbar.py:222
+msgid "Sources"
+msgstr "Nguồn"
+
+#: ../gnomemusic/searchbar.py:229
+msgid "Match"
+msgstr "Khớp"
+
+#: ../gnomemusic/utils.py:44 ../gnomemusic/view.py:1342
+msgid "Unknown Artist"
+msgstr "Nghệ sĩ chưa biết"
+
+#: ../gnomemusic/view.py:215 ../gnomemusic/widgets.py:325
+#: ../gnomemusic/widgets.py:590
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Đã chọn %d mục"
+
+#: ../gnomemusic/view.py:217 ../gnomemusic/view.py:311
+#: ../gnomemusic/widgets.py:329 ../gnomemusic/widgets.py:592
+#: ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Bấm vào từng mục để chọn chúng"
+
+#: ../gnomemusic/view.py:333
+msgid "Music folder"
+msgstr "Thư mục nhạc"
+
+#: ../gnomemusic/view.py:356
+msgid "Hey DJ"
+msgstr "Hey DJ"
+
+#: ../gnomemusic/view.py:368 ../gnomemusic/view.py:1912
+msgid "Albums"
+msgstr "Tuyển tập"
+
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1914
+msgid "Songs"
+msgstr "Bài hát"
+
+#: ../gnomemusic/view.py:793 ../gnomemusic/view.py:1913
+msgid "Artists"
+msgstr "Nghệ sĩ"
+
+#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1915
+msgid "Playlists"
+msgstr "Danh sách phát"
+
+#: ../gnomemusic/view.py:1352
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d bài hát"
+
+#: ../gnomemusic/view.py:1495
+msgid "Try a different search"
+msgstr "Thử tìm kiếm khác"
+
+#: ../gnomemusic/widgets.py:381 ../gnomemusic/widgets.py:429
+#, python-format
+msgid "%d min"
+msgstr "%d phút"
+
+#: ../gnomemusic/widgets.py:602
+msgid "All Artists"
+msgstr "Mọi nghệ sỹ"
+
+#: ../gnomemusic/window.py:256
+msgid "Empty"
+msgstr "Trống"
+
+#: ../gnomemusic/window.py:320
+msgid "Loading"
+msgstr "Đang tải"
+
+#: ../gnomemusic/window.py:343
+msgid "_Undo"
+msgstr "_Hoàn tác"
+
+#: ../gnomemusic/window.py:344
+#, python-format
+msgid "Playlist %s removed"
+msgstr "Danh sách phát %s đã bị xóa bỏ"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Bản quyền © 2013 Nhóm phát triển nhạc GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Một ứng dụng phát và quản lý nhạc dành cho GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Truy cập trang thông tin điện tử của Nhạc GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Năm phát hành"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Tổng thời lượng"
+
+#: ../data/app-menu.ui.h:1
+msgid "_Keyboard Shortcuts"
+msgstr "_Phím tắt"
+
+#: ../data/app-menu.ui.h:2
+msgid "_Help"
+msgstr "T_rợ giúp"
+
+#: ../data/app-menu.ui.h:3
+msgid "_About"
+msgstr "G_iới thiệu"
+
+#: ../data/app-menu.ui.h:4
+msgid "_Quit"
+msgstr "_Thoát"
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Chọn tất cả"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Không chọn gì"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Tìm kiếm"
+
+#: ../data/headerbar.ui.h:5
+msgid "Select"
+msgstr "Chọn"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
+msgid "Cancel"
+msgstr "Thôi"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Lùi"
+
+#: ../data/help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Chung"
+
+#: ../data/help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Đóng cửa sổ"
+
+#: ../data/help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Tìm kiếm"
+
+#: ../data/help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Trợ giúp"
+
+#: ../data/help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "Phím tắt"
+
+#: ../data/help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Phát lại"
+
+#: ../data/help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Phát/Dừng"
+
+#: ../data/help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Bài hát kế"
+
+#: ../data/help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Bài hát kế trước"
+
+#: ../data/help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Bật/tắt lặp"
+
+#: ../data/help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Bật/tắt xáo trộn"
+
+#: ../data/help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Điều hướng"
+
+#: ../data/help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Chuyển tới Tuyển tập"
+
+#: ../data/help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Chuyển tới Nghệ sỹ"
+
+#: ../data/help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "Chuyển tới Bài hát"
+
+#: ../data/help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Chuyển tới Danh sách phát"
+
+#: ../data/help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Quay lại"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "Không tìm thấy bài hát nào"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Nội dung của %s của bạn sẽ xuất hiện ở đây."
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Xáo trộn"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Lặp tất cả"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Lặp bài hát"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "Tắt xáo trộn/lặp"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Phát"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Xóa"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Tên Danh sách phát"
+
+#: ../data/PlaylistDialog.ui.h:2
+msgid "Add"
+msgstr "Thêm"
+
+#: ../data/PlaylistDialog.ui.h:3
+msgid "New Playlist"
+msgstr "Danh sách phát mới"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Thêm vào danh sách phát"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Loại khỏi khỏi danh sách phát"
