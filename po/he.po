@@ -2,15 +2,15 @@
 # Copyright (C) 2013 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2013.
-# Yosef Or Boczko <yoseforb@gnome.org>, 2013, 2014, 2015.
+# Yosef Or Boczko <yoseforb@gnome.org>, 2013, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: GNOME Music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-16 13:56+0300\n"
-"PO-Revision-Date: 2015-07-16 14:06+0300\n"
-"Last-Translator: Yosef Or Boczko <yoseforb@gmail.com>\n"
+"POT-Creation-Date: 2016-09-06 12:53+0300\n"
+"PO-Revision-Date: 2016-09-06 12:55+0300\n"
+"Last-Translator: Yosef Or Boczko <yoseforb@gnome.org>\n"
 "Language-Team: עברית <>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -105,9 +105,9 @@ msgstr "Inital state has been displayed"
 msgid "Set to true when initial state has been displayed"
 msgstr "Set to true when initial state has been displayed"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:51
-#: ../gnomemusic/application.py:114 ../gnomemusic/window.py:59
-#: ../data/AboutDialog.ui.in.h:1
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "מוזיקה"
 
@@ -131,75 +131,56 @@ msgstr "‏GNOME מוזיקה"
 msgid "Music is the new GNOME music playing application."
 msgstr "מוזיקה הוא נגן מוזיקה חדש עבור GNOME"
 
-#: ../gnomemusic/albumArtCache.py:109 ../gnomemusic/albumArtCache.py:117
+#: ../gnomemusic/albumartcache.py:171 ../gnomemusic/albumartcache.py:179
 msgid "Untitled"
 msgstr "ללא כותרת"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:601 ../gnomemusic/view.py:556
-#: ../gnomemusic/view.py:987 ../gnomemusic/view.py:1450
+#: ../gnomemusic/mpris.py:315 ../gnomemusic/player.py:604
+#: ../gnomemusic/view.py:757 ../gnomemusic/view.py:1169
+#: ../gnomemusic/view.py:1637
 msgid "Unknown Album"
 msgstr "אלבום לא ידוע"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:591 ../gnomemusic/view.py:216
-#: ../gnomemusic/view.py:456 ../gnomemusic/view.py:729
-#: ../gnomemusic/view.py:1169 ../gnomemusic/view.py:1448
-#: ../gnomemusic/view.py:1499 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:638
-msgid "Unknown Artist"
-msgstr "אמן לא ידוע"
-
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "לא מתנגן"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "של %s, מתוך %s"
-
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "הקודם"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:548
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:557
 msgid "Pause"
 msgstr "השהיה"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:551
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:560
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "ניגון"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "הבא"
 
-#: ../gnomemusic/player.py:1076
+#: ../gnomemusic/player.py:1087
 msgid "Unable to play the file"
 msgstr "לא ניתן לנגן את הקובץ"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1081
+#: ../gnomemusic/player.py:1092
 #, python-format
 msgid "_Find in %s"
 msgstr "ל_מצוא בתוך %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1091
+#: ../gnomemusic/player.py:1102
 msgid " and "
 msgstr " ו־"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1094
+#: ../gnomemusic/player.py:1105
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1095
+#: ../gnomemusic/player.py:1106
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -208,17 +189,17 @@ msgstr[1] "%s נדרשים לניגון הקובץ, אך אלה אינם מות�
 msgstr[2] "%s נדרשים לניגון הקובץ, אך אלה אינם מותקנים."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "הושמע ביותר"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "לעולם לא הושמע"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "הושמע לאחרונה"
 
@@ -228,48 +209,55 @@ msgid "Recently Added"
 msgstr "נוסף לאחרונה"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "שירים מועדפים"
 
-#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
-#. list should include 'the' regardless of language. If some articles occur more
-#. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#. TRANSLATORS: The following translatable string should be a
+#. space-separated list of all-lowercase articles that should be
+#. ignored when alphabetizing artists/albums. This list should
+#. include the basic english translatable strings regardless of
+#. language because it is so universal.
+#. If some articles occur more frequently than others, the most
+#. common one should appear first, the least common one last.
+#: ../gnomemusic/query.py:93
 msgid "the a an"
 msgstr "ה"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "הכול"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "אמן"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "אלבום"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "כותרת רצועה"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "מקומי"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "מקורות"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "התאמה"
 
-#: ../gnomemusic/view.py:188 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:515 ../gnomemusic/window.py:305
+#: ../gnomemusic/utils.py:44 ../gnomemusic/view.py:1342
+msgid "Unknown Artist"
+msgstr "אמן לא ידוע"
+
+#: ../gnomemusic/view.py:215 ../gnomemusic/widgets.py:325
+#: ../gnomemusic/widgets.py:590
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -277,42 +265,37 @@ msgstr[0] "פריט %d נבחר"
 msgstr[1] "%d פריטים נבחרו"
 msgstr[2] "%d פריטים נבחרו"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:309
-#: ../gnomemusic/window.py:321 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:217 ../gnomemusic/view.py:311
+#: ../gnomemusic/widgets.py:329 ../gnomemusic/widgets.py:592
+#: ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "יש ללחוץ על פריטים כדי לבחור אותם"
 
-#: ../gnomemusic/view.py:272
+#: ../gnomemusic/view.py:333
 msgid "Music folder"
 msgstr "תיקיית מוזיקה"
 
-#: ../gnomemusic/view.py:291
+#: ../gnomemusic/view.py:356
 msgid "Hey DJ"
 msgstr "שלום תקליטן"
 
-#: ../gnomemusic/view.py:299 ../gnomemusic/view.py:1723
+#: ../gnomemusic/view.py:368 ../gnomemusic/view.py:1912
 msgid "Albums"
 msgstr "אלבומים"
 
-#: ../gnomemusic/view.py:390 ../gnomemusic/view.py:1725
+#: ../gnomemusic/view.py:594 ../gnomemusic/view.py:1914
 msgid "Songs"
 msgstr "שירים"
 
-#: ../gnomemusic/view.py:588 ../gnomemusic/view.py:1724
+#: ../gnomemusic/view.py:793 ../gnomemusic/view.py:1913
 msgid "Artists"
 msgstr "אמנים"
 
-#: ../gnomemusic/view.py:634 ../gnomemusic/view.py:636
-#: ../gnomemusic/widgets.py:524
-msgid "All Artists"
-msgstr "כל האמנים"
-
-#: ../gnomemusic/view.py:814 ../gnomemusic/view.py:1726
+#: ../gnomemusic/view.py:995 ../gnomemusic/view.py:1915
 msgid "Playlists"
 msgstr "רשימות השמעה"
 
-#: ../gnomemusic/view.py:1180
+#: ../gnomemusic/view.py:1352
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -320,32 +303,32 @@ msgstr[0] "שיר %d"
 msgstr[1] "%d שירים"
 msgstr[2] "%d שירים"
 
-#: ../gnomemusic/view.py:1317
+#: ../gnomemusic/view.py:1495
 msgid "Try a different search"
 msgstr "יש לנסות חיפוש שונה"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/widgets.py:381 ../gnomemusic/widgets.py:429
 #, python-format
 msgid "%d min"
 msgstr "%d דקות"
 
-#: ../gnomemusic/widgets.py:762
-msgid "New Playlist"
-msgstr "רשימת השמעה חדשה"
+#: ../gnomemusic/widgets.py:602
+msgid "All Artists"
+msgstr "כל האמנים"
 
-#: ../gnomemusic/window.py:251
+#: ../gnomemusic/window.py:256
 msgid "Empty"
 msgstr "ריק"
 
-#: ../gnomemusic/window.py:333
+#: ../gnomemusic/window.py:320
 msgid "Loading"
 msgstr "בטעינה"
 
-#: ../gnomemusic/window.py:348
+#: ../gnomemusic/window.py:343
 msgid "_Undo"
 msgstr "_ביטול"
 
-#: ../gnomemusic/window.py:349
+#: ../gnomemusic/window.py:344
 #, python-format
 msgid "Playlist %s removed"
 msgstr "רשימת ההשמעה %s הוסרה"
@@ -405,7 +388,8 @@ msgstr ""
 "Music. כל שינוי בקוד זה עשוי לאלץ אותך להרחיב את החריגה לקוד בגרסה שהכנת, אך "
 "אין כל התחייבות לעשות זאת. אם אין לך עניין לעשות דבר שכזה, יש למחוק את הצהרת "
 "החריגה הזאת מהגרסה שלך.\n"
-"התמונה „Magic of the vinyl” מאת Sami Pyylampi תחת הרישיון ייחוס-שיתוף זהה 2.0 לא מותאם (CC BY-SA 2.0) ‏https://www.flickr.com/photos/_spy_/12270839403\n"
+"התמונה „Magic of the vinyl” מאת Sami Pyylampi תחת הרישיון ייחוס-שיתוף זהה "
+"2.0 לא מותאם (CC BY-SA 2.0) ‏https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -416,41 +400,20 @@ msgid "Running Length"
 msgstr "משך ההשמעה"
 
 #: ../data/app-menu.ui.h:1
+msgid "_Keyboard Shortcuts"
+msgstr "_צירופי מקשים"
+
+#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "ע_זרה"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/app-menu.ui.h:3
 msgid "_About"
 msgstr "על _אודות"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "י_ציאה"
-
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "ערבוב"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "חזרה על הכול"
-
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "חזרה על שיר"
-
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "ערבוב/חזרה כבוי"
-
-#: ../data/NoMusic.ui.h:1
-msgid "No music found"
-msgstr "לא נמצאה מוזיקה"
-
-#: ../data/NoMusic.ui.h:3
-#, no-c-format
-msgid "The contents of your %s will appear here."
-msgstr "התוכן של %s שלך יופיע כאן."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -464,11 +427,11 @@ msgstr "ביטול הבחירה"
 msgid "Search"
 msgstr "חיפוש"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/headerbar.ui.h:5
 msgid "Select"
 msgstr "בחירה"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -476,13 +439,117 @@ msgstr "ביטול"
 msgid "Back"
 msgstr "חזרה"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "הוספה לרשימת השמעה"
+#: ../data/help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "כללי"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "הסרה מרשימת השמעה"
+#: ../data/help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "סגירת חלון"
+
+#: ../data/help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "חיפוש"
+
+#: ../data/help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "עזרה"
+
+#: ../data/help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "צירופי מקשים"
+
+#: ../data/help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "ניגון"
+
+#: ../data/help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "ניגון/השהיה"
+
+#: ../data/help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "שיר הבא"
+
+#: ../data/help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "שיר קודם"
+
+#: ../data/help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "חזרה על שיר"
+
+#: ../data/help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "ערבוב שירים"
+
+#: ../data/help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "ניווט"
+
+#: ../data/help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "מעבר לאלבומים"
+
+#: ../data/help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "מעבר לאמנים"
+
+#: ../data/help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "מעבר לשירים"
+
+#: ../data/help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "מעבר לרשימות השמעה"
+
+#: ../data/help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "חזרה"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "לא נמצאה מוזיקה"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "התוכן של %s שלך יופיע כאן."
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "ערבוב"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "חזרה על הכול"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "חזרה על שיר"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "ערבוב/חזרה כבוי"
 
 #: ../data/PlaylistControls.ui.h:1
 msgid "_Play"
@@ -496,9 +563,30 @@ msgstr "מ_חיקה"
 msgid "Playlist Name"
 msgstr "שם רשימת השמעה"
 
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "בחירת רשימת השמעה"
+#: ../data/PlaylistDialog.ui.h:2
+msgid "Add"
+msgstr "הוספה"
+
+#: ../data/PlaylistDialog.ui.h:3
+msgid "New Playlist"
+msgstr "רשימת השמעה חדשה"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "הוספה לרשימת השמעה"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "הסרה מרשימת השמעה"
+
+#~ msgid "Not playing"
+#~ msgstr "לא מתנגן"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "של %s, מתוך %s"
+
+#~ msgid "Select Playlist"
+#~ msgstr "בחירת רשימת השמעה"
 
 #~ msgid "Internal: id for most played playlist"
 #~ msgstr "Internal: id for most played playlist"
