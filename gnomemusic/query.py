@@ -831,7 +831,7 @@ class Query():
         ?as nie:url ?url .
         FILTER (
           tracker:uri-is-descendant(
-            '%(music_dir)s', nie:url(?as)
+            '%(music_dir)s', ?url
           )
         )
     } ORDER BY DESC(tracker:added(?song))
