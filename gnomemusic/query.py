@@ -357,10 +357,9 @@ class Query():
             }
             LIMIT 1
         ) AS ?artist
-        nie:title(?album) AS ?title
         nie:title(?album) AS ?album
     WHERE {
-        ?album a nmm:MusicAlbum  .
+        ?album a nmm:MusicAlbum .
         FILTER (
             tracker:id(?album) = %(album_id)s
         )
@@ -386,7 +385,6 @@ class Query():
             }
             LIMIT 1
         ) AS ?artist
-        nie:title(?album) AS ?title
         nie:title(?album) AS ?album
     WHERE {
         ?song a nmm:MusicPiece ;
