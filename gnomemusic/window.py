@@ -437,20 +437,14 @@ class Window(Gtk.ApplicationWindow):
                 if self.toolbar._selectionMode:
                     self.toolbar.set_selection_mode(False)
 
-        # Open search bar when typing printable chars if it not opened
-        # Make sure we skip unprintable chars and don't grab space press
-        # (this is used for play/pause)
-        if (not self.toolbar.searchbar.get_search_mode()
-                and not event.keyval == Gdk.KEY_space):
-            if (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK or
-                    event_and_modifiers == 0) and \
-                    GLib.unichar_isprint(chr(Gdk.keyval_to_unicode(event.keyval))):
-                self.toolbar.searchbar.show_bar(True)
-        else:
-            if not self.toolbar.searchbar.get_search_mode():
-                if event.keyval == Gdk.KEY_space and self.player.actionbar.get_visible():
-                    if self.get_focus() != self.player.playBtn:
-                        self.player.play_pause()
+        # Open the search bar when typing printable chars.
+        key_unic = Gdk.keyval_to_unicode(event.keyval)
+        if ((not self.toolbar.searchbar.get_search_mode()
+                and not event.keyval == Gdk.KEY_space)
+                and GLib.unichar_isprint(chr(key_unic))
+                and (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK
+                    or event_and_modifiers == 0)):
+            self.toolbar.searchbar.show_bar(True)
 
     @log
     def _notify_mode_disconnect(self, data=None):
