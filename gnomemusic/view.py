@@ -1301,6 +1301,11 @@ class Playlist(ViewContainer):
             self._populate()
 
     @log
+    def remove_playlist(self):
+        if not self.current_playlist_is_protected():
+            self._on_delete_activate(None)
+
+    @log
     def _on_playlist_activated(self, widget, item_id, path):
         _iter = self.playlists_model.get_iter(path)
         playlist_name = self.playlists_model.get_value(_iter, 2)

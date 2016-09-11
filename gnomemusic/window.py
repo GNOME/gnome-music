@@ -429,7 +429,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             if (event.keyval == Gdk.KEY_Delete):
                 if self._stack.get_visible_child() == self.views[3]:
-                    self.views[3]._on_delete_activate(None)
+                    self.views[3].remove_playlist()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
                 self.toolbar.searchbar.show_bar(False)
