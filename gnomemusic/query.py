@@ -342,6 +342,9 @@ class Query():
 
     @staticmethod
     def get_album_for_album_id(album_id):
+        # Even though we check for the album_artist, we fill
+        # the artist key, since Grilo coverart plugins use
+        # only that key for retrieval.
         query = """
     SELECT DISTINCT
         rdf:type(?album)
@@ -353,7 +356,7 @@ class Query():
                 ?album nmm:albumArtist ?album_artist
             }
             LIMIT 1
-        ) AS ?album_artist
+        ) AS ?artist
         nie:title(?album) AS ?title
         nie:title(?album) AS ?album
     WHERE {
@@ -370,6 +373,7 @@ class Query():
 
     @staticmethod
     def get_album_for_song_id(song_id):
+        # See get_album_for_album_id comment.
         query = """
     SELECT DISTINCT
         rdf:type(?album)
@@ -381,7 +385,7 @@ class Query():
                 ?album nmm:albumArtist ?album_artist
             }
             LIMIT 1
-        ) AS ?album_artist
+        ) AS ?artist
         nie:title(?album) AS ?title
         nie:title(?album) AS ?album
     WHERE {
