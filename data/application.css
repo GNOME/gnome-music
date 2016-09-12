@@ -44,7 +44,6 @@ flowbox, treeview, widget {
 
 .songs-list {
     box-shadow: inset 0 -1px shade(@borders, 1.30);
-    box-shadow: inset 0 1px shade(@borders, 1.30);
     background-color: @theme_bg_color;
 }
 
