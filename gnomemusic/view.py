@@ -394,6 +394,7 @@ class Albums(ViewContainer):
         self.view = Gtk.FlowBox(homogeneous=True,
                                 hexpand=True,
                                 halign=Gtk.Align.FILL,
+                                valign=Gtk.Align.START,
                                 selection_mode=Gtk.SelectionMode.NONE,
                                 margin=18,
                                 row_spacing=12,
