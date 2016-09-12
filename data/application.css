@@ -1,19 +1,16 @@
 @define-color music_entry_tag_bg #3465a4;
 @define-color music_entry_tag_fg @theme_base_color;
 
-@binding-set UnbindSpace{
-    unbind "space";
+@binding-set unbind-ctrl-space {
+    unbind "<ctrl>space";
 }
 
-GdMainListView{
-    -gtk-key-bindings: UnbindSpace;
+/* Use widget for libgd classes, since they aren't updated
+   to gtk+-3.20 css naming yet. */
+flowbox, treeview, widget {
+    -gtk-key-bindings: unbind-ctrl-space;
 }
-GdMainView{
-    -gtk-key-bindings: UnbindSpace;
-}
-GtkTreeView{
-    -gtk-key-bindings: UnbindSpace;
-}
+
 .cover{
     padding-left:24px;
 }
