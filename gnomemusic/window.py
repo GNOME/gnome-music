@@ -377,9 +377,8 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_f and
                     event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self.toolbar.searchbar.toggle_bar()
-            # Play / Pause on Ctrl + P
-            if (event.keyval == Gdk.KEY_p
-                    or event.keyval == Gdk.KEY_space
+            # Play / Pause on Ctrl + SPACE
+            if (event.keyval == Gdk.KEY_space
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                  self.player.play_pause()
             # Play previous on Ctrl + B
