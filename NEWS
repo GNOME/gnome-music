@@ -1,3 +1,35 @@
+Overview of changes in 3.21.92
+==============================
+
+* Fix keyboard play/pause handling
+* Remove top separator in song lists
+* Do not remove static playlists on Delete keypress
+
+Bugs fixes:
+ 771249 Static playlists should not be removed using the Delete key
+ 770178 Remove the first Songs row separator
+ 754096 Space doesn't always toggle pause/play
+
+Thanks to our contributors:
+ Konstantin Pospelov
+ Marinus Schraal
+ Yash Singh
+
+Translations updated:
+ Danish
+ Greek
+ Latvian
+ Galician
+ Swedish
+ Hebrew
+ Vietnamese
+ British English
+ Lithuanian
+ Kazakh
+ Korean
+ Friulian
+ Serbian
+
 Overview of changes in 3.21.90
 ==============================
 
