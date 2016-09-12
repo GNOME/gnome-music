@@ -49,7 +49,7 @@
               <object class="GtkShortcutsShortcut">
                 <property name="visible">True</property>
                 <property name="title" translatable="yes" context="shortcut window">Play/Pause</property>
-                <property name="accelerator">&lt;Ctrl&gt;space &lt;Primary&gt;P</property>
+                <property name="accelerator">&lt;Primary&gt;P</property>
               </object>
             </child>
             <child>
