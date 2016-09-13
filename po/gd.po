@@ -1,0 +1,484 @@
+# Scottish Gaelic translation for gnome-music.
+# Copyright (C) 2016 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# GunChleoc <fios@foramnagaidhlig.net>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music gnome-3-20\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2016-05-05 08:59+0000\n"
+"PO-Revision-Date: 2016-09-13 11:28+0100\n"
+"Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
+"Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Project-Style: gnome\n"
+
+#: ../data/org.gnome.Music.gschema.xml.h:1
+msgid "Window size"
+msgstr "Meud na h-uinneige"
+
+#: ../data/org.gnome.Music.gschema.xml.h:2
+msgid "Window size (width and height)."
+msgstr "Meud na h-uinneige (leud is àirde)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:3
+msgid "Window position"
+msgstr "Ionad na h-uinneige"
+
+#: ../data/org.gnome.Music.gschema.xml.h:4
+msgid "Window position (x and y)."
+msgstr "Ionad na h-uinneige (x is y)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:5
+msgid "Window maximized"
+msgstr "Làn-mheud air an uinneag"
+
+#: ../data/org.gnome.Music.gschema.xml.h:6
+msgid "Window maximized state."
+msgstr "Staid làn-mheud na h-uinneige."
+
+#: ../data/org.gnome.Music.gschema.xml.h:7
+msgid "Playback repeat mode"
+msgstr "Modh ath-chluich"
+
+#. Translators: Don't translate allowed values, just the description in the brackets
+#: ../data/org.gnome.Music.gschema.xml.h:9
+msgid ""
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
+"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
+"\" (shuffle playlist, presumes repeat all)."
+msgstr ""
+"Innsidh an luach am bu chòir ath-chluich no nithean sa chruinneachadh a "
+"chluich air thuaiream. Seo na luachan ceadaichte: \"none\" (tha ath-chluich is "
+"cluich air thuaiream dheth), \"song\" (ath-chluich an t-òran làithreach), "
+"\"all\" (ath-chluich an liosta-chluich gun a bhith 'ga cluich air thuaiream), "
+"\"shuffle\" (cluich na h-òrain air an liosta-chluich air thuaiream, an dùil "
+"gun dèid na h-uile òran ath-chluich)."
+
+#: ../data/org.gnome.Music.gschema.xml.h:10
+msgid "Search mode"
+msgstr "Modh an luirg"
+
+#: ../data/org.gnome.Music.gschema.xml.h:11
+msgid "If true, the search bar is shown."
+msgstr "Mas e \"true\" a th' ann, thèid am bàr-luirg a shealltainn."
+
+#: ../data/org.gnome.Music.gschema.xml.h:12
+msgid "Notifications mode"
+msgstr "Modh nam brathan"
+
+#: ../data/org.gnome.Music.gschema.xml.h:13
+msgid "Enables or disables playback notifications"
+msgstr "Cuiridh seo brathan na cluich an comas no à comas"
+
+#: ../data/org.gnome.Music.gschema.xml.h:14
+msgid "Max chars to display in track name on Artist view"
+msgstr ""
+"An uiread as motha dhe charactaran a thèid a shealltainn ann an ainm traca "
+"ann an sealladh an luchd-ciùil"
+
+#: ../data/org.gnome.Music.gschema.xml.h:15
+msgid ""
+"This setting modifies the amount of chars for track title on Artist view "
+"before its been ellipsized. Set this to -1 to disable"
+msgstr ""
+"Atharraichidh an roghainn seo an uiread dhe charactaran airson tiotal traca "
+"ann an sealladh an luchd-ciùil mus dèid trì-phuing a shealltainn. Cuir seo "
+"air -1 gus a chur à comas"
+
+#: ../data/org.gnome.Music.gschema.xml.h:16
+msgid "Enable ReplayGain"
+msgstr "Cuir meudachadh fuaime an comas"
+
+#: ../data/org.gnome.Music.gschema.xml.h:17
+msgid "Enables or disables ReplayGain for albums"
+msgstr ""
+"Cuiridh seo meudachadh air àirde na fuaime airson albaman an comas no à "
+"comas"
+
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "Chaidh an staid thùsail a shealltainn"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "'S e \"true\" a th' ann ma chaidh an staid thùsail a shealltainn"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Ceòl"
+
+#: ../data/gnome-music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Cluicheadair ciùil"
+
+#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Cluich is cum rian air a' chruinneachadh ciùil agad"
+
+#: ../data/gnome-music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Music;Player;ceòl;cluicheadair;inneal-cluich;"
+
+#: ../data/gnome-music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Ceòl GNOME"
+
+#: ../data/gnome-music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "'S e aplacaid ùr GNOME gus ceòl a chluich a th' ann an Ceòl."
+
+#: ../gnomemusic/albumArtCache.py:106 ../gnomemusic/albumArtCache.py:114
+msgid "Untitled"
+msgstr "Gun tiotal"
+
+#: ../gnomemusic/mpris.py:151 ../gnomemusic/player.py:607
+#: ../gnomemusic/view.py:577 ../gnomemusic/view.py:991
+#: ../gnomemusic/view.py:1460
+msgid "Unknown Album"
+msgstr "Albam nach aithne dhuinn"
+
+#: ../gnomemusic/mpris.py:167 ../gnomemusic/player.py:597
+#: ../gnomemusic/view.py:219 ../gnomemusic/view.py:479
+#: ../gnomemusic/view.py:733 ../gnomemusic/view.py:1166
+#: ../gnomemusic/view.py:1458 ../gnomemusic/view.py:1510
+#: ../gnomemusic/widgets.py:249 ../gnomemusic/widgets.py:661
+msgid "Unknown Artist"
+msgstr "Neach-ciùil nach aithne dhuinn"
+
+#: ../gnomemusic/notification.py:65 ../data/PlayerToolbar.ui.h:6
+msgid "Previous"
+msgstr "Air ais"
+
+#: ../gnomemusic/notification.py:68 ../gnomemusic/player.py:554
+msgid "Pause"
+msgstr "Cuir 'na stad"
+
+#: ../gnomemusic/notification.py:71 ../gnomemusic/player.py:557
+#: ../data/PlayerToolbar.ui.h:7
+msgid "Play"
+msgstr "Cluich"
+
+#: ../gnomemusic/notification.py:73 ../data/PlayerToolbar.ui.h:8
+msgid "Next"
+msgstr "Air adhart"
+
+#: ../gnomemusic/player.py:1090
+msgid "Unable to play the file"
+msgstr "Chan urrainn dhuinn am faidhle a chluich"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1095
+#, python-format
+msgid "_Find in %s"
+msgstr "_Lorg an-seo: %s"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid " and "
+msgstr " 's "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1108
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:1109
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "Tha %s riatanach gus am faidhle a chluich ach cha deach a stàladh."
+msgstr[1] "Tha %s riatanach gus am faidhle a chluich ach cha deach an stàladh."
+msgstr[2] "Tha %s riatanach gus am faidhle a chluich ach cha deach an stàladh."
+msgstr[3] "Tha %s riatanach gus am faidhle a chluich ach cha deach an stàladh."
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:52
+msgid "Most Played"
+msgstr "'Ga chluich gu tric"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:58
+msgid "Never Played"
+msgstr "Gun chluich"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:64
+msgid "Recently Played"
+msgstr "O chionn ghoirid"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:70
+msgid "Recently Added"
+msgstr "Air a chur ris"
+
+#. TRANSLATORS: this is a playlist name
+#: ../gnomemusic/playlists.py:76
+msgid "Favorite Songs"
+msgstr "Na h-òrain as annsa"
+
+#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
+#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
+#. list should include 'the' regardless of language. If some articles occur more
+#. frequently than others, most common should appear first, least common last.
+#: ../gnomemusic/query.py:76
+msgid "the a an"
+msgstr "a' an am na the a"
+
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
+msgid "All"
+msgstr "Na h-uile"
+
+#: ../gnomemusic/searchbar.py:63
+msgid "Artist"
+msgstr "Neach-ciùil"
+
+#: ../gnomemusic/searchbar.py:64
+msgid "Album"
+msgstr "Albam"
+
+#: ../gnomemusic/searchbar.py:65
+msgid "Track Title"
+msgstr "Tiotail an traca"
+
+#: ../gnomemusic/searchbar.py:110
+msgid "Local"
+msgstr "Ionadail"
+
+#: ../gnomemusic/searchbar.py:222
+msgid "Sources"
+msgstr "Tùsan"
+
+#: ../gnomemusic/searchbar.py:229
+msgid "Match"
+msgstr "Maids"
+
+#: ../gnomemusic/view.py:189 ../gnomemusic/widgets.py:281
+#: ../gnomemusic/widgets.py:532 ../gnomemusic/window.py:305
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Chaidh %d nì a thaghadh"
+msgstr[1] "Chaidh %d nì a thaghadh"
+msgstr[2] "Chaidh %d nithean a thaghadh"
+msgstr[3] "Chaidh %d nì a thaghadh"
+
+#: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
+#: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:309
+#: ../gnomemusic/window.py:321 ../data/headerbar.ui.h:3
+msgid "Click on items to select them"
+msgstr "Briog air nithean gus an taghadh"
+
+#: ../gnomemusic/view.py:276
+msgid "Music folder"
+msgstr "Pasgan a' chiùil"
+
+#: ../gnomemusic/view.py:299
+msgid "Hey DJ"
+msgstr "Hey DJ"
+
+#: ../gnomemusic/view.py:311 ../gnomemusic/view.py:1737
+msgid "Albums"
+msgstr "Albaman"
+
+#: ../gnomemusic/view.py:412 ../gnomemusic/view.py:1739
+msgid "Songs"
+msgstr "Òrain"
+
+#: ../gnomemusic/view.py:613 ../gnomemusic/view.py:1738
+msgid "Artists"
+msgstr "Luchd-ciùil"
+
+#: ../gnomemusic/view.py:817 ../gnomemusic/view.py:1740
+msgid "Playlists"
+msgstr "Liostaichean-cluich"
+
+#: ../gnomemusic/view.py:1176
+#, python-format
+msgid "%d Song"
+msgid_plural "%d Songs"
+msgstr[0] "%d òran"
+msgstr[1] "%d òran"
+msgstr[2] "%d òrain"
+msgstr[3] "%d òran"
+
+#: ../gnomemusic/view.py:1319
+msgid "Try a different search"
+msgstr "Feuch lorg eile"
+
+#: ../gnomemusic/widgets.py:322 ../gnomemusic/widgets.py:356
+#, python-format
+msgid "%d min"
+msgstr "%d mion"
+
+#: ../gnomemusic/widgets.py:544
+msgid "All Artists"
+msgstr "A h-uile luchd-ciùil"
+
+#: ../gnomemusic/widgets.py:790
+msgid "New Playlist"
+msgstr "Liosta-chluich ùr"
+
+#: ../gnomemusic/window.py:251
+msgid "Empty"
+msgstr "Falamh"
+
+#: ../gnomemusic/window.py:338
+msgid "Loading"
+msgstr "'Ga luchdadh"
+
+#: ../gnomemusic/window.py:361
+msgid "_Undo"
+msgstr "_Neo-dhèan"
+
+#: ../gnomemusic/window.py:362
+#, python-format
+msgid "Playlist %s removed"
+msgstr "Chaidh an liosta-chluich %s a thoirt air falbh"
+
+#: ../data/AboutDialog.ui.in.h:2
+msgid "Copyright © 2013 GNOME Music Developers"
+msgstr "Còir-lethbhreac © 2013 luchd-leasachaidh Ceòl GNOME"
+
+#: ../data/AboutDialog.ui.in.h:3
+msgid "A music player and management application for GNOME."
+msgstr "Aplacaid cluich is stiùireadh ciùil airson GNOME."
+
+#: ../data/AboutDialog.ui.in.h:4
+msgid "Visit GNOME Music website"
+msgstr "Tadhail air làrach-lìn Ceòl GNOME"
+
+#: ../data/AboutDialog.ui.in.h:5
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
+msgstr ""
+
+#: ../data/AlbumWidget.ui.h:1
+msgid "Released"
+msgstr "Air a sgaoileadh"
+
+#: ../data/AlbumWidget.ui.h:2
+msgid "Running Length"
+msgstr "Faide"
+
+#: ../data/app-menu.ui.h:1
+msgid "_Help"
+msgstr "Cob_hair"
+
+#: ../data/app-menu.ui.h:2
+msgid "_About"
+msgstr "_Mu dhèidhinn"
+
+#: ../data/app-menu.ui.h:3
+msgid "_Quit"
+msgstr "_Fàg an-seo"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "Air thuaiream"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "Ath-chluich na h-uile"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "Ath-chluich an t-òran"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "Air thuaiream/ath-chluich dheth"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "Cha deach ceòl a lorg"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "Nochdaidh an t-susbaint a tha ann am %s agad an-seo."
+
+#: ../data/headerbar.ui.h:1
+msgid "Select All"
+msgstr "Tagh na h-uile"
+
+#: ../data/headerbar.ui.h:2
+msgid "Select None"
+msgstr "Dì-thagh na h-uile"
+
+#: ../data/headerbar.ui.h:4
+msgid "Search"
+msgstr "Lorg"
+
+#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+msgid "Select"
+msgstr "Tagh"
+
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+msgid "Cancel"
+msgstr "Sguir dheth"
+
+#: ../data/headerbar.ui.h:7
+msgid "Back"
+msgstr "Air ais"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "Cuir ris an liosta-chluich"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "Thoir air falbh on liosta-chluich"
+
+#: ../data/PlaylistControls.ui.h:1
+msgid "_Play"
+msgstr "_Cluich"
+
+#: ../data/PlaylistControls.ui.h:2
+msgid "_Delete"
+msgstr "_Sguab às"
+
+#: ../data/PlaylistControls.ui.h:3
+msgid "Playlist Name"
+msgstr "Dealbh na liosta-cluich"
+
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Select Playlist"
+msgstr "Tagh liosta-chluich"
