@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-09-12 07:34+0000\n"
-"PO-Revision-Date: 2015-09-13 02:12+0430\n"
+"POT-Creation-Date: 2016-08-17 06:08+0000\n"
+"PO-Revision-Date: 2016-09-13 13:06+0430\n"
 "Last-Translator: Arash Mousavi <mousavi.arash@gmail.com>\n"
 "Language-Team: Persian <>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.9\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -107,8 +107,8 @@ msgid "Set to true when initial state has been displayed"
 msgstr "وقتی وضعیت ابتدایی نمایش داده شده، بر درست تنظیم شود"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
-#: ../gnomemusic/application.py:118 ../gnomemusic/window.py:62
-#: ../data/AboutDialog.ui.in.h:1
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "آهنگ‌ها"
 
@@ -132,74 +132,55 @@ msgstr "آهنگ‌های گنوم"
 msgid "Music is the new GNOME music playing application."
 msgstr "آهنگ‌ها برنامه پخش آهنگ جدید گنوم است."
 
-#: ../gnomemusic/albumArtCache.py:115 ../gnomemusic/albumArtCache.py:123
+#: ../gnomemusic/albumartcache.py:171 ../gnomemusic/albumartcache.py:179
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: ../gnomemusic/mpris.py:151 ../gnomemusic/notification.py:104
-#: ../gnomemusic/player.py:607 ../gnomemusic/view.py:582 ../gnomemusic/view.py:993
-#: ../gnomemusic/view.py:1455
+#: ../gnomemusic/mpris.py:315 ../gnomemusic/player.py:604 ../gnomemusic/view.py:576
+#: ../gnomemusic/view.py:988 ../gnomemusic/view.py:1456
 msgid "Unknown Album"
 msgstr "آلبوم ناشناس"
 
-#: ../gnomemusic/mpris.py:167 ../gnomemusic/notification.py:102
-#: ../gnomemusic/player.py:597 ../gnomemusic/view.py:226 ../gnomemusic/view.py:482
-#: ../gnomemusic/view.py:737 ../gnomemusic/view.py:1167 ../gnomemusic/view.py:1453
-#: ../gnomemusic/view.py:1505 ../gnomemusic/widgets.py:248
-#: ../gnomemusic/widgets.py:660
-msgid "Unknown Artist"
-msgstr "هنرمند ناشناس"
-
-#: ../gnomemusic/notification.py:93
-msgid "Not playing"
-msgstr "چیزی پخش نمی‌شود"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:108
-#, python-format
-msgid "by %s, from %s"
-msgstr "توسّط %s، از آلبوم %s"
-
-#: ../gnomemusic/notification.py:129 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "قبلی"
 
-#: ../gnomemusic/notification.py:132 ../gnomemusic/player.py:554
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:557
 msgid "Pause"
 msgstr "مکث"
 
-#: ../gnomemusic/notification.py:135 ../gnomemusic/player.py:557
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:560
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "پخش"
 
-#: ../gnomemusic/notification.py:137 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "بعدی"
 
-#: ../gnomemusic/player.py:1090
+#: ../gnomemusic/player.py:1087
 msgid "Unable to play the file"
 msgstr "نمی‌توان پرونده را پخش کرد"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1095
+#: ../gnomemusic/player.py:1092
 #, python-format
 msgid "_Find in %s"
 msgstr "_جست‌وجو در %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1105
+#: ../gnomemusic/player.py:1102
 msgid " and "
 msgstr "و"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1108
+#: ../gnomemusic/player.py:1105
 msgid ", "
 msgstr "،"
 
-#: ../gnomemusic/player.py:1109
+#: ../gnomemusic/player.py:1106
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -230,11 +211,14 @@ msgstr "اخیرا اضافه شده"
 msgid "Favorite Songs"
 msgstr "آهنگ‌های مورد علاقه"
 
-#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
-#. list should include 'the' regardless of language. If some articles occur more
-#. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:86
+#. TRANSLATORS: The following translatable string should be a
+#. space-separated list of all-lowercase articles that should be
+#. ignored when alphabetizing artists/albums. This list should
+#. include the basic english translatable strings regardless of
+#. language because it is so universal.
+#. If some articles occur more frequently than others, the most
+#. common one should appear first, the least common one last.
+#: ../gnomemusic/query.py:93
 msgid "the a an"
 msgstr "the a an"
 
@@ -266,79 +250,79 @@ msgstr "منابع"
 msgid "Match"
 msgstr "هماهنگ"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:280
-#: ../gnomemusic/widgets.py:531 ../gnomemusic/window.py:304
+#: ../gnomemusic/utils.py:44 ../gnomemusic/view.py:1161
+msgid "Unknown Artist"
+msgstr "هنرمند ناشناس"
+
+#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:325
+#: ../gnomemusic/widgets.py:590 ../gnomemusic/window.py:310
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "تعداد %d مورد انتخاب شد"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:282
-#: ../gnomemusic/widgets.py:533 ../gnomemusic/window.py:308
-#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:194 ../gnomemusic/widgets.py:329
+#: ../gnomemusic/widgets.py:592 ../gnomemusic/window.py:314
+#: ../gnomemusic/window.py:326 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "برای انتخاب موارد رویشان کلیک کنید"
 
-#: ../gnomemusic/view.py:286
+#: ../gnomemusic/view.py:277
 msgid "Music folder"
 msgstr "پوشه موسیقی"
 
-#: ../gnomemusic/view.py:309
+#: ../gnomemusic/view.py:300
 msgid "Hey DJ"
 msgstr "هی دی‌جی"
 
-#: ../gnomemusic/view.py:321 ../gnomemusic/view.py:1729
+#: ../gnomemusic/view.py:312 ../gnomemusic/view.py:1731
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
-#: ../gnomemusic/view.py:416 ../gnomemusic/view.py:1731
+#: ../gnomemusic/view.py:413 ../gnomemusic/view.py:1733
 msgid "Songs"
 msgstr "آهنگ‌ها"
 
-#: ../gnomemusic/view.py:618 ../gnomemusic/view.py:1730
+#: ../gnomemusic/view.py:612 ../gnomemusic/view.py:1732
 msgid "Artists"
 msgstr "هنرمندان"
 
-#: ../gnomemusic/view.py:821 ../gnomemusic/view.py:1732
+#: ../gnomemusic/view.py:814 ../gnomemusic/view.py:1734
 msgid "Playlists"
 msgstr "فهرست‌های پخش"
 
-#: ../gnomemusic/view.py:1177
+#: ../gnomemusic/view.py:1171
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d آهنگ"
 
-#: ../gnomemusic/view.py:1318
+#: ../gnomemusic/view.py:1314
 msgid "Try a different search"
 msgstr "جست‌وجو دیگری را امتحان کنید"
 
-#: ../gnomemusic/widgets.py:321 ../gnomemusic/widgets.py:355
+#: ../gnomemusic/widgets.py:381 ../gnomemusic/widgets.py:429
 #, python-format
 msgid "%d min"
 msgstr "%d دقیقه"
 
-#: ../gnomemusic/widgets.py:543
+#: ../gnomemusic/widgets.py:602
 msgid "All Artists"
 msgstr "تمام هنرمندان"
 
-#: ../gnomemusic/widgets.py:788
-msgid "New Playlist"
-msgstr "فهرست‌پخش جدید"
-
-#: ../gnomemusic/window.py:250
+#: ../gnomemusic/window.py:256
 msgid "Empty"
 msgstr "خالی"
 
-#: ../gnomemusic/window.py:332
+#: ../gnomemusic/window.py:343
 msgid "Loading"
 msgstr "درحال بار کردن"
 
-#: ../gnomemusic/window.py:350
+#: ../gnomemusic/window.py:366
 msgid "_Undo"
 msgstr "_برگردان"
 
-#: ../gnomemusic/window.py:351
+#: ../gnomemusic/window.py:367
 #, python-format
 msgid "Playlist %s removed"
 msgstr "فهرست‌پخش %s حذف شد"
@@ -411,41 +395,20 @@ msgid "Running Length"
 msgstr "طول اجرا"
 
 #: ../data/app-menu.ui.h:1
+msgid "_Keyboard Shortcuts"
+msgstr "_میانبرهای صفحه‌کلید"
+
+#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_راهنما"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/app-menu.ui.h:3
 msgid "_About"
 msgstr "_درباره"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_خروج"
-
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "پخش تصادفی"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "تکرار همه"
-
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "تکرار آواز"
-
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "توقف پخش تصادفی/تکرار"
-
-#: ../data/NoMusic.ui.h:1
-msgid "No music found"
-msgstr "هیچ آهنگی یافت نشد"
-
-#: ../data/NoMusic.ui.h:3
-#, no-c-format
-msgid "The contents of your %s will appear here."
-msgstr "محتویات %s شما در اینجا نمایان می‌شوند."
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -459,11 +422,11 @@ msgstr "انتخاب هیچ‌کدام"
 msgid "Search"
 msgstr "جست‌وجو"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/headerbar.ui.h:5
 msgid "Select"
 msgstr "انتخاب"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
 msgid "Cancel"
 msgstr "لغو"
 
@@ -471,13 +434,117 @@ msgstr "لغو"
 msgid "Back"
 msgstr "برگشت"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "افزودن به فهرست پخش"
+#: ../data/help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "عمومی"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "حذف از فهرست پخش"
+#: ../data/help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "بستن پنجره"
+
+#: ../data/help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "جست‌وجو"
+
+#: ../data/help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "راهنما"
+
+#: ../data/help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "میانبرها"
+
+#: ../data/help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "پخش"
+
+#: ../data/help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "پخش/مکث"
+
+#: ../data/help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "آهنگ بعد"
+
+#: ../data/help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "آهنگ قبلی"
+
+#: ../data/help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "تغییر وضعیتِ تکرار"
+
+#: ../data/help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "تغییر وضعیتِ تصادفی"
+
+#: ../data/help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "ناوبری"
+
+#: ../data/help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "رفتن به آلبوم‌ها"
+
+#: ../data/help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "رفتن به هنرمندان"
+
+#: ../data/help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "رفتن به آهنگ‌ها"
+
+#: ../data/help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "رفتن به فهرست‌های پخش"
+
+#: ../data/help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "بازگشت"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "هیچ آهنگی یافت نشد"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "محتویات %s شما در اینجا نمایان می‌شوند."
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "پخش تصادفی"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "تکرار همه"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "تکرار آواز"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "توقف پخش تصادفی/تکرار"
 
 #: ../data/PlaylistControls.ui.h:1
 msgid "_Play"
@@ -491,9 +558,30 @@ msgstr "_حذف"
 msgid "Playlist Name"
 msgstr "نام فهرست‌پخش"
 
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "انتخاب فهرست‌پخش"
+#: ../data/PlaylistDialog.ui.h:2
+msgid "Add"
+msgstr "اضافه کردن"
+
+#: ../data/PlaylistDialog.ui.h:3
+msgid "New Playlist"
+msgstr "فهرست‌پخش جدید"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "افزودن به فهرست پخش"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "حذف از فهرست پخش"
+
+#~ msgid "Not playing"
+#~ msgstr "چیزی پخش نمی‌شود"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "توسّط %s، از آلبوم %s"
+
+#~ msgid "Select Playlist"
+#~ msgstr "انتخاب فهرست‌پخش"
 
 #~ msgid ""
 #~ "No Music found!\n"
