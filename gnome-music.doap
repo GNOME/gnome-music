@@ -17,23 +17,16 @@
 
   <maintainer>
     <foaf:Person>
-      <foaf:name>Seif Lotfy</foaf:name>
-      <foaf:mbox rdf:resource="mailto:seif@lotfy.com" />
-      <gnome:userid>seiflotfy</gnome:userid>
-    </foaf:Person>
-  </maintainer>
-  <maintainer>
-    <foaf:Person>
-      <foaf:name>Vadim Rutkovsky</foaf:name>
-      <foaf:mbox rdf:resource="mailto:vrutkovs@redhat.com" />
-      <gnome:userid>vrutkovsky</gnome:userid>
-    </foaf:Person>
-  </maintainer>
-  <maintainer>
-    <foaf:Person>
       <foaf:name>Felipe Borges</foaf:name>
       <foaf:mbox rdf:resource="mailto:felipeborges@gnome.org" />
       <gnome:userid>felipeborges</gnome:userid>
+    </foaf:Person>
+  </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Marinus Schraal</foaf:name>
+      <foaf:mbox rdf:resource="mailto:mschraal@gnome.org" />
+      <gnome:userid>mschraal</gnome:userid>
     </foaf:Person>
   </maintainer>
 </Project>
