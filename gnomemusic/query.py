@@ -84,13 +84,13 @@ class Query():
         }
 
         # TRANSLATORS: The following translatable string should be a
-        # space-separated list of all-lowercase articles that should be
-        # ignored when alphabetizing artists/albums. This list should
-        # include the basic english translatable strings regardless of
-        # language because it is so universal.
+        # vertical bar-separated list of all-lowercase articles that
+        # should be ignored when alphabetizing artists/albums. This
+        # list should include the basic english translatable strings
+        # regardless of language because they are so universal.
         # If some articles occur more frequently than others, the most
         # common one should appear first, the least common one last.
-        for article in reversed(_("the a an").split(" ")):
+        for article in reversed(_("the|a|an").split("|")):
             return_statement = """IF(STRSTARTS(%(attribute)s, "%(article)s"),
             SUBSTR(%(attribute)s, %(substr_start)s), %(nested_if)s)
             """ % {
