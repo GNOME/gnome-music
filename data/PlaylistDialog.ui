@@ -8,7 +8,8 @@
     <property name="title">Select Playlist</property>
     <child>
       <object class="GtkButton" id="cancel-button">
-        <property name="label" translatable="yes">Cancel</property>
+        <property name="label" translatable="yes">_Cancel</property>
+        <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">False</property>
@@ -19,7 +20,8 @@
     </child>
     <child>
       <object class="GtkButton" id="select-button">
-        <property name="label" translatable="yes">Add</property>
+        <property name="label" translatable="yes">_Add</property>
+        <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">False</property>
@@ -109,7 +111,8 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="new-playlist-button">
-                    <property name="label" translatable="yes">Add</property>
+                    <property name="label" translatable="yes">_Add</property>
+                    <property name="use_underline">True</property>
                     <property name="visible">True</property>
                     <property name="sensitive">False</property>
                     <property name="can_focus">True</property>

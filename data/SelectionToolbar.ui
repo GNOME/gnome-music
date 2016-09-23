@@ -6,7 +6,8 @@
     <property name="can_focus">False</property>
     <child>
       <object class="GtkButton" id="button1">
-        <property name="label" translatable="yes">Add to Playlist</property>
+        <property name="label" translatable="yes">_Add to Playlist</property>
+        <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -17,7 +18,8 @@
     </child>
     <child>
       <object class="GtkButton" id="button2">
-        <property name="label" translatable="yes">Remove from Playlist</property>
+        <property name="label" translatable="yes">_Remove from Playlist</property>
+        <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
