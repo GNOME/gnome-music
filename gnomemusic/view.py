@@ -48,7 +48,7 @@ import gnomemusic.widgets as Widgets
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 import gnomemusic.utils as utils
-from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon
+from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -70,8 +70,6 @@ class ViewContainer(Gtk.Stack):
         Gtk.Stack.__init__(self,
                            transition_type=Gtk.StackTransitionType.CROSSFADE)
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-        self._iconWidth = 128
-        self._iconHeight = 128
         self._offset = 0
         self._adjustmentValueId = 0
         self._adjustmentChangedId = 0
@@ -130,9 +128,8 @@ class ViewContainer(Gtk.Stack):
         self.view.hide()
         self._items = []
         self.cache = AlbumArtCache()
-        self._loading_icon = DefaultIcon().get(self._iconWidth,
-                                               self._iconHeight,
-                                               DefaultIcon.Type.loading)
+        self._loading_icon = DefaultIcon().get(DefaultIcon.Type.loading,
+                                               ArtSize.medium)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -348,7 +345,8 @@ class InitialState(Empty):
         icon.set_margin_bottom(32)
         icon.set_opacity(1)
         icon.set_from_resource('/org/gnome/Music/initial-state.png')
-        icon.set_size_request(256, 256)
+        icon.set_size_request(ArtSize.large.width,
+                              ArtSize.large.height)
 
         # Update label
         label = self.builder.get_object('label')
@@ -500,8 +498,8 @@ class Albums(ViewContainer):
         # In the case of off-sized icons (eg. provided in the soundfile)
         # keep the size request equal to all other icons to get proper
         # alignment with GtkFlowBox.
-        child.image.set_property("width-request", self._iconWidth)
-        child.image.set_property("height-request", self._iconHeight)
+        child.image.set_property("width-request", ArtSize.medium.width)
+        child.image.set_property("height-request", ArtSize.medium.height)
 
         child.events.connect('button-release-event',
                              self._on_album_event_triggered,
@@ -517,8 +515,10 @@ class Albums(ViewContainer):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        self.cache.lookup(item, self._iconWidth, self._iconHeight,
-                          self._on_lookup_ready, child)
+        self.cache.lookup(item,
+                          ArtSize.medium,
+                          self._on_lookup_ready,
+                          child)
 
         return child
 
@@ -1527,14 +1527,10 @@ class Search(ViewContainer):
         self._items = {}
         self.isStarred = None
         self.iter_to_clean = None
-        self._iconHeight = 48
-        self._iconWidth = 48
-        self._loading_icon = DefaultIcon().get(self._iconWidth,
-                                               self._iconHeight,
-                                               DefaultIcon.Type.loading)
-        self._no_albumart_icon = DefaultIcon().get(self._iconWidth,
-                                                   self._iconHeight,
-                                                   DefaultIcon.Type.music)
+        self._loading_icon = DefaultIcon().get(DefaultIcon.Type.loading,
+                                               ArtSize.small)
+        self._no_albumart_icon = DefaultIcon().get(DefaultIcon.Type.music,
+                                                   ArtSize.small)
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
@@ -1702,8 +1698,7 @@ class Search(ViewContainer):
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
                  self._loading_icon, item, 2, category])
-            self.cache.lookup(item, self._iconWidth, self._iconHeight,
-                              self._on_lookup_ready, _iter)
+            self.cache.lookup(item, ArtSize.small, self._on_lookup_ready, _iter)
         elif category == 'song':
             _iter = self.model.insert_with_values(
                 self.head_iters[group], -1,
@@ -1717,8 +1712,8 @@ class Search(ViewContainer):
                     [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist,
                      self._loading_icon, item, 2, category])
-                self.cache.lookup(item, self._iconWidth, self._iconHeight,
-                                  self._on_lookup_ready, _iter)
+                self.cache.lookup(item, ArtSize.small, self._on_lookup_ready,
+                                  _iter)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
 
             self._artists[artist.casefold()]['albums'].append(item)

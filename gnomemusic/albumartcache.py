@@ -86,6 +86,20 @@ def _make_icon_frame(pixbuf):
     return border_pixbuf
 
 
+class ArtSize(Enum):
+    """Enum for icon sizes"""
+    xsmall = (34, 34)
+    small = (48, 48)
+    medium = (128, 128)
+    large = (256, 256)
+    xlarge = (512, 512)
+
+    def __init__(self, width, height):
+        """Intialize width and height"""
+        self.width = width
+        self.height = height
+
+
 class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback and loading icons."""
 
@@ -99,7 +113,10 @@ class DefaultIcon(GObject.GObject):
         return '<DefaultIcon>'
 
     @log
-    def _make_default_icon(self, width, height, icon_type):
+    def _make_default_icon(self, icon_type, art_size):
+        width = art_size.width
+        height = art_size.height
+
         icon = Gtk.IconTheme.get_default().load_icon(icon_type.value,
                                                      max(width, height) / 4,
                                                      0)
@@ -126,24 +143,23 @@ class DefaultIcon(GObject.GObject):
         return final_icon
 
     @log
-    def get(self, width, height, icon_type):
+    def get(self, icon_type, art_size):
         """Returns the requested symbolic icon
 
         Returns a GdkPixbuf of the requested symbolic icon
         in the given size.
 
-        :param int width: The width of the icon
-        :param int height: The height of the icon
         :param enum icon_type: The DefaultIcon.Type of the icon
+        :param enum art_size: The ArtSize requested
 
         :return: The symbolic icon
         :rtype: GdkPixbuf
         """
-        if (width, height, icon_type) not in self._cache.keys():
-            new_icon = self._make_default_icon(width, height, icon_type)
-            self._cache[(width, height, icon_type)] = new_icon
+        if (icon_type, art_size) not in self._cache.keys():
+            new_icon = self._make_default_icon(icon_type, art_size)
+            self._cache[(icon_type, art_size)] = new_icon
 
-        return self._cache[(width, height, icon_type)]
+        return self._cache[(icon_type, art_size)]
 
 
 class AlbumArtCache(GObject.GObject):
@@ -171,7 +187,7 @@ class AlbumArtCache(GObject.GObject):
                 return
 
     @log
-    def lookup(self, item, width, height, callback, itr):
+    def lookup(self, item, art_size, callback, itr):
         """Find art for the given item
 
         :param item: Grilo media item
@@ -180,10 +196,10 @@ class AlbumArtCache(GObject.GObject):
         :param callback: Callback function when retrieved
         :param itr: Iter to return with callback
         """
-        self._lookup_local(item, callback, itr, width, height)
+        self._lookup_local(item, callback, itr, art_size)
 
     @log
-    def _lookup_local(self, item, callback, itr, width, height):
+    def _lookup_local(self, item, callback, itr, art_size):
         """Checks if there is already a local art file, if not calls
         the remote lookup function"""
         album = utils.get_media_title(item)
@@ -215,10 +231,10 @@ class AlbumArtCache(GObject.GObject):
 
         def do_callback(pixbuf):
             if not pixbuf:
-                pixbuf = DefaultIcon().get(width, height,
-                                           DefaultIcon.Type.music)
+                pixbuf = DefaultIcon().get(DefaultIcon.Type.music, art_size)
             else:
-                pixbuf = pixbuf.scale_simple(width, height,
+                pixbuf = pixbuf.scale_simple(art_size.width,
+                                             art_size.height,
                                              GdkPixbuf.InterpType.HYPER)
                 pixbuf = _make_icon_frame(pixbuf)
 
@@ -245,10 +261,10 @@ class AlbumArtCache(GObject.GObject):
             do_callback(None)
             return
 
-        self._lookup_remote(item, callback, itr, width, height)
+        self._lookup_remote(item, callback, itr, art_size)
 
     @log
-    def _lookup_remote(self, item, callback, itr, width, height):
+    def _lookup_remote(self, item, callback, itr, art_size):
         """Lookup remote art
 
         Lookup remote art through Grilo and if found copy locally. Call
@@ -346,6 +362,6 @@ class AlbumArtCache(GObject.GObject):
                 album_stripped = MediaArt.strip_invalid_entities(album)
                 self.blacklist[artist].append(album_stripped)
 
-            self.lookup(item, width, height, callback, itr)
+            self.lookup(item, art_size, callback, itr)
 
         grilo.get_album_art_for_item(item, album_art_for_item_cb)

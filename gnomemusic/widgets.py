@@ -35,7 +35,7 @@ import logging
 from gi.repository import Gtk, Gdk, Gd, GLib, GObject, Pango, Gio, GdkPixbuf
 from gettext import gettext as _, ngettext
 
-from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon
+from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
@@ -123,8 +123,8 @@ class AlbumWidget(Gtk.EventBox):
     """
 
     _duration = 0
-    _loading_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.loading)
-    _no_artwork_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.music)
+    _loading_icon = DefaultIcon().get(DefaultIcon.Type.loading, ArtSize.small)
+    _no_artwork_icon = DefaultIcon().get(DefaultIcon.Type.music, ArtSize.small)
 
     def __repr__(self):
         return '<AlbumWidget>'
@@ -291,7 +291,7 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar = header_bar
         self._album = album
         self._ui.get_object('cover').set_from_pixbuf(self._loading_icon)
-        self._cache.lookup(item, 256, 256, self._on_look_up, None)
+        self._cache.lookup(item, ArtSize.large, self._on_look_up, None)
         self._duration = 0
         self._create_model()
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
@@ -626,8 +626,8 @@ class ArtistAlbumWidget(Gtk.Box):
         'tracks-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    _loading_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.loading)
-    _no_artwork_icon = DefaultIcon().get(256, 256, DefaultIcon.Type.music)
+    _loading_icon = DefaultIcon().get(DefaultIcon.Type.loading, ArtSize.large)
+    _no_artwork_icon = DefaultIcon().get(DefaultIcon.Type.music, ArtSize.large)
 
     def __repr__(self):
         return '<ArtistAlbumWidget>'
@@ -715,7 +715,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _update_album_art(self):
-        self._cache.lookup(self.album, 128, 128, self._get_album_cover, None)
+        self._cache.lookup(self.album, ArtSize.medium, self._get_album_cover,
+                           None)
 
     @log
     def _get_album_cover(self, pixbuf, path, data=None):
