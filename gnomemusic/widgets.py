@@ -190,7 +190,7 @@ class AlbumWidget(Gtk.EventBox):
             if (self._iter_to_clean
                     and self._player.playlistId == self._album):
                 item = self.model[self._iter_to_clean][5]
-                title = AlbumArtCache.get_media_title(item)
+                title = utils.get_media_title(item)
                 self.model[self._iter_to_clean][0] = title
                 # Hide now playing icon
                 self.model[self._iter_to_clean][6] = False
@@ -365,9 +365,10 @@ class AlbumWidget(Gtk.EventBox):
         if track:
             self._duration = self._duration + track.get_duration()
             _iter = self.model.append()
-            escapedTitle = AlbumArtCache.get_media_title(track, True)
+            title = utils.get_media_title(track)
+            escaped_title = GLib.markup_escape_text(title)
             self.model[_iter][0, 1, 2, 3, 4, 5, 9] = [
-                escapedTitle,
+                escaped_title,
                 self._player.seconds_to_string(track.get_duration()),
                 '',
                 '',
@@ -413,7 +414,7 @@ class AlbumWidget(Gtk.EventBox):
         while _iter:
             song = playlist[_iter][5]
             self._duration += song.get_duration()
-            escaped_title = AlbumArtCache.get_media_title(song, True)
+            escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
             if (song == current_song):
                 title = '<b>%s</b>' % escaped_title
                 song_passed = True
@@ -530,18 +531,19 @@ class ArtistAlbums(Gtk.Box):
                 itr = playlist.iter_next(itr)
                 continue
 
-            escapedTitle = AlbumArtCache.get_media_title(song, True)
+            escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
             if (song == currentSong):
                 song_widget.now_playing_sign.show()
-                song_widget.title.set_markup('<b>%s</b>' % escapedTitle)
+                song_widget.title.set_markup('<b>%s</b>' % escaped_title)
                 song_passed = True
             elif (song_passed):
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup('<span>%s</span>' % escapedTitle)
+                song_widget.title.set_markup('<span>%s</span>' % escaped_title)
             else:
                 song_widget.now_playing_sign.hide()
-                song_widget.title\
-                    .set_markup('<span color=\'grey\'>%s</span>' % escapedTitle)
+                song_widget.title.set_markup(
+                    '<span color=\'grey\'>%s</span>' % escaped_title
+                )
             itr = playlist.iter_next(itr)
         return False
 
@@ -551,10 +553,10 @@ class ArtistAlbums(Gtk.Box):
         while itr:
             song = self.model.get_value(itr, 5)
             song_widget = song.song_widget
-            escapedTitle = AlbumArtCache.get_media_title(song, True)
+            escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
-            song_widget.title.set_markup('<span>%s</span>' % escapedTitle)
+            song_widget.title.set_markup('<span>%s</span>' % escaped_title)
             itr = self.model.iter_next(itr)
         return False
 
@@ -678,7 +680,7 @@ class ArtistAlbumWidget(Gtk.Box):
                 ui.get_object('num')\
                     .set_markup('<span color=\'grey\'>%d</span>'
                                 % len(self.songs))
-                title = AlbumArtCache.get_media_title(track)
+                title = utils.get_media_title(track)
                 ui.get_object('title').set_text(title)
                 ui.get_object('title').set_alignment(0.0, 0.5)
                 ui.get_object('title').set_max_width_chars(MAX_TITLE_WIDTH)
@@ -868,7 +870,7 @@ class PlaylistDialog():
         self.model.set(
             new_iter,
             [0, 1, 2],
-            [AlbumArtCache.get_media_title(item), False, item]
+            [utils.get_media_title(item), False, item]
         )
         return new_iter
 

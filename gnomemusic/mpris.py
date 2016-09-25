@@ -24,7 +24,6 @@
 # delete this exception statement from your version.
 
 from gnomemusic.player import PlaybackStatus, RepeatType
-from gnomemusic.albumartcache import AlbumArtCache
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
@@ -298,7 +297,7 @@ class MediaPlayer2Service(Server):
             pass
 
         try:
-            title = AlbumArtCache.get_media_title(media)
+            title = utils.get_media_title(media)
             assert title is not None
             metadata['xesam:title'] = GLib.Variant('s', title)
         except:
@@ -402,7 +401,7 @@ class MediaPlayer2Service(Server):
     def _get_active_playlist(self):
         playlist = self._get_playlist_from_id(self.player.playlistId) \
             if self.player.playlistType == 'Playlist' else None
-        playlistName = AlbumArtCache.get_media_title(playlist) \
+        playlistName = utils.get_media_title(playlist) \
             if playlist else ''
         return (playlist is not None,
                 (self._get_playlist_path(playlist), playlistName, ''))
@@ -644,7 +643,7 @@ class MediaPlayer2Service(Server):
         if order != 'Alphabetical':
             return []
         playlists = [(self._get_playlist_path(playlist),
-                      AlbumArtCache.get_media_title(playlist) or '', '')
+                      utils.get_media_title(playlist) or '', '')
                      for playlist in self.playlists]
         return playlists[index:index + max_count] if not reverse \
             else playlists[index + max_count - 1:index - 1 if index - 1 >= 0 else None:-1]
