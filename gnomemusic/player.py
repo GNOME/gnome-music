@@ -612,7 +612,7 @@ class Player(GObject.GObject):
         self.cache.lookup(
             media, ART_SIZE, ART_SIZE, self._on_cache_lookup, None)
 
-        self._currentTitle = AlbumArtCache.get_media_title(media)
+        self._currentTitle = utils.get_media_title(media)
         self.titleLabel.set_label(self._currentTitle)
 
         self._currentTimestamp = int(time.time())

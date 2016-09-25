@@ -241,7 +241,7 @@ class ViewContainer(Gtk.Stack):
 
         self._offset += 1
         artist = utils.get_artist_name(item)
-        title = AlbumArtCache.get_media_title(item)
+        title = utils.get_media_title(item)
 
         _iter = self.model.append(None)
         self.model.set(_iter,
@@ -427,7 +427,7 @@ class Albums(ViewContainer):
             child.check.set_active(not child.check.get_active())
             return
 
-        title = AlbumArtCache.get_media_title(item)
+        title = utils.get_media_title(item)
         self._escaped_title = title
         self._artist = utils.get_artist_name(item)
 
@@ -482,7 +482,7 @@ class Albums(ViewContainer):
 
     def _create_album_item(self, item):
         artist = utils.get_artist_name(item)
-        title = AlbumArtCache.get_media_title(item)
+        title = utils.get_media_title(item)
 
         builder = Gtk.Builder.new_from_resource('/org/gnome/Music/AlbumCover.ui')
 
@@ -655,14 +655,14 @@ class Songs(ViewContainer):
                 self.view.show()
             return
         self._offset += 1
-        item.set_title(AlbumArtCache.get_media_title(item))
+        item.set_title(utils.get_media_title(item))
         artist = utils.get_artist_name(item)
         if item.get_url() is None:
             return
         self.model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
-            [AlbumArtCache.get_media_title(item),
+            [utils.get_media_title(item),
              artist, item, bool(item.get_lyrics())])
         # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
 
@@ -1221,7 +1221,7 @@ class Playlist(ViewContainer):
         _iter = self.playlists_model.insert_with_valuesv(
             index,
             [2, 5],
-            [AlbumArtCache.get_media_title(item), item])
+            [utils.get_media_title(item), item])
         if self.playlists_model.iter_n_children(None) == 1:
             _iter = self.playlists_model.get_iter_first()
             selection = self.playlists_sidebar.get_generic_view().get_selection()
@@ -1342,7 +1342,7 @@ class Playlist(ViewContainer):
             self.emit('playlist-songs-loaded')
             return
         self._offset += 1
-        title = AlbumArtCache.get_media_title(item)
+        title = utils.get_media_title(item)
         item.set_title(title)
         artist = item.get_artist() or _("Unknown Artist")
         model.insert_with_valuesv(
@@ -1592,8 +1592,8 @@ class Search(ViewContainer):
             self._albumWidget.update(artist, title, item,
                                      self.header_bar, self.selection_toolbar)
             self.header_bar.set_state(ToolbarState.SEARCH_VIEW)
-            escaped_title = AlbumArtCache.get_media_title(item)
-            self.header_bar.header_bar.set_title(escaped_title)
+            title = utils.get_media_title(item)
+            self.header_bar.header_bar.set_title(title)
             self.header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._albumWidget)
             self.header_bar.searchbar.show_bar(False)
@@ -1685,7 +1685,7 @@ class Search(ViewContainer):
             return
 
         self._offset += 1
-        title = AlbumArtCache.get_media_title(item)
+        title = utils.get_media_title(item)
         item.set_title(title)
         artist = utils.get_artist_name(item)
 

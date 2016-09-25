@@ -158,31 +158,6 @@ class AlbumArtCache(GObject.GObject):
     def __repr__(self):
         return '<AlbumArtCache>'
 
-    @staticmethod
-    def get_media_title(media, escaped=False):
-        title = media.get_title()
-        if title:
-            if escaped:
-                return GLib.markup_escape_text(title)
-            else:
-                return title
-        uri = media.get_url()
-        if uri is None:
-            return _("Untitled")
-
-        uri_file = Gio.File.new_for_path(uri)
-        basename = uri_file.get_basename()
-
-        try:
-            title = GLib.uri_unescape_string(basename, '')
-        except:
-            title = _("Untitled")
-            pass
-        if escaped:
-            return GLib.markup_escape_text(title)
-
-        return title
-
     @log
     def __init__(self):
         GObject.GObject.__init__(self)
@@ -211,7 +186,7 @@ class AlbumArtCache(GObject.GObject):
     def _lookup_local(self, item, callback, itr, width, height):
         """Checks if there is already a local art file, if not calls
         the remote lookup function"""
-        album = self.get_media_title(item)
+        album = utils.get_media_title(item)
         artist = utils.get_artist_name(item)
 
         def stream_open(thumb_file, result, arguments):
@@ -279,7 +254,7 @@ class AlbumArtCache(GObject.GObject):
         Lookup remote art through Grilo and if found copy locally. Call
         _lookup_local to finish retrieving suitable art.
         """
-        album = self.get_media_title(item)
+        album = utils.get_media_title(item)
         artist = utils.get_artist_name(item)
 
         @log
