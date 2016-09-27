@@ -108,9 +108,11 @@ class Player(GObject.GObject):
         self.currentTrack = None
         self.currentTrackUri = None
         self._lastState = Gst.State.PAUSED
-        self.cache = AlbumArtCache()
-        self._no_artwork_icon = DefaultIcon().get(DefaultIcon.Type.music,
-                                                  ArtSize.xsmall)
+        scale = parent_window.get_scale_factor()
+        self.cache = AlbumArtCache(scale)
+        self._no_artwork_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.music,
+            ArtSize.xsmall)
         self._missingPluginMessages = []
 
         Gst.init(None)
@@ -605,9 +607,8 @@ class Player(GObject.GObject):
         except:
             self._currentAlbum = album
 
-        self.coverImg.set_from_pixbuf(self._no_artwork_icon)
-        self.cache.lookup(
-            media, ArtSize.xsmall, self._on_cache_lookup, None)
+        self.coverImg.set_from_surface(self._no_artwork_icon_surface)
+        self.cache.lookup(media, ArtSize.xsmall, self._on_cache_lookup, None)
 
         self._currentTitle = utils.get_media_title(media)
         self.titleLabel.set_label(self._currentTitle)
@@ -662,7 +663,7 @@ class Player(GObject.GObject):
     @log
     def _on_cache_lookup(self, pixbuf, path, data=None):
         if pixbuf is not None:
-            self.coverImg.set_from_pixbuf(pixbuf)
+            self.coverImg.set_from_surface(pixbuf)
         self.emit('thumbnail-updated', path)
 
     @log

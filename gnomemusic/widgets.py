@@ -123,8 +123,6 @@ class AlbumWidget(Gtk.EventBox):
     """
 
     _duration = 0
-    _loading_icon = DefaultIcon().get(DefaultIcon.Type.loading, ArtSize.small)
-    _no_artwork_icon = DefaultIcon().get(DefaultIcon.Type.music, ArtSize.small)
 
     def __repr__(self):
         return '<AlbumWidget>'
@@ -137,7 +135,16 @@ class AlbumWidget(Gtk.EventBox):
         :param parent_view: The view this widget is part of
         """
         Gtk.EventBox.__init__(self)
-        self._cache = AlbumArtCache()
+
+        scale = self.get_scale_factor()
+        self._cache = AlbumArtCache(scale)
+        self._loading_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.loading,
+            ArtSize.small)
+        self._no_artwork_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.music,
+            ArtSize.small)
+
         self._player = player
         self._iter_to_clean = None
 
@@ -290,7 +297,8 @@ class AlbumWidget(Gtk.EventBox):
         self.selection_toolbar = selection_toolbar
         self._header_bar = header_bar
         self._album = album
-        self._ui.get_object('cover').set_from_pixbuf(self._loading_icon)
+        self._ui.get_object('cover').set_from_surface(
+            self._loading_icon_surface)
         self._cache.lookup(item, ArtSize.large, self._on_look_up, None)
         self._duration = 0
         self._create_model()
@@ -380,19 +388,16 @@ class AlbumWidget(Gtk.EventBox):
                 _("%d min") % (int(self._duration / 60) + 1))
 
     @log
-    def _on_look_up(self, pixbuf, path, data=None):
+    def _on_look_up(self, surface, path, data=None):
         """Albumart retrieved callback.
 
-        :param pixbuf: The GtkPixbuf retrieved
+        :param surface: The Cairo surface retrieved
         :param path: The filesystem location the pixbuf
         :param data: User data
         """
-        _iter = self._iter_to_clean
-        if not pixbuf:
-            pixbuf = self._no_artwork_icon
-        self._ui.get_object('cover').set_from_pixbuf(pixbuf)
-        if _iter:
-            self.model[_iter][4] = pixbuf
+        if not surface:
+            surface = self._no_artwork_icon_surface
+        self._ui.get_object('cover').set_from_surface(surface)
 
     @log
     def _update_model(self, player, playlist, current_iter):
@@ -626,16 +631,23 @@ class ArtistAlbumWidget(Gtk.Box):
         'tracks-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    _loading_icon = DefaultIcon().get(DefaultIcon.Type.loading, ArtSize.large)
-    _no_artwork_icon = DefaultIcon().get(DefaultIcon.Type.music, ArtSize.large)
-
     def __repr__(self):
         return '<ArtistAlbumWidget>'
 
     @log
     def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
-        self._cache = AlbumArtCache()
+
+        scale = self.get_scale_factor()
+        self._cache = AlbumArtCache(scale)
+
+        self._loading_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.loading,
+            ArtSize.large)
+        self._no_artwork_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.music,
+            ArtSize.large)
+
         self.player = player
         self.album = album
         self.artist = artist
@@ -651,7 +663,7 @@ class ArtistAlbumWidget(Gtk.Box):
         GLib.idle_add(self._update_album_art)
 
         self.cover = self.ui.get_object('cover')
-        self.cover.set_from_pixbuf(self._loading_icon)
+        self.cover.set_from_surface(self._loading_icon_surface)
         self.songsGrid = self.ui.get_object('grid1')
         self.ui.get_object('title').set_label(album.get_title())
         if album.get_creation_date():
@@ -719,10 +731,10 @@ class ArtistAlbumWidget(Gtk.Box):
                            None)
 
     @log
-    def _get_album_cover(self, pixbuf, path, data=None):
-        if not pixbuf:
-            pixbuf = self._no_artwork_icon
-        self.cover.set_from_pixbuf(pixbuf)
+    def _get_album_cover(self, surface, path, data=None):
+        if not surface:
+            surface = self._no_artwork_icon_surface
+        self.cover.set_from_surface(surface)
 
     @log
     def track_selected(self, widget, event):
