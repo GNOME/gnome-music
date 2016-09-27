@@ -6,7 +6,7 @@
     <property name="modal">True</property>
     <property name="program_name" translatable="yes">Music</property>
     <property name="version">@PACKAGE_VERSION@</property>
-    <property name="copyright" translatable="yes">Copyright © 2013 GNOME Music Developers</property>
+    <property name="copyright" translatable="yes">Copyright © 2016 GNOME Music Developers</property>
     <property name="comments" translatable="yes">A music player and management application for GNOME.</property>
     <property name="website">@PACKAGE_URL@</property>
     <property name="website_label" translatable="yes">Visit GNOME Music website</property>
@@ -20,22 +20,23 @@ The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer
 
 "Magic of the vinyl" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403
 </property>
-    <property name="authors">Maintainers:
-    Seif Lotfy &lt;seif@lotfy.com&gt;
-    Vadim Rutkovsky &lt;vrutkovs@redhat.com&gt;
-
-Contributors:
-        Arnel A. Borja &lt;kyoushuu@yahoo.com&gt;
-        Eslam Mostafa &lt;cseslam@gmail.com&gt;
-        Fabiano Fidêncio &lt;fidencio@redhat.com&gt;
-        Guillaume Quintard &lt;guillaume.quintard@gmail.com&gt;
-        Juan Suarez &lt;jasuarez@igalia.com&gt;
-        Sai Suman Prayaga &lt;suman.sai14@gmail.com&gt;
-        Shivani Poddar &lt;shivani.poddar92@gmail.com&gt;
+    <property name="authors">Arnel A. Borja
+Eslam Mostafa
+Fabiano Fidêncio
+Felipe Borges
+Guillaume Quintard
+Juan Suarez
+Marinus Schraal
+Seif Lotfy
+Vadim Rutkovsky
+Sai Suman Prayaga
+Shivani Poddar
     </property>
-    <property name="artists">Allan Day &lt;allanpday@gmail.com&gt;
-    Jakub Steiner &lt;jimmac@gmail.com&gt;
-    William Jon McCann &lt;william.jon.mccann@gmail.com&gt;
+    <property name="artists">Allan Day
+Jakub Steiner
+William Jon McCann
+    </property>
+    <property name="translator_credits">
     </property>
     <property name="logo_icon_name">gnome-music</property>
     <property name="wrap_license">True</property>
