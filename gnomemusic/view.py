@@ -30,10 +30,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-
 from gi.repository import Gtk
 from gi.repository import GObject
 from gi.repository import Gd
+from gi.repository import Gdk
 from gi.repository import Gio
 from gi.repository import Grl
 from gi.repository import Pango
@@ -127,9 +127,13 @@ class ViewContainer(Gtk.Stack):
         self.show_all()
         self.view.hide()
         self._items = []
-        self.cache = AlbumArtCache()
-        self._loading_icon = DefaultIcon().get(DefaultIcon.Type.loading,
-                                               ArtSize.medium)
+
+        scale = self.get_scale_factor()
+        self.cache = AlbumArtCache(scale)
+        self._loading_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.loading,
+            ArtSize.medium)
+
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -194,7 +198,6 @@ class ViewContainer(Gtk.Stack):
 
     @log
     def _on_view_selection_changed(self, widget):
-
         if not self.selection_mode:
             return
 
@@ -241,18 +244,33 @@ class ViewContainer(Gtk.Stack):
         title = utils.get_media_title(item)
 
         _iter = self.model.append(None)
-        self.model.set(_iter,
-                       [0, 1, 2, 3, 4, 5, 7, 9],
-                       [str(item.get_id()), '', title,
-                        artist, self._loading_icon, item,
-                        0, False])
+
+        loading_icon = Gdk.pixbuf_get_from_surface(
+            self._loadin_icon_surface, 0, 0,
+            self._loading_icon_surface.get_width(),
+            self._loading_icon_surface.get_height())
+
+        self.model[_iter][0, 1, 2, 3, 4, 5, 7, 9] = [
+            str(item.get_id()),
+            '',
+            title,
+            artist,
+            loading_icon,
+            item,
+            0,
+            False
+        ]
         self.cache.lookup(item, self._iconWidth, self._iconHeight,
                           self._on_lookup_ready, _iter)
 
     @log
-    def _on_lookup_ready(self, icon, path, _iter):
-        if icon:
-            self.model.set_value(_iter, 4, icon)
+    def _on_lookup_ready(self, surface, path, _iter):
+        if surface:
+            pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0,
+                                                 surface.get_width(),
+                                                 surface.get_height())
+
+            self.model[_iter][4] = pixbuf
 
     @log
     def _add_list_renderers(self):
@@ -494,7 +512,8 @@ class Albums(ViewContainer):
 
         child.title.set_label(title)
         child.subtitle.set_label(artist)
-        child.image.set_from_pixbuf(self._loading_icon)
+
+        child.image.set_from_surface(self._loading_icon_surface)
         # In the case of off-sized icons (eg. provided in the soundfile)
         # keep the size request equal to all other icons to get proper
         # alignment with GtkFlowBox.
@@ -530,7 +549,7 @@ class Albums(ViewContainer):
                 child.check.set_active(True)
 
     def _on_lookup_ready(self, icon, path, child):
-        child.image.set_from_pixbuf(icon)
+        child.image.set_from_surface(icon)
 
     @log
     def _on_child_toggled(self, check, pspec, child):
@@ -1527,10 +1546,25 @@ class Search(ViewContainer):
         self._items = {}
         self.isStarred = None
         self.iter_to_clean = None
-        self._loading_icon = DefaultIcon().get(DefaultIcon.Type.loading,
-                                               ArtSize.small)
-        self._no_albumart_icon = DefaultIcon().get(DefaultIcon.Type.music,
-                                                   ArtSize.small)
+
+        scale = self.get_scale_factor()
+        loading_icon_surface = DefaultIcon(scale).get(DefaultIcon.Type.loading,
+                                                      ArtSize.small)
+        no_albumart_surface = DefaultIcon(scale).get(DefaultIcon.Type.music,
+                                                     ArtSize.small)
+        self._loading_icon = Gdk.pixbuf_get_from_surface(
+            loading_icon_surface,
+            0,
+            0,
+            loading_icon_surface.get_width(),
+            loading_icon_surface.get_height())
+        self._no_albumart_icon = Gdk.pixbuf_get_from_surface(
+            no_albumart_surface,
+            0,
+            0,
+            no_albumart_surface.get_width(),
+            no_albumart_surface.get_height())
+
         self._add_list_renderers()
         self.player = player
         self.head_iters = [None, None, None, None]
@@ -1704,7 +1738,9 @@ class Search(ViewContainer):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._no_albumart_icon, item, 2 if source.get_id() != 'grl-tracker-source' else bool(item.get_lyrics()), category])
+                 self._no_albumart_icon, item,
+                 2 if source.get_id() != 'grl-tracker-source' \
+                    else bool(item.get_lyrics()), category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(

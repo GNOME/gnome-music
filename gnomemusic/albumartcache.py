@@ -47,13 +47,14 @@ logger = logging.getLogger(__name__)
 
 
 @log
-def _make_icon_frame(pixbuf):
-    border = 3
+def _make_icon_frame(pixbuf, art_size=None, scale=1):
+    border = 3 * scale
     degrees = pi / 180
-    radius = 3
+    radius = 3 * scale
 
-    w = pixbuf.get_width()
-    h = pixbuf.get_height()
+    ratio = pixbuf.get_height() / pixbuf.get_width()
+    w = art_size.width * scale
+    h = int(art_size.height * ratio * scale)
 
     new_pixbuf = pixbuf.scale_simple(w - border * 2,
                                      h - border * 2,
@@ -83,7 +84,11 @@ def _make_icon_frame(pixbuf):
 
     border_pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0, w, h)
 
-    return border_pixbuf
+    surface = Gdk.cairo_surface_create_from_pixbuf(border_pixbuf,
+                                                   scale,
+                                                   None)
+
+    return surface
 
 
 class ArtSize(Enum):
@@ -108,14 +113,20 @@ class DefaultIcon(GObject.GObject):
         music = 'folder-music-symbolic'
 
     _cache = {}
+    _scale = 1
 
     def __repr__(self):
         return '<DefaultIcon>'
 
     @log
-    def _make_default_icon(self, icon_type, art_size):
-        width = art_size.width
-        height = art_size.height
+    def __init__(self, scale=1):
+        GObject.GObject.__init__(self)
+        self._scale = scale
+
+    @log
+    def _make_default_icon(self, icon_type, art_size=None):
+        width = art_size.width * self._scale
+        height = art_size.height * self._scale
 
         icon = Gtk.IconTheme.get_default().load_icon(icon_type.value,
                                                      max(width, height) / 4,
@@ -138,9 +149,9 @@ class DefaultIcon(GObject.GObject):
                        icon.get_height() * 3 / 2,
                        1, 1, GdkPixbuf.InterpType.HYPER, 0x33)
 
-        final_icon = _make_icon_frame(result)
+        icon_surface = _make_icon_frame(result, art_size, self._scale)
 
-        return final_icon
+        return icon_surface
 
     @log
     def get(self, icon_type, art_size):
@@ -170,13 +181,15 @@ class AlbumArtCache(GObject.GObject):
     """
     _instance = None
     blacklist = {}
+    _scale = 1
 
     def __repr__(self):
         return '<AlbumArtCache>'
 
     @log
-    def __init__(self):
+    def __init__(self, scale=1):
         GObject.GObject.__init__(self)
+        self._scale = scale
 
         self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
         if not os.path.exists(self.cache_dir):
@@ -191,8 +204,7 @@ class AlbumArtCache(GObject.GObject):
         """Find art for the given item
 
         :param item: Grilo media item
-        :param int width: Width of the icon to return
-        :param int height: Height of the icon to return
+        :param ArtSize art_size: Size of the icon
         :param callback: Callback function when retrieved
         :param itr: Iter to return with callback
         """
@@ -231,21 +243,19 @@ class AlbumArtCache(GObject.GObject):
 
         def do_callback(pixbuf):
             if not pixbuf:
-                pixbuf = DefaultIcon().get(DefaultIcon.Type.music, art_size)
+                surface = DefaultIcon(self._scale).get(DefaultIcon.Type.music,
+                                                       art_size)
             else:
-                pixbuf = pixbuf.scale_simple(art_size.width,
-                                             art_size.height,
-                                             GdkPixbuf.InterpType.HYPER)
-                pixbuf = _make_icon_frame(pixbuf)
+                surface = _make_icon_frame(pixbuf, art_size, self._scale)
 
                 # Sets the thumbnail location for MPRIS to use.
                 item.set_thumbnail(GLib.filename_to_uri(thumb_file.get_path(),
                                                         None))
 
-            GLib.idle_add(callback, pixbuf, None, itr)
+            GLib.idle_add(callback, surface, None, itr)
             return
 
-        [success, thumb_file] = MediaArt.get_file(artist, album, "album")
+        success, thumb_file = MediaArt.get_file(artist, album, "album")
 
         if (success
                 and thumb_file.query_exists()):
