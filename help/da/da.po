@@ -1,0 +1,432 @@
+# Danish translation for gnome-music-help.
+# Copyright (C) 2015 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# scootergrisen, 2015.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music-help gnome-3-18\n"
+"POT-Creation-Date: 2016-03-18 09:31+0000\n"
+"PO-Revision-Date: 2016-09-29 13:41+0200\n"
+"Last-Translator: scootergrisen\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr ""
+"scootergrisen, 2015\n"
+"\n"
+"Dansk-gruppen <dansk@dansk-gruppen.dk>\n"
+"Mere info: http://www.dansk-gruppen.dk"
+
+#. (itstool) path: credit/name
+#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
+msgid "Shobha Tyagi"
+msgstr "Shobha Tyagi"
+
+#. (itstool) path: credit/years
+#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
+msgid "2014"
+msgstr "2014"
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/p
+#: C/introduction.page:18 C/introduction.page:23
+msgid ""
+"A simple and elegant replacement for using files to show the music directory."
+msgstr "En enkel og elegant erstatning for filer til at vise musikmappen."
+
+#. (itstool) path: page/title
+#: C/introduction.page:22
+msgid "Introduction to Music"
+msgstr "Introduktion til Musik"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link"
+msgid "Music"
+msgstr "Musik"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Music"
+msgstr "Musik"
+
+#. (itstool) path: page/title
+#: C/index.page:18
+msgid "<_:media-1/> Music"
+msgstr "<_:media-1/> Musik"
+
+#. (itstool) path: section/title
+#: C/index.page:25
+msgid "Create playlist"
+msgstr "Opret afspilningsliste"
+
+#. (itstool) path: section/title
+#: C/index.page:28
+msgid "Play a song"
+msgstr "Afspil en sang"
+
+#. (itstool) path: section/title
+#: C/index.page:31
+msgid "Remove songs and playlist"
+msgstr "Fjern sange og afspilningsliste"
+
+#. (itstool) path: info/desc
+#: C/play-music.page:18
+msgid "Play your favorite songs."
+msgstr "Afspil dine favoritsange."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+msgid "Play music"
+msgstr "Afspil musik"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr "Du kan afspille din favoritmusik ved at oprette en afspilningsliste eller blot ved at klikke på en sang efter eget valg i enhver visning."
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "I <em>Afspilningslister</em>:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+msgid "Select a playlist."
+msgstr "Vælg en afspilningsliste."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Klik på tandshjulsknappen i højre side."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+msgid "Click on <gui>Play</gui>."
+msgstr "Klik på <gui>Afspil</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "Tilføj sange til afspilningslister ved brug af album."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+msgid "Create a playlist using albums"
+msgstr "Opret en afspilningsliste ved brug af album"
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui style=\"button"
+"\">Albums</gui> button."
+msgstr ""
+"Du kan vise alle dine album ved at klikke på knappen <gui style=\"button"
+"\">Album</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "Sådan tilføjes alle sangene i et album:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+msgid "Click on the check button in the top-right of the window."
+msgstr "Klik på afkrydsningsknappen i øverste højre hjørne af vinduet."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "Vælg album."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr "Klik på knappen <gui style=\"button\">Føj til afspilningsliste</gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr ""
+"Klik på <gui>Ny afspilningsliste</gui> og skriv et navn til din "
+"afspilningsliste."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "Klik på <gui style=\"button\">Vælg</gui>."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr "Du kan også oprette en afspilningsliste ud fra bestemte sange."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "Sådan tilføjes valgte sange fra et album:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "Klik på et album."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+msgid "Click on the check button."
+msgstr "Klik på afkrydsningsknappen."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+msgid "Select songs."
+msgstr "Vælg sange."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr "For at vælge alle sange klikkes <guiseq><gui>Klik på elementerne for at vælge dem</gui><gui>Vælg alle</gui></guiseq> i værktøjslinjen, eller med tastaturet <keyseq><key>Ctrl</key><key>A</key></keyseq>."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr ""
+"For at rydde valget klikkes på <guiseq><gui>Klik på elementerne for at vælge "
+"dem</gui><gui>Vælg ingen</gui></guiseq> i værktøjslinjen."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "Opret afspilningsliste ved at vælge dine favoritsange."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+msgid "Create playlists using songs"
+msgstr "Opret afspilningslister ved brug af sange"
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui style=\"button\">Songs</"
+"gui> button."
+msgstr ""
+"Du kan vise alle dine sange ved at klikke på knappen <gui style=\"button"
+"\">Sange</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr ""
+"Sådan oprettes en ny afspilningsliste mens du er i visningen <em>Sange</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+msgid "Select all the songs you want to add to the playlist."
+msgstr "Vælg alle de sange, du vil tilføje til afspilningslisten."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr ""
+"Klik på <gui style=\"button\">Ny afspilningsliste</gui> og skriv et navn til "
+"din afspilningsliste."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "Opret afspilningsliste ved at vælge dine favoritkunstnere."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+msgid "Create playlists using artists"
+msgstr "Opret afspilningslister ved brug af kunstnere"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui style="
+"\"button\">Artists</gui> button."
+msgstr ""
+"Du kan vise alle dine kunstnere og deres sange, ved at klikke på knappen "
+"<gui style=\"button\">Kunstnere</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr ""
+"Sådan oprettes en ny afspilningsliste mens du er i visningen <em>Kunstnere</"
+"em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr "Vælg alle de kunstnere, hvis sange du vil tilføje til afspilningslisten."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+msgid "Click on <gui>Select</gui>."
+msgstr "Klik på <gui>Vælg</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+msgid "Remove an unwanted playlist."
+msgstr "Fjern en uønsket afspilningsliste."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+msgid "Delete a playlist"
+msgstr "Slet en afspilningsliste"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+msgid "You can remove an old and unwanted playlist."
+msgstr "Du kan fjerne en gammel eller uønsket afspilningsliste."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "Vælg den afspilningsliste du vil slette."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "Klik på <gui>Slet</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+msgid "Delete songs from the playlist."
+msgstr "Slet sange fra afspilningslisten."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+msgid "Remove songs"
+msgstr "Fjern sange"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr "Du kan fjerne uønskede sange fra en afspilningsliste."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr "Vælg den afspilningsliste, hvorfra du vil fjerne sange."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "Klik på afkrydsningsknappen på værktøjslinjen."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "Vælg alle de sange du vil fjerne."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr "Klik på <gui style=\"button\">Fjern fra afspilningsliste</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr "Gentag alle sange i afspilningslisten eller kun den aktuelle sang."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "Hvordan gentager jeg sange?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "Klik på knappen i højre side af opgavelinjen."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "Vælg <gui>Gentag sang</gui> for at gentage en enkelt sang."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr ""
+"Vælg <gui>Gentag alle</gui> for at gentage alle sange i afspilningslisten."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "Bland sange i afspilningslisten."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "Hvordan blander jeg mine sange?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr "Klik på knappen i højre side af opgavelinjen og vælg <gui>Bland</gui>."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "Søg i din musiksamling."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "Find musik"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr ""
+"Du kan søge i dine album, kunstnere, sange og afspilningslister. Vælg hvad "
+"du vil søge i og klik så på knappen <gui>Søg</gui> og start søgningen."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Dette værk er licenseret under <_:link-1/>."
