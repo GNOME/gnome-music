@@ -299,7 +299,7 @@ class AlbumWidget(Gtk.EventBox):
         self._album = album
         self._ui.get_object('cover').set_from_surface(
             self._loading_icon_surface)
-        self._cache.lookup(item, ArtSize.large, self._on_look_up, None)
+        self._cache.lookup(item, ArtSize.large, self._on_lookup, None)
         self._duration = 0
         self._create_model()
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
@@ -388,7 +388,7 @@ class AlbumWidget(Gtk.EventBox):
                 _("%d min") % (int(self._duration / 60) + 1))
 
     @log
-    def _on_look_up(self, surface, path, data=None):
+    def _on_lookup(self, surface, data=None):
         """Albumart retrieved callback.
 
         :param surface: The Cairo surface retrieved
@@ -731,7 +731,7 @@ class ArtistAlbumWidget(Gtk.Box):
                            None)
 
     @log
-    def _get_album_cover(self, surface, path, data=None):
+    def _get_album_cover(self, surface, data=None):
         if not surface:
             surface = self._no_artwork_icon_surface
         self.cover.set_from_surface(surface)
