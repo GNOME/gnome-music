@@ -252,7 +252,7 @@ class AlbumArtCache(GObject.GObject):
                 item.set_thumbnail(GLib.filename_to_uri(thumb_file.get_path(),
                                                         None))
 
-            GLib.idle_add(callback, surface, None, itr)
+            GLib.idle_add(callback, surface, itr)
             return
 
         success, thumb_file = MediaArt.get_file(artist, album, "album")

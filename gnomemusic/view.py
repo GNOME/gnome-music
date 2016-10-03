@@ -264,7 +264,7 @@ class ViewContainer(Gtk.Stack):
                           self._on_lookup_ready, _iter)
 
     @log
-    def _on_lookup_ready(self, surface, path, _iter):
+    def _on_lookup_ready(self, surface, _iter):
         if surface:
             pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0,
                                                  surface.get_width(),
@@ -548,7 +548,7 @@ class Albums(ViewContainer):
             if self.selection_mode:
                 child.check.set_active(True)
 
-    def _on_lookup_ready(self, icon, path, child):
+    def _on_lookup_ready(self, icon, child):
         child.image.set_from_surface(icon)
 
     @log

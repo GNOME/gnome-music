@@ -420,7 +420,7 @@ class MediaPlayer2Service(Server):
                                [])
 
     @log
-    def _on_thumbnail_updated(self, player, path, data=None):
+    def _on_thumbnail_updated(self, player, data=None):
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'Metadata': GLib.Variant('a{sv}', self._get_metadata()),

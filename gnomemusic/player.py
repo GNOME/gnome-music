@@ -91,7 +91,7 @@ class Player(GObject.GObject):
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
-        'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __repr__(self):
@@ -661,10 +661,10 @@ class Player(GObject.GObject):
         return False
 
     @log
-    def _on_cache_lookup(self, pixbuf, path, data=None):
+    def _on_cache_lookup(self, pixbuf, data=None):
         if pixbuf is not None:
             self.coverImg.set_from_surface(pixbuf)
-        self.emit('thumbnail-updated', path)
+        self.emit('thumbnail-updated')
 
     @log
     def play(self):
