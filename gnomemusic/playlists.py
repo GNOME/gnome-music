@@ -144,11 +144,6 @@ class Playlists(GObject.GObject):
                 callback, playlist)
 
     @log
-    def clear_playlist_with_id(self, playlist_id):
-        query = Query.clear_playlist_with_id(playlist_id)
-        self.tracker.update(query, GLib.PRIORITY_LOW, None)
-
-    @log
     def update_playcount(self, song_url):
         query = Query.update_playcount(song_url)
         self.tracker.update(query, GLib.PRIORITY_LOW, None)
@@ -163,25 +158,55 @@ class Playlists(GObject.GObject):
     def update_static_playlist(self, playlist):
         """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
         # Clear the playlist
-        self.clear_playlist_with_id(playlist.ID)
+        self.clear_playlist(playlist)
 
+    @log
+    def clear_playlist(self, playlist):
+        """Starts cleaning the playlist"""
+        query = Query.clear_playlist_with_id(playlist.ID)
+        self.tracker.update_async(query, GLib.PRIORITY_LOW, None,
+                                  self._static_playlist_cleared_cb, playlist)
+
+    @log
+    def _static_playlist_cleared_cb(self, connection, res, playlist):
+        """After clearing the playlist, start querying the playlist's songs"""
+        # Get a list of matching songs
+        self.tracker.query_async(playlist.QUERY, None,
+                                 self._static_playlist_query_cb, playlist)
+
+    @log
+    def _static_playlist_query_cb(self, connection, res, playlist):
+        """Fetch the playlist's songs"""
         final_query = ''
 
         # Get a list of matching songs
-        cursor = self.tracker.query(playlist.QUERY, None)
-        if not cursor:
+        try:
+            cursor = self.tracker.query_finish(res)
+        except GLib.Error:
             return
 
-        # For each song run 'add song to playlist'
-        while cursor.next():
+        def callback(conn, res, final_query):
             uri = cursor.get_string(0)[0]
             final_query += Query.add_song_to_playlist(playlist.ID, uri)
 
-        self.tracker.update_blank_async(final_query, GLib.PRIORITY_LOW,
-                                        None, None, None)
+            try:
+               has_next = cursor.next_finish(res)
+            except GLib.Error:
+               has_next = False
 
-        # tell system we updated the playlist so playlist is reloaded
-        self.emit('playlist-updated', playlist.ID)
+            # Only perform the update when the cursor reached the end
+            if has_next:
+                cursor.next_async(None, callback, final_query)
+                return
+
+            self.tracker.update_blank_async(final_query, GLib.PRIORITY_LOW,
+                                            None, None, None)
+
+            # tell system we updated the playlist so playlist is reloaded
+            self.emit('playlist-updated', playlist.ID)
+
+        # Asynchronously form the playlist's final query
+        cursor.next_async(None, callback, final_query)
 
     @log
     def update_all_static_playlists(self):
