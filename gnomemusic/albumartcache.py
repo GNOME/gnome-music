@@ -53,8 +53,14 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
     radius = 3 * scale
 
     ratio = pixbuf.get_height() / pixbuf.get_width()
-    w = art_size.width * scale
-    h = int(art_size.height * ratio * scale)
+
+    # Scale down the image according to the biggest axis
+    if ratio > 1:
+        w = int(art_size.width / ratio * scale)
+        h = art_size.height * scale
+    else:
+        w = art_size.width * scale
+        h = int(art_size.height * ratio * scale)
 
     new_pixbuf = pixbuf.scale_simple(w - border * 2,
                                      h - border * 2,
