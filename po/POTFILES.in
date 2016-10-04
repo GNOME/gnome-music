@@ -24,7 +24,11 @@ gnomemusic/views/initialstateview.py
 gnomemusic/views/playlistview.py
 gnomemusic/views/searchview.py
 gnomemusic/views/songsview.py
-gnomemusic/widgets.py
+gnomemusic/widgets/albumwidget.py
+gnomemusic/widgets/artistalbumswidget.py
+gnomemusic/widgets/artistalbumwidget.py
+gnomemusic/widgets/playlistdialog.py
+gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py
 [type: gettext/glade]data/AboutDialog.ui.in
 [type: gettext/glade]data/AlbumWidget.ui

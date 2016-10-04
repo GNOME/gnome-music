@@ -30,8 +30,8 @@ from gnomemusic.albumartcache import ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.toolbar import ToolbarState
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.albumwidget import AlbumWidget
 import gnomemusic.utils as utils
-import gnomemusic.widgets as Widgets
 
 
 class AlbumsView(BaseView):
@@ -42,7 +42,7 @@ class AlbumsView(BaseView):
     @log
     def __init__(self, window, player):
         BaseView.__init__(self, 'albums', _("Albums"), window, None)
-        self._albumWidget = Widgets.AlbumWidget(player, self)
+        self._albumWidget = AlbumWidget(player, self)
         self.player = player
         self.add(self._albumWidget)
         self.albums_selected = []

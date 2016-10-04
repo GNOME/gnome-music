@@ -28,7 +28,7 @@ from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
-import gnomemusic.widgets as Widgets
+from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
 
 
@@ -86,7 +86,7 @@ class BaseView(Gtk.Stack):
         if not use_sidebar or sidebar:
             self._grid.add(self._box)
 
-        self.star_handler = Widgets.StarHandler(self, 9)
+        self.star_handler = StarHandlerWidget(self, 9)
         self._cursor = None
         self.window = window
         self.header_bar = window.toolbar

@@ -1,4 +1,4 @@
-SUBDIRS = views
+SUBDIRS = views widgets
 
 appdir = $(pythondir)/gnomemusic/
 
@@ -14,7 +14,6 @@ app_PYTHON = \
 	playlists.py\
 	utils.py \
 	query.py \
-	widgets.py \
 	searchbar.py \
 	window.py
 

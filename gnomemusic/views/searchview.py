@@ -33,8 +33,9 @@ from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.toolbar import ToolbarState
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.albumwidget import AlbumWidget
+from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
-import gnomemusic.widgets as Widgets
 
 playlists = Playlists.get_default()
 
@@ -81,7 +82,7 @@ class SearchView(BaseView):
 
         self.albums_selected = []
         self._albums = {}
-        self._albumWidget = Widgets.AlbumWidget(player, self)
+        self._albumWidget = AlbumWidget(player, self)
         self.add(self._albumWidget)
 
         self.artists_albums_selected = []
@@ -138,7 +139,7 @@ class SearchView(BaseView):
             artist = self.model.get_value(_iter, 2)
             albums = self._artists[artist.casefold()]['albums']
 
-            self._artistAlbumsWidget = Widgets.ArtistAlbums(
+            self._artistAlbumsWidget = ArtistAlbumsWidget(
                 artist, albums, self.player,
                 self.header_bar, self.selection_toolbar, self.window, True
             )

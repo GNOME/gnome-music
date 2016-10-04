@@ -45,7 +45,7 @@ from gnomemusic.views.emptysearchview import EmptySearchView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
-import gnomemusic.widgets as Widgets
+from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
 
@@ -518,7 +518,7 @@ class Window(Gtk.ApplicationWindow):
             if len(selected_tracks) < 1:
                 return
 
-            add_to_playlist = Widgets.PlaylistDialog(self)
+            add_to_playlist = PlaylistDialog(self)
             if add_to_playlist.dialog_box.run() == Gtk.ResponseType.ACCEPT:
                 playlist.add_to_playlist(
                     add_to_playlist.get_selected(),

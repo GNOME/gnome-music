@@ -28,8 +28,8 @@ from gi.repository import Gd, GLib, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
-import gnomemusic.widgets as Widgets
 
 
 class ArtistsView(BaseView):
@@ -135,7 +135,7 @@ class ArtistsView(BaseView):
 
         artistAlbums = None
 
-        artistAlbums = Widgets.ArtistAlbums(
+        artistAlbums = ArtistAlbumsWidget(
             artist, albums, self.player,
             self.header_bar, self.selection_toolbar, self.window
         )
