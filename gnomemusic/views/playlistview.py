@@ -119,7 +119,6 @@ class PlaylistView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        #playlists.update_all_static_playlists()
         pass
 
     @log
