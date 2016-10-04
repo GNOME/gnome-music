@@ -1,3 +1,5 @@
+SUBDIRS = views
+
 appdir = $(pythondir)/gnomemusic/
 
 app_PYTHON = \
@@ -8,7 +10,6 @@ app_PYTHON = \
 	mpris.py \
 	notification.py \
 	toolbar.py \
-	view.py \
 	grilo.py  \
 	playlists.py\
 	utils.py \

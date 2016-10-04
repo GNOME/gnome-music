@@ -34,15 +34,21 @@ gi.require_version('Gd', '1.0')
 from gi.repository import Gtk, Gdk, Gio, GLib, Gd
 from gettext import gettext as _, ngettext
 
+from gnomemusic import log
 from gnomemusic import TrackerWrapper
 from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar, RepeatType
 from gnomemusic.query import Query
-import gnomemusic.view as Views
+from gnomemusic.views.albumsview import AlbumsView
+from gnomemusic.views.artistsview import ArtistsView
+from gnomemusic.views.emptysearchview import EmptySearchView
+from gnomemusic.views.searchview import SearchView
+from gnomemusic.views.songsview import SongsView
+from gnomemusic.views.playlistview import PlaylistView
 import gnomemusic.widgets as Widgets
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
-from gnomemusic import log
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -264,12 +270,12 @@ class Window(Gtk.ApplicationWindow):
         self.connect('destroy', self._notify_mode_disconnect)
         self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
 
-        self.views.append(Views.Albums(self, self.player))
-        self.views.append(Views.Artists(self, self.player))
-        self.views.append(Views.Songs(self, self.player))
-        self.views.append(Views.Playlist(self, self.player))
-        self.views.append(Views.Search(self, self.player))
-        self.views.append(Views.EmptySearch(self, self.player))
+        self.views.append(AlbumsView(self, self.player))
+        self.views.append(ArtistsView(self, self.player))
+        self.views.append(SongsView(self, self.player))
+        self.views.append(PlaylistView(self, self.player))
+        self.views.append(SearchView(self, self.player))
+        self.views.append(EmptySearchView(self, self.player))
 
         for i in self.views:
             if i.title:

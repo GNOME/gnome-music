@@ -16,7 +16,14 @@ gnomemusic/query.py
 gnomemusic/searchbar.py
 gnomemusic/toolbar.py
 gnomemusic/utils.py
-gnomemusic/view.py
+gnomemusic/views/albumsview.py
+gnomemusic/views/artistsview.py
+gnomemusic/views/baseview.py
+gnomemusic/views/emptysearchview.py
+gnomemusic/views/initialstateview.py
+gnomemusic/views/playlistview.py
+gnomemusic/views/searchview.py
+gnomemusic/views/songsview.py
 gnomemusic/widgets.py
 gnomemusic/window.py
 [type: gettext/glade]data/AboutDialog.ui.in

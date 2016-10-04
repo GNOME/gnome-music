@@ -52,6 +52,7 @@ AC_CONFIG_FILES([
   help/Makefile
   data/AboutDialog.ui
   gnomemusic/Makefile
+  gnomemusic/views/Makefile
   po/Makefile.in
   libgd/Makefile
 ])
