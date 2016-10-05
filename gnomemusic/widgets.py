@@ -538,14 +538,14 @@ class ArtistAlbums(Gtk.Box):
 
             escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
             if (song == currentSong):
-                song_widget.now_playing_sign.show()
+                song_widget.now_playing_sign.set_child_visible(True)
                 song_widget.title.set_markup('<b>%s</b>' % escaped_title)
                 song_passed = True
             elif (song_passed):
-                song_widget.now_playing_sign.hide()
+                song_widget.now_playing_sign.set_child_visible(False)
                 song_widget.title.set_markup('<span>%s</span>' % escaped_title)
             else:
-                song_widget.now_playing_sign.hide()
+                song_widget.now_playing_sign.set_child_visible(False)
                 song_widget.title.set_markup(
                     '<span color=\'grey\'>%s</span>' % escaped_title
                 )
@@ -560,7 +560,7 @@ class ArtistAlbums(Gtk.Box):
             song_widget = song.song_widget
             escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
             if song_widget.can_be_played:
-                song_widget.now_playing_sign.hide()
+                song_widget.now_playing_sign.set_child_visible(False)
             song_widget.title.set_markup('<span>%s</span>' % escaped_title)
             itr = self.model.iter_next(itr)
         return False
@@ -720,7 +720,7 @@ class ArtistAlbumWidget(Gtk.Box):
                     NOW_PLAYING_ICON_NAME,
                     Gtk.IconSize.SMALL_TOOLBAR)
                 song_widget.now_playing_sign.set_no_show_all('True')
-                song_widget.now_playing_sign.set_alignment(1, 0.6)
+                song_widget.now_playing_sign.set_child_visible(False)
                 song_widget.can_be_played = True
                 song_widget.connect('button-release-event',
                                     self.track_selected)
@@ -786,7 +786,7 @@ class ArtistAlbumWidget(Gtk.Box):
             songWidget.now_playing_sign.set_from_icon_name(
                 ERROR_ICON_NAME,
                 Gtk.IconSize.SMALL_TOOLBAR)
-            songWidget.now_playing_sign.show()
+            songWidget.now_playing_sign.set_child_visible(True)
             songWidget.can_be_played = False
 
         if selected != songWidget.checkButton.get_active():
