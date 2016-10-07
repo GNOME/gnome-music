@@ -1864,10 +1864,6 @@ class Search(ViewContainer):
         return model.iter_parent(_iter) is not None or model.iter_has_child(_iter)
 
     @log
-    def _on_grilo_ready(self, data=None):
-        playlists.fetch_or_create_static_playlists()
-
-    @log
     def set_search_text(self, search_term, fields_filter):
         query_matcher = {
             'album': {
