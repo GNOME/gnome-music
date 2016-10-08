@@ -79,6 +79,7 @@ class DiscoveryStatus:
 class Player(GObject.GObject):
     nextTrack = None
     timeout = None
+    _seconds_timeout = None
     shuffleHistory = deque(maxlen=10)
 
     __gsignals__ = {
@@ -371,7 +372,7 @@ class Player(GObject.GObject):
         elif (self.repeat == RepeatType.NONE):
             self.stop()
             self.playBtn.set_image(self._playImage)
-            self.progressScale.set_value(0)
+            self._progress_scale_zero()
             self.progressScale.set_sensitive(False)
             if self.playlist is not None:
                 currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
@@ -387,7 +388,7 @@ class Player(GObject.GObject):
             # Stop playback
             self.stop()
             self.playBtn.set_image(self._playImage)
-            self.progressScale.set_value(0)
+            self._progress_scale_zero()
             self.progressScale.set_sensitive(False)
             self.emit('playback-status-changed')
 
@@ -588,7 +589,7 @@ class Player(GObject.GObject):
 
     @log
     def load(self, media):
-        self.progressScale.set_value(0)
+        self._progress_scale_zero()
         self._set_duration(media.get_duration())
         self.songTotalTimeLabel.set_label(
             utils.seconds_to_string(media.get_duration()))
@@ -681,17 +682,15 @@ class Player(GObject.GObject):
             t = Thread(target=self.update_now_playing_in_lastfm, args=(media.get_url(),))
             t.setDaemon(True)
             t.start()
-        if not self.timeout:
-            self.timeout = GLib.timeout_add(1000, self._update_position_callback)
+        if not self.timeout and self.progressScale.get_realized():
+            self._update_timeout()
 
         self.emit('playback-status-changed')
         self.emit('playing-changed')
 
     @log
     def pause(self):
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-            self.timeout = None
+        self._remove_timeout()
 
         self.player.set_state(Gst.State.PAUSED)
         self.emit('playback-status-changed')
@@ -699,9 +698,7 @@ class Player(GObject.GObject):
 
     @log
     def stop(self):
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-            self.timeout = None
+        self._remove_timeout()
 
         self.player.set_state(Gst.State.NULL)
         self.emit('playing-changed')
@@ -732,7 +729,7 @@ class Player(GObject.GObject):
 
         position = self.get_position() / 1000000
         if position >= 5:
-            self.progressScale.set_value(0)
+            self._progress_scale_zero()
             self.on_progress_scale_change_value(self.progressScale)
             return
 
@@ -822,13 +819,15 @@ class Player(GObject.GObject):
         self.progressScale.connect('button-press-event', self._on_progress_scale_event)
         self.progressScale.connect('value-changed', self._on_progress_value_changed)
         self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
+        self._ps_draw = self.progressScale.connect('draw',
+            self._on_progress_scale_draw)
 
     @log
     def _on_progress_scale_button_released(self, scale, data):
         self.on_progress_scale_change_value(self.progressScale)
         self._update_position_callback()
         self.player.set_state(self._lastState)
-        self.timeout = GLib.timeout_add(1000, self._update_position_callback)
+        self._update_timeout()
         return False
 
     def _on_progress_value_changed(self, widget):
@@ -840,10 +839,57 @@ class Player(GObject.GObject):
     def _on_progress_scale_event(self, scale, data):
         self._lastState = self.player.get_state(1)[1]
         self.player.set_state(Gst.State.PAUSED)
+        self._remove_timeout()
+        return False
+
+    def _on_progress_scale_draw(self, cr, data):
+        self._update_timeout()
+        self.progressScale.disconnect(self._ps_draw)
+        return False
+
+    def _update_timeout(self):
+        """Update the duration for self.timeout and self._seconds_timeout
+
+        Sets the period of self.timeout to a value small enough to make the
+        slider of self.progressScale move smoothly based on the current song
+        duration and progressScale length.  self._seconds_timeout is always set
+        to a fixed value, short enough to hide irregularities in GLib event
+        timing from the user, for updating the songPlaybackTimeLabel.
+        """
+        # Don't run until progressScale has been realized
+        if self.progressScale.get_realized() == False:
+            return
+
+        # Update self.timeout
+        width = self.progressScale.get_allocated_width()
+        padding = self.progressScale.get_style_context().get_padding(
+            Gtk.StateFlags.NORMAL)
+        width -= padding.left + padding.right
+        duration = self.player.query_duration(Gst.Format.TIME)[1] / 10**9
+        timeout_period = min(1000 * duration // width, 1000)
+
+        if self.timeout:
+            GLib.source_remove(self.timeout)
+        self.timeout = GLib.timeout_add(
+            timeout_period, self._update_position_callback)
+
+        # Update self._seconds_timeout
+        if not self._seconds_timeout:
+            self.seconds_period = 1000
+            self._seconds_timeout = GLib.timeout_add(
+                self.seconds_period, self._update_seconds_callback)
+
+    def _remove_timeout(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
             self.timeout = None
-        return False
+        if self._seconds_timeout:
+            GLib.source_remove(self._seconds_timeout)
+            self._seconds_timeout = None
+
+    def _progress_scale_zero(self):
+        self.progressScale.set_value(0)
+        self._on_progress_value_changed(None)
 
     @log
     def _on_play_btn_clicked(self, btn):
@@ -931,7 +977,15 @@ class Player(GObject.GObject):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position > 0:
             self.progressScale.set_value(position * 60)
-            self.played_seconds += 1
+        self._update_timeout()
+        return False
+
+    def _update_seconds_callback(self):
+        self._on_progress_value_changed(None)
+
+        position = self.player.query_position(Gst.Format.TIME)[1] / 10**9
+        if position > 0:
+            self.played_seconds += self.seconds_period / 1000
             try:
                 percentage = self.played_seconds / self.duration
                 if not self.scrobbled and percentage > 0.4:
@@ -987,7 +1041,7 @@ class Player(GObject.GObject):
 
     @log
     def Stop(self):
-        self.progressScale.set_value(0)
+        self._progress_scale_zero()
         self.progressScale.set_sensitive(False)
         self.playBtn.set_image(self._playImage)
         self.stop()
