@@ -25,18 +25,15 @@
 from gettext import gettext as _, ngettext
 from gi.repository import Gd, Gdk, GdkPixbuf, GLib, GObject, Gtk, Pango
 
+from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
-from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
-from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
 
 NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
-
-playlists = Playlists.get_default()
 
 
 class AlbumWidget(Gtk.EventBox):
