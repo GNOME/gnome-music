@@ -36,7 +36,7 @@ class InitialStateView(EmptyView):
 
     @log
     def __init__(self, window, player):
-        Empty.__init__(self, window, player)
+        EmptyView.__init__(self, window, player)
 
         # Update image
         icon = self.builder.get_object('icon')
