@@ -5,6 +5,7 @@ app_PYTHON = \
 	albumsview.py \
 	artistsview.py \
 	baseview.py \
+	emptyview.py \
 	emptysearchview.py \
 	initialstateview.py \
 	playlistview.py \
