@@ -41,7 +41,9 @@ from gnomemusic.player import Player, SelectionToolbar, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
+from gnomemusic.views.emptyview import EmptyView
 from gnomemusic.views.emptysearchview import EmptySearchView
+from gnomemusic.views.initialstateview import InitialStateView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
@@ -254,9 +256,9 @@ class Window(Gtk.ApplicationWindow):
         did_initial_state = self.settings.get_boolean('did-initial-state')
         view_class = None
         if did_initial_state:
-            view_class = Views.Empty
+            view_class = EmptyView
         else:
-            view_class = Views.InitialState
+            view_class = InitialStateView
         self.views.append(view_class(self, self.player))
 
         self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
@@ -337,7 +339,7 @@ class Window(Gtk.ApplicationWindow):
         if self.pl_todelete_notification:
             self.views[3].really_delete = False
             self.pl_todelete_notification.destroy()
-            Views.playlists.delete_playlist(self.views[3].pl_todelete)
+            playlist.delete_playlist(self.views[3].pl_todelete)
 
         self.notification = Gd.Notification()
         self.notification.set_timeout(20)
@@ -363,7 +365,7 @@ class Window(Gtk.ApplicationWindow):
     def _playlist_removal_notification_dismissed(self, widget):
         self.pl_todelete_notification = None
         if self.views[3].really_delete:
-            Views.playlists.delete_playlist(self.views[3].pl_todelete)
+            playlist.delete_playlist(self.views[3].pl_todelete)
         else:
             self.views[3].really_delete = True
 
