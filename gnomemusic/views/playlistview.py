@@ -431,7 +431,7 @@ class PlaylistView(BaseView):
     @log
     def current_playlist_is_protected(self):
         current_playlist_id = self.current_playlist.get_id()
-        if current_playlist_id in StaticPlaylists.get_protected_ids():
+        if current_playlist_id in StaticPlaylists().get_ids():
             return True
         else:
             return False

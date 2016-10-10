@@ -84,9 +84,23 @@ class StaticPlaylists:
         self.Favorites.QUERY = Query.get_favorite_songs()
 
     @staticmethod
-    def get_protected_ids():
-        return [str(cls.ID) for name, cls in inspect.getmembers(StaticPlaylists)
-                if inspect.isclass(cls) and not (name == "__class__")]
+    def get_ids():
+        """Get all static playlist IDs
+
+        :return: A list of tracker.id's
+        :rtype: A list of integers
+        """
+        return [str(playlist.ID) for playlist in StaticPlaylists.get_all()]
+
+    @staticmethod
+    def get_all():
+        """Get all static playlist classes
+
+        :return: All StaticPlaylists innerclasses
+        :rtype: A list of classes
+        """
+        return [cls for name, cls in inspect.getmembers(StaticPlaylists)
+                if inspect.isclass(cls) and not name == "__class__"]
 
 
 class Playlists(GObject.GObject):
@@ -119,7 +133,7 @@ class Playlists(GObject.GObject):
     def __init__(self):
         GObject.GObject.__init__(self)
         self.tracker = TrackerWrapper().tracker
-        StaticPlaylists()
+        self._static_playlists = StaticPlaylists()
 
         grilo.connect('ready', self._on_grilo_ready)
 
@@ -130,8 +144,6 @@ class Playlists(GObject.GObject):
     @log
     def fetch_or_create_static_playlists(self):
         """For all static playlists: get ID, if exists; if not, create the playlist and get ID."""
-        playlists = [cls for name, cls in inspect.getmembers(StaticPlaylists)
-                     if inspect.isclass(cls) and not (name == "__class__")]  # hacky
 
         def callback(obj, result, playlist):
             cursor = obj.query_finish(result)
@@ -144,7 +156,7 @@ class Playlists(GObject.GObject):
 
             self.update_static_playlist(playlist)
 
-        for playlist in playlists:
+        for playlist in self._static_playlists.get_all():
             self.tracker.query_async(
                 Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
                 callback, playlist)
@@ -218,10 +230,7 @@ class Playlists(GObject.GObject):
 
     @log
     def update_all_static_playlists(self):
-        playlists = [cls for name, cls in inspect.getmembers(StaticPlaylists)
-                     if inspect.isclass(cls) and not (name == "__class__")]  # hacky
-
-        for playlist in playlists:
+        for playlist in self._static_playlists.get_all():
             self.update_static_playlist(playlist)
 
     @log
@@ -326,9 +335,12 @@ class Playlists(GObject.GObject):
 
     @log
     def is_static_playlist(self, playlist):
-        """Checks whether the given playlist is static or not"""
+        """Checks whether the given playlist is static or not
 
-        for static_playlist_id in StaticPlaylists.get_protected_ids():
+        :return: True if the playlist is static
+        :rtype: bool
+        """
+        for static_playlist_id in self._static_playlists.get_ids():
             if playlist.get_id() == static_playlist_id:
                 return True
 
