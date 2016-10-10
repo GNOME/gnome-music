@@ -1,3 +1,17 @@
+Overview of changes in 3.22.1
+=============================
+
+* Make some tracker playlist calls async
+
+Bugs fixed:
+ 765476 Crashes upon opening with GLib error
+
+Translations updated:
+ Chinese (Taiwan)
+ Italian
+ Danish
+ Basque
+
 Overview of changes in 3.22.0
 =============================
 
