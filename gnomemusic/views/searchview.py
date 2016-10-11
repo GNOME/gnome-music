@@ -58,20 +58,12 @@ class SearchView(BaseView):
         scale = self.get_scale_factor()
         loading_icon_surface = DefaultIcon(scale).get(DefaultIcon.Type.loading,
                                                       ArtSize.small)
-        no_albumart_surface = DefaultIcon(scale).get(DefaultIcon.Type.music,
-                                                     ArtSize.small)
         self._loading_icon = Gdk.pixbuf_get_from_surface(
             loading_icon_surface,
             0,
             0,
             loading_icon_surface.get_width(),
             loading_icon_surface.get_height())
-        self._no_albumart_icon = Gdk.pixbuf_get_from_surface(
-            no_albumart_surface,
-            0,
-            0,
-            no_albumart_surface.get_width(),
-            no_albumart_surface.get_height())
 
         self._add_list_renderers()
         self.player = player
@@ -249,9 +241,10 @@ class SearchView(BaseView):
                 self.head_iters[group], -1,
                 [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist,
-                 self._no_albumart_icon, item,
+                 self._loading_icon, item,
                  2 if source.get_id() != 'grl-tracker-source' \
                     else bool(item.get_lyrics()), category])
+            self.cache.lookup(item, ArtSize.small, self._on_lookup_ready, _iter)
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
