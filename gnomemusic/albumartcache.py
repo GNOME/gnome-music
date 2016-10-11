@@ -220,7 +220,7 @@ class AlbumArtCache(GObject.GObject):
     def _lookup_local(self, item, callback, itr, art_size):
         """Checks if there is already a local art file, if not calls
         the remote lookup function"""
-        album = utils.get_media_title(item)
+        album = utils.get_album_title(item)
         artist = utils.get_artist_name(item)
 
         def stream_open(thumb_file, result, arguments):
@@ -286,7 +286,7 @@ class AlbumArtCache(GObject.GObject):
         Lookup remote art through Grilo and if found copy locally. Call
         _lookup_local to finish retrieving suitable art.
         """
-        album = utils.get_media_title(item)
+        album = utils.get_album_title(item)
         artist = utils.get_artist_name(item)
 
         @log

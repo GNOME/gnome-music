@@ -25,6 +25,25 @@
 from gettext import gettext as _
 
 
+def get_album_title(item):
+    """Returns the album title associated with the media item
+
+    In case of an audio file the get_album call returns the
+    album title and in case of a container we are looking for
+    the title.
+
+    :param item: A Grilo Media object
+    :return: The album title
+    :rtype: string
+    """
+    album = item.get_album()
+
+    if not album:
+        album = get_media_title(item)
+
+    return album
+
+
 def get_artist_name(item):
     """Returns the preferred artist for a media item.
 
