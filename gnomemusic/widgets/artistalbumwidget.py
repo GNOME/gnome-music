@@ -64,12 +64,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         scale = self.get_scale_factor()
         self._cache = AlbumArtCache(scale)
-
         self._loading_icon_surface = DefaultIcon(scale).get(
             DefaultIcon.Type.loading,
-            ArtSize.large)
-        self._no_artwork_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.music,
             ArtSize.large)
 
         self.player = player
@@ -156,8 +152,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _get_album_cover(self, surface, data=None):
-        if not surface:
-            surface = self._no_artwork_icon_surface
         self.cover.set_from_surface(surface)
 
     @log

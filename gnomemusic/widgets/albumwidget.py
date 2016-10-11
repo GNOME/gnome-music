@@ -61,10 +61,7 @@ class AlbumWidget(Gtk.EventBox):
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
             DefaultIcon.Type.loading,
-            ArtSize.small)
-        self._no_artwork_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.music,
-            ArtSize.small)
+            ArtSize.large)
 
         self._player = player
         self._iter_to_clean = None
@@ -316,8 +313,6 @@ class AlbumWidget(Gtk.EventBox):
         :param path: The filesystem location the pixbuf
         :param data: User data
         """
-        if not surface:
-            surface = self._no_artwork_icon_surface
         self._ui.get_object('cover').set_from_surface(surface)
 
     @log
