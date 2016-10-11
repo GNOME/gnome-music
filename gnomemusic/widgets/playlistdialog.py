@@ -100,8 +100,7 @@ class PlaylistDialog():
 
     @log
     def populate(self):
-        if grilo.tracker:
-            GLib.idle_add(grilo.populate_playlists, 0, self._add_item)
+        grilo.populate_playlists(0, self._add_item)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):

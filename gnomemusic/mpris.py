@@ -384,10 +384,7 @@ class MediaPlayer2Service(Server):
             else:
                 callback(playlists)
 
-        if grilo.tracker:
-            GLib.idle_add(grilo.populate_playlists, 0, populate_callback)
-        else:
-            callback(playlists)
+        grilo.populate_playlists(0, populate_callback)
 
     @log
     def _get_active_playlist(self):

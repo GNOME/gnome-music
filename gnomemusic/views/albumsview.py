@@ -123,9 +123,8 @@ class AlbumsView(BaseView):
 
     @log
     def populate(self):
-        if grilo.tracker:
-            self.window._init_loading_notification()
-            GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
+        self.window._init_loading_notification()
+        GLib.idle_add(grilo.populate_albums, self._offset, self._add_item)
 
     @log
     def get_selected_tracks(self, callback):
