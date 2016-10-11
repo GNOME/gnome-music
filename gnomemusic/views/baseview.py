@@ -264,9 +264,6 @@ class BaseView(Gtk.Stack):
     def get_selected_tracks(self, callback):
         callback([])
 
-    def _on_list_widget_star_render(self, col, cell, model, _iter, data):
-        pass
-
     @log
     def _set_selection(self, value, parent=None):
         count = 0

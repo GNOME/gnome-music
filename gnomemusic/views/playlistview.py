@@ -198,9 +198,6 @@ class PlaylistView(BaseView):
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
 
-    def _on_list_widget_star_render(self, col, cell, model, _iter, data):
-        pass
-
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
         if not model.iter_is_valid(_iter):
             return
