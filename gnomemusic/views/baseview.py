@@ -203,7 +203,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def populate(self):
-        print('populate')
+        pass
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
