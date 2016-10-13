@@ -11,6 +11,14 @@ flowbox, treeview, widget {
     -gtk-key-bindings: unbind-ctrl-space;
 }
 
+row, list {
+    background-color: @theme_bg_color;
+}
+
+.discsongsflowbox > flowboxchild {
+    padding: 0px;
+}
+
 .cover{
     padding-left:24px;
 }

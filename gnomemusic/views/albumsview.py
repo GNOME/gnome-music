@@ -129,12 +129,10 @@ class AlbumsView(BaseView):
 
     @log
     def get_selected_tracks(self, callback):
+        # FIXME: we call into private objects with full knowledge of
+        # what is there
         if self.header_bar._state == ToolbarState.CHILD_VIEW:
-            items = []
-            for path in self._albumWidget.view.get_selection():
-                _iter = self._albumWidget.model.get_iter(path)
-                items.append(self._albumWidget.model.get_value(_iter, 5))
-            callback(items)
+            callback(self._albumWidget._disc_listbox.get_selected_items())
         else:
             self.items_selected = []
             self.items_selected_callback = callback

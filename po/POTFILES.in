@@ -28,6 +28,7 @@ gnomemusic/views/songsview.py
 gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/artistalbumswidget.py
 gnomemusic/widgets/artistalbumwidget.py
+gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py

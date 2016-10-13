@@ -22,31 +22,14 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
-
 from gettext import gettext as _
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
-from gnomemusic.player import DiscoveryStatus
-from gnomemusic.playlists import Playlists
+from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
-
-logger = logging.getLogger(__name__)
-
-NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
-ERROR_ICON_NAME = 'dialog-error-symbolic'
-
-try:
-    settings = Gio.Settings.new('org.gnome.Music')
-    MAX_TITLE_WIDTH = settings.get_int('max-width-chars')
-except Exception as e:
-    MAX_TITLE_WIDTH = 20
-    logger.error("Error on setting widget max-width-chars: %s", str(e))
-
-playlists = Playlists.get_default()
 
 
 class ArtistAlbumWidget(Gtk.Box):
@@ -59,95 +42,124 @@ class ArtistAlbumWidget(Gtk.Box):
         return '<ArtistAlbumWidget>'
 
     @log
-    def __init__(self, artist, album, player, model, header_bar, selectionModeAllowed):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
+    def __init__(self, media, player, model, header_bar,
+                 selection_mode_allowed, size_group=None,
+                 selection_toolbar = None):
+        super().__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
 
+        self._size_group = size_group
         scale = self.get_scale_factor()
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
             DefaultIcon.Type.loading,
-            ArtSize.large)
+            ArtSize.medium)
 
-        self.player = player
-        self.album = album
-        self.artist = artist
-        self.model = model
-        self.model.connect('row-changed', self._model_row_changed)
-        self.header_bar = header_bar
-        self.selectionMode = False
-        self.selectionModeAllowed = selectionModeAllowed
+        self._media = media
+        self._player = player
+        self._artist = utils.get_artist_name(self._media)
+        self._album_title = utils.get_album_title(self._media)
+        self._model = model
+        self._header_bar = header_bar
+        self._selection_mode = False
+        self._selection_mode_allowed = selection_mode_allowed
+        self._selection_toolbar = selection_toolbar
         self.songs = []
+        self._tracks = []
+
+        self._header_bar._select_button.connect(
+            'toggled', self._on_header_select_button_toggled)
+
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
-        GLib.idle_add(self._update_album_art)
-
         self.cover = self.ui.get_object('cover')
         self.cover.set_from_surface(self._loading_icon_surface)
-        self.songsGrid = self.ui.get_object('grid1')
-        self.ui.get_object('title').set_label(album.get_title())
-        if album.get_creation_date():
+        self._disc_listbox = self.ui.get_object('disclistbox')
+        self._disc_listbox.set_selection_mode_allowed(
+            self._selection_mode_allowed)
+
+        self.ui.get_object('title').set_label(self._album_title)
+        creation_date = self._media.get_creation_date()
+        if creation_date:
+            year = creation_date.get_year()
             self.ui.get_object('year').set_markup(
-                '<span color=\'grey\'>(%s)</span>' %
-                str(album.get_creation_date().get_year())
-            )
-        self.tracks = []
-        grilo.populate_album_songs(album, self.add_item)
+                '<span color=\'grey\'>{}</span>'.format(year))
+
+        if self._size_group:
+            self._size_group.add_widget(self.ui.get_object('box1'))
+
         self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
-    @log
-    def add_item(self, source, prefs, track, remaining, data=None):
-        if remaining == 0:
-            self.songsGrid.show_all()
-            self.emit("tracks-loaded")
+        GLib.idle_add(self._update_album_art)
+        grilo.populate_album_songs(self._media, self._add_item)
 
-        if track:
-            self.tracks.append(track)
+
+    def create_disc_box(self, disc_nr, disc_tracks):
+        disc_box = DiscBox(self._model)
+        disc_box.set_tracks(disc_tracks)
+        disc_box.set_disc_number(disc_nr)
+        disc_box.set_columns(2)
+        disc_box.show_duration(False)
+        disc_box.show_favorites(False)
+        disc_box.connect('track-activated', self._track_activated)
+        disc_box.connect('selection-toggle', self._selection_mode_toggled)
+
+        return disc_box
+
+    def _selection_mode_toggled(self, widget):
+        if not self._selection_mode_allowed:
+            return
+
+        self._selection_mode = not self._selection_mode
+        self._on_selection_mode_request()
+
+        return True
+
+    def _on_selection_mode_request(self):
+        self._header_bar._select_button.clicked()
+
+    def _on_header_select_button_toggled(self, button):
+        """Selection mode button clicked callback."""
+        if button.get_active():
+            self._selection_mode = True
+            self._disc_listbox.set_selection_mode(True)
+            self._header_bar.set_selection_mode(True)
+            self._player.actionbar.set_visible(False)
+            self._header_bar.header_bar.set_custom_title(
+                self._header_bar._selection_menu_button)
         else:
-            for i, track in enumerate(self.tracks):
-                ui = Gtk.Builder()
-                ui.add_from_resource('/org/gnome/Music/TrackWidget.ui')
-                song_widget = ui.get_object('eventbox1')
-                self.songs.append(song_widget)
-                ui.get_object('num')\
-                    .set_markup('<span color=\'grey\'>%d</span>'
-                                % len(self.songs))
-                title = utils.get_media_title(track)
-                ui.get_object('title').set_text(title)
-                ui.get_object('title').set_alignment(0.0, 0.5)
-                ui.get_object('title').set_max_width_chars(MAX_TITLE_WIDTH)
+            self._selection_mode = False
+            self._disc_listbox.set_selection_mode(False)
+            self._header_bar.set_selection_mode(False)
+            if(self._player.get_playback_status() != 2):
+                self._player.actionbar.set_visible(True)
 
-                self.songsGrid.attach(
-                    song_widget,
-                    int(i / (len(self.tracks) / 2)),
-                    int(i % (len(self.tracks) / 2)), 1, 1
-                )
-                track.song_widget = song_widget
-                itr = self.model.append(None)
-                song_widget._iter = itr
-                song_widget.model = self.model
-                song_widget.title = ui.get_object('title')
-                song_widget.checkButton = ui.get_object('select')
-                song_widget.checkButton.set_visible(self.selectionMode)
-                song_widget.checkButton.connect(
-                    'toggled', self._check_button_toggled, song_widget
-                )
-                self.model.set(itr,
-                               [0, 1, 2, 3, 5],
-                               [title, '', '', False, track])
-                song_widget.now_playing_sign = ui.get_object('image1')
-                song_widget.now_playing_sign.set_from_icon_name(
-                    NOW_PLAYING_ICON_NAME,
-                    Gtk.IconSize.SMALL_TOOLBAR)
-                song_widget.now_playing_sign.set_no_show_all('True')
-                song_widget.now_playing_sign.set_alignment(1, 0.6)
-                song_widget.can_be_played = True
-                song_widget.connect('button-release-event',
-                                    self.track_selected)
+    @log
+    def _add_item(self, source, prefs, track, remaining, data=None):
+        if track:
+            self._tracks.append(track)
+            return
+
+        discs = {}
+        for track in self._tracks:
+            disc_nr = track.get_album_disc_number()
+            if disc_nr not in discs.keys():
+                discs[disc_nr] = [track]
+            else:
+                discs[disc_nr].append(track)
+
+        for disc_nr in discs:
+            disc = self.create_disc_box(disc_nr, discs[disc_nr])
+            self._disc_listbox.insert(disc, -1)
+            if len(discs) == 1:
+                disc.show_disc_label(False)
+
+        if remaining == 0:
+            self.emit("tracks-loaded")
 
     @log
     def _update_album_art(self):
-        self._cache.lookup(self.album, ArtSize.medium, self._get_album_cover,
+        self._cache.lookup(self._media, ArtSize.medium, self._get_album_cover,
                            None)
 
     @log
@@ -155,57 +167,22 @@ class ArtistAlbumWidget(Gtk.Box):
         self.cover.set_from_surface(surface)
 
     @log
-    def track_selected(self, widget, event):
-        if not widget.can_be_played:
+    def _track_activated(self, widget, song_widget):
+        if (not song_widget.can_be_played
+                or self._selection_mode):
             return
 
-        if not self.selectionMode and \
-            (event.button == Gdk.BUTTON_SECONDARY or
-                (event.button == 1 and event.state & Gdk.ModifierType.CONTROL_MASK)):
-            if self.selectionModeAllowed:
-                self.header_bar._select_button.set_active(True)
-            else:
-                return
+        self._player.stop()
+        self._player.set_playlist('Artist', self._artist, song_widget.model,
+                                  song_widget.itr, 5, 11)
+        self._player.set_playing(True)
 
-        if self.selectionMode:
-            self.model[widget._iter][6] = not self.model[widget._iter][6]
-            return
-
-        self.player.stop()
-        self.player.set_playlist('Artist', self.artist,
-                                 widget.model, widget._iter, 5, 6)
-        self.player.set_playing(True)
+        return True
 
     @log
-    def set_selection_mode(self, selectionMode):
-        if self.selectionMode == selectionMode:
+    def set_selection_mode(self, selection_mode):
+        if self._selection_mode == selection_mode:
             return
-        self.selectionMode = selectionMode
-        for songWidget in self.songs:
-            songWidget.checkButton.set_visible(selectionMode)
-            if not selectionMode:
-                songWidget.model[songWidget._iter][6] = False
+        self._selection_mode = selection_mode
 
-    @log
-    def _check_button_toggled(self, button, songWidget):
-        if songWidget.model[songWidget._iter][6] != button.get_active():
-            songWidget.model[songWidget._iter][6] = button.get_active()
-
-    @log
-    def _model_row_changed(self, model, path, _iter):
-        if not self.selectionMode:
-            return
-        if not model[_iter][5]:
-            return
-        songWidget = model[_iter][5].song_widget
-        selected = model[_iter][6]
-
-        if model[_iter][11] == DiscoveryStatus.FAILED:
-            songWidget.now_playing_sign.set_from_icon_name(
-                ERROR_ICON_NAME,
-                Gtk.IconSize.SMALL_TOOLBAR)
-            songWidget.now_playing_sign.show()
-            songWidget.can_be_played = False
-
-        if selected != songWidget.checkButton.get_active():
-            songWidget.checkButton.set_active(selected)
+        self._disc_listbox.set_selection_mode(selection_mode)

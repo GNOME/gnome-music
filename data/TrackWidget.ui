@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.10"/>
   <object class="GtkEventBox" id="eventbox1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -33,13 +34,12 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <object class="GtkCheckButton" id="select">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="receives_default">False</property>
                 <property name="no_show_all">True</property>
+                <property name="draw_indicator">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -51,12 +51,13 @@
               <object class="GtkLabel" id="num">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">1</property>
+                <property name="halign">end</property>
                 <property name="justify">right</property>
               </object>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="pack_type">end</property>
                 <property name="position">2</property>
               </packing>
             </child>
@@ -77,32 +78,61 @@
               <object class="GtkLabel" id="title">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">start</property>
                 <property name="valign">start</property>
-                <property name="xalign">0</property>
                 <property name="ellipsize">end</property>
-                <property name="max-width-chars">90</property>
+                <property name="max_width_chars">90</property>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="padding">9</property>
-                <property name="position">2</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="duration">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="valign">start</property>
-                <property name="xalign">1</property>
-                <property name="yalign">0</property>
+                <property name="no_show_all">True</property>
+                <property name="halign">end</property>
+                <property name="valign">center</property>
+                <property name="single_line_mode">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="pack_type">end</property>
-                <property name="position">3</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="starevent">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="no_show_all">True</property>
+            <property name="halign">end</property>
+            <property name="valign">center</property>
+            <property name="visible_window">True</property>
+            <child>
+              <object class="StarStack" id="starstack">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="valign">center</property>
+                <property name="transition_type">crossfade</property>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
             </child>
           </object>
           <packing>
@@ -110,6 +140,9 @@
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
       </object>
     </child>

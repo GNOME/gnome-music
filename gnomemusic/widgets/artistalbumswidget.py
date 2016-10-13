@@ -57,15 +57,8 @@ class ArtistAlbumsWidget(Gtk.Box):
         self.ui.get_object('artist').set_label(self.artist)
         self.widgets = []
 
-        self.model = Gtk.ListStore(GObject.TYPE_STRING,   # title
-                                   GObject.TYPE_STRING,
-                                   GObject.TYPE_STRING,
-                                   GObject.TYPE_BOOLEAN,  # icon shown
-                                   GObject.TYPE_STRING,   # icon
-                                   GObject.TYPE_OBJECT,   # song object
-                                   GObject.TYPE_BOOLEAN,
-                                   GObject.TYPE_INT
-                                   )
+        self._create_model()
+
         self.row_changed_source_id = None
 
         self._hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -94,6 +87,24 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self.player.connect('playlist-item-changed', self.update_model)
 
+    @log
+    def _create_model(self):
+        """Create the ListStore model for this widget."""
+        self._model = Gtk.ListStore(
+            GObject.TYPE_STRING,  # title
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,    # placeholder
+            GObject.TYPE_OBJECT,  # song object
+            GObject.TYPE_BOOLEAN,  # item selected
+            GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,  # icon shown
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT
+        )
+
     def _on_last_album_displayed(self, data=None):
         self.window.notification.dismiss()
         self.show_all()
@@ -102,11 +113,12 @@ class ArtistAlbumsWidget(Gtk.Box):
     def add_album(self, album, is_last_album=False):
         self.window.notification.set_timeout(0)
         widget = ArtistAlbumWidget(
-            self.artist, album, self.player, self.model,
-            self.header_bar, self.selectionModeAllowed
+            album, self.player, self._model,
+            self.header_bar, self.selectionModeAllowed,
+            self._songsGridSizeGroup, self.header_bar
         )
         self._coverSizeGroup.add_widget(widget.cover)
-        self._songsGridSizeGroup.add_widget(widget.songsGrid)
+
         self._albumBox.pack_start(widget, False, False, 0)
         self.widgets.append(widget)
 
@@ -116,7 +128,7 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def update_model(self, player, playlist, currentIter):
         # this is not our playlist, return
-        if playlist != self.model:
+        if playlist != self._model:
             # TODO, only clean once, but that can wait util we have clean
             # the code a bit, and until the playlist refactoring.
             # the overhead is acceptable for now
@@ -153,15 +165,15 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def clean_model(self):
-        itr = self.model.get_iter_first()
+        itr = self._model.get_iter_first()
         while itr:
-            song = self.model.get_value(itr, 5)
+            song = self._model.get_value(itr, 5)
             song_widget = song.song_widget
             escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
             song_widget.title.set_markup('<span>%s</span>' % escaped_title)
-            itr = self.model.iter_next(itr)
+            itr = self._model.iter_next(itr)
         return False
 
     @log
@@ -171,8 +183,10 @@ class ArtistAlbumsWidget(Gtk.Box):
         self.selectionMode = selectionMode
         try:
             if self.row_changed_source_id:
-                self.model.disconnect(self.row_changed_source_id)
-            self.row_changed_source_id = self.model.connect('row-changed', self._model_row_changed)
+                self._model.disconnect(self.row_changed_source_id)
+            self.row_changed_source_id = self._model.connect(
+                'row-changed',
+                self._model_row_changed)
         except Exception as e:
             logger.warning("Exception while tracking row-changed: %s", e)
 
@@ -195,3 +209,12 @@ class ArtistAlbumsWidget(Gtk.Box):
         else:
             self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
 
+    @log
+    def select_all(self):
+        for widget in self.widgets:
+            widget._disc_listbox.select_all()
+
+    @log
+    def select_none(self):
+        for widget in self.widgets:
+            widget._disc_listbox.select_none()

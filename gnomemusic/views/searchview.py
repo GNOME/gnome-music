@@ -306,14 +306,11 @@ class SearchView(BaseView):
     @log
     def get_selected_tracks(self, callback):
         if self.get_visible_child() == self._albumWidget:
-            items = []
-            for path in self._albumWidget.view.get_selection():
-                _iter = self._albumWidget.model.get_iter(path)
-                items.append(self._albumWidget.model.get_value(_iter, 5))
-            callback(items)
+            callback(self._albumWidget.view.get_selected_items())
         elif self.get_visible_child() == self._artistAlbumsWidget:
             items = []
-            for row in self._artistAlbumsWidget.model:
+            # FIXME: calling into private model
+            for row in self._artistAlbumsWidget._model:
                 if row[6]:
                     items.append(row[5])
             callback(items)

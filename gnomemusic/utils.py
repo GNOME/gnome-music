@@ -73,3 +73,17 @@ def get_media_title(item):
 
     return (item.get_title()
             or _("Untitled"))
+
+
+def seconds_to_string(duration):
+    """Convert a time in seconds to a hh:mm string
+
+    :param int duration: Time in seconds
+    :return: Time in hh:mm format
+    :rtype: string
+    """
+    seconds = duration
+    minutes = seconds // 60
+    seconds %= 60
+
+    return '{:d}:{:02d}'.format(minutes, seconds)

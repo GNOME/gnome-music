@@ -48,6 +48,7 @@ class Grilo(GObject.GObject):
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_ARTIST,
+        Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
         Grl.METADATA_KEY_CREATION_DATE,
         Grl.METADATA_KEY_DURATION,
@@ -278,6 +279,16 @@ class Grilo(GObject.GObject):
         else:  # not favorite
             self.sparqltracker.update(Query.add_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
             song_item.set_lyrics("i'm truthy")
+
+    @log
+    def set_favorite(self, song_item, favorite):
+        """Set the favorite status of a media item
+
+        :param song_item: A Grilo media item
+        :param bool favorite: Set favorite status
+        """
+        if bool(song_item.get_lyrics()) != favorite:
+            self.toggle_favorite(song_item)
 
     @log
     def search(self, q, callback, data=None):

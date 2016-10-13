@@ -306,10 +306,10 @@ class Window(Gtk.ApplicationWindow):
     def _on_select_none(self, action, param):
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
+            view.unselect_all()
         else:
             view = self._stack.get_visible_child().get_visible_child()
-
-        view.unselect_all()
+            view.select_none()
 
     def _show_notification(self):
         self.notification_handler = None

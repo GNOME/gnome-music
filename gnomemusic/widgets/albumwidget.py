@@ -29,7 +29,8 @@ from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
-from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
+from gnomemusic.playlists import Playlists
+from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
 
 NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
@@ -57,6 +58,8 @@ class AlbumWidget(Gtk.EventBox):
         """
         Gtk.EventBox.__init__(self)
 
+        self._tracks = []
+
         scale = self.get_scale_factor()
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
@@ -66,35 +69,33 @@ class AlbumWidget(Gtk.EventBox):
         self._player = player
         self._iter_to_clean = None
 
-        self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
+        self._selection_mode = False
+
+        self._builder = Gtk.Builder()
+        self._builder.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
         self._create_model()
-        self.view = Gd.MainView(
-            shadow_type=Gtk.ShadowType.NONE
-        )
-        self.view.set_view_type(Gd.MainViewType.LIST)
         self._album = None
         self._header_bar = None
-        self.view.connect('item-activated', self._on_item_activated)
+        self._selection_mode_allowed = True
 
-        view_box = self._ui.get_object('view')
-        self._ui.get_object('scrolledWindow').set_placement(Gtk.CornerType.
-                                                            TOP_LEFT)
-        self.view.connect('selection-mode-request',
-                          self._on_selection_mode_request)
-        child_view = self.view.get_children()[0]
-        child_view.set_margin_top(64)
-        child_view.set_margin_bottom(64)
-        child_view.set_margin_end(32)
-        self.view.remove(child_view)
-        view_box.add(child_view)
+        view_box = self._builder.get_object('view')
+        self._disc_listbox = DiscListBox()
+        self._disc_listbox.set_selection_mode_allowed(True)
+        self._disc_listbox.set_margin_top(64)
+        self._disc_listbox.set_margin_bottom(64)
+        self._disc_listbox.set_margin_end(32)
+        self._disc_listbox.connect('selection-changed',
+                                   self._on_selection_changed)
+        view_box.add(self._disc_listbox)
 
-        self.add(self._ui.get_object('AlbumWidget'))
-        self._star_handler = StarHandlerWidget(self, 9)
-        self._add_list_renderers()
+        # FIXME: Assigned to appease searchview
+        # get_selected_tracks
+        self.view = self._disc_listbox
+
+        self.add(self._builder.get_object('AlbumWidget'))
         self.get_style_context().add_class('view')
         self.get_style_context().add_class('content-view')
-        self.view.get_generic_view().get_style_context().remove_class('view')
+
         self.show_all()
 
     @log
@@ -103,91 +104,9 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar._select_button.clicked()
 
     @log
-    def _on_item_activated(self, widget, id, path):
-        """List row activated."""
-        if self._star_handler.star_renderer_click:
-            self._star_handler.star_renderer_click = False
-            return
-
-        _iter = self.model.get_iter(path)
-
-        if self.model[_iter][10] != DiscoveryStatus.FAILED:
-            if (self._iter_to_clean
-                    and self._player.playlistId == self._album):
-                item = self.model[self._iter_to_clean][5]
-                title = utils.get_media_title(item)
-                self.model[self._iter_to_clean][0] = title
-                # Hide now playing icon
-                self.model[self._iter_to_clean][6] = False
-            self._player.set_playlist('Album', self._album, self.model, _iter,
-                                      5, 11)
-            self._player.set_playing(True)
-
-    @log
-    def _add_list_renderers(self):
-        """Create the ListView columns."""
-        list_widget = self.view.get_generic_view()
-
-        cols = list_widget.get_columns()
-        cols[0].set_min_width(100)
-        cols[0].set_max_width(200)
-        cells = cols[0].get_cells()
-        cells[2].set_visible(False)
-        cells[1].set_visible(False)
-
-        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0,
-                                                             xalign=0.5,
-                                                             yalign=0.5)
-
-        column_now_playing = Gtk.TreeViewColumn()
-        column_now_playing.set_fixed_width(48)
-        column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
-                                              self._on_list_widget_icon_render,
-                                              None)
-        list_widget.insert_column(column_now_playing, 0)
-
-        type_renderer = Gd.StyledTextRenderer(
-            xpad=16,
-            ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0
-        )
-
-        list_widget.add_renderer(type_renderer, lambda *args: None, None)
-        cols[0].clear_attributes(type_renderer)
-        cols[0].add_attribute(type_renderer, 'markup', 0)
-
-        duration_renderer = Gd.StyledTextRenderer(
-            xpad=16,
-            ellipsize=Pango.EllipsizeMode.END,
-            xalign=1.0
-        )
-
-        duration_renderer.add_class('dim-label')
-        list_widget.add_renderer(duration_renderer, lambda *args: None, None)
-        cols[0].clear_attributes(duration_renderer)
-        cols[0].add_attribute(duration_renderer, 'markup', 1)
-
-        self._star_handler.add_star_renderers(list_widget, cols)
-
-    def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if not self._player.currentTrackUri:
-            cell.set_visible(False)
-            return
-
-        if model[_iter][10] == DiscoveryStatus.FAILED:
-            cell.set_property('icon-name', ERROR_ICON_NAME)
-            cell.set_visible(True)
-        elif model[_iter][5].get_url() == self._player.currentTrackUri:
-            cell.set_property('icon-name', NOW_PLAYING_ICON_NAME)
-            cell.set_visible(True)
-        else:
-            cell.set_visible(False)
-
-    @log
     def _create_model(self):
         """Create the ListStore model for this widget."""
-        self.model = Gtk.ListStore(
+        self._model = Gtk.ListStore(
             GObject.TYPE_STRING,  # title
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -212,36 +131,41 @@ class AlbumWidget(Gtk.EventBox):
         :param header_bar: The header bar object
         :param selection_toolbar: The selection toolbar object
         """
+        # reset view
+        self._tracks = []
+        self._create_model()
+        for widget in self._disc_listbox.get_children():
+            self._disc_listbox.remove(widget)
+
         self.selection_toolbar = selection_toolbar
         self._header_bar = header_bar
         self._album = album
-        self._ui.get_object('cover').set_from_surface(
+        self._builder.get_object('cover').set_from_surface(
             self._loading_icon_surface)
         self._cache.lookup(item, ArtSize.large, self._on_lookup, None)
         self._duration = 0
-        self._create_model()
+
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
         header_bar._select_button.connect(
             'toggled', self._on_header_select_button_toggled)
         header_bar._cancel_button.connect(
             'clicked', self._on_header_cancel_button_clicked)
-        self.view.connect('view-selection-changed',
-                          self._on_view_selection_changed)
-        self.view.set_model(self.model)
+
+        # FIXME: use utils
         escaped_artist = GLib.markup_escape_text(artist)
         escaped_album = GLib.markup_escape_text(album)
-        self._ui.get_object('artist_label').set_markup(escaped_artist)
-        self._ui.get_object('title_label').set_markup(escaped_album)
+        self._builder.get_object('artist_label').set_markup(escaped_artist)
+        self._builder.get_object('title_label').set_markup(escaped_album)
         if (item.get_creation_date()):
-            self._ui.get_object('released_label_info').set_text(
+            self._builder.get_object('released_label_info').set_text(
                 str(item.get_creation_date().get_year()))
         else:
-            self._ui.get_object('released_label_info').set_text('----')
+            self._builder.get_object('released_label_info').set_text('----')
         self._player.connect('playlist-item-changed', self._update_model)
 
     @log
-    def _on_view_selection_changed(self, widget):
-        items = self.view.get_selection()
+    def _on_selection_changed(self, widget):
+        items = self._disc_listbox.get_selected_items()
         self.selection_toolbar._add_to_playlist_button.set_sensitive(
             len(items) > 0)
         if len(items) > 0:
@@ -255,7 +179,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_header_cancel_button_clicked(self, button):
         """Cancel selection mode callback."""
-        self.view.set_selection_mode(False)
+        self._disc_listbox.set_selection_mode(False)
         self._header_bar.set_selection_mode(False)
         self._header_bar.header_bar.title = self._album
 
@@ -263,20 +187,54 @@ class AlbumWidget(Gtk.EventBox):
     def _on_header_select_button_toggled(self, button):
         """Selection mode button clicked callback."""
         if button.get_active():
-            self.view.set_selection_mode(True)
+            self._selection_mode = True
+            self._disc_listbox.set_selection_mode(True)
             self._header_bar.set_selection_mode(True)
             self._player.actionbar.set_visible(False)
-            self.selection_toolbar.actionbar.set_visible(True)
-            self.selection_toolbar._add_to_playlist_button.set_sensitive(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
-            self.view.set_selection_mode(False)
+            self._selection_mode = False
+            self._disc_listbox.set_selection_mode(False)
             self._header_bar.set_selection_mode(False)
-            self._header_bar.title = self._album
-            self.selection_toolbar.actionbar.set_visible(False)
             if(self._player.get_playback_status() != 2):
                 self._player.actionbar.set_visible(True)
+
+    @log
+    def _create_disc_box(self, disc_nr, disc_tracks):
+        disc_box = DiscBox(self._model)
+        disc_box.set_tracks(disc_tracks)
+        disc_box.set_disc_number(disc_nr)
+        disc_box.set_columns(1)
+        disc_box.show_song_numbers(False)
+        disc_box.connect('track-activated', self._track_activated)
+        disc_box.connect('selection-toggle', self._selection_mode_toggled)
+
+        return disc_box
+
+    @log
+    def _selection_mode_toggled(self, widget):
+        if not self._selection_mode_allowed:
+            return
+
+        self._selection_mode = not self._selection_mode
+        self._on_selection_mode_request()
+
+
+    @log
+    def _track_activated(self, widget, song_widget):
+        if not song_widget.can_be_played:
+            return
+
+        if self._selection_mode:
+            song_widget.check_button.toggled()
+            return
+
+        self._player.stop()
+        self._player.set_playlist('Artist', 'test', song_widget.model,
+                                  song_widget.itr, 5, 11)
+        self._player.set_playing(True)
+        return True
 
     @log
     def add_item(self, source, prefs, track, remaining, data=None):
@@ -289,21 +247,29 @@ class AlbumWidget(Gtk.EventBox):
         :param data: User data
         """
         if track:
+            self._tracks.append(track)
+
             self._duration = self._duration + track.get_duration()
-            _iter = self.model.append()
-            title = utils.get_media_title(track)
-            escaped_title = GLib.markup_escape_text(title)
-            self.model[_iter][0, 1, 2, 3, 4, 5, 9] = [
-                escaped_title,
-                self._player.seconds_to_string(track.get_duration()),
-                '',
-                '',
-                None,
-                track,
-                bool(track.get_lyrics())
-            ]
-            self._ui.get_object('running_length_label_info').set_text(
+            return
+
+        discs = {}
+        for track in self._tracks:
+            disc_nr = track.get_album_disc_number()
+            if disc_nr not in discs.keys():
+                discs[disc_nr] = [track]
+            else:
+                discs[disc_nr].append(track)
+        for disc_nr in discs:
+            disc = self._create_disc_box(disc_nr, discs[disc_nr])
+            self._disc_listbox.insert(disc, -1)
+            if len(discs) == 1:
+                disc.show_disc_label(False)
+
+        if remaining == 0:
+            self._builder.get_object('running_length_label_info').set_text(
                 _("%d min") % (int(self._duration / 60) + 1))
+
+            self.show_all()
 
     @log
     def _on_lookup(self, surface, data=None):
@@ -313,7 +279,7 @@ class AlbumWidget(Gtk.EventBox):
         :param path: The filesystem location the pixbuf
         :param data: User data
         """
-        self._ui.get_object('cover').set_from_surface(surface)
+        self._builder.get_object('cover').set_from_surface(surface)
 
     @log
     def _update_model(self, player, playlist, current_iter):
@@ -323,29 +289,46 @@ class AlbumWidget(Gtk.EventBox):
         :param playlist: The current playlist
         :param current_iter: The current iter of the playlist model
         """
-        # self is not our playlist, return
-        if (playlist != self.model):
-            return False
+        if (playlist != self._model):
+            return True
 
         current_song = playlist[current_iter][5]
+
+        self._duration = 0
+
         song_passed = False
         _iter = playlist.get_iter_first()
-        self._duration = 0
 
         while _iter:
             song = playlist[_iter][5]
+            song_widget = song.song_widget
             self._duration += song.get_duration()
             escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
+
             if (song == current_song):
-                title = '<b>%s</b>' % escaped_title
+                song_widget.now_playing_sign.show()
+                song_widget.title.set_markup("<b>{}</b>".format(escaped_title))
                 song_passed = True
             elif (song_passed):
-                title = '<span>%s</span>' % escaped_title
+                song_widget.now_playing_sign.hide()
+                song_widget.title.set_markup(
+                    "<span>{}</span>".format(escaped_title))
             else:
-                title = '<span color=\'grey\'>%s</span>' % escaped_title
-            playlist[_iter][0] = title
-            _iter = playlist.iter_next(_iter)
-            self._ui.get_object('running_length_label_info').set_text(
-                _("%d min") % (int(self._duration / 60) + 1))
+                song_widget.now_playing_sign.hide()
+                song_widget.title.set_markup(
+                    "<span color=\'grey\'>{}</span>".format(escaped_title))
 
-        return False
+            _iter = playlist.iter_next(_iter)
+
+        self._builder.get_object('running_length_label_info').set_text(
+            _("%d min") % (int(self._duration / 60) + 1))
+
+        return True
+
+    @log
+    def select_all(self):
+        self._disc_listbox.select_all()
+
+    @log
+    def select_none(self):
+        self._disc_listbox.select_none()
