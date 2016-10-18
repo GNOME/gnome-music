@@ -40,37 +40,40 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+class Playlist:
+    """ Base class of static and intelligent playlists """
+    ID = None
+    QUERY = None
+    TAG_TEXT = ""
+    TITLE = ""
+
+
 class StaticPlaylists:
 
     def __repr__(self):
         return '<StaticPlaylists>'
 
-    class MostPlayed:
-        ID = None
+    class MostPlayed(Playlist):
         TAG_TEXT = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Most Played")
 
-    class NeverPlayed:
-        ID = None
+    class NeverPlayed(Playlist):
         TAG_TEXT = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Never Played")
 
-    class RecentlyPlayed:
-        ID = None
+    class RecentlyPlayed(Playlist):
         TAG_TEXT = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Played")
 
-    class RecentlyAdded:
-        ID = None
+    class RecentlyAdded(Playlist):
         TAG_TEXT = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Added")
 
-    class Favorites:
-        ID = None
+    class Favorites(Playlist):
         TAG_TEXT = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Favorite Songs")
