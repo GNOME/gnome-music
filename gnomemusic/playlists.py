@@ -139,10 +139,6 @@ class Playlists(GObject.GObject):
 
     @log
     def _on_grilo_ready(self, data=None):
-        self.fetch_or_create_static_playlists()
-
-    @log
-    def fetch_or_create_static_playlists(self):
         """For all static playlists: get ID, if exists; if not, create the playlist and get ID."""
 
         def callback(obj, result, playlist):
