@@ -144,21 +144,96 @@ class Playlists(GObject.GObject):
     def _on_grilo_ready(self, data=None):
         """For all static playlists: get ID, if exists; if not, create the playlist and get ID."""
 
-        def callback(obj, result, playlist):
-            cursor = obj.query_finish(result)
-            while (cursor.next(None)):
-                playlist.ID = cursor.get_integer(1)
+        def playlist_id_fetched_cb(cursor, res, playlist):
+            """ Called after the playlist id is fetched """
+            try:
+                cursor.next_finish(res)
+            except GLib.Error as error:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            playlist.ID = cursor.get_integer(1)
 
             if not playlist.ID:
-                # create the playlist
-                playlist.ID = self.create_playlist_and_return_id(playlist.TITLE, playlist.TAG_TEXT)
+                # Create the  static playlist
+                self._create_static_playlist(playlist)
+            else:
+                # Update playlist
+                self.update_static_playlist(playlist)
 
-            self.update_static_playlist(playlist)
+        def callback(obj, result, playlist):
+            """ Starts retrieving the playlist id """
+            try:
+                cursor = obj.query_finish(result)
+            except GLib.Error as error:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
 
+            # Search for the playlist ID
+            cursor.next_async(None, playlist_id_fetched_cb, playlist)
+
+        # Start fetching all the static playlists
         for playlist in self._static_playlists.get_all():
             self.tracker.query_async(
                 Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
                 callback, playlist)
+
+    @log
+    def _create_static_playlist(self, playlist):
+        """ Create the tag and the static playlist, and fetch the newly created
+        playlist's songs.
+        """
+        title = playlist.TITLE
+        tag_text = playlist.TAG_TEXT
+
+        def playlist_next_async_cb(cursor, res, playlist):
+            """ Called after we finished moving the Tracker cursor, and ready
+            to retrieve the playlist id"""
+            # Update the playlist ID
+            try:
+                cursor.next_finish(res)
+            except GLib.Error as error:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            playlist.ID = cursor.get_integer(0)
+
+            # Fetch the playlist contents
+            self.update_static_playlist(playlist)
+
+        def playlist_queried_cb(obj, res, playlist):
+            """ Called after the playlist is created and the ID is fetched """
+            try:
+                cursor = obj.query_finish(res)
+            except GLib.Error as error:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            cursor.next_async(None, playlist_next_async_cb, playlist)
+
+        def playlist_created_cb(obj, res, playlist):
+            """ Called when the static playlist is created """
+            data = obj.update_blank_finish(res)
+            playlist_urn = data.get_child_value(0).get_child_value(0).\
+                           get_child_value(0).get_child_value(1).get_string()
+
+            query = Query.get_playlist_with_urn(playlist_urn)
+
+            # Start fetching the playlist
+            self.tracker.query_async(query, None, playlist_queried_cb, playlist)
+
+        def tag_created_cb(obj, res, playlist):
+            """ Called when the tag is created """
+            creation_query = Query.create_playlist_with_tag(title, tag_text)
+
+            # Start creating the playlist itself
+            self.tracker.update_blank_async(creation_query, GLib.PRIORITY_LOW,
+                                            None, playlist_created_cb, playlist)
+
+        # Start the playlist creation by creating the tag
+        self.tracker.update_blank_async(Query.create_tag(tag_text),
+                                        GLib.PRIORITY_LOW, None,
+                                        tag_created_cb, playlist)
 
     @log
     def update_playcount(self, song_url):
@@ -203,7 +278,7 @@ class Playlists(GObject.GObject):
             logger.warn("Error: %s, %s", err.__class__, err)
             return
 
-        def callback(conn, res, final_query):
+        def callback(cursor, res, final_query):
             uri = cursor.get_string(0)[0]
             final_query += Query.add_song_to_playlist(playlist.ID, uri)
 
@@ -231,23 +306,6 @@ class Playlists(GObject.GObject):
     def update_all_static_playlists(self):
         for playlist in self._static_playlists.get_all():
             self.update_static_playlist(playlist)
-
-    @log
-    def create_playlist_and_return_id(self, title, tag_text):
-        self.tracker.update_blank(Query.create_tag(tag_text), GLib.PRIORITY_LOW, None)
-
-        data = self.tracker.update_blank(
-            Query.create_playlist_with_tag(title, tag_text), GLib.PRIORITY_LOW,
-            None)
-        playlist_urn = data.get_child_value(0).get_child_value(0).\
-            get_child_value(0).get_child_value(1).get_string()
-
-        cursor = self.tracker.query(
-            Query.get_playlist_with_urn(playlist_urn),
-            None)
-        if not cursor or not cursor.next():
-            return
-        return cursor.get_integer(0)
 
     @log
     def create_playlist(self, title):
