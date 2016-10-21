@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=user%20docs\n"
-"POT-Creation-Date: 2016-02-11 21:31+0000\n"
-"PO-Revision-Date: 2016-04-04 10:58+0200\n"
+"POT-Creation-Date: 2016-10-05 12:45+0000\n"
+"PO-Revision-Date: 2016-10-21 22:27+0200\n"
 "Last-Translator: Sebastian Rasmussen <sebras@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -42,12 +42,12 @@ msgstr "Shobha Tyagi"
 msgid "2014"
 msgstr "2014"
 
-# sebras: https://bugzilla.gnome.org/show_bug.cgi?id=761885
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
 "En enkel och elegant ersättning för att använda <app>Filer</app> för att "
 "visa musikkatalogen."
