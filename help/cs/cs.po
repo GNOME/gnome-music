@@ -2,13 +2,13 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 #
-# Marek Černocký <marek@manet.cz>, 2014, 2015.
+# Marek Černocký <marek@manet.cz>, 2014, 2015, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
-"POT-Creation-Date: 2015-10-11 19:56+0000\n"
-"PO-Revision-Date: 2015-10-11 23:26+0200\n"
+"POT-Creation-Date: 2016-10-05 12:45+0000\n"
+"PO-Revision-Date: 2016-10-23 09:18+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -45,10 +45,11 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
-"Jednoduchá a vytříbená náhrada za správce souborů pro zobrazení složky s "
-"hudbou."
+"Jednoduchá a vytříbená náhrada za aplikaci <app>Soubory</app> pro zobrazení "
+"složky s hudbou."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -444,3 +445,4 @@ msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
 msgstr "Tato práce ji licencována pod <_:link-1/>"
+
