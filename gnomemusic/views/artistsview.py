@@ -33,43 +33,53 @@ import gnomemusic.utils as utils
 
 
 class ArtistsView(BaseView):
+    """Main view of all available artists
+
+    Consists of a list of artists on the left side and an overview of
+    all albums by this artist on the right side.
+    """
 
     def __repr__(self):
         return '<ArtistsView>'
 
     @log
     def __init__(self, window, player):
+        """Initialize
+
+        :param GtkWidget window: The main window
+        :param player: The main player object
+        """
         BaseView.__init__(self, 'artists', _("Artists"), window,
                           Gd.MainViewType.LIST, True)
-        self.artists_counter = 0
+
         self.player = player
         self._artists = {}
-        self.albums_selected = []
-        self.items_selected = []
-        self.items_selected_callback = None
-        self.artistAlbumsStack = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE,
-        )
-        self._artistAlbumsWidget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE,
-            hexpand=True
-        )
-        self.artistAlbumsStack.add_named(self._artistAlbumsWidget, "sidebar")
-        self.artistAlbumsStack.set_visible_child_name("sidebar")
+        self._albums_selected = []
+        self._items_selected = []
+        self._items_selected_callback = None
+        self._artist_albums_stack = Gtk.Stack(
+            transition_type=Gtk.StackTransitionType.CROSSFADE)
+        self._artist_albums_widget = Gtk.Frame(shadow_type=Gtk.ShadowType.NONE,
+                                               hexpand=True)
+        self._artist_albums_stack.add_named(self._artist_albums_widget,
+                                            "sidebar")
+        self._artist_albums_stack.set_visible_child_name("sidebar")
         self.view.set_shadow_type(Gtk.ShadowType.IN)
         self.view.get_style_context().add_class('side-panel')
         self.view.set_hexpand(False)
         self.view.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
-        self._grid.attach(self.artistAlbumsStack, 2, 0, 2, 2)
+        self._grid.attach(self._artist_albums_stack, 2, 0, 2, 2)
         self._add_list_renderers()
-        self.view.get_generic_view().get_style_context().remove_class('content-view')
+        self.view.get_generic_view().get_style_context().remove_class(
+            'content-view')
         self.show_all()
         self.view.hide()
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and self.header_bar._selectionMode is False):
+        if (self._init
+                and not self.header_bar._selectionMode):
             self.model.clear()
             self._artists.clear()
             self._offset = 0
@@ -77,96 +87,88 @@ class ArtistsView(BaseView):
             grilo.changes_pending['Artists'] = False
 
     @log
-    def _populate(self, data=None):
-        self._init = True
-        self.populate()
-
-    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
-
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
         cells[1].set_visible(False)
         cells[2].set_visible(False)
         self.text_renderer = Gd.StyledTextRenderer(
-            xpad=16,
-            ypad=16,
-            ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0,
-            width=220
-        )
+            xpad=16, ypad=16, ellipsize=Pango.EllipsizeMode.END, xalign=0.0,
+            width=220)
         list_widget.add_renderer(self.text_renderer, lambda *args: None, None)
         cols[0].clear_attributes(self.text_renderer)
         cols[0].add_attribute(self.text_renderer, 'text', 2)
 
     @log
     def _on_item_activated(self, widget, item_id, path):
-        if self.star_handler.star_renderer_click:
-            self.star_handler.star_renderer_click = False
-            return
-
+        """Initializes new artist album widgets"""
         try:
-            _iter = self.model.get_iter(path)
-        except TypeError:
+            itr = self.model.get_iter(path)
+        except ValueError as err:
+            logger.warn("Error: %s, %s", err.__class__, err)
             return
-        self._last_selection = _iter
-        artist = self.model.get_value(_iter, 2)
-        albums = self._artists[artist.casefold()]['albums']
 
+        self._last_selection = itr
+        artist = self.model[itr][2]
+        albums = self._artists[artist.casefold()]['albums']
         widget = self._artists[artist.casefold()]['widget']
+
         if widget:
-            # FIXME: internal call
-            if widget._model == self.player.running_playlist('Artist', widget.artist):
-                self._artistAlbumsWidget = widget.get_parent()
-                GLib.idle_add(self.artistAlbumsStack.set_visible_child,
-                              self._artistAlbumsWidget)
+            artist_widget_model = self.player.running_playlist('Artist',
+                                                                widget.artist)
+            artist_stack = self._artist_albums_stack
+            # FIXME: calling to private model
+            if widget._model == artist_widget_model:
+                self._artist_albums_widget = widget.get_parent()
+                GLib.idle_add(self._artist_albums_stack.set_visible_child,
+                              self._artist_albums_widget)
                 return
-            elif widget.get_parent() == self._artistAlbumsWidget:
+            elif widget.get_parent() == artist_stack:
                 return
             else:
                 widget.get_parent().destroy()
 
-        # Prepare a new artistAlbumsWidget here
-        new_artistAlbumsWidget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE,
-            hexpand=True
-        )
-        self.artistAlbumsStack.add(new_artistAlbumsWidget)
+        # Prepare a new artist_albums_widget here
+        new_artist_albums_widget = Gtk.Frame(shadow_type=Gtk.ShadowType.NONE,
+                                             hexpand=True)
+        self._artist_albums_stack.add(new_artist_albums_widget)
 
-        artistAlbums = None
-
-        artistAlbums = ArtistAlbumsWidget(
-            artist, albums, self.player,
-            self.header_bar, self.selection_toolbar, self.window
-        )
-        self._artists[artist.casefold()]['widget'] = artistAlbums
-        new_artistAlbumsWidget.add(artistAlbums)
-        new_artistAlbumsWidget.show()
+        artist_albums = ArtistAlbumsWidget(artist, albums, self.player,
+                                           self.header_bar,
+                                           self.selection_toolbar, self.window)
+        self._artists[artist.casefold()]['widget'] = artist_albums
+        new_artist_albums_widget.add(artist_albums)
+        new_artist_albums_widget.show()
 
         # Replace previous widget
-        self._artistAlbumsWidget = new_artistAlbumsWidget
-        GLib.idle_add(self.artistAlbumsStack.set_visible_child, new_artistAlbumsWidget)
+        self._artist_albums_widget = new_artist_albums_widget
+        GLib.idle_add(self._artist_albums_stack.set_visible_child,
+                      new_artist_albums_widget)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         self.window.notification.set_timeout(0)
-        if item is None:
-            if remaining == 0:
-                self.view.set_model(self.model)
-                self.window.notification.dismiss()
-                self.view.show()
+
+        if (not item and remaining == 0):
+            self.view.set_model(self.model)
+            self.window.notification.dismiss()
+            self.view.show()
             return
         self._offset += 1
         artist = utils.get_artist_name(item)
         if not artist.casefold() in self._artists:
-            _iter = self.model.insert_with_valuesv(-1, [2], [artist])
-            self._artists[artist.casefold()] = {'iter': _iter, 'albums': [], 'widget': None}
-
+            itr = self.model.insert_with_valuesv(-1, [2], [artist])
+            self._artists[artist.casefold()] = {
+                'iter': itr,
+                'albums': [],
+                'widget': None
+            }
         self._artists[artist.casefold()]['albums'].append(item)
 
     @log
     def populate(self):
+        """Populates the view"""
         self.window._init_loading_notification()
         grilo.populate_artists(self._offset, self._add_item)
 
@@ -174,55 +176,59 @@ class ArtistsView(BaseView):
     def _on_header_bar_toggled(self, button):
         BaseView._on_header_bar_toggled(self, button)
 
+        view_selection = self.view.get_generic_view().get_selection()
         if button.get_active():
             self.text_renderer.set_fixed_size(178, -1)
-            self._last_selection =\
-                self.view.get_generic_view().get_selection().get_selected()[1]
-            self.view.get_generic_view().get_selection().set_mode(
-                Gtk.SelectionMode.NONE)
+            self._last_selection = view_selection.get_selected()[1]
+            view_selection.set_mode(Gtk.SelectionMode.NONE)
         else:
             self.text_renderer.set_fixed_size(220, -1)
-            self.view.get_generic_view().get_selection().set_mode(
-                Gtk.SelectionMode.SINGLE)
+            view_selection.set_mode(Gtk.SelectionMode.SINGLE)
             if self._last_selection is not None:
-                self.view.get_generic_view().get_selection().select_iter(
-                    self._last_selection)
+                view_selection.select_iter(self._last_selection)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        self.artistAlbumsStack.set_sensitive(not self.header_bar._selectionMode)
-        if self.header_bar._selectionMode is False and grilo.changes_pending['Artists'] is True:
+        self._artist_albums_stack.set_sensitive(
+            not self.header_bar._selectionMode)
+        if (not self.header_bar._selectionMode
+                and grilo.changes_pending['Artists']):
             self._on_changes_pending()
 
     @log
     def get_selected_tracks(self, callback):
-        self.items_selected = []
-        self.items_selected_callback = callback
-        self.albums_index = 0
-        self.albums_selected = []
+        """Returns a list of tracks selected
+
+        In this view this will be all albums of the selected artists.
+        :returns: All selected songs
+        :rtype: A list of tracks
+        """
+        self._items_selected = []
+        self._items_selected_callback = callback
+        self._albums_index = 0
+        self._albums_selected = []
 
         for path in self.view.get_selection():
-            _iter = self.model.get_iter(path)
-            artist = self.model.get_value(_iter, 2)
+            itr = self.model.get_iter(path)
+            artist = self.model[itr][2]
             albums = self._artists[artist.casefold()]['albums']
-            self.albums_selected.extend(albums)
+            self._albums_selected.extend(albums)
 
-        if len(self.albums_selected):
+        if len(self._albums_selected):
             self._get_selected_album_songs()
 
     @log
     def _get_selected_album_songs(self):
-        grilo.populate_album_songs(
-            self.albums_selected[self.albums_index],
-            self._add_selected_item)
-        self.albums_index += 1
+        grilo.populate_album_songs(self._albums_selected[self._albums_index],
+                                   self._add_selected_item)
+        self._albums_index += 1
 
     @log
     def _add_selected_item(self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item)
+            self._items_selected.append(item)
         if remaining == 0:
-            if self.albums_index < len(self.albums_selected):
+            if self._albums_index < len(self._albums_selected):
                 self._get_selected_album_songs()
             else:
-                self.items_selected_callback(self.items_selected)
+                self._items_selected_callback(self._items_selected)
