@@ -272,6 +272,7 @@ class Query():
         nmm:artistName(nmm:performer(?song)) AS ?artist
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
+        nmm:trackNumber(?song) AS ?track_number
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
         IF(bound(?tag), 'truth!', '') AS ?lyrics
     WHERE {

@@ -304,7 +304,7 @@ class DiscBox(Gtk.Box):
 
         song_widget.number = builder.get_object('num')
         song_widget.number.set_markup(
-            '<span color=\'grey\'>{}</span>'.format(len(self._songs)))
+            '<span color=\'grey\'>{}</span>'.format(track.get_track_number()))
         song_widget.number.set_no_show_all(True)
 
         song_widget.title = builder.get_object('title')
