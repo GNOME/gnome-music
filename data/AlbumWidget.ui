@@ -202,7 +202,7 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="hscrollbar_policy">never</property>
-        <property name="window_placement">top-right</property>
+        <property name="window_placement">top-left</property>
         <child>
           <object class="GtkViewport" id="view">
             <property name="width_request">600</property>
