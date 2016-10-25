@@ -22,26 +22,16 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import logging
 
 from gettext import gettext as _
-from gi.repository import Gdk, Gio, GObject, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
-logger = logging.getLogger(__name__)
-
 NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
-
-try:
-    settings = Gio.Settings.new('org.gnome.Music')
-    MAX_TITLE_WIDTH = settings.get_int('max-width-chars')
-except Exception as e:
-    MAX_TITLE_WIDTH = 20
-    logger.error("Error on setting widget max-width-chars: %s", str(e))
 
 
 class StarStack(Gtk.Stack):
@@ -309,7 +299,7 @@ class DiscBox(Gtk.Box):
 
         song_widget.title = builder.get_object('title')
         song_widget.title.set_text(title)
-        song_widget.title.set_max_width_chars(MAX_TITLE_WIDTH)
+        song_widget.title.set_max_width_chars(50)
 
         song_widget.duration = builder.get_object('duration')
         time = utils.seconds_to_string(track.get_duration())
