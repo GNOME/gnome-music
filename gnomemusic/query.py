@@ -285,8 +285,8 @@ class Query():
                 (STRSTARTS(nie:url(?song), '%(music_dir)s/')))
     }
     ORDER BY
-         nmm:setNumber(nmm:musicAlbumDisc(?song))
-         nmm:trackNumber(?song)
+         ?album_disc_number
+         ?track_number
          tracker:added(?song)
     '''.replace('\n', ' ').strip() % {
             'album_id': album_id,
