@@ -38,6 +38,10 @@ class StarStack(Gtk.Stack):
     """Stackwidget for starring songs"""
     __gtype_name__ = 'StarStack'
 
+    def __repr__(self):
+        return '<StarStack>'
+
+    @log
     def __init__(self):
         super().__init__(self)
 
@@ -55,6 +59,7 @@ class StarStack(Gtk.Stack):
 
         self.show_all()
 
+    @log
     def set_favorite(self, favorite):
         """Set favorite
 
@@ -69,6 +74,7 @@ class StarStack(Gtk.Stack):
         else:
             self.set_visible_child_name('non-starred')
 
+    @log
     def get_favorite(self):
         """Return the current state of the widget
 
@@ -77,6 +83,7 @@ class StarStack(Gtk.Stack):
         """
         return self._favorite
 
+    @log
     def toggle_favorite(self):
         """Toggle the widget state"""
         self._favorite = not self._favorite
@@ -92,6 +99,10 @@ class DiscSongsFlowBox(Gtk.FlowBox):
     """
     __gtype_name__ = 'DiscSongsFlowBox'
 
+    def __repr__(self):
+        return '<DiscSongsFlowBox>'
+
+    @log
     def __init__(self, columns=1):
         """Initialize
 
@@ -103,6 +114,7 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         self._columns = columns
         self.get_style_context().add_class('discsongsflowbox')
 
+    @log
     def set_columns(self, columns):
         """Set the number of columns to use
 
@@ -136,6 +148,10 @@ class DiscBox(Gtk.Box):
 
     }
 
+    def __repr__(self):
+        return '<DiscBox>'
+
+    @log
     def __init__(self, model=None):
         """Initialize
 
@@ -160,6 +176,7 @@ class DiscBox(Gtk.Box):
 
         self.pack_start(builder.get_object('disc'), True, True, 0)
 
+    @log
     def set_columns(self, columns):
         """Set the number of columns used by the songs list
 
@@ -167,6 +184,7 @@ class DiscBox(Gtk.Box):
         """
         self._disc_songs_flowbox.set_columns(columns)
 
+    @log
     def set_disc_number(self, disc_number):
         """Set the dics number to display
 
@@ -176,6 +194,7 @@ class DiscBox(Gtk.Box):
         self._label.get_style_context().add_class('dim-label')
         self._label.set_visible(True)
 
+    @log
     def show_disc_label(self, show_header):
         """Wheter to show the disc number label
 
@@ -184,6 +203,7 @@ class DiscBox(Gtk.Box):
         self._label.set_visible(False)
         self._label.hide()
 
+    @log
     def show_duration(self, show_duration):
         """Wheter to show the song durations
 
@@ -194,6 +214,7 @@ class DiscBox(Gtk.Box):
 
         self._disc_songs_flowbox.foreach(child_show_duration)
 
+    @log
     def show_favorites(self, show_favorites):
         """Where to show the favorite switches
 
@@ -205,6 +226,7 @@ class DiscBox(Gtk.Box):
 
         self._disc_songs_flowbox.foreach(child_show_favorites)
 
+    @log
     def show_song_numbers(self, show_song_number):
         """Whether to show the song numbers
 
@@ -215,6 +237,7 @@ class DiscBox(Gtk.Box):
 
         self._disc_songs_flowbox.foreach(child_show_song_number)
 
+    @log
     def set_tracks(self, tracks):
         """Songs to display
 
@@ -226,6 +249,7 @@ class DiscBox(Gtk.Box):
             self._disc_songs_flowbox.insert(song_widget, -1)
             track.song_widget = song_widget
 
+    @log
     def set_selection_mode(self, selection_mode):
         """Set selection mode
 
@@ -234,6 +258,7 @@ class DiscBox(Gtk.Box):
         self._selection_mode = selection_mode
         self._disc_songs_flowbox.foreach(self._toggle_widget_selection)
 
+    @log
     def get_selected_items(self):
         """Return all selected items
 
@@ -245,6 +270,7 @@ class DiscBox(Gtk.Box):
 
         return self._selected_items
 
+    @log
     def _get_selected(self, child):
         song_widget = child.get_child()
 
@@ -254,6 +280,7 @@ class DiscBox(Gtk.Box):
 
     # FIXME: select all/none slow probably b/c of the row changes
     # invocations, maybe workaround?
+    @log
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
@@ -262,6 +289,7 @@ class DiscBox(Gtk.Box):
 
         self._disc_songs_flowbox.foreach(child_select_all)
 
+    @log
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
@@ -270,6 +298,7 @@ class DiscBox(Gtk.Box):
 
         self._disc_songs_flowbox.foreach(child_select_none)
 
+    @log
     def _create_song_widget(self, track):
         """Helper function to create a song widget for a
         single song
@@ -330,6 +359,7 @@ class DiscBox(Gtk.Box):
 
         return song_widget
 
+    @log
     def _toggle_favorite(self, widget, event, song_widget):
         if event.button == Gdk.BUTTON_PRIMARY:
             song_widget.star_stack.toggle_favorite()
@@ -340,11 +370,13 @@ class DiscBox(Gtk.Box):
         grilo.set_favorite(self._model[song_widget.itr][5], favorite)
         return True
 
+    @log
     def _check_button_toggled(self, widget, song_widget):
         self.emit('selection-changed')
 
         return True
 
+    @log
     def _toggle_widget_selection(self, child):
         song_widget = child.get_child()
         song_widget.check_button.set_visible(self._selection_mode)
@@ -352,6 +384,7 @@ class DiscBox(Gtk.Box):
             if song_widget.check_button.get_active():
                 song_widget.check_button.set_active(False)
 
+    @log
     def _track_activated(self, widget, event):
         # FIXME: don't think keys work correctly, if they did ever
         # even.
@@ -394,6 +427,10 @@ class DiscListBox(Gtk.ListBox):
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    def __repr__(self):
+        return '<DiscListBox>'
+
+    @log
     def __init__(self):
         """Initialize"""
         super().__init__()
@@ -403,14 +440,17 @@ class DiscListBox(Gtk.ListBox):
         self._selection_mode_allowed = False
         self._selected_items = []
 
+    @log
     def insert(self, widget, position):
         """Insert a DiscBox widget"""
         super().insert(widget, position)
         widget.connect('selection-changed', self._on_selection_changed)
 
+    @log
     def _on_selection_changed(self, widget):
         self.emit('selection-changed')
 
+    @log
     def get_selected_items(self):
         """Returns all selected items for all discs
 
@@ -426,6 +466,7 @@ class DiscListBox(Gtk.ListBox):
 
         return self._selected_items
 
+    @log
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
@@ -433,6 +474,7 @@ class DiscListBox(Gtk.ListBox):
 
         self.foreach(child_select_all)
 
+    @log
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
@@ -440,6 +482,7 @@ class DiscListBox(Gtk.ListBox):
 
         self.foreach(child_select_none)
 
+    @log
     def set_selection_mode(self, selection_mode):
         """Set selection mode
 
@@ -455,6 +498,7 @@ class DiscListBox(Gtk.ListBox):
 
         self.foreach(set_child_selection_mode)
 
+    @log
     def set_selection_mode_allowed(self, allowed):
         """Set if selection mode is allowed
 
