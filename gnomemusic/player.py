@@ -807,6 +807,9 @@ class Player(GObject.GObject):
         self.titleLabel = self._ui.get_object('title')
         self.artistLabel = self._ui.get_object('artist')
         self.coverImg = self._ui.get_object('cover')
+        self.coverImg.set_property("width-request", ArtSize.xsmall.width)
+        self.coverImg.set_property("height-request", ArtSize.xsmall.height)
+
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
 
