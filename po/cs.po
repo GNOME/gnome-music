@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-10-09 19:17+0000\n"
-"PO-Revision-Date: 2016-10-23 09:18+0200\n"
+"POT-Creation-Date: 2016-10-25 14:14+0000\n"
+"PO-Revision-Date: 2016-10-28 10:15+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -81,33 +81,18 @@ msgid "Enables or disables playback notifications"
 msgstr "Povolí nebo zakáže oznámení o přehrávání"
 
 #: ../data/org.gnome.Music.gschema.xml.h:14
-msgid "Max chars to display in track name on Artist view"
-msgstr ""
-"Maximální počet znaků, který se může zobrazit v názvu skladby v zobrazení "
-"Umělci"
-
-#: ../data/org.gnome.Music.gschema.xml.h:15
-msgid ""
-"This setting modifies the amount of chars for track title on Artist view "
-"before its been ellipsized. Set this to -1 to disable"
-msgstr ""
-"Toto nastavení upravuje množství znaků pro název skladby v zobrazení Umělci. "
-"Znaky nad tento počet jsou nahrazeny výpustkem. Pro vypnutí této funkce "
-"nastavte na -1."
-
-#: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Enable ReplayGain"
 msgstr "Povolit ReplayGain"
 
-#: ../data/org.gnome.Music.gschema.xml.h:17
+#: ../data/org.gnome.Music.gschema.xml.h:15
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Povolí nebo zakáže vyrovnání hlasitosti u alb pomocí ReplayGain"
 
-#: ../data/org.gnome.Music.gschema.xml.h:18
+#: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Inital state has been displayed"
 msgstr "Počáteční stav byl zobrazen"
 
-#: ../data/org.gnome.Music.gschema.xml.h:19
+#: ../data/org.gnome.Music.gschema.xml.h:17
 msgid "Set to true when initial state has been displayed"
 msgstr "Nastavit na zapnuto, když byl již zobrazen počáteční stav"
 
@@ -138,8 +123,8 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 
 #: ../gnomemusic/mpris.py:314 ../gnomemusic/player.py:603
-#: ../gnomemusic/views/playlistview.py:225
-#: ../gnomemusic/views/searchview.py:180 ../gnomemusic/views/songsview.py:206
+#: ../gnomemusic/views/playlistview.py:224
+#: ../gnomemusic/views/searchview.py:172 ../gnomemusic/views/songsview.py:206
 msgid "Unknown Album"
 msgstr "Neznámé album"
 
@@ -160,29 +145,29 @@ msgstr "Přehrát"
 msgid "Next"
 msgstr "Následující"
 
-#: ../gnomemusic/player.py:1085
+#: ../gnomemusic/player.py:1084
 msgid "Unable to play the file"
 msgstr "Soubor nelze přehrát"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1090
+#: ../gnomemusic/player.py:1089
 #, python-format
 msgid "_Find in %s"
 msgstr "_Hledat v %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1100
+#: ../gnomemusic/player.py:1099
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1103
+#: ../gnomemusic/player.py:1102
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1104
+#: ../gnomemusic/player.py:1103
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -254,24 +239,24 @@ msgstr "Zdroje"
 msgid "Match"
 msgstr "Porovnávat"
 
-#: ../gnomemusic/utils.py:44 ../gnomemusic/views/playlistview.py:403
+#: ../gnomemusic/utils.py:63 ../gnomemusic/views/playlistview.py:402
 msgid "Unknown Artist"
 msgstr "Neznámý umělec"
 
-#: ../gnomemusic/utils.py:56
+#: ../gnomemusic/utils.py:75
 msgid "Untitled"
 msgstr "Bez názvu"
 
-#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:459
+#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:445
 msgid "Albums"
 msgstr "Alba"
 
-#: ../gnomemusic/views/artistsview.py:42 ../gnomemusic/views/searchview.py:460
+#: ../gnomemusic/views/artistsview.py:42 ../gnomemusic/views/searchview.py:446
 msgid "Artists"
 msgstr "Umělci"
 
-#: ../gnomemusic/views/baseview.py:191 ../gnomemusic/widgets/albumwidget.py:255
-#: ../gnomemusic/widgets/artistalbumswidget.py:194
+#: ../gnomemusic/views/baseview.py:191 ../gnomemusic/widgets/albumwidget.py:173
+#: ../gnomemusic/widgets/artistalbumswidget.py:208
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -280,8 +265,8 @@ msgstr[1] "Vybrány %d položky"
 msgstr[2] "Vybráno %d položek"
 
 #: ../gnomemusic/views/baseview.py:193 ../gnomemusic/views/baseview.py:301
-#: ../gnomemusic/widgets/albumwidget.py:259
-#: ../gnomemusic/widgets/artistalbumswidget.py:196 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/albumwidget.py:177
+#: ../gnomemusic/widgets/artistalbumswidget.py:210 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klikáním vyberte položky"
 
@@ -297,11 +282,11 @@ msgstr "Zkuste hledat nějak jinak"
 msgid "Hey DJ"
 msgstr "Hej, DJ"
 
-#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:462
+#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:448
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: ../gnomemusic/views/playlistview.py:413
+#: ../gnomemusic/views/playlistview.py:412
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -309,15 +294,19 @@ msgstr[0] "%d skladba"
 msgstr[1] "%d skladby"
 msgstr[2] "%d skladeb"
 
-#: ../gnomemusic/views/searchview.py:461 ../gnomemusic/views/songsview.py:43
+#: ../gnomemusic/views/searchview.py:447 ../gnomemusic/views/songsview.py:43
 msgid "Songs"
 msgstr "Skladby"
 
-#: ../gnomemusic/widgets/albumwidget.py:312
-#: ../gnomemusic/widgets/albumwidget.py:357
+#: ../gnomemusic/widgets/albumwidget.py:270
+#: ../gnomemusic/widgets/albumwidget.py:324
 #, python-format
 msgid "%d min"
 msgstr "%d min"
+
+#: ../gnomemusic/widgets/disclistboxwidget.py:175
+msgid "Disc {}"
+msgstr "Disk {}"
 
 #: ../gnomemusic/window.py:264
 msgid "Empty"
@@ -588,3 +577,15 @@ msgstr "Přid_at do seznamu k přehrání"
 msgid "_Remove from Playlist"
 msgstr "Odeb_rat ze seznamu k přehrání"
 
+#~ msgid "Max chars to display in track name on Artist view"
+#~ msgstr ""
+#~ "Maximální počet znaků, který se může zobrazit v názvu skladby v zobrazení "
+#~ "Umělci"
+
+#~ msgid ""
+#~ "This setting modifies the amount of chars for track title on Artist view "
+#~ "before its been ellipsized. Set this to -1 to disable"
+#~ msgstr ""
+#~ "Toto nastavení upravuje množství znaků pro název skladby v zobrazení "
+#~ "Umělci. Znaky nad tento počet jsou nahrazeny výpustkem. Pro vypnutí této "
+#~ "funkce nastavte na -1."
