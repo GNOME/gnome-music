@@ -4,21 +4,22 @@
 # tuhaihe <1132321739qq@gmail.com>, 2013.
 # Tong Hui <tonghuix@gmail.com>, 2013.
 # sphinx <yishanj@gmail.com>, 2014.
+# Cheng Lu <dawndiy.dev@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2015-04-22 07:27+0000\n"
-"PO-Revision-Date: 2015-04-22 22:28+0800\n"
-"Last-Translator: Yunqiang Su <wzssyqa@gmail.com>\n"
+"POT-Creation-Date: 2016-10-09 14:42+0000\n"
+"PO-Revision-Date: 2016-10-30 02:00+0800\n"
+"Last-Translator: Cheng Lu <dawndiy.dev@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
@@ -85,8 +86,7 @@ msgstr "在艺术家视图中显示音轨名称的最多字符数"
 msgid ""
 "This setting modifies the amount of chars for track title on Artist view "
 "before its been ellipsized. Set this to -1 to disable"
-msgstr ""
-"此设置改变艺术家视图中音轨标题在省略号前显示的字符数量。设为 -1 则禁用"
+msgstr "此设置改变艺术家视图中音轨标题在省略号前显示的字符数量。设为 -1 则禁用"
 
 #: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Enable ReplayGain"
@@ -96,9 +96,17 @@ msgstr "启用回放增益"
 msgid "Enables or disables ReplayGain for albums"
 msgstr "启用或禁用专辑的回放增益"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:50
-#: ../gnomemusic/application.py:113 ../gnomemusic/toolbar.py:140
-#: ../gnomemusic/window.py:59 ../data/AboutDialog.ui.in.h:1
+#: ../data/org.gnome.Music.gschema.xml.h:18
+msgid "Inital state has been displayed"
+msgstr "初始状态已被显示"
+
+#: ../data/org.gnome.Music.gschema.xml.h:19
+msgid "Set to true when initial state has been displayed"
+msgstr "当初始状态被显示时设置为 true"
+
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
+#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:62 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "音乐"
 
@@ -122,64 +130,73 @@ msgstr "GNOME 音乐"
 msgid "Music is the new GNOME music playing application."
 msgstr "“音乐”是一款新的 GNOME 音乐播放应用。"
 
-#: ../gnomemusic/albumArtCache.py:103 ../gnomemusic/albumArtCache.py:111
+#: ../gnomemusic/albumartcache.py:171 ../gnomemusic/albumartcache.py:179
 msgid "Untitled"
 msgstr "无标题"
 
-#: ../gnomemusic/mpris.py:148 ../gnomemusic/notification.py:100
-#: ../gnomemusic/player.py:470 ../gnomemusic/view.py:537
-#: ../gnomemusic/view.py:968 ../gnomemusic/view.py:1387
+#: ../gnomemusic/mpris.py:315 ../gnomemusic/player.py:604
+#: ../gnomemusic/view.py:758 ../gnomemusic/view.py:1170
+#: ../gnomemusic/view.py:1643
 msgid "Unknown Album"
 msgstr "未知专辑"
 
-#: ../gnomemusic/mpris.py:164 ../gnomemusic/notification.py:98
-#: ../gnomemusic/player.py:461 ../gnomemusic/view.py:222
-#: ../gnomemusic/view.py:437 ../gnomemusic/view.py:710
-#: ../gnomemusic/view.py:1150 ../gnomemusic/view.py:1385
-#: ../gnomemusic/view.py:1421 ../gnomemusic/widgets.py:235
-#: ../gnomemusic/widgets.py:631
-msgid "Unknown Artist"
-msgstr "未知艺术家"
-
-#: ../gnomemusic/notification.py:89
-msgid "Not playing"
-msgstr "尚未播放"
-
-#. TRANSLATORS: by refers to the artist, from to the album
-#: ../gnomemusic/notification.py:104
-#, python-format
-msgid "by %s, from %s"
-msgstr "艺术家：%s，专辑：%s"
-
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "上一首"
 
-#: ../gnomemusic/notification.py:128 ../gnomemusic/player.py:418
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:557
 msgid "Pause"
 msgstr "暂停"
 
-#: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
-#: ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:560
+#: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "播放"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "下一首"
 
+#: ../gnomemusic/player.py:1087
+msgid "Unable to play the file"
+msgstr "无法播放该文件"
+
+#. TRANSLATORS: this is a button to launch a codec installer.
+#. %s will be replaced with the software installer's name, e.g.
+#. 'Software' in case of gnome-software.
+#: ../gnomemusic/player.py:1092
+#, python-format
+msgid "_Find in %s"
+msgstr "在 %s 中查找(_F)"
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1102
+msgid " and "
+msgstr " 和 "
+
+#. TRANSLATORS: separator for a list of codecs
+#: ../gnomemusic/player.py:1105
+msgid ", "
+msgstr ", "
+
+#: ../gnomemusic/player.py:1106
+#, python-format
+msgid "%s is required to play the file, but is not installed."
+msgid_plural "%s are required to play the file, but are not installed."
+msgstr[0] "需要 %s 来播放该文件，但它尚未安装。"
+
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:49
+#: ../gnomemusic/playlists.py:52
 msgid "Most Played"
 msgstr "最多播放"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:56
+#: ../gnomemusic/playlists.py:58
 msgid "Never Played"
 msgstr "从未播放"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:63
+#: ../gnomemusic/playlists.py:64
 msgid "Recently Played"
 msgstr "最近播放"
 
@@ -189,97 +206,111 @@ msgid "Recently Added"
 msgstr "最近添加"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:77
+#: ../gnomemusic/playlists.py:76
 msgid "Favorite Songs"
 msgstr "收藏歌曲"
 
-#. TRANSLATORS: _("the") should be a space-separated list of all-lowercase articles
-#. (such as 'the') that should be ignored when alphabetizing artists/albums. This
-#. list should include 'the' regardless of language. If some articles occur more
-#. frequently than others, most common should appear first, least common last.
-#: ../gnomemusic/query.py:69
+#. TRANSLATORS: The following translatable string should be a
+#. space-separated list of all-lowercase articles that should be
+#. ignored when alphabetizing artists/albums. This list should
+#. include the basic english translatable strings regardless of
+#. language because it is so universal.
+#. If some articles occur more frequently than others, the most
+#. common one should appear first, the least common one last.
+#: ../gnomemusic/query.py:93
 #, fuzzy
 msgid "the a an"
 msgstr "the a an"
 
-#: ../gnomemusic/searchbar.py:58 ../gnomemusic/searchbar.py:101
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
 msgid "All"
 msgstr "全部"
 
-#: ../gnomemusic/searchbar.py:59
+#: ../gnomemusic/searchbar.py:63
 msgid "Artist"
 msgstr "艺术家"
 
-#: ../gnomemusic/searchbar.py:60
+#: ../gnomemusic/searchbar.py:64
 msgid "Album"
 msgstr "专辑"
 
-#: ../gnomemusic/searchbar.py:61
+#: ../gnomemusic/searchbar.py:65
 msgid "Track Title"
 msgstr "音轨标题"
 
-#: ../gnomemusic/searchbar.py:102
+#: ../gnomemusic/searchbar.py:110
 msgid "Local"
 msgstr "本地"
 
-#: ../gnomemusic/searchbar.py:204
+#: ../gnomemusic/searchbar.py:222
 msgid "Sources"
 msgstr "来源"
 
-#: ../gnomemusic/searchbar.py:211
+#: ../gnomemusic/searchbar.py:229
 msgid "Match"
 msgstr "匹配"
 
-#: ../gnomemusic/view.py:190 ../gnomemusic/widgets.py:267
-#: ../gnomemusic/widgets.py:508 ../gnomemusic/window.py:292
+#: ../gnomemusic/utils.py:44 ../gnomemusic/view.py:1348
+msgid "Unknown Artist"
+msgstr "未知艺术家"
+
+#: ../gnomemusic/view.py:215 ../gnomemusic/widgets.py:325
+#: ../gnomemusic/widgets.py:590
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "已选择 %d 个项目"
 
-#: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
-#: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/view.py:217 ../gnomemusic/view.py:311
+#: ../gnomemusic/widgets.py:329 ../gnomemusic/widgets.py:592
+#: ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "点击条目以选中它们"
 
-#: ../gnomemusic/view.py:279 ../gnomemusic/view.py:1645
+#: ../gnomemusic/view.py:333
+msgid "Music folder"
+msgstr "音乐文件夹"
+
+#: ../gnomemusic/view.py:356
+msgid "Hey DJ"
+msgstr "嘿 DJ"
+
+#: ../gnomemusic/view.py:368 ../gnomemusic/view.py:1918
 msgid "Albums"
 msgstr "专辑"
 
-#: ../gnomemusic/view.py:371 ../gnomemusic/view.py:1647
+#: ../gnomemusic/view.py:595 ../gnomemusic/view.py:1920
 msgid "Songs"
 msgstr "歌曲"
 
-#: ../gnomemusic/view.py:569 ../gnomemusic/view.py:1646
+#: ../gnomemusic/view.py:794 ../gnomemusic/view.py:1919
 msgid "Artists"
 msgstr "艺术家"
 
-#: ../gnomemusic/view.py:615 ../gnomemusic/view.py:617
-#: ../gnomemusic/widgets.py:517
-msgid "All Artists"
-msgstr "全部艺术家"
-
-#: ../gnomemusic/view.py:795 ../gnomemusic/view.py:1648
+#: ../gnomemusic/view.py:996 ../gnomemusic/view.py:1921
 msgid "Playlists"
 msgstr "播放列表"
 
-#: ../gnomemusic/view.py:1161
+#: ../gnomemusic/view.py:1358
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d 首歌曲"
 
-#: ../gnomemusic/widgets.py:308 ../gnomemusic/widgets.py:342
+#: ../gnomemusic/view.py:1501
+msgid "Try a different search"
+msgstr "尝试不同的搜索"
+
+#: ../gnomemusic/widgets.py:381 ../gnomemusic/widgets.py:429
 #, python-format
 msgid "%d min"
 msgstr "%d 分钟"
 
-#: ../gnomemusic/widgets.py:755
-msgid "New Playlist"
-msgstr "新建播放列表"
+#: ../gnomemusic/widgets.py:602
+msgid "All Artists"
+msgstr "全部艺术家"
 
-#: ../gnomemusic/window.py:240
+#: ../gnomemusic/window.py:256
 msgid "Empty"
 msgstr "空"
 
@@ -287,11 +318,11 @@ msgstr "空"
 msgid "Loading"
 msgstr "正在加载"
 
-#: ../gnomemusic/window.py:335
+#: ../gnomemusic/window.py:343
 msgid "_Undo"
 msgstr "撤销(_U)"
 
-#: ../gnomemusic/window.py:336
+#: ../gnomemusic/window.py:344
 #, python-format
 msgid "Playlist %s removed"
 msgstr "播放列表 %s 已移除"
@@ -330,7 +361,10 @@ msgid ""
 "the GPL license by which GNOME Music is covered.  If you modify this code, "
 "you may extend this exception to your version of the code, but you are not "
 "obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version."
+"statement from your version.\n"
+"\n"
+"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "GNOME 音乐是自由软件；您可以在自由软件基金会发布的 GNU 通用公共许可证的条款下"
 "重新分发和(或)修改它；您可以选择使用 GPL 第二版，或(按照您的意愿)任何更新的版"
@@ -345,9 +379,12 @@ msgstr ""
 "51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA\n"
 "\n"
 "GNOME 音乐的作者在此对非 GPL 兼容的 GStreamer 插件同 GNOME 音乐及 GStreamer "
-"一道使用及分发给予许可。该许可优于并在 覆盖 GNOME 音乐的 GPL 授权许可之上。如"
+"一道使用及分发给予许可。该许可优于并覆盖在 GNOME 音乐的 GPL 授权许可之上。如"
 "果您修改该代码，您可以将该例外扩展到您的代码，但非强制。如果您不愿意如此，从"
-"您的版本中删除该例外声明。"
+"您的版本中删除该例外声明。\n"
+"\n"
+"来自 Sami Pyylampi 的“Magic of the vinyl”图像使用 CC-BY-SA 2.0 许可证 "
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
@@ -358,40 +395,20 @@ msgid "Running Length"
 msgstr "总时长"
 
 #: ../data/app-menu.ui.h:1
+msgid "_Keyboard Shortcuts"
+msgstr "键盘快捷键(_K)"
+
+#: ../data/app-menu.ui.h:2
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/app-menu.ui.h:3
 msgid "_About"
 msgstr "关于(_A)"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "退出(_Q)"
-
-#: ../data/PlayerToolbar.ui.h:1
-msgid "Shuffle"
-msgstr "随机播放"
-
-#: ../data/PlayerToolbar.ui.h:2
-msgid "Repeat All"
-msgstr "全部重播"
-
-#: ../data/PlayerToolbar.ui.h:3
-msgid "Repeat Song"
-msgstr "重复播放"
-
-#: ../data/PlayerToolbar.ui.h:4
-msgid "Shuffle/Repeat Off"
-msgstr "关闭“随机/重复播放”"
-
-#: ../data/NoMusic.ui.h:1
-msgid "No music found"
-msgstr "未找到音乐"
-
-#: ../data/NoMusic.ui.h:2
-msgid "The contents of your music folder will appear here."
-msgstr "你的音乐文件夹内容将会显示在此处。"
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
@@ -405,11 +422,11 @@ msgstr "全不选"
 msgid "Search"
 msgstr "搜索"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/headerbar.ui.h:5
 msgid "Select"
 msgstr "选择"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
 msgid "Cancel"
 msgstr "取消"
 
@@ -417,13 +434,117 @@ msgstr "取消"
 msgid "Back"
 msgstr "后退"
 
-#: ../data/SelectionToolbar.ui.h:1
-msgid "Add to Playlist"
-msgstr "添加到播放列表"
+#: ../data/help-overlay.ui.h:1
+msgctxt "shortcut window"
+msgid "General"
+msgstr "常规"
 
-#: ../data/SelectionToolbar.ui.h:2
-msgid "Remove from Playlist"
-msgstr "从播放列表移除"
+#: ../data/help-overlay.ui.h:2
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "关闭窗口"
+
+#: ../data/help-overlay.ui.h:3
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "搜索"
+
+#: ../data/help-overlay.ui.h:4
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "帮助"
+
+#: ../data/help-overlay.ui.h:5
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "快捷键"
+
+#: ../data/help-overlay.ui.h:6
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "播放"
+
+#: ../data/help-overlay.ui.h:7
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "播放/暂停"
+
+#: ../data/help-overlay.ui.h:8
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "下一首歌曲"
+
+#: ../data/help-overlay.ui.h:9
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "上一首歌曲"
+
+#: ../data/help-overlay.ui.h:10
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "重复播放"
+
+#: ../data/help-overlay.ui.h:11
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "随机播放"
+
+#: ../data/help-overlay.ui.h:12
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "导航"
+
+#: ../data/help-overlay.ui.h:13
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "转到专辑"
+
+#: ../data/help-overlay.ui.h:14
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "转到艺术家"
+
+#: ../data/help-overlay.ui.h:15
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "转到歌曲"
+
+#: ../data/help-overlay.ui.h:16
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "转到播放列表"
+
+#: ../data/help-overlay.ui.h:17
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "返回"
+
+#: ../data/NoMusic.ui.h:1
+msgid "No music found"
+msgstr "未找到音乐"
+
+#. Translators: %s will be replaced with a link with text
+#: ../data/NoMusic.ui.h:4
+#, no-c-format
+msgid "The contents of your %s will appear here."
+msgstr "%s 的内容将会显示在此处。"
+
+#: ../data/PlayerToolbar.ui.h:1
+msgid "Shuffle"
+msgstr "随机播放"
+
+#: ../data/PlayerToolbar.ui.h:2
+msgid "Repeat All"
+msgstr "全部重播"
+
+#: ../data/PlayerToolbar.ui.h:3
+msgid "Repeat Song"
+msgstr "重复播放"
+
+#. Causes tracks to play in random order
+#: ../data/PlayerToolbar.ui.h:5
+msgid "Shuffle/Repeat Off"
+msgstr "关闭“随机/重复播放”"
 
 #: ../data/PlaylistControls.ui.h:1
 msgid "_Play"
@@ -437,9 +558,30 @@ msgstr "移除(_D)"
 msgid "Playlist Name"
 msgstr "播放列表名"
 
-#: ../data/PlaylistDialog.ui.h:1
-msgid "Select Playlist"
-msgstr "选择播放列表"
+#: ../data/PlaylistDialog.ui.h:2
+msgid "Add"
+msgstr "添加"
+
+#: ../data/PlaylistDialog.ui.h:3
+msgid "New Playlist"
+msgstr "新建播放列表"
+
+#: ../data/SelectionToolbar.ui.h:1
+msgid "Add to Playlist"
+msgstr "添加到播放列表"
+
+#: ../data/SelectionToolbar.ui.h:2
+msgid "Remove from Playlist"
+msgstr "从播放列表移除"
+
+#~ msgid "Not playing"
+#~ msgstr "尚未播放"
+
+#~ msgid "by %s, from %s"
+#~ msgstr "艺术家：%s，专辑：%s"
+
+#~ msgid "Select Playlist"
+#~ msgstr "选择播放列表"
 
 #~ msgid ""
 #~ "No Music found!\n"
