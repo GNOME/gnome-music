@@ -12,7 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2016-10-09 14:42+0000\n"
-"PO-Revision-Date: 2016-10-30 02:00+0800\n"
+"PO-Revision-Date: 2016-10-30 02:10+0800\n"
 "Last-Translator: Cheng Lu <dawndiy.dev@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -218,7 +218,6 @@ msgstr "收藏歌曲"
 #. If some articles occur more frequently than others, the most
 #. common one should appear first, the least common one last.
 #: ../gnomemusic/query.py:93
-#, fuzzy
 msgid "the a an"
 msgstr "the a an"
 
