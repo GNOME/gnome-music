@@ -170,12 +170,14 @@ class SearchView(BaseView):
 
         artist = utils.get_artist_name(item)
         album = item.get_album() or _("Unknown Album")
+        composer = item.get_composer()
 
         key = '%s-%s' % (artist, album)
         if key not in self._albums:
             self._albums[key] = Grl.Media()
             self._albums[key].set_title(album)
             self._albums[key].add_artist(artist)
+            self._albums[key].set_composer(composer)
             self._albums[key].set_source(source.get_id())
             self._albums[key].tracks = []
             self._add_item(source, None, self._albums[key], 0, [self.model, 'album'])
@@ -218,6 +220,8 @@ class SearchView(BaseView):
         title = utils.get_media_title(item)
         item.set_title(title)
         artist = utils.get_artist_name(item)
+        # FIXME: Can't be None in treemodel
+        composer = item.get_composer() or ""
 
         group = 3
         try:
@@ -232,26 +236,26 @@ class SearchView(BaseView):
         if category == 'album':
             _iter = self.model.insert_with_values(
                 self.head_iters[group], -1,
-                [0, 2, 3, 4, 5, 9, 11],
+                [0, 2, 3, 4, 5, 9, 11, 13],
                 [str(item.get_id()), title, artist,
-                 self._loading_icon, item, 2, category])
+                 self._loading_icon, item, 2, category, composer])
             self.cache.lookup(item, ArtSize.small, self._on_lookup_ready, _iter)
         elif category == 'song':
             _iter = self.model.insert_with_values(
                 self.head_iters[group], -1,
-                [0, 2, 3, 4, 5, 9, 11],
+                [0, 2, 3, 4, 5, 9, 11, 13],
                 [str(item.get_id()), title, artist,
                  self._loading_icon, item,
                  2 if source.get_id() != 'grl-tracker-source' \
-                    else bool(item.get_lyrics()), category])
+                    else bool(item.get_lyrics()), category, composer])
             self.cache.lookup(item, ArtSize.small, self._on_lookup_ready, _iter)
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
                     self.head_iters[group], -1,
-                    [0, 2, 4, 5, 9, 11],
+                    [0, 2, 4, 5, 9, 11, 13],
                     [str(item.get_id()), artist,
-                     self._loading_icon, item, 2, category])
+                     self._loading_icon, item, 2, category, composer])
                 self.cache.lookup(item, ArtSize.small, self._on_lookup_ready,
                                   _iter)
                 self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
@@ -400,18 +404,21 @@ class SearchView(BaseView):
             'album': {
                 'search_all': Query.get_albums_with_any_match,
                 'search_artist': Query.get_albums_with_artist_match,
+                'search_composer': Query.get_albums_with_composer_match,
                 'search_album': Query.get_albums_with_album_match,
                 'search_track': Query.get_albums_with_track_match,
             },
             'artist': {
                 'search_all': Query.get_artists_with_any_match,
                 'search_artist': Query.get_artists_with_artist_match,
+                'search_composer': Query.get_artists_with_composer_match,
                 'search_album': Query.get_artists_with_album_match,
                 'search_track': Query.get_artists_with_track_match,
             },
             'song': {
                 'search_all': Query.get_songs_with_any_match,
                 'search_artist': Query.get_songs_with_artist_match,
+                'search_composer': Query.get_songs_with_composer_match,
                 'search_album': Query.get_songs_with_album_match,
                 'search_track': Query.get_songs_with_track_match,
             },
@@ -430,7 +437,8 @@ class SearchView(BaseView):
             GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_STRING,    # type
-            GObject.TYPE_INT
+            GObject.TYPE_INT,
+            GObject.TYPE_STRING,    # composer
         )
         self.filter_model = self.model.filter_new(None)
         self.filter_model.set_visible_func(self._filter_visible_func)

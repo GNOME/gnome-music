@@ -62,6 +62,7 @@ class BaseManager:
                 ['search_all', _("All"), ''],
                 ['search_artist', _("Artist"), ''],
                 ['search_album', _("Album"), ''],
+                ['search_composer', _("Composer"), ''],
                 ['search_track', _("Track Title"), ''],
             ]
         for value in self.values:

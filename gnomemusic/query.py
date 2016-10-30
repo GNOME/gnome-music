@@ -866,6 +866,18 @@ class Query():
         return Query.albums(query)
 
     @staticmethod
+    def get_albums_with_composer_match(name):
+        name = Tracker.sparql_escape_string(name)
+        query = """
+            ?song nmm:composer ?composer .
+            ?composer fts:match '"nmm:artistName" : %(name)s*' .
+        """.replace('\n', ' ').strip() % {
+            'name': name
+        }
+
+        return Query.albums(query)
+
+    @staticmethod
     def get_albums_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
         query = """?song fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
@@ -913,6 +925,18 @@ class Query():
         return Query.artists(query)
 
     @staticmethod
+    def get_artists_with_composer_match(name):
+        name = Tracker.sparql_escape_string(name)
+        query = """
+            ?song nmm:composer ?composer .
+            ?composer fts:match '"nmm:artistName" : %(name)s*' .
+        """.replace('\n', ' ').strip() % {
+            'name': name
+        }
+
+        return Query.artists(query)
+
+    @staticmethod
     def get_artists_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
         query = """?song fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
@@ -956,6 +980,18 @@ class Query():
     def get_songs_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
         query = """?album fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
+
+        return Query.songs(query)
+
+    @staticmethod
+    def get_songs_with_composer_match(name):
+        name = Tracker.sparql_escape_string(name)
+        query = """
+            ?song nmm:composer ?composer .
+            ?composer fts:match '"nmm:artistName" : %(name)s*' .
+        """.replace('\n', ' ').strip() % {
+            'name': name
+        }
 
         return Query.songs(query)
 
