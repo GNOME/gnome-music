@@ -78,6 +78,9 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar = None
         self._selection_mode_allowed = True
 
+        self._composer_label = self._builder.get_object('composer_label')
+        self._composer_info = self._builder.get_object('composer_info')
+
         view_box = self._builder.get_object('view')
         self._disc_listbox = DiscListBox()
         self._disc_listbox.set_selection_mode_allowed(True)
@@ -156,12 +159,28 @@ class AlbumWidget(Gtk.EventBox):
         escaped_album = GLib.markup_escape_text(album)
         self._builder.get_object('artist_label').set_markup(escaped_artist)
         self._builder.get_object('title_label').set_markup(escaped_album)
+
         if (item.get_creation_date()):
             self._builder.get_object('released_label_info').set_text(
                 str(item.get_creation_date().get_year()))
         else:
             self._builder.get_object('released_label_info').set_text('----')
+
+        self._set_composer_label(item)
+
         self._player.connect('playlist-item-changed', self._update_model)
+
+    @log
+    def _set_composer_label(self, item):
+        composer = item.get_composer()
+        show = False
+
+        if composer:
+            self._composer_info.set_text(composer)
+            show = True
+
+        self._composer_label.set_visible(show)
+        self._composer_info.set_visible(show)
 
     @log
     def _on_selection_changed(self, widget):

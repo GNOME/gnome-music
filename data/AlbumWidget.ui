@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.20.0 -->
 <interface domain="gnome-music">
-  <!-- interface-requires gtk+ 3.12  -->
+  <requires lib="gtk+" version="3.12"/>
   <object class="GtkBox" id="AlbumWidget">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="orientation">horizontal</property>
     <child>
       <object class="GtkBox" id="albumInfo">
         <property name="visible">True</property>
@@ -15,15 +15,14 @@
         <property name="margin_top">64</property>
         <property name="margin_bottom">32</property>
         <property name="vexpand">True</property>
-        <property name="orientation">horizontal</property>
         <child>
           <object class="GtkBox" id="albumDetails">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">start</property>
-            <property name="spacing">18</property>
             <property name="orientation">vertical</property>
+            <property name="spacing">18</property>
             <child>
               <object class="GtkImage" id="cover">
                 <property name="visible">True</property>
@@ -46,8 +45,8 @@
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
                 <property name="valign">start</property>
-                <property name="spacing">3</property>
                 <property name="orientation">vertical</property>
+                <property name="spacing">3</property>
                 <child>
                   <object class="GtkLabel" id="title_label">
                     <property name="visible">True</property>
@@ -73,13 +72,13 @@
                     <property name="halign">center</property>
                     <property name="justify">center</property>
                     <property name="ellipsize">middle</property>
-                    <style>
-                      <class name="dim-label"/>
-                    </style>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                       <attribute name="scale" value="1.2"/>
                     </attributes>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -100,14 +99,12 @@
                 <property name="can_focus">False</property>
                 <property name="margin_top">21</property>
                 <property name="column_spacing">32</property>
-                <property name="row_homogeneous">True</property>
                 <property name="column_homogeneous">True</property>
                 <child>
                   <object class="GtkLabel" id="released_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="xalign">1</property>
                     <property name="margin_top">2</property>
                     <property name="margin_bottom">2</property>
                     <property name="label" translatable="yes">Released</property>
@@ -119,8 +116,6 @@
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
@@ -128,7 +123,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">end</property>
-                    <property name="xalign">1</property>
                     <property name="label" translatable="yes">Running Length</property>
                     <property name="use_markup">True</property>
                     <style>
@@ -138,8 +132,6 @@
                   <packing>
                     <property name="left_attach">0</property>
                     <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
@@ -147,7 +139,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="xalign">0</property>
                     <property name="margin_top">2</property>
                     <property name="margin_bottom">2</property>
                     <property name="label">----</property>
@@ -155,8 +146,6 @@
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">0</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
                   </packing>
                 </child>
                 <child>
@@ -164,14 +153,45 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="xalign">0</property>
                     <property name="label">--:--</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
                     <property name="top_attach">1</property>
-                    <property name="width">1</property>
-                    <property name="height">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="composer_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="no_show_all">True</property>
+                    <property name="halign">end</property>
+                    <property name="margin_top">2</property>
+                    <property name="margin_bottom">2</property>
+                    <property name="label" translatable="yes">Composer</property>
+                    <property name="use_markup">True</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="composer_info">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="no_show_all">True</property>
+                    <property name="halign">start</property>
+                    <property name="margin_top">2</property>
+                    <property name="margin_bottom">2</property>
+                    <property name="ellipsize">end</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
                   </packing>
                 </child>
               </object>
@@ -202,7 +222,6 @@
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="hscrollbar_policy">never</property>
-        <property name="window_placement">top-left</property>
         <child>
           <object class="GtkViewport" id="view">
             <property name="width_request">600</property>
@@ -210,6 +229,7 @@
             <property name="can_focus">False</property>
             <property name="halign">start</property>
             <property name="hexpand">True</property>
+            <property name="shadow_type">none</property>
             <child>
               <placeholder/>
             </child>
@@ -222,23 +242,5 @@
         <property name="position">2</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkListStore" id="AlbumWidget_model">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-      <!-- column-name gchararray2 -->
-      <column type="gchararray"/>
-      <!-- column-name gchararray3 -->
-      <column type="gchararray"/>
-      <!-- column-name gboolean1 -->
-      <column type="gboolean"/>
-      <!-- column-name gchararray4 -->
-      <column type="gchararray"/>
-      <!-- column-name GObject1 -->
-      <column type="GObject"/>
-      <!-- column-name gboolean2 -->
-      <column type="gboolean"/>
-    </columns>
   </object>
 </interface>

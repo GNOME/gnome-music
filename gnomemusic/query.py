@@ -141,6 +141,7 @@ class Query():
         rdf:type(?album)
         tracker:id(?album) AS ?id
         nmm:artistName(?albumArtist) AS ?album_artist
+        nmm:artistName(?composer) AS ?composer
         nmm:artistName(?performer) AS ?artist
         ?title
         COUNT(?song) AS ?childcount
@@ -156,6 +157,7 @@ class Query():
         BIND(LCASE(nmm:artistName(?albumArtist)) AS ?artist_lower) .
         BIND((%(album_order)s) AS ?album_collation) .
         BIND((%(artist_order)s) AS ?artist_collation) .
+        OPTIONAL { ?song nmm:composer ?composer . }
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album

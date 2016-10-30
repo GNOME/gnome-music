@@ -55,6 +55,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
         Grl.METADATA_KEY_CREATION_DATE,
+        Grl.METADATA_KEY_COMPOSER,
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_LYRICS,
