@@ -1,26 +1,29 @@
 # German translation for gnome-music.
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Christian Kirbach <Christian.Kirbach@gmail.com>, 2014.
+# Christian Kirbach <Christian.Kirbach@gmail.com>, 2014-2015.
+# Mario Blättermann <mario.blaettermann@gmail.com>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music gnome-3-14\n"
-"POT-Creation-Date: 2015-10-09 07:58+0000\n"
-"PO-Revision-Date: 2015-10-09 12:17+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
+"POT-Creation-Date: 2016-10-29 18:03+0000\n"
+"PO-Revision-Date: 2016-10-30 18:21+0100\n"
+"Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Poedit 1.8.11\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "Christian Kirbach <Christian.Kirbach@gmail.com>, 2014, 2015"
+msgstr ""
+"Christian Kirbach <Christian.Kirbach@gmail.com>, 2014, 2015\n"
+"Mario Blättermann <mario.blaettermann@gmail.com>, 2016"
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -44,10 +47,11 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
 "Eine einfache und elegante Alternative zum Anzeigen des Musikordners mit "
-"»Dateien«."
+"<app>Dateien</app>."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -320,7 +324,7 @@ msgstr "Eine Wiedergabeliste löschen"
 #. (itstool) path: page/p
 #: C/playlist-delete.page:24
 msgid "You can remove an old and unwanted playlist."
-msgstr "Sie können alte und unerwünschte Wiedergabeliste löschen."
+msgstr "Sie können eine alte und unerwünschte Wiedergabeliste löschen."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:29
