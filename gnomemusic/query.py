@@ -119,7 +119,7 @@ class Query():
 
     @staticmethod
     def all_songs_count():
-        query = '''
+        query = """
     SELECT
         COUNT(?song) AS ?childcount
     {
@@ -128,7 +128,7 @@ class Query():
 	      nie:url ?url .
         FILTER(STRSTARTS(?url, '%(music_dir)s/'))
     }
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'music_dir': Query.MUSIC_URI
         }
 
@@ -136,7 +136,7 @@ class Query():
 
     @staticmethod
     def albums(where_clause):
-        query = '''
+        query = """
     SELECT
         rdf:type(?album)
         tracker:id(?album) AS ?id
@@ -160,7 +160,7 @@ class Query():
     }
     GROUP BY ?album
     ORDER BY ?album_collation ?artist_collation ?creation_date
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
             'album_order': Query._order_by_statement("?title_lower"),
@@ -171,7 +171,7 @@ class Query():
 
     @staticmethod
     def artists(where_clause):
-        query = '''
+        query = """
     SELECT
         rdf:type(?album)
         tracker:id(?album) AS ?id
@@ -195,7 +195,7 @@ class Query():
     }
     GROUP BY ?album
     ORDER BY ?artist_collation ?creation_date ?album_collation
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
             'artist_order': Query._order_by_statement("?artist_lower"),
@@ -206,7 +206,7 @@ class Query():
 
     @staticmethod
     def songs(where_clause):
-        query = '''
+        query = """
     SELECT DISTINCT
         rdf:type(?song)
         tracker:id (?song) AS ?id
@@ -230,7 +230,7 @@ class Query():
         FILTER(STRSTARTS(?url, '%(music_dir)s/'))
     }
     ORDER BY ?artist ?album nmm:setNumber(?disc) nmm:trackNumber(?song)
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI
         }
@@ -239,7 +239,7 @@ class Query():
 
     @staticmethod
     def playlists(where_clause):
-        query = '''
+        query = """
     SELECT DISTINCT
         rdf:type(?playlist)
         tracker:id(?playlist) AS ?id
@@ -254,7 +254,7 @@ class Query():
             OPTIONAL { ?playlist nao:hasTag ?tag }
         }
     ORDER BY !BOUND(?tag) LCASE(?title)
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI
         }
@@ -263,7 +263,7 @@ class Query():
 
     @staticmethod
     def album_songs(album_id):
-        query = '''
+        query = """
     SELECT DISTINCT
         rdf:type(?song)
         tracker:id(?song) AS ?id
@@ -288,7 +288,7 @@ class Query():
          ?album_disc_number
          ?track_number
          tracker:added(?song)
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'album_id': album_id,
             'music_dir': Query.MUSIC_URI
         }
@@ -297,7 +297,7 @@ class Query():
 
     @staticmethod
     def playlist_songs(playlist_id, filter_clause=None):
-        query = '''
+        query = """
     SELECT
         rdf:type(?song)
         tracker:id(?entry) AS ?id
@@ -334,7 +334,7 @@ class Query():
     }
     ORDER BY
          nfo:listPosition(?entry)
-    '''.replace('\n', ' ').strip() % {
+    """.replace('\n', ' ').strip() % {
             'playlist_id': playlist_id,
             'filter_clause': filter_clause or 'tracker:id(?playlist) = ' + playlist_id,
             'music_dir': Query.MUSIC_URI
@@ -826,7 +826,7 @@ class Query():
     @staticmethod
     def get_albums_with_any_match(name):
         name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
+        query = """
             {
                 SELECT DISTINCT
                     nmm:musicAlbum(?song) AS ?album
@@ -845,35 +845,35 @@ class Query():
                     )
                 }
             }
-            '''.replace('\n', ' ').strip() % {'name': name}
+            """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?performer fts:match "nmm:artistName: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?performer fts:match "nmm:artistName: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?album fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?album fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?song fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?song fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_artists_with_any_match(name):
         name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
+        query = """
             {
                 SELECT DISTINCT
                     nmm:musicAlbum(?song) AS ?album
@@ -892,35 +892,35 @@ class Query():
                     )
                 }
             }
-            '''.replace('\n', ' ').strip() % {'name': name}
+            """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?performer fts:match "nmm:artistName: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?performer fts:match "nmm:artistName: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?album fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?album fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?song fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?song fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_songs_with_any_match(name):
         name = Tracker.sparql_escape_string(GLib.utf8_normalize(GLib.utf8_casefold(name, -1), -1, GLib.NormalizeMode.NFKD))
-        query = '''
+        query = """
             {
                 SELECT DISTINCT
                     ?song
@@ -939,28 +939,28 @@ class Query():
                     )
                 }
             }
-            '''.replace('\n', ' ').strip() % {'name': name}
+            """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?performer fts:match "nmm:artistName: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?performer fts:match "nmm:artistName: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?album fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?album fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = '?song fts:match "nie:title: %(name)s*" . '.replace('\n', ' ').strip() % {'name': name}
+        query = """?song fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
