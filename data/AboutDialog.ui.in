@@ -21,22 +21,65 @@ The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer
 "Magic of the vinyl" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403
 </property>
     <property name="authors">Arnel A. Borja
+Billy Barrow
+Carlos Garnacho
+Divyanshu Vishwakarma
 Eslam Mostafa
+Elias Entrup
+Evandro Giovanini
 Fabiano Fidêncio
 Felipe Borges
+Gaurav Narula
+Georges Basile Stavracas Neto
 Guillaume Quintard
 Juan Suarez
+Kevin Haller
+Konstantin Pospelov
 Marinus Schraal
-Seif Lotfy
-Vadim Rutkovsky
+Prashant Tyagi
 Sai Suman Prayaga
+Seif Lotfy
 Shivani Poddar
+Vadim Rutkovsky
+Yash Singh
     </property>
     <property name="artists">Allan Day
 Jakub Steiner
 William Jon McCann
     </property>
-    <property name="translator_credits">
+    <property name="translator_credits">Anders Jonsson
+Andika Triwidada
+Arash Mousavi
+Ask Hjorth Larsen
+Aurimas Černius
+Balázs Úr
+Baurzhan Muftakhidinov
+Cédric Valmary
+Cheng Lu
+Cheng-Chia Tseng
+Daniel Korostil
+Daniel Mustieles
+David King
+Dušan Kazik
+Enrico Nicoletto
+Inaki Larranaga Murgoitio
+Jiri Grönroos
+Jordi Mas
+Fabio Tomat
+Fran Dieguez
+Kjartan Maraas
+Marek Černocký
+Mario Blättermann
+Milo Casagrande
+Мирослав Николић
+Piotr Drąg
+Sebastian Rasmussen
+Seong-ho Cho
+Tiago Santos
+Tom Tryfonidis
+Trần Ngọc Quân
+Rūdolfs Mazurs
+Yosef Or Boczko
     </property>
     <property name="logo_icon_name">gnome-music</property>
     <property name="wrap_license">True</property>

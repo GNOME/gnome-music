@@ -1,3 +1,45 @@
+Overview of changes in 3.23.1
+=============================
+
+* Rework art lookup
+* Add HiDPI support (90% done)
+* Add mnemonics
+* Rework about dialog
+* Split up views & widgets
+* Rework the album widgets
+* Show multi-disc albums as such
+* Make playlist retrieval non-blocking
+* Add composer label & search
+
+Bugs fixed:
+ 761185 Help should use tag when referring to application names
+ 771348 Use | as I18N separator
+ 772403 Album art: also consider height when scaling
+ 765476 Crashes upon opening with a GLib error
+ 719452 Provide proper output if gobject-introspection-devel is missing
+ 773192 Fix playlists loading time
+ 705094 Display more details on Album view
+ 750827 Album views - if an album has multiple disks, group tracks by disk
+ 761891 Weird interaction selection mode + favourites
+
+Thanks to our contributors:
+ Carlos Garnacho
+ Georges Basile Stavracas Neto
+ Konstantin PospelovSebastian Rasmussen
+ Marinus Schraal
+ Sebastian Rasmussen
+
+Translation updated:
+ Basque
+ Chinese (simplified)
+ Chinese (Taiwan)
+ Czech
+ Danish
+ Friulian
+ German
+ Italian
+ Swedish
+
 Overview of changes in 3.22.0
 =============================
 
@@ -725,7 +767,7 @@ Overview of changes in 3.10.0
 * Added translations:
  Estonian
  Belarusian
- 
+
 * Updated translations:
  Assamese
  Portuguese
@@ -785,7 +827,7 @@ Overview of changes in 3.9.92
  Korean
  Latvian
  Traditional Chinese
- 
+
 * Updated translations:
  Brazilian Portuguese
  Czech
