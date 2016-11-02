@@ -84,7 +84,12 @@ class AlbumWidget(Gtk.EventBox):
         view_box = self._builder.get_object('view')
         self._disc_listbox = DiscListBox()
         self._disc_listbox.set_selection_mode_allowed(True)
-        self._disc_listbox.set_margin_top(64)
+        # TODO: The top of the coverart is the same vertical
+        # position as the top of the album songs, however
+        # since we set a top margins for the discbox
+        # subtract that margin here. A cleaner solution is
+        # appreciated.
+        self._disc_listbox.set_margin_top(64 - 16)
         self._disc_listbox.set_margin_bottom(64)
         self._disc_listbox.set_margin_end(32)
         self._disc_listbox.connect('selection-changed',
