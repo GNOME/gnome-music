@@ -852,21 +852,21 @@ class Query():
     @staticmethod
     def get_albums_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?performer fts:match "nmm:artistName: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?performer fts:match '"nmm:artistName" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?album fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?album fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
     @staticmethod
     def get_albums_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?song fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.albums(query)
 
@@ -899,21 +899,21 @@ class Query():
     @staticmethod
     def get_artists_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?performer fts:match "nmm:artistName: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?performer fts:match '"nmm:artistName" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?album fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?album fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
     @staticmethod
     def get_artists_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?song fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.artists(query)
 
@@ -946,21 +946,21 @@ class Query():
     @staticmethod
     def get_songs_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?performer fts:match "nmm:artistName: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?performer fts:match '"nmm:artistName" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?album fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?album fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_track_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?song fts:match "nie:title: %(name)s*" . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
