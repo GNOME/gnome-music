@@ -1033,3 +1033,19 @@ class Query():
         }
 
         return query
+
+    @staticmethod
+    def is_audio(media_id):
+        query = """
+            SELECT DISTINCT
+            rdf:type
+            nie:mimeType(?urn) AS mime_type
+            {
+                ?urn rdf:type nie:InformationElement .
+                FILTER ( tracker:id(?urn) = "%(media_id)s" )
+            }
+        """.replace('\n', '').strip() % {
+            'media_id' : media_id
+        }
+
+        return query

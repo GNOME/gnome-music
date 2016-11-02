@@ -130,10 +130,11 @@ class Grilo(GObject.GObject):
                     media_id = media.get_id()
                     if changeType == Grl.SourceChangeType.ADDED:
                         # Check that this media is an audio file
-                        query = "select DISTINCT rdf:type nie:mimeType(?urn) as mime-type" +\
-                                " { ?urn rdf:type nie:InformationElement . FILTER (tracker:id(?urn) = %s) }" % media_id
-                        mimeType = grilo.tracker.query_sync(query, [Grl.METADATA_KEY_MIME], grilo.options)[0].get_mime()
-                        if mimeType and mimeType.startswith("audio"):
+                        mime_type = grilo.tracker.query_sync(
+                            Query.is_audio(media_id),
+                            [Grl.METADATA_KEY_MIME],
+                            grilo.options)[0].get_mime()
+                        if mime_type and mime_type.startswith("audio"):
                             self.changed_media_ids.append(media_id)
                     if changeType == Grl.SourceChangeType.REMOVED:
                         # There is no way to check that removed item is a media
