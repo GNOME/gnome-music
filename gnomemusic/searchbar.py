@@ -285,6 +285,7 @@ class Searchbar(Gtk.SearchBar):
     @log
     def _search_entry_tag_button_clicked(self, entry, tag):
         tag.manager.set_active(tag.manager.values[1][BaseModelColumns.ID])
+        self.search_entry_changed(None)
 
     @log
     def search_entry_timeout(self, widget):
