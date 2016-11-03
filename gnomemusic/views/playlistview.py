@@ -374,7 +374,7 @@ class PlaylistView(BaseView):
         self.view.set_model(None)
         self.model.clear()
         self.songs_count = 0
-        GLib.idle_add(grilo.populate_playlist_songs, playlist, self._add_item)
+        grilo.populate_playlist_songs(playlist, self._add_item)
 
         # disable delete button if current playlist is a smart playlist
         if self.current_playlist_is_protected():
@@ -525,8 +525,7 @@ class PlaylistView(BaseView):
     @log
     def populate(self):
         self.playlists_model.clear()
-        GLib.idle_add(grilo.populate_playlists, self._offset,
-                      self._add_playlist_item)
+        grilo.populate_playlists(self._offset, self._add_playlist_item)
 
     @log
     def get_selected_tracks(self, callback):

@@ -168,7 +168,7 @@ class ArtistsView(BaseView):
     @log
     def populate(self):
         self.window._init_loading_notification()
-        GLib.idle_add(grilo.populate_artists, self._offset, self._add_item)
+        grilo.populate_artists(self._offset, self._add_item)
 
     @log
     def _on_header_bar_toggled(self, button):

@@ -223,7 +223,7 @@ class SongsView(BaseView):
     def populate(self):
         self._init = True
         self.window._init_loading_notification()
-        GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
+        grilo.populate_songs(self._offset, self._add_item)
 
     @log
     def get_selected_tracks(self, callback):
