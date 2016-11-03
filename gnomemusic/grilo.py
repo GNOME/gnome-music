@@ -259,7 +259,6 @@ class Grilo(GObject.GObject):
         if album.get_source() == 'grl-tracker-source':
             GLib.idle_add(self.populate_items,
                           Query.album_songs(album.get_id()), 0, callback, count)
-            self.populate_items(Query.album_songs(album.get_id()), 0, callback, count)
         else:
             source = self.sources[album.get_source()]
             length = len(album.tracks)
