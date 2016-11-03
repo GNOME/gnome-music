@@ -131,10 +131,10 @@ class Grilo(GObject.GObject):
                     media_id = media.get_id()
                     if changeType == Grl.SourceChangeType.ADDED:
                         # Check that this media is an audio file
-                        mime_type = grilo.tracker.query_sync(
+                        mime_type = self.tracker.query_sync(
                             Query.is_audio(media_id),
                             [Grl.METADATA_KEY_MIME],
-                            grilo.options)[0].get_mime()
+                            self.options)[0].get_mime()
                         if mime_type and mime_type.startswith("audio"):
                             self.changed_media_ids.append(media_id)
                     if changeType == Grl.SourceChangeType.REMOVED:
