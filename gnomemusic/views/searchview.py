@@ -169,7 +169,7 @@ class SearchView(BaseView):
             return
 
         artist = utils.get_artist_name(item)
-        album = item.get_album() or _("Unknown Album")
+        album = utils.get_album_title(item)
         composer = item.get_composer()
 
         key = '%s-%s' % (artist, album)

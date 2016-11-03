@@ -303,17 +303,9 @@ class MediaPlayer2Service(Server):
         except:
             pass
 
-        try:
-            album = media.get_album()
-            assert album is not None
-        except:
-            try:
-                album = media.get_album()
-                assert album is not None
-            except:
-                album = _("Unknown Album")
-        finally:
-            metadata['xesam:album'] = GLib.Variant('s', album)
+
+        album = utils.get_album_title(media)
+        metadata['xesam:album'] = GLib.Variant('s', album)
 
         artist = utils.get_artist_name(media)
         metadata['xesam:artist'] = GLib.Variant('as', [artist])

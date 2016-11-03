@@ -221,7 +221,7 @@ class PlaylistView(BaseView):
 
         item = model.get_value(_iter, 5)
         if item:
-            cell.set_property('text', item.get_album() or _("Unknown Album"))
+            cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
         if not self.player.currentTrackUri:
@@ -399,7 +399,7 @@ class PlaylistView(BaseView):
         self._offset += 1
         title = utils.get_media_title(item)
         item.set_title(title)
-        artist = item.get_artist() or _("Unknown Artist")
+        artist = utils.get_album_title(item)
         model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],

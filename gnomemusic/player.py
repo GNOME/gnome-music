@@ -600,13 +600,6 @@ class Player(GObject.GObject):
         self.artistLabel.set_label(artist)
         self._currentArtist = artist
 
-        album = _("Unknown Album")
-        try:
-            assert media.get_album() is not None
-            album = media.get_album()
-        except:
-            self._currentAlbum = album
-
         self.coverImg.set_from_surface(self._loading_icon_surface)
         self.cache.lookup(media, ArtSize.xsmall, self._on_cache_lookup, None)
 
