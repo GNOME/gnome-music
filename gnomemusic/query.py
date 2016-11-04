@@ -151,22 +151,22 @@ class Query():
         ?song a nmm:MusicPiece ;
             nmm:musicAlbum ?album ;
             nmm:performer ?performer .
-        ?album nmm:albumArtist ?albumArtist ;
-            nie:title ?title .
-        BIND(LCASE(?title) AS ?title_lower) .
-        BIND(LCASE(nmm:artistName(?albumArtist)) AS ?artist_lower) .
-        BIND((%(album_order)s) AS ?album_collation) .
-        BIND((%(artist_order)s) AS ?artist_collation) .
+        ?album nie:title ?title .
+        OPTIONAL { ?album nmm:albumArtist ?albumArtist . }
         OPTIONAL { ?song nmm:composer ?composer . }
+        BIND(tracker:coalesce(nmm:artistName(?albumArtist),
+                              nmm:artistName(?performer)) AS ?artist_presort)
+        BIND(LCASE(?title) AS ?title_lower)
+        BIND((%(album_order)s) AS ?album_collation)
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album
-    ORDER BY ?album_collation ?artist_collation ?creation_date
+    ORDER BY ?album_collation (%(artist_sort)s) ?creation_date
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
             'album_order': Query._order_by_statement("?title_lower"),
-            'artist_order': Query._order_by_statement("?artist_lower"),
+            'artist_sort': Query._order_by_statement("?artist_presort"),
         }
 
         return query
@@ -185,22 +185,22 @@ class Query():
     {
         %(where_clause)s
         ?album a nmm:MusicAlbum ;
-               nmm:albumArtist ?albumArtist ;
                nie:title ?title .
         ?song nmm:musicAlbum ?album ;
               nmm:performer ?performer .
-        BIND(LCASE(nmm:artistName(?albumArtist)) AS ?artist_lower) .
-        BIND(LCASE(?title) AS ?title_lower) .
-        BIND((%(artist_order)s) AS ?artist_collation) .
-        BIND((%(album_order)s) AS ?title_collation) .
+        OPTIONAL { ?album nmm:albumArtist ?albumArtist }
+        BIND(tracker:coalesce(nmm:artistName(?albumArtist),
+                              nmm:artistName(?performer)) AS ?artist_presort)
+        BIND(LCASE(?title) AS ?title_lower)
+        BIND((%(album_order)s) AS ?title_collation)
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album
-    ORDER BY ?artist_collation ?creation_date ?album_collation
+    ORDER BY (%(artist_sort)s) ?creation_date ?album_collation
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'artist_order': Query._order_by_statement("?artist_lower"),
+            'artist_sort': Query._order_by_statement("?artist_presort"),
             'album_order': Query._order_by_statement("?title_lower")
         }
 
@@ -225,8 +225,6 @@ class Query():
             nmm:musicAlbum ?album ;
             nmm:performer ?performer ;
             nie:url ?url .
-        ?album nmm:albumArtist ?albumArtist ;
-            nie:title ?title .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
         FILTER(STRSTARTS(?url, '%(music_dir)s/'))
@@ -353,17 +351,14 @@ class Query():
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        (
-            SELECT
-                nmm:artistName(?album_artist)
-            WHERE {
-                ?album nmm:albumArtist ?album_artist
-            }
-            LIMIT 1
-        ) AS ?artist
+        nmm:artistName(?album_artist) AS ?artist
         nie:title(?album) AS ?album
     WHERE {
         ?album a nmm:MusicAlbum .
+        ?song a nmm:MusicPiece ;
+            nmm:musicAlbum ?album ;
+            nmm:performer ?song_artist .
+        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
             tracker:id(?album) = %(album_id)s
         )
@@ -381,18 +376,13 @@ class Query():
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        (
-            SELECT
-                nmm:artistName(?album_artist)
-            WHERE {
-                ?album nmm:albumArtist ?album_artist
-            }
-            LIMIT 1
-        ) AS ?artist
+        nmm:artistName(?album_artist) AS ?artist
         nie:title(?album) AS ?album
     WHERE {
         ?song a nmm:MusicPiece ;
-              nmm:musicAlbum ?album .
+              nmm:musicAlbum ?album ;
+              nmm:performer ?song_artist .
+        OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
             tracker:id(?song) = %(song_id)s
         )
