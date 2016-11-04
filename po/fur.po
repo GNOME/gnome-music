@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-10-25 14:14+0000\n"
-"PO-Revision-Date: 2016-10-25 21:57+0200\n"
+"POT-Creation-Date: 2016-11-03 07:25+0000\n"
+"PO-Revision-Date: 2016-11-04 21:06+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -119,12 +119,6 @@ msgstr "GNOME Musiche"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musiche e je le gnove aplicazion GNOME par riprodusi musiche."
 
-#: ../gnomemusic/mpris.py:314 ../gnomemusic/player.py:603
-#: ../gnomemusic/views/playlistview.py:224
-#: ../gnomemusic/views/searchview.py:172 ../gnomemusic/views/songsview.py:206
-msgid "Unknown Album"
-msgstr "Album no cognossût"
-
 #: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Precedent"
@@ -142,29 +136,29 @@ msgstr "Sune"
 msgid "Next"
 msgstr "Prossim"
 
-#: ../gnomemusic/player.py:1084
+#: ../gnomemusic/player.py:1080
 msgid "Unable to play the file"
 msgstr "Impussibil riprodusi il file"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1089
+#: ../gnomemusic/player.py:1085
 #, python-format
 msgid "_Find in %s"
 msgstr "_Cjate in %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1099
+#: ../gnomemusic/player.py:1095
 msgid " and "
 msgstr " e "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1102
+#: ../gnomemusic/player.py:1098
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1103
+#: ../gnomemusic/player.py:1099
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -172,27 +166,27 @@ msgstr[0] "Al covente %s par riprodusi il file, ma nol è instalât."
 msgstr[1] "A coventin %s par riprodusi il file, ma no son instalâts."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:52
+#: ../gnomemusic/playlists.py:59
 msgid "Most Played"
 msgstr "Plui scoltats"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:58
+#: ../gnomemusic/playlists.py:64
 msgid "Never Played"
 msgstr "Mai scoltât"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:64
+#: ../gnomemusic/playlists.py:69
 msgid "Recently Played"
 msgstr "Scoltât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:70
+#: ../gnomemusic/playlists.py:74
 msgid "Recently Added"
 msgstr "Zontât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:76
+#: ../gnomemusic/playlists.py:79
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
@@ -207,7 +201,7 @@ msgstr "Tocs preferîts"
 msgid "the|a|an"
 msgstr "the|a|an|il|i|la|lis|un|une|l'"
 
-#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:109
+#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:110
 msgid "All"
 msgstr "Dut"
 
@@ -219,23 +213,27 @@ msgstr "Artist"
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:65
+#: ../gnomemusic/searchbar.py:65 ../data/AlbumWidget.ui.h:3
+msgid "Composer"
+msgstr "Compositôr"
+
+#: ../gnomemusic/searchbar.py:66
 msgid "Track Title"
 msgstr "Titul"
 
-#: ../gnomemusic/searchbar.py:110
+#: ../gnomemusic/searchbar.py:111
 msgid "Local"
 msgstr "Locâl"
 
-#: ../gnomemusic/searchbar.py:222
+#: ../gnomemusic/searchbar.py:223
 msgid "Sources"
 msgstr "Sorzints"
 
-#: ../gnomemusic/searchbar.py:229
+#: ../gnomemusic/searchbar.py:230
 msgid "Match"
 msgstr "Corispuindince"
 
-#: ../gnomemusic/utils.py:63 ../gnomemusic/views/playlistview.py:402
+#: ../gnomemusic/utils.py:63
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
 
@@ -243,15 +241,15 @@ msgstr "Artist no cognossût"
 msgid "Untitled"
 msgstr "Cence Titul"
 
-#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:445
+#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:453
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/views/artistsview.py:42 ../gnomemusic/views/searchview.py:446
+#: ../gnomemusic/views/artistsview.py:42 ../gnomemusic/views/searchview.py:454
 msgid "Artists"
 msgstr "Artiscj"
 
-#: ../gnomemusic/views/baseview.py:191 ../gnomemusic/widgets/albumwidget.py:173
+#: ../gnomemusic/views/baseview.py:191 ../gnomemusic/widgets/albumwidget.py:197
 #: ../gnomemusic/widgets/artistalbumswidget.py:208
 #, python-format
 msgid "Selected %d item"
@@ -260,7 +258,7 @@ msgstr[0] "Selezionât %d element"
 msgstr[1] "Selezionâts %d elements"
 
 #: ../gnomemusic/views/baseview.py:193 ../gnomemusic/views/baseview.py:301
-#: ../gnomemusic/widgets/albumwidget.py:177
+#: ../gnomemusic/widgets/albumwidget.py:201
 #: ../gnomemusic/widgets/artistalbumswidget.py:210 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionaju"
@@ -279,7 +277,7 @@ msgstr "Prove une ricercje diferente"
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:448
+#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:456
 msgid "Playlists"
 msgstr "Listis di musichis"
 
@@ -290,17 +288,17 @@ msgid_plural "%d Songs"
 msgstr[0] "%d cjançon"
 msgstr[1] "%d Cjançons"
 
-#: ../gnomemusic/views/searchview.py:447 ../gnomemusic/views/songsview.py:43
+#: ../gnomemusic/views/searchview.py:455 ../gnomemusic/views/songsview.py:43
 msgid "Songs"
 msgstr "Cjancçons"
 
-#: ../gnomemusic/widgets/albumwidget.py:270
-#: ../gnomemusic/widgets/albumwidget.py:324
+#: ../gnomemusic/widgets/albumwidget.py:294
+#: ../gnomemusic/widgets/albumwidget.py:348
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets/disclistboxwidget.py:175
+#: ../gnomemusic/widgets/disclistboxwidget.py:193
 msgid "Disc {}"
 msgstr "Disc {}"
 
@@ -572,6 +570,9 @@ msgstr "_Zonte ae liste des musichis"
 #: ../data/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Gjave de liste des musichis"
+
+#~ msgid "Unknown Album"
+#~ msgstr "Album no cognossût"
 
 #~ msgid "Max chars to display in track name on Artist view"
 #~ msgstr ""
