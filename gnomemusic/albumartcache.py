@@ -62,10 +62,6 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
         w = art_size.width * scale
         h = int(art_size.height * ratio * scale)
 
-    new_pixbuf = pixbuf.scale_simple(w - border * 2,
-                                     h - border * 2,
-                                     GdkPixbuf.InterpType.HYPER)
-
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w, h)
     ctx = cairo.Context(surface)
 
@@ -84,9 +80,17 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
     ctx.set_source_rgb(1, 1, 1)
     ctx.fill()
 
+    matrix = cairo.Matrix()
+    matrix.scale(pixbuf.get_width() / (w - border * 2),
+                 pixbuf.get_height() / (h - border * 2))
+    matrix.translate(-border, -border)
+
     # paste the scaled pixbuf in the center
-    Gdk.cairo_set_source_pixbuf(ctx, new_pixbuf, border, border)
-    ctx.paint()
+    Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 0, 0)
+    pattern = ctx.get_source()
+    pattern.set_matrix(matrix)
+    ctx.rectangle(border, border, w - border * 2, h - border * 2)
+    ctx.fill()
 
     border_pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0, w, h)
 
