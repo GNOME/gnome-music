@@ -590,7 +590,8 @@ class Player(GObject.GObject):
     def load(self, media):
         self.progressScale.set_value(0)
         self._set_duration(media.get_duration())
-        self.songTotalTimeLabel.set_label(self.seconds_to_string(media.get_duration()))
+        self.songTotalTimeLabel.set_label(
+            utils.seconds_to_string(media.get_duration()))
         self.progressScale.set_sensitive(True)
 
         self.playBtn.set_sensitive(True)
@@ -832,7 +833,7 @@ class Player(GObject.GObject):
 
     def _on_progress_value_changed(self, widget):
         seconds = int(self.progressScale.get_value() / 60)
-        self.songPlaybackTimeLabel.set_label(self.seconds_to_string(seconds))
+        self.songPlaybackTimeLabel.set_label(utils.seconds_to_string(seconds))
         return False
 
     @log
@@ -843,13 +844,6 @@ class Player(GObject.GObject):
             GLib.source_remove(self.timeout)
             self.timeout = None
         return False
-
-    def seconds_to_string(self, duration):
-        seconds = duration
-        minutes = seconds // 60
-        seconds %= 60
-
-        return '%i:%02i' % (minutes, seconds)
 
     @log
     def _on_play_btn_clicked(self, btn):

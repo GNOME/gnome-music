@@ -76,10 +76,10 @@ def get_media_title(item):
 
 
 def seconds_to_string(duration):
-    """Convert a time in seconds to a hh:mm string
+    """Convert a time in seconds to a mm:ss string
 
     :param int duration: Time in seconds
-    :return: Time in hh:mm format
+    :return: Time in mm:ss format
     :rtype: string
     """
     seconds = duration
