@@ -26,7 +26,7 @@
             <default>'none'</default>
             <summary>Playback repeat mode</summary>
             <!-- Translators: Don't translate allowed values, just the description in the brackets -->
-            <description>Value identifies whether to repeat or randomize playback through the collection. Allowed values are: "none" (repeat and shuffle are off), "song" (repeat current song), "all" (repeat playlist, no shuffle), "shuffle" (shuffle playlist, presumes repeat all).</description>
+            <description>Value identifies whether to repeat or randomize playback through the collection. Allowed values are: “none” (repeat and shuffle are off), “song” (repeat current song), “all” (repeat playlist, no shuffle), “shuffle” (shuffle playlist, presumes repeat all).</description>
         </key>
         <key type="b" name="search">
             <default>false</default>
