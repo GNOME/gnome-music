@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-11-03 07:25+0000\n"
-"PO-Revision-Date: 2016-11-08 12:30+0100\n"
+"POT-Creation-Date: 2016-11-10 13:03+0000\n"
+"PO-Revision-Date: 2016-11-12 11:34+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
 "Language: cs\n"
@@ -54,9 +54,9 @@ msgstr "Režim opakovaného přehrávání"
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: \"none\" (repeat and shuffle are off), \"song"
-"\" (repeat current song), \"all\" (repeat playlist, no shuffle), \"shuffle"
-"\" (shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Hodnota určuje, jestli opakovaně nebo náhodně přehrávat z celé sbírku. "
 "Platné hodnoty jsou: „none“ (opakování a náhodný výběr vypnuty), "
@@ -139,29 +139,29 @@ msgstr "Přehrát"
 msgid "Next"
 msgstr "Následující"
 
-#: ../gnomemusic/player.py:1080
+#: ../gnomemusic/player.py:1074
 msgid "Unable to play the file"
 msgstr "Soubor nelze přehrát"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1085
+#: ../gnomemusic/player.py:1079
 #, python-format
 msgid "_Find in %s"
 msgstr "_Hledat v %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1095
+#: ../gnomemusic/player.py:1089
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1098
+#: ../gnomemusic/player.py:1092
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1099
+#: ../gnomemusic/player.py:1093
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -249,7 +249,7 @@ msgstr "Bez názvu"
 msgid "Albums"
 msgstr "Alba"
 
-#: ../gnomemusic/views/artistsview.py:42 ../gnomemusic/views/searchview.py:454
+#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:454
 msgid "Artists"
 msgstr "Umělci"
 
@@ -262,7 +262,7 @@ msgstr[0] "Vybrána %d položka"
 msgstr[1] "Vybrány %d položky"
 msgstr[2] "Vybráno %d položek"
 
-#: ../gnomemusic/views/baseview.py:193 ../gnomemusic/views/baseview.py:301
+#: ../gnomemusic/views/baseview.py:193 ../gnomemusic/views/baseview.py:298
 #: ../gnomemusic/widgets/albumwidget.py:201
 #: ../gnomemusic/widgets/artistalbumswidget.py:210 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
@@ -284,7 +284,7 @@ msgstr "Hej, DJ"
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: ../gnomemusic/views/playlistview.py:412
+#: ../gnomemusic/views/playlistview.py:409
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -359,7 +359,7 @@ msgid ""
 "obligated to do so.  If you do not wish to do so, delete this exception "
 "statement from your version.\n"
 "\n"
-"\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "Hudba GNOME (v originálním znění GNOME Music) je svobodný software: Můžete "
@@ -575,18 +575,3 @@ msgstr "Přid_at do seznamu k přehrání"
 msgid "_Remove from Playlist"
 msgstr "Odeb_rat ze seznamu k přehrání"
 
-#~ msgid "Unknown Album"
-#~ msgstr "Neznámé album"
-
-#~ msgid "Max chars to display in track name on Artist view"
-#~ msgstr ""
-#~ "Maximální počet znaků, který se může zobrazit v názvu skladby v zobrazení "
-#~ "Umělci"
-
-#~ msgid ""
-#~ "This setting modifies the amount of chars for track title on Artist view "
-#~ "before its been ellipsized. Set this to -1 to disable"
-#~ msgstr ""
-#~ "Toto nastavení upravuje množství znaků pro název skladby v zobrazení "
-#~ "Umělci. Znaky nad tento počet jsou nahrazeny výpustkem. Pro vypnutí této "
-#~ "funkce nastavte na -1."
