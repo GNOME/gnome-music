@@ -273,7 +273,7 @@ class Playlists(GObject.GObject):
 
         # Get a list of matching songs
         try:
-            cursor = self.tracker.query_finish(res)
+            cursor = connection.query_finish(res)
         except GLib.Error as err:
             logger.warn("Error: %s, %s", err.__class__, err)
             return
@@ -313,12 +313,31 @@ class Playlists(GObject.GObject):
             if item:
                 self.emit('playlist-created', item)
 
-        def query_callback(conn, res, data):
-            cursor = conn.query_finish(res)
-            if not cursor or not cursor.next():
+        def cursor_callback(cursor, res, data):
+            try:
+                has_next = cursor.next_finish()
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
                 return
+
+            if has_next:
+                cursor.next_async(None, cursor_callback, data)
+                return
+
             playlist_id = cursor.get_integer(0)
             grilo.get_playlist_with_id(playlist_id, get_callback)
+
+        def query_callback(conn, res, data):
+            try:
+                cursor = conn.query_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            if not cursor:
+                return
+
+            cursor.next_async(None, cursor_callback, data)
 
         def update_callback(conn, res, data):
             playlist_urn = conn.update_blank_finish(res)[0][0]['playlist']
