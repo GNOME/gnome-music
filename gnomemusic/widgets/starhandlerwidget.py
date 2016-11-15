@@ -97,7 +97,7 @@ class StarHandlerWidget(object):
         :param cols: List of the widgets GtkTreeViewColumns
         :param hidden: Visible state of the column
         """
-        star_renderer = CellRendererClickablePixbuf(self._parent.view,
+        star_renderer = CellRendererClickablePixbuf(self._parent._view,
                                                     hidden=hidden)
         star_renderer.connect("clicked", self._on_star_toggled)
         list_widget.add_renderer(star_renderer, lambda *args: None, None)

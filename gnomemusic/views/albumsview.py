@@ -53,7 +53,7 @@ class AlbumsView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and not self.header_bar._selectionMode):
+        if (self._init and not self._header_bar._selectionMode):
             self._offset = 0
             self._init = True
             GLib.idle_add(self.populate)
@@ -61,13 +61,13 @@ class AlbumsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if (not self.header_bar._selectionMode
+        if (not self._header_bar._selectionMode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
 
     @log
     def _setup_view(self, view_type):
-        self.view = Gtk.FlowBox(homogeneous=True,
+        self._view = Gtk.FlowBox(homogeneous=True,
                                 hexpand=True,
                                 halign=Gtk.Align.FILL,
                                 valign=Gtk.Align.START,
@@ -78,25 +78,25 @@ class AlbumsView(BaseView):
                                 min_children_per_line=1,
                                 max_children_per_line=25)
 
-        self.view.connect('child-activated', self._on_child_activated)
+        self._view.connect('child-activated', self._on_child_activated)
 
         scrolledwin = Gtk.ScrolledWindow()
-        scrolledwin.add(self.view)
+        scrolledwin.add(self._view)
         scrolledwin.show()
 
         self._box.add(scrolledwin)
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self.header_bar.reset_header_title()
+        self._header_bar.reset_header_title()
         self.set_visible_child(self._grid)
 
     @log
     def _on_child_activated(self, widget, child, user_data=None):
         item = child.media_item
 
-        if self.star_handler.star_renderer_click:
-            self.star_handler.star_renderer_click = False
+        if self._star_handler.star_renderer_click:
+            self._star_handler.star_renderer_click = False
             return
 
         # Toggle the selection when in selection mode
@@ -109,28 +109,28 @@ class AlbumsView(BaseView):
         self._artist = utils.get_artist_name(item)
 
         self._albumWidget.update(self._artist, title, item,
-                                 self.header_bar, self.selection_toolbar)
+                                 self._header_bar, self._selection_toolbar)
 
-        self.header_bar.set_state(ToolbarState.CHILD_VIEW)
-        self.header_bar.header_bar.set_title(self._escaped_title)
-        self.header_bar.header_bar.sub_title = self._artist
+        self._header_bar.set_state(ToolbarState.CHILD_VIEW)
+        self._header_bar.header_bar.set_title(self._escaped_title)
+        self._header_bar.header_bar.sub_title = self._artist
         self.set_visible_child(self._albumWidget)
 
     @log
     def update_title(self):
-        self.header_bar.header_bar.set_title(self._escaped_title)
-        self.header_bar.header_bar.sub_title = self._artist
+        self._header_bar.header_bar.set_title(self._escaped_title)
+        self._header_bar.header_bar.sub_title = self._artist
 
     @log
     def populate(self):
-        self.window.push_loading_notification()
+        self._window.push_loading_notification()
         grilo.populate_albums(self._offset, self._add_item)
 
     @log
     def get_selected_tracks(self, callback):
         # FIXME: we call into private objects with full knowledge of
         # what is there
-        if self.header_bar._state == ToolbarState.CHILD_VIEW:
+        if self._header_bar._state == ToolbarState.CHILD_VIEW:
             callback(self._albumWidget._disc_listbox.get_selected_items())
         else:
             self.items_selected = []
@@ -147,10 +147,10 @@ class AlbumsView(BaseView):
 
             # Add to the flowbox
             child = self._create_album_item(item)
-            self.view.add(child)
+            self._view.add(child)
         elif remaining == 0:
-                self.window.pop_loading_notification()
-                self.view.show()
+                self._window.pop_loading_notification()
+                self._view.show()
 
     def _create_album_item(self, item):
         artist = utils.get_artist_name(item)
@@ -190,10 +190,7 @@ class AlbumsView(BaseView):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        self.cache.lookup(item,
-                          ArtSize.medium,
-                          self._on_lookup_ready,
-                          child)
+        self._cache.lookup(item, ArtSize.medium, self._on_lookup_ready, child)
 
         return child
 
@@ -238,7 +235,7 @@ class AlbumsView(BaseView):
         Selects or unselects all items without sending the notify::active
         signal for performance purposes.
         """
-        for child in self.view.get_children():
+        for child in self._view.get_children():
             GObject.signal_handler_block(child.check, child.check_handler_id)
 
             # Set the checkbutton state without emiting the signal

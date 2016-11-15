@@ -53,11 +53,11 @@ class EmptySearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self.header_bar.searchbar.show_bar(True, False)
+        self._header_bar.searchbar.show_bar(True, False)
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.destroy()
             self._artistAlbumsWidget = None
         elif self.get_visible_child() == self._grid:
-            self.window.views[0].set_visible_child(self.window.views[0]._grid)
-            self.window.toolbar.set_state(ToolbarState.CHILD_VIEW)
+            self._window.views[0].set_visible_child(self._window.views[0]._grid)
+            self._window.toolbar.set_state(ToolbarState.CHILD_VIEW)
         self.set_visible_child(self._grid)

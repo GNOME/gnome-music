@@ -55,7 +55,7 @@ class SongsView(BaseView):
         self._offset = 0
         self._iter_to_clean = None
 
-        view_style  = self.view.get_generic_view().get_style_context()
+        view_style  = self._view.get_generic_view().get_style_context()
         view_style.add_class('songs-list')
         view_style.remove_class('content-view')
 
@@ -67,7 +67,7 @@ class SongsView(BaseView):
     @log
     def _on_changes_pending(self, data=None):
         if (self._init
-                and not self.header_bar._selectionMode):
+                and not self._header_bar._selectionMode):
             self.model.clear()
             self._offset = 0
             GLib.idle_add(self.populate)
@@ -75,14 +75,14 @@ class SongsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if (not self.header_bar._selectionMode
+        if (not self._header_bar._selectionMode
                 and grilo.changes_pending['Songs']):
             self._on_changes_pending()
 
     @log
     def _on_item_activated(self, widget, id, path):
-        if self.star_handler.star_renderer_click:
-            self.star_handler.star_renderer_click = False
+        if self._star_handler.star_renderer_click:
+            self._star_handler.star_renderer_click = False
             return
 
         try:
@@ -91,7 +91,7 @@ class SongsView(BaseView):
             logger.warn("Error: {}, {}".format(err.__class__, err))
             return
 
-        if self.model[itr][8] != self.errorIconName:
+        if self.model[itr][8] != self._error_icon_name:
            self.player.set_playlist('Songs', None, self.model, itr, 5, 11)
            self.player.set_playing(True)
 
@@ -110,17 +110,17 @@ class SongsView(BaseView):
 
         self.model[current_iter][10] = True
         path = self.model.get_path(current_iter)
-        self.view.get_generic_view().scroll_to_path(path)
-        if self.model[current_iter][8] != self.errorIconName:
+        self._view.get_generic_view().scroll_to_path(path)
+        if self.model[current_iter][8] != self._error_icon_name:
             self._iter_to_clean = current_iter.copy()
         return False
 
     def _add_item(self, source, param, item, remaining=0, data=None):
         """Adds track item to the model"""
         if not item and not remaining:
-            self.view.set_model(self.model)
-            self.window.pop_loading_notification()
-            self.view.show()
+            self._view.set_model(self.model)
+            self._window.pop_loading_notification()
+            self._view.show()
             return
 
         self._offset += 1
@@ -139,7 +139,7 @@ class SongsView(BaseView):
 
     @log
     def _add_list_renderers(self):
-        list_widget = self.view.get_generic_view()
+        list_widget = self._view.get_generic_view()
         list_widget.set_halign(Gtk.Align.CENTER)
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
@@ -162,7 +162,7 @@ class SongsView(BaseView):
         list_widget.add_renderer(title_renderer,
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
-        self.star_handler.add_star_renderers(list_widget, cols)
+        self._star_handler.add_star_renderers(list_widget, cols)
         duration_renderer = Gd.StyledTextRenderer(xpad=32, xalign=1.0)
         duration_renderer.add_class('dim-label')
         col = Gtk.TreeViewColumn()
@@ -214,10 +214,10 @@ class SongsView(BaseView):
             cell.set_visible(False)
             return
         if model[itr][11] == DiscoveryStatus.FAILED:
-            cell.set_property('icon-name', self.errorIconName)
+            cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
         elif model[itr][5].get_url() == track_uri:
-            cell.set_property('icon-name', self.nowPlayingIconName)
+            cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
             cell.set_visible(False)
@@ -227,7 +227,7 @@ class SongsView(BaseView):
         """Populates the view"""
         self._init = True
         if grilo.tracker:
-            self.window.push_loading_notification()
+            self._window.push_loading_notification()
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
     @log
@@ -239,4 +239,4 @@ class SongsView(BaseView):
         :rtype: A list of tracks
         """
         callback([self.model[self.model.get_iter(path)][5]
-                  for path in self.view.get_selection()])
+                  for path in self._view.get_selection()])

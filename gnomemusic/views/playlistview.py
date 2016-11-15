@@ -51,10 +51,10 @@ class PlaylistView(BaseView):
         BaseView.__init__(self, 'playlists', _("Playlists"), window,
                                Gd.MainViewType.LIST, True, self.playlists_sidebar)
 
-        self.view.get_generic_view().get_style_context()\
+        self._view.get_generic_view().get_style_context()\
             .add_class('songs-list')
         self._add_list_renderers()
-        self.view.get_generic_view().get_style_context().remove_class('content-view')
+        self._view.get_generic_view().get_style_context().remove_class('content-view')
 
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/PlaylistControls.ui')
@@ -123,7 +123,7 @@ class PlaylistView(BaseView):
 
     @log
     def _add_list_renderers(self):
-        list_widget = self.view.get_generic_view()
+        list_widget = self._view.get_generic_view()
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
         cells[2].set_visible(False)
@@ -149,7 +149,7 @@ class PlaylistView(BaseView):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self.star_handler.add_star_renderers(list_widget, cols)
+        self._star_handler.add_star_renderers(list_widget, cols)
 
         duration_renderer = Gd.StyledTextRenderer(
             xpad=32,
@@ -229,10 +229,10 @@ class PlaylistView(BaseView):
             return
 
         if model.get_value(_iter, 11) == DiscoveryStatus.FAILED:
-            cell.set_property('icon-name', self.errorIconName)
+            cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
         elif model.get_value(_iter, 5).get_url() == self.player.currentTrackUri:
-            cell.set_property('icon-name', self.nowPlayingIconName)
+            cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
             cell.set_visible(False)
@@ -251,7 +251,7 @@ class PlaylistView(BaseView):
             return False
 
         self.model.set_value(currentIter, 10, True)
-        if self.model.get_value(currentIter, 8) != self.errorIconName:
+        if self.model[currentIter][8] != self._error_icon_name:
             self.iter_to_clean = currentIter.copy()
             self.iter_to_clean_model = self.model
 
@@ -282,15 +282,15 @@ class PlaylistView(BaseView):
 
     @log
     def _on_item_activated(self, widget, id, path):
-        if self.star_handler.star_renderer_click:
-            self.star_handler.star_renderer_click = False
+        if self._star_handler.star_renderer_click:
+            self._star_handler.star_renderer_click = False
             return
 
         try:
             _iter = self.model.get_iter(path)
         except TypeError:
             return
-        if self.model.get_value(_iter, 8) != self.errorIconName:
+        if self.model.get_value(_iter, 8) != self._error_icon_name:
             self.player.set_playlist(
                 'Playlist', self.current_playlist.get_id(),
                 self.model, _iter, 5, 11
@@ -367,7 +367,7 @@ class PlaylistView(BaseView):
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
-        self.view.set_model(None)
+        self._view.set_model(None)
         self.model.clear()
         self.songs_count = 0
         grilo.populate_playlist_songs(playlist, self._add_item)
@@ -382,7 +382,7 @@ class PlaylistView(BaseView):
     def _add_item(self, source, param, item, remaining=0, data=None):
         self._add_item_to_model(item, self.model)
         if remaining == 0:
-            self.view.set_model(self.model)
+            self._view.set_model(self.model)
 
     @log
     def _add_item_to_model(self, item, model):
@@ -410,8 +410,8 @@ class PlaylistView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        self.playlists_sidebar.set_sensitive(not self.header_bar._selectionMode)
-        self.menubutton.set_sensitive(not self.header_bar._selectionMode)
+        self.playlists_sidebar.set_sensitive(not self._header_bar._selectionMode)
+        self.menubutton.set_sensitive(not self._header_bar._selectionMode)
 
     @log
     def _on_play_activate(self, menuitem, data=None):
@@ -419,9 +419,9 @@ class PlaylistView(BaseView):
         if not _iter:
             return
 
-        self.view.get_generic_view().get_selection().\
+        self._view.get_generic_view().get_selection().\
             select_path(self.model.get_path(_iter))
-        self.view.emit('item-activated', '0',
+        self._view.emit('item-activated', '0',
                        self.model.get_path(_iter))
 
     @log
@@ -526,4 +526,4 @@ class PlaylistView(BaseView):
     @log
     def get_selected_tracks(self, callback):
         callback([self.model.get_value(self.model.get_iter(path), 5)
-                  for path in self.view.get_selection()])
+                  for path in self._view.get_selection()])

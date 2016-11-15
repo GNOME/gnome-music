@@ -64,22 +64,22 @@ class ArtistsView(BaseView):
         self._artist_albums_stack.add_named(self._artist_albums_widget,
                                             "sidebar")
         self._artist_albums_stack.set_visible_child_name("sidebar")
-        self.view.set_shadow_type(Gtk.ShadowType.IN)
-        self.view.get_style_context().add_class('side-panel')
-        self.view.set_hexpand(False)
-        self.view.get_generic_view().get_selection().set_mode(
+        self._view.set_shadow_type(Gtk.ShadowType.IN)
+        self._view.get_style_context().add_class('side-panel')
+        self._view.set_hexpand(False)
+        self._view.get_generic_view().get_selection().set_mode(
             Gtk.SelectionMode.SINGLE)
         self._grid.attach(self._artist_albums_stack, 2, 0, 2, 2)
         self._add_list_renderers()
-        self.view.get_generic_view().get_style_context().remove_class(
+        self._view.get_generic_view().get_style_context().remove_class(
             'content-view')
         self.show_all()
-        self.view.hide()
+        self._view.hide()
 
     @log
     def _on_changes_pending(self, data=None):
         if (self._init
-                and not self.header_bar._selectionMode):
+                and not self._header_bar._selectionMode):
             self.model.clear()
             self._artists.clear()
             self._offset = 0
@@ -100,7 +100,7 @@ class ArtistsView(BaseView):
 
     @log
     def _add_list_renderers(self):
-        list_widget = self.view.get_generic_view()
+        list_widget = self._view.get_generic_view()
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
         cells[1].set_visible(False)
@@ -147,8 +147,8 @@ class ArtistsView(BaseView):
         self._artist_albums_stack.add(new_artist_albums_widget)
 
         artist_albums = ArtistAlbumsWidget(artist, albums, self.player,
-                                           self.header_bar,
-                                           self.selection_toolbar, self.window)
+                                           self._header_bar,
+                                           self._selection_toolbar, self._window)
         self._artists[artist.casefold()]['widget'] = artist_albums
         new_artist_albums_widget.add(artist_albums)
         new_artist_albums_widget.show()
@@ -161,9 +161,9 @@ class ArtistsView(BaseView):
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if (not item and remaining == 0):
-            self.view.set_model(self.model)
-            self.window.pop_loading_notification()
-            self.view.show()
+            self._view.set_model(self.model)
+            self._window.pop_loading_notification()
+            self._view.show()
             return
         self._offset += 1
         artist = utils.get_artist_name(item)
@@ -179,14 +179,14 @@ class ArtistsView(BaseView):
     @log
     def populate(self):
         """Populates the view"""
-        self.window.push_loading_notification()
+        self._window.push_loading_notification()
         grilo.populate_artists(self._offset, self._add_item)
 
     @log
     def _on_header_bar_toggled(self, button):
         BaseView._on_header_bar_toggled(self, button)
 
-        view_selection = self.view.get_generic_view().get_selection()
+        view_selection = self._view.get_generic_view().get_selection()
         if button.get_active():
             self.text_renderer.set_fixed_size(178, -1)
             self._last_selection = view_selection.get_selected()[1]
@@ -200,8 +200,8 @@ class ArtistsView(BaseView):
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         self._artist_albums_stack.set_sensitive(
-            not self.header_bar._selectionMode)
-        if (not self.header_bar._selectionMode
+            not self._header_bar._selectionMode)
+        if (not self._header_bar._selectionMode
                 and grilo.changes_pending['Artists']):
             self._on_changes_pending()
 
@@ -218,7 +218,7 @@ class ArtistsView(BaseView):
         self._albums_index = 0
         self._albums_selected = []
 
-        for path in self.view.get_selection():
+        for path in self._view.get_selection():
             itr = self.model.get_iter(path)
             artist = self.model[itr][2]
             albums = self._artists[artist.casefold()]['albums']
