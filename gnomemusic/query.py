@@ -208,13 +208,14 @@ class Query():
         query = """
     SELECT DISTINCT
         rdf:type(?song)
+        ?song AS ?tracker_urn
         tracker:id (?song) AS ?id
         ?url
         nie:title(?song) AS ?title
         nmm:artistName(nmm:performer(?song)) AS ?artist
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
-        IF (BOUND(?tag), 'b', '') AS ?lyrics
+        ?tag AS ?favourite
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
@@ -263,6 +264,7 @@ class Query():
         query = """
     SELECT DISTINCT
         rdf:type(?song)
+        ?song AS ?tracker_urn
         tracker:id(?song) AS ?id
         nie:url(?song) AS ?url
         nie:title(?song) AS ?title
@@ -271,13 +273,13 @@ class Query():
         nfo:duration(?song) AS ?duration
         nmm:trackNumber(?song) AS ?track_number
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-        IF(bound(?tag), 'truth!', '') AS ?lyrics
+        ?tag AS ?favourite
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
               nmm:musicAlbum ?album .
         OPTIONAL { ?song nao:hasTag ?tag .
-                   FILTER( ?tag = nao:predefined-tag-favorite ) } .
+                   FILTER (?tag = nao:predefined-tag-favorite) } .
         FILTER (tracker:id(?album) = %(album_id)s &&
                 (STRSTARTS(nie:url(?song), '%(music_dir)s/')))
     }
@@ -297,13 +299,14 @@ class Query():
         query = """
     SELECT
         rdf:type(?song)
+        ?song AS ?tracker_urn
         tracker:id(?entry) AS ?id
         nie:url(?song) AS ?url
         nie:title(?song) AS ?title
         nmm:artistName(nmm:performer(?song)) AS ?artist
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
-        IF(bound(?tag), 'truth!', '') AS ?lyrics
+        ?tag AS ?favourite
     WHERE {
         ?playlist a nmm:Playlist ;
             a nfo:MediaList ;
@@ -1022,39 +1025,6 @@ class Query():
     }
         """.replace("\n", " ").strip() % {
             'playlist_id': playlist_id
-        }
-
-        return query
-
-    @staticmethod
-    def add_favorite(song_url):
-        query = """
-            INSERT {
-                ?song nao:hasTag nao:predefined-tag-favorite
-            }
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER ( nie:url(?song) = "%(song_url)s" )
-            }
-        """.replace("\n", " ").strip() % {
-            'song_url': song_url
-
-        }
-
-        return query
-
-    @staticmethod
-    def remove_favorite(song_url):
-        query = """
-            DELETE {
-                ?song nao:hasTag nao:predefined-tag-favorite
-            }
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER ( nie:url(?song) = "%(song_url)s" )
-            }
-        """.replace("\n", " ").strip() % {
-            'song_url': song_url
         }
 
         return query

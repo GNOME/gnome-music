@@ -400,7 +400,7 @@ class PlaylistView(BaseView):
         model.insert_with_valuesv(
             -1,
             [2, 3, 5, 9],
-            [title, artist, item, bool(item.get_lyrics())])
+            [title, artist, item, item.get_favourite()])
         self.songs_count += 1
 
     @log

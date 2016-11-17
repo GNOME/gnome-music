@@ -136,9 +136,8 @@ class SongsView(BaseView):
             utils.get_media_title(item),
             artist,
             item,
-            bool(item.get_lyrics())
+            item.get_favourite()
         ])
-        # TODO: change "bool(item.get_lyrics())" --> item.get_favourite() once query works properly
 
     @log
     def _add_list_renderers(self):

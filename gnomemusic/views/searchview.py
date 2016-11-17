@@ -247,7 +247,7 @@ class SearchView(BaseView):
                 [str(item.get_id()), title, artist,
                  self._loading_icon, item,
                  2 if source.get_id() != 'grl-tracker-source' \
-                    else bool(item.get_lyrics()), category, composer])
+                    else item.get_favourite(), category, composer])
             self.cache.lookup(item, ArtSize.small, self._on_lookup_ready, _iter)
         else:
             if not artist.casefold() in self._artists:

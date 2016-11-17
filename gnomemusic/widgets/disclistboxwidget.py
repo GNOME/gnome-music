@@ -352,7 +352,7 @@ class DiscBox(Gtk.Box):
         song_widget.connect('button-release-event', self._track_activated)
 
         song_widget.star_stack = builder.get_object('starstack')
-        song_widget.star_stack.set_favorite(track.get_lyrics())
+        song_widget.star_stack.set_favorite(track.get_favourite())
         song_widget.star_stack.set_visible(True)
 
         song_widget.starevent = builder.get_object('starevent')

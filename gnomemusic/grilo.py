@@ -57,6 +57,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_CREATION_DATE,
         Grl.METADATA_KEY_COMPOSER,
         Grl.METADATA_KEY_DURATION,
+        Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_LYRICS,
         Grl.METADATA_KEY_THUMBNAIL,
@@ -290,14 +291,24 @@ class Grilo(GObject.GObject):
 
     @log
     def toggle_favorite(self, song_item):
-        # TODO: change "bool(song_item.get_lyrics())" --> song_item.get_favourite() once query works properly
-        # TODO: when .set/get_favourite work, set_favourite outside loop: item.set_favourite(!item.get_favourite())
-        if bool(song_item.get_lyrics()):  # is favorite
-            self.sparqltracker.update(Query.remove_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
+        """Toggles favorite status for media item
+
+        Toggles favorite status and writes it back to the tracker store
+        :param song_item: A Grilo media item
+        """
+        if song_item.get_favourite():
+            # For now keep unsetting the lyrics to deal with how
+            # previous versions dealt with favorites.
             song_item.set_lyrics("")
-        else:  # not favorite
-            self.sparqltracker.update(Query.add_favorite(song_item.get_url()), GLib.PRIORITY_DEFAULT, None)
-            song_item.set_lyrics("i'm truthy")
+            song_item.set_favourite(False)
+        else:
+            song_item.set_favourite(True)
+
+        # FIXME: We assume this is the tracker plugin.
+        # FIXME: Doing this async crashes
+        self.tracker.store_metadata_sync(song_item,
+                                         [Grl.METADATA_KEY_FAVOURITE],
+                                         Grl.WriteFlags.NORMAL)
 
     @log
     def set_favorite(self, song_item, favorite):
@@ -306,7 +317,7 @@ class Grilo(GObject.GObject):
         :param song_item: A Grilo media item
         :param bool favorite: Set favorite status
         """
-        if bool(song_item.get_lyrics()) != favorite:
+        if song_item.get_favourite() != favorite:
             self.toggle_favorite(song_item)
 
     @log
