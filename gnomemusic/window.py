@@ -214,27 +214,35 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(self.player.actionbar, False, False, 0)
         self._box.pack_start(self.selection_toolbar.actionbar, False, False, 0)
         self.add(self._box)
-        count = 0
-        cursor = None
+
+        def cursor_next_cb(conn, res, data):
+            try:
+                has_next = conn.next_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            if has_next:
+                count = conn.get_integer(0)
+                if count > 0:
+                    self._switch_to_player_view()
+                else:
+                    self._switch_to_empty_view()
+
+        def songs_query_cb(conn, res, data):
+            try:
+                cursor = conn.query_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            cursor.next_async(None, cursor_next_cb, None)
 
         Query()
         if Query.music_folder:
-            try:
-                cursor = tracker.query(Query.all_songs_count(), None)
-                if cursor is not None and cursor.next(None):
-                    count = cursor.get_integer(0)
-            except Exception as e:
-                logger.error("Tracker query crashed: %s", e)
-                count = 0
-
-            if count > 0:
-                self._switch_to_player_view()
-            # To revert to the No Music View when no songs are found
-            else:
-                if self.toolbar._selectionMode is False:
-                    self._switch_to_empty_view()
+            tracker.query_async(Query.all_songs_count(), None, songs_query_cb,
+                                None)
         else:
-            # Revert to No Music view if XDG dirs are not set
             self._switch_to_empty_view()
 
         self.toolbar._search_button.connect('toggled', self._on_search_toggled)
