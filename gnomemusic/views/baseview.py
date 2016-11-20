@@ -162,6 +162,8 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_grilo_ready(self, data=None):
+        # FIXME: with async changes in Window this seems never to be
+        # called anymore. Fix it proper or remove.
         if (self.header_bar.get_stack().get_visible_child() == self and not self._init):
             self._populate()
         self.header_bar.get_stack().connect('notify::visible-child',

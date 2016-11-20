@@ -297,7 +297,8 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()
 
-        self.views[0].populate()
+        for i in self.views:
+            GLib.idle_add(i.populate)
 
     @log
     def _on_select_all(self, action, param):
