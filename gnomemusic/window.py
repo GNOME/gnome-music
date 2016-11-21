@@ -108,28 +108,46 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_changes_pending(self, data=None):
-        count = 1
-        cursor = tracker.query(Query.all_songs_count(), None)
-        if cursor is not None and cursor.next(None):
-            count = cursor.get_integer(0)
-        if not count > 0:
-            if self.toolbar._selectionMode is False and len(self.views) != 1:
-                self._stack.disconnect(self._on_notify_model_id)
-                self.disconnect(self._key_press_event_id)
-                view_count = len(self.views)
-                for i in range(0, view_count):
-                    view = self.views.pop()
-                    view.destroy()
-                self.toolbar.hide_stack()
-                self._switch_to_empty_view()
-        else:
-            if (self.views[0] == self.views[-1]):
-                view = self.views.pop()
-                view.destroy()
-                self._switch_to_player_view()
-                self.toolbar._search_button.set_sensitive(True)
-                self.toolbar._select_button.set_sensitive(True)
-                self.toolbar.show_stack()
+
+        def cursor_next_cb(conn, res, data):
+            try:
+                has_next = conn.next_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            if has_next:
+                count = conn.get_integer(0)
+                if (count > 0):
+                    if (self.views[0] == self.views[-1]):
+                        view = self.views.pop()
+                        view.destroy()
+                        self._switch_to_player_view()
+                        self.toolbar._search_button.set_sensitive(True)
+                        self.toolbar._select_button.set_sensitive(True)
+                        self.toolbar.show_stack()
+                elif (self.toolbar._selectionMode is False
+                        and len(self.views) != 1):
+                    self._stack.disconnect(self._on_notify_model_id)
+                    self.disconnect(self._key_press_event_id)
+                    view_count = len(self.views)
+                    for i in range(0, view_count):
+                        view = self.views.pop()
+                        view.destroy()
+                    self.toolbar.hide_stack()
+                    self._switch_to_empty_view()
+
+        def songs_query_cb(conn, res, data):
+            try:
+                cursor = conn.query_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                return
+
+            cursor.next_async(None, cursor_next_cb, None)
+
+        tracker.query_async(Query.all_songs_count(), None, songs_query_cb,
+                            None)
 
     def _on_configure_event(self, widget, event):
         if self.window_size_update_timeout is None:
