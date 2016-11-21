@@ -1,3 +1,37 @@
+Overview of changes in 3.23.2
+=============================
+
+* Rely on Cairo for cover scaling
+* Smooth progressbar
+* Make more tracker calls async
+* General cleanups
+* Tackle long-standing issues with album separation
+
+Bugs fixed:
+ 773478 artistviews: pep cleanup
+ 772263 Use unicode in translatable strings
+ 772698 async work
+ 774260 handle optional album-artist in queries
+ 774481 Add missing license header to gnome-music.in
+ 773769 songsview: pep cleanup
+ 772628 player: make progress scale  move smoothly
+
+Thanks to our contributors:
+ Carlos Garnacho
+ Clayton G. Hobbs
+ Marinus Schraal
+ Pablo Palácios
+ Piotr Drąg
+ Suyash Garg
+ Yash Singh
+
+Translation updated:
+ Czech
+ Friulian
+ Hungarian
+ Norwegian bokmål
+ Slovenian
+
 Overview of changes in 3.23.1
 =============================
 
