@@ -738,7 +738,7 @@ class Query():
             WHERE {
                 ?song a nmm:MusicPiece ;
                     nie:isStoredAs ?as ;
-                    nfo:fileLastAccessed ?last_played .
+                    nie:contentAccessed ?last_played .
                 ?as nie:url ?url .
                 FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime
                          && EXISTS { ?song nie:usageCounter ?count .}

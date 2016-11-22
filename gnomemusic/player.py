@@ -917,7 +917,6 @@ class Player(GObject.GObject):
     @log
     def scrobble_song(self, url):
         # Update playlists
-        playlists.update_last_played(url)
         playlists.update_all_static_playlists()
 
         if self.last_fm:
@@ -993,6 +992,7 @@ class Player(GObject.GObject):
                     self.scrobbled = True
                     if current_media:
                         grilo.bump_play_count(self.get_current_media())
+                        grilo.set_last_played(current_media)
                         just_played_url = self.get_current_media().get_url()
                         t = Thread(target=self.scrobble_song, args=(just_played_url,))
                         t.setDaemon(True)

@@ -390,4 +390,17 @@ class Grilo(GObject.GObject):
         self.tracker.store_metadata_sync(media, [Grl.METADATA_KEY_PLAY_COUNT],
                                          Grl.WriteFlags.NORMAL)
 
+    @log
+    def set_last_played(self, media):
+        """Sets the date-time when the media was last played
+
+        Sets the last played date-time for the media.
+        :param media: A Grilo media item
+        """
+        media.set_last_played(GLib.DateTime.new_now_utc())
+        # FIXME: We assume this is the tracker plugin.
+        # FIXME: Doing this async crashes
+        self.tracker.store_metadata_sync(media, [Grl.METADATA_KEY_LAST_PLAYED],
+                                         Grl.WriteFlags.NORMAL)
+
 grilo = Grilo()
