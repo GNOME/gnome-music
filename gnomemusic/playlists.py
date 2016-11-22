@@ -236,11 +236,6 @@ class Playlists(GObject.GObject):
                                         tag_created_cb, playlist)
 
     @log
-    def update_playcount(self, song_url):
-        query = Query.update_playcount(song_url)
-        self.tracker.update(query, GLib.PRIORITY_LOW, None)
-
-    @log
     def update_last_played(self, song_url):
         cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
         query = Query.update_last_played(song_url, cur_time)

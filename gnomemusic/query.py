@@ -216,6 +216,7 @@ class Query():
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
+        nie:usageCounter(?song) AS ?play_count
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
@@ -274,6 +275,7 @@ class Query():
         nmm:trackNumber(?song) AS ?track_number
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
         ?tag AS ?favourite
+        nie:usageCounter(?song) AS ?play_count
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
@@ -307,6 +309,7 @@ class Query():
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
+        nie:usageCounter(?song) AS ?play_count
     WHERE {
         ?playlist a nmm:Playlist ;
             a nfo:MediaList ;
@@ -402,26 +405,6 @@ class Query():
             'song_id': song_id,
             'music_dir': Query.MUSIC_URI
         }
-        return query
-
-    @staticmethod
-    def update_playcount(song_url):
-        query = """
-    INSERT OR REPLACE { ?song nie:usageCounter ?playcount . }
-    WHERE {
-        SELECT
-            IF(bound(?usage), (?usage + 1), 1) AS ?playcount
-            ?song
-            WHERE {
-                ?song a nmm:MusicPiece .
-                OPTIONAL { ?song nie:usageCounter ?usage . }
-                FILTER ( nie:url(?song) = "%(song_url)s" )
-            }
-        }
-    """.replace("\n", " ").strip() % {
-            'song_url': song_url
-        }
-
         return query
 
     @staticmethod

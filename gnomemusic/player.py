@@ -43,6 +43,7 @@ from gettext import gettext as _, ngettext
 from random import randint
 from collections import deque
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
+from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 playlists = Playlists.get_default()
@@ -916,7 +917,6 @@ class Player(GObject.GObject):
     @log
     def scrobble_song(self, url):
         # Update playlists
-        playlists.update_playcount(url)
         playlists.update_last_played(url)
         playlists.update_all_static_playlists()
 
@@ -992,6 +992,7 @@ class Player(GObject.GObject):
                     current_media = self.get_current_media()
                     self.scrobbled = True
                     if current_media:
+                        grilo.bump_play_count(self.get_current_media())
                         just_played_url = self.get_current_media().get_url()
                         t = Thread(target=self.scrobble_song, args=(just_played_url,))
                         t.setDaemon(True)

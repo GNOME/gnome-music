@@ -60,6 +60,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_LYRICS,
+        Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_TRACK_NUMBER,
@@ -374,5 +375,19 @@ class Grilo(GObject.GObject):
 
         self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
 
+    @log
+    def bump_play_count(self, media):
+        """Bumps the play count of a song
+
+        Adds one to the playcount and adds it to the tracker store
+        :param media: A Grilo media item
+        """
+        count = media.get_play_count()
+        media.set_play_count(count + 1)
+
+        # FIXME: We assume this is the tracker plugin.
+        # FIXME: Doing this async crashes
+        self.tracker.store_metadata_sync(media, [Grl.METADATA_KEY_PLAY_COUNT],
+                                         Grl.WriteFlags.NORMAL)
 
 grilo = Grilo()
