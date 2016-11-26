@@ -57,9 +57,6 @@ class Query():
         for folder in [Query.music_folder]:
             if os.path.islink(folder):
                 logger.warn("%s is a symlink, this folder will be omitted", folder)
-            else:
-                i = len(next(os.walk(folder)))
-                logger.debug("Found %d files in %s", i, folder)
 
     def __repr__(self):
         return '<Query>'
