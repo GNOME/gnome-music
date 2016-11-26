@@ -11,8 +11,9 @@ flowbox, treeview, widget {
     -gtk-key-bindings: unbind-ctrl-space;
 }
 
-row, list {
-    background-color: @theme_bg_color;
+/* Workaround the black border bug (#773459). */
+list, row {
+    background: transparent;
 }
 
 .discsongsflowbox > flowboxchild {
