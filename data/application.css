@@ -56,6 +56,24 @@ list, row {
     background-color: @theme_bg_color;
 }
 
+/* We use background-image as a workaround on the StarImage widget to
+   enable transitions between the non-starred and starred icons. */
+.star {
+    background-image: -gtk-icontheme('non-starred-symbolic');
+    color: shade(@theme_bg_color, 0.8);
+    transition: 100ms linear;
+}
+
+.star:hover {
+    color: shade(@theme_bg_color, 0.5);
+}
+
+.star:selected {
+    background-image: -gtk-icontheme('starred-symbolic');
+    color: @theme_selected_bg_color;
+    transition: 100ms linear;
+}
+
 .content-view { background-color: @theme_bg; }
 
 .music-entry-tag {

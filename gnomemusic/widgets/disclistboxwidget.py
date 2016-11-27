@@ -34,29 +34,20 @@ NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
 ERROR_ICON_NAME = 'dialog-error-symbolic'
 
 
-class StarStack(Gtk.Stack):
-    """Stackwidget for starring songs"""
-    __gtype_name__ = 'StarStack'
+class StarImage(Gtk.Image):
+    """GtkImage for starring songs"""
+    __gtype_name__ = 'StarImage'
 
     def __repr__(self):
-        return '<StarStack>'
+        return '<StarImage>'
 
     @log
     def __init__(self):
         super().__init__(self)
 
-        starred_icon = Gtk.Image.new_from_icon_name('starred-symbolic',
-                                                    Gtk.IconSize.SMALL_TOOLBAR)
-        non_starred_icon = Gtk.Image.new_from_icon_name(
-            'non-starred-symbolic',
-            Gtk.IconSize.SMALL_TOOLBAR)
-
         self._favorite = False
 
-        self.add_named(starred_icon, 'starred')
-        self.add_named(non_starred_icon, 'non-starred')
-        self.set_visible_child_name('non-starred')
-
+        self.get_style_context().add_class("star")
         self.show_all()
 
     @log
@@ -70,9 +61,9 @@ class StarStack(Gtk.Stack):
         self._favorite = favorite
 
         if self._favorite:
-            self.set_visible_child_name('starred')
+            self.set_state_flags(Gtk.StateFlags.SELECTED, False)
         else:
-            self.set_visible_child_name('non-starred')
+            self.unset_state_flags(Gtk.StateFlags.SELECTED)
 
     @log
     def get_favorite(self):
@@ -89,6 +80,14 @@ class StarStack(Gtk.Stack):
         self._favorite = not self._favorite
 
         self.set_favorite(self._favorite)
+
+    @log
+    def hover(self, widget, event, data):
+        self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
+
+    @log
+    def unhover(self, widget, event, data):
+        self.unset_state_flags(Gtk.StateFlags.PRELIGHT)
 
 
 class DiscSongsFlowBox(Gtk.FlowBox):
@@ -351,25 +350,28 @@ class DiscBox(Gtk.Box):
         song_widget.can_be_played = True
         song_widget.connect('button-release-event', self._track_activated)
 
-        song_widget.star_stack = builder.get_object('starstack')
-        song_widget.star_stack.set_favorite(track.get_favourite())
-        song_widget.star_stack.set_visible(True)
+        song_widget.star_image = builder.get_object('starimage')
+        song_widget.star_image.set_favorite(track.get_favourite())
+        song_widget.star_image.set_visible(True)
 
         song_widget.starevent = builder.get_object('starevent')
         song_widget.starevent.connect('button-release-event',
                                       self._toggle_favorite,
                                       song_widget)
-
+        song_widget.starevent.connect('enter-notify-event',
+                                      song_widget.star_image.hover, None)
+        song_widget.starevent.connect('leave-notify-event',
+                                      song_widget.star_image.unhover, None)
         return song_widget
 
     @log
     def _toggle_favorite(self, widget, event, song_widget):
         if event.button == Gdk.BUTTON_PRIMARY:
-            song_widget.star_stack.toggle_favorite()
+            song_widget.star_image.toggle_favorite()
 
         # FIXME: ugleh. Should probably be triggered by a
         # signal.
-        favorite = song_widget.star_stack.get_favorite()
+        favorite = song_widget.star_image.get_favorite()
         grilo.set_favorite(self._model[song_widget.itr][5], favorite)
         return True
 
