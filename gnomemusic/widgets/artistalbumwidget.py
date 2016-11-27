@@ -150,7 +150,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
         for disc_nr in discs:
             disc = self.create_disc_box(disc_nr, discs[disc_nr])
-            self._disc_listbox.insert(disc, -1)
+            self._disc_listbox.add(disc)
             if len(discs) == 1:
                 disc.show_disc_label(False)
 
