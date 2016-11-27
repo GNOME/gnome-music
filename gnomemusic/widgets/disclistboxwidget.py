@@ -444,9 +444,9 @@ class DiscListBox(Gtk.ListBox):
         self._selected_items = []
 
     @log
-    def insert(self, widget, position):
+    def add(self, widget):
         """Insert a DiscBox widget"""
-        super().insert(widget, position)
+        super().add(widget)
         widget.connect('selection-changed', self._on_selection_changed)
 
     @log
