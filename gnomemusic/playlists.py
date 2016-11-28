@@ -30,6 +30,7 @@ from gi.repository import Grl, GLib, GObject
 from gnomemusic import TrackerWrapper
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
+import gnomemusic.utils as utils
 from gettext import gettext as _
 import inspect
 import time
@@ -190,6 +191,7 @@ class Playlists(GObject.GObject):
         GObject.GObject.__init__(self)
         self.tracker = TrackerWrapper().tracker
         self._static_playlists = StaticPlaylists()
+        self.playlists = []
 
         grilo.connect('ready', self._on_grilo_ready)
 
@@ -230,6 +232,21 @@ class Playlists(GObject.GObject):
             self.tracker.query_async(
                 Query.get_playlist_with_tag(playlist.tag_text), None,
                 callback, playlist)
+
+        # Gather the available playlists too
+        grilo.populate_playlists(0, self._populate_playlists_finish_cb)
+
+    @log
+    def _populate_playlists_finish_cb(self, source, param, item, remaining=0, data=None):
+        """Fill in the list of playlists currently available"""
+        if not item:
+            return
+
+        playlist = Playlist(item.get_id(), utils.get_media_title(item))
+        playlist.grilo_item = item
+
+        self.playlists.append(playlist)
+        self.emit('playlist-added', playlist)
 
     @log
     def _create_static_playlist(self, playlist):
@@ -341,6 +358,11 @@ class Playlists(GObject.GObject):
             # tell system we updated the playlist so playlist is reloaded
             self.emit('playlist-updated', playlist.id)
 
+            # Add the playlist to the cache
+            if not playlist in self.playlists:
+                self.playlists.append(playlist)
+                self.emit('playlist-added', playlist)
+
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
 
@@ -353,6 +375,12 @@ class Playlists(GObject.GObject):
     def create_playlist(self, title):
         def get_callback(source, param, item, count, data, error):
             if item:
+                new_playlist = Playlist(item.get_id(), utils.get_media_title(item))
+                new_playlist.grilo_item = item
+
+                self.playlists.append(new_playlist)
+                self.emit('playlist-added', playlist)
+
                 self.emit('playlist-created', item)
 
         def cursor_callback(cursor, res, data):
@@ -450,6 +478,15 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_LOW,
                 None, update_callback, item
             )
+
+    @log
+    def get_playlists(self):
+        """Retrieves the currently loaded playlists.
+
+        :return: a list of Playlists
+        :rtype: list
+        """
+        return self.playlists.copy()
 
     @log
     def is_static_playlist(self, playlist):
