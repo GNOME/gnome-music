@@ -42,6 +42,7 @@ class Playlist(GObject.Object):
     """ Base class of all playlists """
 
     id_ = GObject.Property(type=str, default=None)
+    is_smart = GObject.Property(type=bool, default=False)
     query = GObject.Property(type=str, default=None)
     tag_text = GObject.Property(type=str, default=None)
     title = GObject.Property(type=str, default=None)
