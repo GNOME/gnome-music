@@ -39,13 +39,15 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Playlist:
+class Playlist(GObject.Object):
     """ Base class of all playlists """
     ID = None
     QUERY = None
     TAG_TEXT = ""
     TITLE = ""
 
+    def __init__(self):
+        super().__init()
 
 class SmartPlaylists:
 
