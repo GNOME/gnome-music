@@ -48,6 +48,7 @@ class Playlist(GObject.Object):
         'query': (str, 'Query', 'query', '', GObject.ParamFlags.READWRITE),
         'tag_text': (str, 'Tag', 'tag', '', GObject.ParamFlags.READWRITE),
         'title': (str, 'Title', 'title', '', GObject.ParamFlags.READWRITE),
+        'is_static': (bool, 'Is static', 'is static', False, GObject.ParamFlags.READWRITE),
     }
 
     @log
