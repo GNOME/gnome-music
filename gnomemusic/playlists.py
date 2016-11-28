@@ -41,16 +41,23 @@ logger = logging.getLogger(__name__)
 
 class Playlist(GObject.Object):
     """ Base class of all playlists """
-    ID = None
-    QUERY = None
-    TAG_TEXT = ""
-    TITLE = ""
+
+    id_ = GObject.Property(type=str, default=None)
+    query = GObject.Property(type=str, default=None)
+    tag_text = GObject.Property(type=str, default=None)
+    title = GObject.Property(type=str, default=None)
 
     def __repr__(self):
         return "<Playlist>"
 
-    def __init__(self):
-        super().__init()
+    def __init__(self, id_=None, query=None, tag_text=None, title=None):
+        super().__init__()
+
+        self.props.id_ = id_
+        self.props.query = query
+        self.props.tag_text = tag_text
+        self.props.title = title
+
 
 class SmartPlaylists:
 
