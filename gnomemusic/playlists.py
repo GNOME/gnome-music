@@ -59,7 +59,19 @@ class Playlist(GObject.GObject):
         self.props.title = title
 
 
-class MostPlayed(Playlist):
+class SmartPlaylist(Playlist):
+    """Base class for smart playlists"""
+
+    def __repr__(self):
+        return "<SmartPlaylist>"
+
+    def __init__(self):
+        super().__init__()
+
+        self.props.is_smart = True
+
+
+class MostPlayed(SmartPlaylist):
     """Most Played smart playlist"""
 
     def __init__(self):
@@ -71,7 +83,7 @@ class MostPlayed(Playlist):
         self.props.query = Query.get_never_played_songs()
 
 
-class NeverPlayed(Playlist):
+class NeverPlayed(SmartPlaylist):
     """Never Played smart playlist"""
 
     def __init__(self):
@@ -83,7 +95,7 @@ class NeverPlayed(Playlist):
         self.props.query = Query.get_never_played_songs()
 
 
-class RecentlyPlayed(Playlist):
+class RecentlyPlayed(SmartPlaylist):
     """Recently Played smart playlist"""
 
     def __init__(self):
@@ -95,7 +107,7 @@ class RecentlyPlayed(Playlist):
         self.props.query = Query.get_recently_played_songs()
 
 
-class RecentlyAdded(Playlist):
+class RecentlyAdded(SmartPlaylist):
     """Recently Added smart playlist"""
 
     def __init__(self):
@@ -107,7 +119,7 @@ class RecentlyAdded(Playlist):
         self.props.query = Query.get_recently_added_songs()
 
 
-class Favorites(Playlist):
+class Favorites(SmartPlaylist):
     """Favorites smart playlist"""
 
     def __init__(self):
