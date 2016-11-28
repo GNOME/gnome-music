@@ -50,7 +50,6 @@ class PlaylistDialog():
         self.view.connect('row-activated', self._on_item_activated)
 
         self.model = self.ui.get_object('liststore1')
-        self.populate()
 
         self.title_bar = self.ui.get_object('headerbar1')
         self.dialog_box.set_titlebar(self.title_bar)
@@ -72,8 +71,12 @@ class PlaylistDialog():
         self._new_playlist_entry.connect('focus-in-event',
                                          self._on_new_playlist_entry_focused)
 
-        self.playlist = Playlists.get_default()
-        self.playlist.connect('playlist-created', self._on_playlist_created)
+        # Setup and fill the playlists' list
+        self.playlists = Playlists.get_default()
+        self.playlists.connect('playlist-added', self._on_playlist_added)
+
+        for playlist in self.playlists.get_playlists():
+            self._on_playlist_added(self.playlists, playlist)
 
     @log
     def get_selected(self):
@@ -99,20 +102,11 @@ class PlaylistDialog():
         self.view.append_column(cols)
 
     @log
-    def populate(self):
-        grilo.populate_playlists(0, self._add_item)
-
-    @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            self._add_item_to_model(item)
-
-    @log
     def _add_item_to_model(self, item):
         """Adds (non-static only) playlists to the model"""
 
         # Don't show static playlists
-        if self.playlist.is_static_playlist(item):
+        if self.playlists.is_static_playlist(item):
             return None
 
         new_iter = self.model.append()
@@ -162,11 +156,17 @@ class PlaylistDialog():
     @log
     def _on_editing_done(self, sender, data=None):
         if self._new_playlist_entry.get_text() != '':
-            self.playlist.create_playlist(self._new_playlist_entry.get_text())
+            self.playlists.create_playlist(self._new_playlist_entry.get_text())
 
     @log
-    def _on_playlist_created(self, playlists, item):
-        new_iter = self._add_item_to_model(item)
+    def _on_playlist_added(self, playlists, playlist):
+        """Adds the playlist to the tree list"""
+
+        # Skip static playlists since they're not writable
+        if playlist.is_static:
+            return
+
+        new_iter = self._add_item_to_model(playlist.grilo_item)
         if new_iter and self.view.get_columns():
             self.view.set_cursor(self.model.get_path(new_iter),
                                  self.view.get_columns()[0], False)
