@@ -28,7 +28,7 @@ from gi.repository import Gd, GdkPixbuf, Gio, GLib, GObject, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
-from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.playlists import Playlists
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
 
@@ -111,10 +111,14 @@ class PlaylistView(BaseView):
         self._update_songs_count()
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
-        playlists.connect('playlist-created', self._on_playlist_created)
+        playlists.connect('playlist-added', self._on_playlist_added)
         playlists.connect('playlist-updated', self.on_playlist_update)
         playlists.connect('song-added-to-playlist', self._on_song_added_to_playlist)
         playlists.connect('song-removed-from-playlist', self._on_song_removed_from_playlist)
+
+        for playlist in playlists.get_playlists():
+            self._on_playlist_added(playlists, playlist)
+
         self.show_all()
 
     @log
@@ -240,8 +244,6 @@ class PlaylistView(BaseView):
     @log
     def _populate(self):
         self._init = True
-        self.window._init_loading_notification()
-        self.populate()
 
     @log
     def update_model(self, player, playlist, currentIter):
@@ -258,22 +260,15 @@ class PlaylistView(BaseView):
         return False
 
     @log
-    def _add_playlist_item(self, source, param, item, remaining=0, data=None):
-        self._add_playlist_item_to_model(item)
-
-    @log
-    def _add_playlist_item_to_model(self, item, index=None):
+    def _add_playlist_to_model(self, playlist, index=None):
         self.window.notification.set_timeout(0)
+        print("Adding playlist " + playlist.title + " to the view")
         if index is None:
             index = -1
-        if not item:
-            self.window.notification.dismiss()
-            self.emit('playlists-loaded')
-            return
         _iter = self.playlists_model.insert_with_valuesv(
             index,
             [2, 5],
-            [utils.get_media_title(item), item])
+            [playlist.title, playlist])
         if self.playlists_model.iter_n_children(None) == 1:
             _iter = self.playlists_model.get_iter_first()
             selection = self.playlists_sidebar.get_generic_view().get_selection()
@@ -293,7 +288,7 @@ class PlaylistView(BaseView):
             return
         if self.model.get_value(_iter, 8) != self.errorIconName:
             self.player.set_playlist(
-                'Playlist', self.current_playlist.get_id(),
+                'Playlist', self.current_playlist.id,
                 self.model, _iter, 5, 11
             )
             self.player.set_playing(True)
@@ -303,7 +298,7 @@ class PlaylistView(BaseView):
         _iter = self.playlists_model.get_iter_first()
         while _iter:
             playlist = self.playlists_model.get_value(_iter, 5)
-            if str(playlist_id) == playlist.get_id() and self.current_playlist == playlist:
+            if str(playlist_id) == playlist.id and self.current_playlist == playlist:
                 path = self.playlists_model.get_path(_iter)
                 GLib.idle_add(self._on_playlist_activated, None, None, path)
                 break
@@ -353,7 +348,7 @@ class PlaylistView(BaseView):
 
     @log
     def remove_playlist(self):
-        if not self.current_playlist_is_protected():
+        if not self.current_playlist.is_static:
             self._on_delete_activate(None)
 
     @log
@@ -374,10 +369,7 @@ class PlaylistView(BaseView):
         grilo.populate_playlist_songs(playlist, self._add_item)
 
         # disable delete button if current playlist is a smart playlist
-        if self.current_playlist_is_protected():
-            self.playlistDeleteAction.set_enabled(False)
-        else:
-            self.playlistDeleteAction.set_enabled(True)
+        self.playlistDeleteAction.set_enabled(not self.current_playlist.is_static)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -426,14 +418,6 @@ class PlaylistView(BaseView):
                        self.model.get_path(_iter))
 
     @log
-    def current_playlist_is_protected(self):
-        current_playlist_id = self.current_playlist.get_id()
-        if current_playlist_id in playlists._static_playlists.get_ids():
-            return True
-        else:
-            return False
-
-    @log
     def stage_playlist_for_deletion(self):
         self.model.clear()
         self.pl_todelete_index = self.current_playlist_index
@@ -455,7 +439,7 @@ class PlaylistView(BaseView):
 
     @log
     def undo_playlist_deletion(self):
-        self._add_playlist_item_to_model(self.pl_todelete, self.pl_todelete_index)
+        self._add_playlist_to_model(self.pl_todelete, self.pl_todelete_index)
 
     @log
     def _on_delete_activate(self, menuitem, data=None):
@@ -463,8 +447,8 @@ class PlaylistView(BaseView):
         self.stage_playlist_for_deletion()
 
     @log
-    def _on_playlist_created(self, playlists, item):
-        self._add_playlist_item_to_model(item)
+    def _on_playlist_added(self, playlists, playlist):
+        self._add_playlist_to_model(playlist)
         if self.playlists_model.iter_n_children(None) == 1:
             _iter = self.playlists_model.get_iter_first()
             selection = self.playlists_sidebar.get_generic_view().get_selection()
@@ -475,23 +459,23 @@ class PlaylistView(BaseView):
     @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if self.current_playlist and \
-           playlist.get_id() == self.current_playlist.get_id():
+           playlist.get_id() == self.current_playlist.id:
             self._add_item_to_model(item, self.model)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
         if self.current_playlist and \
-           playlist.get_id() == self.current_playlist.get_id():
+           playlist.get_id() == self.current_playlist.id:
             model = self.model
         else:
             return
 
         update_playing_track = False
         for row in model:
-            if row[5].get_id() == item.get_id():
+            if row[5].id == item.get_id():
                 # Is the removed track now being played?
                 if self.current_playlist and \
-                   playlist.get_id() == self.current_playlist.get_id():
+                   playlist.get_id() == self.current_playlist.id:
                     if self.player.currentTrack is not None and self.player.currentTrack.valid():
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:
@@ -521,8 +505,7 @@ class PlaylistView(BaseView):
 
     @log
     def populate(self):
-        self.playlists_model.clear()
-        grilo.populate_playlists(self._offset, self._add_playlist_item)
+        pass
 
     @log
     def get_selected_tracks(self, callback):
