@@ -59,52 +59,72 @@ class Playlist(GObject.Object):
         self.query = query
         self.tag_text = tag_text
         self.title = title
+        self.is_static = False
 
 
-class MostPlayed(Playlist):
+class StaticPlaylist(Playlist):
+    """Base class for static playlists"""
+    @log
+    def __init__(self):
+        Playlist.__init__(self)
+
+        self.is_static = True
+
+
+class MostPlayed(StaticPlaylist):
     """Most Played static playlist"""
     @log
     def __init__(self):
+        StaticPlaylist.__init__(self)
+
         self.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         self.title = _("Most Played")
         self.query = Query.get_never_played_songs()
 
 
-class NeverPlayed(Playlist):
+class NeverPlayed(StaticPlaylist):
     """Never Played static playlist"""
     @log
     def __init__(self):
+        StaticPlaylist.__init__(self)
+
         self.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         self.title = _("Never Played")
         self.query = Query.get_never_played_songs()
 
 
-class RecentlyPlayed(Playlist):
+class RecentlyPlayed(StaticPlaylist):
     """Recently Played static playlist"""
     @log
     def __init__(self):
+        StaticPlaylist.__init__(self)
+
         self.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         self.title = _("Recently Played")
         self.query = Query.get_recently_played_songs()
 
 
-class RecentlyAdded(Playlist):
+class RecentlyAdded(StaticPlaylist):
     """Recently Added static playlist"""
     @log
     def __init__(self):
+        StaticPlaylist.__init__(self)
+
         self.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         self.title = _("Recently Added")
         self.query = Query.get_recently_added_songs()
 
 
-class Favorites(Playlist):
+class Favorites(StaticPlaylist):
     """Favories static playlist"""
     @log
     def __init__(self):
+        StaticPlaylist.__init__(self)
+
         self.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         self.title = _("Favorite Songs")
