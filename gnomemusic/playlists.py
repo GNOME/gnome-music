@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 class Playlist(GObject.Object):
     """ Base class of all playlists """
 
+    is_smart = GObject.Property(type=bool, default=False)
     pl_id = GObject.Property(type=str, default=None)
     query = GObject.Property(type=str, default=None)
     tag_text = GObject.Property(type=str, default=None)
