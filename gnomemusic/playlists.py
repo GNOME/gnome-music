@@ -50,62 +50,91 @@ class Playlist(GObject.Object):
         'title': (str, 'Title', 'title', '', GObject.ParamFlags.READWRITE),
     }
 
+    @log
+    def __init__(self, id=None, title=None, query=None, tag_text=None):
+        GObject.Object.__init__(self)
+
+        self.id = id
+        self.query = query
+        self.tag_text = tag_text
+        self.title = title
+
+
+class MostPlayed(Playlist):
+    """Most Played static playlist"""
+    @log
+    def __init__(self):
+        self.tag_text = "MOST_PLAYED"
+        # TRANSLATORS: this is a playlist name
+        self.title = _("Most Played")
+        self.query = Query.get_never_played_songs()
+
+
+class NeverPlayed(Playlist):
+    """Never Played static playlist"""
+    @log
+    def __init__(self):
+        self.tag_text = "NEVER_PLAYED"
+        # TRANSLATORS: this is a playlist name
+        self.title = _("Never Played")
+        self.query = Query.get_never_played_songs()
+
+
+class RecentlyPlayed(Playlist):
+    """Recently Played static playlist"""
+    @log
+    def __init__(self):
+        self.tag_text = "RECENTLY_PLAYED"
+        # TRANSLATORS: this is a playlist name
+        self.title = _("Recently Played")
+        self.query = Query.get_recently_played_songs()
+
+
+class RecentlyAdded(Playlist):
+    """Recently Added static playlist"""
+    @log
+    def __init__(self):
+        self.tag_text = "RECENTLY_ADDED"
+        # TRANSLATORS: this is a playlist name
+        self.title = _("Recently Added")
+        self.query = Query.get_recently_added_songs()
+
+
+class Favorites(Playlist):
+    """Favories static playlist"""
+    @log
+    def __init__(self):
+        self.tag_text = "FAVORITES"
+        # TRANSLATORS: this is a playlist name
+        self.title = _("Favorite Songs")
+        self.query = Query.get_favorite_songs()
+
+
 class StaticPlaylists:
 
     def __repr__(self):
         return '<StaticPlaylists>'
 
-    class MostPlayed(Playlist):
-        TAG_TEXT = "MOST_PLAYED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Most Played")
-
-    class NeverPlayed(Playlist):
-        TAG_TEXT = "NEVER_PLAYED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Never Played")
-
-    class RecentlyPlayed(Playlist):
-        TAG_TEXT = "RECENTLY_PLAYED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Recently Played")
-
-    class RecentlyAdded(Playlist):
-        TAG_TEXT = "RECENTLY_ADDED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Recently Added")
-
-    class Favorites(Playlist):
-        TAG_TEXT = "FAVORITES"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Favorite Songs")
-
     def __init__(self):
         Query()
-        self.MostPlayed.QUERY = Query.get_most_played_songs()
-        self.NeverPlayed.QUERY = Query.get_never_played_songs()
-        self.RecentlyPlayed.QUERY = Query.get_recently_played_songs()
-        self.RecentlyAdded.QUERY = Query.get_recently_added_songs()
-        self.Favorites.QUERY = Query.get_favorite_songs()
+        self.MostPlayed = MostPlayed()
+        self.NeverPlayed = NeverPlayed()
+        self.RecentlyPlayed = RecentlyPlayed()
+        self.RecentlyAdded = RecentlyAdded()
+        self.Favorites = Favorites()
 
-    @staticmethod
-    def get_ids():
+        self.playlists = [self.MostPlayed, self.NeverPlayed,
+                          self.RecentlyPlayed, self.RecentlyAdded,
+                          self.Favorites]
+
+    @log
+    def get_ids(self):
         """Get all static playlist IDs
 
         :return: A list of tracker.id's
         :rtype: A list of integers
         """
-        return [str(playlist.ID) for playlist in StaticPlaylists.get_all()]
-
-    @staticmethod
-    def get_all():
-        """Get all static playlist classes
-
-        :return: All StaticPlaylists innerclasses
-        :rtype: A list of classes
-        """
-        return [cls for name, cls in inspect.getmembers(StaticPlaylists)
-                if inspect.isclass(cls) and not name == "__class__"]
+        return [str(playlist.id) for playlist in self.playlists]
 
 
 class Playlists(GObject.GObject):
@@ -154,9 +183,9 @@ class Playlists(GObject.GObject):
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
-            playlist.ID = cursor.get_integer(1)
+            playlist.id = cursor.get_integer(1)
 
-            if not playlist.ID:
+            if not playlist.id:
                 # Create the  static playlist
                 self._create_static_playlist(playlist)
             else:
@@ -175,9 +204,9 @@ class Playlists(GObject.GObject):
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
         # Start fetching all the static playlists
-        for playlist in self._static_playlists.get_all():
+        for playlist in self._static_playlists.playlists:
             self.tracker.query_async(
-                Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
+                Query.get_playlist_with_tag(playlist.tag_text), None,
                 callback, playlist)
 
     @log
@@ -185,8 +214,8 @@ class Playlists(GObject.GObject):
         """ Create the tag and the static playlist, and fetch the newly created
         playlist's songs.
         """
-        title = playlist.TITLE
-        tag_text = playlist.TAG_TEXT
+        title = playlist.title
+        tag_text = playlist.tag_text
 
         def playlist_next_async_cb(cursor, res, playlist):
             """ Called after we finished moving the Tracker cursor, and ready
@@ -198,7 +227,7 @@ class Playlists(GObject.GObject):
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
-            playlist.ID = cursor.get_integer(0)
+            playlist.id = cursor.get_integer(0)
 
             # Fetch the playlist contents
             self.update_static_playlist(playlist)
@@ -246,7 +275,7 @@ class Playlists(GObject.GObject):
     @log
     def clear_playlist(self, playlist):
         """Starts cleaning the playlist"""
-        query = Query.clear_playlist_with_id(playlist.ID)
+        query = Query.clear_playlist_with_id(playlist.id)
         self.tracker.update_async(query, GLib.PRIORITY_LOW, None,
                                   self._static_playlist_cleared_cb, playlist)
 
@@ -254,7 +283,7 @@ class Playlists(GObject.GObject):
     def _static_playlist_cleared_cb(self, connection, res, playlist):
         """After clearing the playlist, start querying the playlist's songs"""
         # Get a list of matching songs
-        self.tracker.query_async(playlist.QUERY, None,
+        self.tracker.query_async(playlist.query, None,
                                  self._static_playlist_query_cb, playlist)
 
     @log
@@ -271,7 +300,7 @@ class Playlists(GObject.GObject):
 
         def callback(cursor, res, final_query):
             uri = cursor.get_string(0)[0]
-            final_query += Query.add_song_to_playlist(playlist.ID, uri)
+            final_query += Query.add_song_to_playlist(playlist.id, uri)
 
             try:
                 has_next = cursor.next_finish(res)
@@ -288,14 +317,14 @@ class Playlists(GObject.GObject):
                                             None, None, None)
 
             # tell system we updated the playlist so playlist is reloaded
-            self.emit('playlist-updated', playlist.ID)
+            self.emit('playlist-updated', playlist.id)
 
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
 
     @log
     def update_all_static_playlists(self):
-        for playlist in self._static_playlists.get_all():
+        for playlist in self._static_playlists.playlists:
             self.update_static_playlist(playlist)
 
     @log

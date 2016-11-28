@@ -123,7 +123,7 @@ class StarHandlerWidget(object):
         self._parent.model[_iter][self._star_index] = new_value
         song_item = self._parent.model[_iter][5]
         grilo.toggle_favorite(song_item)
-        playlists.update_static_playlist(StaticPlaylists.Favorites)
+        playlists.update_static_playlist(playlists._static_playlists.Favorites)
 
         # Use this flag to ignore the upcoming _on_item_activated call
         self.star_renderer_click = True
