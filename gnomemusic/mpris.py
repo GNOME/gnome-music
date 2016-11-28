@@ -228,7 +228,7 @@ class MediaPlayer2Service(Server):
         self.player.connect('seeked', self._on_seeked)
         self.player.connect('playlist-changed', self._on_playlist_changed)
         playlists = Playlists.get_default()
-        playlists.connect('playlist-created', self._on_playlists_count_changed)
+        playlists.connect('playlist-added', self._on_playlists_count_changed)
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
         grilo.connect('ready', self._on_grilo_ready)
         self.playlists = []
@@ -358,7 +358,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_playlist_path(self, playlist):
         return '/org/mpris/MediaPlayer2/Playlist/%s' % \
-            (playlist.get_id() if playlist else 'Invalid')
+            (playlist.id if playlist else 'Invalid')
 
     @log
     def _get_playlist_from_path(self, playlist_path):
@@ -370,27 +370,15 @@ class MediaPlayer2Service(Server):
     @log
     def _get_playlist_from_id(self, playlist_id):
         for playlist in self.playlists:
-            if playlist_id == playlist.get_id():
+            if playlist_id == playlist.id:
                 return playlist
         return None
-
-    @log
-    def _get_playlists(self, callback):
-        playlists = []
-
-        def populate_callback(source, param, item, remaining=0, data=None):
-            if item:
-                playlists.append(item)
-            else:
-                callback(playlists)
-
-        grilo.populate_playlists(0, populate_callback)
 
     @log
     def _get_active_playlist(self):
         playlist = self._get_playlist_from_id(self.player.playlistId) \
             if self.player.playlistType == 'Playlist' else None
-        playlistName = utils.get_media_title(playlist) \
+        playlistName = playlist.title \
             if playlist else ''
         return (playlist is not None,
                 (self._get_playlist_path(playlist), playlistName, ''))
@@ -499,15 +487,14 @@ class MediaPlayer2Service(Server):
 
     @log
     def _reload_playlists(self):
-        def get_playlists_callback(playlists):
-            self.playlists = playlists
-            self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                                   {
-                                       'PlaylistCount': GLib.Variant('u', len(playlists)),
-                                   },
-                                   [])
+        self.playlists = Playlists.get_default().get_playlists()
 
-        self._get_playlists(get_playlists_callback)
+        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                               {
+                                   'PlaylistCount': GLib.Variant('u',
+                                                                 len(self.playlists)),
+                               },
+                               [])
 
     @log
     def _on_playlists_count_changed(self, playlists, item):
@@ -632,7 +619,7 @@ class MediaPlayer2Service(Server):
         if order != 'Alphabetical':
             return []
         playlists = [(self._get_playlist_path(playlist),
-                      utils.get_media_title(playlist) or '', '')
+                      playlist.title or '', '')
                      for playlist in self.playlists]
         return playlists[index:index + max_count] if not reverse \
             else playlists[index + max_count - 1:index - 1 if index - 1 >= 0 else None:-1]
