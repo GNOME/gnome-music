@@ -42,11 +42,13 @@ logger = logging.getLogger(__name__)
 
 class Playlist(GObject.Object):
     """ Base class of static and intelligent playlists """
-    ID = None
-    QUERY = None
-    TAG_TEXT = ""
-    TITLE = ""
 
+    __gproperties__ = {
+        'id': (str, 'Identifier', 'id', '', GObject.ParamFlags.READWRITE),
+        'query': (str, 'Query', 'query', '', GObject.ParamFlags.READWRITE),
+        'tag_text': (str, 'Tag', 'tag', '', GObject.ParamFlags.READWRITE),
+        'title': (str, 'Title', 'title', '', GObject.ParamFlags.READWRITE),
+    }
 
 class StaticPlaylists:
 
