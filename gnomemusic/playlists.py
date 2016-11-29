@@ -190,7 +190,7 @@ class Playlists(GObject.GObject):
         GObject.GObject.__init__(self)
         self.tracker = TrackerWrapper().tracker
         self._static_playlists = StaticPlaylists()
-        self.playlists = []
+        self.playlists = {}
 
         grilo.connect('ready', self._on_grilo_ready)
 
@@ -238,13 +238,17 @@ class Playlists(GObject.GObject):
     @log
     def _populate_playlists_finish_cb(self, source, param, item, remaining=0, data=None):
         """Fill in the list of playlists currently available"""
-        if not item:
+
+        # We may hit the case of already having a static playlist added. Since
+        # the static playlist has higher priority, we simply quit when they're
+        # already added
+        if not item or item.get_id() in self.playlists:
             return
 
         playlist = Playlist(item.get_id(), utils.get_media_title(item))
         playlist.grilo_item = item
 
-        self.playlists.append(playlist)
+        self.playlists[playlist.id] = playlist
         self.emit('playlist-added', playlist)
 
     @log
@@ -354,13 +358,16 @@ class Playlists(GObject.GObject):
             self.tracker.update_blank_async(final_query, GLib.PRIORITY_LOW,
                                             None, None, None)
 
-            # tell system we updated the playlist so playlist is reloaded
-            self.emit('playlist-updated', playlist.id)
+            # If the list is not here yet, emit :playlist-added - otherwise,
+            # emit :playlist-updated so we reload the list
+            if not playlist.id in self.playlists:
+                signal_name = 'playlist-added'
+            else:
+                signal_name = 'playlist-updated'
 
             # Add the playlist to the cache
-            if not playlist in self.playlists:
-                self.playlists.append(playlist)
-                self.emit('playlist-added', playlist)
+            self.playlists[playlist.id] = playlist
+            self.emit(signal_name, playlist)
 
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
@@ -377,7 +384,7 @@ class Playlists(GObject.GObject):
                 new_playlist = Playlist(item.get_id(), utils.get_media_title(item))
                 new_playlist.grilo_item = item
 
-                self.playlists.append(new_playlist)
+                self.playlists[new_playlist] = new_playlist
                 self.emit('playlist-added', playlist)
 
         def cursor_callback(cursor, res, data):
@@ -470,7 +477,7 @@ class Playlists(GObject.GObject):
         for item in items:
             self.tracker.update_async(
                 Query.remove_song_from_playlist(
-                    playlist.get_id(), item.get_id()
+                    playlist.id, item.get_id()
                 ),
                 GLib.PRIORITY_LOW,
                 None, update_callback, item
@@ -483,7 +490,7 @@ class Playlists(GObject.GObject):
         :return: a list of Playlists
         :rtype: list
         """
-        return self.playlists.copy()
+        return self.playlists.values()
 
     @log
     def is_static_playlist(self, playlist):
