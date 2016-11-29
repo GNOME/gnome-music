@@ -162,8 +162,8 @@ class StaticPlaylists:
 class Playlists(GObject.GObject):
     __gsignals__ = {
         'playlist-added': (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
-        'playlist-deleted': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)),
-        'playlist-updated': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        'playlist-deleted': (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
+        'playlist-updated': (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         'song-added-to-playlist': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
@@ -426,13 +426,17 @@ class Playlists(GObject.GObject):
         )
 
     @log
-    def delete_playlist(self, item):
+    def delete_playlist(self, playlist):
         def update_callback(conn, res, data):
-            conn.update_finish(res)
-            self.emit('playlist-deleted', item)
+            try:
+                conn.update_finish(res)
+                self.emit('playlist-deleted', self.playlists[playlist.id])
+                del self.playlists[playlist.id]
+            except GLib.Error as error:
+                logger.warn("Error: %s, %s", error.__class__, error)
 
         self.tracker.update_async(
-            Query.delete_playlist(item.get_id()), GLib.PRIORITY_LOW,
+            Query.delete_playlist(playlist.id), GLib.PRIORITY_LOW,
             None, update_callback, None
         )
 

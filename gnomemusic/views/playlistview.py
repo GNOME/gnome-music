@@ -292,11 +292,12 @@ class PlaylistView(BaseView):
             self.player.set_playing(True)
 
     @log
-    def on_playlist_update(self, widget, playlist_id):
+    def on_playlist_update(self, widget, playlist):
         _iter = self.playlists_model.get_iter_first()
         while _iter:
-            playlist = self.playlists_model.get_value(_iter, 5)
-            if str(playlist_id) == playlist.id and self.current_playlist == playlist:
+            current_playlist = self.playlists_model.get_value(_iter, 5)
+            if playlist == current_playlist and \
+                                      self.current_playlist == current_playlist:
                 path = self.playlists_model.get_path(_iter)
                 GLib.idle_add(self._on_playlist_activated, None, None, path)
                 break
