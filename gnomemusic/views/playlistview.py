@@ -37,7 +37,6 @@ playlists = Playlists.get_default()
 
 class PlaylistView(BaseView):
     __gsignals__ = {
-        'playlists-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
@@ -262,7 +261,6 @@ class PlaylistView(BaseView):
     @log
     def _add_playlist_to_model(self, playlist, index=None):
         self.window.notification.set_timeout(0)
-        print("Adding playlist " + playlist.title + " to the view")
         if index is None:
             index = -1
         _iter = self.playlists_model.insert_with_valuesv(
@@ -306,45 +304,26 @@ class PlaylistView(BaseView):
 
     @log
     def activate_playlist(self, playlist_id):
+        """Activates the given playlist"""
+        if not self._init:
+            return
 
-        def find_and_activate_playlist():
-            for playlist in self.playlists_model:
-                if playlist[5].get_id() == playlist_id:
-                    selection = self.playlists_sidebar.get_generic_view().get_selection()
-                    if selection.iter_is_selected(playlist.iter):
+        for playlist in self.playlists_model:
+            if playlist[5].id == playlist_id:
+                selection = self.playlists_sidebar.get_generic_view().get_selection()
+                if selection.iter_is_selected(playlist.iter):
+                    self._on_play_activate(None)
+                else:
+                    selection.select_iter(playlist.iter)
+                    handler = 0
+
+                    def songs_loaded_callback(view):
+                        self.disconnect(handler)
                         self._on_play_activate(None)
-                    else:
-                        selection.select_iter(playlist.iter)
-                        handler = 0
 
-                        def songs_loaded_callback(view):
-                            self.disconnect(handler)
-                            self._on_play_activate(None)
+                    handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
+                    self.playlists_sidebar.emit('item-activated', '0', playlist.path)
 
-                        handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
-                        self.playlists_sidebar.emit('item-activated', '0', playlist.path)
-
-                    return
-
-        if self._init:
-            find_and_activate_playlist()
-        else:
-            handler = 0
-
-            def playlists_loaded_callback(view):
-                self.disconnect(handler)
-                def_handler = 0
-
-                def songs_loaded_callback(view):
-                    self.disconnect(def_handler)
-                    find_and_activate_playlist()
-
-                # Skip load of default playlist
-                def_handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
-
-            handler = self.connect('playlists-loaded', playlists_loaded_callback)
-
-            self._populate()
 
     @log
     def remove_playlist(self):
