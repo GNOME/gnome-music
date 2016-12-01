@@ -140,7 +140,6 @@ class SongsView(BaseView):
     @log
     def _add_list_renderers(self):
         list_widget = self._view.get_generic_view()
-        list_widget.set_halign(Gtk.Align.CENTER)
         cols = list_widget.get_columns()
         cells = cols[0].get_cells()
         cells[2].set_visible(False)
@@ -156,13 +155,18 @@ class SongsView(BaseView):
                                               None)
         list_widget.insert_column(column_now_playing, 0)
         title_renderer = Gtk.CellRendererText(
-            xpad=0, xalign=0.0, yalign=0.5, height=48, width=300,
+            xpad=0, xalign=0.0, yalign=0.5, height=48,
             ellipsize=Pango.EllipsizeMode.END)
 
         list_widget.add_renderer(title_renderer,
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
-        self._star_handler.add_star_renderers(list_widget, cols[0])
+        cols[0].set_expand(True)
+
+        col = Gtk.TreeViewColumn()
+        col.set_expand(False)
+        self._star_handler.add_star_renderers(list_widget, col)
+        list_widget.append_column(col)
 
         duration_renderer = Gd.StyledTextRenderer(xpad=32, xalign=1.0)
         duration_renderer.add_class('dim-label')
@@ -172,7 +176,7 @@ class SongsView(BaseView):
                                self._on_list_widget_duration_render, None)
         list_widget.append_column(col)
         artist_renderer = Gd.StyledTextRenderer(
-            xpad=32, width=300, ellipsize=Pango.EllipsizeMode.END)
+            xpad=32, ellipsize=Pango.EllipsizeMode.END)
         artist_renderer.add_class('dim-label')
 
         col = Gtk.TreeViewColumn()
@@ -184,12 +188,15 @@ class SongsView(BaseView):
         list_widget.append_column(col)
 
         type_renderer = Gd.StyledTextRenderer(
-            xpad=32, width=300, ellipsize=Pango.EllipsizeMode.END)
+            xpad=32, ellipsize=Pango.EllipsizeMode.END)
         type_renderer.add_class('dim-label')
 
-        col.pack_end(type_renderer, True)
+        col = Gtk.TreeViewColumn()
+        col.set_expand(True)
+        col.pack_start(type_renderer, True)
         col.set_cell_data_func(type_renderer, self._on_list_widget_type_render,
                                None)
+        list_widget.append_column(col)
 
     def _on_list_widget_title_render(self, col, cell, model, itr, data):
         pass
