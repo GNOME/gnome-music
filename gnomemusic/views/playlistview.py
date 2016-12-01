@@ -167,7 +167,7 @@ class PlaylistView(BaseView):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self._star_handler.add_star_renderers(list_widget, cols)
+        self._star_handler.add_star_renderers(list_widget, cols[0])
 
         duration_renderer = Gd.StyledTextRenderer(xpad=32, xalign=1.0)
         duration_renderer.add_class('dim-label')

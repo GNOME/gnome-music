@@ -106,19 +106,18 @@ class StarHandlerWidget(object):
         self._parent = parent
 
     @log
-    def add_star_renderers(self, list_widget, cols, hidden=False):
+    def add_star_renderers(self, list_widget, col, hidden=False):
         """Adds the star renderer column
 
         :param list_widget: The widget to add the favorites column
-        :param cols: List of the widgets GtkTreeViewColumns
+        :param col: GtkTreeViewColumn to use
         :param hidden: Visible state of the column
         """
         star_renderer = CellRendererClickablePixbuf()
         star_renderer.connect("clicked", self._on_star_toggled)
-        list_widget.add_renderer(star_renderer, lambda *args: None, None)
 
-        cols[0].clear_attributes(star_renderer)
-        cols[0].add_attribute(star_renderer, 'show_star', self._star_index)
+        col.pack_start(star_renderer, False)
+        col.add_attribute(star_renderer, 'show_star', self._star_index)
 
     @log
     def _on_star_toggled(self, widget, path):
