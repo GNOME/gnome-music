@@ -203,7 +203,12 @@ class Playlists(GObject.GObject):
 
         self._pls_todelete = {}
 
-        grilo.connect('ready', self._on_grilo_ready)
+        self._ready = False
+
+        self._loading_counter = len(self._smart_playlists)
+        self._user_playlists_ready = False
+
+        grilo.connect("ready", self._on_grilo_ready)
 
     @log
     def _on_grilo_ready(self, data=None):
@@ -241,6 +246,8 @@ class Playlists(GObject.GObject):
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
         self._tracker = grilo.tracker_sparql
+        self.notify('ready')
+
         # Start fetching all the smart playlists
         for playlist in self._smart_playlists.values():
             self._tracker.query_async(
@@ -256,6 +263,8 @@ class Playlists(GObject.GObject):
             self, source, param, item, remaining=0, data=None):
         """Fill in the list of playlists currently available"""
         if not item:
+            self._user_playlists_ready = True
+            self._check_ready()
             return
 
         playlist = Playlist(
@@ -389,6 +398,10 @@ class Playlists(GObject.GObject):
 
         self._playlists_model.insert_sorted(
             smart_playlist, Playlist.compare_playlist_func)
+
+        # Check if we're ready
+        self._loading_counter = self._loading_counter - 1
+        self._check_ready()
 
     @log
     def update_all_smart_playlists(self):
@@ -626,3 +639,15 @@ class Playlists(GObject.GObject):
         self._playlists_model.insert(index, playlist)
 
         return index
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def ready(self):
+        return self._ready
+
+    def _check_ready(self):
+        ready = (self._user_playlists_ready
+                 and self._loading_counter == 0)
+        if ready != self._ready:
+            self._ready = ready
+            self.notify("ready")
