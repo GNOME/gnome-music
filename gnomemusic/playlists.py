@@ -171,6 +171,11 @@ class Playlists(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
     }
+
+    __gproperties__ = {
+        'ready': (bool, 'Ready', 'ready', False, GObject.ParamFlags.READABLE),
+    }
+
     instance = None
     tracker = None
 
@@ -191,6 +196,10 @@ class Playlists(GObject.GObject):
         self.tracker = TrackerWrapper().tracker
         self._static_playlists = StaticPlaylists()
         self.playlists = {}
+        self.ready = False
+
+        self._loading_counter = len(self._static_playlists.playlists)
+        self._user_playlists_ready = False
 
         grilo.connect('ready', self._on_grilo_ready)
 
@@ -239,10 +248,15 @@ class Playlists(GObject.GObject):
     def _populate_playlists_finish_cb(self, source, param, item, remaining=0, data=None):
         """Fill in the list of playlists currently available"""
 
+        if not item:
+            self._user_playlists_ready = True
+            self._check_ready()
+            return
+
         # We may hit the case of already having a static playlist added. Since
         # the static playlist has higher priority, we simply quit when they're
         # already added
-        if not item or item.get_id() in self.playlists:
+        if item.get_id() in self.playlists:
             return
 
         playlist = Playlist(item.get_id(), utils.get_media_title(item))
@@ -368,6 +382,10 @@ class Playlists(GObject.GObject):
             # Add the playlist to the cache
             self.playlists[playlist.id] = playlist
             self.emit(signal_name, playlist)
+
+            # Check if we're ready
+            self._loading_counter = self._loading_counter - 1
+            self._check_ready()
 
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
@@ -508,3 +526,22 @@ class Playlists(GObject.GObject):
                 return True
 
         return False
+
+    @log
+    def do_get_property(self, property):
+        if property.name == 'ready':
+            return self.ready
+        else:
+            raise AttributeError('Unknown property %s' % property.name)
+
+    @log
+    def do_set_property(self, property, value):
+        raise AttributeError('Unknown property %s' % property.name)
+
+    @log
+    def _check_ready(self):
+        ready = self._user_playlists_ready and self._loading_counter == 0
+
+        if ready != self.ready:
+            self.ready = ready
+            self.notify('ready')
