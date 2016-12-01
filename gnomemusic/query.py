@@ -111,8 +111,13 @@ class Query():
         return Query.songs('?song a nmm:MusicPiece ; a nfo:FileDataObject .')
 
     @staticmethod
-    def all_playlists():
-        return Query.playlists('?playlist a nmm:Playlist .')
+    def all_user_playlists():
+        query = """
+        ?playlist a nmm:Playlist .
+        FILTER (NOT EXISTS { ?playlist nao:hasTag ?tag })
+        """
+
+        return Query.playlists(query)
 
     @staticmethod
     def all_songs_count():

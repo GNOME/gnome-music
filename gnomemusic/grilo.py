@@ -253,8 +253,8 @@ class Grilo(GObject.GObject):
     @log
     def populate_playlists(self, offset, callback, count=-1):
         if self.tracker:
-            GLib.idle_add(self.populate_items, Query.all_playlists(), offset,
-                                                callback, count)
+            GLib.idle_add(self.populate_items, Query.all_user_playlists(),
+                          offset, callback, count)
 
     @log
     def populate_album_songs(self, album, callback, count=-1):
