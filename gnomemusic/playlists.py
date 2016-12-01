@@ -402,7 +402,7 @@ class Playlists(GObject.GObject):
                 new_playlist = Playlist(item.get_id(), utils.get_media_title(item))
                 new_playlist.grilo_item = item
 
-                self.playlists[new_playlist] = new_playlist
+                self.playlists[new_playlist.id] = new_playlist
                 self.emit('playlist-added', new_playlist)
 
         def cursor_callback(cursor, res, data):
@@ -444,7 +444,7 @@ class Playlists(GObject.GObject):
         def update_callback(conn, res, data):
             try:
                 conn.update_finish(res)
-                self.emit('playlist-deleted', self.playlists[playlist.id])
+                self.emit('playlist-deleted', playlist)
                 del self.playlists[playlist.id]
             except GLib.Error as error:
                 logger.warn("Error: %s, %s", error.__class__, error)
@@ -509,19 +509,6 @@ class Playlists(GObject.GObject):
         :rtype: list
         """
         return self.playlists.values()
-
-    @log
-    def is_static_playlist(self, playlist):
-        """Checks whether the given playlist is static or not
-
-        :return: True if the playlist is static
-        :rtype: bool
-        """
-        for static_playlist_id in self._static_playlists.get_ids():
-            if playlist.get_id() == static_playlist_id:
-                return True
-
-        return False
 
     @log
     def do_get_property(self, property):

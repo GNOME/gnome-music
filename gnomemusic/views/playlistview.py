@@ -422,24 +422,21 @@ class PlaylistView(BaseView):
 
     @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
-        if self.current_playlist and \
-           playlist.id == self.current_playlist.id:
+        if self.current_playlist == playlist:
             self._add_item_to_model(item, self.model)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
-        if self.current_playlist and \
-           playlist.id == self.current_playlist.id:
-            model = self.model
-        else:
+        if self.current_playlist != playlist:
             return
 
+        model = self.model
         update_playing_track = False
+
         for row in model:
             if row[5].get_id() == item.get_id():
                 # Is the removed track now being played?
-                if self.current_playlist and \
-                   playlist.id == self.current_playlist.id:
+                if self.current_playlist == playlist:
                     if self.player.currentTrack is not None and self.player.currentTrack.valid():
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:
@@ -466,10 +463,6 @@ class PlaylistView(BaseView):
                 self.songs_count -= 1
                 self._update_songs_count()
                 return
-
-    @log
-    def populate(self):
-        pass
 
     @log
     def get_selected_tracks(self, callback):
