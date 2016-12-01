@@ -66,8 +66,16 @@
         <property name="menu-model">playlistMenu</property>
         <property name="direction">none</property>
         <property name="use_popover">True</property>
+        <child>
+          <object class="GtkImage">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="icon_name">emblem-system-symbolic</property>
+          </object>
+        </child>
         <style>
           <class name="image-button"/>
+          <class name="circular"/>
         </style>
       </object>
       <packing>
