@@ -120,9 +120,19 @@ class PlaylistView(BaseView):
 
         self.show_all()
 
+        # Sync the playlists' :ready property with the window notification
+        playlists.connect('notify::ready', self._playlist_ready_changed)
+
     @log
     def _on_changes_pending(self, data=None):
         pass
+
+    @log
+    def _playlist_ready_changed(self, playlists, property):
+        if playlists.ready:
+            self.window.notification.show_all()
+        else:
+            self.window.notification.dismiss()
 
     @log
     def _add_list_renderers(self):
@@ -260,7 +270,6 @@ class PlaylistView(BaseView):
 
     @log
     def _add_playlist_to_model(self, playlist, index=None):
-        self.window.notification.set_timeout(0)
         if index is None:
             index = -1
         _iter = self.playlists_model.insert_with_valuesv(
