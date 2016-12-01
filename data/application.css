@@ -116,3 +116,23 @@ list.side-panel row:selected,
     border-image: none;
     border-width: 0;
 }
+
+/*
+ * Add to Playlist dialog fixups. We'll remove then once we
+ * port the discs widget to use a GtkBox directly.
+ */
+list.playlists-list {
+    background-color: @theme_base_color;
+}
+
+list.playlists-list row label {
+    color: @theme_fg_color;
+}
+
+list.playlists-list row:selected {
+    background-color: @theme_selected_bg_color;
+}
+
+list.playlists-list row:selected label {
+    color: @theme_selected_fg_color;
+}

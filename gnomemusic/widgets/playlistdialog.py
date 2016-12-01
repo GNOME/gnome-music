@@ -42,14 +42,13 @@ class PlaylistDialog():
         self.dialog_box = self.ui.get_object('dialog1')
         self.dialog_box.set_transient_for(parent)
 
-        self.view = self.ui.get_object('treeview1')
-        self.view.set_activate_on_single_click(False)
-        self.selection = self.ui.get_object('treeview-selection1')
-        self.selection.connect('changed', self._on_selection_changed)
-        self._add_list_renderers()
-        self.view.connect('row-activated', self._on_item_activated)
+        # When we create a playlist, Music has to automatically select the
+        # new playlists. We use the following flag to know that the playlist
+        # being added must be selected
+        self._playlist_created = False
 
-        self.model = self.ui.get_object('liststore1')
+        self.listbox = self.ui.get_object('listbox')
+        self.listbox.connect('row-selected', self._on_row_selected)
 
         self.title_bar = self.ui.get_object('headerbar1')
         self.dialog_box.set_titlebar(self.title_bar)
@@ -79,48 +78,6 @@ class PlaylistDialog():
             self._on_playlist_added(self.playlists, playlist)
 
     @log
-    def get_selected(self):
-        _iter = self.selection.get_selected()[1]
-
-        if not _iter or self.model[_iter][1]:
-            return None
-
-        return self.model[_iter][2]
-
-    @log
-    def _add_list_renderers(self):
-        cols = Gtk.TreeViewColumn()
-        type_renderer = Gd.StyledTextRenderer(
-            xpad=8,
-            ypad=8,
-            ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0
-        )
-        cols.pack_start(type_renderer, True)
-        cols.add_attribute(type_renderer, "text", 0)
-        cols.set_cell_data_func(type_renderer, self._on_list_text_render)
-        self.view.append_column(cols)
-
-    @log
-    def _add_item_to_model(self, playlist):
-        """Adds (non-static only) playlists to the model"""
-        new_iter = self.model.append()
-        self.model.set(
-            new_iter,
-            [0, 1, 2],
-            [playlist.title, False, playlist]
-        )
-        return new_iter
-
-    @log
-    def _on_list_text_render(self, col, cell, model, _iter, data):
-        editable = model.get_value(_iter, 1)
-        if editable:
-            cell.add_class("dim-label")
-        else:
-            cell.remove_class("dim-label")
-
-    @log
     def _on_selection(self, select_button):
         self.dialog_box.response(Gtk.ResponseType.ACCEPT)
 
@@ -129,29 +86,14 @@ class PlaylistDialog():
         self.dialog_box.response(Gtk.ResponseType.REJECT)
 
     @log
-    def _on_item_activated(self, view, path, column):
-        self._new_playlist_entry.set_text("")
-        self._new_playlist_button.set_sensitive(False)
-        _iter = self.model.get_iter(path)
-        if self.model.get_value(_iter, 1):
-            self.view.set_cursor(path, column, True)
-        else:
-            self.dialog_box.response(Gtk.ResponseType.ACCEPT)
-
-    @log
-    def _on_selection_changed(self, selection):
-        model, _iter = self.selection.get_selected()
-
-        if _iter == None or self.model.get_value(_iter, 1):
-            self._select_button.set_sensitive(False)
-        else:
-            self._select_button.set_sensitive(True)
-
+    def _on_row_selected(self, listbox, row):
+        self._select_button.set_sensitive(row != None)
 
     @log
     def _on_editing_done(self, sender, data=None):
         if self._new_playlist_entry.get_text() != '':
             self.playlists.create_playlist(self._new_playlist_entry.get_text())
+            self._playlist_created = True
 
     @log
     def _on_playlist_added(self, playlists, playlist):
@@ -161,13 +103,23 @@ class PlaylistDialog():
         if playlist.is_static:
             return
 
-        new_iter = self._add_item_to_model(playlist)
-        if new_iter and self.view.get_columns():
-            self.view.set_cursor(self.model.get_path(new_iter),
-                                 self.view.get_columns()[0], False)
-            self.view.row_activated(self.model.get_path(new_iter),
-                                    self.view.get_columns()[0])
+        row = Gtk.ListBoxRow()
+        row.playlist = playlist
+
+        label = Gtk.Label(label=playlist.title,
+                          margin=12,
+                          xalign=0.0)
+        row.add(label)
+        row.show_all()
+
+        self.listbox.add(row)
+
+        # If this particular playlist was created here, automatically
+        # select it and notify the window that we're done
+        if self._playlist_created:
+            self.listbox.select_row(row)
             self.dialog_box.response(Gtk.ResponseType.ACCEPT)
+            return
 
     @log
     def _on_new_playlist_entry_changed(self, editable, data=None):
@@ -178,4 +130,11 @@ class PlaylistDialog():
 
     @log
     def _on_new_playlist_entry_focused(self, editable, data=None):
-        self.selection.unselect_all()
+        self.listbox.select_row(None)
+
+    @log
+    def get_selected(self):
+        if self.listbox.get_selected_row():
+            return self.listbox.get_selected_row().playlist
+        else:
+            return None
