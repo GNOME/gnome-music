@@ -357,6 +357,7 @@ class Window(Gtk.ApplicationWindow):
         self.pl_todelete_notification = None
         if self.views[3].really_delete:
             playlist.delete_playlist(self.views[3].pl_todelete)
+            self.views[3].pl_todelete_row.destroy()
         else:
             self.views[3].really_delete = True
 

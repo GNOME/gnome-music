@@ -35,18 +35,31 @@ list, row {
     border-width: 0 0 0 1px;
 }
 
+list.side-panel,
 .side-panel .view {
     background-color: mix(@theme_fg_color, @theme_bg_color, 0.9);
 }
 
+list.side-panel:dir(ltr),
 .side-panel .view:dir(ltr) {
     box-shadow: inset -10px 0 5px -10px alpha(black, 0.25);
 }
 
+list.side-panel:dir(rtl),
 .side-panel .view:dir(rtl) {
     box-shadow: inset 10px 0 5px -10px alpha(black, 0.25);
 }
 
+list.side-panel row label,
+list.side-panel row:hover label {
+    color: @theme_fg_color;
+}
+
+list.side-panel row:selected label {
+    color: @theme_selected_fg_color;
+}
+
+list.side-panel row:selected,
 .side-panel .view:selected {
     background-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
 }

@@ -35,6 +35,23 @@ import gnomemusic.utils as utils
 playlists = Playlists.get_default()
 
 
+def playlist_listbox_sort_func(row1, row2, user_data):
+    """Compares two playlist rows by: static, title and id.
+
+    :return: 0 if they're equal, 1 if row1 comes before row2, -1 otherwise
+    :rtype: int
+    """
+    if row1.playlist.is_static != row2.playlist.is_static:
+        return row2.playlist.is_static - row1.playlist.is_static
+
+    retval = GLib.strcmp0(row1.playlist.title, row2.playlist.title)
+
+    if retval != 0:
+        return retval
+
+    return GLib.strcmp0(row1.playlist.id, row2.playlist.id)
+
+
 class PlaylistView(BaseView):
     __gsignals__ = {
         'playlist-songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -45,10 +62,17 @@ class PlaylistView(BaseView):
 
     @log
     def __init__(self, window, player):
-        self.playlists_sidebar = Gd.MainView()
+        # The playlist sidebar is a GtkListBox, but we pass a scrolled window
+        # to the parent class
+        self.playlists_sidebar = Gtk.ListBox(selection_mode=Gtk.SelectionMode.SINGLE)
+        self.playlists_sidebar.set_sort_func(playlist_listbox_sort_func, self)
+
+        swin = Gtk.ScrolledWindow(hscrollbar_policy=Gtk.PolicyType.NEVER,
+                                  width_request=220)
+        swin.add(self.playlists_sidebar)
 
         BaseView.__init__(self, 'playlists', _("Playlists"), window,
-                               Gd.MainViewType.LIST, True, self.playlists_sidebar)
+                          Gd.MainViewType.LIST, True, swin)
 
         self.view.get_generic_view().get_style_context()\
             .add_class('songs-list')
@@ -70,39 +94,19 @@ class PlaylistView(BaseView):
         self._grid.insert_row(0)
         self._grid.attach(self.headerbar, 1, 0, 1, 1)
 
-        self.playlists_model = Gtk.ListStore(
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,
-            GObject.TYPE_OBJECT,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,
-            GObject.TYPE_STRING,
-            GObject.TYPE_INT,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
-
-        self.playlists_sidebar.set_view_type(Gd.MainViewType.LIST)
-        self.playlists_sidebar.set_model(self.playlists_model)
         self.playlists_sidebar.set_hexpand(False)
         self.playlists_sidebar.get_style_context().add_class('side-panel')
-        self.playlists_sidebar.get_generic_view().get_selection().set_mode(
-            Gtk.SelectionMode.SINGLE)
-        self.playlists_sidebar.connect('item-activated', self._on_playlist_activated)
+        self.playlists_sidebar.connect('row-activated', self._on_playlist_activated)
         self._grid.insert_column(0)
         self._grid.child_set_property(self.stack, 'top-attach', 0)
         self._grid.child_set_property(self.stack, 'height', 2)
-        self._add_sidebar_renderers()
-        self.playlists_sidebar.get_generic_view().get_style_context().remove_class('content-view')
 
         self.iter_to_clean = None
         self.iter_to_clean_model = None
         self.current_playlist = None
         self.current_playlist_index = None
         self.pl_todelete = None
+        self.pl_todelete_row = None
         self.pl_todelete_index = None
         self.really_delete = True
         self.songs_count = 0
@@ -189,25 +193,6 @@ class PlaylistView(BaseView):
         list_widget.add_renderer(type_renderer,
                                  self._on_list_widget_type_render, None)
 
-    @log
-    def _add_sidebar_renderers(self):
-        list_widget = self.playlists_sidebar.get_generic_view()
-
-        cols = list_widget.get_columns()
-        cells = cols[0].get_cells()
-        cells[1].set_visible(False)
-        cells[2].set_visible(False)
-        type_renderer = Gd.StyledTextRenderer(
-            xpad=16,
-            ypad=16,
-            ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0,
-            width=220
-        )
-        list_widget.add_renderer(type_renderer, lambda *args: None, None)
-        cols[0].clear_attributes(type_renderer)
-        cols[0].add_attribute(type_renderer, "text", 2)
-
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         pass
 
@@ -269,21 +254,6 @@ class PlaylistView(BaseView):
         return False
 
     @log
-    def _add_playlist_to_model(self, playlist, index=None):
-        if index is None:
-            index = -1
-        _iter = self.playlists_model.insert_with_valuesv(
-            index,
-            [2, 5],
-            [playlist.title, playlist])
-        if self.playlists_model.iter_n_children(None) == 1:
-            _iter = self.playlists_model.get_iter_first()
-            selection = self.playlists_sidebar.get_generic_view().get_selection()
-            selection.select_iter(_iter)
-            self.playlists_sidebar.emit('item-activated', '0',
-                                        self.playlists_model.get_path(_iter))
-
-    @log
     def _on_item_activated(self, widget, id, path):
         if self.star_handler.star_renderer_click:
             self.star_handler.star_renderer_click = False
@@ -301,16 +271,13 @@ class PlaylistView(BaseView):
             self.player.set_playing(True)
 
     @log
-    def on_playlist_update(self, widget, playlist):
-        _iter = self.playlists_model.get_iter_first()
-        while _iter:
-            current_playlist = self.playlists_model.get_value(_iter, 5)
-            if playlist == current_playlist and \
-                                      self.current_playlist == current_playlist:
-                path = self.playlists_model.get_path(_iter)
-                GLib.idle_add(self._on_playlist_activated, None, None, path)
-                break
-            _iter = self.playlists_model.iter_next(_iter)
+    def on_playlist_update(self, playlists, playlist):
+        for row in self.playlists_listbox.get_children():
+            if playlist != row.playlist or self.current_playlist != row.playlist:
+                continue
+
+            self._on_playlist_activated(self.playlists_listbox, row)
+        pass
 
     @log
     def activate_playlist(self, playlist_id):
@@ -318,21 +285,22 @@ class PlaylistView(BaseView):
         if not self._init:
             return
 
-        for playlist in self.playlists_model:
-            if playlist[5].id == playlist_id:
-                selection = self.playlists_sidebar.get_generic_view().get_selection()
-                if selection.iter_is_selected(playlist.iter):
+        for row in self.playlists_listbox.get_children():
+            if row.playlist.id != playlist_id:
+                continue
+
+            selection = self.playlists_sidebar.get_selected_row()
+            if not selection:
+                self._on_play_activate(None)
+            else:
+                selection.select_iter(playlist.iter)
+                handler = 0
+                def songs_loaded_callback(view):
+                    self.disconnect(handler)
                     self._on_play_activate(None)
-                else:
-                    selection.select_iter(playlist.iter)
-                    handler = 0
 
-                    def songs_loaded_callback(view):
-                        self.disconnect(handler)
-                        self._on_play_activate(None)
-
-                    handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
-                    self.playlists_sidebar.emit('item-activated', '0', playlist.path)
+                handler = self.connect('playlist-songs-loaded', songs_loaded_callback)
+                self.playlists_sidebar.emit('item-activated', '0', playlist.path)
 
 
     @log
@@ -341,14 +309,12 @@ class PlaylistView(BaseView):
             self._on_delete_activate(None)
 
     @log
-    def _on_playlist_activated(self, widget, item_id, path):
-        _iter = self.playlists_model.get_iter(path)
-        playlist_name = self.playlists_model.get_value(_iter, 2)
-        playlist = self.playlists_model.get_value(_iter, 5)
+    def _on_playlist_activated(self, widget, row):
+        playlist = row.playlist
 
         self.current_playlist = playlist
-        self.name_label.set_text(playlist_name)
-        self.current_playlist_index = int(path.to_string())
+        self.name_label.set_text(playlist.title)
+        self.current_playlist_index = int(row.get_index())
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
@@ -409,26 +375,26 @@ class PlaylistView(BaseView):
     @log
     def stage_playlist_for_deletion(self):
         self.model.clear()
-        self.pl_todelete_index = self.current_playlist_index
-        _iter = self.playlists_sidebar.get_generic_view().get_selection().get_selected()[1]
-        self.pl_todelete = self.playlists_model.get_value(_iter, 5)
 
-        if not _iter:
+        row = self.playlists_sidebar.get_selected_row()
+        next_row = self.playlists_sidebar.get_row_at_index(
+                                                self.current_playlist_index + 1)
+        self.pl_todelete_index = self.current_playlist_index
+        self.pl_todelete_row = row
+        self.pl_todelete = row.playlist
+
+        if not self.pl_todelete:
             return
 
-        iter_next = self.playlists_model.iter_next(_iter)\
-            or self.playlists_model.iter_previous(_iter)
-        self.playlists_model.remove(_iter)
+        row.hide()
 
-        if iter_next:
-            selection = self.playlists_sidebar.get_generic_view().get_selection()
-            selection.select_iter(iter_next)
-            self.playlists_sidebar.emit('item-activated', '0',
-                                        self.playlists_model.get_path(iter_next))
+        if next_row:
+            self.playlists_sidebar.select_row(next_row)
+            next_row.emit('activate')
 
     @log
     def undo_playlist_deletion(self):
-        self._add_playlist_to_model(self.pl_todelete, self.pl_todelete_index)
+        self.pl_todelete_row.show()
 
     @log
     def _on_delete_activate(self, menuitem, data=None):
@@ -437,34 +403,43 @@ class PlaylistView(BaseView):
 
     @log
     def _on_playlist_added(self, playlists, playlist):
-        self._add_playlist_to_model(playlist)
-        if self.playlists_model.iter_n_children(None) == 1:
-            _iter = self.playlists_model.get_iter_first()
-            selection = self.playlists_sidebar.get_generic_view().get_selection()
-            selection.select_iter(_iter)
-            self.playlists_sidebar.emit('item-activated', '0',
-                                        self.playlists_model.get_path(_iter))
+        label = Gtk.Label(label=playlist.title,
+                          ellipsize=Pango.EllipsizeMode.MIDDLE,
+                          xalign=0.0,
+                          margin=18)
+
+        row = Gtk.ListBoxRow()
+        row.add(label)
+        row.show_all()
+
+        row.playlist = playlist
+
+        self.playlists_sidebar.add(row)
+
+        if not self.playlists_sidebar.get_selected_row():
+            self.playlists_sidebar.select_row(row)
+            row.emit('activate')
 
     @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if self.current_playlist and \
-           playlist.get_id() == self.current_playlist.id:
+           playlist.id == self.current_playlist.id:
             self._add_item_to_model(item, self.model)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
         if self.current_playlist and \
-           playlist.get_id() == self.current_playlist.id:
+           playlist.id == self.current_playlist.id:
             model = self.model
         else:
             return
 
         update_playing_track = False
         for row in model:
-            if row[5].id == item.get_id():
+            if row[5].get_id() == item.get_id():
                 # Is the removed track now being played?
                 if self.current_playlist and \
-                   playlist.get_id() == self.current_playlist.id:
+                   playlist.id == self.current_playlist.id:
                     if self.player.currentTrack is not None and self.player.currentTrack.valid():
                         currentTrackpath = self.player.currentTrack.get_path().to_string()
                         if row.path is not None and row.path.to_string() == currentTrackpath:
@@ -484,7 +459,7 @@ class PlaylistView(BaseView):
 
                     self.iter_to_clean = None
                     self.update_model(self.player, model, nextIter)
-                    self.player.set_playlist('Playlist', playlist.get_id(), model, nextIter, 5, 11)
+                    self.player.set_playlist('Playlist', playlist.id, model, nextIter, 5, 11)
                     self.player.set_playing(True)
 
                 # Update songs count
