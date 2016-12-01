@@ -62,6 +62,38 @@ class Playlist(GObject.Object):
         self.title = title
         self.is_static = False
 
+    @log
+    def do_get_property(self, property):
+        if property.name == 'id':
+            return self.id
+        elif property.name == 'query':
+            return self.query
+        elif property.name == 'tag_text':
+            return self.tag_text
+        elif property.name == 'title':
+            return self.title
+        elif property.name == 'is_static':
+            return self.is_static
+        else:
+            raise AttributeError('Unknown property %s' % property.name)
+
+    @log
+    def do_set_property(self, property, value):
+        if property.name == 'id':
+            self.id = value
+        elif property.name == 'query':
+            self.query = value
+        elif property.name == 'tag_text':
+            self.tag_text = value
+        elif property.name == 'title':
+            self.title = value
+        elif property.name == 'is_static':
+            self.is_static = value
+        else:
+            raise AttributeError('Unknown property %s' % property.name)
+
+        self.notify(property.name)
+
 
 class StaticPlaylist(Playlist):
     """Base class for static playlists"""
