@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gi.repository import GLib
+
 from gettext import gettext as _
 
 
@@ -87,3 +89,25 @@ def seconds_to_string(duration):
     seconds %= 60
 
     return '{:d}:{:02d}'.format(minutes, seconds)
+
+
+def compare_playlists_by_name(row1, row2, user_data):
+    """Compares two playlist rows by: static, title and id.
+
+    :param row1: a Gtk.ListBoxRow
+    :param row2: a Gtk.ListBoxRow
+    :param user_data: not used
+    :return: 0 if they're equal, 1 if row1 comes before row2, -1 otherwise
+    :rtype: int
+    """
+    if row1.playlist.is_static != row2.playlist.is_static:
+        return row2.playlist.is_static - row1.playlist.is_static
+
+    retval = GLib.strcmp0(row1.playlist.title.lower(),
+                          row2.playlist.title.lower())
+
+    if retval != 0:
+        return retval
+
+    return GLib.strcmp0(row1.playlist.id.lower(),
+                        row2.playlist.id.lower())

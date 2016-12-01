@@ -35,23 +35,6 @@ import gnomemusic.utils as utils
 playlists = Playlists.get_default()
 
 
-def playlist_listbox_sort_func(row1, row2, user_data):
-    """Compares two playlist rows by: static, title and id.
-
-    :return: 0 if they're equal, 1 if row1 comes before row2, -1 otherwise
-    :rtype: int
-    """
-    if row1.playlist.is_static != row2.playlist.is_static:
-        return row2.playlist.is_static - row1.playlist.is_static
-
-    retval = GLib.strcmp0(row1.playlist.title, row2.playlist.title)
-
-    if retval != 0:
-        return retval
-
-    return GLib.strcmp0(row1.playlist.id, row2.playlist.id)
-
-
 class PlaylistView(BaseView):
     __gsignals__ = {
         'playlist-songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -65,7 +48,7 @@ class PlaylistView(BaseView):
         # The playlist sidebar is a GtkListBox, but we pass a scrolled window
         # to the parent class
         self.playlists_sidebar = Gtk.ListBox(selection_mode=Gtk.SelectionMode.SINGLE)
-        self.playlists_sidebar.set_sort_func(playlist_listbox_sort_func, self)
+        self.playlists_sidebar.set_sort_func(utils.compare_playlists_by_name, self)
 
         swin = Gtk.ScrolledWindow(hscrollbar_policy=Gtk.PolicyType.NEVER,
                                   width_request=220)

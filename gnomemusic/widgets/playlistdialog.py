@@ -49,6 +49,7 @@ class PlaylistDialog():
 
         self.listbox = self.ui.get_object('listbox')
         self.listbox.connect('row-selected', self._on_row_selected)
+        self.listbox.set_sort_func(utils.compare_playlists_by_name, self)
 
         self.title_bar = self.ui.get_object('headerbar1')
         self.dialog_box.set_titlebar(self.title_bar)
