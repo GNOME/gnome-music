@@ -95,6 +95,7 @@ class PlaylistDialog():
         if self._new_playlist_entry.get_text() != '':
             self.playlists.create_playlist(self._new_playlist_entry.get_text())
             self._playlist_created = True
+            self.dialog_box.set_sensitive(False)
 
     @log
     def _on_playlist_added(self, playlists, playlist):
@@ -119,6 +120,7 @@ class PlaylistDialog():
         # select it and notify the window that we're done
         if self._playlist_created:
             self.listbox.select_row(row)
+            self.dialog_box.set_sensitive(True)
             self.dialog_box.response(Gtk.ResponseType.ACCEPT)
             return
 
