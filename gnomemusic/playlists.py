@@ -165,10 +165,10 @@ class Playlists(GObject.GObject):
         'playlist-deleted': (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         'playlist-updated': (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         'song-added-to-playlist': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
+            GObject.SignalFlags.RUN_FIRST, None, (Playlist, Grl.Media)
         ),
         'song-removed-from-playlist': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
+            GObject.SignalFlags.RUN_FIRST, None, (Playlist, Grl.Media)
         ),
     }
 
@@ -403,17 +403,13 @@ class Playlists(GObject.GObject):
                 new_playlist.grilo_item = item
 
                 self.playlists[new_playlist] = new_playlist
-                self.emit('playlist-added', playlist)
+                self.emit('playlist-added', new_playlist)
 
         def cursor_callback(cursor, res, data):
             try:
-                has_next = cursor.next_finish()
+                cursor.next_finish(res)
             except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
-                return
-
-            if has_next:
-                cursor.next_async(None, cursor_callback, data)
                 return
 
             playlist_id = cursor.get_integer(0)
@@ -470,7 +466,7 @@ class Playlists(GObject.GObject):
                 return
             entry_id = cursor.get_integer(0)
             grilo.get_playlist_song_with_id(
-                playlist.get_id(), entry_id, get_callback
+                playlist.id, entry_id, get_callback
             )
 
         def update_callback(conn, res, data):
@@ -485,7 +481,7 @@ class Playlists(GObject.GObject):
             if not uri:
                 continue
             self.tracker.update_blank_async(
-                Query.add_song_to_playlist(playlist.get_id(), uri),
+                Query.add_song_to_playlist(playlist.id, uri),
                 GLib.PRIORITY_LOW,
                 None, update_callback, None
             )
