@@ -362,6 +362,8 @@ class PlaylistView(BaseView):
         row = self.playlists_sidebar.get_selected_row()
         next_row = self.playlists_sidebar.get_row_at_index(
                                                 self.current_playlist_index + 1)
+        prev_row = self.playlists_sidebar.get_row_at_index(
+                                                self.current_playlist_index - 1)
         self.pl_todelete_index = self.current_playlist_index
         self.pl_todelete_row = row
         self.pl_todelete = row.playlist
@@ -374,6 +376,9 @@ class PlaylistView(BaseView):
         if next_row:
             self.playlists_sidebar.select_row(next_row)
             next_row.emit('activate')
+        elif prev_row:
+            self.playlists_sidebar.select_row(prev_row)
+            prev_row.emit('activate')
 
     @log
     def undo_playlist_deletion(self):
