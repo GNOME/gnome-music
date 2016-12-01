@@ -102,18 +102,13 @@ class PlaylistDialog():
         self.view.append_column(cols)
 
     @log
-    def _add_item_to_model(self, item):
+    def _add_item_to_model(self, playlist):
         """Adds (non-static only) playlists to the model"""
-
-        # Don't show static playlists
-        if self.playlists.is_static_playlist(item):
-            return None
-
         new_iter = self.model.append()
         self.model.set(
             new_iter,
             [0, 1, 2],
-            [utils.get_media_title(item), False, item]
+            [playlist.title, False, playlist]
         )
         return new_iter
 
@@ -166,7 +161,7 @@ class PlaylistDialog():
         if playlist.is_static:
             return
 
-        new_iter = self._add_item_to_model(playlist.grilo_item)
+        new_iter = self._add_item_to_model(playlist)
         if new_iter and self.view.get_columns():
             self.view.set_cursor(self.model.get_path(new_iter),
                                  self.view.get_columns()[0], False)
