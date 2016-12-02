@@ -108,47 +108,29 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_changes_pending(self, data=None):
+        def songs_available_cb(available):
+            if available:
+                if self.views[0] == self.views[-1]:
+                    view = self.views.pop()
+                    view.destroy()
+                    self._switch_to_player_view()
+                    self.toolbar._search_button.set_sensitive(True)
+                    self.toolbar._select_button.set_sensitive(True)
+                    self.toolbar.show_stack()
+            elif (self.toolbar._selectionMode is False
+                    and len(self.views) != 1):
+                self._stack.disconnect(self._on_notify_model_id)
+                self.disconnect(self._key_press_event_id)
+                view_count = len(self.views)
+                for i in range(0, view_count):
+                    view = self.views.pop()
+                    view.destroy()
+                self.toolbar.hide_stack()
+                self._switch_to_empty_view()
 
-        def cursor_next_cb(conn, res, data):
-            try:
-                has_next = conn.next_finish(res)
-            except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
-                return
+        grilo.songs_available(songs_available_cb)
 
-            if has_next:
-                count = conn.get_integer(0)
-                if (count > 0):
-                    if (self.views[0] == self.views[-1]):
-                        view = self.views.pop()
-                        view.destroy()
-                        self._switch_to_player_view()
-                        self.toolbar._search_button.set_sensitive(True)
-                        self.toolbar._select_button.set_sensitive(True)
-                        self.toolbar.show_stack()
-                elif (self.toolbar._selectionMode is False
-                        and len(self.views) != 1):
-                    self._stack.disconnect(self._on_notify_model_id)
-                    self.disconnect(self._key_press_event_id)
-                    view_count = len(self.views)
-                    for i in range(0, view_count):
-                        view = self.views.pop()
-                        view.destroy()
-                    self.toolbar.hide_stack()
-                    self._switch_to_empty_view()
-
-        def songs_query_cb(conn, res, data):
-            try:
-                cursor = conn.query_finish(res)
-            except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
-                return
-
-            cursor.next_async(None, cursor_next_cb, None)
-
-        tracker.query_async(Query.all_songs_count(), None, songs_query_cb,
-                            None)
-
+    @log
     def _on_configure_event(self, widget, event):
         if self.window_size_update_timeout is None:
             self.window_size_update_timeout = GLib.timeout_add(500, self.store_window_size_and_position, widget)
@@ -233,33 +215,15 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(self.selection_toolbar.actionbar, False, False, 0)
         self.add(self._box)
 
-        def cursor_next_cb(conn, res, data):
-            try:
-                has_next = conn.next_finish(res)
-            except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
-                return
-
-            if has_next:
-                count = conn.get_integer(0)
-                if count > 0:
-                    self._switch_to_player_view()
-                else:
-                    self._switch_to_empty_view()
-
-        def songs_query_cb(conn, res, data):
-            try:
-                cursor = conn.query_finish(res)
-            except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
-                return
-
-            cursor.next_async(None, cursor_next_cb, None)
+        def songs_available_cb(available):
+            if available:
+                self._switch_to_player_view()
+            else:
+                self._switch_to_empty_view()
 
         Query()
         if Query.music_folder:
-            tracker.query_async(Query.all_songs_count(), None, songs_query_cb,
-                                None)
+            grilo.songs_available(songs_available_cb)
         else:
             self._switch_to_empty_view()
 
