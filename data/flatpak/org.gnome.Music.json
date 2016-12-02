@@ -1,0 +1,296 @@
+{
+    "app-id": "org.gnome.Music",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "master",
+    "sdk": "org.gnome.Sdk",
+    "command": "gnome-music",
+    "tags": ["nightly"],
+    "desktop-file-name-prefix": "(Nightly) ",
+    "finish-args": [
+        /* X11 + XShm access */
+        "--share=ipc", "--socket=x11",
+        /* Wayland access */
+        "--socket=wayland",
+        /* PulseAudio access */
+        "--device=dri", "--socket=pulseaudio",
+        /* Tracker access */
+        "--talk-name=org.freedesktop.Tracker1",
+        "--talk-name=org.freedesktop.Tracker1.Miner.Applications",
+        "--talk-name=org.freedesktop.Tracker1.Miner.Extract",
+        "--talk-name=org.freedesktop.Tracker1.Miner.Files",
+        "--talk-name=org.freedesktop.Tracker1.Miner.Files.Index",
+        "--filesystem=home:ro",
+        "--env=GST_PLUGIN_PATH_1_0=/app/lib/gstreamer-1.0",
+        /* Needed for dconf to work */
+        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        /* Needed to get the album arts from internet */
+        "--share=network"
+    ],
+    "build-options" : {
+        "cflags": "-O2 -g",
+        "cxxflags": "-O2 -g"
+    },
+    "cleanup": ["/include",
+                "/lib/pkgconfig",
+                "/share/pkgconfig",
+                "/share/aclocal",
+                "/man",
+                "/share/man",
+                "/share/gtk-doc",
+                "*.a",
+                "/share/dbus-1",
+                "/share/doc"
+    ],
+    "modules": [
+        "org.lua.modules.json",
+        {
+            "name": "gstreamer-plugins-ugly",
+            "config-opts": [ "--disable-gtk-doc", "--disable-examples", "--with-plugins=mpg123"],
+            "cleanup": [ "/share" ],
+            "build-options" :
+                {
+                    "arch" :
+                        {
+                            "i386" : { "config-opts" : [ "--build=i586-unknown-linux-gnu" ] },
+                            "arm" : { "config-opts" : [ "--build=arm-unknown-linux-gnueabi" ] }
+                        }
+                },
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.8.3.tar.xz",
+                    "sha256": "6fa2599fdd072d31fbaf50c34af406e2be944a010b1f4eab67a5fe32a0310693"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "mpg123",
+                    "cleanup": [ "/bin", "/include", "/lib/pkgconfig", "/share" ],
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "http://downloads.sourceforge.net/project/mpg123/mpg123/1.23.8/mpg123-1.23.8.tar.bz2",
+                            "sha256": "de2303c8ecb65593e39815c0a2f2f2d91f708c43b85a55fdd1934c82e677cf8e"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "gstreamer-plugins-bad",
+            "config-opts": [
+                "--disable-gtk-doc", "--disable-introspection", "--disable-examples",
+                "--disable-bz2", "--disable-curl", "--disable-dash", "--disable-webp",
+                "--disable-decklink", "--disable-dtls", "--disable-dvb", "--disable-fbdev",
+                "--disable-gl", "--disable-gtk3", "--disable-hls", "--disable-rsvg",
+                "--disable-sndfile", "--disable-shm", "--disable-smoothstreaming",
+                "--disable-vcd", "--disable-vdpau", "--disable-wayland", "--with-plugins=faad"
+            ],
+            "build-options" :
+                {
+                "arch" :
+                    {
+                        "i386" : { "config-opts" : [ "--build=i586-unknown-linux-gnu" ] },
+                        "arm" : { "config-opts" : [ "--build=arm-unknown-linux-gnueabi" ] }
+                    }
+            },
+            "cleanup": [ "/include",
+                         "/share",
+                         "/lib/pkgconfig",
+                         "/lib/gstreamer-1.0/include",
+                         "/lib/libgst*"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.8.3.tar.xz",
+                    "sha256": "7899fcb18e6a1af2888b19c90213af018a57d741c6e72ec56b133bc73ec8509b"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "faad",
+                    "cleanup": [ "/bin", "/include", "/share" ],
+                    "config-opts": [ "--disable-static" ],
+                    "no-autogen": true,
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "http://downloads.sourceforge.net/sourceforge/faac/faad2-2.7.tar.bz2",
+                            "sha256": "14561b5d6bc457e825bfd3921ae50a6648f377a9396eaf16d4b057b39a3f63b5"
+                        },
+                        {
+                            "type": "patch",
+                            "path": "libmp4ff-shared-lib.patch",
+                            "sha256": "e0aaefeb20ebfec2f09e88a190f78e5744d9f1c71fe41977db8e4f29b5b88022"
+                        },
+                        {
+                            "type": "shell",
+                            "commands": [ "autoreconf --force --install" ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "tracker",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://git.gnome.org/browse/tracker"
+                }
+            ]
+        },
+        {
+            "name": "gmime",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/gmime"
+                }
+            ],
+            "cleanup": [ "/include", "/share/vala" ]
+        },
+        {
+            "name": "totem-pl-parser",
+            "config-opts": [ "--disable-static" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/totem-pl-parser"
+                }
+            ],
+            "cleanup": [ "/include" ]
+        },
+        {
+            "name": "grilo",
+            "config-opts": [ "--enable-grl-net", "--enable-grl-pls", "--disable-static" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/grilo"
+                }
+            ],
+            "cleanup": [ "/include", "/bin" ]
+        },
+        {
+            "name": "gnome-online-accounts",
+            "config-opts": [ "--disable-telepathy", "--disable-documentation", "--disable-backend" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/gnome-online-accounts"
+                }
+            ]
+        },
+        {
+            "name": "liboauth",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://netix.dl.sourceforge.net/project/liboauth/liboauth-1.0.3.tar.gz",
+                    "sha256": "0df60157b052f0e774ade8a8bac59d6e8d4b464058cc55f9208d72e41156811f"
+                }
+            ]
+        },
+        {
+            "name": "libgdata",
+            "config-opts": [ "--disable-always-build-tests", "--disable-Werror", "--disable-static" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/libgdata"
+                }
+            ]
+        },
+        {
+            "name": "gom",
+            "config-opts": [ "--disable-python" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/gom"
+                }
+            ]
+        },
+        {
+            "name": "avahi",
+            "cleanup": [ "/bin" ],
+            "config-opts": [
+                "--with-distro=none",
+                "--enable-gobject",
+                "--with-xml=expat",
+                "--disable-libdaemon",
+                "--disable-core-docs",
+                "--disable-manpages",
+                "--disable-mono",
+                "--disable-qt3",
+                "--disable-qt4",
+                "--disable-python",
+                "--disable-gtk",
+                "--disable-gtk3"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "http://avahi.org/download/avahi-0.6.31.tar.gz",
+                    "sha256": "8372719b24e2dd75de6f59bb1315e600db4fd092805bd1201ed0cb651a2dab48"
+                },
+                {
+                    "type": "shell",
+                    "commands": [
+                        "cp -f /usr/share/gnu-config/config.sub .",
+                        "cp -f /usr/share/gnu-config/config.guess ."
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "libmediaart",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/libmediaart"
+                }
+            ]
+        },
+        {
+            "name": "grilo-plugins",
+            "config-opts": [ "--enable-goa", "--enable-filesystem", "--enable-optical-media", "--enable-youtube", "--enable-bookmarks", "--enable-lua-factory", "--enable-metadata-store", "--enable-vimeo", "--enable-tracker", "--enable-localmetadata", "--enable-dleyna", "--enable-thetvdb", "--enable-tmdb", "--enable-freebox", "--enable-opensubtitles" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/grilo-plugins"
+                }
+            ],
+            "cleanup": [ "/include" ]
+        },
+        {
+            "name": "python-requests",
+            "no-autogen": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://pypi.python.org/packages/2e/ad/e627446492cc374c284e82381215dcd9a0a87c4f6e90e9789afefe6da0ad/requests-2.11.1.tar.gz",
+                    "sha256": "5acf980358283faba0b897c73959cecf8b841205bb4b2ad3ef545f46eae1a133"
+                },
+                {
+                  "type": "file",
+                  "path": "gnome-music-makefile",
+                  "dest-filename": "Makefile"
+                }
+            ]
+        },
+        {
+            "name": "gnome-music",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/gnome-music"
+                }
+            ]
+        }
+    ]
+}
+
