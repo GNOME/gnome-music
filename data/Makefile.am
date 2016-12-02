@@ -40,15 +40,17 @@ hicolor_icon_files = \
 	$(hicolor_iconsymbolic_DATA) \
 	icons/hicolor/gnome-music.svg
 
+gtk_update_icon_cache = gtk-update-icon-cache -f -t
+
 install-data-hook: update-icon-cache
 uninstall-hook: update-icon-cache
 update-icon-cache:
 	@-if test -z "$(DESTDIR)"; then \
 		echo "Updating Gtk hicolor icon cache."; \
-		$(gtk_update_hicolor_icon_cache); \
+		$(gtk_update_icon_cache) $(datadir)/icons/hicolor; \
 	else \
 		echo "*** Icon cache not updated.  After (un)install, run this:"; \
-		echo "***   $(gtk_update_hicolor_icon_cache)"; \
+		echo "***   $(gtk_update_icon_cache) $(datadir)/icons/hicolor"; \
 	fi
 
 
