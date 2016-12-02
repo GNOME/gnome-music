@@ -2,7 +2,7 @@
 _Name=Music
 _GenericName=Music Player
 _Comment=Play and organize your music collection
-Icon=gnome-music
+Icon=org.gnome.Music
 Exec=gnome-music
 Terminal=false
 Type=Application
