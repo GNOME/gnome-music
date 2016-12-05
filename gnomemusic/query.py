@@ -408,25 +408,6 @@ class Query():
         return query
 
     @staticmethod
-    def update_last_played(song_url, time):
-        query = """
-    INSERT OR REPLACE { ?song nfo:fileLastAccessed '%(time)s' . }
-    WHERE {
-        SELECT
-            ?song
-            WHERE {
-                ?song a nmm:MusicPiece .
-                FILTER ( nie:url(?song) = "%(song_url)s" )
-            }
-        }
-    """.replace("\n", " ").strip() % {
-            'song_url': song_url,
-            'time': time
-        }
-
-        return query
-
-    @staticmethod
     def create_playlist(title):
         query = """
     INSERT {

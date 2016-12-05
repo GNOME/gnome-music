@@ -236,12 +236,6 @@ class Playlists(GObject.GObject):
                                         tag_created_cb, playlist)
 
     @log
-    def update_last_played(self, song_url):
-        cur_time = time.strftime(sparql_dateTime_format, time.gmtime())
-        query = Query.update_last_played(song_url, cur_time)
-        self.tracker.update(query, GLib.PRIORITY_LOW, None)
-
-    @log
     def update_static_playlist(self, playlist):
         """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
         # Clear the playlist
