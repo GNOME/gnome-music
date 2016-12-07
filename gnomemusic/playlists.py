@@ -304,7 +304,7 @@ class Playlists(GObject.GObject):
 
         def cursor_callback(cursor, res, data):
             try:
-                has_next = cursor.next_finish()
+                has_next = cursor.next_finish(res)
             except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
