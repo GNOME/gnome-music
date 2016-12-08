@@ -243,6 +243,7 @@ class Player(GObject.GObject):
         self.repeat = settings.get_enum('repeat')
         self._sync_prev_next()
         self._sync_repeat_image()
+        self._validate_next_track()
 
     @log
     def _on_bus_state_changed(self, bus, message):
@@ -713,7 +714,7 @@ class Player(GObject.GObject):
             return True
 
         self.stop()
-        self.currentTrack = self._get_next_track()
+        self.currentTrack = self.nextTrack
 
         if self.currentTrack and self.currentTrack.valid():
             self.currentTrackUri = self.playlist.get_value(
