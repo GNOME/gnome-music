@@ -422,7 +422,7 @@ class DiscBox(Gtk.Box):
         return True
 
 
-class DiscListBox(Gtk.ListBox):
+class DiscListBox(Gtk.Box):
     """A ListBox widget containing all discs of a particular
     album
     """
@@ -438,8 +438,7 @@ class DiscListBox(Gtk.ListBox):
     @log
     def __init__(self):
         """Initialize"""
-        super().__init__()
-        super().set_selection_mode(Gtk.SelectionMode.NONE)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
 
         self._selection_mode = False
         self._selection_mode_allowed = False
@@ -465,7 +464,7 @@ class DiscListBox(Gtk.ListBox):
         self._selected_items = []
 
         def get_child_selected_items(child):
-            self._selected_items += child.get_child().get_selected_items()
+            self._selected_items += child.get_selected_items()
 
         self.foreach(get_child_selected_items)
 
@@ -499,7 +498,7 @@ class DiscListBox(Gtk.ListBox):
         self._selection_mode = selection_mode
 
         def set_child_selection_mode(child):
-            child.get_child().set_selection_mode(self._selection_mode)
+            child.set_selection_mode(self._selection_mode)
 
         self.foreach(set_child_selection_mode)
 
