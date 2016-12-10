@@ -148,7 +148,7 @@ class Playlists(GObject.GObject):
             """ Called after the playlist id is fetched """
             try:
                 cursor.next_finish(res)
-            except GLib.Error as error:
+            except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
@@ -165,7 +165,7 @@ class Playlists(GObject.GObject):
             """ Starts retrieving the playlist id """
             try:
                 cursor = obj.query_finish(result)
-            except GLib.Error as error:
+            except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
@@ -192,7 +192,7 @@ class Playlists(GObject.GObject):
             # Update the playlist ID
             try:
                 cursor.next_finish(res)
-            except GLib.Error as error:
+            except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
@@ -205,7 +205,7 @@ class Playlists(GObject.GObject):
             """ Called after the playlist is created and the ID is fetched """
             try:
                 cursor = obj.query_finish(res)
-            except GLib.Error as error:
+            except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
