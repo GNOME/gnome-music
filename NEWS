@@ -1,3 +1,30 @@
+Overview of changes in 3.23.3
+=============================
+
+* Start to use Grilo for storing metadata
+* Rework starring widget
+* DistListBox improvements
+* Stop walking directories for no reason
+* Finish move to tracker async calls
+
+Bugs fixed:
+ 774754 Use correct Grilo property for favourite tracking
+ 772689 Use tracker async queries
+ 775759 create_playlists cursor_callback method has a TypeError
+ 775930 Correct error variable names
+
+Thanks to our contributors:
+ Carlos Garnacho
+ Georges Basile Stavracas Neto
+ Marinus Schraal
+ Sambhav Kothari
+ Yash Singh
+
+Translations updated:
+ German
+ Hungarian
+ Russian
+
 Overview of changes in 3.23.2
 =============================
 
