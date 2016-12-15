@@ -309,10 +309,6 @@ class Playlists(GObject.GObject):
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
-            if has_next:
-                cursor.next_async(None, cursor_callback, data)
-                return
-
             playlist_id = cursor.get_integer(0)
             grilo.get_playlist_with_id(playlist_id, get_callback)
 
