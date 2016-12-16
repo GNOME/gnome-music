@@ -101,6 +101,7 @@ class Window(Gtk.ApplicationWindow):
             self.maximize()
 
         self._setup_view()
+        self._setup_loading_notification()
 
         self.window_size_update_timeout = None
         self.connect("window-state-event", self._on_window_state_event)
@@ -108,6 +109,36 @@ class Window(Gtk.ApplicationWindow):
         grilo.connect('changes-pending', self._on_changes_pending)
 
     @log
+    def _setup_loading_notification(self):
+        self._loading_notification = Gtk.Revealer(
+                       halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
+        self._loading_notification.set_transition_type(
+                                 Gtk.RevealerTransitionType.SLIDE_DOWN)
+        self._overlay.add_overlay(self._loading_notification)
+
+        def hide_notification_cb(button, self):
+            self._loading_notification.set_reveal_child(False)
+
+        grid = Gtk.Grid(margin_bottom=18, margin_start=18, margin_end=18)
+        grid.set_column_spacing(18)
+        grid.get_style_context().add_class('app-notification')
+
+        spinner = Gtk.Spinner()
+        spinner.start()
+        grid.add(spinner)
+
+        label = Gtk.Label.new(_("Loading"))
+        grid.add(label)
+
+        button = Gtk.Button.new_from_icon_name('window-close-symbolic',
+                                               Gtk.IconSize.BUTTON)
+        button.get_style_context().add_class('flat')
+        button.connect('clicked', hide_notification_cb, self)
+        grid.add(button)
+
+        self._loading_notification.add(grid)
+        self._loading_notification.show_all()
+
     def _on_changes_pending(self, data=None):
         def songs_available_cb(available):
             if available:
@@ -302,11 +333,6 @@ class Window(Gtk.ApplicationWindow):
         else:
             view = self._stack.get_visible_child().get_visible_child()
             view.select_none()
-
-    def _show_notification(self):
-        self.notification_handler = None
-        self.notification.show_all()
-        return False
 
     @log
     def _init_playlist_removal_notification(self):
@@ -527,18 +553,7 @@ class Window(Gtk.ApplicationWindow):
         notification is started.
         """
         if self._loading_counter == 0:
-            self.notification = Gd.Notification()
-            self.notification.set_timeout(5)
-            grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_end=8)
-            grid.set_column_spacing(8)
-            spinner = Gtk.Spinner()
-            spinner.start()
-            grid.add(spinner)
-            label = Gtk.Label.new(_("Loading"))
-            grid.add(label)
-            self.notification.add(grid)
-            self._overlay.add_overlay(self.notification)
-            self.notification.show_all()
+            self._loading_notification.set_reveal_child(True)
 
         self._loading_counter = self._loading_counter + 1
 
@@ -550,5 +565,4 @@ class Window(Gtk.ApplicationWindow):
         self._loading_counter = self._loading_counter - 1
 
         if self._loading_counter == 0:
-            self.notification.dismiss()
-            self.notification = None
+            self._loading_notification.set_reveal_child(False)
