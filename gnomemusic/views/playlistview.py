@@ -240,7 +240,7 @@ class PlaylistView(BaseView):
     @log
     def _populate(self):
         self._init = True
-        self.window._init_loading_notification()
+        self.window.push_loading_notification()
         self.populate()
 
     @log
@@ -263,11 +263,10 @@ class PlaylistView(BaseView):
 
     @log
     def _add_playlist_item_to_model(self, item, index=None):
-        self.window.notification.set_timeout(0)
         if index is None:
             index = -1
         if not item:
-            self.window.notification.dismiss()
+            self.window.pop_loading_notification()
             self.emit('playlists-loaded')
             return
         _iter = self.playlists_model.insert_with_valuesv(

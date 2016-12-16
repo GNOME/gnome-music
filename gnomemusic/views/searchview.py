@@ -188,7 +188,6 @@ class SearchView(BaseView):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
-        self.window.notification.set_timeout(0)
         if data is None:
             return
 
@@ -210,7 +209,7 @@ class SearchView(BaseView):
             self.previous_view = self.window.prev_view
 
         if remaining == 0:
-            self.window.notification.dismiss()
+            self.window.pop_loading_notification()
             self.view.show()
 
         if not item or model != self.model:
@@ -304,7 +303,7 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self.window._init_loading_notification()
+        self.window.push_loading_notification()
         self.header_bar.set_state(ToolbarState.MAIN)
 
     @log

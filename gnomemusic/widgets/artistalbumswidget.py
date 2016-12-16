@@ -77,7 +77,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self.pack_start(self._scrolledWindow, True, True, 0)
 
         self.hide()
-        self.window._init_loading_notification()
+        self.window.push_loading_notification()
 
         for album in albums:
             is_last_album = False
@@ -106,12 +106,11 @@ class ArtistAlbumsWidget(Gtk.Box):
         )
 
     def _on_last_album_displayed(self, data=None):
-        self.window.notification.dismiss()
+        self.window.pop_loading_notification()
         self.show_all()
 
     @log
     def add_album(self, album, is_last_album=False):
-        self.window.notification.set_timeout(0)
         widget = ArtistAlbumWidget(
             album, self.player, self._model,
             self.header_bar, self.selectionModeAllowed,

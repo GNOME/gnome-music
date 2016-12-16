@@ -209,11 +209,10 @@ class BaseView(Gtk.Stack):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
-        self.window.notification.set_timeout(0)
         if not item:
             if remaining == 0:
                 self.view.set_model(self.model)
-                self.window.notification.dismiss()
+                self.window.pop_loading_notification()
                 self.view.show()
             return
 

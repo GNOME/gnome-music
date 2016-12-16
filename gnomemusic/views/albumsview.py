@@ -123,7 +123,7 @@ class AlbumsView(BaseView):
 
     @log
     def populate(self):
-        self.window._init_loading_notification()
+        self.window.push_loading_notification()
         grilo.populate_albums(self._offset, self._add_item)
 
     @log
@@ -141,8 +141,6 @@ class AlbumsView(BaseView):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
-        self.window.notification.set_timeout(0)
-
         if item:
             # Store all items to optimize 'Select All' action
             self.all_items.append(item)
@@ -151,7 +149,7 @@ class AlbumsView(BaseView):
             child = self._create_album_item(item)
             self.view.add(child)
         elif remaining == 0:
-                self.window.notification.dismiss()
+                self.window.pop_loading_notification()
                 self.view.show()
 
     def _create_album_item(self, item):

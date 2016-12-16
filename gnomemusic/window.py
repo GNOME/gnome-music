@@ -81,6 +81,7 @@ class Window(Gtk.ApplicationWindow):
         self.set_size_request(200, 100)
         self.set_icon_name('gnome-music')
         self.notification_handler = None
+        self._loading_counter = 0
 
         self.prev_view = None
         self.curr_view = None
@@ -308,24 +309,6 @@ class Window(Gtk.ApplicationWindow):
         return False
 
     @log
-    def _init_loading_notification(self):
-        self.notification = Gd.Notification()
-        self.notification.set_timeout(5)
-        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_end=8)
-        grid.set_column_spacing(8)
-        spinner = Gtk.Spinner()
-        spinner.start()
-        grid.add(spinner)
-        label = Gtk.Label.new(_("Loading"))
-        grid.add(label)
-        self.notification.add(grid)
-        self._overlay.add_overlay(self.notification)
-        if self.notification_handler:
-            GLib.Source.remove(self.notification_handler)
-            self.notification_handler = None
-        self.notification_handler = GLib.timeout_add(1000, self._show_notification)
-
-    @log
     def _init_playlist_removal_notification(self):
         if self.pl_todelete_notification:
             self.views[3].really_delete = False
@@ -536,3 +519,36 @@ class Window(Gtk.ApplicationWindow):
             self.toolbar.set_selection_mode(False)
 
         self._stack.get_visible_child().get_selected_tracks(callback)
+
+    @log
+    def push_loading_notification(self):
+        """ Increases the counter of loading notification triggers
+        running. If there is no notification is visible, the loading
+        notification is started.
+        """
+        if self._loading_counter == 0:
+            self.notification = Gd.Notification()
+            self.notification.set_timeout(5)
+            grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_end=8)
+            grid.set_column_spacing(8)
+            spinner = Gtk.Spinner()
+            spinner.start()
+            grid.add(spinner)
+            label = Gtk.Label.new(_("Loading"))
+            grid.add(label)
+            self.notification.add(grid)
+            self._overlay.add_overlay(self.notification)
+            self.notification.show_all()
+
+        self._loading_counter = self._loading_counter + 1
+
+    @log
+    def pop_loading_notification(self):
+        """ Decreases the counter of loading notification triggers
+        running. If it reaches zero, the notification is withdrawn.
+        """
+        self._loading_counter = self._loading_counter - 1
+
+        if self._loading_counter == 0:
+            self.notification.dismiss()
+            self.notification = None
