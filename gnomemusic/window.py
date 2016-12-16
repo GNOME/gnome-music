@@ -29,9 +29,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-gi.require_version('Gd', '1.0')
-from gi.repository import Gtk, Gdk, Gio, GLib, Gd
+from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _, ngettext
 
 from gnomemusic import log
@@ -85,7 +83,6 @@ class Window(Gtk.ApplicationWindow):
 
         self.prev_view = None
         self.curr_view = None
-        self.pl_todelete_notification = None
 
         size_setting = self.settings.get_value('window-size')
         if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
@@ -102,6 +99,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._setup_view()
         self._setup_loading_notification()
+        self._setup_playlist_notification()
 
         self.window_size_update_timeout = None
         self.connect("window-state-event", self._on_window_state_event)
@@ -139,6 +137,64 @@ class Window(Gtk.ApplicationWindow):
         self._loading_notification.add(grid)
         self._loading_notification.show_all()
 
+    @log
+    def _setup_playlist_notification(self):
+        self._playlist_notification_timeout_id = 0
+        self._playlist_notification = Gtk.Revealer(halign=Gtk.Align.CENTER,
+                                                   valign=Gtk.Align.START)
+        self._playlist_notification.set_transition_type(
+                       Gtk.RevealerTransitionType.SLIDE_DOWN)
+        self._overlay.add_overlay(self._playlist_notification)
+
+        grid = Gtk.Grid(margin_bottom=18, margin_start=18, margin_end=18)
+        grid.set_column_spacing(12)
+        grid.get_style_context().add_class('app-notification')
+
+        def remove_notification_timeout(self):
+            # Remove the timeout if any
+            if self._playlist_notification_timeout_id > 0:
+                GLib.source_remove(self._playlist_notification_timeout_id)
+                self._playlist_notification_timeout_id = 0
+
+        # Hide the notification and delete the playlist
+        def hide_notification_cb(button, self):
+            self._playlist_notification.set_reveal_child(False)
+
+            if self.views[3].really_delete:
+                playlist.delete_playlist(self.views[3].pl_todelete)
+            else:
+                self.views[3].really_delete = True
+
+            remove_notification_timeout(self)
+
+        # Undo playlist removal
+        def undo_remove_cb(button, self):
+            self.views[3].really_delete = False
+            self._playlist_notification.set_reveal_child(False)
+            self.views[3].undo_playlist_deletion()
+
+            remove_notification_timeout(self)
+
+        # Playlist name label
+        self._playlist_notification.label = Gtk.Label('')
+        grid.add(self._playlist_notification.label)
+
+        # Undo button
+        undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
+        undo_button.connect("clicked", undo_remove_cb, self)
+        grid.add(undo_button)
+
+        # Close button
+        button = Gtk.Button.new_from_icon_name('window-close-symbolic',
+                                               Gtk.IconSize.BUTTON)
+        button.get_style_context().add_class('flat')
+        button.connect('clicked', hide_notification_cb, self)
+        grid.add(button)
+
+        self._playlist_notification.add(grid)
+        self._playlist_notification.show_all()
+
+    @log
     def _on_changes_pending(self, data=None):
         def songs_available_cb(available):
             if available:
@@ -335,45 +391,39 @@ class Window(Gtk.ApplicationWindow):
             view.select_none()
 
     @log
-    def _init_playlist_removal_notification(self):
-        if self.pl_todelete_notification:
+    def show_playlist_notification(self):
+        """Show a notification on playlist removal and provide an
+        option to undo for 5 seconds.
+        """
+
+        # Callback to remove playlists
+        def remove_playlist_timeout_cb(self):
+            # Remove the playlist
             self.views[3].really_delete = False
-            self.pl_todelete_notification.destroy()
             playlist.delete_playlist(self.views[3].pl_todelete)
 
-        self.notification = Gd.Notification()
-        self.notification.set_timeout(20)
+            # Hide the notification
+            self._playlist_notification.set_reveal_child(False)
 
-        grid = Gtk.Grid(valign=Gtk.Align.CENTER, margin_right=8)
-        grid.set_column_spacing(8)
-        self.notification.add(grid)
+            # Stop the timeout
+            self._playlist_notification_timeout_id = 0
 
-        undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
-        label = _("Playlist %s removed" % (
-            self.views[3].current_playlist.get_title()))
-        grid.add(Gtk.Label.new(label))
-        grid.add(undo_button)
+            return GLib.SOURCE_REMOVE
 
-        self.notification.show_all()
-        self._overlay.add_overlay(self.notification)
-        self.pl_todelete_notification = self.notification
+        # If a notification is already visible, remove that playlist
+        if self._playlist_notification_timeout_id > 0:
+            GLib.source_remove(self._playlist_notification_timeout_id)
+            remove_playlist_timeout_cb(self)
 
-        self.notification.connect("dismissed", self._playlist_removal_notification_dismissed)
-        undo_button.connect("clicked", self._undo_deletion)
+        playlist_title = self.views[3].current_playlist.get_title()
+        label = _("Playlist {} removed".format(playlist_title))
 
-    @log
-    def _playlist_removal_notification_dismissed(self, widget):
-        self.pl_todelete_notification = None
-        if self.views[3].really_delete:
-            playlist.delete_playlist(self.views[3].pl_todelete)
-        else:
-            self.views[3].really_delete = True
+        self._playlist_notification.label.set_label(label)
+        self._playlist_notification.set_reveal_child(True)
 
-    @log
-    def _undo_deletion(self, widget):
-        self.views[3].really_delete = False
-        self.notification.dismiss()
-        self.views[3].undo_playlist_deletion()
+        timeout_id = GLib.timeout_add_seconds(5, remove_playlist_timeout_cb,
+                                              self)
+        self._playlist_notification_timeout_id = timeout_id
 
     @log
     def _on_key_press(self, widget, event):

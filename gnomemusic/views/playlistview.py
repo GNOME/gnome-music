@@ -458,7 +458,7 @@ class PlaylistView(BaseView):
 
     @log
     def _on_delete_activate(self, menuitem, data=None):
-        self.window._init_playlist_removal_notification()
+        self.window.show_playlist_notification()
         self.stage_playlist_for_deletion()
 
     @log
