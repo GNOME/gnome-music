@@ -602,8 +602,16 @@ class Window(Gtk.ApplicationWindow):
         running. If there is no notification is visible, the loading
         notification is started.
         """
-        if self._loading_counter == 0:
+        def show_notification_cb(self):
             self._loading_notification.set_reveal_child(True)
+            self._show_notification_timeout_id = 0
+            return GLib.SOURCE_REMOVE
+
+        if self._loading_counter == 0:
+            # Only show the notification after a small delay, thus
+            # add a timeout. 500ms feels good enough.
+            self._show_notification_timeout_id = GLib.timeout_add(
+                    500, show_notification_cb, self)
 
         self._loading_counter = self._loading_counter + 1
 
@@ -615,4 +623,9 @@ class Window(Gtk.ApplicationWindow):
         self._loading_counter = self._loading_counter - 1
 
         if self._loading_counter == 0:
+            # Remove the previously set timeout, if any
+            if self._show_notification_timeout_id > 0:
+                GLib.source_remove(self._show_notification_timeout_id)
+                self._show_notification_timeout_id = 0
+
             self._loading_notification.set_reveal_child(False)
