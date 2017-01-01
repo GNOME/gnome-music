@@ -39,9 +39,27 @@ class PlaylistDialog():
     def __init__(self, parent):
         self.ui = Gtk.Builder()
         self.ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
-        self.dialog_box = self.ui.get_object('dialog1')
-        self.dialog_box.set_transient_for(parent)
+        self._add_playlist_stack = self.ui.get_object('add_playlist_stack')
 
+        self._dialog_box = self.ui.get_object('dialog')
+        self._dialog_box.set_transient_for(parent)
+        self._normal_state = self.ui.get_object('normal_state')
+        self._empty_state = self.ui.get_object('empty_state')
+        self._title_bar = self.ui.get_object('headerbar1')
+        self._dialog_box.set_titlebar(self._title_bar)
+        self._setup_dialog()
+        self.playlist = Playlists.get_default()
+
+    @log
+    def run(self):
+        return self._dialog_box.run()
+
+    @log
+    def destroy(self):
+        return self._dialog_box.destroy()
+
+    @log
+    def _setup_dialog(self):
         self.view = self.ui.get_object('treeview1')
         self.view.set_activate_on_single_click(False)
         self.selection = self.ui.get_object('treeview-selection1')
@@ -52,28 +70,40 @@ class PlaylistDialog():
         self.model = self.ui.get_object('liststore1')
         self.populate()
 
-        self.title_bar = self.ui.get_object('headerbar1')
-        self.dialog_box.set_titlebar(self.title_bar)
-
         self._cancel_button = self.ui.get_object('cancel-button')
         self._select_button = self.ui.get_object('select-button')
         self._select_button.set_sensitive(False)
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
-        self._new_playlist_button = self.ui.get_object('new-playlist-button')
-        self._new_playlist_button.connect('clicked', self._on_editing_done)
+        def playlists_available_cb(available):
+            if available:
+                self._add_playlist_stack.set_visible_child(self._normal_state)
+                self._new_playlist_button = self.ui.get_object(
+                    'new-playlist-button')
+                self._new_playlist_entry = self.ui.get_object(
+                    'new-playlist-entry')
+            else:
+                self._add_playlist_stack.set_visible_child(self._empty_state)
+                self._new_playlist_button = self.ui.get_object(
+                        'create-first-playlist-button')
+                self._new_playlist_entry = self.ui.get_object(
+                        'first-playlist-entry')
 
-        self._new_playlist_entry = self.ui.get_object('new-playlist-entry')
-        self._new_playlist_entry.connect('changed',
-                                         self._on_new_playlist_entry_changed)
-        self._new_playlist_entry.connect('activate',
-                                         self._on_editing_done)
-        self._new_playlist_entry.connect('focus-in-event',
-                                         self._on_new_playlist_entry_focused)
+            self._new_playlist_button.set_sensitive(False);
+            self._new_playlist_button.connect('clicked',
+                    self._on_editing_done)
 
-        self.playlist = Playlists.get_default()
-        self.playlist.connect('playlist-created', self._on_playlist_created)
+            self._new_playlist_entry.connect('changed',
+                self._on_new_playlist_entry_changed)
+            self._new_playlist_entry.connect('activate',
+                                             self._on_editing_done)
+            self._new_playlist_entry.connect('focus-in-event',
+                self._on_new_playlist_entry_focused)
+
+            self.playlist.connect('playlist-created', self._on_playlist_created)
+
+        grilo.playlists_available(playlists_available_cb)
 
     @log
     def get_selected(self):
@@ -133,11 +163,11 @@ class PlaylistDialog():
 
     @log
     def _on_selection(self, select_button):
-        self.dialog_box.response(Gtk.ResponseType.ACCEPT)
+        self._dialog_box.response(Gtk.ResponseType.ACCEPT)
 
     @log
     def _on_cancel_button_clicked(self, cancel_button):
-        self.dialog_box.response(Gtk.ResponseType.REJECT)
+        self._dialog_box.response(Gtk.ResponseType.REJECT)
 
     @log
     def _on_item_activated(self, view, path, column):
@@ -147,7 +177,7 @@ class PlaylistDialog():
         if self.model.get_value(_iter, 1):
             self.view.set_cursor(path, column, True)
         else:
-            self.dialog_box.response(Gtk.ResponseType.ACCEPT)
+            self._dialog_box.response(Gtk.ResponseType.ACCEPT)
 
     @log
     def _on_selection_changed(self, selection):
@@ -172,7 +202,7 @@ class PlaylistDialog():
                                  self.view.get_columns()[0], False)
             self.view.row_activated(self.model.get_path(new_iter),
                                     self.view.get_columns()[0])
-            self.dialog_box.response(Gtk.ResponseType.ACCEPT)
+            self._dialog_box.response(Gtk.ResponseType.ACCEPT)
 
     @log
     def _on_new_playlist_entry_changed(self, editable, data=None):

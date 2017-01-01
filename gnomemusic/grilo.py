@@ -443,4 +443,45 @@ class Grilo(GObject.GObject):
         self.sparqltracker.query_async(Query.all_songs_count(), None,
                                        songs_query_cb, None)
 
+    @log
+    def playlists_available(self, callback):
+        """Checks if there are any non-static playlists available
+
+        Calls a callback function with True or False depending on the
+        availability of playlists.
+        :param callback: Function to call on result
+        """
+        def cursor_next_cb(conn, res, data):
+            try:
+                has_next = conn.next_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                callback(False)
+                return
+
+            if has_next:
+                count = conn.get_integer(0)
+
+                if count > 0:
+                    callback(True)
+                    return
+
+            callback(False)
+
+        def playlists_query_cb(conn, res, data):
+            try:
+                cursor = conn.query_finish(res)
+            except GLib.Error as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+                callback(False)
+                return
+
+            cursor.next_async(None, cursor_next_cb, None)
+
+        # TODO: currently just checks tracker, should work with any
+        # queryable supported Grilo source.
+        self.sparqltracker.query_async(
+                Query.all_non_static_playlists_count(),
+                None, playlists_query_cb, None)
+
 grilo = Grilo()
