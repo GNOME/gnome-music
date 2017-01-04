@@ -474,7 +474,7 @@ class DiscListBox(Gtk.Box):
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
-            child.get_child().select_all()
+            child.select_all()
 
         self.foreach(child_select_all)
 
@@ -482,7 +482,7 @@ class DiscListBox(Gtk.Box):
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
-            child.get_child().select_none()
+            child.select_none()
 
         self.foreach(child_select_none)
 
