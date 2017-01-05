@@ -87,6 +87,18 @@ class ArtistsView(BaseView):
             grilo.changes_pending['Artists'] = False
 
     @log
+    def _set_selection(self, value, parent=None):
+        count = 0
+        _iter = self.model.iter_children(parent)
+        while _iter is not None:
+            if self.model.iter_has_child(_iter):
+                count += self._set_selection(value, _iter)
+            self.model[_iter][6] = value
+            count += 1
+            _iter = self.model.iter_next(_iter)
+        return count
+
+    @log
     def _add_list_renderers(self):
         list_widget = self.view.get_generic_view()
         cols = list_widget.get_columns()
