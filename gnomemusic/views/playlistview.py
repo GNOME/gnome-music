@@ -124,7 +124,6 @@ class PlaylistView(BaseView):
         self._current_playlist_index = None
         self.pl_todelete = None
         self._pl_todelete_index = None
-        self.really_delete = True
         self._songs_count = 0
 
         self._update_songs_count()

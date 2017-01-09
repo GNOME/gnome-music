@@ -114,9 +114,6 @@ class Window(Gtk.ApplicationWindow):
                                  Gtk.RevealerTransitionType.SLIDE_DOWN)
         self._overlay.add_overlay(self._loading_notification)
 
-        def hide_notification_cb(button, self):
-            self._loading_notification.set_reveal_child(False)
-
         grid = Gtk.Grid(margin_bottom=18, margin_start=18, margin_end=18)
         grid.set_column_spacing(18)
         grid.get_style_context().add_class('app-notification')
@@ -127,12 +124,6 @@ class Window(Gtk.ApplicationWindow):
 
         label = Gtk.Label.new(_("Loading"))
         grid.add(label)
-
-        button = Gtk.Button.new_from_icon_name('window-close-symbolic',
-                                               Gtk.IconSize.BUTTON)
-        button.get_style_context().add_class('flat')
-        button.connect('clicked', hide_notification_cb, self)
-        grid.add(button)
 
         self._loading_notification.add(grid)
         self._loading_notification.show_all()
@@ -156,20 +147,8 @@ class Window(Gtk.ApplicationWindow):
                 GLib.source_remove(self._playlist_notification_timeout_id)
                 self._playlist_notification_timeout_id = 0
 
-        # Hide the notification and delete the playlist
-        def hide_notification_cb(button, self):
-            self._playlist_notification.set_reveal_child(False)
-
-            if self.views[3].really_delete:
-                playlist.delete_playlist(self.views[3].pl_todelete)
-            else:
-                self.views[3].really_delete = True
-
-            remove_notification_timeout(self)
-
         # Undo playlist removal
         def undo_remove_cb(button, self):
-            self.views[3].really_delete = False
             self._playlist_notification.set_reveal_child(False)
             self.views[3].undo_playlist_deletion()
 
@@ -183,13 +162,6 @@ class Window(Gtk.ApplicationWindow):
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
         undo_button.connect("clicked", undo_remove_cb, self)
         grid.add(undo_button)
-
-        # Close button
-        button = Gtk.Button.new_from_icon_name('window-close-symbolic',
-                                               Gtk.IconSize.BUTTON)
-        button.get_style_context().add_class('flat')
-        button.connect('clicked', hide_notification_cb, self)
-        grid.add(button)
 
         self._playlist_notification.add(grid)
         self._playlist_notification.show_all()
@@ -399,7 +371,6 @@ class Window(Gtk.ApplicationWindow):
         # Callback to remove playlists
         def remove_playlist_timeout_cb(self):
             # Remove the playlist
-            self.views[3].really_delete = False
             playlist.delete_playlist(self.views[3].pl_todelete)
 
             # Hide the notification
