@@ -26,6 +26,7 @@ from gettext import gettext as _
 from gi.repository import Gd, Gtk
 
 from gnomemusic import log
+from gnomemusic.toolbar import ToolbarState
 from gnomemusic.views.baseview import BaseView
 
 
