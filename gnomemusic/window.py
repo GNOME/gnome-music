@@ -474,6 +474,17 @@ class Window(Gtk.ApplicationWindow):
             self.toolbar.searchbar.show_bar(True)
 
     @log
+    def do_button_release_event(self, event):
+        """Override default button release event
+
+        :param Gdk.EventButton event: Button event
+        """
+        __, code = event.get_button()
+        # Mouse button 8 is the navigation button
+        if code == 8:
+            self.toolbar.on_back_button_clicked()
+
+    @log
     def _notify_mode_disconnect(self, data=None):
         self.player.Stop()
         self._stack.disconnect(self._on_notify_model_id)
