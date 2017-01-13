@@ -123,7 +123,7 @@ class Toolbar(GObject.GObject):
         self._update()
 
     @log
-    def on_back_button_clicked(self, widget):
+    def on_back_button_clicked(self, widget=None):
         self._window = self.header_bar.get_parent()
         visible_child = self._window.curr_view.get_visible_child()
 

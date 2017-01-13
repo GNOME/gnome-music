@@ -435,9 +435,7 @@ class Window(Gtk.ApplicationWindow):
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left and
                     event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
-                if (self.toolbar._state != ToolbarState.MAIN):
-                    self.curr_view.set_visible_child(self.curr_view._grid)
-                    self.toolbar.set_state(ToolbarState.MAIN)
+                self.toolbar.on_back_button_clicked()
             # Go to Albums view on Ctrl + 1
             if (event.keyval == Gdk.KEY_1
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
