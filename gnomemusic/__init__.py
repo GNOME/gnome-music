@@ -25,17 +25,26 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from itertools import chain
+from time import time
+import logging
+
 import gi
 gi.require_version('Tracker', '1.0')
 from gi.repository import Tracker
-from itertools import chain
-import logging
-import time
+
 logger = logging.getLogger(__name__)
 tabbing = 0
 
 
 def log(fn):
+    """Decorator to log function details.
+
+    Shows function signature, return value, time elapsed, etc.
+    Logging will be done if the debug flag is set.
+    :param fn: the function to be decorated
+    :return: function wrapped for logging
+    """
     if logger.getEffectiveLevel() > logging.DEBUG:
         return fn
 
@@ -48,21 +57,23 @@ def log(fn):
         params = ", ".join(map(repr, chain(v, k.values())))
 
         if 'rateLimitedFunction' not in name:
-            logger.debug("%s%s(%s)[%s:%s]",
-                         '|' * tabbing, name, params, filename, lineno,)
+            logger.debug("%s%s(%s)[%s:%s]", '|' * tabbing, name, params,
+                         filename, lineno)
         tabbing += 1
-        start = time.time()
+        start = time()
         retval = fn(*v, **k)
-        elapsed = time.time() - start
+        elapsed = time() - start
         tabbing -= 1
         elapsed_time = ''
         if elapsed > 0.1:
             elapsed_time = ', took %02f' % elapsed
-        if elapsed_time or retval is not None:
+        if (elapsed_time
+                or retval is not None):
             if 'rateLimitedFunction' not in name:
-                logger.debug("%s  returned %s%s", '|' * tabbing, repr(retval), elapsed_time)
-
+                logger.debug("%s  returned %s%s", '|' * tabbing, repr(retval),
+                             elapsed_time)
         return retval
+
     return wrapped
 
 
@@ -73,16 +84,18 @@ class TrackerWrapper:
                 self.tracker = Tracker.SparqlConnection.get(None)
             except Exception as e:
                 from sys import exit
-                logger.error("Cannot connect to tracker, error '%s'\Exiting", str(e))
+                logger.error("Cannot connect to tracker, error '%s'\Exiting",
+                             str(e))
                 exit(1)
 
         def __str__(self):
             return repr(self)
-    instance = None
+
+    _instance = None
 
     def __init__(self):
-        if not TrackerWrapper.instance:
-            TrackerWrapper.instance = TrackerWrapper.__TrackerWrapper()
+        if not TrackerWrapper._instance:
+            TrackerWrapper._instance = TrackerWrapper.__TrackerWrapper()
 
     def __getattr__(self, name):
-        return getattr(self.instance, name)
+        return getattr(self._instance, name)
