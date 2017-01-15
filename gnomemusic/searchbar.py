@@ -80,7 +80,8 @@ class BaseManager:
         if selected_id == "":
             return
 
-        selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
+        selected_value = [x for x in self.values if x[
+            BaseModelColumns.ID] == selected_id]
         if selected_value != []:
             selected_value = selected_value[0]
             self.selected_id = selected_value[BaseModelColumns.ID]
@@ -88,7 +89,8 @@ class BaseManager:
             # If selected values has first entry then it is a default value
             # No need to set the tag there
             if (selected_value[BaseModelColumns.ID] != 'search_all' and
-                    selected_value[BaseModelColumns.ID] != 'grl-tracker-source'):
+                    selected_value[
+                        BaseModelColumns.ID] != 'grl-tracker-source'):
                 self.tag.set_label(selected_value[BaseModelColumns.NAME])
                 self.entry.add_tag(self.tag)
             else:
@@ -162,25 +164,33 @@ class FilterView():
         col = Gtk.TreeViewColumn()
         self.view.append_column(col)
 
-        self._rendererHeading = Gtk.CellRendererText(weight=Pango.Weight.BOLD, weight_set=True)
+        self._rendererHeading = Gtk.CellRendererText(
+            weight=Pango.Weight.BOLD, weight_set=True)
         col.pack_start(self._rendererHeading, False)
-        col.add_attribute(self._rendererHeading, 'text', BaseModelColumns.HEADING_TEXT)
-        col.set_cell_data_func(self._rendererHeading, self._visibilityForHeading, True)
+        col.add_attribute(self._rendererHeading,
+            'text', BaseModelColumns.HEADING_TEXT)
+        col.set_cell_data_func(self._rendererHeading, 
+            self._visibilityForHeading, True)
 
-        self._rendererRadio = Gtk.CellRendererToggle(radio=True, mode=Gtk.CellRendererMode.INERT)
+        self._rendererRadio = Gtk.CellRendererToggle(
+            radio=True, mode=Gtk.CellRendererMode.INERT)
         col.pack_start(self._rendererRadio, False)
-        col.set_cell_data_func(self._rendererRadio, self._visibilityForHeading, [False, self._render_radio])
+        col.set_cell_data_func(self._rendererRadio,
+             self._visibilityForHeading, [False, self._render_radio])
 
         self._rendererText = Gtk.CellRendererText()
         col.pack_start(self._rendererText, True)
-        col.add_attribute(self._rendererText, 'text', BaseModelColumns.NAME)
-        col.set_cell_data_func(self._rendererText, self._visibilityForHeading, False)
+        col.add_attribute(self._rendererText,
+             'text', BaseModelColumns.NAME)
+        col.set_cell_data_func(self._rendererText,
+             self._visibilityForHeading, False)
 
         self.view.show()
 
     @log
     def _row_activated(self, view, path, col):
-        id = self.model.get_value(self.model.get_iter(path), BaseModelColumns.ID)
+        id = self.model.get_value(self.model.get_iter(path),
+             BaseModelColumns.ID)
         self.dropdown.do_select(self.manager, id)
         self.manager.entry.emit('changed')
 
@@ -190,13 +200,15 @@ class FilterView():
         cell.set_active(self.manager.get_active() == id)
 
     @log
-    def _visibilityForHeading(self, col, cell, model, _iter, additional_arguments):
+    def _visibilityForHeading(self, col, cell, model, _iter,
+         additional_arguments):
         additionalFunc = None
         visible = additional_arguments
         if isinstance(additional_arguments, list):
             visible = additional_arguments[0]
             additionalFunc = additional_arguments[1]
-        cell.set_visible(visible == (model[_iter][BaseModelColumns.HEADING_TEXT] != ""))
+        cell.set_visible(visible == (model[_iter][
+            BaseModelColumns.HEADING_TEXT] != ""))
         if additionalFunc:
             additionalFunc(col, cell, model, _iter)
 
@@ -208,7 +220,8 @@ class DropDown(Gtk.Revealer):
 
     @log
     def __init__(self):
-        Gtk.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
+        Gtk.Revealer.__init__(self, halign=Gtk.Align.CENTER,
+             valign=Gtk.Align.START)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -221,14 +234,16 @@ class DropDown(Gtk.Revealer):
 
     @log
     def initialize_filters(self, searchbar):
-        self.sourcesManager = SourceManager('source', _("Sources"), searchbar._search_entry)
+        self.sourcesManager = SourceManager('source', _("Sources"),
+             searchbar._search_entry)
         self.sourcesFilter = FilterView(self.sourcesManager, self)
         self._grid.add(self.sourcesFilter.view)
 
         grilo.connect('new-source-added', self.sourcesManager.add_new_source)
         grilo._find_sources()
 
-        self.searchFieldsManager = BaseManager('search', _("Match"), searchbar._search_entry)
+        self.searchFieldsManager = BaseManager('search',
+             _("Match"), searchbar._search_entry)
         self.searchFieldsFilter = FilterView(self.searchFieldsManager, self)
         self._grid.add(self.searchFieldsFilter.view)
 
@@ -242,7 +257,8 @@ class DropDown(Gtk.Revealer):
     def do_select(self, manager, id):
         manager.set_active(id)
         if manager == self.sourcesManager:
-            self.searchFieldsFilter.view.set_sensitive(id == 'grl-tracker-source')
+            self.searchFieldsFilter.view.set_sensitive(
+                id == 'grl-tracker-source')
 
 
 class Searchbar(Gtk.SearchBar):
@@ -257,10 +273,12 @@ class Searchbar(Gtk.SearchBar):
         self.stack_switcher = stack_switcher
         self._search_button = search_button
         self.dropdown = dropdown
-        self._searchContainer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
+        self._searchContainer = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
         self._searchContainer.get_style_context().add_class('linked')
 
-        self._search_entry = Gd.TaggedEntry(width_request=500, halign=Gtk.Align.CENTER)
+        self._search_entry = Gd.TaggedEntry(width_request=500,
+             halign=Gtk.Align.CENTER)
         self._search_entry.connect("changed", self.search_entry_timeout)
         self._search_entry.show()
         self._searchContainer.add(self._search_entry)
@@ -270,11 +288,13 @@ class Searchbar(Gtk.SearchBar):
         self._dropDownButton = Gtk.ToggleButton()
         self._dropDownButton.add(arrow)
         self._dropDownButton.get_style_context().add_class('image-button')
-        self._dropDownButton.connect("toggled", self._drop_down_button_toggled)
+        self._dropDownButton.connect("toggled",
+             self._drop_down_button_toggled)
         self._dropDownButton.show_all()
         self._searchContainer.add(self._dropDownButton)
 
-        self._search_entry.connect("tag-button-clicked", self._search_entry_tag_button_clicked)
+        self._search_entry.connect("tag-button-clicked",
+             self._search_entry_tag_button_clicked)
 
         self._searchContainer.show_all()
         self.add(self._searchContainer)
@@ -292,7 +312,8 @@ class Searchbar(Gtk.SearchBar):
     def search_entry_timeout(self, widget):
         if self.timeout:
             GLib.source_remove(self.timeout)
-        self.timeout = GLib.timeout_add(500, self.search_entry_changed, widget)
+        self.timeout = GLib.timeout_add(500,
+             self.search_entry_changed, widget)
 
     @log
     def search_entry_changed(self, widget):
