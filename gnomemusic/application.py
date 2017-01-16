@@ -70,7 +70,6 @@ class Application(Gtk.Application):
         actionEntries = [
             ('about', self.about),
             ('help', self.help),
-            ('newPlaylist', self.new_playlist),
             ('quit', self.quit),
         ]
 
@@ -78,10 +77,6 @@ class Application(Gtk.Application):
             simpleAction = Gio.SimpleAction.new(action, None)
             simpleAction.connect('activate', callback)
             self.add_action(simpleAction)
-
-    @log
-    def new_playlist(self, action, param):
-        pass
 
     @log
     def help(self, action, param):
