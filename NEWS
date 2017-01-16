@@ -1,3 +1,33 @@
+Overview of changes in 3.23.4
+=============================
+
+* Revamp notifications and drop GdNotification
+* More cleanups
+
+Bugs fixed:
+ 776157 Improve notifications' interaction
+ 776849 Gnome-music crashes on clicking "select all" in album
+ 777127 Pressing back after no search results from single album view leads to
+        force close
+ 777235 Pressing back button when searching through a subview, should turn
+        search off and go back
+ 777216 PEP 8 fix : __init__.py
+ 776673 Recompile resources when builddir is not same as srcdir
+ 772975 In a playlist repeatSong/shuffle/repeatSong take effect from the next
+        song
+
+Thanks to our contributors this release:
+ Abhinav Singh
+ Alberto Fanjul
+ Georges Basile Stavracas Neto
+ Marinus Schraal
+ Sambhav Kothari
+
+Translations updated:
+ Finnish
+ Kazakh
+ Spanish
+
 Overview of changes in 3.23.3
 =============================
 

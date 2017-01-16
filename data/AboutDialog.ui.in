@@ -20,7 +20,9 @@ The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer
 
 “Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403
 </property>
-    <property name="authors">Arnel A. Borja
+    <property name="authors">Abhinav Singh
+Alberto Fanjul
+Arnel A. Borja
 Billy Barrow
 Carlos Garnacho
 Clayton G. Hobbs
