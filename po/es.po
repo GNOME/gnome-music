@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the gnome-music package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014, 2015., 2016.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012, 2013, 2014, 2015., 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-11-10 13:03+0000\n"
-"PO-Revision-Date: 2016-12-20 16:45+0100\n"
+"POT-Creation-Date: 2016-12-31 12:50+0000\n"
+"PO-Revision-Date: 2017-01-11 09:39+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -51,11 +51,6 @@ msgstr "Modo de repetición de la reproducción"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: ../data/org.gnome.Music.gschema.xml.h:9
-#| msgid ""
-#| "Value identifies whether to repeat or randomize playback through the "
-#| "collection. Allowed values are: \"none\" (repeat and shuffle are off), "
-#| "\"song\" (repeat current song), \"all\" (repeat playlist, no shuffle), "
-#| "\"shuffle\" (shuffle playlist, presumes repeat all)."
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -102,7 +97,7 @@ msgstr "Establecer a cierto cuando se haya mostrado el estado inicial"
 
 #: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
 #: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:70 ../data/AboutDialog.ui.in.h:1
+#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Música"
 
@@ -130,11 +125,11 @@ msgstr "Música es la nueva aplicación de GNOME para reproducir música."
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:556
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
 msgid "Pause"
 msgstr "Pausar"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:559
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Reproducir"
@@ -143,29 +138,29 @@ msgstr "Reproducir"
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../gnomemusic/player.py:1074
+#: ../gnomemusic/player.py:1129
 msgid "Unable to play the file"
 msgstr "No se puede reproducir el archivo"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1079
+#: ../gnomemusic/player.py:1134
 #, python-format
 msgid "_Find in %s"
 msgstr "_Buscar en %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1089
+#: ../gnomemusic/player.py:1144
 msgid " and "
 msgstr " y "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1092
+#: ../gnomemusic/player.py:1147
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1093
+#: ../gnomemusic/player.py:1148
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -205,39 +200,39 @@ msgstr "Canciones favoritas"
 #. regardless of language because they are so universal.
 #. If some articles occur more frequently than others, the most
 #. common one should appear first, the least common one last.
-#: ../gnomemusic/query.py:93
+#: ../gnomemusic/query.py:90
 msgid "the|a|an"
 msgstr "el|la|los|las|un|una"
 
-#: ../gnomemusic/searchbar.py:62 ../gnomemusic/searchbar.py:110
+#: ../gnomemusic/searchbar.py:63 ../gnomemusic/searchbar.py:111
 msgid "All"
 msgstr "Todas"
 
-#: ../gnomemusic/searchbar.py:63
+#: ../gnomemusic/searchbar.py:64
 msgid "Artist"
 msgstr "Artista"
 
-#: ../gnomemusic/searchbar.py:64
+#: ../gnomemusic/searchbar.py:65
 msgid "Album"
 msgstr "Álbum"
 
-#: ../gnomemusic/searchbar.py:65 ../data/AlbumWidget.ui.h:3
+#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
 msgid "Composer"
 msgstr "Compositor"
 
-#: ../gnomemusic/searchbar.py:66
+#: ../gnomemusic/searchbar.py:67
 msgid "Track Title"
 msgstr "Título de la pista"
 
-#: ../gnomemusic/searchbar.py:111
+#: ../gnomemusic/searchbar.py:112
 msgid "Local"
 msgstr "Local"
 
-#: ../gnomemusic/searchbar.py:223
+#: ../gnomemusic/searchbar.py:224
 msgid "Sources"
 msgstr "Fuentes"
 
-#: ../gnomemusic/searchbar.py:230
+#: ../gnomemusic/searchbar.py:231
 msgid "Match"
 msgstr "Coincidencia"
 
@@ -249,26 +244,26 @@ msgstr "Artista desconocido"
 msgid "Untitled"
 msgstr "Sin título"
 
-#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:453
+#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:452
 msgid "Albums"
 msgstr "Álbumes"
 
-#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:454
+#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:453
 msgid "Artists"
 msgstr "Artistas"
 
-#: ../gnomemusic/views/baseview.py:191
+#: ../gnomemusic/views/baseview.py:193
 #: ../gnomemusic/widgets/albumwidget.py:197
-#: ../gnomemusic/widgets/artistalbumswidget.py:208
+#: ../gnomemusic/widgets/artistalbumswidget.py:207
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d elemento seleccionado"
 msgstr[1] "%d elementos seleccionados"
 
-#: ../gnomemusic/views/baseview.py:193 ../gnomemusic/views/baseview.py:298
+#: ../gnomemusic/views/baseview.py:195 ../gnomemusic/views/baseview.py:299
 #: ../gnomemusic/widgets/albumwidget.py:201
-#: ../gnomemusic/widgets/artistalbumswidget.py:210 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/artistalbumswidget.py:209 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Pulse sobre los elementos para seleccionarlos"
 
@@ -285,18 +280,18 @@ msgid "Hey DJ"
 msgstr "Hola Dj"
 
 #: ../gnomemusic/views/playlistview.py:51
-#: ../gnomemusic/views/searchview.py:456
+#: ../gnomemusic/views/searchview.py:455
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: ../gnomemusic/views/playlistview.py:409
+#: ../gnomemusic/views/playlistview.py:408
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d canción"
 msgstr[1] "%d canciones"
 
-#: ../gnomemusic/views/searchview.py:455 ../gnomemusic/views/songsview.py:43
+#: ../gnomemusic/views/searchview.py:454 ../gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "Canciones"
 
@@ -306,29 +301,29 @@ msgstr "Canciones"
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets/disclistboxwidget.py:193
+#: ../gnomemusic/widgets/disclistboxwidget.py:192
 msgid "Disc {}"
 msgstr "Disco {}"
 
-#: ../gnomemusic/window.py:264
-msgid "Empty"
-msgstr "Vacío"
-
-#: ../gnomemusic/window.py:328
+#: ../gnomemusic/window.py:128
 msgid "Loading"
 msgstr "Cargando"
 
-#: ../gnomemusic/window.py:351
+#. Undo button
+#: ../gnomemusic/window.py:183
 msgid "_Undo"
 msgstr "_Deshacer"
 
-#: ../gnomemusic/window.py:352
-#, python-format
-msgid "Playlist %s removed"
-msgstr "Lista de reproducción %s eliminada"
+#: ../gnomemusic/window.py:342
+msgid "Empty"
+msgstr "Vacío"
+
+#: ../gnomemusic/window.py:419
+#| msgid "Playlist %s removed"
+msgid "Playlist {} removed"
+msgstr "Lista de reproducción {} eliminada"
 
 #: ../data/AboutDialog.ui.in.h:2
-#| msgid "Copyright © 2013 GNOME Music Developers"
 msgid "Copyright © 2016 GNOME Music Developers"
 msgstr "Copyright © 2016 Desarrolladores de GNOME Music"
 
@@ -341,31 +336,6 @@ msgid "Visit GNOME Music website"
 msgstr "Visitar la página web de GNOME Music"
 
 #: ../data/AboutDialog.ui.in.h:5
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version.\n"
-#| "\n"
-#| "\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#| "https://www.flickr.com/photos/_spy_/12270839403\n"
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -457,7 +427,6 @@ msgid "Select"
 msgstr "Seleccionar"
 
 #: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
-#| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -598,12 +567,10 @@ msgid "New Playlist"
 msgstr "Lista de reproducción nueva"
 
 #: ../data/SelectionToolbar.ui.h:1
-#| msgid "Add to Playlist"
 msgid "_Add to Playlist"
 msgstr "Añadir a la _lista de reproducción"
 
 #: ../data/SelectionToolbar.ui.h:2
-#| msgid "Remove from Playlist"
 msgid "_Remove from Playlist"
 msgstr "Quita_r de la lista de reproducción"
 
