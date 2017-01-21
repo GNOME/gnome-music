@@ -867,8 +867,10 @@ class Player(GObject.GObject):
         padding = self.progressScale.get_style_context().get_padding(
             Gtk.StateFlags.NORMAL)
         width -= padding.left + padding.right
-        duration = self.player.query_duration(Gst.Format.TIME)[1] / 10**9
-        timeout_period = min(1000 * duration // width, 1000)
+        success, duration = self.player.query_duration(Gst.Format.TIME)
+        timeout_period = 1000
+        if success:
+            timeout_period = min(1000 * (duration / 10**9) // width, 1000)
 
         if self.timeout:
             GLib.source_remove(self.timeout)
