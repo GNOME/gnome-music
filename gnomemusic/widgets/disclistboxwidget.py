@@ -143,7 +143,7 @@ class DiscBox(Gtk.Box):
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'selection-toggle': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'track-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
+        'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
 
     }
 
@@ -237,16 +237,16 @@ class DiscBox(Gtk.Box):
         self._disc_songs_flowbox.foreach(child_show_song_number)
 
     @log
-    def set_tracks(self, tracks):
+    def set_songs(self, songs):
         """Songs to display
 
-        :param list tracks: A list of Grilo media items to
+        :param list songs: A list of Grilo media items to
         add to the widget
         """
-        for track in tracks:
-            song_widget = self._create_song_widget(track)
+        for song in songs:
+            song_widget = self._create_song_widget(song)
             self._disc_songs_flowbox.insert(song_widget, -1)
-            track.song_widget = song_widget
+            song.song_widget = song_widget
 
     @log
     def set_selection_mode(self, selection_mode):
@@ -298,11 +298,11 @@ class DiscBox(Gtk.Box):
         self._disc_songs_flowbox.foreach(child_select_none)
 
     @log
-    def _create_song_widget(self, track):
+    def _create_song_widget(self, song):
         """Helper function to create a song widget for a
         single song
 
-        :param track: A Grilo media item
+        :param song: A Grilo media item
         :returns: A complete song widget
         :rtype: Gtk.EventBox
         """
@@ -311,21 +311,21 @@ class DiscBox(Gtk.Box):
         song_widget = builder.get_object('eventbox1')
         self._songs.append(song_widget)
 
-        title = utils.get_media_title(track)
+        title = utils.get_media_title(song)
 
         itr = self._model.append(None)
 
-        self._model[itr][0, 1, 2, 5, 6] = [title, '', '', track, False]
+        self._model[itr][0, 1, 2, 5, 6] = [title, '', '', song, False]
 
         song_widget.itr = itr
         song_widget.model = self._model
 
-        track_number = track.get_track_number()
-        if track_number == 0:
-            track_number = ""
+        song_number = song.get_track_number()
+        if song_number == 0:
+            song_number = ""
         song_widget.number = builder.get_object('num')
         song_widget.number.set_markup(
-            '<span color=\'grey\'>{}</span>'.format(track_number))
+            '<span color=\'grey\'>{}</span>'.format(song_number))
         song_widget.number.set_no_show_all(True)
 
         song_widget.title = builder.get_object('title')
@@ -333,7 +333,7 @@ class DiscBox(Gtk.Box):
         song_widget.title.set_max_width_chars(50)
 
         song_widget.duration = builder.get_object('duration')
-        time = utils.seconds_to_string(track.get_duration())
+        time = utils.seconds_to_string(song.get_duration())
         song_widget.duration.set_text(time)
 
         song_widget.check_button = builder.get_object('select')
@@ -348,10 +348,10 @@ class DiscBox(Gtk.Box):
             Gtk.IconSize.SMALL_TOOLBAR)
         song_widget.now_playing_sign.set_no_show_all(True)
         song_widget.can_be_played = True
-        song_widget.connect('button-release-event', self._track_activated)
+        song_widget.connect('button-release-event', self._song_activated)
 
         song_widget.star_image = builder.get_object('starimage')
-        song_widget.star_image.set_favorite(track.get_favourite())
+        song_widget.star_image.set_favorite(song.get_favourite())
         song_widget.star_image.set_visible(True)
 
         song_widget.starevent = builder.get_object('starevent')
@@ -390,13 +390,13 @@ class DiscBox(Gtk.Box):
                 song_widget.check_button.set_active(False)
 
     @log
-    def _track_activated(self, widget, event):
+    def _song_activated(self, widget, event):
         # FIXME: don't think keys work correctly, if they did ever
         # even.
         if (not event.button == Gdk.BUTTON_SECONDARY
                 or (event.button == Gdk.BUTTON_PRIMARY
                     and event.state & Gdk.ModifierType.CONTROL_MASK)):
-            self.emit('track-activated', widget)
+            self.emit('song-activated', widget)
             if self._selection_mode:
                 itr = widget.itr
                 self._model[itr][6] = not self._model[itr][6]

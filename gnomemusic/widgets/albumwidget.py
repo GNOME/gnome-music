@@ -58,7 +58,7 @@ class AlbumWidget(Gtk.EventBox):
         """
         Gtk.EventBox.__init__(self)
 
-        self._tracks = []
+        self._songs = []
 
         scale = self.get_scale_factor()
         self._cache = AlbumArtCache(scale)
@@ -97,7 +97,7 @@ class AlbumWidget(Gtk.EventBox):
         view_box.add(self._disc_listbox)
 
         # FIXME: Assigned to appease searchview
-        # get_selected_tracks
+        # _get_selected_songs
         self.view = self._disc_listbox
 
         self.add(self._builder.get_object('AlbumWidget'))
@@ -140,7 +140,7 @@ class AlbumWidget(Gtk.EventBox):
         :param selection_toolbar: The selection toolbar object
         """
         # reset view
-        self._tracks = []
+        self._songs = []
         self._create_model()
         for widget in self._disc_listbox.get_children():
             self._disc_listbox.remove(widget)
@@ -225,13 +225,13 @@ class AlbumWidget(Gtk.EventBox):
                 self._player.actionbar.set_visible(True)
 
     @log
-    def _create_disc_box(self, disc_nr, disc_tracks):
+    def _create_disc_box(self, disc_nr, disc_songs):
         disc_box = DiscBox(self._model)
-        disc_box.set_tracks(disc_tracks)
+        disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
         disc_box.set_columns(1)
         disc_box.show_song_numbers(False)
-        disc_box.connect('track-activated', self._track_activated)
+        disc_box.connect('song-activated', self._song_activated)
         disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
         return disc_box
@@ -246,7 +246,7 @@ class AlbumWidget(Gtk.EventBox):
 
 
     @log
-    def _track_activated(self, widget, song_widget):
+    def _song_activated(self, widget, song_widget):
         if not song_widget.can_be_played:
             return
 
@@ -261,28 +261,28 @@ class AlbumWidget(Gtk.EventBox):
         return True
 
     @log
-    def add_item(self, source, prefs, track, remaining, data=None):
+    def add_item(self, source, prefs, song, remaining, data=None):
         """Add a song to the item to album list.
 
         :param source: The grilo source
         :param prefs:
-        :param track: The grilo media object
+        :param song: The grilo media object
         :param remaining: Remaining number of items to add
         :param data: User data
         """
-        if track:
-            self._tracks.append(track)
+        if song:
+            self._songs.append(song)
 
-            self._duration = self._duration + track.get_duration()
+            self._duration = self._duration + song.get_duration()
             return
 
         discs = {}
-        for track in self._tracks:
-            disc_nr = track.get_album_disc_number()
+        for song in self._songs:
+            disc_nr = song.get_album_disc_number()
             if disc_nr not in discs.keys():
-                discs[disc_nr] = [track]
+                discs[disc_nr] = [song]
             else:
-                discs[disc_nr].append(track)
+                discs[disc_nr].append(song)
         for disc_nr in discs:
             disc = self._create_disc_box(disc_nr, discs[disc_nr])
             self._disc_listbox.add(disc)

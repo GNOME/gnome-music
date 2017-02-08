@@ -130,7 +130,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._widgets.append(widget)
 
         if is_last_album:
-            widget.connect('tracks-loaded', self._on_last_album_displayed)
+            widget.connect('songs-loaded', self._on_last_album_displayed)
 
     @log
     def _update_model(self, player, playlist, current_iter):
