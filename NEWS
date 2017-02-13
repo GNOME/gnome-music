@@ -1,3 +1,31 @@
+Overview of changes in 3.23.90
+==============================
+
+* Empty-state added for playlist dialog
+* Cleanups
+
+Bugs fixed:
+ 772089 [playlist dialog] implement empty state dialog
+ 776680 'Select All' doesn't have an action in Artists tab
+ 777541 Crashes as soon as trying to play a song
+ 777219 PEP 8 fix : application.py
+
+Thanks to our contributors this release:
+ Abhinav Singh
+ Alberto Fanjul
+ Marinus Schraal
+ Yash Singh
+
+Translations updated:
+ Czech
+ Indonesian
+ German
+ Turkish
+ Catalan
+ Polish
+ Slovak
+ Friulian
+
 Overview of changes in 3.23.4
 =============================
 
