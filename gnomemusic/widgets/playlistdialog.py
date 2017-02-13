@@ -37,18 +37,20 @@ class PlaylistDialog():
 
     @log
     def __init__(self, parent):
-        self.ui = Gtk.Builder()
-        self.ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
-        self._add_playlist_stack = self.ui.get_object('add_playlist_stack')
+        self._ui = Gtk.Builder()
+        self._ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
 
-        self._dialog_box = self.ui.get_object('dialog')
+        self._dialog_box = self._ui.get_object('dialog')
         self._dialog_box.set_transient_for(parent)
-        self._normal_state = self.ui.get_object('normal_state')
-        self._empty_state = self.ui.get_object('empty_state')
-        self._title_bar = self.ui.get_object('headerbar1')
+
+        self._add_playlist_stack = self._ui.get_object('add_playlist_stack')
+        self._normal_state = self._ui.get_object('normal_state')
+        self._empty_state = self._ui.get_object('empty_state')
+        self._title_bar = self._ui.get_object('headerbar1')
         self._dialog_box.set_titlebar(self._title_bar)
         self._setup_dialog()
-        self.playlist = Playlists.get_default()
+
+        self._playlist = Playlists.get_default()
 
     @log
     def run(self):
@@ -60,18 +62,18 @@ class PlaylistDialog():
 
     @log
     def _setup_dialog(self):
-        self.view = self.ui.get_object('treeview1')
+        self.view = self._ui.get_object('treeview1')
         self.view.set_activate_on_single_click(False)
-        self.selection = self.ui.get_object('treeview-selection1')
+        self.selection = self._ui.get_object('treeview-selection1')
         self.selection.connect('changed', self._on_selection_changed)
         self._add_list_renderers()
         self.view.connect('row-activated', self._on_item_activated)
 
-        self.model = self.ui.get_object('liststore1')
+        self.model = self._ui.get_object('liststore1')
         self.populate()
 
-        self._cancel_button = self.ui.get_object('cancel-button')
-        self._select_button = self.ui.get_object('select-button')
+        self._cancel_button = self._ui.get_object('cancel-button')
+        self._select_button = self._ui.get_object('select-button')
         self._select_button.set_sensitive(False)
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
@@ -79,15 +81,15 @@ class PlaylistDialog():
         def playlists_available_cb(available):
             if available:
                 self._add_playlist_stack.set_visible_child(self._normal_state)
-                self._new_playlist_button = self.ui.get_object(
+                self._new_playlist_button = self._ui.get_object(
                     'new-playlist-button')
-                self._new_playlist_entry = self.ui.get_object(
+                self._new_playlist_entry = self._ui.get_object(
                     'new-playlist-entry')
             else:
                 self._add_playlist_stack.set_visible_child(self._empty_state)
-                self._new_playlist_button = self.ui.get_object(
+                self._new_playlist_button = self._ui.get_object(
                         'create-first-playlist-button')
-                self._new_playlist_entry = self.ui.get_object(
+                self._new_playlist_entry = self._ui.get_object(
                         'first-playlist-entry')
 
             self._new_playlist_button.set_sensitive(False);
@@ -101,7 +103,8 @@ class PlaylistDialog():
             self._new_playlist_entry.connect('focus-in-event',
                 self._on_new_playlist_entry_focused)
 
-            self.playlist.connect('playlist-created', self._on_playlist_created)
+            self._playlist.connect('playlist-created',
+                                   self._on_playlist_created)
 
         grilo.playlists_available(playlists_available_cb)
 
@@ -142,7 +145,7 @@ class PlaylistDialog():
         """Adds (non-static only) playlists to the model"""
 
         # Don't show static playlists
-        if self.playlist.is_static_playlist(item):
+        if self._playlist.is_static_playlist(item):
             return None
 
         new_iter = self.model.append()
@@ -192,7 +195,7 @@ class PlaylistDialog():
     @log
     def _on_editing_done(self, sender, data=None):
         if self._new_playlist_entry.get_text() != '':
-            self.playlist.create_playlist(self._new_playlist_entry.get_text())
+            self._playlist.create_playlist(self._new_playlist_entry.get_text())
 
     @log
     def _on_playlist_created(self, playlists, item):
