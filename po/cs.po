@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-31 12:50+0000\n"
-"PO-Revision-Date: 2017-02-11 15:04+0100\n"
+"POT-Creation-Date: 2017-02-13 21:05+0000\n"
+"PO-Revision-Date: 2017-02-13 23:28+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
 "Language: cs\n"
@@ -126,11 +126,11 @@ msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Přehrát"
@@ -139,29 +139,29 @@ msgstr "Přehrát"
 msgid "Next"
 msgstr "Následující"
 
-#: ../gnomemusic/player.py:1129
+#: ../gnomemusic/player.py:1130
 msgid "Unable to play the file"
 msgstr "Soubor nelze přehrát"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1134
+#: ../gnomemusic/player.py:1135
 #, python-format
 msgid "_Find in %s"
 msgstr "_Hledat v %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1144
+#: ../gnomemusic/player.py:1145
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1147
+#: ../gnomemusic/player.py:1148
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1148
+#: ../gnomemusic/player.py:1149
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -272,7 +272,7 @@ msgstr "Klikáním vyberte položky"
 msgid "Music folder"
 msgstr "Složka s hudbou"
 
-#: ../gnomemusic/views/emptysearchview.py:49
+#: ../gnomemusic/views/emptysearchview.py:50
 msgid "Try a different search"
 msgstr "Zkuste hledat nějak jinak"
 
@@ -427,7 +427,7 @@ msgstr "Hledat"
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -559,13 +559,25 @@ msgstr "_Smazat"
 msgid "Playlist Name"
 msgstr "Název seznamu k přehrání"
 
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Enter a name for your first playlist"
+msgstr "Zadejte název pro svůj první seznam k přehrání"
+
 #: ../data/PlaylistDialog.ui.h:2
-msgid "_Add"
-msgstr "Přid_at"
+msgid "C_reate"
+msgstr "_Vytvořit"
 
 #: ../data/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Nový seznam k přehrání"
+
+#: ../data/PlaylistDialog.ui.h:4
+msgid "Add"
+msgstr "Přidat"
+
+#: ../data/PlaylistDialog.ui.h:6
+msgid "_Add"
+msgstr "Přid_at"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
