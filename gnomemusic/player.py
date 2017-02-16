@@ -109,7 +109,6 @@ class Player(GObject.GObject):
         self.playlistField = None
         self.currentTrack = None
         self.currentTrackUri = None
-        self._lastState = Gst.State.PAUSED
         scale = parent_window.get_scale_factor()
         self.cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
@@ -831,8 +830,6 @@ class Player(GObject.GObject):
     def _on_progress_scale_button_released(self, scale, data):
         self.on_progress_scale_change_value(self.progressScale)
         self._update_position_callback()
-        self.player.set_state(self._lastState)
-        self._update_timeout()
         return False
 
     def _on_progress_value_changed(self, widget):
@@ -842,8 +839,6 @@ class Player(GObject.GObject):
 
     @log
     def _on_progress_scale_event(self, scale, data):
-        self._lastState = self.player.get_state(1)[1]
-        self.player.set_state(Gst.State.PAUSED)
         self._remove_timeout()
         return False
 
