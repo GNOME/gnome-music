@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-21 00:08+0100\n"
-"PO-Revision-Date: 2017-01-21 00:09+0100\n"
+"POT-Creation-Date: 2017-02-19 21:55+0100\n"
+"PO-Revision-Date: 2017-02-19 21:57+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -97,8 +97,8 @@ msgstr "Stan początkowy został wyświetlony"
 msgid "Set to true when initial state has been displayed"
 msgstr "Wartość „true” oznacza, że stan początkowy został już wyświetlony"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
-#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
 #: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Muzyka"
@@ -140,29 +140,29 @@ msgstr "Odtwarzaj"
 msgid "Next"
 msgstr "Następny"
 
-#: ../gnomemusic/player.py:1130
+#: ../gnomemusic/player.py:1132
 msgid "Unable to play the file"
 msgstr "Nie można odtworzyć pliku"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1135
+#: ../gnomemusic/player.py:1137
 #, python-format
 msgid "_Find in %s"
 msgstr "_Znajdź w „%s”"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1145
+#: ../gnomemusic/player.py:1147
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1148
+#: ../gnomemusic/player.py:1150
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1149
+#: ../gnomemusic/player.py:1151
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -430,7 +430,7 @@ msgstr "Wyszukuje"
 msgid "Select"
 msgstr "Wybierz"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -562,13 +562,25 @@ msgstr "_Usuń"
 msgid "Playlist Name"
 msgstr "Nazwa listy odtwarzania"
 
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Enter a name for your first playlist"
+msgstr "Nazwa pierwszej listy odtwarzania"
+
 #: ../data/PlaylistDialog.ui.h:2
-msgid "_Add"
-msgstr "_Dodaj"
+msgid "C_reate"
+msgstr "_Utwórz"
 
 #: ../data/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Nowa lista odtwarzania"
+
+#: ../data/PlaylistDialog.ui.h:4
+msgid "Add"
+msgstr "Dodaj"
+
+#: ../data/PlaylistDialog.ui.h:6
+msgid "_Add"
+msgstr "_Dodaj"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
