@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2016-12-31 12:50+0000\n"
-"PO-Revision-Date: 2017-02-13 22:05+0700\n"
+"POT-Creation-Date: 2017-02-13 21:05+0000\n"
+"PO-Revision-Date: 2017-02-21 18:10+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -124,11 +124,11 @@ msgstr "Musik adalah aplikasi pemutar musik GNOME yang baru."
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
 msgid "Pause"
 msgstr "Tahan"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Putar"
@@ -137,29 +137,29 @@ msgstr "Putar"
 msgid "Next"
 msgstr "Selanjutnya"
 
-#: ../gnomemusic/player.py:1129
+#: ../gnomemusic/player.py:1130
 msgid "Unable to play the file"
 msgstr "Tak dapat memutar berkas"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1134
+#: ../gnomemusic/player.py:1135
 #, python-format
 msgid "_Find in %s"
 msgstr "_Cari di %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1144
+#: ../gnomemusic/player.py:1145
 msgid " and "
 msgstr " dan "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1147
+#: ../gnomemusic/player.py:1148
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1148
+#: ../gnomemusic/player.py:1149
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -266,7 +266,7 @@ msgstr "Klik pada butir untuk memilihnya"
 msgid "Music folder"
 msgstr "Folder musik"
 
-#: ../gnomemusic/views/emptysearchview.py:49
+#: ../gnomemusic/views/emptysearchview.py:50
 msgid "Try a different search"
 msgstr "Cobalah pencarian lain"
 
@@ -418,7 +418,7 @@ msgstr "Cari"
 msgid "Select"
 msgstr "Pilih"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Batal"
 
@@ -550,13 +550,25 @@ msgstr "_Hapus"
 msgid "Playlist Name"
 msgstr "Nama Daftar Putar"
 
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Enter a name for your first playlist"
+msgstr "Masukkan nama daftar putar pertama Anda"
+
 #: ../data/PlaylistDialog.ui.h:2
-msgid "_Add"
-msgstr "T_ambah"
+msgid "C_reate"
+msgstr "B_uat"
 
 #: ../data/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Daftar Putar Baru"
+
+#: ../data/PlaylistDialog.ui.h:4
+msgid "Add"
+msgstr "Tambah"
+
+#: ../data/PlaylistDialog.ui.h:6
+msgid "_Add"
+msgstr "T_ambah"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
@@ -584,6 +596,3 @@ msgstr "_Hapus dari Daftar Putar"
 
 #~ msgid "All Artists"
 #~ msgstr "Semua Artis"
-
-#~ msgid "Add"
-#~ msgstr "Tambah"
