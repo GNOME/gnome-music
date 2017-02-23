@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-24 14:17+0100\n"
-"PO-Revision-Date: 2017-01-24 14:17+0100\n"
+"POT-Creation-Date: 2017-02-23 08:21+0100\n"
+"PO-Revision-Date: 2017-02-23 08:22+0100\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.9\n"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -96,8 +96,8 @@ msgstr "S'ha mostrat l'estat inicial"
 msgid "Set to true when initial state has been displayed"
 msgstr "Estableix a cert quan s'ha mostrat l'estat inicial"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:55
-#: ../gnomemusic/application.py:107 ../gnomemusic/toolbar.py:90
+#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
 #: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
 msgid "Music"
 msgstr "Música"
@@ -139,29 +139,29 @@ msgstr "Reprodueix"
 msgid "Next"
 msgstr "Següent"
 
-#: ../gnomemusic/player.py:1130
+#: ../gnomemusic/player.py:1132
 msgid "Unable to play the file"
 msgstr "No s'ha pogut reproduir el fitxer"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1135
+#: ../gnomemusic/player.py:1137
 #, python-format
 msgid "_Find in %s"
 msgstr "_Cerca a %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1145
+#: ../gnomemusic/player.py:1147
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1148
+#: ../gnomemusic/player.py:1150
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1149
+#: ../gnomemusic/player.py:1151
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -424,7 +424,7 @@ msgstr "Cerca"
 msgid "Select"
 msgstr "Selecciona"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:1
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
@@ -556,13 +556,25 @@ msgstr "_Suprimeix"
 msgid "Playlist Name"
 msgstr "Nom de la llista de reproducció"
 
+#: ../data/PlaylistDialog.ui.h:1
+msgid "Enter a name for your first playlist"
+msgstr "Introduïu un nom per la vostra primera llista de reproducció "
+
 #: ../data/PlaylistDialog.ui.h:2
-msgid "_Add"
-msgstr "_Afegeix"
+msgid "C_reate"
+msgstr "_Crea"
 
 #: ../data/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Llista de reproducció nova"
+
+#: ../data/PlaylistDialog.ui.h:4
+msgid "Add"
+msgstr "Afegeix"
+
+#: ../data/PlaylistDialog.ui.h:6
+msgid "_Add"
+msgstr "_Afegeix"
 
 #: ../data/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
@@ -593,9 +605,6 @@ msgstr "_Suprimeix de la llista de reproducció"
 
 #~ msgid "All Artists"
 #~ msgstr "Tots els artistes"
-
-#~ msgid "Add"
-#~ msgstr "Afegeix"
 
 #~ msgid "Not playing"
 #~ msgstr "No s'està reproduint"
