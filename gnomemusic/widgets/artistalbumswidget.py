@@ -35,57 +35,64 @@ logger = logging.getLogger(__name__)
 
 
 class ArtistAlbumsWidget(Gtk.Box):
+    """Widget containing all albums by an artist
+
+    A vertical list of ArtistAlbumWidget, containing all the albums
+    by one artist. Contains the model for all the song widgets of
+    the album(s).
+    """
 
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
 
     @log
-    def __init__(self, artist, albums, player,
-                 header_bar, selection_toolbar, window, selectionModeAllowed=False):
+    def __init__(self, artist, albums, player, header_bar, selection_toolbar,
+                 window, selection_mode_allowed=False):
         Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
-        self.player = player
+        self._player = player
         self.artist = artist
-        self.albums = albums
-        self.window = window
-        self.selectionMode = False
-        self.selectionModeAllowed = selectionModeAllowed
-        self.selection_toolbar = selection_toolbar
-        self.header_bar = header_bar
-        self.ui = Gtk.Builder()
-        self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumsWidget.ui')
-        self.set_border_width(0)
-        self.ui.get_object('artist').set_label(self.artist)
-        self.widgets = []
+        self._window = window
+        self._selection_mode = False
+        self._selection_mode_allowed = selection_mode_allowed
+        self._selection_toolbar = selection_toolbar
+        self._header_bar = header_bar
+
+        ui = Gtk.Builder()
+        ui.add_from_resource('/org/gnome/Music/ArtistAlbumsWidget.ui')
+        ui.get_object('artist').set_label(self.artist)
+
+        self._widgets = []
 
         self._create_model()
 
-        self.row_changed_source_id = None
+        self._row_changed_source_id = None
 
-        self._hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self._albumBox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
-                                 spacing=48)
-        self._scrolledWindow = Gtk.ScrolledWindow()
-        self._scrolledWindow.set_policy(
-            Gtk.PolicyType.NEVER,
-            Gtk.PolicyType.AUTOMATIC)
-        self._scrolledWindow.add(self._hbox)
-        self._hbox.pack_start(self.ui.get_object('ArtistAlbumsWidget'),
-                              False, False, 0)
-        self._hbox.pack_start(self._albumBox, False, False, 16)
-        self._coverSizeGroup = Gtk.SizeGroup.new(Gtk.SizeGroupMode.HORIZONTAL)
-        self._songsGridSizeGroup = Gtk.SizeGroup.new(Gtk.SizeGroupMode.HORIZONTAL)
-        self.pack_start(self._scrolledWindow, True, True, 0)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        hbox.pack_start(ui.get_object('ArtistAlbumsWidget'), False, False, 0)
+        self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
+                                  spacing=48)
+        hbox.pack_start(self._album_box, False, False, 16)
 
-        self.hide()
-        self.window.push_loading_notification()
+        self._scrolled_window = Gtk.ScrolledWindow()
+        self._scrolled_window.set_policy(Gtk.PolicyType.NEVER,
+                                         Gtk.PolicyType.AUTOMATIC)
+        self._scrolled_window.add(hbox)
+        self.pack_start(self._scrolled_window, True, True, 0)
+
+        self._cover_size_group = Gtk.SizeGroup.new(
+            Gtk.SizeGroupMode.HORIZONTAL)
+        self._songs_grid_size_group = Gtk.SizeGroup.new(
+            Gtk.SizeGroupMode.HORIZONTAL)
+
+        self._window.push_loading_notification()
 
         for album in albums:
             is_last_album = False
             if album == albums[-1]:
                 is_last_album = True
-            self.add_album(album, is_last_album)
+            self._add_album(album, is_last_album)
 
-        self.player.connect('playlist-item-changed', self.update_model)
+        self._player.connect('playlist-item-changed', self._update_model)
 
     @log
     def _create_model(self):
@@ -105,48 +112,52 @@ class ArtistAlbumsWidget(Gtk.Box):
             GObject.TYPE_INT
         )
 
+    @log
     def _on_last_album_displayed(self, data=None):
-        self.window.pop_loading_notification()
+        self._window.pop_loading_notification()
         self.show_all()
 
     @log
-    def add_album(self, album, is_last_album=False):
-        widget = ArtistAlbumWidget(album, self.player, self._model,
-                                   self.header_bar, self.selectionModeAllowed,
-                                   self._songsGridSizeGroup,
-                                   self._coverSizeGroup, self.header_bar)
-        self._coverSizeGroup.add_widget(widget.cover)
+    def _add_album(self, album, is_last_album=False):
+        widget = ArtistAlbumWidget(album, self._player, self._model,
+                                   self._header_bar,
+                                   self._selection_mode_allowed,
+                                   self._songs_grid_size_group,
+                                   self._cover_size_group)
+        self._cover_size_group.add_widget(widget.cover)
 
-        self._albumBox.pack_start(widget, False, False, 0)
-        self.widgets.append(widget)
+        self._album_box.pack_start(widget, False, False, 0)
+        self._widgets.append(widget)
 
         if is_last_album:
             widget.connect('tracks-loaded', self._on_last_album_displayed)
 
     @log
-    def update_model(self, player, playlist, currentIter):
+    def _update_model(self, player, playlist, current_iter):
         # this is not our playlist, return
         if playlist != self._model:
             # TODO, only clean once, but that can wait util we have clean
             # the code a bit, and until the playlist refactoring.
             # the overhead is acceptable for now
-            self.clean_model()
+            self._clean_model()
             return False
 
-        currentSong = playlist.get_value(currentIter, 5)
+        current_song = playlist[current_iter][5]
         song_passed = False
         itr = playlist.get_iter_first()
 
         while itr:
-            song = playlist.get_value(itr, 5)
+            song = playlist[itr][5]
             song_widget = song.song_widget
 
             if not song_widget.can_be_played:
                 itr = playlist.iter_next(itr)
                 continue
 
-            escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
-            if (song == currentSong):
+            escaped_title = GLib.markup_escape_text(
+                utils.get_media_title(song))
+
+            if (song == current_song):
                 song_widget.now_playing_sign.show()
                 song_widget.title.set_markup('<b>%s</b>' % escaped_title)
                 song_passed = True
@@ -156,63 +167,78 @@ class ArtistAlbumsWidget(Gtk.Box):
             else:
                 song_widget.now_playing_sign.hide()
                 song_widget.title.set_markup(
-                    '<span color=\'grey\'>%s</span>' % escaped_title
-                )
+                    '<span color=\'grey\'>%s</span>' % escaped_title)
             itr = playlist.iter_next(itr)
+
         return False
 
     @log
-    def clean_model(self):
+    def _clean_model(self):
         itr = self._model.get_iter_first()
+
         while itr:
-            song = self._model.get_value(itr, 5)
+            song = self._model[itr][5]
             song_widget = song.song_widget
-            escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
+            escaped_title = GLib.markup_escape_text(
+                utils.get_media_title(song))
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
             song_widget.title.set_markup('<span>%s</span>' % escaped_title)
             itr = self._model.iter_next(itr)
+
         return False
 
     @log
-    def set_selection_mode(self, selectionMode):
-        if self.selectionMode == selectionMode:
+    def set_selection_mode(self, selection_mode):
+        """Set selection mode for the widget
+
+        :param bool selection_mode: Allow selection mode
+        """
+        if self._selection_mode == selection_mode:
             return
-        self.selectionMode = selectionMode
+
+        self._selection_mode = selection_mode
+
         try:
-            if self.row_changed_source_id:
-                self._model.disconnect(self.row_changed_source_id)
-            self.row_changed_source_id = self._model.connect(
-                'row-changed',
-                self._model_row_changed)
+            if self._row_changed_source_id:
+                self._model.disconnect(self._row_changed_source_id)
+            self._row_changed_source_id = self._model.connect(
+                'row-changed', self._model_row_changed)
         except Exception as e:
             logger.warning("Exception while tracking row-changed: %s", e)
 
-        for widget in self.widgets:
-            widget.set_selection_mode(selectionMode)
+        for widget in self._widgets:
+            widget.set_selection_mode(selection_mode)
 
     @log
-    def _model_row_changed(self, model, path, _iter):
-        if not self.selectionMode:
+    def _model_row_changed(self, model, path, itr):
+        if not self._selection_mode:
             return
+
         selected_items = 0
         for row in model:
             if row[6]:
                 selected_items += 1
-        self.selection_toolbar\
-            ._add_to_playlist_button.set_sensitive(selected_items > 0)
+
+        add_button = self._selection_toolbar._add_to_playlist_button
+        add_button.set_sensitive(selected_items > 0)
+
+        menu_label = self._header_bar._selection_menu_label
         if selected_items > 0:
-            self.header_bar._selection_menu_label.set_text(
-                ngettext("Selected %d item", "Selected %d items", selected_items) % selected_items)
+            menu_label.set_text(ngettext("Selected %d item",
+                                         "Selected %d items",
+                                         selected_items) % selected_items)
         else:
-            self.header_bar._selection_menu_label.set_text(_("Click on items to select them"))
+            menu_label.set_text(_("Click on items to select them"))
 
     @log
     def select_all(self):
-        for widget in self.widgets:
+        """Select all items"""
+        for widget in self._widgets:
             widget._disc_listbox.select_all()
 
     @log
     def select_none(self):
-        for widget in self.widgets:
+        """Deselect all items"""
+        for widget in self._widgets:
             widget._disc_listbox.select_none()
