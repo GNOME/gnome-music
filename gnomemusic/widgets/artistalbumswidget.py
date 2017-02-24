@@ -111,11 +111,10 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def add_album(self, album, is_last_album=False):
-        widget = ArtistAlbumWidget(
-            album, self.player, self._model,
-            self.header_bar, self.selectionModeAllowed,
-            self._songsGridSizeGroup, self.header_bar
-        )
+        widget = ArtistAlbumWidget(album, self.player, self._model,
+                                   self.header_bar, self.selectionModeAllowed,
+                                   self._songsGridSizeGroup,
+                                   self._coverSizeGroup, self.header_bar)
         self._coverSizeGroup.add_widget(widget.cover)
 
         self._albumBox.pack_start(widget, False, False, 0)

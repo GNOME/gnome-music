@@ -44,10 +44,11 @@ class ArtistAlbumWidget(Gtk.Box):
     @log
     def __init__(self, media, player, model, header_bar,
                  selection_mode_allowed, size_group=None,
-                 selection_toolbar = None):
+                 cover_size_group=None, selection_toolbar=None):
         super().__init__(self, orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
+        self._cover_size_group = cover_size_group
         scale = self.get_scale_factor()
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
@@ -86,6 +87,9 @@ class ArtistAlbumWidget(Gtk.Box):
 
         if self._size_group:
             self._size_group.add_widget(ui.get_object('box1'))
+
+        if self._cover_size_group:
+            self._cover_size_group.add_widget(self.cover)
 
         self.pack_start(ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
