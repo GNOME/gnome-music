@@ -62,33 +62,32 @@ class ArtistAlbumWidget(Gtk.Box):
         self._header_bar = header_bar
         self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
-        self._selection_toolbar = selection_toolbar
-        self.songs = []
         self._tracks = []
 
         self._header_bar._select_button.connect(
             'toggled', self._on_header_select_button_toggled)
 
-        self.ui = Gtk.Builder()
-        self.ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
+        ui = Gtk.Builder()
+        ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
-        self.cover = self.ui.get_object('cover')
+        self.cover = ui.get_object('cover')
         self.cover.set_from_surface(self._loading_icon_surface)
-        self._disc_listbox = self.ui.get_object('disclistbox')
+
+        self._disc_listbox = ui.get_object('disclistbox')
         self._disc_listbox.set_selection_mode_allowed(
             self._selection_mode_allowed)
 
-        self.ui.get_object('title').set_label(self._album_title)
+        ui.get_object('title').set_label(self._album_title)
         creation_date = self._media.get_creation_date()
         if creation_date:
             year = creation_date.get_year()
-            self.ui.get_object('year').set_markup(
+            ui.get_object('year').set_markup(
                 '<span color=\'grey\'>{}</span>'.format(year))
 
         if self._size_group:
-            self._size_group.add_widget(self.ui.get_object('box1'))
+            self._size_group.add_widget(ui.get_object('box1'))
 
-        self.pack_start(self.ui.get_object('ArtistAlbumWidget'), True, True, 0)
+        self.pack_start(ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
         GLib.idle_add(self._update_album_art)
         grilo.populate_album_songs(self._media, self._add_item)
