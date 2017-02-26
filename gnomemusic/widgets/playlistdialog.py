@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk, Gd, GLib, Pango, Gio
+from gi.repository import Gtk, Gd, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -31,6 +31,7 @@ import gnomemusic.utils as utils
 
 
 class PlaylistDialog():
+    """Dialog for adding items to a playlist"""
 
     def __repr__(self):
         return '<PlaylistDialog>'
@@ -54,23 +55,25 @@ class PlaylistDialog():
 
     @log
     def run(self):
+        """Run the playlist dialog"""
         return self._dialog_box.run()
 
     @log
     def destroy(self):
+        """Destroy the playlist dialog"""
         return self._dialog_box.destroy()
 
     @log
     def _setup_dialog(self):
-        self.view = self._ui.get_object('treeview1')
-        self.view.set_activate_on_single_click(False)
-        self.selection = self._ui.get_object('treeview-selection1')
-        self.selection.connect('changed', self._on_selection_changed)
+        self._view = self._ui.get_object('treeview1')
+        self._view.set_activate_on_single_click(False)
+        self._selection = self._ui.get_object('treeview-selection1')
+        self._selection.connect('changed', self._on_selection_changed)
         self._add_list_renderers()
-        self.view.connect('row-activated', self._on_item_activated)
+        self._view.connect('row-activated', self._on_item_activated)
 
-        self.model = self._ui.get_object('liststore1')
-        self.populate()
+        self._model = self._ui.get_object('liststore1')
+        self._populate()
 
         self._cancel_button = self._ui.get_object('cancel-button')
         self._select_button = self._ui.get_object('select-button')
@@ -88,20 +91,20 @@ class PlaylistDialog():
             else:
                 self._add_playlist_stack.set_visible_child(self._empty_state)
                 self._new_playlist_button = self._ui.get_object(
-                        'create-first-playlist-button')
+                    'create-first-playlist-button')
                 self._new_playlist_entry = self._ui.get_object(
-                        'first-playlist-entry')
+                    'first-playlist-entry')
 
-            self._new_playlist_button.set_sensitive(False);
+            self._new_playlist_button.set_sensitive(False)
             self._new_playlist_button.connect('clicked',
-                    self._on_editing_done)
+                                              self._on_editing_done)
 
-            self._new_playlist_entry.connect('changed',
-                self._on_new_playlist_entry_changed)
+            self._new_playlist_entry.connect(
+                'changed', self._on_new_playlist_entry_changed)
             self._new_playlist_entry.connect('activate',
                                              self._on_editing_done)
-            self._new_playlist_entry.connect('focus-in-event',
-                self._on_new_playlist_entry_focused)
+            self._new_playlist_entry.connect(
+                'focus-in-event', self._on_new_playlist_entry_focused)
 
             self._playlist.connect('playlist-created',
                                    self._on_playlist_created)
@@ -110,29 +113,27 @@ class PlaylistDialog():
 
     @log
     def get_selected(self):
-        _iter = self.selection.get_selected()[1]
+        """Get the selected playlist"""
+        _iter = self._selection.get_selected()[1]
 
-        if not _iter or self.model[_iter][1]:
+        if not _iter or self._model[_iter][1]:
             return None
 
-        return self.model[_iter][2]
+        return self._model[_iter][2]
 
     @log
     def _add_list_renderers(self):
-        cols = Gtk.TreeViewColumn()
         type_renderer = Gd.StyledTextRenderer(
-            xpad=8,
-            ypad=8,
-            ellipsize=Pango.EllipsizeMode.END,
-            xalign=0.0
-        )
+            xpad=8, ypad=8, ellipsize=Pango.EllipsizeMode.END, xalign=0.0)
+
+        cols = Gtk.TreeViewColumn()
         cols.pack_start(type_renderer, True)
         cols.add_attribute(type_renderer, "text", 0)
         cols.set_cell_data_func(type_renderer, self._on_list_text_render)
-        self.view.append_column(cols)
+        self._view.append_column(cols)
 
     @log
-    def populate(self):
+    def _populate(self):
         grilo.populate_playlists(0, self._add_item)
 
     @log
@@ -148,17 +149,16 @@ class PlaylistDialog():
         if self._playlist.is_static_playlist(item):
             return None
 
-        new_iter = self.model.append()
-        self.model.set(
-            new_iter,
-            [0, 1, 2],
-            [utils.get_media_title(item), False, item]
-        )
+        new_iter = self._model.append()
+        self._model[new_iter][0, 1, 2] = [
+            utils.get_media_title(item), False, item
+        ]
+
         return new_iter
 
     @log
     def _on_list_text_render(self, col, cell, model, _iter, data):
-        editable = model.get_value(_iter, 1)
+        editable = model[_iter][1]
         if editable:
             cell.add_class("dim-label")
         else:
@@ -176,21 +176,20 @@ class PlaylistDialog():
     def _on_item_activated(self, view, path, column):
         self._new_playlist_entry.set_text("")
         self._new_playlist_button.set_sensitive(False)
-        _iter = self.model.get_iter(path)
-        if self.model.get_value(_iter, 1):
-            self.view.set_cursor(path, column, True)
+        _iter = self._model.get_iter(path)
+        if self._model[_iter][1]:
+            self._view.set_cursor(path, column, True)
         else:
             self._dialog_box.response(Gtk.ResponseType.ACCEPT)
 
     @log
     def _on_selection_changed(self, selection):
-        model, _iter = self.selection.get_selected()
+        model, _iter = self._selection.get_selected()
 
-        if _iter == None or self.model.get_value(_iter, 1):
+        if _iter is None or self._model[_iter][1]:
             self._select_button.set_sensitive(False)
         else:
             self._select_button.set_sensitive(True)
-
 
     @log
     def _on_editing_done(self, sender, data=None):
@@ -200,11 +199,11 @@ class PlaylistDialog():
     @log
     def _on_playlist_created(self, playlists, item):
         new_iter = self._add_item_to_model(item)
-        if new_iter and self.view.get_columns():
-            self.view.set_cursor(self.model.get_path(new_iter),
-                                 self.view.get_columns()[0], False)
-            self.view.row_activated(self.model.get_path(new_iter),
-                                    self.view.get_columns()[0])
+        if new_iter and self._view.get_columns():
+            self._view.set_cursor(self._model.get_path(new_iter),
+                                  self._view.get_columns()[0], False)
+            self._view.row_activated(self._model.get_path(new_iter),
+                                     self._view.get_columns()[0])
             self._dialog_box.response(Gtk.ResponseType.ACCEPT)
 
     @log
@@ -216,4 +215,4 @@ class PlaylistDialog():
 
     @log
     def _on_new_playlist_entry_focused(self, editable, data=None):
-        self.selection.unselect_all()
+        self._selection.unselect_all()
