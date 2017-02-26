@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-19 21:55+0100\n"
-"PO-Revision-Date: 2017-02-19 21:57+0100\n"
+"POT-Creation-Date: 2017-02-26 21:20+0100\n"
+"PO-Revision-Date: 2017-02-26 21:21+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -246,26 +246,24 @@ msgstr "Nieznany wykonawca"
 msgid "Untitled"
 msgstr "Bez tytułu"
 
-#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:452
+#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:454
 msgid "Albums"
 msgstr "Albumy"
 
-#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:453
+#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:455
 msgid "Artists"
 msgstr "Wykonawcy"
 
-#: ../gnomemusic/views/baseview.py:193 ../gnomemusic/widgets/albumwidget.py:197
-#: ../gnomemusic/widgets/artistalbumswidget.py:207
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "Zaznaczono %d element"
-msgstr[1] "Zaznaczono %d elementy"
-msgstr[2] "Zaznaczono %d elementów"
+#: ../gnomemusic/views/baseview.py:196
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Zaznaczono {} element"
+msgstr[1] "Zaznaczono {} elementy"
+msgstr[2] "Zaznaczono {} elementów"
 
-#: ../gnomemusic/views/baseview.py:195 ../gnomemusic/views/baseview.py:299
-#: ../gnomemusic/widgets/albumwidget.py:201
-#: ../gnomemusic/widgets/artistalbumswidget.py:209 ../data/headerbar.ui.h:3
+#: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
+#: ../gnomemusic/widgets/albumwidget.py:198
+#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kliknięcie elementu zaznacza go"
 
@@ -281,7 +279,7 @@ msgstr "Proszę spróbować innych słów"
 msgid "Hey DJ"
 msgstr "Witaj w odtwarzaczu muzyki"
 
-#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:455
+#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:457
 msgid "Playlists"
 msgstr "Listy odtwarzania"
 
@@ -293,17 +291,26 @@ msgstr[0] "%d utwór"
 msgstr[1] "%d utwory"
 msgstr[2] "%d utworów"
 
-#: ../gnomemusic/views/searchview.py:454 ../gnomemusic/views/songsview.py:52
+#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:52
 msgid "Songs"
 msgstr "Utwory"
 
-#: ../gnomemusic/widgets/albumwidget.py:294
-#: ../gnomemusic/widgets/albumwidget.py:348
+#: ../gnomemusic/widgets/albumwidget.py:194
+#: ../gnomemusic/widgets/artistalbumswidget.py:228
+#, python-format
+msgid "Selected %d item"
+msgid_plural "Selected %d items"
+msgstr[0] "Zaznaczono %d element"
+msgstr[1] "Zaznaczono %d elementy"
+msgstr[2] "Zaznaczono %d elementów"
+
+#: ../gnomemusic/widgets/albumwidget.py:291
+#: ../gnomemusic/widgets/albumwidget.py:345
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets/disclistboxwidget.py:192
+#: ../gnomemusic/widgets/disclistboxwidget.py:189
 msgid "Disc {}"
 msgstr "{}. płyta"
 
