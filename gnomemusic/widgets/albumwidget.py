@@ -33,9 +33,6 @@ from gnomemusic.playlists import Playlists
 from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
 
-NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
-ERROR_ICON_NAME = 'dialog-error-symbolic'
-
 
 class AlbumWidget(Gtk.EventBox):
     """Album widget.

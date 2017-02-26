@@ -30,9 +30,6 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
-NOW_PLAYING_ICON_NAME = 'media-playback-start-symbolic'
-ERROR_ICON_NAME = 'dialog-error-symbolic'
-
 
 class StarImage(Gtk.Image):
     """GtkImage for starring songs"""
@@ -344,8 +341,7 @@ class DiscBox(Gtk.Box):
 
         song_widget.now_playing_sign = builder.get_object('image1')
         song_widget.now_playing_sign.set_from_icon_name(
-            NOW_PLAYING_ICON_NAME,
-            Gtk.IconSize.SMALL_TOOLBAR)
+            'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
         song_widget.now_playing_sign.set_no_show_all(True)
         song_widget.can_be_played = True
         song_widget.connect('button-release-event', self._song_activated)
