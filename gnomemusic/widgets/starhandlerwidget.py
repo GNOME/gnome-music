@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -32,44 +32,60 @@ playlists = Playlists.get_default()
 
 
 class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
+    """Starwidget cellrenderer implementation"""
 
-    __gsignals__ = {'clicked': (GObject.SignalFlags.RUN_LAST, GObject.TYPE_NONE,
-                                (GObject.TYPE_STRING,))}
+    __gsignals__ = {
+        'clicked': (GObject.SignalFlags.RUN_LAST,
+                    GObject.TYPE_NONE,
+                    (GObject.TYPE_STRING,))
+    }
+
     __gproperties__ = {
-        'show_star': (GObject.TYPE_INT, 'Show star', 'show star',0 ,2 ,1 , GObject.ParamFlags.READWRITE)}
+        'show_star': (GObject.TYPE_INT,
+                      'Show star',
+                      'show star',
+                      0,
+                      2,
+                      1,
+                      GObject.ParamFlags.READWRITE)
+    }
 
-    starIcon = 'starred-symbolic'
-    nonStarIcon = 'non-starred-symbolic'
+    star_icon = 'starred-symbolic'
+    non_star_icon = 'non-starred-symbolic'
 
     def __repr__(self):
         return '<CellRendererClickablePixbuf>'
 
-    def __init__(self, view, hidden=False, *args, **kwargs):
-        Gtk.CellRendererPixbuf.__init__(self, *args, **kwargs)
+    def __init__(self):
+        super().__init__()
+
         self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
         self.set_property('xpad', 32)
         self.set_property('icon_name', '')
-        self.view = view
-        self.hidden = hidden
-        self.show_star = 0
 
-    def do_activate(self, event, widget, path, background_area, cell_area, flags):
-        self.show_star = 0
+        self._show_star = 0
+
+    def do_activate(self, event, widget, path, background_area, cell_area,
+                    flags):
+        """Activate event for the cellrenderer"""
+        self._show_star = 0
         self.emit('clicked', path)
 
     def do_get_property(self, property):
+        """PyGI property getters"""
         if property.name == 'show-star':
-            return self.show_star
+            return self._show_star
 
     def do_set_property(self, property, value):
+        """PyGI property setters"""
         if property.name == 'show-star':
-            if self.show_star == 1:
-                self.set_property('icon_name', self.starIcon)
-            elif self.show_star == 0:
-                self.set_property('icon_name', self.nonStarIcon)
+            if self._show_star == 1:
+                self.set_property('icon_name', self.star_icon)
+            elif self._show_star == 0:
+                self.set_property('icon_name', self.non_star_icon)
             else:
                 self.set_property('icon_name', '')
-            self.show_star = value
+            self._show_star = value
 
 
 class StarHandlerWidget(object):
@@ -97,8 +113,7 @@ class StarHandlerWidget(object):
         :param cols: List of the widgets GtkTreeViewColumns
         :param hidden: Visible state of the column
         """
-        star_renderer = CellRendererClickablePixbuf(self._parent._view,
-                                                    hidden=hidden)
+        star_renderer = CellRendererClickablePixbuf()
         star_renderer.connect("clicked", self._on_star_toggled)
         list_widget.add_renderer(star_renderer, lambda *args: None, None)
 
