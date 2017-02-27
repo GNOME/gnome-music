@@ -127,7 +127,7 @@ class AlbumsView(BaseView):
         grilo.populate_albums(self._offset, self._add_item)
 
     @log
-    def get_selected_tracks(self, callback):
+    def get_selected_songs(self, callback):
         # FIXME: we call into private objects with full knowledge of
         # what is there
         if self._header_bar._state == ToolbarState.CHILD_VIEW:

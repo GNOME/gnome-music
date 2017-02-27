@@ -101,7 +101,7 @@ class SongsView(BaseView):
 
         :param player: The main player object
         :param playlist: The current playlist object
-        :param current_iter: Iter of the current displayed tracks
+        :param current_iter: Iter of the current displayed song
         """
         if self._iter_to_clean:
             self.model[self._iter_to_clean][10] = False
@@ -231,12 +231,12 @@ class SongsView(BaseView):
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
     @log
-    def get_selected_tracks(self, callback):
-        """Returns a list of selected tracks
+    def get_selected_songs(self, callback):
+        """Returns a list of selected songs
 
         In this view this will be the all the songs selected
         :returns: All selected songs
-        :rtype: A list of tracks
+        :rtype: A list of songs
         """
         callback([self.model[self.model.get_iter(path)][5]
                   for path in self._view.get_selection()])

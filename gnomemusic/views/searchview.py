@@ -179,11 +179,11 @@ class SearchView(BaseView):
             self._albums[key].add_artist(artist)
             self._albums[key].set_composer(composer)
             self._albums[key].set_source(source.get_id())
-            self._albums[key].tracks = []
+            self._albums[key].songs = []
             self._add_item(source, None, self._albums[key], 0, [self.model, 'album'])
             self._add_item(source, None, self._albums[key], 0, [self.model, 'artist'])
 
-        self._albums[key].tracks.append(item)
+        self._albums[key].songs.append(item)
         self._add_item(source, None, item, 0, [self.model, 'song'])
 
     @log
@@ -309,7 +309,7 @@ class SearchView(BaseView):
         self._header_bar.set_state(ToolbarState.MAIN)
 
     @log
-    def get_selected_tracks(self, callback):
+    def get_selected_songs(self, callback):
         if self.get_visible_child() == self._albumWidget:
             callback(self._albumWidget.view.get_selected_items())
         elif self.get_visible_child() == self._artistAlbumsWidget:

@@ -263,8 +263,8 @@ class Grilo(GObject.GObject):
                           Query.album_songs(album.get_id()), 0, callback, count)
         else:
             source = self.sources[album.get_source()]
-            length = len(album.tracks)
-            for i, track in enumerate(album.tracks):
+            length = len(album.songs)
+            for i, track in enumerate(album.songs):
                 callback(source, None, track, length - (i + 1), None)
             callback(source, None, None, 0, None)
 

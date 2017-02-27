@@ -647,7 +647,7 @@ class Player(GObject.GObject):
         nextSong = self.playlist.get_value(_iter, self.playlistField)
         url = self.playlist.get_value(_iter, 5).get_url()
 
-        # Skip remote tracks discovery
+        # Skip remote songs discovery
         if url.startswith('http://') or url.startswith('https://'):
             return False
         elif status == DiscoveryStatus.PENDING:

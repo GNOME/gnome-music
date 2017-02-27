@@ -263,7 +263,7 @@ class BaseView(Gtk.Stack):
         self._header_bar._select_button.clicked()
 
     @log
-    def get_selected_tracks(self, callback):
+    def get_selected_songs(self, callback):
         callback([])
 
     @log
@@ -281,7 +281,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def select_all(self):
-        """Select all the available tracks."""
+        """Select all the available songs."""
         count = self._set_selection(True)
 
         if count > 0:
@@ -294,7 +294,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def unselect_all(self):
-        """Unselects all the selected tracks."""
+        """Unselects all the selected songs."""
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar._add_to_playlist_button.set_sensitive(False)

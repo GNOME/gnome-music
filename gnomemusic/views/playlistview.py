@@ -548,6 +548,6 @@ class PlaylistView(BaseView):
         grilo.populate_playlists(self._offset, self._add_playlist_item)
 
     @log
-    def get_selected_tracks(self, callback):
+    def get_selected_songs(self, callback):
         callback([self.model[self.model.get_iter(path)][5]
                   for path in self._view.get_selection()])

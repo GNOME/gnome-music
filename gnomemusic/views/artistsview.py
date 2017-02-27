@@ -206,12 +206,12 @@ class ArtistsView(BaseView):
             self._on_changes_pending()
 
     @log
-    def get_selected_tracks(self, callback):
-        """Returns a list of tracks selected
+    def get_selected_songs(self, callback):
+        """Returns a list of songs selected
 
         In this view this will be all albums of the selected artists.
         :returns: All selected songs
-        :rtype: A list of tracks
+        :rtype: A list of songs
         """
         self._items_selected = []
         self._items_selected_callback = callback
