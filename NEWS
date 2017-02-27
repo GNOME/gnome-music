@@ -1,3 +1,36 @@
+Overview of changes in 3.23.91
+==============================
+
+* Code cleanups
+
+Bugs fixed:
+ 774470 Use song instead of track in the source codebase
+ 774449 Cleanup baseview.py
+
+Thanks to our contributors this release:
+ Marinus Schraal
+ Rashi Sah
+ Suyash Garg
+
+Translations updated:
+ Finnish
+ Kazakh
+ Danish
+ Norwegian bokmål
+ Slovak
+ Polish
+ Basque
+ Indonesian
+ Italian
+ Hungarian
+ Catalan
+ Friulian
+ Ukrainian
+ German
+ Brazilian Portuguese
+ Serbian
+ Spanish
+
 Overview of changes in 3.23.90
 ==============================
 
