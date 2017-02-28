@@ -122,7 +122,7 @@ class PlaylistView(BaseView):
         self._iter_to_clean_model = None
         self.current_playlist = None
         self._current_playlist_index = None
-        self._pl_todelete = None
+        self.pl_todelete = None
         self._pl_todelete_index = None
         self.really_delete = True
         self._songs_count = 0
@@ -450,7 +450,7 @@ class PlaylistView(BaseView):
         self.model.clear()
         self._pl_todelete_index = self._current_playlist_index
         _iter = self._pl_generic_view.get_selection().get_selected()[1]
-        self._pl_todelete = self._playlists_model[_iter][5]
+        self.pl_todelete = self._playlists_model[_iter][5]
 
         if not _iter:
             return
@@ -469,7 +469,7 @@ class PlaylistView(BaseView):
     @log
     def undo_playlist_deletion(self):
         """Revert the last playlist removal"""
-        self._add_playlist_item_to_model(self._pl_todelete,
+        self._add_playlist_item_to_model(self.pl_todelete,
                                          self._pl_todelete_index)
 
     @log
