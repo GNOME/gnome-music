@@ -823,12 +823,41 @@ class Player(GObject.GObject):
         self.progressScale.connect('button-press-event', self._on_progress_scale_event)
         self.progressScale.connect('value-changed', self._on_progress_value_changed)
         self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
+        self.progressScale.connect('change-value', self._on_progress_scale_seek)
         self._ps_draw = self.progressScale.connect('draw',
             self._on_progress_scale_draw)
+        self._seek_timeout = None
+        self._old_progress_scale_value = 0.0
+
+    def _on_progress_scale_seek_finish(self, value):
+        """Prevent stutters when seeking with infinitesimal amounts"""
+        self._seek_timeout = None
+        round_digits = self.progressScale.get_property('round-digits')
+        if self._old_progress_scale_value != round(value, round_digits):
+            self.on_progress_scale_change_value(self.progressScale)
+        return False
+
+    def _on_progress_scale_seek(self, scale, scroll_type, value):
+        """Smooths out the seeking process
+
+        Called every time progress scale is moved. Only after a seek has been
+        stable for 100ms, we play the song from its location.
+        """
+        if self._seek_timeout:
+            GLib.source_remove(self._seek_timeout)
+
+        Gtk.Range.do_change_value(scale, scroll_type, value)
+        self._seek_timeout = GLib.timeout_add(100,
+                                              self._on_progress_scale_seek_finish,
+                                              value)
+        return True
 
     @log
     def _on_progress_scale_button_released(self, scale, data):
-        self.on_progress_scale_change_value(self.progressScale)
+        if self._seek_timeout:
+            GLib.source_remove(self._seek_timeout)
+            self._on_progress_scale_seek_finish(self.progressScale.get_value())
+
         self._update_position_callback()
         return False
 
@@ -840,6 +869,7 @@ class Player(GObject.GObject):
     @log
     def _on_progress_scale_event(self, scale, data):
         self._remove_timeout()
+        self._old_progress_scale_value = self.progressScale.get_value()
         return False
 
     def _on_progress_scale_draw(self, cr, data):
