@@ -828,6 +828,7 @@ class Player(GObject.GObject):
             self._on_progress_scale_draw)
         self._seek_timeout = None
         self._old_progress_scale_value = 0.0
+        self.progressScale.set_increments(300, 600)
 
     def _on_progress_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
@@ -848,9 +849,14 @@ class Player(GObject.GObject):
             GLib.source_remove(self._seek_timeout)
 
         Gtk.Range.do_change_value(scale, scroll_type, value)
-        self._seek_timeout = GLib.timeout_add(100,
-                                              self._on_progress_scale_seek_finish,
-                                              value)
+        if scroll_type == Gtk.ScrollType.JUMP:
+            self._seek_timeout = GLib.timeout_add(
+                100, self._on_progress_scale_seek_finish, value)
+        else:
+            # scroll with keys, hence no smoothing
+            self._on_progress_scale_seek_finish(value)
+            self._update_position_callback()
+
         return True
 
     @log
