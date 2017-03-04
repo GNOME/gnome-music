@@ -36,7 +36,8 @@ import cairo
 from gettext import gettext as _
 import gi
 gi.require_version('MediaArt', '2.0')
-from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt
+from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
+                           Gst, GstTag, GstPbutils)
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -186,8 +187,11 @@ class DefaultIcon(GObject.GObject):
 class AlbumArtCache(GObject.GObject):
     """Album art retrieval class
 
-    On basis of a given media item looks up album art locally and if
-    not found remotely.
+    On basis of a given media item looks up album art in the following order:
+    1) already existing in cache
+    2) from embedded images
+    3) from local images
+    3) remotely
     """
     _instance = None
     blacklist = {}
@@ -209,6 +213,19 @@ class AlbumArtCache(GObject.GObject):
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return
 
+        Gst.init(None)
+        self._discoverer = GstPbutils.Discoverer.new(Gst.SECOND)
+        self._discoverer.connect('discovered', self._discovered_cb)
+        self._discoverer.start()
+
+        self._discoverer_items = {}
+
+        self._media_art = None
+        try:
+            self._media_art = MediaArt.Process.new()
+        except Exception as err:
+            logger.warn("Error: %s, %s", err.__class__, err)
+
     @log
     def lookup(self, item, art_size, callback, itr):
         """Find art for the given item
@@ -223,7 +240,7 @@ class AlbumArtCache(GObject.GObject):
     @log
     def _lookup_local(self, item, callback, itr, art_size):
         """Checks if there is already a local art file, if not calls
-        the remote lookup function"""
+        the embedded lookup function"""
         album = utils.get_album_title(item)
         artist = utils.get_artist_name(item)
 
@@ -281,7 +298,89 @@ class AlbumArtCache(GObject.GObject):
             do_callback(None)
             return
 
+        self._lookup_embedded(item, callback, itr, art_size)
+
+    @log
+    def _discovered_cb(self, discoverer, info, error):
+        item, callback, itr, art_size, cache_path = \
+            self._discoverer_items[info.get_uri()]
+
+        album = utils.get_album_title(item)
+        artist = utils.get_artist_name(item)
+        tags = info.get_tags()
+        index = 0
+
+        def art_retrieved(result):
+            if not result:
+                if artist not in self.blacklist:
+                    self.blacklist[artist] = []
+
+                album_stripped = MediaArt.strip_invalid_entities(album)
+                self.blacklist[artist].append(album_stripped)
+
+            self.lookup(item, art_size, callback, itr)
+
+        if error is not None:
+            art_retrieved(False)
+            return
+
+        while True:
+            success, sample = tags.get_sample_index(Gst.TAG_IMAGE, index)
+            if not success:
+                break
+            index += 1
+            struct = sample.get_info()
+            success, image_type = struct.get_enum('image-type',
+                                                  GstTag.TagImageType)
+            if not success:
+                continue
+            if image_type != GstTag.TagImageType.FRONT_COVER:
+                continue
+
+            buf = sample.get_buffer()
+            success, map_info = buf.map(Gst.MapFlags.READ)
+            if not success:
+                continue
+
+            try:
+                mime = sample.get_caps().get_structure(0).get_name()
+                MediaArt.buffer_to_jpeg(map_info.data, mime, cache_path)
+                art_retrieved(True)
+                return
+            except Exception as err:
+                logger.warn("Error: %s, %s", err.__class__, err)
+
+        try:
+            self._media_art.uri(MediaArt.Type.ALBUM,
+                                MediaArt.ProcessFlags.NONE, item.get_url(),
+                                artist, album, None)
+            if os.path.exists(cache_path):
+                art_retrieved(True)
+                return
+        except Exception as err:
+            logger.warn("Trying to process misc albumart: %s, %s",
+                        err.__class__, err)
+
         self._lookup_remote(item, callback, itr, art_size)
+
+    @log
+    def _lookup_embedded(self, item, callback, itr, art_size):
+        """Lookup embedded cover
+
+        Lookup embedded art through Gst.Discoverer. If found
+        copy locally and call _lookup_local to finish retrieving
+        suitable art, otherwise follow up with _lookup_remote.
+        """
+        album = utils.get_album_title(item)
+        artist = utils.get_artist_name(item)
+
+        success, cache_path = MediaArt.get_path(artist, album, "album")
+        if not success:
+            self._lookup_remote(item, callback, itr, art_size)
+
+        self._discoverer_items[item.get_url()] = [item, callback, itr,
+                                                  art_size, cache_path]
+        self._discoverer.discover_uri_async(item.get_url())
 
     @log
     def _lookup_remote(self, item, callback, itr, art_size):

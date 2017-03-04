@@ -157,6 +157,7 @@ class Query():
         ?title
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+        nie:url(?song) AS ?url
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
