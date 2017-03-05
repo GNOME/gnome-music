@@ -1,13 +1,13 @@
 # Korean translation for gnome-music.
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Seong-ho Cho <shcho@gnome.org>, 2014, 2016.
+# Seong-ho Cho <shcho@gnome.org>, 2014, 2016, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2016-03-03 09:25+0000\n"
-"PO-Revision-Date: 2016-03-03 19:11+0900\n"
+"POT-Creation-Date: 2017-02-23 07:23+0000\n"
+"PO-Revision-Date: 2017-03-04 14:25+0900\n"
 "Last-Translator: Seong-ho Cho <shcho@gnome.org>\n"
 "Language-Team: Korean <gnome-kr@googlegroups.com>\n"
 "Language: ko\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr "조성호 <shcho@gnome.org>, 2014, 2016."
+msgstr "조성호 <shcho@gnome.org>, 2014, 2016, 2017."
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -44,9 +44,11 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
-"파일 관리자보다 단순하고 매력적인 음악 디렉터리 표시 대안 프로그램입니다."
+"음악 디렉터리를 보여주는 <app>파일</app>보다 더욱 단순하고 우아한 대안 프로"
+"그램입니다."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -101,8 +103,8 @@ msgid ""
 "You can play your favorite music by creating a playlist or by simply "
 "clicking on the song of your choice from any view."
 msgstr ""
-"재생 목록을 만들거나 어떤 뷰에서든 여러분이 선택한 노래를 눌러 듣고 싶은 음악"
-"을 재생할 수 있습니다."
+"재생 목록을 만들거나 어떤 뷰에서든 여러분이 선택한 노래를 눌러 듣고 싶은 음"
+"악을 재생할 수 있습니다."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
@@ -210,9 +212,9 @@ msgid ""
 "gui><gui>Select All</gui></guiseq> in the toolbar or press "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 msgstr ""
-"모든 노래를 선택하려면 도구 모음에서 <guiseq><gui>선택할 항목 누름</gui><gui>"
-"모두 선택</gui></guiseq> 을 누르거나 <keyseq><key>Ctrl</key><key>A</key></"
-"keyseq>키 조합을 누르십시오."
+"모든 노래를 선택하려면 도구 모음에서 <guiseq><gui>선택할 항목 누름</"
+"gui><gui>모두 선택</gui></guiseq> 을 누르거나 <keyseq><key>Ctrl</"
+"key><key>A</key></keyseq>키 조합을 누르십시오."
 
 #. (itstool) path: note/p
 #: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
@@ -221,8 +223,8 @@ msgid ""
 "To clear the selection click <guiseq><gui>Click on items to select them</"
 "gui><gui>Select None</gui></guiseq> in the toolbar."
 msgstr ""
-"선택을 취소하려면 도구 모음에서 <guiseq><gui>선택할 항목 누름</gui><gui>선택 "
-"안함</gui></guiseq>을 누르십시오."
+"선택을 취소하려면 도구 모음에서 <guiseq><gui>선택할 항목 누름</gui><gui>선"
+"택 안함</gui></guiseq>을 누르십시오."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-songs.page:18
@@ -258,8 +260,8 @@ msgid ""
 "Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
 "playlist."
 msgstr ""
-"<gui style=\"button\">새 재생 목록</gui>을 누른 후 재생 목록에서 이름을 입력"
-"하십시오."
+"<gui style=\"button\">새 재생 목록</gui>을 누른 후 재생 목록에서 이름을 입"
+"력하십시오."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
@@ -273,15 +275,12 @@ msgstr "음악가 기준으로 재생 목록 만들기"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
-#| msgid ""
-#| "You can view all the artists and their songs by clicking on the <gui syle="
-#| "\"button\">Artists</gui> button."
 msgid ""
 "You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
-"<gui syle=\"button\">음악가</gui> 단추를 누르면 음악가와 해당 음악가의 모든 "
-"노래를 볼 수 있습니다."
+"<gui syle=\"button\">음악가</gui> 단추를 누르면 음악가와 해당 음악가의 모"
+"든 노래를 볼 수 있습니다."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-artists.page:28
@@ -381,7 +380,8 @@ msgstr "<gui>노래 반복</gui>을 선택하여 단일 노래를 반복하십�
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:30
 msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
-msgstr "<gui>모두 반복</gui>을 선택하여 재생 목록의 모든 노래를 반복하십시오."
+msgstr ""
+"<gui>모두 반복</gui>을 선택하여 재생 목록의 모든 노래를 반복하십시오."
 
 #. (itstool) path: info/desc
 #: C/playlist-shuffle.page:18
@@ -418,13 +418,14 @@ msgid ""
 "want to search through then click the <gui>Search</gui> button and start "
 "searching."
 msgstr ""
-"앨범, 음악가, 노래, 재생 목록을 검색할 수 있습니다. 검색할 요소를 선택한 후 "
-"<gui>검색</gui> 단추를 누르면 검색을 시작합니다."
+"앨범, 음악가, 노래, 재생 목록을 검색할 수 있습니다. 검색할 요소를 선택한 "
+"후 <gui>검색</gui> 단추를 누르면 검색을 시작합니다."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 Unported 라이선스"
+msgstr ""
+"크리에이티브 커먼즈 저작자표시-동일조건변경허락 3.0 Unported 라이선스"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
