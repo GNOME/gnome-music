@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the gnome-music package.
 # Alain Lojewski <allomervan@gmail.com>, 2014.
 # Julien Hardelin <jhardlin@orange.fr>, 2014.
+# Charles Monzat <superboa@hotmail.fr>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2016-03-09 09:28+0000\n"
-"PO-Revision-Date: 2016-03-09 12:04+0100\n"
-"Last-Translator: Laurent de Burlet <thevedeburlet@gmail.com>\n"
-"Language-Team: français <GNOME French Team <gnomefr@traduc.org>>\n"
+"POT-Creation-Date: 2017-03-02 18:53+0000\n"
+"PO-Revision-Date: 2017-03-02 23:11+0100\n"
+"Last-Translator: Charles Monzat <superboa@hotmail.fr>\n"
+"Language-Team: français <gnomefr@traduc.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
@@ -47,10 +48,11 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
-"Une alternative simple et élégante à l'affichage et à l'utilisation des "
-"fichiers du dossier Musique."
+"Une alternative simple et élégante à <app>Fichiers</app> pour l'affichage "
+"du répertoire de Musique."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
@@ -287,9 +289,6 @@ msgstr "Création de listes de lecture par artiste"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
-#| msgid ""
-#| "You can view all the artists and their songs by clicking on the <gui syle="
-#| "\"button\">Artists</gui> button."
 msgid ""
 "You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
