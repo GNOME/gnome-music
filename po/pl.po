@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-26 21:20+0100\n"
-"PO-Revision-Date: 2017-02-26 21:21+0100\n"
+"POT-Creation-Date: 2017-03-07 20:09+0100\n"
+"PO-Revision-Date: 2017-03-07 20:10+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -129,12 +129,12 @@ msgstr "Poprzedni"
 
 #: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
 msgid "Pause"
-msgstr "Wstrzymaj"
+msgstr "Wstrzymuje"
 
 #: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
-msgstr "Odtwarzaj"
+msgstr "Odtwarza"
 
 #: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
 msgid "Next"
@@ -279,11 +279,11 @@ msgstr "Proszę spróbować innych słów"
 msgid "Hey DJ"
 msgstr "Witaj w odtwarzaczu muzyki"
 
-#: ../gnomemusic/views/playlistview.py:51 ../gnomemusic/views/searchview.py:457
+#: ../gnomemusic/views/playlistview.py:58 ../gnomemusic/views/searchview.py:457
 msgid "Playlists"
 msgstr "Listy odtwarzania"
 
-#: ../gnomemusic/views/playlistview.py:408
+#: ../gnomemusic/views/playlistview.py:421
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -399,7 +399,7 @@ msgstr ""
 
 #: ../data/AlbumWidget.ui.h:1
 msgid "Released"
-msgstr "Wydane"
+msgstr "Rok wydania"
 
 #: ../data/AlbumWidget.ui.h:2
 msgid "Running Length"
@@ -423,11 +423,11 @@ msgstr "Za_kończ"
 
 #: ../data/headerbar.ui.h:1
 msgid "Select All"
-msgstr "Zaznacz wszystkie"
+msgstr "Zaznacz wszystko"
 
 #: ../data/headerbar.ui.h:2
 msgid "Select None"
-msgstr "Odznacz wszystkie"
+msgstr "Odznacz wszystko"
 
 #: ../data/headerbar.ui.h:4
 msgid "Search"
@@ -435,7 +435,7 @@ msgstr "Wyszukuje"
 
 #: ../data/headerbar.ui.h:5
 msgid "Select"
-msgstr "Wybierz"
+msgstr "Zaznacza"
 
 #: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
@@ -559,7 +559,7 @@ msgstr "Wyłączenie losowania/powtarzania"
 
 #: ../data/PlaylistControls.ui.h:1
 msgid "_Play"
-msgstr "O_dtwarzaj"
+msgstr "O_dtwórz"
 
 #: ../data/PlaylistControls.ui.h:2
 msgid "_Delete"
