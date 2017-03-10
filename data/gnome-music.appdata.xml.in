@@ -11,8 +11,17 @@
     </_p>
   </description>
   <screenshots>
-    <screenshot type="default" width="750" height="469">
-      <image>http://www.omgubuntu.co.uk/wp-content/uploads/2013/08/music_album.jpeg</image>
+    <screenshot type="default">
+      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-1.png</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-2.png</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-3.png</image>
+    </screenshot>
+    <screenshot>
+      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-4.png</image>
     </screenshot>
   </screenshots>
   <project_group>GNOME</project_group>
