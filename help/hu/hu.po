@@ -4,12 +4,12 @@
 #
 # Balázs Úr <urbalazs@gmail.com>, 2014.
 # Balázs Úr <urbalazs at gmail dot com>, 2014.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015.
+# Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2015-11-05 09:24+0000\n"
-"PO-Revision-Date: 2015-11-08 12:02+0100\n"
+"POT-Creation-Date: 2017-02-23 07:23+0000\n"
+"PO-Revision-Date: 2017-03-12 20:55+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng at ubuntu dot com>\n"
 "Language-Team: Hungarian <openscope at googlegroups dot com>\n"
 "Language: hu\n"
@@ -48,8 +48,12 @@ msgstr "2014"
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
+#| msgid ""
+#| "A simple and elegant replacement for using files to show the music "
+#| "directory."
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr "Egyszerű és elegáns eszköz a zenegyűjtemény megjelenítésére."
 
 #. (itstool) path: page/title
@@ -284,9 +288,6 @@ msgstr "Lejátszólista létrehozása előadók használatával"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
-#| msgid ""
-#| "You can view all the artists and their songs by clicking on the <gui syle="
-#| "\"button\">Artists</gui> button."
 msgid ""
 "You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
