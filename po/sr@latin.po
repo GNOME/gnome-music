@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
 "POT-Creation-Date: 2017-03-07 09:53+0000\n"
-"PO-Revision-Date: 2017-03-12 07:41+0200\n"
+"PO-Revision-Date: 2017-03-12 08:06+0200\n"
 "Last-Translator: Miroslav Nikolić <miroslavnikolic@rocketmail.com>\n"
 "Language-Team: srpski <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
@@ -258,7 +258,7 @@ msgid_plural "Selected {} items"
 msgstr[0] "Izabrana je {} stavka"
 msgstr[1] "Izabrane su {} stavke"
 msgstr[2] "Izabrano je {} stavki"
-msgstr[3] "Izabrana je jedna stavka"
+msgstr[3] "Izabrana je {} stavka"
 
 #: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
 #: ../gnomemusic/widgets/albumwidget.py:198
@@ -303,7 +303,7 @@ msgid_plural "Selected %d items"
 msgstr[0] "Izabrana je %d stavka"
 msgstr[1] "Izabrane su %d stavke"
 msgstr[2] "Izabrano je %d stavki"
-msgstr[3] "Izabrana je jedna stavka"
+msgstr[3] "Izabrana je %d stavka"
 
 #: ../gnomemusic/widgets/albumwidget.py:291
 #: ../gnomemusic/widgets/albumwidget.py:345
