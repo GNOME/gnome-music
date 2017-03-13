@@ -750,8 +750,11 @@ class Player(GObject.GObject):
         else:
             self.set_playing(True)
 
+    # FIXME: set the discovery field to 11 to be safe, but for some
+    # models it is 12.
     @log
-    def set_playlist(self, type, id, model, iter, field, discovery_status_field):
+    def set_playlist(self, type, id, model, iter, field,
+                     discovery_status_field=11):
         self.stop()
 
         old_playlist = self.playlist
