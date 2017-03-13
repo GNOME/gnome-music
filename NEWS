@@ -1,3 +1,46 @@
+Overview of changes in 3.23.92
+==============================
+
+* Code cleanups
+* Local art retrieval added
+* AppData screenshots updated
+
+Bugs fixed:
+ 779013 only one (older) screenshot in appdata file
+ 779585 Window is wider than 1024px
+ 777041 Unexpected behaviour of playlist notification actions, sometimes
+        deletes, sometimes not
+ 776668 double click on seek bar pauses the songs
+ 779052 MPRIS TrackList GoTo Method Crashes gnome-music
+ 779584 Handle coverart extraction in gnome-music
+
+Thanks to our contributors this release:
+ Abhinav Singh
+ Andreas Nilsson
+ Carlos Garnacho
+ Marinus Schraal
+
+Translations updated:
+ Hungarian
+ Slovak
+ Serbian
+ Galician
+ Lithuanian
+ Italian
+ Czech
+ Polish
+ Danish
+ Scottish Gaelic
+ Occitan
+ French
+ Korean
+ Indonesian
+ Basque
+ Icelandic
+ Swedish
+ Chinese (Taiwan)
+ Finnish
+
 Overview of changes in 3.23.91
 ==============================
 

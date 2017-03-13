@@ -22,6 +22,7 @@ The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer
 </property>
     <property name="authors">Abhinav Singh
 Alberto Fanjul
+Andreas Nilsson
 Arnel A. Borja
 Billy Barrow
 Carlos Garnacho
@@ -64,6 +65,8 @@ Balázs Meskó
 Balázs Úr
 Baurzhan Muftakhidinov
 Cédric Valmary
+Chao-Hsiung Liao
+Charles Monzat
 Cheng Lu
 Cheng-Chia Tseng
 Daniel Korostil
@@ -73,10 +76,12 @@ Dušan Kazik
 Enrico Nicoletto
 Inaki Larranaga Murgoitio
 Jiri Grönroos
+Joe Hansen
 Jordi Mas
 Fabio Tomat
 Fran Dieguez
 Gábor Kelemen
+Guillaume Bernard
 Kjartan Maraas
 Kukuh Syafaat
 Marek Černocký
@@ -90,6 +95,7 @@ Rafael Fontenelle
 Sebastian Rasmussen
 Seong-ho Cho
 Stas Solovey
+Sveinn í Felli
 Tiago Santos
 Tom Tryfonidis
 Trần Ngọc Quân
