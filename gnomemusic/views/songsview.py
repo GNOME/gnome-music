@@ -55,7 +55,7 @@ class SongsView(BaseView):
         self._offset = 0
         self._iter_to_clean = None
 
-        view_style  = self._view.get_generic_view().get_style_context()
+        view_style = self._view.get_generic_view().get_style_context()
         view_style.add_class('songs-list')
         view_style.remove_class('content-view')
 
@@ -92,8 +92,8 @@ class SongsView(BaseView):
             return
 
         if self.model[itr][8] != self._error_icon_name:
-           self.player.set_playlist('Songs', None, self.model, itr, 5, 11)
-           self.player.set_playing(True)
+            self.player.set_playlist('Songs', None, self.model, itr, 5, 11)
+            self.player.set_playing(True)
 
     @log
     def update_model(self, player, playlist, current_iter):
