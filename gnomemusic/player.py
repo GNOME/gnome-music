@@ -265,7 +265,7 @@ class Player(GObject.GObject):
         install_ctx = GstPbutils.InstallPluginsContext.new()
 
         if self._gst_plugins_base_check_version(1, 5, 0):
-            install_ctx.set_desktop_id('gnome-music.desktop')
+            install_ctx.set_desktop_id('org.gnome.Music.desktop')
             install_ctx.set_confirm_search(confirm_search)
 
             startup_id = '_TIME%u' % Gtk.get_current_event_time()

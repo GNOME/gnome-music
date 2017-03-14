@@ -6,7 +6,7 @@ resourcedir = $(pkgdatadir)
 resource_DATA = gnome-music.gresource
 
 appsdir = $(datadir)/applications
-apps_DATA = gnome-music.desktop
+apps_DATA = org.gnome.Music.desktop
 
 @INTLTOOL_DESKTOP_RULE@
 
@@ -64,7 +64,7 @@ EXTRA_DIST = \
 	$(hicolor_icon_files) \
 	$(resource_files) \
 	gnome-music.appdata.xml.in \
-	gnome-music.desktop.in \
+	org.gnome.Music.desktop.in \
 	gnome-music.gresource.xml \
 	org.gnome.Music.gschema.xml \
 	$(man1_MANS) \
