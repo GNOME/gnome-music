@@ -92,6 +92,7 @@ Milo Casagrande
 Osman Karagöz
 Piotr Drąg
 Rafael Fontenelle
+Rūdolfs Mazurs
 Sebastian Rasmussen
 Seong-ho Cho
 Stas Solovey
@@ -99,8 +100,8 @@ Sveinn í Felli
 Tiago Santos
 Tom Tryfonidis
 Trần Ngọc Quân
-Rūdolfs Mazurs
 Yosef Or Boczko
+Yuri Myasoedov
     </property>
     <property name="logo_icon_name">gnome-music</property>
     <property name="wrap_license">True</property>
