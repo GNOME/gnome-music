@@ -835,6 +835,7 @@ class Player(GObject.GObject):
         round_digits = self.progressScale.get_property('round-digits')
         if self._old_progress_scale_value != round(value, round_digits):
             self.on_progress_scale_change_value(self.progressScale)
+            self._old_progress_scale_value = round(value, round_digits)
         return False
 
     def _on_progress_scale_seek(self, scale, scroll_type, value):
