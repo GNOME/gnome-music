@@ -63,8 +63,8 @@ class Application(Gtk.Application):
         css_provider.load_from_file(css_provider_file)
         screen = Gdk.Screen.get_default()
         style_context = Gtk.StyleContext()
-        style_context.add_provider_for_screen(screen, css_provider,
-                                              Gtk.STYLE_PROVIDER_PRIORITY_USER)
+        style_context.add_provider_for_screen(
+            screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     @log
     def _build_app_menu(self):
