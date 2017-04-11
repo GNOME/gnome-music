@@ -1,0 +1,115 @@
+{
+    "app-id": "org.gnome.Music",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "master",
+    "sdk": "org.gnome.Sdk",
+    "command": "gnome-music",
+    "tags": ["nightly"],
+    "desktop-file-name-prefix": "(Nightly) ",
+    "finish-args": [
+        /* X11 + XShm access */
+        "--share=ipc", "--socket=x11",
+        /* Wayland access */
+        "--socket=wayland",
+        /* Tracker */
+        "--talk-name=org.freedesktop.Tracker1",
+        /* Needed for dconf to work */
+        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        /* DLNA server */
+        "--talk-name=com.intel.dleyna-server",
+        /* Play sounds */
+        "--socket=pulseaudio",
+        /* Browse user's Music directory */
+        "--filesystem=xdg-music"
+    ],
+    "build-options" : {
+        "cflags": "-O2 -g",
+        "cxxflags": "-O2 -g",
+        "env": {
+            "V": "1"
+        }
+    },
+    "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/pkgconfig",
+        "/share/aclocal",
+        "/man",
+        "/share/man",
+        "/share/gtk-doc",
+        "/share/vala",
+        "*.la",
+        "*.a"
+    ],
+    "modules": [
+        {
+            "name": "libmediaart",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/libmediaart"
+                }
+            ]
+        },
+        {
+            "name": "tracker",
+            "cleanup": [ "/bin", "/etc", "/libexec" ],
+            "config-opts": [ "--disable-miner-apps", "--disable-static",
+                             "--disable-tracker-extract", "--disable-tracker-needle",
+                             "--disable-tracker-preferences", "--disable-artwork",
+                             "--disable-tracker-writeback", "--disable-miner-user-guides",
+                             "--with-bash-completion-dir=no" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://git.gnome.org/browse/tracker"
+                }
+            ]
+        },
+        {
+            "name": "grilo",
+            "config-opts": [ "--disable-static" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/grilo"
+                }
+            ],
+            "cleanup": [ "/include", "/bin" ]
+        },
+        {
+            "name": "grilo-plugins",
+            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa=no", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/grilo-plugins"
+                }
+            ],
+            "cleanup": [ "/include" ]
+        },
+        {
+            "name": "requests",
+            "buildsystem": "simple",
+            "build-commands":["python3 setup.py install --prefix=/app "],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/kennethreitz/requests/archive/v2.13.0.tar.gz",
+                    "sha256": "48fd188aaa388b4193bf7b917cf861a00eafacad651148475bc65ffaef445627"
+                }
+            ]
+        },
+        {
+            "name": "gnome-music",
+            "command": "gnome-music",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "git://git.gnome.org/gnome-music"
+                }
+            ]
+        }
+    ]
+}
