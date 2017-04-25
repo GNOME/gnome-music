@@ -408,7 +408,7 @@ class PlaylistView(BaseView):
         self._offset += 1
         title = utils.get_media_title(item)
         item.set_title(title)
-        artist = utils.get_album_title(item)
+        artist = utils.get_artist_name(item)
         model.insert_with_valuesv(-1, [2, 3, 5, 9],
                                   [title, artist, item, item.get_favourite()])
 
