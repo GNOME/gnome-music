@@ -215,7 +215,7 @@ class Window(Gtk.ApplicationWindow):
         self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
                                             Gio.DBusProxyFlags.NONE,
                                             None,
-                                            'org.gnome.SettingsDaemon',
+                                            'org.gnome.SettingsDaemon.MediaKeys',
                                             '/org/gnome/SettingsDaemon/MediaKeys',
                                             'org.gnome.SettingsDaemon.MediaKeys',
                                             None)
