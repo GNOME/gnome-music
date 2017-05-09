@@ -1,3 +1,17 @@
+Overview of changes in 3.24.2
+=============================
+
+Bugs fixed:
+ 776668 fix seek stutter
+ 781684 In Playlist view album title is displayed instead of artist name
+
+Thanks to our contributors this release:
+ Abhinav Singh
+ Marinus Schraal
+
+Translations updated:
+ Belarusian
+
 Overview of changes in 3.24.1.1
 ===============================
 
