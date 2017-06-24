@@ -47,6 +47,41 @@ import gnomemusic.utils as utils
 logger = logging.getLogger(__name__)
 
 
+class LookupQueue(object):
+    """A queue for IO operations"""
+
+    _max_simultaneous_lookups = 12
+    _lookup_queue = []
+    _n_lookups = 0
+
+    @classmethod
+    @log
+    def push(cls, cache, item, art_size, callback, itr):
+        """Push a lookup counter or queue the lookup if needed"""
+
+        # If reached the limit, queue the operation.
+        if cls._n_lookups >= cls._max_simultaneous_lookups:
+            cls._lookup_queue.append((cache, item, art_size, callback, itr))
+            return False
+        else:
+            cls._n_lookups += 1
+            return True
+
+    @classmethod
+    @log
+    def pop(cls):
+        """Pops a lookup counter and consume the lookup queue if needed"""
+
+        cls._n_lookups -= 1
+
+        # An available lookup slot appeared! Let's continue looking up
+        # artwork then.
+        if (cls._n_lookups < cls._max_simultaneous_lookups
+                and cls._lookup_queue):
+            (cache, item, art_size, callback, itr) = cls._lookup_queue.pop(0)
+            cache.lookup(item, art_size, callback, itr)
+
+
 @log
 def _make_icon_frame(pixbuf, art_size=None, scale=1):
     border = 3 * scale
@@ -235,7 +270,8 @@ class AlbumArtCache(GObject.GObject):
         :param callback: Callback function when retrieved
         :param itr: Iter to return with callback
         """
-        self._lookup_local(item, callback, itr, art_size)
+        if LookupQueue.push(self, item, art_size, callback, itr):
+            self._lookup_local(item, callback, itr, art_size)
 
     @log
     def _lookup_local(self, item, callback, itr, art_size):
@@ -269,6 +305,10 @@ class AlbumArtCache(GObject.GObject):
             return
 
         def do_callback(pixbuf):
+
+            # Lookup finished, decrease the counter
+            LookupQueue.pop()
+
             if not pixbuf:
                 surface = DefaultIcon(self._scale).get(DefaultIcon.Type.music,
                                                        art_size)
@@ -297,6 +337,12 @@ class AlbumArtCache(GObject.GObject):
                 and stripped_album in self.blacklist[artist]):
             do_callback(None)
             return
+
+        # When we reach here because it fails to retrieve the artwork,
+        # do a long round trip (either through _lookup_embedded or
+        # _lookup_remote) and call self.lookup() again. Thus, decrease
+        # global lookup counter.
+        LookupQueue.pop()
 
         self._lookup_embedded(item, callback, itr, art_size)
 
