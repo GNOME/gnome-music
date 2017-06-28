@@ -30,7 +30,7 @@ from time import time
 import logging
 
 import gi
-gi.require_version('Tracker', '1.0')
+gi.require_version('Tracker', '2.0')
 from gi.repository import Tracker
 
 logger = logging.getLogger(__name__)
