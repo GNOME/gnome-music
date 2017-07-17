@@ -1,3 +1,33 @@
+Overview of changes in 3.25.4
+=============================
+
+* Build: depend on libtracker-sparql-2.0
+* Add Flatpak manifest
+* Mark forgotten string for translation
+
+Bugs fixed:
+ 776668 fix minor seek stutter
+ 774500 refactor gnome-music.in to be more readable
+ 781684 playlistview artist field incorrect
+ 777346 allow seek using arrow keys
+ 781754 fix media-player-keys bus name
+
+Thanks to our contributors this release:
+ Abhinav Singh
+ Carlos Garnacho
+ Carlos Soriano
+ Felipe Borges
+ Marinus Schraal
+ Pablo Palácios
+ Piotr Drąg
+
+Translations updated:
+ Belarusian
+ Slovenian
+ Polish
+ Indonesian
+
+
 Overview of changes in 3.24.1.1
 ===============================
 
