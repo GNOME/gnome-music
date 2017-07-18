@@ -73,30 +73,7 @@ class Query():
         :return: The sparql order by statement
         :rtype: str
         """
-        return_statement = """fn:replace(fn:lower-case(%(attribute)s),
-        "^[%(punctuation)s]+|[%(punctuation)s]+$", "")
-        """.replace('\n', ' ').strip() % {
-            'attribute': attr,
-            'punctuation': PUNCTUATION_FILTER
-        }
-
-        # TRANSLATORS: The following translatable string should be a
-        # vertical bar-separated list of all-lowercase articles that
-        # should be ignored when alphabetizing artists/albums. This
-        # list should include the basic english translatable strings
-        # regardless of language because they are so universal.
-        # If some articles occur more frequently than others, the most
-        # common one should appear first, the least common one last.
-        for article in reversed(_("the|a|an").split("|")):
-            return_statement = """IF(STRSTARTS(%(attribute)s, "%(article)s"),
-            SUBSTR(%(attribute)s, %(substr_start)s), %(nested_if)s)
-            """ % {
-                'attribute': attr,
-                'article': article + " ",
-                'substr_start': str(len(article) + 2),
-                'nested_if': return_statement
-            }
-        return return_statement
+        return """tracker:title-order(%(attr)s)""" % { 'attr': attr };
 
     @staticmethod
     def all_albums():
@@ -168,17 +145,15 @@ class Query():
         OPTIONAL { ?song nmm:composer ?composer . }
         BIND(tracker:coalesce(nmm:artistName(?albumArtist),
                               nmm:artistName(?performer)) AS ?artist_presort)
-        BIND(LCASE(?title) AS ?title_lower)
-        BIND((%(album_order)s) AS ?album_collation)
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album
-    ORDER BY ?album_collation (%(artist_sort)s) ?creation_date
+    ORDER BY %(album_order)s %(artist_order)s ?creation_date
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
-            'album_order': Query._order_by_statement("?title_lower"),
-            'artist_sort': Query._order_by_statement("?artist_presort"),
+            'album_order': Query._order_by_statement("?title"),
+            'artist_order': Query._order_by_statement("?artist_presort"),
         }
 
         return query
@@ -203,8 +178,6 @@ class Query():
         OPTIONAL { ?album nmm:albumArtist ?albumArtist }
         BIND(tracker:coalesce(nmm:artistName(?albumArtist),
                               nmm:artistName(?performer)) AS ?artist_presort)
-        BIND(LCASE(?title) AS ?title_lower)
-        BIND((%(album_order)s) AS ?title_collation)
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album
@@ -213,7 +186,7 @@ class Query():
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
             'artist_sort': Query._order_by_statement("?artist_presort"),
-            'album_order': Query._order_by_statement("?title_lower")
+            'album_order': Query._order_by_statement("?title")
         }
 
         return query
