@@ -271,10 +271,10 @@ class AlbumArtCache(GObject.GObject):
         :param itr: Iter to return with callback
         """
         if LookupQueue.push(self, item, art_size, callback, itr):
-            self._lookup_local(item, callback, itr, art_size)
+            self._lookup_local(item, art_size, callback, itr)
 
     @log
-    def _lookup_local(self, item, callback, itr, art_size):
+    def _lookup_local(self, item, art_size, callback, itr):
         """Checks if there is already a local art file, if not calls
         the embedded lookup function"""
         album = utils.get_album_title(item)
@@ -344,11 +344,11 @@ class AlbumArtCache(GObject.GObject):
         # global lookup counter.
         LookupQueue.pop()
 
-        self._lookup_embedded(item, callback, itr, art_size)
+        self._lookup_embedded(item, art_size, callback, itr)
 
     @log
     def _discovered_cb(self, discoverer, info, error):
-        item, callback, itr, art_size, cache_path = \
+        item, art_size, callback, itr, cache_path = \
             self._discoverer_items[info.get_uri()]
 
         album = utils.get_album_title(item)
@@ -412,10 +412,10 @@ class AlbumArtCache(GObject.GObject):
             logger.warn("Trying to process misc albumart: %s, %s",
                         err.__class__, err)
 
-        self._lookup_remote(item, callback, itr, art_size)
+        self._lookup_remote(item, art_size, callback, itr)
 
     @log
-    def _lookup_embedded(self, item, callback, itr, art_size):
+    def _lookup_embedded(self, item, art_size, callback, itr):
         """Lookup embedded cover
 
         Lookup embedded art through Gst.Discoverer. If found
@@ -429,12 +429,12 @@ class AlbumArtCache(GObject.GObject):
         if not success:
             self._lookup_remote(item, callback, itr, art_size)
 
-        self._discoverer_items[item.get_url()] = [item, callback, itr,
-                                                  art_size, cache_path]
+        self._discoverer_items[item.get_url()] = [item, art_size, callback,
+                                                  itr, cache_path]
         self._discoverer.discover_uri_async(item.get_url())
 
     @log
-    def _lookup_remote(self, item, callback, itr, art_size):
+    def _lookup_remote(self, item, art_size, callback, itr):
         """Lookup remote art
 
         Lookup remote art through Grilo and if found copy locally. Call
