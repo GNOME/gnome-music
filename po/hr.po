@@ -8,8 +8,9 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-04-06 09:35+0000\n"
-"PO-Revision-Date: 2017-04-08 22:48+0200\n"
+"POT-Creation-Date: 2017-06-28 17:45+0000\n"
+"PO-Revision-Date: 2017-07-29 19:19+0200\n"
+"Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
 "MIME-Version: 1.0\n"
@@ -17,8 +18,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"Last-Translator: gogo <trebelnik2@gmail.com>\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.3\n"
+
+#: ../data/org.gnome.Music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Glazba"
+
+#: ../data/org.gnome.Music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Glazbeni svirač"
+
+#: ../data/org.gnome.Music.desktop.in.h:3
+#: ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Slušajte i organizirajte vašu glazbenu kolekciju"
+
+#: ../data/org.gnome.Music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Glazba;Svirač;"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -42,7 +61,7 @@ msgstr "Prozor uvećan"
 
 #: ../data/org.gnome.Music.gschema.xml.h:6
 msgid "Window maximized state."
-msgstr "Stanje uvećanog prozora"
+msgstr "Stanje uvećanog prozora."
 
 #: ../data/org.gnome.Music.gschema.xml.h:7
 msgid "Playback repeat mode"
@@ -68,7 +87,7 @@ msgstr "Način pretraživanja"
 
 #: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
-msgstr "Ako je odabrano, traka pretrage je prikazana"
+msgstr "Ako je odabrano, traka pretrage je prikazana."
 
 #: ../data/org.gnome.Music.gschema.xml.h:12
 msgid "Notifications mode"
@@ -94,31 +113,13 @@ msgstr "Početno stanje je prikazano"
 msgid "Set to true when initial state has been displayed"
 msgstr "Postavite na 'true' kada je početno stanje prikazano"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
-#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Glazba"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Glazbeni svirač"
-
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "Slušajte i organizirajte vašu glazbenu kolekciju"
-
-#: ../data/gnome-music.desktop.in.h:4
-msgid "Music;Player;"
-msgstr "Glazba;Svirač;"
-
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "GNOME Glazba"
 
 #: ../data/gnome-music.appdata.xml.in.h:3
 msgid "Music is the new GNOME music playing application."
-msgstr "Glazba je nova GNOME aplikacija za slušanje glazbe"
+msgstr "Glazba je nova GNOME aplikacija za slušanje glazbe."
 
 #: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
@@ -137,29 +138,29 @@ msgstr "Reproduciraj"
 msgid "Next"
 msgstr "Sljedeća"
 
-#: ../gnomemusic/player.py:1160
+#: ../gnomemusic/player.py:1167
 msgid "Unable to play the file"
 msgstr "Nemoguća reprodukcija datoteke"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1165
+#: ../gnomemusic/player.py:1172
 #, python-format
 msgid "_Find in %s"
 msgstr "_Pretraži u %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1175
+#: ../gnomemusic/player.py:1182
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1178
+#: ../gnomemusic/player.py:1185
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1179
+#: ../gnomemusic/player.py:1186
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -432,7 +433,7 @@ msgstr "Pretraga"
 msgid "Select"
 msgstr "Odaberi"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 msgid "_Cancel"
 msgstr "_Odustani"
 
@@ -580,7 +581,11 @@ msgstr "Novi popis izvođenja"
 msgid "Add"
 msgstr "Dodaj"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/PlaylistDialog.ui.h:5
+msgid "Select Playlist"
+msgstr "Odaberi popis izvođenja"
+
+#: ../data/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "_Dodaj"
 
