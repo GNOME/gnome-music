@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-07 09:53+0000\n"
-"PO-Revision-Date: 2017-03-08 16:58+0100\n"
+"POT-Creation-Date: 2017-07-29 17:20+0000\n"
+"PO-Revision-Date: 2017-07-30 15:26+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>>\n"
 "Language: cs\n"
@@ -21,6 +21,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Gtranslator 2.91.7\n"
+
+#: ../data/org.gnome.Music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Hudba"
+
+#: ../data/org.gnome.Music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Hudební přehrávač"
+
+#: ../data/org.gnome.Music.desktop.in.h:3
+#: ../data/gnome-music.appdata.xml.in.h:2
+msgid "Play and organize your music collection"
+msgstr "Přehrávat a organizovat svou hudební sbírku"
+
+#: ../data/org.gnome.Music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "hudba;muzika;přehrávač;"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -96,24 +115,6 @@ msgstr "Počáteční stav byl zobrazen"
 msgid "Set to true when initial state has been displayed"
 msgstr "Nastavit na zapnuto, když byl již zobrazen počáteční stav"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
-#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Hudba"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Hudební přehrávač"
-
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "Přehrávat a organizovat svou hudební sbírku"
-
-#: ../data/gnome-music.desktop.in.h:4
-msgid "Music;Player;"
-msgstr "hudba;muzika;přehrávač;"
-
 #: ../data/gnome-music.appdata.xml.in.h:1
 msgid "GNOME Music"
 msgstr "Hudba GNOME"
@@ -126,11 +127,11 @@ msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 msgid "Previous"
 msgstr "Předchozí"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
 msgid "Pause"
 msgstr "Pozastavit"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Přehrát"
@@ -139,29 +140,29 @@ msgstr "Přehrát"
 msgid "Next"
 msgstr "Následující"
 
-#: ../gnomemusic/player.py:1132
+#: ../gnomemusic/player.py:1167
 msgid "Unable to play the file"
 msgstr "Soubor nelze přehrát"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1137
+#: ../gnomemusic/player.py:1172
 #, python-format
 msgid "_Find in %s"
 msgstr "_Hledat v %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1147
+#: ../gnomemusic/player.py:1182
 msgid " and "
 msgstr " a "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1150
+#: ../gnomemusic/player.py:1185
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1151
+#: ../gnomemusic/player.py:1186
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -282,7 +283,7 @@ msgstr "Hej, DJ"
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
-#: ../gnomemusic/views/playlistview.py:421
+#: ../gnomemusic/views/playlistview.py:420
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -313,20 +314,20 @@ msgstr "%d min"
 msgid "Disc {}"
 msgstr "Disk {}"
 
-#: ../gnomemusic/window.py:128
+#: ../gnomemusic/window.py:125
 msgid "Loading"
 msgstr "Načítá se"
 
 #. Undo button
-#: ../gnomemusic/window.py:183
+#: ../gnomemusic/window.py:162
 msgid "_Undo"
 msgstr "_Zpět"
 
-#: ../gnomemusic/window.py:342
+#: ../gnomemusic/window.py:314
 msgid "Empty"
 msgstr "Prázdné"
 
-#: ../gnomemusic/window.py:419
+#: ../gnomemusic/window.py:390
 msgid "Playlist {} removed"
 msgstr "Seznam k přehrání {} byl odstraněn"
 
@@ -434,7 +435,7 @@ msgstr "Hledat"
 msgid "Select"
 msgstr "Vybrat"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 msgid "_Cancel"
 msgstr "_Zrušit"
 
@@ -582,7 +583,11 @@ msgstr "Nový seznam k přehrání"
 msgid "Add"
 msgstr "Přidat"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/PlaylistDialog.ui.h:5
+msgid "Select Playlist"
+msgstr "Výběr seznamu k přehrání"
+
+#: ../data/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "Přid_at"
 
@@ -593,4 +598,3 @@ msgstr "Přid_at do seznamu k přehrání"
 #: ../data/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "Odeb_rat ze seznamu k přehrání"
-
