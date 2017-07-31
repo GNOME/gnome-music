@@ -12,7 +12,7 @@ apps_DATA = org.gnome.Music.desktop
 
 appdatadir = $(datadir)/appdata
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
-appdata_in_files = gnome-music.appdata.xml.in
+appdata_in_files = org.gnome.Music.appdata.xml.in
 
 @INTLTOOL_XML_RULE@
 
@@ -63,7 +63,7 @@ gschemas.compiled: $(gsettings_SCHEMAS) Makefile
 EXTRA_DIST = \
 	$(hicolor_icon_files) \
 	$(resource_files) \
-	gnome-music.appdata.xml.in \
+	org.gnome.Music.appdata.xml.in \
 	org.gnome.Music.desktop.in \
 	gnome-music.gresource.xml \
 	org.gnome.Music.gschema.xml \
@@ -72,7 +72,7 @@ EXTRA_DIST = \
 
 CLEANFILES = \
 	gnome-music.gresource \
-	gnome-music.appdata.xml \
+	org.gnome.Music.appdata.xml \
 	$(apps_DATA) \
 	*.valid \
 	gschemas.compiled \
