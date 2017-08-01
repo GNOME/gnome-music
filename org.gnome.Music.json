@@ -7,20 +7,13 @@
     "tags": ["nightly"],
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
-        /* X11 + XShm access */
         "--share=ipc", "--socket=x11",
-        /* Wayland access */
         "--socket=wayland",
-        /* Tracker */
         "--talk-name=org.freedesktop.Tracker1",
-        /* Needed for dconf to work */
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
-        /* DLNA server */
         "--talk-name=com.intel.dleyna-server",
-        /* Play sounds */
         "--socket=pulseaudio",
-        /* Browse user's Music directory */
         "--filesystem=xdg-music"
     ],
     "build-options" : {
