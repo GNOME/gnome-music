@@ -1,3 +1,28 @@
+Overview of changes in 3.25.90
+==============================
+
+* Limit concurrent loading of coverart
+* Fixes to appdata
+* Use tracker:title-order for sorting
+
+Bugs fixed:
+ 783466 query: Use tracker:title-order() SPARQL function for title sorting
+ 785697 Remove comments from org.gnome.Music.json
+
+Thanks to our contributors this release:
+ Carlos Garnacho
+ Felipe Borges
+ Georges Basile Stavracas Neto
+ Kalev Lember
+ Marinus Schraal
+ Piotr Drąg
+
+Translations updated:
+ Turkish
+ Croatian
+ Czech
+ Malayalam
+
 Overview of changes in 3.25.4
 =============================
 
