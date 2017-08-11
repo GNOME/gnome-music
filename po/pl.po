@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-07 20:09+0100\n"
-"PO-Revision-Date: 2017-03-07 20:10+0100\n"
+"POT-Creation-Date: 2017-08-11 02:01+0200\n"
+"PO-Revision-Date: 2017-08-11 02:02+0200\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -19,6 +19,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "Odtwarzacz muzyki GNOME"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:2
+#: ../data/org.gnome.Music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Nowy program do odtwarzania muzyki w środowisku GNOME."
+
+#: ../data/org.gnome.Music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Muzyka"
+
+#: ../data/org.gnome.Music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Odtwarzacz muzyki"
+
+#: ../data/org.gnome.Music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Muzyka;Odtwarzacz;"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -97,41 +124,15 @@ msgstr "Stan początkowy został wyświetlony"
 msgid "Set to true when initial state has been displayed"
 msgstr "Wartość „true” oznacza, że stan początkowy został już wyświetlony"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
-#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Muzyka"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Odtwarzacz muzyki"
-
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "Odtwarzanie i organizowanie kolekcji muzyki"
-
-#: ../data/gnome-music.desktop.in.h:4
-msgid "Music;Player;"
-msgstr "Muzyka;Odtwarzacz;"
-
-#: ../data/gnome-music.appdata.xml.in.h:1
-msgid "GNOME Music"
-msgstr "Odtwarzacz muzyki GNOME"
-
-#: ../data/gnome-music.appdata.xml.in.h:3
-msgid "Music is the new GNOME music playing application."
-msgstr "Nowy program do odtwarzania muzyki w środowisku GNOME."
-
 #: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Poprzedni"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
 msgid "Pause"
 msgstr "Wstrzymuje"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Odtwarza"
@@ -140,29 +141,29 @@ msgstr "Odtwarza"
 msgid "Next"
 msgstr "Następny"
 
-#: ../gnomemusic/player.py:1132
+#: ../gnomemusic/player.py:1167
 msgid "Unable to play the file"
 msgstr "Nie można odtworzyć pliku"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1137
+#: ../gnomemusic/player.py:1172
 #, python-format
 msgid "_Find in %s"
 msgstr "_Znajdź w „%s”"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1147
+#: ../gnomemusic/player.py:1182
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1150
+#: ../gnomemusic/player.py:1185
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1151
+#: ../gnomemusic/player.py:1186
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -194,17 +195,6 @@ msgstr "Ostatnio dodane"
 #: ../gnomemusic/playlists.py:79
 msgid "Favorite Songs"
 msgstr "Ulubione utwory"
-
-#. TRANSLATORS: The following translatable string should be a
-#. vertical bar-separated list of all-lowercase articles that
-#. should be ignored when alphabetizing artists/albums. This
-#. list should include the basic english translatable strings
-#. regardless of language because they are so universal.
-#. If some articles occur more frequently than others, the most
-#. common one should appear first, the least common one last.
-#: ../gnomemusic/query.py:90
-msgid "the|a|an"
-msgstr "the|a|an"
 
 #: ../gnomemusic/searchbar.py:63 ../gnomemusic/searchbar.py:111
 msgid "All"
@@ -283,7 +273,7 @@ msgstr "Witaj w odtwarzaczu muzyki"
 msgid "Playlists"
 msgstr "Listy odtwarzania"
 
-#: ../gnomemusic/views/playlistview.py:421
+#: ../gnomemusic/views/playlistview.py:420
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -308,26 +298,26 @@ msgstr[2] "Zaznaczono %d elementów"
 #: ../gnomemusic/widgets/albumwidget.py:345
 #, python-format
 msgid "%d min"
-msgstr "%d min"
+msgstr "%d min"
 
 #: ../gnomemusic/widgets/disclistboxwidget.py:189
 msgid "Disc {}"
 msgstr "{}. płyta"
 
-#: ../gnomemusic/window.py:128
+#: ../gnomemusic/window.py:125
 msgid "Loading"
 msgstr "Wczytywanie"
 
 #. Undo button
-#: ../gnomemusic/window.py:183
+#: ../gnomemusic/window.py:162
 msgid "_Undo"
 msgstr "Cof_nij"
 
-#: ../gnomemusic/window.py:342
+#: ../gnomemusic/window.py:314
 msgid "Empty"
 msgstr "Puste"
 
-#: ../gnomemusic/window.py:419
+#: ../gnomemusic/window.py:390
 msgid "Playlist {} removed"
 msgstr "Usunięto listę odtwarzania „{}”"
 
@@ -437,7 +427,7 @@ msgstr "Wyszukuje"
 msgid "Select"
 msgstr "Zaznacza"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 msgid "_Cancel"
 msgstr "_Anuluj"
 
@@ -585,7 +575,11 @@ msgstr "Nowa lista odtwarzania"
 msgid "Add"
 msgstr "Dodaj"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/PlaylistDialog.ui.h:5
+msgid "Select Playlist"
+msgstr "Wybór listy odtwarzania"
+
+#: ../data/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "_Dodaj"
 
