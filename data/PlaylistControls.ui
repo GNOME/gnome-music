@@ -68,6 +68,7 @@
         <property name="use_popover">True</property>
         <style>
           <class name="image-button"/>
+          <class name="circular"/>
         </style>
       </object>
       <packing>
