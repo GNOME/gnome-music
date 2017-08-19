@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-05 17:07+0000\n"
-"PO-Revision-Date: 2017-03-06 16:23+0100\n"
+"POT-Creation-Date: 2017-07-31 18:57+0000\n"
+"PO-Revision-Date: 2017-08-19 17:36+0200\n"
 "Last-Translator: Guillaume Bernard <contact.guib@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -20,6 +20,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.12\n"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musique"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:2
+#: ../data/org.gnome.Music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Jouer et organiser votre discothèque"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musique est la nouvelle application de lecture de musique de GNOME."
+
+#: ../data/org.gnome.Music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musique"
+
+#: ../data/org.gnome.Music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Lecteur de musique"
+
+#: ../data/org.gnome.Music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "musique;lecteur de musique;"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -95,41 +122,15 @@ msgstr "L'état initial a été affiché"
 msgid "Set to true when initial state has been displayed"
 msgstr "Vaut « true » (vrai) si l'état initial a été affiché"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
-#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Musique"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Lecteur de musique"
-
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "Jouer et organiser votre discothèque"
-
-#: ../data/gnome-music.desktop.in.h:4
-msgid "Music;Player;"
-msgstr "musique;lecteur de musique;"
-
-#: ../data/gnome-music.appdata.xml.in.h:1
-msgid "GNOME Music"
-msgstr "GNOME Musique"
-
-#: ../data/gnome-music.appdata.xml.in.h:3
-msgid "Music is the new GNOME music playing application."
-msgstr "Musique est la nouvelle application de lecture de musique de GNOME."
-
 #: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Précédent"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Lecture"
@@ -138,29 +139,29 @@ msgstr "Lecture"
 msgid "Next"
 msgstr "Suivant"
 
-#: ../gnomemusic/player.py:1132
+#: ../gnomemusic/player.py:1167
 msgid "Unable to play the file"
 msgstr "Impossible de lire le fichier"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1137
+#: ../gnomemusic/player.py:1172
 #, python-format
 msgid "_Find in %s"
 msgstr "_Trouver dans %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1147
+#: ../gnomemusic/player.py:1182
 msgid " and "
 msgstr " and "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1150
+#: ../gnomemusic/player.py:1185
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1151
+#: ../gnomemusic/player.py:1186
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -280,7 +281,7 @@ msgstr "Hé DJ"
 msgid "Playlists"
 msgstr "Listes de lecture"
 
-#: ../gnomemusic/views/playlistview.py:421
+#: ../gnomemusic/views/playlistview.py:420
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -309,20 +310,20 @@ msgstr "%d min"
 msgid "Disc {}"
 msgstr "Disque {}"
 
-#: ../gnomemusic/window.py:128
+#: ../gnomemusic/window.py:125
 msgid "Loading"
 msgstr "Chargement en cours"
 
 #. Undo button
-#: ../gnomemusic/window.py:183
+#: ../gnomemusic/window.py:162
 msgid "_Undo"
 msgstr "_Annuler"
 
-#: ../gnomemusic/window.py:342
+#: ../gnomemusic/window.py:314
 msgid "Empty"
 msgstr "Vide"
 
-#: ../gnomemusic/window.py:419
+#: ../gnomemusic/window.py:390
 msgid "Playlist {} removed"
 msgstr "Liste de lecture {} supprimée"
 
@@ -433,7 +434,7 @@ msgstr "Rechercher"
 msgid "Select"
 msgstr "Sélectionner"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 msgid "_Cancel"
 msgstr "A_nnuler"
 
@@ -581,7 +582,11 @@ msgstr "Nouvelle liste de lecture"
 msgid "Add"
 msgstr "Ajouter"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/PlaylistDialog.ui.h:5
+msgid "Select Playlist"
+msgstr "Choisir une liste de lecture"
+
+#: ../data/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "_Ajouter"
 
@@ -592,25 +597,3 @@ msgstr "_Ajouter à la liste de lecture"
 #: ../data/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Supprimer de la liste de lecture"
-
-#~ msgid "Max chars to display in track name on Artist view"
-#~ msgstr ""
-#~ "Nombre maximum de caractères à afficher dans le titre du morceau en mode "
-#~ "vue par artiste"
-
-#~ msgid ""
-#~ "This setting modifies the amount of chars for track title on Artist view "
-#~ "before its been ellipsized. Set this to -1 to disable"
-#~ msgstr ""
-#~ "Ce paramètre détermine le nombre de caractères dans le titre du morceau "
-#~ "en mode vue par artiste avant qu'il ne soit écourté. Définissez-le à -1 "
-#~ "pour le désactiver."
-
-#~ msgid "Unknown Album"
-#~ msgstr "Album inconnu"
-
-#~ msgid "the a an"
-#~ msgstr "the a an la le les"
-
-#~ msgid "All Artists"
-#~ msgstr "Tous les artistes"
