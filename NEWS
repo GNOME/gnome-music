@@ -1,3 +1,18 @@
+Overview of changes in 3.25.91
+==============================
+
+Bugs fixed:
+ 786541 Add missing logger imports
+ 786315 Make the playlist button a circle
+
+Thanks to our contributors this release:
+ Jean Felder
+ Jordan Petridis
+
+Translations updated:
+ Polish
+ French
+
 Overview of changes in 3.25.90
 ==============================
 

@@ -37,6 +37,8 @@ Felipe Borges
 Gaurav Narula
 Georges Basile Stavracas Neto
 Guillaume Quintard
+Jean Felder
+Jordan Petridis
 Juan Suarez
 Kalev Lember
 Kevin Haller
@@ -58,7 +60,8 @@ Yash Singh
 Jakub Steiner
 William Jon McCann
     </property>
-    <property name="translator_credits">Anders Jonsson
+    <property name="translator_credits">Alexandre Franke
+Anders Jonsson
 Andika Triwidada
 Anish Sheela
 Arash Mousavi
