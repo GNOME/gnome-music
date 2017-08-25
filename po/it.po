@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-03-07 09:53+0000\n"
-"PO-Revision-Date: 2017-03-09 23:35+0100\n"
+"POT-Creation-Date: 2017-08-25 01:25+0000\n"
+"PO-Revision-Date: 2017-08-25 09:11+0200\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -29,7 +29,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Launchpad-Export-Date: 2012-03-06 09:28+0000\n"
-"X-Generator: Poedit 2.0beta3\n"
+"X-Generator: Poedit 1.8.12\n"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:1
+msgid "GNOME Music"
+msgstr "GNOME Musica"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:2
+#: ../data/org.gnome.Music.desktop.in.h:3
+msgid "Play and organize your music collection"
+msgstr "Riproduce e organizza la collezione musicale"
+
+#: ../data/org.gnome.Music.appdata.xml.in.h:3
+msgid "Music is the new GNOME music playing application."
+msgstr "Musica è la nuova applicazione GNOME per ascoltare musica."
+
+#: ../data/org.gnome.Music.desktop.in.h:1 ../gnomemusic/application.py:53
+#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
+#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
+msgid "Music"
+msgstr "Musica"
+
+#: ../data/org.gnome.Music.desktop.in.h:2
+msgid "Music Player"
+msgstr "Riproduttore musicale"
+
+#: ../data/org.gnome.Music.desktop.in.h:4
+msgid "Music;Player;"
+msgstr "Musica;Riproduttore;"
 
 #: ../data/org.gnome.Music.gschema.xml.h:1
 msgid "Window size"
@@ -105,41 +132,15 @@ msgstr "Lo stato iniziale è stato visualizzato"
 msgid "Set to true when initial state has been displayed"
 msgstr "Impostata a VERO quando lo stato iniziale è stato visualizzato"
 
-#: ../data/gnome-music.desktop.in.h:1 ../gnomemusic/application.py:53
-#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
-msgid "Music"
-msgstr "Musica"
-
-#: ../data/gnome-music.desktop.in.h:2
-msgid "Music Player"
-msgstr "Riproduttore musicale"
-
-#: ../data/gnome-music.desktop.in.h:3 ../data/gnome-music.appdata.xml.in.h:2
-msgid "Play and organize your music collection"
-msgstr "Riproduce e organizza la collezione musicale"
-
-#: ../data/gnome-music.desktop.in.h:4
-msgid "Music;Player;"
-msgstr "Musica;Riproduttore;"
-
-#: ../data/gnome-music.appdata.xml.in.h:1
-msgid "GNOME Music"
-msgstr "GNOME Musica"
-
-#: ../data/gnome-music.appdata.xml.in.h:3
-msgid "Music is the new GNOME music playing application."
-msgstr "Musica è la nuova applicazione GNOME per ascoltare musica."
-
 #: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Precedente"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:559
+#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
 msgid "Pause"
 msgstr "Pausa"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
+#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
 #: ../data/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Riproduci"
@@ -148,29 +149,29 @@ msgstr "Riproduci"
 msgid "Next"
 msgstr "Successiva"
 
-#: ../gnomemusic/player.py:1132
+#: ../gnomemusic/player.py:1167
 msgid "Unable to play the file"
 msgstr "Impossibile riprodurre il file"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1137
+#: ../gnomemusic/player.py:1172
 #, python-format
 msgid "_Find in %s"
 msgstr "_Trova in %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1147
+#: ../gnomemusic/player.py:1182
 msgid " and "
 msgstr " e "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1150
+#: ../gnomemusic/player.py:1185
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1151
+#: ../gnomemusic/player.py:1186
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -201,17 +202,6 @@ msgstr "Aggiunti di recente"
 #: ../gnomemusic/playlists.py:79
 msgid "Favorite Songs"
 msgstr "Brani preferiti"
-
-#. TRANSLATORS: The following translatable string should be a
-#. vertical bar-separated list of all-lowercase articles that
-#. should be ignored when alphabetizing artists/albums. This
-#. list should include the basic english translatable strings
-#. regardless of language because they are so universal.
-#. If some articles occur more frequently than others, the most
-#. common one should appear first, the least common one last.
-#: ../gnomemusic/query.py:90
-msgid "the|a|an"
-msgstr "the|a|an|il|la|le|un|uno|una|lo|i"
 
 #: ../gnomemusic/searchbar.py:63 ../gnomemusic/searchbar.py:111
 msgid "All"
@@ -257,7 +247,7 @@ msgstr "Senza titolo"
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:455
+#: ../gnomemusic/views/artistsview.py:55 ../gnomemusic/views/searchview.py:455
 msgid "Artists"
 msgstr "Artisti"
 
@@ -289,14 +279,14 @@ msgstr "Hey DJ"
 msgid "Playlists"
 msgstr "Playlist"
 
-#: ../gnomemusic/views/playlistview.py:421
+#: ../gnomemusic/views/playlistview.py:420
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d brano"
 msgstr[1] "%d brani"
 
-#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:52
+#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Brani"
 
@@ -318,20 +308,20 @@ msgstr "%d min"
 msgid "Disc {}"
 msgstr "Disco {}"
 
-#: ../gnomemusic/window.py:128
+#: ../gnomemusic/window.py:125
 msgid "Loading"
 msgstr "Caricamento"
 
 #. Undo button
-#: ../gnomemusic/window.py:183
+#: ../gnomemusic/window.py:162
 msgid "_Undo"
 msgstr "A_nnulla"
 
-#: ../gnomemusic/window.py:342
+#: ../gnomemusic/window.py:314
 msgid "Empty"
 msgstr "Vuota"
 
-#: ../gnomemusic/window.py:419
+#: ../gnomemusic/window.py:390
 msgid "Playlist {} removed"
 msgstr "Playlist {} rimossa"
 
@@ -439,7 +429,7 @@ msgstr "Cerca"
 msgid "Select"
 msgstr "Seleziona"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 msgid "_Cancel"
 msgstr "A_nnulla"
 
@@ -587,7 +577,11 @@ msgstr "Nuova playlist"
 msgid "Add"
 msgstr "Aggiungi"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/PlaylistDialog.ui.h:5
+msgid "Select Playlist"
+msgstr "Seleziona playlist"
+
+#: ../data/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "A_ggiungi"
 
@@ -598,6 +592,9 @@ msgstr "Aggiungi a _playlist"
 #: ../data/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Rimuovi da playlist"
+
+#~ msgid "the|a|an"
+#~ msgstr "the|a|an|il|la|le|un|uno|una|lo|i"
 
 #~ msgid "Max chars to display in track name on Artist view"
 #~ msgstr ""
