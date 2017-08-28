@@ -287,8 +287,6 @@ class SearchView(BaseView):
                                  self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self._star_handler.add_star_renderers(list_widget, cols[0])
-
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
         cols[0].set_cell_data_func(cells[0], self._on_list_widget_selection_render, None)
