@@ -208,9 +208,6 @@ class Query():
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
-            nmm:musicAlbumDisc ?disc ;
-            nmm:musicAlbum ?album ;
-            nmm:performer ?performer ;
             nie:url ?url .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
