@@ -77,7 +77,7 @@ class Window(Gtk.ApplicationWindow):
         selectNone.connect('activate', self._on_select_none)
         self.add_action(selectNone)
         self.set_size_request(200, 100)
-        self.set_icon_name('gnome-music')
+        self.set_default_icon_name('gnome-music')
         self.notification_handler = None
         self._loading_counter = 0
 
