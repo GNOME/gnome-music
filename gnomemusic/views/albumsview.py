@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GLib, GObject, Gtk, Gdk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import ArtSize
@@ -175,6 +175,8 @@ class AlbumsView(BaseView):
         # alignment with GtkFlowBox.
         child.image.set_property("width-request", ArtSize.medium.width)
         child.image.set_property("height-request", ArtSize.medium.height)
+
+        child.events.add_events(Gdk.EventMask.TOUCH_MASK)
 
         child.events.connect('button-release-event',
                              self._on_album_event_triggered,
