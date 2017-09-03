@@ -35,8 +35,8 @@ import os
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
                                   "grl-filesystem:4,"
                                   "grl-tracker-source:3,"
-                                  "grl-spotify-cover:2,"
-                                  "grl-lastfm-cover:1")
+                                  "grl-lastfm-cover:2,"
+                                  "grl-spotify-cover:1")
 from gi.repository import Grl
 logger = logging.getLogger(__name__)
 
