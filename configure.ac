@@ -13,11 +13,12 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 AM_PATH_PYTHON([3.3])
 
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.19.8])
 GETTEXT_PACKAGE=gnome-music
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
                    [The prefix for our gettext translation domains.])
-IT_PROG_INTLTOOL(0.26)
 
 YELP_HELP_INIT
 

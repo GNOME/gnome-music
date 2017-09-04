@@ -1,6 +1,5 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-[encoding: UTF-8]
 data/org.gnome.Music.appdata.xml.in
 data/org.gnome.Music.desktop.in
 data/org.gnome.Music.gschema.xml
@@ -32,15 +31,15 @@ gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py
-[type: gettext/glade]data/AboutDialog.ui.in
-[type: gettext/glade]data/AlbumWidget.ui
-[type: gettext/glade]data/app-menu.ui
-[type: gettext/glade]data/ArtistAlbumsWidget.ui
-[type: gettext/glade]data/headerbar.ui
-[type: gettext/glade]data/help-overlay.ui
-[type: gettext/glade]data/NoMusic.ui
-[type: gettext/glade]data/PlayerToolbar.ui
-[type: gettext/glade]data/PlaylistControls.ui
-[type: gettext/glade]data/PlaylistDialog.ui
-[type: gettext/glade]data/SelectionToolbar.ui
-[type: gettext/glade]data/TrackWidget.ui
+data/AboutDialog.ui.in
+data/AlbumWidget.ui
+data/app-menu.ui
+data/ArtistAlbumsWidget.ui
+data/headerbar.ui
+data/help-overlay.ui
+data/NoMusic.ui
+data/PlayerToolbar.ui
+data/PlaylistControls.ui
+data/PlaylistDialog.ui
+data/SelectionToolbar.ui
+data/TrackWidget.ui

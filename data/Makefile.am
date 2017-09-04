@@ -6,15 +6,16 @@ resourcedir = $(pkgdatadir)
 resource_DATA = gnome-music.gresource
 
 appsdir = $(datadir)/applications
-apps_DATA = org.gnome.Music.desktop
-
-@INTLTOOL_DESKTOP_RULE@
+apps_in_files = org.gnome.Music.desktop.in
+apps_DATA = $(apps_in_files:.desktop.in=.desktop)
+$(apps_DATA): $(apps_in_files)
+	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
 appdatadir = $(datadir)/appdata
-appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 appdata_in_files = org.gnome.Music.appdata.xml.in
-
-@INTLTOOL_XML_RULE@
+appdata_DATA = $(appdata_in_files:.xml.in=.xml)
+$(appdata_DATA): $(appdata_in_files)
+	$(AM_V_GEN) $(MSGFMT) --xml --template $< -d $(top_srcdir)/po -o $@
 
 man1_MANS = gnome-music.1
 

@@ -3,12 +3,12 @@
   <id>org.gnome.Music.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+ and LGPL-2.0+ and CC-BY-SA-4.0</project_license>
-  <_name>GNOME Music</_name>
-  <_summary>Play and organize your music collection</_summary>
+  <name>GNOME Music</name>
+  <summary>Play and organize your music collection</summary>
   <description>
-    <_p>
+    <p>
       Music is the new GNOME music playing application.
-    </_p>
+    </p>
   </description>
   <screenshots>
     <screenshot type="default">

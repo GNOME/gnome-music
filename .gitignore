@@ -13,6 +13,7 @@ libgd/
 /.gitignore
 /.libs
 /AUTHORS
+/ABOUT-NLS
 /GPATH
 /GRTAGS
 /GSYMS
@@ -33,6 +34,7 @@ libgd/
 /config.h.in
 /config.log
 /config.lt
+/config.rpath
 /config.status
 /config.status.lineno
 /config.sub
@@ -41,9 +43,6 @@ libgd/
 /configure.scan
 /depcomp
 /install-sh
-/intltool-extract.in
-/intltool-merge.in
-/intltool-update.in
 /libtool
 /ltmain.sh
 /m4
@@ -51,7 +50,6 @@ libgd/
 /mkinstalldirs
 /po/*.gmo
 /po/*.mo
-/po/.intltool-merge-cache
 /po/Makefile
 /po/Makefile.in
 /po/Makefile.in.in
