@@ -1,3 +1,23 @@
+Overview of changes in 3.25.92
+==============================
+
+Bugs fixed:
+ 786454 Wrong player.set_playlist call in albumwidget.py
+ 780548 Problem scrolling albums on wayland
+ 709073 Different icon in System Settings Sound pane
+
+Thanks to our contributors this release:
+ Jan-Michael Brummer
+ Jean Felder
+ Marinus Schraal
+ Robert Greener
+
+Translations updated:
+ Croatian
+ Italian
+ Danish
+ Vietnamese
+
 Overview of changes in 3.25.91
 ==============================
 
