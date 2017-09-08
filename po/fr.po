@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-31 18:57+0000\n"
-"PO-Revision-Date: 2017-08-19 17:36+0200\n"
+"POT-Creation-Date: 2017-08-28 12:40+0000\n"
+"PO-Revision-Date: 2017-09-08 17:36+0200\n"
 "Last-Translator: Guillaume Bernard <contact.guib@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ../data/org.gnome.Music.appdata.xml.in.h:1
 msgid "GNOME Music"
-msgstr "GNOME Musique"
+msgstr "Musique de GNOME"
 
 #: ../data/org.gnome.Music.appdata.xml.in.h:2
 #: ../data/org.gnome.Music.desktop.in.h:3
@@ -84,7 +84,7 @@ msgid ""
 "“song” (repeat current song), “all” (repeat playlist, no shuffle), "
 "“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
-"Valeur indiquant s'il faut répéter ou rendre aléatoire la lecture des "
+"Valeur indiquant s’il faut répéter ou rendre aléatoire la lecture des "
 "musiques de la discothèque. Les valeurs possibles sont : « none » (aucune, "
 "la répétition et le mélange sont désactivés), « song » (répète le morceau "
 "actuel), « all » (rejoue toute la liste de lecture, sans mélange), "
@@ -96,7 +96,7 @@ msgstr "Mode de recherche"
 
 #: ../data/org.gnome.Music.gschema.xml.h:11
 msgid "If true, the search bar is shown."
-msgstr "Si true (vrai), la barre de recherche s'affiche. "
+msgstr "Si true (vrai), la barre de recherche s’affiche. "
 
 #: ../data/org.gnome.Music.gschema.xml.h:12
 msgid "Notifications mode"
@@ -116,11 +116,11 @@ msgstr "Active ou désactive ReplayGain pour les albums"
 
 #: ../data/org.gnome.Music.gschema.xml.h:16
 msgid "Inital state has been displayed"
-msgstr "L'état initial a été affiché"
+msgstr "L’état initial a été affiché"
 
 #: ../data/org.gnome.Music.gschema.xml.h:17
 msgid "Set to true when initial state has been displayed"
-msgstr "Vaut « true » (vrai) si l'état initial a été affiché"
+msgstr "Vaut « true » (vrai) si l’état initial a été affiché"
 
 #: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
 msgid "Previous"
@@ -165,7 +165,7 @@ msgstr ", "
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
-msgstr[0] "%s est nécessaire pour lire le fichier, mais il n'est pas installé."
+msgstr[0] "%s est nécessaire pour lire le fichier, mais il n’est pas installé."
 msgstr[1] ""
 "%s sont nécessaires pour lire le fichier, mais il ne sont pas installés."
 
@@ -193,17 +193,6 @@ msgstr "Ajoutés récemment"
 #: ../gnomemusic/playlists.py:79
 msgid "Favorite Songs"
 msgstr "Morceaux favoris"
-
-#. TRANSLATORS: The following translatable string should be a
-#. vertical bar-separated list of all-lowercase articles that
-#. should be ignored when alphabetizing artists/albums. This
-#. list should include the basic english translatable strings
-#. regardless of language because they are so universal.
-#. If some articles occur more frequently than others, the most
-#. common one should appear first, the least common one last.
-#: ../gnomemusic/query.py:90
-msgid "the|a|an"
-msgstr "the|a|an|le|la|l'|un|une"
 
 #: ../gnomemusic/searchbar.py:63 ../gnomemusic/searchbar.py:111
 msgid "All"
@@ -249,7 +238,7 @@ msgstr "Sans titre"
 msgid "Albums"
 msgstr "Albums"
 
-#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:455
+#: ../gnomemusic/views/artistsview.py:55 ../gnomemusic/views/searchview.py:455
 msgid "Artists"
 msgstr "Artistes"
 
@@ -288,7 +277,7 @@ msgid_plural "%d Songs"
 msgstr[0] "%d morceau"
 msgstr[1] "%d morceaux"
 
-#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:52
+#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Morceaux"
 
@@ -329,7 +318,7 @@ msgstr "Liste de lecture {} supprimée"
 
 #: ../data/AboutDialog.ui.in.h:2
 msgid "Copyright © 2016 GNOME Music Developers"
-msgstr "Copyright © 2016 Développeurs de l'application Musique de GNOME"
+msgstr "Copyright © 2016 Développeurs de l’application Musique de GNOME"
 
 #: ../data/AboutDialog.ui.in.h:3
 msgid "A music player and management application for GNOME."
@@ -371,27 +360,27 @@ msgstr ""
 "publiée par la Free Software Foundation ; soit la version 2 de la Licence, "
 "ou (à votre discrétion) une version ultérieure quelconque.\n"
 "\n"
-"Ce programme est distribué dans l'espoir qu'il sera utile, mais SANS AUCUNE "
+"Ce programme est distribué dans l’espoir qu’il sera utile, mais SANS AUCUNE "
 "GARANTIE ; sans même une garantie implicite de COMMERCIABILITÉ ou DE "
 "CONFORMITÉ À UNE UTILISATION PARTICULIÈRE. Voir la Licence Publique Générale "
 "GNU pour plus de détails.\n"
 "\n"
 "Vous devriez avoir reçu un exemplaire de la Licence Publique Générale GNU "
-"avec ce programme ; si ce n'est pas le cas, écrivez à la Free Software "
+"avec ce programme ; si ce n’est pas le cas, écrivez à la Free Software "
 "Foundation Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, "
 "USA.\n"
 "\n"
-"Les auteurs de l'application Musique de GNOME accordent par la présente "
-"l'autorisation d'utiliser des greffons GStreamer non compatibles avec la "
+"Les auteurs de l’application Musique de GNOME accordent par la présente "
+"l’autorisation d’utiliser des greffons GStreamer non compatibles avec la "
 "licence GPL et de les distribuer conjointement à GStreamer et à "
-"l'application Musique de GNOME. Cette permission supplante et va au-delà des "
-"autorisations accordées par la licence GPL couvrant l'application Musique de "
+"l’application Musique de GNOME. Cette permission supplante et va au-delà des "
+"autorisations accordées par la licence GPL couvrant l’application Musique de "
 "GNOME. Si vous modifiez ce code, vous pouvez étendre cette autorisation à "
-"votre version du code, mais vous n'y êtes pas obligés. Si vous ne le "
-"souhaitez pas, veuillez supprimer cette mention d'exception de votre "
+"votre version du code, mais vous n’y êtes pas obligés. Si vous ne le "
+"souhaitez pas, veuillez supprimer cette mention d’exception de votre "
 "version.\n"
 "\n"
-"L'image « Magic of the vinyl » par Sami Pyylampi est sous licence CC-BY-SA "
+"L’image « Magic of the vinyl » par Sami Pyylampi est sous licence CC-BY-SA "
 "2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
 #: ../data/AlbumWidget.ui.h:1
@@ -535,7 +524,7 @@ msgstr "Aucune musique trouvée"
 #: ../data/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
-msgstr "Le contenu de votre %s s'affichera ici."
+msgstr "Le contenu de votre %s s’affichera ici."
 
 #: ../data/PlayerToolbar.ui.h:1
 msgid "Shuffle"
@@ -597,3 +586,6 @@ msgstr "_Ajouter à la liste de lecture"
 #: ../data/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Supprimer de la liste de lecture"
+
+#~ msgid "the|a|an"
+#~ msgstr "the|a|an|le|la|l'|un|une"
