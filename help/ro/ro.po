@@ -2,12 +2,12 @@
 # Copyright (C) 2014 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Bogdan Mințoi <mintoi.bogdan@gmail.com>, 2014.
-# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014.
+# Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>, 2014, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-07-29 09:17+0000\n"
-"PO-Revision-Date: 2014-07-29 21:33+0200\n"
+"POT-Creation-Date: 2017-09-04 22:23+0000\n"
+"PO-Revision-Date: 2017-09-06 19:02+0200\n"
 "Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
@@ -46,15 +46,16 @@ msgstr "2014"
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
-"Un mijloc simplu și elegant de a utiliza fișierele pentru a vizualiza "
-"dosarul ce conține muzică."
+"Un înlocuitor simplu și elegant de a utiliza <app>Fișiere</app> pentru a "
+"vizualiza dosarul ce conține muzică."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
 msgid "Introduction to Music"
-msgstr "Introducere în Muzică"
+msgstr "Introducere la Muzică"
 
 #. (itstool) path: info/title
 #: C/index.page:6
@@ -105,7 +106,7 @@ msgid ""
 "clicking on the song of your choice from any view."
 msgstr ""
 "Puteți reda muzica preferată prin crearea unei liste de redare sau printr-un "
-"simplu clic pe piesa dorită."
+"simplu clic pe piesa dorită din orice vizualizare."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
@@ -144,8 +145,8 @@ msgid ""
 "You can view all your albums by clicking on the <gui style=\"button"
 "\">Albums</gui> button."
 msgstr ""
-"Puteți vizualiza toate albumele printr-un clic pe butonul <gui "
-"style=\"button\">Albume</gui>."
+"Puteți vizualiza toate albumele printr-un clic pe butonul <gui style=\""
+"button\">Albume</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
@@ -247,8 +248,8 @@ msgid ""
 "You can view all the songs by clicking on the <gui style=\"button\">Songs</"
 "gui> button."
 msgstr ""
-"Puteți vizualiza toate piesele printr-un clic pe butonul <gui "
-"style=\"button\">Melodii</gui>."
+"Puteți vizualiza toate piesele printr-un clic pe butonul <gui style=\""
+"button\">Melodii</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
@@ -283,7 +284,7 @@ msgstr "Crearea de liste de redare folosind numele artiștilor"
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
 "Puteți vizualiza toți artiștii și piesele compuse de aceștia printr-un clic "
@@ -293,8 +294,8 @@ msgstr ""
 #: C/playlist-create-artists.page:28
 msgid "To create a new playlist while in <em>Artists</em> view:"
 msgstr ""
-"Pentru a creea o listă de redare nouă, când vă aflați în câmpul <em>Artiști</"
-"em>:"
+"Pentru a creea o listă de redare nouă, când vă aflați în câmpul "
+"<em>Artiști</em>:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:33
@@ -316,7 +317,7 @@ msgstr "Elimină o listă de redare nedorită."
 #. (itstool) path: page/title
 #: C/playlist-delete.page:22
 msgid "Delete a playlist"
-msgstr "Ștergea unei liste de redare"
+msgstr "Ștergerea unei liste de redare"
 
 #. (itstool) path: page/p
 #: C/playlist-delete.page:24
@@ -369,12 +370,13 @@ msgstr "Alegeți toate piesele pe care doriți să le eliminați."
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:38
 msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
-msgstr "Clic pe butonul <gui style=\"button\">Elimină din lista de redare</gui>."
+msgstr ""
+"Clic pe butonul <gui style=\"button\">Elimină din lista de redare</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-repeat.page:18
 msgid "Repeat all songs in the playlist or only the current song."
-msgstr "Repetă toate piesele din lista de redare sau doar melodia curentă."
+msgstr "Repetă toate piesele din lista de redare sau doar piesa curentă."
 
 #. (itstool) path: page/title
 #: C/playlist-repeat.page:22
@@ -389,7 +391,7 @@ msgstr "În bara de activități, clic pe butonul din partea dreaptă:"
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:27
 msgid "Select <gui>Repeat Song</gui> to repeat a single song."
-msgstr "Selectați <gui>Repetă piesă</gui> pentru a repeta doar o melodie."
+msgstr "Selectați <gui>Repetă piesă</gui> pentru a repeta doar o piesă."
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:30
@@ -406,7 +408,7 @@ msgstr "Amestecă piesele din lista de redare."
 #. (itstool) path: page/title
 #: C/playlist-shuffle.page:22
 msgid "How do I shuffle my songs?"
-msgstr "Cum se amestecă melodiile?"
+msgstr "Cum se amestecă piesele?"
 
 #. (itstool) path: page/p
 #: C/playlist-shuffle.page:24
@@ -414,8 +416,8 @@ msgid ""
 "In the taskbar, click on the button on right hand side and select "
 "<gui>Shuffle</gui>."
 msgstr ""
-"În bara de activități, dați clic pe butonul din partea dreaptă și selectați "
-"<gui>Amestecă</gui>."
+"În bara de activități, apăsați clic pe butonul din partea dreaptă și "
+"selectați <gui>Amestecă</gui>."
 
 #. (itstool) path: info/desc
 #: C/search.page:18
@@ -442,7 +444,8 @@ msgstr ""
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
 msgstr ""
-"Licența Creative Commons Atribuire - Distribuire-în-condiții-identice 3.0"
+"Licența ne-adaptată Creative Commons Atribuire - Distribuire-în-condiții-"
+"identice 3.0"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
