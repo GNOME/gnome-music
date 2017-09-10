@@ -5,13 +5,14 @@
 # Jordi Mas i Hernandez <jmas@softcatala.org>, 2013, 2015, 2016
 # Pau Iranzo <paugnu@gmail.com>, 2013.
 # Gil Forcada <gilforcada@guifi.net>, 2014.
+# Jordi Serratosa <jordis@softcatala.cat>, 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
 "music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-09-03 14:56+0000\n"
+"POT-Creation-Date: 2017-09-07 14:06+0000\n"
 "PO-Revision-Date: 2017-09-01 12:28+0200\n"
 "Last-Translator: Jordi Mas <jmas@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -375,7 +376,7 @@ msgstr ""
 "GPL. Aquest permís està per sobre dels permisos garantits per la llicència "
 "GPL sota la qual es troba el Música del GNOME. Si modifiqueu aquest codi, "
 "podeu estendre aquesta excepció a la vostra versió del codi, però no esteu "
-"obligats a fer-ho. Si no voleu fer-ho, elimineu aquesta declaració "
+"obligat a fer-ho. Si no voleu fer-ho, elimineu aquesta declaració "
 "d'excepció de la vostra versió.\n"
 "\n"
 "La imatge «Magic of the vinyl» d'en Sami Pyylampi està llicenciada sota CC-"
