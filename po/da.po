@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the gnome-music package.
 #
 # Kris Thomsen <lakristho@gmail.com>, 2013-2014.
-# Ask Hjorth Larsen <asklarsen@gmail.com>, 2015, 2016.
+# Ask Hjorth Larsen <asklarsen@gmail.com>, 2015, 2016, 2017.
 # scootergrisen, 2015.
 # Joe Hansen (joedalton2@yahoo.dk), 2017.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: "
-"https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-07-31 18:57+0000\n"
-"PO-Revision-Date: 2017-03-05 02:57+0200\n"
+"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
+"music&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2017-08-28 12:40+0000\n"
+"PO-Revision-Date: 2017-09-03 20:09+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -83,14 +83,14 @@ msgstr "Afspil i gentagelsestilstand"
 #: ../data/org.gnome.Music.gschema.xml.h:9
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
-"collection. Allowed values are: “none” (repeat and shuffle are off), “song” "
-"(repeat current song), “all” (repeat playlist, no shuffle), “shuffle” "
-"(shuffle playlist, presumes repeat all)."
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Værdien afgør om afspilning af samlingen skal gentages eller blandes. "
-"Tilladte værdier er: “none” (gentagelse og blanding er slået fra), “song” "
-"(nuværende sang gentages), “all” (gentag afspilningslisten, bland ikke), "
-"“shuffle” (bland afspilningslisten, og alle gentages)."
+"Tilladte værdier er: “none” (gentagelse og blanding er slået fra), "
+"“song” (nuværende sang gentages), “all” (gentag afspilningslisten, bland "
+"ikke), “shuffle” (bland afspilningslisten, og alle gentages)."
 
 #: ../data/org.gnome.Music.gschema.xml.h:10
 msgid "Search mode"
@@ -195,18 +195,6 @@ msgstr "Tilføjet for nylig"
 msgid "Favorite Songs"
 msgstr "Yndlingssange"
 
-# vel ikke rigtig nogen danske vi ser bort fra?
-#. TRANSLATORS: The following translatable string should be a
-#. vertical bar-separated list of all-lowercase articles that
-#. should be ignored when alphabetizing artists/albums. This
-#. list should include the basic english translatable strings
-#. regardless of language because they are so universal.
-#. If some articles occur more frequently than others, the most
-#. common one should appear first, the least common one last.
-#: ../gnomemusic/query.py:90
-msgid "the|a|an"
-msgstr "the|a|an"
-
 #: ../gnomemusic/searchbar.py:63 ../gnomemusic/searchbar.py:111
 msgid "All"
 msgstr "Alle"
@@ -251,7 +239,7 @@ msgstr "Unavngivet"
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/views/artistsview.py:52 ../gnomemusic/views/searchview.py:455
+#: ../gnomemusic/views/artistsview.py:55 ../gnomemusic/views/searchview.py:455
 msgid "Artists"
 msgstr "Kunstnere"
 
@@ -290,7 +278,7 @@ msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sange"
 
-#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:52
+#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Sange"
 
@@ -382,13 +370,13 @@ msgstr ""
 "Musik. Hvis ikke, så skriv til Free software Foundation, Inc., 51 Franklin "
 "Street, Fifth Floor, Boston, MA 02110-1301, USA.\n"
 "\n"
-"Forfatterne af GNOME Musik giver hermed tilladelse til at "
-"ikke-GPL-kompatible GStreamer-udvidelsesmoduler kan bruges og distribueres "
-"sammen med GStreamer og GNOME Musik. Denne tilladelse er overstyrer "
-"tilladelserne givet af GPL-licensen, som GNOME Musik er dækket af. Hvis du "
-"ændrer denne kode, kan du udvide denne undtagelse til din version af koden, "
-"men du har ikke forpligtet til at gøre det. Hvis du ikke ønsker at gøre "
-"dette, sletter du blot denne erklæring om undtagelse fra din version.\n"
+"Forfatterne af GNOME Musik giver hermed tilladelse til at ikke-GPL-"
+"kompatible GStreamer-udvidelsesmoduler kan bruges og distribueres sammen med "
+"GStreamer og GNOME Musik. Denne tilladelse er overstyrer tilladelserne givet "
+"af GPL-licensen, som GNOME Musik er dækket af. Hvis du ændrer denne kode, "
+"kan du udvide denne undtagelse til din version af koden, men du har ikke "
+"forpligtet til at gøre det. Hvis du ikke ønsker at gøre dette, sletter du "
+"blot denne erklæring om undtagelse fra din version.\n"
 "\n"
 "“Magic of the vinyl” af Sami Pyylampi, billede er licenseret af CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
@@ -583,10 +571,8 @@ msgid "Add"
 msgstr "Tilføj"
 
 #: ../data/PlaylistDialog.ui.h:5
-#, fuzzy
-#| msgid "New Playlist"
 msgid "Select Playlist"
-msgstr "Ny afspilningsliste"
+msgstr "Vælg afspilningsliste"
 
 #: ../data/PlaylistDialog.ui.h:7
 msgid "_Add"
@@ -600,4 +586,6 @@ msgstr "_Tilføj til afspilningsliste"
 msgid "_Remove from Playlist"
 msgstr "_Fjern fra afspilningsliste"
 
-
+# vel ikke rigtig nogen danske vi ser bort fra?
+#~ msgid "the|a|an"
+#~ msgstr "the|a|an"
