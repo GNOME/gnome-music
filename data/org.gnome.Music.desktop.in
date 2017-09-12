@@ -2,10 +2,12 @@
 Name=Music
 GenericName=Music Player
 Comment=Play and organize your music collection
+# Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 Icon=gnome-music
 Exec=gnome-music
 Terminal=false
 Type=Application
 Categories=GNOME;GTK;AudioVideo;Player;Audio;
+# Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 Keywords=Music;Player;
 StartupNotify=true
