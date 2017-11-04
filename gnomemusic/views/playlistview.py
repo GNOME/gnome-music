@@ -268,12 +268,14 @@ class PlaylistView(BaseView):
 
     @log
     def _add_playlist_item_to_model(self, item, index=None):
-        if index is None:
-            index = -1
         if not item:
             self._window.pop_loading_notification()
             self.emit('playlists-loaded')
             return
+        if index is None:
+            index = -1
+        if playlists.is_static_playlist(item):
+            index = 0
         _iter = self._playlists_model.insert_with_valuesv(
             index, [2, 5], [utils.get_media_title(item), item])
         if self._playlists_model.iter_n_children(None) == 1:

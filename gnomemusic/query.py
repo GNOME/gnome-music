@@ -237,7 +237,7 @@ class Query():
                       || !BOUND(nfo:belongsToContainer(?playlist)) )
             OPTIONAL { ?playlist nao:hasTag ?tag }
         }
-    ORDER BY !BOUND(?tag) LCASE(?title)
+    ORDER BY DESC(tracker:added(?playlist)) !BOUND(?tag) LCASE(?title)
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI
