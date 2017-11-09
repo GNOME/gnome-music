@@ -153,7 +153,7 @@ class DiscBox(Gtk.Box):
 
         :param model: The TreeStore to use
         """
-        super().__init__(self)
+        super().__init__()
 
         self._model = model
         self._model.connect('row-changed', self._model_row_changed)
