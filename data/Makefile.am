@@ -11,7 +11,7 @@ apps_DATA = $(apps_in_files:.desktop.in=.desktop)
 $(apps_DATA): $(apps_in_files)
 	$(AM_V_GEN) $(MSGFMT) --desktop --template $< -d $(top_srcdir)/po -o $@
 
-appdatadir = $(datadir)/appdata
+appdatadir = $(datadir)/metainfo
 appdata_in_files = org.gnome.Music.appdata.xml.in
 appdata_DATA = $(appdata_in_files:.xml.in=.xml)
 $(appdata_DATA): $(appdata_in_files)
