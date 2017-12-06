@@ -47,6 +47,7 @@ class AlbumsView(BaseView):
         self.add(self._albumWidget)
         self.albums_selected = []
         self.all_items = []
+        self.all_album_ids = []
         self.items_selected = []
         self.items_selected_callback = None
         self._add_list_renderers()
@@ -141,7 +142,15 @@ class AlbumsView(BaseView):
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
+        should_add = False
+
         if item:
+            album_id = [utils.get_artist_name(item), utils.get_media_title(item)]
+            should_add = not album_id in self.all_album_ids
+
+        if should_add:
+            #print("Adding new item ", album_id)
+            self.all_album_ids.append(album_id)
             # Store all items to optimize 'Select All' action
             self.all_items.append(item)
 
