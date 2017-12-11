@@ -37,6 +37,7 @@ sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
 SECONDS_PER_DAY = 86400
 PUNCTUATION_FILTER = " !\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~"
 
+
 class Query():
 
     music_folder = None
@@ -72,7 +73,7 @@ class Query():
         :return: The sparql order by statement
         :rtype: str
         """
-        return """tracker:title-order(%(attr)s)""" % { 'attr': attr };
+        return """tracker:title-order(%(attr)s)""" % {'attr': attr};
 
     @staticmethod
     def all_albums():
@@ -988,7 +989,7 @@ class Query():
                 FILTER ( tracker:id(?urn) = "%(media_id)s" )
             }
         """.replace('\n', '').strip() % {
-            'media_id' : media_id
+            'media_id': media_id
         }
 
         return query

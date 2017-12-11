@@ -270,10 +270,10 @@ class BaseView(Gtk.Stack):
     def _set_selection(self, value, parent=None):
         count = 0
         itr = self.model.iter_children(parent)
-        while itr != None:
+        while itr is not None:
             if self.model.iter_has_child(itr):
                 count += self._set_selection(value, itr)
-            if self.model[itr][5] != None:
+            if self.model[itr][5] is not None:
                 self.model[itr][6] = value
                 count += 1
             itr = self.model.iter_next(itr)

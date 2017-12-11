@@ -409,7 +409,7 @@ class Window(Gtk.ApplicationWindow):
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                 self.player.play_pause()
+                self.player.play_pause()
             # Play previous on Ctrl + B
             if (event.keyval == Gdk.KEY_b
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):

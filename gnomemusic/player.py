@@ -894,7 +894,7 @@ class Player(GObject.GObject):
         timing from the user, for updating the songPlaybackTimeLabel.
         """
         # Don't run until progressScale has been realized
-        if self.progressScale.get_realized() == False:
+        if self.progressScale.get_realized() is False:
             return
 
         # Update self.timeout

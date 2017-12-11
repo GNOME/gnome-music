@@ -381,7 +381,7 @@ class DiscBox(Gtk.Box):
     def _toggle_widget_selection(self, child):
         song_widget = child.get_child()
         song_widget.check_button.set_visible(self._selection_mode)
-        if self._selection_mode == False:
+        if self._selection_mode is False:
             if song_widget.check_button.get_active():
                 song_widget.check_button.set_active(False)
 
