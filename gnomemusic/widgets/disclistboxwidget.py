@@ -28,6 +28,7 @@ from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.playlists import Playlists, StaticPlaylists
 import gnomemusic.utils as utils
 
 
@@ -143,6 +144,8 @@ class DiscBox(Gtk.Box):
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
 
     }
+
+    _playlists = Playlists.get_default()
 
     def __repr__(self):
         return '<DiscBox>'
@@ -369,6 +372,8 @@ class DiscBox(Gtk.Box):
         # signal.
         favorite = song_widget.star_image.get_favorite()
         grilo.set_favorite(self._model[song_widget.itr][5], favorite)
+        self._playlists.update_static_playlist(StaticPlaylists.Favorites)
+
         return True
 
     @log
