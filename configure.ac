@@ -26,7 +26,7 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 LT_INIT([disable-static])
 
-LIBGD_INIT([main-view gir tagged-entry])
+LIBGD_INIT([main-view gir tagged-entry gtk-hacks])
 
 PKG_PROG_PKG_CONFIG([0.22])
 
