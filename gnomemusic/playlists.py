@@ -32,7 +32,6 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
 import inspect
-import time
 sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
 
 from gnomemusic import log
@@ -304,7 +303,7 @@ class Playlists(GObject.GObject):
 
         def cursor_callback(cursor, res, data):
             try:
-                has_next = cursor.next_finish(res)
+                cursor.next_finish(res)
             except GLib.Error as err:
                 logger.warn("Error: %s, %s", err.__class__, err)
                 return

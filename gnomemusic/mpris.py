@@ -28,7 +28,6 @@ from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 
-from gettext import gettext as _
 from gi.repository import GLib
 from gi.repository import Gio
 from gnomemusic import log

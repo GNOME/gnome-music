@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo

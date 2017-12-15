@@ -33,7 +33,6 @@ from math import pi
 import os
 
 import cairo
-from gettext import gettext as _
 import gi
 gi.require_version('MediaArt', '2.0')
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,

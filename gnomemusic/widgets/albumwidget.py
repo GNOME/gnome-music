@@ -23,13 +23,11 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _, ngettext
-from gi.repository import Gd, Gdk, GdkPixbuf, GLib, GObject, Gtk, Pango
+from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
-from gnomemusic.player import DiscoveryStatus
-from gnomemusic.playlists import Playlists
 from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
 

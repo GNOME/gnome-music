@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GLib, Grl, Notify
+from gi.repository import GLib, Notify
 
 from gettext import gettext as _
 

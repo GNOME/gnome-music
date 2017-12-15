@@ -22,13 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _
-from gi.repository import Gdk, Gio, GLib, GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
-from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
+from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
 
 
