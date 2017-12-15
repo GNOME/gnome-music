@@ -38,5 +38,5 @@ pep8:
   stage: check
   script:
     - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-pep8
-    - python3-pep8 --ignore=E501,E225,E265,E402 --show-source --show-pep8 .
+    - python3-pep8 --ignore=W503,E402 --show-source --show-pep8 .
   allow_failure: true
