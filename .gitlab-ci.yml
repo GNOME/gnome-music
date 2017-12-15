@@ -5,7 +5,9 @@ stages:
   - deploy
 
 variables:
-  DEPENDENCIES: python3 gobject-introspection-devel gtk3-devel libmediaart-devel grilo-devel
+  DEPENDENCIES: python3 autoconf-archive gettext-devel git
+                gobject-introspection-devel
+                gnome-common which gtk3-devel libmediaart-devel grilo-devel
 
 build:
   stage: build
