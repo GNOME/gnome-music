@@ -96,7 +96,6 @@ class ArtistAlbumWidget(Gtk.Box):
         GLib.idle_add(self._update_album_art)
         grilo.populate_album_songs(self._media, self._add_item)
 
-
     def create_disc_box(self, disc_nr, disc_songs):
         disc_box = DiscBox(self._model)
         disc_box.set_songs(disc_songs)

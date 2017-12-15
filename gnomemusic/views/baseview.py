@@ -96,7 +96,7 @@ class BaseView(Gtk.Stack):
         self._header_bar = window.toolbar
         self._selection_toolbar = window.selection_toolbar
         self._header_bar._select_button.connect(
-           'toggled', self._on_header_bar_toggled)
+            'toggled', self._on_header_bar_toggled)
         self._header_bar._cancel_button.connect(
             'clicked', self._on_cancel_button_clicked)
 
@@ -300,5 +300,5 @@ class BaseView(Gtk.Stack):
         select_toolbar._add_to_playlist_button.set_sensitive(False)
         select_toolbar._remove_from_playlist_button.set_sensitive(False)
         self._header_bar._selection_menu_label.set_text(
-             _("Click on items to select them"))
+            _("Click on items to select them"))
         self.queue_draw()

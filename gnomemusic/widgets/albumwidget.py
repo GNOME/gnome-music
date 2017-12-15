@@ -239,7 +239,6 @@ class AlbumWidget(Gtk.EventBox):
         self._selection_mode = not self._selection_mode
         self._on_selection_mode_request()
 
-
     @log
     def _song_activated(self, widget, song_widget):
         if not song_widget.can_be_played:
@@ -322,7 +321,8 @@ class AlbumWidget(Gtk.EventBox):
             song = playlist[_iter][5]
             song_widget = song.song_widget
             self._duration += song.get_duration()
-            escaped_title = GLib.markup_escape_text(utils.get_media_title(song))
+            escaped_title = GLib.markup_escape_text(
+                utils.get_media_title(song))
 
             if (song == current_song):
                 song_widget.now_playing_sign.show()

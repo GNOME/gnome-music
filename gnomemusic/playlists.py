@@ -106,10 +106,17 @@ class StaticPlaylists:
 
 
 class Playlists(GObject.GObject):
+
     __gsignals__ = {
-        'playlist-created': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)),
-        'playlist-deleted': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)),
-        'playlist-updated': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        'playlist-created': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
+        ),
+        'playlist-deleted': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
+        ),
+        'playlist-updated': (
+            GObject.SignalFlags.RUN_FIRST, None, (int,)
+        ),
         'song-added-to-playlist': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
@@ -117,6 +124,7 @@ class Playlists(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
     }
+
     instance = None
     tracker = None
 
@@ -141,7 +149,8 @@ class Playlists(GObject.GObject):
 
     @log
     def _on_grilo_ready(self, data=None):
-        """For all static playlists: get ID, if exists; if not, create the playlist and get ID."""
+        """For all static playlists: get ID, if exists; if not, create
+        the playlist and get ID."""
 
         def playlist_id_fetched_cb(cursor, res, playlist):
             """ Called after the playlist id is fetched """
@@ -214,20 +223,22 @@ class Playlists(GObject.GObject):
             """ Called when the static playlist is created """
             data = obj.update_blank_finish(res)
             playlist_urn = data.get_child_value(0).get_child_value(0).\
-                           get_child_value(0).get_child_value(1).get_string()
+                get_child_value(0).get_child_value(1).get_string()
 
             query = Query.get_playlist_with_urn(playlist_urn)
 
             # Start fetching the playlist
-            self.tracker.query_async(query, None, playlist_queried_cb, playlist)
+            self.tracker.query_async(
+                query, None, playlist_queried_cb, playlist)
 
         def tag_created_cb(obj, res, playlist):
             """ Called when the tag is created """
             creation_query = Query.create_playlist_with_tag(title, tag_text)
 
             # Start creating the playlist itself
-            self.tracker.update_blank_async(creation_query, GLib.PRIORITY_LOW,
-                                            None, playlist_created_cb, playlist)
+            self.tracker.update_blank_async(
+                creation_query, GLib.PRIORITY_LOW, None, playlist_created_cb,
+                playlist)
 
         # Start the playlist creation by creating the tag
         self.tracker.update_blank_async(Query.create_tag(tag_text),
@@ -236,7 +247,8 @@ class Playlists(GObject.GObject):
 
     @log
     def update_static_playlist(self, playlist):
-        """Given a static playlist (subclass of StaticPlaylists), updates according to its query."""
+        """Given a static playlist (subclass of StaticPlaylists),
+        updates according to its query."""
         # Clear the playlist
         self.clear_playlist(playlist)
 

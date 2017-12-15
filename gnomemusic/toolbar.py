@@ -27,15 +27,11 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-
-from gi.repository import Gtk, GObject
-
 from gettext import gettext as _
-from gnomemusic.searchbar import Searchbar, DropDown
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-import logging
-logger = logging.getLogger(__name__)
+from gnomemusic.searchbar import Searchbar, DropDown
 
 
 class ToolbarState:
@@ -65,14 +61,17 @@ class Toolbar(GObject.GObject):
         self.header_bar = self._ui.get_object('header-bar')
         self._search_button = self._ui.get_object('search-button')
         self.dropdown = DropDown()
-        self.searchbar = Searchbar(self._stack_switcher, self._search_button, self.dropdown)
+        self.searchbar = Searchbar(
+            self._stack_switcher, self._search_button, self.dropdown)
         self.dropdown.initialize_filters(self.searchbar)
         self._select_button = self._ui.get_object('select-button')
         self._cancel_button = self._ui.get_object('done-button')
         self._back_button = self._ui.get_object('back-button')
         self._selection_menu = self._ui.get_object('selection-menu')
-        self._selection_menu_button = self._ui.get_object('selection-menu-button')
-        self._selection_menu_label = self._ui.get_object('selection-menu-button-label')
+        self._selection_menu_button = self._ui.get_object(
+            'selection-menu-button')
+        self._selection_menu_label = self._ui.get_object(
+            'selection-menu-button-label')
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
         if Gtk.get_minor_version() >= 11:
             self.header_bar.remove(self._select_button)
@@ -113,7 +112,8 @@ class Toolbar(GObject.GObject):
             self._select_button.hide()
             self._cancel_button.show()
             self.header_bar.get_style_context().add_class('selection-mode')
-            self._cancel_button.get_style_context().remove_class('selection-mode')
+            self._cancel_button.get_style_context().remove_class(
+                'selection-mode')
         else:
             self.header_bar.get_style_context().remove_class('selection-mode')
             self._select_button.set_active(False)
@@ -130,9 +130,9 @@ class Toolbar(GObject.GObject):
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
 
-        if not ((self._window.curr_view == self._window.views[4] or
-                 self._window.curr_view == self._window.views[5]) and
-                 visible_child != self._window.curr_view._grid):
+        if not ((self._window.curr_view == self._window.views[4]
+                 or self._window.curr_view == self._window.views[5])
+                and visible_child != self._window.curr_view._grid):
             self.set_state(ToolbarState.MAIN)
         else:
             self._search_button.set_visible(True)
@@ -153,6 +153,8 @@ class Toolbar(GObject.GObject):
         else:
             self.reset_header_title()
 
-        self._search_button.set_visible(self._state != ToolbarState.SEARCH_VIEW)
-        self._back_button.set_visible(not self._selectionMode and self._state != ToolbarState.MAIN)
+        self._search_button.set_visible(
+            self._state != ToolbarState.SEARCH_VIEW)
+        self._back_button.set_visible(
+            not self._selectionMode and self._state != ToolbarState.MAIN)
         self.header_bar.set_show_close_button(not self._selectionMode)

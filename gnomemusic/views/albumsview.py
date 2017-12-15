@@ -67,16 +67,11 @@ class AlbumsView(BaseView):
 
     @log
     def _setup_view(self, view_type):
-        self._view = Gtk.FlowBox(homogeneous=True,
-                                hexpand=True,
-                                halign=Gtk.Align.FILL,
-                                valign=Gtk.Align.START,
-                                selection_mode=Gtk.SelectionMode.NONE,
-                                margin=18,
-                                row_spacing=12,
-                                column_spacing=6,
-                                min_children_per_line=1,
-                                max_children_per_line=25)
+        self._view = Gtk.FlowBox(
+            homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
+            valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
+            margin=18, row_spacing=12, column_spacing=6,
+            min_children_per_line=1, max_children_per_line=25)
 
         self._view.connect('child-activated', self._on_child_activated)
 
@@ -156,7 +151,8 @@ class AlbumsView(BaseView):
         artist = utils.get_artist_name(item)
         title = utils.get_media_title(item)
 
-        builder = Gtk.Builder.new_from_resource('/org/gnome/Music/AlbumCover.ui')
+        builder = Gtk.Builder.new_from_resource(
+            '/org/gnome/Music/AlbumCover.ui')
 
         child = Gtk.FlowBoxChild()
         child.image = builder.get_object('image')
@@ -208,9 +204,11 @@ class AlbumsView(BaseView):
 
     @log
     def _on_child_toggled(self, check, pspec, child):
-        if check.get_active() and not child.media_item in self.albums_selected:
+        if (check.get_active()
+                and child.media_item not in self.albums_selected):
             self.albums_selected.append(child.media_item)
-        elif not check.get_active() and child.media_item in self.albums_selected:
+        elif (not check.get_active()
+                and child.media_item in self.albums_selected):
             self.albums_selected.remove(child.media_item)
 
         self.update_header_from_selection(len(self.albums_selected))

@@ -22,13 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gettext import gettext as _
 from gi.repository import GLib, Notify
 
-from gettext import gettext as _
-
 from gnomemusic import log
-import logging
-logger = logging.getLogger(__name__)
 
 
 class NotificationManager:
@@ -45,23 +42,25 @@ class NotificationManager:
         self._notification.set_category('x-gnome.music')
         self._notification.set_hint('action-icons', GLib.Variant('b', True))
         self._notification.set_hint('resident', GLib.Variant('b', True))
-        self._notification.set_hint('desktop-entry', GLib.Variant('s', 'gnome-music'))
+        self._notification.set_hint(
+            'desktop-entry', GLib.Variant('s', 'gnome-music'))
 
     @log
     def _set_actions(self, playing):
         self._notification.clear_actions()
 
-        if (Notify.VERSION_MINOR > 7) or (Notify.VERSION_MINOR == 7 and Notify.VERSION_MICRO > 5):
-            self._notification.add_action('media-skip-backward', _("Previous"),
-                                          self._go_previous, None)
+        if (Notify.VERSION_MINOR > 7
+                or (Notify.VERSION_MINOR == 7 and Notify.VERSION_MICRO > 5)):
+            self._notification.add_action(
+                'media-skip-backward', _("Previous"), self._go_previous, None)
             if playing:
-                self._notification.add_action('media-playback-pause', _("Pause"),
-                                              self._pause, None)
+                self._notification.add_action(
+                    'media-playback-pause', _("Pause"), self._pause, None)
             else:
-                self._notification.add_action('media-playback-start', _("Play"),
-                                              self._play, None)
-            self._notification.add_action('media-skip-forward', _("Next"),
-                                          self._go_next, None)
+                self._notification.add_action(
+                    'media-playback-start', _("Play"), self._play, None)
+            self._notification.add_action(
+                'media-skip-forward', _("Next"), self._go_next, None)
 
     @log
     def _go_previous(self, notification, action, data):

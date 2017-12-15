@@ -130,8 +130,8 @@ class ArtistsView(BaseView):
         widget = self._artists[artist.casefold()]['widget']
 
         if widget:
-            artist_widget_model = self.player.running_playlist('Artist',
-                                                                widget.artist)
+            artist_widget_model = self.player.running_playlist(
+                'Artist', widget.artist)
             artist_stack = self._artist_albums_stack
             # FIXME: calling to private model
             if widget._model == artist_widget_model:
@@ -149,9 +149,9 @@ class ArtistsView(BaseView):
                                              hexpand=True)
         self._artist_albums_stack.add(new_artist_albums_widget)
 
-        artist_albums = ArtistAlbumsWidget(artist, albums, self.player,
-                                           self._header_bar,
-                                           self._selection_toolbar, self._window)
+        artist_albums = ArtistAlbumsWidget(
+            artist, albums, self.player, self._header_bar,
+            self._selection_toolbar, self._window)
         self._artists[artist.casefold()]['widget'] = artist_albums
         new_artist_albums_widget.add(artist_albums)
         new_artist_albums_widget.show()
