@@ -41,6 +41,7 @@ playlists = Playlists.get_default()
 
 
 class SearchView(BaseView):
+
     __gsignals__ = {
         'no-music-found': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
@@ -51,44 +52,42 @@ class SearchView(BaseView):
     @log
     def __init__(self, window, player):
         BaseView.__init__(self, 'search', None, window, Gd.MainViewType.LIST)
-        self._items = {}
-        self.isStarred = None
-        self.iter_to_clean = None
 
         scale = self.get_scale_factor()
-        loading_icon_surface = DefaultIcon(scale).get(DefaultIcon.Type.loading,
-                                                      ArtSize.small)
+        loading_icon_surface = DefaultIcon(scale).get(
+            DefaultIcon.Type.loading, ArtSize.small)
         self._loading_icon = Gdk.pixbuf_get_from_surface(
-            loading_icon_surface,
-            0,
-            0,
-            loading_icon_surface.get_width(),
+            loading_icon_surface, 0, 0, loading_icon_surface.get_width(),
             loading_icon_surface.get_height())
 
         self._add_list_renderers()
         self.player = player
-        self.head_iters = [None, None, None, None]
-        self.songs_model = self.model
+        self._head_iters = [None, None, None, None]
+        self._filter_model = None
+
         self.previous_view = None
         self.connect('no-music-found', self._no_music_found_callback)
 
-        self.albums_selected = []
+        self._albums_selected = []
         self._albums = {}
+        self._albums_index = 0
         self._albumWidget = AlbumWidget(player, self)
         self.add(self._albumWidget)
 
-        self.artists_albums_selected = []
+        self._artists_albums_selected = []
+        self._artists_albums_index = 0
         self._artists = {}
         self._artistAlbumsWidget = None
 
         self._view.get_generic_view().set_show_expanders(False)
-        self.items_selected = []
-        self.items_selected_callback = None
+        self._items_selected = []
+        self._items_selected_callback = None
 
-        self.found_items_number = None
+        self._items_found = None
 
     @log
     def _no_music_found_callback(self, view):
+        # FIXME: call into private members
         self._window._stack.set_visible_child_name('emptysearch')
         emptysearch = self._window._stack.get_child_by_name('emptysearch')
         emptysearch._artistAlbumsWidget = self._artistAlbumsWidget
@@ -96,11 +95,14 @@ class SearchView(BaseView):
     @log
     def _back_button_clicked(self, widget, data=None):
         self._header_bar.searchbar.show_bar(True, False)
+
         if self.get_visible_child() == self._artistAlbumsWidget:
             self._artistAlbumsWidget.destroy()
             self._artistAlbumsWidget = None
         elif self.get_visible_child() == self._grid:
-            self._window.views[0].set_visible_child(self._window.views[0]._grid)
+            self._window.views[0].set_visible_child(
+                self._window.views[0]._grid)
+
         self.set_visible_child(self._grid)
         self._window.toolbar.set_state(ToolbarState.MAIN)
 
@@ -111,30 +113,31 @@ class SearchView(BaseView):
             return
 
         try:
-            child_path = self.filter_model.convert_path_to_child_path(path)
+            child_path = self._filter_model.convert_path_to_child_path(path)
         except TypeError:
             return
+
         _iter = self.model.get_iter(child_path)
         if self.model[_iter][11] == 'album':
-            title = self.model.get_value(_iter, 2)
-            artist = self.model.get_value(_iter, 3)
-            item = self.model.get_value(_iter, 5)
-            self._albumWidget.update(artist, title, item,
-                                     self._header_bar, self._selection_toolbar)
+            title = self.model[_iter][2]
+            artist = self.model[_iter][3]
+            item = self.model[_iter][5]
+
+            self._albumWidget.update(
+                artist, title, item, self._header_bar, self._selection_toolbar)
             self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
-            title = utils.get_media_title(item)
+
             self._header_bar.header_bar.set_title(title)
             self._header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._albumWidget)
             self._header_bar.searchbar.show_bar(False)
         elif self.model[_iter][11] == 'artist':
-            artist = self.model.get_value(_iter, 2)
+            artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
 
             self._artistAlbumsWidget = ArtistAlbumsWidget(
-                artist, albums, self.player,
-                self._header_bar, self._selection_toolbar, self._window, True
-            )
+                artist, albums, self.player, self._header_bar,
+                self._selection_toolbar, self._window, True)
             self.add(self._artistAlbumsWidget)
             self._artistAlbumsWidget.show()
 
@@ -143,9 +146,10 @@ class SearchView(BaseView):
             self.set_visible_child(self._artistAlbumsWidget)
             self._header_bar.searchbar.show_bar(False)
         elif self.model[_iter][11] == 'song':
-            if self.model.get_value(_iter, 12) != DiscoveryStatus.FAILED:
-                child_iter = self.songs_model.convert_child_iter_to_iter(_iter)[1]
-                self.player.set_playlist('Search Results', None, self.songs_model, child_iter, 5, 12)
+            if self.model[_iter][12] != DiscoveryStatus.FAILED:
+                c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
+                self.player.set_playlist(
+                    'Search Results', None, self._songs_model, c_iter, 5, 12)
                 self.player.set_playing(True)
         else:  # Headers
             if self._view.get_generic_view().row_expanded(path):
@@ -155,13 +159,16 @@ class SearchView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self._artistAlbumsWidget is not None and self.get_visible_child() == self._artistAlbumsWidget:
-            self._artistAlbumsWidget.set_selection_mode(self._header_bar._selectionMode)
+        if (self._artistAlbumsWidget is not None
+                and self.get_visible_child() == self._artistAlbumsWidget):
+            self._artistAlbumsWidget.set_selection_mode(
+                self._header_bar._selectionMode)
 
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):
         if not item:
-            if grilo._search_callback_counter == 0 and grilo.search_source:
+            if (grilo._search_callback_counter == 0
+                    and grilo.search_source):
                 self.emit('no-music-found')
             return
 
@@ -180,8 +187,10 @@ class SearchView(BaseView):
             self._albums[key].set_composer(composer)
             self._albums[key].set_source(source.get_id())
             self._albums[key].songs = []
-            self._add_item(source, None, self._albums[key], 0, [self.model, 'album'])
-            self._add_item(source, None, self._albums[key], 0, [self.model, 'artist'])
+            self._add_item(
+                source, None, self._albums[key], 0, [self.model, 'album'])
+            self._add_item(
+                source, None, self._albums[key], 0, [self.model, 'artist'])
 
         self._albums[key].songs.append(item)
         self._add_item(source, None, item, 0, [self.model, 'song'])
@@ -193,19 +202,22 @@ class SearchView(BaseView):
 
         model, category = data
 
-        self.found_items_number = (
-            self.model.iter_n_children(self.head_iters[0]) +
-            self.model.iter_n_children(self.head_iters[1]) +
-            self.model.iter_n_children(self.head_iters[2]) +
-            self.model.iter_n_children(self.head_iters[3]))
+        self._items_found = (
+            self.model.iter_n_children(self._head_iters[0])
+            + self.model.iter_n_children(self._head_iters[1])
+            + self.model.iter_n_children(self._head_iters[2])
+            + self.model.iter_n_children(self._head_iters[3])
+        )
 
-        if category == 'song' and self.found_items_number == 0 and remaining == 0:
+        if (category == 'song'
+                and self._items_found == 0
+                and remaining == 0):
             if grilo.search_source:
                 self.emit('no-music-found')
 
         # We need to remember the view before the search view
-        if self._window.curr_view != self._window.views[5] and \
-           self._window.prev_view != self._window.views[5]:
+        if (self._window.curr_view != self._window.views[5]
+                and self._window.prev_view != self._window.views[5]):
             self.previous_view = self._window.prev_view
 
         if remaining == 0:
@@ -234,38 +246,41 @@ class SearchView(BaseView):
         _iter = None
         if category == 'album':
             _iter = self.model.insert_with_values(
-                self.head_iters[group], -1,
-                [0, 2, 3, 4, 5, 9, 11, 13],
-                [str(item.get_id()), title, artist,
-                 self._loading_icon, item, 2, category, composer])
-            self._cache.lookup(item, ArtSize.small, self._on_lookup_ready,
-                               _iter)
+                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
+                [str(item.get_id()), title, artist, self._loading_icon, item,
+                 2, category, composer])
+            self._cache.lookup(
+                item, ArtSize.small, self._on_lookup_ready, _iter)
         elif category == 'song':
+            # FIXME: source specific hack
+            if source.get_id() != 'grl-tracker-source':
+                fav = 2
+            else:
+                fav = item.get_favourite()
             _iter = self.model.insert_with_values(
-                self.head_iters[group], -1,
-                [0, 2, 3, 4, 5, 9, 11, 13],
-                [str(item.get_id()), title, artist,
-                 self._loading_icon, item,
-                 2 if source.get_id() != 'grl-tracker-source' \
-                    else item.get_favourite(), category, composer])
-            self._cache.lookup(item, ArtSize.small, self._on_lookup_ready,
-                               _iter)
+                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
+                [str(item.get_id()), title, artist, self._loading_icon, item,
+                 fav, category, composer])
+            self._cache.lookup(
+                item, ArtSize.small, self._on_lookup_ready, _iter)
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
-                    self.head_iters[group], -1,
-                    [0, 2, 4, 5, 9, 11, 13],
-                    [str(item.get_id()), artist,
-                     self._loading_icon, item, 2, category, composer])
-                self._cache.lookup(item, ArtSize.small, self._on_lookup_ready,
-                                   _iter)
-                self._artists[artist.casefold()] = {'iter': _iter, 'albums': []}
+                    self._head_iters[group], -1, [0, 2, 4, 5, 9, 11, 13],
+                    [str(item.get_id()), artist, self._loading_icon, item, 2,
+                     category, composer])
+                self._cache.lookup(
+                    item, ArtSize.small, self._on_lookup_ready, _iter)
+                self._artists[artist.casefold()] = {
+                    'iter': _iter,
+                    'albums': []
+                }
 
             self._artists[artist.casefold()]['albums'].append(item)
 
-        if self.model.iter_n_children(self.head_iters[group]) == 1:
-            path = self.model.get_path(self.head_iters[group])
-            path = self.filter_model.convert_child_path_to_path(path)
+        if self.model.iter_n_children(self._head_iters[group]) == 1:
+            path = self.model.get_path(self._head_iters[group])
+            path = self._filter_model.convert_child_path_to_path(path)
             self._view.get_generic_view().expand_row(path, False)
 
     @log
@@ -276,25 +291,25 @@ class SearchView(BaseView):
         cols = list_widget.get_columns()
 
         title_renderer = Gtk.CellRendererText(
-            xpad=12,
-            xalign=0.0,
-            yalign=0.5,
-            height=32,
-            ellipsize=Pango.EllipsizeMode.END,
-            weight=Pango.Weight.BOLD
-        )
-        list_widget.add_renderer(title_renderer,
-                                 self._on_list_widget_title_render, None)
+            xpad=12, xalign=0.0, yalign=0.5, height=32,
+            ellipsize=Pango.EllipsizeMode.END, weight=Pango.Weight.BOLD)
+        list_widget.add_renderer(
+            title_renderer, self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
         self._star_handler.add_star_renderers(list_widget, cols[0])
 
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
-        cols[0].set_cell_data_func(cells[0], self._on_list_widget_selection_render, None)
+        cols[0].set_cell_data_func(
+            cells[0], self._on_list_widget_selection_render, None)
 
     def _on_list_widget_selection_render(self, col, cell, model, _iter, data):
-        cell.set_visible(self._view.get_selection_mode() and model.iter_parent(_iter) is not None)
+        if (self._view.get_selection_mode()
+                and model.iter_parent(_iter) is not None):
+            cell.set_visible(True)
+        else:
+            cell.set_visible(False)
 
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         cells = col.get_cells()
@@ -320,18 +335,22 @@ class SearchView(BaseView):
                     items.append(row[5])
             callback(items)
         else:
-            self.items_selected = []
-            self.items_selected_callback = callback
+            self._items_selected = []
+            self._items_selected_callback = callback
             self._get_selected_albums()
 
     @log
     def _get_selected_albums(self):
-        self.albums_index = 0
-        self.albums_selected = [self.model[child_path][5]
-                                for child_path in [self.filter_model.convert_path_to_child_path(path)
-                                                   for path in self._view.get_selection()]
-                                if self.model[child_path][11] == 'album']
-        if len(self.albums_selected):
+        paths = [
+            self._filter_model.convert_path_to_child_path(path)
+            for path in self._view.get_selection()]
+
+        self._albums_selected = [
+            self.model[child_path][5]
+            for child_path in paths
+            if self.model[child_path][11] == 'album']
+
+        if len(self._albums_selected):
             self._get_selected_albums_songs()
         else:
             self._get_selected_artists()
@@ -339,33 +358,35 @@ class SearchView(BaseView):
     @log
     def _get_selected_albums_songs(self):
         grilo.populate_album_songs(
-            self.albums_selected[self.albums_index],
+            self._albums_selected[self._albums_index],
             self._add_selected_albums_songs)
-        self.albums_index += 1
+        self._albums_index += 1
 
     @log
-    def _add_selected_albums_songs(self, source, param, item, remaining=0, data=None):
+    def _add_selected_albums_songs(
+            self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item)
+            self._items_selected.append(item)
         if remaining == 0:
-            if self.albums_index < len(self.albums_selected):
+            if self._albums_index < len(self._albums_selected):
                 self._get_selected_albums_songs()
             else:
                 self._get_selected_artists()
 
     @log
     def _get_selected_artists(self):
-        self.artists_albums_index = 0
-        self.artists_selected = [self._artists[self.model[child_path][2].casefold()]
-                                 for child_path in [self.filter_model.convert_path_to_child_path(path)
-                                                    for path in self._view.get_selection()]
-                                 if self.model[child_path][11] == 'artist']
+        artists_selected = [
+            self._artists[self.model[child_path][2].casefold()]
+            for child_path in [
+                self._filter_model.convert_path_to_child_path(path)
+                for path in self._view.get_selection()]
+            if self.model[child_path][11] == 'artist']
 
-        self.artists_albums_selected = []
-        for artist in self.artists_selected:
-            self.artists_albums_selected.extend(artist['albums'])
+        self._artists_albums_selected = []
+        for artist in artists_selected:
+            self._artists_albums_selected.extend(artist['albums'])
 
-        if len(self.artists_albums_selected):
+        if len(self._artists_albums_selected):
             self._get_selected_artists_albums_songs()
         else:
             self._get_selected_songs()
@@ -373,31 +394,37 @@ class SearchView(BaseView):
     @log
     def _get_selected_artists_albums_songs(self):
         grilo.populate_album_songs(
-            self.artists_albums_selected[self.artists_albums_index],
+            self._artists_albums_selected[self._artists_albums_index],
             self._add_selected_artists_albums_songs)
-        self.artists_albums_index += 1
+        self._artists_albums_index += 1
 
     @log
-    def _add_selected_artists_albums_songs(self, source, param, item, remaining=0, data=None):
+    def _add_selected_artists_albums_songs(
+            self, source, param, item, remaining=0, data=None):
         if item:
-            self.items_selected.append(item)
+            self._items_selected.append(item)
         if remaining == 0:
-            if self.artists_albums_index < len(self.artists_albums_selected):
+            artist_albums = len(self._artists_albums_selected)
+            if self._artists_albums_index < artist_albums:
                 self._get_selected_artists_albums_songs()
             else:
                 self._get_selected_songs()
 
     @log
     def _get_selected_songs(self):
-        self.items_selected.extend([self.model[child_path][5]
-                                    for child_path in [self.filter_model.convert_path_to_child_path(path)
-                                                       for path in self._view.get_selection()]
-                                    if self.model[child_path][11] == 'song'])
-        self.items_selected_callback(self.items_selected)
+        self._items_selected.extend([
+            self.model[child_path][5]
+            for child_path in [
+                self._filter_model.convert_path_to_child_path(path)
+                for path in self._view.get_selection()]
+            if self.model[child_path][11] == 'song'])
+        self._items_selected_callback(self._items_selected)
 
     @log
     def _filter_visible_func(self, model, _iter, data=None):
-        return model.iter_parent(_iter) is not None or model.iter_has_child(_iter)
+        visible = (model.iter_parent(_iter) is not None
+                        or model.iter_has_child(_iter))
+        return visible
 
     @log
     def set_search_text(self, search_term, fields_filter):
@@ -441,9 +468,10 @@ class SearchView(BaseView):
             GObject.TYPE_INT,
             GObject.TYPE_STRING,    # composer
         )
-        self.filter_model = self.model.filter_new(None)
-        self.filter_model.set_visible_func(self._filter_visible_func)
-        self._view.set_model(self.filter_model)
+
+        self._filter_model = self.model.filter_new(None)
+        self._filter_model.set_visible_func(self._filter_visible_func)
+        self._view.set_model(self._filter_model)
 
         self._albums = {}
         self._artists = {}
@@ -451,21 +479,33 @@ class SearchView(BaseView):
         if search_term == "":
             return
 
-        albums_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Albums"), 2])
-        artists_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Artists"), 2])
-        songs_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Songs"), 2])
-        playlists_iter = self.model.insert_with_values(None, -1, [2, 9], [_("Playlists"), 2])
+        albums_iter = self.model.insert_with_values(
+            None, -1, [2, 9], [_("Albums"), 2])
+        artists_iter = self.model.insert_with_values(
+            None, -1, [2, 9], [_("Artists"), 2])
+        songs_iter = self.model.insert_with_values(
+            None, -1, [2, 9], [_("Songs"), 2])
+        playlists_iter = self.model.insert_with_values(
+            None, -1, [2, 9], [_("Playlists"), 2])
 
-        self.head_iters = [albums_iter, artists_iter, songs_iter, playlists_iter]
-        self.songs_model = self.model.filter_new(self.model.get_path(songs_iter))
+        self._head_iters = [
+            albums_iter,
+            artists_iter,
+            songs_iter,
+            playlists_iter
+        ]
+
+        self._songs_model = self.model.filter_new(
+            self.model.get_path(songs_iter))
 
         # Use queries for Tracker
-        if not grilo.search_source or \
-           grilo.search_source.get_id() == 'grl-tracker-source':
+        if (not grilo.search_source
+                or grilo.search_source.get_id() == 'grl-tracker-source'):
             for category in ('album', 'artist', 'song'):
                 query = query_matcher[category][fields_filter](search_term)
-                grilo.populate_custom_query(query, self._add_item, -1, [self.model, category])
-        if not grilo.search_source or \
-           grilo.search_source.get_id() != 'grl-tracker-source':
+                grilo.populate_custom_query(
+                    query, self._add_item, -1, [self.model, category])
+        if (not grilo.search_source
+                or grilo.search_source.get_id() != 'grl-tracker-source'):
             # nope, can't do - reverting to Search
             grilo.search(search_term, self._add_search_item, self.model)
