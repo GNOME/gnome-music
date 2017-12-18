@@ -71,13 +71,13 @@ class SearchView(BaseView):
         self._albums_selected = []
         self._albums = {}
         self._albums_index = 0
-        self._albumWidget = AlbumWidget(player, self)
-        self.add(self._albumWidget)
+        self._album_widget = AlbumWidget(player, self)
+        self.add(self._album_widget)
 
         self._artists_albums_selected = []
         self._artists_albums_index = 0
         self._artists = {}
-        self._artistAlbumsWidget = None
+        self._artist_albums_widget = None
 
         self._view.get_generic_view().set_show_expanders(False)
         self._items_selected = []
@@ -90,15 +90,15 @@ class SearchView(BaseView):
         # FIXME: call into private members
         self._window._stack.set_visible_child_name('emptysearch')
         emptysearch = self._window._stack.get_child_by_name('emptysearch')
-        emptysearch._artistAlbumsWidget = self._artistAlbumsWidget
+        emptysearch._artist_albums_widget = self._artist_albums_widget
 
     @log
     def _back_button_clicked(self, widget, data=None):
         self._header_bar.searchbar.show_bar(True, False)
 
-        if self.get_visible_child() == self._artistAlbumsWidget:
-            self._artistAlbumsWidget.destroy()
-            self._artistAlbumsWidget = None
+        if self.get_visible_child() == self._artist_albums_widget:
+            self._artist_albums_widget.destroy()
+            self._artist_albums_widget = None
         elif self.get_visible_child() == self._grid:
             self._window.views[0].set_visible_child(
                 self._window.views[0]._grid)
@@ -123,27 +123,27 @@ class SearchView(BaseView):
             artist = self.model[_iter][3]
             item = self.model[_iter][5]
 
-            self._albumWidget.update(
+            self._album_widget.update(
                 artist, title, item, self._header_bar, self._selection_toolbar)
             self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
 
             self._header_bar.header_bar.set_title(title)
             self._header_bar.header_bar.sub_title = artist
-            self.set_visible_child(self._albumWidget)
+            self.set_visible_child(self._album_widget)
             self._header_bar.searchbar.show_bar(False)
         elif self.model[_iter][11] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
 
-            self._artistAlbumsWidget = ArtistAlbumsWidget(
+            self._artist_albums_widget = ArtistAlbumsWidget(
                 artist, albums, self.player, self._header_bar,
                 self._selection_toolbar, self._window, True)
-            self.add(self._artistAlbumsWidget)
-            self._artistAlbumsWidget.show()
+            self.add(self._artist_albums_widget)
+            self._artist_albums_widget.show()
 
             self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
             self._header_bar.header_bar.set_title(artist)
-            self.set_visible_child(self._artistAlbumsWidget)
+            self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.show_bar(False)
         elif self.model[_iter][11] == 'song':
             if self.model[_iter][12] != DiscoveryStatus.FAILED:
@@ -159,9 +159,9 @@ class SearchView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if (self._artistAlbumsWidget is not None
-                and self.get_visible_child() == self._artistAlbumsWidget):
-            self._artistAlbumsWidget.set_selection_mode(
+        if (self._artist_albums_widget is not None
+                and self.get_visible_child() == self._artist_albums_widget):
+            self._artist_albums_widget.set_selection_mode(
                 self._header_bar._selectionMode)
 
     @log
@@ -325,12 +325,12 @@ class SearchView(BaseView):
 
     @log
     def get_selected_songs(self, callback):
-        if self.get_visible_child() == self._albumWidget:
-            callback(self._albumWidget.view.get_selected_items())
-        elif self.get_visible_child() == self._artistAlbumsWidget:
+        if self.get_visible_child() == self._album_widget:
+            callback(self._album_widget.view.get_selected_items())
+        elif self.get_visible_child() == self._artist_albums_widget:
             items = []
             # FIXME: calling into private model
-            for row in self._artistAlbumsWidget._model:
+            for row in self._artist_albums_widget._model:
                 if row[6]:
                     items.append(row[5])
             callback(items)

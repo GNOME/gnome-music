@@ -39,8 +39,8 @@ class EmptySearchView(BaseView):
     def __init__(self, window, player):
         BaseView.__init__(
             self, 'emptysearch', None, window, Gd.MainViewType.LIST)
-        self._artistAlbumsWidget = None
-        self._albumWidget = None
+        self._artist_albums_widget = None
+
         self.player = player
 
         builder = Gtk.Builder()
@@ -56,9 +56,9 @@ class EmptySearchView(BaseView):
     @log
     def _back_button_clicked(self, widget, data=None):
         self._header_bar.searchbar.show_bar(True, False)
-        if self.get_visible_child() == self._artistAlbumsWidget:
-            self._artistAlbumsWidget.destroy()
-            self._artistAlbumsWidget = None
+        if self.get_visible_child() == self._artist_albums_widget:
+            self._artist_albums_widget.destroy()
+            self._artist_albums_widget = None
         elif self.get_visible_child() == self._grid:
             self._window.views[0].set_visible_child(
                 self._window.views[0]._grid)

@@ -42,9 +42,9 @@ class AlbumsView(BaseView):
     @log
     def __init__(self, window, player):
         BaseView.__init__(self, 'albums', _("Albums"), window, None)
-        self._albumWidget = AlbumWidget(player, self)
+        self._album_widget = AlbumWidget(player, self)
         self.player = player
-        self.add(self._albumWidget)
+        self.add(self._album_widget)
         self.albums_selected = []
         self.all_items = []
         self.items_selected = []
@@ -103,13 +103,14 @@ class AlbumsView(BaseView):
         self._escaped_title = title
         self._artist = utils.get_artist_name(item)
 
-        self._albumWidget.update(self._artist, title, item,
-                                 self._header_bar, self._selection_toolbar)
+        self._album_widget.update(
+            self._artist, title, item, self._header_bar,
+            self._selection_toolbar)
 
         self._header_bar.set_state(ToolbarState.CHILD_VIEW)
         self._header_bar.header_bar.set_title(self._escaped_title)
         self._header_bar.header_bar.sub_title = self._artist
-        self.set_visible_child(self._albumWidget)
+        self.set_visible_child(self._album_widget)
 
     @log
     def update_title(self):
@@ -126,7 +127,7 @@ class AlbumsView(BaseView):
         # FIXME: we call into private objects with full knowledge of
         # what is there
         if self._header_bar._state == ToolbarState.CHILD_VIEW:
-            callback(self._albumWidget._disc_listbox.get_selected_items())
+            callback(self._album_widget._disc_listbox.get_selected_items())
         else:
             self.items_selected = []
             self.items_selected_callback = callback
