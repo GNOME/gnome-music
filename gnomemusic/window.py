@@ -471,7 +471,8 @@ class Window(Gtk.ApplicationWindow):
                 and not event.keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK
-                    or event_and_modifiers == 0)):
+                    or event_and_modifiers == 0)
+                and not self.views[3].rename_active):
             self.toolbar.searchbar.show_bar(True)
 
     @log
@@ -501,6 +502,12 @@ class Window(Gtk.ApplicationWindow):
            self.prev_view == self.views[5]:
             self.toolbar._select_button.set_sensitive(
                 not self.toolbar._select_button.get_sensitive())
+
+        # Disable renaming playlist if it was active when leaving
+        # Playlist view
+        if (self.prev_view == self.views[3]
+                and self.views[3].rename_active):
+            self.views[3].disable_rename_playlist()
 
     @log
     def _toggle_view(self, btn, i):
