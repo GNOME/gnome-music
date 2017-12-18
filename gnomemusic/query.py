@@ -473,6 +473,31 @@ class Query():
         return query
 
     @staticmethod
+    def rename_playlist(playlist_id, new_name):
+        query = """
+    INSERT OR REPLACE {
+        ?playlist
+            nie:title "%(title)s"
+    }
+    WHERE {
+        ?playlist
+            a nmm:Playlist ;
+            a nfo:MediaList .
+        OPTIONAL {
+            ?playlist
+                nfo:hasMediaFileListEntry ?entry .
+        }
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s
+        )
+    }
+    """.replace("\n", " ").strip() % {
+            'title': new_name,
+            'playlist_id': playlist_id
+        }
+        return query
+
+    @staticmethod
     def add_song_to_playlist(playlist_id, song_uri):
         query = """
     INSERT OR REPLACE {

@@ -117,6 +117,9 @@ class Playlists(GObject.GObject):
         'playlist-updated': (
             GObject.SignalFlags.RUN_FIRST, None, (int,)
         ),
+        'playlist-renamed': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
+        ),
         'song-added-to-playlist': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
@@ -346,6 +349,25 @@ class Playlists(GObject.GObject):
             Query.create_playlist(title), GLib.PRIORITY_LOW,
             None, update_callback, None
         )
+
+    @log
+    def rename(self, item, new_name):
+        """Rename a playlist
+
+        :param item: playlist to rename
+        :param new_name: new playlist name
+        :type item: Grl.Media
+        :type new_name: str
+        :return: None
+        :rtype: None
+        """
+        def update_callback(conn, res, data):
+            conn.update_finish(res)
+            self.emit('playlist-renamed', item)
+
+        self.tracker.update_async(
+            Query.rename_playlist(item.get_id(), new_name), GLib.PRIORITY_LOW,
+            None, update_callback, None)
 
     @log
     def delete_playlist(self, item):

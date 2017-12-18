@@ -70,7 +70,12 @@ class PlaylistView(BaseView):
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/PlaylistControls.ui')
         headerbar = builder.get_object('grid')
+        self._name_stack = builder.get_object('stack')
         self._name_label = builder.get_object('playlist_name')
+        self._rename_entry = builder.get_object('playlist_rename_entry')
+        self._rename_entry.connect('changed', self._on_rename_entry_changed)
+        self._rename_done_button = builder.get_object(
+            'playlist_rename_done_button')
         self._songs_count_label = builder.get_object('songs_count')
         self._menubutton = builder.get_object('playlist_menubutton')
 
@@ -83,6 +88,11 @@ class PlaylistView(BaseView):
         self._playlist_delete_action.connect('activate',
                                              self._on_delete_activate)
         self._window.add_action(self._playlist_delete_action)
+        self._playlist_rename_action = Gio.SimpleAction.new(
+            'playlist_rename', None)
+        self._playlist_rename_action.connect(
+            'activate', self._on_rename_activate)
+        self._window.add_action(self._playlist_rename_action)
 
         self._grid.insert_row(0)
         self._grid.attach(headerbar, 1, 0, 1, 1)
@@ -125,6 +135,8 @@ class PlaylistView(BaseView):
         self.pl_todelete = None
         self._pl_todelete_index = None
         self._songs_count = 0
+        self._handler_rename_done_button = 0
+        self._handler_rename_entry = 0
 
         self._update_songs_count()
 
@@ -375,6 +387,9 @@ class PlaylistView(BaseView):
         playlist_name = self._playlists_model[_iter][2]
         playlist = self._playlists_model[_iter][5]
 
+        if self.rename_active:
+            self.disable_rename_playlist()
+
         self.current_playlist = playlist
         self._name_label.set_text(playlist_name)
         self._current_playlist_index = int(path.to_string())
@@ -386,11 +401,12 @@ class PlaylistView(BaseView):
         self._songs_count = 0
         grilo.populate_playlist_songs(playlist, self._add_item)
 
-        # disable delete button if current playlist is a smart playlist
         if self._current_playlist_is_protected():
             self._playlist_delete_action.set_enabled(False)
+            self._playlist_rename_action.set_enabled(False)
         else:
             self._playlist_delete_action.set_enabled(True)
+            self._playlist_rename_action.set_enabled(True)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -477,6 +493,54 @@ class PlaylistView(BaseView):
     def _on_delete_activate(self, menuitem, data=None):
         self._window.show_playlist_notification()
         self._stage_playlist_for_deletion()
+
+    @log
+    @property
+    def rename_active(self):
+        """Indicate if renaming dialog is active"""
+        return self._name_stack.get_visible_child_name() == 'renaming_dialog'
+
+    @log
+    def _on_rename_entry_changed(self, selection):
+        if selection.get_text_length() > 0:
+            self._rename_done_button.set_sensitive(True)
+        else:
+            self._rename_done_button.set_sensitive(False)
+
+    @log
+    def disable_rename_playlist(self):
+        """disables rename button and entry"""
+        self._name_stack.set_visible_child(self._name_label)
+        self._rename_done_button.disconnect(self._handler_rename_done_button)
+        self._rename_entry.disconnect(self._handler_rename_entry)
+
+    @log
+    def _stage_playlist_for_renaming(self):
+        _iter = self._pl_generic_view.get_selection().get_selected()[1]
+        pl_torename = self._playlists_model[_iter][5]
+
+        def playlist_renamed_callback(widget):
+            new_name = self._rename_entry.get_text()
+            if not new_name:
+                return
+
+            self._playlists_model[_iter][2] = new_name
+            pl_torename.set_title(new_name)
+            playlists.rename(pl_torename, new_name)
+            self._name_label.set_text(new_name)
+            self.disable_rename_playlist()
+
+        self._name_stack.set_visible_child_name('renaming_dialog')
+        self._rename_entry.set_text(utils.get_media_title(pl_torename))
+        self._rename_entry.grab_focus()
+        self._handler_rename_entry = self._rename_entry.connect(
+            'activate', playlist_renamed_callback)
+        self._handler_rename_done_button = self._rename_done_button.connect(
+            'clicked', playlist_renamed_callback)
+
+    @log
+    def _on_rename_activate(self, menuitem, data=None):
+        self._stage_playlist_for_renaming()
 
     @log
     def _on_playlist_created(self, playlists, item):
