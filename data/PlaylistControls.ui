@@ -11,7 +11,7 @@
       <attribute name="action">win.playlist_delete</attribute>
     </item>
     <item>
-      <attribute name="label" translatable="yes">_Rename...</attribute>
+      <attribute name="label" translatable="yes">_Rename…</attribute>
       <attribute name="action">win.playlist_rename</attribute>
     </item>
   </menu>
