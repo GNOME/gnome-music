@@ -37,8 +37,8 @@ class EmptySearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        BaseView.__init__(
-            self, 'emptysearch', None, window, Gd.MainViewType.LIST)
+        super().__init__('emptysearch', None, window, Gd.MainViewType.LIST)
+
         self._artist_albums_widget = None
 
         self.player = player

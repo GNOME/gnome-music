@@ -51,7 +51,7 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        BaseView.__init__(self, 'search', None, window, Gd.MainViewType.LIST)
+        super().__init__('search', None, window, Gd.MainViewType.LIST)
 
         scale = self.get_scale_factor()
         loading_icon_surface = DefaultIcon(scale).get(

@@ -52,8 +52,8 @@ class ArtistsView(BaseView):
         :param GtkWidget window: The main window
         :param player: The main player object
         """
-        BaseView.__init__(self, 'artists', _("Artists"), window,
-                          Gd.MainViewType.LIST, True)
+        super().__init__(
+            'artists', _("Artists"), window, Gd.MainViewType.LIST, True)
 
         self.player = player
         self._artists = {}

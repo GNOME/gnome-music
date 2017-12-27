@@ -104,8 +104,9 @@ class SourceManager(BaseManager):
         return '<SourceManager>'
 
     @log
-    def __init__(self, id, label, entry):
-        super(SourceManager, self).__init__(id, label, entry)
+    def __init__(self, id_, label, entry):
+        super().__init__(id_, label, entry)
+
         self.values.append(['', '', self.label])
         self.values.append(['all', _("All"), ""])
         self.values.append(['grl-tracker-source', _("Local"), ''])
@@ -207,7 +208,7 @@ class DropDown(Gtk.Revealer):
 
     @log
     def __init__(self):
-        Gtk.Revealer.__init__(self, halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
+        super().__init__(halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -251,7 +252,8 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def __init__(self, stack_switcher, search_button, dropdown):
-        Gtk.Revealer.__init__(self)
+        super().__init__()
+
         self.timeout = None
         self.stack_switcher = stack_switcher
         self._search_button = search_button

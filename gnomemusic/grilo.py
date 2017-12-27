@@ -80,7 +80,8 @@ class Grilo(GObject.GObject):
 
     @log
     def __init__(self):
-        GObject.GObject.__init__(self)
+        super().__init__()
+
         self.playlist_path = GLib.build_filenamev([GLib.get_user_data_dir(),
                                                   "gnome-music", "playlists"])
         if not (GLib.file_test(self.playlist_path, GLib.FileTest.IS_DIR)):

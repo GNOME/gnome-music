@@ -52,7 +52,8 @@ class Toolbar(GObject.GObject):
 
     @log
     def __init__(self):
-        GObject.GObject.__init__(self)
+        super().__init__()
+
         self._stack_switcher = Gtk.StackSwitcher(can_focus=False,
                                                  halign="center")
         self._stack_switcher.show()

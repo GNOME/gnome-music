@@ -54,8 +54,8 @@ class BaseView(Gtk.Stack):
         :param sidebar: The sidebar object (Default: Gtk.Box)
         """
 
-        Gtk.Stack.__init__(self,
-                           transition_type=Gtk.StackTransitionType.CROSSFADE)
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
         self._offset = 0
         self.model = Gtk.ListStore(

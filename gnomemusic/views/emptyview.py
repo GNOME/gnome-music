@@ -36,8 +36,8 @@ class EmptyView(Gtk.Stack):
 
     @log
     def __init__(self, window, player):
-        Gtk.Stack.__init__(self,
-                           transition_type=Gtk.StackTransitionType.CROSSFADE)
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+
         self.builder = Gtk.Builder()
         self.builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
         widget = self.builder.get_object('container')

@@ -41,7 +41,7 @@ class AlbumsView(BaseView):
 
     @log
     def __init__(self, window, player):
-        BaseView.__init__(self, 'albums', _("Albums"), window, None)
+        super().__init__('albums', _("Albums"), window, None)
         self._album_widget = AlbumWidget(player, self)
         self.player = player
         self.add(self._album_widget)

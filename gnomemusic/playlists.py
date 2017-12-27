@@ -144,7 +144,8 @@ class Playlists(GObject.GObject):
 
     @log
     def __init__(self):
-        GObject.GObject.__init__(self)
+        super().__init__()
+
         self.tracker = TrackerWrapper().tracker
         self._static_playlists = StaticPlaylists()
 

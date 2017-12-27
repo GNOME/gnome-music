@@ -48,8 +48,10 @@ class Application(Gtk.Application):
 
     @log
     def __init__(self):
-        Gtk.Application.__init__(self, application_id='org.gnome.Music',
-                                 flags=Gio.ApplicationFlags.FLAGS_NONE)
+        super().__init__(
+            application_id='org.gnome.Music',
+            flags=Gio.ApplicationFlags.FLAGS_NONE)
+
         GLib.set_application_name(_("Music"))
         GLib.set_prgname('gnome-music')
         GLib.setenv("PULSE_PROP_media.role", "music", True)

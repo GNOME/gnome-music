@@ -48,7 +48,7 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def __init__(self, artist, albums, player, header_bar, selection_toolbar,
                  window, selection_mode_allowed=False):
-        Gtk.Box.__init__(self, orientation=Gtk.Orientation.VERTICAL)
+        super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self._player = player
         self.artist = artist
         self._window = window

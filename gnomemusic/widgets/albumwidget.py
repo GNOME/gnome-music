@@ -51,7 +51,7 @@ class AlbumWidget(Gtk.EventBox):
         :param player: The player object
         :param parent_view: The view this widget is part of
         """
-        Gtk.EventBox.__init__(self)
+        super().__init__()
 
         self._songs = []
 

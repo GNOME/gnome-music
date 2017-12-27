@@ -63,9 +63,8 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def __init__(self, app):
-        Gtk.ApplicationWindow.__init__(self,
-                                       application=app,
-                                       title=_("Music"))
+        super().__init__(application=app, title=_("Music"))
+
         self.connect('focus-in-event', self._windows_focus_cb)
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))

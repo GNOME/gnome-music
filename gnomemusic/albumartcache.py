@@ -165,7 +165,8 @@ class DefaultIcon(GObject.GObject):
 
     @log
     def __init__(self, scale=1):
-        GObject.GObject.__init__(self)
+        super().__init__()
+
         self._scale = scale
 
     @log
@@ -236,7 +237,8 @@ class AlbumArtCache(GObject.GObject):
 
     @log
     def __init__(self, scale=1):
-        GObject.GObject.__init__(self)
+        super().__init__()
+
         self._scale = scale
 
         self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')

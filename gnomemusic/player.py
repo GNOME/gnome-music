@@ -101,7 +101,8 @@ class Player(GObject.GObject):
 
     @log
     def __init__(self, parent_window):
-        GObject.GObject.__init__(self)
+        super().__init__()
+
         self._parent_window = parent_window
         self.playlist = None
         self.playlistType = None
@@ -1158,13 +1159,10 @@ class MissingCodecsDialog(Gtk.MessageDialog):
 
     @log
     def __init__(self, parent_window, install_helper_name):
-        Gtk.MessageDialog.__init__(self,
-                                   transient_for=parent_window,
-                                   modal=True,
-                                   destroy_with_parent=True,
-                                   message_type=Gtk.MessageType.ERROR,
-                                   buttons=Gtk.ButtonsType.CANCEL,
-                                   text=_("Unable to play the file"))
+        super().__init__(
+            transient_for=parent_window, modal=True, destroy_with_parent=True,
+            message_type=Gtk.MessageType.ERROR, buttons=Gtk.ButtonsType.CANCEL,
+            text=_("Unable to play the file"))
 
         # TRANSLATORS: this is a button to launch a codec installer.
         # %s will be replaced with the software installer's name, e.g.

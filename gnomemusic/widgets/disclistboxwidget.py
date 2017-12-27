@@ -40,7 +40,7 @@ class StarImage(Gtk.Image):
 
     @log
     def __init__(self):
-        super().__init__(self)
+        super().__init__()
 
         self._favorite = False
 
@@ -104,7 +104,7 @@ class DiscSongsFlowBox(Gtk.FlowBox):
 
         :param int columns: The number of columns the widget uses
         """
-        super().__init__(self)
+        super().__init__()
         super().set_selection_mode(Gtk.SelectionMode.NONE)
 
         self._columns = columns
