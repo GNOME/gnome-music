@@ -155,7 +155,7 @@ class Window(Gtk.ApplicationWindow):
             remove_notification_timeout(self)
 
         # Playlist name label
-        self._playlist_notification.label = Gtk.Label('')
+        self._playlist_notification.label = Gtk.Label()
         grid.add(self._playlist_notification.label)
 
         # Undo button
