@@ -170,8 +170,8 @@ class AlbumsView(BaseView):
         # In the case of off-sized icons (eg. provided in the soundfile)
         # keep the size request equal to all other icons to get proper
         # alignment with GtkFlowBox.
-        child.image.set_property("width-request", ArtSize.medium.width)
-        child.image.set_property("height-request", ArtSize.medium.height)
+        child.image.set_property("width-request", ArtSize.MEDIUM.width)
+        child.image.set_property("height-request", ArtSize.MEDIUM.height)
 
         child.events.add_events(Gdk.EventMask.TOUCH_MASK)
 
@@ -189,7 +189,7 @@ class AlbumsView(BaseView):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        self._cache.lookup(item, ArtSize.medium, self._on_lookup_ready, child)
+        self._cache.lookup(item, ArtSize.MEDIUM, self._on_lookup_ready, child)
 
         return child
 

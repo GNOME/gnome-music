@@ -43,7 +43,7 @@ class InitialStateView(EmptyView):
         icon.set_margin_bottom(32)
         icon.set_opacity(1)
         icon.set_from_resource('/org/gnome/Music/initial-state.png')
-        icon.set_size_request(ArtSize.large.width, ArtSize.large.height)
+        icon.set_size_request(ArtSize.LARGE.width, ArtSize.LARGE.height)
 
         # Update label
         label = self.builder.get_object('label')

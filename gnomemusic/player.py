@@ -114,7 +114,7 @@ class Player(GObject.GObject):
         self.cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
             DefaultIcon.Type.loading,
-            ArtSize.xsmall)
+            ArtSize.XSMALL)
         self._missingPluginMessages = []
 
         Gst.init(None)
@@ -605,7 +605,7 @@ class Player(GObject.GObject):
         self._currentArtist = artist
 
         self.coverImg.set_from_surface(self._loading_icon_surface)
-        self.cache.lookup(media, ArtSize.xsmall, self._on_cache_lookup, None)
+        self.cache.lookup(media, ArtSize.XSMALL, self._on_cache_lookup, None)
 
         self._currentTitle = utils.get_media_title(media)
         self.titleLabel.set_label(self._currentTitle)
@@ -803,8 +803,8 @@ class Player(GObject.GObject):
         self.titleLabel = self._ui.get_object('title')
         self.artistLabel = self._ui.get_object('artist')
         self.coverImg = self._ui.get_object('cover')
-        self.coverImg.set_property("width-request", ArtSize.xsmall.width)
-        self.coverImg.set_property("height-request", ArtSize.xsmall.height)
+        self.coverImg.set_property("width-request", ArtSize.XSMALL.width)
+        self.coverImg.set_property("height-request", ArtSize.XSMALL.height)
 
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')

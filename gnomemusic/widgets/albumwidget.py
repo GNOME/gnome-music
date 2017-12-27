@@ -59,7 +59,7 @@ class AlbumWidget(Gtk.EventBox):
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
             DefaultIcon.Type.loading,
-            ArtSize.large)
+            ArtSize.LARGE)
 
         self._player = player
         self._iter_to_clean = None
@@ -145,7 +145,7 @@ class AlbumWidget(Gtk.EventBox):
         self._album = album
         self._builder.get_object('cover').set_from_surface(
             self._loading_icon_surface)
-        self._cache.lookup(item, ArtSize.large, self._on_lookup, None)
+        self._cache.lookup(item, ArtSize.LARGE, self._on_lookup, None)
         self._duration = 0
 
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)

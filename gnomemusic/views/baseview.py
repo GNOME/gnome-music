@@ -110,7 +110,7 @@ class BaseView(Gtk.Stack):
         scale = self.get_scale_factor()
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading, ArtSize.medium)
+            DefaultIcon.Type.loading, ArtSize.MEDIUM)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)

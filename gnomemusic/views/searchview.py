@@ -56,7 +56,7 @@ class SearchView(BaseView):
 
         scale = self.get_scale_factor()
         loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading, ArtSize.small)
+            DefaultIcon.Type.loading, ArtSize.SMALL)
         self._loading_icon = Gdk.pixbuf_get_from_surface(
             loading_icon_surface, 0, 0, loading_icon_surface.get_width(),
             loading_icon_surface.get_height())
@@ -252,7 +252,7 @@ class SearchView(BaseView):
                 [str(item.get_id()), title, artist, self._loading_icon, item,
                  2, category, composer])
             self._cache.lookup(
-                item, ArtSize.small, self._on_lookup_ready, _iter)
+                item, ArtSize.SMALL, self._on_lookup_ready, _iter)
         elif category == 'song':
             # FIXME: source specific hack
             if source.get_id() != 'grl-tracker-source':
@@ -264,7 +264,7 @@ class SearchView(BaseView):
                 [str(item.get_id()), title, artist, self._loading_icon, item,
                  fav, category, composer])
             self._cache.lookup(
-                item, ArtSize.small, self._on_lookup_ready, _iter)
+                item, ArtSize.SMALL, self._on_lookup_ready, _iter)
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
@@ -272,7 +272,7 @@ class SearchView(BaseView):
                     [str(item.get_id()), artist, self._loading_icon, item, 2,
                      category, composer])
                 self._cache.lookup(
-                    item, ArtSize.small, self._on_lookup_ready, _iter)
+                    item, ArtSize.SMALL, self._on_lookup_ready, _iter)
                 self._artists[artist.casefold()] = {
                     'iter': _iter,
                     'albums': []

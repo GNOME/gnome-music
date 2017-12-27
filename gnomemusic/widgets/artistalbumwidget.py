@@ -52,7 +52,7 @@ class ArtistAlbumWidget(Gtk.Box):
         self._cache = AlbumArtCache(scale)
         self._loading_icon_surface = DefaultIcon(scale).get(
             DefaultIcon.Type.loading,
-            ArtSize.medium)
+            ArtSize.MEDIUM)
 
         self._media = media
         self._player = player
@@ -161,7 +161,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _update_album_art(self):
-        self._cache.lookup(self._media, ArtSize.medium, self._get_album_cover,
+        self._cache.lookup(self._media, ArtSize.MEDIUM, self._get_album_cover,
                            None)
 
     @log
