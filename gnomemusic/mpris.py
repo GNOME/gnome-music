@@ -26,6 +26,7 @@
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
+from gnomemusic.utils import View
 import gnomemusic.utils as utils
 
 from gi.repository import GLib
@@ -542,8 +543,8 @@ class MediaPlayer2Service(Server):
             self.player.set_playing(True)
         elif self.first_song_handler == 0:
             window = self.app.get_active_window()
-            window._stack.set_visible_child(window.views[2])
-            model = window.views[2].model
+            window._stack.set_visible_child(window.views[View.SONG])
+            model = window.views[View.SONG].model
             if model.iter_n_children(None):
                 _iter = model.get_iter_first()
                 self._play_first_song(model, model.get_path(_iter), _iter)
@@ -625,7 +626,7 @@ class MediaPlayer2Service(Server):
 
     def ActivatePlaylist(self, playlist_path):
         playlist_id = self._get_playlist_from_path(playlist_path).get_id()
-        self.app._window.views[3].activate_playlist(playlist_id)
+        self.app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
 
     def GetPlaylists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':

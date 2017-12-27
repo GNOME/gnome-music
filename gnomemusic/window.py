@@ -37,6 +37,7 @@ from gnomemusic import TrackerWrapper
 from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar, RepeatType
 from gnomemusic.query import Query
+from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
@@ -149,7 +150,7 @@ class Window(Gtk.ApplicationWindow):
         # Undo playlist removal
         def undo_remove_cb(button, self):
             self._playlist_notification.set_reveal_child(False)
-            self.views[3].undo_playlist_deletion()
+            self.views[View.PLAYLIST].undo_playlist_deletion()
 
             remove_notification_timeout(self)
 
@@ -167,9 +168,10 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_changes_pending(self, data=None):
+        # FIXME: This is not working right.
         def songs_available_cb(available):
             if available:
-                if self.views[0] == self.views[-1]:
+                if self.views[View.ALBUM] == self.views[-1]:
                     view = self.views.pop()
                     view.destroy()
                     self._switch_to_player_view()
@@ -254,7 +256,7 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player(self)
         self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
-        self.views = []
+        self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
             transition_duration=100,
@@ -308,9 +310,9 @@ class Window(Gtk.ApplicationWindow):
             view_class = EmptyView
         else:
             view_class = InitialStateView
-        self.views.append(view_class(self, self.player))
+        self.views[View.ALBUM] = view_class(self, self.player)
 
-        self._stack.add_titled(self.views[0], _("Empty"), _("Empty"))
+        self._stack.add_titled(self.views[View.ALBUM], _("Empty"), _("Empty"))
         self.toolbar._search_button.set_sensitive(False)
         self.toolbar._select_button.set_sensitive(False)
 
@@ -321,12 +323,12 @@ class Window(Gtk.ApplicationWindow):
         self.connect('destroy', self._notify_mode_disconnect)
         self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
 
-        self.views.append(AlbumsView(self, self.player))
-        self.views.append(ArtistsView(self, self.player))
-        self.views.append(SongsView(self, self.player))
-        self.views.append(PlaylistView(self, self.player))
-        self.views.append(SearchView(self, self.player))
-        self.views.append(EmptySearchView(self, self.player))
+        self.views[View.ALBUM] = AlbumsView(self, self.player)
+        self.views[View.ARTIST] = ArtistsView(self, self.player)
+        self.views[View.SONG] = SongsView(self, self.player)
+        self.views[View.PLAYLIST] = PlaylistView(self, self.player)
+        self.views[View.SEARCH] = SearchView(self, self.player)
+        self.views[View.EMPTY_SEARCH] = EmptySearchView(self, self.player)
 
         for i in self.views:
             if i.title:
@@ -370,7 +372,7 @@ class Window(Gtk.ApplicationWindow):
         # Callback to remove playlists
         def remove_playlist_timeout_cb(self):
             # Remove the playlist
-            playlist.delete_playlist(self.views[3].pl_todelete)
+            playlist.delete_playlist(self.views[View.PLAYLIST].pl_todelete)
 
             # Hide the notification
             self._playlist_notification.set_reveal_child(False)
@@ -385,7 +387,7 @@ class Window(Gtk.ApplicationWindow):
             GLib.source_remove(self._playlist_notification_timeout_id)
             remove_playlist_timeout_cb(self)
 
-        playlist_title = self.views[3].current_playlist.get_title()
+        playlist_title = self.views[View.PLAYLIST].current_playlist.get_title()
         label = _("Playlist {} removed".format(playlist_title))
 
         self._playlist_notification.label.set_label(label)
@@ -452,9 +454,10 @@ class Window(Gtk.ApplicationWindow):
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(0, 3)
         else:
-            if (event.keyval == Gdk.KEY_Delete):
-                if self._stack.get_visible_child() == self.views[3]:
-                    self.views[3].remove_playlist()
+            child = self._stack.get_visible_child()
+            if (event.keyval == Gdk.KEY_Delete
+                    and child == self.views[View.PLAYLIST]):
+                self.views[View.PLAYLIST].remove_playlist()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
                 self.toolbar.searchbar.show_bar(False)
@@ -469,7 +472,7 @@ class Window(Gtk.ApplicationWindow):
                 and GLib.unichar_isprint(chr(key_unic))
                 and (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK
                     or event_and_modifiers == 0)
-                and not self.views[3].rename_active):
+                and not self.views[View.PLAYLIST].rename_active):
             self.toolbar.searchbar.show_bar(True)
 
     @log
@@ -494,28 +497,30 @@ class Window(Gtk.ApplicationWindow):
         self.curr_view = stack.get_visible_child()
 
         # Switch to all albums view when we're clicking Albums
-        if self.curr_view == self.views[0] and not (self.prev_view == self.views[4] or self.prev_view == self.views[5]):
+        if (self.curr_view == self.views[View.ALBUM]
+                and not (self.prev_view == self.views[View.SEARCH]
+                    or self.prev_view == self.views[View.EMPTY_SEARCH])):
             self.curr_view.set_visible_child(self.curr_view._grid)
 
         # Slide out sidebar on switching to Artists or Playlists view
-        if self.curr_view == self.views[1] or \
-           self.curr_view == self.views[3]:
+        if self.curr_view == self.views[View.ARTIST] or \
+           self.curr_view == self.views[View.PLAYLIST]:
             self.curr_view.stack.set_visible_child_name('dummy')
             self.curr_view.stack.set_visible_child_name('sidebar')
-        if self.curr_view != self.views[4] and self.curr_view != self.views[5]:
+        if self.curr_view != self.views[View.SEARCH] and self.curr_view != self.views[View.EMPTY_SEARCH]:
             self.toolbar.searchbar.show_bar(False)
 
         # Toggle the selection button for the EmptySearch view
-        if self.curr_view == self.views[5] or \
-           self.prev_view == self.views[5]:
+        if self.curr_view == self.views[View.EMPTY_SEARCH] or \
+           self.prev_view == self.views[View.EMPTY_SEARCH]:
             self.toolbar._select_button.set_sensitive(
                 not self.toolbar._select_button.get_sensitive())
 
         # Disable renaming playlist if it was active when leaving
         # Playlist view
-        if (self.prev_view == self.views[3]
-                and self.views[3].rename_active):
-            self.views[3].disable_rename_playlist()
+        if (self.prev_view == self.views[View.PLAYLIST]
+                and self.views[View.PLAYLIST].rename_active):
+            self.views[View.PLAYLIST].disable_rename_playlist()
 
     @log
     def _toggle_view(self, btn, i):
@@ -523,18 +528,20 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self.toolbar.searchbar.show_bar(button.get_active(),
-                                        self.curr_view != self.views[4])
-        if (not button.get_active() and
-                (self.curr_view == self.views[4] or self.curr_view == self.views[5])):
+        self.toolbar.searchbar.show_bar(
+            button.get_active(), self.curr_view != self.views[View.SEARCH])
+        if (not button.get_active()
+                and (self.curr_view == self.views[View.SEARCH]
+                    or self.curr_view == self.views[View.EMPTY_SEARCH])):
             child = self.curr_view.get_visible_child()
             if self.toolbar._state == ToolbarState.MAIN:
                 # We should get back to the view before the search
-                self._stack.set_visible_child(self.views[4].previous_view)
-            elif (self.views[4].previous_view == self.views[0]
+                self._stack.set_visible_child(
+                    self.views[View.SEARCH].previous_view)
+            elif (self.views[View.SEARCH].previous_view == self.views[View.ALBUM]
                     and child != self.curr_view._album_widget
                     and child != self.curr_view._artist_albums_widget):
-                self._stack.set_visible_child(self.views[0])
+                self._stack.set_visible_child(self.views[View.ALBUM])
 
             if self.toolbar._selectionMode:
                 self.toolbar.set_selection_mode(False)
@@ -544,20 +551,22 @@ class Window(Gtk.ApplicationWindow):
         if self.toolbar._selectionMode is False:
             self._on_changes_pending()
         else:
-            in_playlist = self._stack.get_visible_child() == self.views[3]
+            child = self._stack.get_visible_child()
+            in_playlist = (child == self.views[View.PLAYLIST])
             self.selection_toolbar._add_to_playlist_button.set_visible(not in_playlist)
             self.selection_toolbar._remove_from_playlist_button.set_visible(in_playlist)
 
     @log
     def _on_add_to_playlist_button_clicked(self, widget):
-        if self._stack.get_visible_child() == self.views[3]:
+        if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
             return
 
         def callback(selected_songs):
             if len(selected_songs) < 1:
                 return
 
-            playlist_dialog = PlaylistDialog(self, self.views[3].pl_todelete)
+            playlist_dialog = PlaylistDialog(
+                self, self.views[View.PLAYLIST].pl_todelete)
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 playlist.add_to_playlist(playlist_dialog.get_selected(),
                                          selected_songs)
@@ -568,7 +577,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_remove_from_playlist_button_clicked(self, widget):
-        if self._stack.get_visible_child() != self.views[3]:
+        if self._stack.get_visible_child() != self.views[View.PLAYLIST]:
             return
 
         def callback(selected_songs):
@@ -576,8 +585,7 @@ class Window(Gtk.ApplicationWindow):
                 return
 
             playlist.remove_from_playlist(
-                self.views[3].current_playlist,
-                selected_songs)
+                self.views[View.PLAYLIST].current_playlist, selected_songs)
             self.toolbar.set_selection_mode(False)
 
         self._stack.get_visible_child().get_selected_songs(callback)

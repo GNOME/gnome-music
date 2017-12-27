@@ -27,6 +27,7 @@ from gi.repository import Gd, Gtk
 
 from gnomemusic import log
 from gnomemusic.toolbar import ToolbarState
+from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 
 
@@ -60,7 +61,7 @@ class EmptySearchView(BaseView):
             self._artist_albums_widget.destroy()
             self._artist_albums_widget = None
         elif self.get_visible_child() == self._grid:
-            self._window.views[0].set_visible_child(
-                self._window.views[0]._grid)
+            self._window.views[View.ALBUM].set_visible_child(
+                self._window.views[View.ALBUM]._grid)
             self._window.toolbar.set_state(ToolbarState.CHILD_VIEW)
         self.set_visible_child(self._grid)

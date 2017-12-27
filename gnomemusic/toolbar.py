@@ -32,6 +32,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.searchbar import Searchbar, DropDown
+from gnomemusic.utils import View
 
 
 class ToolbarState:
@@ -131,9 +132,10 @@ class Toolbar(GObject.GObject):
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
 
-        if not ((self._window.curr_view == self._window.views[4]
-                 or self._window.curr_view == self._window.views[5])
-                and visible_child != self._window.curr_view._grid):
+        current_view = self._window.curr_view
+        if not ((current_view == self._window.views[View.SEARCH]
+                 or current_view == self._window.views[View.EMPTY_SEARCH])
+                and visible_child != current_view._grid):
             self.set_state(ToolbarState.MAIN)
         else:
             self._search_button.set_visible(True)

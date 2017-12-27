@@ -32,6 +32,7 @@ from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.toolbar import ToolbarState
+from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
@@ -100,8 +101,8 @@ class SearchView(BaseView):
             self._artist_albums_widget.destroy()
             self._artist_albums_widget = None
         elif self.get_visible_child() == self._grid:
-            self._window.views[0].set_visible_child(
-                self._window.views[0]._grid)
+            self._window.views[View.ALBUM].set_visible_child(
+                self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
         self._window.toolbar.set_state(ToolbarState.MAIN)
@@ -216,8 +217,9 @@ class SearchView(BaseView):
                 self.emit('no-music-found')
 
         # We need to remember the view before the search view
-        if (self._window.curr_view != self._window.views[5]
-                and self._window.prev_view != self._window.views[5]):
+        emptysearchview = self._window.views[View.EMPTY_SEARCH]
+        if (self._window.curr_view != emptysearchview
+                and self._window.prev_view != emptysearchview):
             self.previous_view = self._window.prev_view
 
         if remaining == 0:

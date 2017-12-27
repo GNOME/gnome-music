@@ -22,7 +22,19 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
+
 from gettext import gettext as _
+
+
+class View(IntEnum):
+    """Enum for views"""
+    ALBUM = 0
+    ARTIST = 1
+    SONG = 2
+    PLAYLIST = 3
+    SEARCH = 4
+    EMPTY_SEARCH = 5
 
 
 def get_album_title(item):
