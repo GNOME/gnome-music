@@ -38,5 +38,5 @@ pep8:
   stage: check
   script:
     - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-pep8
-    - python3-pep8 --ignore=W503,E402 --show-source --show-pep8 --exclude=mpris.py,grilo.py,query.py,player.py,window.py,searchbar.py .
+    - python3-pep8 --ignore=W503,E402 --show-source --show-pep8 --exclude=mpris.py,grilo.py,query.py,player.py,window.py .
   allow_failure: true

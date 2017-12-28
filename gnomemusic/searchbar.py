@@ -24,41 +24,43 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
+
+from gettext import gettext as _
+
 import gi
 gi.require_version('Gd', '1.0')
-from gi.repository import Gtk, Gd, GObject, Pango, GLib
-from gettext import gettext as _
-from gnomemusic.grilo import grilo
+from gi.repository import Gd, GLib, GObject, Gtk, Pango
+
 from gnomemusic import log
-import logging
-logger = logging.getLogger(__name__)
+from gnomemusic.grilo import grilo
 
 
-class BaseModelColumns():
+class BaseModelColumns(IntEnum):
     ID = 0
     NAME = 1
     HEADING_TEXT = 2
 
 
-class BaseManager:
+class BaseManager(object):
 
     def __repr__(self):
         return '<BaseManager>'
 
     @log
-    def __init__(self, id, label, entry):
-        self.id = id
-        self.label = label
+    def __init__(self, id_, label, entry):
+        self._id = id_
+        self._label = label
         self.entry = entry
-        self.tag = Gd.TaggedEntryTag()
-        self.tag.manager = self
+        self._tag = Gd.TaggedEntryTag()
+        self._tag.manager = self
         self.values = []
 
     @log
     def fill_in_values(self, model):
-        if self.id == "search":
+        if self._id == "search":
             self.values = [
-                ['', '', self.label],
+                ['', '', self._label],
                 ['search_all', _("All"), ''],
                 ['search_artist', _("Artist"), ''],
                 ['search_album', _("Album"), ''],
@@ -66,8 +68,8 @@ class BaseManager:
                 ['search_track', _("Track Title"), ''],
             ]
         for value in self.values:
-            _iter = model.append()
-            model.set(_iter, [0, 1, 2], value)
+            iter_ = model.append()
+            model.set(iter_, [0, 1, 2], value)
         self.selected_id = self.values[1][BaseModelColumns.ID]
 
     @log
@@ -79,19 +81,22 @@ class BaseManager:
         if selected_id == "":
             return
 
-        selected_value = [x for x in self.values if x[BaseModelColumns.ID] == selected_id]
+        selected_value = [
+            x for x in self.values if x[BaseModelColumns.ID] == selected_id]
+
         if selected_value != []:
             selected_value = selected_value[0]
             self.selected_id = selected_value[BaseModelColumns.ID]
 
-            # If selected values has first entry then it is a default value
-            # No need to set the tag there
-            if (selected_value[BaseModelColumns.ID] != 'search_all' and
-                    selected_value[BaseModelColumns.ID] != 'grl-tracker-source'):
-                self.tag.set_label(selected_value[BaseModelColumns.NAME])
-                self.entry.add_tag(self.tag)
+            # If selected values has first entry then it is a default
+            # value. No need to set the tag there.
+            value_id = selected_value[BaseModelColumns.ID]
+            if (value_id != 'search_all'
+                    and value_id != 'grl-tracker-source'):
+                self._tag.set_label(selected_value[BaseModelColumns.NAME])
+                self.entry.add_tag(self._tag)
             else:
-                self.entry.remove_tag(self.tag)
+                self.entry.remove_tag(self._tag)
 
     @log
     def reset_to_default(self):
@@ -107,22 +112,22 @@ class SourceManager(BaseManager):
     def __init__(self, id_, label, entry):
         super().__init__(id_, label, entry)
 
-        self.values.append(['', '', self.label])
+        self.values.append(['', '', self._label])
         self.values.append(['all', _("All"), ""])
         self.values.append(['grl-tracker-source', _("Local"), ''])
 
     @log
     def fill_in_values(self, model):
-        self.model = model
-        super(SourceManager, self).fill_in_values(model)
+        self._model = model
 
-        super(SourceManager, self).set_active('grl-tracker-source')
+        super().fill_in_values(model)
+        super().set_active('grl-tracker-source')
 
     @log
     def add_new_source(self, klass, source):
         value = [source.get_id(), source.get_name(), '']
-        _iter = self.model.append()
-        self.model.set(_iter, [0, 1, 2], value)
+        iter_ = self._model.append()
+        self._model.set(iter_, [0, 1, 2], value)
         self.values.append(value)
 
     @log
@@ -130,75 +135,89 @@ class SourceManager(BaseManager):
         if selected_id == "":
             return
 
-        super(SourceManager, self).set_active(selected_id)
+        super().set_active(selected_id)
         src = grilo.sources[selected_id] if selected_id != 'all' else None
         grilo.search_source = src
 
 
-class FilterView():
+class FilterView(object):
 
     def __repr__(self):
         return '<FilterView>'
 
     @log
     def __init__(self, manager, dropdown):
-        self.manager = manager
-        self.dropdown = dropdown
-        self.model = Gtk.ListStore.new([
+        self._manager = manager
+        self._dropdown = dropdown
+
+        self._model = Gtk.ListStore.new([
             GObject.TYPE_STRING,  # ID
             GObject.TYPE_STRING,  # NAME
             GObject.TYPE_STRING,  # TEXT
         ])
-        self.manager.fill_in_values(self.model)
+
+        self._manager.fill_in_values(self._model)
 
         self.view = Gtk.TreeView()
         self.view.set_activate_on_single_click(True)
         self.view.set_headers_visible(False)
         self.view.set_enable_search(False)
-        self.view.set_model(self.model)
+        self.view.set_model(self._model)
         self.view.get_selection().set_mode(Gtk.SelectionMode.NONE)
         self.view.connect("row-activated", self._row_activated)
 
         col = Gtk.TreeViewColumn()
         self.view.append_column(col)
 
-        self._rendererHeading = Gtk.CellRendererText(weight=Pango.Weight.BOLD, weight_set=True)
-        col.pack_start(self._rendererHeading, False)
-        col.add_attribute(self._rendererHeading, 'text', BaseModelColumns.HEADING_TEXT)
-        col.set_cell_data_func(self._rendererHeading, self._visibilityForHeading, True)
+        self._head_renderer = Gtk.CellRendererText(
+            weight=Pango.Weight.BOLD, weight_set=True)
+        col.pack_start(self._head_renderer, False)
+        col.add_attribute(
+            self._head_renderer, 'text', BaseModelColumns.HEADING_TEXT)
+        col.set_cell_data_func(
+            self._head_renderer, self._head_visible, True)
 
-        self._rendererRadio = Gtk.CellRendererToggle(radio=True, mode=Gtk.CellRendererMode.INERT)
-        col.pack_start(self._rendererRadio, False)
-        col.set_cell_data_func(self._rendererRadio, self._visibilityForHeading, [False, self._render_radio])
+        self._radio_renderer = Gtk.CellRendererToggle(
+            radio=True, mode=Gtk.CellRendererMode.INERT)
+        col.pack_start(self._radio_renderer, False)
+        col.set_cell_data_func(
+            self._radio_renderer, self._head_visible,
+            [False, self._render_radio])
 
-        self._rendererText = Gtk.CellRendererText()
-        col.pack_start(self._rendererText, True)
-        col.add_attribute(self._rendererText, 'text', BaseModelColumns.NAME)
-        col.set_cell_data_func(self._rendererText, self._visibilityForHeading, False)
+        self._text_renderer = Gtk.CellRendererText()
+        col.pack_start(self._text_renderer, True)
+        col.add_attribute(self._text_renderer, 'text', BaseModelColumns.NAME)
+        col.set_cell_data_func(
+            self._text_renderer, self._head_visible, False)
 
         self.view.show()
 
     @log
     def _row_activated(self, view, path, col):
-        id = self.model.get_value(self.model.get_iter(path), BaseModelColumns.ID)
-        self.dropdown.do_select(self.manager, id)
-        self.manager.entry.emit('changed')
+        id_ = self._model[self._model.get_iter(path)][BaseModelColumns.ID]
+        self._dropdown.do_select(self._manager, id_)
+        self._manager.entry.emit('changed')
 
     @log
-    def _render_radio(self, col, cell, model, _iter):
-        id = model.get_value(_iter, BaseModelColumns.ID)
-        cell.set_active(self.manager.get_active() == id)
+    def _render_radio(self, col, cell, model, iter_):
+        id_ = model[iter_][BaseModelColumns.ID]
+        cell.set_active(self._manager.get_active() == id_)
 
+    @classmethod
     @log
-    def _visibilityForHeading(self, col, cell, model, _iter, additional_arguments):
-        additionalFunc = None
+    def _head_visible(cls, col, cell, model, _iter, additional_arguments):
+        additional_func = None
         visible = additional_arguments
+
         if isinstance(additional_arguments, list):
             visible = additional_arguments[0]
-            additionalFunc = additional_arguments[1]
-        cell.set_visible(visible == (model[_iter][BaseModelColumns.HEADING_TEXT] != ""))
-        if additionalFunc:
-            additionalFunc(col, cell, model, _iter)
+            additional_func = additional_arguments[1]
+
+        cell.set_visible(
+            visible == (model[_iter][BaseModelColumns.HEADING_TEXT] != ""))
+
+        if additional_func:
+            additional_func(col, cell, model, _iter)
 
 
 class DropDown(Gtk.Revealer):
@@ -209,6 +228,10 @@ class DropDown(Gtk.Revealer):
     @log
     def __init__(self):
         super().__init__(halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
+
+        self._source_manager = None
+        self.search_manager = None
+        self._search_filter = None
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
 
@@ -221,28 +244,30 @@ class DropDown(Gtk.Revealer):
 
     @log
     def initialize_filters(self, searchbar):
-        self.sourcesManager = SourceManager('source', _("Sources"), searchbar._search_entry)
-        self.sourcesFilter = FilterView(self.sourcesManager, self)
-        self._grid.add(self.sourcesFilter.view)
+        self._source_manager = SourceManager(
+            'source', _("Sources"), searchbar._search_entry)
+        _source_filter = FilterView(self._source_manager, self)
+        self._grid.add(_source_filter.view)
 
-        grilo.connect('new-source-added', self.sourcesManager.add_new_source)
+        grilo.connect('new-source-added', self._source_manager.add_new_source)
         grilo._find_sources()
 
-        self.searchFieldsManager = BaseManager('search', _("Match"), searchbar._search_entry)
-        self.searchFieldsFilter = FilterView(self.searchFieldsManager, self)
-        self._grid.add(self.searchFieldsFilter.view)
+        self.search_manager = BaseManager(
+            'search', _("Match"), searchbar._search_entry)
+        self._search_filter = FilterView(self.search_manager, self)
+        self._grid.add(self._search_filter.view)
 
         self._grid.show_all()
 
-        self.searchFieldsFilter.view.set_sensitive(
-            self.sourcesManager.get_active() == 'grl-tracker-source'
+        self._search_filter.view.set_sensitive(
+            self._source_manager.get_active() == 'grl-tracker-source'
         )
 
     @log
-    def do_select(self, manager, id):
-        manager.set_active(id)
-        if manager == self.sourcesManager:
-            self.searchFieldsFilter.view.set_sensitive(id == 'grl-tracker-source')
+    def do_select(self, manager, id_):
+        manager.set_active(id_)
+        if manager == self._source_manager:
+            self._search_filter.view.set_sensitive(id == 'grl-tracker-source')
 
 
 class Searchbar(Gtk.SearchBar):
@@ -254,65 +279,70 @@ class Searchbar(Gtk.SearchBar):
     def __init__(self, stack_switcher, search_button, dropdown):
         super().__init__()
 
-        self.timeout = None
-        self.stack_switcher = stack_switcher
+        self._timeout = None
+        self._stack_switcher = stack_switcher
         self._search_button = search_button
-        self.dropdown = dropdown
-        self._searchContainer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
-        self._searchContainer.get_style_context().add_class('linked')
+        self._dropdown = dropdown
+        self._search_box = Gtk.Box(
+            orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
+        self._search_box.get_style_context().add_class('linked')
 
-        self._search_entry = Gd.TaggedEntry(width_request=500, halign=Gtk.Align.CENTER)
-        self._search_entry.connect("changed", self.search_entry_timeout)
+        self._search_entry = Gd.TaggedEntry(
+            width_request=500, halign=Gtk.Align.CENTER)
+        self._search_entry.connect("changed", self._search_entry_timeout)
         self._search_entry.show()
-        self._searchContainer.add(self._search_entry)
+        self._search_box.add(self._search_entry)
 
-        arrow = Gtk.Image.new_from_icon_name('pan-down-symbolic',
-                                             Gtk.IconSize.BUTTON)
-        self._dropDownButton = Gtk.ToggleButton()
-        self._dropDownButton.add(arrow)
-        self._dropDownButton.get_style_context().add_class('image-button')
-        self._dropDownButton.connect("toggled", self._drop_down_button_toggled)
-        self._dropDownButton.show_all()
-        self._searchContainer.add(self._dropDownButton)
+        arrow = Gtk.Image.new_from_icon_name(
+            'pan-down-symbolic', Gtk.IconSize.BUTTON)
+        self._drop_down_button = Gtk.ToggleButton()
+        self._drop_down_button.add(arrow)
+        self._drop_down_button.get_style_context().add_class('image-button')
+        self._drop_down_button.connect(
+            "toggled", self._drop_down_button_toggled)
+        self._drop_down_button.show_all()
+        self._search_box.add(self._drop_down_button)
 
-        self._search_entry.connect("tag-button-clicked", self._search_entry_tag_button_clicked)
+        self._search_entry.connect(
+            "tag-button-clicked", self._tag_button_clicked)
 
-        self._searchContainer.show_all()
-        self.add(self._searchContainer)
+        self._search_box.show_all()
+        self.add(self._search_box)
 
     @log
     def _drop_down_button_toggled(self, *args):
-        self.dropdown.set_reveal_child(self._dropDownButton.get_active())
+        self._dropdown.set_reveal_child(self._drop_down_button.get_active())
 
     @log
-    def _search_entry_tag_button_clicked(self, entry, tag):
-        tag.manager.set_active(tag.manager.values[1][BaseModelColumns.ID])
-        self.search_entry_changed(None)
+    def _tag_button_clicked(self, entry, tag_):
+        tag_.manager.set_active(tag_.manager.values[1][BaseModelColumns.ID])
+        self._search_entry_changed(None)
 
     @log
-    def search_entry_timeout(self, widget):
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-        self.timeout = GLib.timeout_add(500, self.search_entry_changed, widget)
+    def _search_entry_timeout(self, widget):
+        if self._timeout:
+            GLib.source_remove(self._timeout)
+        self._timeout = GLib.timeout_add(
+            500, self._search_entry_changed, widget)
 
     @log
-    def search_entry_changed(self, widget):
-        self.timeout = None
+    def _search_entry_changed(self, widget):
+        self._timeout = None
 
         search_term = self._search_entry.get_text()
         if grilo.search_source:
-            fields_filter = self.dropdown.searchFieldsManager.get_active()
+            fields_filter = self._dropdown.search_manager.get_active()
         else:
             fields_filter = 'search_all'
 
-        stack = self.stack_switcher.get_stack()
+        stack = self._stack_switcher.get_stack()
         if search_term != "":
             stack.set_visible_child_name('search')
             view = stack.get_visible_child()
             view.set_search_text(search_term, fields_filter)
 
-        self._dropDownButton.set_active(False)
-        self.dropdown.set_reveal_child(False)
+        self._drop_down_button.set_active(False)
+        self._dropdown.set_reveal_child(False)
 
         return False
 
@@ -327,7 +357,7 @@ class Searchbar(Gtk.SearchBar):
                 self._search_entry.set_text('')
             self._search_entry.grab_focus()
         else:
-            self._dropDownButton.set_active(False)
+            self._drop_down_button.set_active(False)
 
     @log
     def toggle_bar(self):
