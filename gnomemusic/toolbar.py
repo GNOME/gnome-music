@@ -140,7 +140,7 @@ class Toolbar(GObject.GObject):
         else:
             self._search_button.set_visible(True)
 
-        self.searchbar.show_bar(False)
+        self.searchbar.reveal(False)
 
     @log
     def set_state(self, state, btn=None):

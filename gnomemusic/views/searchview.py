@@ -95,7 +95,7 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._header_bar.searchbar.show_bar(True, False)
+        self._header_bar.searchbar.reveal(True, False)
 
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
@@ -131,7 +131,7 @@ class SearchView(BaseView):
             self._header_bar.header_bar.set_title(title)
             self._header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._album_widget)
-            self._header_bar.searchbar.show_bar(False)
+            self._header_bar.searchbar.reveal(False)
         elif self.model[_iter][11] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
@@ -145,7 +145,7 @@ class SearchView(BaseView):
             self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
             self._header_bar.header_bar.set_title(artist)
             self.set_visible_child(self._artist_albums_widget)
-            self._header_bar.searchbar.show_bar(False)
+            self._header_bar.searchbar.reveal(False)
         elif self.model[_iter][11] == 'song':
             if self.model[_iter][12] != DiscoveryStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]

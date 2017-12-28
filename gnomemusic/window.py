@@ -406,7 +406,7 @@ class Window(Gtk.ApplicationWindow):
             # Open search bar on Ctrl + F
             if (event.keyval == Gdk.KEY_f and
                     event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self.toolbar.searchbar.toggle_bar()
+                self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
@@ -460,7 +460,7 @@ class Window(Gtk.ApplicationWindow):
                 self.views[View.PLAYLIST].remove_playlist()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
-                self.toolbar.searchbar.show_bar(False)
+                self.toolbar.searchbar.reveal(False)
                 # Also disable selection
                 if self.toolbar._selectionMode:
                     self.toolbar.set_selection_mode(False)
@@ -473,7 +473,7 @@ class Window(Gtk.ApplicationWindow):
                 and (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK
                     or event_and_modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active):
-            self.toolbar.searchbar.show_bar(True)
+            self.toolbar.searchbar.reveal(True)
 
     @log
     def do_button_release_event(self, event):
@@ -508,7 +508,7 @@ class Window(Gtk.ApplicationWindow):
             self.curr_view.stack.set_visible_child_name('dummy')
             self.curr_view.stack.set_visible_child_name('sidebar')
         if self.curr_view != self.views[View.SEARCH] and self.curr_view != self.views[View.EMPTY_SEARCH]:
-            self.toolbar.searchbar.show_bar(False)
+            self.toolbar.searchbar.reveal(False)
 
         # Toggle the selection button for the EmptySearch view
         if self.curr_view == self.views[View.EMPTY_SEARCH] or \
@@ -528,7 +528,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self.toolbar.searchbar.show_bar(
+        self.toolbar.searchbar.reveal(
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
