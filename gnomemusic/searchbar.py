@@ -347,7 +347,7 @@ class Searchbar(Gtk.SearchBar):
         return False
 
     @log
-    def show_bar(self, show, clear=True):
+    def reveal(self, show, clear=True):
         self.set_search_mode(show)
         self._search_button.set_active(show)
 
@@ -360,5 +360,5 @@ class Searchbar(Gtk.SearchBar):
             self._drop_down_button.set_active(False)
 
     @log
-    def toggle_bar(self):
-        self.show_bar(not self.get_search_mode())
+    def toggle(self):
+        self.reveal(not self.get_search_mode())
