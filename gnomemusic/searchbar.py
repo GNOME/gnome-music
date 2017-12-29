@@ -73,11 +73,13 @@ class BaseManager(object):
         self.selected_id = self.values[1][BaseModelColumns.ID]
 
     @log
-    def get_active(self):
+    @property
+    def active(self):
         return self.selected_id
 
     @log
-    def set_active(self, selected_id):
+    @active.setter
+    def active(self, selected_id):
         if selected_id == "":
             return
 
@@ -100,7 +102,7 @@ class BaseManager(object):
 
     @log
     def reset_to_default(self):
-        self.set_active(self.values[0][BaseModelColumns.ID])
+        self.active(self.values[0][BaseModelColumns.ID])
 
 
 class SourceManager(BaseManager):
@@ -121,7 +123,11 @@ class SourceManager(BaseManager):
         self._model = model
 
         super().fill_in_values(model)
-        super().set_active('grl-tracker-source')
+
+        # FIXME: This call should be to this class and not the super
+        # class.
+        super(SourceManager, self.__class__).active.fset(
+            self, 'grl-tracker-source')
 
     @log
     def add_new_source(self, klass, source):
@@ -131,11 +137,19 @@ class SourceManager(BaseManager):
         self.values.append(value)
 
     @log
-    def set_active(self, selected_id):
+    @property
+    def active(self):
+        return super().active
+
+    @log
+    @active.setter
+    def active(self, selected_id):
         if selected_id == "":
             return
 
-        super().set_active(selected_id)
+        # https://gitlab.gnome.org/GNOME/gnome-music/snippets/31
+        super(SourceManager, self.__class__).active.fset(self, selected_id)
+
         src = grilo.sources[selected_id] if selected_id != 'all' else None
         grilo.search_source = src
 
@@ -201,7 +215,7 @@ class FilterView(object):
     @log
     def _render_radio(self, col, cell, model, iter_):
         id_ = model[iter_][BaseModelColumns.ID]
-        cell.set_active(self._manager.get_active() == id_)
+        cell.set_active(self._manager.active == id_)
 
     @classmethod
     @log
@@ -260,12 +274,12 @@ class DropDown(Gtk.Revealer):
         self._grid.show_all()
 
         self._search_filter.view.set_sensitive(
-            self._source_manager.get_active() == 'grl-tracker-source'
+            self._source_manager.active == 'grl-tracker-source'
         )
 
     @log
     def do_select(self, manager, id_):
-        manager.set_active(id_)
+        manager.active = id_
         if manager == self._source_manager:
             self._search_filter.view.set_sensitive(id == 'grl-tracker-source')
 
@@ -315,7 +329,7 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def _tag_button_clicked(self, entry, tag_):
-        tag_.manager.set_active(tag_.manager.values[1][BaseModelColumns.ID])
+        tag_.manager.active = tag_.manager.values[1][BaseModelColumns.ID]
         self._search_entry_changed(None)
 
     @log
@@ -331,7 +345,7 @@ class Searchbar(Gtk.SearchBar):
 
         search_term = self._search_entry.get_text()
         if grilo.search_source:
-            fields_filter = self._dropdown.search_manager.get_active()
+            fields_filter = self._dropdown.search_manager.active
         else:
             fields_filter = 'search_all'
 
