@@ -25,7 +25,7 @@
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.albumartcache import ArtSize
+from gnomemusic.albumartcache import Art
 from gnomemusic.views.emptyview import EmptyView
 
 
@@ -43,7 +43,7 @@ class InitialStateView(EmptyView):
         icon.set_margin_bottom(32)
         icon.set_opacity(1)
         icon.set_from_resource('/org/gnome/Music/initial-state.png')
-        icon.set_size_request(ArtSize.LARGE.width, ArtSize.LARGE.height)
+        icon.set_size_request(Art.Size.LARGE.width, Art.Size.LARGE.height)
 
         # Update label
         label = self.builder.get_object('label')
