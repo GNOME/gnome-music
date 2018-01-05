@@ -23,10 +23,9 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _, ngettext
-from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Gtk
+from gi.repository import Gd, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
@@ -106,11 +105,6 @@ class BaseView(Gtk.Stack):
         self.add(self._grid)
         self.show_all()
         self._view.hide()
-
-        scale = self.get_scale_factor()
-        self._cache = AlbumArtCache(scale)
-        self._loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading, ArtSize.MEDIUM)
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
@@ -214,6 +208,10 @@ class BaseView(Gtk.Stack):
         pass
 
     @log
+    def _retrieval_finished(self, klass):
+        self.model[klass.iter][4] = klass.pixbuf
+
+    @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if not item:
             if remaining == 0:
@@ -226,29 +224,16 @@ class BaseView(Gtk.Stack):
         title = utils.get_media_title(item)
 
         itr = self.model.append(None)
-        loading_icon = Gdk.pixbuf_get_from_surface(
-            self._loadin_icon_surface, 0, 0,
-            self._loading_icon_surface.get_width(),
-            self._loading_icon_surface.get_height())
 
-        self.model[itr][0, 1, 2, 3, 4, 5, 7, 9] = [
+        self.model[itr][0, 1, 2, 3, 5, 7, 9] = [
             str(item.get_id()),
             '',
             title,
             artist,
-            loading_icon,
             item,
             0,
             False
         ]
-
-    @log
-    def _on_lookup_ready(self, surface, itr):
-        if surface:
-            pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0,
-                                                 surface.get_width(),
-                                                 surface.get_height())
-            self.model[itr][4] = pixbuf
 
     @log
     def _add_list_renderers(self):

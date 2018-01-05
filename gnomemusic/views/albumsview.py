@@ -26,7 +26,7 @@ from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Gdk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import ArtSize
+from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
 from gnomemusic.toolbar import ToolbarState
 from gnomemusic.views.baseview import BaseView
@@ -166,13 +166,6 @@ class AlbumsView(BaseView):
         child.title.set_label(title)
         child.subtitle.set_label(artist)
 
-        child.image.set_from_surface(self._loading_icon_surface)
-        # In the case of off-sized icons (eg. provided in the soundfile)
-        # keep the size request equal to all other icons to get proper
-        # alignment with GtkFlowBox.
-        child.image.set_property("width-request", ArtSize.MEDIUM.width)
-        child.image.set_property("height-request", ArtSize.MEDIUM.height)
-
         child.events.add_events(Gdk.EventMask.TOUCH_MASK)
 
         child.events.connect('button-release-event',
@@ -189,7 +182,8 @@ class AlbumsView(BaseView):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        self._cache.lookup(item, ArtSize.MEDIUM, self._on_lookup_ready, child)
+        art = ArtImage(Art.Size.MEDIUM, item)
+        art.image = child.image
 
         return child
 
@@ -199,9 +193,6 @@ class AlbumsView(BaseView):
             self._on_selection_mode_request()
             if self.selection_mode:
                 child.check.set_active(True)
-
-    def _on_lookup_ready(self, icon, child):
-        child.image.set_from_surface(icon)
 
     @log
     def _on_child_toggled(self, check, pspec, child):
