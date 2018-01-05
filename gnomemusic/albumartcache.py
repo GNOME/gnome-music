@@ -218,6 +218,67 @@ class DefaultIcon(GObject.GObject):
 
         return self._cache[(icon_type, art_size)]
 
+class Art(GObject.GObject):
+
+    __gsignals__ = {
+        'finished': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
+    @log
+    def __init__(self, image, size, media):
+        super().__init__()
+
+        self._iter = None
+
+        # FIXME: A pixbuf instead of an image means this art is
+        # requested by a treeview.
+        if isinstance(image, GdkPixbuf.Pixbuf):
+            self._pixbuf = image
+            self._image = Gtk.Image()
+        else:
+            self._image = image
+
+        self._size = size
+        self._media = media
+
+        self._image.set_property("width-request", size.width)
+        self._image.set_property("height-request", size.height)
+
+        scale = self._image.get_scale_factor()
+
+        self._surface = DefaultIcon(scale).get(DefaultIcon.Type.loading, size)
+
+        self._image.set_from_surface(self._surface)
+
+        cache = AlbumArtCache(scale)
+
+        iter_ = None
+        cache.lookup(self._media, self._size, self._callback, iter_)
+
+    @GObject.Property
+    @log
+    def pixbuf(self):
+        return Gdk.pixbuf_get_from_surface(
+            self._surface, 0, 0, self._surface.get_width(),
+            self._surface.get_height())
+
+    @GObject.Property(type=Gtk.TreeIter)
+    @log
+    def iter(self):
+        return self._iter
+
+    @iter.setter
+    @log
+    def iter(self, iter_):
+        self._iter = iter_
+
+    @log
+    def _callback(self, surface, __):
+        self._surface = surface
+        self._image.set_from_surface(self._surface)
+
+        self.emit('finished')
+
 
 class AlbumArtCache(GObject.GObject):
     """Album art retrieval class
