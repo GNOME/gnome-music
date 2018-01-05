@@ -26,7 +26,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
+from gnomemusic.albumartcache import Art, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
@@ -54,12 +54,6 @@ class AlbumWidget(Gtk.EventBox):
         super().__init__()
 
         self._songs = []
-
-        scale = self.get_scale_factor()
-        self._cache = AlbumArtCache(scale)
-        self._loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading,
-            ArtSize.LARGE)
 
         self._player = player
         self._iter_to_clean = None
@@ -143,10 +137,8 @@ class AlbumWidget(Gtk.EventBox):
         self.selection_toolbar = selection_toolbar
         self._header_bar = header_bar
         self._album = album
-        self._builder.get_object('cover').set_from_surface(
-            self._loading_icon_surface)
-        self._cache.lookup(item, ArtSize.LARGE, self._on_lookup, None)
         self._duration = 0
+        Art(self._builder.get_object('cover'), ArtSize.LARGE, item)
 
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
         header_bar._select_button.connect(
@@ -288,16 +280,6 @@ class AlbumWidget(Gtk.EventBox):
                 _("%d min") % (int(self._duration / 60) + 1))
 
             self.show_all()
-
-    @log
-    def _on_lookup(self, surface, data=None):
-        """Albumart retrieved callback.
-
-        :param surface: The Cairo surface retrieved
-        :param path: The filesystem location the pixbuf
-        :param data: User data
-        """
-        self._builder.get_object('cover').set_from_surface(surface)
 
     @log
     def _update_model(self, player, playlist, current_iter):

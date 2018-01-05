@@ -25,7 +25,7 @@
 from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
+from gnomemusic.albumartcache import Art, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
@@ -48,11 +48,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
-        scale = self.get_scale_factor()
-        self._cache = AlbumArtCache(scale)
-        self._loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading,
-            ArtSize.MEDIUM)
 
         self._media = media
         self._player = player
@@ -72,7 +67,7 @@ class ArtistAlbumWidget(Gtk.Box):
         ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
         self.cover = ui.get_object('cover')
-        self.cover.set_from_surface(self._loading_icon_surface)
+        Art(self.cover, ArtSize.MEDIUM, self._media)
 
         self._disc_listbox = ui.get_object('disclistbox')
         self._disc_listbox.set_selection_mode_allowed(
@@ -93,7 +88,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self.pack_start(ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
-        GLib.idle_add(self._update_album_art)
         grilo.populate_album_songs(self._media, self._add_item)
 
     def create_disc_box(self, disc_nr, disc_songs):
@@ -158,15 +152,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
         if remaining == 0:
             self.emit("songs-loaded")
-
-    @log
-    def _update_album_art(self):
-        self._cache.lookup(self._media, ArtSize.MEDIUM, self._get_album_cover,
-                           None)
-
-    @log
-    def _get_album_cover(self, surface, data=None):
-        self.cover.set_from_surface(surface)
 
     @log
     def _song_activated(self, widget, song_widget):
