@@ -42,7 +42,7 @@ from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutil
 from gettext import gettext as _, ngettext
 from random import randint
 from collections import deque
-from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
+from gnomemusic.albumartcache import Art, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
@@ -110,11 +110,6 @@ class Player(GObject.GObject):
         self.playlistField = None
         self.currentTrack = None
         self.currentTrackUri = None
-        scale = parent_window.get_scale_factor()
-        self.cache = AlbumArtCache(scale)
-        self._loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading,
-            ArtSize.XSMALL)
         self._missingPluginMessages = []
 
         Gst.init(None)
@@ -604,8 +599,7 @@ class Player(GObject.GObject):
         self.artistLabel.set_label(artist)
         self._currentArtist = artist
 
-        self.coverImg.set_from_surface(self._loading_icon_surface)
-        self.cache.lookup(media, ArtSize.XSMALL, self._on_cache_lookup, None)
+        Art(self._image, ArtSize.XSMALL, media)
 
         self._currentTitle = utils.get_media_title(media)
         self.titleLabel.set_label(self._currentTitle)
@@ -659,7 +653,7 @@ class Player(GObject.GObject):
 
     @log
     def _on_cache_lookup(self, surface, data=None):
-        self.coverImg.set_from_surface(surface)
+        # FIXME: Need this for mpris
         self.emit('thumbnail-updated')
 
     @log
@@ -802,9 +796,7 @@ class Player(GObject.GObject):
         self.songTotalTimeLabel = self._ui.get_object('duration')
         self.titleLabel = self._ui.get_object('title')
         self.artistLabel = self._ui.get_object('artist')
-        self.coverImg = self._ui.get_object('cover')
-        self.coverImg.set_property("width-request", ArtSize.XSMALL.width)
-        self.coverImg.set_property("height-request", ArtSize.XSMALL.height)
+        self._image = self._ui.get_object('cover')
 
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')

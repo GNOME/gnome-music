@@ -23,9 +23,9 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
+from gi.repository import Gd, GdkPixbuf, GObject, Grl, Gtk, Pango
 
-from gnomemusic.albumartcache import DefaultIcon, ArtSize
+from gnomemusic.albumartcache import Art, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
@@ -53,13 +53,6 @@ class SearchView(BaseView):
     @log
     def __init__(self, window, player):
         super().__init__('search', None, window, Gd.MainViewType.LIST)
-
-        scale = self.get_scale_factor()
-        loading_icon_surface = DefaultIcon(scale).get(
-            DefaultIcon.Type.loading, ArtSize.SMALL)
-        self._loading_icon = Gdk.pixbuf_get_from_surface(
-            loading_icon_surface, 0, 0, loading_icon_surface.get_width(),
-            loading_icon_surface.get_height())
 
         self._add_list_renderers()
         self.player = player
@@ -197,6 +190,10 @@ class SearchView(BaseView):
         self._add_item(source, None, item, 0, [self.model, 'song'])
 
     @log
+    def _retrieval_finished(self, klass):
+        self.model[klass.iter][4] = klass.pixbuf
+
+    @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if data is None:
             return
@@ -246,13 +243,13 @@ class SearchView(BaseView):
         # scaled by GdkPixbuf, so it results in a * scale factor sized
         # icon for the search view.
         _iter = None
+        image = GdkPixbuf.Pixbuf()
+        art = Art(image, ArtSize.SMALL, item)
         if category == 'album':
             _iter = self.model.insert_with_values(
                 self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
-                [str(item.get_id()), title, artist, self._loading_icon, item,
-                 2, category, composer])
-            self._cache.lookup(
-                item, ArtSize.SMALL, self._on_lookup_ready, _iter)
+                [str(item.get_id()), title, artist, art.pixbuf, item, 2,
+                 category, composer])
         elif category == 'song':
             # FIXME: source specific hack
             if source.get_id() != 'grl-tracker-source':
@@ -261,24 +258,21 @@ class SearchView(BaseView):
                 fav = item.get_favourite()
             _iter = self.model.insert_with_values(
                 self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
-                [str(item.get_id()), title, artist, self._loading_icon, item,
-                 fav, category, composer])
-            self._cache.lookup(
-                item, ArtSize.SMALL, self._on_lookup_ready, _iter)
+                [str(item.get_id()), title, artist, art.pixbuf, item, fav,
+                 category, composer])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
                     self._head_iters[group], -1, [0, 2, 4, 5, 9, 11, 13],
-                    [str(item.get_id()), artist, self._loading_icon, item, 2,
+                    [str(item.get_id()), artist, art.pixbuf, item, 2,
                      category, composer])
-                self._cache.lookup(
-                    item, ArtSize.SMALL, self._on_lookup_ready, _iter)
                 self._artists[artist.casefold()] = {
                     'iter': _iter,
                     'albums': []
                 }
-
             self._artists[artist.casefold()]['albums'].append(item)
+        art.iter = _iter
+        art.connect('finished', self._retrieval_finished)
 
         if self.model.iter_n_children(self._head_iters[group]) == 1:
             path = self.model.get_path(self._head_iters[group])
