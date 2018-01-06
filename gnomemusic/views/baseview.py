@@ -26,7 +26,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, ArtSize
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
@@ -228,7 +228,7 @@ class BaseView(Gtk.Stack):
         itr = self.model.append(None)
 
         pixbuf = GdkPixbuf.Pixbuf()
-        art = Art(pixbuf, ArtSize.MEDIUM, item)
+        art = Art(pixbuf, Art.Size.MEDIUM, item)
 
         self.model[itr][0, 1, 2, 3, 4, 5, 7, 9] = [
             str(item.get_id()),

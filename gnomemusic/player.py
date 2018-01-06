@@ -46,7 +46,7 @@ from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutil
 from gettext import gettext as _, ngettext
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, ArtSize
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
@@ -579,7 +579,7 @@ class Player(GObject.GObject):
         artist = utils.get_artist_name(media)
         self.artistLabel.set_label(artist)
 
-        Art(self._image, ArtSize.XSMALL, media)
+        Art(self._image, Art.Size.XSMALL, media)
 
         title = utils.get_media_title(media)
         self.titleLabel.set_label(title)
