@@ -267,8 +267,9 @@ class SearchView(BaseView):
                     'albums': []
                 }
             self._artists[artist.casefold()]['albums'].append(item)
-        art.iter = _iter
-        art.connect('finished', self._retrieval_finished)
+        if _iter is not None:
+            art.iter = _iter
+            art.connect('finished', self._retrieval_finished)
 
         if self.model.iter_n_children(self._head_iters[group]) == 1:
             path = self.model.get_path(self._head_iters[group])
