@@ -55,12 +55,12 @@ class LookupQueue(object):
 
     @classmethod
     @log
-    def push(cls, cache, item, art_size, callback, itr):
+    def push(cls, cache, item, art_size, callback):
         """Push a lookup counter or queue the lookup if needed"""
 
         # If reached the limit, queue the operation.
         if cls._n_lookups >= cls._max_simultaneous_lookups:
-            cls._lookup_queue.append((cache, item, art_size, callback, itr))
+            cls._lookup_queue.append((cache, item, art_size, callback))
             return False
         else:
             cls._n_lookups += 1
@@ -77,8 +77,8 @@ class LookupQueue(object):
         # artwork then.
         if (cls._n_lookups < cls._max_simultaneous_lookups
                 and cls._lookup_queue):
-            (cache, item, art_size, callback, itr) = cls._lookup_queue.pop(0)
-            cache.lookup(item, art_size, callback, itr)
+            (cache, item, art_size, callback) = cls._lookup_queue.pop(0)
+            cache.lookup(item, art_size, callback)
 
 
 @log
@@ -204,6 +204,7 @@ class DefaultIcon(GObject.GObject):
 
         return self._cache[(icon_type, art_size)]
 
+
 class Art(GObject.GObject):
 
     __gsignals__ = {
@@ -252,7 +253,7 @@ class Art(GObject.GObject):
         cache = AlbumArtCache(scale)
 
         iter_ = None
-        cache.lookup(self._media, self._size, self._callback, iter_)
+        cache.lookup(self._media, self._size, self._callback)
 
     @GObject.Property
     @log
@@ -272,7 +273,7 @@ class Art(GObject.GObject):
         self._iter = iter_
 
     @log
-    def _callback(self, surface, __):
+    def _callback(self, surface):
         self._surface = surface
         self._image.set_from_surface(self._surface)
 
@@ -323,19 +324,18 @@ class AlbumArtCache(GObject.GObject):
             logger.warn("Error: %s, %s", err.__class__, err)
 
     @log
-    def lookup(self, item, art_size, callback, itr):
+    def lookup(self, item, art_size, callback):
         """Find art for the given item
 
         :param item: Grilo media item
         :param ArtSize art_size: Size of the icon
         :param callback: Callback function when retrieved
-        :param itr: Iter to return with callback
         """
-        if LookupQueue.push(self, item, art_size, callback, itr):
-            self._lookup_local(item, art_size, callback, itr)
+        if LookupQueue.push(self, item, art_size, callback):
+            self._lookup_local(item, art_size, callback)
 
     @log
-    def _lookup_local(self, item, art_size, callback, itr):
+    def _lookup_local(self, item, art_size, callback):
         """Checks if there is already a local art file, if not calls
         the embedded lookup function"""
         album = utils.get_album_title(item)
@@ -380,7 +380,7 @@ class AlbumArtCache(GObject.GObject):
                 item.set_thumbnail(GLib.filename_to_uri(thumb_file.get_path(),
                                                         None))
 
-            GLib.idle_add(callback, surface, itr)
+            GLib.idle_add(callback, surface)
             return
 
         success, thumb_file = MediaArt.get_file(artist, album, "album")
@@ -405,11 +405,11 @@ class AlbumArtCache(GObject.GObject):
         # global lookup counter.
         LookupQueue.pop()
 
-        self._lookup_embedded(item, art_size, callback, itr)
+        self._lookup_embedded(item, art_size, callback)
 
     @log
     def _discovered_cb(self, discoverer, info, error):
-        item, art_size, callback, itr, cache_path = \
+        item, art_size, callback, cache_path = \
             self._discoverer_items[info.get_uri()]
 
         album = utils.get_album_title(item)
@@ -425,7 +425,7 @@ class AlbumArtCache(GObject.GObject):
                 album_stripped = MediaArt.strip_invalid_entities(album)
                 self.blacklist[artist].append(album_stripped)
 
-            self.lookup(item, art_size, callback, itr)
+            self.lookup(item, art_size, callback)
 
         # FIXME: tags should not return as None, but it sometimes is.
         # So as a workaround until we figure out what is wrong check
@@ -473,10 +473,10 @@ class AlbumArtCache(GObject.GObject):
             logger.warn("Trying to process misc albumart: %s, %s",
                         err.__class__, err)
 
-        self._lookup_remote(item, art_size, callback, itr)
+        self._lookup_remote(item, art_size, callback)
 
     @log
-    def _lookup_embedded(self, item, art_size, callback, itr):
+    def _lookup_embedded(self, item, art_size, callback):
         """Lookup embedded cover
 
         Lookup embedded art through Gst.Discoverer. If found
@@ -488,14 +488,15 @@ class AlbumArtCache(GObject.GObject):
 
         success, cache_path = MediaArt.get_path(artist, album, "album")
         if not success:
-            self._lookup_remote(item, callback, itr, art_size)
+            self._lookup_remote(item, callback, art_size)
 
-        self._discoverer_items[item.get_url()] = [item, art_size, callback,
-                                                  itr, cache_path]
+        self._discoverer_items[item.get_url()] = [
+            item, art_size, callback, cache_path
+        ]
         self._discoverer.discover_uri_async(item.get_url())
 
     @log
-    def _lookup_remote(self, item, art_size, callback, itr):
+    def _lookup_remote(self, item, art_size, callback):
         """Lookup remote art
 
         Lookup remote art through Grilo and if found copy locally. Call
@@ -593,6 +594,6 @@ class AlbumArtCache(GObject.GObject):
                 album_stripped = MediaArt.strip_invalid_entities(album)
                 self.blacklist[artist].append(album_stripped)
 
-            self.lookup(item, art_size, callback, itr)
+            self.lookup(item, art_size, callback)
 
         grilo.get_album_art_for_item(item, album_art_for_item_cb)
