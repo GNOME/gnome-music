@@ -136,20 +136,6 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
     return surface
 
 
-class ArtSize(Enum):
-    """Enum for icon sizes"""
-    XSMALL = (34, 34)
-    SMALL = (48, 48)
-    MEDIUM = (128, 128)
-    LARGE = (256, 256)
-    XLARGE = (512, 512)
-
-    def __init__(self, width, height):
-        """Intialize width and height"""
-        self.width = width
-        self.height = height
-
-
 class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback and loading icons."""
 
@@ -223,6 +209,19 @@ class Art(GObject.GObject):
     __gsignals__ = {
         'finished': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
+
+    class Size(Enum):
+        """Enum for icon sizes"""
+        XSMALL = (34, 34)
+        SMALL = (48, 48)
+        MEDIUM = (128, 128)
+        LARGE = (256, 256)
+        XLARGE = (512, 512)
+
+        def __init__(self, width, height):
+            """Intialize width and height"""
+            self.width = width
+            self.height = height
 
     @log
     def __init__(self, image, size, media):

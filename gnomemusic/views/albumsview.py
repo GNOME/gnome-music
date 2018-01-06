@@ -26,7 +26,7 @@ from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Gdk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, ArtSize
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.toolbar import ToolbarState
 from gnomemusic.views.baseview import BaseView
@@ -182,7 +182,7 @@ class AlbumsView(BaseView):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        Art(child.image, ArtSize.MEDIUM, item)
+        Art(child.image, Art.Size.MEDIUM, item)
 
         return child
 
