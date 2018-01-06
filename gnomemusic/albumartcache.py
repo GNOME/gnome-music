@@ -428,7 +428,7 @@ class AlbumArtCache(GObject.GObject):
 
         success, cache_path = MediaArt.get_path(artist, album, "album")
         if not success:
-            self._lookup_remote(item, callback, itr, art_size)
+            self._lookup_remote(item, art_size, callback, itr)
 
         self._discoverer_items[item.get_url()] = [item, art_size, callback,
                                                   itr, cache_path]
