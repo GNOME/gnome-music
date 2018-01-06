@@ -72,13 +72,13 @@ class BaseManager(object):
             model[iter_][0, 1, 2] = value
         self.selected_id = self.values[1][BaseModelColumns.ID]
 
-    @log
     @property
+    @log
     def active(self):
         return self.selected_id
 
-    @log
     @active.setter
+    @log
     def active(self, selected_id):
         if selected_id == "":
             return
@@ -136,13 +136,13 @@ class SourceManager(BaseManager):
         self._model[iter_][0, 1, 2] = value
         self.values.append(value)
 
-    @log
     @property
+    @log
     def active(self):
         return super().active
 
-    @log
     @active.setter
+    @log
     def active(self, selected_id):
         if selected_id == "":
             return
