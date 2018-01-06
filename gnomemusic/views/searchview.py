@@ -25,7 +25,7 @@
 from gettext import gettext as _
 from gi.repository import Gd, GdkPixbuf, GObject, Grl, Gtk, Pango
 
-from gnomemusic.albumartcache import Art, ArtSize
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
@@ -244,7 +244,7 @@ class SearchView(BaseView):
         # icon for the search view.
         _iter = None
         image = GdkPixbuf.Pixbuf()
-        art = Art(image, ArtSize.SMALL, item)
+        art = Art(image, Art.Size.SMALL, item)
         if category == 'album':
             _iter = self.model.insert_with_values(
                 self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
