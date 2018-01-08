@@ -6,7 +6,7 @@
     <property name="modal">True</property>
     <property name="program_name" translatable="yes">Music</property>
     <property name="version">@PACKAGE_VERSION@</property>
-    <property name="copyright" translatable="yes">Copyright © 2016 GNOME Music Developers</property>
+    <property name="copyright" translatable="yes">Copyright © 2018 GNOME Music Developers</property>
     <property name="comments" translatable="yes">A music player and management application for GNOME.</property>
     <property name="website">@PACKAGE_URL@</property>
     <property name="website_label" translatable="yes">Visit GNOME Music website</property>
@@ -34,18 +34,23 @@ Elias Entrup
 Evandro Giovanini
 Fabiano Fidêncio
 Felipe Borges
+Florian Darfeuille
 Gaurav Narula
 Georges Basile Stavracas Neto
 Guillaume Quintard
 Jan-Michael Brummer
 Jean Felder
+Jeremy Bicha
 Jordan Petridis
 Juan Suarez
+Kainaat Singh
 Kalev Lember
 Kevin Haller
 Konstantin Pospelov
 Marinus Schraal
+Niels De Graef
 Pablo Palácios
+Phil Dawson
 Piotr Drąg
 Prashant Tyagi
 Rashi Sah
@@ -88,6 +93,7 @@ Inaki Larranaga Murgoitio
 Jiri Grönroos
 Joe Hansen
 Jordi Mas
+Justin van Steijn
 Fabio Tomat
 Fran Dieguez
 Furkan Tokaç
@@ -99,6 +105,7 @@ Marek Černocký
 Mario Blättermann
 Matej Urbančič
 Milo Casagrande
+Марко Костић
 Мирослав Николић
 Osman Karagöz
 Piotr Drąg
@@ -111,6 +118,7 @@ Sveinn í Felli
 Tiago Santos
 Tom Tryfonidis
 Trần Ngọc Quân
+Xavi Ivars
 Yosef Or Boczko
 Yuras Shumovich
 Yuri Myasoedov
