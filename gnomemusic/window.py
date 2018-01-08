@@ -70,7 +70,7 @@ class Window(Gtk.ApplicationWindow):
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
         selectAll = Gio.SimpleAction.new('selectAll', None)
-        app.add_accelerator('<Primary>a', 'win.selectAll', None)
+        app.set_accels_for_action('win.selectAll',['<Primary>a'])
         selectAll.connect('activate', self._on_select_all)
         self.add_action(selectAll)
         selectNone = Gio.SimpleAction.new('selectNone', None)
