@@ -1,3 +1,51 @@
+Overview of changes in 3.27.4
+=============================
+
+Bugs fixed:
+ Migrate from intltool to gettext (#787272)
+ Add appstream metadata to non-deprecated location (#790869)
+ Playlist ordering in views (#772090)
+ Fix style of GdTaggedEntry (#791077)
+ PEP-8 fixes & cleanups (#791481,!7,!9,!10,!17,!18)
+ Update libgd (!8)
+ Fixes to navigating back (#777238)
+ Enable mouse button for navigating back (#771934)
+ Fix constructor deprecation warning (#790127)
+ Fix PyGObject deprecation warning (#788701)
+ Fix order in method call (!21)
+ Fix log decorator order (!22)
+ Use python3 style super() calls (!16)
+ DiscListBoxWidget update favourites (!23)
+ Add the ability to rename playlists (!11)
+ Update README.md (!12)
+
+Thanks to our contributors this release:
+ Abhinav Singh
+ Florian Darfeuille
+ Jean Felder
+ Jeremy Bicha
+ Kainaat Singh
+ Marinus Schraal
+ Niels De Graef
+ Phil Dawson
+ Piotr Drąg
+ Sambhav Kothari
+
+Translations updated:
+ Dutch
+ Romanian
+ Icelandic
+ Persian
+ Catalan (Valencian)
+ German
+ Czech
+ Friulian
+ Norwegian bokmål
+ Croatian
+ Indonesian
+ Serbian
+ Swedish
+
 Overview of changes in 3.26.0
 =============================
 
