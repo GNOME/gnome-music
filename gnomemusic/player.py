@@ -955,10 +955,9 @@ class Player(GObject.GObject):
                         # playlists here but removing it may introduce
                         # a bug. So, we keep it for the time being.
                         playlists.update_all_static_playlists()
-                        grilo.bump_play_count(self.get_current_media())
+                        grilo.bump_play_count(current_media)
                         grilo.set_last_played(current_media)
-                        self._lastfm.scrobble(
-                            current_media, self._time_stamp)
+                        self._lastfm.scrobble(current_media, self._time_stamp)
 
             except Exception as e:
                 logger.warn("Error: %s, %s", e.__class__, e)
