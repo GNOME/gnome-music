@@ -15,5 +15,5 @@ app_PYTHON = \
 	utils.py \
 	query.py \
 	searchbar.py \
-	window.py
-
+	window.py \
+	scrobbler.py
