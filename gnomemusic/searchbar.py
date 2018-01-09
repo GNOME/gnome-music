@@ -100,10 +100,6 @@ class BaseManager(object):
             else:
                 self.entry.remove_tag(self._tag)
 
-    @log
-    def reset_to_default(self):
-        self.active(self.values[0][BaseModelColumns.ID])
-
 
 class SourceManager(BaseManager):
 
