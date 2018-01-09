@@ -14,6 +14,6 @@ app_PYTHON = \
 	playlists.py\
 	utils.py \
 	query.py \
+	scrobbler.py \
 	searchbar.py \
 	window.py
-
