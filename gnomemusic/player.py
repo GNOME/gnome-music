@@ -30,6 +30,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from collections import deque
+import logging
+from random import randint
+import time
 
 from gi.repository import GIRepository
 GIRepository.Repository.prepend_search_path('libgd')
@@ -40,22 +44,17 @@ gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from gettext import gettext as _, ngettext
-from random import randint
-from collections import deque
+
+from gnomemusic import log
 from gnomemusic.albumartcache import AlbumArtCache, DefaultIcon, ArtSize
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
+from gnomemusic.scrobbler import LastFmScrobbler
 import gnomemusic.utils as utils
-playlists = Playlists.get_default()
 
-from hashlib import md5
-import requests
-import time
-from threading import Thread
 
-from gnomemusic import log
-import logging
 logger = logging.getLogger(__name__)
+playlists = Playlists.get_default()
 
 
 class RepeatType:
@@ -146,25 +145,7 @@ class Player(GObject.GObject):
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
 
-        self._check_last_fm()
-
-    @log
-    def _check_last_fm(self):
-        try:
-            self.last_fm = None
-            gi.require_version('Goa', '1.0')
-            from gi.repository import Goa
-            client = Goa.Client.new_sync(None)
-            accounts = client.get_accounts()
-
-            for obj in accounts:
-                account = obj.get_account()
-                if account.props.provider_name == "Last.fm":
-                    self.last_fm = obj.get_oauth2_based()
-                    return
-        except Exception as e:
-            logger.info("Error reading Last.fm credentials: %s" % str(e))
-            self.last_fm = None
+        self._lastfm = LastFmScrobbler()
 
     @log
     def _on_replaygain_setting_changed(self, settings, value):
@@ -602,15 +583,14 @@ class Player(GObject.GObject):
 
         artist = utils.get_artist_name(media)
         self.artistLabel.set_label(artist)
-        self._currentArtist = artist
 
         self.coverImg.set_from_surface(self._loading_icon_surface)
         self.cache.lookup(media, ArtSize.XSMALL, self._on_cache_lookup, None)
 
-        self._currentTitle = utils.get_media_title(media)
-        self.titleLabel.set_label(self._currentTitle)
+        title = utils.get_media_title(media)
+        self.titleLabel.set_label(title)
 
-        self._currentTimestamp = int(time.time())
+        self._time_stamp = int(time.time())
 
         url = media.get_url()
         if url != self.player.get_value('current-uri', 0):
@@ -681,9 +661,7 @@ class Player(GObject.GObject):
         self.player.set_state(Gst.State.PLAYING)
         self._update_position_callback()
         if media:
-            t = Thread(target=self.update_now_playing_in_lastfm, args=(media.get_url(),))
-            t.setDaemon(True)
-            t.start()
+            self._lastfm.now_playing(media)
         if not self.timeout and self.progressScale.get_realized():
             self._update_timeout()
 
@@ -950,67 +928,10 @@ class Player(GObject.GObject):
     def _set_duration(self, duration):
         self.duration = duration
         self.played_seconds = 0
-        self.scrobbled = False
+        self._scrobbled = False
         self.progressScale.set_range(0.0, duration * 60)
 
     @log
-    def scrobble_song(self, url):
-        # Update playlists
-        playlists.update_all_static_playlists()
-
-        if self.last_fm:
-            api_key = self.last_fm.props.client_id
-            sk = self.last_fm.call_get_access_token_sync(None)[0]
-            secret = self.last_fm.props.client_secret
-
-            sig = "api_key%sartist[0]%smethodtrack.scrobblesk%stimestamp[0]%strack[0]%s%s" %\
-                (api_key, self._currentArtist, sk, self._currentTimestamp, self._currentTitle, secret)
-
-            api_sig = md5(sig.encode()).hexdigest()
-            requests_dict = {
-                "api_key": api_key,
-                "method": "track.scrobble",
-                "artist[0]": self._currentArtist,
-                "track[0]": self._currentTitle,
-                "timestamp[0]": self._currentTimestamp,
-                "sk": sk,
-                "api_sig": api_sig
-            }
-            try:
-                r = requests.post("https://ws.audioscrobbler.com/2.0/", requests_dict)
-                if r.status_code != 200:
-                    logger.warn("Failed to scrobble track: %s %s" % (r.status_code, r.reason))
-                    logger.warn(r.text)
-            except Exception as e:
-                logger.warn(e)
-
-    @log
-    def update_now_playing_in_lastfm(self, url):
-        if self.last_fm:
-            api_key = self.last_fm.props.client_id
-            sk = self.last_fm.call_get_access_token_sync(None)[0]
-            secret = self.last_fm.props.client_secret
-
-            sig = "api_key%sartist%smethodtrack.updateNowPlayingsk%strack%s%s" % \
-                (api_key, self._currentArtist, sk, self._currentTitle, secret)
-
-            api_sig = md5(sig.encode()).hexdigest()
-            request_dict = {
-                "api_key": api_key,
-                "method": "track.updateNowPlaying",
-                "artist": self._currentArtist,
-                "track": self._currentTitle,
-                "sk": sk,
-                "api_sig": api_sig
-            }
-            try:
-                r = requests.post("https://ws.audioscrobbler.com/2.0/", request_dict)
-                if r.status_code != 200:
-                    logger.warn("Failed to update currently played track: %s %s" % (r.status_code, r.reason))
-                    logger.warn(r.text)
-            except Exception as e:
-                logger.warn(e)
-
     def _update_position_callback(self):
         position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
         if position > 0:
@@ -1018,6 +939,7 @@ class Player(GObject.GObject):
         self._update_timeout()
         return False
 
+    @log
     def _update_seconds_callback(self):
         self._on_progress_value_changed(None)
 
@@ -1026,16 +948,19 @@ class Player(GObject.GObject):
             self.played_seconds += self.seconds_period / 1000
             try:
                 percentage = self.played_seconds / self.duration
-                if not self.scrobbled and percentage > 0.4:
+                if not self._scrobbled and percentage > 0.4:
                     current_media = self.get_current_media()
-                    self.scrobbled = True
+                    self._scrobbled = True
                     if current_media:
+                        # FIXME: we should not need to update static
+                        # playlists here but removing it may introduce
+                        # a bug. So, we keep it for the time being.
+                        playlists.update_all_static_playlists()
                         grilo.bump_play_count(self.get_current_media())
                         grilo.set_last_played(current_media)
-                        just_played_url = self.get_current_media().get_url()
-                        t = Thread(target=self.scrobble_song, args=(just_played_url,))
-                        t.setDaemon(True)
-                        t.start()
+                        self._lastfm.scrobble(
+                            current_media, self._time_stamp)
+
             except Exception as e:
                 logger.warn("Error: %s, %s", e.__class__, e)
         return True
