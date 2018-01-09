@@ -22,12 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-
 from hashlib import md5
+from threading import Thread
 import logging
 import requests
-from threading import Thread
+
+import gi
+from gi.repository import GObject
 
 from gnomemusic import log
 import gnomemusic.utils as utils
@@ -36,7 +37,7 @@ import gnomemusic.utils as utils
 logger = logging.getLogger(__name__)
 
 
-class LastFmScrobbler():
+class LastFmScrobbler(GObject.GObject):
     """Scrobble songs to Last.fm"""
 
     def __repr__(self):
@@ -44,8 +45,20 @@ class LastFmScrobbler():
 
     @log
     def __init__(self):
+        super().__init__()
+
+        self._scrobbled = False
         self._authentication = None
         self._connect()
+
+    @GObject.Property(type=bool, default=False)
+    def scrobbled(self):
+        """Bool indicating current scrobble status"""
+        return self._scrobbled
+
+    @scrobbled.setter
+    def scrobbled(self, scrobbled):
+        self._scrobbled = scrobbled
 
     def _connect(self):
         """Connect to Last.fm using gnome-online-accounts"""
@@ -112,6 +125,8 @@ class LastFmScrobbler():
         :param media: Grilo media item
         :param time_stamp: song loaded time (epoch time)
         """
+        self.scrobbled = True
+
         if self._authentication is None:
             return
 
@@ -162,6 +177,8 @@ class LastFmScrobbler():
 
         :param media: Grilo media item
         """
+        self.scrobbled = False
+
         if self._authentication is None:
             return
 

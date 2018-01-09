@@ -928,7 +928,6 @@ class Player(GObject.GObject):
     def _set_duration(self, duration):
         self.duration = duration
         self.played_seconds = 0
-        self._scrobbled = False
         self.progressScale.set_range(0.0, duration * 60)
 
     @log
@@ -948,9 +947,9 @@ class Player(GObject.GObject):
             self.played_seconds += self.seconds_period / 1000
             try:
                 percentage = self.played_seconds / self.duration
-                if not self._scrobbled and percentage > 0.4:
+                if (not self._lastfm.scrobbled
+                        and percentage > 0.4):
                     current_media = self.get_current_media()
-                    self._scrobbled = True
                     if current_media:
                         # FIXME: we should not need to update static
                         # playlists here but removing it may introduce
