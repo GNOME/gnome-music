@@ -89,12 +89,23 @@ class LastFmScrobbler(GObject.GObject):
         artist = utils.get_artist_name(media)
         title = utils.get_media_title(media)
 
-        sig = ("api_key{}artist[0]{}methodtrack.scrobblesk{}timestamp[0]"
-               "{}track[0]{}{}").format(
-                   api_key, artist, sk, time_stamp, title, secret)
+        # The album is optional. So only provide it when it is
+        # available.
+        album = media.get_title()
+
+        request_dict = {}
+        if album:
+            sig = "album[0]{}".format(album)
+            request_dict.update({
+                "album[0]": album
+            })
+
+        sig += ("api_key{}artist[0]{}methodtrack.scrobblesk{}"
+                "timestamp[0]{}track[0]{}{}").format(
+                    api_key, artist, sk, time_stamp, title, secret)
 
         api_sig = md5(sig.encode()).hexdigest()
-        request_dict = {
+        request_dict.update({
             "api_key": api_key,
             "method": "track.scrobble",
             "artist[0]": artist,
@@ -102,7 +113,7 @@ class LastFmScrobbler(GObject.GObject):
             "timestamp[0]": time_stamp,
             "sk": sk,
             "api_sig": api_sig
-        }
+        })
 
         try:
             r = requests.post(
