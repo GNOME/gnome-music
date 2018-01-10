@@ -178,14 +178,12 @@ class SearchView(BaseView):
 
         artist = utils.get_artist_name(item)
         album = utils.get_album_title(item)
-        composer = item.get_composer()
 
         key = '%s-%s' % (artist, album)
         if key not in self._albums:
             self._albums[key] = Grl.Media()
             self._albums[key].set_title(album)
             self._albums[key].add_artist(artist)
-            self._albums[key].set_composer(composer)
             self._albums[key].set_source(source.get_id())
             self._albums[key].songs = []
             self._add_item(
@@ -233,8 +231,6 @@ class SearchView(BaseView):
         title = utils.get_media_title(item)
         item.set_title(title)
         artist = utils.get_artist_name(item)
-        # FIXME: Can't be None in treemodel
-        composer = item.get_composer() or ""
 
         group = 3
         try:
@@ -248,9 +244,9 @@ class SearchView(BaseView):
         _iter = None
         if category == 'album':
             _iter = self.model.insert_with_values(
-                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
+                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist, self._loading_icon, item,
-                 2, category, composer])
+                 2, category])
             self._cache.lookup(
                 item, ArtSize.SMALL, self._on_lookup_ready, _iter)
         elif category == 'song':
@@ -260,17 +256,17 @@ class SearchView(BaseView):
             else:
                 fav = item.get_favourite()
             _iter = self.model.insert_with_values(
-                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11, 13],
+                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11],
                 [str(item.get_id()), title, artist, self._loading_icon, item,
-                 fav, category, composer])
+                 fav, category])
             self._cache.lookup(
                 item, ArtSize.SMALL, self._on_lookup_ready, _iter)
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
-                    self._head_iters[group], -1, [0, 2, 4, 5, 9, 11, 13],
+                    self._head_iters[group], -1, [0, 2, 4, 5, 9, 11],
                     [str(item.get_id()), artist, self._loading_icon, item, 2,
-                     category, composer])
+                     category])
                 self._cache.lookup(
                     item, ArtSize.SMALL, self._on_lookup_ready, _iter)
                 self._artists[artist.casefold()] = {
@@ -468,8 +464,7 @@ class SearchView(BaseView):
             GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_STRING,    # type
-            GObject.TYPE_INT,
-            GObject.TYPE_STRING,    # composer
+            GObject.TYPE_INT
         )
 
         self._filter_model = self.model.filter_new(None)
