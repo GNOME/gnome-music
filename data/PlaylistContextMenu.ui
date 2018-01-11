@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <menu id="song_menu">
+      <item>
+        <attribute name="label" translatable="yes">Play</attribute>
+	<attribute name="action">win.song_play</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Add to Playlist…</attribute>
+        <attribute name="action">win.song_add_playlist</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Remove From Playlist</attribute>
+        <attribute name="action">win.song_remove</attribute>
+      </item>
+  </menu>
+</interface>

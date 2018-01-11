@@ -510,9 +510,11 @@ class Window(Gtk.ApplicationWindow):
         if self.curr_view != self.views[View.SEARCH] and self.curr_view != self.views[View.EMPTY_SEARCH]:
             self.toolbar.searchbar.reveal(False)
 
-        # Toggle the selection button for the EmptySearch view
-        if self.curr_view == self.views[View.EMPTY_SEARCH] or \
-           self.prev_view == self.views[View.EMPTY_SEARCH]:
+        # Toggle the selection button for the EmptySearch and Playlist view
+        if (self.curr_view == self.views[View.EMPTY_SEARCH] or
+                self.prev_view == self.views[View.EMPTY_SEARCH]) or \
+           (self.curr_view == self.views[View.PLAYLIST] or
+                self.prev_view == self.views[View.PLAYLIST]):
             self.toolbar._select_button.set_sensitive(
                 not self.toolbar._select_button.get_sensitive())
 
