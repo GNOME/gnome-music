@@ -49,6 +49,10 @@ flowbox, treeview, widget {
     background-color: @theme_bg_color;
 }
 
+.songs-list:selected {
+    color: shade(@theme_fg_color, 0.0);
+}
+
 /* We use background-image as a workaround on the StarImage widget to
    enable transitions between the non-starred and starred icons. */
 .star {
