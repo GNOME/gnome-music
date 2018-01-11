@@ -336,8 +336,13 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_media_id(self, media):
-        return '/org/mpris/MediaPlayer2/TrackList/%s' % \
-            (media.get_id() if media else 'NoTrack')
+        if media:
+            trackid = "/org/gnome/GnomeMusic/Tracklist/{}".format(
+                media.get_id())
+        else:
+            trackid = "/org/mpris/MediaPlayer2/TrackList/NoTrack"
+
+        return trackid
 
     @log
     def _get_media_from_id(self, track_id):
