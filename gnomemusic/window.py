@@ -510,11 +510,14 @@ class Window(Gtk.ApplicationWindow):
         if self.curr_view != self.views[View.SEARCH] and self.curr_view != self.views[View.EMPTY_SEARCH]:
             self.toolbar.searchbar.reveal(False)
 
-        # Toggle the selection button for the EmptySearch view
-        if self.curr_view == self.views[View.EMPTY_SEARCH] or \
-           self.prev_view == self.views[View.EMPTY_SEARCH]:
-            self.toolbar._select_button.set_sensitive(
-                not self.toolbar._select_button.get_sensitive())
+        # Disable the selection button for the EmptySearch and Playlist
+        # view
+        no_selection_mode = [
+            self.views[View.EMPTY_SEARCH],
+            self.views[View.PLAYLIST]
+        ]
+        self.toolbar._select_button.set_sensitive(
+            self.curr_view not in no_selection_mode)
 
         # Disable renaming playlist if it was active when leaving
         # Playlist view

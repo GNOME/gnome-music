@@ -23,13 +23,14 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _, ngettext
-from gi.repository import Gd, Gio, GLib, GObject, Gtk, Pango
+from gi.repository import Gio, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.playlistdialog import PlaylistDialog
 import gnomemusic.utils as utils
 
 playlists = Playlists.get_default()
@@ -58,15 +59,12 @@ class PlaylistView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'playlists', _("Playlists"), window, Gd.MainViewType.LIST, True,
-            sidebar_container)
+            'playlists', _("Playlists"), window, None, True, sidebar_container)
 
         self._window = window
         self.player = player
 
-        style_context = self._view.get_generic_view().get_style_context()
-        style_context.add_class('songs-list')
-        style_context.remove_class('content-view')
+        self._view.get_style_context().add_class('songs-list')
 
         self._add_list_renderers()
 
@@ -82,14 +80,34 @@ class PlaylistView(BaseView):
         self._songs_count_label = builder.get_object('songs_count')
         self._menubutton = builder.get_object('playlist_menubutton')
 
+        builder = Gtk.Builder()
+        builder.add_from_resource('/org/gnome/Music/PlaylistContextMenu.ui')
+        self._popover_menu = builder.get_object('song_menu')
+        self._song_popover = Gtk.Popover.new_from_model(
+            self._view, self._popover_menu)
+        self._song_popover.set_position(Gtk.PositionType.BOTTOM)
+
+        play_song = Gio.SimpleAction.new('play_song', None)
+        play_song.connect('activate', self._play_song)
+        self._window.add_action(play_song)
+
+        add_song_to_playlist = Gio.SimpleAction.new(
+            'add_song_to_playlist', None)
+        add_song_to_playlist.connect('activate', self._add_song_to_playlist)
+        self._window.add_action(add_song_to_playlist)
+
+        remove_song = Gio.SimpleAction.new('remove_song', None)
+        remove_song.connect('activate', self._remove_song)
+        self._window.add_action(remove_song)
+
         playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
         playlist_play_action.connect('activate', self._on_play_activate)
         self._window.add_action(playlist_play_action)
 
         self._playlist_delete_action = Gio.SimpleAction.new('playlist_delete',
                                                             None)
-        self._playlist_delete_action.connect('activate',
-                                             self._on_delete_activate)
+        self._playlist_delete_action.connect(
+            'activate', self._on_delete_activated)
         self._window.add_action(self._playlist_delete_action)
         self._playlist_rename_action = Gio.SimpleAction.new(
             'playlist_rename', None)
@@ -137,52 +155,65 @@ class PlaylistView(BaseView):
         pass
 
     @log
-    def _add_list_renderers(self):
-        list_widget = self._view.get_generic_view()
-        cols = list_widget.get_columns()
-        cells = cols[0].get_cells()
-        cells[2].set_visible(False)
-        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0,
-                                                             xalign=0.5,
-                                                             yalign=0.5)
+    def _setup_view(self, view_type):
+        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
+        self._box.pack_start(view_container, True, True, 0)
 
+        self._view = Gtk.TreeView()
+        self._view.set_headers_visible(False)
+        self._view.set_valign(Gtk.Align.START)
+        self._view.set_model(self.model)
+        self._view.set_activate_on_single_click(True)
+        self._view.get_selection().set_mode(Gtk.SelectionMode.SINGLE)
+        self._view.connect('row-activated', self._on_song_activated)
+        self._view.connect('button-press-event', self._on_view_clicked)
+
+        view_container.add(self._view)
+
+    @log
+    def _add_list_renderers(self):
+        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(
+            xpad=0, xalign=0.5, yalign=0.5)
         column_now_playing = Gtk.TreeViewColumn()
         column_now_playing.set_fixed_width(48)
         column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
-                                              self._on_list_widget_icon_render,
-                                              None)
-        list_widget.insert_column(column_now_playing, 0)
+        column_now_playing.set_cell_data_func(
+            now_playing_symbol_renderer, self._on_list_widget_icon_render,
+            None)
+        self._view.append_column(column_now_playing)
 
         title_renderer = Gtk.CellRendererText(
             xpad=0, xalign=0.0, yalign=0.5, height=48,
             ellipsize=Pango.EllipsizeMode.END)
-        list_widget.add_renderer(title_renderer,
-                                 self._on_list_widget_title_render, None)
-        cols[0].add_attribute(title_renderer, 'text', 2)
+        column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
+        column_title.set_expand(True)
+        self._view.append_column(column_title)
 
-        self._star_handler.add_star_renderers(list_widget, cols[0])
+        column_star = Gtk.TreeViewColumn()
+        self._view.append_column(column_star)
+        self._star_handler.add_star_renderers(self._view, column_star)
 
-        duration_renderer = Gd.StyledTextRenderer(xpad=32, xalign=1.0)
-        duration_renderer.add_class('dim-label')
-        list_widget.add_renderer(duration_renderer,
-                                 self._on_list_widget_duration_render, None)
+        duration_renderer = Gtk.CellRendererText(xpad=32, xalign=1.0)
+        column_duration = Gtk.TreeViewColumn()
+        column_duration.pack_start(duration_renderer, False)
+        column_duration.set_cell_data_func(
+            duration_renderer, self._on_list_widget_duration_render, None)
+        self._view.append_column(column_duration)
 
-        artist_renderer = Gd.StyledTextRenderer(
+        artist_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        artist_renderer.add_class('dim-label')
-        list_widget.add_renderer(artist_renderer,
-                                 self._on_list_widget_artist_render, None)
-        cols[0].add_attribute(artist_renderer, 'text', 3)
+        column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
+        column_artist.set_expand(True)
+        self._view.append_column(column_artist)
 
-        type_renderer = Gd.StyledTextRenderer(
+        album_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        type_renderer.add_class('dim-label')
-        list_widget.add_renderer(type_renderer,
-                                 self._on_list_widget_type_render, None)
-
-    def _on_list_widget_title_render(self, col, cell, model, _iter, data):
-        pass
+        column_album = Gtk.TreeViewColumn()
+        column_album.set_expand(True)
+        column_album.pack_start(album_renderer, True)
+        column_album.set_cell_data_func(
+            album_renderer, self._on_list_widget_album_render, None)
+        self._view.append_column(column_album)
 
     def _on_list_widget_duration_render(self, col, cell, model, _iter, data):
         if not model.iter_is_valid(_iter):
@@ -193,8 +224,13 @@ class PlaylistView(BaseView):
             duration = item.get_duration()
             cell.set_property('text', utils.seconds_to_string(duration))
 
-    def _on_list_widget_artist_render(self, col, cell, model, _iter, data):
-        pass
+    def _on_list_widget_album_render(self, coll, cell, model, _iter, data):
+        if not model.iter_is_valid(_iter):
+            return
+
+        item = model[_iter][5]
+        if item:
+            cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
         if not model.iter_is_valid(_iter):
@@ -288,7 +324,16 @@ class PlaylistView(BaseView):
             self._sidebar.emit('row-activated', row)
 
     @log
-    def _on_item_activated(self, widget, id, path):
+    def _on_song_activated(self, widget, path, column):
+        """Action performed when clicking on a song
+
+        clicking on star column toggles favorite
+        clicking on an other columns launches player
+
+        :param Gtk.Tree treeview: self._view
+        :param Gtk.TreePath path: activated row index
+        :param Gtk.TreeViewColumn column: activated column
+        """
         if self._star_handler.star_renderer_click:
             self._star_handler.star_renderer_click = False
             return
@@ -299,10 +344,55 @@ class PlaylistView(BaseView):
             return
 
         if self.model[_iter][8] != self._error_icon_name:
-            self.player.set_playlist('Playlist',
-                                     self.current_playlist.get_id(),
-                                     self.model, _iter, 5, 11)
+            self.player.set_playlist(
+                'Playlist', self.current_playlist.get_id(), self.model, _iter,
+                5, 11)
             self.player.set_playing(True)
+
+    @log
+    def _on_view_clicked(self, treeview, event):
+        """Right click on self._view displays a context menu
+
+        :param Gtk.TreeView treeview: self._view
+        :param Gdk.EventButton event: clicked event
+        """
+        if event.button != 3:
+            return
+
+        path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
+        self._view.get_selection().select_path(path)
+
+        rect = self._view.get_visible_rect()
+        rect.x = event.x - rect.width / 2.0
+        rect.y = event.y - rect.height + 5
+
+        self._song_popover.set_relative_to(self._view)
+        self._song_popover.set_pointing_to(rect)
+        self._song_popover.popup()
+        return
+
+    @log
+    def _play_song(self, menuitem, data=None):
+        model, _iter = self._view.get_selection().get_selected()
+        path = model.get_path(_iter)
+        cols = self._view.get_columns()
+        self._view.emit('row-activated', path, cols[0])
+
+    @log
+    def _add_song_to_playlist(self, menuitem, data=None):
+        model, _iter = self._view.get_selection().get_selected()
+        song = model[_iter][5]
+
+        playlist_dialog = PlaylistDialog(self._window, self.pl_todelete)
+        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
+            playlists.add_to_playlist(playlist_dialog.get_selected(), [song])
+        playlist_dialog.destroy()
+
+    @log
+    def _remove_song(self, menuitem, data=None):
+        model, _iter = self._view.get_selection().get_selected()
+        song = model[_iter][5]
+        playlists.remove_from_playlist(self.current_playlist, [song])
 
     @log
     def _on_playlist_update(self, playlists, playlist_id):
@@ -367,7 +457,7 @@ class PlaylistView(BaseView):
     def remove_playlist(self):
         """Removes the current selected playlist"""
         if not self._current_playlist_is_protected():
-            self._on_delete_activate(None)
+            self._on_delete_activated(None)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
@@ -387,7 +477,7 @@ class PlaylistView(BaseView):
         self._view.set_model(None)
         self.model.clear()
         self._songs_count = 0
-        grilo.populate_playlist_songs(playlist, self._add_item)
+        grilo.populate_playlist_songs(playlist, self._add_song)
 
         if self._current_playlist_is_protected():
             self._playlist_delete_action.set_enabled(False)
@@ -397,14 +487,28 @@ class PlaylistView(BaseView):
             self._playlist_rename_action.set_enabled(True)
 
     @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        self._add_item_to_model(item, self.model)
+    def _add_song(self, source, param, song, remaining=0, data=None):
+        """Grilo.populate_playlist_songs callback.
+
+        Add all playlists found by Grilo to self._model
+
+        :param GrlTrackerSource source: tracker source
+        :param int param: param
+        :param GrlMedia song: song to add
+        :param int remaining: next playlist_id or zero if None
+        :param data: associated data
+        """
+        self._add_song_to_model(song, self.model)
         if remaining == 0:
             self._view.set_model(self.model)
 
     @log
-    def _add_item_to_model(self, item, model):
-        if not item:
+    def _add_song_to_model(self, song, model):
+        """Add song to a playlist
+        :param Grl.Media song: song to add
+        :param Gtk.ListStore model: model
+        """
+        if not song:
             self._update_songs_count()
             if self.player.playlist:
                 self.player._validate_next_track()
@@ -412,11 +516,11 @@ class PlaylistView(BaseView):
             return
 
         self._offset += 1
-        title = utils.get_media_title(item)
-        item.set_title(title)
-        artist = utils.get_artist_name(item)
+        title = utils.get_media_title(song)
+        song.set_title(title)
+        artist = utils.get_artist_name(song)
         model.insert_with_valuesv(-1, [2, 3, 5, 9],
-                                  [title, artist, item, item.get_favourite()])
+                                  [title, artist, song, song.get_favourite()])
 
         self._songs_count += 1
 
@@ -427,19 +531,15 @@ class PlaylistView(BaseView):
             % self._songs_count)
 
     @log
-    def _on_selection_mode_changed(self, widget, data=None):
-        self._sidebar.set_sensitive(not self._header_bar._selectionMode)
-        self._menubutton.set_sensitive(not self._header_bar._selectionMode)
-
-    @log
     def _on_play_activate(self, menuitem, data=None):
         _iter = self.model.get_iter_first()
         if not _iter:
             return
 
-        selection = self._view.get_generic_view().get_selection()
+        selection = self._view.get_selection()
         selection.select_path(self.model.get_path(_iter))
-        self._view.emit('item-activated', '0', self.model.get_path(_iter))
+        cols = self._view.get_columns()
+        self._view.emit('row-activated', self.model.get_path(_iter), cols[0])
 
     @log
     def _current_playlist_is_protected(self):
@@ -472,7 +572,7 @@ class PlaylistView(BaseView):
             self.pl_todelete, self._pl_todelete_index)
 
     @log
-    def _on_delete_activate(self, menuitem, data=None):
+    def _on_delete_activated(self, menuitem, data=None):
         self._window.show_playlist_notification()
         self._stage_playlist_for_deletion()
 
@@ -533,7 +633,7 @@ class PlaylistView(BaseView):
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if (self.current_playlist
                 and playlist.get_id() == self.current_playlist.get_id()):
-            self._add_item_to_model(item, self.model)
+            self._add_song_to_model(item, self.model)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
@@ -590,8 +690,3 @@ class PlaylistView(BaseView):
         for row in self._sidebar:
             self._sidebar.remove(row)
         grilo.populate_playlists(self._offset, self._add_playlist_item)
-
-    @log
-    def get_selected_songs(self, callback):
-        callback([self.model[self.model.get_iter(path)][5]
-                  for path in self._view.get_selection()])
