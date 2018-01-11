@@ -39,7 +39,8 @@ flowbox, treeview, widget {
     box-shadow: inset 10px 0 5px -10px alpha(black, 0.25);
 }
 
-.side-panel .view:selected {
+.side-panel .view:selected,
+.side-panel row:selected {
     background-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
 }
 
