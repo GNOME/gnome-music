@@ -23,6 +23,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import codecs
+
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
@@ -336,8 +338,14 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_media_id(self, media):
-        return '/org/mpris/MediaPlayer2/TrackList/%s' % \
-            (media.get_id() if media else 'NoTrack')
+        if media:
+            trackid = "/org/gnome/GnomeMusic/Tracklist/{}".format(
+                codecs.encode(
+                    bytes(media.get_id(), 'ascii'), 'hex').decode('ascii'))
+        else:
+            trackid = "/org/mpris/MediaPlayer2/TrackList/NoTrack"
+
+        return trackid
 
     @log
     def _get_media_from_id(self, track_id):
