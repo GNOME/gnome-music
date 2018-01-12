@@ -288,6 +288,7 @@ class PlaylistView(BaseView):
             index = -1
         if playlists.is_static_playlist(item):
             index = 0
+        self._offset += 1
         _iter = self._playlists_model.insert_with_valuesv(
             index, [2, 5], [utils.get_media_title(item), item])
         if self._playlists_model.iter_n_children(None) == 1:
@@ -423,7 +424,6 @@ class PlaylistView(BaseView):
             self.emit('playlist-songs-loaded')
             return
 
-        self._offset += 1
         title = utils.get_media_title(item)
         item.set_title(title)
         artist = utils.get_artist_name(item)
@@ -609,7 +609,6 @@ class PlaylistView(BaseView):
 
     @log
     def populate(self):
-        self._playlists_model.clear()
         grilo.populate_playlists(self._offset, self._add_playlist_item)
 
     @log
