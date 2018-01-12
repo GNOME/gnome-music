@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk, Gd, Pango
+from gi.repository import Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -125,7 +125,7 @@ class PlaylistDialog():
 
     @log
     def _add_list_renderers(self):
-        type_renderer = Gd.StyledTextRenderer(
+        type_renderer = Gtk.CellRendererText(
             xpad=8, ypad=8, ellipsize=Pango.EllipsizeMode.END, xalign=0.0)
 
         col = Gtk.TreeViewColumn("Name", type_renderer, text=0)
