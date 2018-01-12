@@ -118,21 +118,18 @@ class PlaylistDialog():
         """Get the selected playlist"""
         _iter = self._selection.get_selected()[1]
 
-        if not _iter or self._model[_iter][1]:
+        if not _iter:
             return None
 
-        return self._model[_iter][2]
+        return self._model[_iter][1]
 
     @log
     def _add_list_renderers(self):
         type_renderer = Gd.StyledTextRenderer(
             xpad=8, ypad=8, ellipsize=Pango.EllipsizeMode.END, xalign=0.0)
 
-        cols = Gtk.TreeViewColumn()
-        cols.pack_start(type_renderer, True)
-        cols.add_attribute(type_renderer, "text", 0)
-        cols.set_cell_data_func(type_renderer, self._on_list_text_render)
-        self._view.append_column(cols)
+        col = Gtk.TreeViewColumn("Name", type_renderer, text=0)
+        self._view.append_column(col)
 
     @log
     def _populate(self):
@@ -156,20 +153,10 @@ class PlaylistDialog():
                 and item.get_id() == self._playlist_todelete.get_id()):
             return None
 
-        new_iter = self._model.append()
-        self._model[new_iter][0, 1, 2] = [
-            utils.get_media_title(item), False, item
-        ]
+        new_iter = self._model.insert_with_valuesv(
+            -1, [0, 1], [utils.get_media_title(item), item])
 
         return new_iter
-
-    @log
-    def _on_list_text_render(self, col, cell, model, _iter, data):
-        editable = model[_iter][1]
-        if editable:
-            cell.add_class("dim-label")
-        else:
-            cell.remove_class("dim-label")
 
     @log
     def _on_selection(self, select_button):
@@ -192,11 +179,7 @@ class PlaylistDialog():
     @log
     def _on_selection_changed(self, selection):
         model, _iter = self._selection.get_selected()
-
-        if _iter is None or self._model[_iter][1]:
-            self._select_button.set_sensitive(False)
-        else:
-            self._select_button.set_sensitive(True)
+        self._select_button.set_sensitive(_iter is not None)
 
     @log
     def _on_editing_done(self, sender, data=None):
