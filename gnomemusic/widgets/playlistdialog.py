@@ -47,7 +47,7 @@ class PlaylistDialog():
         self._add_playlist_stack = self._ui.get_object('add_playlist_stack')
         self._normal_state = self._ui.get_object('normal_state')
         self._empty_state = self._ui.get_object('empty_state')
-        self._title_bar = self._ui.get_object('headerbar1')
+        self._title_bar = self._ui.get_object('headerbar')
         self._dialog_box.set_titlebar(self._title_bar)
         self._setup_dialog()
 
@@ -67,14 +67,14 @@ class PlaylistDialog():
 
     @log
     def _setup_dialog(self):
-        self._view = self._ui.get_object('treeview1')
+        self._view = self._ui.get_object('treeview')
         self._view.set_activate_on_single_click(False)
-        self._selection = self._ui.get_object('treeview-selection1')
+        self._selection = self._ui.get_object('treeview-selection')
         self._selection.connect('changed', self._on_selection_changed)
         self._add_list_renderers()
         self._view.connect('row-activated', self._on_item_activated)
 
-        self._model = self._ui.get_object('liststore1')
+        self._model = self._ui.get_object('liststore')
         self._populate()
 
         self._cancel_button = self._ui.get_object('cancel-button')
