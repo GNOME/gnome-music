@@ -431,7 +431,7 @@ class Cache(GObject.GObject):
                 Gio.file_new_for_path(self.cache_dir).make_directory(None)
             except GLib.Error as error:
                 logger.warn(
-                    "Error: {}, {}".format(error.__class__, error.message))
+                    "Error: {}, {}".format(error.domain, error.message))
                 return
 
     def query(self, media):
@@ -453,7 +453,7 @@ class Cache(GObject.GObject):
             stream = thumb_file.read_finish(result)
         except GLib.Error as error:
             logger.warn(
-                "Error: {}, {}".format(error.__class__, error.message))
+                "Error: {}, {}".format(error.domain, error.message))
             stream.close_async(
                 GLib.PRIORITY_LOW, None, self._close_stream, None)
             self.emit('miss')
@@ -466,7 +466,7 @@ class Cache(GObject.GObject):
         try:
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             stream.close_async(
                 GLib.PRIORITY_LOW, None, self._close_stream, None)
             self.emit('miss')
@@ -498,7 +498,7 @@ class EmbeddedArt(GObject.GObject):
             # self._discoverer.connect('discovered', self._discovered)
             # self._discoverer.start()
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             return
 
         self._path = None
@@ -517,7 +517,8 @@ class EmbeddedArt(GObject.GObject):
         try:
             info_ = self._discoverer.discover_uri(media.get_url())
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            print("HERE")
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             # self._discoverer.stop()
             return
@@ -566,7 +567,7 @@ class EmbeddedArt(GObject.GObject):
                 return
             except GLib.Error as error:
                 logger.warn(
-                    "Error: {}, {}".format(error.__class__, error.message))
+                    "Error: {}, {}".format(error.domain, error.message))
 
         self.emit('unavailable')
         # self._discoverer.stop()
@@ -603,7 +604,7 @@ class RemoteArt(GObject.GObject):
         try:
             src.delete_finish(result)
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
 
     @log
     def _splice_async_callback(self, src, result, data):
@@ -612,7 +613,7 @@ class RemoteArt(GObject.GObject):
         try:
             src.splice_finish(result)
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
@@ -627,7 +628,7 @@ class RemoteArt(GObject.GObject):
             # FIXME: I/O blocking
             MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
@@ -641,14 +642,14 @@ class RemoteArt(GObject.GObject):
         try:
             istream = src.read_finish(result)
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
         try:
             [tmp_file, iostream] = Gio.File.new_tmp()
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(error.__class__, error.message))
+            logger.warn("Error: {}, {}".format(error.domain, error.message))
             self.emit('unavailable')
             return
 
