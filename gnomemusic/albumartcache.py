@@ -208,10 +208,6 @@ class DefaultIcon(GObject.GObject):
 
 class Art(GObject.GObject):
 
-    __gsignals__ = {
-        'finished': (GObject.SignalFlags.RUN_FIRST, None, ())
-    }
-
     _blacklist = {}
     _cache_queue = Queue()
     _embedded_queue = Queue()
@@ -234,8 +230,6 @@ class Art(GObject.GObject):
     def __init__(self, size, media):
         super().__init__()
 
-        self._iter = None
-        self._pixbuf = None
         self._image = None
         self._size = size
         self._media = media
@@ -271,8 +265,6 @@ class Art(GObject.GObject):
 
         if self._image:
             self._image.set_from_surface(self._surface)
-
-        self.emit('finished')
 
     def _embedded_art_found(self, klass):
         self._embedded_queue.pop()
@@ -314,8 +306,6 @@ class Art(GObject.GObject):
         if self._image:
             self._image.set_from_surface(self._surface)
 
-        self.emit('finished')
-
     def _add_to_blacklist(self):
         album = utils.get_album_title(self._media)
         artist = utils.get_artist_name(self._media)
@@ -339,23 +329,6 @@ class Art(GObject.GObject):
 
     @GObject.Property
     @log
-    def pixbuf(self):
-        return Gdk.pixbuf_get_from_surface(
-            self._surface, 0, 0, self._surface.get_width(),
-            self._surface.get_height())
-
-    @pixbuf.setter
-    @log
-    def pixbuf(self, pixbuf):
-        self._pixbuf = pixbuf
-
-        self._surface = DefaultIcon(self._scale).get(
-            DefaultIcon.Type.loading, self._size)
-
-        self._start_art_lookup()
-
-    @GObject.Property
-    @log
     def image(self):
         return self._image.set_from_surface(self._surface)
 
@@ -373,6 +346,48 @@ class Art(GObject.GObject):
             DefaultIcon.Type.loading, self._size)
 
         self._image.set_from_surface(self._surface)
+
+        self._start_art_lookup()
+
+class ArtImage(Art):
+
+    def __init__(self, size, media):
+        super().__init__(size, media)
+
+
+class ArtPixbuf(Art):
+
+    __gsignals__ = {
+        'finished': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
+    def __init__(self, size, media):
+        super().__init__(size, media)
+
+        self._iter = None
+
+    def _cache_hit(self, klass, pixbuf):
+        super()._cache_hit(klass, pixbuf)
+
+        self.emit('finished')
+
+    def _no_art_available(self):
+        super()._no_art_available()
+
+        self.emit('finished')
+
+    @GObject.Property
+    @log
+    def pixbuf(self):
+        return Gdk.pixbuf_get_from_surface(
+            self._surface, 0, 0, self._surface.get_width(),
+            self._surface.get_height())
+
+    @pixbuf.setter
+    @log
+    def pixbuf(self, pixbuf):
+        self._surface = DefaultIcon(self._scale).get(
+            DefaultIcon.Type.loading, self._size)
 
         self._start_art_lookup()
 
