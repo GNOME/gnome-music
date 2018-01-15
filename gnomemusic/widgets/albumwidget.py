@@ -26,7 +26,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art
+from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
@@ -138,7 +138,7 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar = header_bar
         self._album = album
         self._duration = 0
-        art = Art(Art.Size.LARGE, item)
+        art = ArtImage(Art.Size.LARGE, item)
         art.image = self._builder.get_object('cover')
 
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)

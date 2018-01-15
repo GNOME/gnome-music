@@ -25,7 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art
+from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
@@ -67,7 +67,7 @@ class ArtistAlbumWidget(Gtk.Box):
         ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
         self.cover = ui.get_object('cover')
-        art = Art(Art.Size.MEDIUM, self._media)
+        art = ArtImage(Art.Size.MEDIUM, self._media)
         art.image = self.cover
 
         self._disc_listbox = ui.get_object('disclistbox')
