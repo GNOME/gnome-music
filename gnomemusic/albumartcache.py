@@ -230,7 +230,6 @@ class Art(GObject.GObject):
     def __init__(self, size, media):
         super().__init__()
 
-        self._image = None
         self._size = size
         self._media = media
         self._media_url = self._media.get_url()
@@ -262,9 +261,6 @@ class Art(GObject.GObject):
 
         surface = _make_icon_frame(pixbuf, self._size, self._scale)
         self._surface = surface
-
-        if self._image:
-            self._image.set_from_surface(self._surface)
 
     def _embedded_art_found(self, klass):
         self._embedded_queue.pop()
@@ -303,9 +299,6 @@ class Art(GObject.GObject):
         self._surface = DefaultIcon(self._scale).get(
             DefaultIcon.Type.music, self._size)
 
-        if self._image:
-            self._image.set_from_surface(self._surface)
-
     def _add_to_blacklist(self):
         album = utils.get_album_title(self._media)
         artist = utils.get_artist_name(self._media)
@@ -326,6 +319,24 @@ class Art(GObject.GObject):
                 return True
 
         return False
+
+
+class ArtImage(Art):
+
+    def __init__(self, size, media):
+        super().__init__(size, media)
+
+        self._image = None
+
+    def _cache_hit(self, klass, pixbuf):
+        super()._cache_hit(klass, pixbuf)
+
+        self._image.set_from_surface(self._surface)
+
+    def _no_art_available(self):
+        super()._no_art_available()
+
+        self._image.set_from_surface(self._surface)
 
     @GObject.Property
     @log
@@ -348,11 +359,6 @@ class Art(GObject.GObject):
         self._image.set_from_surface(self._surface)
 
         self._start_art_lookup()
-
-class ArtImage(Art):
-
-    def __init__(self, size, media):
-        super().__init__(size, media)
 
 
 class ArtPixbuf(Art):
