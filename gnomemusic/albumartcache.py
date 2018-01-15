@@ -190,14 +190,14 @@ class DefaultIcon(GObject.GObject):
     def get(self, icon_type, art_size):
         """Returns the requested symbolic icon
 
-        Returns a GdkPixbuf of the requested symbolic icon
-        in the given size.
+        Returns a cairo surface of the requested symbolic icon in the
+        given size.
 
         :param enum icon_type: The DefaultIcon.Type of the icon
-        :param enum art_size: The ArtSize requested
+        :param enum art_size: The Art.Size requested
 
         :return: The symbolic icon
-        :rtype: GdkPixbuf
+        :rtype: cairo.Surface
         """
         if (icon_type, art_size) not in self._cache.keys():
             new_icon = self._make_default_icon(icon_type, art_size)
