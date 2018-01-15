@@ -138,7 +138,8 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar = header_bar
         self._album = album
         self._duration = 0
-        Art(self._builder.get_object('cover'), Art.Size.LARGE, item)
+        art = Art(Art.Size.LARGE, item)
+        art.image = self._builder.get_object('cover')
 
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
         header_bar._select_button.connect(

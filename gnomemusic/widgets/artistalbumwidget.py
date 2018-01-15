@@ -67,7 +67,8 @@ class ArtistAlbumWidget(Gtk.Box):
         ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
 
         self.cover = ui.get_object('cover')
-        Art(self.cover, Art.Size.MEDIUM, self._media)
+        art = Art(Art.Size.MEDIUM, self._media)
+        art.image = self.cover
 
         self._disc_listbox = ui.get_object('disclistbox')
         self._disc_listbox.set_selection_mode_allowed(

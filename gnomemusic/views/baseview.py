@@ -228,7 +228,8 @@ class BaseView(Gtk.Stack):
         itr = self.model.append(None)
 
         pixbuf = GdkPixbuf.Pixbuf()
-        art = Art(pixbuf, Art.Size.MEDIUM, item)
+        art = Art(Art.Size.MEDIUM, item)
+        art.pixbuf = pixbuf
 
         self.model[itr][0, 1, 2, 3, 4, 5, 7, 9] = [
             str(item.get_id()),

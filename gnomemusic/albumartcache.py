@@ -231,35 +231,20 @@ class Art(GObject.GObject):
             self.height = height
 
     @log
-    def __init__(self, image, size, media):
+    def __init__(self, size, media):
         super().__init__()
 
         self._iter = None
-        self._embedded = False
-        self._remote = False
-
-        # FIXME: A pixbuf instead of an image means this art is
-        # requested by a treeview.
-        if isinstance(image, GdkPixbuf.Pixbuf):
-            self._pixbuf = image
-            self._image = Gtk.Image()
-        else:
-            self._image = image
-
+        self._pixbuf = None
+        self._image = None
         self._size = size
         self._media = media
-        self._media_url = media.get_url()
+        self._media_url = self._media.get_url()
+        self._surface = None
+        self._scale = 1
 
-        self._image.set_property("width-request", size.width)
-        self._image.set_property("height-request", size.height)
-
-        self._scale = self._image.get_scale_factor()
-
-        self._surface = DefaultIcon(self._scale).get(
-            DefaultIcon.Type.loading, self._size)
-
-        self._image.set_from_surface(self._surface)
-
+    @log
+    def _start_art_lookup(self):
         if self._in_blacklist():
             self._no_art_available()
             return
@@ -283,7 +268,10 @@ class Art(GObject.GObject):
 
         surface = _make_icon_frame(pixbuf, self._size, self._scale)
         self._surface = surface
-        self._image.set_from_surface(self._surface)
+
+        if self._image:
+            self._image.set_from_surface(self._surface)
+
         self.emit('finished')
 
     def _embedded_art_found(self, klass):
@@ -323,7 +311,9 @@ class Art(GObject.GObject):
         self._surface = DefaultIcon(self._scale).get(
             DefaultIcon.Type.music, self._size)
 
-        self._image.set_from_surface(self._surface)
+        if self._image:
+            self._image.set_from_surface(self._surface)
+
         self.emit('finished')
 
     def _add_to_blacklist(self):
@@ -353,6 +343,38 @@ class Art(GObject.GObject):
         return Gdk.pixbuf_get_from_surface(
             self._surface, 0, 0, self._surface.get_width(),
             self._surface.get_height())
+
+    @pixbuf.setter
+    @log
+    def pixbuf(self, pixbuf):
+        self._pixbuf = pixbuf
+
+        self._surface = DefaultIcon(self._scale).get(
+            DefaultIcon.Type.loading, self._size)
+
+        self._start_art_lookup()
+
+    @GObject.Property
+    @log
+    def image(self):
+        return self._image.set_from_surface(self._surface)
+
+    @image.setter
+    @log
+    def image(self, image):
+        self._image = image
+
+        self._image.set_property("width-request", self._size.width)
+        self._image.set_property("height-request", self._size.height)
+
+        self._scale = self._image.get_scale_factor()
+
+        self._surface = DefaultIcon(self._scale).get(
+            DefaultIcon.Type.loading, self._size)
+
+        self._image.set_from_surface(self._surface)
+
+        self._start_art_lookup()
 
     @GObject.Property(type=Gtk.TreeIter)
     @log

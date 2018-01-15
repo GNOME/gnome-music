@@ -579,7 +579,8 @@ class Player(GObject.GObject):
         artist = utils.get_artist_name(media)
         self.artistLabel.set_label(artist)
 
-        Art(self._image, Art.Size.XSMALL, media)
+        art = Art(Art.Size.XSMALL, media)
+        art.image = self._image
 
         title = utils.get_media_title(media)
         self.titleLabel.set_label(title)

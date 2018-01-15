@@ -182,7 +182,8 @@ class AlbumsView(BaseView):
         child.add(builder.get_object('main_box'))
         child.show()
 
-        Art(child.image, Art.Size.MEDIUM, item)
+        art = Art(Art.Size.MEDIUM, item)
+        art.image = child.image
 
         return child
 
