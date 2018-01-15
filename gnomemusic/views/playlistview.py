@@ -476,6 +476,8 @@ class PlaylistView(BaseView):
         # use it as model, otherwise build the liststore
         self._view.set_model(None)
         self.model.clear()
+        self._iter_to_clean = None
+        self._iter_to_clean_model = None
         self._songs_count = 0
         grilo.populate_playlist_songs(playlist, self._add_song)
 
