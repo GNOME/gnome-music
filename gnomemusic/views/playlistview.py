@@ -96,9 +96,9 @@ class PlaylistView(BaseView):
         add_song_to_playlist.connect('activate', self._add_song_to_playlist)
         self._window.add_action(add_song_to_playlist)
 
-        remove_song = Gio.SimpleAction.new('remove_song', None)
-        remove_song.connect('activate', self._remove_song)
-        self._window.add_action(remove_song)
+        self._remove_song_action = Gio.SimpleAction.new('remove_song', None)
+        self._remove_song_action.connect('activate', self._remove_song)
+        self._window.add_action(self._remove_song_action)
 
         playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
         playlist_play_action.connect('activate', self._on_play_activate)
@@ -483,9 +483,11 @@ class PlaylistView(BaseView):
         if self._current_playlist_is_protected():
             self._playlist_delete_action.set_enabled(False)
             self._playlist_rename_action.set_enabled(False)
+            self._remove_song_action.set_enabled(False)
         else:
             self._playlist_delete_action.set_enabled(True)
             self._playlist_rename_action.set_enabled(True)
+            self._remove_song_action.set_enabled(True)
 
     @log
     def _add_song(self, source, param, song, remaining=0, data=None):
