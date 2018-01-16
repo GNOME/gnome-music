@@ -484,9 +484,7 @@ class EmbeddedArt(GObject.GObject):
 
     __gsignals__ = {
         'found': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'unavailable': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        )
+        'unavailable': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __init__(self):
@@ -501,13 +499,20 @@ class EmbeddedArt(GObject.GObject):
             logger.warn("Error: {}, {}".format(error.domain, error.message))
             return
 
+        self._media_art = MediaArt.Process.new()
+
+        self._album = None
+        self._artist = None
+        self._media = None
         self._path = None
 
     def query(self, media):
-        album = utils.get_album_title(media)
-        artist = utils.get_artist_name(media)
+        self._album = utils.get_album_title(media)
+        self._artist = utils.get_artist_name(media)
+        self._media = media
 
-        success, path = MediaArt.get_path(artist, album, "album")
+        success, path = MediaArt.get_path(
+            self._artist, self._album, "album")
         if not success:
             self.emit('unavailable')
             # self._discoverer.stop()
@@ -515,7 +520,7 @@ class EmbeddedArt(GObject.GObject):
 
         self._path = path
         try:
-            info_ = self._discoverer.discover_uri(media.get_url())
+            info_ = self._discoverer.discover_uri(self._media.get_url())
         except GLib.Error as error:
             print("HERE")
             logger.warn("Error: {}, {}".format(error.domain, error.message))
@@ -566,11 +571,32 @@ class EmbeddedArt(GObject.GObject):
                 # self._discoverer.stop()
                 return
             except GLib.Error as error:
-                logger.warn(
-                    "Error: {}, {}".format(error.domain, error.message))
+                logger.warn("Error: {}, {}".format(
+                    MediaArt.Error(error.code), error.message))
 
-        self.emit('unavailable')
         # self._discoverer.stop()
+
+        # Find local art in cover.jpeg files.
+        self._media_art.uri_async(
+            MediaArt.Type.ALBUM, MediaArt.ProcessFlags.NONE,
+            self._media.get_url(), self._artist, self._album,
+            GLib.PRIORITY_LOW, None, self._uri_async_cb, None)
+
+    def _uri_async_cb(self, src, result, data):
+        try:
+            success = self._media_art.uri_finish(result)
+            if success:
+                self.emit('found')
+                return
+            self.emit('unavailable')
+        except GLib.Error as error:
+            if MediaArt.Error(error.code) == MediaArt.Error.SYMLINK_FAILED:
+                # This error indicates that the coverart has already
+                # been linked by another concurrent lookup.
+                self.emit('found')
+            else:
+                logger.warning("Error: {}, {}".format(
+                    MediaArt.Error(error.code), error.message))
 
 
 class RemoteArt(GObject.GObject):
