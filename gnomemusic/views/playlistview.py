@@ -104,8 +104,8 @@ class PlaylistView(BaseView):
         playlist_play_action.connect('activate', self._on_play_activate)
         self._window.add_action(playlist_play_action)
 
-        self._playlist_delete_action = Gio.SimpleAction.new('playlist_delete',
-                                                            None)
+        self._playlist_delete_action = Gio.SimpleAction.new(
+            'playlist_delete', None)
         self._playlist_delete_action.connect(
             'activate', self._on_delete_activated)
         self._window.add_action(self._playlist_delete_action)
@@ -143,10 +143,10 @@ class PlaylistView(BaseView):
         self.player.connect('playlist-item-changed', self._update_model)
         playlists.connect('playlist-created', self._on_playlist_created)
         playlists.connect('playlist-updated', self._on_playlist_update)
-        playlists.connect('song-added-to-playlist',
-                          self._on_song_added_to_playlist)
-        playlists.connect('song-removed-from-playlist',
-                          self._on_song_removed_from_playlist)
+        playlists.connect(
+            'song-added-to-playlist', self._on_song_added_to_playlist)
+        playlists.connect(
+            'song-removed-from-playlist', self._on_song_removed_from_playlist)
 
         self.show_all()
 
