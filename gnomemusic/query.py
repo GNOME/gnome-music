@@ -936,14 +936,14 @@ class Query():
     @staticmethod
     def get_songs_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?performer fts:match '"nmm:artistName" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song nmm:performer [ fts:match '%(name)s*' ] . """.replace('\n',' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?album fts:match '"nie:title" : %(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song nmm:musicAlbum [ fts:match '%(name)s*' ] . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
