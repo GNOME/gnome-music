@@ -26,7 +26,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, ArtPixbuf
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
@@ -227,23 +227,15 @@ class BaseView(Gtk.Stack):
 
         itr = self.model.append(None)
 
-        pixbuf = GdkPixbuf.Pixbuf()
-        art = ArtPixbuf(Art.Size.MEDIUM, item)
-        art.pixbuf = pixbuf
-
-        self.model[itr][0, 1, 2, 3, 4, 5, 7, 9] = [
+        self.model[itr][0, 1, 2, 3, 5, 7, 9] = [
             str(item.get_id()),
             '',
             title,
             artist,
-            art,
             item,
             0,
             False
         ]
-
-        art.iter = itr
-        art.connect('finished', self._retrieval_finished)
 
     @log
     def _on_lookup_ready(self, surface, itr):

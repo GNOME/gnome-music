@@ -25,7 +25,7 @@
 from gettext import gettext as _
 from gi.repository import Gd, GdkPixbuf, GObject, Grl, Gtk, Pango
 
-from gnomemusic.albumartcache import Art, ArtPixbuf
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
@@ -188,8 +188,11 @@ class SearchView(BaseView):
         self._add_item(source, None, item, 0, [self.model, 'song'])
 
     @log
-    def _retrieval_finished(self, klass):
-        self.model[klass.iter][4] = klass.pixbuf
+    def _retrieval_finished(self, klass, model, _iter):
+        if not model[_iter][13]:
+            return
+
+        model[_iter][13] = klass.surface
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -235,18 +238,11 @@ class SearchView(BaseView):
         except:
             pass
 
-        # FIXME: HiDPI icon lookups return a surface that can't be
-        # scaled by GdkPixbuf, so it results in a * scale factor sized
-        # icon for the search view.
         _iter = None
-        scale = self._view.get_scale_factor()
-        pixbuf = GdkPixbuf.Pixbuf()
-        art = ArtPixbuf(Art.Size.SMALL, item, scale)
-        art.pixbuf = pixbuf
         if category == 'album':
             _iter = self.model.insert_with_values(
-                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11],
-                [str(item.get_id()), title, artist, art.pixbuf, item, 2,
+                self._head_iters[group], -1, [0, 2, 3, 5, 9, 11],
+                [str(item.get_id()), title, artist, item, 2,
                  category])
         elif category == 'song':
             # FIXME: source specific hack
@@ -255,14 +251,14 @@ class SearchView(BaseView):
             else:
                 fav = item.get_favourite()
             _iter = self.model.insert_with_values(
-                self._head_iters[group], -1, [0, 2, 3, 4, 5, 9, 11],
-                [str(item.get_id()), title, artist, art.pixbuf, item, fav,
+                self._head_iters[group], -1, [0, 2, 3, 5, 9, 11],
+                [str(item.get_id()), title, artist, item, fav,
                  category])
         else:
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
-                    self._head_iters[group], -1, [0, 2, 4, 5, 9, 11],
-                    [str(item.get_id()), artist, art.pixbuf, item, 2,
+                    self._head_iters[group], -1, [0, 2, 5, 9, 11],
+                    [str(item.get_id()), artist, item, 2,
                      category])
                 self._artists[artist.casefold()] = {
                     'iter': _iter,
@@ -272,8 +268,13 @@ class SearchView(BaseView):
 
         # FIXME: Figure out why iter can be None here, seems illogical.
         if _iter is not None:
-            art.iter = _iter
-            art.connect('finished', self._retrieval_finished)
+            scale = self._view.get_scale_factor()
+            art = Art(Art.Size.SMALL, item, scale)
+            self.model[_iter][13] = art.surface
+            art.connect(
+                'finished', self._retrieval_finished, self.model, _iter)
+            art.lookup()
+
 
         if self.model.iter_n_children(self._head_iters[group]) == 1:
             path = self.model.get_path(self._head_iters[group])
@@ -294,13 +295,31 @@ class SearchView(BaseView):
             title_renderer, self._on_list_widget_title_render, None)
         cols[0].add_attribute(title_renderer, 'text', 2)
 
-        self._star_handler.add_star_renderers(list_widget, cols[0])
+        # Add our own surface renderer, instead of the one provided by
+        # Gd. This avoids us having to set the model to a cairo.Surface
+        # which is currently not a working solution in pygobject.
+        # https://gitlab.gnome.org/GNOME/pygobject/issues/155
+        pixbuf_renderer = Gtk.CellRendererPixbuf(
+            xalign=0.5, yalign=0.5, xpad=12, ypad=2)
+        list_widget.add_renderer(
+            pixbuf_renderer, self._on_list_widget_pixbuf_renderer, None)
+        cols[0].add_attribute(pixbuf_renderer, 'surface', 13)
 
+        self._star_handler.add_star_renderers(list_widget, cols[0])
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
+        cols[0].reorder(cells[4], 1)
         cols[0].set_cell_data_func(
             cells[0], self._on_list_widget_selection_render, None)
 
+    @log
+    def _on_list_widget_pixbuf_renderer(self, col, cell, model, _iter, data):
+        if not model[_iter][13]:
+            return
+
+        cell.set_property("surface", model[_iter][13])
+
+    @log
     def _on_list_widget_selection_render(self, col, cell, model, _iter, data):
         if (self._view.get_selection_mode()
                 and model.iter_parent(_iter) is not None):
@@ -308,11 +327,13 @@ class SearchView(BaseView):
         else:
             cell.set_visible(False)
 
+    @log
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
         cells = col.get_cells()
-        cells[0].set_visible(model.iter_parent(_iter) is not None)
+        cells[0].set_visible(False)
         cells[1].set_visible(model.iter_parent(_iter) is not None)
-        cells[2].set_visible(model.iter_parent(_iter) is None)
+        cells[2].set_visible(model.iter_parent(_iter) is not None)
+        cells[3].set_visible(model.iter_parent(_iter) is None)
 
     @log
     def populate(self):
@@ -455,7 +476,7 @@ class SearchView(BaseView):
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,    # item title or header text
             GObject.TYPE_STRING,    # artist for albums and songs
-            GdkPixbuf.Pixbuf,       # album art
+            GdkPixbuf.Pixbuf,       # Gd placeholder album art
             GObject.TYPE_OBJECT,    # item
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
@@ -463,7 +484,8 @@ class SearchView(BaseView):
             GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_STRING,    # type
-            GObject.TYPE_INT
+            GObject.TYPE_INT,
+            object                  # album art surface
         )
 
         self._filter_model = self.model.filter_new(None)
