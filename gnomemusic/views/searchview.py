@@ -239,8 +239,9 @@ class SearchView(BaseView):
         # scaled by GdkPixbuf, so it results in a * scale factor sized
         # icon for the search view.
         _iter = None
+        scale = self._view.get_scale_factor()
         pixbuf = GdkPixbuf.Pixbuf()
-        art = ArtPixbuf(Art.Size.SMALL, item)
+        art = ArtPixbuf(Art.Size.SMALL, item, scale)
         art.pixbuf = pixbuf
         if category == 'album':
             _iter = self.model.insert_with_values(

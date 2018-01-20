@@ -151,13 +151,11 @@ class DefaultIcon(GObject.GObject):
         return '<DefaultIcon>'
 
     @log
-    def __init__(self, scale=1):
+    def __init__(self):
         super().__init__()
 
-        self._scale = scale
-
     @log
-    def _make_default_icon(self, icon_type, art_size=None):
+    def _make_default_icon(self, icon_type, art_size, scale):
         width = art_size.width * self._scale
         height = art_size.height * self._scale
 
@@ -187,7 +185,7 @@ class DefaultIcon(GObject.GObject):
         return icon_surface
 
     @log
-    def get(self, icon_type, art_size):
+    def get(self, icon_type, art_size, scale=1):
         """Returns the requested symbolic icon
 
         Returns a cairo surface of the requested symbolic icon in the
@@ -199,11 +197,11 @@ class DefaultIcon(GObject.GObject):
         :return: The symbolic icon
         :rtype: cairo.Surface
         """
-        if (icon_type, art_size) not in self._cache.keys():
-            new_icon = self._make_default_icon(icon_type, art_size)
-            self._cache[(icon_type, art_size)] = new_icon
+        if (icon_type, art_size, scale) not in self._cache.keys():
+            new_icon = self._make_default_icon(icon_type, art_size, scale)
+            self._cache[(icon_type, art_size, scale)] = new_icon
 
-        return self._cache[(icon_type, art_size)]
+        return self._cache[(icon_type, art_size, scale)]
 
 
 class Art(GObject.GObject):
@@ -227,14 +225,14 @@ class Art(GObject.GObject):
             self.height = height
 
     @log
-    def __init__(self, size, media):
+    def __init__(self, size, media, scale=1):
         super().__init__()
 
         self._size = size
         self._media = media
         self._media_url = self._media.get_url()
         self._surface = None
-        self._scale = 1
+        self._scale = scale
 
     @log
     def _start_art_lookup(self):
@@ -296,8 +294,8 @@ class Art(GObject.GObject):
         self._no_art_available()
 
     def _no_art_available(self):
-        self._surface = DefaultIcon(self._scale).get(
-            DefaultIcon.Type.music, self._size)
+        self._surface = DefaultIcon().get(
+            DefaultIcon.Type.music, self._size, self._scale)
 
     def _add_to_blacklist(self):
         album = utils.get_album_title(self._media)
@@ -353,8 +351,8 @@ class ArtImage(Art):
 
         self._scale = self._image.get_scale_factor()
 
-        self._surface = DefaultIcon(self._scale).get(
-            DefaultIcon.Type.loading, self._size)
+        self._surface = DefaultIcon().get(
+            DefaultIcon.Type.loading, self._size, self._scale)
 
         self._image.set_from_surface(self._surface)
 
@@ -367,8 +365,8 @@ class ArtPixbuf(Art):
         'finished': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    def __init__(self, size, media):
-        super().__init__(size, media)
+    def __init__(self, size, media, scale=1):
+        super().__init__(size, media, scale)
 
         self._iter = None
 
@@ -392,8 +390,8 @@ class ArtPixbuf(Art):
     @pixbuf.setter
     @log
     def pixbuf(self, pixbuf):
-        self._surface = DefaultIcon(self._scale).get(
-            DefaultIcon.Type.loading, self._size)
+        self._surface = DefaultIcon().get(
+            DefaultIcon.Type.loading, self._size, self._scale)
 
         self._start_art_lookup()
 
