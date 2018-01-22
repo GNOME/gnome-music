@@ -136,8 +136,8 @@ class DefaultIcon(GObject.GObject):
     """Provides the symbolic fallback and loading icons."""
 
     class Type(Enum):
-        loading = 'content-loading-symbolic'
-        music = 'folder-music-symbolic'
+        LOADING = 'content-loading-symbolic'
+        MUSIC = 'folder-music-symbolic'
 
     _cache = {}
     _scale = 1
@@ -307,7 +307,7 @@ class Art(GObject.GObject):
     @log
     def _no_art_available(self):
         self._surface = DefaultIcon().get(
-            DefaultIcon.Type.music, self._size, self._scale)
+            DefaultIcon.Type.MUSIC, self._size, self._scale)
 
         self.emit('finished')
 
@@ -351,7 +351,7 @@ class Art(GObject.GObject):
     def surface(self):
         if self._surface is None:
             self._surface = DefaultIcon().get(
-                DefaultIcon.Type.loading, self._size, self._scale)
+                DefaultIcon.Type.LOADING, self._size, self._scale)
 
         return self._surface
 
@@ -395,7 +395,7 @@ class ArtImage(Art):
         self._scale = self._image.get_scale_factor()
 
         self._surface = DefaultIcon().get(
-            DefaultIcon.Type.loading, self._size, self._scale)
+            DefaultIcon.Type.LOADING, self._size, self._scale)
 
         self._image.set_from_surface(self._surface)
 
