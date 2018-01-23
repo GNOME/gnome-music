@@ -114,16 +114,16 @@ def set_log_level():
 
 def set_internationalization():
     """Sets application internationalization."""
-    locale.bindtextdomain('gnome-music', LOCALE_DIR)
-    locale.textdomain('gnome-music')
-    gettext.bindtextdomain('gnome-music', LOCALE_DIR)
-    gettext.textdomain('gnome-music')
+    locale.bindtextdomain('org.gnome.Music', LOCALE_DIR)
+    locale.textdomain('org.gnome.Music')
+    gettext.bindtextdomain('org.gnome.Music', LOCALE_DIR)
+    gettext.textdomain('org.gnome.Music')
 
 
 def set_resources():
     """Sets application ressource file."""
     resource = Gio.resource_load(
-        os.path.join(PKGDATA_DIR, 'gnome-music.gresource'))
+        os.path.join(PKGDATA_DIR, 'org.gnome.Music.gresource'))
     Gio.Resource._register(resource)  # nopep8
 
 
