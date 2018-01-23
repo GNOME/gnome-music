@@ -3,7 +3,7 @@ Name=Music
 GenericName=Music Player
 Comment=Play and organize your music collection
 # Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-Icon=gnome-music
+Icon=org.gnome.Music
 Exec=gnome-music
 Terminal=false
 Type=Application
