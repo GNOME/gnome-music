@@ -1,5 +1,4 @@
 *~
-libgd/
 builddir/
 /*.bak
 /*.lo
