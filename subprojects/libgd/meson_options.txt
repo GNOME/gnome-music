@@ -1,0 +1,25 @@
+option('pkglibdir', type: 'string', value: '',
+  description: 'The private directory the shared library/typelib will be installed into.'
+)
+option('pkgdatadir', type: 'string', value: '',
+  description: 'The private directory the gir file will be installed into.'
+)
+option('static', type: 'boolean', value: false,
+  description: 'Build as a static library'
+)
+option('with-introspection', type: 'boolean', value: false,
+  description: 'Build gobject-introspection support'
+)
+option('with-vapi', type: 'boolean', value: false,
+  description: 'Build vapi file'
+)
+# Widget options
+option('with-gtk-hacks', type: 'boolean', value: false)
+option('with-main-view', type: 'boolean', value: false)
+option('with-main-icon-view', type: 'boolean', value: false)
+option('with-main-list-view', type: 'boolean', value: false)
+option('with-margin-container', type: 'boolean', value: false)
+option('with-tagged-entry', type: 'boolean', value: false)
+option('with-notification', type: 'boolean', value: false)
+option('with-main-box', type: 'boolean', value: false)
+option('with-main-icon-box', type: 'boolean', value: false)
