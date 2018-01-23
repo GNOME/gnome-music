@@ -6,7 +6,7 @@
         <value nick="all" value="2"/>
         <value nick="shuffle" value="3"/>
     </enum>
-    <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="gnome-music">
+    <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="org.gnome.Music">
         <key type="ai" name="window-size">
             <default>[768, 600]</default>
             <summary>Window size</summary>

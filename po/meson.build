@@ -1,0 +1,1 @@
+i18n.gettext(PROJECT_RDNN_NAME, preset:'glib')
