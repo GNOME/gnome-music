@@ -11,6 +11,18 @@ You can join the developers on IRC: [#gnome-music](irc://irc.gnome.org/gnome-mus
 
 Follow the guide at https://wiki.gnome.org/Newcomers/ and choose Music as your project. There are bugs labeled for newcomers, which should provide an easy entry point. Of course, feel free to pick something more challenging. Pick bugs if you can, the goal is to make the current Music experience sound & stable and only then extend it's functionality.
 
+### Build Music
+
+Music uses the [meson]() build system.
+
+```
+meson builddir
+cd builddir
+ninja
+```
+
+Then you can either run in the build dir by doing `./local-music` or install system-wide by doing `ninja install`.
+
 # Coding style
 
 GNOME Music is written in Python and aspires to adhere to the coding style described in the python style guide [PEP-8](https://www.python.org/dev/peps/pep-0008/).

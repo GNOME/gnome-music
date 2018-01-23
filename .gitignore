@@ -1,5 +1,6 @@
 *~
-libgd/
+builddir/
+subprojects/libgd/
 /*.bak
 /*.lo
 /*.o
