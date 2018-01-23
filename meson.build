@@ -30,9 +30,7 @@ dependency('grilo-0.3', version: '>= 0.3.4')
 
 subproject('libgd',
     default_options: [
-        'with-notifications=true',
         'with-introspection=true',
-        'with-gtk-hacks=true',
         'with-main-view=true',
         'with-tagged-entry=true',
         'pkgdatadir=' + PKGDATA_DIR,
