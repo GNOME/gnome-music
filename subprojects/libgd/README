@@ -1,0 +1,123 @@
+=====
+libgd
+=====
+
+Introduction
+============
+
+libgd is a library used by various GNOME 3 styled applications.
+However, it is not a typical library, since it doesn't guarantee
+API/ABI stability, nor does it has official releases tarballs. Only
+the files actually used by your project will be shipped with its
+tarball. Only the necessary dependencies will be checked during
+configure time and used at runtime.
+
+Each application can configure libgd depending on its needs and will
+be able to either link dynamically (privately) or statically link with
+a specific development version.
+
+GObject Introspection based bindings generation such as Javascript or
+Vala are also supported.
+
+More Background
+---------------
+
+libgd originates from the GNOME Documents project (written by Cosimo
+Cecchi), which was one of the first application to follow the novel
+GNOME 3 application design.
+
+Since other applications have similar needs, it makes sense to try to
+reuse and improve the existing work. However, the design being not
+frozen, and the code being not yet matured enough and proven, it is
+not possible for the developers to guarantee API and propose the
+addition to the respective projects (Gtk+, or GLib for example) right
+now. Sharing the code allows to experiment, discuss and test together
+before proposing it upstream.
+
+Traditionally, this problem is solved by copying often outdated
+snippets of code around (due to no API/ABI guarantee), often not
+centralized (libegg).
+
+In the past, there used to be some common aging GNOME application
+libraries above Gtk+ which have been slowly deprecated in favour of
+Gtk+ (gnomeui and friends).
+
+All approaches have pros and cons. A configurable git submodule
+has the following advantages:
+
+- no direct code copying necessary because API/ABI breakage (history
+  is preserved etc..)
+- code is shared and maintained in a common project
+- you can stick to a particular upstream version, or branch off your
+  own version easily if needed (hopefully you find your way back upstream)
+- update the submodule version when your project is ready
+- the libgd options should help you to configure a library to suit
+  your needs, taking care of some of autofoo stuff for you
+
+Usage
+=====
+
+In order to use libgd, an application using autotools needs to:
+
+1. from the top-level project directory, add the submodule:
+    - git submodule add git://git.gnome.org/libgd
+
+2. in autogen.sh, it is recommended to add before autoreconf call:
+    - git submodule update --init --recursive
+
+3. in top-level Makefile.am:
+    - add -I libgd to ACLOCAL_AMFLAGS
+    - add libgd to SUBDIRS, before the project src directory
+
+4. in project configure.ac:
+    - add LIBGD_INIT([list-of-options]) after your project
+      dependencies checks
+    - add libgd/Makefile to AC_CONFIG_FILES
+
+5. from your program Makefile.am, you may now for example:
+    - link with $(top_builddir)/libgd/libgd.la, and include
+      <libgd/gd.h> (adjust your AM_CPPFLAGS as necessary)
+
+You may be interested to look at the commit switching GNOME Boxes from
+private libgd usage to the libgd submodule:
+
+http://git.gnome.org/browse/gnome-boxes/commit/?id=395652458d8b311a25ecb27cc42287602a122b1f
+
+Note for example that the submodule url is "../libgd", which is a
+better alternative for projects hosted on git.gnome.org. It will allow
+the submodule update to reuse the address and the credentials given to
+the toplevel project.
+
+LIBGD_INIT options
+==================
+
+- gtk-hacks
+
+- main-icon-view
+
+- margin-container
+
+- notification
+
+- static
+
+- tagged-entry
+
+- vapi
+
+- gir
+
+How to modify or add an API?
+============================
+
+
+TODO
+====
+
+- add translation support
+- add some form of build test
+- document: options, modification process
+- eventually add documentation generation
+- some licensing check
+- more modularity (not all in libgd.m4/Makefile.am)
+- CSS styling and data: shared only with gnome-themes-standard?
