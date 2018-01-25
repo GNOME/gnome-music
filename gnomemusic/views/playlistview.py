@@ -318,6 +318,7 @@ class PlaylistView(BaseView):
         row.add(label)
         row.show_all()
         self._sidebar.insert(row, index)
+        self._offset += 1
 
         if len(self._sidebar) == 1:
             self._sidebar.select_row(row)
@@ -519,7 +520,6 @@ class PlaylistView(BaseView):
             self.emit('playlist-songs-loaded')
             return
 
-        self._offset += 1
         title = utils.get_media_title(song)
         song.set_title(title)
         artist = utils.get_artist_name(song)
@@ -690,7 +690,7 @@ class PlaylistView(BaseView):
 
     @log
     def populate(self):
-        """Clear sidebar, then populate it"""
-        for row in self._sidebar:
-            self._sidebar.remove(row)
+        """Populate sidebar.
+        Do not reload playlists already displayed.
+        """
         grilo.populate_playlists(self._offset, self._add_playlist_item)
