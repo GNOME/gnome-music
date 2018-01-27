@@ -139,6 +139,9 @@ class AlbumsView(BaseView):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item:
             # Store all items to optimize 'Select All' action
+            for i in self.all_items:
+                if i.get_title() == item.get_title():
+                    return
             self.all_items.append(item)
 
             # Add to the flowbox
