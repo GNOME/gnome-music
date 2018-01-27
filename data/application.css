@@ -72,7 +72,3 @@ flowbox, treeview, widget {
 }
 
 .content-view { background-color: @theme_bg; }
-
-.dark-background {background-color: rgba(1, 1, 1, 1);}
-
-.light-background {background-color: rgba(0,0,0,0);}
