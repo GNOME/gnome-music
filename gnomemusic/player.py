@@ -42,7 +42,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, Gdk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
+from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from gettext import gettext as _, ngettext
 
 from gnomemusic import log
@@ -786,13 +786,6 @@ class Player(GObject.GObject):
 
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
-
-        if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
-            color = Gdk.RGBA(red=1.0, green=1.0, blue=1.0, alpha=1.0)
-        else:
-            color = Gdk.RGBA(red=0.0, green=0.0, blue=0.0, alpha=0.0)
-        self._playImage.override_color(Gtk.StateFlags.ACTIVE, color)
-        self._pauseImage.override_color(Gtk.StateFlags.ACTIVE, color)
 
         self._sync_repeat_image()
 
