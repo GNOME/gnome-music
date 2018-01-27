@@ -788,11 +788,11 @@ class Player(GObject.GObject):
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
 
         if Gtk.Settings.get_default().get_property('gtk_application_prefer_dark_theme'):
-            color = Gdk.RGBA(red=1.0, green=1.0, blue=1.0, alpha=1.0)
+            color = 'dark-background'
         else:
-            color = Gdk.RGBA(red=0.0, green=0.0, blue=0.0, alpha=0.0)
-        self._playImage.override_color(Gtk.StateFlags.ACTIVE, color)
-        self._pauseImage.override_color(Gtk.StateFlags.ACTIVE, color)
+            color = 'light-background'
+        self._playImage.get_style_context().add_class(color)
+        self._pauseImage.get_style_context().add_class(color)
 
         self._sync_repeat_image()
 
