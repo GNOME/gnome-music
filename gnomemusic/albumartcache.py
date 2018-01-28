@@ -278,6 +278,7 @@ class Art(GObject.GObject):
 
         surface = _make_icon_frame(pixbuf, self._size, self._scale)
         self._surface = surface
+        self._set_grilo_thumbnail_path()
 
         self.emit('finished')
 
@@ -347,6 +348,18 @@ class Art(GObject.GObject):
                 return True
 
         return False
+
+    def _set_grilo_thumbnail_path(self):
+        # TODO: This sets the thumbnail path for the Grilo Media object
+        # to be used by MPRIS. However, calling this by default for
+        # every cache hit is unnecessary.
+        album = utils.get_album_title(self._media)
+        artist = utils.get_artist_name(self._media)
+
+        success, thumb_file = MediaArt.get_file(artist, album, "album")
+        if success:
+            self._media.set_thumbnail(
+                GLib.filename_to_uri(thumb_file.get_path(), None))
 
     @GObject.Property
     @log

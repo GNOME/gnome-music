@@ -580,6 +580,7 @@ class Player(GObject.GObject):
         self.artistLabel.set_label(artist)
 
         art = ArtImage(Art.Size.XSMALL, media)
+        art.connect('finished', self._on_art_finished)
         art.image = self._image
 
         title = utils.get_media_title(media)
@@ -633,8 +634,7 @@ class Player(GObject.GObject):
         return False
 
     @log
-    def _on_cache_lookup(self, surface, data=None):
-        # FIXME: Need this for mpris
+    def _on_art_finished(self, klass):
         self.emit('thumbnail-updated')
 
     @log
