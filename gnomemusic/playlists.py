@@ -126,6 +126,9 @@ class Playlists(GObject.GObject):
         'song-removed-from-playlist': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
+        'song-position-changed': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
+        ),
     }
 
     instance = None
@@ -427,6 +430,18 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_LOW,
                 None, update_callback, item
             )
+
+    @log
+    def reorder_playlist(self, playlist, items, new_positions):
+        def update_callback(conn, res, data):
+            conn.update_finish(res)
+            self.emit('song-position-changed', playlist, data)
+
+        for item, new_position in zip(items, new_positions):
+            self.tracker.update_async(
+                Query.change_song_position(
+                    playlist.get_id(), item.get_id(), new_position),
+                GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log
     def is_static_playlist(self, playlist):
