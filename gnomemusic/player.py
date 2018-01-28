@@ -603,6 +603,8 @@ class Player(GObject.GObject):
 
         self._validate_next_track()
 
+        self._populate_playback_popover (currentTrack)
+
     def _on_next_item_validated(self, info, error, _iter):
         if error:
             print("Info %s: error: %s" % (info, error))
@@ -766,6 +768,14 @@ class Player(GObject.GObject):
             return None
 
     @log
+    def _populate_playback_popover(self, iter):
+        self._playbackPopoverModel.remove_all()
+        while iter != None:
+            item = PlaybackItem(self.playlist[iter], iter)
+            self._playbackPopoverModel.append(item)
+            iter = self.playlist.iter_next(iter)
+
+    @log
     def _setup_view(self):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/PlayerToolbar.ui')
@@ -775,6 +785,9 @@ class Player(GObject.GObject):
         self.nextBtn = self._ui.get_object('next_button')
         self._playImage = self._ui.get_object('play_image')
         self._pauseImage = self._ui.get_object('pause_image')
+        self._nowplayingButton = self._ui.get_object('nowplaying_button')
+        self._playbackPopover = self._ui.get_object('playback_popover')
+        self._playbackPopoverList = self._ui.get_object('playback_popover_list')
         self.progressScale = self._ui.get_object('progress_scale')
         self.songPlaybackTimeLabel = self._ui.get_object('playback')
         self.songTotalTimeLabel = self._ui.get_object('duration')
@@ -792,6 +805,7 @@ class Player(GObject.GObject):
         self.prevBtn.connect('clicked', self._on_prev_btn_clicked)
         self.playBtn.connect('clicked', self._on_play_btn_clicked)
         self.nextBtn.connect('clicked', self._on_next_btn_clicked)
+        self._nowplayingButton.connect('toggled', self._on_nowplaying_btn_toggled)
         self.progressScale.connect('button-press-event', self._on_progress_scale_event)
         self.progressScale.connect('value-changed', self._on_progress_value_changed)
         self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
@@ -801,6 +815,17 @@ class Player(GObject.GObject):
         self._seek_timeout = None
         self._old_progress_scale_value = 0.0
         self.progressScale.set_increments(300, 600)
+
+        self._playbackPopoverModel = Gio.ListStore()
+        def create_popover_entry(item, user_data):
+            return PlaybackEntry(item, user_data)
+
+        self._playbackPopoverList.bind_model (self._playbackPopoverModel, create_popover_entry, self)
+        self._playbackPopoverList.connect('row-activated', self._on_playback_popover_row_activated)
+
+    def _on_playback_popover_row_activated(self, box, row):
+        self.currentTrack = Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(row.iter))
+        self.play()
 
     def _on_progress_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
@@ -916,6 +941,10 @@ class Player(GObject.GObject):
     @log
     def _on_prev_btn_clicked(self, btn):
         self.play_previous()
+
+    @log
+    def _on_nowplaying_btn_toggled(self, btn):
+        self._playbackPopover.popup()
 
     @log
     def _set_duration(self, duration):
@@ -1066,6 +1095,41 @@ class Player(GObject.GObject):
         if self.playlist.get_value(currentTrack, self.discovery_status_field) == DiscoveryStatus.FAILED:
             return None
         return self.playlist.get_value(currentTrack, self.playlistField)
+
+
+class PlaybackItem(GObject.Object):
+    def __init__(self, data, iter):
+        super().__init__()
+
+        self.media = data[5]
+        self.iter = iter
+        self.title = utils.get_media_title(self.media)
+        self.artist = utils.get_artist_name(self.media)
+
+
+class PlaybackEntry(Gtk.ListBoxRow):
+    def __init__(self, item, player):
+        super().__init__()
+
+        self.iter = item.iter
+
+        grid = Gtk.Grid(border_width=5, column_spacing=5, row_spacing=2)
+        self.add(grid)
+
+        self.cover = Gtk.Image()
+        artistLabel = Gtk.Label(label=item.artist, halign=Gtk.Align.START)
+        artistLabel.get_style_context().add_class('dim-label')
+
+        grid.attach(self.cover, 1, 0, 1, 2)
+        grid.attach(Gtk.Label(label=item.title, halign=Gtk.Align.START), 2, 0, 1, 1)
+        grid.attach(artistLabel, 2, 1, 1, 1)
+
+        player.cache.lookup(item.media, ArtSize.SMALL, self._on_cache_lookup, None)
+
+        self.show_all()
+
+    def _on_cache_lookup(self, surface, data=None):
+        self.cover.set_from_surface(surface)
 
 
 class MissingCodecsDialog(Gtk.MessageDialog):
