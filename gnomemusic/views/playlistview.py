@@ -405,7 +405,7 @@ class PlaylistView(BaseView):
         for row in self._sidebar:
             playlist = row.playlist
             if (str(playlist_id) == playlist.get_id()
-                    and self.current_playlist == playlist):
+                    and self._is_current_playlist(playlist)):
                 GLib.idle_add(self._on_playlist_activated, self._sidebar, row)
                 break
 
@@ -554,6 +554,14 @@ class PlaylistView(BaseView):
             return False
 
     @log
+    def _is_current_playlist(self, playlist):
+        """Check if playlist is currently displayed"""
+        if (self.current_playlist
+                and playlist.get_id() == self.current_playlist.get_id()):
+            return True
+        return False
+
+    @log
     def _stage_playlist_for_deletion(self):
         self.model.clear()
         selection = self._sidebar.get_selected_row()
@@ -635,22 +643,19 @@ class PlaylistView(BaseView):
 
     @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
-        if (self.current_playlist
-                and playlist.get_id() == self.current_playlist.get_id()):
+        if self._is_current_playlist(playlist):
             self._add_song_to_model(item, self.model)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
-        if (self.current_playlist
-                and playlist.get_id() == self.current_playlist.get_id()):
+        if self._is_current_playlist(playlist):
             model = self.model
         else:
             return
 
         # checks if the to be removed track is now being played
         def is_playing(row):
-            if (self.current_playlist
-                    and playlist.get_id() == self.current_playlist.get_id()):
+            if self._is_current_playlist(playlist):
                 if (self.player.currentTrack is not None
                         and self.player.currentTrack.valid()):
                     track_path = self.player.currentTrack.get_path()
