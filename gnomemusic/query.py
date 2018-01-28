@@ -607,6 +607,29 @@ class Query():
         return query
 
     @staticmethod
+    def change_song_position(playlist_id, song_id, new_position):
+        query = """
+    INSERT OR REPLACE {
+        ?entry
+            nfo:listPosition %(position)s
+    }
+    WHERE {
+        ?playlist a nmm:Playlist ;
+            a nfo:MediaList ;
+            nfo:hasMediaFileListEntry ?entry .
+        FILTER (
+            tracker:id(?playlist) = %(playlist_id)s &&
+            tracker:id(?entry) = %(song_id)s
+        )
+    }
+    """.replace("\n", " ").strip() % {
+            'playlist_id': playlist_id,
+            'song_id': song_id,
+            'position': float(new_position)
+        }
+        return query
+
+    @staticmethod
     def get_playlist_with_id(playlist_id):
         query = """
     ?playlist a nmm:Playlist .
