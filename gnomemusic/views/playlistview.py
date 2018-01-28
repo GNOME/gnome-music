@@ -140,6 +140,9 @@ class PlaylistView(BaseView):
 
         self._update_songs_count()
 
+        self.model.connect('row-inserted', self._on_song_inserted)
+        self.model.connect('row-deleted', self._on_song_deleted)
+
         self.player.connect('playlist-item-changed', self._update_model)
         playlists.connect('playlist-created', self._on_playlist_created)
         playlists.connect('playlist-updated', self._on_playlist_update)
@@ -147,6 +150,8 @@ class PlaylistView(BaseView):
             'song-added-to-playlist', self._on_song_added_to_playlist)
         playlists.connect(
             'song-removed-from-playlist', self._on_song_removed_from_playlist)
+        playlists.connect(
+            'song-position-changed', self._on_song_position_changed)
 
         self.show_all()
 
@@ -167,6 +172,9 @@ class PlaylistView(BaseView):
         self._view.get_selection().set_mode(Gtk.SelectionMode.SINGLE)
         self._view.connect('row-activated', self._on_song_activated)
         self._view.connect('button-press-event', self._on_view_clicked)
+        self._view.connect('drag-begin', self._drag_begun)
+        self._view.connect('drag-end', self._drag_ended)
+        self._song_dragging = {'active': False}
 
         view_container.add(self._view)
 
@@ -330,25 +338,33 @@ class PlaylistView(BaseView):
 
         clicking on star column toggles favorite
         clicking on an other columns launches player
+        Action is not performed if drag and drop is active
 
         :param Gtk.Tree treeview: self._view
         :param Gtk.TreePath path: activated row index
         :param Gtk.TreeViewColumn column: activated column
         """
-        if self._star_handler.star_renderer_click:
-            self._star_handler.star_renderer_click = False
-            return
+        def activate_song():
+            if self._song_dragging['active']:
+                return
 
-        try:
-            _iter = self.model.get_iter(path)
-        except TypeError:
-            return
+            if self._star_handler.star_renderer_click:
+                self._star_handler.star_renderer_click = False
+                return
 
-        if self.model[_iter][8] != self._error_icon_name:
-            self.player.set_playlist(
-                'Playlist', self.current_playlist.get_id(), self.model, _iter,
-                5, 11)
-            self.player.set_playing(True)
+            try:
+                _iter = self.model.get_iter(path)
+            except TypeError:
+                return
+
+            if self.model[_iter][8] != self._error_icon_name:
+                self.player.set_playlist(
+                    'Playlist', self.current_playlist.get_id(), self.model,
+                    _iter, 5, 11)
+                self.player.set_playing(True)
+
+        # we need to wait to check if a drag and drop operation is active
+        GLib.idle_add(activate_song)
 
     @log
     def _on_view_clicked(self, treeview, event):
@@ -371,6 +387,60 @@ class PlaylistView(BaseView):
         self._song_popover.set_pointing_to(rect)
         self._song_popover.popup()
         return
+
+    @log
+    def _drag_begun(self, widget, drag_context):
+        self._song_dragging['active'] = True
+
+    @log
+    def _drag_ended(self, widget, drag_context):
+        self._song_dragging['active'] = False
+
+    @log
+    def _on_song_inserted(self, model, path, iter):
+        if not self._song_dragging['active']:
+            return
+
+        self._song_dragging['new_pos'] = int(path.to_string())
+
+    @log
+    def _on_song_deleted(self, model, path):
+        """Save new playlist order after drag and drop operation
+
+        Update player's playlist if necessary
+        """
+        if not self._song_dragging['active']:
+            return
+
+        new_pos = self._song_dragging['new_pos']
+        prev_pos = int(path.to_string())
+
+        # position did not change
+        if abs(new_pos - prev_pos) == 1:
+            return
+
+        # If playing song position has changed uppate player's playlist
+        if self.player.playing and not self.player.currentTrack.valid():
+            pos = new_pos
+            if new_pos > prev_pos:
+                pos -= 1
+            new_iter = self.model.get_iter_from_string(str(pos))
+            self._iter_to_clean = new_iter
+            self.player.set_playlist('Playlist',
+                                     self.current_playlist.get_id(),
+                                     self.model, new_iter, 5, 11, False)
+
+        first_pos = min(new_pos, prev_pos)
+        last_pos = max(new_pos, prev_pos)
+
+        positions = []
+        songs = []
+        for pos in range(first_pos, last_pos):
+            _iter = model.get_iter_from_string(str(pos))
+            songs.append(model[_iter][5])
+            positions.append(pos + 1)
+
+        playlists.reorder_playlist(self.current_playlist, songs, positions)
 
     @log
     def _play_song(self, menuitem, data=None):
@@ -485,10 +555,12 @@ class PlaylistView(BaseView):
             self._playlist_delete_action.set_enabled(False)
             self._playlist_rename_action.set_enabled(False)
             self._remove_song_action.set_enabled(False)
+            self._view.set_reorderable(False)
         else:
             self._playlist_delete_action.set_enabled(True)
             self._playlist_rename_action.set_enabled(True)
             self._remove_song_action.set_enabled(True)
+            self._view.set_reorderable(True)
 
     @log
     def _add_song(self, source, param, song, remaining=0, data=None):
@@ -641,6 +713,19 @@ class PlaylistView(BaseView):
         self._add_playlist_to_sidebar(playlist)
 
     @log
+    def _row_is_playing(self, playlist, row):
+        """Check if row is being played"""
+        if self._is_current_playlist(playlist):
+            if (self.player.currentTrack is not None
+                    and self.player.currentTrack.valid()):
+                track_path = self.player.currentTrack.get_path()
+                track_path_str = track_path.to_string()
+                if (row.path is not None
+                        and row.path.to_string() == track_path_str):
+                    return True
+        return False
+
+    @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if self._is_current_playlist(playlist):
             self._add_song_to_model(item, self.model)
@@ -653,21 +738,10 @@ class PlaylistView(BaseView):
             return
 
         # checks if the to be removed track is now being played
-        def is_playing(row):
-            if self._is_current_playlist(playlist):
-                if (self.player.currentTrack is not None
-                        and self.player.currentTrack.valid()):
-                    track_path = self.player.currentTrack.get_path()
-                    track_path_str = track_path.to_string()
-                    if (row.path is not None
-                            and row.path.to_string() == track_path_str):
-                        return True
-            return False
-
         for row in model:
             if row[5].get_id() == item.get_id():
 
-                is_being_played = is_playing(row)
+                is_being_played = self._row_is_playing(playlist, row)
 
                 next_iter = model.iter_next(row.iter)
                 model.remove(row.iter)
@@ -691,6 +765,22 @@ class PlaylistView(BaseView):
                 self._songs_count -= 1
                 self._update_songs_count()
                 return
+
+    @log
+    def _on_song_position_changed(self, playlists, playlist, item):
+        """ If song is currently played, update next track"""
+        if not self._is_current_playlist(playlist):
+            return
+
+        if self.player.playing:
+            for row in self.model:
+                if (row[5].get_id() == item.get_id()
+                        and self._row_is_playing(playlist, row)):
+                    self._iter_to_clean = row.iter
+                    self.player.set_playlist('Playlist', playlist.get_id(),
+                                             self.model, row.iter, 5, 11,
+                                             False)
+                    return
 
     @log
     def populate(self):
