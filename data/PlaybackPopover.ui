@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="gnome-music">
+  <requires lib="gtk+" version="3.12"/>
+  <object class="GtkBox" id="playback_popover">
+    <property name="visible">True</property>
+    <property name="orientation">vertical</property>
+    <property name="width-request">480</property>
+    <property name="height-request">360</property>
+    <child>
+      <object class="GtkHeaderBar">
+        <property name="visible">True</property>
+        <property name="title" translatable="yes">Now playing</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkStack">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="visible">True</property>
+            <property name="hscrollbar_policy">never</property>
+            <child>
+              <object class="GtkListBox" id="playback_popover_list">
+                <property name="visible">True</property>
+                <property name="border_width">5</property>
+                <style>
+                  <class name="background"/>
+                </style>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">True</property>
+      </packing>
+    </child>
+  </object>
+</interface>
