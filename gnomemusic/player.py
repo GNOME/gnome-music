@@ -51,6 +51,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.coverstack import CoverStack
+from gnomemusic.widgets.playbackpopover import PlaybackPopover
 import gnomemusic.utils as utils
 
 
@@ -769,6 +770,8 @@ class Player(GObject.GObject):
         self.nextBtn = self._ui.get_object('next_button')
         self._playImage = self._ui.get_object('play_image')
         self._pauseImage = self._ui.get_object('pause_image')
+        self._nowplayingButton = self._ui.get_object('nowplaying_button')
+        self._playbackPopover = PlaybackPopover(self._nowplayingButton, self)
         self.progressScale = self._ui.get_object('progress_scale')
         self.songPlaybackTimeLabel = self._ui.get_object('playback')
         self.songTotalTimeLabel = self._ui.get_object('duration')
@@ -787,6 +790,7 @@ class Player(GObject.GObject):
         self.prevBtn.connect('clicked', self._on_prev_btn_clicked)
         self.playBtn.connect('clicked', self._on_play_btn_clicked)
         self.nextBtn.connect('clicked', self._on_next_btn_clicked)
+        self._playbackPopover.connect('current-changed', self._on_playback_popover_current_changed)
         self.progressScale.connect('button-press-event', self._on_progress_scale_event)
         self.progressScale.connect('value-changed', self._on_progress_value_changed)
         self.progressScale.connect('button-release-event', self._on_progress_scale_button_released)
@@ -796,6 +800,18 @@ class Player(GObject.GObject):
         self._seek_timeout = None
         self._old_progress_scale_value = 0.0
         self.progressScale.set_increments(300, 600)
+
+    def _on_playback_popover_current_changed(self, popover, iter):
+        if self.playlist is None or iter is None:
+            return
+
+        path = self.playlist.get_path(iter)
+        if path is None:
+            return
+
+        self.currentTrack = Gtk.TreeRowReference.new(self.playlist, path)
+        if self.currentTrack.valid():
+            self.play()
 
     def _on_progress_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""

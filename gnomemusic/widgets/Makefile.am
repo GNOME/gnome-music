@@ -8,5 +8,6 @@ app_PYTHON = \
 	coverstack.py \
 	disclistboxwidget.py \
 	notificationspopup.py \
+	playbackpopover.py \
 	playlistdialog.py \
 	starhandlerwidget.py
