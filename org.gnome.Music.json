@@ -102,7 +102,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/gnome-music"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
                 }
             ]
         }
