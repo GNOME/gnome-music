@@ -292,8 +292,6 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
         self.selection_toolbar._add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
-        self.selection_toolbar._remove_from_playlist_button.connect(
-            'clicked', self._on_remove_from_playlist_button_clicked)
 
         self.toolbar.set_state(ToolbarState.MAIN)
         self.toolbar.header_bar.show()
@@ -575,21 +573,6 @@ class Window(Gtk.ApplicationWindow):
                                          selected_songs)
             self.toolbar.set_selection_mode(False)
             playlist_dialog.destroy()
-
-        self._stack.get_visible_child().get_selected_songs(callback)
-
-    @log
-    def _on_remove_from_playlist_button_clicked(self, widget):
-        if self._stack.get_visible_child() != self.views[View.PLAYLIST]:
-            return
-
-        def callback(selected_songs):
-            if len(selected_songs) < 1:
-                return
-
-            playlist.remove_from_playlist(
-                self.views[View.PLAYLIST].current_playlist, selected_songs)
-            self.toolbar.set_selection_mode(False)
 
         self._stack.get_visible_child().get_selected_songs(callback)
 
