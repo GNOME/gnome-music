@@ -8,6 +8,7 @@
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
         "--share=ipc", "--socket=x11",
+        "--share=network",
         "--socket=wayland",
         "--talk-name=org.freedesktop.Tracker1",
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
