@@ -166,9 +166,6 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_grilo_ready(self, data=None):
-        if (self._header_bar.get_stack().get_visible_child() == self
-                and not self._init):
-            self._populate()
         self._header_bar.get_stack().connect('notify::visible-child',
                                              self._on_headerbar_visible)
 
