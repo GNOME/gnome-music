@@ -633,8 +633,7 @@ class Player(GObject.GObject):
         return False
 
     @log
-    def _on_cache_lookup(self, surface, data=None):
-        # FIXME: Need this for mpris
+    def _on_cover_stack_updated(self, klass):
         self.emit('thumbnail-updated')
 
     @log
@@ -778,6 +777,7 @@ class Player(GObject.GObject):
 
         stack = self._ui.get_object('cover')
         self._cover_stack = CoverStack(stack, Art.Size.XSMALL)
+        self._cover_stack.connect('updated', self._on_cover_stack_updated)
 
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
