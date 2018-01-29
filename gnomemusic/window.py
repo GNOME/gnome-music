@@ -54,7 +54,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 tracker = TrackerWrapper().tracker
-playlist = Playlists.get_default()
+playlists = Playlists.get_default()
 
 
 class Window(Gtk.ApplicationWindow):
@@ -565,8 +565,8 @@ class Window(Gtk.ApplicationWindow):
             playlist_dialog = PlaylistDialog(
                 self, self.views[View.PLAYLIST].pl_todelete.get('playlist'))
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-                playlist.add_to_playlist(playlist_dialog.get_selected(),
-                                         selected_songs)
+                playlists.add_to_playlist(
+                    playlist_dialog.get_selected(), selected_songs)
             self.toolbar.set_selection_mode(False)
             playlist_dialog.destroy()
 
