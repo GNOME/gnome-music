@@ -36,6 +36,10 @@ class CoverStack(GObject.GObject):
     or in between songs.
     """
 
+    __gsignals__ = {
+        'updated': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
     _default_icon = DefaultIcon()
 
     @log
@@ -85,3 +89,5 @@ class CoverStack(GObject.GObject):
         else:
             self._cover_b.set_from_surface(klass.surface)
             self._stack.set_visible_child_name("B")
+
+        self.emit('updated')
