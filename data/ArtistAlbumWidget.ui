@@ -6,7 +6,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
-      <object class="GtkImage" id="cover">
+      <object class="GtkStack" id="cover">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
