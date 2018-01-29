@@ -130,7 +130,7 @@ class PlaylistView(BaseView):
 
         self._iter_to_clean = None
         self._iter_to_clean_model = None
-        self.current_playlist = None
+        self._current_playlist = None
         self._current_playlist_index = None
         self.pl_todelete = {}
         self._songs_count = 0
@@ -345,7 +345,7 @@ class PlaylistView(BaseView):
 
         if self.model[_iter][8] != self._error_icon_name:
             self.player.set_playlist(
-                'Playlist', self.current_playlist.get_id(), self.model, _iter,
+                'Playlist', self._current_playlist.get_id(), self.model, _iter,
                 5, 11)
             self.player.set_playing(True)
 
@@ -393,7 +393,7 @@ class PlaylistView(BaseView):
     def _remove_song(self, menuitem, data=None):
         model, _iter = self._view.get_selection().get_selected()
         song = model[_iter][5]
-        playlists.remove_from_playlist(self.current_playlist, [song])
+        playlists.remove_from_playlist(self._current_playlist, [song])
 
     @log
     def _on_playlist_update(self, playlists, playlist_id):
@@ -405,7 +405,7 @@ class PlaylistView(BaseView):
         for row in self._sidebar:
             playlist = row.playlist
             if (str(playlist_id) == playlist.get_id()
-                    and self.current_playlist == playlist):
+                    and self._current_playlist == playlist):
                 GLib.idle_add(self._on_playlist_activated, self._sidebar, row)
                 break
 
@@ -469,7 +469,7 @@ class PlaylistView(BaseView):
         if self.rename_active:
             self.disable_rename_playlist()
 
-        self.current_playlist = playlist
+        self._current_playlist = playlist
         self._name_label.set_text(playlist_name)
         self._current_playlist_index = row.get_index()
 
@@ -547,15 +547,25 @@ class PlaylistView(BaseView):
 
     @log
     def _current_playlist_is_protected(self):
-        current_playlist_id = self.current_playlist.get_id()
+        current_playlist_id = self._current_playlist.get_id()
         if current_playlist_id in StaticPlaylists().get_ids():
             return True
         else:
             return False
 
     @log
+    def _get_removal_notification_message(self):
+        playlist_title = utils.get_media_title(self.pl_todelete['playlist'])
+        msg = _("Playlist {} removed".format(playlist_title))
+        return msg
+
+    @log
+    def _create_playlist_notification(self):
+        msg = self._get_removal_notification_message()
+        self._window.show_playlist_notification(msg)
+
+    @log
     def _stage_playlist_for_deletion(self, menuitem, data=None):
-        self._window.show_playlist_notification()
         self.model.clear()
         selection = self._sidebar.get_selected_row()
         index = selection.get_index()
@@ -571,11 +581,17 @@ class PlaylistView(BaseView):
             self._sidebar.select_row(row_next)
             self._sidebar.emit('row-activated', row_next)
 
+        self._create_playlist_notification()
+
     @log
     def undo_playlist_deletion(self):
         """Revert the last playlist removal"""
         self._add_playlist_to_sidebar(
             self.pl_todelete['playlist'], self.pl_todelete['index'])
+
+    @log
+    def finish_playlist_deletion(self):
+        playlists.delete_playlist(self.pl_todelete['playlist'])
 
     @log
     @property
@@ -632,22 +648,22 @@ class PlaylistView(BaseView):
 
     @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
-        if (self.current_playlist
-                and playlist.get_id() == self.current_playlist.get_id()):
+        if (self._current_playlist
+                and playlist.get_id() == self._current_playlist.get_id()):
             self._add_song_to_model(item, self.model)
 
     @log
     def _on_song_removed_from_playlist(self, playlists, playlist, item):
-        if (self.current_playlist
-                and playlist.get_id() == self.current_playlist.get_id()):
+        if (self._current_playlist
+                and playlist.get_id() == self._current_playlist.get_id()):
             model = self.model
         else:
             return
 
         # checks if the to be removed track is now being played
         def is_playing(row):
-            if (self.current_playlist
-                    and playlist.get_id() == self.current_playlist.get_id()):
+            if (self._current_playlist
+                    and playlist.get_id() == self._current_playlist.get_id()):
                 if (self.player.currentTrack is not None
                         and self.player.currentTrack.valid()):
                     track_path = self.player.currentTrack.get_path()
