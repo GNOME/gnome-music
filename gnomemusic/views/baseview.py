@@ -151,7 +151,6 @@ class BaseView(Gtk.Stack):
             select_toolbar = self._selection_toolbar
             select_toolbar.actionbar.set_visible(True)
             select_toolbar._add_to_playlist_button.set_sensitive(False)
-            select_toolbar._remove_from_playlist_button.set_sensitive(False)
         else:
             self._header_bar.set_selection_mode(False)
             track_playing = self.player.currentTrack is not None
@@ -190,7 +189,6 @@ class BaseView(Gtk.Stack):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
         select_toolbar._add_to_playlist_button.set_sensitive(n_items > 0)
-        select_toolbar._remove_from_playlist_button.set_sensitive(n_items > 0)
         if n_items > 0:
             self._header_bar._selection_menu_label.set_text(
                 ngettext("Selected {} item",
@@ -287,7 +285,6 @@ class BaseView(Gtk.Stack):
         if count > 0:
             select_toolbar = self._selection_toolbar
             select_toolbar._add_to_playlist_button.set_sensitive(True)
-            select_toolbar._remove_from_playlist_button.set_sensitive(True)
 
         self.update_header_from_selection(count)
         self._view.queue_draw()
@@ -298,7 +295,6 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar._add_to_playlist_button.set_sensitive(False)
-        select_toolbar._remove_from_playlist_button.set_sensitive(False)
         self._header_bar._selection_menu_label.set_text(
             _("Click on items to select them"))
         self.queue_draw()

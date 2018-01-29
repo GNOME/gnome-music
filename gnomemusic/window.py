@@ -555,7 +555,6 @@ class Window(Gtk.ApplicationWindow):
             child = self._stack.get_visible_child()
             in_playlist = (child == self.views[View.PLAYLIST])
             self.selection_toolbar._add_to_playlist_button.set_visible(not in_playlist)
-            self.selection_toolbar._remove_from_playlist_button.set_visible(in_playlist)
 
     @log
     def _on_add_to_playlist_button_clicked(self, widget):

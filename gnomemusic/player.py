@@ -1113,5 +1113,4 @@ class SelectionToolbar():
         self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
         self.actionbar = self._ui.get_object('actionbar')
         self._add_to_playlist_button = self._ui.get_object('button1')
-        self._remove_from_playlist_button = self._ui.get_object('button2')
         self.actionbar.set_visible(False)
