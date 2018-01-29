@@ -361,7 +361,7 @@ class Window(Gtk.ApplicationWindow):
             view.select_none()
 
     @log
-    def show_playlist_notification(self):
+    def show_playlist_notification(self, message):
         """Show a notification on playlist removal and provide an
         option to undo for 5 seconds.
         """
@@ -369,8 +369,7 @@ class Window(Gtk.ApplicationWindow):
         # Callback to remove playlists
         def remove_playlist_timeout_cb(self):
             # Remove the playlist
-            playlist.delete_playlist(
-                self.views[View.PLAYLIST].pl_todelete['playlist'])
+            self.views[View.PLAYLIST].finish_playlist_deletion()
 
             # Hide the notification
             self._playlist_notification.set_reveal_child(False)
@@ -385,14 +384,11 @@ class Window(Gtk.ApplicationWindow):
             GLib.source_remove(self._playlist_notification_timeout_id)
             remove_playlist_timeout_cb(self)
 
-        playlist_title = self.views[View.PLAYLIST].current_playlist.get_title()
-        label = _("Playlist {} removed".format(playlist_title))
-
-        self._playlist_notification.label.set_label(label)
+        self._playlist_notification.label.set_label(message)
         self._playlist_notification.set_reveal_child(True)
 
-        timeout_id = GLib.timeout_add_seconds(5, remove_playlist_timeout_cb,
-                                              self)
+        timeout_id = GLib.timeout_add_seconds(
+            5, remove_playlist_timeout_cb, self)
         self._playlist_notification_timeout_id = timeout_id
 
     @log
