@@ -132,8 +132,7 @@ class PlaylistView(BaseView):
         self._iter_to_clean_model = None
         self.current_playlist = None
         self._current_playlist_index = None
-        self.pl_todelete = None
-        self._pl_todelete_index = None
+        self.pl_todelete = {}
         self._songs_count = 0
         self._handler_rename_done_button = 0
         self._handler_rename_entry = 0
@@ -384,7 +383,8 @@ class PlaylistView(BaseView):
         model, _iter = self._view.get_selection().get_selected()
         song = model[_iter][5]
 
-        playlist_dialog = PlaylistDialog(self._window, self.pl_todelete)
+        playlist_dialog = PlaylistDialog(
+            self._window, self.pl_todelete.get('playlist'))
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
             playlists.add_to_playlist(playlist_dialog.get_selected(), [song])
         playlist_dialog.destroy()
@@ -558,9 +558,10 @@ class PlaylistView(BaseView):
         self.model.clear()
         selection = self._sidebar.get_selected_row()
         index = selection.get_index()
-        self._pl_todelete_index = index
-        self.pl_todelete = selection.playlist
-
+        self.pl_todelete = {
+            'playlist': selection.playlist,
+            'index': index
+        }
         row_next = (self._sidebar.get_row_at_index(index + 1)
                     or self._sidebar.get_row_at_index(index - 1))
         self._sidebar.remove(selection)
@@ -573,7 +574,7 @@ class PlaylistView(BaseView):
     def undo_playlist_deletion(self):
         """Revert the last playlist removal"""
         self._add_playlist_to_sidebar(
-            self.pl_todelete, self._pl_todelete_index)
+            self.pl_todelete['playlist'], self.pl_todelete['index'])
 
     @log
     def _on_delete_activated(self, menuitem, data=None):
