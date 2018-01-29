@@ -43,21 +43,22 @@ logger = logging.getLogger(__name__)
 
 @log
 def _make_icon_frame(pixbuf, art_size=None, scale=1):
-    border = 3 * scale
+    border = 3
     degrees = pi / 180
-    radius = 3 * scale
+    radius = 3
 
     ratio = pixbuf.get_height() / pixbuf.get_width()
 
     # Scale down the image according to the biggest axis
     if ratio > 1:
-        w = int(art_size.width / ratio * scale)
-        h = art_size.height * scale
+        w = int(art_size.width / ratio)
+        h = art_size.height
     else:
-        w = art_size.width * scale
-        h = int(art_size.height * ratio * scale)
+        w = art_size.width
+        h = int(art_size.height * ratio)
 
-    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w, h)
+    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, w * scale, h * scale)
+    surface.set_device_scale(scale, scale)
     ctx = cairo.Context(surface)
 
     # draw outline
@@ -86,12 +87,6 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
     pattern.set_matrix(matrix)
     ctx.rectangle(border, border, w - border * 2, h - border * 2)
     ctx.fill()
-
-    border_pixbuf = Gdk.pixbuf_get_from_surface(surface, 0, 0, w, h)
-
-    surface = Gdk.cairo_surface_create_from_pixbuf(border_pixbuf,
-                                                   scale,
-                                                   None)
 
     return surface
 
