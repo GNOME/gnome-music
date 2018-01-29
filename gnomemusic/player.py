@@ -46,10 +46,11 @@ from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
 from gettext import gettext as _, ngettext
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, ArtImage
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
+from gnomemusic.widgets.coverstack import CoverStack
 import gnomemusic.utils as utils
 
 
@@ -579,8 +580,7 @@ class Player(GObject.GObject):
         artist = utils.get_artist_name(media)
         self.artistLabel.set_label(artist)
 
-        art = ArtImage(Art.Size.XSMALL, media)
-        art.image = self._image
+        self._cover_stack.update(media)
 
         title = utils.get_media_title(media)
         self.titleLabel.set_label(title)
@@ -775,7 +775,9 @@ class Player(GObject.GObject):
         self.songTotalTimeLabel = self._ui.get_object('duration')
         self.titleLabel = self._ui.get_object('title')
         self.artistLabel = self._ui.get_object('artist')
-        self._image = self._ui.get_object('cover')
+
+        stack = self._ui.get_object('cover')
+        self._cover_stack = CoverStack(stack, Art.Size.XSMALL)
 
         self.duration = self._ui.get_object('duration')
         self.repeatBtnImage = self._ui.get_object('playlistRepeat')
