@@ -370,7 +370,8 @@ class Window(Gtk.ApplicationWindow):
         # Callback to remove playlists
         def remove_playlist_timeout_cb(self):
             # Remove the playlist
-            playlist.delete_playlist(self.views[View.PLAYLIST].pl_todelete)
+            playlist.delete_playlist(
+                self.views[View.PLAYLIST].pl_todelete['playlist'])
 
             # Hide the notification
             self._playlist_notification.set_reveal_child(False)
@@ -566,7 +567,7 @@ class Window(Gtk.ApplicationWindow):
                 return
 
             playlist_dialog = PlaylistDialog(
-                self, self.views[View.PLAYLIST].pl_todelete)
+                self, self.views[View.PLAYLIST].pl_todelete.get('playlist'))
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 playlist.add_to_playlist(playlist_dialog.get_selected(),
                                          selected_songs)
