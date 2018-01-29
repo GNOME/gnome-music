@@ -124,7 +124,7 @@ class ArtistAlbumsWidget(Gtk.Box):
                                    self._selection_mode_allowed,
                                    self._songs_grid_size_group,
                                    self._cover_size_group)
-        self._cover_size_group.add_widget(widget.cover)
+        self._cover_size_group.add_widget(widget.cover_stack._stack)
 
         self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)
