@@ -107,7 +107,7 @@ class PlaylistView(BaseView):
         self._playlist_delete_action = Gio.SimpleAction.new(
             'playlist_delete', None)
         self._playlist_delete_action.connect(
-            'activate', self._on_delete_activated)
+            'activate', self._stage_playlist_for_deletion)
         self._window.add_action(self._playlist_delete_action)
         self._playlist_rename_action = Gio.SimpleAction.new(
             'playlist_rename', None)
@@ -524,7 +524,7 @@ class PlaylistView(BaseView):
     def remove_playlist(self):
         """Removes the current selected playlist"""
         if not self._current_playlist_is_protected():
-            self._on_delete_activated(None)
+            self._stage_playlist_for_deletion(None)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
@@ -630,7 +630,8 @@ class PlaylistView(BaseView):
         return False
 
     @log
-    def _stage_playlist_for_deletion(self):
+    def _stage_playlist_for_deletion(self, menutime, data=None):
+        self._window.show_playlist_notification()
         self.model.clear()
         selection = self._sidebar.get_selected_row()
         index = selection.get_index()
@@ -651,11 +652,6 @@ class PlaylistView(BaseView):
         """Revert the last playlist removal"""
         self._add_playlist_to_sidebar(
             self.pl_todelete['playlist'], self.pl_todelete['index'])
-
-    @log
-    def _on_delete_activated(self, menuitem, data=None):
-        self._window.show_playlist_notification()
-        self._stage_playlist_for_deletion()
 
     @log
     @property
