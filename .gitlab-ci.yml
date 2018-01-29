@@ -6,9 +6,9 @@ stages:
 
 variables:
   DEPENDENCIES: python3 autoconf-archive gettext-devel git pygobject3
-                pygobject3-devel python3-gobject redhat-rpm-config gtk3-devel
-                gobject-introspection-devel tracker-devel gnome-common which
-                libmediaart-devel grilo-devel
+                pygobject3-devel python3-gobject python3-cairo-devel
+                redhat-rpm-config gtk3-devel gobject-introspection-devel
+                tracker-devel gnome-common which libmediaart-devel grilo-devel
 
 build:
   stage: build
