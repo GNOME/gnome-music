@@ -216,7 +216,7 @@ class BaseView(Gtk.Stack):
         if not item:
             if remaining == 0:
                 self._view.set_model(self.model)
-                self._window.pop_loading_notification()
+                self._window.popup_notification.pop_loading()
                 self._view.show()
             return
         self._offset += 1

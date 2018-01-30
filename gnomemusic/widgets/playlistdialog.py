@@ -37,7 +37,7 @@ class PlaylistDialog():
         return '<PlaylistDialog>'
 
     @log
-    def __init__(self, parent, playlist_todelete):
+    def __init__(self, parent, playlists_todelete):
         self._ui = Gtk.Builder()
         self._ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
 
@@ -51,7 +51,7 @@ class PlaylistDialog():
         self._dialog_box.set_titlebar(self._title_bar)
         self._setup_dialog()
 
-        self._playlist_todelete = playlist_todelete
+        self._playlists_todelete_ids = playlists_todelete.keys()
 
         self._playlist = Playlists.get_default()
 
@@ -148,9 +148,8 @@ class PlaylistDialog():
         if self._playlist.is_static_playlist(item):
             return None
 
-        # Hide playlist that is going to be deleted
-        if (self._playlist_todelete is not None
-                and item.get_id() == self._playlist_todelete.get_id()):
+        # Hide playlists that are going to be deleted
+        if item.get_id() in self._playlists_todelete_ids:
             return None
 
         new_iter = self._model.insert_with_valuesv(
