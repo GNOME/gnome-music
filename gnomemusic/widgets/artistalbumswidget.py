@@ -84,7 +84,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
-        self._window.push_loading_notification()
+        self._window.notifications_popup.push_loading()
 
         for album in albums:
             is_last_album = False
@@ -114,7 +114,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _on_last_album_displayed(self, data=None):
-        self._window.pop_loading_notification()
+        self._window.notifications_popup.pop_loading()
         self.show_all()
 
     @log

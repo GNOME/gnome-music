@@ -165,7 +165,7 @@ class ArtistsView(BaseView):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if (not item and remaining == 0):
             self._view.set_model(self.model)
-            self._window.pop_loading_notification()
+            self._window.notifications_popup.pop_loading()
             self._view.show()
             return
         self._offset += 1
@@ -182,7 +182,7 @@ class ArtistsView(BaseView):
     @log
     def populate(self):
         """Populates the view"""
-        self._window.push_loading_notification()
+        self._window.notifications_popup.push_loading()
         grilo.populate_artists(self._offset, self._add_item)
 
     @log

@@ -6,5 +6,6 @@ app_PYTHON = \
 	artistalbumswidget.py \
 	artistalbumwidget.py \
 	disclistboxwidget.py \
+	notificationspopup.py \
 	playlistdialog.py \
 	starhandlerwidget.py
