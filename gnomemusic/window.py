@@ -46,6 +46,7 @@ from gnomemusic.views.initialstateview import InitialStateView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
+from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
@@ -78,7 +79,6 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(selectNone)
         self.set_size_request(200, 100)
         self.set_default_icon_name('gnome-music')
-        self._loading_counter = 0
 
         self.prev_view = None
         self.curr_view = None
@@ -97,73 +97,13 @@ class Window(Gtk.ApplicationWindow):
             self.maximize()
 
         self._setup_view()
-        self._setup_loading_notification()
-        self._setup_playlist_notification()
+        self.notifications_popup = NotificationsPopup()
+        self._overlay.add_overlay(self.notifications_popup)
 
         self.window_size_update_timeout = None
         self.connect("window-state-event", self._on_window_state_event)
         self.connect("configure-event", self._on_configure_event)
         grilo.connect('changes-pending', self._on_changes_pending)
-
-    @log
-    def _setup_loading_notification(self):
-        self._loading_notification = Gtk.Revealer(
-                       halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
-        self._loading_notification.set_transition_type(
-                                 Gtk.RevealerTransitionType.SLIDE_DOWN)
-        self._overlay.add_overlay(self._loading_notification)
-
-        grid = Gtk.Grid(margin_bottom=18, margin_start=18, margin_end=18)
-        grid.set_column_spacing(18)
-        grid.get_style_context().add_class('app-notification')
-
-        spinner = Gtk.Spinner()
-        spinner.start()
-        grid.add(spinner)
-
-        label = Gtk.Label.new(_("Loading"))
-        grid.add(label)
-
-        self._loading_notification.add(grid)
-        self._loading_notification.show_all()
-
-    @log
-    def _setup_playlist_notification(self):
-        self._playlist_notification_timeout_id = 0
-        self._playlist_notification = Gtk.Revealer(halign=Gtk.Align.CENTER,
-                                                   valign=Gtk.Align.START)
-        self._playlist_notification.set_transition_type(
-                       Gtk.RevealerTransitionType.SLIDE_DOWN)
-        self._overlay.add_overlay(self._playlist_notification)
-
-        grid = Gtk.Grid(margin_bottom=18, margin_start=18, margin_end=18)
-        grid.set_column_spacing(12)
-        grid.get_style_context().add_class('app-notification')
-
-        def remove_notification_timeout(self):
-            # Remove the timeout if any
-            if self._playlist_notification_timeout_id > 0:
-                GLib.source_remove(self._playlist_notification_timeout_id)
-                self._playlist_notification_timeout_id = 0
-
-        # Undo playlist removal
-        def undo_remove_cb(button, self):
-            self._playlist_notification.set_reveal_child(False)
-            self.views[View.PLAYLIST].undo_playlist_deletion()
-
-            remove_notification_timeout(self)
-
-        # Playlist name label
-        self._playlist_notification.label = Gtk.Label()
-        grid.add(self._playlist_notification.label)
-
-        # Undo button
-        undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
-        undo_button.connect("clicked", undo_remove_cb, self)
-        grid.add(undo_button)
-
-        self._playlist_notification.add(grid)
-        self._playlist_notification.show_all()
 
     @log
     def _on_changes_pending(self, data=None):
@@ -361,37 +301,6 @@ class Window(Gtk.ApplicationWindow):
             view.select_none()
 
     @log
-    def show_playlist_notification(self, message):
-        """Show a notification on playlist removal and provide an
-        option to undo for 5 seconds.
-        """
-
-        # Callback to remove playlists
-        def remove_playlist_timeout_cb(self):
-            # Remove the playlist
-            self.views[View.PLAYLIST].finish_playlist_deletion()
-
-            # Hide the notification
-            self._playlist_notification.set_reveal_child(False)
-
-            # Stop the timeout
-            self._playlist_notification_timeout_id = 0
-
-            return GLib.SOURCE_REMOVE
-
-        # If a notification is already visible, remove that playlist
-        if self._playlist_notification_timeout_id > 0:
-            GLib.source_remove(self._playlist_notification_timeout_id)
-            remove_playlist_timeout_cb(self)
-
-        self._playlist_notification.label.set_label(message)
-        self._playlist_notification.set_reveal_child(True)
-
-        timeout_id = GLib.timeout_add_seconds(
-            5, remove_playlist_timeout_cb, self)
-        self._playlist_notification_timeout_id = timeout_id
-
-    @log
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         event_and_modifiers = (event.state & modifiers)
@@ -562,7 +471,7 @@ class Window(Gtk.ApplicationWindow):
                 return
 
             playlist_dialog = PlaylistDialog(
-                self, self.views[View.PLAYLIST].pl_todelete.get('playlist'))
+                self, self.views[View.PLAYLIST].pls_todelete)
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 playlists.add_to_playlist(
                     playlist_dialog.get_selected(), selected_songs)
@@ -570,37 +479,3 @@ class Window(Gtk.ApplicationWindow):
             playlist_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)
-
-    @log
-    def push_loading_notification(self):
-        """ Increases the counter of loading notification triggers
-        running. If there is no notification is visible, the loading
-        notification is started.
-        """
-        def show_notification_cb(self):
-            self._loading_notification.set_reveal_child(True)
-            self._show_notification_timeout_id = 0
-            return GLib.SOURCE_REMOVE
-
-        if self._loading_counter == 0:
-            # Only show the notification after a small delay, thus
-            # add a timeout. 500ms feels good enough.
-            self._show_notification_timeout_id = GLib.timeout_add(
-                    500, show_notification_cb, self)
-
-        self._loading_counter = self._loading_counter + 1
-
-    @log
-    def pop_loading_notification(self):
-        """ Decreases the counter of loading notification triggers
-        running. If it reaches zero, the notification is withdrawn.
-        """
-        self._loading_counter = self._loading_counter - 1
-
-        if self._loading_counter == 0:
-            # Remove the previously set timeout, if any
-            if self._show_notification_timeout_id > 0:
-                GLib.source_remove(self._show_notification_timeout_id)
-                self._show_notification_timeout_id = 0
-
-            self._loading_notification.set_reveal_child(False)

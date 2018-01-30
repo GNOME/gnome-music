@@ -221,7 +221,7 @@ class SearchView(BaseView):
             self.previous_view = self._window.prev_view
 
         if remaining == 0:
-            self._window.pop_loading_notification()
+            self._window.notifications_popup.pop_loading()
             self._view.show()
 
         if not item or model != self.model:
@@ -318,7 +318,7 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self._window.push_loading_notification()
+        self._window.notifications_popup.push_loading()
         self._header_bar.set_state(ToolbarState.MAIN)
 
     @log
