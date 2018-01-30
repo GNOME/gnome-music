@@ -321,6 +321,7 @@ class Window(Gtk.ApplicationWindow):
         self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
 
         self.views[View.ALBUM] = AlbumsView(self, self.player)
+        self.views[View.ALBUM]._init = True
         self.views[View.ARTIST] = ArtistsView(self, self.player)
         self.views[View.SONG] = SongsView(self, self.player)
         self.views[View.PLAYLIST] = PlaylistView(self, self.player)
