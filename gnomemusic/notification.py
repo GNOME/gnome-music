@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Notify
 
@@ -84,7 +85,7 @@ class PopupNotificationManager(Gtk.Revealer):
 
     There are two types of messages:
     - loading notification
-    - playlist deletion
+    - playlist or song deletion
     Messages are arranged under each other
     """
 
@@ -229,11 +230,16 @@ class LoadingNotification(Gtk.Grid):
 
 
 class PlaylistNotification(Gtk.Grid):
-    """Show a notification on playlist deletion.
+    """Show a notification on playlist or song deletion.
 
     It also provides an option to undo removal. Notification is added
     to the PopupNotificationManager.
     """
+
+    class Type(IntEnum):
+        """Enum for Playlists Notifications"""
+        PLAYLIST = 0
+        SONG = 1
 
     __gsignals__ = {
         'undo-deletion': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -244,10 +250,11 @@ class PlaylistNotification(Gtk.Grid):
         return '<PlaylistNotification>'
 
     @log
-    def __init__(self, notification_manager, message, playlist_id):
+    def __init__(self, notification_manager, type, message, media_id):
         super().__init__(column_spacing=18)
         self._notification_manager = notification_manager
-        self.playlist_id = playlist_id
+        self.type = type
+        self.media_id = media_id
 
         self._label = Gtk.Label(
             label=message, halign=Gtk.Align.START, hexpand=True)
