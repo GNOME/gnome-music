@@ -121,7 +121,7 @@ class SongsView(BaseView):
         """Adds track item to the model"""
         if not item and not remaining:
             self._view.set_model(self.model)
-            self._window.pop_loading_notification()
+            self._window.popup_notification.pop_loading()
             self._view.show()
             return
 
@@ -237,7 +237,7 @@ class SongsView(BaseView):
         """Populates the view"""
         self._init = True
         if grilo.tracker:
-            self._window.push_loading_notification()
+            self._window.popup_notification.push_loading()
             GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
 
     @log

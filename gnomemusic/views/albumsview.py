@@ -119,7 +119,7 @@ class AlbumsView(BaseView):
 
     @log
     def populate(self):
-        self._window.push_loading_notification()
+        self._window.popup_notification.push_loading()
         grilo.populate_albums(self._offset, self._add_item)
 
     @log
@@ -145,8 +145,8 @@ class AlbumsView(BaseView):
             child = self._create_album_item(item)
             self._view.add(child)
         elif remaining == 0:
-                self._window.pop_loading_notification()
-                self._view.show()
+            self._window.popup_notification.pop_loading()
+            self._view.show()
 
     def _create_album_item(self, item):
         artist = utils.get_artist_name(item)
