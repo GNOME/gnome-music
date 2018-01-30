@@ -392,6 +392,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _notify_mode_disconnect(self, data=None):
         self.player.Stop()
+        self.popup_notification.terminate_pending()
         self._stack.disconnect(self._on_notify_model_id)
 
     @log
