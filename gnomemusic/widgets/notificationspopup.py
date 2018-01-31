@@ -120,6 +120,14 @@ class NotificationsPopup(Gtk.Revealer):
         self._set_visibility()
         notification.emit(signal)
 
+    @log
+    def terminate_pending(self):
+        """Terminate all pending playlists notifications"""
+        children = self._grid.get_children()
+        if len(children) > 1:
+            for notification in children[:-1]:
+                self.remove_notification(notification, 'finish-deletion')
+
 
 class LoadingNotification(Gtk.Grid):
     """LoadingNotification displays a loading notification message
