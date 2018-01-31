@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art, DefaultIcon
@@ -78,7 +78,7 @@ class CoverStack(GObject.GObject):
 
         art = Art(self._size, media, self._scale)
         self._handler_id = art.connect('finished', self._art_retrieved)
-        art.lookup()
+        GLib.idle_add(art.lookup)
 
     @log
     def _art_retrieved(self, klass):
