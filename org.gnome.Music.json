@@ -42,7 +42,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/libmediaart"
+                    "url": "https://git.gnome.org/libmediaart"
                 }
             ]
         },
@@ -67,7 +67,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/grilo"
+                    "url": "https://git.gnome.org/grilo"
                 }
             ],
             "cleanup": [ "/include", "/bin" ]
@@ -78,7 +78,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/grilo-plugins"
+                    "url": "https://git.gnome.org/grilo-plugins"
                 }
             ],
             "cleanup": [ "/include" ]
