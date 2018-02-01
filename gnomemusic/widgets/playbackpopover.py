@@ -28,6 +28,8 @@ from gnomemusic import log
 from gnomemusic.albumartcache import Art
 import gnomemusic.utils as utils
 
+TRACK_LIST_LENGTH = 10
+
 class PlaybackItem(GObject.Object):
     """Metadata of a track"""
 
@@ -138,7 +140,10 @@ class PlaybackPopover(Gtk.Popover):
             self._model.insert(0, self._previous_track)
 
         iter = current_iter
-        while iter != None:
+        for count in range(0, TRACK_LIST_LENGTH):
+            if iter == None:
+                break
+
             item = PlaybackItem(playlist[iter], iter)
             self._model.append(item)
             iter = playlist.iter_next(iter)
