@@ -50,14 +50,22 @@ class PlaybackEntry(Gtk.ListBoxRow):
     def __repr__(self):
         return '<PlaybackEntry>'
 
-    @log
-    def __init__(self, item, player):
+    def __init__(self, item, popover):
         super().__init__()
 
         self.iter = item.iter
 
         grid = Gtk.Grid(border_width=5, column_spacing=5, row_spacing=2)
         self.add(grid)
+
+        if (self.iter == popover.current_iter):
+            indicator = Gtk.Image.new_from_icon_name('media-playback-start-symbolic', Gtk.IconSize.BUTTON)
+            indicator.valign = Gtk.Align.CENTER
+        else:
+            indicator = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            indicator.set_size_request(16, 16)
+
+        grid.attach(indicator, 0, 0, 1, 2)
 
         self._cover = Gtk.Image()
         artist_label = Gtk.Label(label=item.artist, halign=Gtk.Align.START)
@@ -80,6 +88,7 @@ class PlaybackEntry(Gtk.ListBoxRow):
 
 class PlaybackPopover(Gtk.Popover):
     """Popover showing the following tracks in the current playlist"""
+    current_iter = None
 
     __gsignals__ = {
         'current-changed': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeIter,)),
@@ -92,12 +101,14 @@ class PlaybackPopover(Gtk.Popover):
     def __init__(self, button, player):
         super().__init__(relative_to = button)
 
-        self._player = player
+        self.player = player
 
         self._setup_view ()
 
-        self._player.connect('playlist-item-changed', self._update_model)
+        self.player.connect('playlist-item-changed', self._update_model)
         button.connect('toggled', self._on_button_toggled)
+
+        self._previous_track = None
 
     @log
     def _setup_view(self):
@@ -111,7 +122,7 @@ class PlaybackPopover(Gtk.Popover):
         def create_popover_entry(item, user_data):
             return PlaybackEntry(item, user_data)
 
-        self._track_list.bind_model(self._model, create_popover_entry, self._player)
+        self._track_list.bind_model(self._model, create_popover_entry, self)
         self._track_list.connect('row-activated', self._on_row_activated)
 
     @log
@@ -121,10 +132,18 @@ class PlaybackPopover(Gtk.Popover):
     @log
     def _update_model(self, player, playlist, current_iter):
         self._model.remove_all()
-        while current_iter != None:
-            item = PlaybackItem(playlist[current_iter], current_iter)
+
+        self.current_iter = current_iter;
+        if (self._previous_track is not None):
+            self._model.insert(0, self._previous_track)
+
+        iter = current_iter
+        while iter != None:
+            item = PlaybackItem(playlist[iter], iter)
             self._model.append(item)
-            current_iter = playlist.iter_next(current_iter)
+            iter = playlist.iter_next(iter)
+
+        self._previous_track = PlaybackItem(playlist[current_iter], current_iter)
 
     @log
     def _on_button_toggled(self, button):
