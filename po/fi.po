@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-01-08 23:12+0000\n"
-"PO-Revision-Date: 2018-01-09 20:02+0200\n"
+"POT-Creation-Date: 2018-01-28 23:36+0000\n"
+"PO-Revision-Date: 2018-02-01 10:18+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -127,12 +127,12 @@ msgstr ""
 msgid "Previous"
 msgstr "Edellinen"
 
-#: gnomemusic/notification.py:58 gnomemusic/player.py:559
+#: gnomemusic/notification.py:58 gnomemusic/player.py:540
 msgid "Pause"
 msgstr "Keskeytä"
 
-#: gnomemusic/notification.py:61 gnomemusic/player.py:562
-#: data/PlayerToolbar.ui:87
+#: gnomemusic/notification.py:61 gnomemusic/player.py:543
+#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Toista"
 
@@ -140,29 +140,29 @@ msgstr "Toista"
 msgid "Next"
 msgstr "Seuraava"
 
-#: gnomemusic/player.py:1165
+#: gnomemusic/player.py:1081
 msgid "Unable to play the file"
 msgstr "Tiedoston toistaminen epäonnistui"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: gnomemusic/player.py:1170
+#: gnomemusic/player.py:1086
 #, python-format
 msgid "_Find in %s"
 msgstr "_Etsi sovelluksella %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1180
+#: gnomemusic/player.py:1096
 msgid " and "
 msgstr " ja "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1183
+#: gnomemusic/player.py:1099
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/player.py:1184
+#: gnomemusic/player.py:1100
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -194,7 +194,7 @@ msgstr "Äskettäin lisätty"
 msgid "Favorite Songs"
 msgstr "Suosikkikappaleet"
 
-#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:118
+#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:114
 msgid "All"
 msgstr "Kaikki"
 
@@ -214,15 +214,15 @@ msgstr "Säveltäjä"
 msgid "Track Title"
 msgstr "Kappaleen nimi"
 
-#: gnomemusic/searchbar.py:119
+#: gnomemusic/searchbar.py:115
 msgid "Local"
 msgstr "Paikalliset"
 
-#: gnomemusic/searchbar.py:262
+#: gnomemusic/searchbar.py:258
 msgid "Sources"
 msgstr "Lähteet"
 
-#: gnomemusic/searchbar.py:270
+#: gnomemusic/searchbar.py:266
 msgid "Match"
 msgstr "Vastaavuus"
 
@@ -234,11 +234,11 @@ msgstr "Tuntematon esittäjä"
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:486
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:481
 msgid "Albums"
 msgstr "Levyt"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:488
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:483
 msgid "Artists"
 msgstr "Esittäjät"
 
@@ -254,30 +254,30 @@ msgstr[1] "Valittu {} kohdetta"
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
-#: gnomemusic/views/emptyview.py:51
-msgid "Music folder"
-msgstr "Musiikkikansio"
-
 #: gnomemusic/views/emptysearchview.py:53
 msgid "Try a different search"
 msgstr "Kokeile haku eri ehdoilla"
+
+#: gnomemusic/views/emptyview.py:51
+msgid "Music folder"
+msgstr "Musiikkikansio"
 
 #: gnomemusic/views/initialstateview.py:50
 msgid "Hey DJ"
 msgstr "Hei DJ"
 
-#: gnomemusic/views/playlistview.py:58 gnomemusic/views/searchview.py:492
+#: gnomemusic/views/playlistview.py:62 gnomemusic/views/searchview.py:487
 msgid "Playlists"
 msgstr "Soittolistat"
 
-#: gnomemusic/views/playlistview.py:438
+#: gnomemusic/views/playlistview.py:534
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d kappale"
 msgstr[1] "%d kappaletta"
 
-#: gnomemusic/views/searchview.py:490 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:485 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Kappaleet"
 
@@ -307,11 +307,11 @@ msgstr "Ladataan"
 msgid "_Undo"
 msgstr "_Kumoa"
 
-#: gnomemusic/window.py:315
+#: gnomemusic/window.py:313
 msgid "Empty"
 msgstr "Tyhjä"
 
-#: gnomemusic/window.py:391
+#: gnomemusic/window.py:389
 msgid "Playlist {} removed"
 msgstr "Soittolista {} poistettu"
 
@@ -515,6 +515,15 @@ msgstr "Kertaa kappale"
 msgid "Shuffle/Repeat Off"
 msgstr "Sekoitus/kertaus pois"
 
+#: data/PlaylistContextMenu.ui:9
+#| msgid "_Add to Playlist"
+msgid "Add to Playlist…"
+msgstr "Lisää soittolistalle…"
+
+#: data/PlaylistContextMenu.ui:13
+msgid "Remove From Playlist"
+msgstr "Poista soittolistalta"
+
 #: data/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Toista"
@@ -562,10 +571,6 @@ msgstr "_Lisää"
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Lisää _soittolistalle"
-
-#: data/SelectionToolbar.ui:21
-msgid "_Remove from Playlist"
-msgstr "Po_ista soittolistalta"
 
 #~ msgid "the|a|an"
 #~ msgstr "the|a|an"
