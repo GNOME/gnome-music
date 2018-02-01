@@ -27,6 +27,8 @@ from gi.repository import Gio, GObject, Gtk
 from gnomemusic.albumartcache import ArtSize
 import gnomemusic.utils as utils
 
+TRACK_LIST_LENGTH = 10
+
 class PlaybackItem(GObject.Object):
     def __init__(self, data, iter):
         super().__init__()
@@ -114,7 +116,10 @@ class PlaybackPopover(Gtk.Popover):
             self._model.insert(0, self.previousTrack)
 
         iter = current_iter
-        while iter != None:
+        for count in range(0, TRACK_LIST_LENGTH):
+            if iter == None:
+                break
+
             item = PlaybackItem(playlist[iter], iter)
             self._model.append(item)
             iter = playlist.iter_next(iter)
