@@ -112,7 +112,7 @@ class PlaylistView(BaseView):
         self._playlist_rename_action = Gio.SimpleAction.new(
             'playlist_rename', None)
         self._playlist_rename_action.connect(
-            'activate', self._on_rename_activate)
+            'activate', self._stage_playlist_for_renaming)
         self._window.add_action(self._playlist_rename_action)
 
         self._grid.insert_row(0)
@@ -588,10 +588,7 @@ class PlaylistView(BaseView):
 
     @log
     def _on_rename_entry_changed(self, selection):
-        if selection.get_text_length() > 0:
-            self._rename_done_button.set_sensitive(True)
-        else:
-            self._rename_done_button.set_sensitive(False)
+        self._rename_done_button.set_sensitive(selection.get_text_length() > 0)
 
     @log
     def disable_rename_playlist(self):
@@ -601,7 +598,7 @@ class PlaylistView(BaseView):
         self._rename_entry.disconnect(self._handler_rename_entry)
 
     @log
-    def _stage_playlist_for_renaming(self):
+    def _stage_playlist_for_renaming(self, menuitem, data=None):
         selection = self._sidebar.get_selected_row()
         pl_torename = selection.playlist
 
@@ -623,10 +620,6 @@ class PlaylistView(BaseView):
             'activate', playlist_renamed_callback)
         self._handler_rename_done_button = self._rename_done_button.connect(
             'clicked', playlist_renamed_callback)
-
-    @log
-    def _on_rename_activate(self, menuitem, data=None):
-        self._stage_playlist_for_renaming()
 
     @log
     def _on_playlist_created(self, playlists, playlist):
