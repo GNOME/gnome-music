@@ -733,8 +733,6 @@ class Player(GObject.GObject):
     @log
     def set_playlist(self, type, id, model, iter, field,
                      discovery_status_field=11):
-        self.stop()
-
         old_playlist = self.playlist
         if old_playlist != model:
             self.playlist = model
@@ -757,6 +755,8 @@ class Player(GObject.GObject):
             self.playlist_delete_handler = model.connect('row-deleted', self._on_playlist_size_changed)
             self.emit('playlist-changed')
         self.emit('current-changed')
+
+        GLib.idle_add(self._validate_next_track)
 
     @log
     def running_playlist(self, type, id):
