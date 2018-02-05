@@ -91,7 +91,7 @@ class LastFmScrobbler(GObject.GObject):
 
         # The album is optional. So only provide it when it is
         # available.
-        album = media.get_title()
+        album = media.get_album_title()
 
         request_dict = {}
         if album:
