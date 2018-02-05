@@ -70,7 +70,7 @@ class LastFmScrobbler(GObject.GObject):
 
             for obj in accounts:
                 account = obj.get_account()
-                if account.props.provider_name == "Last.fm":
+                if account.props.provider_type == "lastfm":
                     self._authentication = obj.get_oauth2_based()
                     return
         except Exception as e:
