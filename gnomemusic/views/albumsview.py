@@ -192,9 +192,9 @@ class AlbumsView(BaseView):
     @log
     def _on_album_event_triggered(self, evbox, event, child):
         if event.button is 3:
-            self._on_selection_mode_request()
-            if self.selection_mode:
-                child.check.set_active(True)
+            if not self.selection_mode:
+                self._on_selection_mode_request()
+            child.check.set_active(not child.check.get_active())
 
     @log
     def _on_child_toggled(self, check, pspec, child):
