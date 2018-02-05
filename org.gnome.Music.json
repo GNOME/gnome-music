@@ -8,13 +8,15 @@
     "desktop-file-name-prefix": "(Nightly) ",
     "finish-args": [
         "--share=ipc", "--socket=x11",
+        "--share=network",
         "--socket=wayland",
         "--talk-name=org.freedesktop.Tracker1",
         "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
         "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--talk-name=com.intel.dleyna-server",
         "--socket=pulseaudio",
-        "--filesystem=xdg-music"
+        "--filesystem=xdg-music",
+        "--filesystem=xdg-cache/media-art"
     ],
     "build-options" : {
         "cflags": "-O2 -g",
@@ -41,7 +43,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/libmediaart"
+                    "url": "https://git.gnome.org/libmediaart"
                 }
             ]
         },
@@ -66,7 +68,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/grilo"
+                    "url": "https://git.gnome.org/grilo"
                 }
             ],
             "cleanup": [ "/include", "/bin" ]
@@ -77,7 +79,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/grilo-plugins"
+                    "url": "https://git.gnome.org/grilo-plugins"
                 }
             ],
             "cleanup": [ "/include" ]
@@ -100,7 +102,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "git://git.gnome.org/gnome-music"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
                 }
             ]
         }

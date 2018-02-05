@@ -70,7 +70,7 @@ class Window(Gtk.ApplicationWindow):
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
         selectAll = Gio.SimpleAction.new('selectAll', None)
-        app.add_accelerator('<Primary>a', 'win.selectAll', None)
+        app.set_accels_for_action('win.selectAll', ['<Primary>a'])
         selectAll.connect('activate', self._on_select_all)
         self.add_action(selectAll)
         selectNone = Gio.SimpleAction.new('selectNone', None)
@@ -78,7 +78,6 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(selectNone)
         self.set_size_request(200, 100)
         self.set_default_icon_name('gnome-music')
-        self.notification_handler = None
         self._loading_counter = 0
 
         self.prev_view = None
@@ -292,8 +291,6 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
         self.selection_toolbar._add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
-        self.selection_toolbar._remove_from_playlist_button.connect(
-            'clicked', self._on_remove_from_playlist_button_clicked)
 
         self.toolbar.set_state(ToolbarState.MAIN)
         self.toolbar.header_bar.show()
@@ -510,11 +507,14 @@ class Window(Gtk.ApplicationWindow):
         if self.curr_view != self.views[View.SEARCH] and self.curr_view != self.views[View.EMPTY_SEARCH]:
             self.toolbar.searchbar.reveal(False)
 
-        # Toggle the selection button for the EmptySearch view
-        if self.curr_view == self.views[View.EMPTY_SEARCH] or \
-           self.prev_view == self.views[View.EMPTY_SEARCH]:
-            self.toolbar._select_button.set_sensitive(
-                not self.toolbar._select_button.get_sensitive())
+        # Disable the selection button for the EmptySearch and Playlist
+        # view
+        no_selection_mode = [
+            self.views[View.EMPTY_SEARCH],
+            self.views[View.PLAYLIST]
+        ]
+        self.toolbar._select_button.set_sensitive(
+            self.curr_view not in no_selection_mode)
 
         # Disable renaming playlist if it was active when leaving
         # Playlist view
@@ -554,7 +554,6 @@ class Window(Gtk.ApplicationWindow):
             child = self._stack.get_visible_child()
             in_playlist = (child == self.views[View.PLAYLIST])
             self.selection_toolbar._add_to_playlist_button.set_visible(not in_playlist)
-            self.selection_toolbar._remove_from_playlist_button.set_visible(in_playlist)
 
     @log
     def _on_add_to_playlist_button_clicked(self, widget):
@@ -572,21 +571,6 @@ class Window(Gtk.ApplicationWindow):
                                          selected_songs)
             self.toolbar.set_selection_mode(False)
             playlist_dialog.destroy()
-
-        self._stack.get_visible_child().get_selected_songs(callback)
-
-    @log
-    def _on_remove_from_playlist_button_clicked(self, widget):
-        if self._stack.get_visible_child() != self.views[View.PLAYLIST]:
-            return
-
-        def callback(selected_songs):
-            if len(selected_songs) < 1:
-                return
-
-            playlist.remove_from_playlist(
-                self.views[View.PLAYLIST].current_playlist, selected_songs)
-            self.toolbar.set_selection_mode(False)
 
         self._stack.get_visible_child().get_selected_songs(callback)
 

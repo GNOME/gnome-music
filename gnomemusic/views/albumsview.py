@@ -50,6 +50,7 @@ class AlbumsView(BaseView):
         self.items_selected = []
         self.items_selected_callback = None
         self._add_list_renderers()
+        self._init = True
 
     @log
     def _on_changes_pending(self, data=None):

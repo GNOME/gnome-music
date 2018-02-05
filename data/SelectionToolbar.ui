@@ -16,17 +16,5 @@
         </style>
       </object>
     </child>
-    <child>
-      <object class="GtkButton" id="button2">
-        <property name="label" translatable="yes">_Remove from Playlist</property>
-        <property name="use_underline">True</property>
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="receives_default">True</property>
-        <style>
-          <class name="text-button"/>
-        </style>
-      </object>
-    </child>
   </object>
 </interface>

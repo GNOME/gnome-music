@@ -35,8 +35,7 @@ import os
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
                                   "grl-filesystem:4,"
                                   "grl-tracker-source:3,"
-                                  "grl-lastfm-cover:2,"
-                                  "grl-spotify-cover:1")
+                                  "grl-lastfm-cover:2")
 from gi.repository import Grl
 logger = logging.getLogger(__name__)
 
@@ -97,7 +96,13 @@ class Grilo(GObject.GObject):
                                                Grl.ResolutionFlags.IDLE_RELAY)
 
         self.sources = {}
-        self.blacklist = ['grl-filesystem', 'grl-bookmarks', 'grl-metadata-store', 'grl-podcasts']
+        self.blacklist = [
+            'grl-filesystem',
+            'grl-bookmarks',
+            'grl-metadata-store',
+            'grl-podcasts',
+            'grl-spotify-cover'
+        ]
         self.tracker = None
         self.changed_media_ids = []
         self.pending_event_id = 0

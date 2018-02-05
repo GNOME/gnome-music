@@ -18,8 +18,8 @@ gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
 gnomemusic/views/baseview.py
-gnomemusic/views/emptyview.py
 gnomemusic/views/emptysearchview.py
+gnomemusic/views/emptyview.py
 gnomemusic/views/initialstateview.py
 gnomemusic/views/playlistview.py
 gnomemusic/views/searchview.py
@@ -39,6 +39,7 @@ data/headerbar.ui
 data/help-overlay.ui
 data/NoMusic.ui
 data/PlayerToolbar.ui
+data/PlaylistContextMenu.ui
 data/PlaylistControls.ui
 data/PlaylistDialog.ui
 data/SelectionToolbar.ui
