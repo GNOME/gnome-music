@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-01-28 23:36+0000\n"
-"PO-Revision-Date: 2018-01-31 22:53+0100\n"
+"POT-Creation-Date: 2018-02-05 16:40+0000\n"
+"PO-Revision-Date: 2018-02-05 23:47+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -34,7 +34,7 @@ msgstr "Musik är det nya GNOME-programmet för att spela musik."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:55
 #: gnomemusic/application.py:104 gnomemusic/toolbar.py:91
-#: gnomemusic/window.py:67 data/AboutDialog.ui.in:7
+#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musik"
 
@@ -130,11 +130,11 @@ msgstr "Satt till true när initialtillstånd har visats"
 msgid "Previous"
 msgstr "Föregående"
 
-#: gnomemusic/notification.py:58 gnomemusic/player.py:540
+#: gnomemusic/notification.py:58 gnomemusic/player.py:536
 msgid "Pause"
 msgstr "Gör paus"
 
-#: gnomemusic/notification.py:61 gnomemusic/player.py:543
+#: gnomemusic/notification.py:61 gnomemusic/player.py:539
 #: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Spela"
@@ -143,29 +143,29 @@ msgstr "Spela"
 msgid "Next"
 msgstr "Nästa"
 
-#: gnomemusic/player.py:1081
+#: gnomemusic/player.py:1076
 msgid "Unable to play the file"
 msgstr "Kan inte spela upp filen"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: gnomemusic/player.py:1086
+#: gnomemusic/player.py:1081
 #, python-format
 msgid "_Find in %s"
 msgstr "_Hitta i %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1096
+#: gnomemusic/player.py:1091
 msgid " and "
 msgstr " och "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1099
+#: gnomemusic/player.py:1094
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/player.py:1100
+#: gnomemusic/player.py:1095
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -237,22 +237,22 @@ msgstr "Okänd artist"
 msgid "Untitled"
 msgstr "Namnlös"
 
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:481
+#: gnomemusic/views/albumsview.py:45 gnomemusic/views/searchview.py:501
 msgid "Albums"
 msgstr "Album"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:483
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:503
 msgid "Artists"
 msgstr "Artister"
 
-#: gnomemusic/views/baseview.py:196
+#: gnomemusic/views/baseview.py:188
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Markerade {} objekt"
 msgstr[1] "Markerade {} objekt"
 
-#: gnomemusic/views/baseview.py:201 gnomemusic/views/baseview.py:303
-#: gnomemusic/widgets/albumwidget.py:196
+#: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
+#: gnomemusic/widgets/albumwidget.py:189
 #: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
 msgid "Click on items to select them"
 msgstr "Klicka på objekt för att välja dem"
@@ -269,22 +269,30 @@ msgstr "Musikmapp"
 msgid "Hey DJ"
 msgstr "Hej DJ"
 
-#: gnomemusic/views/playlistview.py:62 gnomemusic/views/searchview.py:487
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:507
 msgid "Playlists"
 msgstr "Spellistor"
 
-#: gnomemusic/views/playlistview.py:534
+#: gnomemusic/views/playlistview.py:611
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d låt"
 msgstr[1] "%d låtar"
 
-#: gnomemusic/views/searchview.py:485 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/playlistview.py:654
+msgid "Playlist {} removed"
+msgstr "Spellista {} borttagen"
+
+#: gnomemusic/views/playlistview.py:660
+msgid "{} removed from {}"
+msgstr "{} borttagen från {}"
+
+#: gnomemusic/views/searchview.py:505 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Låtar"
 
-#: gnomemusic/widgets/albumwidget.py:192
+#: gnomemusic/widgets/albumwidget.py:185
 #: gnomemusic/widgets/artistalbumswidget.py:228
 #, python-format
 msgid "Selected %d item"
@@ -292,7 +300,7 @@ msgid_plural "Selected %d items"
 msgstr[0] "Markerade %d objekt"
 msgstr[1] "Markerade %d objekt"
 
-#: gnomemusic/widgets/albumwidget.py:288 gnomemusic/widgets/albumwidget.py:343
+#: gnomemusic/widgets/albumwidget.py:281 gnomemusic/widgets/albumwidget.py:326
 #, python-format
 msgid "%d min"
 msgstr "%d min"
@@ -301,22 +309,17 @@ msgstr "%d min"
 msgid "Disc {}"
 msgstr "Skiva {}"
 
-#: gnomemusic/window.py:125
+#: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
 msgstr "Läser in"
 
-#. Undo button
-#: gnomemusic/window.py:162
+#: gnomemusic/widgets/notificationspopup.py:231
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: gnomemusic/window.py:313
+#: gnomemusic/window.py:252
 msgid "Empty"
 msgstr "Tom"
-
-#: gnomemusic/window.py:389
-msgid "Playlist {} removed"
-msgstr "Spellista {} borttagen"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
