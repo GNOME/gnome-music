@@ -154,7 +154,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_cancel_button_clicked(self, button):
-        self._view.set_selection_mode(False)
+        self.unselect_all()
         self._header_bar.set_selection_mode(False)
 
     @log
