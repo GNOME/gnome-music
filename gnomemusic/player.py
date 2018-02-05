@@ -78,7 +78,306 @@ class DiscoveryStatus:
     SUCCEEDED = 2
 
 
+class GstPlayer(GObject.GObject):
+
+    @log
+    def __init__(self, player):
+        super().__init__()
+
+        Gst.init(None)
+
+        self._settings = Gio.Settings.new('org.gnome.Music')
+
+        self._super_player = player
+
+        self._player = Gst.ElementFactory.make('playbin', 'player')
+        self._bus = self._player.get_bus()
+        self._bus.add_signal_watch()
+        self._setup_replaygain()
+
+        replaygain = self._settings.get_value('replaygain') is not None
+        self._toggle_replaygain(replaygain)
+
+        self._settings.connect(
+            'changed::replaygain', self._on_replaygain_setting_changed)
+
+        self._bus.connect('message::state-changed', self._on_bus_state_changed)
+        self._bus.connect('message::error', self._on_bus_error)
+        self._bus.connect('message::element', self._on_bus_element)
+        self._bus.connect('message::eos', self._on_bus_eos)
+
+    @GObject.Property
+    @log
+    def current_track_uri(self):
+        return self._current_track_uri
+
+    @log
+    def _setup_replaygain(self):
+        """Set up replaygain
+
+        See https://github.com/gnumdk/lollypop/commit/429383c3742e631b34937d8987d780edc52303c0
+        """
+        self._rgfilter = Gst.ElementFactory.make("bin", "bin")
+        self._rg_audioconvert1 = Gst.ElementFactory.make(
+            "audioconvert", "audioconvert")
+        self._rg_audioconvert2 = Gst.ElementFactory.make(
+            "audioconvert", "audioconvert2")
+        self._rgvolume = Gst.ElementFactory.make("rgvolume", "rgvolume")
+        self._rglimiter = Gst.ElementFactory.make("rglimiter", "rglimiter")
+        self._rg_audiosink = Gst.ElementFactory.make(
+            "autoaudiosink", "autoaudiosink")
+
+        if (not self._rgfilter
+                or not self._rg_audioconvert1
+                or not self._rg_audioconvert2
+                or not self._rgvolume
+                or not self._rglimiter
+                or not self._rg_audiosink):
+            logger.debug("Replay Gain is not available")
+            return
+
+        self._rgvolume.props.pre_amp = 0.0
+        self._rgfilter.add(self._rgvolume)
+        self._rgfilter.add(self._rg_audioconvert1)
+        self._rgfilter.add(self._rg_audioconvert2)
+        self._rgfilter.add(self._rglimiter)
+        self._rgfilter.add(self._rg_audiosink)
+        self._rg_audioconvert1.link(self._rgvolume)
+        self._rgvolume.link(self._rg_audioconvert2)
+        self._rgvolume.link(self._rglimiter)
+        self._rg_audioconvert2.link(self._rg_audiosink)
+        self._rgfilter.add_pad(Gst.GhostPad.new(
+            "sink", self._rg_audioconvert1.get_static_pad("sink")))
+
+    @log
+    def _toggle_replaygain(self, state=False):
+        if state and self._rgfilter:
+            self._player.set_property("audio-sink", self._rgfilter)
+        else:
+            self._player.set_property("audio-sink", None)
+
+    @log
+    def _on_replaygain_setting_changed(self, settings, value):
+        replaygain = settings.get_value('replaygain') is not None
+        self._toggle_replaygain(replaygain)
+
+    @log
+    def _on_bus_state_changed(self, bus, message):
+        # Note: not all state changes are signaled through here, in
+        # particular transitions between Gst.State.READY and
+        # Gst.State.NULL are never async and thus don't cause a
+        # message. In practice, self means only Gst.State.PLAYING and
+        # Gst.State.PAUSED are.
+        self._super_player._sync_playing()
+
+    @log
+    def _gst_plugins_base_check_version(self, major, minor, micro):
+        gst_major, gst_minor, gst_micro, gst_nano = GstPbutils.plugins_base_version()
+        return ((gst_major > major) or
+                (gst_major == major and gst_minor > minor) or
+                (gst_major == major and gst_minor == minor and gst_micro >= micro) or
+                (gst_major == major and gst_minor == minor and gst_micro + 1 == micro and gst_nano > 0))
+
+    @log
+    def _start_plugin_installation(
+            self, missing_plugin_messages, confirm_search):
+        install_ctx = GstPbutils.InstallPluginsContext.new()
+
+        install_ctx.set_desktop_id('org.gnome.Music.desktop')
+        install_ctx.set_confirm_search(confirm_search)
+
+        startup_id = '_TIME%u' % Gtk.get_current_event_time()
+        install_ctx.set_startup_notification_id(startup_id)
+
+        installer_details = []
+        for message in missing_plugin_messages:
+            installer_detail = GstPbutils.missing_plugin_message_get_installer_detail(message)
+            installer_details.append(installer_detail)
+
+        def on_install_done(res):
+            # We get the callback too soon, before the installation has
+            # actually finished. Do nothing for now.
+            pass
+
+        GstPbutils.install_plugins_async(
+            installer_details, install_ctx, on_install_done)
+
+    @log
+    def _show_codec_confirmation_dialog(
+            self, install_helper_name, missing_plugin_messages):
+        dialog = MissingCodecsDialog(self._parent_window, install_helper_name)
+
+        def on_dialog_response(dialog, response_type):
+            if response_type == Gtk.ResponseType.ACCEPT:
+                self._start_plugin_installation(missing_plugin_messages, False)
+
+            dialog.destroy()
+
+        descriptions = []
+        for message in missing_plugin_messages:
+            description = GstPbutils.missing_plugin_message_get_description(message)
+            descriptions.append(description)
+
+        dialog.set_codec_names(descriptions)
+        dialog.connect('response', on_dialog_response)
+        dialog.present()
+
+    @log
+    def _handle_missing_plugins(self):
+        if not self._missingPluginMessages:
+            return
+
+        missing_plugin_messages = self._missingPluginMessages
+        self._missingPluginMessages = []
+
+        if self._gst_plugins_base_check_version(1, 5, 0):
+            proxy = Gio.DBusProxy.new_sync(
+                Gio.bus_get_sync(Gio.BusType.SESSION, None),
+                Gio.DBusProxyFlags.NONE, None, 'org.freedesktop.PackageKit',
+                '/org/freedesktop/PackageKit',
+                'org.freedesktop.PackageKit.Modify2', None)
+            prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
+            if prop:
+                display_name = prop.get_string()
+                if display_name:
+                    self._show_codec_confirmation_dialog(
+                        display_name, missing_plugin_messages)
+                    return
+
+        # If the above failed, fall back to immediately starting the
+        # codec installation.
+        self._start_plugin_installation(missing_plugin_messages, True)
+
+    @log
+    def _is_missing_plugin_message(self, message):
+        error, debug = message.parse_error()
+
+        if error.matches(Gst.CoreError.quark(), Gst.CoreError.MISSING_PLUGIN):
+            return True
+
+        return False
+
+    @log
+    def _on_bus_element(self, bus, message):
+        if GstPbutils.is_missing_plugin_message(message):
+            self._missingPluginMessages.append(message)
+
+    def _on_bus_error(self, bus, message):
+        if self._is_missing_plugin_message(message):
+            self.pause()
+            self._handle_missing_plugins()
+            return True
+
+        # FIXME: This shouldn't be here
+        media = self.get_current_media()
+        if media is not None:
+            if self.currentTrack and self.currentTrack.valid():
+                currentTrack = self.playlist.get_iter(
+                    self.currentTrack.get_path())
+                cols = self.playlist[currentTrack]
+                cols[self.Field.DISCOVERY_STATUS] = DiscoveryStatus.FAILED
+            uri = media.get_url()
+        else:
+            uri = 'none'
+        logger.warning('URI: {}'.format(uri))
+        error, debug = message.parse_error()
+        debug = debug.split('\n')
+        debug = [('     ') + line.lstrip() for line in debug]
+        debug = '\n'.join(debug)
+        logger.warning('Error from element {}: {}'.format(message.src.get_name(), error.message))
+        logger.warning('Debugging info:\n{}'.format(debug))
+        self.play_next()
+        return True
+
+    @log
+    def _on_bus_eos(self, bus, message):
+        # FIXME: This shouldn't be here
+        if self.nextTrack:
+            GLib.idle_add(self._on_glib_idle)
+        elif (self.repeat == RepeatType.NONE):
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self._progress_scale_zero()
+            self.progressScale.set_sensitive(False)
+            if self.playlist is not None:
+                currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
+                if currentTrack:
+                    self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
+                else:
+                    self.currentTrack = None
+                self.load(self.get_current_media())
+            self.emit('playback-status-changed')
+        else:
+            # Stop playback
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self._progress_scale_zero()
+            self.progressScale.set_sensitive(False)
+            self.emit('playback-status-changed')
+
+    @log
+    def is_playing(self):
+        ok, state, pending = self._player.get_state(0)
+
+        if ok == Gst.StateChangeReturn.ASYNC:
+            return pending == Gst.State.PLAYING
+        elif ok == Gst.StateChangeReturn.SUCCESS:
+            return state == Gst.State.PLAYING
+        else:
+            return False
+
+    @log
+    def get_playback_status(self):
+        ok, state, pending = self._player.get_state(0)
+        if ok == Gst.StateChangeReturn.ASYNC:
+            state = pending
+        elif (ok != Gst.StateChangeReturn.SUCCESS):
+            return PlaybackStatus.STOPPED
+
+        if state == Gst.State.PLAYING:
+            return PlaybackStatus.PLAYING
+        elif state == Gst.State.PAUSED:
+            return PlaybackStatus.PAUSED
+        else:
+            return PlaybackStatus.STOPPED
+
+    @GObject.Property
+    @log
+    def state(self):
+        return self.get_playback_status()
+
+    @state.setter
+    @log
+    def state(self, playbackstate):
+        if playbackstate == PlaybackStatus.PAUSED:
+            self._player.set_state(Gst.State.Paused)
+        if playbackstate == PlaybackStatus.STOPPED:
+            self._player.set_state(Gst.State.NULL)
+        if playbackstate == PlaybackStatus.PLAYING:
+            self._player.set_state(Gst.State.PLAYING)
+
+    @GObject.Property
+    @log
+    def url(self):
+        return self._player.get_value('current-uri', 0)
+
+    @url.setter
+    @log
+    def url(self, url_):
+        self._player.set_property('uri', url_)
+
+    @log
+    def get_position(self):
+        return self._player.query_position(Gst.Format.TIME)[1] / 10**9
+
+
 class Player(GObject.GObject):
+
+    class Field(IntEnum):
+        """Enum for player model fields"""
+        SONG = 0
+        DISCOVERY_STATUS = 1
+
     nextTrack = None
     timeout = None
     _seconds_timeout = None
@@ -97,11 +396,6 @@ class Player(GObject.GObject):
         'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
-    class Field(IntEnum):
-        """Enum for player model fields"""
-        SONG = 0
-        DISCOVERY_STATUS = 1
-
     def __repr__(self):
         return '<Player>'
 
@@ -113,8 +407,10 @@ class Player(GObject.GObject):
         self.playlist = None
         self.playlistType = None
         self.playlistId = None
+        self.playlistField = None
         self.currentTrack = None
         self._current_track_uri = None
+
         self._missingPluginMessages = []
 
         Gst.init(None)
@@ -125,23 +421,15 @@ class Player(GObject.GObject):
         self.discoverer.start()
         self._discovering_urls = {}
 
-        self.player = Gst.ElementFactory.make('playbin', 'player')
-        self.bus = self.player.get_bus()
-        self.bus.add_signal_watch()
-        self.setup_replaygain()
-
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._settings.connect('changed::repeat', self._on_repeat_setting_changed)
-        self._settings.connect('changed::replaygain', self._on_replaygain_setting_changed)
         self.repeat = self._settings.get_enum('repeat')
-        self.replaygain = self._settings.get_value('replaygain') is not None
-        self.toggle_replaygain(self.replaygain)
-
-        self.bus.connect('message::state-changed', self._on_bus_state_changed)
-        self.bus.connect('message::error', self._onBusError)
-        self.bus.connect('message::element', self._on_bus_element)
-        self.bus.connect('message::eos', self._on_bus_eos)
         self._setup_view()
+
+        self.playlist_insert_handler = 0
+        self.playlist_delete_handler = 0
+
+        self._player = GstPlayer(self)
 
         self._lastfm = LastFmScrobbler()
 
@@ -150,50 +438,10 @@ class Player(GObject.GObject):
     def current_track_uri(self):
         return self._current_track_uri
 
-    @log
-    def _on_replaygain_setting_changed(self, settings, value):
-        self.replaygain = settings.get_value('replaygain') is not None
-        self.toggle_replaygain(self.replaygain)
-
-    @log
-    def setup_replaygain(self):
-        """
-        Set up replaygain
-        See https://github.com/gnumdk/lollypop/commit/429383c3742e631b34937d8987d780edc52303c0
-        """
-        self._rgfilter = Gst.ElementFactory.make("bin", "bin")
-        self._rg_audioconvert1 = Gst.ElementFactory.make("audioconvert", "audioconvert")
-        self._rg_audioconvert2 = Gst.ElementFactory.make("audioconvert", "audioconvert2")
-        self._rgvolume = Gst.ElementFactory.make("rgvolume", "rgvolume")
-        self._rglimiter = Gst.ElementFactory.make("rglimiter", "rglimiter")
-        self._rg_audiosink = Gst.ElementFactory.make("autoaudiosink", "autoaudiosink")
-        if not self._rgfilter or not self._rg_audioconvert1 or not self._rg_audioconvert2 \
-           or not self._rgvolume or not self._rglimiter or not self._rg_audiosink:
-            logger.debug("Replay Gain is not available")
-            return
-        self._rgvolume.props.pre_amp = 0.0
-        self._rgfilter.add(self._rgvolume)
-        self._rgfilter.add(self._rg_audioconvert1)
-        self._rgfilter.add(self._rg_audioconvert2)
-        self._rgfilter.add(self._rglimiter)
-        self._rgfilter.add(self._rg_audiosink)
-        self._rg_audioconvert1.link(self._rgvolume)
-        self._rgvolume.link(self._rg_audioconvert2)
-        self._rgvolume.link(self._rglimiter)
-        self._rg_audioconvert2.link(self._rg_audiosink)
-        self._rgfilter.add_pad(Gst.GhostPad.new("sink", self._rg_audioconvert1.get_static_pad("sink")))
-
-    @log
-    def toggle_replaygain(self, state=False):
-        if state and self._rgfilter:
-            self.player.set_property("audio-sink", self._rgfilter)
-        else:
-            self.player.set_property("audio-sink", None)
-
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
-            logger.warning("The item {} doesn't have a URL set".format(item))
+            logger.warn("The item %s doesn't have a URL set", item)
             return
 
         if not url.startswith("file://"):
@@ -228,155 +476,6 @@ class Player(GObject.GObject):
         self._sync_prev_next()
         self._sync_repeat_image()
         self._validate_next_track()
-
-    @log
-    def _on_bus_state_changed(self, bus, message):
-        # Note: not all state changes are signaled through here, in particular
-        # transitions between Gst.State.READY and Gst.State.NULL are never async
-        # and thus don't cause a message
-        # In practice, self means only Gst.State.PLAYING and Gst.State.PAUSED are
-        self._sync_playing()
-
-    @log
-    def _gst_plugins_base_check_version(self, major, minor, micro):
-        gst_major, gst_minor, gst_micro, gst_nano = GstPbutils.plugins_base_version()
-        return ((gst_major > major) or
-                (gst_major == major and gst_minor > minor) or
-                (gst_major == major and gst_minor == minor and gst_micro >= micro) or
-                (gst_major == major and gst_minor == minor and gst_micro + 1 == micro and gst_nano > 0))
-
-    @log
-    def _start_plugin_installation(self, missing_plugin_messages, confirm_search):
-        install_ctx = GstPbutils.InstallPluginsContext.new()
-
-        if self._gst_plugins_base_check_version(1, 5, 0):
-            install_ctx.set_desktop_id('org.gnome.Music.desktop')
-            install_ctx.set_confirm_search(confirm_search)
-
-            startup_id = '_TIME%u' % Gtk.get_current_event_time()
-            install_ctx.set_startup_notification_id(startup_id)
-
-        installer_details = []
-        for message in missing_plugin_messages:
-            installer_detail = GstPbutils.missing_plugin_message_get_installer_detail(message)
-            installer_details.append(installer_detail)
-
-        def on_install_done(res):
-            # We get the callback too soon, before the installation has
-            # actually finished. Do nothing for now.
-            pass
-
-        GstPbutils.install_plugins_async(installer_details, install_ctx, on_install_done)
-
-    @log
-    def _show_codec_confirmation_dialog(self, install_helper_name, missing_plugin_messages):
-        dialog = MissingCodecsDialog(self._parent_window, install_helper_name)
-
-        def on_dialog_response(dialog, response_type):
-            if response_type == Gtk.ResponseType.ACCEPT:
-                self._start_plugin_installation(missing_plugin_messages, False)
-
-            dialog.destroy()
-
-        descriptions = []
-        for message in missing_plugin_messages:
-            description = GstPbutils.missing_plugin_message_get_description(message)
-            descriptions.append(description)
-
-        dialog.set_codec_names(descriptions)
-        dialog.connect('response', on_dialog_response)
-        dialog.present()
-
-    @log
-    def _handle_missing_plugins(self):
-        if not self._missingPluginMessages:
-            return
-
-        missing_plugin_messages = self._missingPluginMessages
-        self._missingPluginMessages = []
-
-        if self._gst_plugins_base_check_version(1, 5, 0):
-            proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
-                                           Gio.DBusProxyFlags.NONE,
-                                           None,
-                                           'org.freedesktop.PackageKit',
-                                           '/org/freedesktop/PackageKit',
-                                           'org.freedesktop.PackageKit.Modify2',
-                                           None)
-            prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
-            if prop:
-                display_name = prop.get_string()
-                if display_name:
-                    self._show_codec_confirmation_dialog(display_name, missing_plugin_messages)
-                    return
-
-        # If the above failed, fall back to immediately starting the codec installation
-        self._start_plugin_installation(missing_plugin_messages, True)
-
-    @log
-    def _is_missing_plugin_message(self, message):
-        error, debug = message.parse_error()
-
-        if error.matches(Gst.CoreError.quark(), Gst.CoreError.MISSING_PLUGIN):
-            return True
-
-        return False
-
-    @log
-    def _on_bus_element(self, bus, message):
-        if GstPbutils.is_missing_plugin_message(message):
-            self._missingPluginMessages.append(message)
-
-    def _onBusError(self, bus, message):
-        if self._is_missing_plugin_message(message):
-            self.pause()
-            self._handle_missing_plugins()
-            return True
-
-        media = self.get_current_media()
-        if media is not None:
-            if self.currentTrack and self.currentTrack.valid():
-                currentTrack = self.playlist.get_iter(
-                    self.currentTrack.get_path())
-                cols = self.playlist[currentTrack]
-                cols[self.Field.DISCOVERY_STATUS] = DiscoveryStatus.FAILED
-            uri = media.get_url()
-        else:
-            uri = 'none'
-        logger.warning('URI: {}'.format(uri))
-        error, debug = message.parse_error()
-        debug = debug.split('\n')
-        debug = [('     ') + line.lstrip() for line in debug]
-        debug = '\n'.join(debug)
-        logger.warning('Error from element {}: {}'.format(message.src.get_name(), error.message))
-        logger.warning('Debugging info:\n{}'.format(debug))
-        self.play_next()
-        return True
-
-    @log
-    def _on_bus_eos(self, bus, message):
-        if self.nextTrack:
-            GLib.idle_add(self._on_glib_idle)
-        elif (self.repeat == RepeatType.NONE):
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self._progress_scale_zero()
-            self.progressScale.set_sensitive(False)
-            if self.playlist is not None:
-                currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
-                if currentTrack:
-                    self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
-                else:
-                    self.currentTrack = None
-                self.load(self.get_current_media())
-            self.emit('playback-status-changed')
-        else:
-            # Stop playback
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self._progress_scale_zero()
-            self.progressScale.set_sensitive(False)
-            self.emit('playback-status-changed')
 
     @log
     def _on_glib_idle(self):
@@ -539,24 +638,13 @@ class Player(GObject.GObject):
         else:
             return True
 
-    @log
-    def _get_playing(self):
-        ok, state, pending = self.player.get_state(0)
-        # log('get playing(), [ok, state, pending] = [%s, %s, %s]'.format(ok, state, pending))
-        if ok == Gst.StateChangeReturn.ASYNC:
-            return pending == Gst.State.PLAYING
-        elif ok == Gst.StateChangeReturn.SUCCESS:
-            return state == Gst.State.PLAYING
-        else:
-            return False
-
     @property
     def playing(self):
-        return self._get_playing()
+        return self._player.is_playing()
 
     @log
     def _sync_playing(self):
-        if self._get_playing():
+        if self._player.is_playing():
             image = self._pauseImage
             tooltip = _("Pause")
         else:
@@ -612,9 +700,9 @@ class Player(GObject.GObject):
 
         self._time_stamp = int(time.time())
 
-        url = media.get_url()
-        if url != self.player.get_value('current-uri', 0):
-            self.player.set_property('uri', url)
+        url_ = media.get_url()
+        if url_ != self._player.url:
+            self._player.url = url_
 
         if self.currentTrack and self.currentTrack.valid():
             currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
@@ -647,16 +735,17 @@ class Player(GObject.GObject):
         if track is None:
             return
 
-        _iter = self.playlist.get_iter(self.nextTrack.get_path())
+        iter_ = self.playlist.get_iter(self.nextTrack.get_path())
         status = self.playlist[_iter][self.Field.DISCOVERY_STATUS]
         next_song = self.playlist[_iter][self.Field.SONG]
-        url = next_song.get_url()
+        url_ = next_song.get_url()
 
         # Skip remote songs discovery
-        if url.startswith('http://') or url.startswith('https://'):
+        if (url_.startswith('http://')
+                or url_.startswith('https://')):
             return False
         elif status == DiscoveryStatus.PENDING:
-            self.discover_item(next_song, self._on_next_item_validated, _iter)
+            self.discover_item(next_song, self._on_next_item_validated, iter_)
         elif status == DiscoveryStatus.FAILED:
             GLib.idle_add(self._validate_next_track)
 
@@ -673,7 +762,7 @@ class Player(GObject.GObject):
 
         media = None
 
-        if self.player.get_state(1)[1] != Gst.State.PAUSED:
+        if self._player.state != PlaybackStatus.PAUSED:
             self.stop()
 
             media = self.get_current_media()
@@ -682,7 +771,8 @@ class Player(GObject.GObject):
 
             self.load(media)
 
-        self.player.set_state(Gst.State.PLAYING)
+        self._player.state = PlaybackStatus.PLAYING
+
         self._update_position_callback()
         if media:
             self._lastfm.now_playing(media)
@@ -696,7 +786,7 @@ class Player(GObject.GObject):
     def pause(self):
         self._remove_timeout()
 
-        self.player.set_state(Gst.State.PAUSED)
+        self._player.state = PlaybackStatus.PAUSED
         self.emit('playback-status-changed')
         self.emit('playing-changed')
 
@@ -704,7 +794,7 @@ class Player(GObject.GObject):
     def stop(self):
         self._remove_timeout()
 
-        self.player.set_state(Gst.State.NULL)
+        self._player.state = PlaybackStatus.STOPPED
         self.emit('playing-changed')
 
     @log
@@ -727,7 +817,7 @@ class Player(GObject.GObject):
         if self.prevBtn.get_sensitive() is False:
             return
 
-        position = self.get_position() / 1000000
+        position = self._player.get_position()
         if position >= 5:
             self._progress_scale_zero()
             self.on_progress_scale_change_value(self.progressScale)
@@ -740,7 +830,7 @@ class Player(GObject.GObject):
 
     @log
     def play_pause(self):
-        if self.player.get_state(1)[1] == Gst.State.PLAYING:
+        if self.player.state == Gst.State.PLAYING:
             self.set_playing(False)
         else:
             self.set_playing(True)
@@ -775,7 +865,7 @@ class Player(GObject.GObject):
         self.playlistType = type_
         self.playlistId = id_
 
-        if self._get_playing():
+        if self._player.state == Playback.PLAYING:
             self._sync_prev_next()
 
         self.emit('current-changed')
@@ -898,7 +988,8 @@ class Player(GObject.GObject):
         padding = self.progressScale.get_style_context().get_padding(
             Gtk.StateFlags.NORMAL)
         width -= padding.left + padding.right
-        success, duration = self.player.query_duration(Gst.Format.TIME)
+        # FIXME
+        success, duration = self._player._player.query_duration(Gst.Format.TIME)
         timeout_period = 1000
         if success:
             timeout_period = min(1000 * (duration / 10**9) // width, 1000)
@@ -928,7 +1019,7 @@ class Player(GObject.GObject):
 
     @log
     def _on_play_btn_clicked(self, btn):
-        if self._get_playing():
+        if self._player.is_playing():
             self.pause()
         else:
             self.play()
@@ -949,7 +1040,7 @@ class Player(GObject.GObject):
 
     @log
     def _update_position_callback(self):
-        position = self.player.query_position(Gst.Format.TIME)[1] / 1000000000
+        position = self._player.get_position()
         if position > 0:
             self.progressScale.set_value(position * 60)
         self._update_timeout()
@@ -959,7 +1050,7 @@ class Player(GObject.GObject):
     def _update_seconds_callback(self):
         self._on_progress_value_changed(None)
 
-        position = self.player.query_position(Gst.Format.TIME)[1] / 10**9
+        position = self._player.get_position()
         if position > 0:
             self.played_seconds += self.seconds_period / 1000
             try:
@@ -1001,7 +1092,8 @@ class Player(GObject.GObject):
     def on_progress_scale_change_value(self, scroll):
         seconds = scroll.get_value() / 60
         if seconds != self.duration:
-            self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000)
+            # FIXME
+            self._player._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000)
             try:
                 self.emit('seeked', seconds * 1000000)
             except TypeError:
@@ -1011,7 +1103,8 @@ class Player(GObject.GObject):
             duration = self.player.query_duration(Gst.Format.TIME)
             if duration:
                 # Rewind a second back before the track end
-                self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
+                # FIXME
+                self._player._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
                 try:
                     self.emit('seeked', (duration[1] - 1000000000) / 1000)
                 except TypeError:
@@ -1031,18 +1124,8 @@ class Player(GObject.GObject):
 
     @log
     def get_playback_status(self):
-        ok, state, pending = self.player.get_state(0)
-        if ok == Gst.StateChangeReturn.ASYNC:
-            state = pending
-        elif (ok != Gst.StateChangeReturn.SUCCESS):
-            return PlaybackStatus.STOPPED
-
-        if state == Gst.State.PLAYING:
-            return PlaybackStatus.PLAYING
-        elif state == Gst.State.PAUSED:
-            return PlaybackStatus.PAUSED
-        else:
-            return PlaybackStatus.STOPPED
+        # FIXME: Just a proxy right now.
+        return self._player.get_playback_status()
 
     @log
     def get_repeat_mode(self):
@@ -1053,10 +1136,7 @@ class Player(GObject.GObject):
         self.repeat = mode
         self._sync_repeat_image()
 
-    @log
-    def get_position(self):
-        return self.player.query_position(Gst.Format.TIME)[1] / 1000
-
+    # TODO: used by MPRIS
     @log
     def set_position(self, offset, start_if_ne=False, next_on_overflow=False):
         if offset < 0:
@@ -1065,23 +1145,23 @@ class Player(GObject.GObject):
             else:
                 return
 
-        duration = self.player.query_duration(Gst.Format.TIME)
+        duration = self._player._player.query_duration(Gst.Format.TIME)
         if duration is None:
             return
 
         if duration[1] >= offset * 1000:
-            self.player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, offset * 1000)
+            self._player._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, offset * 1000)
             self.emit('seeked', offset)
         elif next_on_overflow:
             self.play_next()
 
     @log
     def get_volume(self):
-        return self.player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
+        return self._player._player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
 
     @log
     def set_volume(self, rate):
-        self.player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
+        self._player._player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
         self.emit('volume-changed')
 
     @log
