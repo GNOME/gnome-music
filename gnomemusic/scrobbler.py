@@ -28,13 +28,105 @@ import logging
 import requests
 
 import gi
-from gi.repository import GObject
+gi.require_version('Goa', '1.0')
+from gi.repository import GLib, Goa, GObject
 
 from gnomemusic import log
 import gnomemusic.utils as utils
 
 
 logger = logging.getLogger(__name__)
+
+
+class GoaLastFM(GObject.GObject):
+    """Last.fm account handling through GOA
+    """
+
+    def __repr__(self):
+        return '<GoaLastFM>'
+
+    @log
+    def __init__(self):
+        super().__init__()
+
+        self._client = None
+        self._account = None
+        self._authentication = None
+        self._disabled = True
+
+        Goa.Client.new(None, self._new_client_callback)
+
+    @log
+    def _new_client_callback(self, source, result):
+        try:
+            self._client = source.new_finish(result)
+        except GLib.Error as error:
+            logger.warn("Error: {}, {}".format(
+                Goa.Error(error.code), error.message))
+            return
+
+        self._client.connect('account-added', self._goa_account_mutation)
+        self._client.connect('account-removed', self._goa_account_mutation)
+        self._find_lastfm_account()
+
+    @log
+    def _goa_account_mutation(self, klass, args):
+        self._find_lastfm_account()
+
+    @log
+    def _find_lastfm_account(self):
+        accounts = self._client.get_accounts()
+
+        for obj in accounts:
+            account = obj.get_account()
+            if account.props.provider_type == "lastfm":
+                self._authentication = obj.get_oauth2_based()
+                self._account = account
+                self.disabled = self._account.props.music_disabled
+                self._account.connect(
+                    'notify::music-disabled', self._goa_music_disabled)
+                break
+
+    @log
+    def _goa_music_disabled(self, klass, args):
+        self.disabled = klass.props.music_disabled
+
+    @GObject.Property
+    @log
+    def disabled(self):
+        """Retrieve the disabled status for the Last.fm account
+
+        :returns: The disabled status
+        :rtype: bool
+        """
+        return self._disabled
+
+    @disabled.setter
+    @log
+    def disabled(self, value):
+        """Set the disabled status for the Last.fm account
+
+        :param bool value: status
+        """
+        self._disabled = value
+
+    @GObject.Property
+    @log
+    def secret(self):
+        """Retrieve the Last.fm client secret"""
+        return self._authentication.props.client_secret
+
+    @GObject.Property
+    @log
+    def client_id(self):
+        """Retrieve the Last.fm client id"""
+        return self._authentication.props.client_id
+
+    @GObject.Property
+    @log
+    def session_key(self):
+        """Retrieve the Last.fm session key"""
+        return self._authentication.call_get_access_token_sync(None)[0]
 
 
 class LastFmScrobbler(GObject.GObject):
@@ -49,7 +141,7 @@ class LastFmScrobbler(GObject.GObject):
 
         self._scrobbled = False
         self._authentication = None
-        self._connect()
+        self._goa_lastfm = GoaLastFM()
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -60,31 +152,12 @@ class LastFmScrobbler(GObject.GObject):
     def scrobbled(self, scrobbled):
         self._scrobbled = scrobbled
 
-    def _connect(self):
-        """Connect to Last.fm using gnome-online-accounts"""
-        try:
-            gi.require_version('Goa', '1.0')
-            from gi.repository import Goa
-            client = Goa.Client.new_sync(None)
-            accounts = client.get_accounts()
-
-            for obj in accounts:
-                account = obj.get_account()
-                if account.props.provider_name == "Last.fm":
-                    self._authentication = obj.get_oauth2_based()
-                    return
-        except Exception as e:
-            logger.info("Error reading Last.fm credentials: %s" % str(e))
-
     @log
     def _scrobble(self, media, time_stamp):
         """Internal method called by self.scrobble"""
-        if self._authentication is None:
-            return
-
-        api_key = self._authentication.props.client_id
-        sk = self._authentication.call_get_access_token_sync(None)[0]
-        secret = self._authentication.props.client_secret
+        api_key = self._goa_lastfm.client_id
+        sk = self._goa_lastfm.session_key
+        secret = self._goa_lastfm.secret
 
         artist = utils.get_artist_name(media)
         title = utils.get_media_title(media)
@@ -138,7 +211,7 @@ class LastFmScrobbler(GObject.GObject):
         """
         self.scrobbled = True
 
-        if self._authentication is None:
+        if self._goa_lastfm.disabled:
             return
 
         t = Thread(target=self._scrobble, args=(media, time_stamp))
@@ -148,9 +221,9 @@ class LastFmScrobbler(GObject.GObject):
     @log
     def _now_playing(self, media):
         """Internal method called by self.now_playing"""
-        api_key = self._authentication.props.client_id
-        sk = self._authentication.call_get_access_token_sync(None)[0]
-        secret = self._authentication.props.client_secret
+        api_key = self._goa_lastfm.client_id
+        sk = self._goa_lastfm.session_key
+        secret = self._goa_lastfm.secret
 
         artist = utils.get_artist_name(media)
         title = utils.get_media_title(media)
@@ -190,7 +263,7 @@ class LastFmScrobbler(GObject.GObject):
         """
         self.scrobbled = False
 
-        if self._authentication is None:
+        if self._goa_lastfm.disabled:
             return
 
         t = Thread(target=self._now_playing, args=(media,))
