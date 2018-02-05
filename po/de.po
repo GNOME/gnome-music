@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2018-02-05 16:40+0000\n"
-"PO-Revision-Date: 2018-02-05 19:48+0100\n"
+"PO-Revision-Date: 2018-02-05 19:51+0100\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -293,7 +293,7 @@ msgstr "Wiedergabeliste {} entfernt"
 
 #: gnomemusic/views/playlistview.py:660
 msgid "{} removed from {}"
-msgstr ""
+msgstr "{} von {} entfernt"
 
 #: gnomemusic/views/searchview.py:505 gnomemusic/views/songsview.py:55
 msgid "Songs"
