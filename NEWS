@@ -1,3 +1,56 @@
+Overview of changes in 3.27.90
+==============================
+
+* Lots of cleanup/refactoring
+* Moved to Gitlab
+* Add album scrobbling
+* Dropped some more libgd use
+* Add context menu to interact with playlist items
+* Drag and drop reorder in playlists
+* Add album scrobbling
+* Rework notifications
+* Rework art cache
+* CI fixes
+* Last bits of HiDPI support
+
+Bugs fixed:
+ Clicking on cancel button from selection bar crashses music (#142)
+ Crashed when trying to play music over UPnP (#46)
+ Playlists are not displayed (#127)
+ Fix deprecated accelerator call (#2)
+ Crash during startup in albumart lookup (#121)
+ Use stack for covers in player (#55)
+ Finish HiDPI support (#65)
+ Scale art more efficiently (#81)
+ Playlist not deleted after close (#106)
+ Allow undo on playlist track removal (#50)
+ Fix artist/album search return all songs (#4)
+ Replace deprecated override_color call (#3)
+ Allow access to host cache from flatpak (!15)
+ Reset song to clean on new playlist (#135)
+ Use context menu on playlist tracks (#48)
+ Replace deprecated add_accelerator call (#2)
+ Console spam on startup related to Spotify (#132)
+
+Thanks to our contributors this release:
+ Alberto Fanjul
+ Felipe Borges
+ Gyanesh Malhotra
+ Jean Felder
+ Marinus Schraal
+ Subhadip Jana
+
+Translations updated:
+ German
+ Polish
+ Friulian
+ Indonesian
+ Finnish
+ Swedish
+ Catalan
+ Hungarian
+ Esperanto
+
 Overview of changes in 3.27.4
 =============================
 
