@@ -154,7 +154,6 @@
         },
         {
             "name": "gnome-music",
-            "command": "gnome-music",
             "sources": [
                 {
                     "type": "git",
