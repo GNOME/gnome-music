@@ -240,14 +240,6 @@ class PlaylistView(BaseView):
         if item:
             cell.set_property('text', utils.get_album_title(item))
 
-    def _on_list_widget_type_render(self, coll, cell, model, _iter, data):
-        if not model.iter_is_valid(_iter):
-            return
-
-        item = model[_iter][5]
-        if item:
-            cell.set_property('text', utils.get_album_title(item))
-
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
         if not self.player.currentTrackUri:
             cell.set_visible(False)
