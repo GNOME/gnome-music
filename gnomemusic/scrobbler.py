@@ -153,7 +153,7 @@ class LastFmScrobbler(GObject.GObject):
         self._scrobbled = scrobbled
 
     @log
-    def _scrobble(self, media, time_stamp):
+    def _lastfm_api_call(self, media, time_stamp, request_type_key):
         """Internal method called by self.scrobble"""
         api_key = self._goa_lastfm.client_id
         sk = self._goa_lastfm.session_key
@@ -162,29 +162,42 @@ class LastFmScrobbler(GObject.GObject):
         artist = utils.get_artist_name(media)
         title = utils.get_media_title(media)
 
+        request_type = {
+            "update now playing": "track.updateNowPlaying",
+            "scrobble": "track.scrobble"
+        }
+
         # The album is optional. So only provide it when it is
         # available.
         album = media.get_album()
 
         request_dict = {}
         if album:
-            sig = "album[0]{}".format(album)
             request_dict.update({
-                "album[0]": album
+                "album": album
             })
 
-        sig += ("api_key{}artist[0]{}methodtrack.scrobblesk{}"
-                "timestamp[0]{}track[0]{}{}").format(
-                    api_key, artist, sk, time_stamp, title, secret)
+        if time_stamp is not None:
+            request_dict.update({
+                "timestamp": time_stamp
+            })
+
+        request_dict.update({
+            "api_key": api_key,
+            "method": request_type[request_type_key],
+            "artist": artist,
+            "track": title,
+            "sk": sk,
+        })
+
+        sig = ""
+        for key in sorted(request_dict):
+            sig += key + str(request_dict[key])
+
+        sig += secret
 
         api_sig = md5(sig.encode()).hexdigest()
         request_dict.update({
-            "api_key": api_key,
-            "method": "track.scrobble",
-            "artist[0]": artist,
-            "track[0]": title,
-            "timestamp[0]": time_stamp,
-            "sk": sk,
             "api_sig": api_sig
         })
 
@@ -192,9 +205,8 @@ class LastFmScrobbler(GObject.GObject):
             r = requests.post(
                 "https://ws.audioscrobbler.com/2.0/", request_dict)
             if r.status_code != 200:
-                logger.warn(
-                    "Failed to scrobble track: %s %s" %
-                    (r.status_code, r.reason))
+                logger.warn("Failed to {} track: {} {}".format(
+                    request_type_key, r.status_code, r.reason))
                 logger.warn(r.text)
         except Exception as e:
             logger.warn(e)
@@ -214,43 +226,10 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
-        t = Thread(target=self._scrobble, args=(media, time_stamp))
+        t = Thread(
+            target=self._lastfm_api_call, args=(media, time_stamp, "scrobble"))
         t.setDaemon(True)
         t.start()
-
-    @log
-    def _now_playing(self, media):
-        """Internal method called by self.now_playing"""
-        api_key = self._goa_lastfm.client_id
-        sk = self._goa_lastfm.session_key
-        secret = self._goa_lastfm.secret
-
-        artist = utils.get_artist_name(media)
-        title = utils.get_media_title(media)
-
-        sig = ("api_key{}artist{}methodtrack.updateNowPlayingsk{}track"
-               "{}{}").format(api_key, artist, sk, title, secret)
-
-        api_sig = md5(sig.encode()).hexdigest()
-        request_dict = {
-            "api_key": api_key,
-            "method": "track.updateNowPlaying",
-            "artist": artist,
-            "track": title,
-            "sk": sk,
-            "api_sig": api_sig
-        }
-
-        try:
-            r = requests.post(
-                "https://ws.audioscrobbler.com/2.0/", request_dict)
-            if r.status_code != 200:
-                logger.warn(
-                    "Failed to update currently played track: %s %s" %
-                    (r.status_code, r.reason))
-                logger.warn(r.text)
-        except Exception as e:
-            logger.warn(e)
 
     @log
     def now_playing(self, media):
@@ -266,6 +245,8 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
-        t = Thread(target=self._now_playing, args=(media,))
+        t = Thread(
+            target=self._lastfm_api_call,
+            args=(media, None, "update now playing"))
         t.setDaemon(True)
         t.start()
