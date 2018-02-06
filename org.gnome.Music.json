@@ -1,7 +1,7 @@
 {
     "app-id": "org.gnome.Music",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
+    "runtime-version": "3.26",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
     "tags": ["nightly"],
@@ -158,7 +158,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git",
+                    "branch": "gnome-3-26"
                 }
             ]
         }
