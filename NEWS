@@ -1,3 +1,21 @@
+Overview of changes in 3.26.2
+=============================
+
+Bugs fixed:
+ Block spotify plugin (#132)
+ DiscListBoxWidget: Update favorites playlist (784998)
+ albumartcache: Fix order in method call
+ flatpak: Update music repository URL (#138)
+ misc flatpak fixes
+
+Thanks to our contributors this release:
+ Felipe Borges
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Catalan (Valencian)
+
 Overview of changes in 3.26.1
 =============================
 
