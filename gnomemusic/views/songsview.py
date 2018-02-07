@@ -24,7 +24,7 @@
 
 import logging
 from gettext import gettext as _
-from gi.repository import Gd, GLib, Gtk, Pango
+from gi.repository import GLib, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -52,19 +52,106 @@ class SongsView(BaseView):
         :param GtkWidget window: The main window
         :param player: The main player object
         """
-        super().__init__('songs', _("Songs"), window, Gd.MainViewType.LIST)
+        super().__init__('songs', _("Songs"), window, None)
 
         self._offset = 0
         self._iter_to_clean = None
 
-        view_style = self._view.get_generic_view().get_style_context()
-        view_style.add_class('songs-list')
-        view_style.remove_class('content-view')
-
+        self._view.get_style_context().add_class('songs-list')
         self._add_list_renderers()
 
         self.player = player
-        self.player.connect('playlist-item-changed', self.update_model)
+        self.player.connect('playlist-item-changed', self._update_model)
+
+    @log
+    def _setup_view(self, view_type):
+        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
+        self._box.pack_start(view_container, True, True, 0)
+
+        self._view = Gtk.TreeView()
+        self._view.set_headers_visible(False)
+        self._view.set_valign(Gtk.Align.START)
+        self._view.set_model(self.model)
+
+        self._view.set_activate_on_single_click(True)
+        self._view.get_selection().set_mode(Gtk.SelectionMode.SINGLE)
+        self._view.connect('row-activated', self._on_item_activated)
+
+        view_container.add(self._view)
+
+    @log
+    def _add_list_renderers(self):
+        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(
+            xpad=0, xalign=0.5, yalign=0.5)
+        column_now_playing = Gtk.TreeViewColumn()
+        column_now_playing.set_fixed_width(80)
+        column_now_playing.pack_start(now_playing_symbol_renderer, False)
+        column_now_playing.set_cell_data_func(
+            now_playing_symbol_renderer, self._on_list_widget_icon_render,
+            None)
+        self._view.append_column(column_now_playing)
+
+        title_renderer = Gtk.CellRendererText(
+            xpad=0, xalign=0.0, yalign=0.5, height=48,
+            ellipsize=Pango.EllipsizeMode.END)
+        column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
+        column_title.set_expand(True)
+        self._view.append_column(column_title)
+
+        column_star = Gtk.TreeViewColumn()
+        self._view.append_column(column_star)
+        self._star_handler.add_star_renderers(self._view, column_star)
+
+        duration_renderer = Gtk.CellRendererText(xpad=32, xalign=1.0)
+        column_duration = Gtk.TreeViewColumn()
+        column_duration.pack_start(duration_renderer, False)
+        column_duration.set_cell_data_func(
+            duration_renderer, self._on_list_widget_duration_render, None)
+        self._view.append_column(column_duration)
+
+        artist_renderer = Gtk.CellRendererText(
+            xpad=32, ellipsize=Pango.EllipsizeMode.END)
+        column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
+        column_artist.set_expand(True)
+        self._view.append_column(column_artist)
+
+        album_renderer = Gtk.CellRendererText(
+            xpad=32, ellipsize=Pango.EllipsizeMode.END)
+        column_album = Gtk.TreeViewColumn()
+        column_album.set_expand(True)
+        column_album.pack_start(album_renderer, True)
+        column_album.set_cell_data_func(
+            album_renderer, self._on_list_widget_album_render, None)
+        self._view.append_column(column_album)
+
+    def _on_list_widget_duration_render(self, col, cell, model, itr, data):
+        item = model[itr][5]
+        if item:
+            seconds = item.get_duration()
+            track_time = utils.seconds_to_string(seconds)
+            cell.set_property('text', '{}'.format(track_time))
+
+    def _on_list_widget_album_render(self, coll, cell, model, _iter, data):
+        if not model.iter_is_valid(_iter):
+            return
+
+        item = model[_iter][5]
+        if item:
+            cell.set_property('text', utils.get_album_title(item))
+
+    def _on_list_widget_icon_render(self, col, cell, model, itr, data):
+        track_uri = self.player.currentTrackUri
+        if not track_uri:
+            cell.set_visible(False)
+            return
+        if model[itr][11] == DiscoveryStatus.FAILED:
+            cell.set_property('icon-name', self._error_icon_name)
+            cell.set_visible(True)
+        elif model[itr][5].get_url() == track_uri:
+            cell.set_property('icon-name', self._now_playing_icon_name)
+            cell.set_visible(True)
+        else:
+            cell.set_visible(False)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -82,23 +169,27 @@ class SongsView(BaseView):
             self._on_changes_pending()
 
     @log
-    def _on_item_activated(self, widget, id, path):
+    def _on_item_activated(self, widget, path, column):
+        """Action performed when clicking on a song
+
+        clicking on star column toggles favorite
+        clicking on an other columns launches player
+
+        :param Gtk.TreeView widget: self._view
+        :param Gtk.TreePath path: activated row index
+        :param Gtk.TreeViewColumn column: activated column
+        """
         if self._star_handler.star_renderer_click:
             self._star_handler.star_renderer_click = False
             return
 
-        try:
-            itr = self.model.get_iter(path)
-        except ValueError as err:
-            logger.warn("Error: {}, {}".format(err.__class__, err))
-            return
-
+        itr = self.model.get_iter(path)
         if self.model[itr][8] != self._error_icon_name:
             self.player.set_playlist('Songs', None, self.model, itr, 5, 11)
             self.player.set_playing(True)
 
     @log
-    def update_model(self, player, playlist, current_iter):
+    def _update_model(self, player, playlist, current_iter):
         """Updates model when the track changes
 
         :param player: The main player object
@@ -112,7 +203,7 @@ class SongsView(BaseView):
 
         self.model[current_iter][10] = True
         path = self.model.get_path(current_iter)
-        self._view.get_generic_view().scroll_to_path(path)
+        self._view.scroll_to_cell(path, None, False, 0., 0.)
         if self.model[current_iter][8] != self._error_icon_name:
             self._iter_to_clean = current_iter.copy()
         return False
@@ -132,105 +223,9 @@ class SongsView(BaseView):
         if not item.get_url():
             return
 
-        self.model.insert_with_valuesv(-1, [2, 3, 5, 9], [
-            utils.get_media_title(item),
-            artist,
-            item,
-            item.get_favourite()
-        ])
-
-    @log
-    def _add_list_renderers(self):
-        list_widget = self._view.get_generic_view()
-        cols = list_widget.get_columns()
-        cells = cols[0].get_cells()
-        cells[2].set_visible(False)
-        now_playing_symbol_renderer = Gtk.CellRendererPixbuf(xpad=0,
-                                                             xalign=0.5,
-                                                             yalign=0.5)
-
-        column_now_playing = Gtk.TreeViewColumn()
-        column_now_playing.set_fixed_width(48)
-        column_now_playing.pack_start(now_playing_symbol_renderer, False)
-        column_now_playing.set_cell_data_func(now_playing_symbol_renderer,
-                                              self._on_list_widget_icon_render,
-                                              None)
-        list_widget.insert_column(column_now_playing, 0)
-        title_renderer = Gtk.CellRendererText(
-            xpad=0, xalign=0.0, yalign=0.5, height=48,
-            ellipsize=Pango.EllipsizeMode.END)
-
-        list_widget.add_renderer(title_renderer,
-                                 self._on_list_widget_title_render, None)
-        cols[0].add_attribute(title_renderer, 'text', 2)
-        cols[0].set_expand(True)
-
-        col = Gtk.TreeViewColumn()
-        col.set_expand(False)
-        self._star_handler.add_star_renderers(list_widget, col)
-        list_widget.append_column(col)
-
-        duration_renderer = Gd.StyledTextRenderer(xpad=32, xalign=1.0)
-        duration_renderer.add_class('dim-label')
-        col = Gtk.TreeViewColumn()
-        col.pack_start(duration_renderer, False)
-        col.set_cell_data_func(duration_renderer,
-                               self._on_list_widget_duration_render, None)
-        list_widget.append_column(col)
-        artist_renderer = Gd.StyledTextRenderer(
-            xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        artist_renderer.add_class('dim-label')
-
-        col = Gtk.TreeViewColumn()
-        col.set_expand(True)
-        col.pack_start(artist_renderer, True)
-        col.set_cell_data_func(artist_renderer,
-                               self._on_list_widget_artist_render, None)
-        col.add_attribute(artist_renderer, 'text', 3)
-        list_widget.append_column(col)
-
-        type_renderer = Gd.StyledTextRenderer(
-            xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        type_renderer.add_class('dim-label')
-
-        col = Gtk.TreeViewColumn()
-        col.set_expand(True)
-        col.pack_start(type_renderer, True)
-        col.set_cell_data_func(type_renderer, self._on_list_widget_type_render,
-                               None)
-        list_widget.append_column(col)
-
-    def _on_list_widget_title_render(self, col, cell, model, itr, data):
-        pass
-
-    def _on_list_widget_duration_render(self, col, cell, model, itr, data):
-        item = model[itr][5]
-        if item:
-            seconds = item.get_duration()
-            track_time = utils.seconds_to_string(seconds)
-            cell.set_property('text', '{}'.format(track_time))
-
-    def _on_list_widget_artist_render(self, col, cell, model, itr, data):
-        pass
-
-    def _on_list_widget_type_render(self, coll, cell, model, itr, data):
-        item = model[itr][5]
-        if item:
-            cell.set_property('text', utils.get_album_title(item))
-
-    def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        track_uri = self.player.currentTrackUri
-        if not track_uri:
-            cell.set_visible(False)
-            return
-        if model[itr][11] == DiscoveryStatus.FAILED:
-            cell.set_property('icon-name', self._error_icon_name)
-            cell.set_visible(True)
-        elif model[itr][5].get_url() == track_uri:
-            cell.set_property('icon-name', self._now_playing_icon_name)
-            cell.set_visible(True)
-        else:
-            cell.set_visible(False)
+        self.model.insert_with_valuesv(
+            -1, [2, 3, 5, 9],
+            [utils.get_media_title(item), artist, item, item.get_favourite()])
 
     @log
     def populate(self):
