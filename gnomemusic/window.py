@@ -344,19 +344,19 @@ class Window(Gtk.ApplicationWindow):
                     event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
                 self.toolbar.on_back_button_clicked()
             # Go to Albums view on Ctrl + 1
-            if (event.keyval == Gdk.KEY_1
+            if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(0)
             # Go to Artists view on Ctrl + 2
-            if (event.keyval == Gdk.KEY_2
+            if ((event.keyval in [Gdk.KEY_2, Gdk.KEY_KP_2])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(1)
             # Go to Songs view on Ctrl + 3
-            if (event.keyval == Gdk.KEY_3
+            if ((event.keyval in [Gdk.KEY_3, Gdk.KEY_KP_3])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(2)
             # Go to Playlists view on Ctrl + 4
-            if (event.keyval == Gdk.KEY_4
+            if ((event.keyval in [Gdk.KEY_4, Gdk.KEY_KP_4])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(3)
         else:
