@@ -5,6 +5,7 @@ appdir = $(pythondir)/gnomemusic/
 app_PYTHON = \
 	albumartcache.py \
 	application.py \
+	gstplayer.py \
 	__init__.py \
 	player.py \
 	mpris.py \
