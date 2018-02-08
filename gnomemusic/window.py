@@ -343,19 +343,19 @@ class Window(Gtk.ApplicationWindow):
             # Go to Albums view on Ctrl + 1
             if (event.keyval == Gdk.KEY_1
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(0, 0)
+                self._toggle_view(0)
             # Go to Artists view on Ctrl + 2
             if (event.keyval == Gdk.KEY_2
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(0, 1)
+                self._toggle_view(1)
             # Go to Songs view on Ctrl + 3
             if (event.keyval == Gdk.KEY_3
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(0, 2)
+                self._toggle_view(2)
             # Go to Playlists view on Ctrl + 4
             if (event.keyval == Gdk.KEY_4
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(0, 3)
+                self._toggle_view(3)
         else:
             child = self._stack.get_visible_child()
             if (event.keyval == Gdk.KEY_Delete
@@ -430,7 +430,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.PLAYLIST].disable_rename_playlist()
 
     @log
-    def _toggle_view(self, btn, i):
+    def _toggle_view(self, i):
         self._stack.set_visible_child(self.views[i])
 
     @log
