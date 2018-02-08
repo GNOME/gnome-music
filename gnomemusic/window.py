@@ -75,6 +75,7 @@ class Window(Gtk.ApplicationWindow):
         selectAll.connect('activate', self._on_select_all)
         self.add_action(selectAll)
         selectNone = Gio.SimpleAction.new('selectNone', None)
+        app.set_accels_for_action('win.selectNone', ['<Primary><Shift>a'])
         selectNone.connect('activate', self._on_select_none)
         self.add_action(selectNone)
         self.set_size_request(200, 100)
@@ -282,7 +283,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_select_all(self, action, param):
-        if self.toolbar._selectionMode is False:
+        if not self.toolbar._selectionMode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
@@ -293,6 +294,8 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_select_none(self, action, param):
+        if not self.toolbar._selectionMode:
+            return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()

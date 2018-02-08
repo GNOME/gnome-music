@@ -11,6 +11,7 @@
       <item>
         <attribute name="label" translatable="yes">Select None</attribute>
         <attribute name="action">win.selectNone</attribute>
+	<attribute name="accel">&lt;Primary&gt;&lt;Shift&gt;a</attribute>
       </item>
     </section>
   </menu>
