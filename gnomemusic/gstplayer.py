@@ -228,9 +228,13 @@ class GstPlayer(GObject.GObject):
     def url(self, url_):
         self._player.set_property('uri', url_)
 
+    @GObject.Property
     @log
-    def get_position(self):
-        return self._player.query_position(Gst.Format.TIME)[1] / 10**9
+    def position(self):
+        """Position in seconds"""
+        position = self._player.query_position(Gst.Format.TIME)[1] / 10**9
+        print("position ", position)
+        return position
 
     @log
     def _start_plugin_installation(
