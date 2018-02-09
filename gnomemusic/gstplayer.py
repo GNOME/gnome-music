@@ -167,7 +167,7 @@ class GstPlayer(GObject.GObject):
         logger.warn(
             "Error from element {}: {}", message.src.get_name(), error.message)
         logger.warn("Debugging info:\n{}", debug)
-#        self.play_next()
+
         self.emit('eos')
         return True
 
@@ -189,7 +189,7 @@ class GstPlayer(GObject.GObject):
             return False
 
     @log
-    def get_playback_status(self):
+    def _get_playback_status(self):
         ok, state, pending = self._player.get_state(0)
         if ok == Gst.StateChangeReturn.ASYNC:
             state = pending
@@ -206,7 +206,7 @@ class GstPlayer(GObject.GObject):
     @GObject.Property
     @log
     def state(self):
-        return self.get_playback_status()
+        return self._get_playback_status()
 
     @state.setter
     @log
