@@ -127,8 +127,9 @@ class Player(GObject.GObject):
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
 
-        self._player = GstPlayer(self)
+        self._player = GstPlayer()
         self._player.connect('eos', self._on_eos)
+        self._player.connect('notify::state', self._on_state_change)
 
         self._lastfm = LastFmScrobbler()
 
@@ -340,6 +341,10 @@ class Player(GObject.GObject):
     @property
     def playing(self):
         return self._player.is_playing()
+
+    @log
+    def _on_state_change(self, klass, arguments):
+        self._sync_playing()
 
     @log
     def _sync_playing(self):
