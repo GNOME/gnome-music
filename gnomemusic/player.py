@@ -826,6 +826,10 @@ class Player(GObject.GObject):
         return self.repeat
 
     @log
+    def get_position(self):
+        return self._player.position
+
+    @log
     def set_repeat_mode(self, mode):
         self.repeat = mode
         self._sync_repeat_image()
