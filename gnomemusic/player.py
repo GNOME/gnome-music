@@ -1061,7 +1061,7 @@ class Player(GObject.GObject):
                 # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
                 pass
         else:
-            duration = self.player.query_duration(Gst.Format.TIME)
+            duration = self._player._player.query_duration(Gst.Format.TIME)
             if duration:
                 # Rewind a second back before the track end
                 # FIXME
