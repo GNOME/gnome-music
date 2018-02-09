@@ -244,6 +244,16 @@ class GstPlayer(GObject.GObject):
         print("duration ", duration)
         return duration
 
+    @GObject.Property
+    @log
+    def volume(self):
+        volume = self._player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
+        return volume
+
+    @volume.setter
+    def volume(self, rate):
+        self._player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
+
     @log
     def seek(self, seconds):
         """Seek to"""
