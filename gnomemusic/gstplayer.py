@@ -47,6 +47,10 @@ class Playback(IntEnum):
 
 class GstPlayer(GObject.GObject):
 
+    __gsignals__ = {
+        'eos': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
     @log
     def __init__(self, player):
         super().__init__()
@@ -143,59 +147,38 @@ class GstPlayer(GObject.GObject):
     @log
     def _on_bus_error(self, bus, message):
         if self._is_missing_plugin_message(message):
-            self.pause()
+            self.state = Playback.PAUSED
             self._handle_missing_plugins()
             return True
 
         # FIXME: This shouldn't be here
-        media = self.get_current_media()
-        if media is not None:
-            if self.currentTrack and self.currentTrack.valid():
-                currentTrack = self.playlist.get_iter(
-                    self.currentTrack.get_path())
-                self.playlist.set_value(
-                    currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
-            uri = media.get_url()
-        else:
-            uri = 'none'
-        logger.warn('URI: %s', uri)
+        # validation stuff
+#        media = self.get_current_media()
+#        if media is not None:
+#            if self.currentTrack and self.currentTrack.valid():
+#                currentTrack = self.playlist.get_iter(
+#                    self.currentTrack.get_path())
+#                self.playlist.set_value(
+#                    currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
+#            uri = media.get_url()
+#        else:
+#            uri = 'none'
+        logger.warn('URI: %s', self.url)
         error, debug = message.parse_error()
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
         logger.warn('Error from element %s: %s', message.src.get_name(), error.message)
         logger.warn('Debugging info:\n%s', debug)
-        self.play_next()
+#        self.play_next()
+        self.emit('eos')
         return True
 
     @log
     def _on_bus_eos(self, bus, message):
+        self.emit('eos')
         print("BUS EOS")
         # FIXME: This shouldn't be here
-        if self.nextTrack:
-            GLib.idle_add(self._on_glib_idle)
-        elif (self.repeat == RepeatType.NONE):
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self._progress_scale_zero()
-            self.progressScale.set_sensitive(False)
-            if self.playlist is not None:
-                currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
-                if currentTrack:
-                    self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
-                    self.currentTrackUri = self.playlist.get_value(
-                        self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
-                else:
-                    self.currentTrack = None
-                self.load(self.get_current_media())
-            self.emit('playback-status-changed')
-        else:
-            # Stop playback
-            self.stop()
-            self.playBtn.set_image(self._playImage)
-            self._progress_scale_zero()
-            self.progressScale.set_sensitive(False)
-            self.emit('playback-status-changed')
 
     @log
     def is_playing(self):

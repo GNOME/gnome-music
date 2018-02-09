@@ -129,6 +129,7 @@ class Player(GObject.GObject):
         self.playlist_delete_handler = 0
 
         self._player = GstPlayer(self)
+        self._player.connect('eos', self._on_eos)
 
         self._lastfm = LastFmScrobbler()
 
@@ -453,6 +454,34 @@ class Player(GObject.GObject):
     @log
     def _on_cover_stack_updated(self, klass):
         self.emit('thumbnail-updated')
+
+    @log
+    def _on_eos(self, klass):
+        if self.nextTrack:
+            GLib.idle_add(self._on_glib_idle)
+        elif (self.repeat == RepeatType.NONE):
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self._progress_scale_zero()
+            self.progressScale.set_sensitive(False)
+            if self.playlist is not None:
+                currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
+                if currentTrack:
+                    self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
+                    self.currentTrackUri = self.playlist.get_value(
+                        self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
+                else:
+                    self.currentTrack = None
+                self.load(self.get_current_media())
+            self.emit('playback-status-changed')
+        else:
+            # Stop playback
+            self.stop()
+            self.playBtn.set_image(self._playImage)
+            self._progress_scale_zero()
+            self.progressScale.set_sensitive(False)
+            self.emit('playback-status-changed')
+
 
     @log
     def play(self):
