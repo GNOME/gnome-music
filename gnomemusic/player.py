@@ -458,7 +458,7 @@ class Player(GObject.GObject):
                         self.playlist, current_track)
                     iter_ = self.playlist.get_iter(
                         self.current_track.get_path())
-                    uri = self.playlist.get_value[iter_][5].get_url()
+                    uri = self.playlist[iter_][5].get_url()
                     self.current_track_uri = uri
                 else:
                     self.current_track = None
@@ -546,8 +546,8 @@ class Player(GObject.GObject):
 
         self.current_track = self._get_previous_track()
         if self.current_track and self.current_track.valid():
-            iter_ = self.playlist.get_iter(self.current_track.get_path()
-            uri = self.playlist.get_value[iter_][5].get_url()
+            iter_ = self.playlist.get_iter(self.current_track.get_path())
+            uri = self.playlist[iter_][5].get_url()
             self.current_track_uri = uri
             self.play()
 
@@ -561,8 +561,8 @@ class Player(GObject.GObject):
     # FIXME: set the discovery field to 11 to be safe, but for some
     # models it is 12.
     @log
-    def set_playlist(self, type, id, model, iter, field,
-                     discovery_status_field=11):
+    def set_playlist(
+            self, type, id, model, iter, field, discovery_status_field=11):
         old_playlist = self.playlist
         if old_playlist != model:
             self.playlist = model
@@ -573,16 +573,20 @@ class Player(GObject.GObject):
 
         self.playlist_type = type
         self.playlist_id = id
-        self.current_track = Gtk.TreeRowReference.new(model, model.get_path(iter))
+        self.current_track = Gtk.TreeRowReference.new(
+            model, model.get_path(iter))
         if self.current_track and self.current_track.valid():
-            iter_ = self.playlist.get_iter(self.current_track.get_path()
-            self.current_track_uri = self.playlist.get_value[iter_][5].get_url()
+            iter_ = self.playlist.get_iter(self.current_track.get_path())
+            uri = self.playlist[iter_][5].get_url()
+            self.current_track_uri = uri
         self.playlist_field = field
         self.discovery_status_field = discovery_status_field
 
         if old_playlist != model:
-            self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
-            self.playlist_delete_handler = model.connect('row-deleted', self._on_playlist_size_changed)
+            self.playlist_insert_handler = model.connect(
+                'row-inserted', self._on_playlist_size_changed)
+            self.playlist_delete_handler = model.connect(
+                'row-deleted', self._on_playlist_size_changed)
             self.emit('playlist-changed')
         self.emit('current-changed')
 
