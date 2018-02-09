@@ -200,8 +200,8 @@ class GstPlayer(GObject.GObject):
             return Playback.PLAYING
         elif state == Gst.State.PAUSED:
             return Playback.PAUSED
-        else:
-            return Playback.STOPPED
+
+        return Playback.STOPPED
 
     @GObject.Property
     @log
