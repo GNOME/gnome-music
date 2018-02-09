@@ -51,6 +51,9 @@ class GstPlayer(GObject.GObject):
         'eos': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
+    def __repr__(self):
+        return '<GstPlayer>'
+
     @log
     def __init__(self):
         super().__init__()
