@@ -74,6 +74,8 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::error', self._on_bus_error)
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
+        self._bus.connect(
+            'message::duration-changed', self._on_duration_changed)
 
     @log
     def _setup_replaygain(self):
@@ -134,6 +136,11 @@ class GstPlayer(GObject.GObject):
         # message. In practice, self means only Gst.State.PLAYING and
         # Gst.State.PAUSED are.
         self.state = self.state
+
+    @log
+    def _on_duration_changed(self, bus, message):
+        self._duration = self._player.query_duration(
+            Gst.Format.TIME)[1] / 10**9
 
     @log
     def _on_bus_element(self, bus, message):
@@ -240,9 +247,8 @@ class GstPlayer(GObject.GObject):
     @log
     def duration(self):
         """Total duration in seconds (float)"""
-        duration = self._player.query_duration(Gst.Format.TIME)[1] / 10**9
-        print("duration ", duration)
-        return duration
+        print("duration ", self._duration)
+        return self._duration
 
     @GObject.Property
     @log
