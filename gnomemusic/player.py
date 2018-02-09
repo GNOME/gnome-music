@@ -125,6 +125,8 @@ class Player(GObject.GObject):
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
 
+        self._seconds_period = 0
+
         self._lastfm = LastFmScrobbler()
 
     def discover_item(self, item, callback, data=None):
@@ -725,9 +727,9 @@ class Player(GObject.GObject):
 
         # Update self._seconds_timeout.
         if not self._seconds_timeout:
-            self.seconds_period = 1000
+            self._seconds_period = 1000
             self._seconds_timeout = GLib.timeout_add(
-                self.seconds_period, self._update_seconds_callback)
+                self._seconds_period, self._update_seconds_callback)
 
     def _remove_timeout(self):
         if self.timeout:
@@ -776,7 +778,7 @@ class Player(GObject.GObject):
 
         position = self._player.position
         if position > 0:
-            self.played_seconds += self.seconds_period / 1000
+            self.played_seconds += self._seconds_period / 1000
             try:
                 percentage = self.played_seconds / self.duration
                 if (not self._lastfm.scrobbled
