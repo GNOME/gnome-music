@@ -76,7 +76,6 @@ class Player(GObject.GObject):
     shuffleHistory = deque(maxlen=10)
 
     __gsignals__ = {
-        'playing-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-item-changed': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)),
         'current-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -473,7 +472,6 @@ class Player(GObject.GObject):
             self._update_timeout()
 
         self.emit('playback-status-changed')
-        self.emit('playing-changed')
 
     @log
     def pause(self):
@@ -481,14 +479,12 @@ class Player(GObject.GObject):
 
         self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
-        self.emit('playing-changed')
 
     @log
     def stop(self):
         self._remove_timeout()
 
         self._player.state = Playback.STOPPED
-        self.emit('playing-changed')
 
     @log
     def play_next(self):
