@@ -340,22 +340,18 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_Left and
                     event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
                 self.toolbar.on_back_button_clicked()
-            # Go to Albums view on Ctrl + 1
             if (event.keyval == Gdk.KEY_1
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(0)
-            # Go to Artists view on Ctrl + 2
+                self._toggle_view(View.ALBUM)
             if (event.keyval == Gdk.KEY_2
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(1)
-            # Go to Songs view on Ctrl + 3
+                self._toggle_view(View.ARTIST)
             if (event.keyval == Gdk.KEY_3
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(2)
-            # Go to Playlists view on Ctrl + 4
+                self._toggle_view(View.SONG)
             if (event.keyval == Gdk.KEY_4
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
-                self._toggle_view(3)
+                self._toggle_view(View.PLAYLIST)
         else:
             child = self._stack.get_visible_child()
             if (event.keyval == Gdk.KEY_Delete
@@ -430,8 +426,8 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.PLAYLIST].disable_rename_playlist()
 
     @log
-    def _toggle_view(self, i):
-        self._stack.set_visible_child(self.views[i])
+    def _toggle_view(self, view_enum):
+        self._stack.set_visible_child(self.views[view_enum])
 
     @log
     def _on_search_toggled(self, button, data=None):
