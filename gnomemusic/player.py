@@ -167,8 +167,8 @@ class Player(GObject.GObject):
     def _on_glib_idle(self):
         self.current_track = self._next_track
         if self.current_track and self.current_track.valid():
-            self.current_track_uri = self.playlist.get_value(
-                self.playlist.get_iter(self.current_track.get_path()), 5).get_url()
+            iter_ = self.playlist.get_iter(self.current_track.get_path())
+            self.current_track_uri = self.playlist[iter_][5].get_url()
         self.play()
 
     @log
@@ -400,8 +400,8 @@ class Player(GObject.GObject):
             return
 
         iter_ = self.playlist.get_iter(self._next_track.get_path())
-        status = self.playlist.get_value(iter_, self.discovery_status_field)
-        next_song = self.playlist.get_value(iter_, self.playlist_field)
+        status = self.playlist[iter_][self.discovery_status_field]
+        next_song = self.playlist[iter_][self.playlist_field]
         url_ = self.playlist[iter_][5].get_url()
 
         # Skip remote songs discovery
@@ -432,8 +432,8 @@ class Player(GObject.GObject):
                 current_track = self.playlist.get_path(self.playlist.get_iter_first())
                 if current_track:
                     self.current_track = Gtk.TreeRowReference.new(self.playlist, current_track)
-                    self.current_track_uri = self.playlist.get_value(
-                        self.playlist.get_iter(self.current_track.get_path()), 5).get_url()
+                    iter_ = self.playlist.get_iter(self.current_track.get_path())
+                    self.current_track_uri = self.playlist.get_value[iter_][5].get_url()
                 else:
                     self.current_track = None
                 self.load(self.get_current_media())
@@ -499,8 +499,8 @@ class Player(GObject.GObject):
         self.current_track = self._next_track
 
         if self.current_track and self.current_track.valid():
-            self.current_track_uri = self.playlist.get_value(
-                self.playlist.get_iter(self.current_track.get_path()), 5).get_url()
+            iter_ = self.playlist.get_iter(self.current_track.get_path()
+            self.current_track_uri = self.playlist[iter_][5].get_url()
             self.play()
 
     @log
@@ -521,8 +521,8 @@ class Player(GObject.GObject):
 
         self.current_track = self._get_previous_track()
         if self.current_track and self.current_track.valid():
-            self.current_track_uri = self.playlist.get_value(
-                self.playlist.get_iter(self.current_track.get_path()), 5).get_url()
+            iter_ = self.playlist.get_iter(self.current_track.get_path()
+            self.current_track_uri = self.playlist.get_value[iter_][5].get_url()
             self.play()
 
     @log
@@ -549,8 +549,8 @@ class Player(GObject.GObject):
         self.playlist_id = id
         self.current_track = Gtk.TreeRowReference.new(model, model.get_path(iter))
         if self.current_track and self.current_track.valid():
-            self.current_track_uri = self.playlist.get_value(
-                self.playlist.get_iter(self.current_track.get_path()), 5).get_url()
+            iter_ = self.playlist.get_iter(self.current_track.get_path()
+            self.current_track_uri = self.playlist.get_value[iter_][5].get_url()
         self.playlist_field = field
         self.discovery_status_field = discovery_status_field
 
@@ -865,10 +865,10 @@ class Player(GObject.GObject):
     def get_current_media(self):
         if not self.current_track or not self.current_track.valid():
             return None
-        current_track = self.playlist.get_iter(self.current_track.get_path())
-        if self.playlist.get_value(current_track, self.discovery_status_field) == DiscoveryStatus.FAILED:
+        iter_ = self.playlist.get_iter(self.current_track.get_path())
+        if self.playlist[iter_][self.discovery_status_field] == DiscoveryStatus.FAILED:
             return None
-        return self.playlist.get_value(current_track, self.playlist_field)
+        return self.playlist[iter_][self.playlist_field]
 
 
 class SelectionToolbar():
