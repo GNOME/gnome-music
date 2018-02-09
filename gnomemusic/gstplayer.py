@@ -40,9 +40,9 @@ playlists = Playlists.get_default()
 
 
 class Playback(IntEnum):
-    PLAYING = 0
+    STOPPED = 0
     PAUSED = 1
-    STOPPED = 2
+    PLAYING = 2
 
 
 class GstPlayer(GObject.GObject):
