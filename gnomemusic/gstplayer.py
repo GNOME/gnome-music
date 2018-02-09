@@ -176,8 +176,6 @@ class GstPlayer(GObject.GObject):
     @log
     def _on_bus_eos(self, bus, message):
         self.emit('eos')
-        print("BUS EOS")
-        # FIXME: This shouldn't be here
 
     @log
     def is_playing(self):
