@@ -133,83 +133,6 @@ class GstPlayer(GObject.GObject):
         # Gst.State.PAUSED are.
         self._super_player._sync_playing()
 
-    @log
-    def _start_plugin_installation(
-            self, missing_plugin_messages, confirm_search):
-        install_ctx = GstPbutils.InstallPluginsContext.new()
-
-        install_ctx.set_desktop_id('org.gnome.Music.desktop')
-        install_ctx.set_confirm_search(confirm_search)
-
-        startup_id = '_TIME%u' % Gtk.get_current_event_time()
-        install_ctx.set_startup_notification_id(startup_id)
-
-        installer_details = []
-        for message in missing_plugin_messages:
-            installer_detail = GstPbutils.missing_plugin_message_get_installer_detail(message)
-            installer_details.append(installer_detail)
-
-        def on_install_done(res):
-            # We get the callback too soon, before the installation has
-            # actually finished. Do nothing for now.
-            pass
-
-        GstPbutils.install_plugins_async(
-            installer_details, install_ctx, on_install_done)
-
-    @log
-    def _show_codec_confirmation_dialog(
-            self, install_helper_name, missing_plugin_messages):
-        dialog = MissingCodecsDialog(self._parent_window, install_helper_name)
-
-        def on_dialog_response(dialog, response_type):
-            if response_type == Gtk.ResponseType.ACCEPT:
-                self._start_plugin_installation(missing_plugin_messages, False)
-
-            dialog.destroy()
-
-        descriptions = []
-        for message in missing_plugin_messages:
-            description = GstPbutils.missing_plugin_message_get_description(message)
-            descriptions.append(description)
-
-        dialog.set_codec_names(descriptions)
-        dialog.connect('response', on_dialog_response)
-        dialog.present()
-
-    @log
-    def _handle_missing_plugins(self):
-        if not self._missingPluginMessages:
-            return
-
-        missing_plugin_messages = self._missingPluginMessages
-        self._missingPluginMessages = []
-
-        proxy = Gio.DBusProxy.new_sync(
-            Gio.bus_get_sync(Gio.BusType.SESSION, None),
-            Gio.DBusProxyFlags.NONE, None, 'org.freedesktop.PackageKit',
-            '/org/freedesktop/PackageKit',
-            'org.freedesktop.PackageKit.Modify2', None)
-        prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
-        if prop:
-               display_name = prop.get_string()
-               if display_name:
-                   self._show_codec_confirmation_dialog(
-                       display_name, missing_plugin_messages)
-                   return
-
-        # If the above failed, fall back to immediately starting the
-        # codec installation.
-        self._start_plugin_installation(missing_plugin_messages, True)
-
-    @log
-    def _is_missing_plugin_message(self, message):
-        error, debug = message.parse_error()
-
-        if error.matches(Gst.CoreError.quark(), Gst.CoreError.MISSING_PLUGIN):
-            return True
-
-        return False
 
     @log
     def _on_bus_element(self, bus, message):
@@ -326,6 +249,84 @@ class GstPlayer(GObject.GObject):
     @log
     def get_position(self):
         return self._player.query_position(Gst.Format.TIME)[1] / 10**9
+
+    @log
+    def _start_plugin_installation(
+            self, missing_plugin_messages, confirm_search):
+        install_ctx = GstPbutils.InstallPluginsContext.new()
+
+        install_ctx.set_desktop_id('org.gnome.Music.desktop')
+        install_ctx.set_confirm_search(confirm_search)
+
+        startup_id = '_TIME%u' % Gtk.get_current_event_time()
+        install_ctx.set_startup_notification_id(startup_id)
+
+        installer_details = []
+        for message in missing_plugin_messages:
+            installer_detail = GstPbutils.missing_plugin_message_get_installer_detail(message)
+            installer_details.append(installer_detail)
+
+        def on_install_done(res):
+            # We get the callback too soon, before the installation has
+            # actually finished. Do nothing for now.
+            pass
+
+        GstPbutils.install_plugins_async(
+            installer_details, install_ctx, on_install_done)
+
+    @log
+    def _show_codec_confirmation_dialog(
+            self, install_helper_name, missing_plugin_messages):
+        dialog = MissingCodecsDialog(self._parent_window, install_helper_name)
+
+        def on_dialog_response(dialog, response_type):
+            if response_type == Gtk.ResponseType.ACCEPT:
+                self._start_plugin_installation(missing_plugin_messages, False)
+
+            dialog.destroy()
+
+        descriptions = []
+        for message in missing_plugin_messages:
+            description = GstPbutils.missing_plugin_message_get_description(message)
+            descriptions.append(description)
+
+        dialog.set_codec_names(descriptions)
+        dialog.connect('response', on_dialog_response)
+        dialog.present()
+
+    @log
+    def _handle_missing_plugins(self):
+        if not self._missingPluginMessages:
+            return
+
+        missing_plugin_messages = self._missingPluginMessages
+        self._missingPluginMessages = []
+
+        proxy = Gio.DBusProxy.new_sync(
+            Gio.bus_get_sync(Gio.BusType.SESSION, None),
+            Gio.DBusProxyFlags.NONE, None, 'org.freedesktop.PackageKit',
+            '/org/freedesktop/PackageKit',
+            'org.freedesktop.PackageKit.Modify2', None)
+        prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
+        if prop:
+               display_name = prop.get_string()
+               if display_name:
+                   self._show_codec_confirmation_dialog(
+                       display_name, missing_plugin_messages)
+                   return
+
+        # If the above failed, fall back to immediately starting the
+        # codec installation.
+        self._start_plugin_installation(missing_plugin_messages, True)
+
+    @log
+    def _is_missing_plugin_message(self, message):
+        error, debug = message.parse_error()
+
+        if error.matches(Gst.CoreError.quark(), Gst.CoreError.MISSING_PLUGIN):
+            return True
+
+        return False
 
 
 class MissingCodecsDialog(Gtk.MessageDialog):
