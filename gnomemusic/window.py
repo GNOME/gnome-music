@@ -70,13 +70,6 @@ class Window(Gtk.ApplicationWindow):
         self.connect('focus-in-event', self._windows_focus_cb)
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
-        selectAll = Gio.SimpleAction.new('selectAll', None)
-        app.set_accels_for_action('win.selectAll', ['<Primary>a'])
-        selectAll.connect('activate', self._on_select_all)
-        self.add_action(selectAll)
-        selectNone = Gio.SimpleAction.new('selectNone', None)
-        selectNone.connect('activate', self._on_select_none)
-        self.add_action(selectNone)
         self.set_size_request(200, 100)
         self.set_default_icon_name('gnome-music')
 
@@ -281,7 +274,7 @@ class Window(Gtk.ApplicationWindow):
             GLib.idle_add(i.populate)
 
     @log
-    def _on_select_all(self, action, param):
+    def _select_all(self):
         if self.toolbar._selectionMode is False:
             return
         if self.toolbar._state == ToolbarState.MAIN:
@@ -306,6 +299,9 @@ class Window(Gtk.ApplicationWindow):
         event_and_modifiers = (event.state & modifiers)
 
         if event_and_modifiers != 0:
+            if (event.keyval == Gdk.KEY_a and
+                    event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                self._select_all()
             # Open search bar on Ctrl + F
             if (event.keyval == Gdk.KEY_f and
                     event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
