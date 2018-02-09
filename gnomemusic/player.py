@@ -875,12 +875,12 @@ class Player(GObject.GObject):
             else:
                 return
 
-        duration = self._player._player.query_duration(Gst.Format.TIME)
+        duration = self._player.duration
         if duration is None:
             return
 
-        if duration[1] >= offset * 1000:
-            self._player._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, offset * 1000)
+        if duration >= offset * 1000:
+            self._player.seek(offset * 1000)
             self.emit('seeked', offset)
         elif next_on_overflow:
             self.play_next()
