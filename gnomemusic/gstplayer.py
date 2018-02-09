@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
 import logging
 
 import gi
@@ -38,7 +39,7 @@ logger = logging.getLogger(__name__)
 playlists = Playlists.get_default()
 
 
-class PlaybackStatus:
+class Playback(IntEnum):
     PLAYING = 0
     PAUSED = 1
     STOPPED = 2
@@ -297,14 +298,14 @@ class GstPlayer(GObject.GObject):
         if ok == Gst.StateChangeReturn.ASYNC:
             state = pending
         elif (ok != Gst.StateChangeReturn.SUCCESS):
-            return PlaybackStatus.STOPPED
+            return Playback.STOPPED
 
         if state == Gst.State.PLAYING:
-            return PlaybackStatus.PLAYING
+            return Playback.PLAYING
         elif state == Gst.State.PAUSED:
-            return PlaybackStatus.PAUSED
+            return Playback.PAUSED
         else:
-            return PlaybackStatus.STOPPED
+            return Playback.STOPPED
 
     @GObject.Property
     @log
@@ -313,12 +314,12 @@ class GstPlayer(GObject.GObject):
 
     @state.setter
     @log
-    def state(self, playbackstate):
-        if playbackstate == PlaybackStatus.PAUSED:
+    def state(self, state):
+        if state == Playback.PAUSED:
             self._player.set_state(Gst.State.PAUSED)
-        if playbackstate == PlaybackStatus.STOPPED:
+        if state == Playback.STOPPED:
             self._player.set_state(Gst.State.NULL)
-        if playbackstate == PlaybackStatus.PLAYING:
+        if state == Playback.PLAYING:
             self._player.set_state(Gst.State.PLAYING)
 
     @GObject.Property
