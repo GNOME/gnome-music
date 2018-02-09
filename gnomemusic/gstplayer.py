@@ -163,13 +163,14 @@ class GstPlayer(GObject.GObject):
 #            uri = media.get_url()
 #        else:
 #            uri = 'none'
-        logger.warn('URI: %s', self.url)
+        logger.warn("URI: {}".format(self.url))
         error, debug = message.parse_error()
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warn('Error from element %s: %s', message.src.get_name(), error.message)
-        logger.warn('Debugging info:\n%s', debug)
+        logger.warn(
+            "Error from element {}: {}", message.src.get_name(), error.message)
+        logger.warn("Debugging info:\n{}", debug)
 #        self.play_next()
         self.emit('eos')
         return True
