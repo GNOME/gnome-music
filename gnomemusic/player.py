@@ -532,7 +532,7 @@ class Player(GObject.GObject):
 
     @log
     def play_pause(self):
-        if self.player.state == Gst.State.PLAYING:
+        if self._player.state == Playback.PLAYING:
             self.set_playing(False)
         else:
             self.set_playing(True)
