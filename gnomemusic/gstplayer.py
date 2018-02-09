@@ -185,8 +185,8 @@ class GstPlayer(GObject.GObject):
             return pending == Gst.State.PLAYING
         elif ok == Gst.StateChangeReturn.SUCCESS:
             return state == Gst.State.PLAYING
-        else:
-            return False
+
+        return False
 
     @log
     def _get_playback_status(self):
