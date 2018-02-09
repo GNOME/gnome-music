@@ -52,14 +52,12 @@ class GstPlayer(GObject.GObject):
     }
 
     @log
-    def __init__(self, player):
+    def __init__(self):
         super().__init__()
 
         Gst.init(None)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
-
-        self._super_player = player
 
         self._player = Gst.ElementFactory.make('playbin', 'player')
         self._bus = self._player.get_bus()
@@ -136,8 +134,6 @@ class GstPlayer(GObject.GObject):
         # message. In practice, self means only Gst.State.PLAYING and
         # Gst.State.PAUSED are.
         self.state = self.state
-        self._super_player._sync_playing()
-
 
     @log
     def _on_bus_element(self, bus, message):
