@@ -684,11 +684,9 @@ class Player(GObject.GObject):
         padding = self.progressScale.get_style_context().get_padding(
             Gtk.StateFlags.NORMAL)
         width -= padding.left + padding.right
-        # FIXME
-        success, duration = self._player._player.query_duration(Gst.Format.TIME)
-        timeout_period = 1000
-        if success:
-            timeout_period = min(1000 * (duration / 10**9) // width, 1000)
+
+        duration = self._player.duration
+        timeout_period = min(1000 * duration // width, 1000)
 
         if self.timeout:
             GLib.source_remove(self.timeout)
@@ -785,25 +783,27 @@ class Player(GObject.GObject):
     @log
     def on_progress_scale_change_value(self, scroll):
         seconds = scroll.get_value() / 60
-        if seconds != self.duration:
-            # FIXME
-            self._player._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, seconds * 1000000000)
+        if True: # seconds != self.duration:
+            self._player.seek(seconds)
             try:
+                # FIXME mpris
                 self.emit('seeked', seconds * 1000000)
             except TypeError:
                 # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
                 pass
         else:
-            duration = self._player._player.query_duration(Gst.Format.TIME)
+            print("WEIRD SCROLL VALUE?", seconds)
+            duration = self._player.duration
             if duration:
                 # Rewind a second back before the track end
-                # FIXME
-                self._player._player.seek_simple(Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT, duration[1] - 1000000000)
+                self._player.seek(duration - 1)
                 try:
-                    self.emit('seeked', (duration[1] - 1000000000) / 1000)
+                    # FIXME mpris
+                    self.emit('seeked', (duration - 1) / 1000)
                 except TypeError:
                     # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
                     pass
+
         return True
 
     # MPRIS
