@@ -275,7 +275,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _select_all(self):
-        if self.toolbar._selectionMode is False:
+        if not self.toolbar._selectionMode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
@@ -285,7 +285,9 @@ class Window(Gtk.ApplicationWindow):
         view.select_all()
 
     @log
-    def _on_select_none(self, action, param):
+    def _select_none(self):
+        if not self.toolbar._selectionMode:
+            return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()
@@ -299,54 +301,61 @@ class Window(Gtk.ApplicationWindow):
         event_and_modifiers = (event.state & modifiers)
 
         if event_and_modifiers != 0:
+            control_mask = Gdk.ModifierType.CONTROL_MASK
+            shift_mask = Gdk.ModifierType.SHIFT_MASK
+            mod1_mask = Gdk.ModifierType.MOD1_MASK
+
             if (event.keyval == Gdk.KEY_a and
-                    event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    event_and_modifiers == control_mask):
                 self._select_all()
+            if (event.keyval == Gdk.KEY_A and
+                    event_and_modifiers == (shift_mask | control_mask)):
+                self._select_none()
             # Open search bar on Ctrl + F
             if (event.keyval == Gdk.KEY_f and
-                    event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    event_and_modifiers == control_mask):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self.player.play_pause()
             # Play previous on Ctrl + B
             if (event.keyval == Gdk.KEY_b
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self.player.play_previous()
             # Play next on Ctrl + N
             if (event.keyval == Gdk.KEY_n
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self.player.play_next()
             # Toggle repeat on Ctrl + R
             if (event.keyval == Gdk.KEY_r
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 if self.player.get_repeat_mode() == RepeatType.SONG:
                     self.player.set_repeat_mode(RepeatType.NONE)
                 else:
                     self.player.set_repeat_mode(RepeatType.SONG)
             # Toggle shuffle on Ctrl + S
             if (event.keyval == Gdk.KEY_s
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 if self.player.get_repeat_mode() == RepeatType.SHUFFLE:
                     self.player.set_repeat_mode(RepeatType.NONE)
                 else:
                     self.player.set_repeat_mode(RepeatType.SHUFFLE)
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left and
-                    event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
+                    event_and_modifiers == mod1_mask):
                 self.toolbar.on_back_button_clicked()
             if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self._toggle_view(View.ALBUM)
             if ((event.keyval in [Gdk.KEY_2, Gdk.KEY_KP_2])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self._toggle_view(View.ARTIST)
             if ((event.keyval in [Gdk.KEY_3, Gdk.KEY_KP_3])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self._toggle_view(View.SONG)
             if ((event.keyval in [Gdk.KEY_4, Gdk.KEY_KP_4])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and event_and_modifiers == control_mask):
                 self._toggle_view(View.PLAYLIST)
         else:
             child = self._stack.get_visible_child()
