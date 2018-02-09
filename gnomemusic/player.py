@@ -471,8 +471,8 @@ class Player(GObject.GObject):
                 current_track = self.playlist.get_path(self.playlist.get_iter_first())
                 if current_track:
                     self.current_track = Gtk.TreeRowReference.new(self.playlist, current_track)
-                    self.current_track_uri = self.playlist.get_value(
-                        self.playlist.get_iter(self.current_track.get_path()), 5).get_url()
+                    iter_ = self.playlist.get_iter(self.current_track.get_path())
+                    self.current_track_uri = self.playlist.get_value[iter_][5].get_url()
                 else:
                     self.current_track = None
                 self.load(self.get_current_media())
