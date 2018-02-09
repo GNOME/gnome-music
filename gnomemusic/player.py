@@ -485,6 +485,7 @@ class Player(GObject.GObject):
         self._remove_timeout()
 
         self._player.state = Playback.STOPPED
+        self.emit('playback-status-changed')
 
     @log
     def play_next(self):
