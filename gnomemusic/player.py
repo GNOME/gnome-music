@@ -594,9 +594,9 @@ class Player(GObject.GObject):
 
         self._sync_repeat_image()
 
-        self._prev_button.connect('clicked', self._on_prev_btn_clicked)
-        self._play_button.connect('clicked', self._on_play_btn_clicked)
-        self._next_button.connect('clicked', self._on_next_btn_clicked)
+        self._prev_button.connect('clicked', self._on_prev_button_clicked)
+        self._play_button.connect('clicked', self._on_play_button_clicked)
+        self._next_button.connect('clicked', self._on_next_button_clicked)
         self._progress_scale.connect('button-press-event', self._on_progress_scale_event)
         self._progress_scale.connect('value-changed', self._on_progress_value_changed)
         self._progress_scale.connect('button-release-event', self._on_progress_scale_button_released)
@@ -711,18 +711,18 @@ class Player(GObject.GObject):
         self._on_progress_value_changed(None)
 
     @log
-    def _on_play_btn_clicked(self, btn):
+    def _on_play_button_clicked(self, button):
         if self._player.is_playing():
             self.pause()
         else:
             self.play()
 
     @log
-    def _on_next_btn_clicked(self, btn):
+    def _on_next_button_clicked(self, button):
         self.play_next()
 
     @log
-    def _on_prev_btn_clicked(self, btn):
+    def _on_prev_button_clicked(self, button):
         self.play_previous()
 
     @log
