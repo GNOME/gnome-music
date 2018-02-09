@@ -887,11 +887,11 @@ class Player(GObject.GObject):
 
     @log
     def get_volume(self):
-        return self._player._player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
+        return self._player.volume
 
     @log
     def set_volume(self, rate):
-        self._player._player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, rate)
+        self._player.volume = rate
         self.emit('volume-changed')
 
     @log
