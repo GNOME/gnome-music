@@ -26,6 +26,8 @@
 # delete this exception statement from your version.
 
 
+import gi
+gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 from gnomemusic import TrackerWrapper
 from gnomemusic.grilo import grilo
