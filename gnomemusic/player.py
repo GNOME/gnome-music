@@ -72,7 +72,6 @@ class DiscoveryStatus:
 class Player(GObject.GObject):
     _next_track = None
     timeout = None
-    _seconds_timeout = None
     __shuffle_history = deque(maxlen=10)
 
     __gsignals__ = {
@@ -126,6 +125,7 @@ class Player(GObject.GObject):
         self._player.connect('notify::state', self._on_state_change)
 
         self._seconds_period = 0
+        self._seconds_timeout = 0
 
         self._lastfm = LastFmScrobbler()
 
