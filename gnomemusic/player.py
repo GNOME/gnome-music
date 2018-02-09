@@ -492,7 +492,7 @@ class Player(GObject.GObject):
                         self.playlist, current_track)
                     iter_ = self.playlist.get_iter(
                         self.current_track.get_path())
-                    uri = self.playlist.get_value[iter_][5].get_url()
+                    uri = self.playlist[iter_][5].get_url()
                     self.current_track_uri = uri
                 else:
                     self.current_track = None
