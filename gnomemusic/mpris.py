@@ -25,7 +25,8 @@
 
 import codecs
 
-from gnomemusic.player import PlaybackStatus, RepeatType
+from gnomemusic.gstplayer import Playback
+from gnomemusic.player import RepeatType
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.utils import View
@@ -242,9 +243,9 @@ class MediaPlayer2Service(Server):
     @log
     def _get_playback_status(self):
         state = self.player.get_playback_status()
-        if state == PlaybackStatus.PLAYING:
+        if state == Playback.PLAYING:
             return 'Playing'
-        elif state == PlaybackStatus.PAUSED:
+        elif state == Playback.PAUSED:
             return 'Paused'
         else:
             return 'Stopped'
