@@ -823,26 +823,13 @@ class Player(GObject.GObject):
     @log
     def on_progress_scale_change_value(self, scroll):
         seconds = scroll.get_value() / 60
-        if True: # seconds != self.duration:
-            self._player.seek(seconds)
-            try:
-                # FIXME mpris
-                self.emit('seeked', seconds * 1000000)
-            except TypeError:
-                # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
-                pass
-        else:
-            print("WEIRD SCROLL VALUE?", seconds)
-            duration = self._player.duration
-            if duration:
-                # Rewind a second back before the track end
-                self._player.seek(duration - 1)
-                try:
-                    # FIXME mpris
-                    self.emit('seeked', (duration - 1) / 1000)
-                except TypeError:
-                    # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
-                    pass
+        self._player.seek(seconds)
+        try:
+            # FIXME mpris
+            self.emit('seeked', seconds * 1000000)
+        except TypeError:
+            # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
+            pass
 
         return True
 
