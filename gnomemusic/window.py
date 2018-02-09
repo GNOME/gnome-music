@@ -340,16 +340,16 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_Left and
                     event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
                 self.toolbar.on_back_button_clicked()
-            if (event.keyval == Gdk.KEY_1
+            if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(View.ALBUM)
-            if (event.keyval == Gdk.KEY_2
+            if ((event.keyval in [Gdk.KEY_2, Gdk.KEY_KP_2])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(View.ARTIST)
-            if (event.keyval == Gdk.KEY_3
+            if ((event.keyval in [Gdk.KEY_3, Gdk.KEY_KP_3])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(View.SONG)
-            if (event.keyval == Gdk.KEY_4
+            if ((event.keyval in [Gdk.KEY_4, Gdk.KEY_KP_4])
                     and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
                 self._toggle_view(View.PLAYLIST)
         else:
