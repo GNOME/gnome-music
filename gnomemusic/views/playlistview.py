@@ -241,7 +241,7 @@ class PlaylistView(BaseView):
             cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if not self.player.currentTrackUri:
+        if not self.player.current_track_uri:
             cell.set_visible(False)
             return
 
@@ -251,7 +251,7 @@ class PlaylistView(BaseView):
         if model[_iter][11] == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
-        elif model[_iter][5].get_url() == self.player.currentTrackUri:
+        elif model[_iter][5].get_url() == self.player.current_track_uri:
             cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
@@ -408,7 +408,7 @@ class PlaylistView(BaseView):
             return
 
         # If playing song position has changed, update player's playlist.
-        if self.player.playing and not self.player.currentTrack.valid():
+        if self.player.playing and not self.player.current_track.valid():
             pos = new_pos
             if new_pos > prev_pos:
                 pos -= 1
@@ -773,9 +773,9 @@ class PlaylistView(BaseView):
     def _row_is_playing(self, playlist, row):
         """Check if row is being played"""
         if (self._is_current_playlist(playlist)
-                and self.player.currentTrack is not None
-                and self.player.currentTrack.valid()):
-                track_path = self.player.currentTrack.get_path()
+                and self.player.current_track is not None
+                and self.player.current_track.valid()):
+                track_path = self.player.current_track.get_path()
                 track_path_str = track_path.to_string()
                 if (row.path is not None
                         and row.path.to_string() == track_path_str):
