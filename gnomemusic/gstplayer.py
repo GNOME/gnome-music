@@ -231,11 +231,25 @@ class GstPlayer(GObject.GObject):
     @GObject.Property
     @log
     def position(self):
-        """Position in seconds"""
+        """Position in seconds (float)"""
         position = self._player.query_position(Gst.Format.TIME)[1] / 10**9
         print("position ", position)
         return position
 
+    @GObject.Property
+    @log
+    def duration(self):
+        """Total duration in seconds (float)"""
+        duration = self._player.query_duration(Gst.Format.TIME)[1] / 10**9
+        print("duration ", duration)
+        return duration
+
+    @log
+    def seek(self, seconds):
+        """Seek to"""
+        self._player.seek_simple(
+            Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
+            seconds * 10**9)
     @log
     def _start_plugin_installation(
             self, missing_plugin_messages, confirm_search):
