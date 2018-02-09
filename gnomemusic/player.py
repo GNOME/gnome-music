@@ -44,7 +44,7 @@ from gettext import gettext as _, ngettext
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.gstplayer import GstPlayer, PlaybackStatus
+from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
@@ -426,7 +426,7 @@ class Player(GObject.GObject):
 
         media = None
 
-        if self._player.state != PlaybackStatus.PAUSED:
+        if self._player.state != Playback.PAUSED:
             self.stop()
 
             media = self.get_current_media()
@@ -435,7 +435,7 @@ class Player(GObject.GObject):
 
             self.load(media)
 
-        self._player.state = PlaybackStatus.PLAYING
+        self._player.state = Playback.PLAYING
 
         self._update_position_callback()
         if media:
@@ -450,7 +450,7 @@ class Player(GObject.GObject):
     def pause(self):
         self._remove_timeout()
 
-        self._player.state = PlaybackStatus.PAUSED
+        self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
         self.emit('playing-changed')
 
@@ -458,7 +458,7 @@ class Player(GObject.GObject):
     def stop(self):
         self._remove_timeout()
 
-        self._player.state = PlaybackStatus.STOPPED
+        self._player.state = Playback.STOPPED
         self.emit('playing-changed')
 
     @log
