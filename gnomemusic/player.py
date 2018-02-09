@@ -819,7 +819,7 @@ class Player(GObject.GObject):
     @log
     def get_playback_status(self):
         # FIXME: Just a proxy right now.
-        return self._player.get_playback_status()
+        return self._player.state
 
     @log
     def get_repeat_mode(self):
