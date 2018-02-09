@@ -675,8 +675,11 @@ class Player(GObject.GObject):
         to a fixed value, short enough to hide irregularities in GLib event
         timing from the user, for updating the songPlaybackTimeLabel.
         """
-        # Don't run until progressScale has been realized
-        if self.progressScale.get_realized() is False:
+        # Don't run until progressScale has been realized and gstreamer
+        # providers a duration.
+        duration = self._player.duration
+        if (self.progressScale.get_realized() is False
+                or duration is None):
             return
 
         # Update self.timeout
@@ -685,7 +688,6 @@ class Player(GObject.GObject):
             Gtk.StateFlags.NORMAL)
         width -= padding.left + padding.right
 
-        duration = self._player.duration
         timeout_period = min(1000 * duration // width, 1000)
 
         if self.timeout:
