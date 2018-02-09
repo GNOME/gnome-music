@@ -547,7 +547,7 @@ class Player(GObject.GObject):
         if self.prevBtn.get_sensitive() is False:
             return
 
-        position = self._player.get_position()
+        position = self._player.position
         if position >= 5:
             self._progress_scale_zero()
             self.on_progress_scale_change_value(self.progressScale)
@@ -770,7 +770,7 @@ class Player(GObject.GObject):
 
     @log
     def _update_position_callback(self):
-        position = self._player.get_position()
+        position = self._player.position
         if position > 0:
             self.progressScale.set_value(position * 60)
         self._update_timeout()
@@ -780,7 +780,7 @@ class Player(GObject.GObject):
     def _update_seconds_callback(self):
         self._on_progress_value_changed(None)
 
-        position = self._player.get_position()
+        position = self._player.position
         if position > 0:
             self.played_seconds += self.seconds_period / 1000
             try:
