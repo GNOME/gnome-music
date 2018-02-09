@@ -25,12 +25,12 @@
 from enum import IntEnum
 import logging
 
+from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
-from gettext import gettext as _, ngettext
 
 from gnomemusic import log
 from gnomemusic.playlists import Playlists
@@ -57,6 +57,7 @@ class GstPlayer(GObject.GObject):
 
         Gst.init(None)
 
+        self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')
@@ -81,7 +82,7 @@ class GstPlayer(GObject.GObject):
     def _setup_replaygain(self):
         """Set up replaygain
 
-        See https://github.com/gnumdk/lollypop/commit/429383c3742e631b34937d8987d780edc52303c0
+        See lollypop 429383c37
         """
         self._rgfilter = Gst.ElementFactory.make("bin", "bin")
         self._rg_audioconvert1 = Gst.ElementFactory.make(
@@ -135,6 +136,9 @@ class GstPlayer(GObject.GObject):
         # Gst.State.NULL are never async and thus don't cause a
         # message. In practice, self means only Gst.State.PLAYING and
         # Gst.State.PAUSED are.
+
+        # Setting self.state triggers the property signal, which is
+        # used down the line.
         self.state = self.state
 
     @log
@@ -145,7 +149,7 @@ class GstPlayer(GObject.GObject):
     @log
     def _on_bus_element(self, bus, message):
         if GstPbutils.is_missing_plugin_message(message):
-            self._missingPluginMessages.append(message)
+            self._missing_plugin_messages.append(message)
 
     @log
     def _on_bus_error(self, bus, message):
@@ -162,7 +166,8 @@ class GstPlayer(GObject.GObject):
 #                currentTrack = self.playlist.get_iter(
 #                    self.currentTrack.get_path())
 #                self.playlist.set_value(
-#                    currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
+#                    currentTrack, self.discovery_status_field,
+#                    DiscoveryStatus.FAILED)
 #            uri = media.get_url()
 #        else:
 #            uri = 'none'
@@ -266,6 +271,7 @@ class GstPlayer(GObject.GObject):
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * 10**9)
+
     @log
     def _start_plugin_installation(
             self, missing_plugin_messages, confirm_search):
@@ -274,12 +280,13 @@ class GstPlayer(GObject.GObject):
         install_ctx.set_desktop_id('org.gnome.Music.desktop')
         install_ctx.set_confirm_search(confirm_search)
 
-        startup_id = '_TIME%u' % Gtk.get_current_event_time()
+        startup_id = "_TIME{}".format(Gtk.get_current_event_time())
         install_ctx.set_startup_notification_id(startup_id)
 
         installer_details = []
+        get_details = GstPbutils.missing_plugin_message_get_installer_detail
         for message in missing_plugin_messages:
-            installer_detail = GstPbutils.missing_plugin_message_get_installer_detail(message)
+            installer_detail = get_details(message)
             installer_details.append(installer_detail)
 
         def on_install_done(res):
@@ -302,8 +309,9 @@ class GstPlayer(GObject.GObject):
             dialog.destroy()
 
         descriptions = []
+        get_description = GstPbutils.missing_plugin_message_get_description
         for message in missing_plugin_messages:
-            description = GstPbutils.missing_plugin_message_get_description(message)
+            description = get_description(message)
             descriptions.append(description)
 
         dialog.set_codec_names(descriptions)
@@ -312,11 +320,11 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _handle_missing_plugins(self):
-        if not self._missingPluginMessages:
+        if not self._missing_plugin_messages:
             return
 
-        missing_plugin_messages = self._missingPluginMessages
-        self._missingPluginMessages = []
+        missing_plugin_messages = self._missing_plugin_messages
+        self._missing_plugin_messages = []
 
         proxy = Gio.DBusProxy.new_sync(
             Gio.bus_get_sync(Gio.BusType.SESSION, None),
@@ -325,11 +333,11 @@ class GstPlayer(GObject.GObject):
             'org.freedesktop.PackageKit.Modify2', None)
         prop = Gio.DBusProxy.get_cached_property(proxy, 'DisplayName')
         if prop:
-               display_name = prop.get_string()
-               if display_name:
-                   self._show_codec_confirmation_dialog(
-                       display_name, missing_plugin_messages)
-                   return
+            display_name = prop.get_string()
+            if display_name:
+                self._show_codec_confirmation_dialog(
+                    display_name, missing_plugin_messages)
+                return
 
         # If the above failed, fall back to immediately starting the
         # codec installation.
@@ -360,10 +368,11 @@ class MissingCodecsDialog(Gtk.MessageDialog):
         # TRANSLATORS: this is a button to launch a codec installer.
         # %s will be replaced with the software installer's name, e.g.
         # 'Software' in case of gnome-software.
-        self.find_button = self.add_button(_("_Find in %s") % install_helper_name,
-                                           Gtk.ResponseType.ACCEPT)
+        self.find_button = self.add_button(
+            _("_Find in %s") % install_helper_name, Gtk.ResponseType.ACCEPT)
         self.set_default_response(Gtk.ResponseType.ACCEPT)
-        Gtk.StyleContext.add_class(self.find_button.get_style_context(), 'suggested-action')
+        Gtk.StyleContext.add_class(
+            self.find_button.get_style_context(), 'suggested-action')
 
     @log
     def set_codec_names(self, codec_names):
@@ -374,6 +383,7 @@ class MissingCodecsDialog(Gtk.MessageDialog):
         else:
             # TRANSLATORS: separator for a list of codecs
             text = _(", ").join(codec_names)
-        self.format_secondary_text(ngettext("%s is required to play the file, but is not installed.",
-                                            "%s are required to play the file, but are not installed.",
-                                            n_codecs) % text)
+        self.format_secondary_text(ngettext(
+            "%s is required to play the file, but is not installed.",
+            "%s are required to play the file, but are not installed.",
+            n_codecs) % text)
