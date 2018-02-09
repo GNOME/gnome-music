@@ -131,6 +131,7 @@ class GstPlayer(GObject.GObject):
         # Gst.State.NULL are never async and thus don't cause a
         # message. In practice, self means only Gst.State.PLAYING and
         # Gst.State.PAUSED are.
+        self.state = self.state
         self._super_player._sync_playing()
 
 
@@ -139,6 +140,7 @@ class GstPlayer(GObject.GObject):
         if GstPbutils.is_missing_plugin_message(message):
             self._missingPluginMessages.append(message)
 
+    @log
     def _on_bus_error(self, bus, message):
         if self._is_missing_plugin_message(message):
             self.pause()
