@@ -32,16 +32,16 @@
 
 from collections import deque
 from enum import IntEnum
-import logging
 from random import randint
+import logging
 import time
 
+from gettext import gettext as _
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstAudio, GstPbutils
-from gettext import gettext as _, ngettext
+from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -84,7 +84,9 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'playlist-item-changed': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)),
+        'playlist-item-changed': (
+            GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)
+        ),
         'current-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -119,7 +121,8 @@ class Player(GObject.GObject):
         self._discovering_urls = {}
 
         self._settings = Gio.Settings.new('org.gnome.Music')
-        self._settings.connect('changed::repeat', self._on_repeat_setting_changed)
+        self._settings.connect(
+            'changed::repeat', self._on_repeat_setting_changed)
         self.repeat = self._settings.get_enum('repeat')
         self._setup_view()
 
@@ -215,8 +218,8 @@ class Player(GObject.GObject):
             current_track = first_iter
         if not current_track:
             return None
-        if hasattr(self.playlist, "iter_is_valid") and\
-           not self.playlist.iter_is_valid(current_track):
+        if (hasattr(self.playlist, "iter_is_valid")
+                and not self.playlist.iter_is_valid(current_track)):
             return None
         current_path = int(self.playlist.get_path(current_track).to_string())
         rows = self.playlist.iter_n_children(None)
@@ -229,33 +232,35 @@ class Player(GObject.GObject):
 
     @log
     def _get_next_track(self):
-        if self.current_track and self.current_track.valid():
-            current_track = self.playlist.get_iter(self.current_track.get_path())
+        if (self.current_track
+                and self.current_track.valid()):
+            iter_ = self.playlist.get_iter(self.current_track.get_path())
         else:
-            current_track = None
+            iter_ = None
 
         next_track = None
 
         if self.repeat == RepeatType.SONG:
-            if current_track:
-                next_track = current_track
+            if iter_:
+                next_track = iter_
             else:
                 next_track = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.ALL:
-            if current_track:
-                next_track = self.playlist.iter_next(current_track)
+            if iter_:
+                next_track = self.playlist.iter_next(iter_)
             if not next_track:
                 next_track = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.NONE:
-            if current_track:
-                next_track = self.playlist.iter_next(current_track)
+            if iter_:
+                next_track = self.playlist.iter_next(iter_)
         elif self.repeat == RepeatType.SHUFFLE:
-            next_track = self._get_random_iter(current_track)
-            if current_track:
-                self._shuffle_history.append(current_track)
+            next_track = self._get_random_iter(iter_)
+            if iter_:
+                self._shuffle_history.append(iter_)
 
         if next_track:
-            return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(next_track))
+            return Gtk.TreeRowReference.new(
+                self.playlist, self.playlist.get_path(next_track))
         else:
             return None
 
@@ -272,52 +277,60 @@ class Player(GObject.GObject):
 
     @log
     def _get_previous_track(self):
-        if self.current_track and self.current_track.valid():
-            current_track = self.playlist.get_iter(self.current_track.get_path())
+        if (self.current_track
+                and self.current_track.valid()):
+            iter_ = self.playlist.get_iter(self.current_track.get_path())
         else:
-            current_track = None
+            iter_ = None
 
         previous_track = None
 
         if self.repeat == RepeatType.SONG:
-            if current_track:
-                previous_track = current_track
+            if iter_:
+                previous_track = iter_
             else:
                 previous_track = self.playlist.get_iter_first()
         elif self.repeat == RepeatType.ALL:
-            if current_track:
-                previous_track = self.playlist.iter_previous(current_track)
+            if iter_:
+                previous_track = self.playlist.iter_previous(iter_)
             if not previous_track:
                 previous_track = self._get_iter_last()
         elif self.repeat == RepeatType.NONE:
-            if current_track:
-                previous_track = self.playlist.iter_previous(current_track)
+            if iter_:
+                previous_track = self.playlist.iter_previous(iter_)
         elif self.repeat == RepeatType.SHUFFLE:
-            if current_track:
-                if self.played_seconds < 10 and len(self._shuffle_history) > 0:
+            if iter_:
+                if (self.played_seconds < 10
+                        and len(self._shuffle_history) > 0):
                     previous_track = self._shuffle_history.pop()
 
                     # Discard the current song, which is already queued
-                    if self.playlist.get_path(previous_track) == self.playlist.get_path(current_track):
+                    prev_path = self.playlist.get_path(previous_track)
+                    current_path = self.playlist.get_path(iter_)
+                    if prev_path == current_path:
                         previous_track = None
 
-                if previous_track is None and len(self._shuffle_history) > 0:
+                if (previous_track is None
+                        and len(self._shuffle_history) > 0):
                     previous_track = self._shuffle_history.pop()
                 else:
-                    previous_track = self._get_random_iter(current_track)
+                    previous_track = self._get_random_iter(iter_)
 
         if previous_track:
-            return Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(previous_track))
+            return Gtk.TreeRowReference.new(
+                self.playlist, self.playlist.get_path(previous_track))
         else:
             return None
 
     @log
     def has_next(self):
-        if not self.playlist or self.playlist.iter_n_children(None) < 1:
+        repeat_types = [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]
+        if (not self.playlist
+                or self.playlist.iter_n_children(None) < 1):
             return False
         elif not self.current_track:
             return False
-        elif self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
+        elif self.repeat in repeat_types:
             return True
         elif self.current_track.valid():
             tmp = self.playlist.get_iter(self.current_track.get_path())
@@ -327,11 +340,13 @@ class Player(GObject.GObject):
 
     @log
     def has_previous(self):
-        if not self.playlist or self.playlist.iter_n_children(None) < 1:
+        repeat_types = [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]
+        if (not self.playlist
+                or self.playlist.iter_n_children(None) < 1):
             return False
         elif not self.current_track:
             return False
-        elif self.repeat in [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]:
+        elif self.repeat in repeat_types:
             return True
         elif self.current_track.valid():
             tmp = self.playlist.get_iter(self.current_track.get_path())
@@ -418,7 +433,7 @@ class Player(GObject.GObject):
 
         self._validate_next_track()
 
-    def _on_next_item_validated(self, info, error, _iter):
+    def _on_next_item_validated(self, info, error, iter_):
         if error:
             print("Info %s: error: %s" % (info, error))
             failed = DiscoveryStatus.FAILED
@@ -426,7 +441,9 @@ class Player(GObject.GObject):
             next_track = self.playlist.iter_next(_iter)
 
             if next_track:
-                self._validate_next_track(Gtk.TreeRowReference.new(self.playlist, self.playlist.get_path(next_track)))
+                next_path = self.playlist.get_path(next_track)
+                self._validate_next_track(
+                    Gtk.TreeRowReference.new(self.playlist, next_path))
 
     @log
     def _validate_next_track(self, track=None):
@@ -468,11 +485,15 @@ class Player(GObject.GObject):
             self._progress_scale_zero()
             self._progress_scale.set_sensitive(False)
             if self.playlist is not None:
-                current_track = self.playlist.get_path(self.playlist.get_iter_first())
+                current_track = self.playlist.get_path(
+                    self.playlist.get_iter_first())
                 if current_track:
-                    self.current_track = Gtk.TreeRowReference.new(self.playlist, current_track)
-                    iter_ = self.playlist.get_iter(self.current_track.get_path())
-                    self.current_track_uri = self.playlist.get_value[iter_][5].get_url()
+                    self.current_track = Gtk.TreeRowReference.new(
+                        self.playlist, current_track)
+                    iter_ = self.playlist.get_iter(
+                        self.current_track.get_path())
+                    uri = self.playlist.get_value[iter_][5].get_url()
+                    self.current_track_uri = uri
                 else:
                     self.current_track = None
                 self.load(self.get_current_media())
@@ -484,7 +505,6 @@ class Player(GObject.GObject):
             self._progress_scale_zero()
             self._progress_scale.set_sensitive(False)
             self.emit('playback-status-changed')
-
 
     @log
     def play(self):
@@ -636,12 +656,17 @@ class Player(GObject.GObject):
         self._prev_button.connect('clicked', self._on_prev_button_clicked)
         self._play_button.connect('clicked', self._on_play_button_clicked)
         self._next_button.connect('clicked', self._on_next_button_clicked)
-        self._progress_scale.connect('button-press-event', self._on_progress_scale_event)
-        self._progress_scale.connect('value-changed', self._on_progress_value_changed)
-        self._progress_scale.connect('button-release-event', self._on_progress_scale_button_released)
-        self._progress_scale.connect('change-value', self._on_progress_scale_seek)
-        self._ps_draw = self._progress_scale.connect('draw',
-            self._on_progress_scale_draw)
+        self._progress_scale.connect(
+            'button-press-event', self._on_progress_scale_event)
+        self._progress_scale.connect(
+            'value-changed', self._on_progress_value_changed)
+        self._progress_scale.connect(
+            'button-release-event', self._on_progress_scale_button_released)
+        self._progress_scale.connect(
+            'change-value', self._on_progress_scale_seek)
+        self._ps_draw = self._progress_scale.connect(
+            'draw', self._on_progress_scale_draw)
+
         self._seek_timeout = None
         self._old_progress_scale_value = 0.0
         self._progress_scale.set_increments(300, 600)
@@ -660,8 +685,8 @@ class Player(GObject.GObject):
     def _on_progress_scale_seek(self, scale, scroll_type, value):
         """Smooths out the seeking process
 
-        Called every time progress scale is moved. Only after a seek has been
-        stable for 100ms, we play the song from its location.
+        Called every time progress scale is moved. Only after a seek
+        has been stable for 100ms, play the song from its location.
         """
         if self._seek_timeout:
             GLib.source_remove(self._seek_timeout)
@@ -671,7 +696,7 @@ class Player(GObject.GObject):
             self._seek_timeout = GLib.timeout_add(
                 100, self._on_progress_scale_seek_finish, value)
         else:
-            # scroll with keys, hence no smoothing
+            # Scroll with keys, hence no smoothing.
             self._on_progress_scale_seek_finish(value)
             self._update_position_callback()
 
@@ -681,7 +706,8 @@ class Player(GObject.GObject):
     def _on_progress_scale_button_released(self, scale, data):
         if self._seek_timeout:
             GLib.source_remove(self._seek_timeout)
-            self._on_progress_scale_seek_finish(self._progress_scale.get_value())
+            self._on_progress_scale_seek_finish(
+                self._progress_scale.get_value())
 
         self._update_position_callback()
         return False
@@ -703,22 +729,23 @@ class Player(GObject.GObject):
         return False
 
     def _update_timeout(self):
-        """Update the duration for self.timeout and self._seconds_timeout
+        """Update the duration for self.timeout & self._seconds_timeout
 
-        Sets the period of self.timeout to a value small enough to make the
-        slider of self._progress_scale move smoothly based on the current song
-        duration and progressScale length.  self._seconds_timeout is always set
-        to a fixed value, short enough to hide irregularities in GLib event
-        timing from the user, for updating the songPlaybackTimeLabel.
+        Sets the period of self.timeout to a value small enough to make
+        the slider of self._progress_scale move smoothly based on the
+        current song duration and progress_scale length.
+        self._seconds_timeout is always set to a fixed value, short
+        enough to hide irregularities in GLib event timing from the
+        user, for updating the _progress_time_label.
         """
-        # Don't run until progressScale has been realized and gstreamer
-        # providers a duration.
+        # Do not run until progress_scale has been realized and
+        # gstreamer provides a duration.
         duration = self._player.duration
         if (self._progress_scale.get_realized() is False
                 or duration is None):
             return
 
-        # Update self.timeout
+        # Update self.timeout.
         width = self._progress_scale.get_allocated_width()
         padding = self._progress_scale.get_style_context().get_padding(
             Gtk.StateFlags.NORMAL)
@@ -731,7 +758,7 @@ class Player(GObject.GObject):
         self.timeout = GLib.timeout_add(
             timeout_period, self._update_position_callback)
 
-        # Update self._seconds_timeout
+        # Update self._seconds_timeout.
         if not self._seconds_timeout:
             self._seconds_period = 1000
             self._seconds_timeout = GLib.timeout_add(
