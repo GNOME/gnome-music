@@ -1,0 +1,407 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"POT-Creation-Date: 2016-03-01 21:30+0000\n"
+"PO-Revision-Date: 2018-02-05 19:52+0000\n"
+"Last-Translator: Jaume Jorba <jaume.jorba@gmail.com>\n"
+"Language-Team: Catalan (http://www.transifex.com/softcatala/gnome-documentation-catalan/language/ca/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Jaume Jorba <jaume.jorba@gmail.com>, 2018"
+
+#. (itstool) path: credit/name
+#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
+msgid "Shobha Tyagi"
+msgstr "Shobha Tyagi"
+
+#. (itstool) path: credit/years
+#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
+msgid "2014"
+msgstr "2014"
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/p
+#: C/introduction.page:18 C/introduction.page:23
+msgid ""
+"A simple and elegant replacement for using files to show the music "
+"directory."
+msgstr "Un senzill i elegant reemplaçament per utilitzar fitxer per mostrar el directori de música."
+
+#. (itstool) path: page/title
+#: C/introduction.page:22
+msgid "Introduction to Music"
+msgstr "Introducció a la Música"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link"
+msgid "Music"
+msgstr "Música"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Music"
+msgstr "Música"
+
+#. (itstool) path: page/title
+#: C/index.page:18
+msgid "<_:media-1/> Music"
+msgstr "<_:media-1/> Música"
+
+#. (itstool) path: section/title
+#: C/index.page:25
+msgid "Create playlist"
+msgstr "Crear una llista de reproducció"
+
+#. (itstool) path: section/title
+#: C/index.page:28
+msgid "Play a song"
+msgstr "Reproduir una cançó"
+
+#. (itstool) path: section/title
+#: C/index.page:31
+msgid "Remove songs and playlist"
+msgstr "Suprimir cançons i llista de reproducció"
+
+#. (itstool) path: info/desc
+#: C/play-music.page:18
+msgid "Play your favorite songs."
+msgstr "Reproduir les cançons favorites."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+msgid "Play music"
+msgstr "Reproduir música"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr "Podeu reproduir la teva música preferida creant una llista de reproducció o simplement fent clic sobre la cançó escollida des de qualsevol vista"
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "Mentre s'estigui a la <em>llista de reproducció</em>:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+msgid "Select a playlist."
+msgstr "Seleccionar una llista de reproducció."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Feu clic al botó de configuració del costat dret."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+msgid "Click on <gui>Play</gui>."
+msgstr "Feu clic per <gui>Reprodueix</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "Afegir cançons a la llista de reproducció utilitzant àlbums."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+msgid "Create a playlist using albums"
+msgstr "Crear una llista de reproducció utilitzant àlbums."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui "
+"style=\"button\">Albums</gui> button."
+msgstr "Es poden veure tots els àlbums propis fent clic al botó <gui style=\"button\">Àlbums</gui> ."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "Per afegir totes les cançons a un àlbum:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+msgid "Click on the check button in the top-right of the window."
+msgstr "Feu clic al botó de selecció a la part superior dreta de la finestra."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "Seleccionar àlbums."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr "Feu clic sobre el botó <gui style=\"button\">Afegir a la llista de reproducció</gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr "Feu clic sobre <gui>Llista nova de reproducció</gui> i escriviu un nom per a la llista."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "Fer clic sobre <gui style=\"button\">Selecciona</gui>."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr "Es pot crear una llista de reproducció a partir de cançons específiques."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "Per afegir les cançons seleccionades d'un àlbum:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "Feu clic a un àlbum."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+msgid "Click on the check button."
+msgstr "Feu clic a la casella de selecció"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+msgid "Select songs."
+msgstr "Seleccioneu cançons."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select "
+"them</gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr "Per seleccionar totes les cançons fer clic a <guiseq><gui>Feu clic als elements per seleccionar-los</gui><gui>Selecciona-ho tot</gui></guiseq> a la barra d'eines o premeu <keyseq><key>Ctrl</key><key>A</key></keyseq>."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select "
+"them</gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr "Per netejar la selecció actual feu clic a <guiseq><gui>Feu clic als elements per seleccionar-los</gui><gui>No en seleccionis cap</gui></guiseq>a la barra d'eines."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "Crear una llista de reproducció seleccionant les cançons preferides."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+msgid "Create playlists using songs"
+msgstr "Crear una llista de reproducció utilitzant cançons."
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui "
+"style=\"button\">Songs</gui> button."
+msgstr "Es poden veure totes les cançons fent clic al botó  <gui style=\"button\">Cançons</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr "Per crear una nova llista de reproducció a la vista <em>Cançons</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+msgid "Select all the songs you want to add to the playlist."
+msgstr "Seleccioneu totes les cançons que es vulguin afegir a la llista de reproducció."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr "Feu clic a <gui style=\"button\">Nova llista de reproducció</gui> i escriure el nom de la llista."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "Crear una llista de reproducció seleccionant els artistes preferits."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+msgid "Create playlists using artists"
+msgstr "Crear una llista de reproducció utilitzant artistes"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui "
+"style=\"button\">Artists</gui> button."
+msgstr "Es poden veure tots els artistes i les seves cançons fent clic al botó <gui style=\"button\">Artistes</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr "Per crear una nova llista de reproducció mentre s'està a la vista <em>Artistes</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr "Seleccioneu tots els artistes les cançons dels quals vulgueu afegir a la llista de reproducció."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+msgid "Click on <gui>Select</gui>."
+msgstr "Feu clic a <gui>Selecciona</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+msgid "Remove an unwanted playlist."
+msgstr "Suprimir una llista de reproducció no desitjada."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+msgid "Delete a playlist"
+msgstr "Suprimir una llista de reproducció"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+msgid "You can remove an old and unwanted playlist."
+msgstr "Es pot eliminar una llista de reproducció antiga i no desitjada."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "Seleccioneu la llista de reproducció que es vulgui esborrar."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "Feu clic a sobre per <gui>Esborrar</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+msgid "Delete songs from the playlist."
+msgstr "Esborrar cançons de la llista de reproducció."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+msgid "Remove songs"
+msgstr "Eliminar cançons"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr "Es poden eliminar totes les cançons no desitjades d'una llista de reproducció."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr "Seleccioneu la llista de reproducció de la que es volen eliminar cançons."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "Feu clic sobre la casella de verificació a la barra d'eines."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "Seleccioneu totes les cançons que es vulguin eliminar."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr "Feu clic a <gui style=\"button\">Suprimeix de la llista de reproducció/gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr "Repetir totes les cançons de la llista de reproducció o només la cançó actual."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "Com es poden reproduir cançons en repetició?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "A la barra de tasques, fer clic al botó del costat dret:"
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "Seleccionar <gui>Repeteix la cançó</gui> per repetir una única cançó."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr "Seleccionar <gui>Repeteix-ho tot</gui> per repetir totes les cançons de la llista de reproducció."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "Barrejar les cançons a la llista de reproducció."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "Com mesclar les cançons?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr "A la barra de tasques, fer clic al botó de la banda dreta i seleccionar  <gui>Barrejar</gui>."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "Cercar a través de la col·lecció de música."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "Trobar música"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr "Es poden cercar àlbums, artistes, cançons i llistes de reproducció. Seleccionar el que es vol cercar i aleshores fer clic al botó <gui>Cercar</gui> i començar la cerca."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Llicència Reconeixement-CompartirIgual 3.0 No adaptada"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Aquesta obra està llicenciada sota una <_:link-1/>."
