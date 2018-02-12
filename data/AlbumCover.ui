@@ -33,10 +33,6 @@
             <property name="halign">end</property>
             <property name="valign">end</property>
             <property name="draw_indicator">True</property>
-            <style>
-              <class name="osd"/>
-              <class name="content-view"/>
-            </style>
           </object>
         </child>
       </object>
