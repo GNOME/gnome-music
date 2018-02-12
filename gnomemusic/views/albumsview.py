@@ -75,6 +75,7 @@ class AlbumsView(BaseView):
             margin=18, row_spacing=12, column_spacing=6,
             min_children_per_line=1, max_children_per_line=25)
 
+        self._view.get_style_context().add_class('content-view')
         self._view.connect('child-activated', self._on_child_activated)
 
         scrolledwin = Gtk.ScrolledWindow()
@@ -158,6 +159,7 @@ class AlbumsView(BaseView):
             '/org/gnome/Music/AlbumCover.ui')
 
         child = Gtk.FlowBoxChild()
+        child.get_style_context().add_class('tile')
         child.stack = builder.get_object('stack')
         child.check = builder.get_object('check')
         child.title = builder.get_object('title')
