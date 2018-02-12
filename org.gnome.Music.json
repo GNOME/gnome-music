@@ -63,6 +63,20 @@
             ]
         },
         {
+            "name": "gnome-online-accounts",
+            "config-opts": [ "--enable-introspection",
+                             "--disable-telepathy",
+                             "--disable-documentation",
+                             "--disable-backend",
+                             "--disable-Werror" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://git.gnome.org/browse/gnome-online-accounts"
+                }
+            ]
+        },
+        {
             "name": "grilo",
             "config-opts": [ "--disable-static" ],
             "sources": [
@@ -75,7 +89,7 @@
         },
         {
             "name": "grilo-plugins",
-            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa=no", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no" ],
+            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no" ],
             "sources": [
                 {
                     "type": "git",
