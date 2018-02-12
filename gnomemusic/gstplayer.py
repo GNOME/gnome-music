@@ -71,11 +71,10 @@ class GstPlayer(GObject.GObject):
         self._bus.add_signal_watch()
         self._setup_replaygain()
 
-        replaygain = self._settings.get_value('replaygain') is not None
-        self._toggle_replaygain(replaygain)
-
         self._settings.connect(
             'changed::replaygain', self._on_replaygain_setting_changed)
+        self._on_replaygain_setting_changed(
+            None, self._settings.get_value('replaygain'))
 
         self._bus.connect('message::state-changed', self._on_bus_state_changed)
         self._bus.connect('message::error', self._on_bus_error)
@@ -89,53 +88,35 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _setup_replaygain(self):
-        """Set up replaygain
+        """Set up replaygain"""
+        self._rg_volume = Gst.ElementFactory.make("rgvolume", "rg volume")
+        self._rg_limiter = Gst.ElementFactory.make("rglimiter", "rg limiter")
 
-        See lollypop 429383c37
-        """
-        self._rgfilter = Gst.ElementFactory.make("bin", "bin")
-        self._rg_audioconvert1 = Gst.ElementFactory.make(
-            "audioconvert", "audioconvert")
-        self._rg_audioconvert2 = Gst.ElementFactory.make(
-            "audioconvert", "audioconvert2")
-        self._rgvolume = Gst.ElementFactory.make("rgvolume", "rgvolume")
-        self._rglimiter = Gst.ElementFactory.make("rglimiter", "rglimiter")
-        self._rg_audiosink = Gst.ElementFactory.make(
-            "autoaudiosink", "autoaudiosink")
+        self._filter_bin = Gst.ElementFactory.make("bin", "filter bin")
+        self._filter_bin.add(self._rg_volume)
+        self._filter_bin.add(self._rg_limiter)
+        self._rg_volume.link(self._rg_limiter)
 
-        if (not self._rgfilter
-                or not self._rg_audioconvert1
-                or not self._rg_audioconvert2
-                or not self._rgvolume
-                or not self._rglimiter
-                or not self._rg_audiosink):
+        pad_src = self._rg_limiter.get_static_pad('src')
+        ghost_src = Gst.GhostPad.new('src', pad_src)
+        self._filter_bin.add_pad(ghost_src)
+
+        pad_sink = self._rg_volume.get_static_pad('sink')
+        ghost_sink = Gst.GhostPad.new('sink', pad_sink)
+        self._filter_bin.add_pad(ghost_sink)
+
+        if (not self._filter_bin
+                or not self._rg_volume
+                or not self._rg_limiter):
             logger.debug("Replay Gain is not available")
             return
 
-        self._rgvolume.props.pre_amp = 0.0
-        self._rgfilter.add(self._rgvolume)
-        self._rgfilter.add(self._rg_audioconvert1)
-        self._rgfilter.add(self._rg_audioconvert2)
-        self._rgfilter.add(self._rglimiter)
-        self._rgfilter.add(self._rg_audiosink)
-        self._rg_audioconvert1.link(self._rgvolume)
-        self._rgvolume.link(self._rg_audioconvert2)
-        self._rgvolume.link(self._rglimiter)
-        self._rg_audioconvert2.link(self._rg_audiosink)
-        self._rgfilter.add_pad(Gst.GhostPad.new(
-            "sink", self._rg_audioconvert1.get_static_pad("sink")))
-
-    @log
-    def _toggle_replaygain(self, state=False):
-        if state and self._rgfilter:
-            self._player.set_property("audio-sink", self._rgfilter)
-        else:
-            self._player.set_property("audio-sink", None)
-
     @log
     def _on_replaygain_setting_changed(self, settings, value):
-        replaygain = settings.get_value('replaygain') is not None
-        self._toggle_replaygain(replaygain)
+        if value:
+            self._player.set_property("audio-filter", self._filter_bin)
+        else:
+            self._player.set_property("audio-filter", None)
 
     @log
     def _on_new_clock(self, bus, message):
