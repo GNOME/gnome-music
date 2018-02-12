@@ -535,8 +535,8 @@ class EmbeddedArt(GObject.GObject):
         if (error is not None
                 or tags is None):
             if error:
-                logger.warn(
-                    "Discoverer error: {}, {}", error.domain, error.message)
+                logger.warn("Discoverer error: {}, {}".format(
+                    Gst.CoreError(error.code), error.message))
             discoverer.stop()
             self.emit('unavailable')
             return
