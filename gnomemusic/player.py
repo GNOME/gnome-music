@@ -109,7 +109,7 @@ class Player(GObject.GObject):
         self.playlistId = None
         self.playlist_field = 5
         self.currentTrack = None
-        self.currentTrackUri = None
+        self._current_track_uri = None
         self._missingPluginMessages = []
 
         Gst.init(None)
@@ -142,6 +142,20 @@ class Player(GObject.GObject):
         self.playlist_delete_handler = 0
 
         self._lastfm = LastFmScrobbler()
+
+    @property
+    @log
+    def current_track_uri(self):
+        return self._current_track_uri
+
+    @log
+    def _set_current_track_uri(self):
+        if self.currentTrack and self.currentTrack.valid():
+            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
+            uri = self.playlist[iter_][self.playlist_field].get_url()
+            self._current_track_uri = uri
+        else:
+            self._current_track_uri = None
 
     @log
     def _on_replaygain_setting_changed(self, settings, value):
@@ -357,9 +371,7 @@ class Player(GObject.GObject):
                 currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
                 if currentTrack:
                     self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
-                    iter_ = self.playlist.get_iter(self.currentTrack.get_path())
-                    track = self.playlist[iter_][self.playlist_field]
-                    self.currentTrackUri = track.get_url()
+                    self._set_current_track_uri()
                 else:
                     self.currentTrack = None
                 self.load(self.get_current_media())
@@ -375,10 +387,7 @@ class Player(GObject.GObject):
     @log
     def _on_glib_idle(self):
         self.currentTrack = self.nextTrack
-        if self.currentTrack and self.currentTrack.valid():
-            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
-            track = self.playlist[iter_][self.playlist_field]
-            self.currentTrackUri = track.get_url()
+        self._set_current_track_uri()
         self.play()
 
     @log
@@ -690,10 +699,8 @@ class Player(GObject.GObject):
         self.stop()
         self.currentTrack = self.nextTrack
 
-        if self.currentTrack and self.currentTrack.valid():
-            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
-            track = self.playlist[iter_][self.playlist_field]
-            self.currentTrackUri = track
+        self._set_current_track_uri()
+        if self._current_track_uri:
             self.play()
 
     @log
@@ -713,10 +720,8 @@ class Player(GObject.GObject):
         self.stop()
 
         self.currentTrack = self._get_previous_track()
-        if self.currentTrack and self.currentTrack.valid():
-            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
-            track = self.playlist[iter_][self.playlist_field]
-            self.currentTrackUri = track.get_url()
+        self._set_current_track_uri()
+        if self._current_track_uri:
             self.play()
 
     @log
@@ -741,10 +746,7 @@ class Player(GObject.GObject):
         self.playlistType = type
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
-        if self.currentTrack and self.currentTrack.valid():
-            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
-            track = self.playlist[iter_][self.playlist_field]
-            self.currentTrackUri = track.get_url()
+        self._set_current_track_uri()
         self.discovery_status_field = discovery_status_field
 
         if old_playlist != model:
@@ -1061,7 +1063,7 @@ class Player(GObject.GObject):
         if not self.currentTrack or not self.currentTrack.valid():
             return None
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-        if self.playlist.get_value(currentTrack, self.discovery_status_field) == DiscoveryStatus.FAILED:
+        if self.playlist[currentTrack][self.discovery_status_field] == DiscoveryStatus.FAILED:
             return None
         return self.playlist[currentTrack][self.playlist_field]
 
