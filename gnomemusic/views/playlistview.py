@@ -349,7 +349,7 @@ class PlaylistView(BaseView):
             if self.model[_iter][8] != self._error_icon_name:
                 self.player.set_playlist(
                     'Playlist', self._current_playlist.get_id(), self.model,
-                    _iter, 5, 11)
+                    _iter)
                 self.player.set_playing(True)
 
         # 'row-activated' signal is emitted before 'drag-begin' signal.
@@ -417,7 +417,7 @@ class PlaylistView(BaseView):
             self._iter_to_clean = new_iter
             self.player.set_playlist(
                 'Playlist', self._current_playlist.get_id(), self.model,
-                new_iter, 5, 11)
+                new_iter)
 
         first_pos = min(new_pos, prev_pos)
         last_pos = max(new_pos, prev_pos)
@@ -819,8 +819,8 @@ class PlaylistView(BaseView):
 
                     self._iter_to_clean = None
                     self._update_model(self.player, model, next_iter)
-                    self.player.set_playlist('Playlist', playlist.get_id(),
-                                             model, next_iter, 5, 11)
+                    self.player.set_playlist(
+                        'Playlist', playlist.get_id(), model, next_iter)
                     self.player.set_playing(True)
 
                 # Update songs count
@@ -840,8 +840,7 @@ class PlaylistView(BaseView):
                         and self._row_is_playing(playlist, row)):
                     self._iter_to_clean = row.iter
                     self.player.set_playlist(
-                        'Playlist', playlist.get_id(), self.model, row.iter, 5,
-                        11)
+                        'Playlist', playlist.get_id(), self.model, row.iter)
                     return
 
     @log

@@ -163,8 +163,8 @@ class ArtistAlbumWidget(Gtk.Box):
             return
 
         self._player.stop()
-        self._player.set_playlist('Artist', self._artist, song_widget.model,
-                                  song_widget.itr, 5, 11)
+        self._player.set_playlist(
+            'Artist', self._artist, song_widget.model, song_widget.itr)
         self._player.set_playing(True)
 
         return True
