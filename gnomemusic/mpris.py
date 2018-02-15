@@ -350,7 +350,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_media_from_id(self, track_id):
         for track in self.player.playlist:
-            media = track[self.player.playlistField]
+            media = track[self.player.playlist_field]
             if track_id == self._get_media_id(media):
                 return media
         return None
@@ -358,7 +358,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_track_list(self):
         if self.player.playlist:
-            return [self._get_media_id(track[self.player.playlistField])
+            return [self._get_media_id(track[self.player.playlist_field])
                     for track in self.player.playlist]
         else:
             return []
@@ -463,7 +463,7 @@ class MediaPlayer2Service(Server):
         if self.first_song_handler:
             model.disconnect(self.first_song_handler)
             self.first_song_handler = 0
-        self.player.set_playlist('Songs', None, model, iter_, 5)
+        self.player.set_playlist('Songs', None, model, iter_)
         self.player.set_playing(True)
 
     @log
@@ -496,7 +496,7 @@ class MediaPlayer2Service(Server):
     def _on_playlist_modified(self, path=None, _iter=None, data=None):
         if self.player.currentTrack and self.player.currentTrack.valid():
             path = self.player.currentTrack.get_path()
-            currentTrack = self.player.playlist[path][self.player.playlistField]
+            currentTrack = self.player.playlist[path][self.player.playlist_field]
             track_list = self._get_track_list()
             self.TrackListReplaced(track_list, self._get_media_id(currentTrack))
             self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -591,13 +591,12 @@ class MediaPlayer2Service(Server):
 
     def GoTo(self, track_id):
         for track in self.player.playlist:
-            media = track[self.player.playlistField]
+            media = track[self.player.playlist_field]
             if track_id == self._get_media_id(media):
-                self.player.set_playlist(self.player.playlistType,
-                                         self.player.playlistId,
-                                         self.player.playlist,
-                                         track.iter,
-                                         self.player.playlistField)
+                self.player.set_playlist(
+                    self.player.playlistType, self.player.playlistId,
+                    self.player.playlist, track.iter)
+
                 self.player.play()
                 return
 

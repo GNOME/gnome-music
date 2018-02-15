@@ -107,7 +107,7 @@ class Player(GObject.GObject):
         self.playlist = None
         self.playlistType = None
         self.playlistId = None
-        self.playlistField = None
+        self.playlist_field = 5
         self.currentTrack = None
         self._current_track_uri = None
         self._missingPluginMessages = []
@@ -593,7 +593,7 @@ class Player(GObject.GObject):
 
         if self.currentTrack and self.currentTrack.valid():
             currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-            uri = self.playlist[currentTrack][self.playlistField].get_url()
+            uri = self.playlist[currentTrack][self.playlist_field].get_url()
             self._current_track_uri = uri
             self.emit('playlist-item-changed', self.playlist, currentTrack)
             self.emit('current-changed')
@@ -622,15 +622,15 @@ class Player(GObject.GObject):
             return
 
         _iter = self.playlist.get_iter(self.nextTrack.get_path())
-        status = self.playlist.get_value(_iter, self.discovery_status_field)
-        nextSong = self.playlist.get_value(_iter, self.playlistField)
-        url = self.playlist.get_value(_iter, 5).get_url()
+        status = self.playlist[_iter][self.discovery_status_field]
+        next_song = self.playlist[_iter][self.playlist_field]
+        url = next_song.get_url()
 
         # Skip remote songs discovery
         if url.startswith('http://') or url.startswith('https://'):
             return False
         elif status == DiscoveryStatus.PENDING:
-            self.discover_item(nextSong, self._on_next_item_validated, _iter)
+            self.discover_item(next_song, self._on_next_item_validated, _iter)
         elif status == DiscoveryStatus.FAILED:
             GLib.idle_add(self._validate_next_track)
 
@@ -722,8 +722,7 @@ class Player(GObject.GObject):
     # FIXME: set the discovery field to 11 to be safe, but for some
     # models it is 12.
     @log
-    def set_playlist(self, type, id, model, iter, field,
-                     discovery_status_field=11):
+    def set_playlist(self, type, id, model, iter, discovery_status_field=11):
         old_playlist = self.playlist
         if old_playlist != model:
             self.playlist = model
@@ -735,7 +734,6 @@ class Player(GObject.GObject):
         self.playlistType = type
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
-        self.playlistField = field
         self.discovery_status_field = discovery_status_field
 
         if old_playlist != model:
@@ -1056,7 +1054,7 @@ class Player(GObject.GObject):
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
         if self.playlist.get_value(currentTrack, self.discovery_status_field) == DiscoveryStatus.FAILED:
             return None
-        return self.playlist.get_value(currentTrack, self.playlistField)
+        return self.playlist[currentTrack][self.playlist_field]
 
 
 class MissingCodecsDialog(Gtk.MessageDialog):
