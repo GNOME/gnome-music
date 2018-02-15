@@ -70,13 +70,6 @@ class Window(Gtk.ApplicationWindow):
         self.connect('focus-in-event', self._windows_focus_cb)
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
-        selectAll = Gio.SimpleAction.new('selectAll', None)
-        app.set_accels_for_action('win.selectAll', ['<Primary>a'])
-        selectAll.connect('activate', self._on_select_all)
-        self.add_action(selectAll)
-        selectNone = Gio.SimpleAction.new('selectNone', None)
-        selectNone.connect('activate', self._on_select_none)
-        self.add_action(selectNone)
         self.set_size_request(200, 100)
         self.set_default_icon_name('gnome-music')
 
@@ -281,8 +274,8 @@ class Window(Gtk.ApplicationWindow):
             GLib.idle_add(i.populate)
 
     @log
-    def _on_select_all(self, action, param):
-        if self.toolbar._selectionMode is False:
+    def _select_all(self):
+        if not self.toolbar._selectionMode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
@@ -292,7 +285,9 @@ class Window(Gtk.ApplicationWindow):
         view.select_all()
 
     @log
-    def _on_select_none(self, action, param):
+    def _select_none(self):
+        if not self.toolbar._selectionMode:
+            return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()
@@ -303,54 +298,64 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_key_press(self, widget, event):
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        event_and_modifiers = (event.state & modifiers)
+        modifiers = (event.state & modifiers)
 
-        if event_and_modifiers != 0:
+        if modifiers != 0:
+            control_mask = Gdk.ModifierType.CONTROL_MASK
+            shift_mask = Gdk.ModifierType.SHIFT_MASK
+            mod1_mask = Gdk.ModifierType.MOD1_MASK
+
+            if (event.keyval == Gdk.KEY_a
+                    and modifiers == control_mask):
+                self._select_all()
+            if (event.keyval == Gdk.KEY_A
+                    and modifiers == (shift_mask | control_mask)):
+                self._select_none()
             # Open search bar on Ctrl + F
-            if (event.keyval == Gdk.KEY_f and
-                    event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+            if (event.keyval == Gdk.KEY_f
+                    and modifiers == control_mask):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self.player.play_pause()
             # Play previous on Ctrl + B
             if (event.keyval == Gdk.KEY_b
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self.player.play_previous()
             # Play next on Ctrl + N
             if (event.keyval == Gdk.KEY_n
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self.player.play_next()
             # Toggle repeat on Ctrl + R
             if (event.keyval == Gdk.KEY_r
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 if self.player.get_repeat_mode() == RepeatType.SONG:
                     self.player.set_repeat_mode(RepeatType.NONE)
                 else:
                     self.player.set_repeat_mode(RepeatType.SONG)
             # Toggle shuffle on Ctrl + S
             if (event.keyval == Gdk.KEY_s
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 if self.player.get_repeat_mode() == RepeatType.SHUFFLE:
                     self.player.set_repeat_mode(RepeatType.NONE)
                 else:
                     self.player.set_repeat_mode(RepeatType.SHUFFLE)
             # Go back from Album view on Alt + Left
-            if (event.keyval == Gdk.KEY_Left and
-                    event_and_modifiers == Gdk.ModifierType.MOD1_MASK):
+            if (event.keyval == Gdk.KEY_Left
+                    and modifiers == mod1_mask):
                 self.toolbar.on_back_button_clicked()
             if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self._toggle_view(View.ALBUM)
             if ((event.keyval in [Gdk.KEY_2, Gdk.KEY_KP_2])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self._toggle_view(View.ARTIST)
             if ((event.keyval in [Gdk.KEY_3, Gdk.KEY_KP_3])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self._toggle_view(View.SONG)
             if ((event.keyval in [Gdk.KEY_4, Gdk.KEY_KP_4])
-                    and event_and_modifiers == Gdk.ModifierType.CONTROL_MASK):
+                    and modifiers == control_mask):
                 self._toggle_view(View.PLAYLIST)
         else:
             child = self._stack.get_visible_child()
@@ -369,8 +374,8 @@ class Window(Gtk.ApplicationWindow):
         if ((not self.toolbar.searchbar.get_search_mode()
                 and not event.keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
-                and (event_and_modifiers == Gdk.ModifierType.SHIFT_MASK
-                    or event_and_modifiers == 0)
+                and (modifiers == Gdk.ModifierType.SHIFT_MASK
+                     or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active):
             self.toolbar.searchbar.reveal(True)
 
