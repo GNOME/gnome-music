@@ -242,8 +242,8 @@ class AlbumWidget(Gtk.EventBox):
             return
 
         self._player.stop()
-        self._player.set_playlist('Album', self._album, song_widget.model,
-                                  song_widget.itr, 5, 11)
+        self._player.set_playlist(
+            'Album', self._album, song_widget.model, song_widget.itr)
         self._player.set_playing(True)
         return True
 
@@ -293,7 +293,7 @@ class AlbumWidget(Gtk.EventBox):
         if (playlist != self._model):
             return True
 
-        current_song = playlist[current_iter][5]
+        current_song = playlist[current_iter][player.playlist_field]
 
         self._duration = 0
 
@@ -301,7 +301,7 @@ class AlbumWidget(Gtk.EventBox):
         _iter = playlist.get_iter_first()
 
         while _iter:
-            song = playlist[_iter][5]
+            song = playlist[_iter][player.playlist_field]
             song_widget = song.song_widget
             self._duration += song.get_duration()
             escaped_title = GLib.markup_escape_text(
