@@ -107,7 +107,7 @@ class Player(GObject.GObject):
         self.playlist = None
         self.playlistType = None
         self.playlistId = None
-        self.playlistField = None
+        self.playlist_field = 5
         self.currentTrack = None
         self.currentTrackUri = None
         self._missingPluginMessages = []
@@ -357,8 +357,9 @@ class Player(GObject.GObject):
                 currentTrack = self.playlist.get_path(self.playlist.get_iter_first())
                 if currentTrack:
                     self.currentTrack = Gtk.TreeRowReference.new(self.playlist, currentTrack)
+                    iter_ = self.playlist.get_iter(self.currentTrack.get_path())
                     self.currentTrackUri = self.playlist.get_value(
-                        self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
+                        iter_, self.playlist_field).get_url()
                 else:
                     self.currentTrack = None
                 self.load(self.get_current_media())
@@ -375,8 +376,9 @@ class Player(GObject.GObject):
     def _on_glib_idle(self):
         self.currentTrack = self.nextTrack
         if self.currentTrack and self.currentTrack.valid():
+            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
             self.currentTrackUri = self.playlist.get_value(
-                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
+                iter_, self.playlist_field).get_url()
         self.play()
 
     @log
@@ -619,8 +621,8 @@ class Player(GObject.GObject):
 
         _iter = self.playlist.get_iter(self.nextTrack.get_path())
         status = self.playlist.get_value(_iter, self.discovery_status_field)
-        nextSong = self.playlist.get_value(_iter, self.playlistField)
-        url = self.playlist.get_value(_iter, 5).get_url()
+        nextSong = self.playlist.get_value(_iter, self.playlist_field)
+        url = nextSong.get_url()
 
         # Skip remote songs discovery
         if url.startswith('http://') or url.startswith('https://'):
@@ -689,8 +691,9 @@ class Player(GObject.GObject):
         self.currentTrack = self.nextTrack
 
         if self.currentTrack and self.currentTrack.valid():
+            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
             self.currentTrackUri = self.playlist.get_value(
-                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
+                iter_, self.playlist_field).get_url()
             self.play()
 
     @log
@@ -711,8 +714,9 @@ class Player(GObject.GObject):
 
         self.currentTrack = self._get_previous_track()
         if self.currentTrack and self.currentTrack.valid():
+            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
             self.currentTrackUri = self.playlist.get_value(
-                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
+                iter_, self.playlist_field).get_url()
             self.play()
 
     @log
@@ -725,8 +729,7 @@ class Player(GObject.GObject):
     # FIXME: set the discovery field to 11 to be safe, but for some
     # models it is 12.
     @log
-    def set_playlist(self, type, id, model, iter, field,
-                     discovery_status_field=11):
+    def set_playlist(self, type, id, model, iter, discovery_status_field=11):
         old_playlist = self.playlist
         if old_playlist != model:
             self.playlist = model
@@ -739,9 +742,9 @@ class Player(GObject.GObject):
         self.playlistId = id
         self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
         if self.currentTrack and self.currentTrack.valid():
+            iter_ = self.playlist.get_iter(self.currentTrack.get_path())
             self.currentTrackUri = self.playlist.get_value(
-                self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
-        self.playlistField = field
+                iter_, self.playlist_field).get_url()
         self.discovery_status_field = discovery_status_field
 
         if old_playlist != model:
@@ -1060,7 +1063,7 @@ class Player(GObject.GObject):
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
         if self.playlist.get_value(currentTrack, self.discovery_status_field) == DiscoveryStatus.FAILED:
             return None
-        return self.playlist.get_value(currentTrack, self.playlistField)
+        return self.playlist.get_value(currentTrack, self.playlist_field)
 
 
 class MissingCodecsDialog(Gtk.MessageDialog):
