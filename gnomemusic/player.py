@@ -70,9 +70,6 @@ class DiscoveryStatus:
 
 
 class Player(GObject.GObject):
-    _next_track = None
-    timeout = None
-    _shuffle_history = deque(maxlen=10)
 
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -102,6 +99,8 @@ class Player(GObject.GObject):
         self.playlist_field = None
         self.current_track = None
         self.current_track_uri = None
+        self._next_track = None
+        self._shuffle_history = deque(maxlen=10)
 
         Gst.init(None)
         GstPbutils.pb_utils_init()
@@ -124,6 +123,7 @@ class Player(GObject.GObject):
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
 
+        self.timeout = None
         self._seconds_period = 0
         self._seconds_timeout = 0
 
