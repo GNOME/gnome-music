@@ -174,17 +174,6 @@ class GstPlayer(GObject.GObject):
         self.emit('eos')
 
     @log
-    def is_playing(self):
-        ok, state, pending = self._player.get_state(0)
-
-        if ok == Gst.StateChangeReturn.ASYNC:
-            return pending == Gst.State.PLAYING
-        elif ok == Gst.StateChangeReturn.SUCCESS:
-            return state == Gst.State.PLAYING
-
-        return False
-
-    @log
     def _get_playback_status(self):
         ok, state, pending = self._player.get_state(0)
         if ok == Gst.StateChangeReturn.ASYNC:

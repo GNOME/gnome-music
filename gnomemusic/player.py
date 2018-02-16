@@ -326,7 +326,7 @@ class Player(GObject.GObject):
 
     @property
     def playing(self):
-        return self._player.is_playing()
+        return self._player.state == Playback.PLAYING
 
     @log
     def _on_state_change(self, klass, arguments):
@@ -334,7 +334,7 @@ class Player(GObject.GObject):
 
     @log
     def _sync_playing(self):
-        if self._player.is_playing():
+        if self._player.state == Playback.PLAYING:
             image = self._pause_image
             tooltip = _("Pause")
         else:
@@ -749,7 +749,7 @@ class Player(GObject.GObject):
 
     @log
     def _on_play_button_clicked(self, button):
-        if self._player.is_playing():
+        if self._player.state == Playback.PLAYING:
             self.pause()
         else:
             self.play()
