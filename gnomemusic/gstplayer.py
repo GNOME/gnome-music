@@ -52,7 +52,8 @@ class GstPlayer(GObject.GObject):
     Handles GStreamer interaction for Player and SmoothScale.
     """
     __gsignals__ = {
-        'eos': (GObject.SignalFlags.RUN_FIRST, None, ())
+        'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
     }
 
     def __repr__(self):
@@ -63,6 +64,8 @@ class GstPlayer(GObject.GObject):
         super().__init__()
 
         Gst.init(None)
+
+        self._duration = None
 
         self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
@@ -84,6 +87,9 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::eos', self._on_bus_eos)
         self._bus.connect(
             'message::duration-changed', self._on_duration_changed)
+        self._bus.connect('message::new-clock', self._on_new_clock)
+
+        self.state = Playback.STOPPED
 
     @log
     def _setup_replaygain(self):
@@ -136,6 +142,22 @@ class GstPlayer(GObject.GObject):
         self._toggle_replaygain(replaygain)
 
     @log
+    def _on_new_clock(self, bus, message):
+        clock = message.parse_new_clock()
+        id_ = clock.new_periodic_id(0, 1 * 10**9)
+        clock.id_wait_async(id_, self._on_clock_tick, None)
+
+        # TODO: Workaround the first duration change not being emitted
+        # and hence smoothscale not being initialized properly.
+        if self.duration is None:
+            self._on_duration_changed(None, None)
+
+    @log
+    def _on_clock_tick(self, clock, time, id, data):
+        tick = time / 10**9
+        self.emit('clock-tick', tick)
+
+    @log
     def _on_bus_state_changed(self, bus, message):
         # Note: not all state changes are signaled through here, in
         # particular transitions between Gst.State.READY and
@@ -149,8 +171,13 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _on_duration_changed(self, bus, message):
-        self._duration = self._player.query_duration(
-            Gst.Format.TIME)[1] / 10**9
+        success, duration = self._player.query_duration(
+            Gst.Format.TIME)
+
+        if success:
+            self.duration = duration / 10**9
+        else:
+            self.duration = None
 
     @log
     def _on_bus_element(self, bus, message):
@@ -168,10 +195,11 @@ class GstPlayer(GObject.GObject):
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warn("URI: {}".format(self.url))
-        logger.warn(
-            "Error from element {}: {}", message.src.get_name(), error.message)
-        logger.warn("Debugging info:\n{}", debug)
+        logger.warning("URI: {}".format(self.url))
+        logger.warning(
+            "Error from element {}: {}".format(
+                message.src.get_name(), error.message))
+        logger.warning("Debugging info:\n{}".format(debug))
 
         self.emit('eos')
         return True
@@ -183,6 +211,7 @@ class GstPlayer(GObject.GObject):
     @log
     def _get_playback_status(self):
         ok, state, pending = self._player.get_state(0)
+
         if ok == Gst.StateChangeReturn.ASYNC:
             state = pending
         elif (ok != Gst.StateChangeReturn.SUCCESS):
@@ -254,9 +283,27 @@ class GstPlayer(GObject.GObject):
     @GObject.Property
     @log
     def duration(self):
-        """Total duration in seconds (float)"""
+        """Total duration of current media
+
+        Total duration in seconds or None if not available
+        :return: duration
+        :rtype: float or None
+        """
+        if self.state == Playback.STOPPED:
+            return None
 
         return self._duration
+
+    # Setter provided to trigger a property signal.
+    # For internal use only.
+    @duration.setter
+    @log
+    def duration(self, duration):
+        """Set duration of current media (internal)
+
+        For internal use only.
+        """
+        self._duration = duration
 
     @GObject.Property
     @log
@@ -283,6 +330,7 @@ class GstPlayer(GObject.GObject):
 
         :param float seconds: Position in seconds to seek
         """
+        # FIXME: seek should be signalled to MPRIS
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * 10**9)
