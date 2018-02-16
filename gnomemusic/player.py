@@ -49,6 +49,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.coverstack import CoverStack
+from gnomemusic.widgets.smoothscale import SmoothScale
 import gnomemusic.utils as utils
 
 
@@ -114,7 +115,6 @@ class Player(GObject.GObject):
         self._settings.connect(
             'changed::repeat', self._on_repeat_setting_changed)
         self.repeat = self._settings.get_enum('repeat')
-        self._setup_view()
 
         self.playlist_insert_handler = 0
         self.playlist_delete_handler = 0
@@ -123,10 +123,7 @@ class Player(GObject.GObject):
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
 
-        self.timeout = None
-        self._seconds_period = 0
-        self._seconds_timeout = 0
-
+        self._setup_view()
         self._lastfm = LastFmScrobbler()
 
     def discover_item(self, item, callback, data=None):
@@ -368,7 +365,7 @@ class Player(GObject.GObject):
 
     @log
     def load(self, media):
-        self._progress_scale_zero()
+        self._progress_scale._progress_scale_zero()
         self._set_duration(media.get_duration())
         self._total_time_label.set_label(
             utils.seconds_to_string(media.get_duration()))
@@ -448,7 +445,7 @@ class Player(GObject.GObject):
         elif (self.repeat == RepeatType.NONE):
             self.stop()
             self._play_button.set_image(self._play_image)
-            self._progress_scale_zero()
+            self._progress_scale._progress_scale_zero()
             self._progress_scale.set_sensitive(False)
             if self.playlist is not None:
                 current_track = self.playlist.get_path(
@@ -468,7 +465,7 @@ class Player(GObject.GObject):
             # Stop playback
             self.stop()
             self._play_button.set_image(self._play_image)
-            self._progress_scale_zero()
+            self._progress_scale._progress_scale_zero()
             self._progress_scale.set_sensitive(False)
             self.emit('playback-status-changed')
 
@@ -490,24 +487,24 @@ class Player(GObject.GObject):
 
         self._player.state = Playback.PLAYING
 
-        self._update_position_callback()
+        self._progress_scale._update_position_callback()
         if media:
             self._lastfm.now_playing(media)
-        if not self.timeout and self._progress_scale.get_realized():
-            self._update_timeout()
+        if not self._progress_scale.timeout and self._progress_scale.get_realized():
+            self._progress_scale._update_timeout()
 
         self.emit('playback-status-changed')
 
     @log
     def pause(self):
-        self._remove_timeout()
+        self._progress_scale._remove_timeout()
 
         self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
 
     @log
     def stop(self):
-        self._remove_timeout()
+        self._progress_scale._remove_timeout()
 
         self._player.state = Playback.STOPPED
         self.emit('playback-status-changed')
@@ -538,8 +535,8 @@ class Player(GObject.GObject):
 
         position = self._player.position
         if position >= 5:
-            self._progress_scale_zero()
-            self.on_progress_scale_change_value(self._progress_scale)
+            self._progress_scale._progress_scale_zero()
+            self._progress_scale._on_progress_scale_change_value(self._progress_scale)
             return
 
         self.stop()
@@ -609,7 +606,12 @@ class Player(GObject.GObject):
         self._next_button = self._ui.get_object('next_button')
         self._play_image = self._ui.get_object('play_image')
         self._pause_image = self._ui.get_object('pause_image')
-        self._progress_scale = self._ui.get_object('progress_scale')
+
+        self._progress_scale = self._ui.get_object('smooth_scale')
+        self._progress_scale._player = self._player
+
+        self._progress_scale.connect('seek-finished', self._on_seek_finished)
+
         self._progress_time_label = self._ui.get_object('playback')
         self._total_time_label = self._ui.get_object('duration')
         self._title_label = self._ui.get_object('title')
@@ -627,125 +629,10 @@ class Player(GObject.GObject):
         self._prev_button.connect('clicked', self._on_prev_button_clicked)
         self._play_button.connect('clicked', self._on_play_button_clicked)
         self._next_button.connect('clicked', self._on_next_button_clicked)
-        self._progress_scale.connect(
-            'button-press-event', self._on_progress_scale_event)
-        self._progress_scale.connect(
-            'value-changed', self._on_progress_value_changed)
-        self._progress_scale.connect(
-            'button-release-event', self._on_progress_scale_button_released)
-        self._progress_scale.connect(
-            'change-value', self._on_progress_scale_seek)
-        self._ps_draw = self._progress_scale.connect(
-            'draw', self._on_progress_scale_draw)
 
-        self._seek_timeout = None
-        self._old_progress_scale_value = 0.0
-        self._progress_scale.set_increments(300, 600)
-
-    def _on_progress_scale_seek_finish(self, value):
-        """Prevent stutters when seeking with infinitesimal amounts"""
-        self._seek_timeout = None
-        round_digits = self._progress_scale.get_property('round-digits')
-        if self._old_progress_scale_value != round(value, round_digits):
-            self.on_progress_scale_change_value(self._progress_scale)
-            self._old_progress_scale_value = round(value, round_digits)
-
+    @log
+    def _on_seek_finished(self, klass, time):
         self._player.state = Playback.PLAYING
-        return False
-
-    def _on_progress_scale_seek(self, scale, scroll_type, value):
-        """Smooths out the seeking process
-
-        Called every time progress scale is moved. Only after a seek
-        has been stable for 100ms, play the song from its location.
-        """
-        if self._seek_timeout:
-            GLib.source_remove(self._seek_timeout)
-
-        Gtk.Range.do_change_value(scale, scroll_type, value)
-        if scroll_type == Gtk.ScrollType.JUMP:
-            self._seek_timeout = GLib.timeout_add(
-                100, self._on_progress_scale_seek_finish, value)
-        else:
-            # Scroll with keys, hence no smoothing.
-            self._on_progress_scale_seek_finish(value)
-            self._update_position_callback()
-
-        return True
-
-    @log
-    def _on_progress_scale_button_released(self, scale, data):
-        if self._seek_timeout:
-            GLib.source_remove(self._seek_timeout)
-            self._on_progress_scale_seek_finish(
-                self._progress_scale.get_value())
-
-        self._update_position_callback()
-        return False
-
-    def _on_progress_value_changed(self, widget):
-        seconds = int(self._progress_scale.get_value() / 60)
-        self._progress_time_label.set_label(utils.seconds_to_string(seconds))
-        return False
-
-    @log
-    def _on_progress_scale_event(self, scale, data):
-        self._remove_timeout()
-        self._old_progress_scale_value = self._progress_scale.get_value()
-        return False
-
-    def _on_progress_scale_draw(self, cr, data):
-        self._update_timeout()
-        self._progress_scale.disconnect(self._ps_draw)
-        return False
-
-    def _update_timeout(self):
-        """Update the duration for self.timeout & self._seconds_timeout
-
-        Sets the period of self.timeout to a value small enough to make
-        the slider of self._progress_scale move smoothly based on the
-        current song duration and progress_scale length.
-        self._seconds_timeout is always set to a fixed value, short
-        enough to hide irregularities in GLib event timing from the
-        user, for updating the _progress_time_label.
-        """
-        # Do not run until progress_scale has been realized and
-        # gstreamer provides a duration.
-        duration = self._player.duration
-        if (self._progress_scale.get_realized() is False
-                or duration is None):
-            return
-
-        # Update self.timeout.
-        width = self._progress_scale.get_allocated_width()
-        padding = self._progress_scale.get_style_context().get_padding(
-            Gtk.StateFlags.NORMAL)
-        width -= padding.left + padding.right
-
-        timeout_period = min(1000 * duration // width, 1000)
-
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-        self.timeout = GLib.timeout_add(
-            timeout_period, self._update_position_callback)
-
-        # Update self._seconds_timeout.
-        if not self._seconds_timeout:
-            self._seconds_period = 1000
-            self._seconds_timeout = GLib.timeout_add(
-                self._seconds_period, self._update_seconds_callback)
-
-    def _remove_timeout(self):
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-            self.timeout = None
-        if self._seconds_timeout:
-            GLib.source_remove(self._seconds_timeout)
-            self._seconds_timeout = None
-
-    def _progress_scale_zero(self):
-        self._progress_scale.set_value(0)
-        self._on_progress_value_changed(None)
 
     @log
     def _on_play_button_clicked(self, button):
@@ -769,39 +656,6 @@ class Player(GObject.GObject):
         self._progress_scale.set_range(0.0, duration * 60)
 
     @log
-    def _update_position_callback(self):
-        position = self._player.position
-        if position > 0:
-            self._progress_scale.set_value(position * 60)
-        self._update_timeout()
-        return False
-
-    @log
-    def _update_seconds_callback(self):
-        self._on_progress_value_changed(None)
-
-        position = self._player.position
-        if position > 0:
-            self.played_seconds += self._seconds_period / 1000
-            try:
-                percentage = self.played_seconds / self.duration
-                if (not self._lastfm.scrobbled
-                        and percentage > 0.4):
-                    current_media = self.get_current_media()
-                    if current_media:
-                        # FIXME: we should not need to update static
-                        # playlists here but removing it may introduce
-                        # a bug. So, we keep it for the time being.
-                        playlists.update_all_static_playlists()
-                        grilo.bump_play_count(current_media)
-                        grilo.set_last_played(current_media)
-                        self._lastfm.scrobble(current_media, self._time_stamp)
-
-            except Exception as e:
-                logger.warn("Error: %s, %s", e.__class__, e)
-        return True
-
-    @log
     def _sync_repeat_image(self):
         icon = None
         if self.repeat == RepeatType.NONE:
@@ -816,24 +670,11 @@ class Player(GObject.GObject):
         self._repeat_button_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
         self.emit('repeat-mode-changed')
 
-    @log
-    def on_progress_scale_change_value(self, scroll):
-        seconds = scroll.get_value() / 60
-        self._player.seek(seconds)
-        try:
-            # FIXME mpris
-            self.emit('seeked', seconds * 1000000)
-        except TypeError:
-            # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
-            pass
-
-        return True
-
     # MPRIS
 
     @log
     def Stop(self):
-        self._progress_scale_zero()
+        self._progress_scale._progress_scale_zero()
         self._progress_scale.set_sensitive(False)
         self._play_button.set_image(self._play_image)
         self.stop()

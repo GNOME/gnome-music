@@ -9,4 +9,5 @@ app_PYTHON = \
 	disclistboxwidget.py \
 	notificationspopup.py \
 	playlistdialog.py \
+	smoothscale.py \
 	starhandlerwidget.py

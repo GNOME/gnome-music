@@ -191,7 +191,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkScale" id="progress_scale">
+      <object class="SmoothScale" id="smooth_scale">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="valign">center</property>
