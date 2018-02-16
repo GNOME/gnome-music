@@ -523,8 +523,8 @@ class Player(GObject.GObject):
         self._progress_scale._update_position_callback()
         if media:
             self._lastfm.now_playing(media)
-        if not self._progress_scale.timeout and self._progress_scale.get_realized():
-            self._progress_scale._update_timeout()
+        # if not self._progress_scale.timeout and self._progress_scale.get_realized():
+        self._progress_scale._update_timeout()
 
         self.emit('playback-status-changed')
 
