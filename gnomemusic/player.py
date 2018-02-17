@@ -129,6 +129,7 @@ class Player(GObject.GObject):
         self.playlist_delete_handler = 0
 
         self._player = GstPlayer()
+        self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
 
@@ -630,7 +631,6 @@ class Player(GObject.GObject):
         self._progress_scale.player = self._player
 
         self._progress_scale.connect('seek-finished', self._on_seek_finished)
-        self._progress_scale.connect('seconds-tick', self._on_seconds_tick)
         self._progress_scale.connect(
             'value-changed', self._on_progress_value_changed)
 
@@ -661,7 +661,7 @@ class Player(GObject.GObject):
         self._player.state = Playback.PLAYING
 
     @log
-    def _on_seconds_tick(self, klass):
+    def _on_clock_tick(self, klass):
         seconds = int(self._player.position)
         print("TICK", seconds, self._player.position)
 

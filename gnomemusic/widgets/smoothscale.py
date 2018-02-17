@@ -41,9 +41,6 @@ class SmoothScale(Gtk.Scale):
         'seek-finished': (
             GObject.SignalFlags.RUN_FIRST, None, (float,)
         ),
-        'seconds-tick': (
-            GObject.SignalFlags.RUN_FIRST, None, ()
-        )
     }
 
     def __repr__(self):
@@ -60,9 +57,6 @@ class SmoothScale(Gtk.Scale):
         self._previous_state = None
 
         self.timeout = None
-        self._seconds_timeout = 0
-        self._seconds_period = 0
-        self.played_seconds = 0
 
         self.connect('button-press-event', self._on_progress_scale_event)
         self.connect('button-release-event', self._on_progress_scale_button_released)
@@ -153,14 +147,11 @@ class SmoothScale(Gtk.Scale):
         return False
 
     def _update_timeout(self):
-        """Update the duration for self.timeout & self._seconds_timeout
+        """Update the duration for self.timeout
 
         Sets the period of self.timeout to a value small enough to make
         the slider of self._progress_scale move smoothly based on the
         current song duration and progress_scale length.
-        self._seconds_timeout is always set to a fixed value, short
-        enough to hide irregularities in GLib event timing from the
-        user, for updating the _progress_time_label.
         """
         # Do not run until progress_scale has been realized and
         # gstreamer provides a duration.
@@ -182,19 +173,10 @@ class SmoothScale(Gtk.Scale):
         self.timeout = GLib.timeout_add(
             timeout_period, self._update_position_callback)
 
-        # Update self._seconds_timeout.
-        if not self._seconds_timeout:
-            self._seconds_period = 1000
-            self._seconds_timeout = GLib.timeout_add(
-                self._seconds_period, self._update_seconds_callback)
-
     def _remove_timeout(self):
         if self.timeout:
             GLib.source_remove(self.timeout)
             self.timeout = None
-        if self._seconds_timeout:
-            GLib.source_remove(self._seconds_timeout)
-            self._seconds_timeout = None
 
     def _progress_scale_zero(self):
         self.set_value(0)
@@ -219,10 +201,5 @@ class SmoothScale(Gtk.Scale):
         if position > 0:
             self.set_value(position * 60)
         self._update_timeout()
+
         return False
-
-    @log
-    def _update_seconds_callback(self):
-        self.emit('seconds-tick')
-
-        return True
