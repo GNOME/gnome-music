@@ -82,6 +82,8 @@ class GstPlayer(GObject.GObject):
         self._bus.connect(
             'message::duration-changed', self._on_duration_changed)
 
+        self.state = Playback.STOPPED
+
     @log
     def _setup_replaygain(self):
         """Set up replaygain"""
@@ -116,7 +118,6 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _on_bus_state_changed(self, bus, message):
-        print(message.type, self.state)
         # Note: not all state changes are signaled through here, in
         # particular transitions between Gst.State.READY and
         # Gst.State.NULL are never async and thus don't cause a
@@ -178,6 +179,7 @@ class GstPlayer(GObject.GObject):
     @log
     def _get_playback_status(self):
         ok, state, pending = self._player.get_state(0)
+
         if ok == Gst.StateChangeReturn.ASYNC:
             state = pending
         elif (ok != Gst.StateChangeReturn.SUCCESS):
