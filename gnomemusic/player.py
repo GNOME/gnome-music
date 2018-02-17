@@ -524,7 +524,6 @@ class Player(GObject.GObject):
 
         self._player.state = Playback.PLAYING
 
-        # self._progress_scale._update_position_callback()
         if media:
             self._lastfm.now_playing(media)
 
