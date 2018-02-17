@@ -485,10 +485,6 @@ class Player(GObject.GObject):
             self.load(media)
 
         self._player.state = Playback.PLAYING
-
-        if media:
-            self._lastfm.now_playing(media)
-
         self.emit('playback-status-changed')
 
     @log
@@ -637,6 +633,11 @@ class Player(GObject.GObject):
         seconds = int(self._player.position)
         print("TICK", tick, seconds, self._player.position)
 
+        current_media = self.get_current_media()
+
+        if tick == 0:
+            self._lastfm.now_playing(current_media)
+
         self._progress_time_label.set_label(
             utils.seconds_to_string(seconds))
 
@@ -645,7 +646,6 @@ class Player(GObject.GObject):
         if position > 0:
             self.played_seconds += self._seconds_period / 1000
 
-            current_media = self.get_current_media()
             try:
                 percentage = tick / duration
                 if (not self._lastfm.scrobbled
