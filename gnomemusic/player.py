@@ -674,22 +674,17 @@ class Player(GObject.GObject):
         if position > 0:
             self.played_seconds += self._seconds_period / 1000
 
-            try:
-                percentage = tick / duration
-                if (not self._lastfm.scrobbled
-                        and duration > 30
-                        and (percentage > 0.5 or tick > 4*60)):
-                    if current_media:
-                        # FIXME: we should not need to update static
-                        # playlists here but removing it may introduce
-                        # a bug. So, we keep it for the time being.
-                        playlists.update_all_static_playlists()
-                        grilo.bump_play_count(current_media)
-                        grilo.set_last_played(current_media)
-                        self._lastfm.scrobble(current_media, self._time_stamp)
-
-            except Exception as e:
-                logger.warn("Error: %s, %s", e.__class__, e)
+            percentage = tick / duration
+            if (not self._lastfm.scrobbled
+                    and duration > 30
+                    and (percentage > 0.5 or tick > 4*60)):
+                # FIXME: we should not need to update static
+                # playlists here but removing it may introduce
+                # a bug. So, we keep it for the time being.
+                playlists.update_all_static_playlists()
+                grilo.bump_play_count(current_media)
+                grilo.set_last_played(current_media)
+                self._lastfm.scrobble(current_media, self._time_stamp)
 
     @log
     def _on_play_button_clicked(self, button):
