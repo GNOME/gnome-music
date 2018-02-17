@@ -49,7 +49,7 @@ class GstPlayer(GObject.GObject):
 
     __gsignals__ = {
         'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, ())
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
     }
 
     def __repr__(self):
@@ -132,8 +132,8 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _on_clock_tick(self, clock, time, id, data):
-        print("TICK", time / 10**9)
-        self.emit('clock-tick')
+        tick = time / 10**9
+        self.emit('clock-tick', tick)
 
     @log
     def _on_bus_state_changed(self, bus, message):
