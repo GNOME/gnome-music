@@ -330,7 +330,7 @@ class Player(GObject.GObject):
         if media is not None:
             if self.currentTrack and self.currentTrack.valid():
                 currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-                self.playlist.set_value(currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
+                self.playlist.set_value(currentTrack, 11, DiscoveryStatus.FAILED)
             uri = media.get_url()
         else:
             uri = 'none'
@@ -601,7 +601,7 @@ class Player(GObject.GObject):
     def _on_next_item_validated(self, info, error, _iter):
         if error:
             print("Info %s: error: %s" % (info, error))
-            self.playlist.set_value(_iter, self.discovery_status_field, DiscoveryStatus.FAILED)
+            self.playlist.set_value(_iter, 11, DiscoveryStatus.FAILED)
             nextTrack = self.playlist.iter_next(_iter)
 
             if nextTrack:
@@ -618,7 +618,7 @@ class Player(GObject.GObject):
             return
 
         _iter = self.playlist.get_iter(self.nextTrack.get_path())
-        status = self.playlist.get_value(_iter, self.discovery_status_field)
+        status = self.playlist.get_value(_iter, 11)
         nextSong = self.playlist.get_value(_iter, self.playlistField)
         url = self.playlist.get_value(_iter, 5).get_url()
 
@@ -722,11 +722,8 @@ class Player(GObject.GObject):
         else:
             self.set_playing(True)
 
-    # FIXME: set the discovery field to 11 to be safe, but for some
-    # models it is 12.
     @log
-    def set_playlist(self, type, id, model, iter, field,
-                     discovery_status_field=11):
+    def set_playlist(self, type, id, model, iter, field):
         old_playlist = self.playlist
         if old_playlist != model:
             self.playlist = model
@@ -742,7 +739,6 @@ class Player(GObject.GObject):
             self.currentTrackUri = self.playlist.get_value(
                 self.playlist.get_iter(self.currentTrack.get_path()), 5).get_url()
         self.playlistField = field
-        self.discovery_status_field = discovery_status_field
 
         if old_playlist != model:
             self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
@@ -1058,7 +1054,7 @@ class Player(GObject.GObject):
         if not self.currentTrack or not self.currentTrack.valid():
             return None
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-        if self.playlist.get_value(currentTrack, self.discovery_status_field) == DiscoveryStatus.FAILED:
+        if self.playlist.get_value(currentTrack, 11) == DiscoveryStatus.FAILED:
             return None
         return self.playlist.get_value(currentTrack, self.playlistField)
 
