@@ -644,11 +644,13 @@ class Player(GObject.GObject):
         position = self._player.position
         if position > 0:
             self.played_seconds += self._seconds_period / 1000
+
+            current_media = self.get_current_media()
             try:
                 percentage = tick / duration
                 if (not self._lastfm.scrobbled
-                        and percentage > 0.4):
-                    current_media = self.get_current_media()
+                        and duration > 30
+                        and (percentage > 0.5 or tick > 4*60)):
                     if current_media:
                         # FIXME: we should not need to update static
                         # playlists here but removing it may introduce
