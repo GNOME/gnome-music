@@ -113,6 +113,8 @@ class Player(GObject.GObject):
         Gst.init(None)
         GstPbutils.pb_utils_init()
 
+        self._seconds_period = 0
+
         self._discoverer = GstPbutils.Discoverer()
         self._discoverer.connect('discovered', self._on_discovered)
         self._discoverer.start()
@@ -358,6 +360,8 @@ class Player(GObject.GObject):
     def _on_state_change(self, klass, arguments):
         self._sync_playing()
 
+        return True
+
     @log
     def _sync_playing(self):
         if self._player.state == Playback.PLAYING:
@@ -520,25 +524,19 @@ class Player(GObject.GObject):
 
         self._player.state = Playback.PLAYING
 
-        self._progress_scale._update_position_callback()
+        # self._progress_scale._update_position_callback()
         if media:
             self._lastfm.now_playing(media)
-        # if not self._progress_scale.timeout and self._progress_scale.get_realized():
-        self._progress_scale._update_timeout()
 
         self.emit('playback-status-changed')
 
     @log
     def pause(self):
-        self._progress_scale._remove_timeout()
-
         self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
 
     @log
     def stop(self):
-        self._progress_scale._remove_timeout()
-
         self._player.state = Playback.STOPPED
         self.emit('playback-status-changed')
 
@@ -636,9 +634,10 @@ class Player(GObject.GObject):
         self._pause_image = self._ui.get_object('pause_image')
 
         self._progress_scale = self._ui.get_object('smooth_scale')
-        self._progress_scale._player = self._player
+        self._progress_scale.player = self._player
 
         self._progress_scale.connect('seek-finished', self._on_seek_finished)
+        self._progress_scale.connect('seconds-tick', self._on_seconds_tick)
 
         self._progress_time_label = self._ui.get_object('playback')
         self._total_time_label = self._ui.get_object('duration')
@@ -661,6 +660,34 @@ class Player(GObject.GObject):
     @log
     def _on_seek_finished(self, klass, time):
         self._player.state = Playback.PLAYING
+
+    @log
+    def _on_seconds_tick(self, klass):
+        seconds = int(self._player.position)
+        print("TICK", seconds, self._player.position)
+
+        self._progress_time_label.set_label(
+            utils.seconds_to_string(seconds))
+
+        position = self._player.position
+        if position > 0:
+            self.played_seconds += self._seconds_period / 1000
+            try:
+                percentage = self.played_seconds / self.duration
+                if (not self._lastfm.scrobbled
+                        and percentage > 0.4):
+                    current_media = self.get_current_media()
+                    if current_media:
+                        # FIXME: we should not need to update static
+                        # playlists here but removing it may introduce
+                        # a bug. So, we keep it for the time being.
+                        playlists.update_all_static_playlists()
+                        grilo.bump_play_count(current_media)
+                        grilo.set_last_played(current_media)
+                        self._lastfm.scrobble(current_media, self._time_stamp)
+
+            except Exception as e:
+                logger.warn("Error: %s, %s", e.__class__, e)
 
     @log
     def _on_play_button_clicked(self, button):

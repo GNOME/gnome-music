@@ -60,6 +60,8 @@ class GstPlayer(GObject.GObject):
 
         Gst.init(None)
 
+        self._duration = None
+
         self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
 
@@ -225,6 +227,9 @@ class GstPlayer(GObject.GObject):
     @log
     def duration(self):
         """Total duration in seconds (float)"""
+        if self._duration == None:
+            self._duration = self._player.query_duration(
+                Gst.Format.TIME)[1] / 10**9
         print("duration ", self._duration)
         return self._duration
 
