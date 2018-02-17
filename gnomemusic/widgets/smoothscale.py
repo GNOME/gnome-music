@@ -28,6 +28,7 @@ from gettext import gettext as _
 from gi.repository import Gdk, GLib, GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.gstplayer import Playback
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +41,9 @@ class SmoothScale(Gtk.Scale):
         'seek-finished': (
             GObject.SignalFlags.RUN_FIRST, None, (float,)
         ),
+        'seconds-tick': (
+            GObject.SignalFlags.RUN_FIRST, None, ()
+        )
     }
 
     def __repr__(self):
@@ -53,6 +57,7 @@ class SmoothScale(Gtk.Scale):
         self._old_progress_scale_value = 0.0
         self.set_increments(300, 600)
         self._seek_timeout = None
+        self._previous_state = None
 
         self.timeout = None
         self._seconds_timeout = 0
@@ -65,6 +70,33 @@ class SmoothScale(Gtk.Scale):
         self.connect('change-value', self._on_progress_scale_seek)
         self._ps_draw = self.connect('draw', self._on_progress_scale_draw)
 
+    @GObject.property
+    @log
+    def player(self):
+        return self._player
+
+    @player.setter
+    @log
+    def player(self, player):
+        self._player = player
+
+        self._player.connect('notify::state', self._on_state_change)
+
+    @log
+    def _on_state_change(self, klass, arguments):
+        state = self._player.state
+
+        if self._previous_state == state:
+            return
+
+        self._previous_state = state
+
+        if state == Playback.PLAYING:
+            self._update_timeout()
+        else:
+            self._remove_timeout()
+
+        return True
 
     def _on_progress_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
@@ -195,6 +227,8 @@ class SmoothScale(Gtk.Scale):
     @log
     def _update_seconds_callback(self):
         self._on_progress_value_changed(None)
+        self.emit('seconds-tick')
+        return True
 
         position = self._player.position
         if position > 0:
