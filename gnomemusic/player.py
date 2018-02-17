@@ -631,6 +631,8 @@ class Player(GObject.GObject):
 
         self._progress_scale.connect('seek-finished', self._on_seek_finished)
         self._progress_scale.connect('seconds-tick', self._on_seconds_tick)
+        self._progress_scale.connect(
+            'value-changed', self._on_progress_value_changed)
 
         self._progress_time_label = self._ui.get_object('playback')
         self._total_time_label = self._ui.get_object('duration')
@@ -649,6 +651,10 @@ class Player(GObject.GObject):
         self._prev_button.connect('clicked', self._on_prev_button_clicked)
         self._play_button.connect('clicked', self._on_play_button_clicked)
         self._next_button.connect('clicked', self._on_next_button_clicked)
+
+    def _on_progress_value_changed(self, progress_scale):
+        seconds = int(progress_scale.get_value() / 60)
+        self._progress_time_label.set_label(utils.seconds_to_string(seconds))
 
     @log
     def _on_seek_finished(self, klass, time):
