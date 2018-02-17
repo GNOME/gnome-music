@@ -91,6 +91,12 @@ class SmoothScale(Gtk.Scale):
 
         self._previous_state = state
 
+        if state == Playback.STOPPED:
+            self.set_value(0)
+            self.set_sensitive(False)
+        else:
+            self.set_sensitive(True)
+
         if state == Playback.PLAYING:
             self._update_timeout()
         else:
@@ -140,9 +146,10 @@ class SmoothScale(Gtk.Scale):
         return False
 
     def _on_progress_value_changed(self, widget):
-        seconds = int(self.get_value() / 60)
-        #self._progress_time_label.set_label(utils.seconds_to_string(seconds))
-        return False
+        # seconds = int(self.get_value() / 60)
+        # self._progress_time_label.set_label(utils.seconds_to_string(seconds))
+        # return False
+        pass
 
     @log
     def _on_progress_scale_event(self, scale, data):

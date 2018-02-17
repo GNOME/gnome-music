@@ -398,11 +398,9 @@ class Player(GObject.GObject):
 
     @log
     def load(self, media):
-        self._progress_scale._progress_scale_zero()
         self._set_duration(media.get_duration())
         self._total_time_label.set_label(
             utils.seconds_to_string(media.get_duration()))
-        self._progress_scale.set_sensitive(True)
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
@@ -482,8 +480,6 @@ class Player(GObject.GObject):
         elif (self.repeat == RepeatType.NONE):
             self.stop()
             self._play_button.set_image(self._play_image)
-            self._progress_scale._progress_scale_zero()
-            self._progress_scale.set_sensitive(False)
             if self.playlist is not None:
                 current_track = self.playlist.get_path(
                     self.playlist.get_iter_first())
@@ -502,8 +498,6 @@ class Player(GObject.GObject):
             # Stop playback
             self.stop()
             self._play_button.set_image(self._play_image)
-            self._progress_scale._progress_scale_zero()
-            self._progress_scale.set_sensitive(False)
             self.emit('playback-status-changed')
 
     @log
@@ -562,8 +556,8 @@ class Player(GObject.GObject):
 
         position = self._player.position
         if position >= 5:
-            self._progress_scale._progress_scale_zero()
-            self._progress_scale._on_progress_scale_change_value(self._progress_scale)
+            self._player.seek(0)
+            self._player.state = Playback.PLAYING
             return
 
         self.stop()
@@ -728,8 +722,6 @@ class Player(GObject.GObject):
 
     @log
     def Stop(self):
-        self._progress_scale._progress_scale_zero()
-        self._progress_scale.set_sensitive(False)
         self._play_button.set_image(self._play_image)
         self.stop()
         self.emit('playback-status-changed')
