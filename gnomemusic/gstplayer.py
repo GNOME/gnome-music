@@ -227,10 +227,17 @@ class GstPlayer(GObject.GObject):
     @log
     def duration(self):
         """Total duration in seconds (float)"""
-        if self._duration == None:
-            self._duration = self._player.query_duration(
-                Gst.Format.TIME)[1] / 10**9
-        print("duration ", self._duration)
+        if self.state == Playback.STOPPED:
+            return None
+
+        success, duration = self._player.query_duration(
+            Gst.Format.TIME)
+
+        if success:
+            self._duration = duration / 10**9
+        else:
+            self._duration = None
+
         return self._duration
 
     @GObject.Property
