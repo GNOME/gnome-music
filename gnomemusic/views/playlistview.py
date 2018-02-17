@@ -241,7 +241,8 @@ class PlaylistView(BaseView):
             cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if not self.player.currentTrackUri:
+        if not self.player.running_playlist(
+                'Playlist', self._current_playlist.get_id()):
             cell.set_visible(False)
             return
 
