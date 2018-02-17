@@ -112,7 +112,7 @@ class SearchView(BaseView):
             return
 
         _iter = self.model.get_iter(child_path)
-        if self.model[_iter][11] == 'album':
+        if self.model[_iter][12] == 'album':
             title = self.model[_iter][2]
             artist = self.model[_iter][3]
             item = self.model[_iter][5]
@@ -125,7 +125,7 @@ class SearchView(BaseView):
             self._header_bar.header_bar.sub_title = artist
             self.set_visible_child(self._album_widget)
             self._header_bar.searchbar.reveal(False)
-        elif self.model[_iter][11] == 'artist':
+        elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
 
@@ -139,11 +139,11 @@ class SearchView(BaseView):
             self._header_bar.header_bar.set_title(artist)
             self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.reveal(False)
-        elif self.model[_iter][11] == 'song':
-            if self.model[_iter][12] != DiscoveryStatus.FAILED:
+        elif self.model[_iter][12] == 'song':
+            if self.model[_iter][11] != DiscoveryStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist(
-                    'Search Results', None, self._songs_model, c_iter, 5, 12)
+                    'Search Results', None, self._songs_model, c_iter, 5)
                 self.player.set_playing(True)
         else:  # Headers
             if self._view.get_generic_view().row_expanded(path):
@@ -365,7 +365,7 @@ class SearchView(BaseView):
         self._albums_selected = [
             self.model[child_path][5]
             for child_path in paths
-            if self.model[child_path][11] == 'album']
+            if self.model[child_path][12] == 'album']
 
         if len(self._albums_selected):
             self._get_selected_albums_songs()
@@ -397,7 +397,7 @@ class SearchView(BaseView):
             for child_path in [
                 self._filter_model.convert_path_to_child_path(path)
                 for path in self._view.get_selection()]
-            if self.model[child_path][11] == 'artist']
+            if self.model[child_path][12] == 'artist']
 
         self._artists_albums_selected = []
         for artist in artists_selected:
@@ -434,7 +434,7 @@ class SearchView(BaseView):
             for child_path in [
                 self._filter_model.convert_path_to_child_path(path)
                 for path in self._view.get_selection()]
-            if self.model[child_path][11] == 'song'])
+            if self.model[child_path][12] == 'song'])
         self._items_selected_callback(self._items_selected)
 
     @log
@@ -482,8 +482,8 @@ class SearchView(BaseView):
             GObject.TYPE_STRING,
             GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_STRING,    # type
             GObject.TYPE_INT,
+            GObject.TYPE_STRING,    # type
             object                  # album art surface
         )
 
