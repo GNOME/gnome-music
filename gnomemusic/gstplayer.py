@@ -48,7 +48,8 @@ class Playback(IntEnum):
 class GstPlayer(GObject.GObject):
 
     __gsignals__ = {
-        'eos': (GObject.SignalFlags.RUN_FIRST, None, ())
+        'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __repr__(self):
@@ -81,6 +82,8 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::eos', self._on_bus_eos)
         self._bus.connect(
             'message::duration-changed', self._on_duration_changed)
+        self._bus.connect('message::new-clock', self._on_new_clock)
+        self._bus.connect('message::clock-lost', self._on_clock_lost)
 
         self.state = Playback.STOPPED
 
@@ -115,6 +118,22 @@ class GstPlayer(GObject.GObject):
             self._player.set_property("audio-filter", self._filter_bin)
         else:
             self._player.set_property("audio-filter", None)
+
+    @log
+    def _on_new_clock(self, bus, message):
+        print("NEW CLOCK")
+        clock = message.parse_new_clock()
+        id = clock.new_periodic_id(0, 1 * 10**9)
+        clock.id_wait_async(id, self._on_clock_tick, None)
+
+    @log
+    def _on_clock_lost(self, bus, message):
+        print("CLOCK LOST")
+
+    @log
+    def _on_clock_tick(self, clock, time, id, data):
+        print("TICK", time / 10**9)
+        self.emit('clock-tick')
 
     @log
     def _on_bus_state_changed(self, bus, message):
