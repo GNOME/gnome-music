@@ -69,7 +69,7 @@ class SmoothScale(Gtk.Scale):
         self.connect('change-value', self._on_progress_scale_seek)
         self._ps_draw = self.connect('draw', self._on_progress_scale_draw)
 
-    @GObject.property
+    @GObject.Property
     @log
     def player(self):
         return self._player
