@@ -65,7 +65,6 @@ class SmoothScale(Gtk.Scale):
         self.played_seconds = 0
 
         self.connect('button-press-event', self._on_progress_scale_event)
-        self.connect('value-changed', self._on_progress_value_changed)
         self.connect('button-release-event', self._on_progress_scale_button_released)
         self.connect('change-value', self._on_progress_scale_seek)
         self._ps_draw = self.connect('draw', self._on_progress_scale_draw)
@@ -144,12 +143,6 @@ class SmoothScale(Gtk.Scale):
 
         self._update_position_callback()
         return False
-
-    def _on_progress_value_changed(self, widget):
-        # seconds = int(self.get_value() / 60)
-        # self._progress_time_label.set_label(utils.seconds_to_string(seconds))
-        # return False
-        pass
 
     @log
     def _on_progress_scale_event(self, scale, data):
@@ -233,7 +226,6 @@ class SmoothScale(Gtk.Scale):
 
     @log
     def _update_seconds_callback(self):
-        self._on_progress_value_changed(None)
         self.emit('seconds-tick')
         return True
 
