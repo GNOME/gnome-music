@@ -85,9 +85,6 @@ class SmoothScale(Gtk.Scale):
     def _on_state_change(self, klass, arguments):
         state = self._player.state
 
-        if self._previous_state == state:
-            return
-
         self._previous_state = state
 
         if state == Playback.STOPPED:
