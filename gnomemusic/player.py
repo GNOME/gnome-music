@@ -609,7 +609,6 @@ class Player(GObject.GObject):
         self._cover_stack = CoverStack(stack, Art.Size.XSMALL)
         self._cover_stack.connect('updated', self._on_cover_stack_updated)
 
-        self.duration = self._ui.get_object('duration')
         self._repeat_button_image = self._ui.get_object('playlistRepeat')
 
         self._sync_repeat_image()
