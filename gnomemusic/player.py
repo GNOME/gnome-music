@@ -102,6 +102,7 @@ class Player(GObject.GObject):
         self.current_track_uri = None
         self._next_track = None
         self._shuffle_history = deque(maxlen=10)
+        self._new_clock = True
 
         Gst.init(None)
         GstPbutils.pb_utils_init()
@@ -636,6 +637,7 @@ class Player(GObject.GObject):
         current_media = self.get_current_media()
 
         if tick == 0:
+            self._new_clock = True
             self._lastfm.now_playing(current_media)
 
         self._progress_time_label.set_label(
@@ -655,7 +657,9 @@ class Player(GObject.GObject):
                     and (percentage > 0.5 or tick > 4*60)):
                 self._lastfm.scrobble(current_media, self._time_stamp)
 
-            if percentage > 0.5:
+            if (percentage > 0.5
+                    and self._new_clock):
+                self._new_clock = False
                 # FIXME: we should not need to update static
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
