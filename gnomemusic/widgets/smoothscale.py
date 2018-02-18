@@ -74,6 +74,7 @@ class SmoothScale(Gtk.Scale):
         self._player = player
 
         self._player.connect('notify::state', self._on_state_change)
+        self._player.connect('notify::duration', self._on_duration_changed)
 
     @log
     def _on_state_change(self, klass, arguments):
@@ -93,6 +94,13 @@ class SmoothScale(Gtk.Scale):
             self._remove_timeout()
 
         return True
+
+    @log
+    def _on_duration_changed(self, klass, arguments):
+        duration = self._player.duration
+
+        if duration is not None:
+            self.set_range(0.0, duration * 60)
 
     def _on_progress_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
@@ -142,6 +150,7 @@ class SmoothScale(Gtk.Scale):
         return False
 
     def _on_progress_scale_draw(self, cr, data):
+        self._on_duration_changed(None, None)
         self._update_timeout()
         self.disconnect(self._ps_draw)
         return False
