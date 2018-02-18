@@ -670,6 +670,9 @@ class Player(GObject.GObject):
             utils.seconds_to_string(seconds))
 
         duration = self._player.duration
+        if duration is None:
+            return
+
         position = self._player.position
         if position > 0:
             self.played_seconds += self._seconds_period / 1000
