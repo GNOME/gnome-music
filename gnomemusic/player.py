@@ -107,8 +107,6 @@ class Player(GObject.GObject):
         Gst.init(None)
         GstPbutils.pb_utils_init()
 
-        self._seconds_period = 0
-
         self._discoverer = GstPbutils.Discoverer()
         self._discoverer.connect('discovered', self._on_discovered)
         self._discoverer.start()
@@ -649,8 +647,6 @@ class Player(GObject.GObject):
 
         position = self._player.position
         if position > 0:
-            self.played_seconds += self._seconds_period / 1000
-
             percentage = tick / duration
             if (not self._lastfm.scrobbled
                     and duration > 30
@@ -685,8 +681,6 @@ class Player(GObject.GObject):
 
     @log
     def _set_duration(self, duration):
-        self.duration = duration
-        self.played_seconds = 0
         self._progress_scale.set_range(0.0, duration * 60)
 
     @log
