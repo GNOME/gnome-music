@@ -61,6 +61,7 @@ class SmoothScale(Gtk.Scale):
         self.connect('button-press-event', self._on_progress_scale_event)
         self.connect('button-release-event', self._on_progress_scale_button_released)
         self.connect('change-value', self._on_progress_scale_seek)
+        # FIXME: Workaround for startup
         self._ps_draw = self.connect('draw', self._on_progress_scale_draw)
 
     @GObject.Property
