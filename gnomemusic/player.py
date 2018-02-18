@@ -269,7 +269,7 @@ class Player(GObject.GObject):
                 previous_track = self.playlist.iter_previous(iter_)
         elif self.repeat == RepeatType.SHUFFLE:
             if iter_:
-                if (self.played_seconds < 10
+                if (self._player.position < 5
                         and len(self._shuffle_history) > 0):
                     previous_track = self._shuffle_history.pop()
 
