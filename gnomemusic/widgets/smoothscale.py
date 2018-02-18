@@ -56,7 +56,7 @@ class SmoothScale(Gtk.Scale):
         self._seek_timeout = None
         self._previous_state = None
 
-        self.timeout = None
+        self._timeout = None
 
         self.connect('button-press-event', self._on_progress_scale_event)
         self.connect('button-release-event', self._on_progress_scale_button_released)
@@ -147,9 +147,9 @@ class SmoothScale(Gtk.Scale):
         return False
 
     def _update_timeout(self):
-        """Update the duration for self.timeout
+        """Update the duration for self._timeout
 
-        Sets the period of self.timeout to a value small enough to make
+        Sets the period of self._timeout to a value small enough to make
         the slider of self._progress_scale move smoothly based on the
         current song duration and progress_scale length.
         """
@@ -160,7 +160,7 @@ class SmoothScale(Gtk.Scale):
                 or duration is None):
             return
 
-        # Update self.timeout.
+        # Update self._timeout.
         width = self.get_allocated_width()
         padding = self.get_style_context().get_padding(
             Gtk.StateFlags.NORMAL)
@@ -168,15 +168,15 @@ class SmoothScale(Gtk.Scale):
 
         timeout_period = min(1000 * duration // width, 1000)
 
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-        self.timeout = GLib.timeout_add(
+        if self._timeout:
+            GLib.source_remove(self._timeout)
+        self._timeout = GLib.timeout_add(
             timeout_period, self._update_position_callback)
 
     def _remove_timeout(self):
-        if self.timeout:
-            GLib.source_remove(self.timeout)
-            self.timeout = None
+        if self._timeout:
+            GLib.source_remove(self._timeout)
+            self._timeout = None
 
     def _progress_scale_zero(self):
         self.set_value(0)
