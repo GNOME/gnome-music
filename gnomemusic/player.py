@@ -369,7 +369,6 @@ class Player(GObject.GObject):
 
     @log
     def load(self, media):
-        self._set_duration(media.get_duration())
         self._total_time_label.set_label(
             utils.seconds_to_string(media.get_duration()))
 
@@ -678,10 +677,6 @@ class Player(GObject.GObject):
     @log
     def _on_prev_button_clicked(self, button):
         self.play_previous()
-
-    @log
-    def _set_duration(self, duration):
-        self._progress_scale.set_range(0.0, duration * 60)
 
     @log
     def _sync_repeat_image(self):
