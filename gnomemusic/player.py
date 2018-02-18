@@ -478,7 +478,7 @@ class Player(GObject.GObject):
             GLib.idle_add(self._on_glib_idle)
         elif (self.repeat == RepeatType.NONE):
             self.stop()
-            self._play_button.set_image(self._play_image)
+
             if self.playlist is not None:
                 current_track = self.playlist.get_path(
                     self.playlist.get_iter_first())
@@ -494,9 +494,7 @@ class Player(GObject.GObject):
                 self.load(self.get_current_media())
             self.emit('playback-status-changed')
         else:
-            # Stop playback
             self.stop()
-            self._play_button.set_image(self._play_image)
             self.emit('playback-status-changed')
 
     @log
