@@ -7,6 +7,7 @@ SUBDIRS = libgd gnomemusic data po help
 
 EXTRA_DIST = \
 	AUTHORS.in \
+	README.md \
 	gnome-music.in
 	$(NULL)
 
