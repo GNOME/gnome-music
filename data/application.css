@@ -44,7 +44,7 @@ box#ArtistAlbumsWidget .artist-label {
     font-size: smaller;
 }
 
-/* PlaylistControls */
+/* PlaylistControls and SmartPlaylistCover */
 .playlist-name-label {
   font-weight: bold;
   font-size: x-large;
@@ -52,6 +52,11 @@ box#ArtistAlbumsWidget .artist-label {
 
 .playlist-title-container {
     margin: 18px 24px 18px 18px;
+}
+
+.smartplaylist-image {
+    border-radius: 50%;
+    color: white;
 }
 
 /* ArtistAlbumWidget */

@@ -40,3 +40,4 @@ data/PlaylistControls.ui
 data/PlaylistDialog.ui
 data/SelectionBarMenuButton.ui
 data/SelectionToolbar.ui
+data/SmartPlaylistWidget.ui

@@ -32,6 +32,7 @@ from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.smartplaylistwidget import SmartPlaylistWidget
 import gnomemusic.utils as utils
 
 playlists = Playlists.get_default()
@@ -71,7 +72,7 @@ class PlaylistView(BaseView):
 
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/PlaylistControls.ui')
-        headerbar = builder.get_object('grid')
+        self._headerbar = builder.get_object('grid')
         self._name_stack = builder.get_object('stack')
         self._name_label = builder.get_object('playlist_name')
         self._rename_entry = builder.get_object('playlist_rename_entry')
@@ -120,13 +121,15 @@ class PlaylistView(BaseView):
         self._window.add_action(self._playlist_rename_action)
 
         self._grid.insert_row(0)
-        self._grid.attach(headerbar, 1, 0, 1, 1)
+        self._grid.attach(self._headerbar, 1, 0, 1, 1)
 
         sidebar_container.set_size_request(220, -1)
         sidebar_container.get_style_context().add_class('side-panel')
         self._sidebar.get_style_context().add_class('view')
         self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self._sidebar.connect('row-activated', self._on_playlist_activated)
+
+        self._create_smartplaylist_sidebar()
 
         self._grid.insert_column(0)
         self._grid.child_set_property(self.stack, 'top-attach', 0)
@@ -142,8 +145,6 @@ class PlaylistView(BaseView):
         self._handler_rename_done_button = 0
         self._handler_rename_entry = 0
 
-        self._update_songs_count()
-
         self.model.connect('row-inserted', self._on_song_inserted)
         self.model.connect('row-deleted', self._on_song_deleted)
 
@@ -155,14 +156,19 @@ class PlaylistView(BaseView):
 
         self.show_all()
 
+        # select "smart playlist" item from sidebar
+        first_row = self._sidebar.get_row_at_index(0)
+        self._sidebar.select_row(first_row)
+        self._sidebar.emit('row-activated', first_row)
+
     @log
     def _on_changes_pending(self, data=None):
         pass
 
     @log
     def _setup_view(self, view_type):
-        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
+        self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
+        self._box.pack_start(self._view_container, True, True, 0)
 
         self._view = Gtk.TreeView()
         self._view.set_headers_visible(False)
@@ -176,7 +182,26 @@ class PlaylistView(BaseView):
         self._view.connect('drag-end', self._drag_end)
         self._song_drag = {'active': False}
 
-        view_container.add(self._view)
+        self._smartplaylist_view = SmartPlaylistWidget()
+
+    @log
+    def _set_view(self, view_to_display):
+        child = self._view_container.get_child()
+        if child:
+            self._view_container.remove(child)
+
+        self._view_container.add(view_to_display)
+        self._headerbar.set_visible(view_to_display == self._view)
+        self._view_container.show_all()
+
+    @log
+    def _create_smartplaylist_sidebar(self):
+        row = Gtk.ListBoxRow()
+        label = Gtk.Label(
+            label=_("Smart Playlists"), xalign=0, xpad=16, ypad=16,
+            ellipsize=Pango.EllipsizeMode.END)
+        row.add(label)
+        self._sidebar.insert(row, 0)
 
     @log
     def _add_list_renderers(self):
@@ -304,23 +329,23 @@ class PlaylistView(BaseView):
         """
         if index is None:
             index = -1
-        if playlists.is_static_playlist(playlist):
-            index = 0
 
-        title = utils.get_media_title(playlist)
-        row = Gtk.ListBoxRow()
-        row.playlist = playlist
-        label = Gtk.Label(
-            label=title, xalign=0, xpad=16, ypad=16,
-            ellipsize=Pango.EllipsizeMode.END)
-        row.add(label)
-        row.show_all()
-        self._sidebar.insert(row, index)
+        # add static playlist to the flowbox
+        if playlist.get_id() in StaticPlaylists().get_ids():
+            self._smartplaylist_view.add_playlist(playlist)
+
+        # add a user playlist to sidebar
+        else:
+            title = utils.get_media_title(playlist)
+            row = Gtk.ListBoxRow()
+            row.playlist = playlist
+            label = Gtk.Label(
+                label=title, xalign=0, xpad=16, ypad=16,
+                ellipsize=Pango.EllipsizeMode.END)
+            row.add(label)
+            self._sidebar.insert(row, index)
+
         self._offset += 1
-
-        if len(self._sidebar) == 1:
-            self._sidebar.select_row(row)
-            self._sidebar.emit('row-activated', row)
 
     @log
     def _on_song_activated(self, widget, path, column):
@@ -474,7 +499,7 @@ class PlaylistView(BaseView):
         :param playlists: playlists
         :param playlist_id: updated playlist's id
         """
-        for row in self._sidebar:
+        for row in self._sidebar.get_children()[1:]:
             playlist = row.playlist
             if (str(playlist_id) == playlist.get_id()
                     and self._is_current_playlist(playlist)):
@@ -529,21 +554,27 @@ class PlaylistView(BaseView):
     @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
-        if not self._current_playlist_is_protected():
+        if self._current_playlist:
             self._stage_playlist_for_deletion(None)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
-        playlist = row.playlist
-        playlist_name = utils.get_media_title(playlist)
-
         if self.rename_active:
             self.disable_rename_playlist()
 
+        self._current_playlist_index = row.get_index()
+
+        if self._current_playlist_index == 0:
+            self._set_view(self._smartplaylist_view)
+            self._current_playlist = None
+            return
+
+        playlist = row.playlist
+        playlist_name = utils.get_media_title(playlist)
         self._current_playlist = playlist
         self._name_label.set_text(playlist_name)
-        self._current_playlist_index = row.get_index()
+        self._headerbar.show()
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
@@ -553,23 +584,13 @@ class PlaylistView(BaseView):
         self._iter_to_clean_model = None
         self._songs_count = 0
         grilo.populate_playlist_songs(playlist, self._add_song)
-
-        if self._current_playlist_is_protected():
-            self._playlist_delete_action.set_enabled(False)
-            self._playlist_rename_action.set_enabled(False)
-            self._remove_song_action.set_enabled(False)
-            self._view.set_reorderable(False)
-        else:
-            self._playlist_delete_action.set_enabled(True)
-            self._playlist_rename_action.set_enabled(True)
-            self._remove_song_action.set_enabled(True)
-            self._view.set_reorderable(True)
+        self._set_view(self._view)
 
     @log
     def _add_song(self, source, param, song, remaining=0, data=None):
         """Grilo.populate_playlist_songs callback.
 
-        Add all playlists found by Grilo to self._model
+        Add all songs found by Grilo to self._model
 
         :param GrlTrackerSource source: tracker source
         :param int param: param

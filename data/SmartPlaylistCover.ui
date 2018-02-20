@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="SmartPlaylistCover" parent="GtkFlowBoxChild">
+    <child>
+      <object class="GtkBox" id="box_container">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="valign">start</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkOverlay">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_bottom">4</property>
+            <child>
+              <object class="GtkEventBox" id="_events">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+		<signal name="enter-notify-event" handler="_on_smartplaylist_hover" swapped="no"/>
+		<signal name="leave-notify-event" handler="_on_smartplaylist_unhover" swapped="no"/>
+		<signal name="button-press-event" handler="_on_smartplaylist_pressed" swapped="no"/>
+                <child>
+                  <object class="GtkImage" id="_image">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="vexpand">True</property>
+                    <property name="valign">center</property>
+                    <property name="halign">center</property>
+		    <property name="icon-size">6</property>
+                    <style>
+                      <class name="smartplaylist-image"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_title">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="justify">center</property>
+            <property name="wrap">True</property>
+            <property name="ellipsize">middle</property>
+            <property name="max_width_chars">20</property>
+            <property name="lines">2</property>
+            <property name="tooltip_text" bind-source="_title" bind-property="label" bind-flags="default" />
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="SmartPlaylistWidget" parent="GtkBox">
+    <property name="orientation">vertical</property>
+    <child>
+      <object class="GtkBox" id="title_box">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="valign">start</property>
+        <property name="orientation">vertical</property>
+	<style>
+          <class name="playlist-title-container"/>
+        </style>
+	<child>
+	  <object class="GtkLabel" id="title_label">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+	    <property name="halign">start</property>
+	    <property name="label" translatable="yes">Smart Playlists</property>
+	    <style>
+              <class name="playlist-name-label"/>
+            </style>
+	  </object>
+	</child>
+	<child>
+	  <object class="GtkFlowBox" id="_flowbox">
+	    <property name="homogeneous">True</property>
+	    <property name="selection_mode">none</property>
+	    <property name="halign">fill</property>
+	    <property name="valign">start</property>
+	    <property name="margin">18</property>
+	    <property name="row_spacing">12</property>
+	    <property name="column_spacing">6</property>
+	    <property name="min_children_per_line">1</property>
+	    <property name="max_children_per_line">5</property>
+	  </object>
+	</child>
+      </object>
+    </child>
+  </template>
+</interface>

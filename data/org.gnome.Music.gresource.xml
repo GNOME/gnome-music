@@ -20,5 +20,7 @@
     <file preprocess="xml-stripblanks">PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">PlaylistControls.ui</file>
     <file preprocess="xml-stripblanks">PlaylistDialog.ui</file>
+    <file preprocess="xml-stripblanks">SmartPlaylistCover.ui</file>
+    <file preprocess="xml-stripblanks">SmartPlaylistWidget.ui</file>
   </gresource>
 </gresources>
