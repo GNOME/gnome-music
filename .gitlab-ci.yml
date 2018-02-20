@@ -16,16 +16,16 @@ build:
   script:
     - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
     - git submodule update --init
-    - ./autogen.sh
-    - make
+    - meson builddir
+    - ninja -C builddir
 
 deploy:
   stage: deploy
   script:
     - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
     - git submodule update --init
-    - ./autogen.sh
-    - make distcheck
+    - meson builddir
+    - ninja dist -C builddir
   only:
     - tags
 
