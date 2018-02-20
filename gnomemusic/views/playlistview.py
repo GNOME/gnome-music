@@ -160,6 +160,7 @@ class PlaylistView(BaseView):
         first_row = self._sidebar.get_row_at_index(0)
         self._sidebar.select_row(first_row)
         self._sidebar.emit('row-activated', first_row)
+        self._toggle_sidebar()
 
     @log
     def _on_changes_pending(self, data=None):
@@ -311,6 +312,11 @@ class PlaylistView(BaseView):
         return False
 
     @log
+    def _toggle_sidebar(self):
+        """Hide sidebar if there is not any manual playlist."""
+        self.stack.set_visible(len(self._sidebar) > 2)
+
+    @log
     def _add_playlist_item(self, source, param, playlist, remaining=0,
                            data=None):
         """Grilo.populate_playlists callback.
@@ -362,6 +368,7 @@ class PlaylistView(BaseView):
             self._sidebar.insert(row, index)
 
         self._offset += 1
+        self._toggle_sidebar()
 
     @log
     def _on_song_activated(self, widget, path, column):
@@ -734,6 +741,7 @@ class PlaylistView(BaseView):
 
         self._create_notification(
             PlaylistNotification.Type.PLAYLIST, playlist_id)
+        self._toggle_sidebar()
 
     @log
     def _undo_pending_deletion(self, playlist_notification):
