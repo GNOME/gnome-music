@@ -196,12 +196,22 @@ class PlaylistView(BaseView):
 
     @log
     def _create_smartplaylist_sidebar(self):
-        row = Gtk.ListBoxRow()
+        smartplaylist_row = Gtk.ListBoxRow()
+        box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        image = Gtk.Image.new_from_icon_name(
+            'folder-music-symbolic', Gtk.IconSize.BUTTON)
+        box.pack_start(image, False, False, 0)
         label = Gtk.Label(
             label=_("Smart Playlists"), xalign=0, xpad=16, ypad=16,
             ellipsize=Pango.EllipsizeMode.END)
-        row.add(label)
-        self._sidebar.insert(row, 0)
+        box.pack_start(label, True, True, 0)
+        smartplaylist_row.add(box)
+        self._sidebar.insert(smartplaylist_row, 0)
+
+        separator_row = Gtk.ListBoxRow(selectable=False)
+        separator = Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL)
+        separator_row.add(separator)
+        self._sidebar.insert(separator_row, 1)
 
     @log
     def _add_list_renderers(self):
@@ -339,10 +349,16 @@ class PlaylistView(BaseView):
             title = utils.get_media_title(playlist)
             row = Gtk.ListBoxRow()
             row.playlist = playlist
+            box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+            image = Gtk.Image.new_from_icon_name(
+                'view-list-symbolic', Gtk.IconSize.BUTTON)
+            box.pack_start(image, False, False, 0)
             label = Gtk.Label(
                 label=title, xalign=0, xpad=16, ypad=16,
                 ellipsize=Pango.EllipsizeMode.END)
-            row.add(label)
+            box.pack_start(label, True, True, 0)
+            row.add(box)
+            row.show_all()
             self._sidebar.insert(row, index)
 
         self._offset += 1
@@ -499,7 +515,7 @@ class PlaylistView(BaseView):
         :param playlists: playlists
         :param playlist_id: updated playlist's id
         """
-        for row in self._sidebar.get_children()[1:]:
+        for row in self._sidebar.get_children()[2:]:
             playlist = row.playlist
             if (str(playlist_id) == playlist.get_id()
                     and self._is_current_playlist(playlist)):
@@ -700,8 +716,12 @@ class PlaylistView(BaseView):
             'playlist': selection.playlist,
             'index': index
         }
+        # do no select separator
+        index_prev = index - 1
+        if index_prev == 1:
+            index_prev = 0
         row_next = (self._sidebar.get_row_at_index(index + 1)
-                    or self._sidebar.get_row_at_index(index - 1))
+                    or self._sidebar.get_row_at_index(index_prev))
         self._sidebar.remove(selection)
 
         if self.player.running_playlist('Playlist', playlist_id):
@@ -789,7 +809,8 @@ class PlaylistView(BaseView):
             if not new_name:
                 return
 
-            selection.get_child().set_text(new_name)
+            box = selection.get_child()
+            box.get_children()[1].props.label = new_name
             pl_torename.set_title(new_name)
             playlists.rename(pl_torename, new_name)
             self._name_label.set_text(new_name)
