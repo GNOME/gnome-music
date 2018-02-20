@@ -293,6 +293,9 @@ class Grilo(GObject.GObject):
             options.set_count(count)
 
         def _callback(source, param, item, remaining, data, error):
+            if error:
+                logger.warning(
+                    "Error {}: {}".format(error.domain, error.message))
             callback(source, param, item, remaining, data)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
 
@@ -313,9 +316,11 @@ class Grilo(GObject.GObject):
 
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
-        self.tracker.store_metadata_sync(song_item,
-                                         [Grl.METADATA_KEY_FAVOURITE],
-                                         Grl.WriteFlags.NORMAL)
+        try:
+            self.tracker.store_metadata_sync(
+                song_item, [Grl.METADATA_KEY_FAVOURITE], Grl.WriteFlags.NORMAL)
+        except GLib.Error as error:
+            logger.warning("Error {}: {}".format(error.domain, error.message))
 
     @log
     def set_favorite(self, song_item, favorite):
@@ -334,11 +339,17 @@ class Grilo(GObject.GObject):
 
         @log
         def _search_callback(source, param, item, remaining, data, error):
+            if error:
+                logger.warning(
+                    "Error {}: {}".format(error.domain, error.message))
             callback(source, param, item, remaining, data)
             self._search_callback_counter += 1
 
         @log
         def _multiple_search_callback(source, param, item, remaining, data, error):
+            if error:
+                logger.warning(
+                    "Error {}: {}".format(error.domain, error.message))
             callback(source, param, item, remaining, data)
 
         if self.search_source:
@@ -393,8 +404,11 @@ class Grilo(GObject.GObject):
 
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
-        self.tracker.store_metadata_sync(media, [Grl.METADATA_KEY_PLAY_COUNT],
-                                         Grl.WriteFlags.NORMAL)
+        try:
+            self.tracker.store_metadata_sync(
+                media, [Grl.METADATA_KEY_PLAY_COUNT], Grl.WriteFlags.NORMAL)
+        except GLib.Error as error:
+            logger.warning("Error {}: {}".format(error.domain, error.message))
 
     @log
     def set_last_played(self, media):
@@ -406,8 +420,11 @@ class Grilo(GObject.GObject):
         media.set_last_played(GLib.DateTime.new_now_utc())
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
-        self.tracker.store_metadata_sync(media, [Grl.METADATA_KEY_LAST_PLAYED],
-                                         Grl.WriteFlags.NORMAL)
+        try:
+            self.tracker.store_metadata_sync(
+                media, [Grl.METADATA_KEY_LAST_PLAYED], Grl.WriteFlags.NORMAL)
+        except GLib.Error as error:
+            logger.warning("Error {}: {}".format(error.domain, error.message))
 
     @log
     def songs_available(self, callback):
