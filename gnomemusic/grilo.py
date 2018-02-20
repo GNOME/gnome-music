@@ -151,8 +151,8 @@ class Grilo(GObject.GObject):
                         # todo: remove one single url
                         try:
                             self.changed_media_ids.append(media.get_id())
-                        except Exception as e:
-                            logger.warn("Skipping %s", media)
+                        except Exception:
+                            logger.warning("Skipping {}".format(media))
 
                 if self.changed_media_ids == []:
                     self.pending_changed_medias = []
@@ -171,8 +171,9 @@ class Grilo(GObject.GObject):
                         GLib.Source.remove(self.pending_event_id)
                         self.pending_event_id = 0
                     self.pending_event_id = GLib.timeout_add(self.CHANGED_MEDIA_SIGNAL_TIMEOUT, self.emit_change_signal)
-        except Exception as e:
-            logger.warn("Exception in _on_content_changed: %s", e)
+        except Exception as error:
+            logger.warning(
+                "Exception in _on_content_changed: {}".format(error))
         finally:
             self.pending_changed_medias = []
             if self.content_changed_timeout is not None:
@@ -197,8 +198,8 @@ class Grilo(GObject.GObject):
             try:
                 pluginRegistry.unregister_source(mediaSource)
             except GLib.GError:
-                logger.error("Failed to unregister %s.",
-                             mediaSource.get_id())
+                logger.error(
+                    "Failed to unregister {}".format(mediaSource.get_id()))
             return
 
         id = mediaSource.get_id()
@@ -232,7 +233,7 @@ class Grilo(GObject.GObject):
                 self.emit('new-source-added', mediaSource)
 
         except Exception as e:
-            logger.debug("Source %s: exception %s", id, e)
+            logger.debug("Source {}: exception {}".format(id, e))
 
     @log
     def _on_source_removed(self, pluginRegistry, mediaSource):
@@ -455,7 +456,7 @@ class Grilo(GObject.GObject):
             try:
                 cursor = conn.query_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 callback(False)
                 return
 
@@ -478,7 +479,7 @@ class Grilo(GObject.GObject):
             try:
                 has_next = conn.next_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {},{}".format(err.__class__, err))
                 callback(False)
                 return
 
@@ -495,7 +496,7 @@ class Grilo(GObject.GObject):
             try:
                 cursor = conn.query_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 callback(False)
                 return
 
