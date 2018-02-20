@@ -1,5 +1,5 @@
 project('org.gnome.Music',
-    version: '3.27.4'
+    version: '3.27.90'
 )
 
 # Importing modules
