@@ -28,7 +28,7 @@
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+from gi.repository import Gdk, Grl, GLib, GObject
 from gnomemusic import TrackerWrapper
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
@@ -47,6 +47,7 @@ class Playlist:
     QUERY = None
     TAG_TEXT = ""
     TITLE = ""
+    COLOR = Gdk.RGBA(1., 1., 1., 1.)
 
 
 class StaticPlaylists:
@@ -58,26 +59,31 @@ class StaticPlaylists:
         TAG_TEXT = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Most Played")
+        COLOR = Gdk.RGBA(0.96, 0.47, 0.00)
 
     class NeverPlayed(Playlist):
         TAG_TEXT = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Never Played")
+        COLOR = Gdk.RGBA(0.45, 0.62, 0.81)
 
     class RecentlyPlayed(Playlist):
         TAG_TEXT = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Played")
+        COLOR = Gdk.RGBA(0.68, 0.50, 0.66)
 
     class RecentlyAdded(Playlist):
         TAG_TEXT = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Recently Added")
+        COLOR = Gdk.RGBA(0.31, 0.60, 0.02)
 
     class Favorites(Playlist):
         TAG_TEXT = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         TITLE = _("Favorite Songs")
+        COLOR = Gdk.RGBA(0.93, 0.83, 0.00)
 
     def __init__(self):
         Query()
@@ -146,8 +152,7 @@ class Playlists(GObject.GObject):
 
     @log
     def __init__(self):
-        super().__init__()
-
+        GObject.GObject.__init__(self)
         self.tracker = TrackerWrapper().tracker
         self._static_playlists = StaticPlaylists()
 
@@ -459,3 +464,10 @@ class Playlists(GObject.GObject):
                 return True
 
         return False
+
+    @staticmethod
+    def get_color(playlist_id):
+        """Get color associated with a static playlist"""
+        for static_playlist in StaticPlaylists.get_all():
+            if static_playlist.ID == int(playlist_id):
+                return static_playlist.COLOR
