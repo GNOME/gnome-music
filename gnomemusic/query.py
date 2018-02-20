@@ -235,6 +235,10 @@ class Query():
                        tracker:available ?available . }
             FILTER ( (STRSTARTS(?url, '%(music_dir)s/') && ?available)
                       || !BOUND(nfo:belongsToContainer(?playlist)) )
+            FILTER ( !STRENDS(LCASE(?url), '.m3u')
+                     && !STRENDS(LCASE(?url), '.m3u8')
+                     && !STRENDS(LCASE(?url), '.pls')
+                     || !BOUND(nfo:belongsToContainer(?playlist)) )
             OPTIONAL { ?playlist nao:hasTag ?tag }
         }
     ORDER BY DESC(tracker:added(?playlist)) !BOUND(?tag) LCASE(?title)
