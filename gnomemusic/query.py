@@ -25,13 +25,14 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GLib, Tracker
+from gi.repository import Gio, GLib, Tracker
 from gnomemusic import log
 import os
 import logging
+import time
+
 logger = logging.getLogger(__name__)
 
-import time
 sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
 
 SECONDS_PER_DAY = 86400
@@ -40,26 +41,63 @@ PUNCTUATION_FILTER = " !\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~"
 
 class Query():
 
-    music_folder = None
-    MUSIC_URI = None
+    _local_filters_uri = None
+    music_uri = None
 
     @log
     def __init__(self):
+        self._init_local_directories()
+
+    def __repr__(self):
+        return '<Query>'
+
+    def _init_local_directories(self):
+        """Initialize local directories.
+
+        - local directories indexed by tracker
+        - XDG music directory
+        """
+        tracker_schema = "org.freedesktop.Tracker.Miner.Files"
+        tracker_key_recursive_directories = "index-recursive-directories"
+
+        settings = Gio.Settings.new(tracker_schema)
+        tracker_dirs = settings.get_strv(tracker_key_recursive_directories)
+        local_dirs = []
+
+        for tracker_dir in tracker_dirs:
+            # ignore special XDG placeholders, since we handle those internally
+            if tracker_dir[0] in ['&', '$']:
+                continue
+            local_dirs.append(tracker_dir)
+
+        # add XDG music directory
         try:
-            Query.music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
-            assert Query.music_folder is not None
+            xdg_music_dir = GLib.get_user_special_dir(
+                GLib.UserDirectory.DIRECTORY_MUSIC)
+            assert xdg_music_dir is not None
+            local_dirs.append(xdg_music_dir)
+            Query.music_uri = Tracker.sparql_escape_string(
+                GLib.filename_to_uri(xdg_music_dir))
         except (TypeError, AssertionError):
             logger.warning("XDG Music dir is not set")
             return
 
-        Query.MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(Query.music_folder))
+        local_dirs_filter = []
+        for dir_ in local_dirs:
+            if os.path.islink(dir_):
+                logger.warning(
+                    "{} is a symlink, it will be omitted".format(dir_))
+                continue
 
-        for folder in [Query.music_folder]:
-            if os.path.islink(folder):
-                logger.warning("{} is a symlink, this folder will be omitted".format(folder))
+            uri = Tracker.sparql_escape_string(GLib.filename_to_uri(dir_))
+            filter_ = "STRSTARTS(?url, '{}/')".format(uri)
+            local_dirs_filter.append(filter_)
 
-    def __repr__(self):
-        return '<Query>'
+        Query._local_filters_uri = "(" + " || ".join(local_dirs_filter) + ")"
+
+    @staticmethod
+    def has_music_folder():
+        return Query._local_filters_uri != ''
 
     @staticmethod
     def _order_by_statement(attr):
@@ -73,7 +111,7 @@ class Query():
         :return: The sparql order by statement
         :rtype: str
         """
-        return """tracker:title-order(%(attr)s)""" % {'attr': attr};
+        return """tracker:title-order(%(attr)s)""" % {'attr': attr}
 
     @staticmethod
     def all_albums():
@@ -99,11 +137,11 @@ class Query():
     {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
-	      nie:url ?url .
-        FILTER(STRSTARTS(?url, '%(music_dir)s/'))
+              nie:url ?url .
+        FILTER( %(music_dirs)s )
     }
     """.replace('\n', ' ').strip() % {
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -139,19 +177,20 @@ class Query():
         %(where_clause)s
         ?song a nmm:MusicPiece ;
             nmm:musicAlbum ?album ;
-            nmm:performer ?performer .
+            nmm:performer ?performer ;
+            nie:url ?url .
         ?album nie:title ?title .
         OPTIONAL { ?album nmm:albumArtist ?albumArtist . }
         OPTIONAL { ?song nmm:composer ?composer . }
         BIND(tracker:coalesce(nmm:artistName(?albumArtist),
                               nmm:artistName(?performer)) AS ?artist_presort)
-        FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
+        FILTER( %(music_dirs)s )
     }
     GROUP BY ?album
     ORDER BY %(album_order)s %(artist_order)s ?creation_date
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_URI,
+            'music_dirs': Query._local_filters_uri,
             'album_order': Query._order_by_statement("?title"),
             'artist_order': Query._order_by_statement("?artist_presort"),
         }
@@ -174,17 +213,18 @@ class Query():
         ?album a nmm:MusicAlbum ;
                nie:title ?title .
         ?song nmm:musicAlbum ?album ;
-              nmm:performer ?performer .
+              nmm:performer ?performer ;
+              nie:url ?url .
         OPTIONAL { ?album nmm:albumArtist ?albumArtist }
         BIND(tracker:coalesce(nmm:artistName(?albumArtist),
                               nmm:artistName(?performer)) AS ?artist_presort)
-        FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
+        FILTER( %(music_dirs)s )
     }
     GROUP BY ?album
     ORDER BY (%(artist_sort)s) ?creation_date ?album_collation
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_URI,
+            'music_dirs': Query._local_filters_uri,
             'artist_sort': Query._order_by_statement("?artist_presort"),
             'album_order': Query._order_by_statement("?title")
         }
@@ -211,12 +251,12 @@ class Query():
             nie:url ?url .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
-        FILTER(STRSTARTS(?url, '%(music_dir)s/'))
+        FILTER( %(music_dirs)s )
     }
     ORDER BY ?artist ?album nmm:setNumber(?disc) nmm:trackNumber(?song)
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -233,7 +273,7 @@ class Query():
             %(where_clause)s
             OPTIONAL { ?playlist nie:url ?url;
                        tracker:available ?available . }
-            FILTER ( (STRSTARTS(?url, '%(music_dir)s/') && ?available)
+            FILTER ( (%(music_dirs)s && ?available)
                       || !BOUND(nfo:belongsToContainer(?playlist)) )
             FILTER ( !STRENDS(LCASE(?url), '.m3u')
                      && !STRENDS(LCASE(?url), '.m3u8')
@@ -244,7 +284,7 @@ class Query():
     ORDER BY DESC(tracker:added(?playlist)) !BOUND(?tag) LCASE(?title)
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -268,11 +308,12 @@ class Query():
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
-              nmm:musicAlbum ?album .
+              nmm:musicAlbum ?album ;
+              nie:url ?url .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
-        FILTER (tracker:id(?album) = %(album_id)s &&
-                (STRSTARTS(nie:url(?song), '%(music_dir)s/')))
+        FILTER ( tracker:id(?album) = %(album_id)s &&
+                %(music_dirs)s )
     }
     ORDER BY
          ?album_disc_number
@@ -280,7 +321,7 @@ class Query():
          tracker:added(?song)
     """.replace('\n', ' ').strip() % {
             'album_id': album_id,
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -328,8 +369,8 @@ class Query():
          nfo:listPosition(?entry)
     """.replace('\n', ' ').strip() % {
             'playlist_id': playlist_id,
-            'filter_clause': filter_clause or 'tracker:id(?playlist) = ' + playlist_id,
-            'music_dir': Query.MUSIC_URI
+            'filter_clause': (filter_clause
+                              or 'tracker:id(?playlist) = ' + playlist_id)
         }
 
         return query
@@ -356,8 +397,7 @@ class Query():
         )
     }
     """.replace("\n", " ").strip() % {
-            'album_id': album_id,
-            'music_dir': Query.MUSIC_URI
+            'album_id': album_id
         }
         return query
 
@@ -373,13 +413,13 @@ class Query():
     WHERE {
         ?song a nmm:MusicPiece ;
               nmm:musicAlbum ?album ;
-              nmm:performer ?song_artist .
+              nmm:performer ?song_artist ;
+              nie:url ?url .
         OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
             tracker:id(?song) = %(song_id)s
         )
-        FILTER (
-            STRSTARTS(nie:url(?song), '%(music_dir)s')
+        FILTER ( %(music_dirs)s )
         )
         FILTER (
             NOT EXISTS {
@@ -392,7 +432,7 @@ class Query():
     }
     """.replace("\n", " ").strip() % {
             'song_id': song_id,
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
         return query
 
@@ -716,10 +756,10 @@ class Query():
                 nie:usageCounter ?count ;
                 nie:isStoredAs ?as .
           ?as nie:url ?url .
-          FILTER ( STRSTARTS(?url, '%(music_dir)s') )
+          FILTER ( %(music_dirs)s )
         } ORDER BY DESC(?count) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -733,10 +773,10 @@ class Query():
                 nie:isStoredAs ?as .
             ?as nie:url ?url .
             FILTER ( NOT EXISTS { ?song nie:usageCounter ?count .}
-                     && STRSTARTS(?url, '%(music_dir)s') )
+                     && %(music_dirs)s )
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -760,11 +800,11 @@ class Query():
                 ?as nie:url ?url .
                 FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime
                          && EXISTS { ?song nie:usageCounter ?count .}
-                         && STRSTARTS(?url, '%(music_dir)s') )
+                         && %(music_dirs)s )
             } ORDER BY DESC(?last_played) LIMIT 50
             """.replace('\n', ' ').strip() % {
                 'compare_date': compare_date,
-                'music_dir': Query.MUSIC_URI
+                'music_dirs': Query._local_filters_uri,
             }
 
             return query
@@ -788,11 +828,11 @@ class Query():
                 tracker:added ?added .
             ?as nie:url ?url .
             FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime
-                     && STRSTARTS(?url, '%(music_dir)s') )
+                     && %(music_dirs)s )
         } ORDER BY DESC(?added) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'compare_date': compare_date,
-            'music_dir': Query.MUSIC_URI
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query
@@ -806,10 +846,10 @@ class Query():
             nie:isStoredAs ?as ;
             nao:hasTag nao:predefined-tag-favorite .
         ?as nie:url ?url .
-        FILTER ( STRSTARTS(?url, '%(music_dir)s') )
+        FILTER ( %(music_dirs)s )
     } ORDER BY DESC(tracker:added(?song))
     """.replace('\n', ' ').strip() % {
-            'music_dir': Query.MUSIC_URI,
+            'music_dirs': Query._local_filters_uri,
         }
 
         return query

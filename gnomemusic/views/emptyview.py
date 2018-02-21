@@ -47,6 +47,6 @@ class EmptyView(Gtk.Stack):
 
     def update_empty_state_link(self):
         label = self.builder.get_object('empty-state-label')
-        href_text = '<a href="%s">%s</a>' % (Query.MUSIC_URI,
+        href_text = '<a href="%s">%s</a>' % (Query.music_uri,
                                              _("Music folder"))
         label.set_label(label.get_label() % href_text)
