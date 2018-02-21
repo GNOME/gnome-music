@@ -381,6 +381,19 @@ class Window(Gtk.ApplicationWindow):
                     and modifiers == control_mask):
                 self._toggle_view(View.PLAYLIST)
         else:
+            if (event.keyval == Gdk.KEY_AudioPlay
+                    or event.keyval == Gdk.KEY_AudioPause):
+                self.player.play_pause()
+
+            if event.keyval == Gdk.KEY_AudioStop:
+                self.player.Stop()
+
+            if event.keyval == Gdk.KEY_AudioPrev:
+                self.player.play_prev()
+
+            if event.keyval == Gdk.KEY_AudioNext:
+                self.player.play_next()
+
             child = self._stack.get_visible_child()
             if (event.keyval == Gdk.KEY_Delete
                     and child == self.views[View.PLAYLIST]):
