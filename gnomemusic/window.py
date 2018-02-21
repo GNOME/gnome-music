@@ -67,7 +67,6 @@ class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title=_("Music"))
 
-        self.connect('focus-in-event', self._windows_focus_cb)
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
         self.set_size_request(200, 100)
@@ -92,6 +91,10 @@ class Window(Gtk.ApplicationWindow):
         self._setup_view()
         self.notifications_popup = NotificationsPopup()
         self._overlay.add_overlay(self.notifications_popup)
+
+        self._media_keys_proxy = None
+        self._init_media_keys_proxy()
+        self.connect('focus-in-event', self._windows_focus_cb)
 
         self.window_size_update_timeout = None
         self.connect("window-state-event", self._on_window_state_event)
@@ -144,34 +147,42 @@ class Window(Gtk.ApplicationWindow):
         self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
 
     @log
-    def _grab_media_player_keys(self):
-        self.proxy = Gio.DBusProxy.new_sync(Gio.bus_get_sync(Gio.BusType.SESSION, None),
-                                            Gio.DBusProxyFlags.NONE,
-                                            None,
-                                            'org.gnome.SettingsDaemon.MediaKeys',
-                                            '/org/gnome/SettingsDaemon/MediaKeys',
-                                            'org.gnome.SettingsDaemon.MediaKeys',
-                                            None)
-        self.proxy.call_sync('GrabMediaPlayerKeys',
-                             GLib.Variant('(su)', ('Music', 0)),
-                             Gio.DBusCallFlags.NONE,
-                             -1,
-                             None)
-        self.proxy.connect('g-signal', self._handle_media_keys)
+    def _init_media_keys_proxy(self):
+        self._media_keys_proxy = Gio.DBusProxy.new_sync(
+            Gio.bus_get_sync(Gio.BusType.SESSION, None),
+            Gio.DBusProxyFlags.NONE, None,
+            'org.gnome.SettingsDaemon.MediaKeys',
+            '/org/gnome/SettingsDaemon/MediaKeys',
+            'org.gnome.SettingsDaemon.MediaKeys', None)
+
+        self._grab_media_player_keys()
+        self._media_keys_proxy.connect('g-signal', self._handle_media_keys)
 
     @log
     def _windows_focus_cb(self, window, event):
+        self._grab_media_player_keys()
+
+    @log
+    def _grab_media_player_keys(self):
+        if not self._media_keys_proxy:
+            return
+
         try:
-            self._grab_media_player_keys()
+            self._media_keys_proxy.call_sync(
+                'GrabMediaPlayerKeys', GLib.Variant('(su)', ('Music', 0)),
+                Gio.DBusCallFlags.NONE, -1, None)
         except GLib.GError:
-            # We cannot grab media keys if no settings daemon is running
-            pass
+            logger.error('Failed to contact settings daemon, cannot grab '
+                         'media keys')
 
     @log
     def _handle_media_keys(self, proxy, sender, signal, parameters):
         if signal != 'MediaPlayerKeyPressed':
-            print('Received an unexpected signal \'%s\' from media player'.format(signal))
+            logger.warning(
+                'Error: Received an unexpected signal \'{}\' from media '
+                'player'.format(signal))
             return
+
         response = parameters.get_child_value(1).get_string()
         if 'Play' in response:
             self.player.play_pause()
