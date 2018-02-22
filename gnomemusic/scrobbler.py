@@ -209,7 +209,7 @@ class LastFmScrobbler(GObject.GObject):
 
             if status_code != 200:
                 logger.warn("Failed to {} track: {} {}".format(
-                    request_type_key, r.status_code, r.reason))
+                    request_type_key, status_code, msg.props.reason_phrase))
                 logger.warn(r.text)
         except Exception as e:
             logger.warn(e)
