@@ -1,4 +1,4 @@
-gnome.yelp(PROJECT_RDNN_NAME,
+gnome.yelp(meson.project_name(),
   sources: [
     'introduction.page',
     'index.page',
@@ -13,6 +13,5 @@ gnome.yelp(PROJECT_RDNN_NAME,
     'search.page',
     'legal.xml'
   ],
-  media: 'figures/gnome-music-3.12.png',
-  symlink_media: false
+  media: 'figures/gnome-music-3.12.png'
 )
