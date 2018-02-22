@@ -127,7 +127,7 @@ Yosef Or Boczko
 Yuras Shumovich
 Yuri Myasoedov
     </property>
-    <property name="logo_icon_name">gnome-music</property>
+    <property name="logo_icon_name">org.gnome.Music</property>
     <property name="wrap_license">True</property>
   </object>
 </interface>
