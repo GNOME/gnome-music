@@ -121,7 +121,7 @@ class ArtistsView(BaseView):
         try:
             itr = self.model.get_iter(path)
         except ValueError as err:
-            logger.warn("Error: %s, %s", err.__class__, err)
+            logger.warning("Error: {}, {}".format(err.__class__, err))
             return
 
         self._last_selection = itr

@@ -90,7 +90,7 @@ class SongsView(BaseView):
         try:
             itr = self.model.get_iter(path)
         except ValueError as err:
-            logger.warn("Error: {}, {}".format(err.__class__, err))
+            logger.warning("Error: {}, {}".format(err.__class__, err))
             return
 
         if self.model[itr][8] != self._error_icon_name:

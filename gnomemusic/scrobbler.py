@@ -61,7 +61,7 @@ class GoaLastFM(GObject.GObject):
         try:
             self._client = source.new_finish(result)
         except GLib.Error as error:
-            logger.warn("Error: {}, {}".format(
+            logger.warning("Error: {}, {}".format(
                 Goa.Error(error.code), error.message))
             return
 
@@ -205,11 +205,11 @@ class LastFmScrobbler(GObject.GObject):
             r = requests.post(
                 "https://ws.audioscrobbler.com/2.0/", request_dict)
             if r.status_code != 200:
-                logger.warn("Failed to {} track: {} {}".format(
+                logger.warning("Failed to {} track: {} {}".format(
                     request_type_key, r.status_code, r.reason))
-                logger.warn(r.text)
+                logger.warning(r.text)
         except Exception as e:
-            logger.warn(e)
+            logger.warning(e)
 
     @log
     def scrobble(self, media, time_stamp):

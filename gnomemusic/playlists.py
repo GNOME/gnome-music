@@ -164,7 +164,7 @@ class Playlists(GObject.GObject):
             try:
                 cursor.next_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
             playlist.ID = cursor.get_integer(1)
@@ -181,7 +181,7 @@ class Playlists(GObject.GObject):
             try:
                 cursor = obj.query_finish(result)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
             # Search for the playlist ID
@@ -208,7 +208,7 @@ class Playlists(GObject.GObject):
             try:
                 cursor.next_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
             playlist.ID = cursor.get_integer(0)
@@ -221,7 +221,7 @@ class Playlists(GObject.GObject):
             try:
                 cursor = obj.query_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
             cursor.next_async(None, playlist_next_async_cb, playlist)
@@ -282,7 +282,7 @@ class Playlists(GObject.GObject):
         try:
             cursor = connection.query_finish(res)
         except GLib.Error as err:
-            logger.warn("Error: %s, %s", err.__class__, err)
+            logger.warning("Error: {}, {}".format(err.__class__, err))
             return
 
         def callback(cursor, res, final_query):
@@ -292,7 +292,7 @@ class Playlists(GObject.GObject):
             try:
                 has_next = cursor.next_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 has_next = False
 
             # Only perform the update when the cursor reached the end
@@ -324,7 +324,7 @@ class Playlists(GObject.GObject):
             try:
                 cursor.next_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
             playlist_id = cursor.get_integer(0)
@@ -334,7 +334,7 @@ class Playlists(GObject.GObject):
             try:
                 cursor = conn.query_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
             if not cursor:

@@ -186,7 +186,7 @@ class Player(GObject.GObject):
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
-            logger.warn("The item %s doesn't have a URL set", item)
+            logger.warning("The item {} doesn't have a URL set".format(item))
             return
 
         if not url.startswith("file://"):
@@ -334,13 +334,13 @@ class Player(GObject.GObject):
             uri = media.get_url()
         else:
             uri = 'none'
-        logger.warn('URI: %s', uri)
+        logger.warning('URI: {}'.format(uri))
         error, debug = message.parse_error()
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warn('Error from element %s: %s', message.src.get_name(), error.message)
-        logger.warn('Debugging info:\n%s', debug)
+        logger.warning('Error from element {}: {}'.format(message.src.get_name(), error.message))
+        logger.warning('Debugging info:\n{}'.format(debug))
         self.play_next()
         return True
 
@@ -948,7 +948,7 @@ class Player(GObject.GObject):
                         self._lastfm.scrobble(current_media, self._time_stamp)
 
             except Exception as e:
-                logger.warn("Error: %s, %s", e.__class__, e)
+                logger.warning("Error: {}, {}".format(e.__class__, e))
         return True
 
     @log

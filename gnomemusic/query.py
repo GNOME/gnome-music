@@ -49,14 +49,14 @@ class Query():
             Query.music_folder = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
             assert Query.music_folder is not None
         except (TypeError, AssertionError):
-            logger.warn("XDG Music dir is not set")
+            logger.warning("XDG Music dir is not set")
             return
 
         Query.MUSIC_URI = Tracker.sparql_escape_string(GLib.filename_to_uri(Query.music_folder))
 
         for folder in [Query.music_folder]:
             if os.path.islink(folder):
-                logger.warn("%s is a symlink, this folder will be omitted", folder)
+                logger.warning("{} is a symlink, this folder will be omitted".format(folder))
 
     def __repr__(self):
         return '<Query>'

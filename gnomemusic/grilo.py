@@ -439,7 +439,7 @@ class Grilo(GObject.GObject):
             try:
                 has_next = conn.next_finish(res)
             except GLib.Error as err:
-                logger.warn("Error: %s, %s", err.__class__, err)
+                logger.warning("Error: {}, {}".format(err.__class__, err))
                 callback(False)
                 return
 
