@@ -25,11 +25,11 @@
 from hashlib import md5
 from threading import Thread
 import logging
-import requests
 
 import gi
 gi.require_version('Goa', '1.0')
-from gi.repository import GLib, Goa, GObject
+gi.require_version('Soup', '2.4')
+from gi.repository import GLib, Goa, GObject, Soup
 
 from gnomemusic import log
 import gnomemusic.utils as utils
@@ -202,9 +202,12 @@ class LastFmScrobbler(GObject.GObject):
         })
 
         try:
-            r = requests.post(
-                "https://ws.audioscrobbler.com/2.0/", request_dict)
-            if r.status_code != 200:
+            session = Soup.Session.new()
+            msg = Soup.Message.new('POST', "https://ws.audioscrobbler.com/2.0/")
+            msg.set_request(str, Soup.MemoryUse.COPY, request_dict, len(request_dict))
+            status_code = Soup.Session.send(msg)
+
+            if status_code != 200:
                 logger.warn("Failed to {} track: {} {}".format(
                     request_type_key, r.status_code, r.reason))
                 logger.warn(r.text)
