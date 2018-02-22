@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright © 2018 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,6 +36,12 @@ sys.path.insert(1, '@pyexecdir@')
 # Make sure we'll find the gnomemusic module, even in JHBuild
 sys.path.insert(1, '@pythondir@')
 
+_LOCAL = @local_build@
+
+# In the local use case the installed schemas go in <builddir>/data
+if _LOCAL:
+    os.environ["XDG_DATA_DIRS"] = '@schemasdir@:' + os.environ["XDG_DATA_DIRS"]
+
 import gi
 
 gi.require_version('Gtk', '3.0')
@@ -47,36 +53,20 @@ Gst.init(None)
 
 import gnomemusic
 
-
-SOURCE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(gnomemusic.__file__), '..'))
-
-# Defines if we are running from inside project source. This is
-# necessary so we can set data and libgd directories correctly.
-_LOCAL = os.path.exists(os.path.join(SOURCE_DIR, 'gnome-music.doap'))
-
-# Directory settings
 LOCALE_DIR = '@localedir@'
-PKGDATA_DIR = os.path.join(SOURCE_DIR, 'data') if _LOCAL else '@pkgdatadir@'
+PKGDATA_DIR = '@pkgdatadir@'
 
 # Log settings
 LOG_FORMAT = '%(asctime)s %(levelname)s\t%(message)s'
 LOG_DATE_FORMAT = '%H:%M:%S'
 
 
-def set_environment_variables():
-    """Sets application environment variables."""
-    if _LOCAL:
-        os.environ.setdefault('GSETTINGS_SCHEMA_DIR', PKGDATA_DIR)
-
-
 def set_libgd():
     """Configures application to run our own libgd copy."""
+    libgd_libdir = '@pkglibdir@'
     if _LOCAL:
-        libgd_libdir = os.path.join(SOURCE_DIR, 'libgd', '.libs')
-        libgd_typelibdir = os.path.join(SOURCE_DIR, 'libgd')
+        libgd_typelibdir = '@pkglibdir@'
     else:
-        libgd_libdir = '@pkglibdir@'
         libgd_typelibdir = '@pkglibdir@/girepository-1.0'
 
     GIRepository.Repository.prepend_search_path(libgd_typelibdir)
@@ -94,7 +84,6 @@ def set_exception_hook():
 
     old_hook = sys.excepthook
     sys.excepthook = new_hook
-
 
 def set_log_level():
     """Sets application log level according to debug value."""
@@ -114,21 +103,18 @@ def set_log_level():
         logging.basicConfig(level=logging.WARN, format=LOG_FORMAT,
                             datefmt=LOG_DATE_FORMAT)
 
-
 def set_internationalization():
     """Sets application internationalization."""
-    locale.bindtextdomain('org.gnome.Music', LOCALE_DIR)
-    locale.textdomain('org.gnome.Music')
-    gettext.bindtextdomain('org.gnome.Music', LOCALE_DIR)
-    gettext.textdomain('org.gnome.Music')
-
+    locale.bindtextdomain('@rdnn_name@', LOCALE_DIR)
+    locale.textdomain('@rdnn_name@')
+    gettext.bindtextdomain('@rdnn_name@', LOCALE_DIR)
+    gettext.textdomain('@rdnn_name@')
 
 def set_resources():
     """Sets application ressource file."""
     resource = Gio.resource_load(
-        os.path.join(PKGDATA_DIR, 'org.gnome.Music.gresource'))
+        os.path.join(PKGDATA_DIR, '@rdnn_name@.gresource'))
     Gio.Resource._register(resource)  # nopep8
-
 
 def run_application():
     """Runs GNOME Music application and returns its exit code."""
@@ -138,17 +124,14 @@ def run_application():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     return app.run(sys.argv)
 
-
 def main():
     """Sets environment and runs GNOME Music."""
-    set_environment_variables()
     set_libgd()
     set_exception_hook()
     set_log_level()
     set_internationalization()
     set_resources()
     return run_application()
-
 
 if __name__ == '__main__':
     if _LOCAL:
