@@ -1,4 +1,4 @@
-project('org.gnome.Music',
+project('gnome-music',
     version: '3.27.90'
 )
 
@@ -15,9 +15,10 @@ endif
 # Constants
 PACKAGE_URL = 'https://wiki.gnome.org/Apps/Music'
 PACKAGE_URL_BUG = 'https://gitlab.gnome.org/GNOME/gnome-music'
+PROJECT_RDNN_NAME='org.gnome.Music'
 
 PYTHON_DIR = join_paths(get_option('prefix'), python.sysconfig_path('purelib'))
-PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
+PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), PROJECT_RDNN_NAME)
 PKGLIB_DIR = join_paths(PKGDATA_DIR, 'libs')
 # Dependencies 
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')

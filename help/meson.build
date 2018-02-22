@@ -1,4 +1,4 @@
-gnome.yelp(meson.project_name(),
+gnome.yelp(PROJECT_RDNN_NAME,
   sources: [
     'introduction.page',
     'index.page',
