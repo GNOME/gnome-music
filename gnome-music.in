@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright © 2018 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@ import sys
 sys.path.insert(1, '@pyexecdir@')
 # Make sure we'll find the gnomemusic module, even in JHBuild
 sys.path.insert(1, '@pythondir@')
+# In the local use case the installed schemas go in <builddir>/data
+os.environ["XDG_DATA_DIRS"] = os.environ["XDG_DATA_DIRS"] + ":data"
 
 import gi
 
@@ -45,19 +47,22 @@ from gi.repository import GIRepository, Gio, Gtk, Gst
 
 Gst.init(None)
 
-import gnomemusic
+# With meson only support running in source tree when the builddir is
+# a direct child of the source root dir.
+try:
+    import gnomemusic
+except:
+    sys.path.insert(1, '..')
+    import gnomemusic
 
 
 SOURCE_DIR = os.path.abspath(
     os.path.join(os.path.dirname(gnomemusic.__file__), '..'))
 
-# Defines if we are running from inside project source. This is
-# necessary so we can set data and libgd directories correctly.
 _LOCAL = os.path.exists(os.path.join(SOURCE_DIR, 'gnome-music.doap'))
 
-# Directory settings
 LOCALE_DIR = '@localedir@'
-PKGDATA_DIR = os.path.join(SOURCE_DIR, 'data') if _LOCAL else '@pkgdatadir@'
+PKGDATA_DIR = os.path.join('data') if _LOCAL else '@pkgdatadir@'
 
 # Log settings
 LOG_FORMAT = '%(asctime)s %(levelname)s\t%(message)s'
@@ -67,14 +72,13 @@ LOG_DATE_FORMAT = '%H:%M:%S'
 def set_environment_variables():
     """Sets application environment variables."""
     if _LOCAL:
-        os.environ.setdefault('GSETTINGS_SCHEMA_DIR', PKGDATA_DIR)
-
+        os.environ.setdefault('GSETTINGS_SCHEMA_DIR', sys.path[0] + "/data")
 
 def set_libgd():
     """Configures application to run our own libgd copy."""
     if _LOCAL:
-        libgd_libdir = os.path.join(SOURCE_DIR, 'libgd', '.libs')
-        libgd_typelibdir = os.path.join(SOURCE_DIR, 'libgd')
+        libgd_libdir = os.path.join('subprojects', 'libgd', 'libgd')
+        libgd_typelibdir = os.path.join('subprojects', 'libgd', 'libgd')
     else:
         libgd_libdir = '@pkglibdir@'
         libgd_typelibdir = '@pkglibdir@/girepository-1.0'

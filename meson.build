@@ -67,5 +67,7 @@ configure_file(
     install_dir: get_option('bindir')
 )
 
+meson.add_postconf_script('meson_post_conf.py')
+
 # Run the post install script
 meson.add_install_script('meson_post_install.py')
