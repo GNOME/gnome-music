@@ -20,7 +20,8 @@ PROJECT_RDNN_NAME='org.gnome.Music'
 PYTHON_DIR = join_paths(get_option('prefix'), python.sysconfig_path('purelib'))
 PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), PROJECT_RDNN_NAME)
 PKGLIB_DIR = join_paths(PKGDATA_DIR, 'libs')
-# Dependencies 
+
+# Dependencies
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 dependency('gtk+-3.0', version: '>= 3.19.3')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
@@ -28,7 +29,6 @@ dependency('tracker-sparql-2.0', version: '>= 1.99.1')
 dependency('pygobject-3.0', version: '>= 3.21.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.4')
-
 
 subproject('libgd',
     default_options: [
@@ -50,15 +50,18 @@ install_subdir(
     install_dir: PYTHON_DIR
 )
 
-
 # Install the executable file
 bin_config = configuration_data()
+bin_config.set('rdnn_name', PROJECT_RDNN_NAME)
 bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('pyexecdir', join_paths(get_option('prefix'), python.sysconfig_path('stdlib')))
+bin_config.set('schemasdir', '')
 # Used for libgd
 bin_config.set('pkglibdir', PKGLIB_DIR)
+
+bin_config.set('local_build', 'False')
 
 configure_file(
     input: 'gnome-music.in',
@@ -67,5 +70,24 @@ configure_file(
     install_dir: get_option('bindir')
 )
 
-# Run the post install script
+# Install the builddir executable
+local_config = configuration_data()
+local_config.set('rdnn_name', PROJECT_RDNN_NAME)
+local_config.set('pkgdatadir', join_paths(meson.build_root(), 'data'))
+local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
+local_config.set('pythondir', meson.source_root())
+local_config.set('pyexecdir', meson.source_root())
+local_config.set('schemasdir', join_paths(meson.build_root(), 'data'))
+# Used for libgd
+local_config.set('pkglibdir', join_paths(meson.build_root(), 'subprojects', 'libgd', 'libgd'))
+
+local_config.set('local_build', 'True')
+
+configure_file(
+    input: 'gnome-music.in',
+    output: 'local-music',
+    configuration: local_config
+)
+
+meson.add_postconf_script('meson_post_conf.py')
 meson.add_install_script('meson_post_install.py')
