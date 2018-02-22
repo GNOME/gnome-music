@@ -1,1 +1,1 @@
-i18n.gettext(meson.project_name(), preset:'glib')
+i18n.gettext(PROJECT_RDNN_NAME, preset:'glib')
