@@ -106,16 +106,18 @@ class StarHandlerWidget(object):
         self._parent = parent
 
     @log
-    def add_star_renderers(self, col):
+    def add_star_renderers(self, col, cell_data_func=None):
         """Adds the star renderer column
 
         :param col: GtkTreeViewColumn to use
+        :param cell_data_func: GtkTreeCellDataFunc to use
         """
         star_renderer = CellRendererClickablePixbuf()
         star_renderer.connect("clicked", self._on_star_toggled)
 
         col.pack_start(star_renderer, False)
         col.add_attribute(star_renderer, 'show_star', self._star_index)
+        col.set_cell_data_func(col.get_cells()[-1], cell_data_func, None)
 
     @log
     def _on_star_toggled(self, widget, path):
