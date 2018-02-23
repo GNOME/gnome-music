@@ -199,7 +199,7 @@ class PlaylistView(BaseView):
 
         column_star = Gtk.TreeViewColumn()
         self._view.append_column(column_star)
-        self._star_handler.add_star_renderers(self._view, column_star)
+        self._star_handler.add_star_renderers(column_star)
 
         duration_renderer = Gtk.CellRendererText(xpad=32, xalign=1.0)
         column_duration = Gtk.TreeViewColumn()

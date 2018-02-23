@@ -304,7 +304,7 @@ class SearchView(BaseView):
             pixbuf_renderer, self._on_list_widget_pixbuf_renderer, None)
         cols[0].add_attribute(pixbuf_renderer, 'surface', 13)
 
-        self._star_handler.add_star_renderers(list_widget, cols[0])
+        self._star_handler.add_star_renderers(cols[0])
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
         cols[0].reorder(cells[4], 1)
