@@ -310,29 +310,34 @@ class SearchView(BaseView):
         cols[0].reorder(cells[4], 1)
         cols[0].set_cell_data_func(
             cells[0], self._on_list_widget_selection_render, None)
+        cols[0].set_cell_data_func(
+            cells[2], self._on_list_widget_infos_render, None)
+
+    @log
+    def _is_a_title(self, model, _iter):
+        return model.iter_parent(_iter) is None
 
     @log
     def _on_list_widget_pixbuf_renderer(self, col, cell, model, _iter, data):
-        if not model[_iter][13]:
-            return
-
-        cell.set_property("surface", model[_iter][13])
+        if not model[_iter][13] or not self._is_a_title(model, _iter):
+            cell.set_visible(False)
+        else:
+            cell.set_visible(True)
+            cell.set_property("surface", model[_iter][13])
 
     @log
     def _on_list_widget_selection_render(self, col, cell, model, _iter, data):
-        if (self._view.get_selection_mode()
-                and model.iter_parent(_iter) is not None):
-            cell.set_visible(True)
-        else:
-            cell.set_visible(False)
+        cell.set_visible(
+            self._view.get_selection_mode()
+            and not self._is_a_title(model, _iter))
 
     @log
     def _on_list_widget_title_render(self, col, cell, model, _iter, data):
-        cells = col.get_cells()
-        cells[0].set_visible(False)
-        cells[1].set_visible(model.iter_parent(_iter) is not None)
-        cells[2].set_visible(model.iter_parent(_iter) is not None)
-        cells[3].set_visible(model.iter_parent(_iter) is None)
+        cell.set_visible(self._is_a_title(model, _iter))
+
+    @log
+    def _on_list_widget_infos_render(self, col, cell, model, _iter, data):
+        cell.set_visible(not self._is_a_title(model, _iter))
 
     @log
     def populate(self):
