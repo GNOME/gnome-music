@@ -315,7 +315,7 @@ class DiscBox(Gtk.Box):
 
         itr = self._model.append(None)
 
-        self._model[itr][0, 1, 2, 5, 6] = [title, '', '', song, False]
+        self._model[itr][0, 1, 2, 5, 6] = ['', '', title, song, False]
 
         song_widget.itr = itr
         song_widget.model = self._model

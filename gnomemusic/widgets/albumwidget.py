@@ -104,16 +104,16 @@ class AlbumWidget(Gtk.EventBox):
     def _create_model(self):
         """Create the ListStore model for this widget."""
         self._model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
+            GObject.TYPE_STRING,   # title
             GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,    # icon
-            GObject.TYPE_OBJECT,  # song object
+            GdkPixbuf.Pixbuf,      # icon
+            GObject.TYPE_OBJECT,   # song object
             GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
+            GObject.TYPE_INT,
+            GObject.TYPE_STRING,   # icon shown
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
