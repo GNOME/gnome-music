@@ -113,7 +113,7 @@ class ArtistsView(BaseView):
             width=220)
         list_widget.add_renderer(self.text_renderer, lambda *args: None, None)
         cols[0].clear_attributes(self.text_renderer)
-        cols[0].add_attribute(self.text_renderer, 'text', 2)
+        cols[0].add_attribute(self.text_renderer, 'text', 3)
 
     @log
     def _on_item_activated(self, widget, item_id, path):
@@ -125,7 +125,7 @@ class ArtistsView(BaseView):
             return
 
         self._last_selection = itr
-        artist = self.model[itr][2]
+        artist = self.model[itr][3]
         albums = self._artists[artist.casefold()]['albums']
         widget = self._artists[artist.casefold()]['widget']
 
@@ -171,7 +171,7 @@ class ArtistsView(BaseView):
         self._offset += 1
         artist = utils.get_artist_name(item)
         if not artist.casefold() in self._artists:
-            itr = self.model.insert_with_valuesv(-1, [2], [artist])
+            itr = self.model.insert_with_valuesv(-1, [3], [artist])
             self._artists[artist.casefold()] = {
                 'iter': itr,
                 'albums': [],
@@ -223,7 +223,7 @@ class ArtistsView(BaseView):
 
         for path in self._view.get_selection():
             itr = self.model.get_iter(path)
-            artist = self.model[itr][2]
+            artist = self.model[itr][3]
             albums = self._artists[artist.casefold()]['albums']
             self._albums_selected.extend(albums)
 
