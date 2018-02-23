@@ -35,7 +35,6 @@ subproject('libgd',
         'with-introspection=true',
         'with-main-view=true',
         'with-tagged-entry=true',
-        'with-gtk-hacks=true',
         'static=false',
         'pkgdatadir=' + PKGDATA_DIR,
         'pkglibdir=' + PKGLIB_DIR
