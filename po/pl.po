@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-06 21:35+0000\n"
-"PO-Revision-Date: 2018-02-08 02:42+0100\n"
+"POT-Creation-Date: 2018-02-23 22:13+0000\n"
+"PO-Revision-Date: 2018-02-23 23:15+0100\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish <community-poland@mozilla.org>\n"
 "Language: pl\n"
@@ -44,8 +44,8 @@ msgstr "Odtwarzacz muzyki"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-msgid "gnome-music"
-msgstr "gnome-music"
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in:13
@@ -258,7 +258,7 @@ msgstr[2] "Zaznaczono {} elementów"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Kliknięcie elementu zaznacza go"
 
@@ -278,7 +278,7 @@ msgstr "Witaj w odtwarzaczu muzyki"
 msgid "Playlists"
 msgstr "Listy odtwarzania"
 
-#: gnomemusic/views/playlistview.py:611
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -286,11 +286,11 @@ msgstr[0] "%d utwór"
 msgstr[1] "%d utwory"
 msgstr[2] "%d utworów"
 
-#: gnomemusic/views/playlistview.py:654
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Usunięto listę odtwarzania „{}”"
 
-#: gnomemusic/views/playlistview.py:660
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "Usunięto utwór „{}” z listy „{}”"
 
@@ -324,7 +324,7 @@ msgstr "Wczytywanie"
 msgid "_Undo"
 msgstr "Cof_nij"
 
-#: gnomemusic/window.py:252
+#: gnomemusic/window.py:245
 msgid "Empty"
 msgstr "Puste"
 
@@ -422,23 +422,23 @@ msgstr "Za_kończ"
 msgid "Select All"
 msgstr "Zaznacz wszystko"
 
-#: data/headerbar.ui:12
+#: data/headerbar.ui:11
 msgid "Select None"
 msgstr "Odznacz wszystko"
 
-#: data/headerbar.ui:67
+#: data/headerbar.ui:66
 msgid "Search"
 msgstr "Wyszukuje"
 
-#: data/headerbar.ui:90
+#: data/headerbar.ui:89
 msgid "Select"
 msgstr "Zaznacza"
 
-#: data/headerbar.ui:112 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Anuluj"
 
-#: data/headerbar.ui:130
+#: data/headerbar.ui:129
 msgid "Back"
 msgstr "Wstecz"
 
