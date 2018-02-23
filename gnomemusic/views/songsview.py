@@ -167,7 +167,7 @@ class SongsView(BaseView):
 
         col = Gtk.TreeViewColumn()
         col.set_expand(False)
-        self._star_handler.add_star_renderers(list_widget, col)
+        self._star_handler.add_star_renderers(col)
         list_widget.append_column(col)
 
         duration_renderer = Gd.StyledTextRenderer(xpad=32, xalign=1.0)
