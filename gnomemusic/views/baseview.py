@@ -67,7 +67,7 @@ class BaseView(Gtk.Stack):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
-            GObject.TYPE_INT,
+            GObject.TYPE_BOOLEAN,
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )

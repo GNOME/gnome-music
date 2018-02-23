@@ -242,7 +242,7 @@ class SearchView(BaseView):
         if category == 'album':
             _iter = self.model.insert_with_values(
                 self._head_iters[group], -1, [0, 2, 3, 5, 9, 12],
-                [str(item.get_id()), title, artist, item, 2,
+                [str(item.get_id()), title, artist, item, False,
                  category])
         elif category == 'song':
             # FIXME: source specific hack
@@ -258,7 +258,7 @@ class SearchView(BaseView):
             if not artist.casefold() in self._artists:
                 _iter = self.model.insert_with_values(
                     self._head_iters[group], -1, [0, 2, 5, 9, 12],
-                    [str(item.get_id()), artist, item, 2,
+                    [str(item.get_id()), artist, item, False,
                      category])
                 self._artists[artist.casefold()] = {
                     'iter': _iter,
@@ -304,7 +304,8 @@ class SearchView(BaseView):
             pixbuf_renderer, self._on_list_widget_pixbuf_renderer, None)
         cols[0].add_attribute(pixbuf_renderer, 'surface', 13)
 
-        self._star_handler.add_star_renderers(cols[0])
+        self._star_handler.add_star_renderers(
+            cols[0], self._on_list_widget_star_render)
         cells = cols[0].get_cells()
         cols[0].reorder(cells[0], -1)
         cols[0].reorder(cells[4], 1)
@@ -337,6 +338,10 @@ class SearchView(BaseView):
 
     @log
     def _on_list_widget_infos_render(self, col, cell, model, _iter, data):
+        cell.set_visible(not self._is_a_title(model, _iter))
+
+    @log
+    def _on_list_widget_star_render(self, col, cell, model, _iter, data):
         cell.set_visible(not self._is_a_title(model, _iter))
 
     @log
@@ -485,7 +490,7 @@ class SearchView(BaseView):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
             GObject.TYPE_STRING,
-            GObject.TYPE_INT,
+            GObject.TYPE_BOOLEAN,   # is favorite
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT,
             GObject.TYPE_STRING,    # type
@@ -503,13 +508,13 @@ class SearchView(BaseView):
             return
 
         albums_iter = self.model.insert_with_values(
-            None, -1, [2, 9], [_("Albums"), 2])
+            None, -1, [2, 9], [_("Albums"), False])
         artists_iter = self.model.insert_with_values(
-            None, -1, [2, 9], [_("Artists"), 2])
+            None, -1, [2, 9], [_("Artists"), False])
         songs_iter = self.model.insert_with_values(
-            None, -1, [2, 9], [_("Songs"), 2])
+            None, -1, [2, 9], [_("Songs"), False])
         playlists_iter = self.model.insert_with_values(
-            None, -1, [2, 9], [_("Playlists"), 2])
+            None, -1, [2, 9], [_("Playlists"), False])
 
         self._head_iters = [
             albums_iter,

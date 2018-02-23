@@ -45,8 +45,8 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
                       'Show star',
                       'show star',
                       0,
-                      2,
                       1,
+                      0,
                       GObject.ParamFlags.READWRITE)
     }
 
@@ -125,12 +125,6 @@ class StarHandlerWidget(object):
         try:
             _iter = self._parent.model.get_iter(path)
         except TypeError:
-            return
-
-        try:
-            if self._parent.model[_iter][self._star_index] == 2:
-                return
-        except AttributeError:
             return
 
         new_value = not self._parent.model[_iter][self._star_index]
