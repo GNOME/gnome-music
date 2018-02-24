@@ -29,6 +29,7 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.utils import Model
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
@@ -193,7 +194,8 @@ class PlaylistView(BaseView):
         title_renderer = Gtk.CellRendererText(
             xpad=0, xalign=0.0, yalign=0.5, height=48,
             ellipsize=Pango.EllipsizeMode.END)
-        column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
+        column_title = Gtk.TreeViewColumn(
+            "Title", title_renderer, text=Model.TITLE)
         column_title.set_expand(True)
         self._view.append_column(column_title)
 
@@ -210,7 +212,8 @@ class PlaylistView(BaseView):
 
         artist_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
+        column_artist = Gtk.TreeViewColumn(
+            "Artist", artist_renderer, text=Model.ARTIST)
         column_artist.set_expand(True)
         self._view.append_column(column_artist)
 
@@ -227,7 +230,7 @@ class PlaylistView(BaseView):
         if not model.iter_is_valid(_iter):
             return
 
-        item = model[_iter][5]
+        item = model[_iter][Model.ITEM]
         if item:
             duration = item.get_duration()
             cell.set_property('text', utils.seconds_to_string(duration))
@@ -236,7 +239,7 @@ class PlaylistView(BaseView):
         if not model.iter_is_valid(_iter):
             return
 
-        item = model[_iter][5]
+        item = model[_iter][Model.ITEM]
         if item:
             cell.set_property('text', utils.get_album_title(item))
 
@@ -249,10 +252,10 @@ class PlaylistView(BaseView):
         if not model.iter_is_valid(_iter):
             return
 
-        if model[_iter][11] == DiscoveryStatus.FAILED:
+        if model[_iter][Model.DISCOVERY] == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
-        elif model[_iter][5].get_url() == self.player.currentTrackUri:
+        elif model[_iter][Model.ITEM].get_url() == self.player.currentTrackUri:
             cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
@@ -267,12 +270,13 @@ class PlaylistView(BaseView):
     @log
     def _update_model(self, player, playlist, current_iter):
         if self._iter_to_clean:
-            self._iter_to_clean_model[self._iter_to_clean][10] = False
+            item = self._iter_to_clean_model[self._iter_to_clean]
+            item[Model.TO_CLEAN] = False
         if playlist != self.model:
             return False
 
-        self.model[current_iter][10] = True
-        if self.model[current_iter][8] != self._error_icon_name:
+        self.model[current_iter][Model.TO_CLEAN] = True
+        if self.model[current_iter][Model.ICON] != self._error_icon_name:
             self._iter_to_clean = current_iter.copy()
             self._iter_to_clean_model = self.model
 
@@ -426,7 +430,7 @@ class PlaylistView(BaseView):
         songs = []
         for pos in range(first_pos, last_pos):
             _iter = model.get_iter_from_string(str(pos))
-            songs.append(model[_iter][5])
+            songs.append(model[_iter][Model.ITEM])
             positions.append(pos + 1)
 
         playlists.reorder_playlist(self._current_playlist, songs, positions)
@@ -441,7 +445,7 @@ class PlaylistView(BaseView):
     @log
     def _add_song_to_playlist(self, menuitem, data=None):
         model, _iter = self._view.get_selection().get_selected()
-        song = model[_iter][5]
+        song = model[_iter][Model.ITEM]
 
         playlist_dialog = PlaylistDialog(
             self._window, self.pls_todelete)
@@ -452,7 +456,7 @@ class PlaylistView(BaseView):
     @log
     def _stage_song_for_deletion(self, menuitem, data=None):
         model, _iter = self._view.get_selection().get_selected()
-        song = model[_iter][5]
+        song = model[_iter][Model.ITEM]
         index = int(model.get_path(_iter).to_string())
         song_id = song.get_id()
         self._songs_todelete[song_id] = {
@@ -593,8 +597,9 @@ class PlaylistView(BaseView):
         title = utils.get_media_title(song)
         song.set_title(title)
         artist = utils.get_artist_name(song)
-        model.insert_with_valuesv(index, [2, 3, 5, 9],
-                                  [title, artist, song, song.get_favourite()])
+        model.insert_with_valuesv(
+            index, [Model.TITLE, Model.ARTIST, Model.ITEM, Model.FAVOURITE],
+            [title, artist, song, song.get_favourite()])
 
         self._songs_count += 1
 
@@ -797,7 +802,7 @@ class PlaylistView(BaseView):
 
         # checks if the to be removed track is now being played
         for row in model:
-            if row[5].get_id() == item.get_id():
+            if row[Model.ITEM].get_id() == item.get_id():
 
                 is_being_played = self._row_is_playing(playlist, row)
 
@@ -832,7 +837,7 @@ class PlaylistView(BaseView):
 
         if self.player.playing:
             for row in self.model:
-                if (row[5].get_id() == item.get_id()
+                if (row[Model.ITEM].get_id() == item.get_id()
                         and self._row_is_playing(playlist, row)):
                     self._iter_to_clean = row.iter
                     self.player.set_playlist(

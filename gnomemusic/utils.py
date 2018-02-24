@@ -27,6 +27,28 @@ from enum import IntEnum
 from gettext import gettext as _
 
 
+class Model(IntEnum):
+    """Enum for model fields
+
+    ID, URI and PULSE fields are never used.
+    They are present for libgd compatibility.
+    """
+    ID = 0
+    URI = 1
+    TITLE = 2
+    ARTIST = 3
+    ART = 4
+    ITEM = 5
+    SELECTED = 6
+    PULSE = 7
+    ICON = 8
+    FAVOURITE = 9
+    TO_CLEAN = 10
+    DISCOVERY = 11
+    CATEGORY = 12
+    SURFACE = 13
+
+
 class View(IntEnum):
     """Enum for views"""
     ALBUM = 0

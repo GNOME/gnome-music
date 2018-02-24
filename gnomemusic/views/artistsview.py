@@ -28,6 +28,7 @@ from gi.repository import Gd, GLib, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.utils import Model
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
@@ -113,7 +114,7 @@ class ArtistsView(BaseView):
             width=220)
         list_widget.add_renderer(self.text_renderer, lambda *args: None, None)
         cols[0].clear_attributes(self.text_renderer)
-        cols[0].add_attribute(self.text_renderer, 'text', 3)
+        cols[0].add_attribute(self.text_renderer, 'text', Model.ARTIST)
 
     @log
     def _on_item_activated(self, widget, item_id, path):
@@ -125,7 +126,7 @@ class ArtistsView(BaseView):
             return
 
         self._last_selection = itr
-        artist = self.model[itr][3]
+        artist = self.model[itr][Model.ARTIST]
         albums = self._artists[artist.casefold()]['albums']
         widget = self._artists[artist.casefold()]['widget']
 
@@ -171,7 +172,7 @@ class ArtistsView(BaseView):
         self._offset += 1
         artist = utils.get_artist_name(item)
         if not artist.casefold() in self._artists:
-            itr = self.model.insert_with_valuesv(-1, [3], [artist])
+            itr = self.model.insert_with_valuesv(-1, [Model.ARTIST], [artist])
             self._artists[artist.casefold()] = {
                 'iter': itr,
                 'albums': [],
@@ -223,7 +224,7 @@ class ArtistsView(BaseView):
 
         for path in self._view.get_selection():
             itr = self.model.get_iter(path)
-            artist = self.model[itr][3]
+            artist = self.model[itr][Model.ARTIST]
             albums = self._artists[artist.casefold()]['albums']
             self._albums_selected.extend(albums)
 

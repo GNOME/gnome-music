@@ -26,6 +26,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.utils import Model
 from gnomemusic.playlists import Playlists, StaticPlaylists
 
 playlists = Playlists.get_default()
@@ -114,7 +115,7 @@ class StarHandlerWidget(object):
         star_renderer.connect("clicked", self._on_star_toggled)
 
         col.pack_start(star_renderer, False)
-        col.add_attribute(star_renderer, 'show_star', 9)
+        col.add_attribute(star_renderer, 'show_star', Model.FAVOURITE)
         col.set_cell_data_func(col.get_cells()[-1], cell_data_func, None)
 
     @log
@@ -125,9 +126,9 @@ class StarHandlerWidget(object):
         except TypeError:
             return
 
-        new_value = not self._parent.model[_iter][9]
-        self._parent.model[_iter][9] = new_value
-        song_item = self._parent.model[_iter][5]
+        new_value = not self._parent.model[_iter][Model.FAVOURITE]
+        self._parent.model[_iter][Model.FAVOURITE] = new_value
+        song_item = self._parent.model[_iter][Model.ITEM]
         grilo.toggle_favorite(song_item)
         playlists.update_static_playlist(StaticPlaylists.Favorites)
 

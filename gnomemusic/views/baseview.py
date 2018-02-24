@@ -27,6 +27,7 @@ from gi.repository import Gd, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.utils import Model
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 import gnomemusic.utils as utils
 
@@ -207,7 +208,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def _retrieval_finished(self, klass):
-        self.model[klass.iter][4] = klass.pixbuf
+        self.model[klass.iter][Model.Art] = klass.pixbuf
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
@@ -221,17 +222,10 @@ class BaseView(Gtk.Stack):
         artist = utils.get_artist_name(item)
         title = utils.get_media_title(item)
 
-        itr = self.model.append(None)
-
-        self.model[itr][0, 1, 2, 3, 5, 7, 9] = [
-            str(item.get_id()),
-            '',
-            title,
-            artist,
-            item,
-            0,
-            False
-        ]
+        self.model.insert_with_valuesv(
+            -1,
+            [Model.ID, Model.ARTIST, Model.TITLE, Model.ITEM, Model.FAVOURITE],
+            [item.get_id(), artist, title, item, False])
 
     @log
     def _add_list_renderers(self):
@@ -256,8 +250,8 @@ class BaseView(Gtk.Stack):
         while itr is not None:
             if self.model.iter_has_child(itr):
                 count += self._set_selection(value, itr)
-            if self.model[itr][5] is not None:
-                self.model[itr][6] = value
+            if self.model[itr][Model.ITEM] is not None:
+                self.model[itr][Model.SELECTED] = value
                 count += 1
             itr = self.model.iter_next(itr)
         return count
