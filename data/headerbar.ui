@@ -5,11 +5,11 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">Select All</attribute>
-        <attribute name="action">win.selectAll</attribute>
+        <attribute name="action">win.select_all</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Select None</attribute>
-        <attribute name="action">win.selectNone</attribute>
+        <attribute name="action">win.select_none</attribute>
       </item>
     </section>
   </menu>
