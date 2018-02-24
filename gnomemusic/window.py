@@ -112,7 +112,7 @@ class Window(Gtk.ApplicationWindow):
                     self.toolbar._search_button.set_sensitive(True)
                     self.toolbar._select_button.set_sensitive(True)
                     self.toolbar.show_stack()
-            elif (self.toolbar._selectionMode is False
+            elif (self.toolbar.selection_mode is False
                     and len(self.views) != 1):
                 self._stack.disconnect(self._on_notify_model_id)
                 self.disconnect(self._key_press_event_id)
@@ -296,7 +296,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _select_all(self):
-        if not self.toolbar._selectionMode:
+        if not self.toolbar.selection_mode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
@@ -307,7 +307,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _select_none(self):
-        if not self.toolbar._selectionMode:
+        if not self.toolbar.selection_mode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
             view = self._stack.get_visible_child()
@@ -400,7 +400,7 @@ class Window(Gtk.ApplicationWindow):
             if event.keyval == Gdk.KEY_Escape:
                 self.toolbar.searchbar.reveal(False)
                 # Also disable selection
-                if self.toolbar._selectionMode:
+                if self.toolbar.selection_mode:
                     self.toolbar.set_selection_mode(False)
 
         # Open the search bar when typing printable chars.
@@ -485,12 +485,12 @@ class Window(Gtk.ApplicationWindow):
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
 
-            if self.toolbar._selectionMode:
+            if self.toolbar.selection_mode:
                 self.toolbar.set_selection_mode(False)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.toolbar._selectionMode is False:
+        if self.toolbar.selection_mode is False:
             self._on_changes_pending()
         else:
             child = self._stack.get_visible_child()

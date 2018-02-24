@@ -46,7 +46,6 @@ class Toolbar(GObject.GObject):
     __gsignals__ = {
         'selection-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
-    _selectionMode = False
 
     def __repr__(self):
         return '<Toolbar>'
@@ -54,6 +53,8 @@ class Toolbar(GObject.GObject):
     @log
     def __init__(self):
         super().__init__()
+
+        self._selection_mode = False
 
         self._stack_switcher = Gtk.StackSwitcher(can_focus=False,
                                                  halign="center")
@@ -78,6 +79,14 @@ class Toolbar(GObject.GObject):
         self._back_button.connect('clicked', self.on_back_button_clicked)
         self._window = self.header_bar.get_parent()
 
+    @GObject.Property
+    def selection_mode(self):
+        return self._selection_mode
+
+    @selection_mode.setter
+    def selection_mode(self, mode):
+        self.set_selection_mode(mode)
+
     @log
     def reset_header_title(self):
         self.header_bar.set_title(_("Music"))
@@ -100,9 +109,9 @@ class Toolbar(GObject.GObject):
         self._stack_switcher.show()
 
     @log
-    def set_selection_mode(self, selectionMode):
-        self._selectionMode = selectionMode
-        if selectionMode:
+    def set_selection_mode(self, mode):
+        self._selection_mode = mode
+        if mode:
             self._select_button.hide()
             self._cancel_button.show()
             self.header_bar.get_style_context().add_class('selection-mode')
@@ -141,7 +150,7 @@ class Toolbar(GObject.GObject):
 
     @log
     def _update(self):
-        if self._selectionMode:
+        if self._selection_mode:
             self.header_bar.set_custom_title(self._selection_menu_button)
         elif self._state != ToolbarState.MAIN:
             self.header_bar.set_custom_title(None)
@@ -151,5 +160,5 @@ class Toolbar(GObject.GObject):
         self._search_button.set_visible(
             self._state != ToolbarState.SEARCH_VIEW)
         self._back_button.set_visible(
-            not self._selectionMode and self._state != ToolbarState.MAIN)
-        self.header_bar.set_show_close_button(not self._selectionMode)
+            not self._selection_mode and self._state != ToolbarState.MAIN)
+        self.header_bar.set_show_close_button(not self._selection_mode)
