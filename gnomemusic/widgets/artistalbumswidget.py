@@ -28,6 +28,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.utils import Model
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
 import gnomemusic.utils as utils
 
@@ -142,12 +143,12 @@ class ArtistAlbumsWidget(Gtk.Box):
             self._clean_model()
             return False
 
-        current_song = playlist[current_iter][5]
+        current_song = playlist[current_iter][Model.ITEM]
         song_passed = False
         itr = playlist.get_iter_first()
 
         while itr:
-            song = playlist[itr][5]
+            song = playlist[itr][Model.ITEM]
             song_widget = song.song_widget
 
             if not song_widget.can_be_played:
@@ -177,7 +178,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         itr = self._model.get_iter_first()
 
         while itr:
-            song = self._model[itr][5]
+            song = self._model[itr][Model.ITEM]
             song_widget = song.song_widget
             escaped_title = GLib.markup_escape_text(
                 utils.get_media_title(song))
@@ -217,7 +218,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         selected_items = 0
         for row in model:
-            if row[6]:
+            if row[Model.SELECTED]:
                 selected_items += 1
 
         add_button = self._selection_toolbar._add_to_playlist_button

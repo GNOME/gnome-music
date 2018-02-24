@@ -29,6 +29,7 @@ from gi.repository import Gdk, GObject, Gtk
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.utils import Model
 import gnomemusic.utils as utils
 
 
@@ -275,7 +276,7 @@ class DiscBox(Gtk.Box):
 
         if song_widget.check_button.get_active():
             itr = song_widget.itr
-            self._selected_items.append(self._model[itr][5])
+            self._selected_items.append(self._model[itr][Model.ITEM])
 
     # FIXME: select all/none slow probably b/c of the row changes
     # invocations, maybe workaround?
@@ -284,7 +285,7 @@ class DiscBox(Gtk.Box):
         """Select all songs"""
         def child_select_all(child):
             song_widget = child.get_child()
-            self._model[song_widget.itr][6] = True
+            self._model[song_widget.itr][Model.SELECTED] = True
 
         self._disc_songs_flowbox.foreach(child_select_all)
 
@@ -293,7 +294,7 @@ class DiscBox(Gtk.Box):
         """Deselect all songs"""
         def child_select_none(child):
             song_widget = child.get_child()
-            self._model[song_widget.itr][6] = False
+            self._model[song_widget.itr][Model.SELECTED] = False
 
         self._disc_songs_flowbox.foreach(child_select_none)
 
@@ -313,9 +314,9 @@ class DiscBox(Gtk.Box):
 
         title = utils.get_media_title(song)
 
-        itr = self._model.append(None)
-
-        self._model[itr][0, 1, 2, 5, 6] = ['', '', title, song, False]
+        itr = self._model.insert_with_valuesv(
+            -1, [Model.ID, Model.TITLE, Model.ITEM, Model.SELECTED],
+            ['', title, song, False])
 
         song_widget.itr = itr
         song_widget.model = self._model
@@ -371,7 +372,7 @@ class DiscBox(Gtk.Box):
         # FIXME: ugleh. Should probably be triggered by a
         # signal.
         favorite = song_widget.star_image.get_favorite()
-        grilo.set_favorite(self._model[song_widget.itr][5], favorite)
+        grilo.set_favorite(self._model[song_widget.itr][Model.ITEM], favorite)
         self._playlists.update_static_playlist(StaticPlaylists.Favorites)
 
         return True
@@ -400,23 +401,24 @@ class DiscBox(Gtk.Box):
             self.emit('song-activated', widget)
             if self._selection_mode:
                 itr = widget.itr
-                self._model[itr][6] = not self._model[itr][6]
+                selection_status = self._model[itr][Model.SELECTED]
+                self._model[itr][Model.SELECTED] = not selection_status
         else:
             self.emit('selection-toggle')
             if self._selection_mode:
                 itr = widget.itr
-                self._model[itr][6] = True
+                self._model[itr][Model.SELECTED] = True
 
         return True
 
     @log
     def _model_row_changed(self, model, path, itr):
         if (not self._selection_mode
-                or not model[itr][5]):
+                or not model[itr][Model.ITEM]):
             return
 
-        song_widget = model[itr][5].song_widget
-        selected = model[itr][6]
+        song_widget = model[itr][Model.ITEM].song_widget
+        selected = model[itr][Model.SELECTED]
         if selected != song_widget.check_button.get_active():
             song_widget.check_button.set_active(selected)
 
