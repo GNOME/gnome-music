@@ -69,7 +69,7 @@ class SongsView(BaseView):
     @log
     def _on_changes_pending(self, data=None):
         if (self._init
-                and not self._header_bar._selectionMode):
+                and not self._header_bar.selection_mode):
             self.model.clear()
             self._offset = 0
             GLib.idle_add(self.populate)
@@ -77,7 +77,7 @@ class SongsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if (not self._header_bar._selectionMode
+        if (not self._header_bar.selection_mode
                 and grilo.changes_pending['Songs']):
             self._on_changes_pending()
 

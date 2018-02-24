@@ -82,7 +82,7 @@ class ArtistsView(BaseView):
     @log
     def _on_changes_pending(self, data=None):
         if (self._init
-                and not self._header_bar._selectionMode):
+                and not self._header_bar.selection_mode):
             self.model.clear()
             self._artists.clear()
             self._offset = 0
@@ -203,8 +203,8 @@ class ArtistsView(BaseView):
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         self._artist_albums_stack.set_sensitive(
-            not self._header_bar._selectionMode)
-        if (not self._header_bar._selectionMode
+            not self._header_bar.selection_mode)
+        if (not self._header_bar.selection_mode
                 and grilo.changes_pending['Artists']):
             self._on_changes_pending()
 

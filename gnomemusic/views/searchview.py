@@ -156,7 +156,7 @@ class SearchView(BaseView):
         if (self._artist_albums_widget is not None
                 and self.get_visible_child() == self._artist_albums_widget):
             self._artist_albums_widget.set_selection_mode(
-                self._header_bar._selectionMode)
+                self._header_bar.selection_mode)
 
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):

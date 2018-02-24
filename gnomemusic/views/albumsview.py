@@ -55,7 +55,7 @@ class AlbumsView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and not self._header_bar._selectionMode):
+        if (self._init and not self._header_bar.selection_mode):
             self._offset = 0
             self._init = True
             GLib.idle_add(self.populate)
@@ -63,7 +63,7 @@ class AlbumsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if (not self._header_bar._selectionMode
+        if (not self._header_bar.selection_mode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
 
