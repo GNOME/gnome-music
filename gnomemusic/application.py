@@ -38,7 +38,6 @@ from gi.repository import Gtk, Gio, GLib, Gdk, Notify
 
 from gnomemusic import log
 from gnomemusic.mpris import MediaPlayer2Service
-from gnomemusic.notification import NotificationManager
 from gnomemusic.window import Window
 
 
@@ -112,7 +111,5 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             MediaPlayer2Service(self)
-            if self._settings.get_value('notifications'):
-                self._notifications = NotificationManager(self._window.player)
 
         self._window.present()
