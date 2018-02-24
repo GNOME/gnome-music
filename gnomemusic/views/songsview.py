@@ -29,6 +29,7 @@ from gi.repository import Gd, GLib, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
+from gnomemusic.utils import Model
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
 
@@ -93,7 +94,7 @@ class SongsView(BaseView):
             logger.warning("Error: {}, {}".format(err.__class__, err))
             return
 
-        if self.model[itr][8] != self._error_icon_name:
+        if self.model[itr][Model.ICON] != self._error_icon_name:
             self.player.set_playlist('Songs', None, self.model, itr)
             self.player.set_playing(True)
 
@@ -106,14 +107,14 @@ class SongsView(BaseView):
         :param current_iter: Iter of the current displayed song
         """
         if self._iter_to_clean:
-            self.model[self._iter_to_clean][10] = False
+            self.model[self._iter_to_clean][Model.TO_CLEAN] = False
         if playlist != self.model:
             return False
 
-        self.model[current_iter][10] = True
+        self.model[current_iter][Model.TO_CLEAN] = True
         path = self.model.get_path(current_iter)
         self._view.get_generic_view().scroll_to_path(path)
-        if self.model[current_iter][8] != self._error_icon_name:
+        if self.model[current_iter][Model.ICON] != self._error_icon_name:
             self._iter_to_clean = current_iter.copy()
         return False
 
@@ -132,12 +133,9 @@ class SongsView(BaseView):
         if not item.get_url():
             return
 
-        self.model.insert_with_valuesv(-1, [2, 3, 5, 9], [
-            utils.get_media_title(item),
-            artist,
-            item,
-            item.get_favourite()
-        ])
+        self.model.insert_with_valuesv(
+            -1, [Model.TITLE, Model.ARTIST, Model.ITEM, Model.FAVOURITE],
+            [utils.get_media_title(item), artist, item, item.get_favourite()])
 
     @log
     def _add_list_renderers(self):
@@ -204,7 +202,7 @@ class SongsView(BaseView):
         pass
 
     def _on_list_widget_duration_render(self, col, cell, model, itr, data):
-        item = model[itr][5]
+        item = model[itr][Model.ITEM]
         if item:
             seconds = item.get_duration()
             track_time = utils.seconds_to_string(seconds)
@@ -214,7 +212,7 @@ class SongsView(BaseView):
         pass
 
     def _on_list_widget_type_render(self, coll, cell, model, itr, data):
-        item = model[itr][5]
+        item = model[itr][Model.ITEM]
         if item:
             cell.set_property('text', utils.get_album_title(item))
 
@@ -226,7 +224,7 @@ class SongsView(BaseView):
         if model[itr][11] == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
-        elif model[itr][5].get_url() == track_uri:
+        elif model[itr][Model.ITEM].get_url() == track_uri:
             cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
@@ -248,5 +246,5 @@ class SongsView(BaseView):
         :returns: All selected songs
         :rtype: A list of songs
         """
-        callback([self.model[self.model.get_iter(path)][5]
+        callback([self.model[self.model.get_iter(path)][Model.ITEM]
                   for path in self._view.get_selection()])

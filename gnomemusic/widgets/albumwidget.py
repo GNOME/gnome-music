@@ -28,6 +28,7 @@ from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
+from gnomemusic.utils import Model
 from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
 import gnomemusic.utils as utils
 
@@ -293,7 +294,7 @@ class AlbumWidget(Gtk.EventBox):
         if (playlist != self._model):
             return True
 
-        current_song = playlist[current_iter][5]
+        current_song = playlist[current_iter][Model.ITEM]
 
         self._duration = 0
 
@@ -301,7 +302,7 @@ class AlbumWidget(Gtk.EventBox):
         _iter = playlist.get_iter_first()
 
         while _iter:
-            song = playlist[_iter][5]
+            song = playlist[_iter][Model.ITEM]
             song_widget = song.song_widget
             self._duration += song.get_duration()
             escaped_title = GLib.markup_escape_text(
