@@ -38,7 +38,6 @@ from gi.repository import Gtk, Gio, GLib, Gdk, Notify
 
 from gnomemusic import log
 from gnomemusic.mpris import MediaPlayer2Service
-from gnomemusic.notification import NotificationManager
 from gnomemusic.window import Window
 
 
