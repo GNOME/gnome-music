@@ -25,7 +25,7 @@
 import logging
 
 from gettext import gettext as _, ngettext
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
@@ -98,16 +98,16 @@ class ArtistAlbumsWidget(Gtk.Box):
     def _create_model(self):
         """Create the ListStore model for this widget."""
         self._model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
+            GObject.TYPE_STRING,   # title
             GObject.TYPE_STRING,
-            GObject.TYPE_STRING,    # placeholder
-            GObject.TYPE_OBJECT,  # song object
+            GdkPixbuf.Pixbuf,      # placeholder
+            GObject.TYPE_OBJECT,   # song object
             GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
+            GObject.TYPE_INT,
+            GObject.TYPE_STRING,   # rendering icon
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
