@@ -75,14 +75,7 @@ class Toolbar(GObject.GObject):
         self._selection_menu_label = self._ui.get_object(
             'selection-menu-button-label')
         self._selection_menu_button.set_relief(Gtk.ReliefStyle.NONE)
-        if Gtk.get_minor_version() >= 11:
-            self.header_bar.remove(self._select_button)
-            self.header_bar.remove(self._cancel_button)
-            self.header_bar.remove(self._search_button)
 
-            self.header_bar.pack_end(self._select_button)
-            self.header_bar.pack_end(self._cancel_button)
-            self.header_bar.pack_end(self._search_button)
         self._back_button.connect('clicked', self.on_back_button_clicked)
         self._window = self.header_bar.get_parent()
 
