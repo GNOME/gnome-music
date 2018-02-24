@@ -28,7 +28,7 @@ import codecs
 from gnomemusic.player import PlaybackStatus, RepeatType
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
-from gnomemusic.utils import View
+from gnomemusic.utils import Model, View
 import gnomemusic.utils as utils
 
 from gi.repository import GLib
@@ -350,7 +350,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_media_from_id(self, track_id):
         for track in self.player.playlist:
-            media = track[self.player.playlistField]
+            media = track[Model.ITEM]
             if track_id == self._get_media_id(media):
                 return media
         return None
@@ -358,7 +358,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_track_list(self):
         if self.player.playlist:
-            return [self._get_media_id(track[self.player.playlistField])
+            return [self._get_media_id(track[Model.ITEM])
                     for track in self.player.playlist]
         else:
             return []
@@ -496,7 +496,7 @@ class MediaPlayer2Service(Server):
     def _on_playlist_modified(self, path=None, _iter=None, data=None):
         if self.player.currentTrack and self.player.currentTrack.valid():
             path = self.player.currentTrack.get_path()
-            currentTrack = self.player.playlist[path][self.player.playlistField]
+            currentTrack = self.player.playlist[path][Model.ITEM]
             track_list = self._get_track_list()
             self.TrackListReplaced(track_list, self._get_media_id(currentTrack))
             self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -591,7 +591,7 @@ class MediaPlayer2Service(Server):
 
     def GoTo(self, track_id):
         for track in self.player.playlist:
-            media = track[self.player.playlistField]
+            media = track[Model.ITEM]
             if track_id == self._get_media_id(media):
                 self.player.set_playlist(self.player.playlistType,
                                          self.player.playlistId,
