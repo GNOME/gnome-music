@@ -95,14 +95,12 @@ class StarHandlerWidget(object):
         return '<StarHandlerWidget>'
 
     @log
-    def __init__(self, parent, star_index):
+    def __init__(self, parent):
         """Initialize.
 
         :param parent: The parent widget
-        :param int star_index: The column of the stars
         """
         self.star_renderer_click = False
-        self._star_index = star_index
         self._parent = parent
 
     @log
@@ -116,7 +114,7 @@ class StarHandlerWidget(object):
         star_renderer.connect("clicked", self._on_star_toggled)
 
         col.pack_start(star_renderer, False)
-        col.add_attribute(star_renderer, 'show_star', self._star_index)
+        col.add_attribute(star_renderer, 'show_star', 9)
         col.set_cell_data_func(col.get_cells()[-1], cell_data_func, None)
 
     @log
@@ -127,8 +125,8 @@ class StarHandlerWidget(object):
         except TypeError:
             return
 
-        new_value = not self._parent.model[_iter][self._star_index]
-        self._parent.model[_iter][self._star_index] = new_value
+        new_value = not self._parent.model[_iter][9]
+        self._parent.model[_iter][9] = new_value
         song_item = self._parent.model[_iter][5]
         grilo.toggle_favorite(song_item)
         playlists.update_static_playlist(StaticPlaylists.Favorites)

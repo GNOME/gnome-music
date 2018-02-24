@@ -90,7 +90,7 @@ class BaseView(Gtk.Stack):
         if not use_sidebar or sidebar:
             self._grid.add(self._box)
 
-        self._star_handler = StarHandlerWidget(self, 9)
+        self._star_handler = StarHandlerWidget(self)
         self._window = window
         self._header_bar = window.toolbar
         self._selection_toolbar = window.selection_toolbar
