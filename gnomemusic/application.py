@@ -112,7 +112,5 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             MediaPlayer2Service(self)
-            if self._settings.get_value('notifications'):
-                self._notifications = NotificationManager(self._window.player)
 
         self._window.present()
