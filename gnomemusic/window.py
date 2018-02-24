@@ -69,6 +69,13 @@ class Window(Gtk.ApplicationWindow):
 
         self.settings = Gio.Settings.new('org.gnome.Music')
         self.add_action(self.settings.create_action('repeat'))
+        selectAll = Gio.SimpleAction.new('selectAll', None)
+        selectAll.connect('activate', self._select_all)
+        self.add_action(selectAll)
+        selectNone = Gio.SimpleAction.new('selectNone', None)
+        selectNone.connect('activate', self._select_none)
+        self.add_action(selectNone)
+
         self.set_size_request(200, 100)
         self.set_default_icon_name('gnome-music')
 
@@ -295,7 +302,7 @@ class Window(Gtk.ApplicationWindow):
             GLib.idle_add(i.populate)
 
     @log
-    def _select_all(self):
+    def _select_all(self, action=None, param=None):
         if not self.toolbar._selectionMode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
@@ -306,7 +313,7 @@ class Window(Gtk.ApplicationWindow):
         view.select_all()
 
     @log
-    def _select_none(self):
+    def _select_none(self, action=None, param=None):
         if not self.toolbar._selectionMode:
             return
         if self.toolbar._state == ToolbarState.MAIN:
