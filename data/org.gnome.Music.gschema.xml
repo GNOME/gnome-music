@@ -33,11 +33,6 @@
             <summary>Search mode</summary>
             <description>If true, the search bar is shown.</description>
         </key>
-        <key type="b" name="notifications">
-            <default>true</default>
-            <summary>Notifications mode</summary>
-            <description>Enables or disables playback notifications</description>
-        </key>
         <key type="b" name="replaygain">
             <default>false</default>
             <summary>Enable ReplayGain</summary>
