@@ -143,7 +143,7 @@ class SearchView(BaseView):
             if self.model[_iter][11] != DiscoveryStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist(
-                    'Search Results', None, self._songs_model, c_iter, 5)
+                    'Search Results', None, self._songs_model, c_iter)
                 self.player.set_playing(True)
         else:  # Headers
             if self._view.get_generic_view().row_expanded(path):

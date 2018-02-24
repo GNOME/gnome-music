@@ -463,7 +463,7 @@ class MediaPlayer2Service(Server):
         if self.first_song_handler:
             model.disconnect(self.first_song_handler)
             self.first_song_handler = 0
-        self.player.set_playlist('Songs', None, model, iter_, 5)
+        self.player.set_playlist('Songs', None, model, iter_)
         self.player.set_playing(True)
 
     @log
@@ -596,8 +596,7 @@ class MediaPlayer2Service(Server):
                 self.player.set_playlist(self.player.playlistType,
                                          self.player.playlistId,
                                          self.player.playlist,
-                                         track.iter,
-                                         self.player.playlistField)
+                                         track.iter)
                 self.player.play()
                 return
 

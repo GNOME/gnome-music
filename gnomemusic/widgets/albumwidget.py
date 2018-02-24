@@ -243,7 +243,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._player.stop()
         self._player.set_playlist('Album', self._album, song_widget.model,
-                                  song_widget.itr, 5)
+                                  song_widget.itr)
         self._player.set_playing(True)
         return True
 
