@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-06 21:35+0000\n"
-"PO-Revision-Date: 2018-02-17 17:11+0100\n"
+"POT-Creation-Date: 2018-02-23 22:13+0000\n"
+"PO-Revision-Date: 2018-02-25 22:13+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -43,8 +43,8 @@ msgstr "Glazbeni svirač"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-msgid "gnome-music"
-msgstr "gnome-music"
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in:13
@@ -254,7 +254,7 @@ msgstr[2] "Odabrane {} stavke"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Kliknite na stavku za odabir"
 
@@ -274,7 +274,7 @@ msgstr "Hej DJ"
 msgid "Playlists"
 msgstr "Popis izvođenja"
 
-#: gnomemusic/views/playlistview.py:611
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -282,11 +282,11 @@ msgstr[0] "%d pjesma"
 msgstr[1] "%d pjesme"
 msgstr[2] "%d pjesama"
 
-#: gnomemusic/views/playlistview.py:654
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Popis izvođenja {} uklonjen"
 
-#: gnomemusic/views/playlistview.py:660
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "{} uklonjeno iz {}"
 
@@ -320,7 +320,7 @@ msgstr "Učitavanje"
 msgid "_Undo"
 msgstr "_Vrati"
 
-#: gnomemusic/window.py:252
+#: gnomemusic/window.py:245
 msgid "Empty"
 msgstr "Prazna"
 
@@ -416,23 +416,23 @@ msgstr "_Zatvori"
 msgid "Select All"
 msgstr "Odaberi sve"
 
-#: data/headerbar.ui:12
+#: data/headerbar.ui:11
 msgid "Select None"
 msgstr "Bez odabira"
 
-#: data/headerbar.ui:67
+#: data/headerbar.ui:66
 msgid "Search"
 msgstr "Pretraga"
 
-#: data/headerbar.ui:90
+#: data/headerbar.ui:89
 msgid "Select"
 msgstr "Odaberi"
 
-#: data/headerbar.ui:112 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Odustani"
 
-#: data/headerbar.ui:130
+#: data/headerbar.ui:129
 msgid "Back"
 msgstr "Natrag"
 
