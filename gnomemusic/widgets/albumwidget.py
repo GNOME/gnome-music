@@ -293,7 +293,7 @@ class AlbumWidget(Gtk.EventBox):
         if not player.running_playlist('Album', self._album):
             return True
 
-        current_song = playlist[current_iter][player.playlist_field]
+        current_song = playlist[current_iter][player.Field.PLAYLIST]
 
         self._duration = 0
 
@@ -301,7 +301,7 @@ class AlbumWidget(Gtk.EventBox):
         _iter = playlist.get_iter_first()
 
         while _iter:
-            song = playlist[_iter][player.playlist_field]
+            song = playlist[_iter][player.Field.PLAYLIST]
             song_widget = song.song_widget
             self._duration += song.get_duration()
             escaped_title = GLib.markup_escape_text(

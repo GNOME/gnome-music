@@ -134,20 +134,16 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _update_model(self, player, playlist, current_iter):
-        # this is not our playlist, return
-        if playlist != self._model:
-            # TODO, only clean once, but that can wait util we have clean
-            # the code a bit, and until the playlist refactoring.
-            # the overhead is acceptable for now
+        if not player.running_playlist('Artist', self.artist):
             self._clean_model()
             return False
 
-        current_song = playlist[current_iter][5]
+        current_song = playlist[current_iter][player.Field.PLAYLIST]
         song_passed = False
         itr = playlist.get_iter_first()
 
         while itr:
-            song = playlist[itr][5]
+            song = playlist[itr][player.Field.PLAYLIST]
             song_widget = song.song_widget
 
             if not song_widget.can_be_played:
