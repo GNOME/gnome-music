@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from queue import LifoQueue
+
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Gdk
 
@@ -43,6 +45,8 @@ class AlbumsView(BaseView):
     @log
     def __init__(self, window, player):
         super().__init__('albums', _("Albums"), window, None)
+
+        self._queue = LifoQueue()
         self._album_widget = AlbumWidget(player, self)
         self.player = player
         self.add(self._album_widget)
@@ -148,8 +152,20 @@ class AlbumsView(BaseView):
             child = self._create_album_item(item)
             self._view.add(child)
         elif remaining == 0:
-            self._window.notifications_popup.pop_loading()
             self._view.show()
+
+            # FIXME: To work around slow updating of the albumsview,
+            # load album covers with a fixed delay. This results in a
+            # quick first show with a placeholder cover and then a
+            # reasonably responsive view while loading the actual
+            # covers.
+            while not self._queue.empty():
+                func, arg = self._queue.get()
+                GLib.timeout_add(
+                    65 * self._queue.qsize(), func, arg,
+                    priority=GLib.PRIORITY_LOW)
+
+            self._window.notifications_popup.pop_loading()
 
     def _create_album_item(self, item):
         artist = utils.get_artist_name(item)
@@ -187,7 +203,7 @@ class AlbumsView(BaseView):
         child.show()
 
         cover_stack = CoverStack(child.stack, Art.Size.MEDIUM)
-        cover_stack.update(item)
+        self._queue.put((cover_stack.update, item))
 
         return child
 
