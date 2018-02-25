@@ -268,7 +268,8 @@ class PlaylistView(BaseView):
     def _update_model(self, player, playlist, current_iter):
         if self._iter_to_clean:
             self._iter_to_clean_model[self._iter_to_clean][10] = False
-        if playlist != self.model:
+        if not player.running_playlist(
+                'Playlist', self._current_playlist.get_id()):
             return False
 
         self.model[current_iter][10] = True
