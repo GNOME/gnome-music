@@ -58,7 +58,8 @@ class SmoothScale(Gtk.Scale):
         self._timeout = None
 
         self.connect('button-press-event', self._on_progress_scale_event)
-        self.connect('button-release-event', self._on_progress_scale_button_released)
+        self.connect(
+            'button-release-event', self._on_progress_scale_button_released)
         self.connect('change-value', self._on_progress_scale_seek)
 
     # FIXME: This is a workaround for not being able to pass the player
@@ -189,12 +190,12 @@ class SmoothScale(Gtk.Scale):
     def _on_progress_scale_change_value(self, scroll):
         seconds = scroll.get_value() / 60
         self._player.seek(seconds)
-#        try:
-            # FIXME mpris
-            # self.emit('seeked', seconds * 1000000)
-#        except TypeError:
-            # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
-#            pass
+        # try:
+        #   # FIXME mpris
+        #   self.emit('seeked', seconds * 1000000)
+        # except TypeError:
+        #   # See https://bugzilla.gnome.org/show_bug.cgi?id=733095
+        #   pass
 
         return True
 
@@ -204,4 +205,5 @@ class SmoothScale(Gtk.Scale):
         if position > 0:
             self.set_value(position * 60)
         self._update_timeout()
+
         return False
