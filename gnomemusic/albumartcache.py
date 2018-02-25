@@ -408,7 +408,7 @@ class Cache(GObject.GObject):
         if (success
                 and thumb_file.query_exists()):
             thumb_file.read_async(
-                GLib.PRIORITY_HIGH, None, self._open_stream, None)
+                GLib.PRIORITY_LOW, None, self._open_stream, None)
             return
 
         self.emit('miss')
@@ -420,7 +420,7 @@ class Cache(GObject.GObject):
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
             stream.close_async(
-                GLib.PRIORITY_HIGH, None, self._close_stream, None)
+                GLib.PRIORITY_LOW, None, self._close_stream, None)
             self.emit('miss')
             return
 
@@ -434,11 +434,11 @@ class Cache(GObject.GObject):
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
             stream.close_async(
-                GLib.PRIORITY_HIGH, None, self._close_stream, None)
+                GLib.PRIORITY_LOW, None, self._close_stream, None)
             self.emit('miss')
             return
 
-        stream.close_async(GLib.PRIORITY_HIGH, None, self._close_stream, None)
+        stream.close_async(GLib.PRIORITY_LOW, None, self._close_stream, None)
         self.emit('hit', pixbuf)
 
     @log
@@ -579,7 +579,7 @@ class EmbeddedArt(GObject.GObject):
         self._media_art.uri_async(
             MediaArt.Type.ALBUM, MediaArt.ProcessFlags.NONE,
             self._media.get_url(), self._artist, self._album,
-            GLib.PRIORITY_HIGH, None, self._uri_async_cb, None)
+            GLib.PRIORITY_LOW, None, self._uri_async_cb, None)
 
     @log
     def _uri_async_cb(self, src, result, data):
@@ -646,7 +646,7 @@ class RemoteArt(GObject.GObject):
         tmp_file, iostream = data
 
         iostream.close_async(
-            GLib.PRIORITY_HIGH, None, self._close_iostream_callback, None)
+            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
 
         try:
             src.splice_finish(result)
@@ -673,7 +673,7 @@ class RemoteArt(GObject.GObject):
         self.emit('retrieved')
 
         tmp_file.delete_async(
-            GLib.PRIORITY_HIGH, None, self._delete_callback, None)
+            GLib.PRIORITY_LOW, None, self._delete_callback, None)
 
     @log
     def _close_iostream_callback(self, src, result, data):
@@ -703,7 +703,7 @@ class RemoteArt(GObject.GObject):
         # closed. PyGI specific issue?
         ostream.splice_async(
             istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE |
-            Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_HIGH,
+            Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
             None, self._splice_callback, [tmp_file, iostream])
 
     @log
@@ -721,4 +721,4 @@ class RemoteArt(GObject.GObject):
 
         src = Gio.File.new_for_uri(thumb_uri)
         src.read_async(
-            GLib.PRIORITY_HIGH, None, self._read_callback, None)
+            GLib.PRIORITY_LOW, None, self._read_callback, None)
