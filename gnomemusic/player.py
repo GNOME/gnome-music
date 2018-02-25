@@ -107,7 +107,7 @@ class Player(GObject.GObject):
         self.playlist = None
         self.playlistType = None
         self.playlistId = None
-        self.playlist_field = 5
+        self.playlist_field = 0
         self.currentTrack = None
         self._current_track_uri = None
         self._missingPluginMessages = []
@@ -137,9 +137,6 @@ class Player(GObject.GObject):
         self.bus.connect('message::element', self._on_bus_element)
         self.bus.connect('message::eos', self._on_bus_eos)
         self._setup_view()
-
-        self.playlist_insert_handler = 0
-        self.playlist_delete_handler = 0
 
         self._lastfm = LastFmScrobbler()
 
@@ -343,8 +340,9 @@ class Player(GObject.GObject):
         media = self.get_current_media()
         if media is not None:
             if self.currentTrack and self.currentTrack.valid():
-                currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-                self.playlist.set_value(currentTrack, self.discovery_status_field, DiscoveryStatus.FAILED)
+                currentTrack = self.playlist.get_iter(
+                    self.currentTrack.get_path())
+                self.playlist[currentTrack][1] = DiscoveryStatus.FAILED
             uri = media.get_url()
         else:
             uri = 'none'
@@ -391,7 +389,26 @@ class Player(GObject.GObject):
         self.play()
 
     @log
-    def _on_playlist_size_changed(self, path, _iter=None, data=None):
+    def add_song(self, model, path, _iter):
+        new_row = model[_iter]
+        self.playlist.insert_with_valuesv(
+            int(path.to_string()), [0, 1],
+            [new_row[5], new_row[self._discovery_status_field]])
+        self._validate_next_track()
+        self._sync_prev_next()
+
+    @log
+    def remove_song(self, model, path):
+        iter_remove = self.playlist.get_iter_from_string(path.to_string())
+        if (self.currentTrack.get_path().to_string() == path.to_string()):
+            if self.has_next():
+                self.play_next()
+            elif self.has_previous():
+                self.play_previous()
+            else:
+                self.Stop()
+        self.playlist.remove(iter_remove)
+        self._validate_next_track()
         self._sync_prev_next()
 
     @log
@@ -612,7 +629,7 @@ class Player(GObject.GObject):
     def _on_next_item_validated(self, info, error, _iter):
         if error:
             print("Info %s: error: %s" % (info, error))
-            self.playlist.set_value(_iter, self.discovery_status_field, DiscoveryStatus.FAILED)
+            self.playlist[_iter][1] = DiscoveryStatus.FAILED
             nextTrack = self.playlist.iter_next(_iter)
 
             if nextTrack:
@@ -629,7 +646,7 @@ class Player(GObject.GObject):
             return
 
         _iter = self.playlist.get_iter(self.nextTrack.get_path())
-        status = self.playlist[_iter][self.discovery_status_field]
+        status = self.playlist[_iter][1]
         next_song = self.playlist[_iter][self.playlist_field]
         url = next_song.get_url()
 
@@ -731,30 +748,36 @@ class Player(GObject.GObject):
         else:
             self.set_playing(True)
 
+    @log
+    def _create_model(self, model, model_iter):
+        new_model = Gtk.ListStore(GObject.TYPE_OBJECT, GObject.TYPE_INT)
+        song_id = model[model_iter][5].get_id()
+        new_path = None
+        for row in model:
+            current_iter = new_model.insert_with_valuesv(
+                -1, [0, 1], [row[5], row[self._discovery_status_field]])
+            if row[5].get_id() == song_id:
+                new_path = new_model.get_path(current_iter)
+
+        return new_model, new_path
+
     # FIXME: set the discovery field to 11 to be safe, but for some
     # models it is 12.
     @log
-    def set_playlist(self, type, id, model, iter, discovery_status_field=11):
-        old_playlist = self.playlist
-        if old_playlist != model:
-            self.playlist = model
-            if self.playlist_insert_handler:
-                old_playlist.disconnect(self.playlist_insert_handler)
-            if self.playlist_delete_handler:
-                old_playlist.disconnect(self.playlist_delete_handler)
-
-        self.playlistType = type
-        self.playlistId = id
-        self.currentTrack = Gtk.TreeRowReference.new(model, model.get_path(iter))
+    def set_playlist(
+            self, type_, id_, model, iter_, discovery_status_field=11):
+        self._discovery_status_field = discovery_status_field
+        self.playlist, playlist_path = self._create_model(model, iter_)
+        self.currentTrack = Gtk.TreeRowReference.new(
+            self.playlist, playlist_path)
         self._set_current_track_uri()
-        self.discovery_status_field = discovery_status_field
 
-        if old_playlist != model:
-            self.playlist_insert_handler = model.connect('row-inserted', self._on_playlist_size_changed)
-            self.playlist_delete_handler = model.connect('row-deleted', self._on_playlist_size_changed)
+        if type_ != self.playlistType or id_ != self.playlistId:
             self.emit('playlist-changed')
-        self.emit('current-changed')
 
+        self.playlistType = type_
+        self.playlistId = id_
+        self.emit('current-changed')
         GLib.idle_add(self._validate_next_track)
 
     @log
@@ -1063,7 +1086,7 @@ class Player(GObject.GObject):
         if not self.currentTrack or not self.currentTrack.valid():
             return None
         currentTrack = self.playlist.get_iter(self.currentTrack.get_path())
-        if self.playlist[currentTrack][self.discovery_status_field] == DiscoveryStatus.FAILED:
+        if self.playlist[currentTrack][1] == DiscoveryStatus.FAILED:
             return None
         return self.playlist[currentTrack][self.playlist_field]
 

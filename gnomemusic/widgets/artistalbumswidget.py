@@ -134,20 +134,15 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _update_model(self, player, playlist, current_iter):
-        # this is not our playlist, return
-        if playlist != self._model:
-            # TODO, only clean once, but that can wait util we have clean
-            # the code a bit, and until the playlist refactoring.
-            # the overhead is acceptable for now
-            self._clean_model()
+        if not player.running_playlist('Artist', self.artist):
             return False
 
-        current_song = playlist[current_iter][5]
+        current_song = playlist[current_iter][player.playlist_field]
         song_passed = False
         itr = playlist.get_iter_first()
 
         while itr:
-            song = playlist[itr][5]
+            song = playlist[itr][player.playlist_field]
             song_widget = song.song_widget
 
             if not song_widget.can_be_played:
@@ -169,22 +164,6 @@ class ArtistAlbumsWidget(Gtk.Box):
                 song_widget.title.set_markup(
                     '<span color=\'grey\'>%s</span>' % escaped_title)
             itr = playlist.iter_next(itr)
-
-        return False
-
-    @log
-    def _clean_model(self):
-        itr = self._model.get_iter_first()
-
-        while itr:
-            song = self._model[itr][5]
-            song_widget = song.song_widget
-            escaped_title = GLib.markup_escape_text(
-                utils.get_media_title(song))
-            if song_widget.can_be_played:
-                song_widget.now_playing_sign.hide()
-            song_widget.title.set_markup('<span>%s</span>' % escaped_title)
-            itr = self._model.iter_next(itr)
 
         return False
 
