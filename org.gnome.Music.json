@@ -1,7 +1,7 @@
 {
     "app-id": "org.gnome.Music",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.26",
+    "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
     "tags": ["nightly"],
