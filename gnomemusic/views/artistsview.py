@@ -130,11 +130,8 @@ class ArtistsView(BaseView):
         widget = self._artists[artist.casefold()]['widget']
 
         if widget:
-            artist_widget_model = self.player.running_playlist(
-                'Artist', widget.artist)
             artist_stack = self._artist_albums_stack
-            # FIXME: calling to private model
-            if widget._model == artist_widget_model:
+            if self.player.running_playlist('Artist', widget.artist):
                 self._artist_albums_widget = widget.get_parent()
                 GLib.idle_add(self._artist_albums_stack.set_visible_child,
                               self._artist_albums_widget)
