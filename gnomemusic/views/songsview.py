@@ -110,11 +110,13 @@ class SongsView(BaseView):
         if not player.running_playlist('Songs', None):
             return False
 
-        self.model[current_iter][10] = True
-        path = self.model.get_path(current_iter)
+        pos_str = playlist.get_path(current_iter).to_string()
+        iter_ = self.model.get_iter_from_string(pos_str)
+        self.model[iter_][10] = True
+        path = self.model.get_path(iter_)
         self._view.get_generic_view().scroll_to_path(path)
-        if self.model[current_iter][8] != self._error_icon_name:
-            self._iter_to_clean = current_iter.copy()
+        if self.model[iter_][8] != self._error_icon_name:
+            self._iter_to_clean = iter_.copy()
         return False
 
     def _add_item(self, source, param, item, remaining=0, data=None):
