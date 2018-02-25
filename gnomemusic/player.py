@@ -534,7 +534,10 @@ class Player(GObject.GObject):
 
     @log
     def play_pause(self):
-        self._sync_playing()
+        if self._player.state == Playback.PLAYING:
+            self.set_playing(False)
+        else:
+            self.set_playing(True)
 
     # FIXME: set the discovery field to 11 to be safe, but for some
     # models it is 12.
