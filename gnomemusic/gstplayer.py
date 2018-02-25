@@ -123,8 +123,8 @@ class GstPlayer(GObject.GObject):
     def _on_new_clock(self, bus, message):
         print("NEW CLOCK")
         clock = message.parse_new_clock()
-        id = clock.new_periodic_id(0, 1 * 10**9)
-        clock.id_wait_async(id, self._on_clock_tick, None)
+        id_ = clock.new_periodic_id(0, 1 * 10**9)
+        clock.id_wait_async(id_, self._on_clock_tick, None)
 
     @log
     def _on_clock_lost(self, bus, message):
