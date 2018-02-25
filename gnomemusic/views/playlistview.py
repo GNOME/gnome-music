@@ -150,8 +150,6 @@ class PlaylistView(BaseView):
         playlists.connect('playlist-updated', self._on_playlist_update)
         playlists.connect(
             'song-added-to-playlist', self._on_song_added_to_playlist)
-        playlists.connect(
-            'song-position-changed', self._on_song_position_changed)
 
         self.show_all()
 
@@ -272,9 +270,11 @@ class PlaylistView(BaseView):
                 'Playlist', self._current_playlist.get_id()):
             return False
 
-        self.model[current_iter][10] = True
-        if self.model[current_iter][8] != self._error_icon_name:
-            self._iter_to_clean = current_iter.copy()
+        pos_str = playlist.get_path(current_iter).to_string()
+        iter_ = self.model.get_iter_from_string(pos_str)
+        self.model[iter_][10] = True
+        if self.model[iter_][8] != self._error_icon_name:
+            self._iter_to_clean = iter_.copy()
             self._iter_to_clean_model = self.model
 
         return False
@@ -409,19 +409,26 @@ class PlaylistView(BaseView):
         if abs(new_pos - prev_pos) == 1:
             return
 
-        # If playing song position has changed, update player's playlist.
-        if self.player.playing and not self.player.currentTrack.valid():
-            pos = new_pos
-            if new_pos > prev_pos:
-                pos -= 1
-            new_iter = self.model.get_iter_from_string(str(pos))
-            self._iter_to_clean = new_iter
-            self.player.set_playlist(
-                'Playlist', self._current_playlist.get_id(), self.model,
-                new_iter)
-
         first_pos = min(new_pos, prev_pos)
         last_pos = max(new_pos, prev_pos)
+
+        # update player's playlist.
+        if self.player.running_playlist(
+                'Playlist', self._current_playlist.get_id()):
+            playing_old_path = self.player.currentTrack.get_path().to_string()
+            playing_old_pos = int(playing_old_path)
+            iter_ = model.get_iter_from_string(playing_old_path)
+            # if playing song position has changed
+            if playing_old_pos >= first_pos and playing_old_pos < last_pos:
+                current_player_song = self.player.get_current_media()
+                for row in model:
+                    if row[5].get_id() == current_player_song.get_id():
+                        iter_ = row.iter
+                        self._iter_to_clean = iter_
+                        self._iter_to_clean_model = model
+                        break
+            self.player.set_playlist(
+                'Playlist', self._current_playlist.get_id(), model, iter_)
 
         positions = []
         songs = []
@@ -586,18 +593,18 @@ class PlaylistView(BaseView):
         """
         if not song:
             self._update_songs_count()
-            if self.player.playlist:
-                self.player._validate_next_track()
             self.emit('playlist-songs-loaded')
-            return
+            return None
 
         title = utils.get_media_title(song)
         song.set_title(title)
         artist = utils.get_artist_name(song)
-        model.insert_with_valuesv(index, [2, 3, 5, 9],
-                                  [title, artist, song, song.get_favourite()])
+        iter_ = model.insert_with_valuesv(
+            index, [2, 3, 5, 9],
+            [title, artist, song, song.get_favourite()])
 
         self._songs_count += 1
+        return iter_
 
     @log
     def _update_songs_count(self):
@@ -708,8 +715,12 @@ class PlaylistView(BaseView):
             playlist = song_todelete['playlist']
             if (self._current_playlist
                     and playlist.get_id() == self._current_playlist.get_id()):
-                self._add_song_to_model(
+                iter_ = self._add_song_to_model(
                     song_todelete['song'], self.model, song_todelete['index'])
+                if self.player.running_playlist(
+                        'Playlist', self._current_playlist.get_id()):
+                    path = self.model.get_path(iter_)
+                    self.player.add_song(self.model, path, iter_)
                 self._update_songs_count()
             self._songs_todelete.pop(media_id)
 
@@ -776,22 +787,13 @@ class PlaylistView(BaseView):
         self._add_playlist_to_sidebar(playlist)
 
     @log
-    def _row_is_playing(self, playlist, row):
-        """Check if row is being played"""
-        if (self._is_current_playlist(playlist)
-                and self.player.currentTrack is not None
-                and self.player.currentTrack.valid()):
-                track_path = self.player.currentTrack.get_path()
-                track_path_str = track_path.to_string()
-                if (row.path is not None
-                        and row.path.to_string() == track_path_str):
-                    return True
-        return False
-
-    @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if self._is_current_playlist(playlist):
-            self._add_song_to_model(item, self.model)
+            iter_ = self._add_song_to_model(item, self.model)
+            if self.player.running_playlist(
+                    'Playlist', self._current_playlist.get_id()):
+                path = self.model.get_path(iter_)
+                self.player.add_song(self.model, path, iter_)
 
     @log
     def _remove_song_from_playlist(self, playlist, item):
@@ -800,49 +802,19 @@ class PlaylistView(BaseView):
         else:
             return
 
-        # checks if the to be removed track is now being played
         for row in model:
             if row[5].get_id() == item.get_id():
+                iter_ = row.iter
+                if self.player.running_playlist(
+                        'Playlist', self._current_playlist.get_id()):
+                    path = model.get_path(iter_)
+                    self.player.remove_song(model, path)
+                model.remove(iter_)
+                break
 
-                is_being_played = self._row_is_playing(playlist, row)
-
-                next_iter = model.iter_next(row.iter)
-                model.remove(row.iter)
-
-                # Reload the model and switch to next song
-                if is_being_played:
-                    if next_iter is None:
-                        # Get first track if next track is not valid
-                        next_iter = model.get_iter_first()
-                        if next_iter is None:
-                            # Last track was removed
-                            return
-
-                    self._iter_to_clean = None
-                    self._update_model(self.player, model, next_iter)
-                    self.player.set_playlist(
-                        'Playlist', playlist.get_id(), model, next_iter)
-                    self.player.set_playing(True)
-
-                # Update songs count
-                self._songs_count -= 1
-                self._update_songs_count()
-                return
-
-    @log
-    def _on_song_position_changed(self, playlists, playlist, item):
-        """ If song is currently played, update next track"""
-        if not self._is_current_playlist(playlist):
-            return
-
-        if self.player.playing:
-            for row in self.model:
-                if (row[5].get_id() == item.get_id()
-                        and self._row_is_playing(playlist, row)):
-                    self._iter_to_clean = row.iter
-                    self.player.set_playlist(
-                        'Playlist', playlist.get_id(), self.model, row.iter)
-                    return
+        self._songs_count -= 1
+        self._update_songs_count()
+        return
 
     @log
     def populate(self):
