@@ -656,9 +656,8 @@ class Player(GObject.GObject):
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
                 playlists.update_all_static_playlists()
-                # FIXME: problematic with clock tick
-                # grilo.bump_play_count(current_media)
-                # grilo.set_last_played(current_media)
+                grilo.bump_play_count(current_media)
+                grilo.set_last_played(current_media)
 
     @log
     def _on_play_button_clicked(self, button):
