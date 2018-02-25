@@ -688,7 +688,7 @@ class PlaylistView(BaseView):
         self._sidebar.remove(selection)
 
         if self.player.running_playlist('Playlist', playlist_id):
-            self.player.Stop()
+            self.player.stop()
             self.player.actionbar.set_visible(False)
 
         if row_next:

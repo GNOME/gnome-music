@@ -545,7 +545,7 @@ class MediaPlayer2Service(Server):
         self.player.play_pause()
 
     def Stop(self):
-        self.player.Stop()
+        self.player.stop()
 
     def Play(self):
         if self.player.playlist is not None:
