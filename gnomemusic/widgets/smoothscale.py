@@ -24,8 +24,7 @@
 
 import logging
 
-from gettext import gettext as _
-from gi.repository import Gdk, GLib, GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.gstplayer import Playback
