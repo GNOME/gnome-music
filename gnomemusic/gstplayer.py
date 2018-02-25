@@ -188,10 +188,11 @@ class GstPlayer(GObject.GObject):
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warn("URI: {}".format(self.url))
-        logger.warn(
-            "Error from element {}: {}", message.src.get_name(), error.message)
-        logger.warn("Debugging info:\n{}", debug)
+        logger.warning("URI: {}".format(self.url))
+        logger.warning(
+            "Error from element {}: {}".format(
+                message.src.get_name(), error.message))
+        logger.warning("Debugging info:\n{}".format(debug))
 
         self.emit('eos')
         return True
