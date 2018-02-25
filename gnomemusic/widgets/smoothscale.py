@@ -46,10 +46,10 @@ class SmoothScale(Gtk.Scale):
         return '<SmoothScale>'
 
     @log
-    def __init__(self): #, player):
+    def __init__(self):
         super().__init__()
 
-        self._player = None #player
+        self._player = None
         self._old_progress_scale_value = 0.0
         self.set_increments(300, 600)
         self._seek_timeout = None
@@ -61,6 +61,8 @@ class SmoothScale(Gtk.Scale):
         self.connect('button-release-event', self._on_progress_scale_button_released)
         self.connect('change-value', self._on_progress_scale_seek)
 
+    # FIXME: This is a workaround for not being able to pass the player
+    # object via init when using Gtk.Builder.
     @GObject.Property
     @log
     def player(self):
