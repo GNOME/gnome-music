@@ -130,7 +130,8 @@ class Player(GObject.GObject):
     def discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
-            logger.warn("The item %s doesn't have a URL set", item)
+            logger.warning(
+                "The item {} doesn't have a URL set.".format(item))
             return
 
         if not url.startswith("file://"):
