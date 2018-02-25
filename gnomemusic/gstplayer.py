@@ -149,8 +149,13 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _on_duration_changed(self, bus, message):
-        self._duration = self._player.query_duration(
-            Gst.Format.TIME)[1] / 10**9
+        success, duration = self._player.query_duration(
+            Gst.Format.TIME)
+
+        if success:
+            self.duration = duration / 10**9
+        else:
+            self.duration = None
 
     @log
     def _on_bus_element(self, bus, message):
@@ -251,15 +256,12 @@ class GstPlayer(GObject.GObject):
         if self.state == Playback.STOPPED:
             return None
 
-        success, duration = self._player.query_duration(
-            Gst.Format.TIME)
-
-        if success:
-            self._duration = duration / 10**9
-        else:
-            self._duration = None
-
         return self._duration
+
+    @duration.setter
+    @log
+    def duration(self, duration):
+        self._duration = duration
 
     @GObject.Property
     @log
