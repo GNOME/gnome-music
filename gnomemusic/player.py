@@ -203,7 +203,7 @@ class Player(GObject.GObject):
             elif self.has_previous():
                 self.play_previous()
             else:
-                self.Stop()
+                self.stop()
 
         self.playlist.remove(iter_remove)
         self._validate_next_track()
@@ -718,13 +718,6 @@ class Player(GObject.GObject):
         self.emit('repeat-mode-changed')
 
     # MPRIS
-
-    @log
-    def Stop(self):
-        self._play_button.set_image(self._play_image)
-        self.stop()
-        self.emit('playback-status-changed')
-
     @log
     def get_playback_status(self):
         # FIXME: Just a proxy right now.
