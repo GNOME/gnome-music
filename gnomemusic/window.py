@@ -204,7 +204,7 @@ class Window(Gtk.ApplicationWindow):
         if "Play" in response:
             self.player.play_pause()
         elif "Stop" in response:
-            self.player.Stop()
+            self.player.stop()
         elif "Next" in response:
             self.player.play_next()
         elif "Previous" in response:
@@ -392,7 +392,7 @@ class Window(Gtk.ApplicationWindow):
                 self.player.play_pause()
 
             if event.keyval == Gdk.KEY_AudioStop:
-                self.player.Stop()
+                self.player.stop()
 
             if event.keyval == Gdk.KEY_AudioPrev:
                 self.player.play_prev()
@@ -435,7 +435,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _notify_mode_disconnect(self, data=None):
-        self.player.Stop()
+        self.player.stop()
         self.notifications_popup.terminate_pending()
         self._stack.disconnect(self._on_notify_model_id)
 
