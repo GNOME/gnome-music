@@ -13,15 +13,25 @@ Follow the guide at https://wiki.gnome.org/Newcomers/ and choose Music as your p
 
 ### Build Music
 
-Music uses the [meson](http://mesonbuild.com/) build system.
+Music uses the [meson](http://mesonbuild.com/) build system. Use the following commands to build Music from the source directory:
 
-```
-meson builddir
-cd builddir
-ninja
+```sh
+$ meson _build
+$ cd _build
+$ ninja
 ```
 
-Then you can either run in the build dir by doing `./local-music` or install system-wide by doing `ninja install`.
+Then you can either run in the build dir by running:
+
+```sh
+$ ./local-music
+```
+
+You can also install Music system-wide by running:
+
+```sh
+$ ninja install
+```
 
 # Coding style
 
