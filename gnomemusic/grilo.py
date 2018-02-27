@@ -315,13 +315,9 @@ class Grilo(GObject.GObject):
         else:
             song_item.set_favourite(True)
 
-        # FIXME: We assume this is the tracker plugin.
-        # FIXME: Doing this async crashes
-        try:
-            self.tracker.store_metadata_sync(
-                song_item, [Grl.METADATA_KEY_FAVOURITE], Grl.WriteFlags.NORMAL)
-        except GLib.Error as error:
-            logger.warning("Error {}: {}".format(error.domain, error.message))
+        self.tracker.store_metadata_sync(
+            song_item, [Grl.METADATA_KEY_FAVOURITE], Grl.WriteFlags.NORMAL,
+            self._store_metadata_cb, None)
 
     @log
     def set_favorite(self, song_item, favorite):
@@ -403,13 +399,9 @@ class Grilo(GObject.GObject):
         count = media.get_play_count()
         media.set_play_count(count + 1)
 
-        # FIXME: We assume this is the tracker plugin.
-        # FIXME: Doing this async crashes
-        try:
-            self.tracker.store_metadata_sync(
-                media, [Grl.METADATA_KEY_PLAY_COUNT], Grl.WriteFlags.NORMAL)
-        except GLib.Error as error:
-            logger.warning("Error {}: {}".format(error.domain, error.message))
+        self.tracker.store_metadata(
+            media, [Grl.METADATA_KEY_PLAY_COUNT], Grl.WriteFlags.NORMAL,
+            self._store_metadata_cb, None)
 
     @log
     def set_last_played(self, media):
@@ -419,13 +411,15 @@ class Grilo(GObject.GObject):
         :param media: A Grilo media item
         """
         media.set_last_played(GLib.DateTime.new_now_utc())
-        # FIXME: We assume this is the tracker plugin.
-        # FIXME: Doing this async crashes
-        try:
-            self.tracker.store_metadata_sync(
-                media, [Grl.METADATA_KEY_LAST_PLAYED], Grl.WriteFlags.NORMAL)
-        except GLib.Error as error:
-            logger.warning("Error {}: {}".format(error.domain, error.message))
+
+        self.tracker.store_metadata_sync(
+            media, [Grl.METADATA_KEY_LAST_PLAYED], Grl.WriteFlags.NORMAL,
+            self._store_metadata_cb, None)
+
+    @log
+    def _store_metadata_cb(source, op_id, media, data, error):
+        logger.warning("Error {}: {} for {}".format(
+            error.domain, error.message, media.get_title()))
 
     @log
     def songs_available(self, callback):
