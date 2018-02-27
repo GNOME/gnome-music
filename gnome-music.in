@@ -40,7 +40,8 @@ _LOCAL = @local_build@
 
 # In the local use case the installed schemas go in <builddir>/data
 if _LOCAL:
-    os.environ["XDG_DATA_DIRS"] = '@schemasdir@:' + os.environ["XDG_DATA_DIRS"]
+    os.environ["XDG_DATA_DIRS"] = '@schemasdir@:' + \
+        os.environ.get("XDG_DATA_DIRS", "")
 
 import gi
 
