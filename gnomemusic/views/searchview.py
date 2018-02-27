@@ -306,6 +306,15 @@ class SearchView(BaseView):
 
         self._star_handler.add_star_renderers(list_widget, cols[0])
         cells = cols[0].get_cells()
+
+        # With the bugfix in libgd 9117650bda, the search results
+        # stopped aligning at the top. With the artists results not
+        # having a second line of text, this looks off.
+        # Revert to old behaviour by forcing the alignment to be top.
+        # FIXME: Revisit this when rewriting the searchview.
+        gd_twolines_renderer = cells[2]
+        gd_twolines_renderer.props.yalign = 0
+
         cols[0].reorder(cells[0], -1)
         cols[0].reorder(cells[4], 1)
         cols[0].set_cell_data_func(
