@@ -1,28 +1,28 @@
 # Brazilian Portuguese translation for gnome-music.
-# Copyright (C) 2017 gnome-music's COPYRIGHT HOLDER
+# Copyright (C) 2018 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
 # Georges Basile Stavracas Neto <georges.stavracas@gmail.com>, 2013.
 # Antonio Fernandes C. Neto <fernandesn@gnome.org>, 2013.
 # Avelino <adelino.avelino@academico.ifrn.edu.br>, 2013.
 # Ricardo Barbosa <barbosa.cisco@gmail.com>, 2014.
 # Felipe Braga <fbobraga@gmail.com>, 2015.
-# Enrico Nicoletto <liverig@gmail.com>, 2013, 2014, 2015, 2016.
-# Rafael Fontenelle <rafaelff@gnome.org>, 2012, 2013, 2014, 2017.
+# Enrico Nicoletto <liverig@gmail.com>, 2013-2016.
+# Rafael Fontenelle <rafaelff@gnome.org>, 2012-2014, 2017-2018.
 # Fábio Nogueira <fnogueira@gnome.org> 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-15 13:34+0000\n"
-"PO-Revision-Date: 2018-02-10 16:58-0300\n"
-"Last-Translator: Fábio Nogueira <fnogueira@gnome.org>\n"
+"POT-Creation-Date: 2018-02-23 22:13+0000\n"
+"PO-Revision-Date: 2018-02-28 09:53-0200\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Virtaal 1.0.0-beta1\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
@@ -49,8 +49,9 @@ msgstr "Reprodutor de músicas"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-msgid "gnome-music"
-msgstr "gnome-music"
+#| msgid "gnome-music"
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in:13
@@ -278,18 +279,18 @@ msgstr "Ei DJ"
 msgid "Playlists"
 msgstr "Listas de reprodução"
 
-#: gnomemusic/views/playlistview.py:603
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d música"
 msgstr[1] "%d músicas"
 
-#: gnomemusic/views/playlistview.py:646
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Lista de reprodução {} removida"
 
-#: gnomemusic/views/playlistview.py:652
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "{} removida de {}"
 
