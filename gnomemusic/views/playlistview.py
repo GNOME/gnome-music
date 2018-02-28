@@ -679,6 +679,10 @@ class PlaylistView(BaseView):
                     or self._sidebar.get_row_at_index(index - 1))
         self._sidebar.remove(selection)
 
+        if self.player.running_playlist('Playlist', playlist_id):
+            self.player.Stop()
+            self.player.actionbar.set_visible(False)
+
         if row_next:
             self._sidebar.select_row(row_next)
             self._sidebar.emit('row-activated', row_next)
