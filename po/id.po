@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-05 16:40+0000\n"
-"PO-Revision-Date: 2018-02-06 11:00+0700\n"
+"POT-Creation-Date: 2018-02-23 22:13+0000\n"
+"PO-Revision-Date: 2018-02-28 16:56+0700\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -43,8 +43,8 @@ msgstr "Pemutar Musik"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-msgid "gnome-music"
-msgstr "gnome-music"
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in:13
@@ -250,7 +250,7 @@ msgstr[0] "Dipilih {} butir"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
@@ -270,17 +270,17 @@ msgstr "Hey DJ"
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: gnomemusic/views/playlistview.py:611
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d Lagu"
 
-#: gnomemusic/views/playlistview.py:654
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Daftar putar {} dihapus"
 
-#: gnomemusic/views/playlistview.py:660
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "{} dihapus dari {}"
 
@@ -312,7 +312,7 @@ msgstr "Memuat"
 msgid "_Undo"
 msgstr "Tak _Jadi"
 
-#: gnomemusic/window.py:252
+#: gnomemusic/window.py:245
 msgid "Empty"
 msgstr "Kosong"
 
@@ -407,23 +407,23 @@ msgstr "_Keluar"
 msgid "Select All"
 msgstr "Pilih Semua"
 
-#: data/headerbar.ui:12
+#: data/headerbar.ui:11
 msgid "Select None"
 msgstr "Pilih Tak Satupun"
 
-#: data/headerbar.ui:67
+#: data/headerbar.ui:66
 msgid "Search"
 msgstr "Cari"
 
-#: data/headerbar.ui:90
+#: data/headerbar.ui:89
 msgid "Select"
 msgstr "Pilih"
 
-#: data/headerbar.ui:112 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: data/headerbar.ui:130
+#: data/headerbar.ui:129
 msgid "Back"
 msgstr "Mundur"
 
