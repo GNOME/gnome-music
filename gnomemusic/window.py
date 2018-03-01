@@ -220,6 +220,7 @@ class Window(Gtk.ApplicationWindow):
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
             transition_duration=100,
+            homogeneous=False,
             visible=True,
             can_focus=False)
 
