@@ -1,3 +1,67 @@
+Overview of changes in 3.27.92
+==============================
+
+* Port to Meson
+* Lots of fixes to the flatpak json
+* Fixes to playlists behaviour
+* Fix some shortcut logic
+* Fix issue with bluetooth headset input
+* Delayed loading of covers in albumsview to decrease startup time
+* Lots of general cleanups
+* Update to latest libgd
+
+Bugs fixed:
+ Music won't build from flatpak (#138)
+ Disable last.fm scrobbling if Music is disabled in GOA (#139)
+ playlistview: Remove obsolete column renderer (!61)
+ albumsview: Use correct checkbox style (!68)
+ playlistview: Only show icons for playing playlists (#149)
+ query: Filter out on-disk playlist formats (#72, #151)
+ Replace logger.warn with logger.warning (#153)
+ Switch to meson build system (#1)
+ window: Handle Gdk Audio keys (#93)
+ window: Restore selection popup functionality (#152)
+ meson: Add fallback in case XDG_DATA_DIRS is not set (!85)
+ Deleting a playlist does not stop the player (#156)
+ Follow up searches do not trigger an actual search (#148)
+ Changing playlist resets player model (#136)
+
+Thanks to our contributors this release:
+ Benoît Legat
+ Bilal Elmoussaoui
+ Georges Basile Stavracas Neto
+ Janne Körkkö
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Swedish
+ Spanish
+ Friulian
+ Polish
+ Indonesian
+ Catalan
+ Chinese (Taiwan)
+ Brazilian Portuguese
+ Galician
+ Croatian
+ Finnish
+ Dutch
+ German
+ Hungarian
+ Slovak
+ Serbian
+ Korean
+ Croatian
+ Italian
+ Czech
+ French
+ Vietnamese
+ Scottish Gaelic
+ Lithuanian
+ Kazakh
+ Latvian
+
 Overview of changes in 3.27.90
 ==============================
 
