@@ -77,7 +77,7 @@ class AlbumsView(BaseView):
             homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
             valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
             margin=18, row_spacing=12, column_spacing=6,
-            min_children_per_line=1, max_children_per_line=25)
+            min_children_per_line=1, max_children_per_line=20)
 
         self._view.get_style_context().add_class('content-view')
         self._view.connect('child-activated', self._on_child_activated)
