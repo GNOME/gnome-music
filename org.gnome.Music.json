@@ -169,6 +169,7 @@
         },
         {
             "name": "gnome-music",
+            "buildsystem": "meson",
             "sources": [
                 {
                     "type": "git",
