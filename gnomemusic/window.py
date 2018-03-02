@@ -341,6 +341,7 @@ class Window(Gtk.ApplicationWindow):
                 self._select_none()
             # Open search bar on Ctrl + F
             if ((event.keyval == Gdk.KEY_f and modifiers == control_mask)
+                    and not self.views[View.PLAYLIST].rename_active
                     and self.toolbar._state != ToolbarState.SEARCH_VIEW):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
