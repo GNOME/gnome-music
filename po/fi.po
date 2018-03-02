@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-06 21:35+0000\n"
-"PO-Revision-Date: 2018-02-19 14:12+0200\n"
+"POT-Creation-Date: 2018-02-23 22:13+0000\n"
+"PO-Revision-Date: 2018-03-02 11:44+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.3\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
 msgid "GNOME Music"
@@ -42,8 +42,9 @@ msgstr "Musiikkisoitin"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-msgid "gnome-music"
-msgstr "gnome-music"
+#| msgid "gnome-music"
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in:13
@@ -250,7 +251,7 @@ msgstr[1] "Valittu {} kohdetta"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Napsauta kohteita valitaksesi ne"
 
@@ -270,18 +271,18 @@ msgstr "Hei DJ"
 msgid "Playlists"
 msgstr "Soittolistat"
 
-#: gnomemusic/views/playlistview.py:611
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d kappale"
 msgstr[1] "%d kappaletta"
 
-#: gnomemusic/views/playlistview.py:654
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Soittolista {} poistettu"
 
-#: gnomemusic/views/playlistview.py:660
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "{} poistettu soittolistalta {}"
 
@@ -314,7 +315,7 @@ msgstr "Ladataan"
 msgid "_Undo"
 msgstr "_Kumoa"
 
-#: gnomemusic/window.py:252
+#: gnomemusic/window.py:245
 msgid "Empty"
 msgstr "Tyhjä"
 
@@ -386,23 +387,23 @@ msgstr "_Lopeta"
 msgid "Select All"
 msgstr "Valitse kaikki"
 
-#: data/headerbar.ui:12
+#: data/headerbar.ui:11
 msgid "Select None"
 msgstr "Älä valitse mitään"
 
-#: data/headerbar.ui:67
+#: data/headerbar.ui:66
 msgid "Search"
 msgstr "Hae"
 
-#: data/headerbar.ui:90
+#: data/headerbar.ui:89
 msgid "Select"
 msgstr "Valitse"
 
-#: data/headerbar.ui:112 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Peru"
 
-#: data/headerbar.ui:130
+#: data/headerbar.ui:129
 msgid "Back"
 msgstr "Takaisin"
 
