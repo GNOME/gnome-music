@@ -340,8 +340,8 @@ class Window(Gtk.ApplicationWindow):
                     and modifiers == (shift_mask | control_mask)):
                 self._select_none()
             # Open search bar on Ctrl + F
-            if (event.keyval == Gdk.KEY_f
-                    and modifiers == control_mask):
+            if ((event.keyval == Gdk.KEY_f and modifiers == control_mask)
+                    and self.toolbar._state != ToolbarState.SEARCH_VIEW):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
@@ -417,7 +417,8 @@ class Window(Gtk.ApplicationWindow):
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == Gdk.ModifierType.SHIFT_MASK
                      or modifiers == 0)
-                and not self.views[View.PLAYLIST].rename_active):
+                and not self.views[View.PLAYLIST].rename_active
+                and self.toolbar._state != ToolbarState.SEARCH_VIEW):
             self.toolbar.searchbar.reveal(True)
 
     @log
