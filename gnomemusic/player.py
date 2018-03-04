@@ -946,7 +946,9 @@ class Player(GObject.GObject):
                         grilo.bump_play_count(current_media)
                         grilo.set_last_played(current_media)
                         self._lastfm.scrobble(current_media, self._time_stamp)
-
+            except ZeroDivisionError:
+                # Streams may have no duration set.
+                pass
             except Exception as e:
                 logger.warning("Error: {}, {}".format(e.__class__, e))
         return True
