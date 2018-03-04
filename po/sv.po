@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-05 16:40+0000\n"
-"PO-Revision-Date: 2018-02-05 23:47+0100\n"
+"POT-Creation-Date: 2018-03-03 11:47+0000\n"
+"PO-Revision-Date: 2018-03-05 00:51+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.5\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
 msgid "GNOME Music"
@@ -33,7 +33,7 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Musik är det nya GNOME-programmet för att spela musik."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:104 gnomemusic/toolbar.py:91
+#: gnomemusic/application.py:104 gnomemusic/toolbar.py:92
 #: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musik"
@@ -44,8 +44,9 @@ msgstr "Musikspelare"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-msgid "gnome-music"
-msgstr "gnome-music"
+#| msgid "gnome-music"
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in:13
@@ -237,11 +238,11 @@ msgstr "Okänd artist"
 msgid "Untitled"
 msgstr "Namnlös"
 
-#: gnomemusic/views/albumsview.py:45 gnomemusic/views/searchview.py:501
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:510
 msgid "Albums"
 msgstr "Album"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:503
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:512
 msgid "Artists"
 msgstr "Artister"
 
@@ -253,7 +254,7 @@ msgstr[1] "Markerade {} objekt"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Klicka på objekt för att välja dem"
 
@@ -269,26 +270,26 @@ msgstr "Musikmapp"
 msgid "Hey DJ"
 msgstr "Hej DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:507
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:516
 msgid "Playlists"
 msgstr "Spellistor"
 
-#: gnomemusic/views/playlistview.py:611
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d låt"
 msgstr[1] "%d låtar"
 
-#: gnomemusic/views/playlistview.py:654
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Spellista {} borttagen"
 
-#: gnomemusic/views/playlistview.py:660
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "{} borttagen från {}"
 
-#: gnomemusic/views/searchview.py:505 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:514 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Låtar"
 
@@ -317,7 +318,7 @@ msgstr "Läser in"
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: gnomemusic/window.py:252
+#: gnomemusic/window.py:273
 msgid "Empty"
 msgstr "Tom"
 
@@ -413,23 +414,23 @@ msgstr "A_vsluta"
 msgid "Select All"
 msgstr "Markera alla"
 
-#: data/headerbar.ui:12
+#: data/headerbar.ui:11
 msgid "Select None"
 msgstr "Avmarkera alla"
 
-#: data/headerbar.ui:67
+#: data/headerbar.ui:66
 msgid "Search"
 msgstr "Sök"
 
-#: data/headerbar.ui:90
+#: data/headerbar.ui:89
 msgid "Select"
 msgstr "Välj"
 
-#: data/headerbar.ui:112 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Avbryt"
 
-#: data/headerbar.ui:130
+#: data/headerbar.ui:129
 msgid "Back"
 msgstr "Bakåt"
 
