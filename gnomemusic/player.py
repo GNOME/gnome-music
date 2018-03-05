@@ -435,8 +435,8 @@ class Player(GObject.GObject):
         if error:
             print("Info %s: error: %s" % (info, error))
             failed = DiscoveryStatus.FAILED
-            self.playlist[_iter][self.Field.DISCOVERY_STATUS] = failed
-            next_track = self.playlist.iter_next(_iter)
+            self.playlist[iter_][self.Field.DISCOVERY_STATUS] = failed
+            next_track = self.playlist.iter_next(iter_)
 
             if next_track:
                 next_path = self.playlist.get_path(next_track)
