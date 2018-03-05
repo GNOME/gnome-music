@@ -452,9 +452,9 @@ class Player(GObject.GObject):
         if track is None:
             return
 
-        iter_ = self.playlist.get_iter(self.next_track.get_path())
-        status = self.playlist[_iter][self.Field.DISCOVERY_STATUS]
-        next_song = self.playlist[_iter][self.Field.SONG]
+        iter_ = self.playlist.get_iter(self._next_track.get_path())
+        status = self.playlist[iter_][self.Field.DISCOVERY_STATUS]
+        next_song = self.playlist[iter_][self.Field.SONG]
         url_ = next_song.get_url()
 
         # Skip remote songs discovery
