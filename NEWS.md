@@ -1,3 +1,9 @@
+Overview of changes in 3.27.92.1
+================================
+
+Bugs fixed:
+ Arch dependent file in /share (#159)
+
 Overview of changes in 3.27.92
 ==============================
 
