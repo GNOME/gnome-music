@@ -19,7 +19,7 @@ PROJECT_RDNN_NAME='org.gnome.Music'
 
 PYTHON_DIR = join_paths(get_option('prefix'), python.sysconfig_path('purelib'))
 PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), PROJECT_RDNN_NAME)
-PKGLIB_DIR = join_paths(PKGDATA_DIR, 'libs')
+PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), PROJECT_RDNN_NAME)
 
 # Dependencies
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
