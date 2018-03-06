@@ -395,7 +395,7 @@ class Player(GObject.GObject):
         self.playlist.insert_with_valuesv(
             int(path.to_string()),
             [self.Field.SONG, self.Field.DISCOVERY_STATUS],
-            [new_row[5], new_row[self._discovery_status_field]])
+            [new_row[5], new_row[11]])
         self._validate_next_track()
         self._sync_prev_next()
 
@@ -764,18 +764,14 @@ class Player(GObject.GObject):
         for row in model:
             current_iter = new_model.insert_with_valuesv(
                 -1, [self.Field.SONG, self.Field.DISCOVERY_STATUS],
-                [row[5], row[self._discovery_status_field]])
+                [row[5], row[11]])
             if row[5].get_id() == song_id:
                 new_path = new_model.get_path(current_iter)
 
         return new_model, new_path
 
-    # FIXME: set the discovery field to 11 to be safe, but for some
-    # models it is 12.
     @log
-    def set_playlist(
-            self, type_, id_, model, iter_, discovery_status_field=11):
-        self._discovery_status_field = discovery_status_field
+    def set_playlist(self, type_, id_, model, iter_):
         self.playlist, playlist_path = self._create_model(model, iter_)
         self.currentTrack = Gtk.TreeRowReference.new(
             self.playlist, playlist_path)
