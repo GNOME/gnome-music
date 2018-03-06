@@ -419,8 +419,6 @@ class Cache(GObject.GObject):
             stream = thumb_file.read_finish(result)
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
-            stream.close_async(
-                GLib.PRIORITY_LOW, None, self._close_stream, None)
             self.emit('miss')
             return
 
@@ -433,8 +431,6 @@ class Cache(GObject.GObject):
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
-            stream.close_async(
-                GLib.PRIORITY_LOW, None, self._close_stream, None)
             self.emit('miss')
             return
 
