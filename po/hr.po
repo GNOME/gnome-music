@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-03-05 15:24+0000\n"
-"PO-Revision-Date: 2018-03-07 14:59+0100\n"
+"POT-Creation-Date: 2018-02-23 22:13+0000\n"
+"PO-Revision-Date: 2018-03-07 15:23+0100\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -32,7 +32,7 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Glazba je nova GNOME aplikacija za slušanje glazbe."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:104 gnomemusic/toolbar.py:92
+#: gnomemusic/application.py:104 gnomemusic/toolbar.py:91
 #: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Glazba"
@@ -129,11 +129,11 @@ msgstr "Postavite na 'true' kada je početno stanje prikazano"
 msgid "Previous"
 msgstr "Prijašnja"
 
-#: gnomemusic/notification.py:58 gnomemusic/player.py:561
+#: gnomemusic/notification.py:58 gnomemusic/player.py:536
 msgid "Pause"
 msgstr "Pauziraj"
 
-#: gnomemusic/notification.py:61 gnomemusic/player.py:564
+#: gnomemusic/notification.py:61 gnomemusic/player.py:539
 #: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Reproduciraj"
@@ -142,29 +142,29 @@ msgstr "Reproduciraj"
 msgid "Next"
 msgstr "Sljedeća"
 
-#: gnomemusic/player.py:1108
+#: gnomemusic/player.py:1076
 msgid "Unable to play the file"
 msgstr "Nemoguća reprodukcija datoteke"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: gnomemusic/player.py:1113
+#: gnomemusic/player.py:1081
 #, python-format
 msgid "_Find in %s"
 msgstr "_Pretraži u %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1123
+#: gnomemusic/player.py:1091
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1126
+#: gnomemusic/player.py:1094
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/player.py:1127
+#: gnomemusic/player.py:1095
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -237,11 +237,11 @@ msgstr "Nepoznati izvođač"
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:510
+#: gnomemusic/views/albumsview.py:45 gnomemusic/views/searchview.py:501
 msgid "Albums"
 msgstr "Albumi"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:512
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:503
 msgid "Artists"
 msgstr "Izvođači"
 
@@ -254,7 +254,7 @@ msgstr[2] "Odabrane {} stavke"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Kliknite na stavku za odabir"
 
@@ -270,11 +270,11 @@ msgstr "Glazbene mape"
 msgid "Hey DJ"
 msgstr "Hej DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:516
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:507
 msgid "Playlists"
 msgstr "Popis izvođenja"
 
-#: gnomemusic/views/playlistview.py:612
+#: gnomemusic/views/playlistview.py:604
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -282,20 +282,20 @@ msgstr[0] "%d pjesma"
 msgstr[1] "%d pjesme"
 msgstr[2] "%d pjesama"
 
-#: gnomemusic/views/playlistview.py:655
+#: gnomemusic/views/playlistview.py:647
 msgid "Playlist {} removed"
 msgstr "Popis izvođenja {} uklonjen"
 
-#: gnomemusic/views/playlistview.py:661
+#: gnomemusic/views/playlistview.py:653
 msgid "{} removed from {}"
 msgstr "{} uklonjeno iz {}"
 
-#: gnomemusic/views/searchview.py:514 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:505 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Pjesme"
 
 #: gnomemusic/widgets/albumwidget.py:185
-#: gnomemusic/widgets/artistalbumswidget.py:224
+#: gnomemusic/widgets/artistalbumswidget.py:228
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -320,7 +320,7 @@ msgstr "Učitavanje"
 msgid "_Undo"
 msgstr "_Vrati"
 
-#: gnomemusic/window.py:273
+#: gnomemusic/window.py:245
 msgid "Empty"
 msgstr "Prazna"
 
