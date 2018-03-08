@@ -595,6 +595,7 @@ class EmbeddedArt(GObject.GObject):
                 # This error indicates that the coverart has already
                 # been linked by another concurrent lookup.
                 self.emit('found')
+                return
             else:
                 logger.warning("Error: {}, {}".format(
                     MediaArt.Error(error.code), error.message))
