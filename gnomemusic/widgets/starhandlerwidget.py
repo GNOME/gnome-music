@@ -128,7 +128,7 @@ class StarHandlerWidget(object):
             return
 
         try:
-            if self._parent.model[_iter][9] == 2:
+            if self._parent.model[_iter][self._star_index] == 2:
                 return
         except AttributeError:
             return
