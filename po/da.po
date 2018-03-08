@@ -6,15 +6,15 @@
 # Ask Hjorth Larsen <asklarsen@gmail.com>, 2015, 2016, 2017.
 # scootergrisen, 2015.
 # Joe Hansen (joedalton2@yahoo.dk), 2017.
+# Alan Mortensen <alanmortensen.am@gmail.com>, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"Report-Msgid-Bugs-To: https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-"
-"music&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2017-08-28 12:40+0000\n"
-"PO-Revision-Date: 2017-09-03 20:09+0200\n"
-"Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
+"POT-Creation-Date: 2018-03-05 15:24+0000\n"
+"PO-Revision-Date: 2018-03-06 20:32+0100\n"
+"Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -23,64 +23,70 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Language: da_DK\n"
 "X-Source-Language: C\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: ../data/org.gnome.Music.appdata.xml.in.h:1
+#: data/org.gnome.Music.appdata.xml.in:6
 msgid "GNOME Music"
 msgstr "GNOME Musik"
 
-#: ../data/org.gnome.Music.appdata.xml.in.h:2
-#: ../data/org.gnome.Music.desktop.in.h:3
+#: data/org.gnome.Music.appdata.xml.in:7 data/org.gnome.Music.desktop.in:5
 msgid "Play and organize your music collection"
 msgstr "Afspil og organisér din musiksamling"
 
-#: ../data/org.gnome.Music.appdata.xml.in.h:3
+#: data/org.gnome.Music.appdata.xml.in:9
 msgid "Music is the new GNOME music playing application."
 msgstr "Musik er det nye musikafspilningsprogram til GNOME."
 
-#: ../data/org.gnome.Music.desktop.in.h:1 ../gnomemusic/application.py:53
-#: ../gnomemusic/application.py:101 ../gnomemusic/toolbar.py:90
-#: ../gnomemusic/window.py:68 ../data/AboutDialog.ui.in.h:1
+#: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:55
+#: gnomemusic/application.py:104 gnomemusic/toolbar.py:92
+#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musik"
 
-#: ../data/org.gnome.Music.desktop.in.h:2
+#: data/org.gnome.Music.desktop.in:4
 msgid "Music Player"
 msgstr "Musikafspiller"
 
-#: ../data/org.gnome.Music.desktop.in.h:4
+#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
+#: data/org.gnome.Music.desktop.in:7
+msgid "org.gnome.Music"
+msgstr "org.gnome.Music"
+
+#. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
+#: data/org.gnome.Music.desktop.in:13
 msgid "Music;Player;"
 msgstr "Musik;Afspiller;"
 
-#: ../data/org.gnome.Music.gschema.xml.h:1
+#: data/org.gnome.Music.gschema.xml:12
 msgid "Window size"
 msgstr "Vinduesstørrelse"
 
-#: ../data/org.gnome.Music.gschema.xml.h:2
+#: data/org.gnome.Music.gschema.xml:13
 msgid "Window size (width and height)."
 msgstr "Vinduesstørrelse (bredde og højde)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:3
+#: data/org.gnome.Music.gschema.xml:17
 msgid "Window position"
 msgstr "Vinduesplacering"
 
-#: ../data/org.gnome.Music.gschema.xml.h:4
+#: data/org.gnome.Music.gschema.xml:18
 msgid "Window position (x and y)."
 msgstr "Vinduesplacering (x og y)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:5
+#: data/org.gnome.Music.gschema.xml:22
 msgid "Window maximized"
 msgstr "Vindue maksimeret"
 
-#: ../data/org.gnome.Music.gschema.xml.h:6
+#: data/org.gnome.Music.gschema.xml:23
 msgid "Window maximized state."
 msgstr "Vindue i maksimeret tilstand."
 
-#: ../data/org.gnome.Music.gschema.xml.h:7
+#: data/org.gnome.Music.gschema.xml:27
 msgid "Playback repeat mode"
 msgstr "Afspil i gentagelsestilstand"
 
 #. Translators: Don't translate allowed values, just the description in the brackets
-#: ../data/org.gnome.Music.gschema.xml.h:9
+#: data/org.gnome.Music.gschema.xml:29
 msgid ""
 "Value identifies whether to repeat or randomize playback through the "
 "collection. Allowed values are: “none” (repeat and shuffle are off), "
@@ -92,78 +98,78 @@ msgstr ""
 "“song” (nuværende sang gentages), “all” (gentag afspilningslisten, bland "
 "ikke), “shuffle” (bland afspilningslisten, og alle gentages)."
 
-#: ../data/org.gnome.Music.gschema.xml.h:10
+#: data/org.gnome.Music.gschema.xml:33
 msgid "Search mode"
 msgstr "Søgetilstand"
 
-#: ../data/org.gnome.Music.gschema.xml.h:11
+#: data/org.gnome.Music.gschema.xml:34
 msgid "If true, the search bar is shown."
 msgstr "Hvis true, vises søgelinjen."
 
-#: ../data/org.gnome.Music.gschema.xml.h:12
+#: data/org.gnome.Music.gschema.xml:38
 msgid "Notifications mode"
 msgstr "Påmindelsestilstand"
 
-#: ../data/org.gnome.Music.gschema.xml.h:13
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Enables or disables playback notifications"
 msgstr "Aktiverer eller deaktiverer afspilningspåmindelser"
 
-#: ../data/org.gnome.Music.gschema.xml.h:14
+#: data/org.gnome.Music.gschema.xml:43
 msgid "Enable ReplayGain"
 msgstr "Aktivér ReplayGain"
 
-#: ../data/org.gnome.Music.gschema.xml.h:15
+#: data/org.gnome.Music.gschema.xml:44
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Aktiverer eller deaktiverer ReplayGain for album"
 
-#: ../data/org.gnome.Music.gschema.xml.h:16
+#: data/org.gnome.Music.gschema.xml:48
 msgid "Inital state has been displayed"
 msgstr "Den oprindelige tilstand har været vist"
 
-#: ../data/org.gnome.Music.gschema.xml.h:17
+#: data/org.gnome.Music.gschema.xml:49
 msgid "Set to true when initial state has been displayed"
 msgstr "Sæt til true når den oprindelige tilstand har været vist"
 
-#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+#: gnomemusic/notification.py:55 data/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../gnomemusic/notification.py:58 ../gnomemusic/player.py:558
+#: gnomemusic/notification.py:58 gnomemusic/player.py:561
 msgid "Pause"
 msgstr "Pause"
 
-#: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
-#: ../data/PlayerToolbar.ui.h:7
+#: gnomemusic/notification.py:61 gnomemusic/player.py:564
+#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Afspil"
 
-#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+#: gnomemusic/notification.py:63 data/PlayerToolbar.ui:104
 msgid "Next"
 msgstr "Næste"
 
-#: ../gnomemusic/player.py:1167
+#: gnomemusic/player.py:1108
 msgid "Unable to play the file"
 msgstr "Kan ikke afspille filen"
 
 #. TRANSLATORS: this is a button to launch a codec installer.
 #. %s will be replaced with the software installer's name, e.g.
 #. 'Software' in case of gnome-software.
-#: ../gnomemusic/player.py:1172
+#: gnomemusic/player.py:1113
 #, python-format
 msgid "_Find in %s"
 msgstr "_Find i %s"
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1182
+#: gnomemusic/player.py:1123
 msgid " and "
 msgstr " og "
 
 #. TRANSLATORS: separator for a list of codecs
-#: ../gnomemusic/player.py:1185
+#: gnomemusic/player.py:1126
 msgid ", "
 msgstr ", "
 
-#: ../gnomemusic/player.py:1186
+#: gnomemusic/player.py:1127
 #, python-format
 msgid "%s is required to play the file, but is not installed."
 msgid_plural "%s are required to play the file, but are not installed."
@@ -171,165 +177,167 @@ msgstr[0] "%s kræves for at afspille filen, men er ikke installeret."
 msgstr[1] "%s kræves for at afspille filen, men er ikke installeret."
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:59
+#: gnomemusic/playlists.py:58
 msgid "Most Played"
 msgstr "Mest afspillet"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:64
+#: gnomemusic/playlists.py:63
 msgid "Never Played"
 msgstr "Aldrig afspillet"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:69
+#: gnomemusic/playlists.py:68
 msgid "Recently Played"
 msgstr "Afspillet for nylig"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:74
+#: gnomemusic/playlists.py:73
 msgid "Recently Added"
 msgstr "Tilføjet for nylig"
 
 #. TRANSLATORS: this is a playlist name
-#: ../gnomemusic/playlists.py:79
+#: gnomemusic/playlists.py:78
 msgid "Favorite Songs"
 msgstr "Yndlingssange"
 
-#: ../gnomemusic/searchbar.py:63 ../gnomemusic/searchbar.py:111
+#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:114
 msgid "All"
 msgstr "Alle"
 
-#: ../gnomemusic/searchbar.py:64
+#: gnomemusic/searchbar.py:65
 msgid "Artist"
 msgstr "Kunstner"
 
-#: ../gnomemusic/searchbar.py:65
+#: gnomemusic/searchbar.py:66
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
+#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
 msgid "Composer"
 msgstr "Komponist"
 
-#: ../gnomemusic/searchbar.py:67
+#: gnomemusic/searchbar.py:68
 msgid "Track Title"
 msgstr "Sportitel"
 
-#: ../gnomemusic/searchbar.py:112
+#: gnomemusic/searchbar.py:115
 msgid "Local"
 msgstr "Lokalt"
 
-#: ../gnomemusic/searchbar.py:224
+#: gnomemusic/searchbar.py:258
 msgid "Sources"
 msgstr "Kilder"
 
-#: ../gnomemusic/searchbar.py:231
+#: gnomemusic/searchbar.py:266
 msgid "Match"
 msgstr "Søg på"
 
-#: ../gnomemusic/utils.py:63
+#: gnomemusic/utils.py:75
 msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
-#: ../gnomemusic/utils.py:75
+#: gnomemusic/utils.py:87
 msgid "Untitled"
 msgstr "Unavngivet"
 
-#: ../gnomemusic/views/albumsview.py:44 ../gnomemusic/views/searchview.py:454
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:510
 msgid "Albums"
 msgstr "Album"
 
-#: ../gnomemusic/views/artistsview.py:55 ../gnomemusic/views/searchview.py:455
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:512
 msgid "Artists"
 msgstr "Kunstnere"
 
-#: ../gnomemusic/views/baseview.py:196
+#: gnomemusic/views/baseview.py:188
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "{} element valgt"
 msgstr[1] "{} elementer valgt"
 
-#: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
-#: ../gnomemusic/widgets/albumwidget.py:198
-#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
+#: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
+#: gnomemusic/widgets/albumwidget.py:189
+#: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Klik på elementerne for at vælge dem"
 
-#: ../gnomemusic/views/emptyview.py:51
-msgid "Music folder"
-msgstr "Musikmappe"
-
-#: ../gnomemusic/views/emptysearchview.py:50
+#: gnomemusic/views/emptysearchview.py:53
 msgid "Try a different search"
 msgstr "Prøv en anden søgning"
 
-#: ../gnomemusic/views/initialstateview.py:50
+#: gnomemusic/views/emptyview.py:51
+msgid "Music folder"
+msgstr "Musikmappe"
+
+#: gnomemusic/views/initialstateview.py:50
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: ../gnomemusic/views/playlistview.py:58 ../gnomemusic/views/searchview.py:457
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:516
 msgid "Playlists"
 msgstr "Afspilningslister"
 
-#: ../gnomemusic/views/playlistview.py:420
+#: gnomemusic/views/playlistview.py:612
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d sang"
 msgstr[1] "%d sange"
 
-#: ../gnomemusic/views/searchview.py:456 ../gnomemusic/views/songsview.py:55
+#: gnomemusic/views/playlistview.py:655
+msgid "Playlist {} removed"
+msgstr "Afspilningslisten {} fjernet"
+
+#: gnomemusic/views/playlistview.py:661
+msgid "{} removed from {}"
+msgstr "{} fjernet fra {}"
+
+#: gnomemusic/views/searchview.py:514 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Sange"
 
-#: ../gnomemusic/widgets/albumwidget.py:194
-#: ../gnomemusic/widgets/artistalbumswidget.py:228
+#: gnomemusic/widgets/albumwidget.py:185
+#: gnomemusic/widgets/artistalbumswidget.py:224
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "%d element valgt"
 msgstr[1] "%d elementer valgt"
 
-#: ../gnomemusic/widgets/albumwidget.py:291
-#: ../gnomemusic/widgets/albumwidget.py:345
+#: gnomemusic/widgets/albumwidget.py:281 gnomemusic/widgets/albumwidget.py:326
 #, python-format
 msgid "%d min"
 msgstr "%d min"
 
-#: ../gnomemusic/widgets/disclistboxwidget.py:189
+#: gnomemusic/widgets/disclistboxwidget.py:192
 msgid "Disc {}"
 msgstr "Disk {}"
 
-#: ../gnomemusic/window.py:125
+#: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
 msgstr "Indlæser"
 
-#. Undo button
-#: ../gnomemusic/window.py:162
+#: gnomemusic/widgets/notificationspopup.py:231
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: ../gnomemusic/window.py:314
+#: gnomemusic/window.py:273
 msgid "Empty"
 msgstr "Tom"
 
-#: ../gnomemusic/window.py:390
-msgid "Playlist {} removed"
-msgstr "Afspilningslisten {} fjernet"
+#: data/AboutDialog.ui.in:9
+msgid "Copyright © 2018 GNOME Music Developers"
+msgstr "Ophavsret © 2018 GNOME Musik-udviklerne"
 
-#: ../data/AboutDialog.ui.in.h:2
-msgid "Copyright © 2016 GNOME Music Developers"
-msgstr "Ophavsret © 2016 GNOME Musik-udviklerne"
-
-#: ../data/AboutDialog.ui.in.h:3
+#: data/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
 msgstr "En musikafspiller og håndteringsprogram til GNOME."
 
-#: ../data/AboutDialog.ui.in.h:4
+#: data/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
 msgstr "Besøg GNOME Musiks websted"
 
-#: ../data/AboutDialog.ui.in.h:5
+#: data/AboutDialog.ui.in:13
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -381,210 +389,222 @@ msgstr ""
 "“Magic of the vinyl” af Sami Pyylampi, billede er licenseret af CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: data/AlbumWidget.ui:110
 msgid "Released"
 msgstr "Udgivet"
 
-#: ../data/AlbumWidget.ui.h:2
+#: data/AlbumWidget.ui:126
 msgid "Running Length"
 msgstr "Spilletid"
 
-#: ../data/app-menu.ui.h:1
+#: data/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastaturgenveje"
 
-#: ../data/app-menu.ui.h:2
+#: data/app-menu.ui:9
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: ../data/app-menu.ui.h:3
+#: data/app-menu.ui:15
 msgid "_About"
 msgstr "_Om"
 
-#: ../data/app-menu.ui.h:4
+#: data/app-menu.ui:19
 msgid "_Quit"
 msgstr "_Afslut"
 
-#: ../data/headerbar.ui.h:1
+#: data/headerbar.ui:7
 msgid "Select All"
 msgstr "Vælg alle"
 
-#: ../data/headerbar.ui.h:2
+#: data/headerbar.ui:11
 msgid "Select None"
 msgstr "Vælg ingen"
 
-#: ../data/headerbar.ui.h:4
+#: data/headerbar.ui:66
 msgid "Search"
 msgstr "Søg"
 
-#: ../data/headerbar.ui.h:5
+#: data/headerbar.ui:89
 msgid "Select"
 msgstr "Vælg"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Annullér"
 
-#: ../data/headerbar.ui.h:7
+#: data/headerbar.ui:129
 msgid "Back"
 msgstr "Tilbage"
 
 # ?
-#: ../data/help-overlay.ui.h:1
+#: data/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Generelt"
 
-#: ../data/help-overlay.ui.h:2
+#: data/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Luk vindue"
 
-#: ../data/help-overlay.ui.h:3
+#: data/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Søg"
 
-#: ../data/help-overlay.ui.h:4
+#: data/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Hjælp"
 
-#: ../data/help-overlay.ui.h:5
+#: data/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Genveje"
 
-#: ../data/help-overlay.ui.h:6
+#: data/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Afspil"
 
-#: ../data/help-overlay.ui.h:7
+#: data/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Afspil/pause"
 
-#: ../data/help-overlay.ui.h:8
+#: data/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Næste sang"
 
-#: ../data/help-overlay.ui.h:9
+#: data/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Forrige sang"
 
-#: ../data/help-overlay.ui.h:10
+#: data/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Slå gentag til/fra"
 
-#: ../data/help-overlay.ui.h:11
+#: data/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Slå tilfældig rækkefølge til/fra"
 
-#: ../data/help-overlay.ui.h:12
+#: data/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: ../data/help-overlay.ui.h:13
+#: data/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Gå til album"
 
-#: ../data/help-overlay.ui.h:14
+#: data/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Gå til kunstnere"
 
-#: ../data/help-overlay.ui.h:15
+#: data/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Gå til sange"
 
-#: ../data/help-overlay.ui.h:16
+#: data/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Gå til afspilningslister"
 
-#: ../data/help-overlay.ui.h:17
+#: data/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå tilbage"
 
-#: ../data/NoMusic.ui.h:1
+#: data/NoMusic.ui:35
 msgid "No music found"
 msgstr "Ingen musik fundet"
 
-#. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
-#, no-c-format
+#. Translators: %s will be replaced with a link with text 'Music folder'
+#: data/NoMusic.ui:55
+#, python-format
 msgid "The contents of your %s will appear here."
 msgstr "Indholdet af din %s vil blive vist her."
 
-#: ../data/PlayerToolbar.ui.h:1
+#: data/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Bland"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: data/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Gentag alle"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: data/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Gentag sang"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: data/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Bland/gentag fra"
 
-#: ../data/PlaylistControls.ui.h:1
+#: data/PlaylistContextMenu.ui:9
+msgid "Add to Playlist…"
+msgstr "Tilføj til afspilningsliste …"
+
+#: data/PlaylistContextMenu.ui:13
+msgid "Remove From Playlist"
+msgstr "Fjern fra afspilningsliste …"
+
+#: data/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Afspil"
 
-#: ../data/PlaylistControls.ui.h:2
+#: data/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Slet"
 
-#: ../data/PlaylistControls.ui.h:3
+#: data/PlaylistControls.ui:14
+msgid "_Rename…"
+msgstr "_Omdøb …"
+
+#: data/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Navn på afspilningsliste"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: data/PlaylistControls.ui:65
+msgid "_Done"
+msgstr "_Færdig"
+
+#: data/PlaylistDialog.ui:63
 msgid "Enter a name for your first playlist"
 msgstr "Indtast et navn for din første afspilningsliste"
 
-#: ../data/PlaylistDialog.ui.h:2
+#: data/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "_Opret"
 
-#: ../data/PlaylistDialog.ui.h:3
+#: data/PlaylistDialog.ui:157
 msgid "New Playlist"
 msgstr "Ny afspilningsliste"
 
-#: ../data/PlaylistDialog.ui.h:4
+#: data/PlaylistDialog.ui:170
 msgid "Add"
 msgstr "Tilføj"
 
-#: ../data/PlaylistDialog.ui.h:5
+#: data/PlaylistDialog.ui:261
 msgid "Select Playlist"
 msgstr "Vælg afspilningsliste"
 
-#: ../data/PlaylistDialog.ui.h:7
+#: data/PlaylistDialog.ui:276
 msgid "_Add"
 msgstr "_Tilføj"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Tilføj til afspilningsliste"
-
-#: ../data/SelectionToolbar.ui.h:2
-msgid "_Remove from Playlist"
-msgstr "_Fjern fra afspilningsliste"
 
 # vel ikke rigtig nogen danske vi ser bort fra?
 #~ msgid "the|a|an"
