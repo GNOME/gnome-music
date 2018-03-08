@@ -229,7 +229,13 @@ class Art(GObject.GObject):
     @log
     def _embedded_art_found(self, klass):
         cache = Cache()
-        cache.connect('miss', self._cache_miss)
+        # In case of an error in local art retrieval, there are two
+        # options:
+        # 1. Go and check for remote art instead
+        # 2. Consider it a fail and add it to the blacklist
+        # Go with option 1 here, because it gives the user the biggest
+        # chance of getting artwork.
+        cache.connect('miss', self._embedded_art_unavailable)
         cache.connect('hit', self._cache_hit)
         cache.query(self._media)
 
@@ -243,7 +249,7 @@ class Art(GObject.GObject):
     @log
     def _remote_art_retrieved(self, klass):
         cache = Cache()
-        cache.connect('miss', self._cache_miss)
+        cache.connect('miss', self._remote_art_unavailable)
         cache.connect('hit', self._cache_hit)
         cache.query(self._media)
 
