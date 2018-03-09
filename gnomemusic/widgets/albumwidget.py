@@ -273,9 +273,14 @@ class AlbumWidget(Gtk.EventBox):
                 disc.show_disc_label(False)
 
         if remaining == 0:
-            self._builder.get_object('running_length_label_info').set_text(
-                _("%d min") % (int(self._duration / 60) + 1))
-
+            if self._player.running_playlist('Album', self._album):
+                current_path = self._player.currentTrack.get_path()
+                current_track = self._player.playlist.get_iter(current_path)
+                self._update_model(
+                    self._player, self._player.playlist, current_track)
+            else:
+                self._builder.get_object('running_length_label_info').set_text(
+                    _("%d min") % (int(self._duration / 60) + 1))
             self.show_all()
 
     @log
@@ -294,16 +299,15 @@ class AlbumWidget(Gtk.EventBox):
         self._duration = 0
 
         song_passed = False
-        _iter = playlist.get_iter_first()
+        _iter = self._model.get_iter_first()
 
         while _iter:
-            song = playlist[_iter][player.Field.SONG]
+            song = self._model[_iter][5]
             song_widget = song.song_widget
             self._duration += song.get_duration()
             escaped_title = GLib.markup_escape_text(
                 utils.get_media_title(song))
-
-            if (song == current_song):
+            if (song.get_id() == current_song.get_id()):
                 song_widget.now_playing_sign.show()
                 song_widget.title.set_markup("<b>{}</b>".format(escaped_title))
                 song_passed = True
@@ -316,7 +320,7 @@ class AlbumWidget(Gtk.EventBox):
                 song_widget.title.set_markup(
                     "<span color=\'grey\'>{}</span>".format(escaped_title))
 
-            _iter = playlist.iter_next(_iter)
+            _iter = self._model.iter_next(_iter)
 
         self._builder.get_object('running_length_label_info').set_text(
             _("%d min") % (int(self._duration / 60) + 1))
