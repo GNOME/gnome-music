@@ -53,6 +53,21 @@ class AlbumWidget(Gtk.EventBox):
         """
         super().__init__()
 
+        self._model = Gtk.ListStore(
+            GObject.TYPE_STRING,   # title
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,
+            GdkPixbuf.Pixbuf,      # icon
+            GObject.TYPE_OBJECT,   # song object
+            GObject.TYPE_BOOLEAN,  # item selected
+            GObject.TYPE_STRING,
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT,      # icon shown
+            GObject.TYPE_BOOLEAN,
+            GObject.TYPE_INT
+        )
+
         self._songs = []
 
         self._player = player
@@ -62,7 +77,6 @@ class AlbumWidget(Gtk.EventBox):
 
         self._builder = Gtk.Builder()
         self._builder.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
-        self._create_model()
         self._album = None
         self._header_bar = None
         self._selection_mode_allowed = True
@@ -101,24 +115,6 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar._select_button.clicked()
 
     @log
-    def _create_model(self):
-        """Create the ListStore model for this widget."""
-        self._model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,    # icon
-            GObject.TYPE_OBJECT,  # song object
-            GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
-
-    @log
     def update(self, artist, album, item, header_bar, selection_toolbar):
         """Update the album widget.
 
@@ -130,7 +126,7 @@ class AlbumWidget(Gtk.EventBox):
         """
         # reset view
         self._songs = []
-        self._create_model()
+        self._model.clear()
         for widget in self._disc_listbox.get_children():
             self._disc_listbox.remove(widget)
 
