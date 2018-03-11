@@ -33,7 +33,6 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic import TrackerWrapper
 from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, SelectionToolbar, RepeatType
 from gnomemusic.query import Query
@@ -54,7 +53,6 @@ from gnomemusic.grilo import grilo
 import logging
 logger = logging.getLogger(__name__)
 
-tracker = TrackerWrapper().tracker
 playlists = Playlists.get_default()
 
 
