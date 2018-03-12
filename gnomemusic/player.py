@@ -399,7 +399,7 @@ class Player(GObject.GObject):
         return media
 
     @log
-    def load(self, media):
+    def _load(self, media):
         self._total_time_label.set_label(
             utils.seconds_to_string(media.get_duration()))
 
@@ -493,7 +493,7 @@ class Player(GObject.GObject):
                     self.current_track_uri = uri
                 else:
                     self.current_track = None
-                self.load(self.get_current_media())
+                self._load(self.get_current_media())
             self.emit('playback-status-changed')
         else:
             self.stop()
@@ -513,7 +513,7 @@ class Player(GObject.GObject):
             if not media:
                 return
 
-            self.load(media)
+            self._load(media)
 
         self._player.state = Playback.PLAYING
         self.emit('playback-status-changed')
