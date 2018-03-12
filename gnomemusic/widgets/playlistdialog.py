@@ -54,6 +54,7 @@ class PlaylistDialog():
         self._playlists_todelete_ids = playlists_todelete.keys()
 
         self._playlist = Playlists.get_default()
+        self._existing_playlists = False
 
     @log
     def run(self):
@@ -83,36 +84,6 @@ class PlaylistDialog():
         self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
         self._select_button.connect('clicked', self._on_selection)
 
-        def playlists_available_cb(available):
-            if available:
-                self._add_playlist_stack.set_visible_child(self._normal_state)
-                self._new_playlist_button = self._ui.get_object(
-                    'new-playlist-button')
-                self._new_playlist_entry = self._ui.get_object(
-                    'new-playlist-entry')
-            else:
-                self._add_playlist_stack.set_visible_child(self._empty_state)
-                self._new_playlist_button = self._ui.get_object(
-                    'create-first-playlist-button')
-                self._new_playlist_entry = self._ui.get_object(
-                    'first-playlist-entry')
-
-            self._new_playlist_button.set_sensitive(False)
-            self._new_playlist_button.connect('clicked',
-                                              self._on_editing_done)
-
-            self._new_playlist_entry.connect(
-                'changed', self._on_new_playlist_entry_changed)
-            self._new_playlist_entry.connect('activate',
-                                             self._on_editing_done)
-            self._new_playlist_entry.connect(
-                'focus-in-event', self._on_new_playlist_entry_focused)
-
-            self._playlist.connect('playlist-created',
-                                   self._on_playlist_created)
-
-        grilo.playlists_available(playlists_available_cb)
-
     @log
     def get_selected(self):
         """Get the selected playlist"""
@@ -131,27 +102,51 @@ class PlaylistDialog():
         col = Gtk.TreeViewColumn("Name", type_renderer, text=0)
         self._view.append_column(col)
 
+    def _set_view(self):
+        if self._existing_playlists:
+            self._add_playlist_stack.set_visible_child(self._normal_state)
+            self._new_playlist_button = self._ui.get_object(
+                'new-playlist-button')
+            self._new_playlist_entry = self._ui.get_object(
+                'new-playlist-entry')
+        else:
+            self._add_playlist_stack.set_visible_child(self._empty_state)
+            self._new_playlist_button = self._ui.get_object(
+                'create-first-playlist-button')
+            self._new_playlist_entry = self._ui.get_object(
+                'first-playlist-entry')
+
+        self._new_playlist_button.set_sensitive(False)
+        self._new_playlist_button.connect('clicked', self._on_editing_done)
+
+        self._new_playlist_entry.connect(
+            'changed', self._on_new_playlist_entry_changed)
+        self._new_playlist_entry.connect('activate', self._on_editing_done)
+        self._new_playlist_entry.connect(
+            'focus-in-event', self._on_new_playlist_entry_focused)
+
+        self._playlist.connect('playlist-created', self._on_playlist_created)
+
     @log
     def _populate(self):
-        grilo.populate_playlists(0, self._add_item)
+        grilo.populate_non_static_playlists(0, self._add_item)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item:
             self._add_item_to_model(item)
+        if remaining == 0:
+            self._set_view()
 
     @log
     def _add_item_to_model(self, item):
         """Adds (non-static only) playlists to the model"""
 
-        # Don't show static playlists
-        if self._playlist.is_static_playlist(item):
-            return None
-
         # Hide playlists that are going to be deleted
         if item.get_id() in self._playlists_todelete_ids:
             return None
 
+        self._existing_playlists = True
         new_iter = self._model.insert_with_valuesv(
             -1, [0, 1], [utils.get_media_title(item), item])
 
