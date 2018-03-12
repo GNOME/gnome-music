@@ -92,6 +92,11 @@ class Query():
         return Query.playlists('?playlist a nmm:Playlist .')
 
     @staticmethod
+    def all_non_static_playlists():
+        return Query.playlists(
+            '?playlist a nmm:Playlist .', 'FILTER (!BOUND(?tag))')
+
+    @staticmethod
     def all_songs_count():
         query = """
     SELECT
@@ -222,7 +227,7 @@ class Query():
         return query
 
     @staticmethod
-    def playlists(where_clause):
+    def playlists(where_clause, filter_clause=None):
         query = """
     SELECT DISTINCT
         rdf:type(?playlist)
@@ -239,11 +244,13 @@ class Query():
                      && !STRENDS(LCASE(?url), '.m3u8')
                      && !STRENDS(LCASE(?url), '.pls')
                      || !BOUND(nfo:belongsToContainer(?playlist)) )
+            %(filter_clause)s
             OPTIONAL { ?playlist nao:hasTag ?tag }
         }
     ORDER BY DESC(tracker:added(?playlist)) !BOUND(?tag) LCASE(?title)
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
+            'filter_clause': filter_clause or '',
             'music_dir': Query.MUSIC_URI
         }
 

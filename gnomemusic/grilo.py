@@ -264,6 +264,13 @@ class Grilo(GObject.GObject):
                                                 callback, count)
 
     @log
+    def populate_non_static_playlists(self, offset, callback, count=-1):
+        if self.tracker:
+            GLib.idle_add(
+                self.populate_items, Query.all_non_static_playlists(), offset,
+                callback, count)
+
+    @log
     def populate_album_songs(self, album, callback, count=-1):
         if album.get_source() == 'grl-tracker-source':
             GLib.idle_add(self.populate_items,
