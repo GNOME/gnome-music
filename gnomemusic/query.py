@@ -114,20 +114,6 @@ class Query():
         return query
 
     @staticmethod
-    def all_non_static_playlists_count():
-        query = """
-    SELECT
-        COUNT (?pl)
-    {   ?pl a nmm:Playlist .
-        OPTIONAL { ?pl nao:hasTag ?tag } .
-        FILTER (!BOUND(nfo:belongsToContainer(?pl)))
-        FILTER (!BOUND(?tag))
-    }
-        """.replace('\n', ' ').strip()
-
-        return query
-
-    @staticmethod
     def albums(where_clause):
         query = """
     SELECT
