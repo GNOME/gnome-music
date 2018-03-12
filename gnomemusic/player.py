@@ -148,7 +148,8 @@ class Player(GObject.GObject):
             return
 
         if not url.startswith("file://"):
-            logger.debug("Skipping discovery of %s as not a local file", url)
+            logger.debug(
+                "Skipping discovery of {} as not a local file".format(url))
             return
 
         obj = (callback, data)
