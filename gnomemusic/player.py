@@ -140,7 +140,7 @@ class Player(GObject.GObject):
     def current_track_uri(self):
         return self._current_track_uri
 
-    def discover_item(self, item, callback, data=None):
+    def _discover_item(self, item, callback, data=None):
         url = item.get_url()
         if not url:
             logger.warning(
@@ -463,7 +463,7 @@ class Player(GObject.GObject):
                 or url_.startswith('https://')):
             return False
         elif status == DiscoveryStatus.PENDING:
-            self.discover_item(next_song, self._on_next_item_validated, iter_)
+            self._discover_item(next_song, self._on_next_item_validated, iter_)
         elif status == DiscoveryStatus.FAILED:
             GLib.idle_add(self._validate_next_track)
 
