@@ -277,6 +277,18 @@ class Player(GObject.GObject):
 
     @log
     def _get_previous_track(self):
+
+        @log
+        def get_last_iter():
+            iter_ = self.playlist.get_iter_first()
+            last = None
+
+            while iter_ is not None:
+                last = iter_
+                iter_ = self.playlist.iter_next(iter_)
+
+            return last
+
         if (self.current_track
                 and self.current_track.valid()):
             iter_ = self.playlist.get_iter(self.current_track.get_path())
@@ -294,7 +306,7 @@ class Player(GObject.GObject):
             if iter_:
                 previous_track = self.playlist.iter_previous(iter_)
             if not previous_track:
-                previous_track = self._get_iter_last()
+                previous_track = get_last_iter()
         elif self.repeat == RepeatType.NONE:
             if iter_:
                 previous_track = self.playlist.iter_previous(iter_)
