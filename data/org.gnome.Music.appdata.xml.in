@@ -12,22 +12,22 @@
   </description>
   <screenshots>
     <screenshot type="default">
-      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-1.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-1.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-2.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-2.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-3.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-3.png</image>
     </screenshot>
     <screenshot>
-      <image type="source">https://git.gnome.org/browse/gnome-music/plain/data/screenshots/gnome-music-4.png</image>
+      <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-4.png</image>
     </screenshot>
   </screenshots>
   <project_group>GNOME</project_group>
   <url type="homepage">https://wiki.gnome.org/Apps/Music</url>
-  <url type="bugtracker">https://bugzilla.gnome.org/enter_bug.cgi?product=gnome-music</url>
-  <url type="donation">http://www.gnome.org/friends/</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-music/issues</url>
+  <url type="donation">https://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
 
   <kudos>
