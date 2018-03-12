@@ -431,9 +431,9 @@ class Player(GObject.GObject):
 
         self._validate_next_track()
 
-    def _on_next_item_validated(self, info, error, _iter):
+    def _on_next_item_validated(self, _info, error, _iter):
         if error:
-            print("Info %s: error: %s" % (info, error))
+            logger.warning("Info {}: error: {}".format(_info, error))
             failed = DiscoveryStatus.FAILED
             self.playlist[_iter][self.Field.DISCOVERY_STATUS] = failed
             next_track = self.playlist.iter_next(_iter)
