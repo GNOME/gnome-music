@@ -50,7 +50,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.coverstack import CoverStack
-from gnomemusic.widgets.smoothscale import SmoothScale
+from gnomemusic.widgets.smoothscale import SmoothScale  # noqa
 import gnomemusic.utils as utils
 
 
