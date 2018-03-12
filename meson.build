@@ -1,5 +1,5 @@
 project('gnome-music',
-    version: '3.27.92.1'
+    version: '3.28.0'
 )
 
 # Importing modules

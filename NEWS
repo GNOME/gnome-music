@@ -1,3 +1,24 @@
+Overview of changes in 3.28.0
+=============================
+
+* Update appdata
+
+Bugs fixed:
+ albumartcache: Do not close non-existing stream on error (!95)
+ albumartcache: Fix possible lookup loop (!95)
+ albumartcache: Do not send two signals on error (!95)
+
+Thanks to our contributors this release:
+ Georges Basile Stavracas Neto
+ Marinus Schraal
+
+Translations updated:
+ Croatian
+ Danish
+ Friulian
+ British English
+ Turkish
+
 Overview of changes in 3.27.92.1
 ================================
 
