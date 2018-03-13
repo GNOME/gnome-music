@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2014-09-11 21:00+0000\n"
+"POT-Creation-Date: 2018-03-05 15:24+0000\n"
 "PO-Revision-Date: 2014-09-12 00:58+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@gnome.org>\n"
 "Language-Team: gnome-l10n-gl@gnome.org\n"
@@ -43,8 +43,13 @@ msgstr "2014"
 #. (itstool) path: info/desc
 #. (itstool) path: page/p
 #: C/introduction.page:18 C/introduction.page:23
+#, fuzzy
+#| msgid ""
+#| "A simple and elegant replacement for using files to show the music "
+#| "directory."
 msgid ""
-"A simple and elegant replacement for using files to show the music directory."
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
 msgstr ""
 "Un substituto simple e elegante para usar ficheiros para mostrar o cartafol "
 "de música."
@@ -143,8 +148,8 @@ msgid ""
 "You can view all your albums by clicking on the <gui style=\"button"
 "\">Albums</gui> button."
 msgstr ""
-"Pode ver todo os álbums premendo sobre o botón <gui style=\"button\""
-">Álbums</gui>."
+"Pode ver todo os álbums premendo sobre o botón <gui style=\"button\">Álbums</"
+"gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
@@ -248,8 +253,8 @@ msgid ""
 "You can view all the songs by clicking on the <gui style=\"button\">Songs</"
 "gui> button."
 msgstr ""
-"Pode ver todas as canciónsemendo sobre o botón <gui style=\"button\""
-">Cancións</gui>."
+"Pode ver todas as canciónsemendo sobre o botón <gui style=\"button"
+"\">Cancións</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
@@ -284,8 +289,12 @@ msgstr "Crear listas de reproducións usando artistas"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
+#, fuzzy
+#| msgid ""
+#| "You can view all the artists and their songs by clicking on the <gui syle="
+#| "\"button\">Artists</gui> button."
 msgid ""
-"You can view all the artists and their songs by clicking on the <gui syle="
+"You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
 "Pode ver todos os artistas e as súas cancións premendo sobre o botón <gui "
