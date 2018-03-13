@@ -13,13 +13,12 @@ variables:
 build:
   stage: build
   script:
-    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
-    - git submodule update --init
+    - dnf upgrade -y && dnf install -y $DEPENDENCIES
     - meson builddir
     - ninja -C builddir
 
 flake8:
   stage: check
   script:
-    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-flake8
+    - dnf upgrade -y && dnf install -y python3-flake8
     - flake8 --ignore E402 --select W504 --show-source --exclude=mpris.py,grilo.py,query.py,window.py gnomemusic/
