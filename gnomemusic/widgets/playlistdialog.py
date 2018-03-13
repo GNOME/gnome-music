@@ -85,12 +85,14 @@ class PlaylistDialog():
 
         def playlists_available_cb(available):
             if available:
+                self._normal_state.show()
                 self._add_playlist_stack.set_visible_child(self._normal_state)
                 self._new_playlist_button = self._ui.get_object(
                     'new-playlist-button')
                 self._new_playlist_entry = self._ui.get_object(
                     'new-playlist-entry')
             else:
+                self._empty_state.show()
                 self._add_playlist_stack.set_visible_child(self._empty_state)
                 self._new_playlist_button = self._ui.get_object(
                     'create-first-playlist-button')
