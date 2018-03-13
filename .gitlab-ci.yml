@@ -4,10 +4,10 @@ stages:
   - build
 
 variables:
-  DEPENDENCIES: python3 redhat-rpm-config gettext-devel git pygobject3
+  DEPENDENCIES: python3 gettext-devel git pygobject3
                 pygobject3-devel python3-gobject python3-cairo-devel
                 gtk3-devel gobject-introspection-devel tracker-devel
-                which libmediaart-devel grilo-devel gnome-online-accounts-devel
+                libmediaart-devel grilo-devel gnome-online-accounts-devel
                 meson ninja-build
 
 build:
