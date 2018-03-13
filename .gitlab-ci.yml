@@ -4,29 +4,20 @@ stages:
   - build
 
 variables:
-  DEPENDENCIES: python3 redhat-rpm-config gettext-devel git pygobject3
-                pygobject3-devel python3-gobject python3-cairo-devel
-                gtk3-devel gobject-introspection-devel tracker-devel
-                which libmediaart-devel grilo-devel gnome-online-accounts-devel
-                meson ninja-build
+  DEPENDENCIES: gettext-devel git pygobject3 pygobject3-devel python3-gobject
+                python3-cairo-devel gtk3-devel gobject-introspection-devel
+                tracker-devel libmediaart-devel grilo-devel
+                gnome-online-accounts-devel meson ninja-build
 
 build:
   stage: build
   script:
-    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck $DEPENDENCIES
-    - git submodule update --init
+    - dnf install -y $DEPENDENCIES
     - meson builddir
     - ninja -C builddir
 
-pyflakes:
+flake8:
   stage: check
   script:
-    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-pyflakes
-    - python3-pyflakes gnomemusic/
-
-pep8:
-  stage: check
-  script:
-    - dnf update -y --nogpgcheck && dnf install -y --nogpgcheck python3-pep8
-    - python3-pep8 --ignore=W503,E402 --show-source --show-pep8 --exclude=mpris.py,grilo.py,query.py,player.py,window.py gnomemusic/
-  allow_failure: true
+    - dnf install -y python3-flake8
+    - flake8 --ignore E402 --select W504 --show-source --exclude=mpris.py,grilo.py,query.py,player.py,window.py gnomemusic/
