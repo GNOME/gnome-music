@@ -325,7 +325,7 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def _tag_button_clicked(self, entry, tag_):
-        tag_.manager.active = tag_.manager.values[1][BaseModelColumns.ID]
+        tag_.manager.active = tag_.manager.values[2][BaseModelColumns.ID]
         self._search_entry_changed(None)
 
     @log
