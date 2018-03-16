@@ -334,7 +334,7 @@ msgstr "Seleccioneu totes les cançons que es vulguin eliminar."
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:38
 msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
-msgstr "Feu clic a <gui style=\"button\">Suprimeix de la llista de reproducció/gui>."
+msgstr "Feu clic a <gui style=\"button\">Suprimeix de la llista de reproducció</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-repeat.page:18
