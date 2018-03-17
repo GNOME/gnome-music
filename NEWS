@@ -1,3 +1,15 @@
+Overview of changes in 3.28.0.1
+===============================
+
+* Fix issue with untranslated UI elements
+
+Bugs fixed:
+ Partly untranslated user interface (#169)
+
+Translations updated:
+ Russian
+ Galician
+
 Overview of changes in 3.28.0
 =============================
 
