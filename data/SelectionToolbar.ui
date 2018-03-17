@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface domain="gnome-music">
+<interface>
   <!-- interface-requires gtk+ 3.12 -->
   <object class="GtkActionBar" id="actionbar">
     <property name="visible">True</property>
