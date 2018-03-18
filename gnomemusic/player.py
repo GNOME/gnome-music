@@ -385,6 +385,12 @@ class Player(GObject.GObject):
 
     @log
     def add_song(self, model, path, _iter):
+        """Add a song to current playlist
+
+        :param GtkListStore model: TreeModel
+        :param GtkTreePath path: song position
+        :param GtkTreeIter_iter: song iter
+        """
         new_row = model[_iter]
         self.playlist.insert_with_valuesv(
             int(path.to_string()),
@@ -395,6 +401,11 @@ class Player(GObject.GObject):
 
     @log
     def remove_song(self, model, path):
+        """Remove a song from current playlist
+
+        :param GtkListStore model: TreeModel
+        :param GtkTreePath path: song position
+        """
         iter_remove = self.playlist.get_iter_from_string(path.to_string())
         if (self.currentTrack.get_path().to_string() == path.to_string()):
             if self.has_next():
