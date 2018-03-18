@@ -48,10 +48,5 @@
             <summary>Inital state has been displayed</summary>
             <description>Set to true when initial state has been displayed</description>
         </key>
-        <key type="b" name="albumArtUpdate">
-        	<default>true</default>
-        	<summary>Enable albumArtUpdate</summary>
-        	<description>Enables or disables automatic album art update from services such as Last FM</description>
-        </key>
     </schema>
 </schemalist>
