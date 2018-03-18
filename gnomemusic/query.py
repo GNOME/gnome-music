@@ -828,13 +828,16 @@ class Query():
                     BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
                     BIND(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
                     BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
+                    BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
                     FILTER (
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), "%(name)s") ||
                         CONTAINS(tracker:case-fold(?match1), "%(name)s") ||
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), "%(name)s") ||
                         CONTAINS(tracker:case-fold(?match2), "%(name)s") ||
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match3)), "%(name)s") ||
-                        CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                        CONTAINS(tracker:case-fold(?match3), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match4)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match4), "%(name)s")
                     )
                 }
             }
@@ -887,13 +890,16 @@ class Query():
                     BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
                     BIND(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
                     BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
+                    BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
                     FILTER (
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), "%(name)s") ||
                         CONTAINS(tracker:case-fold(?match1), "%(name)s") ||
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), "%(name)s") ||
                         CONTAINS(tracker:case-fold(?match2), "%(name)s") ||
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match3)), "%(name)s") ||
-                        CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                        CONTAINS(tracker:case-fold(?match3), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match4)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match4), "%(name)s")
                     )
                 }
             }
@@ -946,13 +952,16 @@ class Query():
                     BIND(tracker:normalize(nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
                     BIND(tracker:normalize(nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
                     BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
+                    BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
                     FILTER (
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match1)), "%(name)s") ||
                         CONTAINS(tracker:case-fold(?match1), "%(name)s") ||
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match2)), "%(name)s") ||
                         CONTAINS(tracker:case-fold(?match2), "%(name)s") ||
                         CONTAINS(tracker:case-fold(tracker:unaccent(?match3)), "%(name)s") ||
-                        CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                        CONTAINS(tracker:case-fold(?match3), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(tracker:unaccent(?match4)), "%(name)s") ||
+                        CONTAINS(tracker:case-fold(?match4), "%(name)s")
                     )
                 }
             }
