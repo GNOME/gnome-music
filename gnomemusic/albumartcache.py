@@ -534,5 +534,6 @@ class AlbumArtCache(GObject.GObject):
                 self.blacklist[artist].append(album_stripped)
 
             self.lookup(item, art_size, callback, itr)
-
-        grilo.get_album_art_for_item(item, album_art_for_item_cb)
+            
+        if Gio.Settings.new('org.gnome.Music').get_value('albumArtUpdate'):
+            grilo.get_album_art_for_item(item, album_art_for_item_cb)
