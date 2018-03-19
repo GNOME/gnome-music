@@ -29,6 +29,7 @@ import os
 
 import cairo
 import gi
+gi.require_version('GstTag', '1.0')
 gi.require_version('MediaArt', '2.0')
 from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils)
