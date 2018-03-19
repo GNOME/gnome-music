@@ -7,6 +7,7 @@ gnomemusic/__init__.py
 gnomemusic/albumartcache.py
 gnomemusic/application.py
 gnomemusic/grilo.py
+gnomemusic/gstplayer.py
 gnomemusic/mpris.py
 gnomemusic/player.py
 gnomemusic/playlists.py
