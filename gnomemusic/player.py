@@ -430,7 +430,6 @@ class Player(GObject.GObject):
         else:
             self.pause()
 
-        media = self.get_current_media()
         self._play_button.set_image(self._pause_image)
 
     @log
