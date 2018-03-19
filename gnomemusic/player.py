@@ -573,11 +573,8 @@ class Player(GObject.GObject):
 
         Play the next song of the playlist, if any.
         """
-        if self.playlist is None:
-            return True
-
-        if not self._next_button.get_sensitive():
-            return True
+        if not self.has_next():
+            return
 
         self.current_track = self._next_track
         self.play()
@@ -588,10 +585,7 @@ class Player(GObject.GObject):
 
         Play the previous song of the playlist, if any.
         """
-        if self.playlist is None:
-            return
-
-        if self._prev_button.get_sensitive() is False:
+        if not self.has_previous():
             return
 
         position = self._player.position
