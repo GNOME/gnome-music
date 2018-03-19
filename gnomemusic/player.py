@@ -720,11 +720,8 @@ class Player(GObject.GObject):
 
     @log
     def play_next(self):
-        if self.playlist is None:
-            return True
-
-        if not self.nextBtn.get_sensitive():
-            return True
+        if not self.has_next():
+            return
 
         self.stop()
         self.currentTrack = self.nextTrack
@@ -732,10 +729,7 @@ class Player(GObject.GObject):
 
     @log
     def play_previous(self):
-        if self.playlist is None:
-            return
-
-        if self.prevBtn.get_sensitive() is False:
+        if not self.has_previous():
             return
 
         position = self.get_position() / 1000000
