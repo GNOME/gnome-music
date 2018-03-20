@@ -180,7 +180,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_selection_changed(self, widget):
         items = self._disc_listbox.get_selected_items()
-        self.selection_toolbar._add_to_playlist_button.set_sensitive(
+        self.selection_toolbar.add_to_playlist_button.set_sensitive(
             len(items) > 0)
         if len(items) > 0:
             self._header_bar._selection_menu_label.set_text(
