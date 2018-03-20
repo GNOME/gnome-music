@@ -34,7 +34,7 @@ from gettext import gettext as _
 
 from gnomemusic import log
 from gnomemusic.toolbar import Toolbar, ToolbarState
-from gnomemusic.player import Player, SelectionToolbar, RepeatType
+from gnomemusic.player import Player, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
@@ -47,6 +47,7 @@ from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
 
@@ -232,7 +233,7 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(self.toolbar.searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self.player.actionbar, False, False, 0)
-        self._box.pack_start(self.selection_toolbar.actionbar, False, False, 0)
+        self._box.pack_start(self.selection_toolbar, False, False, 0)
         self.add(self._box)
 
         def songs_available_cb(available):
@@ -249,7 +250,7 @@ class Window(Gtk.ApplicationWindow):
 
         self.toolbar._search_button.connect('toggled', self._on_search_toggled)
         self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
-        self.selection_toolbar._add_to_playlist_button.connect(
+        self.selection_toolbar.add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
 
         self.toolbar.set_state(ToolbarState.MAIN)
@@ -503,7 +504,8 @@ class Window(Gtk.ApplicationWindow):
         else:
             child = self._stack.get_visible_child()
             in_playlist = (child == self.views[View.PLAYLIST])
-            self.selection_toolbar._add_to_playlist_button.set_visible(not in_playlist)
+            self.selection_toolbar.add_to_playlist_button.set_visible(
+                not in_playlist)
 
     @log
     def _on_add_to_playlist_button_clicked(self, widget):
