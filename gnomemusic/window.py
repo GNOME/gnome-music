@@ -33,8 +33,8 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.toolbar import Toolbar, ToolbarState
-from gnomemusic.player import Player, SelectionToolbar, RepeatType
+from gnomemusic.toolbar import SelectionToolbar, Toolbar, ToolbarState
+from gnomemusic.player import Player, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
