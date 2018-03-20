@@ -802,17 +802,3 @@ class Player(GObject.GObject):
         if self.playlist[current_track][self.Field.DISCOVERY_STATUS] == failed:
             return None
         return self.playlist[current_track][self.Field.SONG]
-
-
-class SelectionToolbar():
-
-    def __repr__(self):
-        return '<SelectionToolbar>'
-
-    @log
-    def __init__(self):
-        self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
-        self.actionbar = self._ui.get_object('actionbar')
-        self._add_to_playlist_button = self._ui.get_object('button1')
-        self.actionbar.set_visible(False)

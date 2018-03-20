@@ -162,3 +162,17 @@ class Toolbar(GObject.GObject):
         self._back_button.set_visible(
             not self._selection_mode and self._state != ToolbarState.MAIN)
         self.header_bar.set_show_close_button(not self._selection_mode)
+
+
+class SelectionToolbar():
+
+    def __repr__(self):
+        return '<SelectionToolbar>'
+
+    @log
+    def __init__(self):
+        self._ui = Gtk.Builder()
+        self._ui.add_from_resource('/org/gnome/Music/SelectionToolbar.ui')
+        self.actionbar = self._ui.get_object('actionbar')
+        self._add_to_playlist_button = self._ui.get_object('button1')
+        self.actionbar.set_visible(False)
