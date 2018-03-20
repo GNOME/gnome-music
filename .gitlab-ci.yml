@@ -9,7 +9,7 @@ variables:
                 tracker-devel libmediaart-devel grilo-devel
                 gnome-online-accounts-devel meson ninja-build
 
-build:
+.build:
   stage: build
   script:
     - dnf install -y $DEPENDENCIES

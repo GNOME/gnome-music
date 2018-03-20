@@ -142,13 +142,13 @@ class BaseView(Gtk.Stack):
             self._header_bar.set_selection_mode(True)
             self.player.actionbar.set_visible(False)
             select_toolbar = self._selection_toolbar
-            select_toolbar.actionbar.set_visible(True)
-            select_toolbar._add_to_playlist_button.set_sensitive(False)
+            select_toolbar.set_visible(True)
+            select_toolbar.add_to_playlist_button.set_sensitive(False)
         else:
             self._header_bar.set_selection_mode(False)
             track_playing = self.player.current_track is not None
             self.player.actionbar.set_visible(track_playing)
-            self._selection_toolbar.actionbar.set_visible(False)
+            self._selection_toolbar.set_visible(False)
             self.unselect_all()
 
     @log
@@ -181,7 +181,7 @@ class BaseView(Gtk.Stack):
     def update_header_from_selection(self, n_items):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
-        select_toolbar._add_to_playlist_button.set_sensitive(n_items > 0)
+        select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
         if n_items > 0:
             self._header_bar._selection_menu_label.set_text(
                 ngettext("Selected {} item",
@@ -244,7 +244,7 @@ class BaseView(Gtk.Stack):
 
         if count > 0:
             select_toolbar = self._selection_toolbar
-            select_toolbar._add_to_playlist_button.set_sensitive(True)
+            select_toolbar.add_to_playlist_button.set_sensitive(True)
 
         self.update_header_from_selection(count)
         self._view.queue_draw()
@@ -254,7 +254,7 @@ class BaseView(Gtk.Stack):
         """Unselects all the selected songs."""
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
-        select_toolbar._add_to_playlist_button.set_sensitive(False)
+        select_toolbar.add_to_playlist_button.set_sensitive(False)
         self._header_bar._selection_menu_label.set_text(
             _("Click on items to select them"))
         self.queue_draw()
