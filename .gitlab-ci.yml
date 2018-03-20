@@ -1,7 +1,7 @@
 image: fedora:latest
 stages:
   - check
-  - build
+  # - build
 
 variables:
   DEPENDENCIES: gettext-devel git pygobject3 pygobject3-devel python3-gobject
