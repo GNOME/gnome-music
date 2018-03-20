@@ -216,7 +216,7 @@ class ArtistAlbumsWidget(Gtk.Box):
             if row[6]:
                 selected_items += 1
 
-        add_button = self._selection_toolbar._add_to_playlist_button
+        add_button = self._selection_toolbar.add_to_playlist_button
         add_button.set_sensitive(selected_items > 0)
 
         menu_label = self._header_bar._selection_menu_label

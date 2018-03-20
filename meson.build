@@ -26,7 +26,7 @@ dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 dependency('gtk+-3.0', version: '>= 3.19.3')
 dependency('libmediaart-2.0', version: '>= 1.9.1')
 dependency('tracker-sparql-2.0', version: '>= 1.99.1')
-dependency('pygobject-3.0', version: '>= 3.21.1')
+dependency('pygobject-3.0', version: '>= 3.29.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.4')
 
