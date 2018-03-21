@@ -221,7 +221,7 @@ class SongsView(BaseView):
             cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        track_uri = self.player.current_track_uri
+        track_uri = self.player.get_url()
         if not track_uri:
             cell.set_visible(False)
             return
