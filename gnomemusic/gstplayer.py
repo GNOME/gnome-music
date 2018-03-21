@@ -237,7 +237,7 @@ class GstPlayer(GObject.GObject):
         :return: url
         :rtype: string
         """
-        return self._player.get_value('current-uri', 0)
+        return self._player.props.uri
 
     @url.setter
     @log
