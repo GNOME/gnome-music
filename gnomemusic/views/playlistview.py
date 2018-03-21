@@ -250,7 +250,7 @@ class PlaylistView(BaseView):
         if model[_iter][11] == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
-        elif model[_iter][5].get_url() == self.player.current_track_uri:
+        elif model[_iter][5].get_url() == self.player.url:
             cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:

@@ -102,7 +102,6 @@ class Player(GObject.GObject):
         self.playlist_id = None
         self.playlist_field = None
         self.current_track = None
-        self._current_track_uri = None
         self._next_track = None
         self._shuffle_history = deque(maxlen=10)
         self._new_clock = True
@@ -130,16 +129,6 @@ class Player(GObject.GObject):
 
         self._setup_view()
         self._lastfm = LastFmScrobbler()
-
-    @GObject.Property
-    @log
-    def current_track_uri(self):
-        """Current song uri
-
-        :return: song uri
-        :rtype: string
-        """
-        return self._current_track_uri
 
     @log
     def _discover_item(self, item, callback, data=None):
@@ -457,12 +446,8 @@ class Player(GObject.GObject):
         if self.current_track and self.current_track.valid():
             current_track = self.playlist.get_iter(
                 self.current_track.get_path())
-            uri = self.playlist[current_track][self.Field.SONG].get_url()
-            self._current_track_uri = uri
             self.emit('playlist-item-changed', self.playlist, current_track)
             self.emit('current-changed')
-        else:
-            self._current_track_uri = None
 
         self._validate_next_track()
 
@@ -522,10 +507,6 @@ class Player(GObject.GObject):
                 if current_track:
                     self.current_track = Gtk.TreeRowReference.new(
                         self.playlist, current_track)
-                    iter_ = self.playlist.get_iter(
-                        self.current_track.get_path())
-                    uri = self.playlist[iter_][5].get_url()
-                    self.current_track_uri = uri
                 else:
                     self.current_track = None
                 self._load(self.get_current_media())
@@ -763,6 +744,12 @@ class Player(GObject.GObject):
     def get_playback_status(self):
         # FIXME: Just a proxy right now.
         return self._player.state
+
+    @GObject.Property
+    @log
+    def url(self):
+        # FIXME: Just a proxy right now.
+        return self._player.url
 
     @log
     def get_repeat_mode(self):
