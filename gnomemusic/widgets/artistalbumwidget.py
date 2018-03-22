@@ -27,6 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
+from gnomemusic.gstplayer import Playback
 from gnomemusic.widgets.coverstack import CoverStack
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
@@ -130,7 +131,7 @@ class ArtistAlbumWidget(Gtk.Box):
             self._selection_mode = False
             self._disc_listbox.set_selection_mode(False)
             self._header_bar.set_selection_mode(False)
-            if(self._player.get_playback_status() != 2):
+            if self._player.get_playback_status() != Playback.STOPPED:
                 self._player.actionbar.set_visible(True)
 
     @log
