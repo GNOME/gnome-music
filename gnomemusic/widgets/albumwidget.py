@@ -56,6 +56,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._songs = []
 
+        self._parent_view = parent_view
         self._player = player
         self._iter_to_clean = None
 
@@ -204,7 +205,7 @@ class AlbumWidget(Gtk.EventBox):
             self._selection_mode = True
             self._disc_listbox.set_selection_mode(True)
             self._header_bar.set_selection_mode(True)
-            self._player.actionbar.set_visible(False)
+            self._parent_view.set_player_visible(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
@@ -212,7 +213,7 @@ class AlbumWidget(Gtk.EventBox):
             self._disc_listbox.set_selection_mode(False)
             self._header_bar.set_selection_mode(False)
             if self._player.get_playback_status() != Playback.STOPPED:
-                self._player.actionbar.set_visible(True)
+                self._parent_view.set_player_visible(True)
 
     @log
     def _create_disc_box(self, disc_nr, disc_songs):

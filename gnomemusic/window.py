@@ -46,6 +46,7 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
+from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.playlists import Playlists
@@ -213,6 +214,7 @@ class Window(Gtk.ApplicationWindow):
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.player = Player(self)
+        self.player_toolbar = PlayerToolbar(self.player)
         self.selection_toolbar = SelectionToolbar()
         self.toolbar = Toolbar()
         self.views = [None] * len(View)
@@ -232,7 +234,7 @@ class Window(Gtk.ApplicationWindow):
         self.set_titlebar(self.toolbar.header_bar)
         self._box.pack_start(self.toolbar.searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
-        self._box.pack_start(self.player.actionbar, False, False, 0)
+        self._box.pack_start(self.player_toolbar, False, False, 0)
         self._box.pack_start(self.selection_toolbar, False, False, 0)
         self.add(self._box)
 
@@ -256,7 +258,7 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.set_state(ToolbarState.MAIN)
         self.toolbar.header_bar.show()
         self._overlay.show()
-        self.player.actionbar.show_all()
+        self.player_toolbar.show_all()
         self._box.show()
         self.show()
 
@@ -525,3 +527,11 @@ class Window(Gtk.ApplicationWindow):
             playlist_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)
+
+    @log
+    def set_player_visible(self, visible):
+        """Set PlayWidget action visibility
+
+        :param bool visible: actionbar visibility
+        """
+        self.player_toolbar.set_visible(visible)
