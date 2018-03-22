@@ -141,14 +141,14 @@ class BaseView(Gtk.Stack):
 
         if self.selection_mode:
             self._header_bar.set_selection_mode(True)
-            self.player.actionbar.set_visible(False)
+            self.set_player_visible(False)
             select_toolbar = self._selection_toolbar
             select_toolbar.actionbar.set_visible(True)
             select_toolbar._add_to_playlist_button.set_sensitive(False)
         else:
             self._header_bar.set_selection_mode(False)
             track_playing = self.player.current_track is not None
-            self.player.actionbar.set_visible(track_playing)
+            self.set_player_visible(track_playing)
             self._selection_toolbar.actionbar.set_visible(False)
             self.unselect_all()
 
@@ -283,3 +283,11 @@ class BaseView(Gtk.Stack):
         self._header_bar._selection_menu_label.set_text(
             _("Click on items to select them"))
         self.queue_draw()
+
+    @log
+    def set_player_visible(self, visible):
+        """Set PlayWidget action visibility
+
+        :param bool visible: Set actionbar visibility
+        """
+        self._window.player_toolbar.set_visible(visible)
