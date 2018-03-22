@@ -51,7 +51,7 @@
     <property name="icon_name">media-skip-backward-symbolic</property>
     <property name="icon_size">1</property>
   </object>
-  <object class="GtkActionBar" id="actionbar">
+  <object class="GtkActionBar" id="PlayerToolbar">
     <property name="can_focus">False</property>
     <property name="no_show_all">True</property>
     <child>
