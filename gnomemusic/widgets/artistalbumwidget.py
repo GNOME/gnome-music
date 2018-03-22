@@ -43,7 +43,7 @@ class ArtistAlbumWidget(Gtk.Box):
         return '<ArtistAlbumWidget>'
 
     @log
-    def __init__(self, media, player, model, header_bar,
+    def __init__(self, media, player, model, parent_view, header_bar,
                  selection_mode_allowed, size_group=None,
                  cover_size_group=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
@@ -56,6 +56,7 @@ class ArtistAlbumWidget(Gtk.Box):
         self._artist = utils.get_artist_name(self._media)
         self._album_title = utils.get_album_title(self._media)
         self._model = model
+        self._parent_view = parent_view
         self._header_bar = header_bar
         self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
@@ -122,7 +123,7 @@ class ArtistAlbumWidget(Gtk.Box):
             self._selection_mode = True
             self._disc_listbox.set_selection_mode(True)
             self._header_bar.set_selection_mode(True)
-            self._player.actionbar.set_visible(False)
+            self._parent_view.set_player_visible(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
@@ -130,7 +131,7 @@ class ArtistAlbumWidget(Gtk.Box):
             self._disc_listbox.set_selection_mode(False)
             self._header_bar.set_selection_mode(False)
             if self._player.get_playback_status() != Playback.STOPPED:
-                self._player.actionbar.set_visible(True)
+                self._parent_view.set_player_visible(True)
 
     @log
     def _add_item(self, source, prefs, song, remaining, data=None):
