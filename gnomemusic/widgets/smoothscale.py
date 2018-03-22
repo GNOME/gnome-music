@@ -84,9 +84,9 @@ class SmoothScale(Gtk.Scale):
     def player(self, player):
         """Set the GstPlayer object used
 
-        :param GstPlayer player: The GstPlayer to use
+        :param Player player: The main Player
         """
-        self._player = player
+        self._player = player.get_gst_player()
 
         self._player.connect('notify::state', self._on_state_change)
         self._player.connect('notify::duration', self._on_duration_changed)
