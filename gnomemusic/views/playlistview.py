@@ -689,7 +689,7 @@ class PlaylistView(BaseView):
 
         if self.player.running_playlist('Playlist', playlist_id):
             self.player.stop()
-            self.player.actionbar.set_visible(False)
+            self.set_player_visible(False)
 
         if row_next:
             self._sidebar.select_row(row_next)

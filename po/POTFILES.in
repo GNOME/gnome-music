@@ -9,7 +9,6 @@ gnomemusic/application.py
 gnomemusic/grilo.py
 gnomemusic/gstplayer.py
 gnomemusic/mpris.py
-gnomemusic/player.py
 gnomemusic/playlists.py
 gnomemusic/query.py
 gnomemusic/searchbar.py
@@ -29,6 +28,7 @@ gnomemusic/widgets/artistalbumswidget.py
 gnomemusic/widgets/artistalbumwidget.py
 gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/notificationspopup.py
+gnomemusic/widgets/playerwidget.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py
