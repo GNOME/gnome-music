@@ -415,7 +415,7 @@ class PlaylistView(BaseView):
         # update player's playlist.
         if self.player.running_playlist(
                 'Playlist', self._current_playlist.get_id()):
-            playing_old_path = self.player.currentTrack.get_path().to_string()
+            playing_old_path = self.player.current_track.get_path().to_string()
             playing_old_pos = int(playing_old_path)
             iter_ = model.get_iter_from_string(playing_old_path)
             # if playing song position has changed

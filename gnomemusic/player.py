@@ -202,7 +202,7 @@ class Player(GObject.GObject):
         :param GtkTreePath path: song position
         """
         iter_remove = self.playlist.get_iter_from_string(path.to_string())
-        if (self.currentTrack.get_path().to_string() == path.to_string()):
+        if (self.current_track.get_path().to_string() == path.to_string()):
             if self.has_next():
                 self.play_next()
             elif self.has_previous():
