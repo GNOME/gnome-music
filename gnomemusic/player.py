@@ -28,7 +28,6 @@ from random import randint
 import logging
 import time
 
-from gettext import gettext as _
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
@@ -36,14 +35,10 @@ gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstPbutils
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
-from gnomemusic.widgets.coverstack import CoverStack
-from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
-import gnomemusic.utils as utils
 
 
 logger = logging.getLogger(__name__)
@@ -66,7 +61,7 @@ class DiscoveryStatus:
 class Player(GObject.GObject):
     """Main Player object
 
-    Contains the UI and logic of playing a song with Music.
+    Contains the logic of playing a song with Music.
     """
 
     class Field(IntEnum):
@@ -75,6 +70,7 @@ class Player(GObject.GObject):
         DISCOVERY_STATUS = 1
 
     __gsignals__ = {
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'current-song-changed': (
             GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)
@@ -84,7 +80,7 @@ class Player(GObject.GObject):
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
-        'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'state-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __repr__(self):
@@ -126,7 +122,6 @@ class Player(GObject.GObject):
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
 
-        self._setup_view()
         self._lastfm = LastFmScrobbler()
 
     @log
@@ -168,8 +163,8 @@ class Player(GObject.GObject):
     @log
     def _on_repeat_setting_changed(self, settings, value):
         self.repeat = settings.get_enum('repeat')
-        self._sync_prev_next()
-        self._sync_repeat_image()
+        self.emit('repeat-mode-changed')
+        self.emit('prev-next-invalidated')
         self._validate_next_track()
 
     @log
@@ -191,7 +186,7 @@ class Player(GObject.GObject):
             [self.Field.SONG, self.Field.DISCOVERY_STATUS],
             [new_row[5], new_row[11]])
         self._validate_next_track()
-        self._sync_prev_next()
+        self.emit('prev-next-invalidated')
 
     @log
     def remove_song(self, model, path):
@@ -211,7 +206,7 @@ class Player(GObject.GObject):
 
         self.playlist.remove(iter_remove)
         self._validate_next_track()
-        self._sync_prev_next()
+        self.emit('prev-next-invalidated')
 
     @log
     def _get_random_iter(self, current_track):
@@ -380,30 +375,9 @@ class Player(GObject.GObject):
 
     @log
     def _on_state_change(self, klass, arguments):
-        self._sync_playing()
+        self.emit('state-changed')
 
         return True
-
-    @log
-    def _sync_playing(self):
-        if self._player.state == Playback.PLAYING:
-            image = self._pause_image
-            tooltip = _("Pause")
-        else:
-            image = self._play_image
-            tooltip = _("Play")
-
-        if self._play_button.get_image() != image:
-            self._play_button.set_image(image)
-
-        self._play_button.set_tooltip_text(tooltip)
-
-    @log
-    def _sync_prev_next(self):
-        self._next_button.set_sensitive(self.has_next())
-        self._prev_button.set_sensitive(self.has_previous())
-
-        self.emit('prev-next-invalidated')
 
     @log
     def set_playing(self, value):
@@ -411,31 +385,15 @@ class Player(GObject.GObject):
 
         :param bool value: Playing
         """
-        self.actionbar.show()
-
         if value:
             self.play()
         else:
             self.pause()
 
-        self._play_button.set_image(self._pause_image)
+        self.emit('state-changed')
 
     @log
     def _load(self, media):
-        self._total_time_label.set_label(
-            utils.seconds_to_string(media.get_duration()))
-
-        self._play_button.set_sensitive(True)
-        self._sync_prev_next()
-
-        artist = utils.get_artist_name(media)
-        self._artist_label.set_label(artist)
-
-        self._cover_stack.update(media)
-
-        title = utils.get_media_title(media)
-        self._title_label.set_label(title)
-
         self._time_stamp = int(time.time())
 
         url_ = media.get_url()
@@ -487,10 +445,6 @@ class Player(GObject.GObject):
             GLib.idle_add(self._validate_next_track)
 
         return False
-
-    @log
-    def _on_cover_stack_updated(self, klass):
-        self.emit('thumbnail-updated')
 
     @log
     def _on_eos(self, klass):
@@ -610,10 +564,8 @@ class Player(GObject.GObject):
         self.playlist_id = id_
 
         if self._player.state == Playback.PLAYING:
-            self._sync_prev_next()
+            self.emit('prev-next-invalidated')
 
-        current_track = self.playlist.get_iter(playlist_path)
-        self.emit('current-song-changed', self.playlist, current_track)
         GLib.idle_add(self._validate_next_track)
 
     @log
@@ -624,52 +576,7 @@ class Player(GObject.GObject):
             return None
 
     @log
-    def _setup_view(self):
-        self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/PlayerToolbar.ui')
-        self.actionbar = self._ui.get_object('actionbar')
-        self._prev_button = self._ui.get_object('previous_button')
-        self._play_button = self._ui.get_object('play_button')
-        self._next_button = self._ui.get_object('next_button')
-        self._play_image = self._ui.get_object('play_image')
-        self._pause_image = self._ui.get_object('pause_image')
-
-        self._progress_scale = self._ui.get_object('smooth_scale')
-        self._progress_scale.player = self._player
-
-        self._progress_scale.connect('seek-finished', self._on_seek_finished)
-        self._progress_scale.connect(
-            'value-changed', self._on_progress_value_changed)
-
-        self._progress_time_label = self._ui.get_object('playback')
-        self._total_time_label = self._ui.get_object('duration')
-        self._title_label = self._ui.get_object('title')
-        self._artist_label = self._ui.get_object('artist')
-
-        stack = self._ui.get_object('cover')
-        self._cover_stack = CoverStack(stack, Art.Size.XSMALL)
-        self._cover_stack.connect('updated', self._on_cover_stack_updated)
-
-        self._repeat_button_image = self._ui.get_object('playlistRepeat')
-
-        self._sync_repeat_image()
-
-        self._prev_button.connect('clicked', self._on_prev_button_clicked)
-        self._play_button.connect('clicked', self._on_play_button_clicked)
-        self._next_button.connect('clicked', self._on_next_button_clicked)
-
-    def _on_progress_value_changed(self, progress_scale):
-        seconds = int(progress_scale.get_value() / 60)
-        self._progress_time_label.set_label(utils.seconds_to_string(seconds))
-
-    @log
-    def _on_seek_finished(self, klass, time):
-        self._player.state = Playback.PLAYING
-
-    @log
     def _on_clock_tick(self, klass, tick):
-        seconds = int(self._player.position)
-
         logger.debug("Clock tick {}, player at {} seconds".format(
             tick, self._player.position))
 
@@ -678,9 +585,6 @@ class Player(GObject.GObject):
         if tick == 0:
             self._new_clock = True
             self._lastfm.now_playing(current_media)
-
-        self._progress_time_label.set_label(
-            utils.seconds_to_string(seconds))
 
         duration = self._player.duration
         if duration is None:
@@ -704,37 +608,14 @@ class Player(GObject.GObject):
                 grilo.bump_play_count(current_media)
                 grilo.set_last_played(current_media)
 
-    @log
-    def _on_play_button_clicked(self, button):
-        if self._player.state == Playback.PLAYING:
-            self.pause()
-        else:
-            self.play()
-
-    @log
-    def _on_next_button_clicked(self, button):
-        self.next()
-
-    @log
-    def _on_prev_button_clicked(self, button):
-        self.previous()
-
-    @log
-    def _sync_repeat_image(self):
-        icon = None
-        if self.repeat == RepeatType.NONE:
-            icon = 'media-playlist-consecutive-symbolic'
-        elif self.repeat == RepeatType.SHUFFLE:
-            icon = 'media-playlist-shuffle-symbolic'
-        elif self.repeat == RepeatType.ALL:
-            icon = 'media-playlist-repeat-symbolic'
-        elif self.repeat == RepeatType.SONG:
-            icon = 'media-playlist-repeat-song-symbolic'
-
-        self._repeat_button_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
-        self.emit('repeat-mode-changed')
+        self.emit('clock-tick', int(position))
 
     # MPRIS
+    @log
+    def get_gst_player(self):
+        """GstPlayer getter"""
+        return self._player
+
     @log
     def get_playback_status(self):
         # FIXME: Just a proxy right now.
@@ -762,7 +643,7 @@ class Player(GObject.GObject):
     @log
     def set_repeat_mode(self, mode):
         self.repeat = mode
-        self._sync_repeat_image()
+        self.emit('repeat-mode-changed')
 
     # TODO: used by MPRIS
     @log

@@ -224,13 +224,15 @@ class MediaPlayer2Service(Server):
         self.player = app.get_active_window().player
         self.player.connect(
             'current-song-changed', self._on_current_song_changed)
-        self.player.connect('thumbnail-updated', self._on_thumbnail_updated)
         self.player.connect('playback-status-changed', self._on_playback_status_changed)
         self.player.connect('repeat-mode-changed', self._on_repeat_mode_changed)
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seeked', self._on_seeked)
         self.player.connect('playlist-changed', self._on_playlist_changed)
+        self.player_widget = app.get_active_window().player_widget
+        self.player_widget.connect(
+            'thumbnail-updated', self._on_thumbnail_updated)
         playlists = Playlists.get_default()
         playlists.connect('playlist-created', self._on_playlists_count_changed)
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
