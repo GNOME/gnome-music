@@ -235,7 +235,7 @@ class SearchView(BaseView):
         group = 3
         try:
             group = {'album': 0, 'artist': 1, 'song': 2}[category]
-        except:
+        except KeyError:
             pass
 
         _iter = None

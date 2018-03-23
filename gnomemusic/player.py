@@ -696,7 +696,7 @@ class Player(GObject.GObject):
             percentage = tick / duration
             if (not self._lastfm.scrobbled
                     and duration > 30
-                    and (percentage > 0.5 or tick > 4*60)):
+                    and (percentage > 0.5 or tick > 4 * 60)):
                 self._lastfm.scrobble(current_media, self._time_stamp)
 
             if (percentage > 0.5
