@@ -29,7 +29,8 @@ import requests
 
 import gi
 gi.require_version('Goa', '1.0')
-from gi.repository import GLib, Goa, GObject
+gi.require_version('Soup', '2.4')
+from gi.repository import GLib, Goa, GObject, Soup
 
 from gnomemusic import log
 import gnomemusic.utils as utils
@@ -202,12 +203,13 @@ class LastFmScrobbler(GObject.GObject):
         })
 
         try:
-            r = requests.post(
-                "https://ws.audioscrobbler.com/2.0/", request_dict)
-            if r.status_code != 200:
+            session = Soup.Session.new()
+            msg = Soup.form_request_new_from_hash(
+                "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
+            status_code = session.send_message(msg)
+            if status_code != 200:
                 logger.warning("Failed to {} track: {} {}".format(
-                    request_type_key, r.status_code, r.reason))
-                logger.warning(r.text)
+                    request_type_key, status_code, msg.props.reason_phrase))
         except Exception as e:
             logger.warning(e)
 
