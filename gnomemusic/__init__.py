@@ -28,7 +28,7 @@
 from itertools import chain
 from time import time
 import logging
-from gnomemusic.errordialog import ErrorDialog
+from gnomemusic.widgets.errordialog import ErrorDialog
 import gi
 try:
     gi.require_version('Tracker', '2.0')
