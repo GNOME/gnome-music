@@ -80,8 +80,18 @@ class ArtistAlbumWidget(Gtk.Box):
         creation_date = self._media.get_creation_date()
         if creation_date:
             year = creation_date.get_year()
-            ui.get_object('year').set_markup(
-                '<span color=\'grey\'>{}</span>'.format(year))
+            label_year = ui.get_object('year')
+            label_year.set_label(str(year))
+            context = label_year.get_style_context()
+            provider = Gtk.CssProvider()
+            provider.load_from_data(b"""
+            .grey {
+                   color: grey;
+            }""")
+            context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME)
+            context.add_class('grey')
+            label_year.set_markup(
+                '<span>{}</span>'.format(label_year.get_text()))
 
         if self._size_group:
             self._size_group.add_widget(ui.get_object('box1'))

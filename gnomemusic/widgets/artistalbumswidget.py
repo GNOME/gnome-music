@@ -146,6 +146,16 @@ class ArtistAlbumsWidget(Gtk.Box):
             song = playlist[itr][player.Field.SONG]
             song_widget = song.song_widget
 
+
+            provider = Gtk.CssProvider()
+            provider.load_from_data(b"""
+            .black {
+                       color: black;
+             }""")
+            context = song_widget.title.get_style_context()
+            context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_FALLBACK)
+            context.add_class('black')
+
             if not song_widget.can_be_played:
                 itr = playlist.iter_next(itr)
                 continue
@@ -162,8 +172,16 @@ class ArtistAlbumsWidget(Gtk.Box):
                 song_widget.title.set_markup('<span>%s</span>' % escaped_title)
             else:
                 song_widget.now_playing_sign.hide()
+                provider = Gtk.CssProvider()
+                provider.load_from_data(b"""
+                .grey {
+                       color: grey;
+                }""")
+                context = song_widget.title.get_style_context()
+                context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME)
+                context.add_class('grey')
                 song_widget.title.set_markup(
-                    '<span color=\'grey\'>%s</span>' % escaped_title)
+                    '<span>%s</span>' % escaped_title)
             itr = playlist.iter_next(itr)
 
         return False

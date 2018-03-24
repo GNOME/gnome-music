@@ -307,6 +307,15 @@ class AlbumWidget(Gtk.EventBox):
             escaped_title = GLib.markup_escape_text(
                 utils.get_media_title(song))
 
+            provider = Gtk.CssProvider()
+            provider.load_from_data(b""" 
+            .black {
+                       color: black;
+             } """)
+            context = song_widget.title.get_style_context()
+            context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_FALLBACK)
+            context.add_class('black')
+
             if (song == current_song):
                 song_widget.now_playing_sign.show()
                 song_widget.title.set_markup("<b>{}</b>".format(escaped_title))
@@ -317,8 +326,16 @@ class AlbumWidget(Gtk.EventBox):
                     "<span>{}</span>".format(escaped_title))
             else:
                 song_widget.now_playing_sign.hide()
+                provider = Gtk.CssProvider()
+                provider.load_from_data(b""" 
+                .grey {
+                       color: grey;
+                } """)
+                context = song_widget.title.get_style_context()
+                context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME)
+                context.add_class('grey')
                 song_widget.title.set_markup(
-                    "<span color=\'grey\'>{}</span>".format(escaped_title))
+                    "<span>{}</span>".format(escaped_title))
 
             _iter = playlist.iter_next(_iter)
 

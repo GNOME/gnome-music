@@ -319,13 +319,29 @@ class DiscBox(Gtk.Box):
 
         song_widget.itr = itr
         song_widget.model = self._model
+        provider = Gtk.CssProvider()
+        provider.load_from_data(b""" 
+        .black {
+               color: black;
+        }""")
+        context = song_widget.get_style_context()
+        context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_FALLBACK)
+        context.add_class('black')
 
         song_number = song.get_track_number()
         if song_number == 0:
             song_number = ""
         song_widget.number = builder.get_object('num')
+        provider = Gtk.CssProvider()
+        provider.load_from_data(b""" 
+        .grey {
+               color: grey;
+        }""")
+        context = song_widget.get_style_context()
+        context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME)
+        context.add_class('grey')
         song_widget.number.set_markup(
-            '<span color=\'grey\'>{}</span>'.format(song_number))
+            '<span>{}</span>'.format(song_number))
         song_widget.number.set_no_show_all(True)
 
         song_widget.title = builder.get_object('title')
