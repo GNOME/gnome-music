@@ -25,7 +25,6 @@
 from hashlib import md5
 from threading import Thread
 import logging
-import requests
 
 import gi
 gi.require_version('Goa', '1.0')
