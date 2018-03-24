@@ -23,13 +23,12 @@
 # delete this exception statement from your version.
 
 from hashlib import md5
-from threading import Thread
 import logging
-import requests
 
 import gi
 gi.require_version('Goa', '1.0')
-from gi.repository import GLib, Goa, GObject
+gi.require_version('Soup', '2.4')
+from gi.repository import GLib, Goa, GObject, Soup
 
 from gnomemusic import log
 import gnomemusic.utils as utils
@@ -142,6 +141,7 @@ class LastFmScrobbler(GObject.GObject):
         self._scrobbled = False
         self._authentication = None
         self._goa_lastfm = GoaLastFM()
+        self._soup_session = Soup.Session.new()
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -179,7 +179,7 @@ class LastFmScrobbler(GObject.GObject):
 
         if time_stamp is not None:
             request_dict.update({
-                "timestamp": time_stamp
+                "timestamp": str(time_stamp)
             })
 
         request_dict.update({
@@ -192,7 +192,7 @@ class LastFmScrobbler(GObject.GObject):
 
         sig = ""
         for key in sorted(request_dict):
-            sig += key + str(request_dict[key])
+            sig += key + request_dict[key]
 
         sig += secret
 
@@ -201,22 +201,25 @@ class LastFmScrobbler(GObject.GObject):
             "api_sig": api_sig
         })
 
-        try:
-            r = requests.post(
-                "https://ws.audioscrobbler.com/2.0/", request_dict)
-            if r.status_code != 200:
-                logger.warning("Failed to {} track: {} {}".format(
-                    request_type_key, r.status_code, r.reason))
-                logger.warning(r.text)
-        except Exception as e:
-            logger.warning(e)
+        msg = Soup.form_request_new_from_hash(
+            "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
+        self._soup_session.queue_message(
+            msg, self._lastfm_api_callback, request_type_key)
+
+    @log
+    def _lastfm_api_callback(self, session, msg, request_type_key):
+        """Internall callback method called by queue_message"""
+        status_code = msg.props.status_code
+        if status_code != 200:
+            logger.warning("Failed to {} track {} : {}".format(
+                request_type_key, status_code, msg.props.reason_phrase))
+            logger.warning(msg.props.response_body.data)
 
     @log
     def scrobble(self, media, time_stamp):
         """Scrobble a song to Last.fm.
 
         If not connected to Last.fm nothing happens
-        Creates a new thread to make the request
 
         :param media: Grilo media item
         :param time_stamp: song loaded time (epoch time)
@@ -226,17 +229,13 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
-        t = Thread(
-            target=self._lastfm_api_call, args=(media, time_stamp, "scrobble"))
-        t.setDaemon(True)
-        t.start()
+        self._lastfm_api_call(media, time_stamp, "scrobble")
 
     @log
     def now_playing(self, media):
         """Set now playing song to Last.fm
 
         If not connected to Last.fm nothing happens
-        Creates a new thread to make the request
 
         :param media: Grilo media item
         """
@@ -245,8 +244,4 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
-        t = Thread(
-            target=self._lastfm_api_call,
-            args=(media, None, "update now playing"))
-        t.setDaemon(True)
-        t.start()
+        self._lastfm_api_call(media, None, "update now playing")
