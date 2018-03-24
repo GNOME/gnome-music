@@ -33,8 +33,10 @@ import gi
 try:
     gi.require_version('Tracker', '2.0')
 except:
-    ErrorDialog(('Tracker','2.0'))
+    ErrorDialog(['Tracker','2.0'])
+    
 from gi.repository import Tracker
+
 
 logger = logging.getLogger(__name__)
 tabbing = 0
