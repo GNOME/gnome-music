@@ -40,19 +40,24 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+		    <property name="valign">end</property>
                     <child>
                       <object class="GtkImage" id="image">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
-                        <property name="pixel_size">200</property>
+                        <property name="pixel_size">100</property>
                         <property name="icon_name">emblem-music-symbolic</property>
                         <property name="icon_size">0</property>
+			<property name="margin_bottom">16</property>
+			<style>
+			  <class name="grey-image"/>
+			</style>
                       </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="padding">10</property>
+                        <property name="padding">18</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -75,11 +80,12 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="halign">center</property>
+			<property name="margin_bottom">16</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="padding">10</property>
+                        <property name="padding">18</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -109,6 +115,7 @@
                     <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
+		    <property name="padding">18</property>
                   </packing>
                 </child>
                 <child>
@@ -154,7 +161,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hexpand">True</property>
-                            <property name="placeholder_text" translatable="yes">New Playlist</property>
+                            <property name="placeholder_text" translatable="yes">New Playlist…</property>
                             <style>
                               <class name="linked"/>
                             </style>
@@ -258,7 +265,7 @@
   <object class="GtkHeaderBar" id="headerbar">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Select Playlist</property>
+    <property name="title" translatable="yes">Add to Playlist</property>
     <child>
       <object class="GtkButton" id="cancel-button">
         <property name="label" translatable="yes">_Cancel</property>

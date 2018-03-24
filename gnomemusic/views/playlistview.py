@@ -250,7 +250,7 @@ class PlaylistView(BaseView):
         if model[_iter][11] == DiscoveryStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
-        elif model[_iter][5].get_url() == self.player.current_track_uri:
+        elif model[_iter][5].get_url() == self.player.url:
             cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
@@ -415,7 +415,7 @@ class PlaylistView(BaseView):
         # update player's playlist.
         if self.player.running_playlist(
                 'Playlist', self._current_playlist.get_id()):
-            playing_old_path = self.player.currentTrack.get_path().to_string()
+            playing_old_path = self.player.current_track.get_path().to_string()
             playing_old_pos = int(playing_old_path)
             iter_ = model.get_iter_from_string(playing_old_path)
             # if playing song position has changed
@@ -688,7 +688,7 @@ class PlaylistView(BaseView):
         self._sidebar.remove(selection)
 
         if self.player.running_playlist('Playlist', playlist_id):
-            self.player.Stop()
+            self.player.stop()
             self.player.actionbar.set_visible(False)
 
         if row_next:

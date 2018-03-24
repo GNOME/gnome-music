@@ -7,6 +7,7 @@ gnomemusic/__init__.py
 gnomemusic/albumartcache.py
 gnomemusic/application.py
 gnomemusic/grilo.py
+gnomemusic/gstplayer.py
 gnomemusic/mpris.py
 gnomemusic/player.py
 gnomemusic/playlists.py
@@ -34,7 +35,6 @@ gnomemusic/window.py
 data/AboutDialog.ui.in
 data/AlbumWidget.ui
 data/app-menu.ui
-data/ArtistAlbumsWidget.ui
 data/headerbar.ui
 data/help-overlay.ui
 data/NoMusic.ui
@@ -43,4 +43,3 @@ data/PlaylistContextMenu.ui
 data/PlaylistControls.ui
 data/PlaylistDialog.ui
 data/SelectionToolbar.ui
-data/TrackWidget.ui
