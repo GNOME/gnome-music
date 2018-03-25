@@ -142,6 +142,7 @@ class LastFmScrobbler(GObject.GObject):
         self._scrobbled = False
         self._authentication = None
         self._goa_lastfm = GoaLastFM()
+        self._session = Soup.Session.new()
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -202,13 +203,13 @@ class LastFmScrobbler(GObject.GObject):
         })
 
         try:
-            session = Soup.Session.new()
             msg = Soup.form_request_new_from_hash(
                 "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
-            status_code = session.send_message(msg)
+            status_code = self._session.send_message(msg)
             if status_code != 200:
                 logger.warning("Failed to {} track: {} {}".format(
                     request_type_key, status_code, msg.props.reason_phrase))
+                logger.warning(msg.props.response_body.data)
         except Exception as e:
             logger.warning(e)
 
