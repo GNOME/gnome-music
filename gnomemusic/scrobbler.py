@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from hashlib import md5
-from threading import Thread
 import logging
 
 import gi
@@ -202,23 +201,28 @@ class LastFmScrobbler(GObject.GObject):
             "api_sig": api_sig
         })
 
-        try:
-            msg = Soup.form_request_new_from_hash(
-                "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
-            status_code = self._soup_session.send_message(msg)
-            if status_code != 200:
-                logger.warning("Failed to {} track: {} {}".format(
-                    request_type_key, status_code, msg.props.reason_phrase))
-                logger.warning(msg.props.response_body.data)
-        except Exception as e:
-            logger.warning(e)
+        # form_request_new_from_hash() serializes the parameters only from a
+        # 'shallow' dict and with only string values.
+        # So we need to rewrite the request_dict values as strings.
+        request_dict = {key: str(value) for key, value in request_dict.items()}
+        msg = Soup.form_request_new_from_hash(
+            "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
+        self._soup_session.queue_message(msg, self._lastfm_api_callback, None)
+
+    @log
+    def _lastfm_api_callback(self, source_object, msg, user_data):
+        """Internall callback method called by queue_message"""
+        status_code = msg.status_code
+        if status_code != 200:
+            logger.warning("Failed to {} track: {} {}".format(
+                request_type_key, status_code, msg.props.reason_phrase))
+            logger.warning(msg.props.response_body.data)
 
     @log
     def scrobble(self, media, time_stamp):
         """Scrobble a song to Last.fm.
 
         If not connected to Last.fm nothing happens
-        Creates a new thread to make the request
 
         :param media: Grilo media item
         :param time_stamp: song loaded time (epoch time)
@@ -228,17 +232,13 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
-        t = Thread(
-            target=self._lastfm_api_call, args=(media, time_stamp, "scrobble"))
-        t.setDaemon(True)
-        t.start()
+        self._lastfm_api_call(media, time_stamp, "scrobble")
 
     @log
     def now_playing(self, media):
         """Set now playing song to Last.fm
 
         If not connected to Last.fm nothing happens
-        Creates a new thread to make the request
 
         :param media: Grilo media item
         """
@@ -247,8 +247,4 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
-        t = Thread(
-            target=self._lastfm_api_call,
-            args=(media, None, "update now playing"))
-        t.setDaemon(True)
-        t.start()
+        self._lastfm_api_call(media, None, "update now playing")
