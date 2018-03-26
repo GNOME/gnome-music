@@ -207,10 +207,11 @@ class LastFmScrobbler(GObject.GObject):
         request_dict = {key: str(value) for key, value in request_dict.items()}
         msg = Soup.form_request_new_from_hash(
             "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
-        self._soup_session.queue_message(msg, self._lastfm_api_callback, None)
+        self._soup_session.queue_message(
+            msg, self._lastfm_api_callback, request_type_key)
 
     @log
-    def _lastfm_api_callback(self, source_object, msg, user_data):
+    def _lastfm_api_callback(self, source_object, msg, request_type_key):
         """Internall callback method called by queue_message"""
         status_code = msg.status_code
         if status_code != 200:
