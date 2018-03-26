@@ -179,7 +179,7 @@ class LastFmScrobbler(GObject.GObject):
 
         if time_stamp is not None:
             request_dict.update({
-                "timestamp": time_stamp
+                "timestamp": str(time_stamp)
             })
 
         request_dict.update({
@@ -192,7 +192,7 @@ class LastFmScrobbler(GObject.GObject):
 
         sig = ""
         for key in sorted(request_dict):
-            sig += key + str(request_dict[key])
+            sig += key + request_dict[key]
 
         sig += secret
 
@@ -201,21 +201,17 @@ class LastFmScrobbler(GObject.GObject):
             "api_sig": api_sig
         })
 
-        # form_request_new_from_hash() serializes the parameters only from a
-        # 'shallow' dict and with only string values.
-        # So we need to rewrite the request_dict values as strings.
-        request_dict = {key: str(value) for key, value in request_dict.items()}
         msg = Soup.form_request_new_from_hash(
             "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
         self._soup_session.queue_message(
             msg, self._lastfm_api_callback, request_type_key)
 
     @log
-    def _lastfm_api_callback(self, source_object, msg, request_type_key):
+    def _lastfm_api_callback(self, session, msg, request_type_key):
         """Internall callback method called by queue_message"""
-        status_code = msg.status_code
+        status_code = msg.props.status_code
         if status_code != 200:
-            logger.warning("Failed to {} track: {} {}".format(
+            logger.warning("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
 
