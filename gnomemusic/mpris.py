@@ -533,10 +533,10 @@ class MediaPlayer2Service(Server):
         self.app.quit()
 
     def Next(self):
-        self.player.play_next()
+        self.player.next()
 
     def Previous(self):
-        self.player.play_previous()
+        self.player.previous()
 
     def Pause(self):
         self.player.set_playing(False)
