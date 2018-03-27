@@ -204,9 +204,9 @@ class Window(Gtk.ApplicationWindow):
         elif "Stop" in response:
             self.player.stop()
         elif "Next" in response:
-            self.player.play_next()
+            self.player.next()
         elif "Previous" in response:
-            self.player.play_previous()
+            self.player.previous()
 
     @log
     def _setup_view(self):
@@ -350,11 +350,11 @@ class Window(Gtk.ApplicationWindow):
             # Play previous on Ctrl + B
             if (event.keyval == Gdk.KEY_b
                     and modifiers == control_mask):
-                self.player.play_previous()
+                self.player.previous()
             # Play next on Ctrl + N
             if (event.keyval == Gdk.KEY_n
                     and modifiers == control_mask):
-                self.player.play_next()
+                self.player.next()
             # Toggle repeat on Ctrl + R
             if (event.keyval == Gdk.KEY_r
                     and modifiers == control_mask):
@@ -394,10 +394,10 @@ class Window(Gtk.ApplicationWindow):
                 self.player.stop()
 
             if event.keyval == Gdk.KEY_AudioPrev:
-                self.player.play_prev()
+                self.player.previous()
 
             if event.keyval == Gdk.KEY_AudioNext:
-                self.player.play_next()
+                self.player.next()
 
             child = self._stack.get_visible_child()
             if (event.keyval == Gdk.KEY_Delete
