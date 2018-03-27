@@ -363,11 +363,12 @@ class Searchbar(Gtk.SearchBar):
 
         if show:
             self._search_entry.realize()
-            if clear:
-                self._search_entry.set_text('')
             self._search_entry.grab_focus()
         else:
             self._drop_down_button.set_active(False)
+
+        if clear:
+            self._search_entry.set_text('')
 
     @log
     def toggle(self):
