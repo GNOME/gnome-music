@@ -204,9 +204,9 @@ class Player(GObject.GObject):
         iter_remove = self.playlist.get_iter_from_string(path.to_string())
         if (self.current_track.get_path().to_string() == path.to_string()):
             if self.has_next():
-                self.play_next()
+                self.next()
             elif self.has_previous():
-                self.play_previous()
+                self.previous()
             else:
                 self.stop()
 
@@ -548,7 +548,7 @@ class Player(GObject.GObject):
         self.emit('playback-status-changed')
 
     @log
-    def play_next(self):
+    def next(self):
         """"Play next song
 
         Play the next song of the playlist, if any.
@@ -560,7 +560,7 @@ class Player(GObject.GObject):
         self.play()
 
     @log
-    def play_previous(self):
+    def previous(self):
         """Play previous song
 
         Play the previous song of the playlist, if any.
@@ -714,11 +714,11 @@ class Player(GObject.GObject):
 
     @log
     def _on_next_button_clicked(self, button):
-        self.play_next()
+        self.next()
 
     @log
     def _on_prev_button_clicked(self, button):
-        self.play_previous()
+        self.previous()
 
     @log
     def _sync_repeat_image(self):
@@ -782,7 +782,7 @@ class Player(GObject.GObject):
             self._player.seek(offset * 1000)
             self.emit('seeked', offset)
         elif next_on_overflow:
-            self.play_next()
+            self.next()
 
     @log
     def get_volume(self):
