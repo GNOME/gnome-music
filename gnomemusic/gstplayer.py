@@ -125,7 +125,7 @@ class GstPlayer(GObject.GObject):
     @log
     def _on_new_clock(self, bus, message):
         clock = message.parse_new_clock()
-        id_ = clock.new_periodic_id(0, 1 * 10**9)
+        id_ = clock.new_periodic_id(0, 1 * Gst.SECOND)
         clock.id_wait_async(id_, self._on_clock_tick, None)
 
         # TODO: Workaround the first duration change not being emitted
@@ -135,7 +135,7 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _on_clock_tick(self, clock, time, id, data):
-        tick = time / 10**9
+        tick = time / Gst.SECOND
         self.emit('clock-tick', tick)
 
     @log
@@ -156,7 +156,7 @@ class GstPlayer(GObject.GObject):
             Gst.Format.TIME)
 
         if success:
-            self.duration = duration / 10**9
+            self.duration = duration / Gst.SECOND
         else:
             self.duration = None
 
@@ -257,7 +257,7 @@ class GstPlayer(GObject.GObject):
         :return: position
         :rtype: float
         """
-        position = self._player.query_position(Gst.Format.TIME)[1] / 10**9
+        position = self._player.query_position(Gst.Format.TIME)[1] / Gst.SECOND
 
         return position
 
@@ -314,7 +314,7 @@ class GstPlayer(GObject.GObject):
         # FIXME: seek should be signalled to MPRIS
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
-            seconds * 10**9)
+            seconds * Gst.SECOND)
 
     @log
     def _start_plugin_installation(
