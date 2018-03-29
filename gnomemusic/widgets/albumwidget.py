@@ -120,11 +120,9 @@ class AlbumWidget(Gtk.EventBox):
         )
 
     @log
-    def update(self, artist, album, item, header_bar, selection_toolbar):
+    def update(self, item, header_bar, selection_toolbar):
         """Update the album widget.
 
-        :param str artist: The artist name
-        :param str album: The album name
         :param item: The grilo media item
         :param header_bar: The header bar object
         :param selection_toolbar: The selection toolbar object
@@ -137,7 +135,6 @@ class AlbumWidget(Gtk.EventBox):
 
         self.selection_toolbar = selection_toolbar
         self._header_bar = header_bar
-        self._album = album
         self._duration = 0
         art = ArtImage(Art.Size.LARGE, item)
         art.image = self._builder.get_object('cover')
@@ -148,17 +145,15 @@ class AlbumWidget(Gtk.EventBox):
         header_bar._cancel_button.connect(
             'clicked', self._on_header_cancel_button_clicked)
 
-        # FIXME: use utils
-        escaped_artist = GLib.markup_escape_text(artist)
-        escaped_album = GLib.markup_escape_text(album)
-        self._builder.get_object('artist_label').set_markup(escaped_artist)
-        self._builder.get_object('title_label').set_markup(escaped_album)
+        self._album = utils.get_album_title(item)
+        self._builder.get_object('artist_label').set_text(
+            utils.get_artist_name(item))
+        self._builder.get_object('title_label').set_text(self._album)
 
-        if (item.get_creation_date()):
-            self._builder.get_object('released_label_info').set_text(
-                str(item.get_creation_date().get_year()))
-        else:
-            self._builder.get_object('released_label_info').set_text('----')
+        year = utils.get_media_year(item)
+        if not year:
+            year = '----'
+        self._builder.get_object('released_label_info').set_text(year)
 
         self._set_composer_label(item)
 
