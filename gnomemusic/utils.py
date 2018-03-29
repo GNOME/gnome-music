@@ -87,6 +87,21 @@ def get_media_title(item):
             or _("Untitled"))
 
 
+def get_media_year(item):
+    """Returns the year when the media was created.
+
+    :param item: A Grilo Media object
+    :return: The creation year or None if not defined
+    :rtype: string
+    """
+    date = item.get_creation_date()
+
+    if not date:
+        return None
+
+    return str(date.get_year())
+
+
 def seconds_to_string(duration):
     """Convert a time in seconds to a mm:ss string
 
