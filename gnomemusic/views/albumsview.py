@@ -107,22 +107,15 @@ class AlbumsView(BaseView):
             return
 
         title = utils.get_media_title(item)
-        self._escaped_title = title
-        self._artist = utils.get_artist_name(item)
+        artist = utils.get_artist_name(item)
 
         self._album_widget.update(
-            self._artist, title, item, self._header_bar,
-            self._selection_toolbar)
+            artist, title, item, self._header_bar, self._selection_toolbar)
 
         self._header_bar.set_state(ToolbarState.CHILD_VIEW)
-        self._header_bar.header_bar.set_title(self._escaped_title)
-        self._header_bar.header_bar.sub_title = self._artist
+        self._header_bar.header_bar.set_title(title)
+        self._header_bar.header_bar.sub_title = artist
         self.set_visible_child(self._album_widget)
-
-    @log
-    def update_title(self):
-        self._header_bar.header_bar.set_title(self._escaped_title)
-        self._header_bar.header_bar.sub_title = self._artist
 
     @log
     def populate(self):
