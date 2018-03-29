@@ -91,7 +91,7 @@ class ArtistAlbumsWidget(Gtk.Box):
                 is_last_album = True
             self._add_album(album, is_last_album)
 
-        self._player.connect('playlist-item-changed', self._update_model)
+        self._player.connect('song-changed', self._update_model)
 
     @log
     def _create_model(self):

@@ -222,7 +222,7 @@ class MediaPlayer2Service(Server):
 
         self.app = app
         self.player = app.get_active_window().player
-        self.player.connect('current-changed', self._on_current_changed)
+        self.player.connect('song-changed', self._on_current_song_changed)
         self.player.connect('thumbnail-updated', self._on_thumbnail_updated)
         self.player.connect('playback-status-changed', self._on_playback_status_changed)
         self.player.connect('repeat-mode-changed', self._on_repeat_mode_changed)
@@ -405,7 +405,7 @@ class MediaPlayer2Service(Server):
                 (self._get_playlist_path(playlist), playlistName, ''))
 
     @log
-    def _on_current_changed(self, player, data=None):
+    def _on_current_song_changed(self, player, current_iter, data=None):
         if self.player.repeat == RepeatType.SONG:
             self.Seeked(0)
 

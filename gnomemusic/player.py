@@ -76,10 +76,9 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'playlist-item-changed': (
+        'song-changed': (
             GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)
         ),
-        'current-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -446,8 +445,7 @@ class Player(GObject.GObject):
         if self.current_track and self.current_track.valid():
             current_track = self.playlist.get_iter(
                 self.current_track.get_path())
-            self.emit('playlist-item-changed', self.playlist, current_track)
-            self.emit('current-changed')
+            self.emit('song-changed', self.playlist, current_track)
 
         self._validate_next_track()
 
@@ -614,7 +612,8 @@ class Player(GObject.GObject):
         if self._player.state == Playback.PLAYING:
             self._sync_prev_next()
 
-        self.emit('current-changed')
+        current_track = self.playlist.get_iter(playlist_path)
+        self.emit('song-changed', self.playlist, current_track)
         GLib.idle_add(self._validate_next_track)
 
     @log
