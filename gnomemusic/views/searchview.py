@@ -118,7 +118,7 @@ class SearchView(BaseView):
             item = self.model[_iter][5]
 
             self._album_widget.update(
-                artist, title, item, self._header_bar, self._selection_toolbar)
+                item, self._header_bar, self._selection_toolbar)
             self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
 
             self._header_bar.header_bar.set_title(title)

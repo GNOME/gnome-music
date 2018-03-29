@@ -78,11 +78,9 @@ class ArtistAlbumWidget(Gtk.Box):
             self._selection_mode_allowed)
 
         ui.get_object('title').set_label(self._album_title)
-        creation_date = self._media.get_creation_date()
-        if creation_date:
-            year = creation_date.get_year()
-            ui.get_object('year').set_markup(
-                '<span color=\'grey\'>{}</span>'.format(year))
+        year = utils.get_media_year(self._media)
+        ui.get_object('year').set_markup(
+            '<span color=\'grey\'>{}</span>'.format(year))
 
         if self._size_group:
             self._size_group.add_widget(ui.get_object('box1'))
