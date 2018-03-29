@@ -82,6 +82,7 @@
                 <property name="valign">start</property>
                 <property name="ellipsize">end</property>
                 <property name="max_width_chars">90</property>
+                <property name="justify">fill</property>
               </object>
               <packing>
                 <property name="expand">True</property>
