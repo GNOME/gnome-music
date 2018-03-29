@@ -162,7 +162,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._set_composer_label(item)
 
-        self._player.connect('playlist-item-changed', self._update_model)
+        self._player.connect('current-song-changed', self._update_model)
 
     @log
     def _set_composer_label(self, item):
