@@ -64,7 +64,7 @@ class SongsView(BaseView):
         self._add_list_renderers()
 
         self.player = player
-        self.player.connect('playlist-item-changed', self.update_model)
+        self.player.connect('current-song-changed', self.update_model)
 
     @log
     def _on_changes_pending(self, data=None):

@@ -145,7 +145,7 @@ class PlaylistView(BaseView):
         self.model.connect('row-inserted', self._on_song_inserted)
         self.model.connect('row-deleted', self._on_song_deleted)
 
-        self.player.connect('playlist-item-changed', self._update_model)
+        self.player.connect('current-song-changed', self._update_model)
         playlists.connect('playlist-created', self._on_playlist_created)
         playlists.connect('playlist-updated', self._on_playlist_update)
         playlists.connect(
