@@ -106,15 +106,12 @@ class AlbumsView(BaseView):
             child.check.set_active(not child.check.get_active())
             return
 
-        title = utils.get_media_title(item)
-        artist = utils.get_artist_name(item)
-
         self._album_widget.update(
-            artist, title, item, self._header_bar, self._selection_toolbar)
+            item, self._header_bar, self._selection_toolbar)
 
         self._header_bar.set_state(ToolbarState.CHILD_VIEW)
-        self._header_bar.header_bar.set_title(title)
-        self._header_bar.header_bar.set_subtitle(artist)
+        self._header_bar.header_bar.set_title(utils.get_album_title(item))
+        self._header_bar.header_bar.set_subtitle(utils.get_artist_name(item))
         self.set_visible_child(self._album_widget)
 
     @log
