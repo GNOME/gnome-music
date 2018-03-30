@@ -86,11 +86,9 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self._window.notifications_popup.push_loading()
 
+        self._albums_to_load = len(albums)
         for album in albums:
-            is_last_album = False
-            if album == albums[-1]:
-                is_last_album = True
-            self._add_album(album, is_last_album)
+            self._add_album(album)
 
         self._player.connect('playlist-item-changed', self._update_model)
 
@@ -113,12 +111,14 @@ class ArtistAlbumsWidget(Gtk.Box):
         )
 
     @log
-    def _on_last_album_displayed(self, data=None):
-        self._window.notifications_popup.pop_loading()
-        self.show_all()
+    def _on_album_displayed(self, data=None):
+        self._albums_to_load -= 1
+        if self._albums_to_load == 0:
+            self._window.notifications_popup.pop_loading()
+            self.show_all()
 
     @log
-    def _add_album(self, album, is_last_album=False):
+    def _add_album(self, album):
         widget = ArtistAlbumWidget(album, self._player, self._model,
                                    self._header_bar,
                                    self._selection_mode_allowed,
@@ -129,8 +129,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)
 
-        if is_last_album:
-            widget.connect('songs-loaded', self._on_last_album_displayed)
+        widget.connect('songs-loaded', self._on_album_displayed)
 
     @log
     def _update_model(self, player, playlist, current_iter):
