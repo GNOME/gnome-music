@@ -27,6 +27,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
+from gnomemusic.gi_composites import GtkTemplate
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatType
 from gnomemusic.widgets.coverstack import CoverStack
@@ -34,6 +35,7 @@ from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 import gnomemusic.utils as utils
 
 
+@GtkTemplate(ui='/org/gnome/Music/PlayerToolbar.ui')
 class PlayerToolbar(Gtk.ActionBar):
     """Main Player widget object
 
@@ -44,46 +46,39 @@ class PlayerToolbar(Gtk.ActionBar):
         'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    __gtype_name__ = 'PlayerToolbar'
+
+    (_artist,
+        _duration,
+        _next_button,
+        _play_button,
+        _play_image,
+        _prev_button,
+        _progress_scale,
+        _progress_time,
+        _repeat_image,
+        _stack,
+        _title) = GtkTemplate.Child.widgets(11)
+
     def __repr__(self):
         return '<PlayerToolbar>'
 
     @log
     def __init__(self, player):
         super().__init__()
+        self.init_template()
 
         self._player = player
-
-        self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/PlayerToolbar.ui')
-        self._prev_button = self._ui.get_object('previous_button')
-        self._play_button = self._ui.get_object('play_button')
-        self._next_button = self._ui.get_object('next_button')
-        self._play_image = self._ui.get_object('play_image')
-        self._pause_image = self._ui.get_object('pause_image')
-
-        self._progress_scale = self._ui.get_object('smooth_scale')
         self._progress_scale.player = self._player
 
-        self._progress_scale.connect('seek-finished', self._on_seek_finished)
-        self._progress_scale.connect(
-            'value-changed', self._on_progress_value_changed)
+        self._pause_image = Gtk.Image.new_from_icon_name(
+            'media-playback-pause-symbolic', Gtk.IconSize.MENU)
+        self._pause_image.set_margin_top(1)
 
-        self._progress_time_label = self._ui.get_object('playback')
-        self._total_time_label = self._ui.get_object('duration')
-        self._title_label = self._ui.get_object('title')
-        self._artist_label = self._ui.get_object('artist')
-
-        stack = self._ui.get_object('cover')
-        self._cover_stack = CoverStack(stack, Art.Size.XSMALL)
+        self._cover_stack = CoverStack(self._stack, Art.Size.XSMALL)
         self._cover_stack.connect('updated', self._on_cover_stack_updated)
 
-        self._repeat_button_image = self._ui.get_object('playlistRepeat')
-
         self._sync_repeat_image()
-
-        self._prev_button.connect('clicked', self._on_prev_button_clicked)
-        self._play_button.connect('clicked', self._on_play_button_clicked)
-        self._next_button.connect('clicked', self._on_next_button_clicked)
 
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('current-song-changed', self._update_view)
@@ -91,23 +86,27 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.connect('repeat-mode-changed', self._sync_repeat_image)
         self._player.connect('state-changed', self._sync_playing)
 
+    @GtkTemplate.Callback
     @log
     def _on_seek_finished(self, klass, time):
         self._player.play()
 
+    @GtkTemplate.Callback
     @log
     def _on_progress_value_changed(self, progress_scale):
         seconds = int(progress_scale.get_value() / 60)
-        self._progress_time_label.set_label(utils.seconds_to_string(seconds))
+        self._progress_time.set_label(utils.seconds_to_string(seconds))
 
     @log
     def _on_cover_stack_updated(self, klass):
         self.emit('thumbnail-updated')
 
+    @GtkTemplate.Callback
     @log
     def _on_prev_button_clicked(self, button):
         self._player.previous()
 
+    @GtkTemplate.Callback
     @log
     def _on_play_button_clicked(self, button):
         if self._player.get_playback_status() == Playback.PLAYING:
@@ -115,6 +114,7 @@ class PlayerToolbar(Gtk.ActionBar):
         else:
             self._player.play()
 
+    @GtkTemplate.Callback
     @log
     def _on_next_button_clicked(self, button):
         self._player.next()
@@ -131,7 +131,7 @@ class PlayerToolbar(Gtk.ActionBar):
         elif self._player.repeat == RepeatType.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
-        self._repeat_button_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
+        self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
 
     @log
     def _sync_playing(self, player):
@@ -157,16 +157,15 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _update_view(self, player, playlist, current_iter):
         media = playlist[current_iter][player.Field.SONG]
-        self._total_time_label.set_label(
-            utils.seconds_to_string(media.get_duration()))
+        self._duration.set_label(utils.seconds_to_string(media.get_duration()))
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
 
-        self._artist_label.set_label(utils.get_artist_name(media))
-        self._title_label.set_label(utils.get_media_title(media))
+        self._artist.set_label(utils.get_artist_name(media))
+        self._title.set_label(utils.get_media_title(media))
         self._cover_stack.update(media)
 
     @log
     def _on_clock_tick(self, player, seconds):
-        self._progress_time_label.set_label(utils.seconds_to_string(seconds))
+        self._progress_time.set_label(utils.seconds_to_string(seconds))
