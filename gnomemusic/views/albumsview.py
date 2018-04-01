@@ -116,13 +116,13 @@ class AlbumsView(BaseView):
 
         self._header_bar.set_state(ToolbarState.CHILD_VIEW)
         self._header_bar.header_bar.set_title(self._escaped_title)
-        self._header_bar.header_bar.sub_title = self._artist
+        self._header_bar.header_bar.set_subtitle(self._artist)
         self.set_visible_child(self._album_widget)
 
     @log
     def update_title(self):
         self._header_bar.header_bar.set_title(self._escaped_title)
-        self._header_bar.header_bar.sub_title = self._artist
+        self._header_bar.header_bar.set_subtitle(self._artist)
 
     @log
     def populate(self):

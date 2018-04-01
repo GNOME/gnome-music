@@ -122,7 +122,7 @@ class SearchView(BaseView):
             self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
 
             self._header_bar.header_bar.set_title(title)
-            self._header_bar.header_bar.sub_title = artist
+            self._header_bar.header_bar.set_subtitle(artist)
             self.set_visible_child(self._album_widget)
             self._header_bar.searchbar.reveal(False)
         elif self.model[_iter][12] == 'artist':
