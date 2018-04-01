@@ -20,4 +20,4 @@ flake8:
   stage: check
   script:
     - dnf install -y python3-flake8
-    - flake8 --ignore E402,W503 --show-source --exclude=mpris.py,grilo.py,query.py,window.py gnomemusic/
+    - flake8 --ignore E402,W503 --show-source --exclude=mpris.py,grilo.py,query.py,window.py,gi_composites.py gnomemusic/
