@@ -368,6 +368,10 @@ class Searchbar(Gtk.SearchBar):
             self._drop_down_button.set_active(False)
 
         if clear:
+            if self._timeout:
+                # Prevent a pending search from showing results
+                GLib.source_remove(self._timeout)
+                self._timeout = None
             self._search_entry.set_text('')
 
     @log
