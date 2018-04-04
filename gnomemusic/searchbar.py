@@ -277,8 +277,8 @@ class DropDown(Gtk.Revealer):
     def do_select(self, manager, id_):
         manager.active = id_
         if manager == self._source_manager:
-            self._search_filter.view.set_sensitive(id == 'grl-tracker-source')
-
+            self._search_filter.view.set_sensitive(id_ == 'grl-tracker-source')
+            self.search_manager.active = 'search_all' if id_ != 'grl-tracker-source' else ''
 
 class Searchbar(Gtk.SearchBar):
 
