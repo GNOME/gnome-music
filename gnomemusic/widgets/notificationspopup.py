@@ -178,7 +178,8 @@ class LoadingNotification(Gtk.Grid):
         if self._counter == 0:
             # Stop the timeout if necessary
             if self._timeout_id > 0:
-                GLib.source_remove(self._timeout_id)
+                if not self.is_visible():
+                    GLib.source_remove(self._timeout_id)
                 self._timeout_id = 0
             self.emit('invisible')
 
