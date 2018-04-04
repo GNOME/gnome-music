@@ -337,6 +337,9 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def _search_entry_changed(self, widget):
+        if not self._timeout:
+            return False
+
         self._timeout = None
 
         search_term = self._search_entry.get_text()
