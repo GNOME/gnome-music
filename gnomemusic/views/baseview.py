@@ -210,30 +210,6 @@ class BaseView(Gtk.Stack):
         self.model[klass.iter][4] = klass.pixbuf
 
     @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        if not item:
-            if remaining == 0:
-                self._view.set_model(self.model)
-                self._window.notifications_popup.pop_loading()
-                self._view.show()
-            return
-        self._offset += 1
-        artist = utils.get_artist_name(item)
-        title = utils.get_media_title(item)
-
-        itr = self.model.append(None)
-
-        self.model[itr][0, 1, 2, 3, 5, 7, 9] = [
-            str(item.get_id()),
-            '',
-            title,
-            artist,
-            item,
-            0,
-            False
-        ]
-
-    @log
     def _add_list_renderers(self):
         pass
 
