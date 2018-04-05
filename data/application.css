@@ -12,13 +12,6 @@ flowbox, treeview, widget {
     padding: 0px;
 }
 
-.cover{
-    padding-left:24px;
-}
-.title{
-    padding-left:24px;
-}
-
 .side-panel:dir(ltr) {
     border-width: 0 1px 0 0;
 }
