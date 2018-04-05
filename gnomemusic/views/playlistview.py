@@ -257,12 +257,6 @@ class PlaylistView(BaseView):
             cell.set_visible(False)
 
     @log
-    def _populate(self):
-        self._init = True
-        self._window.notifications_popup.push_loading()
-        self.populate()
-
-    @log
     def _update_model(self, player, playlist, current_iter):
         if self._iter_to_clean:
             self._iter_to_clean_model[self._iter_to_clean][10] = False
@@ -821,4 +815,5 @@ class PlaylistView(BaseView):
         """Populate sidebar.
         Do not reload playlists already displayed.
         """
+        self._window.notifications_popup.push_loading()
         grilo.populate_playlists(self._offset, self._add_playlist_item)

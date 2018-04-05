@@ -346,7 +346,6 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self._window.notifications_popup.push_loading()
         self._header_bar.set_state(ToolbarState.MAIN)
 
     @log
@@ -530,6 +529,7 @@ class SearchView(BaseView):
                 or grilo.search_source.get_id() == 'grl-tracker-source'):
             for category in ('album', 'artist', 'song'):
                 query = query_matcher[category][fields_filter](search_term)
+                self._window.notifications_popup.push_loading()
                 grilo.populate_custom_query(
                     query, self._add_item, -1, [self.model, category])
         if (not grilo.search_source
