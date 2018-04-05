@@ -54,7 +54,6 @@ class SongsView(BaseView):
         """
         super().__init__('songs', _("Songs"), window, Gd.MainViewType.LIST)
 
-        self._offset = 0
         self._iter_to_clean = None
 
         view_style = self._view.get_generic_view().get_style_context()
@@ -68,10 +67,8 @@ class SongsView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init
-                and not self._header_bar.selection_mode):
+        if not self._header_bar.selection_mode:
             self.model.clear()
-            self._offset = 0
             GLib.idle_add(self.populate)
             grilo.changes_pending['Songs'] = False
 
@@ -127,7 +124,6 @@ class SongsView(BaseView):
             self._view.show()
             return
 
-        self._offset += 1
         item.set_title(utils.get_media_title(item))
         artist = utils.get_artist_name(item)
 
@@ -237,10 +233,8 @@ class SongsView(BaseView):
     @log
     def populate(self):
         """Populates the view"""
-        self._init = True
-        if grilo.tracker:
-            self._window.notifications_popup.push_loading()
-            GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
+        self._window.notifications_popup.push_loading()
+        grilo.populate_songs(self._add_item)
 
     @log
     def get_selected_songs(self, callback):

@@ -132,7 +132,7 @@ class PlaylistDialog():
 
     @log
     def _populate(self):
-        grilo.populate_user_playlists(0, self._add_item)
+        grilo.populate_user_playlists(self._add_item)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):

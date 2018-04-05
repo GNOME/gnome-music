@@ -227,7 +227,6 @@ class SearchView(BaseView):
         if not item or model != self.model:
             return
 
-        self._offset += 1
         title = utils.get_media_title(item)
         item.set_title(title)
         artist = utils.get_artist_name(item)
@@ -345,7 +344,6 @@ class SearchView(BaseView):
 
     @log
     def populate(self):
-        self._init = True
         self._window.notifications_popup.push_loading()
         self._header_bar.set_state(ToolbarState.MAIN)
 

@@ -55,7 +55,6 @@ class BaseView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-        self._offset = 0
         self.model = Gtk.ListStore(
             GObject.TYPE_STRING,
             GObject.TYPE_STRING,
@@ -105,10 +104,8 @@ class BaseView(Gtk.Stack):
         self.show_all()
         self._view.hide()
 
-        self._init = False
-        grilo.connect('ready', self._on_grilo_ready)
-        self._header_bar.connect('selection-mode-changed',
-                                 self._on_selection_mode_changed)
+        self._header_bar.connect(
+            'selection-mode-changed', self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
 
     @log
@@ -157,20 +154,6 @@ class BaseView(Gtk.Stack):
         self._header_bar.set_selection_mode(False)
 
     @log
-    def _on_grilo_ready(self, data=None):
-        if (self._header_bar.get_stack().get_visible_child() == self
-                and not self._init):
-            self._populate()
-        self._header_bar.get_stack().connect('notify::visible-child',
-                                             self._on_headerbar_visible)
-
-    @log
-    def _on_headerbar_visible(self, widget, param):
-        if (self == widget.get_visible_child()
-                and not self._init):
-            self._populate()
-
-    @log
     def _on_view_selection_changed(self, widget):
         if not self.selection_mode:
             return
@@ -193,7 +176,6 @@ class BaseView(Gtk.Stack):
 
     @log
     def _populate(self, data=None):
-        self._init = True
         self.populate()
 
     @log

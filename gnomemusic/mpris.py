@@ -393,7 +393,7 @@ class MediaPlayer2Service(Server):
             else:
                 callback(playlists)
 
-        grilo.populate_playlists(0, populate_callback)
+        grilo.populate_playlists(populate_callback)
 
     @log
     def _get_active_playlist(self):

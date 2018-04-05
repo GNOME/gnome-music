@@ -240,54 +240,51 @@ class Grilo(GObject.GObject):
         pass
 
     @log
-    def populate_artists(self, offset, callback, count=-1):
+    def populate_artists(self, callback, count=-1):
         if self.tracker:
-            GLib.idle_add(self.populate_items, Query.all_artists(), offset,
-                          callback, count)
+            GLib.idle_add(
+                self.populate_items, Query.all_artists(), callback, count)
 
     @log
-    def populate_albums(self, offset, callback, count=-1):
+    def populate_albums(self, callback, count=-1):
         if self.tracker:
-            GLib.idle_add(self.populate_items, Query.all_albums(), offset,
-                                                callback, count)
+            GLib.idle_add(
+                self.populate_items, Query.all_albums(), callback, count)
 
     @log
-    def populate_songs(self, offset, callback, count=-1):
+    def populate_songs(self, callback, count=-1):
         if self.tracker:
-            GLib.idle_add(self.populate_items, Query.all_songs(), offset,
-                                                callback, count)
+            GLib.idle_add(
+                self.populate_items, Query.all_songs(), callback, count)
 
     @log
-    def populate_playlists(self, offset, callback, count=-1):
+    def populate_playlists(self, callback, count=-1):
         """Asynchronously get playlists (user and smart ones)
 
-        :param int offset: start index
         :param function callback: callback function
         :param int count: limit number of results
         """
         if self.tracker:
             GLib.idle_add(
-                self.populate_items, Query.all_playlists(), offset, callback,
-                count)
+                self.populate_items, Query.all_playlists(), callback, count)
 
     @log
-    def populate_user_playlists(self, offset, callback, count=-1):
+    def populate_user_playlists(self, callback, count=-1):
         """Asynchronously get user playlists
 
-        :param int offset: start index
         :param function callback: callback function
         :param int count: limit number of results
         """
         if self.tracker:
             GLib.idle_add(
-                self.populate_items, Query.all_user_playlists(), offset,
+                self.populate_items, Query.all_user_playlists(),
                 callback, count)
 
     @log
     def populate_album_songs(self, album, callback, count=-1):
         if album.get_source() == 'grl-tracker-source':
             GLib.idle_add(self.populate_items,
-                          Query.album_songs(album.get_id()), 0, callback, count)
+                          Query.album_songs(album.get_id()), callback, count)
         else:
             source = self.sources[album.get_source()]
             length = len(album.songs)
@@ -299,17 +296,16 @@ class Grilo(GObject.GObject):
     def populate_playlist_songs(self, playlist, callback, count=-1):
         if self.tracker:
             GLib.idle_add(self.populate_items,
-                          Query.playlist_songs(playlist.get_id()), 0, callback,
+                          Query.playlist_songs(playlist.get_id()), callback,
                           count)
 
     @log
     def populate_custom_query(self, query, callback, count=-1, data=None):
-        self.populate_items(query, 0, callback, count, data)
+        self.populate_items(query, callback, count, data)
 
     @log
-    def populate_items(self, query, offset, callback, count=-1, data=None):
+    def populate_items(self, query, callback, count=-1, data=None):
         options = self.options.copy()
-        options.set_skip(offset)
         if count != -1:
             options.set_count(count)
 

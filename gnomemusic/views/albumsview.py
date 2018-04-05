@@ -54,13 +54,10 @@ class AlbumsView(BaseView):
         self.all_items = []
         self.items_selected = []
         self.items_selected_callback = None
-        self._init = True
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and not self._header_bar.selection_mode):
-            self._offset = 0
-            self._init = True
+        if not self._header_bar.selection_mode:
             GLib.idle_add(self.populate)
             grilo.changes_pending['Albums'] = False
 
@@ -116,7 +113,7 @@ class AlbumsView(BaseView):
     @log
     def populate(self):
         self._window.notifications_popup.push_loading()
-        grilo.populate_albums(self._offset, self._add_item)
+        grilo.populate_albums(self._add_item)
 
     @log
     def get_selected_songs(self, callback):
@@ -140,7 +137,6 @@ class AlbumsView(BaseView):
             # Add to the flowbox
             child = self._create_album_item(item)
             self._view.add(child)
-            self._offset += 1
         elif remaining == 0:
             self._view.show()
 

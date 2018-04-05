@@ -81,11 +81,9 @@ class ArtistsView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init
-                and not self._header_bar.selection_mode):
+        if not self._header_bar.selection_mode:
             self.model.clear()
             self._artists.clear()
-            self._offset = 0
             GLib.idle_add(self._populate)
             grilo.changes_pending['Artists'] = False
 
@@ -165,7 +163,7 @@ class ArtistsView(BaseView):
             self._window.notifications_popup.pop_loading()
             self._view.show()
             return
-        self._offset += 1
+
         artist = utils.get_artist_name(item)
         if not artist.casefold() in self._artists:
             itr = self.model.insert_with_valuesv(-1, [2], [artist])
@@ -180,7 +178,7 @@ class ArtistsView(BaseView):
     def populate(self):
         """Populates the view"""
         self._window.notifications_popup.push_loading()
-        grilo.populate_artists(self._offset, self._add_item)
+        grilo.populate_artists(self._add_item)
 
     @log
     def _on_header_bar_toggled(self, button):
