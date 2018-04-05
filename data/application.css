@@ -12,10 +12,12 @@ flowbox, treeview, widget {
     padding: 0px;
 }
 
-.cover{
+/* ArtistAlbumWidget */
+.album-cover {
     padding-left:24px;
 }
-.title{
+
+.album-title {
     padding-left:24px;
 }
 
