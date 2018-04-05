@@ -141,6 +141,7 @@ class AlbumsView(BaseView):
             # Add to the flowbox
             child = self._create_album_item(item)
             self._view.add(child)
+            self._offset += 1
         elif remaining == 0:
             self._view.show()
 
