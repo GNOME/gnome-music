@@ -486,51 +486,6 @@ class PlaylistView(BaseView):
                 break
 
     @log
-    def activate_playlist(self, playlist_id):
-
-        def find_and_activate_playlist():
-            for row in self._sidebar:
-                if row.playlist.get_id() == playlist_id:
-                    selection = self._sidebar.get_selected_row()
-                    if selection.get_index() == row.get_index():
-                        self._on_play_activate(None)
-                    else:
-                        self._sidebar.select_row(row)
-                        handler = 0
-
-                        def songs_loaded_callback(view):
-                            self.disconnect(handler)
-                            self._on_play_activate(None)
-
-                        handler = self.connect('playlist-songs-loaded',
-                                               songs_loaded_callback)
-                        self._sidebar.emit('row-activated', row)
-
-                    return
-
-        if self._init:
-            find_and_activate_playlist()
-        else:
-            handler = 0
-
-            def playlists_loaded_callback(view):
-                self.disconnect(handler)
-                def_handler = 0
-
-                def songs_loaded_callback(view):
-                    self.disconnect(def_handler)
-                    find_and_activate_playlist()
-
-                # Skip load of default playlist
-                def_handler = self.connect('playlist-songs-loaded',
-                                           songs_loaded_callback)
-
-            handler = self.connect('playlists-loaded',
-                                   playlists_loaded_callback)
-
-            self._populate()
-
-    @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
         if not self._current_playlist_is_protected():

@@ -631,10 +631,6 @@ class MediaPlayer2Service(Server):
                              GLib.Variant.new_tuple(GLib.Variant('o', track_id),
                                                     GLib.Variant('a{sv}', metadata)))
 
-    def ActivatePlaylist(self, playlist_path):
-        playlist_id = self._get_playlist_from_path(playlist_path).get_id()
-        self.app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
-
     def GetPlaylists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':
             return []
