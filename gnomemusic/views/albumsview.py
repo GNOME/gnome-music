@@ -57,18 +57,6 @@ class AlbumsView(BaseView):
         self.items_selected_callback = None
 
     @log
-    def _on_changes_pending(self, data=None):
-        if not self._header_bar.selection_mode:
-            GLib.idle_add(self.populate)
-            grilo.changes_pending[View.ALBUM.name] = False
-
-    @log
-    def _on_selection_mode_changed(self, widget, data=None):
-        if (not self._header_bar.selection_mode
-                and grilo.changes_pending[View.ALBUM.name]):
-            self._on_changes_pending()
-
-    @log
     def _setup_view(self, view_type):
         self._view = Gtk.FlowBox(
             homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,

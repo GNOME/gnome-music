@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _, ngettext
-from gi.repository import Gd, GdkPixbuf, GObject, Gtk
+from gi.repository import Gd, GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -110,7 +110,11 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_changes_pending(self, data=None):
-        pass
+        if (not self._header_bar.selection_mode
+                and self.name in grilo.changes_pending):
+            self.model.clear()
+            GLib.idle_add(self.populate)
+            grilo.changes_pending[self.name] = False
 
     @log
     def _setup_view(self, view_type):
@@ -180,7 +184,10 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        pass
+        if (not self._header_bar.selection_mode
+                and self.name in grilo.changes_pending
+                and grilo.changes_pending[self.name]):
+            self._on_changes_pending()
 
     @log
     def populate(self):

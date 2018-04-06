@@ -83,10 +83,8 @@ class ArtistsView(BaseView):
     @log
     def _on_changes_pending(self, data=None):
         if not self._header_bar.selection_mode:
-            self.model.clear()
             self._artists.clear()
-            GLib.idle_add(self._populate)
-            grilo.changes_pending[View.ARTIST.name] = False
+            super()._on_changes_pending()
 
     @log
     def _set_selection(self, value, parent=None):
@@ -200,9 +198,7 @@ class ArtistsView(BaseView):
     def _on_selection_mode_changed(self, widget, data=None):
         self._artist_albums_stack.set_sensitive(
             not self._header_bar.selection_mode)
-        if (not self._header_bar.selection_mode
-                and grilo.changes_pending[View.ARTIST.name]):
-            self._on_changes_pending()
+        super()._on_selection_mode_changed()
 
     @log
     def get_selected_songs(self, callback):

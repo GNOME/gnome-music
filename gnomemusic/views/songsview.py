@@ -68,19 +68,6 @@ class SongsView(BaseView):
         self.player.connect('playlist-item-changed', self.update_model)
 
     @log
-    def _on_changes_pending(self, data=None):
-        if not self._header_bar.selection_mode:
-            self.model.clear()
-            GLib.idle_add(self.populate)
-            grilo.changes_pending[View.SONG.name] = False
-
-    @log
-    def _on_selection_mode_changed(self, widget, data=None):
-        if (not self._header_bar.selection_mode
-                and grilo.changes_pending[View.SONG.name]):
-            self._on_changes_pending()
-
-    @log
     def _on_item_activated(self, widget, id, path):
         if self._star_handler.star_renderer_click:
             self._star_handler.star_renderer_click = False
