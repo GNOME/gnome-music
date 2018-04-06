@@ -54,7 +54,8 @@ class ArtistsView(BaseView):
         :param player: The main player object
         """
         super().__init__(
-            View.ARTIST.name, _("Artists"), window, Gd.MainViewType.LIST, True)
+            View.ARTIST.name, _("Artists"), window, grilo.populate_artists,
+            Gd.MainViewType.LIST, True)
 
         self.player = player
         self._artists = {}
@@ -172,12 +173,6 @@ class ArtistsView(BaseView):
                 'widget': None
             }
         self._artists[artist.casefold()]['albums'].append(item)
-
-    @log
-    def populate(self):
-        """Populates the view"""
-        self._window.notifications_popup.push_loading()
-        grilo.populate_artists(self._add_item)
 
     @log
     def _on_header_bar_toggled(self, button):

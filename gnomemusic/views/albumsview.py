@@ -45,7 +45,8 @@ class AlbumsView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__(View.ALBUM.name, _("Albums"), window, None)
+        super().__init__(
+            View.ALBUM.name, _("Albums"), window, grilo.populate_albums, None)
 
         self._queue = LifoQueue()
         self._album_widget = AlbumWidget(player, self)
@@ -98,11 +99,6 @@ class AlbumsView(BaseView):
         self._header_bar.header_bar.set_title(utils.get_album_title(item))
         self._header_bar.header_bar.set_subtitle(utils.get_artist_name(item))
         self.set_visible_child(self._album_widget)
-
-    @log
-    def populate(self):
-        self._window.notifications_popup.push_loading()
-        grilo.populate_albums(self._add_item)
 
     @log
     def get_selected_songs(self, callback):
