@@ -28,6 +28,7 @@ from gi.repository import Gd, GLib, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
@@ -85,7 +86,7 @@ class ArtistsView(BaseView):
             self.model.clear()
             self._artists.clear()
             GLib.idle_add(self._populate)
-            grilo.changes_pending['Artists'] = False
+            grilo.changes_pending[View.ARTIST.name] = False
 
     @log
     def _set_selection(self, value, parent=None):
@@ -200,7 +201,7 @@ class ArtistsView(BaseView):
         self._artist_albums_stack.set_sensitive(
             not self._header_bar.selection_mode)
         if (not self._header_bar.selection_mode
-                and grilo.changes_pending['Artists']):
+                and grilo.changes_pending[View.ARTIST.name]):
             self._on_changes_pending()
 
     @log

@@ -25,13 +25,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import os
+import logging
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
+
 from gnomemusic.query import Query
+from gnomemusic.utils import View
 from gnomemusic import log, TrackerWrapper
-import logging
-import os
+
+
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
                                   "grl-filesystem:4,"
                                   "grl-tracker-source:3,"
@@ -106,7 +110,11 @@ class Grilo(GObject.GObject):
         self.tracker = None
         self.changed_media_ids = []
         self.pending_event_id = 0
-        self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
+        self.changes_pending = {
+            View.ALBUM.name: False,
+            View.ARTIST.name: False,
+            View.SONG.name: False
+        }
         self.pending_changed_medias = []
 
         self.registry = Grl.Registry.get_default()
@@ -185,9 +193,9 @@ class Grilo(GObject.GObject):
     def emit_change_signal(self):
         self.changed_media_ids = []
         self.pending_event_id = 0
-        self.changes_pending['Albums'] = True
-        self.changes_pending['Artists'] = True
-        self.changes_pending['Songs'] = True
+        self.changes_pending[View.SONG.name] = True
+        self.changes_pending[View.ARTIST.name] = True
+        self.changes_pending[View.SONG.name] = True
         self.emit('changes-pending')
         return False
 

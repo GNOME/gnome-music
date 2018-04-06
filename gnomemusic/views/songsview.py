@@ -29,6 +29,7 @@ from gi.repository import Gd, GLib, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
+from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
 
@@ -70,12 +71,12 @@ class SongsView(BaseView):
         if not self._header_bar.selection_mode:
             self.model.clear()
             GLib.idle_add(self.populate)
-            grilo.changes_pending['Songs'] = False
+            grilo.changes_pending[View.SONG.name] = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self._header_bar.selection_mode
-                and grilo.changes_pending['Songs']):
+                and grilo.changes_pending[View.SONG.name]):
             self._on_changes_pending()
 
     @log

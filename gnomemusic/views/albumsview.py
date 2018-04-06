@@ -31,6 +31,7 @@ from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.toolbar import ToolbarState
+from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.coverstack import CoverStack
@@ -59,12 +60,12 @@ class AlbumsView(BaseView):
     def _on_changes_pending(self, data=None):
         if not self._header_bar.selection_mode:
             GLib.idle_add(self.populate)
-            grilo.changes_pending['Albums'] = False
+            grilo.changes_pending[View.ALBUM.name] = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self._header_bar.selection_mode
-                and grilo.changes_pending['Albums']):
+                and grilo.changes_pending[View.ALBUM.name]):
             self._on_changes_pending()
 
     @log
