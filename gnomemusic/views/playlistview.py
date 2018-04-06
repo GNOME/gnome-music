@@ -61,8 +61,8 @@ class PlaylistView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            View.PLAYLIST.name, _("Playlists"), window, None, True,
-            sidebar_container)
+            View.PLAYLIST.name, _("Playlists"), window,
+            grilo.populate_playlists, None, True, sidebar_container)
 
         self._window = window
         self.player = player
@@ -281,8 +281,8 @@ class PlaylistView(BaseView):
         return False
 
     @log
-    def _add_playlist_item(self, source, param, playlist, remaining=0,
-                           data=None):
+    def _add_item(self, source, param, playlist, remaining=0,
+                  data=None):
         """Grilo.populate_playlists callback.
 
         Add all playlists found by Grilo to sidebar
@@ -770,10 +770,3 @@ class PlaylistView(BaseView):
         self._songs_count -= 1
         self._update_songs_count()
         return
-
-    @log
-    def populate(self):
-        """Populate sidebar.
-        Do not reload playlists already displayed.
-        """
-        grilo.populate_playlists(self._add_playlist_item)

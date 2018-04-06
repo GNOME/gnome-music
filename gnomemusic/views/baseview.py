@@ -41,12 +41,13 @@ class BaseView(Gtk.Stack):
         return '<BaseView>'
 
     @log
-    def __init__(self, name, title, window, view_type, use_sidebar=False,
-                 sidebar=None):
+    def __init__(self, name, title, window, populate_function, view_type,
+                 use_sidebar=False, sidebar=None):
         """Initialize
         :param name: The view name
         :param title: The view title
         :param GtkWidget window: The main window
+        :param populate_function: function to use to populate the view or None
         :param view_type: The Gtk view type
         :param use_sidebar: Whether to use sidebar
         :param sidebar: The sidebar object (Default: Gtk.Box)
@@ -69,6 +70,7 @@ class BaseView(Gtk.Stack):
             GObject.TYPE_BOOLEAN,
             GObject.TYPE_INT
         )
+        self._populate_function = populate_function
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         # Setup the main view
@@ -179,10 +181,6 @@ class BaseView(Gtk.Stack):
                 _("Click on items to select them"))
 
     @log
-    def _populate(self, data=None):
-        self.populate()
-
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self._header_bar.selection_mode
                 and self.name in grilo.changes_pending
@@ -191,11 +189,18 @@ class BaseView(Gtk.Stack):
 
     @log
     def populate(self):
-        pass
+        """Populate the view."""
+        if self._populate_function:
+            self._window.notifications_popup.push_loading()
+            self._populate_function(self._add_item)
 
     @log
     def _retrieval_finished(self, klass):
         self.model[klass.iter][4] = klass.pixbuf
+
+    @log
+    def _add_item(self, source, param, item, remaining=0, data=None):
+        pass
 
     @log
     def _on_item_activated(self, widget, id, path):

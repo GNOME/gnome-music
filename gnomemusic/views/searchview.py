@@ -52,7 +52,8 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__(View.SEARCH.name, None, window, Gd.MainViewType.LIST)
+        super().__init__(
+            View.SEARCH.name, None, window, None, Gd.MainViewType.LIST)
 
         self._add_list_renderers()
         self.player = player
@@ -342,11 +343,6 @@ class SearchView(BaseView):
         cells[1].set_visible(model.iter_parent(_iter) is not None)
         cells[2].set_visible(model.iter_parent(_iter) is not None)
         cells[3].set_visible(model.iter_parent(_iter) is None)
-
-    @log
-    def populate(self):
-        self._window.notifications_popup.push_loading()
-        self._header_bar.set_state(ToolbarState.MAIN)
 
     @log
     def get_selected_songs(self, callback):

@@ -54,7 +54,8 @@ class SongsView(BaseView):
         :param player: The main player object
         """
         super().__init__(
-            View.SONG.name, _("Songs"), window, Gd.MainViewType.LIST)
+            View.SONG.name, _("Songs"), window, grilo.populate_songs,
+            Gd.MainViewType.LIST)
 
         self._iter_to_clean = None
 
@@ -218,12 +219,6 @@ class SongsView(BaseView):
             cell.set_visible(True)
         else:
             cell.set_visible(False)
-
-    @log
-    def populate(self):
-        """Populates the view"""
-        self._window.notifications_popup.push_loading()
-        grilo.populate_songs(self._add_item)
 
     @log
     def get_selected_songs(self, callback):
