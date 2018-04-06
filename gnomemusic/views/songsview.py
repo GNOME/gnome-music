@@ -24,7 +24,7 @@
 
 import logging
 from gettext import gettext as _
-from gi.repository import Gd, GLib, Gtk, Pango
+from gi.repository import Gd, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -66,19 +66,6 @@ class SongsView(BaseView):
 
         self.player = player
         self.player.connect('playlist-item-changed', self.update_model)
-
-    @log
-    def _on_changes_pending(self, data=None):
-        if not self._header_bar.selection_mode:
-            self.model.clear()
-            GLib.idle_add(self.populate)
-            grilo.changes_pending[View.SONG.name] = False
-
-    @log
-    def _on_selection_mode_changed(self, widget, data=None):
-        if (not self._header_bar.selection_mode
-                and grilo.changes_pending[View.SONG.name]):
-            self._on_changes_pending()
 
     @log
     def _on_item_activated(self, widget, id, path):
