@@ -34,6 +34,7 @@ from gi.repository import Gd, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.utils import View
 
 
 class BaseModelColumns(IntEnum):
@@ -347,7 +348,7 @@ class Searchbar(Gtk.SearchBar):
 
         stack = self._stack_switcher.get_stack()
         if search_term != "":
-            stack.set_visible_child_name('search')
+            stack.set_visible_child_name(View.SEARCH.name)
             view = stack.get_visible_child()
             view.set_search_text(search_term, fields_filter)
 

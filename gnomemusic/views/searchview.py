@@ -52,7 +52,7 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__('search', None, window, Gd.MainViewType.LIST)
+        super().__init__(View.SEARCH.name, None, window, Gd.MainViewType.LIST)
 
         self._add_list_renderers()
         self.player = player
@@ -82,8 +82,9 @@ class SearchView(BaseView):
     @log
     def _no_music_found_callback(self, view):
         # FIXME: call into private members
-        self._window._stack.set_visible_child_name('emptysearch')
-        emptysearch = self._window._stack.get_child_by_name('emptysearch')
+        self._window._stack.set_visible_child_name(View.EMPTY_SEARCH.name)
+        emptysearch = self._window._stack.get_child_by_name(
+            View.EMPTY_SEARCH.name)
         emptysearch._artist_albums_widget = self._artist_albums_widget
 
     @log

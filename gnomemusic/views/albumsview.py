@@ -45,7 +45,7 @@ class AlbumsView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__('albums', _("Albums"), window, None)
+        super().__init__(View.ALBUM.name, _("Albums"), window, None)
 
         self._queue = LifoQueue()
         self._album_widget = AlbumWidget(player, self)

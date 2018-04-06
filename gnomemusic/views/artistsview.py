@@ -54,7 +54,7 @@ class ArtistsView(BaseView):
         :param player: The main player object
         """
         super().__init__(
-            'artists', _("Artists"), window, Gd.MainViewType.LIST, True)
+            View.ARTIST.name, _("Artists"), window, Gd.MainViewType.LIST, True)
 
         self.player = player
         self._artists = {}

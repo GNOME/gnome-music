@@ -29,6 +29,7 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
@@ -60,7 +61,8 @@ class PlaylistView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'playlists', _("Playlists"), window, None, True, sidebar_container)
+            View.PLAYLIST.name, _("Playlists"), window, None, True,
+            sidebar_container)
 
         self._window = window
         self.player = player

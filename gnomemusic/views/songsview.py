@@ -53,7 +53,8 @@ class SongsView(BaseView):
         :param GtkWidget window: The main window
         :param player: The main player object
         """
-        super().__init__('songs', _("Songs"), window, Gd.MainViewType.LIST)
+        super().__init__(
+            View.SONG.name, _("Songs"), window, Gd.MainViewType.LIST)
 
         self._iter_to_clean = None
 
