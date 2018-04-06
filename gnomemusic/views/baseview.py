@@ -209,10 +209,6 @@ class BaseView(Gtk.Stack):
         self.model[klass.iter][4] = klass.pixbuf
 
     @log
-    def _add_list_renderers(self):
-        pass
-
-    @log
     def _on_item_activated(self, widget, id, path):
         pass
 
