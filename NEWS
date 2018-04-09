@@ -1,3 +1,23 @@
+Overview of changes in 3.28.1
+=============================
+
+Bugs fixed:
+ Minor optimizations (!138)
+ flatpak: Enable MPRIS and GNOME media keys (!129)
+ notificationspopup: Fix source not found warning (!131)
+ Ellipsized songs in Artists View are improperly aligned (#173)
+ albumwidget: Restore currently played album (#111)
+
+Thanks to our contributors this release:
+ Alexander Mikhaylenko
+ Georges Basile Stavracas Neto
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Romanian
+ Slovenian
+
 Overview of changes in 3.28.0.1
 ===============================
 
