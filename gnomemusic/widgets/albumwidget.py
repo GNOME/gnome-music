@@ -273,8 +273,9 @@ class AlbumWidget(Gtk.EventBox):
                 disc.show_disc_label(False)
 
         if remaining == 0:
+            mins = int(self._duration / 60) + 1
             self._builder.get_object('running_length_label_info').set_text(
-                _("%d min") % (int(self._duration / 60) + 1))
+                ngettext("{} minute", "{} minutes", mins).format(mins))
 
             self.show_all()
 
