@@ -150,20 +150,21 @@ class ArtistAlbumsWidget(Gtk.Box):
                 itr = playlist.iter_next(itr)
                 continue
 
-            escaped_title = GLib.markup_escape_text(
-                utils.get_media_title(song))
+            context = song_widget.title.get_style_context()
 
             if (song == current_song):
                 song_widget.now_playing_sign.show()
-                song_widget.title.set_markup('<b>%s</b>' % escaped_title)
+                context.remove_class('past-song')
+                context.add_class('current-song')
                 song_passed = True
             elif (song_passed):
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup('<span>%s</span>' % escaped_title)
+                context.remove_class('past-song')
+                context.remove_class('current-song')
             else:
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup(
-                    '<span color=\'grey\'>%s</span>' % escaped_title)
+                context.remove_class('current-song')
+                context.add_class('past-song')
             itr = playlist.iter_next(itr)
 
         return False
@@ -175,11 +176,11 @@ class ArtistAlbumsWidget(Gtk.Box):
         while itr:
             song = self._model[itr][5]
             song_widget = song.song_widget
-            escaped_title = GLib.markup_escape_text(
-                utils.get_media_title(song))
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
-            song_widget.title.set_markup('<span>%s</span>' % escaped_title)
+            context = song_widget.title.get_style_context()
+            context.remove_class('current-song')
+            context.remove_class('past-song')
             itr = self._model.iter_next(itr)
 
         return False
