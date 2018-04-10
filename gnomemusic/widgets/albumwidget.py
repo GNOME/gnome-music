@@ -300,21 +300,21 @@ class AlbumWidget(Gtk.EventBox):
             song = playlist[_iter][player.Field.SONG]
             song_widget = song.song_widget
             self._duration += song.get_duration()
-            escaped_title = GLib.markup_escape_text(
-                utils.get_media_title(song))
+            context = song_widget.title.get_style_context()
 
             if (song == current_song):
                 song_widget.now_playing_sign.show()
-                song_widget.title.set_markup("<b>{}</b>".format(escaped_title))
+                context.remove_class('past-song')
+                context.add_class('current-song')
                 song_passed = True
             elif (song_passed):
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup(
-                    "<span>{}</span>".format(escaped_title))
+                context.remove_class('past-song')
+                context.remove_class('current-song')
             else:
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup(
-                    "<span color=\'grey\'>{}</span>".format(escaped_title))
+                context.remove_class('current-song')
+                context.add_class('past-song')
 
             _iter = playlist.iter_next(_iter)
 
