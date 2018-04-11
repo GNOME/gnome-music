@@ -189,8 +189,7 @@ class DiscBox(Gtk.Box):
 
         :param int disc_number: Disc number to display
         """
-        self._label.set_markup(_("Disc {}").format(disc_number))
-        self._label.get_style_context().add_class('dim-label')
+        self._label.set_label(_("Disc {}").format(disc_number))
         self._label.set_visible(True)
 
     @log
@@ -324,8 +323,6 @@ class DiscBox(Gtk.Box):
         if song_number == 0:
             song_number = ""
         song_widget.number = builder.get_object('num')
-        song_widget.number.set_markup(
-            '<span color=\'grey\'>{}</span>'.format(song_number))
         song_widget.number.set_no_show_all(True)
 
         song_widget.title = builder.get_object('title')
