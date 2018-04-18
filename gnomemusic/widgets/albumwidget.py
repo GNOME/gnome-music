@@ -172,6 +172,12 @@ class AlbumWidget(Gtk.EventBox):
         self._composer_info.set_visible(show)
 
     @log
+    def _set_duration_label(self):
+        mins = (self._duration // 60) + 1
+        self._builder.get_object('running_length_label_info').set_text(
+                ngettext("{} minute", "{} minutes", mins).format(mins))
+
+    @log
     def _on_selection_changed(self, widget):
         items = self._disc_listbox.get_selected_items()
         self.selection_toolbar._add_to_playlist_button.set_sensitive(
@@ -273,8 +279,7 @@ class AlbumWidget(Gtk.EventBox):
                 disc.show_disc_label(False)
 
         if remaining == 0:
-            self._builder.get_object('running_length_label_info').set_text(
-                _("%d min") % (int(self._duration / 60) + 1))
+            self._set_duration_label()
 
             self.show_all()
 
@@ -318,8 +323,7 @@ class AlbumWidget(Gtk.EventBox):
 
             _iter = playlist.iter_next(_iter)
 
-        self._builder.get_object('running_length_label_info').set_text(
-            _("%d min") % (int(self._duration / 60) + 1))
+        self._set_duration_label()
 
         return True
 
