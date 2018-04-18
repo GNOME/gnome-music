@@ -78,3 +78,8 @@ flowbox, treeview, widget {
 .grey-image {
     color: alpha(@theme_fg_color, 0.3);
 }
+
+/* Used in AlbumWidget and ArtistAlbumsWidget */
+.playing-song-label {
+    font-weight: bold;
+}

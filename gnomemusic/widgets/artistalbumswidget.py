@@ -25,11 +25,10 @@
 import logging
 
 from gettext import gettext as _, ngettext
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
-import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
 
@@ -150,20 +149,21 @@ class ArtistAlbumsWidget(Gtk.Box):
                 itr = playlist.iter_next(itr)
                 continue
 
-            escaped_title = GLib.markup_escape_text(
-                utils.get_media_title(song))
+            context = song_widget.title.get_style_context()
 
             if (song == current_song):
                 song_widget.now_playing_sign.show()
-                song_widget.title.set_markup('<b>%s</b>' % escaped_title)
+                context.remove_class('dim-label')
+                context.add_class('playing-song-label')
                 song_passed = True
             elif (song_passed):
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup('<span>%s</span>' % escaped_title)
+                context.remove_class('dim-label')
+                context.remove_class('playing-song-label')
             else:
                 song_widget.now_playing_sign.hide()
-                song_widget.title.set_markup(
-                    '<span color=\'grey\'>%s</span>' % escaped_title)
+                context.remove_class('playing-song-label')
+                context.add_class('dim-label')
             itr = playlist.iter_next(itr)
 
         return False
@@ -175,11 +175,11 @@ class ArtistAlbumsWidget(Gtk.Box):
         while itr:
             song = self._model[itr][5]
             song_widget = song.song_widget
-            escaped_title = GLib.markup_escape_text(
-                utils.get_media_title(song))
             if song_widget.can_be_played:
                 song_widget.now_playing_sign.hide()
-            song_widget.title.set_markup('<span>%s</span>' % escaped_title)
+            context = song_widget.title.get_style_context()
+            context.remove_class('playing-song-label')
+            context.remove_class('dim-label')
             itr = self._model.iter_next(itr)
 
         return False
