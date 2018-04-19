@@ -1,4 +1,4 @@
-from gi.repository import Grl, Gtk
+from gi.repository import GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
@@ -20,6 +20,7 @@ class SongWidget(Gtk.EventBox):
         super().__init__()
 
         self._media = media
+        self._selection_mode = False
 
         song_number = media.get_track_number()
         if song_number == 0:
@@ -36,3 +37,27 @@ class SongWidget(Gtk.EventBox):
         self._star_image.set_favorite(media.get_favourite())
 
         self._select_button.set_visible(False)
+
+    @GObject.Property(type=bool, default=False)
+    @log
+    def selection_mode(self):
+        return self._selection_mode
+
+    @selection_mode.setter
+    @log
+    def selection_mode(self, value):
+        self._selection_mode = value
+        self._select_button.set_visible(value)
+
+        if not value:
+            self.selected = False
+
+    @GObject.Property(type=bool, default=False)
+    @log
+    def selected(self):
+        return self._select_button.get_active()
+
+    @selected.setter
+    @log
+    def selected(self, value):
+        self._select_button.set_active(value)
