@@ -30,6 +30,7 @@ from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
 from gnomemusic.gstplayer import Playback
 from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
+from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
@@ -305,21 +306,16 @@ class AlbumWidget(Gtk.EventBox):
             song = playlist[_iter][player.Field.SONG]
             song_widget = song.song_widget
             self._duration += song.get_duration()
-            context = song_widget.title.get_style_context()
+            # context = song_widget.title.get_style_context()
 
             if (song == current_song):
-                song_widget.now_playing_sign.show()
-                context.remove_class('dim-label')
-                context.add_class('playing-song-label')
+                song_widget.state = SongWidget.State.PLAYING
                 song_passed = True
             elif (song_passed):
-                song_widget.now_playing_sign.hide()
-                context.remove_class('dim-label')
-                context.remove_class('playing-song-label')
+                # Counter intuitive, but this is due to call order.
+                song_widget.state = SongWidget.State.UNPLAYED
             else:
-                song_widget.now_playing_sign.hide()
-                context.remove_class('playing-song-label')
-                context.add_class('dim-label')
+                song_widget.state = SongWidget.State.PLAYED
 
             _iter = playlist.iter_next(_iter)
 

@@ -348,7 +348,7 @@ class DiscBox(Gtk.Box):
         #     'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
         # song_widget.now_playing_sign.set_no_show_all(True)
         song_widget.can_be_played = True
-        # song_widget.connect('button-release-event', self._song_activated)
+        song_widget.connect('button-release-event', self._song_activated)
 
         # song_widget.star_image = builder.get_object('starimage')
         # song_widget.star_image.set_favorite(song.get_favourite())

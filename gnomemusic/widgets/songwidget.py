@@ -1,7 +1,10 @@
+from enum import IntEnum
+
 from gi.repository import GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
+
 
 @Gtk.Template(resource_path='/org/gnome/Music/TrackWidget.ui')
 class SongWidget(Gtk.EventBox):
@@ -14,6 +17,12 @@ class SongWidget(Gtk.EventBox):
     _duration_label = Gtk.Template.Child()
     _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
+    _play_icon = Gtk.Template.Child()
+
+    class State(IntEnum):
+        PLAYED = 0
+        PLAYING = 1
+        UNPLAYED = 2
 
     @log
     def __init__(self, media):
@@ -38,6 +47,10 @@ class SongWidget(Gtk.EventBox):
 
         self._select_button.set_visible(False)
 
+        self._play_icon.set_from_icon_name(
+            'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
+        self._play_icon.set_no_show_all(True)
+
     @GObject.Property(type=bool, default=False)
     @log
     def selection_mode(self):
@@ -61,3 +74,22 @@ class SongWidget(Gtk.EventBox):
     @log
     def selected(self, value):
         self._select_button.set_active(value)
+
+    @GObject.property
+    @log
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, value):
+        style_ctx = self._title_label.get_style_context()
+
+        style_ctx.remove_class('dim-label')
+        style_ctx.remove_class('playing-song-label')
+        self._play_icon.set_visible(False)
+
+        if value == SongWidget.State.PLAYED:
+            style_ctx.add_class('dim-label')
+        elif value == SongWidget.State.PLAYING:
+            self._play_icon.set_visible(True)
+            style_ctx.add_class('playing-song-label')
