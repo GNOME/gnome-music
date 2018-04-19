@@ -29,6 +29,7 @@ from gi.repository import Gdk, GObject, Gtk
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
@@ -208,7 +209,7 @@ class DiscBox(Gtk.Box):
         :param bool show_duration: Display the song durations
         """
         def child_show_duration(child):
-            child.get_child().duration.set_visible(show_duration)
+            child.get_child()._duration_label.set_visible(show_duration)
 
         self._disc_songs_flowbox.foreach(child_show_duration)
 
@@ -220,7 +221,7 @@ class DiscBox(Gtk.Box):
         switches
         """
         def child_show_favorites(child):
-            child.get_child().starevent.set_visible(show_favorites)
+            child.get_child()._star_eventbox.set_visible(show_favorites)
 
         self._disc_songs_flowbox.foreach(child_show_favorites)
 
@@ -231,7 +232,7 @@ class DiscBox(Gtk.Box):
         :param bool show_song_number: Display the song number
         """
         def child_show_song_number(child):
-            child.get_child().number.set_visible(show_song_number)
+            child.get_child()._number_label.set_visible(show_song_number)
 
         self._disc_songs_flowbox.foreach(child_show_song_number)
 
@@ -305,9 +306,11 @@ class DiscBox(Gtk.Box):
         :returns: A complete song widget
         :rtype: Gtk.EventBox
         """
-        builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/Music/TrackWidget.ui')
-        song_widget = builder.get_object('eventbox1')
+        # builder = Gtk.Builder()
+        # builder.add_from_resource('/org/gnome/Music/TrackWidget.ui')
+        # song_widget = builder.get_object('eventbox1')
+
+        song_widget = SongWidget(song)
         self._songs.append(song_widget)
 
         title = utils.get_media_title(song)
@@ -319,46 +322,46 @@ class DiscBox(Gtk.Box):
         song_widget.itr = itr
         song_widget.model = self._model
 
-        song_number = song.get_track_number()
-        if song_number == 0:
-            song_number = ""
-        song_widget.number = builder.get_object('num')
-        song_widget.number.set_label(str(song_number))
-        song_widget.number.set_no_show_all(True)
+        # song_number = song.get_track_number()
+        # if song_number == 0:
+        #     song_number = ""
+        # song_widget.number = builder.get_object('num')
+        # song_widget.number.set_label(str(song_number))
+        # song_widget.number.set_no_show_all(True)
 
-        song_widget.title = builder.get_object('title')
-        song_widget.title.set_text(title)
-        song_widget.title.set_max_width_chars(50)
+        # song_widget.title = builder.get_object('title')
+        # song_widget.title.set_text(title)
+        # song_widget.title.set_max_width_chars(50)
 
-        song_widget.duration = builder.get_object('duration')
-        time = utils.seconds_to_string(song.get_duration())
-        song_widget.duration.set_text(time)
+        # song_widget.duration = builder.get_object('duration')
+        # time = utils.seconds_to_string(song.get_duration())
+        # song_widget.duration.set_text(time)
 
-        song_widget.check_button = builder.get_object('select')
-        song_widget.check_button.set_visible(False)
-        song_widget.check_button.connect('toggled',
-                                         self._check_button_toggled,
-                                         song_widget)
+        # song_widget.check_button = builder.get_object('select')
+        # song_widget.check_button.set_visible(False)
+        # song_widget.check_button.connect('toggled',
+        #                                  self._check_button_toggled,
+        #                                  song_widget)
 
-        song_widget.now_playing_sign = builder.get_object('image1')
-        song_widget.now_playing_sign.set_from_icon_name(
-            'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
-        song_widget.now_playing_sign.set_no_show_all(True)
+        # song_widget.now_playing_sign = builder.get_object('image1')
+        # song_widget.now_playing_sign.set_from_icon_name(
+        #     'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
+        # song_widget.now_playing_sign.set_no_show_all(True)
         song_widget.can_be_played = True
-        song_widget.connect('button-release-event', self._song_activated)
+        # song_widget.connect('button-release-event', self._song_activated)
 
-        song_widget.star_image = builder.get_object('starimage')
-        song_widget.star_image.set_favorite(song.get_favourite())
-        song_widget.star_image.set_visible(True)
+        # song_widget.star_image = builder.get_object('starimage')
+        # song_widget.star_image.set_favorite(song.get_favourite())
+        # song_widget.star_image.set_visible(True)
 
-        song_widget.starevent = builder.get_object('starevent')
-        song_widget.starevent.connect('button-release-event',
-                                      self._toggle_favorite,
-                                      song_widget)
-        song_widget.starevent.connect('enter-notify-event',
-                                      song_widget.star_image.hover, None)
-        song_widget.starevent.connect('leave-notify-event',
-                                      song_widget.star_image.unhover, None)
+        # song_widget.starevent = builder.get_object('starevent')
+        # song_widget.starevent.connect('button-release-event',
+        #                               self._toggle_favorite,
+        #                               song_widget)
+        # song_widget.starevent.connect('enter-notify-event',
+        #                               song_widget.star_image.hover, None)
+        # song_widget.starevent.connect('leave-notify-event',
+        #                               song_widget.star_image.unhover, None)
         return song_widget
 
     @log

@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkEventBox" id="eventbox1">
+  <template class="SongWidget" parent="GtkEventBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -34,7 +34,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="select">
+              <object class="GtkCheckButton" id="_select_button">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="receives_default">False</property>
@@ -48,7 +48,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="num">
+              <object class="GtkLabel" id="_number_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
@@ -78,7 +78,7 @@
             <property name="margin_top">1</property>
             <property name="margin_bottom">1</property>
             <child>
-              <object class="GtkLabel" id="title">
+              <object class="GtkLabel" id="_title_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
@@ -95,7 +95,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="duration">
+              <object class="GtkLabel" id="_duration_label">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="no_show_all">True</property>
@@ -117,7 +117,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEventBox" id="starevent">
+          <object class="GtkEventBox" id="_star_eventbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="no_show_all">True</property>
@@ -125,7 +125,7 @@
             <property name="valign">center</property>
             <property name="visible_window">True</property>
             <child>
-              <object class="StarImage" id="starimage">
+              <object class="StarImage" id="_star_image">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="valign">center</property>
@@ -144,5 +144,5 @@
         </child>
       </object>
     </child>
-  </object>
+  </template>
 </interface>
