@@ -29,6 +29,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
+from gnomemusic.widgets.songwidget import SongWidget
 
 logger = logging.getLogger(__name__)
 
@@ -149,21 +150,15 @@ class ArtistAlbumsWidget(Gtk.Box):
                 itr = playlist.iter_next(itr)
                 continue
 
-            context = song_widget.title.get_style_context()
-
             if (song == current_song):
-                song_widget.now_playing_sign.show()
-                context.remove_class('dim-label')
-                context.add_class('playing-song-label')
+                song_widget.state = SongWidget.State.PLAYING
                 song_passed = True
             elif (song_passed):
-                song_widget.now_playing_sign.hide()
-                context.remove_class('dim-label')
-                context.remove_class('playing-song-label')
+                # Counter intuitive, but this is due to call order.
+                song_widget.state = SongWidget.State.UNPLAYED
             else:
-                song_widget.now_playing_sign.hide()
-                context.remove_class('playing-song-label')
-                context.add_class('dim-label')
+                song_widget.state = SongWidget.State.PLAYED
+
             itr = playlist.iter_next(itr)
 
         return False
@@ -175,11 +170,8 @@ class ArtistAlbumsWidget(Gtk.Box):
         while itr:
             song = self._model[itr][5]
             song_widget = song.song_widget
-            if song_widget.can_be_played:
-                song_widget.now_playing_sign.hide()
-            context = song_widget.title.get_style_context()
-            context.remove_class('playing-song-label')
-            context.remove_class('dim-label')
+            song_widget.state = SongWidget.State.UNPLAYED
+
             itr = self._model.iter_next(itr)
 
         return False
