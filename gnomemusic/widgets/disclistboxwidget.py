@@ -139,8 +139,6 @@ class DiscBox(Gtk.Box):
 
     }
 
-    _playlists = Playlists.get_default()
-
     def __repr__(self):
         return '<DiscBox>'
 
