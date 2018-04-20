@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-04-16 13:01+0000\n"
-"PO-Revision-Date: 2018-04-21 01:32+0200\n"
+"POT-Creation-Date: 2018-04-20 22:34+0000\n"
+"PO-Revision-Date: 2018-04-21 01:37+0200\n"
 "Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: Ελληνικά <>\n"
 "Language: el\n"
@@ -116,7 +116,6 @@ msgid "Unable to play the file"
 msgstr "Αδύνατη η αναπαραγωγή του αρχείου"
 
 #: gnomemusic/gstplayer.py:416
-#| msgid "_Find in %s"
 msgid "_Find in {}"
 msgstr "Εύ_ρεση στο {}"
 
@@ -131,8 +130,6 @@ msgid ", "
 msgstr ", "
 
 #: gnomemusic/gstplayer.py:432
-#| msgid "%s is required to play the file, but is not installed."
-#| msgid_plural "%s are required to play the file, but are not installed."
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -229,7 +226,7 @@ msgstr[0] "Επιλέχθηκε %d στοιχείο"
 msgstr[1] "Επιλέχθηκαν %d στοιχεία"
 
 #: gnomemusic/views/baseview.py:192 gnomemusic/views/baseview.py:259
-#: gnomemusic/widgets/albumwidget.py:185
+#: gnomemusic/widgets/albumwidget.py:191
 #: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Πατήστε σε αντικείμενα για να τα επιλέξετε"
@@ -269,18 +266,19 @@ msgstr "{} αφαιρέθηκε από {}"
 msgid "Songs"
 msgstr "Τραγούδια"
 
-#: gnomemusic/widgets/albumwidget.py:181
+#: gnomemusic/widgets/albumwidget.py:178
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} λεπτό"
+msgstr[1] "{} λεπτά"
+
+#: gnomemusic/widgets/albumwidget.py:187
 #: gnomemusic/widgets/artistalbumswidget.py:224
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Επιλέχθηκε %d αντικείμενο"
 msgstr[1] "Επιλέχθηκαν %d αντικείμενα"
-
-#: gnomemusic/widgets/albumwidget.py:277 gnomemusic/widgets/albumwidget.py:322
-#, python-format
-msgid "%d min"
-msgstr "%d λεπτά"
 
 #: gnomemusic/widgets/disclistboxwidget.py:192
 msgid "Disc {}"
@@ -569,7 +567,6 @@ msgid "C_reate"
 msgstr "Δ_ημιουργία"
 
 #: data/PlaylistDialog.ui:164
-#| msgid "New Playlist"
 msgid "New Playlist…"
 msgstr "Νέα λίστα αναπαραγωγής…"
 
@@ -578,7 +575,6 @@ msgid "Add"
 msgstr "Προσθήκη"
 
 #: data/PlaylistDialog.ui:268
-#| msgid "_Add to Playlist"
 msgid "Add to Playlist"
 msgstr "Προσθήκη στη λίστα αναπαραγωγής"
 
@@ -589,6 +585,9 @@ msgstr "_Προσθήκη"
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Προ_σθήκη στη λίστα αναπαραγωγής"
+
+#~ msgid "%d min"
+#~ msgstr "%d λεπτά"
 
 #~ msgid "Select Playlist"
 #~ msgstr "Επιλογή λίστας αναπαραγωγής"
