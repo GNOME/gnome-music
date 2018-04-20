@@ -9,16 +9,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-03-05 15:21+0000\n"
-"PO-Revision-Date: 2018-03-08 13:37+0200\n"
-"Last-Translator: Efstathios Iosifidis <eiosifidis@gnome.org>\n"
+"POT-Creation-Date: 2018-04-16 13:01+0000\n"
+"PO-Revision-Date: 2018-04-21 01:32+0200\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
 "Language-Team: Ελληνικά <>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.5.7\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
@@ -35,7 +35,7 @@ msgstr "Η Μουσική είναι η νέα εφαρμογή του GNOME γ�
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
 #: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Μουσική"
 
@@ -111,68 +111,66 @@ msgstr "Η αρχική κατάσταση έχει εμφανιστεί"
 msgid "Set to true when initial state has been displayed"
 msgstr "Ορίστε το ως αληθές όταν έχει εμφανιστεί η αρχική κατάσταση"
 
-#: gnomemusic/player.py:561
-msgid "Pause"
-msgstr "Παύση"
-
-#: gnomemusic/player.py:564 data/PlayerToolbar.ui:87
-#: data/PlaylistContextMenu.ui:5
-msgid "Play"
-msgstr "Αναπαραγωγή"
-
-#: gnomemusic/player.py:1108
+#: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Αδύνατη η αναπαραγωγή του αρχείου"
 
-#. TRANSLATORS: this is a button to launch a codec installer.
-#. %s will be replaced with the software installer's name, e.g.
-#. 'Software' in case of gnome-software.
-#: gnomemusic/player.py:1113
-#, python-format
-msgid "_Find in %s"
-msgstr "Εύ_ρεση στο %s"
+#: gnomemusic/gstplayer.py:416
+#| msgid "_Find in %s"
+msgid "_Find in {}"
+msgstr "Εύ_ρεση στο {}"
 
-#. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1123
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:427
 msgid " and "
 msgstr " και "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1126
+#: gnomemusic/gstplayer.py:430
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/player.py:1127
-#, python-format
-msgid "%s is required to play the file, but is not installed."
-msgid_plural "%s are required to play the file, but are not installed."
+#: gnomemusic/gstplayer.py:432
+#| msgid "%s is required to play the file, but is not installed."
+#| msgid_plural "%s are required to play the file, but are not installed."
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
-"Απαιτείται το %s για αναπαραγωγή του αρχείου, αλλά δεν είναι εγκατεστημένο."
+"Απαιτείται το {} για αναπαραγωγή του αρχείου, αλλά δεν είναι εγκατεστημένο."
 msgstr[1] ""
-"Απαιτούνται τα %s για αναπαραγωγή του αρχείου, αλλά δεν είναι εγκατεστημένα."
+"Απαιτούνται τα {} για αναπαραγωγή του αρχείου, αλλά δεν είναι εγκατεστημένα."
+
+#: gnomemusic/player.py:392
+msgid "Pause"
+msgstr "Παύση"
+
+#: gnomemusic/player.py:395 data/PlayerToolbar.ui:87
+#: data/PlaylistContextMenu.ui:5
+msgid "Play"
+msgstr "Αναπαραγωγή"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:58
+#: gnomemusic/playlists.py:60
 msgid "Most Played"
 msgstr "Το περισσότερο παιγμένο"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:63
+#: gnomemusic/playlists.py:65
 msgid "Never Played"
 msgstr "Δεν παίχτηκε ποτέ"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:68
+#: gnomemusic/playlists.py:70
 msgid "Recently Played"
 msgstr "Παίχτηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:73
+#: gnomemusic/playlists.py:75
 msgid "Recently Added"
 msgstr "Προστέθηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:78
+#: gnomemusic/playlists.py:80
 msgid "Favorite Songs"
 msgstr "Αγαπημένα τραγούδια"
 
@@ -224,14 +222,14 @@ msgstr "Δίσκοι"
 msgid "Artists"
 msgstr "Καλλιτέχνες"
 
-#: gnomemusic/views/baseview.py:188
+#: gnomemusic/views/baseview.py:187
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Επιλέχθηκε %d στοιχείο"
 msgstr[1] "Επιλέχθηκαν %d στοιχεία"
 
-#: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
-#: gnomemusic/widgets/albumwidget.py:189
+#: gnomemusic/views/baseview.py:192 gnomemusic/views/baseview.py:259
+#: gnomemusic/widgets/albumwidget.py:185
 #: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Πατήστε σε αντικείμενα για να τα επιλέξετε"
@@ -271,7 +269,7 @@ msgstr "{} αφαιρέθηκε από {}"
 msgid "Songs"
 msgstr "Τραγούδια"
 
-#: gnomemusic/widgets/albumwidget.py:185
+#: gnomemusic/widgets/albumwidget.py:181
 #: gnomemusic/widgets/artistalbumswidget.py:224
 #, python-format
 msgid "Selected %d item"
@@ -279,7 +277,7 @@ msgid_plural "Selected %d items"
 msgstr[0] "Επιλέχθηκε %d αντικείμενο"
 msgstr[1] "Επιλέχθηκαν %d αντικείμενα"
 
-#: gnomemusic/widgets/albumwidget.py:281 gnomemusic/widgets/albumwidget.py:326
+#: gnomemusic/widgets/albumwidget.py:277 gnomemusic/widgets/albumwidget.py:322
 #, python-format
 msgid "%d min"
 msgstr "%d λεπτά"
@@ -292,11 +290,11 @@ msgstr "Δίσκος {}"
 msgid "Loading"
 msgstr "Γίνεται φόρτωση"
 
-#: gnomemusic/widgets/notificationspopup.py:231
+#: gnomemusic/widgets/notificationspopup.py:232
 msgid "_Undo"
 msgstr "Α_ναίρεση"
 
-#: gnomemusic/window.py:273
+#: gnomemusic/window.py:272
 msgid "Empty"
 msgstr "Κενό"
 
@@ -406,7 +404,7 @@ msgstr "Αναζήτηση"
 msgid "Select"
 msgstr "Επιλογή"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "Ακύ_ρωση"
 
@@ -562,33 +560,38 @@ msgstr "Όνομα λίστας αναπαραγωγής"
 msgid "_Done"
 msgstr "_Ολοκληρώθηκε"
 
-#: data/PlaylistDialog.ui:63
+#: data/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Πληκτρολογήστε ένα όνομα για την πρώτη σας λίστα αναπαραγωγής"
 
-#: data/PlaylistDialog.ui:88
+#: data/PlaylistDialog.ui:94
 msgid "C_reate"
 msgstr "Δ_ημιουργία"
 
-#: data/PlaylistDialog.ui:157
-msgid "New Playlist"
-msgstr "Νέα λίστα αναπαραγωγής"
+#: data/PlaylistDialog.ui:164
+#| msgid "New Playlist"
+msgid "New Playlist…"
+msgstr "Νέα λίστα αναπαραγωγής…"
 
-#: data/PlaylistDialog.ui:170
+#: data/PlaylistDialog.ui:177
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: data/PlaylistDialog.ui:261
-msgid "Select Playlist"
-msgstr "Επιλογή λίστας αναπαραγωγής"
+#: data/PlaylistDialog.ui:268
+#| msgid "_Add to Playlist"
+msgid "Add to Playlist"
+msgstr "Προσθήκη στη λίστα αναπαραγωγής"
 
-#: data/PlaylistDialog.ui:276
+#: data/PlaylistDialog.ui:283
 msgid "_Add"
 msgstr "_Προσθήκη"
 
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Προ_σθήκη στη λίστα αναπαραγωγής"
+
+#~ msgid "Select Playlist"
+#~ msgstr "Επιλογή λίστας αναπαραγωγής"
 
 #~ msgid "Search mode"
 #~ msgstr "Λειτουργία αναζήτησης"
