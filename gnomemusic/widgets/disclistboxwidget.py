@@ -49,7 +49,7 @@ class StarImage(Gtk.Image):
         self.get_style_context().add_class("star")
         self.show_all()
 
-    @GObject.property(type=bool, default=False)
+    @GObject.Property(type=bool, default=False)
     @log
     def favorite(self):
         """Return the current state of the widget
