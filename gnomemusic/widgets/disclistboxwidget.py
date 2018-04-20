@@ -27,8 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
