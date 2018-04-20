@@ -75,7 +75,7 @@ class SongWidget(Gtk.EventBox):
     def selected(self, value):
         self._select_button.set_active(value)
 
-    @GObject.property
+    @GObject.Property
     @log
     def state(self):
         return self._state
@@ -93,3 +93,34 @@ class SongWidget(Gtk.EventBox):
         elif value == SongWidget.State.PLAYING:
             self._play_icon.set_visible(True)
             style_ctx.add_class('playing-song-label')
+
+    @GObject.Property(type=bool, default=False)
+    @log
+    def song_number_visible(self):
+        return self._number_label.get_visible()
+
+    @song_number_visible.setter
+    @log
+    def song_number_visible(self, value):
+        self._number_label.set_visible(value)
+
+    @GObject.Property(type=bool, default=False)
+    @log
+    def favorite_visible(self):
+        return self._star_eventbox.get_visible()
+
+    @favorite_visible.setter
+    @log
+    def favorite_visible(self, value):
+        self._star_eventbox.set_visible(value)
+        # TODO: disconnect signal handling?
+
+    @GObject.Property(type=bool, default=False)
+    @log
+    def duration_visible(self):
+        return self._duration_label.get_visible()
+
+    @duration_visible.setter
+    @log
+    def duration_visible(self, value):
+        self._duration_label.set_visible(value)

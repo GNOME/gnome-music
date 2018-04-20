@@ -209,7 +209,7 @@ class DiscBox(Gtk.Box):
         :param bool show_duration: Display the song durations
         """
         def child_show_duration(child):
-            child.get_child()._duration_label.set_visible(show_duration)
+            child.get_child().duration_visible = show_duration
 
         self._disc_songs_flowbox.foreach(child_show_duration)
 
@@ -221,7 +221,7 @@ class DiscBox(Gtk.Box):
         switches
         """
         def child_show_favorites(child):
-            child.get_child()._star_eventbox.set_visible(show_favorites)
+            child.get_child().favorite_visible = show_favorites
 
         self._disc_songs_flowbox.foreach(child_show_favorites)
 
@@ -232,7 +232,7 @@ class DiscBox(Gtk.Box):
         :param bool show_song_number: Display the song number
         """
         def child_show_song_number(child):
-            child.get_child()._number_label.set_visible(show_song_number)
+            child.get_child().song_number_visible = show_song_number
 
         self._disc_songs_flowbox.foreach(child_show_song_number)
 
