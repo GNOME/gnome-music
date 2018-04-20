@@ -301,10 +301,6 @@ class DiscBox(Gtk.Box):
         :returns: A complete song widget
         :rtype: Gtk.EventBox
         """
-        # builder = Gtk.Builder()
-        # builder.add_from_resource('/org/gnome/Music/TrackWidget.ui')
-        # song_widget = builder.get_object('eventbox1')
-
         song_widget = SongWidget(song)
         self._songs.append(song_widget)
 
