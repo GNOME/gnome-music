@@ -11,6 +11,10 @@ class SongWidget(Gtk.EventBox):
 
     __gtype_name__ = 'SongWidget'
 
+    __gsignals__ = {
+        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
+
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -50,6 +54,11 @@ class SongWidget(Gtk.EventBox):
         self._play_icon.set_from_icon_name(
             'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
         self._play_icon.set_no_show_all(True)
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_selection_changed(self, klass):
+        self.emit('selection-changed')
 
     @GObject.Property(type=bool, default=False)
     @log

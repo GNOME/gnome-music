@@ -273,7 +273,7 @@ class DiscBox(Gtk.Box):
     def _get_selected(self, child):
         song_widget = child.get_child()
 
-        if song_widget.check_button.get_active():
+        if song_widget.selected:
             itr = song_widget.itr
             self._selected_items.append(self._model[itr][5])
 
@@ -350,6 +350,8 @@ class DiscBox(Gtk.Box):
         song_widget.can_be_played = True
         song_widget.connect('button-release-event', self._song_activated)
 
+        song_widget.connect('selection-changed', self._on_selection_changed)
+
         # song_widget.star_image = builder.get_object('starimage')
         # song_widget.star_image.set_favorite(song.get_favourite())
         # song_widget.star_image.set_visible(True)
@@ -378,7 +380,7 @@ class DiscBox(Gtk.Box):
         return True
 
     @log
-    def _check_button_toggled(self, widget, song_widget):
+    def _on_selection_changed(self, widget):
         self.emit('selection-changed')
 
         return True

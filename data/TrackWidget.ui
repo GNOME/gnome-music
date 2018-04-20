@@ -40,6 +40,7 @@
                 <property name="receives_default">False</property>
                 <property name="no_show_all">True</property>
                 <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="_on_selection_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
