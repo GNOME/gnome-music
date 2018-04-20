@@ -241,7 +241,7 @@ class AlbumWidget(Gtk.EventBox):
             return
 
         if self._selection_mode:
-            song_widget.check_button.toggled()
+            song_widget.selected = not song_widget.selected
             return
 
         self._player.stop()
