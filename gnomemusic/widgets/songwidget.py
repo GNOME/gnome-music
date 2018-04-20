@@ -51,7 +51,7 @@ class SongWidget(Gtk.EventBox):
         time = utils.seconds_to_string(media.get_duration())
         self._duration_label.set_text(time)
 
-        self._star_image.set_favorite(media.get_favourite())
+        self._star_image.favorite = media.get_favourite()
 
         self._select_button.set_visible(False)
 
@@ -70,8 +70,8 @@ class SongWidget(Gtk.EventBox):
         if event.button != Gdk.BUTTON_PRIMARY:
             return False
 
-        favorite = not self._star_image.get_favorite()
-        self._star_image.set_favorite(favorite)
+        favorite = not self._star_image.favorite
+        self._star_image.favorite = favorite
 
         # FIXME: This does not belong here.
         grilo.set_favorite(self._media, favorite)

@@ -49,29 +49,31 @@ class StarImage(Gtk.Image):
         self.get_style_context().add_class("star")
         self.show_all()
 
+    @GObject.property(type=bool, default=False)
     @log
-    def set_favorite(self, favorite):
-        """Set favorite
-
-        Set the current widget as favorite or not.
-
-        :param bool favorite: Value to switch the widget state to
-        """
-        self._favorite = favorite
-
-        if self._favorite:
-            self.set_state_flags(Gtk.StateFlags.SELECTED, False)
-        else:
-            self.unset_state_flags(Gtk.StateFlags.SELECTED)
-
-    @log
-    def get_favorite(self):
+    def favorite(self):
         """Return the current state of the widget
 
         :return: The state of the widget
         :rtype: bool
         """
         return self._favorite
+
+    @favorite.setter
+    @log
+    def favorite(self, value):
+        """Set favorite
+
+        Set the current widget as favorite or not.
+
+        :param bool value: Value to switch the widget state to
+        """
+        self._favorite = value
+
+        if self._favorite:
+            self.set_state_flags(Gtk.StateFlags.SELECTED, False)
+        else:
+            self.unset_state_flags(Gtk.StateFlags.SELECTED)
 
     @log
     def toggle_favorite(self):
