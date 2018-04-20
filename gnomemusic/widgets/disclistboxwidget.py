@@ -76,13 +76,6 @@ class StarImage(Gtk.Image):
             self.unset_state_flags(Gtk.StateFlags.SELECTED)
 
     @log
-    def toggle_favorite(self):
-        """Toggle the widget state"""
-        self._favorite = not self._favorite
-
-        self.set_favorite(self._favorite)
-
-    @log
     def hover(self):
         self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
 
@@ -367,19 +360,6 @@ class DiscBox(Gtk.Box):
         # song_widget.starevent.connect('leave-notify-event',
         #                               song_widget.star_image.unhover, None)
         return song_widget
-
-    @log
-    def _toggle_favorite(self, widget, event, song_widget):
-        if event.button == Gdk.BUTTON_PRIMARY:
-            song_widget.star_image.toggle_favorite()
-
-        # FIXME: ugleh. Should probably be triggered by a
-        # signal.
-        favorite = song_widget.star_image.get_favorite()
-        grilo.set_favorite(self._model[song_widget.itr][5], favorite)
-        self._playlists.update_static_playlist(StaticPlaylists.Favorites)
-
-        return True
 
     @log
     def _on_selection_changed(self, widget):
