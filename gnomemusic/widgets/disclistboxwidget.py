@@ -43,6 +43,7 @@ class StarImage(Gtk.Image):
         super().__init__()
 
         self._favorite = False
+        self._hover = False
 
         self.get_style_context().add_class("star")
         self.show_all()
@@ -73,13 +74,18 @@ class StarImage(Gtk.Image):
         else:
             self.unset_state_flags(Gtk.StateFlags.SELECTED)
 
+    @GObject.Property(type=bool, default=False)
     @log
     def hover(self):
-        self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
+        return self._hover
 
+    @hover.setter
     @log
-    def unhover(self):
-        self.unset_state_flags(Gtk.StateFlags.PRELIGHT)
+    def hover(self, value):
+        if value:
+            self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
+        else:
+            self.unset_state_flags(Gtk.StateFlags.PRELIGHT)
 
 
 class DiscSongsFlowBox(Gtk.FlowBox):
