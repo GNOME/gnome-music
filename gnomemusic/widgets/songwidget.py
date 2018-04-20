@@ -1,9 +1,11 @@
 from enum import IntEnum
 
-from gi.repository import GObject, Grl, Gtk
+from gi.repository import Gdk, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
+from gnomemusic.grilo import grilo
+from gnomemusic.playlists import Playlists, StaticPlaylists
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/TrackWidget.ui')
@@ -14,6 +16,8 @@ class SongWidget(Gtk.EventBox):
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
+
+    _playlists = Playlists.get_default()
 
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
@@ -59,6 +63,31 @@ class SongWidget(Gtk.EventBox):
     @log
     def _on_selection_changed(self, klass):
         self.emit('selection-changed')
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_star_toggle(self, widget, event):
+        if event.button != Gdk.BUTTON_PRIMARY:
+            return False
+
+        favorite = not self._star_image.get_favorite()
+        self._star_image.set_favorite(favorite)
+
+        # FIXME: This does not belong here.
+        grilo.set_favorite(self._media, favorite)
+        self._playlists.update_static_playlist(StaticPlaylists.Favorites)
+
+        return True
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_star_hover(self, widget, event):
+        self._star_image.hover(None, None, None)
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_star_unhover(self, widget, event):
+        self._star_image.unhover(None, None, None)
 
     @GObject.Property(type=bool, default=False)
     @log
