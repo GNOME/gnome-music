@@ -81,11 +81,11 @@ class StarImage(Gtk.Image):
         self.set_favorite(self._favorite)
 
     @log
-    def hover(self, widget, event, data):
+    def hover(self):
         self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
 
     @log
-    def unhover(self, widget, event, data):
+    def unhover(self):
         self.unset_state_flags(Gtk.StateFlags.PRELIGHT)
 
 

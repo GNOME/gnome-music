@@ -82,12 +82,12 @@ class SongWidget(Gtk.EventBox):
     @Gtk.Template.Callback()
     @log
     def _on_star_hover(self, widget, event):
-        self._star_image.hover(None, None, None)
+        self._star_image.hover()
 
     @Gtk.Template.Callback()
     @log
     def _on_star_unhover(self, widget, event):
-        self._star_image.unhover(None, None, None)
+        self._star_image.unhover()
 
     @GObject.Property(type=bool, default=False)
     @log
