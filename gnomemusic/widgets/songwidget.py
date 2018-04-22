@@ -53,6 +53,9 @@ class SongWidget(Gtk.EventBox):
     }
 
     selected = GObject.Property(type=bool, default=False)
+    show_duration = GObject.Property(type=bool, default=False)
+    show_favorite = GObject.Property(type=bool, default=False)
+    show_song_number = GObject.Property(type=bool, default=False)
 
     _playlists = Playlists.get_default()
 
@@ -101,6 +104,12 @@ class SongWidget(Gtk.EventBox):
         self.bind_property(
             'selected', self._select_button, 'active',
             GObject.BindingFlags.BIDIRECTIONAL)
+        self.bind_property('show-duration', self._duration_label, 'visible')
+        self._duration_label.set_no_show_all(True)
+        self.bind_property('show-favorite', self._star_eventbox, 'visible')
+        self._star_eventbox.set_no_show_all(True)
+        self.bind_property('show-song-number', self._number_label, 'visible')
+        self._number_label.set_no_show_all(True)
 
     @Gtk.Template.Callback()
     @log
@@ -173,34 +182,3 @@ class SongWidget(Gtk.EventBox):
         elif value == SongWidget.State.PLAYING:
             self._play_icon.set_visible(True)
             style_ctx.add_class('playing-song-label')
-
-    @GObject.Property(type=bool, default=False)
-    @log
-    def show_song_number(self):
-        return self._number_label.get_visible()
-
-    @show_song_number.setter
-    @log
-    def show_song_number(self, value):
-        self._number_label.set_visible(value)
-
-    @GObject.Property(type=bool, default=False)
-    @log
-    def show_favorite(self):
-        return self._star_eventbox.get_visible()
-
-    @show_favorite.setter
-    @log
-    def show_favorite(self, value):
-        self._star_eventbox.set_visible(value)
-        # TODO: disconnect signal handling?
-
-    @GObject.Property(type=bool, default=False)
-    @log
-    def show_duration(self):
-        return self._duration_label.get_visible()
-
-    @show_duration.setter
-    @log
-    def show_duration(self, value):
-        self._duration_label.set_visible(value)
