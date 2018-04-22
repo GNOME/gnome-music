@@ -238,9 +238,6 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _song_activated(self, widget, song_widget):
-        if not song_widget.can_be_played:
-            return
-
         if self._selection_mode:
             song_widget.selected = not song_widget.selected
             return
