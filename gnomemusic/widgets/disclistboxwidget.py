@@ -53,8 +53,19 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         self._columns = columns
         self.get_style_context().add_class('discsongsflowbox')
 
+    @GObject.Property(type=int, minimum=1, default=1)
     @log
-    def set_columns(self, columns):
+    def columns(self):
+        """Number of columns for the song list
+
+        :returns: The number of columns
+        :rtype: int
+        """
+        return self._columns
+
+    @columns.setter
+    @log
+    def columns(self, columns):
         """Set the number of columns to use
 
         :param int columns: The number of columns the widget uses
@@ -87,6 +98,9 @@ class DiscBox(Gtk.Box):
 
     }
 
+    columns = GObject.Property(type=int, minimum=1, default=1)
+    selection_mode = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return '<DiscBox>'
 
@@ -108,20 +122,13 @@ class DiscBox(Gtk.Box):
         self._label.set_no_show_all(True)
         self._disc_songs_flowbox = builder.get_object('discsongsflowbox')
 
-        self._selection_mode = False
+        self.bind_property('columns', self._disc_songs_flowbox, 'columns')
+
         self._selection_mode_allowed = True
         self._selected_items = []
         self._songs = []
 
         self.pack_start(builder.get_object('disc'), True, True, 0)
-
-    @log
-    def set_columns(self, columns):
-        """Set the number of columns used by the songs list
-
-        :param int columns: Number of columns to display
-        """
-        self._disc_songs_flowbox.set_columns(columns)
 
     @log
     def set_disc_number(self, disc_number):
@@ -188,15 +195,6 @@ class DiscBox(Gtk.Box):
             song.song_widget = song_widget
 
     @log
-    def set_selection_mode(self, selection_mode):
-        """Set selection mode
-
-        :param bool selection_mode: Allow selection mode
-        """
-        self._selection_mode = selection_mode
-        self._disc_songs_flowbox.foreach(self._toggle_widget_selection)
-
-    @log
     def get_selected_items(self):
         """Return all selected items
 
@@ -259,6 +257,8 @@ class DiscBox(Gtk.Box):
         song_widget.connect('button-release-event', self._song_activated)
         song_widget.connect('selection-changed', self._on_selection_changed)
 
+        self.bind_property('selection-mode', song_widget, 'selection-mode')
+
         return song_widget
 
     @log
@@ -270,7 +270,7 @@ class DiscBox(Gtk.Box):
     @log
     def _toggle_widget_selection(self, child):
         song_widget = child.get_child()
-        song_widget.selection_mode = self._selection_mode
+        song_widget.selection_mode = self.selection_mode
 
     @log
     def _song_activated(self, widget, event):
@@ -280,12 +280,12 @@ class DiscBox(Gtk.Box):
                 or (event.button == Gdk.BUTTON_PRIMARY
                     and event.state & Gdk.ModifierType.CONTROL_MASK)):
             self.emit('song-activated', widget)
-            if self._selection_mode:
+            if self.selection_mode:
                 itr = widget.itr
                 self._model[itr][6] = not self._model[itr][6]
         else:
             self.emit('selection-toggle')
-            if self._selection_mode:
+            if self.selection_mode:
                 itr = widget.itr
                 self._model[itr][6] = True
 
@@ -293,7 +293,7 @@ class DiscBox(Gtk.Box):
 
     @log
     def _model_row_changed(self, model, path, itr):
-        if (not self._selection_mode
+        if (not self.selection_mode
                 or not model[itr][5]):
             return
 
@@ -333,6 +333,8 @@ class DiscListBox(Gtk.Box):
         super().add(widget)
         widget.connect('selection-changed', self._on_selection_changed)
 
+        self.bind_property('selection-mode', widget, 'selection-mode')
+
     @log
     def _on_selection_changed(self, widget):
         self.emit('selection-changed')
@@ -369,21 +371,27 @@ class DiscListBox(Gtk.Box):
 
         self.foreach(child_select_none)
 
+    @GObject.Property(type=bool, default=False)
     @log
-    def set_selection_mode(self, selection_mode):
-        """Set selection mode
+    def selection_mode(self):
+        """selection mode getter
 
-        :param bool selection_mode: Allow selection mode
+        :returns: If selection mode is active
+        :rtype: bool
+        """
+        return self._selection_mode
+
+    @selection_mode.setter
+    @log
+    def selection_mode(self, value):
+        """selection-mode setter
+
+        :param bool value: Activate selection mode
         """
         if not self._selection_mode_allowed:
             return
 
-        self._selection_mode = selection_mode
-
-        def set_child_selection_mode(child):
-            child.set_selection_mode(self._selection_mode)
-
-        self.foreach(set_child_selection_mode)
+        self._selection_mode = value
 
     @log
     def set_selection_mode_allowed(self, allowed):
