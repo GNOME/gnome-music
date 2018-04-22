@@ -30,63 +30,6 @@ from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
-class StarImage(Gtk.Image):
-    """GtkImage for starring songs"""
-    __gtype_name__ = 'StarImage'
-
-    def __repr__(self):
-        return '<StarImage>'
-
-    @log
-    def __init__(self):
-        super().__init__()
-
-        self._favorite = False
-        self._hover = False
-
-        self.get_style_context().add_class("star")
-        self.show_all()
-
-    @GObject.Property(type=bool, default=False)
-    @log
-    def favorite(self):
-        """Return the current state of the widget
-
-        :return: The state of the widget
-        :rtype: bool
-        """
-        return self._favorite
-
-    @favorite.setter
-    @log
-    def favorite(self, value):
-        """Set favorite
-
-        Set the current widget as favorite or not.
-
-        :param bool value: Value to switch the widget state to
-        """
-        self._favorite = value
-
-        if self._favorite:
-            self.set_state_flags(Gtk.StateFlags.SELECTED, False)
-        else:
-            self.unset_state_flags(Gtk.StateFlags.SELECTED)
-
-    @GObject.Property(type=bool, default=False)
-    @log
-    def hover(self):
-        return self._hover
-
-    @hover.setter
-    @log
-    def hover(self, value):
-        if value:
-            self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
-        else:
-            self.unset_state_flags(Gtk.StateFlags.PRELIGHT)
-
-
 class DiscSongsFlowBox(Gtk.FlowBox):
     """FlowBox containing the songs on one disc
 

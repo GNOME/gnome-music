@@ -30,6 +30,7 @@ from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/SongWidget.ui')
