@@ -32,7 +32,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, StaticPlaylists
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/TrackWidget.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/SongWidget.ui')
 class SongWidget(Gtk.EventBox):
 
     __gtype_name__ = 'SongWidget'
