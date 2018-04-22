@@ -35,6 +35,16 @@ from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 @Gtk.Template(resource_path='/org/gnome/Music/SongWidget.ui')
 class SongWidget(Gtk.EventBox):
+    """The single song widget used in DiscListBox
+
+    Contains
+     * play icon (depending on state)
+     * selection check box (optional)
+     * song number on disc (optional)
+     * song title
+     * song duration (optional)
+     * favorite/star picker (optional)
+    """
 
     __gtype_name__ = 'SongWidget'
 
@@ -55,6 +65,8 @@ class SongWidget(Gtk.EventBox):
     _play_icon = Gtk.Template.Child()
 
     class State(IntEnum):
+        """The state of the SongWidget
+        """
         PLAYED = 0
         PLAYING = 1
         UNPLAYED = 2
@@ -123,11 +135,20 @@ class SongWidget(Gtk.EventBox):
     @GObject.Property(type=bool, default=False)
     @log
     def selection_mode(self):
+        """Selection mode
+
+        :returns: Selection mode
+        :rtype: bool
+        """
         return self._selection_mode
 
     @selection_mode.setter
     @log
     def selection_mode(self, value):
+        """Set the selection mode
+
+        :param bool value: Selection mode
+        """
         self._selection_mode = value
         self._select_button.set_visible(value)
 
