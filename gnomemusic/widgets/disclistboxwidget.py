@@ -256,7 +256,6 @@ class DiscBox(Gtk.Box):
 
         song_widget.itr = itr
         song_widget.model = self._model
-        song_widget.can_be_played = True
         song_widget.connect('button-release-event', self._song_activated)
         song_widget.connect('selection-changed', self._on_selection_changed)
 
