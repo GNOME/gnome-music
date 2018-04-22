@@ -42,6 +42,8 @@ class SongWidget(Gtk.EventBox):
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    selected = GObject.Property(type=bool, default=False)
+
     _playlists = Playlists.get_default()
 
     _select_button = Gtk.Template.Child()
@@ -83,6 +85,10 @@ class SongWidget(Gtk.EventBox):
         self._play_icon.set_from_icon_name(
             'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
         self._play_icon.set_no_show_all(True)
+
+        self.bind_property(
+            'selected', self._select_button, 'active',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
     @Gtk.Template.Callback()
     @log
@@ -127,16 +133,6 @@ class SongWidget(Gtk.EventBox):
 
         if not value:
             self.selected = False
-
-    @GObject.Property(type=bool, default=False)
-    @log
-    def selected(self):
-        return self._select_button.get_active()
-
-    @selected.setter
-    @log
-    def selected(self, value):
-        self._select_button.set_active(value)
 
     @GObject.Property
     @log
