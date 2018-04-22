@@ -158,31 +158,31 @@ class SongWidget(Gtk.EventBox):
 
     @GObject.Property(type=bool, default=False)
     @log
-    def song_number_visible(self):
+    def show_song_number(self):
         return self._number_label.get_visible()
 
-    @song_number_visible.setter
+    @show_song_number.setter
     @log
-    def song_number_visible(self, value):
+    def show_song_number(self, value):
         self._number_label.set_visible(value)
 
     @GObject.Property(type=bool, default=False)
     @log
-    def favorite_visible(self):
+    def show_favorite(self):
         return self._star_eventbox.get_visible()
 
-    @favorite_visible.setter
+    @show_favorite.setter
     @log
-    def favorite_visible(self, value):
+    def show_favorite(self, value):
         self._star_eventbox.set_visible(value)
         # TODO: disconnect signal handling?
 
     @GObject.Property(type=bool, default=False)
     @log
-    def duration_visible(self):
+    def show_duration(self):
         return self._duration_label.get_visible()
 
-    @duration_visible.setter
+    @show_duration.setter
     @log
-    def duration_visible(self, value):
+    def show_duration(self, value):
         self._duration_label.set_visible(value)
