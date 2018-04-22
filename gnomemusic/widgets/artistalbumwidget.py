@@ -158,8 +158,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _song_activated(self, widget, song_widget):
-        if (not song_widget.can_be_played
-                or self._selection_mode):
+        if self._selection_mode:
             return
 
         self._player.stop()
