@@ -96,9 +96,10 @@ class ArtistAlbumWidget(Gtk.Box):
         disc_box = DiscBox(self._model)
         disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
-        disc_box.set_columns(2)
-        disc_box.show_duration(False)
-        disc_box.show_favorites(False)
+        disc_box.columns = 2
+        disc_box.show_durations = False
+        disc_box.show_favorites = False
+        disc_box.show_song_numbers = True
         disc_box.connect('song-activated', self._song_activated)
         disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
@@ -120,14 +121,14 @@ class ArtistAlbumWidget(Gtk.Box):
         """Selection mode button clicked callback."""
         if button.get_active():
             self._selection_mode = True
-            self._disc_listbox.set_selection_mode(True)
+            self._disc_listbox.selection_mode = True
             self._header_bar.set_selection_mode(True)
             self._player.actionbar.set_visible(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
             self._selection_mode = False
-            self._disc_listbox.set_selection_mode(False)
+            self._disc_listbox.selection_mode = False
             self._header_bar.set_selection_mode(False)
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._player.actionbar.set_visible(True)
@@ -150,7 +151,7 @@ class ArtistAlbumWidget(Gtk.Box):
             disc = self.create_disc_box(disc_nr, discs[disc_nr])
             self._disc_listbox.add(disc)
             if len(discs) == 1:
-                disc.show_disc_label(False)
+                disc.show_disc_label = False
 
         if remaining == 0:
             self.emit("songs-loaded")
@@ -173,4 +174,4 @@ class ArtistAlbumWidget(Gtk.Box):
             return
         self._selection_mode = selection_mode
 
-        self._disc_listbox.set_selection_mode(selection_mode)
+        self._disc_listbox.selection_mode = selection_mode

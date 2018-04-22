@@ -194,7 +194,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_header_cancel_button_clicked(self, button):
         """Cancel selection mode callback."""
-        self._disc_listbox.set_selection_mode(False)
+        self._disc_listbox.selection_mode = False
         self._header_bar.set_selection_mode(False)
         self._header_bar.header_bar.title = self._album
 
@@ -203,14 +203,14 @@ class AlbumWidget(Gtk.EventBox):
         """Selection mode button clicked callback."""
         if button.get_active():
             self._selection_mode = True
-            self._disc_listbox.set_selection_mode(True)
+            self._disc_listbox.selection_mode = True
             self._header_bar.set_selection_mode(True)
             self._player.actionbar.set_visible(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
             self._selection_mode = False
-            self._disc_listbox.set_selection_mode(False)
+            self._disc_listbox.selection_mode = False
             self._header_bar.set_selection_mode(False)
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._player.actionbar.set_visible(True)
@@ -220,8 +220,10 @@ class AlbumWidget(Gtk.EventBox):
         disc_box = DiscBox(self._model)
         disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
-        disc_box.set_columns(1)
-        disc_box.show_song_numbers(False)
+        disc_box.columns = 1
+        disc_box.show_durations = True
+        disc_box.show_favorites = True
+        disc_box.show_song_numbers = False
         disc_box.connect('song-activated', self._song_activated)
         disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
@@ -274,7 +276,7 @@ class AlbumWidget(Gtk.EventBox):
             disc = self._create_disc_box(disc_nr, discs[disc_nr])
             self._disc_listbox.add(disc)
             if len(discs) == 1:
-                disc.show_disc_label(False)
+                disc.show_disc_label = False
 
         if remaining == 0:
             self._set_duration_label()
