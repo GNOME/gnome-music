@@ -25,7 +25,6 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.widgets.songwidget import SongWidget
 
 
 class StarImage(Gtk.Image):
