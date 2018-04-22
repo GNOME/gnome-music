@@ -24,7 +24,7 @@
 
 from enum import IntEnum
 
-from gi.repository import Gdk, GObject, Grl, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
