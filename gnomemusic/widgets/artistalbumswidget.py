@@ -146,10 +146,6 @@ class ArtistAlbumsWidget(Gtk.Box):
             song = playlist[itr][player.Field.SONG]
             song_widget = song.song_widget
 
-            if not song_widget.can_be_played:
-                itr = playlist.iter_next(itr)
-                continue
-
             if (song == current_song):
                 song_widget.state = SongWidget.State.PLAYING
                 song_passed = True
