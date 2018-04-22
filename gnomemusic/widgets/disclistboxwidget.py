@@ -95,7 +95,6 @@ class DiscBox(Gtk.Box):
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'selection-toggle': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
-
     }
 
     columns = GObject.Property(type=int, minimum=1, default=1)
