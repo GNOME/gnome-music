@@ -153,8 +153,7 @@ class DiscBox(Gtk.Box):
 
         :param bool show_header: Display the disc number label
         """
-        self._label.set_visible(False)
-        self._label.hide()
+        self._label.set_visible(show_header)
 
     @log
     def set_songs(self, songs):
