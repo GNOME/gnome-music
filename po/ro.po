@@ -7,9 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-04-08 18:35+0000\n"
-"PO-Revision-Date: 2018-04-15 14:47+0300\n"
-"Last-Translator: Florentina Mușat <florentina.musat.28@gmail.com>\n"
+"POT-Creation-Date: 2018-04-18 18:44+0000\n"
+"PO-Revision-Date: 2018-04-27 00:33+0300\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
+"com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.7\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
@@ -225,7 +226,7 @@ msgstr[1] "Selectat {} elemente"
 msgstr[2] "Selectat {} de elemente"
 
 #: gnomemusic/views/baseview.py:192 gnomemusic/views/baseview.py:259
-#: gnomemusic/widgets/albumwidget.py:185
+#: gnomemusic/widgets/albumwidget.py:191
 #: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Clic pe obiecte pentru a le selecta"
@@ -266,7 +267,14 @@ msgstr "{} eliminat de la {}"
 msgid "Songs"
 msgstr "Melodii"
 
-#: gnomemusic/widgets/albumwidget.py:181
+#: gnomemusic/widgets/albumwidget.py:178
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minut"
+msgstr[1] "{} minute"
+msgstr[2] "{} de minute"
+
+#: gnomemusic/widgets/albumwidget.py:187
 #: gnomemusic/widgets/artistalbumswidget.py:224
 #, python-format
 msgid "Selected %d item"
@@ -274,11 +282,6 @@ msgid_plural "Selected %d items"
 msgstr[0] "Selectat %d element"
 msgstr[1] "Selectat %d elemente"
 msgstr[2] "Selectat %d de elemente"
-
-#: gnomemusic/widgets/albumwidget.py:277 gnomemusic/widgets/albumwidget.py:322
-#, python-format
-msgid "%d min"
-msgstr "%d min"
 
 #: gnomemusic/widgets/disclistboxwidget.py:192
 msgid "Disc {}"
@@ -583,6 +586,9 @@ msgstr "_Adaugă"
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Adaugă în lista de redare"
+
+#~ msgid "%d min"
+#~ msgstr "%d min"
 
 #~ msgid "Search mode"
 #~ msgstr "Mod de căutare"
