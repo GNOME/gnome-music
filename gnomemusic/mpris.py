@@ -498,11 +498,11 @@ class MediaPlayer2Service(Server):
 
     @log
     def _on_playlist_modified(self, path=None, _iter=None, data=None):
-        if self.player.current_track and self.player.current_track.valid():
-            path = self.player.current_track.get_path()
-            current_track = self.player.playlist[path][self.player.Field.SONG]
+        if self.player.current_song and self.player.current_song.valid():
+            path = self.player.current_song.get_path()
+            current_song = self.player.playlist[path][self.player.Field.SONG]
             track_list = self._get_track_list()
-            self.TrackListReplaced(track_list, self._get_media_id(current_track))
+            self.TrackListReplaced(track_list, self._get_media_id(current_song))
             self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
                                    {
                                        'Tracks': GLib.Variant('ao', track_list),
@@ -603,13 +603,13 @@ class MediaPlayer2Service(Server):
                 self.player.play()
                 return
 
-    def TrackListReplaced(self, tracks, current_track):
+    def TrackListReplaced(self, tracks, current_song):
         self.con.emit_signal(None,
                              '/org/mpris/MediaPlayer2',
                              MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
                              'TrackListReplaced',
                              GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
-                                                    GLib.Variant('o', current_track)))
+                                                    GLib.Variant('o', current_song)))
 
     def TrackAdded(self, metadata, after_track):
         self.con.emit_signal(None,
@@ -690,8 +690,8 @@ class MediaPlayer2Service(Server):
                 'MaximumRate': GLib.Variant('d', 1.0),
                 'CanGoNext': GLib.Variant('b', self.player.has_next()),
                 'CanGoPrevious': GLib.Variant('b', self.player.has_previous()),
-                'CanPlay': GLib.Variant('b', self.player.current_track is not None),
-                'CanPause': GLib.Variant('b', self.player.current_track is not None),
+                'CanPlay': GLib.Variant('b', self.player.current_song is not None),
+                'CanPause': GLib.Variant('b', self.player.current_song is not None),
                 'CanSeek': GLib.Variant('b', True),
                 'CanControl': GLib.Variant('b', True),
             }
