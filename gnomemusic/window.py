@@ -274,9 +274,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
 
-        self.toolbar.hide_stack()
-        self.toolbar._search_button.set_sensitive(False)
-        self.toolbar._select_button.set_sensitive(False)
+        self.toolbar.props.state = Toolbar.State.EMPTY_VIEW
 
     @log
     def _switch_to_player_view(self):
@@ -306,12 +304,10 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.set_visible_child(self.views[View.ALBUM])
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
+        self.toolbar.props.state = Toolbar.State.MAIN
         self.toolbar.set_stack(self._stack)
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()
-        self.toolbar._search_button.set_sensitive(True)
-        self.toolbar._select_button.set_sensitive(True)
-        self.toolbar.show_stack()
 
     @log
     def _select_all(self, action=None, param=None):
