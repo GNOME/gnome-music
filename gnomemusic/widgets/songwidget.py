@@ -94,7 +94,7 @@ class SongWidget(Gtk.EventBox):
         time = utils.seconds_to_string(media.get_duration())
         self._duration_label.set_text(time)
 
-        self._star_image.favorite = media.get_favourite()
+        self._star_image.props.favorite = media.get_favourite()
 
         self._select_button.set_visible(False)
 
@@ -131,7 +131,7 @@ class SongWidget(Gtk.EventBox):
             return False
 
         favorite = not self._star_image.favorite
-        self._star_image.favorite = favorite
+        self._star_image.props.favorite = favorite
 
         # TODO: Rework and stop updating widgets from here directly.
         grilo.set_favorite(self._media, favorite)
@@ -142,12 +142,12 @@ class SongWidget(Gtk.EventBox):
     @Gtk.Template.Callback()
     @log
     def _on_star_hover(self, widget, event):
-        self._star_image.hover = True
+        self._star_image.props.hover = True
 
     @Gtk.Template.Callback()
     @log
     def _on_star_unhover(self, widget, event):
-        self._star_image.hover = False
+        self._star_image.props.hover = False
 
     @GObject.Property(type=bool, default=False)
     @log
@@ -170,7 +170,7 @@ class SongWidget(Gtk.EventBox):
         self._select_button.set_visible(value)
 
         if not value:
-            self.selected = False
+            self.props.selected = False
 
     @GObject.Property
     @log

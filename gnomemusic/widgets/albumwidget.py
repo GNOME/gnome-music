@@ -195,7 +195,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_header_cancel_button_clicked(self, button):
         """Cancel selection mode callback."""
-        self._disc_listbox.set_selection_mode(False)
+        self._disc_listbox.props.selection_mode = False
         self._header_bar.set_selection_mode(False)
         self._header_bar.header_bar.title = self._album
 
@@ -204,14 +204,14 @@ class AlbumWidget(Gtk.EventBox):
         """Selection mode button clicked callback."""
         if button.get_active():
             self._selection_mode = True
-            self._disc_listbox.set_selection_mode(True)
+            self._disc_listbox.props.selection_mode = True
             self._header_bar.set_selection_mode(True)
             self._parent_view.set_player_visible(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
             self._selection_mode = False
-            self._disc_listbox.set_selection_mode(False)
+            self._disc_listbox.props.selection_mode = False
             self._header_bar.set_selection_mode(False)
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._parent_view.set_player_visible(True)
@@ -221,8 +221,10 @@ class AlbumWidget(Gtk.EventBox):
         disc_box = DiscBox(self._model)
         disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
-        disc_box.set_columns(1)
-        disc_box.show_song_numbers(False)
+        disc_box.props.columns = 1
+        disc_box.props.show_durations = True
+        disc_box.props.show_favorites = True
+        disc_box.props.show_song_numbers = False
         disc_box.connect('song-activated', self._song_activated)
         disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
@@ -239,7 +241,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _song_activated(self, widget, song_widget):
         if self._selection_mode:
-            song_widget.selected = not song_widget.selected
+            song_widget.props.selected = not song_widget.props.selected
             return
 
         self._player.stop()
@@ -275,7 +277,7 @@ class AlbumWidget(Gtk.EventBox):
             disc = self._create_disc_box(disc_nr, discs[disc_nr])
             self._disc_listbox.add(disc)
             if len(discs) == 1:
-                disc.show_disc_label(False)
+                disc.props.show_disc_label = False
 
         if remaining == 0:
             self._set_duration_label()
@@ -306,13 +308,13 @@ class AlbumWidget(Gtk.EventBox):
             self._duration += song.get_duration()
 
             if (song == current_song):
-                song_widget.state = SongWidget.State.PLAYING
+                song_widget.props.state = SongWidget.State.PLAYING
                 song_passed = True
             elif (song_passed):
                 # Counter intuitive, but this is due to call order.
-                song_widget.state = SongWidget.State.UNPLAYED
+                song_widget.props.state = SongWidget.State.UNPLAYED
             else:
-                song_widget.state = SongWidget.State.PLAYED
+                song_widget.props.state = SongWidget.State.PLAYED
 
             _iter = playlist.iter_next(_iter)
 

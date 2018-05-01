@@ -147,13 +147,13 @@ class ArtistAlbumsWidget(Gtk.Box):
             song_widget = song.song_widget
 
             if (song == current_song):
-                song_widget.state = SongWidget.State.PLAYING
+                song_widget.props.state = SongWidget.State.PLAYING
                 song_passed = True
             elif (song_passed):
                 # Counter intuitive, but this is due to call order.
-                song_widget.state = SongWidget.State.UNPLAYED
+                song_widget.props.state = SongWidget.State.UNPLAYED
             else:
-                song_widget.state = SongWidget.State.PLAYED
+                song_widget.props.state = SongWidget.State.PLAYED
 
             itr = playlist.iter_next(itr)
 
@@ -166,7 +166,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         while itr:
             song = self._model[itr][5]
             song_widget = song.song_widget
-            song_widget.state = SongWidget.State.UNPLAYED
+            song_widget.props.state = SongWidget.State.UNPLAYED
 
             itr = self._model.iter_next(itr)
 
