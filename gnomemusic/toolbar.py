@@ -97,6 +97,15 @@ class Toolbar(GObject.GObject):
 
         self._update()
 
+    @GObject.Property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, value):
+        self._state = value
+        self._update()
+
     @log
     def reset_header_title(self):
         self.header_bar.set_title(_("Music"))
@@ -134,7 +143,7 @@ class Toolbar(GObject.GObject):
         if not ((current_view == self._window.views[View.SEARCH]
                  or current_view == self._window.views[View.EMPTY_SEARCH])
                 and visible_child != current_view._grid):
-            self.set_state(ToolbarState.MAIN)
+            self.props.state = ToolbarState.MAIN
         else:
             self._search_button.set_visible(True)
 
@@ -142,20 +151,20 @@ class Toolbar(GObject.GObject):
 
     @log
     def set_state(self, state, btn=None):
-        self._state = state
-        self._update()
+        self.state = state
 
     @log
     def _update(self):
         if self.props.selection_mode:
             self.header_bar.set_custom_title(self._selection_menu_button)
-        elif self._state != ToolbarState.MAIN:
+        elif self.props.state != ToolbarState.MAIN:
             self.header_bar.set_custom_title(None)
         else:
             self.reset_header_title()
 
         self._search_button.set_visible(
-            self._state != ToolbarState.SEARCH_VIEW)
+            self.props.state != ToolbarState.SEARCH_VIEW)
         self._back_button.set_visible(
-            not self._selection_mode and self._state != ToolbarState.MAIN)
+            not self._selection_mode
+                and self.props.state != ToolbarState.MAIN)
         self.header_bar.set_show_close_button(not self._selection_mode)
