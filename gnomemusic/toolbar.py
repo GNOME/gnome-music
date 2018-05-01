@@ -118,6 +118,9 @@ class Toolbar(GObject.GObject):
         self._state = value
         self._update()
 
+        search_visible = self.props.state != Toolbar.State.SEARCH_VIEW
+        self._search_button.props.visible = search_visible
+
         if value == Toolbar.State.EMPTY:
             self._back_button.props.visible = False
             self._search_button.props.sensitive = False
@@ -175,6 +178,3 @@ class Toolbar(GObject.GObject):
             self.header_bar.set_custom_title(None)
         else:
             self.reset_header_title()
-
-        self._search_button.set_visible(
-            self.props.state != Toolbar.State.SEARCH_VIEW)
