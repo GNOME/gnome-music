@@ -111,6 +111,10 @@ class BaseView(Gtk.Stack):
                                  self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
 
+        self.bind_property(
+            'selection-mode', self._selection_toolbar, 'visible',
+            GObject.BindingFlags.SYNC_CREATE)
+
     @log
     def _on_changes_pending(self, data=None):
         pass
@@ -142,12 +146,10 @@ class BaseView(Gtk.Stack):
             self._header_bar.set_selection_mode(True)
             self.set_player_visible(False)
             select_toolbar = self._selection_toolbar
-            select_toolbar.set_visible(True)
             select_toolbar.add_to_playlist_button.set_sensitive(False)
         else:
             self._header_bar.set_selection_mode(False)
             self.set_player_visible(self.player.current_song is not None)
-            self._selection_toolbar.set_visible(False)
             self.unselect_all()
 
     @log
