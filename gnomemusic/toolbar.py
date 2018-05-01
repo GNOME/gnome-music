@@ -43,10 +43,6 @@ class ToolbarState:
 
 class Toolbar(GObject.GObject):
 
-    __gsignals__ = {
-        'selection-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-    }
-
     def __repr__(self):
         return '<Toolbar>'
 
@@ -99,7 +95,6 @@ class Toolbar(GObject.GObject):
             self.header_bar.get_style_context().remove_class('selection-mode')
             self._select_button.set_active(False)
 
-        self.emit('selection-mode-changed')
         self._update()
 
     @log
