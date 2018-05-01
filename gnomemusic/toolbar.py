@@ -79,7 +79,7 @@ class Toolbar(GObject.GObject):
         self._back_button.connect('clicked', self.on_back_button_clicked)
         self._window = self.header_bar.get_parent()
 
-    @GObject.Property
+    @GObject.Property(type=bool, default=False)
     def selection_mode(self):
         return self._selection_mode
 
