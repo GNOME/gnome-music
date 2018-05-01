@@ -153,10 +153,6 @@ class Toolbar(GObject.GObject):
         self.searchbar.reveal(False)
 
     @log
-    def set_state(self, state, btn=None):
-        self.state = state
-
-    @log
     def _update(self):
         if self.props.selection_mode:
             self.header_bar.set_custom_title(self._selection_menu_button)
