@@ -114,7 +114,7 @@ class Window(Gtk.ApplicationWindow):
                     and view_count == 1):
                 self._switch_to_player_view()
             elif (not available
-                    and not self.toolbar.selection_mode
+                    and not self.toolbar.props.selection_mode
                     and view_count != 1):
                 self._stack.disconnect(self._on_notify_model_id)
                 self.disconnect(self._key_press_event_id)
@@ -311,7 +311,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _select_all(self, action=None, param=None):
-        if not self.toolbar.selection_mode:
+        if not self.toolbar.props.selection_mode:
             return
         if self.toolbar.props.state == Toolbar.State.MAIN:
             view = self._stack.get_visible_child()
@@ -322,7 +322,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _select_none(self, action=None, param=None):
-        if not self.toolbar.selection_mode:
+        if not self.toolbar.props.selection_mode:
             return
         if self.toolbar.props.state == Toolbar.State.MAIN:
             view = self._stack.get_visible_child()
@@ -417,8 +417,8 @@ class Window(Gtk.ApplicationWindow):
             if event.keyval == Gdk.KEY_Escape:
                 self.toolbar.searchbar.reveal(False)
                 # Also disable selection
-                if self.toolbar.selection_mode:
-                    self.toolbar.set_selection_mode(False)
+                if self.toolbar.props.selection_mode:
+                    self.toolbar.props.selection_mode = False
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(event.keyval)
@@ -504,12 +504,12 @@ class Window(Gtk.ApplicationWindow):
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
 
-            if self.toolbar.selection_mode:
-                self.toolbar.set_selection_mode(False)
+            if self.toolbar.props.selection_mode:
+                self.toolbar.props.selection_mode = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.toolbar.selection_mode is False:
+        if self.toolbar.props.selection_mode == False:
             self._on_changes_pending()
         else:
             child = self._stack.get_visible_child()
@@ -531,7 +531,7 @@ class Window(Gtk.ApplicationWindow):
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 playlists.add_to_playlist(
                     playlist_dialog.get_selected(), selected_songs)
-            self.toolbar.set_selection_mode(False)
+            self.toolbar.props.selection_mode = False
             playlist_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)
