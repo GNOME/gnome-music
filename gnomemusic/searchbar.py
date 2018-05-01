@@ -42,13 +42,15 @@ class BaseModelColumns(IntEnum):
     HEADING_TEXT = 2
 
 
-class BaseManager(object):
+class BaseManager(GObject.GObject):
 
     def __repr__(self):
         return '<BaseManager>'
 
     @log
     def __init__(self, id_, label, entry):
+        super().__init__()
+
         self._id = id_
         self._label = label
         self.entry = entry
@@ -72,7 +74,7 @@ class BaseManager(object):
             model[iter_][0, 1, 2] = value
         self.selected_id = self.values[1][BaseModelColumns.ID]
 
-    @property
+    @GObject.Property
     @log
     def active(self):
         return self.selected_id
@@ -132,7 +134,7 @@ class SourceManager(BaseManager):
         self._model[iter_][0, 1, 2] = value
         self.values.append(value)
 
-    @property
+    @GObject.Property
     @log
     def active(self):
         return super().active
