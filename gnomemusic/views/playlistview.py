@@ -734,8 +734,8 @@ class PlaylistView(BaseView):
                 song_todelete['playlist'], [song_todelete['song']])
             self._songs_todelete.pop(media_id)
 
+    @GObject.Property(type=bool, default=False)
     @log
-    @property
     def rename_active(self):
         """Indicate if renaming dialog is active"""
         return self._name_stack.get_visible_child_name() == 'renaming_dialog'
