@@ -116,9 +116,6 @@ class Window(Gtk.ApplicationWindow):
                     view = self.views.pop()
                     view.destroy()
                     self._switch_to_player_view()
-                    self.toolbar._search_button.set_sensitive(True)
-                    self.toolbar._select_button.set_sensitive(True)
-                    self.toolbar.show_stack()
             elif (self.toolbar.selection_mode is False
                     and len(self.views) != 1):
                 self._stack.disconnect(self._on_notify_model_id)
@@ -127,7 +124,6 @@ class Window(Gtk.ApplicationWindow):
                 for i in range(0, view_count):
                     view = self.views.pop()
                     view.destroy()
-                self.toolbar.hide_stack()
                 self._switch_to_empty_view()
 
         grilo.songs_available(songs_available_cb)
@@ -274,8 +270,7 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.ALBUM] = view_class(self, self.player)
 
         self._stack.add_titled(self.views[View.ALBUM], _("Empty"), _("Empty"))
-        self.toolbar._search_button.set_sensitive(False)
-        self.toolbar._select_button.set_sensitive(False)
+        self.toolbar.props.state = Toolbar.State.EMPTY_VIEW
 
     @log
     def _switch_to_player_view(self):
@@ -297,6 +292,7 @@ class Window(Gtk.ApplicationWindow):
             else:
                 self._stack.add_named(i, i.name)
 
+        self.toolbar.props.state = Toolbar.State.MAIN
         self.toolbar.set_stack(self._stack)
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()

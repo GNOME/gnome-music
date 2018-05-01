@@ -43,6 +43,7 @@ class Toolbar(GObject.GObject):
         MAIN = 0
         CHILD_VIEW = 1
         SEARCH_VIEW = 2
+        EMPTY_VIEW = 3
 
     def __repr__(self):
         return '<Toolbar>'
@@ -95,6 +96,7 @@ class Toolbar(GObject.GObject):
         self._selection_mode = mode
 
         if mode:
+            self._back_button.props.visible = False
             self.header_bar.get_style_context().add_class('selection-mode')
         else:
             self.header_bar.get_style_context().remove_class('selection-mode')
@@ -112,6 +114,20 @@ class Toolbar(GObject.GObject):
     def state(self, value):
         self._state = value
         self._update()
+
+        if value == Toolbar.State.EMPTY_VIEW:
+            self._back_button.props.visible = False
+            self._search_button.props.sensitive = False
+            self._select_button.props.sensitive = False
+            self._stack_switcher.hide()
+        else:
+            if self.props.state == Toolbar.State.MAIN:
+                self._back_button.props.visible = False
+            else:
+                self._back_button.props.visible = True
+            self._search_button.props.sensitive = True
+            self._select_button.props.sensitive = True
+            self._stack_switcher.show()
 
     @log
     def reset_header_title(self):
@@ -167,6 +183,3 @@ class Toolbar(GObject.GObject):
 
         self._search_button.set_visible(
             self.props.state != Toolbar.State.SEARCH_VIEW)
-        self._back_button.set_visible(
-            not self._selection_mode
-                and self.props.state != Toolbar.State.MAIN)
