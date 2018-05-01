@@ -77,6 +77,10 @@ class Toolbar(GObject.GObject):
         self._window = self.header_bar.get_parent()
 
         self.bind_property(
+            'selection-mode', self.header_bar, 'show-close-button',
+            GObject.BindingFlags.INVERT_BOOLEAN |
+            GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
             'selection_mode', self._cancel_button, 'visible')
         self.bind_property(
             'selection_mode', self._select_button, 'visible',
@@ -166,4 +170,3 @@ class Toolbar(GObject.GObject):
         self._back_button.set_visible(
             not self._selection_mode
                 and self.props.state != Toolbar.State.MAIN)
-        self.header_bar.set_show_close_button(not self._selection_mode)
