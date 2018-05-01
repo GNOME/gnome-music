@@ -79,13 +79,28 @@ class Toolbar(GObject.GObject):
         self._back_button.connect('clicked', self.on_back_button_clicked)
         self._window = self.header_bar.get_parent()
 
+        self.bind_property(
+            'selection_mode', self._cancel_button, 'visible')
+        self.bind_property(
+            'selection_mode', self._select_button, 'visible',
+            GObject.BindingFlags.INVERT_BOOLEAN)
+
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
         return self._selection_mode
 
     @selection_mode.setter
     def selection_mode(self, mode):
-        self.set_selection_mode(mode)
+        self._selection_mode = mode
+
+        if mode:
+            self.header_bar.get_style_context().add_class('selection-mode')
+        else:
+            self.header_bar.get_style_context().remove_class('selection-mode')
+            self._select_button.set_active(False)
+
+        self.emit('selection-mode-changed')
+        self._update()
 
     @log
     def reset_header_title(self):
@@ -110,20 +125,7 @@ class Toolbar(GObject.GObject):
 
     @log
     def set_selection_mode(self, mode):
-        self._selection_mode = mode
-        if mode:
-            self._select_button.hide()
-            self._cancel_button.show()
-            self.header_bar.get_style_context().add_class('selection-mode')
-            self._cancel_button.get_style_context().remove_class(
-                'selection-mode')
-        else:
-            self.header_bar.get_style_context().remove_class('selection-mode')
-            self._select_button.set_active(False)
-            self._select_button.show()
-            self._cancel_button.hide()
-        self.emit('selection-mode-changed')
-        self._update()
+        self.props.selection_mode = mode
 
     @log
     def on_back_button_clicked(self, widget=None):
@@ -150,7 +152,7 @@ class Toolbar(GObject.GObject):
 
     @log
     def _update(self):
-        if self._selection_mode:
+        if self.props.selection_mode:
             self.header_bar.set_custom_title(self._selection_menu_button)
         elif self._state != ToolbarState.MAIN:
             self.header_bar.set_custom_title(None)
