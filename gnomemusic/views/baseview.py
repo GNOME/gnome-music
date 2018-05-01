@@ -115,6 +115,9 @@ class BaseView(Gtk.Stack):
             'selection-mode', self._selection_toolbar, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
 
+        self.bind_property(
+            'selection-mode', self._header_bar, 'selection-mode')
+
     @log
     def _on_changes_pending(self, data=None):
         pass
@@ -143,12 +146,10 @@ class BaseView(Gtk.Stack):
         self.selection_mode = button.get_active()
 
         if self.selection_mode:
-            self._header_bar.set_selection_mode(True)
             self.set_player_visible(False)
             select_toolbar = self._selection_toolbar
             select_toolbar.add_to_playlist_button.set_sensitive(False)
         else:
-            self._header_bar.set_selection_mode(False)
             self.set_player_visible(self.player.current_song is not None)
             self.unselect_all()
 
