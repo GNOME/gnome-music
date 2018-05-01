@@ -146,14 +146,6 @@ class Toolbar(GObject.GObject):
         return self._stack_switcher.get_stack()
 
     @log
-    def hide_stack(self):
-        self._stack_switcher.hide()
-
-    @log
-    def show_stack(self):
-        self._stack_switcher.show()
-
-    @log
     def set_selection_mode(self, mode):
         self.props.selection_mode = mode
 
