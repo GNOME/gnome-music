@@ -31,9 +31,9 @@ from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
-from gnomemusic.toolbar import ToolbarState
 from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
@@ -96,7 +96,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
-        self._window.toolbar.set_state(ToolbarState.MAIN)
+        self._header_bar.props.state = HeaderBar.State.MAIN
 
     @log
     def _on_item_activated(self, widget, id, path):
@@ -117,10 +117,10 @@ class SearchView(BaseView):
 
             self._album_widget.update(
                 item, self._header_bar, self._selection_toolbar)
-            self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
+            self._header_bar.props.state = HeaderBar.State.SEARCH
 
-            self._header_bar.header_bar.set_title(title)
-            self._header_bar.header_bar.set_subtitle(artist)
+            self._header_bar.props.title = title
+            self._header_bar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
             self._header_bar.searchbar.reveal(False)
         elif self.model[_iter][12] == 'artist':
@@ -133,8 +133,8 @@ class SearchView(BaseView):
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
-            self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
-            self._header_bar.header_bar.set_title(artist)
+            self._header_bar.props.state = HeaderBar.State.SEARCH
+            self._header_bar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.reveal(False)
         elif self.model[_iter][12] == 'song':
@@ -344,7 +344,7 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self._header_bar.set_state(ToolbarState.MAIN)
+        self._header_bar.props.state = HeaderBar.State.MAIN
 
     @log
     def get_selected_songs(self, callback):

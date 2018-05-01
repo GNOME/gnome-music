@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2018 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _, ngettext
+import gi
+gi.require_version("Gd", "1.0")
 from gi.repository import Gd, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
@@ -91,7 +92,7 @@ class BaseView(Gtk.Stack):
 
         self._star_handler = StarHandlerWidget(self, 9)
         self._window = window
-        self._header_bar = window.toolbar
+        self._header_bar = window.headerbar
         self._selection_toolbar = window.selection_toolbar
         self._header_bar._select_button.connect(
             'toggled', self._on_header_bar_toggled)
@@ -107,9 +108,16 @@ class BaseView(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
-        self._header_bar.connect('selection-mode-changed',
-                                 self._on_selection_mode_changed)
+        self._header_bar.connect(
+            'notify::selection-mode', self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
+
+        self.bind_property(
+            'selection-mode', self._selection_toolbar, 'visible',
+            GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            'selection-mode', self._header_bar, 'selection-mode')
 
     @log
     def _on_changes_pending(self, data=None):
@@ -139,29 +147,25 @@ class BaseView(Gtk.Stack):
         self.selection_mode = button.get_active()
 
         if self.selection_mode:
-            self._header_bar.set_selection_mode(True)
             self.set_player_visible(False)
             select_toolbar = self._selection_toolbar
-            select_toolbar.set_visible(True)
             select_toolbar.add_to_playlist_button.set_sensitive(False)
         else:
-            self._header_bar.set_selection_mode(False)
             self.set_player_visible(self.player.current_song is not None)
-            self._selection_toolbar.set_visible(False)
             self.unselect_all()
 
     @log
     def _on_cancel_button_clicked(self, button):
         self.unselect_all()
-        self._header_bar.set_selection_mode(False)
+        self.props.selection_mode = False
 
     @log
     def _on_grilo_ready(self, data=None):
-        if (self._header_bar.get_stack().get_visible_child() == self
+        if (self._header_bar.props.stack.props.visible_child == self
                 and not self._init):
             self._populate()
-        self._header_bar.get_stack().connect('notify::visible-child',
-                                             self._on_headerbar_visible)
+        self._header_bar.props.stack.connect(
+            'notify::visible-child', self._on_headerbar_visible)
 
     @log
     def _on_headerbar_visible(self, widget, param):
@@ -181,14 +185,7 @@ class BaseView(Gtk.Stack):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
-        if n_items > 0:
-            self._header_bar._selection_menu_label.set_text(
-                ngettext("Selected {} item",
-                         "Selected {} items",
-                         n_items).format(n_items))
-        else:
-            self._header_bar._selection_menu_label.set_text(
-                _("Click on items to select them"))
+        self._header_bar.props.items_selected = n_items
 
     @log
     def _populate(self, data=None):
@@ -253,8 +250,7 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(False)
-        self._header_bar._selection_menu_label.set_text(
-            _("Click on items to select them"))
+        self._header_bar.props.items_selected = 0
         self.queue_draw()
 
     @log

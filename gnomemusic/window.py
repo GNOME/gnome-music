@@ -33,7 +33,6 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.toolbar import Toolbar, ToolbarState
 from gnomemusic.player import Player, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.utils import View
@@ -43,6 +42,7 @@ from gnomemusic.views.emptyview import EmptyView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
+from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
@@ -114,7 +114,7 @@ class Window(Gtk.ApplicationWindow):
                     and view_count == 1):
                 self._switch_to_player_view()
             elif (not available
-                    and not self.toolbar.selection_mode
+                    and not self.headerbar.props.selection_mode
                     and view_count != 1):
                 self._stack.disconnect(self._on_notify_model_id)
                 self.disconnect(self._key_press_event_id)
@@ -211,7 +211,7 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player(self)
         self.player_toolbar = PlayerToolbar(self.player)
         self.selection_toolbar = SelectionToolbar()
-        self.toolbar = Toolbar()
+        self.headerbar = HeaderBar()
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -232,9 +232,9 @@ class Window(Gtk.ApplicationWindow):
         self._stack.get_style_context().add_class('background')
 
         self._overlay = Gtk.Overlay(child=self._stack)
-        self._overlay.add_overlay(self.toolbar.dropdown)
-        self.set_titlebar(self.toolbar.header_bar)
-        self._box.pack_start(self.toolbar.searchbar, False, False, 0)
+        self._overlay.add_overlay(self.headerbar.dropdown)
+        self.set_titlebar(self.headerbar)
+        self._box.pack_start(self.headerbar.searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self.player_toolbar, False, False, 0)
         self._box.pack_start(self.selection_toolbar, False, False, 0)
@@ -252,13 +252,15 @@ class Window(Gtk.ApplicationWindow):
         else:
             self._switch_to_empty_view()
 
-        self.toolbar._search_button.connect('toggled', self._on_search_toggled)
-        self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
+        self.headerbar._search_button.connect(
+            'toggled', self._on_search_toggled)
+        self.headerbar.connect(
+            'notify::selection-mode', self._on_selection_mode_changed)
         self.selection_toolbar.add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
 
-        self.toolbar.set_state(ToolbarState.MAIN)
-        self.toolbar.header_bar.show()
+        self.headerbar.props.state = HeaderBar.State.MAIN
+        self.headerbar.show()
         self._overlay.show()
         self.player_toolbar.show_all()
         self._box.show()
@@ -273,9 +275,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
 
-        self.toolbar.hide_stack()
-        self.toolbar._search_button.set_sensitive(False)
-        self.toolbar._select_button.set_sensitive(False)
+        self.headerbar.props.state = HeaderBar.State.EMPTY
 
     @log
     def _switch_to_player_view(self):
@@ -305,18 +305,16 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.set_visible_child(self.views[View.ALBUM])
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
-        self.toolbar.set_stack(self._stack)
-        self.toolbar.searchbar.show()
-        self.toolbar.dropdown.show()
-        self.toolbar._search_button.set_sensitive(True)
-        self.toolbar._select_button.set_sensitive(True)
-        self.toolbar.show_stack()
+        self.headerbar.props.state = HeaderBar.State.MAIN
+        self.headerbar.props.stack = self._stack
+        self.headerbar.searchbar.show()
+        self.headerbar.dropdown.show()
 
     @log
     def _select_all(self, action=None, param=None):
-        if not self.toolbar.selection_mode:
+        if not self.headerbar.props.selection_mode:
             return
-        if self.toolbar._state == ToolbarState.MAIN:
+        if self.headerbar.props.state == HeaderBar.State.MAIN:
             view = self._stack.get_visible_child()
         else:
             view = self._stack.get_visible_child().get_visible_child()
@@ -325,9 +323,9 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _select_none(self, action=None, param=None):
-        if not self.toolbar.selection_mode:
+        if not self.headerbar.props.selection_mode:
             return
-        if self.toolbar._state == ToolbarState.MAIN:
+        if self.headerbar.props.state == HeaderBar.State.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()
         else:
@@ -353,8 +351,8 @@ class Window(Gtk.ApplicationWindow):
             # Open search bar on Ctrl + F
             if ((event.keyval == Gdk.KEY_f and modifiers == control_mask)
                     and not self.views[View.PLAYLIST].rename_active
-                    and self.toolbar._state != ToolbarState.SEARCH_VIEW):
-                self.toolbar.searchbar.toggle()
+                    and self.headerbar.props.state != HeaderBar.State.SEARCH):
+                self.headerbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
                     and modifiers == control_mask):
@@ -384,7 +382,7 @@ class Window(Gtk.ApplicationWindow):
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left
                     and modifiers == mod1_mask):
-                self.toolbar.on_back_button_clicked()
+                self.headerbar._on_back_button_clicked()
             if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
                     and modifiers == control_mask):
                 self._toggle_view(View.ALBUM)
@@ -417,21 +415,21 @@ class Window(Gtk.ApplicationWindow):
                 self.views[View.PLAYLIST].remove_playlist()
             # Close search bar after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
-                self.toolbar.searchbar.reveal(False)
+                self.headerbar.searchbar.reveal(False)
                 # Also disable selection
-                if self.toolbar.selection_mode:
-                    self.toolbar.set_selection_mode(False)
+                if self.headerbar.props.selection_mode:
+                    self.headerbar.props.selection_mode = False
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(event.keyval)
-        if ((not self.toolbar.searchbar.get_search_mode()
+        if ((not self.headerbar.searchbar.get_search_mode()
                 and not event.keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == Gdk.ModifierType.SHIFT_MASK
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
-                and self.toolbar._state != ToolbarState.SEARCH_VIEW):
-            self.toolbar.searchbar.reveal(True)
+                and self.headerbar.props.state != HeaderBar.State.SEARCH):
+            self.headerbar.searchbar.reveal(True)
 
     @log
     def do_button_release_event(self, event):
@@ -442,7 +440,7 @@ class Window(Gtk.ApplicationWindow):
         __, code = event.get_button()
         # Mouse button 8 is the navigation button
         if code == 8:
-            self.toolbar.on_back_button_clicked()
+            self.headerbar._on_back_button_clicked()
 
     @log
     def _notify_mode_disconnect(self, data=None):
@@ -468,7 +466,7 @@ class Window(Gtk.ApplicationWindow):
             self.curr_view.stack.set_visible_child_name('sidebar')
         if (self.curr_view != self.views[View.SEARCH]
                 and self.curr_view != self.views[View.EMPTY]):
-            self.toolbar.searchbar.reveal(False)
+            self.headerbar.searchbar.reveal(False)
 
         # Disable the selection button for the EmptySearch and Playlist
         # view
@@ -476,7 +474,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.EMPTY],
             self.views[View.PLAYLIST]
         ]
-        self.toolbar._select_button.set_sensitive(
+        self.headerbar._select_button.set_sensitive(
             self.curr_view not in no_selection_mode)
 
         # Disable renaming playlist if it was active when leaving
@@ -491,13 +489,13 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self.toolbar.searchbar.reveal(
+        self.headerbar.searchbar.reveal(
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
-            if self.toolbar._state == ToolbarState.MAIN:
+            if self.headerbar.props.state == HeaderBar.State.MAIN:
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)
@@ -506,12 +504,12 @@ class Window(Gtk.ApplicationWindow):
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
 
-            if self.toolbar.selection_mode:
-                self.toolbar.set_selection_mode(False)
+            if self.headerbar.props.selection_mode:
+                self.headerbar.props.selection_mode = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.toolbar.selection_mode is False:
+        if self.headerbar.props.selection_mode == False:
             self._on_changes_pending()
         else:
             child = self._stack.get_visible_child()
@@ -533,7 +531,7 @@ class Window(Gtk.ApplicationWindow):
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 playlists.add_to_playlist(
                     playlist_dialog.get_selected(), selected_songs)
-            self.toolbar.set_selection_mode(False)
+            self.headerbar.props.selection_mode = False
             playlist_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)

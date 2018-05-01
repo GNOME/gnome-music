@@ -1,64 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.10 -->
-  <menu id="selection-menu">
-    <section>
-      <item>
-        <attribute name="label" translatable="yes">Select All</attribute>
-        <attribute name="action">win.select_all</attribute>
-      </item>
-      <item>
-        <attribute name="label" translatable="yes">Select None</attribute>
-        <attribute name="action">win.select_none</attribute>
-      </item>
-    </section>
-  </menu>
-  <object class="GtkMenuButton" id="selection-menu-button">
-    <property name="menu-model">selection-menu</property>
-    <property name="visible">True</property>
-    <property name="can-focus">True</property>
-    <property name="relief">none</property>
-    <property name="can-focus">False</property>
-    <child>
-      <object class="GtkBox" id="selection-menu-button-box">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-        <property name="orientation">horizontal</property>
-        <property name="spacing">6</property>
-        <child>
-          <object class="GtkLabel" id="selection-menu-button-label">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Click on items to select them</property>
-          </object>
-          <packing>
-            <property name="pack-type">start</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkArrow" id="selection-menu-button-arrow">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="arrow-type">down</property>
-            <property name="shadow-type">none</property>
-          </object>
-          <packing>
-            <property name="pack-type">start</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-    <style>
-      <class name="selection-menu"/>
-    </style>
-  </object>
-  <object class="GtkHeaderBar" id="header-bar">
+  <template class="HeaderBar" parent="GtkHeaderBar">
     <property name="visible">True</property>
     <property name="vexpand">False</property>
     <child>
-      <object class="GtkToggleButton" id="search-button">
+      <object class="GtkToggleButton" id="_search_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
@@ -68,7 +15,7 @@
           <class name="image-button"/>
         </style>
         <child>
-          <object class="GtkImage" id="search-button-image">
+          <object class="GtkImage" id="_search_button_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="icon-name">edit-find-symbolic</property>
@@ -81,7 +28,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkToggleButton" id="select-button">
+      <object class="GtkToggleButton" id="_select_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
@@ -91,7 +38,7 @@
           <class name="image-button"/>
         </style>
         <child>
-          <object class="GtkImage" id="select-button-image">
+          <object class="GtkImage" id="_select_button_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="icon-name">object-select-symbolic</property>
@@ -104,7 +51,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="done-button">
+      <object class="GtkButton" id="_cancel_button">
         <property name="visible">False</property>
         <property name="no_show_all">True</property>
         <property name="can_focus">False</property>
@@ -121,17 +68,18 @@
       </packing>
     </child>
     <child>
-      <object class="GtkButton" id="back-button">
+      <object class="GtkButton" id="_back_button">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
         <property name="tooltip_text" translatable="yes">Back</property>
+        <signal name="clicked" handler="_on_back_button_clicked" swapped="no"/>
         <style>
               <class name="image-button"/>
         </style>
         <child>
-          <object class="GtkImage" id="back-button-image">
+          <object class="GtkImage" id="_back_button_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="icon-name">go-previous-symbolic</property>
@@ -143,12 +91,12 @@
         <property name="pack_type">start</property>
       </packing>
     </child>
-  </object>
+  </template>
   <object class="GtkSizeGroup" id="size1">
       <property name="mode">vertical</property>
       <widgets>
-        <widget name="search-button"/>
-        <widget name="done-button"/>
+        <widget name="_search_button"/>
+        <widget name="_cancel_button"/>
       </widgets>
   </object>
 </interface>

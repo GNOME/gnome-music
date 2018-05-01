@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _, ngettext
+from gettext import ngettext
 from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
@@ -184,20 +184,14 @@ class AlbumWidget(Gtk.EventBox):
         items = self._disc_listbox.get_selected_items()
         self.selection_toolbar.add_to_playlist_button.set_sensitive(
             len(items) > 0)
-        if len(items) > 0:
-            self._header_bar._selection_menu_label.set_text(
-                ngettext("Selected %d item", "Selected %d items",
-                         len(items)) % len(items))
-        else:
-            self._header_bar._selection_menu_label.set_text(
-                _("Click on items to select them"))
+        self._header_bar.items_selected = len(items)
 
     @log
     def _on_header_cancel_button_clicked(self, button):
         """Cancel selection mode callback."""
         self._disc_listbox.props.selection_mode = False
-        self._header_bar.set_selection_mode(False)
-        self._header_bar.header_bar.title = self._album
+        self._header_bar.props.selection_mode = False
+        self._header_bar.props.title = self._album
 
     @log
     def _on_header_select_button_toggled(self, button):
@@ -205,14 +199,12 @@ class AlbumWidget(Gtk.EventBox):
         if button.get_active():
             self._selection_mode = True
             self._disc_listbox.props.selection_mode = True
-            self._header_bar.set_selection_mode(True)
+            self._header_bar.props.selection_mode = True
             self._parent_view.set_player_visible(False)
-            self._header_bar.header_bar.set_custom_title(
-                self._header_bar._selection_menu_button)
         else:
             self._selection_mode = False
             self._disc_listbox.props.selection_mode = False
-            self._header_bar.set_selection_mode(False)
+            self._header_bar.props.selection_mode = False
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._parent_view.set_player_visible(True)
 

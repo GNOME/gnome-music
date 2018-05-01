@@ -349,7 +349,7 @@ class Searchbar(Gtk.SearchBar):
         else:
             fields_filter = 'search_all'
 
-        stack = self._stack_switcher.get_stack()
+        stack = self._stack_switcher.props.stack
         if search_term != "":
             stack.set_visible_child_name('search')
             view = stack.get_visible_child()

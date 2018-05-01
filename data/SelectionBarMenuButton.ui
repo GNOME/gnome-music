@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.10 -->
+  <menu id="selection-menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">Select All</attribute>
+        <attribute name="action">win.select_all</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">Select None</attribute>
+        <attribute name="action">win.select_none</attribute>
+      </item>
+    </section>
+  </menu>
+  <template class="SelectionBarMenuButton" parent="GtkMenuButton">
+    <property name="menu-model">selection-menu</property>
+    <property name="visible">True</property>
+    <property name="can-focus">True</property>
+    <property name="relief">none</property>
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkBox" id="selection-menu-button-box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">horizontal</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkLabel" id="_menu_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Click on items to select them</property>
+          </object>
+          <packing>
+            <property name="pack-type">start</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkArrow" id="selection-menu-button-arrow">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="arrow-type">down</property>
+            <property name="shadow-type">none</property>
+          </object>
+          <packing>
+            <property name="pack-type">start</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <style>
+      <class name="selection-menu"/>
+    </style>
+  </template>
+</interface>
