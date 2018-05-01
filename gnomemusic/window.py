@@ -251,7 +251,8 @@ class Window(Gtk.ApplicationWindow):
             self._switch_to_empty_view()
 
         self.toolbar._search_button.connect('toggled', self._on_search_toggled)
-        self.toolbar.connect('selection-mode-changed', self._on_selection_mode_changed)
+        self.toolbar.connect(
+            'notify::selection-mode', self._on_selection_mode_changed)
         self.selection_toolbar.add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
 
