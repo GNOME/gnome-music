@@ -27,6 +27,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
+
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
@@ -35,13 +37,12 @@ from gnomemusic.searchbar import Searchbar, DropDown
 from gnomemusic.utils import View
 
 
-class ToolbarState:
-    MAIN = 0
-    CHILD_VIEW = 1
-    SEARCH_VIEW = 2
-
-
 class Toolbar(GObject.GObject):
+
+    class State(IntEnum):
+        MAIN = 0
+        CHILD_VIEW = 1
+        SEARCH_VIEW = 2
 
     def __repr__(self):
         return '<Toolbar>'
@@ -145,7 +146,7 @@ class Toolbar(GObject.GObject):
         if not ((current_view == self._window.views[View.SEARCH]
                  or current_view == self._window.views[View.EMPTY])
                 and visible_child != current_view._grid):
-            self.props.state = ToolbarState.MAIN
+            self.props.state = Toolbar.State.MAIN
         else:
             self._search_button.set_visible(True)
 
@@ -159,14 +160,14 @@ class Toolbar(GObject.GObject):
     def _update(self):
         if self.props.selection_mode:
             self.header_bar.set_custom_title(self._selection_menu_button)
-        elif self.props.state != ToolbarState.MAIN:
+        elif self.props.state != Toolbar.State.MAIN:
             self.header_bar.set_custom_title(None)
         else:
             self.reset_header_title()
 
         self._search_button.set_visible(
-            self.props.state != ToolbarState.SEARCH_VIEW)
+            self.props.state != Toolbar.State.SEARCH_VIEW)
         self._back_button.set_visible(
             not self._selection_mode
-                and self.props.state != ToolbarState.MAIN)
+                and self.props.state != Toolbar.State.MAIN)
         self.header_bar.set_show_close_button(not self._selection_mode)

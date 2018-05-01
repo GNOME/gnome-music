@@ -33,7 +33,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.toolbar import Toolbar, ToolbarState
+from gnomemusic.toolbar import Toolbar
 from gnomemusic.player import Player, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.utils import View
@@ -258,7 +258,7 @@ class Window(Gtk.ApplicationWindow):
         self.selection_toolbar.add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
 
-        self.toolbar.props.state = ToolbarState.MAIN
+        self.toolbar.props.state = Toolbar.State.MAIN
         self.toolbar.header_bar.show()
         self._overlay.show()
         self.player_toolbar.show_all()
@@ -317,7 +317,7 @@ class Window(Gtk.ApplicationWindow):
     def _select_all(self, action=None, param=None):
         if not self.toolbar.selection_mode:
             return
-        if self.toolbar.props.state == ToolbarState.MAIN:
+        if self.toolbar.props.state == Toolbar.State.MAIN:
             view = self._stack.get_visible_child()
         else:
             view = self._stack.get_visible_child().get_visible_child()
@@ -328,7 +328,7 @@ class Window(Gtk.ApplicationWindow):
     def _select_none(self, action=None, param=None):
         if not self.toolbar.selection_mode:
             return
-        if self.toolbar.props.state == ToolbarState.MAIN:
+        if self.toolbar.props.state == Toolbar.State.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()
         else:
@@ -352,9 +352,10 @@ class Window(Gtk.ApplicationWindow):
                     and modifiers == (shift_mask | control_mask)):
                 self._select_none()
             # Open search bar on Ctrl + F
+            toolbar_state = self.toolbar.props.state
             if ((event.keyval == Gdk.KEY_f and modifiers == control_mask)
                     and not self.views[View.PLAYLIST].rename_active
-                    and self.toolbar.props.state != ToolbarState.SEARCH_VIEW):
+                    and toolbar_state != Toolbar.State.SEARCH_VIEW):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
@@ -431,7 +432,7 @@ class Window(Gtk.ApplicationWindow):
                 and (modifiers == Gdk.ModifierType.SHIFT_MASK
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
-                and self.toolbar.props.state != ToolbarState.SEARCH_VIEW):
+                and self.toolbar.props.state != Toolbar.State.SEARCH_VIEW):
             self.toolbar.searchbar.reveal(True)
 
     @log
@@ -498,7 +499,7 @@ class Window(Gtk.ApplicationWindow):
                 and (self.curr_view == self.views[View.SEARCH]
                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
-            if self.toolbar.props.state == ToolbarState.MAIN:
+            if self.toolbar.props.state == Toolbar.State.MAIN:
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)
