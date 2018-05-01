@@ -26,7 +26,7 @@ from gettext import gettext as _
 from gi.repository import Gd, Gtk
 
 from gnomemusic import log
-from gnomemusic.toolbar import ToolbarState
+from gnomemusic.toolbar import Toolbar
 from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 
@@ -63,5 +63,5 @@ class EmptySearchView(BaseView):
         elif self.get_visible_child() == self._grid:
             self._window.views[View.ALBUM].set_visible_child(
                 self._window.views[View.ALBUM]._grid)
-            self._window.toolbar.props.state = ToolbarState.CHILD_VIEW
+            self._window.toolbar.props.state = Toolbar.State.CHILD_VIEW
         self.set_visible_child(self._grid)
