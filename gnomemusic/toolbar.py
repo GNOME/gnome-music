@@ -98,10 +98,12 @@ class Toolbar(GObject.GObject):
         self._update()
 
     @GObject.Property
+    @log
     def state(self):
         return self._state
 
     @state.setter
+    @log
     def state(self, value):
         self._state = value
         self._update()

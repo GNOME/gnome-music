@@ -98,7 +98,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
-        self._window.toolbar.set_state(ToolbarState.MAIN)
+        self._window.toolbar.props.state = ToolbarState.MAIN
 
     @log
     def _on_item_activated(self, widget, id, path):
@@ -119,7 +119,7 @@ class SearchView(BaseView):
 
             self._album_widget.update(
                 item, self._header_bar, self._selection_toolbar)
-            self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
+            self._header_bar.props.state = ToolbarState.SEARCH_VIEW
 
             self._header_bar.header_bar.set_title(title)
             self._header_bar.header_bar.set_subtitle(artist)
@@ -135,7 +135,7 @@ class SearchView(BaseView):
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
-            self._header_bar.set_state(ToolbarState.SEARCH_VIEW)
+            self._header_bar.props.state = ToolbarState.SEARCH_VIEW
             self._header_bar.header_bar.set_title(artist)
             self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.reveal(False)
@@ -346,7 +346,7 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self._header_bar.set_state(ToolbarState.MAIN)
+        self._header_bar.props.state = ToolbarState.MAIN
 
     @log
     def get_selected_songs(self, callback):

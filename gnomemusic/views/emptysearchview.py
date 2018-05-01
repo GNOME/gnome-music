@@ -63,5 +63,5 @@ class EmptySearchView(BaseView):
         elif self.get_visible_child() == self._grid:
             self._window.views[View.ALBUM].set_visible_child(
                 self._window.views[View.ALBUM]._grid)
-            self._window.toolbar.set_state(ToolbarState.CHILD_VIEW)
+            self._window.toolbar.props.state = ToolbarState.CHILD_VIEW
         self.set_visible_child(self._grid)
