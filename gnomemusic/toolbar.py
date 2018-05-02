@@ -140,10 +140,6 @@ class Toolbar(GObject.GObject):
         return self._stack_switcher.get_stack()
 
     @log
-    def set_selection_mode(self, mode):
-        self.props.selection_mode = mode
-
-    @log
     def on_back_button_clicked(self, widget=None):
         self._window = self.header_bar.get_parent()
         visible_child = self._window.curr_view.get_visible_child()

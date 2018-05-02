@@ -196,7 +196,7 @@ class AlbumWidget(Gtk.EventBox):
     def _on_header_cancel_button_clicked(self, button):
         """Cancel selection mode callback."""
         self._disc_listbox.props.selection_mode = False
-        self._header_bar.set_selection_mode(False)
+        self._header_bar.props.selection_mode = False
         self._header_bar.header_bar.title = self._album
 
     @log
@@ -205,14 +205,14 @@ class AlbumWidget(Gtk.EventBox):
         if button.get_active():
             self._selection_mode = True
             self._disc_listbox.props.selection_mode = True
-            self._header_bar.set_selection_mode(True)
+            self._header_bar.props.selection_mode = True
             self._parent_view.set_player_visible(False)
             self._header_bar.header_bar.set_custom_title(
                 self._header_bar._selection_menu_button)
         else:
             self._selection_mode = False
             self._disc_listbox.props.selection_mode = False
-            self._header_bar.set_selection_mode(False)
+            self._header_bar.props.selection_mode = False
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._parent_view.set_player_visible(True)
 
