@@ -262,17 +262,6 @@ class Player(GObject.GObject):
             return None
 
     @log
-    def _get_iter_last(self):
-        iter = self.playlist.get_iter_first()
-        last = None
-
-        while iter is not None:
-            last = iter
-            iter = self.playlist.iter_next(iter)
-
-        return last
-
-    @log
     def _get_previous_song(self):
 
         @log
