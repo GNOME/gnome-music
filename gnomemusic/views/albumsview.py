@@ -97,15 +97,12 @@ class AlbumsView(BaseView):
     def _on_child_activated(self, widget, child, user_data=None):
         item = child.media_item
 
-        if self._star_handler.star_renderer_click:
-            self._star_handler.star_renderer_click = False
-            return
-
         # Toggle the selection when in selection mode
         if self.selection_mode:
             child.check.set_active(not child.check.get_active())
             return
 
+        # Update and display the album widget if not in selection mode
         self._album_widget.update(
             item, self._header_bar, self._selection_toolbar)
 
