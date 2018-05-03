@@ -99,7 +99,6 @@ class ArtistsView(BaseView):
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         if self.selection_mode:
-            row.check.props.active = not row.check.props.active
             return
 
         self._last_selected_row = row
@@ -176,14 +175,14 @@ class ArtistsView(BaseView):
 
     @log
     def _on_sidebar_clicked(self, widget, event):
-        if event.button != Gdk.BUTTON_SECONDARY:
-            return
-
-        if not self.selection_mode:
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.selection_mode):
             self._on_selection_mode_request()
 
-        row = self._sidebar.get_row_at_y(event.y)
-        row.check.props.active = not row.check.props.active
+        if self.selection_mode:
+            row = self._sidebar.get_row_at_y(event.y)
+            row.check.props.active = not row.check.props.active
 
     @log
     def _on_selection_toggled(self, widget, data=None):

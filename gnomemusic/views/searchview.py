@@ -125,7 +125,6 @@ class SearchView(BaseView):
             return
 
         if self.selection_mode:
-            self._selection_toggled(path)
             return
 
         try:
@@ -175,14 +174,23 @@ class SearchView(BaseView):
 
     @log
     def _on_view_clicked(self, treeview, event):
-        if event.button != Gdk.BUTTON_SECONDARY:
-            return
+        """Ctrl+click on self._view triggers selection mode.
 
-        if not self.selection_mode:
+        :param Gtk.TreeView treeview: self._view
+        :param Gdk.EventButton event: clicked event
+        """
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.selection_mode):
             self._on_selection_mode_request()
 
-        path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
-        self._selection_toggled(path)
+        if self.selection_mode:
+            path, col, cell_x, cell_y = treeview.get_path_at_pos(
+                event.x, event.y)
+            iter_ = self.model.get_iter(path)
+            self.model[iter_][6] = not self.model[iter_][6]
+            selected_iters = self._get_selected_iters()
+            self.update_header_from_selection(len(selected_iters))
 
     @log
     def _get_selected_iters(self):
@@ -194,13 +202,6 @@ class SearchView(BaseView):
                     iters.append(iter_child)
                 iter_child = self.model.iter_next(iter_child)
         return iters
-
-    @log
-    def _selection_toggled(self, path):
-        iter_ = self.model.get_iter(path)
-        self.model[iter_][6] = not self.model[iter_][6]
-        selected_iters = self._get_selected_iters()
-        self.update_header_from_selection(len(selected_iters))
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):

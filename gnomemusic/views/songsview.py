@@ -197,7 +197,6 @@ class SongsView(BaseView):
             return
 
         if self.selection_mode:
-            self._selection_toggled(path)
             return
 
         itr = self.model.get_iter(path)
@@ -207,25 +206,22 @@ class SongsView(BaseView):
 
     @log
     def _on_view_clicked(self, treeview, event):
-        """Right click on self._view triggers selection mode.
+        """Ctrl+click on self._view triggers selection mode.
 
         :param Gtk.TreeView treeview: self._view
         :param Gdk.EventButton event: clicked event
         """
-        if event.button != Gdk.BUTTON_SECONDARY:
-            return
-
-        if not self.selection_mode:
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.selection_mode):
             self._on_selection_mode_request()
 
-        path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
-        self._selection_toggled(path)
-
-    @log
-    def _selection_toggled(self, path):
-        iter_ = self.model.get_iter(path)
-        self.model[iter_][6] = not self.model[iter_][6]
-        self.update_header_from_selection(len(self.get_selected_songs()))
+        if self.selection_mode:
+            path, col, cell_x, cell_y = treeview.get_path_at_pos(
+                event.x, event.y)
+            iter_ = self.model.get_iter(path)
+            self.model[iter_][6] = not self.model[iter_][6]
+            self.update_header_from_selection(len(self.get_selected_songs()))
 
     @log
     def _update_model(self, player, playlist, current_iter):
