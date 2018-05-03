@@ -12,6 +12,11 @@ flowbox, treeview, widget {
     padding: 0px;
 }
 
+/* AlbumCover */
+.cover-subtitle {
+    font-size: smaller;
+}
+
 /* ArtistAlbumWidget */
 .album-cover {
     padding-left:24px;

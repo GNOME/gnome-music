@@ -56,10 +56,8 @@
         <property name="ellipsize">middle</property>
         <property name="max_width_chars">20</property>
         <property name="tooltip_text" bind-source="subtitle" bind-property="label" bind-flags="default" />
-        <attributes>
-          <attribute name="scale" value="0.88"/>
-        </attributes>
         <style>
+          <class name="cover-subtitle"/>
           <class name="dim-label"/>
         </style>
       </object>
