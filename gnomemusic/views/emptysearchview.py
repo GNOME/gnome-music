@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gd, Gtk
+from gi.repository import Gtk
 
 from gnomemusic import log
 from gnomemusic.toolbar import ToolbarState
@@ -38,21 +38,24 @@ class EmptySearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__('emptysearch', None, window, Gd.MainViewType.LIST)
+        super().__init__('emptysearch', None, window, None)
 
         self._artist_albums_widget = None
 
         self.player = player
+        self._view.show_all()
 
+    @log
+    def _setup_view(self, view_type):
         builder = Gtk.Builder()
         builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
-        widget = builder.get_object('container')
-        widget.set_vexpand(True)
-        widget.set_hexpand(True)
-        widget.get_children()[1].get_children()[1].set_text(
-            _("Try a different search"))
-        widget.show_all()
-        self._box.add(widget)
+        self._view = builder.get_object('container')
+
+        empty_state_label = builder.get_object('empty-state-label')
+        empty_state_label.set_text(_("Try a different search"))
+
+        self._view.show_all()
+        self._box.add(self._view)
 
     @log
     def _back_button_clicked(self, widget, data=None):
