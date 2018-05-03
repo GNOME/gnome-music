@@ -19,6 +19,7 @@ flowbox, treeview, widget {
 
 .album-title {
     padding-left:24px;
+    font-weight: bold;
 }
 
 .side-panel:dir(ltr) {

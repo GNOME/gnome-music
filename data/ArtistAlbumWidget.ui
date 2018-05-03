@@ -38,12 +38,9 @@
                 <property name="ellipsize">middle</property>
                 <property name="xalign">0</property>
                 <property name="yalign">0</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                  <attribute name="foreground" value="#bababdbdb6b6"/>
-                </attributes>
                 <style>
                   <class name="album-title"/>
+                  <class name="dim-label"/>
                 </style>
               </object>
               <packing>
