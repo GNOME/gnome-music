@@ -3,7 +3,7 @@
   <menu id="song_menu">
       <item>
         <attribute name="label" translatable="yes">Play</attribute>
-	<attribute name="action">win.play_song</attribute>
+        <attribute name="action">win.play_song</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">Add to Playlist…</attribute>
