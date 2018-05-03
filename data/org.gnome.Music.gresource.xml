@@ -10,11 +10,11 @@
     <file preprocess="xml-stripblanks">AlbumWidget.ui</file>
     <file preprocess="xml-stripblanks">ArtistAlbumWidget.ui</file>
     <file preprocess="xml-stripblanks">ArtistAlbumsWidget.ui</file>
+    <file preprocess="xml-stripblanks">EmptyView.ui</file>
     <file preprocess="xml-stripblanks">PlayerToolbar.ui</file>
     <file preprocess="xml-stripblanks">SelectionToolbar.ui</file>
     <file preprocess="xml-stripblanks">SongWidget.ui</file>
     <file preprocess="xml-stripblanks">headerbar.ui</file>
-    <file preprocess="xml-stripblanks">NoMusic.ui</file>
     <file preprocess="xml-stripblanks">PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">PlaylistControls.ui</file>
     <file preprocess="xml-stripblanks">PlaylistDialog.ui</file>
