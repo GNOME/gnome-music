@@ -34,6 +34,16 @@ flowbox, treeview, widget {
     font-weight: bold;
 }
 
+/* PlayerToolbar */
+.player-artist-label {
+    font-weight: bold;
+    font-size: smaller;
+}
+
+.player-title-label {
+    font-size: smaller;
+}
+
 /* ArtistAlbumWidget */
 .album-cover {
     padding-left:24px;
