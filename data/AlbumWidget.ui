@@ -54,10 +54,9 @@
                     <property name="halign">center</property>
                     <property name="justify">center</property>
                     <property name="ellipsize">middle</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                      <attribute name="scale" value="1.2"/>
-                    </attributes>
+                    <style>
+                      <class name="title-artist"/>
+                    </style>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -72,11 +71,8 @@
                     <property name="halign">center</property>
                     <property name="justify">center</property>
                     <property name="ellipsize">middle</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                      <attribute name="scale" value="1.2"/>
-                    </attributes>
                     <style>
+                      <class name="title-artist"/>
                       <class name="dim-label"/>
                     </style>
                   </object>

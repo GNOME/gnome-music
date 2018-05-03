@@ -153,10 +153,9 @@
                 <property name="ellipsize">middle</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">42</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                  <attribute name="scale" value="0.90000000000000002"/>
-                </attributes>
+                <style>
+                  <class name="player-artist-label"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -174,9 +173,9 @@
                 <property name="ellipsize">middle</property>
                 <property name="width_chars">8</property>
                 <property name="max_width_chars">42</property>
-                <attributes>
-                  <attribute name="scale" value="0.90000000000000002"/>
-                </attributes>
+                <style>
+                  <class name="player-title-label"/>
+                </style>
               </object>
               <packing>
                 <property name="expand">False</property>
