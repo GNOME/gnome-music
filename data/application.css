@@ -23,6 +23,11 @@ flowbox, treeview, widget {
     font-weight: bold;
 }
 
+/* ArtistAlbumsWidget */
+.artist-label {
+    font-weight: bold;
+}
+
 /* ArtistAlbumWidget */
 .album-cover {
     padding-left:24px;
