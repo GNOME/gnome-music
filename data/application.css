@@ -44,6 +44,12 @@ flowbox, treeview, widget {
     font-size: smaller;
 }
 
+/* PlaylistControls */
+.playlist-name-label {
+  font-weight: bold;
+  font-size: x-large;
+}
+
 /* ArtistAlbumWidget */
 .album-cover {
     padding-left:24px;
