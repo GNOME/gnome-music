@@ -135,7 +135,7 @@ class Toolbar(GObject.GObject):
 
         current_view = self._window.curr_view
         if not ((current_view == self._window.views[View.SEARCH]
-                 or current_view == self._window.views[View.EMPTY_SEARCH])
+                 or current_view == self._window.views[View.EMPTY])
                 and visible_child != current_view._grid):
             self.set_state(ToolbarState.MAIN)
         else:
