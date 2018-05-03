@@ -40,8 +40,6 @@ from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
-from gnomemusic.views.emptysearchview import EmptySearchView
-from gnomemusic.views.initialstateview import InitialStateView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
@@ -111,23 +109,20 @@ class Window(Gtk.ApplicationWindow):
     def _on_changes_pending(self, data=None):
         # FIXME: This is not working right.
         def songs_available_cb(available):
-            if available:
-                if self.views[View.ALBUM] == self.views[-1]:
-                    view = self.views.pop()
-                    view.destroy()
-                    self._switch_to_player_view()
-                    self.toolbar._search_button.set_sensitive(True)
-                    self.toolbar._select_button.set_sensitive(True)
-                    self.toolbar.show_stack()
-            elif (self.toolbar.selection_mode is False
-                    and len(self.views) != 1):
+            view_count = len(self.views)
+            if (available
+                    and view_count == 1):
+                self._switch_to_player_view()
+            elif (not available
+                    and self.toolbar.selection_mode is False
+                    and view_count != 1):
                 self._stack.disconnect(self._on_notify_model_id)
                 self.disconnect(self._key_press_event_id)
-                view_count = len(self.views)
-                for i in range(0, view_count):
+
+                for i in range(View.ALBUM, view_count):
                     view = self.views.pop()
                     view.destroy()
-                self.toolbar.hide_stack()
+
                 self._switch_to_empty_view()
 
         grilo.songs_available(songs_available_cb)
@@ -225,6 +220,13 @@ class Window(Gtk.ApplicationWindow):
             visible=True,
             can_focus=False)
 
+        # Create only the empty view at startup
+        # if no music, switch to empty view and hide stack
+        # if some music is available, populate stack with mainviews,
+        # show stack and set empty_view to empty_search_view
+        self.views[View.EMPTY] = EmptyView()
+        self._stack.add_named(self.views[View.EMPTY], "emptyview")
+
         # Add the 'background' styleclass so it properly hides the
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
@@ -265,14 +267,13 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _switch_to_empty_view(self):
         did_initial_state = self.settings.get_boolean('did-initial-state')
-        view_class = None
-        if did_initial_state:
-            view_class = EmptyView
-        else:
-            view_class = InitialStateView
-        self.views[View.ALBUM] = view_class(self, self.player)
 
-        self._stack.add_titled(self.views[View.ALBUM], _("Empty"), _("Empty"))
+        if did_initial_state:
+            self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
+        else:
+            self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
+
+        self.toolbar.hide_stack()
         self.toolbar._search_button.set_sensitive(False)
         self.toolbar._select_button.set_sensitive(False)
 
@@ -281,27 +282,34 @@ class Window(Gtk.ApplicationWindow):
         self.settings.set_boolean('did-initial-state', True)
         self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
+        self._key_press_event_id = self.connect(
+            'key_press_event', self._on_key_press)
 
         self.views[View.ALBUM] = AlbumsView(self, self.player)
         self.views[View.ARTIST] = ArtistsView(self, self.player)
         self.views[View.SONG] = SongsView(self, self.player)
         self.views[View.PLAYLIST] = PlaylistView(self, self.player)
         self.views[View.SEARCH] = SearchView(self, self.player)
-        self.views[View.EMPTY_SEARCH] = EmptySearchView(self, self.player)
 
-        for i in self.views:
+        # empty view has already been created in self._setup_view starting at
+        # View.ALBUM
+        # empty view state is changed once album view is visible to prevent it
+        # from being displayed during startup
+        for i in self.views[View.ALBUM:]:
             if i.title:
                 self._stack.add_titled(i, i.name, i.title)
             else:
                 self._stack.add_named(i, i.name)
+            GLib.idle_add(i.populate)
 
+        self._stack.set_visible_child(self.views[View.ALBUM])
+        self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
         self.toolbar.set_stack(self._stack)
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()
-
-        for i in self.views:
-            GLib.idle_add(i.populate)
+        self.toolbar._search_button.set_sensitive(True)
+        self.toolbar._select_button.set_sensitive(True)
+        self.toolbar.show_stack()
 
     @log
     def _select_all(self, action=None, param=None):
@@ -449,7 +457,7 @@ class Window(Gtk.ApplicationWindow):
         # Switch to all albums view when we're clicking Albums
         if (self.curr_view == self.views[View.ALBUM]
                 and not (self.prev_view == self.views[View.SEARCH]
-                    or self.prev_view == self.views[View.EMPTY_SEARCH])):
+                    or self.prev_view == self.views[View.EMPTY])):
             self.curr_view.set_visible_child(self.curr_view._grid)
 
         # Slide out sidebar on switching to Artists or Playlists view
@@ -457,13 +465,14 @@ class Window(Gtk.ApplicationWindow):
            self.curr_view == self.views[View.PLAYLIST]:
             self.curr_view.stack.set_visible_child_name('dummy')
             self.curr_view.stack.set_visible_child_name('sidebar')
-        if self.curr_view != self.views[View.SEARCH] and self.curr_view != self.views[View.EMPTY_SEARCH]:
+        if (self.curr_view != self.views[View.SEARCH]
+                and self.curr_view != self.views[View.EMPTY]):
             self.toolbar.searchbar.reveal(False)
 
         # Disable the selection button for the EmptySearch and Playlist
         # view
         no_selection_mode = [
-            self.views[View.EMPTY_SEARCH],
+            self.views[View.EMPTY],
             self.views[View.PLAYLIST]
         ]
         self.toolbar._select_button.set_sensitive(
@@ -485,7 +494,7 @@ class Window(Gtk.ApplicationWindow):
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
-                    or self.curr_view == self.views[View.EMPTY_SEARCH])):
+                    or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
             if self.toolbar._state == ToolbarState.MAIN:
                 # We should get back to the view before the search
