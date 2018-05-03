@@ -17,6 +17,12 @@ flowbox, treeview, widget {
     font-size: smaller;
 }
 
+/* AlbumWidget */
+.title-artist {
+    font-size: larger;
+    font-weight: bold;
+}
+
 /* ArtistAlbumWidget */
 .album-cover {
     padding-left:24px;
