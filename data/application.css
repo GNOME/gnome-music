@@ -28,6 +28,12 @@ flowbox, treeview, widget {
     font-weight: bold;
 }
 
+/* NoMusic */
+.no-music-found-label {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
 /* ArtistAlbumWidget */
 .album-cover {
     padding-left:24px;
