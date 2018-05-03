@@ -82,9 +82,7 @@ class SearchView(BaseView):
     @log
     def _no_music_found_callback(self, view):
         # FIXME: call into private members
-        self._window._stack.set_visible_child_name('emptysearch')
-        emptysearch = self._window._stack.get_child_by_name('emptysearch')
-        emptysearch._artist_albums_widget = self._artist_albums_widget
+        self._window._stack.set_visible_child_name('emptyview')
 
     @log
     def _back_button_clicked(self, widget, data=None):

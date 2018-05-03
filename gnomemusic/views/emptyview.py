@@ -22,31 +22,72 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import Gtk
 
 from gnomemusic import log
+from gnomemusic.albumartcache import Art
 from gnomemusic.query import Query
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/EmptyView.ui")
 class EmptyView(Gtk.Stack):
+
+    class State(IntEnum):
+        """Enum for Playlists Notifications"""
+        INITIAL = 0
+        EMPTY = 1
+        SEARCH = 2
+
+    __gtype_name__ = 'EmptyView'
+
+    _container = Gtk.Template.Child()
+    _information_label = Gtk.Template.Child()
+    _main_label = Gtk.Template.Child()
+    _icon = Gtk.Template.Child()
 
     def __repr__(self):
         return '<EmptyView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, state):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        self.title = None
+        self.name = "emptyview"
 
-        self.builder = Gtk.Builder()
-        self.builder.add_from_resource('/org/gnome/Music/NoMusic.ui')
-        widget = self.builder.get_object('container')
-        self.update_empty_state_link()
-        self.add(widget)
+        self._folder_text = self._information_label.get_label()
+        self.add(self._container)
+
+        if state == self.State.SEARCH:
+            self._set_search_state()
+        elif state == self.State.INITIAL:
+            self._set_initial_state()
+        else:
+            self._set_empty_state()
+
         self.show_all()
 
-    def update_empty_state_link(self):
-        label = self.builder.get_object('empty-state-label')
-        href_text = '<a href="%s">%s</a>' % (Query.MUSIC_URI,
-                                             _("Music folder"))
-        label.set_label(label.get_label() % href_text)
+    @log
+    def _set_initial_state(self):
+        self._set_empty_state()
+        self._main_label.set_label('Hey DJ')
+        self._main_label.set_margin_bottom(18)
+        self._main_label.set_opacity(1)
+
+        self._icon.set_from_resource('/org/gnome/Music/initial-state.png')
+        self._icon.set_margin_bottom(32)
+        self._icon.set_opacity(1)
+        self._icon.set_size_request(
+            Art.Size.LARGE.width, Art.Size.LARGE.height)
+
+    @log
+    def _set_empty_state(self):
+        href_text = '<a href="{}">{}</a>'.format(
+            Query.MUSIC_URI, _("Music folder"))
+        self._information_label.set_label(
+            self._folder_text.format(href_text))
+
+    @log
+    def _set_search_state(self):
+        self._information_label.set_text(_("Try a different search"))

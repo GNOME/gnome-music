@@ -40,8 +40,6 @@ from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
-from gnomemusic.views.emptysearchview import EmptySearchView
-from gnomemusic.views.initialstateview import InitialStateView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
@@ -265,12 +263,11 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _switch_to_empty_view(self):
         did_initial_state = self.settings.get_boolean('did-initial-state')
-        view_class = None
+
         if did_initial_state:
-            view_class = EmptyView
+            self.views[View.ALBUM] = EmptyView(EmptyView.State.EMPTY)
         else:
-            view_class = InitialStateView
-        self.views[View.ALBUM] = view_class(self, self.player)
+            self.views[View.ALBUM] = EmptyView(EmptyView.State.INITIAL)
 
         self._stack.add_titled(self.views[View.ALBUM], _("Empty"), _("Empty"))
         self.toolbar._search_button.set_sensitive(False)
@@ -288,9 +285,10 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.SONG] = SongsView(self, self.player)
         self.views[View.PLAYLIST] = PlaylistView(self, self.player)
         self.views[View.SEARCH] = SearchView(self, self.player)
-        self.views[View.EMPTY_SEARCH] = EmptySearchView(self, self.player)
+        self.views[View.EMPTY_SEARCH] = EmptyView(EmptyView.State.SEARCH)
 
         for i in self.views:
+            print(i.name, i.title)
             if i.title:
                 self._stack.add_titled(i, i.name, i.title)
             else:
@@ -301,7 +299,10 @@ class Window(Gtk.ApplicationWindow):
         self.toolbar.dropdown.show()
 
         for i in self.views:
-            GLib.idle_add(i.populate)
+            try:
+                GLib.idle_add(i.populate)
+            except AttributeError:
+                pass
 
     @log
     def _select_all(self, action=None, param=None):
