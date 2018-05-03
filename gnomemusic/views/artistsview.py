@@ -176,10 +176,9 @@ class ArtistsView(BaseView):
 
     @log
     def _on_sidebar_clicked(self, widget, event):
-        if event.button != Gdk.BUTTON_SECONDARY:
-            return
-
-        if not self.props.selection_mode:
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
             self._on_selection_mode_request()
 
     @log
