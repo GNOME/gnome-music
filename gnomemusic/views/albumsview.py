@@ -97,13 +97,10 @@ class AlbumsView(BaseView):
 
     @log
     def _on_child_activated(self, widget, child, user_data=None):
-        item = child.media_item
-
-        # Toggle the selection when in selection mode
-        if self.selection_mode:
-            child.check.set_active(not child.check.get_active())
+        if self.props.selection_mode:
             return
 
+        item = child.media_item
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
@@ -199,10 +196,13 @@ class AlbumsView(BaseView):
 
     @log
     def _on_album_event_triggered(self, evbox, event, child):
-        if event.button is 3:
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
             self._on_selection_mode_request()
-            if self.selection_mode:
-                child.check.set_active(True)
+
+        if self.props.selection_mode:
+            child.check.props.active = not child.check.props.active
 
     @log
     def _on_child_toggled(self, check, pspec, child):
@@ -241,7 +241,7 @@ class AlbumsView(BaseView):
             GObject.signal_handler_block(child.check, child.check_handler_id)
 
             # Set the checkbutton state without emiting the signal
-            child.check.set_active(selected)
+            child.check.props.active = selected
 
             GObject.signal_handler_unblock(child.check, child.check_handler_id)
 
