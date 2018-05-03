@@ -94,14 +94,12 @@ class AlbumsView(BaseView):
 
     @log
     def _on_child_activated(self, widget, child, user_data=None):
-        item = child.media_item
-
-        # Toggle the selection when in selection mode
         if self.selection_mode:
-            child.check.set_active(not child.check.get_active())
             return
 
-        # Update and display the album widget if not in selection mode
+        item = child.media_item
+
+        # Update and display the album widget
         self._album_widget.update(
             item, self._header_bar, self._selection_toolbar)
 
@@ -197,10 +195,13 @@ class AlbumsView(BaseView):
 
     @log
     def _on_album_event_triggered(self, evbox, event, child):
-        if event.button is 3:
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.selection_mode):
             self._on_selection_mode_request()
-            if self.selection_mode:
-                child.check.set_active(True)
+
+        if self.selection_mode:
+            child.check.set_active(not child.check.get_active())
 
     @log
     def _on_child_toggled(self, check, pspec, child):

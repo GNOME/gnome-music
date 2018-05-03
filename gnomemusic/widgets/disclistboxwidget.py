@@ -250,20 +250,33 @@ class DiscBox(Gtk.Box):
 
     @log
     def _song_activated(self, widget, event):
-        # FIXME: don't think keys work correctly, if they did ever
-        # even.
-        if (not event.button == Gdk.BUTTON_SECONDARY
-                or (event.button == Gdk.BUTTON_PRIMARY
-                    and event.state & Gdk.ModifierType.CONTROL_MASK)):
-            self.emit('song-activated', widget)
-            if self.props.selection_mode:
-                itr = widget.itr
-                self._model[itr][6] = not self._model[itr][6]
-        else:
+        modifiers = Gtk.accelerator_get_default_mod_mask()
+        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+                and not self.selection_mode):
             self.emit('selection-toggle')
-            if self.props.selection_mode:
-                itr = widget.itr
-                self._model[itr][6] = True
+
+        if (event.button == Gdk.BUTTON_PRIMARY
+                and not self.props.selection_mode):
+            self.emit('song-activated', widget)
+
+        if self.props.selection_mode:
+            itr = widget.itr
+            self._model[itr][6] = not self._model[itr][6]
+
+        # # FIXME: don't think keys work correctly, if they did ever
+        # # even.
+        # if (not event.button == Gdk.BUTTON_SECONDARY
+        #         or (event.button == Gdk.BUTTON_PRIMARY
+        #             and event.state & Gdk.ModifierType.CONTROL_MASK)):
+        #     self.emit('song-activated', widget)
+        #     if self.props.selection_mode:
+        #         itr = widget.itr
+        #         self._model[itr][6] = not self._model[itr][6]
+        # else:
+        #     self.emit('selection-toggle')
+        #     if self.props.selection_mode:
+        #         itr = widget.itr
+        #         self._model[itr][6] = True
 
         return True
 
