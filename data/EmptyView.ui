@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <template class="EmptyView" parent="GtkStack">
+    <property name="transition_type">crossfade</property>
+    <child>
+      <object class="GtkBox" id="_container">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="can_focus">False</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <child>
+          <object class="GtkImage" id="_icon">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">center</property>
+            <property name="pixel_size">128</property>
+            <property name="icon_name">emblem-music-symbolic</property>
+            <property name="icon_size">0</property>
+            <property name="margin_bottom">18</property>
+            <style>
+              <class name="grey-image"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box">
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkLabel" id="_main_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">No music found</property>
+                <property name="halign">center</property>
+                <property name="xalign">0</property>
+                <property name="margin_bottom">12</property>
+                <style>
+                  <class name="no-music-found-label"/>
+                  <class name="dim-label"/>
+                </style>
+
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="_information_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes" comments="Translators: {} will be replaced with a link with text 'Music folder'">The contents of your {} will appear here.</property>
+                <property name="justify">left</property>
+                <property name="use_markup">true</property>
+                <style>
+                  <class name="dim-label"/>
+                </style>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -29,12 +29,12 @@ from gettext import gettext as _
 
 class View(IntEnum):
     """Enum for views"""
-    ALBUM = 0
-    ARTIST = 1
-    SONG = 2
-    PLAYLIST = 3
-    SEARCH = 4
-    EMPTY_SEARCH = 5
+    EMPTY = 0
+    ALBUM = 1
+    ARTIST = 2
+    SONG = 3
+    PLAYLIST = 4
+    SEARCH = 5
 
 
 def get_album_title(item):
