@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gd, GdkPixbuf, GObject, Grl, Gtk, Pango
+from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
 
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
@@ -52,7 +52,7 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__('search', None, window, Gd.MainViewType.LIST)
+        super().__init__('search', None, window, None)
 
         self._add_list_renderers()
         self.player = player
@@ -73,11 +73,31 @@ class SearchView(BaseView):
         self._artists = {}
         self._artist_albums_widget = None
 
-        self._view.get_generic_view().set_show_expanders(False)
         self._items_selected = []
         self._items_selected_callback = None
 
         self._items_found = None
+
+    @log
+    def _setup_view(self, view_type):
+        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
+        self._box.pack_start(view_container, True, True, 0)
+
+        self._view = Gtk.TreeView()
+        self._view.props.headers_visible = False
+        self._view.props.show_expanders = False
+        self._view.props.halign = Gtk.Align.CENTER
+        self._view.props.width_request = 530
+
+        self._view.get_style_context().add_class('view')
+        self._view.get_style_context().add_class('content-view')
+
+        self._view.props.activate_on_single_click = True
+        self._view.get_selection().props.mode = Gtk.SelectionMode.NONE
+        self._view.connect('row-activated', self._on_item_activated)
+        self._view.connect('button-release-event', self._on_view_clicked)
+
+        view_container.add(self._view)
 
     @log
     def _no_music_found_callback(self, view):
@@ -99,9 +119,13 @@ class SearchView(BaseView):
         self._header_bar.props.state = HeaderBar.State.MAIN
 
     @log
-    def _on_item_activated(self, widget, id, path):
+    def _on_item_activated(self, treeview, path, column):
         if self._star_handler.star_renderer_click:
             self._star_handler.star_renderer_click = False
+            return
+
+        if self.selection_mode:
+            self._selection_toggled(path)
             return
 
         try:
@@ -144,13 +168,47 @@ class SearchView(BaseView):
                     'Search Results', None, self._songs_model, c_iter)
                 self.player.set_playing(True)
         else:  # Headers
-            if self._view.get_generic_view().row_expanded(path):
-                self._view.get_generic_view().collapse_row(path)
+            if self._view.row_expanded(path):
+                self._view.collapse_row(path)
             else:
-                self._view.get_generic_view().expand_row(path, False)
+                self._view.expand_row(path, False)
+
+    @log
+    def _on_view_clicked(self, treeview, event):
+        if event.button != Gdk.BUTTON_SECONDARY:
+            return
+
+        if not self.selection_mode:
+            self._on_selection_mode_request()
+
+        path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
+        self._selection_toggled(path)
+
+    @log
+    def _get_selected_iters(self):
+        iters = []
+        for row in self.model:
+            iter_child = self.model.iter_children(row.iter)
+            while iter_child is not None:
+                if self.model[iter_child][6]:
+                    iters.append(iter_child)
+                iter_child = self.model.iter_next(iter_child)
+        return iters
+
+    @log
+    def _selection_toggled(self, path):
+        iter_ = self.model.get_iter(path)
+        self.model[iter_][6] = not self.model[iter_][6]
+        selected_iters = self._get_selected_iters()
+        self.update_header_from_selection(len(selected_iters))
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
+        col = self._view.get_columns()[0]
+        cells = col.get_cells()
+        cells[4].props.visible = self.selection_mode
+        col.queue_resize()
+
         if (self._artist_albums_widget is not None
                 and self.get_visible_child() == self._artist_albums_widget):
             self._artist_albums_widget.set_selection_mode(
@@ -276,21 +334,11 @@ class SearchView(BaseView):
         if self.model.iter_n_children(self._head_iters[group]) == 1:
             path = self.model.get_path(self._head_iters[group])
             path = self._filter_model.convert_child_path_to_path(path)
-            self._view.get_generic_view().expand_row(path, False)
+            self._view.expand_row(path, False)
 
     @log
     def _add_list_renderers(self):
-        list_widget = self._view.get_generic_view()
-        list_widget.set_halign(Gtk.Align.CENTER)
-        list_widget.set_size_request(530, -1)
-        cols = list_widget.get_columns()
-
-        title_renderer = Gtk.CellRendererText(
-            xpad=12, xalign=0.0, yalign=0.5, height=32,
-            ellipsize=Pango.EllipsizeMode.END, weight=Pango.Weight.BOLD)
-        list_widget.add_renderer(
-            title_renderer, self._on_list_widget_title_render, None)
-        cols[0].add_attribute(title_renderer, 'text', 2)
+        column = Gtk.TreeViewColumn()
 
         # Add our own surface renderer, instead of the one provided by
         # Gd. This avoids us having to set the model to a cairo.Surface
@@ -298,48 +346,77 @@ class SearchView(BaseView):
         # https://gitlab.gnome.org/GNOME/pygobject/issues/155
         pixbuf_renderer = Gtk.CellRendererPixbuf(
             xalign=0.5, yalign=0.5, xpad=12, ypad=2)
-        list_widget.add_renderer(
-            pixbuf_renderer, self._on_list_widget_pixbuf_renderer, None)
-        cols[0].add_attribute(pixbuf_renderer, 'surface', 13)
-
-        self._star_handler.add_star_renderers(cols[0])
-        cells = cols[0].get_cells()
+        column.pack_start(pixbuf_renderer, False)
+        column.set_cell_data_func(
+            pixbuf_renderer, self._on_list_widget_pixbuf_renderer)
+        column.add_attribute(pixbuf_renderer, 'surface', 13)
 
         # With the bugfix in libgd 9117650bda, the search results
         # stopped aligning at the top. With the artists results not
         # having a second line of text, this looks off.
         # Revert to old behaviour by forcing the alignment to be top.
-        # FIXME: Revisit this when rewriting the searchview.
-        gd_twolines_renderer = cells[2]
-        gd_twolines_renderer.props.yalign = 0
+        two_lines_renderer = Gd.TwoLinesRenderer(
+            wrap_mode=Pango.WrapMode.WORD_CHAR, xpad=12, xalign=0.0,
+            yalign=0, text_lines=2)
+        column.pack_start(two_lines_renderer, True)
+        column.set_cell_data_func(
+            two_lines_renderer, self._on_list_widget_two_lines_renderer)
+        column.add_attribute(two_lines_renderer, 'text', 2)
+        column.add_attribute(two_lines_renderer, 'line_two', 3)
 
-        cols[0].reorder(cells[0], -1)
-        cols[0].reorder(cells[4], 1)
-        cols[0].set_cell_data_func(
-            cells[0], self._on_list_widget_selection_render, None)
+        title_renderer = Gtk.CellRendererText(
+            xpad=12, xalign=0.0, yalign=0.5, height=32,
+            ellipsize=Pango.EllipsizeMode.END, weight=Pango.Weight.BOLD)
+        column.pack_start(title_renderer, False)
+        column.set_cell_data_func(
+            title_renderer, self._on_list_widget_title_renderer)
+        column.add_attribute(title_renderer, 'text', 2)
+
+        self._star_handler.add_star_renderers(column)
+
+        selection_renderer = Gtk.CellRendererToggle(xpad=12, xalign=1.0)
+        column.pack_start(selection_renderer, False)
+        column.set_cell_data_func(
+            selection_renderer, self._on_list_widget_selection_renderer)
+        column.add_attribute(selection_renderer, 'active', 6)
+
+        self._view.append_column(column)
 
     @log
-    def _on_list_widget_pixbuf_renderer(self, col, cell, model, _iter, data):
-        if not model[_iter][13]:
+    def _is_header(self, model, iter_):
+        return model.iter_parent(iter_) is None
+
+    @log
+    def _on_list_widget_title_renderer(self, col, cell, model, iter_, data):
+        cell.props.visible = self._is_header(model, iter_)
+
+    @log
+    def _on_list_widget_pixbuf_renderer(self, col, cell, model, iter_, data):
+        if (not model[iter_][13]
+                or self._is_header(model, iter_)):
+            cell.props.visible = False
             return
 
-        cell.set_property("surface", model[_iter][13])
+        cell.props.surface = model[iter_][13]
+        cell.props.visible = True
 
     @log
-    def _on_list_widget_selection_render(self, col, cell, model, _iter, data):
-        if (self._view.get_selection_mode()
-                and model.iter_parent(_iter) is not None):
-            cell.set_visible(True)
+    def _on_list_widget_two_lines_renderer(
+            self, col, cell, model, iter_, data):
+        if self._is_header(model, iter_):
+            cell.props.visible = False
+            return
+
+        cell.props.visible = True
+
+    @log
+    def _on_list_widget_selection_renderer(
+            self, col, cell, model, iter_, data):
+        if (self.selection_mode
+                and not self._is_header(model, iter_)):
+            cell.props.visible = True
         else:
-            cell.set_visible(False)
-
-    @log
-    def _on_list_widget_title_render(self, col, cell, model, _iter, data):
-        cells = col.get_cells()
-        cells[0].set_visible(False)
-        cells[1].set_visible(model.iter_parent(_iter) is not None)
-        cells[2].set_visible(model.iter_parent(_iter) is not None)
-        cells[3].set_visible(model.iter_parent(_iter) is None)
+            cell.props.visible = False
 
     @log
     def populate(self):
@@ -361,14 +438,12 @@ class SearchView(BaseView):
 
     @log
     def _get_selected_albums(self):
-        paths = [
-            self._filter_model.convert_path_to_child_path(path)
-            for path in self._view.get_selection()]
+        selected_iters = self._get_selected_iters()
 
         self._albums_selected = [
-            self.model[child_path][5]
-            for child_path in paths
-            if self.model[child_path][12] == 'album']
+            self.model[iter_][5]
+            for iter_ in selected_iters
+            if self.model[iter_][12] == 'album']
 
         if len(self._albums_selected):
             self._get_selected_albums_songs()
@@ -395,12 +470,12 @@ class SearchView(BaseView):
 
     @log
     def _get_selected_artists(self):
+        selected_iters = self._get_selected_iters()
+
         artists_selected = [
-            self._artists[self.model[child_path][2].casefold()]
-            for child_path in [
-                self._filter_model.convert_path_to_child_path(path)
-                for path in self._view.get_selection()]
-            if self.model[child_path][12] == 'artist']
+            self._artists[self.model[iter_][2].casefold()]
+            for iter_ in selected_iters
+            if self.model[iter_][12] == 'artist']
 
         self._artists_albums_selected = []
         for artist in artists_selected:
@@ -432,12 +507,11 @@ class SearchView(BaseView):
 
     @log
     def _get_selected_songs(self):
+        selected_iters = self._get_selected_iters()
         self._items_selected.extend([
-            self.model[child_path][5]
-            for child_path in [
-                self._filter_model.convert_path_to_child_path(path)
-                for path in self._view.get_selection()]
-            if self.model[child_path][12] == 'song'])
+            self.model[iter_][5]
+            for iter_ in selected_iters
+            if self.model[iter_][12] == 'song'])
         self._items_selected_callback(self._items_selected)
 
     @log
