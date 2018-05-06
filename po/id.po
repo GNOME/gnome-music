@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-02-23 22:13+0000\n"
-"PO-Revision-Date: 2018-02-28 16:56+0700\n"
-"Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
+"POT-Creation-Date: 2018-05-04 09:54+0000\n"
+"PO-Revision-Date: 2018-05-05 16:14+0700\n"
+"Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -31,8 +31,8 @@ msgstr "Putar dan tata koleksi musik Anda"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musik adalah aplikasi pemutar musik GNOME yang baru."
 
-#: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:104 gnomemusic/toolbar.py:91
+#: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
+#: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
 #: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musik"
@@ -94,136 +94,98 @@ msgstr ""
 "semua)."
 
 #: data/org.gnome.Music.gschema.xml:33
-msgid "Search mode"
-msgstr "Mode cari"
-
-#: data/org.gnome.Music.gschema.xml:34
-msgid "If true, the search bar is shown."
-msgstr "Bila berisi true, bilah pencarian ditampilkan."
-
-#: data/org.gnome.Music.gschema.xml:38
-msgid "Notifications mode"
-msgstr "Mode pemberitahuan"
-
-#: data/org.gnome.Music.gschema.xml:39
-msgid "Enables or disables playback notifications"
-msgstr "Mengaktifkan atau menonaktifkan pemberitahuan pemutaran"
-
-#: data/org.gnome.Music.gschema.xml:43
 msgid "Enable ReplayGain"
 msgstr "Fungsikan ReplayGain"
 
-#: data/org.gnome.Music.gschema.xml:44
+#: data/org.gnome.Music.gschema.xml:34
 msgid "Enables or disables ReplayGain for albums"
 msgstr "Mengaktifkan atau menonaktifkan pemberitahuan pemutaran"
 
-#: data/org.gnome.Music.gschema.xml:48
+#: data/org.gnome.Music.gschema.xml:38
 msgid "Inital state has been displayed"
 msgstr "Keadaan awal telah ditampilkan"
 
-#: data/org.gnome.Music.gschema.xml:49
+#: data/org.gnome.Music.gschema.xml:39
 msgid "Set to true when initial state has been displayed"
 msgstr "Diisi dengan true ketika keadaan awal telah ditampilkan"
 
-#: gnomemusic/notification.py:55 data/PlayerToolbar.ui:70
-msgid "Previous"
-msgstr "Sebelumnya"
-
-#: gnomemusic/notification.py:58 gnomemusic/player.py:536
-msgid "Pause"
-msgstr "Tahan"
-
-#: gnomemusic/notification.py:61 gnomemusic/player.py:539
-#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
-msgid "Play"
-msgstr "Putar"
-
-#: gnomemusic/notification.py:63 data/PlayerToolbar.ui:104
-msgid "Next"
-msgstr "Selanjutnya"
-
-#: gnomemusic/player.py:1076
+#: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Tak dapat memutar berkas"
 
-#. TRANSLATORS: this is a button to launch a codec installer.
-#. %s will be replaced with the software installer's name, e.g.
-#. 'Software' in case of gnome-software.
-#: gnomemusic/player.py:1081
-#, python-format
-msgid "_Find in %s"
-msgstr "_Cari di %s"
+#: gnomemusic/gstplayer.py:416
+msgid "_Find in {}"
+msgstr "_Cari di {}"
 
-#. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1091
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:427
 msgid " and "
 msgstr " dan "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/player.py:1094
+#: gnomemusic/gstplayer.py:430
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/player.py:1095
-#, python-format
-msgid "%s is required to play the file, but is not installed."
-msgid_plural "%s are required to play the file, but are not installed."
-msgstr[0] "%s diperlukan untuk memutar berkas, tapi tak terpasang."
+#: gnomemusic/gstplayer.py:432
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:58
+#: gnomemusic/playlists.py:60
 msgid "Most Played"
 msgstr "Paling Sering Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:63
+#: gnomemusic/playlists.py:65
 msgid "Never Played"
 msgstr "Tak Pernah Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:68
+#: gnomemusic/playlists.py:70
 msgid "Recently Played"
 msgstr "Baru-baru Ini Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:73
+#: gnomemusic/playlists.py:75
 msgid "Recently Added"
 msgstr "Baru-baru Ini Ditambahkan"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:78
+#: gnomemusic/playlists.py:80
 msgid "Favorite Songs"
 msgstr "Lagu Favorit"
 
-#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:114
+#: gnomemusic/searchbar.py:66 gnomemusic/searchbar.py:116
 msgid "All"
 msgstr "Semua"
 
-#: gnomemusic/searchbar.py:65
+#: gnomemusic/searchbar.py:67
 msgid "Artist"
 msgstr "Artis"
 
-#: gnomemusic/searchbar.py:66
+#: gnomemusic/searchbar.py:68
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
+#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "Pencipta"
 
-#: gnomemusic/searchbar.py:68
+#: gnomemusic/searchbar.py:70
 msgid "Track Title"
 msgstr "Judul Trek"
 
-#: gnomemusic/searchbar.py:115
+#: gnomemusic/searchbar.py:117
 msgid "Local"
 msgstr "Lokal"
 
-#: gnomemusic/searchbar.py:258
+#: gnomemusic/searchbar.py:260
 msgid "Sources"
 msgstr "Sumber"
 
-#: gnomemusic/searchbar.py:266
+#: gnomemusic/searchbar.py:268
 msgid "Match"
 msgstr "Cocok"
 
@@ -235,22 +197,22 @@ msgstr "Artis Tak Dikenal"
 msgid "Untitled"
 msgstr "Tanpa judul"
 
-#: gnomemusic/views/albumsview.py:45 gnomemusic/views/searchview.py:501
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
 msgid "Albums"
 msgstr "Album"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:503
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
 msgid "Artists"
 msgstr "Artis"
 
-#: gnomemusic/views/baseview.py:188
+#: gnomemusic/views/baseview.py:186
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Dipilih {} butir"
 
-#: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:32
+#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:258
+#: gnomemusic/widgets/albumwidget.py:193
+#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Klik pada butir untuk memilihnya"
 
@@ -266,41 +228,41 @@ msgstr "Folder musik"
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:507
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: gnomemusic/views/playlistview.py:604
+#: gnomemusic/views/playlistview.py:606
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d Lagu"
 
-#: gnomemusic/views/playlistview.py:647
+#: gnomemusic/views/playlistview.py:649
 msgid "Playlist {} removed"
 msgstr "Daftar putar {} dihapus"
 
-#: gnomemusic/views/playlistview.py:653
+#: gnomemusic/views/playlistview.py:655
 msgid "{} removed from {}"
 msgstr "{} dihapus dari {}"
 
-#: gnomemusic/views/searchview.py:505 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Lagu"
 
-#: gnomemusic/widgets/albumwidget.py:185
-#: gnomemusic/widgets/artistalbumswidget.py:228
+#: gnomemusic/widgets/albumwidget.py:180
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} menit"
+
+#: gnomemusic/widgets/albumwidget.py:189
+#: gnomemusic/widgets/artistalbumswidget.py:212
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Dipilih %d butir"
 
-#: gnomemusic/widgets/albumwidget.py:281 gnomemusic/widgets/albumwidget.py:326
-#, python-format
-msgid "%d min"
-msgstr "%d mnt"
-
-#: gnomemusic/widgets/disclistboxwidget.py:192
+#: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "Cakram {}"
 
@@ -308,11 +270,20 @@ msgstr "Cakram {}"
 msgid "Loading"
 msgstr "Memuat"
 
-#: gnomemusic/widgets/notificationspopup.py:231
+#: gnomemusic/widgets/notificationspopup.py:232
 msgid "_Undo"
 msgstr "Tak _Jadi"
 
-#: gnomemusic/window.py:245
+#: gnomemusic/widgets/playertoolbar.py:137
+msgid "Pause"
+msgstr "Tahan"
+
+#: gnomemusic/widgets/playertoolbar.py:140 data/PlayerToolbar.ui:88
+#: data/PlaylistContextMenu.ui:5
+msgid "Play"
+msgstr "Putar"
+
+#: gnomemusic/window.py:275
 msgid "Empty"
 msgstr "Kosong"
 
@@ -353,7 +324,7 @@ msgid ""
 "statement from your version.\n"
 "\n"
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403\n"
+"https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
 "GNOME Musik adalah perangkat lunak bebas; Anda dapat mendistribusikannya dan/"
 "atau mengubahnya di bawah persyaratan GNU General Public License sebagaimana "
@@ -362,7 +333,7 @@ msgstr ""
 "\n"
 "GNOME Musik didistribusikan dengan harapan dapat berguna, tetapi TANPA "
 "ADANYA JAMINAN; termasuk tanpa jaminan DAYA JUAL atau KELAIKAN UNTUK TUJUAN "
-"TERTENTU. Lihat GNU General Public License untuk rincian lebih lanjut.\n"
+"TERTENTU.  Lihat GNU General Public License untuk rincian lebih lanjut.\n"
 "\n"
 "Anda seharusnya menerima salinan dari GNU General Public License bersama "
 "GNOME Musik; jika tidak, kirimkan surat Anda ke Free Software Foundation, "
@@ -370,20 +341,20 @@ msgstr ""
 "\n"
 "Para penulis GNOME Musik dengan ini memberikan ijin untuk plugin GStreamer "
 "yang tak kompatibel dengan GPL untuk dipakai dan didistribusikan bersama "
-"dengan GStreamer dan GNOME Musik. Ijin ini di atas dan di luar hak yang "
-"diberikan oleh lisensi GPL yang mencakup GNOME Musik. Bila Anda mengubah "
+"dengan GStreamer dan GNOME Musik.  Ijin ini di atas dan di luar hak yang "
+"diberikan oleh lisensi GPL yang mencakup GNOME Musik.  Bila Anda mengubah "
 "kode ini, Anda boleh memperluas pengecualian ini ke versi kode Anda, tapi "
-"Anda tidak wajib melakukannya. Bila Anda tak ingin seperti itu, hapuslah "
+"Anda tidak wajib melakukannya.  Bila Anda tak ingin seperti itu, hapuslah "
 "pernyataan pengecualian ini dari versi Anda.\n"
 "\n"
 "Citra \"Magic of the vinyl\" oleh Sami Pyylampi dilisensikan memakai CC-BY-"
-"SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
+"SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:110
+#: data/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Dirilis"
 
-#: data/AlbumWidget.ui:126
+#: data/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Lama Putar"
 
@@ -419,7 +390,7 @@ msgstr "Cari"
 msgid "Select"
 msgstr "Pilih"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
+#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "_Batal"
 
@@ -512,7 +483,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Mundur"
 
-#: data/NoMusic.ui:35
+#: data/NoMusic.ui:36
 msgid "No music found"
 msgstr "Tak ada musik"
 
@@ -539,6 +510,14 @@ msgstr "Ulangi Lagu"
 msgid "Shuffle/Repeat Off"
 msgstr "Acak/Ulang Mati"
 
+#: data/PlayerToolbar.ui:70
+msgid "Previous"
+msgstr "Sebelumnya"
+
+#: data/PlayerToolbar.ui:106
+msgid "Next"
+msgstr "Selanjutnya"
+
 #: data/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Tambah ke Daftar Putar…"
@@ -563,34 +542,52 @@ msgstr "_Ubah Nama…"
 msgid "Playlist Name"
 msgstr "Nama Daftar Putar"
 
-#: data/PlaylistControls.ui:65
+#: data/PlaylistControls.ui:64
 msgid "_Done"
 msgstr "_Selesai"
 
-#: data/PlaylistDialog.ui:63
+#: data/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Masukkan nama daftar putar pertama Anda"
 
-#: data/PlaylistDialog.ui:88
+#: data/PlaylistDialog.ui:94
 msgid "C_reate"
 msgstr "B_uat"
 
-#: data/PlaylistDialog.ui:157
-msgid "New Playlist"
-msgstr "Daftar Putar Baru"
+#: data/PlaylistDialog.ui:164
+msgid "New Playlist…"
+msgstr "Daftar Putar Baru…"
 
-#: data/PlaylistDialog.ui:170
+#: data/PlaylistDialog.ui:177
 msgid "Add"
 msgstr "Tambah"
 
-#: data/PlaylistDialog.ui:261
-msgid "Select Playlist"
-msgstr "Pilih Daftar Putar"
+#: data/PlaylistDialog.ui:268
+msgid "Add to Playlist"
+msgstr "Tambah ke Daftar Putar"
 
-#: data/PlaylistDialog.ui:276
+#: data/PlaylistDialog.ui:283
 msgid "_Add"
 msgstr "T_ambah"
 
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "T_ambah ke Daftar Putar"
+
+#~ msgid "Search mode"
+#~ msgstr "Mode cari"
+
+#~ msgid "If true, the search bar is shown."
+#~ msgstr "Bila berisi true, bilah pencarian ditampilkan."
+
+#~ msgid "Notifications mode"
+#~ msgstr "Mode pemberitahuan"
+
+#~ msgid "Enables or disables playback notifications"
+#~ msgstr "Mengaktifkan atau menonaktifkan pemberitahuan pemutaran"
+
+#~ msgid "%d min"
+#~ msgstr "%d mnt"
+
+#~ msgid "Select Playlist"
+#~ msgstr "Pilih Daftar Putar"
