@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-04-18 16:24+0000\n"
-"PO-Revision-Date: 2018-04-19 22:38+0200\n"
+"POT-Creation-Date: 2018-05-04 09:54+0000\n"
+"PO-Revision-Date: 2018-05-06 17:21+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.7\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
 msgid "GNOME Music"
@@ -32,7 +32,7 @@ msgstr "Musiche e je le gnove aplicazion GNOME par riprodusi musiche."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
 #: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
+#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musiche"
 
@@ -42,7 +42,6 @@ msgstr "Letôr musicâl"
 
 #. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
 #: data/org.gnome.Music.desktop.in:7
-#| msgid "gnome-music"
 msgid "org.gnome.Music"
 msgstr "org.gnome.Music"
 
@@ -133,15 +132,6 @@ msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Al covente {} par riprodusi il file, ma nol è instalât."
 msgstr[1] "A coventin {} par riprodusi il file, ma no son instalâts."
 
-#: gnomemusic/player.py:392
-msgid "Pause"
-msgstr "Pause"
-
-#: gnomemusic/player.py:395 data/PlayerToolbar.ui:87
-#: data/PlaylistContextMenu.ui:5
-msgid "Play"
-msgstr "Sune"
-
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
 msgid "Most Played"
@@ -167,35 +157,35 @@ msgstr "Zontât di recent"
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
-#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:114
+#: gnomemusic/searchbar.py:66 gnomemusic/searchbar.py:116
 msgid "All"
 msgstr "Dut"
 
-#: gnomemusic/searchbar.py:65
+#: gnomemusic/searchbar.py:67
 msgid "Artist"
 msgstr "Artist"
 
-#: gnomemusic/searchbar.py:66
+#: gnomemusic/searchbar.py:68
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
+#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "Compositôr"
 
-#: gnomemusic/searchbar.py:68
+#: gnomemusic/searchbar.py:70
 msgid "Track Title"
 msgstr "Titul"
 
-#: gnomemusic/searchbar.py:115
+#: gnomemusic/searchbar.py:117
 msgid "Local"
 msgstr "Locâl"
 
-#: gnomemusic/searchbar.py:258
+#: gnomemusic/searchbar.py:260
 msgid "Sources"
 msgstr "Sorzints"
 
-#: gnomemusic/searchbar.py:266
+#: gnomemusic/searchbar.py:268
 msgid "Match"
 msgstr "Corispuindince"
 
@@ -207,23 +197,23 @@ msgstr "Artist no cognossût"
 msgid "Untitled"
 msgstr "Cence Titul"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:510
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
 msgid "Albums"
 msgstr "Album"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:512
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
 msgid "Artists"
 msgstr "Artiscj"
 
-#: gnomemusic/views/baseview.py:187
+#: gnomemusic/views/baseview.py:186
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Selezionât {} element"
 msgstr[1] "Selezionâts {} elements"
 
-#: gnomemusic/views/baseview.py:192 gnomemusic/views/baseview.py:259
-#: gnomemusic/widgets/albumwidget.py:191
-#: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
+#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:258
+#: gnomemusic/widgets/albumwidget.py:193
+#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionaju"
 
@@ -241,44 +231,44 @@ msgstr "cartele de musiche"
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:516
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
 msgid "Playlists"
 msgstr "Listis di musichis"
 
-#: gnomemusic/views/playlistview.py:612
+#: gnomemusic/views/playlistview.py:606
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d cjançon"
 msgstr[1] "%d Cjançons"
 
-#: gnomemusic/views/playlistview.py:655
+#: gnomemusic/views/playlistview.py:649
 msgid "Playlist {} removed"
 msgstr "Liste di musichis {} gjavade"
 
-#: gnomemusic/views/playlistview.py:661
+#: gnomemusic/views/playlistview.py:655
 msgid "{} removed from {}"
 msgstr "{} gjavât di {}"
 
-#: gnomemusic/views/searchview.py:514 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Cjancçons"
 
-#: gnomemusic/widgets/albumwidget.py:178
+#: gnomemusic/widgets/albumwidget.py:180
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minût"
 msgstr[1] "{} minûts"
 
-#: gnomemusic/widgets/albumwidget.py:187
-#: gnomemusic/widgets/artistalbumswidget.py:224
+#: gnomemusic/widgets/albumwidget.py:189
+#: gnomemusic/widgets/artistalbumswidget.py:212
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
 msgstr[0] "Selezionât %d element"
 msgstr[1] "Selezionâts %d elements"
 
-#: gnomemusic/widgets/disclistboxwidget.py:192
+#: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "Disc {}"
 
@@ -290,7 +280,16 @@ msgstr "Daûr a cjariâ"
 msgid "_Undo"
 msgstr "A_nule"
 
-#: gnomemusic/window.py:272
+#: gnomemusic/widgets/playertoolbar.py:137
+msgid "Pause"
+msgstr "Pause"
+
+#: gnomemusic/widgets/playertoolbar.py:140 data/PlayerToolbar.ui:88
+#: data/PlaylistContextMenu.ui:5
+msgid "Play"
+msgstr "Sune"
+
+#: gnomemusic/window.py:275
 msgid "Empty"
 msgstr "Vueit"
 
@@ -331,37 +330,39 @@ msgid ""
 "statement from your version.\n"
 "\n"
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403\n"
+"https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
 "GNOME Musiche al è software libar; al è pussibil tornâ a distribuîlu o "
-"modificâlu sot i tiermins de licence GNU GPL, publicade da Free Software "
-"Foundation, version 2 o (a tô sielte) sucessive.\n"
+"modificâlu sot i tiermins de licence GNU General Public License, come "
+"publicade de Free Software Foundation, version 2 o (a tô sielte) cualsisei "
+"sucessive.\n"
 "\n"
 "GNOME Musiche al è distribuît inte sperance che al sedi util, ma CENCE "
 "NISSUNE GARANZIE, cence nancje la implicite garanzie di CUMIERÇABILITÂT o "
-"IDONEITÂT A UNE FINALITÂT PARTICOLÂR. Consultâ la licence GNU GPL par vê "
-"plui detais.\n"
+"IDONEITÂT A UNE FINALITÂT PARTICOLÂR.  Consultâ la licence GNU General "
+"Public License par vê plui detais.\n"
 "\n"
-"Cun GNOME Musiche ti varessin di vê dât ancje une copie de licence GNU GPL, "
-"in câs diviers al è pussibil domandâle scrivint a: Free Software Foundation, "
-"Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA\n"
+"Cun GNOME Musiche ti varessin di vê dât ancje une copie de licence GNU "
+"General Public License, in câs contrari al è pussibil domandâle scrivint a: "
+"Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA "
+"02110-1301 USA.\n"
 "\n"
 "Cun cheste letare i autôrs di GNOME Musiche a concedin il permès di doprâ e "
-"distribuî i plugin GStreamer no-GPL compatibii parie cun GStreamer e GNOME "
-"Musiche. Chest permès al è parsore e di là dal permès concedût de licence "
-"GPL che a cuvierç GNOME Music. Se tu modifichis chest codiç, tu puedis "
-"estindi cheste ecezion ae tô version dal codiç, ma no tu sês obleât a fâlu. "
-"Se no tu desideris fâlu, elimine cheste declarazion di ecezion da la tô "
-"version.\n"
+"distribuî i plugin GStreamer, che no son compatibii cun la GPL, adun cun "
+"GStreamer e GNOME Musiche.  Chest permès al è parsore e di là dal permès "
+"concedût de licence GPL che e cuvierç GNOME Musiche. Se tu modifichis chest "
+"codiç, tu puedis estindi cheste ecezion ae tô version dal codiç, ma no tu "
+"sês obleât a fâlu.  Se no tu desideris fâlu, elimine cheste declarazion di "
+"ecezion de tô version.\n"
 "\n"
 "“Magic of the vinyl” by Sami Pyylampi inmagjin a je in licence di CC-BY-SA "
-"2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
+"2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:110
+#: data/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Publicât"
 
-#: data/AlbumWidget.ui:126
+#: data/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Durade"
 
@@ -490,7 +491,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Torne indaûr"
 
-#: data/NoMusic.ui:35
+#: data/NoMusic.ui:36
 msgid "No music found"
 msgstr "Nissune musiche cjatade"
 
@@ -522,7 +523,7 @@ msgstr "Messede/ripet studâts"
 msgid "Previous"
 msgstr "Precedent"
 
-#: data/PlayerToolbar.ui:104
+#: data/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Prossim"
 
@@ -550,7 +551,7 @@ msgstr "_Cambie non…"
 msgid "Playlist Name"
 msgstr "Non de liste des musichis"
 
-#: data/PlaylistControls.ui:65
+#: data/PlaylistControls.ui:64
 msgid "_Done"
 msgstr "_Fat"
 
