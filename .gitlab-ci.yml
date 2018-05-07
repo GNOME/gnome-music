@@ -1,20 +1,40 @@
-image: fedora:latest
+image: registry.gitlab.gnome.org/gnome/gnome-nightly-oci/nightly:master
 stages:
   - check
-  - build
+  - build-flatpak
 
 variables:
+  BUNDLE: "gnome-music-dev.flatpak"
   DEPENDENCIES: gettext-devel git pygobject3 pygobject3-devel python3-gobject
                 python3-cairo-devel gtk3-devel gobject-introspection-devel
                 tracker-devel libmediaart-devel grilo-devel libsoup-devel
                 gnome-online-accounts-devel meson ninja-build
+  FLATPAK_MODULE: "gnome-music"
+  MANIFEST_PATH: "org.gnome.Music.json"
+  RUNTIME_REPO: "https://sdk.gnome.org/gnome-nightly.flatpakrepo"
 
-.build:
-  stage: build
+flatpak:
+  stage: build-flatpak
   script:
-    - dnf install -y $DEPENDENCIES
-    - meson builddir
-    - ninja -C builddir
+    - flatpak-builder --stop-at=${FLATPAK_MODULE} app ${MANIFEST_PATH}
+    - flatpak build app meson --prefix=/app builddir
+    - flatpak build app ninja -C builddir install
+    - flatpak-builder --finish-only --repo=repo app ${MANIFEST_PATH}
+    - flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} org.gnome.Music
+  artifacts:
+    paths:
+      - ${BUNDLE}
+      - builddir/meson-logs/meson-log.txt
+    expire_in: 2 days
+  cache:
+    paths:
+      - .flatpak-builder/cache
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://gitlab.gnome.org/$CI_PROJECT_PATH/-/jobs/$CI_JOB_ID/artifacts/raw/${BUNDLE}
+
+
+
 
 flake8:
   stage: check
