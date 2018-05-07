@@ -1034,7 +1034,7 @@ class Query():
         query = """
             SELECT DISTINCT
             rdf:type
-            nie:mimeType(?urn) AS mime_type
+            nie:mimeType(?urn) AS ?mime_type
             {
                 ?urn rdf:type nie:InformationElement .
                 FILTER ( tracker:id(?urn) = "%(media_id)s" )
