@@ -61,7 +61,6 @@ class AlbumsView(BaseView):
     def _on_changes_pending(self, data=None):
         if (self._init and not self._header_bar.selection_mode):
             self._offset = 0
-            self._init = True
             GLib.idle_add(self.populate)
             grilo.changes_pending['Albums'] = False
 
@@ -154,6 +153,7 @@ class AlbumsView(BaseView):
                     priority=GLib.PRIORITY_LOW)
 
             self._window.notifications_popup.pop_loading()
+            self._init = False
 
     def _create_album_item(self, item):
         artist = utils.get_artist_name(item)
