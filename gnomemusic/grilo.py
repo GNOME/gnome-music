@@ -137,14 +137,9 @@ class Grilo(GObject.GObject):
             with self.tracker.handler_block(self.notification_handler):
                 for media in changedMedias:
                     media_id = media.get_id()
-                    if changeType == Grl.SourceChangeType.ADDED:
-                        # Check that this media is an audio file
-                        mime_type = self.tracker.query_sync(
-                            Query.is_audio(media_id),
-                            [Grl.METADATA_KEY_MIME],
-                            self.options)[0].get_mime()
-                        if mime_type and mime_type.startswith("audio"):
-                            self.changed_media_ids.append(media_id)
+                    if (changeType == Grl.SourceChangeType.ADDED
+                            and media.is_audio()):
+                        self.changed_media_ids.append(media_id)
                     if changeType == Grl.SourceChangeType.REMOVED:
                         # There is no way to check that removed item is a media
                         # so always do the refresh
