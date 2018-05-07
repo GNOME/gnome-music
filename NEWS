@@ -1,3 +1,16 @@
+Overview of changes in 3.28.2
+=============================
+
+Bugs fixed:
+ Fix notification calls on startupt (!147)
+ artistalbumswidget: Wait for last album to load (#174)
+ grilo: Fix audio check (!159)
+
+Thanks to our contributors this release:
+ Alexander Mikhaylenko
+ Jean Felder
+ Marinus Schraal
+
 Overview of changes in 3.28.1
 =============================
 
