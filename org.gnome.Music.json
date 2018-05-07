@@ -42,6 +42,46 @@
         "*.a"
     ],
     "modules": [
+	{
+	    "name": "pycairo",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=/app"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/pygobject/pycairo.git"
+                }
+            ],
+            "cleanup": [
+                "/include",
+                "/share/pkgconfig"
+            ]
+        },
+        {
+            "name": "pygobject",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 setup.py install --prefix=/app"
+            ],
+            "build-options" : {
+                "env": {
+                    "PYTHON": "/usr/bin/python3"
+                }
+            },
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/pygobject.git"
+                }
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig",
+                "/lib/python3.6/site-packages/gi/*.la"
+            ]
+	},
         {
             "name": "libmediaart",
             "sources": [
