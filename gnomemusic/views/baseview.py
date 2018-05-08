@@ -192,7 +192,6 @@ class BaseView(Gtk.Stack):
 
     @log
     def _populate(self, data=None):
-        self._init = True
         self.populate()
 
     @log
