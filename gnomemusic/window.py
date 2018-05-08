@@ -77,7 +77,7 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(select_none)
 
         self.set_size_request(200, 100)
-        self.set_default_icon_name('gnome-music')
+        self.set_default_icon_name('org.gnome.Music')
 
         self.prev_view = None
         self.curr_view = None
