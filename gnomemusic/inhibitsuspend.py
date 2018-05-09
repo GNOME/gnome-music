@@ -37,7 +37,9 @@ class InhibitSuspend(GObject.GObject):
         self._gtk_application = parent_window.get_application()
         self._player = player
 
-        self._player.connect('playback-status-changed', self._on_playback_status_changed)
+        self._player.connect(
+            'playback-status-changed', self._on_playback_status_changed)
+
         self._inhibit_cookie = 0
 
     def _inhibit_suspend(self):
@@ -53,13 +55,10 @@ class InhibitSuspend(GObject.GObject):
             self._inhibit_cookie = 0
 
     def _on_playback_status_changed(self, arguments):
-       if self._player.get_playback_status() == Playback.PLAYING:
-           self._inhibit_suspend()
+        if self._player.get_playback_status() == Playback.PLAYING:
+            self._inhibit_suspend()
 
-       if ( self._player.get_playback_status() == Playback.PAUSED
+        if ( self._player.get_playback_status() == Playback.PAUSED
                 or ( self._player.get_playback_status() == Playback.STOPPED
                     and not self._player.has_next())):
-           self._uninhibit_suspend()
-
-
-    
+            self._uninhibit_suspend()
