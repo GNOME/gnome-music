@@ -34,11 +34,10 @@ class InhibitSuspend(GObject.GObject):
         self._parent_window = parent_window
         self._gtk_application = parent_window.get_application()
         self._player = player
+        self._inhibit_cookie = 0
 
         self._player.connect(
             'playback-status-changed', self._on_playback_status_changed)
-
-        self._inhibit_cookie = 0
 
     def _inhibit_suspend(self):
         if self._inhibit_cookie == 0:

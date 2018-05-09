@@ -482,14 +482,12 @@ class Player(GObject.GObject):
     @log
     def pause(self):
         """Pause"""
-
         self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
 
     @log
     def stop(self):
         """Stop"""
-
         self._player.state = Playback.STOPPED
         self.emit('playback-status-changed')
 
