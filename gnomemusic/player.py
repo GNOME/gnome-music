@@ -39,6 +39,7 @@ from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
+from gnomemusic.inhibitsuspend import InhibitSuspend
 
 
 logger = logging.getLogger(__name__)
@@ -101,8 +102,6 @@ class Player(GObject.GObject):
         self._shuffle_history = deque(maxlen=10)
         self._new_clock = True
 
-        self._inhibit_cookie = 0
-
         Gst.init(None)
         GstPbutils.pb_utils_init()
 
@@ -123,6 +122,8 @@ class Player(GObject.GObject):
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
+
+        self._inhibit_suspend = InhibitSuspend(parent_window, self)
 
         self._lastfm = LastFmScrobbler()
 
@@ -475,8 +476,6 @@ class Player(GObject.GObject):
 
             self._load(media)
 
-        self._inhibit_suspend()
-
         self._player.state = Playback.PLAYING
         self.emit('playback-status-changed')
 
@@ -484,17 +483,12 @@ class Player(GObject.GObject):
     def pause(self):
         """Pause"""
 
-        self._uninhibit_suspend()
-
         self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
 
     @log
     def stop(self):
         """Stop"""
-
-        if(not self.has_next()):
-            self._uninhibit_suspend()
 
         self._player.state = Playback.STOPPED
         self.emit('playback-status-changed')
@@ -536,25 +530,6 @@ class Player(GObject.GObject):
             self.set_playing(False)
         else:
             self.set_playing(True)
-
-    @log
-    def _inhibit_suspend(self):
-        if(self._inhibit_cookie == 0):
-            application = self._parent_window.get_application()
-            window = self._parent_window
-            flag = Gtk.ApplicationInhibitFlags.SUSPEND
-            self._inhibit_cookie = Gtk.Application.inhibit(application,
-                                                           window,
-                                                           flag,
-                                                           "Music playing")
-
-    @log
-    def _uninhibit_suspend(self):
-        if self._inhibit_cookie > 0:
-            application = self._parent_window.get_application()
-            Gtk.Application.uninhibit(application,
-                                      self._inhibit_cookie)
-            self._inhibit_cookie = 0
 
     @log
     def _create_model(self, model, model_iter):
