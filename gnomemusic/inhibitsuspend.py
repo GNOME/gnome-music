@@ -22,12 +22,9 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-import gi
-gi.require_version('Gst', '1.0')
-gi.require_version('GstAudio', '1.0')
-gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstPbutils
-from gnomemusic.gstplayer import Playback, GstPlayer
+from gi.repository import Gtk, GObject
+from gnomemusic.gstplayer import Playback
+
 
 class InhibitSuspend(GObject.GObject):
 
@@ -47,7 +44,7 @@ class InhibitSuspend(GObject.GObject):
         if self._inhibit_cookie == 0:
             self._inhibit_cookie = Gtk.Application.inhibit(
                 self._gtk_application, self._parent_window,
-                Gtk.ApplicationInhibitFlags.IDLE, _("Playing Music"))
+                Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing Music"))
 
     def _uninhibit_suspend(self):
         if self._inhibit_cookie != 0:
