@@ -56,6 +56,11 @@ class InhibitSuspend(GObject.GObject):
         if self._player.get_playback_status() == Playback.PLAYING:
             self._inhibit_suspend()
 
+        # TODO: The additional check for has_next() is necessary
+        # since after a track is done, the player goes into STOPPED state
+        # before it goes back to PLAYING.
+        # To be simplified when the player's behavior is corrected
+
         if (self._player.get_playback_status() == Playback.PAUSED
                 or (self._player.get_playback_status() == Playback.STOPPED
                     and not self._player.has_next())):

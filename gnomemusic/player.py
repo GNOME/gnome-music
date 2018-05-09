@@ -37,9 +37,9 @@ from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstPbutils
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
+from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
-from gnomemusic.inhibitsuspend import InhibitSuspend
 
 
 logger = logging.getLogger(__name__)
