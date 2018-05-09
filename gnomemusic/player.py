@@ -539,15 +539,18 @@ class Player(GObject.GObject):
     @log
     def _inhibit_suspend(self):
         self._uninhibit_suspend()
-        self._inhibit_cookie = Gtk.Application.inhibit( self._parent_window.get_application(),
-                                                        self._parent_window,
+        application = self._parent_window.get_application()
+        window = self._parent_window
+        self._inhibit_cookie = Gtk.Application.inhibit( application ,
+                                                        window,
                                                         Gtk.ApplicationInhibitFlags.SUSPEND,
                                                         "Music playing")
 
     @log
     def _uninhibit_suspend(self):
         if self._inhibit_cookie > 0:
-            Gtk.Application.uninhibit(self._parent_window.get_application(), self._inhibit_cookie)
+            application = self._parent_window.get_application()
+            Gtk.Application.uninhibit(application, self._inhibit_cookie)
 
     @log
     def _create_model(self, model, model_iter):
