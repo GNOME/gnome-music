@@ -279,9 +279,11 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _switch_to_player_view(self):
         self.settings.set_boolean('did-initial-state', True)
-        self._on_notify_model_id = self._stack.connect('notify::visible-child', self._on_notify_mode)
+        self._on_notify_model_id = self._stack.connect(
+            'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect('key_press_event', self._on_key_press)
+        self._key_press_event_id = self.connect(
+            'key_press_event', self._on_key_press)
 
         self.views[View.ALBUM] = AlbumsView(self, self.player)
         self.views[View.ARTIST] = ArtistsView(self, self.player)
