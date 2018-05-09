@@ -58,7 +58,7 @@ class InhibitSuspend(GObject.GObject):
         if self._player.get_playback_status() == Playback.PLAYING:
             self._inhibit_suspend()
 
-        if ( self._player.get_playback_status() == Playback.PAUSED
+        if (self._player.get_playback_status() == Playback.PAUSED
                 or ( self._player.get_playback_status() == Playback.STOPPED
-                    and not self._player.has_next())):
+                        and not self._player.has_next())):
             self._uninhibit_suspend()
