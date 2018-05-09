@@ -551,7 +551,8 @@ class Player(GObject.GObject):
     def _uninhibit_suspend(self):
         if self._inhibit_cookie > 0:
             application = self._parent_window.get_application()
-            Gtk.Application.uninhibit(application, self._inhibit_cookie)
+            Gtk.Application.uninhibit(application,
+                                      self._inhibit_cookie)
 
     @log
     def _create_model(self, model, model_iter):
