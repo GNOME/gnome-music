@@ -101,6 +101,8 @@ class Player(GObject.GObject):
         self._shuffle_history = deque(maxlen=10)
         self._new_clock = True
 
+        self._inhibit_cookie = 0
+
         Gst.init(None)
         GstPbutils.pb_utils_init()
 
@@ -473,18 +475,26 @@ class Player(GObject.GObject):
 
             self._load(media)
 
+        self._inhibit_suspend()
+
         self._player.state = Playback.PLAYING
         self.emit('playback-status-changed')
 
     @log
     def pause(self):
         """Pause"""
+
+        self._uninhibit_suspend()
+
         self._player.state = Playback.PAUSED
         self.emit('playback-status-changed')
 
     @log
     def stop(self):
         """Stop"""
+
+        self._uninhibit_suspend()
+
         self._player.state = Playback.STOPPED
         self.emit('playback-status-changed')
 
@@ -525,6 +535,19 @@ class Player(GObject.GObject):
             self.set_playing(False)
         else:
             self.set_playing(True)
+
+    @log
+    def _inhibit_suspend(self):
+        self._uninhibit_suspend()
+        self._inhibit_cookie = Gtk.Application.inhibit( self._parent_window.get_application(),
+                                                        self._parent_window,
+                                                        Gtk.ApplicationInhibitFlags.SUSPEND,
+                                                        "Music playing")
+
+    @log
+    def _uninhibit_suspend(self):
+        if self._inhibit_cookie > 0:
+            Gtk.Application.uninhibit(self._parent_window.get_application(), self._inhibit_cookie)
 
     @log
     def _create_model(self, model, model_iter):
