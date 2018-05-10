@@ -75,6 +75,7 @@ class InhibitSuspend(GObject.GObject):
     @log
     def _on_inhibit_suspend_changed(self, settings, value):
         self._inhibit_setting = value
+        self._on_playback_status_changed(None)
 
     @log
     def _on_playback_status_changed(self, arguments):
