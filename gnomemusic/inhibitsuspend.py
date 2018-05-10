@@ -30,6 +30,7 @@ from gnomemusic import log
 
 logger = logging.getLogger(__name__)
 
+
 class InhibitSuspend(GObject.GObject):
 
     """InhibitSuspend object
