@@ -125,7 +125,7 @@ class Player(GObject.GObject):
 
         if self._settings.get_boolean('inhibit-suspend'):
             self._inhibit_suspend = InhibitSuspend(
-                                        parent_window.get_toplevel(), self)
+                                    parent_window.get_toplevel(), self)
 
         self._lastfm = LastFmScrobbler()
 
