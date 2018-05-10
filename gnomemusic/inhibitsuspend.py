@@ -23,7 +23,7 @@
 
 import logging
 from gettext import gettext as _
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk, Gio, GObject
 
 from gnomemusic.gstplayer import Playback
 from gnomemusic import log
@@ -51,12 +51,13 @@ class InhibitSuspend(GObject.GObject):
             'playback-status-changed', self._on_playback_status_changed)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
+        self._inhibit_setting = self._settings.get_boolean('inhibit-suspend')
+        self._settings.connect('changed::inhibit-suspend',
+            self._on_inhibit_suspend_changed)
 
     @log
     def _inhibit_suspend(self):
-        should_inhibit = self._settings.get_boolean('inhibit-suspend')
-
-        if self._inhibit_cookie == 0 and should_inhibit:
+        if self._inhibit_cookie == 0 and self._inhibit_setting:
             self._inhibit_cookie = Gtk.Application.inhibit(
                 self._gtk_application, self._root_window,
                 Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing Music"))
@@ -71,6 +72,11 @@ class InhibitSuspend(GObject.GObject):
                 self._gtk_application, self._inhibit_cookie)
             self._inhibit_cookie = 0
 
+    @log
+    def _on_inhibit_suspend_changed(self, settings, value):
+        self._inhibit_setting = value
+
+    @log
     def _on_playback_status_changed(self, arguments):
         if self._player.get_playback_status() == Playback.PLAYING:
             self._inhibit_suspend()
