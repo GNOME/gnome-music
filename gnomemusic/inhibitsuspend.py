@@ -40,11 +40,11 @@ class InhibitSuspend(GObject.GObject):
     """
 
     @log
-    def __init__(self, parent_window, player):
+    def __init__(self, root_window, player):
         super().__init__()
 
-        self._parent_window = parent_window
-        self._gtk_application = parent_window.get_application()
+        self._root_window = root_window
+        self._gtk_application = root_window.get_application()
         self._player = player
         self._inhibit_cookie = 0
 
@@ -55,7 +55,7 @@ class InhibitSuspend(GObject.GObject):
     def _inhibit_suspend(self):
         if self._inhibit_cookie == 0:
             self._inhibit_cookie = Gtk.Application.inhibit(
-                self._gtk_application, self._parent_window,
+                self._gtk_application, self._root_window,
                 Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing Music"))
 
             if(self._inhibit_cookie == 0):
