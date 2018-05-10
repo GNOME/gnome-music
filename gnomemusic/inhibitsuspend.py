@@ -21,13 +21,24 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
 from gettext import gettext as _
 from gi.repository import Gtk, GObject
-from gnomemusic.gstplayer import Playback
 
+from gnomemusic.gstplayer import Playback
+from gnomemusic import log
+
+logger = logging.getLogger(__name__)
 
 class InhibitSuspend(GObject.GObject):
 
+    """InhibitSuspend object
+
+    Contains the logic to postpone automatic system suspend
+    until the application has played all the songs in the playlist.
+    """
+
+    @log
     def __init__(self, parent_window, player):
         super().__init__()
 
@@ -39,12 +50,17 @@ class InhibitSuspend(GObject.GObject):
         self._player.connect(
             'playback-status-changed', self._on_playback_status_changed)
 
+    @log
     def _inhibit_suspend(self):
         if self._inhibit_cookie == 0:
             self._inhibit_cookie = Gtk.Application.inhibit(
                 self._gtk_application, self._parent_window,
                 Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing Music"))
 
+            if(self._inhibit_cookie == 0):
+                logger.warning("Unable to inhibit automatic system suspend")
+
+    @log
     def _uninhibit_suspend(self):
         if self._inhibit_cookie != 0:
             Gtk.Application.uninhibit(
