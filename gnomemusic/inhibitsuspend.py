@@ -32,7 +32,6 @@ logger = logging.getLogger(__name__)
 
 
 class InhibitSuspend(GObject.GObject):
-
     """InhibitSuspend object
 
     Contains the logic to postpone automatic system suspend
@@ -51,9 +50,13 @@ class InhibitSuspend(GObject.GObject):
         self._player.connect(
             'playback-status-changed', self._on_playback_status_changed)
 
+        self._settings = Gio.Settings.new('org.gnome.Music')
+
     @log
     def _inhibit_suspend(self):
-        if self._inhibit_cookie == 0:
+        should_inhibit = self._settings.get_boolean('inhibit-suspend')
+
+        if self._inhibit_cookie == 0 and should_inhibit:
             self._inhibit_cookie = Gtk.Application.inhibit(
                 self._gtk_application, self._root_window,
                 Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing Music"))

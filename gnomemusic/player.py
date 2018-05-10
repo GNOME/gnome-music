@@ -123,9 +123,8 @@ class Player(GObject.GObject):
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
 
-        if self._settings.get_boolean('inhibit-suspend'):
-            root_window = parent_window.get_toplevel()
-            self._inhibit_suspend = InhibitSuspend(root_window, self)
+        root_window = parent_window.get_toplevel()
+        self._inhibit_suspend = InhibitSuspend(root_window, self)
 
         self._lastfm = LastFmScrobbler()
 
