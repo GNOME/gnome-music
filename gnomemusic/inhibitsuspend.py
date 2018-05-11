@@ -55,8 +55,6 @@ class InhibitSuspend(GObject.GObject):
         self._settings.connect(
             'changed::inhibit-suspend', self._on_inhibit_suspend_changed)
 
-        self._inhibit_setting = True
-
     def __repr__(self):
         return '<InhibitSuspend>'
 
