@@ -41,7 +41,7 @@
         <key type="b" name="inhibit-suspend">
             <default>false</default>
             <summary>Inhibit system suspend</summary>
-            <description>Enables to inhibit system suspend while playing music</description>
+            <description>Enable or Disable inhibit system suspend while playing music</description>
         </key>
     </schema>
 </schemalist>

@@ -43,7 +43,7 @@ class InhibitSuspend(GObject.GObject):
         super().__init__()
 
         self._root_window = root_window
-        self._gtk_application = root_window.get_application()
+        self._application = root_window.get_application()
         self._player = player
         self._inhibit_cookie = 0
 
@@ -52,15 +52,18 @@ class InhibitSuspend(GObject.GObject):
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._inhibit_setting = self._settings.get_boolean('inhibit-suspend')
-        self._settings.connect('changed::inhibit-suspend',
-            self._on_inhibit_suspend_changed)
+        self._settings.connect(
+            'changed::inhibit-suspend', self._on_inhibit_suspend_changed)
+
+    def __repr__(self):
+        return '<InhibitSuspend>'
 
     @log
     def _inhibit_suspend(self):
         if self._inhibit_cookie == 0 and self._inhibit_setting:
             self._inhibit_cookie = Gtk.Application.inhibit(
-                self._gtk_application, self._root_window,
-                Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing Music"))
+                self._application, self._root_window,
+                Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing music"))
 
             if(self._inhibit_cookie == 0):
                 logger.warning("Unable to inhibit automatic system suspend")
@@ -68,8 +71,7 @@ class InhibitSuspend(GObject.GObject):
     @log
     def _uninhibit_suspend(self):
         if self._inhibit_cookie != 0:
-            Gtk.Application.uninhibit(
-                self._gtk_application, self._inhibit_cookie)
+            Gtk.Application.uninhibit(self._application, self._inhibit_cookie)
             self._inhibit_cookie = 0
 
     @log
@@ -83,9 +85,9 @@ class InhibitSuspend(GObject.GObject):
             self._inhibit_suspend()
 
         # TODO: The additional check for has_next() is necessary
-        # since after a track is done, the player goes into STOPPED state
-        # before it goes back to PLAYING.
-        # To be simplified when the player's behavior is corrected
+        # since after a track is done, the player
+        # goes into STOPPED state before it goes back to PLAYING.
+        # To be simplified when the player's behavior is corrected.
 
         if (self._player.get_playback_status() == Playback.PAUSED
                 or (self._player.get_playback_status() == Playback.STOPPED
