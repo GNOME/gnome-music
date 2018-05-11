@@ -63,7 +63,8 @@ class InhibitSuspend(GObject.GObject):
     @log
     def _inhibit_suspend(self):
         if self._inhibit_cookie == 0 and self._inhibit_setting:
-            self._inhibit_cookie = self._application.inhibit(self._root_window,
+            self._inhibit_cookie = self._application.inhibit(
+                self._root_window,
                 Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing music"))
 
             if(self._inhibit_cookie == 0):
