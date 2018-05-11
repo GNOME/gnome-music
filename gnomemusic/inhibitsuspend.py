@@ -55,14 +55,15 @@ class InhibitSuspend(GObject.GObject):
         self._settings.connect(
             'changed::inhibit-suspend', self._on_inhibit_suspend_changed)
 
+        self._inhibit_setting = True
+
     def __repr__(self):
         return '<InhibitSuspend>'
 
     @log
     def _inhibit_suspend(self):
         if self._inhibit_cookie == 0 and self._inhibit_setting:
-            self._inhibit_cookie = Gtk.Application.inhibit(
-                self._application, self._root_window,
+            self._inhibit_cookie = self._application.inhibit(self._root_window,
                 Gtk.ApplicationInhibitFlags.SUSPEND, _("Playing music"))
 
             if(self._inhibit_cookie == 0):
@@ -71,7 +72,7 @@ class InhibitSuspend(GObject.GObject):
     @log
     def _uninhibit_suspend(self):
         if self._inhibit_cookie != 0:
-            Gtk.Application.uninhibit(self._application, self._inhibit_cookie)
+            self._application.uninhibit(self._inhibit_cookie)
             self._inhibit_cookie = 0
 
     @log
