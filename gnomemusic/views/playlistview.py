@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _, ngettext
-from gi.repository import Gio, GLib, GObject, Gtk, Pango
+from gi.repository import Gio, GLib, GObject, Gtk, Gdk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -76,6 +76,7 @@ class PlaylistView(BaseView):
         self._name_label = builder.get_object('playlist_name')
         self._rename_entry = builder.get_object('playlist_rename_entry')
         self._rename_entry.connect('changed', self._on_rename_entry_changed)
+        self._rename_entry.connect('key-press-event', self._on_key_press)
         self._rename_done_button = builder.get_object(
             'playlist_rename_done_button')
         self._songs_count_label = builder.get_object('songs_count')
@@ -743,6 +744,11 @@ class PlaylistView(BaseView):
     @log
     def _on_rename_entry_changed(self, selection):
         self._rename_done_button.set_sensitive(selection.get_text_length() > 0)
+
+    @log
+    def _on_key_press(self, widget, event):
+        if Gdk.keyval_name(event.keyval) == 'Escape':
+            self.disable_rename_playlist()
 
     @log
     def disable_rename_playlist(self):
