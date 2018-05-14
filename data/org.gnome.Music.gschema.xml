@@ -38,5 +38,10 @@
             <summary>Inital state has been displayed</summary>
             <description>Set to true when initial state has been displayed</description>
         </key>
+        <key type="b" name="inhibit-suspend">
+            <default>false</default>
+            <summary>Inhibit system suspend</summary>
+            <description>Enable or Disable inhibit system suspend while playing music</description>
+        </key>
     </schema>
 </schemalist>
