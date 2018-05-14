@@ -37,6 +37,7 @@ from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstPbutils
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
+from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 
@@ -121,6 +122,9 @@ class Player(GObject.GObject):
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
         self._player.connect('notify::state', self._on_state_change)
+
+        root_window = parent_window.get_toplevel()
+        self._inhibit_suspend = InhibitSuspend(root_window, self)
 
         self._lastfm = LastFmScrobbler()
 
