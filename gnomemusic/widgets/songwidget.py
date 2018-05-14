@@ -24,7 +24,7 @@
 
 from enum import IntEnum
 
-from gi.repository import Gdk, GObject, Gtk, Dazzle
+from gi.repository import Gdk, GObject, Gtk
 from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import log
