@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-08 11:33+0000\n"
-"PO-Revision-Date: 2018-05-13 15:10+0300\n"
+"POT-Creation-Date: 2018-04-18 18:44+0000\n"
+"PO-Revision-Date: 2018-04-27 00:33+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
 "com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -35,7 +35,7 @@ msgstr "Muzică este noua aplicație GNOME pentru redare de muzică."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
 #: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Muzică"
 
@@ -136,6 +136,15 @@ msgstr[0] "{} este necesar pentru a reda fișierul, dar nu este instalat."
 msgstr[1] "{} sunt necesare pentru a reda fișierul, dar nu sunt instalate."
 msgstr[2] "{} sunt necesare pentru a reda fișierul, dar nu sunt instalate."
 
+#: gnomemusic/player.py:392
+msgid "Pause"
+msgstr "Pauză"
+
+#: gnomemusic/player.py:395 data/PlayerToolbar.ui:87
+#: data/PlaylistContextMenu.ui:5
+msgid "Play"
+msgstr "Redă"
+
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
 msgid "Most Played"
@@ -161,35 +170,35 @@ msgstr "Adăugate recent"
 msgid "Favorite Songs"
 msgstr "Melodii favorite"
 
-#: gnomemusic/searchbar.py:66 gnomemusic/searchbar.py:116
+#: gnomemusic/searchbar.py:64 gnomemusic/searchbar.py:114
 msgid "All"
 msgstr "Toate"
 
-#: gnomemusic/searchbar.py:67
+#: gnomemusic/searchbar.py:65
 msgid "Artist"
 msgstr "Artist"
 
-#: gnomemusic/searchbar.py:68
+#: gnomemusic/searchbar.py:66
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:167
+#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
 msgid "Composer"
 msgstr "Compozitor"
 
-#: gnomemusic/searchbar.py:70
+#: gnomemusic/searchbar.py:68
 msgid "Track Title"
 msgstr "Titlul piesei"
 
-#: gnomemusic/searchbar.py:117
+#: gnomemusic/searchbar.py:115
 msgid "Local"
 msgstr "Local"
 
-#: gnomemusic/searchbar.py:260
+#: gnomemusic/searchbar.py:258
 msgid "Sources"
 msgstr "Surse"
 
-#: gnomemusic/searchbar.py:268
+#: gnomemusic/searchbar.py:266
 msgid "Match"
 msgstr "Potrivire"
 
@@ -201,24 +210,24 @@ msgstr "Artist necunoscut"
 msgid "Untitled"
 msgstr "Fără titlu"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:510
 msgid "Albums"
 msgstr "Albume"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:512
 msgid "Artists"
 msgstr "Artiști"
 
-#: gnomemusic/views/baseview.py:186
+#: gnomemusic/views/baseview.py:187
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Selectat {} element"
 msgstr[1] "Selectat {} elemente"
 msgstr[2] "Selectat {} de elemente"
 
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
-#: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
+#: gnomemusic/views/baseview.py:192 gnomemusic/views/baseview.py:259
+#: gnomemusic/widgets/albumwidget.py:191
+#: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Clic pe obiecte pentru a le selecta"
 
@@ -234,11 +243,11 @@ msgstr "Dosar de muzică"
 msgid "Hey DJ"
 msgstr "Salut DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:516
 msgid "Playlists"
 msgstr "Liste de redare"
 
-#: gnomemusic/views/playlistview.py:606
+#: gnomemusic/views/playlistview.py:612
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -246,27 +255,27 @@ msgstr[0] "%d melodie"
 msgstr[1] "%d melodii"
 msgstr[2] "%d de melodii"
 
-#: gnomemusic/views/playlistview.py:649
+#: gnomemusic/views/playlistview.py:655
 msgid "Playlist {} removed"
 msgstr "Listă de redare {} eliminată"
 
-#: gnomemusic/views/playlistview.py:655
+#: gnomemusic/views/playlistview.py:661
 msgid "{} removed from {}"
 msgstr "{} eliminat de la {}"
 
-#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:514 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Melodii"
 
-#: gnomemusic/widgets/albumwidget.py:180
+#: gnomemusic/widgets/albumwidget.py:178
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minute"
 msgstr[2] "{} de minute"
 
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:212
+#: gnomemusic/widgets/albumwidget.py:187
+#: gnomemusic/widgets/artistalbumswidget.py:224
 #, python-format
 msgid "Selected %d item"
 msgid_plural "Selected %d items"
@@ -274,7 +283,7 @@ msgstr[0] "Selectat %d element"
 msgstr[1] "Selectat %d elemente"
 msgstr[2] "Selectat %d de elemente"
 
-#: gnomemusic/widgets/disclistboxwidget.py:147
+#: gnomemusic/widgets/disclistboxwidget.py:192
 msgid "Disc {}"
 msgstr "Disc {}"
 
@@ -286,16 +295,7 @@ msgstr "Se încarcă"
 msgid "_Undo"
 msgstr "An_ulează"
 
-#: gnomemusic/widgets/playertoolbar.py:137
-msgid "Pause"
-msgstr "Pauză"
-
-#: gnomemusic/widgets/playertoolbar.py:140 data/PlayerToolbar.ui:88
-#: data/PlaylistContextMenu.ui:5
-msgid "Play"
-msgstr "Redă"
-
-#: gnomemusic/window.py:275
+#: gnomemusic/window.py:272
 msgid "Empty"
 msgstr "Gol"
 
@@ -336,7 +336,7 @@ msgid ""
 "statement from your version.\n"
 "\n"
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
+"https://www.flickr.com/photos/_spy_/12270839403\n"
 msgstr ""
 "Muzică GNOME este un software liber; îl puteți redistribui și/sau modifica "
 "în conformitate cu termenii Licenței Publice Generale GNU așa cum este "
@@ -345,14 +345,14 @@ msgstr ""
 "\n"
 "Muzică GNOME este distribuit cu speranța că va fi util, dar FĂRĂ NICIO "
 "GARANȚIE, fără nici măcar a garanției implicite de VANDABILITATE sau "
-"CONFORMITATE UNUI ANUMIT SCOP.  Citiți Licența Publică Generală GNU pentru "
-"mai multe detalii.\n"
+"conformitate unui anumit scop. Citiți Licența Publică Generală\n"
+"GNU pentru mai multe detalii.\n"
 "\n"
 "Ar trebui să fi primit o copie a Licenței Publice Generale GNU împreună cu "
-"Muzică GNOME; dacă nu, scrieți la Free Software Foundation, Inc., 51 "
-"Franklin St., Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"acest program; dacă nu, scrieți la Free Software Foundation, Inc., 51 "
+"Franklin St., Fifth Floor, Boston, MA 02110-1301 USA\n"
 "\n"
-"Autorii Muzică GNOME vă oferă permisiunea de a folosi module non-GPL "
+"Autorii GNOME Music vă oferă permisiunea de a folosi pluginuri non-GPL "
 "compatibile cu GStreamer și de a le distribui împreună cu GStreamer și "
 "Muzică GNOME.  Această permisiune depășește termenii licenței GPL sub care "
 "Muzică GNOME este pus la dispoziția publicului.  Dacă modificați acest cod, "
@@ -361,13 +361,13 @@ msgstr ""
 "ștergeți această declarație din versiunea dumneavoastră.\n"
 "\n"
 "Imaginea „Magic of the vinyl” de Sami Pyylampi este licențiată sub CC-BY-SA "
-"2.0 https://www.flickr.com/photos/_spy_/12270839403"
+"2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: data/AlbumWidget.ui:106
+#: data/AlbumWidget.ui:110
 msgid "Released"
 msgstr "Lansat"
 
-#: data/AlbumWidget.ui:122
+#: data/AlbumWidget.ui:126
 msgid "Running Length"
 msgstr "Lungimea piesei"
 
@@ -496,7 +496,7 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Înapoi"
 
-#: data/NoMusic.ui:36
+#: data/NoMusic.ui:35
 msgid "No music found"
 msgstr "Nu s-a găsit muzică"
 
@@ -527,7 +527,7 @@ msgstr "Amestecare/Repetare oprită"
 msgid "Previous"
 msgstr "Precedenta"
 
-#: data/PlayerToolbar.ui:106
+#: data/PlayerToolbar.ui:104
 msgid "Next"
 msgstr "Următoarea"
 
@@ -555,7 +555,7 @@ msgstr "_Redenumește…"
 msgid "Playlist Name"
 msgstr "Numele listei de redare"
 
-#: data/PlaylistControls.ui:64
+#: data/PlaylistControls.ui:65
 msgid "_Done"
 msgstr "_Gata"
 
