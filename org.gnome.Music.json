@@ -1,20 +1,25 @@
 {
-    "app-id": "org.gnome.Music",
-    "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
-    "sdk": "org.gnome.Sdk",
-    "command": "gnome-music",
-    "tags": ["nightly"],
-    "desktop-file-name-prefix": "(Nightly) ",
-    "finish-args": [
-        "--share=ipc", "--socket=x11",
+    "app-id" : "org.gnome.Music",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "master",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "gnome-music",
+    "tags" : [
+        "nightly"
+    ],
+    "desktop-file-name-prefix" : "(Nightly) ",
+    "finish-args" : [
+        "--share=ipc",
+        "--socket=x11",
         "--share=network",
         "--socket=wayland",
         "--talk-name=org.freedesktop.Tracker1",
         "--env=TRACKER_SPARQL_BACKEND=bus",
         "--talk-name=org.gnome.OnlineAccounts",
-        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
-        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=com.intel.dleyna-server",
@@ -23,13 +28,13 @@
         "--filesystem=xdg-cache/media-art"
     ],
     "build-options" : {
-        "cflags": "-O2 -g",
-        "cxxflags": "-O2 -g",
-        "env": {
-            "V": "1"
+        "cflags" : "-O2 -g",
+        "cxxflags" : "-O2 -g",
+        "env" : {
+            "V" : "1"
         }
     },
-    "cleanup": [
+    "cleanup" : [
         "/include",
         "/lib/pkgconfig",
         "/share/pkgconfig",
@@ -41,74 +46,119 @@
         "*.la",
         "*.a"
     ],
-    "modules": [
+    "modules" : [
         {
-            "name": "libmediaart",
-            "sources": [
+            "name" : "libmediaart",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://git.gnome.org/browse/libmediaart"
+                    "type" : "git",
+                    "url" : "https://git.gnome.org/browse/libmediaart"
                 }
             ]
         },
         {
-            "name": "tracker",
-            "cleanup": [ "/bin", "/etc", "/libexec" ],
-            "config-opts": [ "--disable-miner-apps", "--disable-static",
-                             "--disable-tracker-extract", "--disable-tracker-needle",
-                             "--disable-tracker-preferences", "--disable-artwork",
-                             "--disable-tracker-writeback", "--disable-miner-user-guides",
-                             "--with-bash-completion-dir=no" ],
-            "sources": [
+            "name" : "libdazzle",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://git.gnome.org/browse/tracker"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/libdazzle"
                 }
             ]
         },
         {
-            "name": "gnome-online-accounts",
-            "config-opts": [ "--enable-introspection",
-                             "--disable-telepathy",
-                             "--disable-documentation",
-                             "--disable-backend",
-                             "--disable-Werror" ],
-            "sources": [
+            "name" : "tracker",
+            "cleanup" : [
+                "/bin",
+                "/etc",
+                "/libexec"
+            ],
+            "config-opts" : [
+                "--disable-miner-apps",
+                "--disable-static",
+                "--disable-tracker-extract",
+                "--disable-tracker-needle",
+                "--disable-tracker-preferences",
+                "--disable-artwork",
+                "--disable-tracker-writeback",
+                "--disable-miner-user-guides",
+                "--with-bash-completion-dir=no"
+            ],
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://git.gnome.org/browse/gnome-online-accounts"
+                    "type" : "git",
+                    "url" : "https://git.gnome.org/browse/tracker"
                 }
             ]
         },
         {
-            "name": "grilo",
-            "config-opts": [ "--disable-static" ],
-            "sources": [
+            "name" : "gnome-online-accounts",
+            "config-opts" : [
+                "--enable-introspection",
+                "--disable-telepathy",
+                "--disable-documentation",
+                "--disable-backend",
+                "--disable-Werror"
+            ],
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://git.gnome.org/browse/grilo"
+                    "type" : "git",
+                    "url" : "https://git.gnome.org/browse/gnome-online-accounts"
+                }
+            ]
+        },
+        {
+            "name" : "grilo",
+            "config-opts" : [
+                "--disable-static"
+            ],
+            "sources" : [
+                {
+                    "type" : "git",
+                    "url" : "https://git.gnome.org/browse/grilo"
                 }
             ],
-            "cleanup": [ "/include", "/bin" ]
+            "cleanup" : [
+                "/include",
+                "/bin"
+            ]
         },
         {
-            "name": "grilo-plugins",
-            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no" ],
-            "sources": [
+            "name" : "grilo-plugins",
+            "config-opts" : [
+                "--enable-tracker",
+                "--enable-dleyna",
+                "--enable-goa",
+                "--enable-filesystem=no",
+                "--enable-optical-media=no",
+                "--enable-youtube=no",
+                "--enable-bookmarks=no",
+                "--enable-lua-factory=no",
+                "--enable-metadata-store=no",
+                "--enable-vimeo=no",
+                "--enable-localmetadata=no",
+                "--enable-thetvdb=no",
+                "--enable-tmdb=no",
+                "--enable-freebox=no",
+                "--enable-opensubtitles=no"
+            ],
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://git.gnome.org/browse/grilo-plugins"
+                    "type" : "git",
+                    "url" : "https://git.gnome.org/browse/grilo-plugins"
                 }
             ],
-            "cleanup": [ "/include" ]
+            "cleanup" : [
+                "/include"
+            ]
         },
         {
-            "name": "gnome-music",
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "gnome-music",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/gnome-music.git"
                 }
             ]
         }
