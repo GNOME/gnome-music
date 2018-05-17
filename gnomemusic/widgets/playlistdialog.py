@@ -187,10 +187,10 @@ class PlaylistDialog():
     def _on_playlist_created(self, playlists, item):
         new_iter = self._add_item_to_model(item)
         if new_iter and self._view.get_columns():
-            self._view.set_cursor(self._model.get_path(new_iter),
-                                  self._view.get_columns()[0], False)
-            self._view.row_activated(self._model.get_path(new_iter),
-                                     self._view.get_columns()[0])
+            col0 = self._view.get_columns()[0]
+            path = self._model.get_path(new_iter)
+            self._view.set_cursor(path, col0, False)
+            self._view.row_activated(path, col0)
             self._dialog_box.response(Gtk.ResponseType.ACCEPT)
 
     @log
