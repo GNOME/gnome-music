@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-04 09:54+0000\n"
-"PO-Revision-Date: 2018-05-04 14:28+0200\n"
+"POT-Creation-Date: 2018-05-17 07:44+0000\n"
+"PO-Revision-Date: 2018-05-17 10:47+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -35,7 +35,7 @@ msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
 #: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Hudba"
 
@@ -203,11 +203,11 @@ msgstr "Neznámý umělec"
 msgid "Untitled"
 msgstr "Bez názvu"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:507
 msgid "Albums"
 msgstr "Alba"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:509
 msgid "Artists"
 msgstr "Umělci"
 
@@ -218,25 +218,35 @@ msgstr[0] "Vybrána {} položka"
 msgstr[1] "Vybrány {} položky"
 msgstr[2] "Vybráno {} položek"
 
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:258
+#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
 #: gnomemusic/widgets/albumwidget.py:193
 #: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Klikáním vyberte položky"
 
-#: gnomemusic/views/emptysearchview.py:53
-msgid "Try a different search"
-msgstr "Zkuste hledat nějak jinak"
-
-#: gnomemusic/views/emptyview.py:51
+#: gnomemusic/views/emptyview.py:66
 msgid "Music folder"
 msgstr "Složka s hudbou"
 
-#: gnomemusic/views/initialstateview.py:50
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:70
+msgid "The contents of your {} will appear here."
+msgstr "Zde se objeví, co obsahuje vaše {}."
+
+#: gnomemusic/views/emptyview.py:104
 msgid "Hey DJ"
 msgstr "Hej, DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
+#: gnomemusic/views/emptyview.py:114 gnomemusic/views/emptyview.py:120
+msgid "No music found"
+msgstr "Nenalezena žádná hudba"
+
+#: gnomemusic/views/emptyview.py:122
+msgid "Try a different search"
+msgstr "Zkuste hledat nějak jinak"
+
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:513
 msgid "Playlists"
 msgstr "Seznamy k přehrání"
 
@@ -256,7 +266,7 @@ msgstr "Seznam k přehrání {} byl odstraněn"
 msgid "{} removed from {}"
 msgstr "Skladba {} byla odebrána ze seznamu {}"
 
-#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:511 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Skladby"
 
@@ -296,10 +306,6 @@ msgstr "Pozastavit"
 #: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Přehrát"
-
-#: gnomemusic/window.py:275
-msgid "Empty"
-msgstr "Prázdné"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -497,16 +503,6 @@ msgstr "Přejít na seznamy k přehrání"
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Přejít zpět"
-
-#: data/NoMusic.ui:36
-msgid "No music found"
-msgstr "Nenalezena žádná hudba"
-
-#. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
-#, python-format
-msgid "The contents of your %s will appear here."
-msgstr "Zde se objeví, co obsahuje vaše %s."
 
 #: data/PlayerToolbar.ui:6
 msgid "Shuffle"
