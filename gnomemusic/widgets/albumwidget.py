@@ -28,6 +28,7 @@ from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
@@ -193,7 +194,8 @@ class AlbumWidget(Gtk.EventBox):
 
         self._player.stop()
         self._player.set_playlist(
-            'Album', self._album, song_widget.model, song_widget.itr)
+            PlayerPlaylist.Type.ALBUM, self._album, song_widget.model,
+            song_widget.itr)
         self._player.play()
         return True
 
@@ -232,29 +234,24 @@ class AlbumWidget(Gtk.EventBox):
             self.show_all()
 
     @log
-    def _update_model(self, player, playlist, current_iter):
-        """Player changed callback.
+    def _update_model(self, player, position):
+        """Updates model when the song changes
 
-        :param player: The player object
-        :param playlist: The current playlist
-        :param current_iter: The current iter of the playlist model
+        :param Player player: The main player object
+        :param int position: current song position
         """
-        if not player.playing_playlist('Album', self._album):
+        if not player.playing_playlist(PlayerPlaylist.Type.ALBUM, self._album):
             return True
 
-        current_song = playlist[current_iter][player.Field.SONG]
-
+        current_song = player.props.current_song
         self._duration = 0
-
         song_passed = False
-        _iter = playlist.get_iter_first()
 
-        while _iter:
-            song = playlist[_iter][player.Field.SONG]
+        for song in self._songs:
             song_widget = song.song_widget
             self._duration += song.get_duration()
 
-            if (song == current_song):
+            if (song.get_id() == current_song.get_id()):
                 song_widget.props.state = SongWidget.State.PLAYING
                 song_passed = True
             elif (song_passed):
@@ -262,8 +259,6 @@ class AlbumWidget(Gtk.EventBox):
                 song_widget.props.state = SongWidget.State.UNPLAYED
             else:
                 song_widget.props.state = SongWidget.State.PLAYED
-
-            _iter = playlist.iter_next(_iter)
 
         self._set_duration_label()
 

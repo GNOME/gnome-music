@@ -28,6 +28,7 @@ from gi.repository import Gd, GLib, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
@@ -131,7 +132,8 @@ class ArtistsView(BaseView):
 
         if widget:
             artist_stack = self._artist_albums_stack
-            if self.player.playing_playlist('Artist', widget.artist):
+            if self.player.playing_playlist(
+                    PlayerPlaylist.Type.ARTIST, widget.artist):
                 self._artist_albums_widget = widget.get_parent()
                 GLib.idle_add(self._artist_albums_stack.set_visible_child,
                               self._artist_albums_widget)

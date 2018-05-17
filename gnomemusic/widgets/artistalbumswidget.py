@@ -27,6 +27,7 @@ import logging
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
 from gnomemusic.widgets.songwidget import SongWidget
 
@@ -145,20 +146,26 @@ class ArtistAlbumsWidget(Gtk.Box):
             widget.connect('songs-loaded', self._on_last_album_displayed)
 
     @log
-    def _update_model(self, player, playlist, current_iter):
-        if not player.playing_playlist('Artist', self._artist):
+    def _update_model(self, player, position):
+        """Updates model when the song changes
+
+        :param Player player: The main player object
+        :param int position: current song position
+        """
+        if not player.playing_playlist(
+                PlayerPlaylist.Type.ARTIST, self._artist):
             self._clean_model()
             return False
 
-        current_song = playlist[current_iter][player.Field.SONG]
+        current_song = player.props.current_song
         song_passed = False
-        itr = playlist.get_iter_first()
+        itr = self._model.get_iter_first()
 
         while itr:
-            song = playlist[itr][player.Field.SONG]
+            song = self._model[itr][5]
             song_widget = song.song_widget
 
-            if (song == current_song):
+            if (song.get_id() == current_song.get_id()):
                 song_widget.props.state = SongWidget.State.PLAYING
                 song_passed = True
             elif (song_passed):
@@ -167,7 +174,7 @@ class ArtistAlbumsWidget(Gtk.Box):
             else:
                 song_widget.props.state = SongWidget.State.PLAYED
 
-            itr = playlist.iter_next(itr)
+            itr = self._model.iter_next(itr)
 
         return False
 
