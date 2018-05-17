@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <object class="GtkDialog" id="dialog">
+  <template class="PlaylistDialog" parent="GtkDialog">
     <property name="width_request">400</property>
     <property name="height_request">500</property>
     <property name="can_focus">False</property>
@@ -24,14 +24,14 @@
           </packing>
         </child>
         <child>
-          <object class="GtkStack" id="add_playlist_stack">
+          <object class="GtkStack" id="_add_playlist_stack">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="hexpand">True</property>
             <property name="vexpand">True</property>
             <property name="transition_duration">250</property>
             <child>
-              <object class="GtkBox" id="empty_state">
+              <object class="GtkBox" id="_empty_state">
                 <property name="visible">False</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -74,7 +74,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="first-playlist-entry">
+                      <object class="GtkEntry" id="_first_playlist_entry">
                         <property name="width_request">300</property>
                         <property name="height_request">10</property>
                         <property name="visible">True</property>
@@ -90,7 +90,7 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkButton" id="create-first-playlist-button">
+                      <object class="GtkButton" id="_first_playlist_button">
                         <property name="label" translatable="yes">C_reate</property>
                         <property name="use_underline">True</property>
                         <property name="width_request">120</property>
@@ -131,7 +131,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox" id="normal_state">
+              <object class="GtkBox" id="_normal_state">
                 <property name="visible">False</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -157,7 +157,7 @@
                         <property name="can_focus">False</property>
                         <property name="border_width">6</property>
                         <child>
-                          <object class="GtkEntry" id="new-playlist-entry">
+                          <object class="GtkEntry" id="_new_playlist_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hexpand">True</property>
@@ -173,7 +173,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="new-playlist-button">
+                          <object class="GtkButton" id="_new_playlist_button">
                             <property name="label" translatable="yes">Add</property>
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
@@ -214,15 +214,18 @@
                     <property name="can_focus">True</property>
                     <property name="vexpand">True</property>
                     <child>
-                      <object class="GtkTreeView" id="treeview">
+                      <object class="GtkTreeView" id="_view">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">liststore</property>
+                        <property name="model">_model</property>
                         <property name="headers_visible">False</property>
                         <property name="search_column">0</property>
                         <property name="activate_on_single_click">True</property>
+			<signal name="row-activated" handler="_on_item_activated" swapped="no"/>
                         <child internal-child="selection">
-                          <object class="GtkTreeSelection" id="treeview-selection"/>
+                          <object class="GtkTreeSelection" id="_selection">
+			    <signal name="changed" handler="_on_selection_changed" swapped="no"/>
+			  </object>
                         </child>
                         <style>
                           <class name="list-row"/>
@@ -261,30 +264,33 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkHeaderBar" id="headerbar">
+  </template>
+  <object class="GtkHeaderBar" id="_title_bar">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Add to Playlist</property>
     <child>
-      <object class="GtkButton" id="cancel-button">
+      <object class="GtkButton" id="_cancel_button">
         <property name="label" translatable="yes">_Cancel</property>
         <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">False</property>
+	<signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
         <style>
           <class name="text-button"/>
         </style>
       </object>
     </child>
     <child>
-      <object class="GtkButton" id="select-button">
+      <object class="GtkButton" id="_select_button">
         <property name="label" translatable="yes">_Add</property>
+	<property name="sensitive">False</property>
         <property name="use_underline">True</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="receives_default">False</property>
+	<signal name="clicked" handler="_on_selection" swapped="no"/>
         <style>
           <class name="suggested-action"/>
           <class name="text-button"/>
@@ -296,7 +302,7 @@
       </packing>
     </child>
   </object>
-  <object class="GtkListStore" id="liststore">
+  <object class="GtkListStore" id="_model">
     <columns>
       <!-- column-name playlist-name -->
       <column type="gchararray"/>
