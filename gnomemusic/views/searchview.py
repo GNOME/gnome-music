@@ -28,7 +28,7 @@ from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic import log
-from gnomemusic.player import DiscoveryStatus
+from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.utils import View
@@ -157,11 +157,11 @@ class SearchView(BaseView):
             self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.reveal(False)
         elif self.model[_iter][12] == 'song':
-            if self.model[_iter][11] != DiscoveryStatus.FAILED:
+            if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist(
-                    'Search Results', None, self._songs_model, c_iter)
-                self.player.play()
+                    PlayerPlaylist.Type.SEARCH_RESULT, None, self._songs_model,
+                    c_iter)
         else:  # Headers
             if self._view.row_expanded(path):
                 self._view.collapse_row(path)
@@ -554,7 +554,7 @@ class SearchView(BaseView):
             GObject.TYPE_STRING,
             GObject.TYPE_INT,
             GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,       # discovery status
+            GObject.TYPE_INT,       # validation status
             GObject.TYPE_STRING,    # type
             object                  # album art surface
         )
