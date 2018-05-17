@@ -27,6 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
 
@@ -137,10 +138,9 @@ class ArtistAlbumWidget(Gtk.Box):
         if self.props.selection_mode:
             return
 
-        self._player.stop()
         self._player.set_playlist(
-            'Artist', self._artist, song_widget.model, song_widget.itr)
-        self._player.play()
+            PlayerPlaylist.Type.ARTIST, self._artist, song_widget.model,
+            song_widget.itr)
 
         return True
 
