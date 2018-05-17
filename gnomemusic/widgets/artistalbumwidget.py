@@ -28,6 +28,7 @@ from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.gstplayer import Playback
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.coverstack import CoverStack
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
@@ -165,7 +166,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._player.stop()
         self._player.set_playlist(
-            'Artist', self._artist, song_widget.model, song_widget.itr)
+            PlayerPlaylist.Type.ARTIST, self._artist, song_widget.model,
+            song_widget.itr)
         self._player.play()
 
         return True

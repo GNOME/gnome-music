@@ -28,7 +28,7 @@ from gi.repository import Gd, GLib, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.player import DiscoveryStatus
+from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
 
@@ -65,6 +65,7 @@ class SongsView(BaseView):
 
         self.player = player
         self.player.connect('song-changed', self.update_model)
+        self.player.connect('song-validated', self._on_song_validated)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -94,30 +95,37 @@ class SongsView(BaseView):
             return
 
         if self.model[itr][8] != self._error_icon_name:
-            self.player.set_playlist('Songs', None, self.model, itr)
+            self.player.set_playlist(
+                PlayerPlaylist.Type.SONGS, None, self.model, itr)
             self.player.play()
 
     @log
-    def update_model(self, player, playlist, current_iter):
-        """Updates model when the track changes
+    def update_model(self, player, position):
+        """Updates model when the song changes
 
-        :param player: The main player object
-        :param playlist: The current playlist object
-        :param current_iter: Iter of the current displayed song
+        :param Player player: The main player object
+        :param int position: current song position
         """
         if self._iter_to_clean:
             self.model[self._iter_to_clean][10] = False
-        if not player.playing_playlist('Songs', None):
+        if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
             return False
 
-        pos_str = playlist.get_path(current_iter).to_string()
-        iter_ = self.model.get_iter_from_string(pos_str)
+        iter_ = self.model.get_iter_from_string(str(position))
         self.model[iter_][10] = True
         path = self.model.get_path(iter_)
         self._view.get_generic_view().scroll_to_path(path)
         if self.model[iter_][8] != self._error_icon_name:
             self._iter_to_clean = iter_.copy()
         return False
+
+    @log
+    def _on_song_validated(self, player, index, status):
+        if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
+            return
+
+        iter_ = self.model.get_iter_from_string(str(index))
+        self.model[iter_][11] = status
 
     def _add_item(self, source, param, item, remaining=0, data=None):
         """Adds track item to the model"""
@@ -225,7 +233,7 @@ class SongsView(BaseView):
         if not track_uri:
             cell.set_visible(False)
             return
-        if model[itr][11] == DiscoveryStatus.FAILED:
+        if model[itr][11] == ValidationStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
         elif model[itr][5].get_url() == track_uri:

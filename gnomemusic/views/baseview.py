@@ -151,7 +151,7 @@ class BaseView(Gtk.Stack):
             select_toolbar = self._selection_toolbar
             select_toolbar.add_to_playlist_button.set_sensitive(False)
         else:
-            self.set_player_visible(self.player.current_song is not None)
+            self.set_player_visible(self.player.props.current_song is not None)
             self.unselect_all()
 
     @log

@@ -117,13 +117,13 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _sync_repeat_image(self, player=None):
         icon = None
-        if self._player.repeat == RepeatMode.NONE:
+        if self._player.props.repeat_mode == RepeatMode.NONE:
             icon = 'media-playlist-consecutive-symbolic'
-        elif self._player.repeat == RepeatMode.SHUFFLE:
+        elif self._player.props.repeat_mode == RepeatMode.SHUFFLE:
             icon = 'media-playlist-shuffle-symbolic'
-        elif self._player.repeat == RepeatMode.ALL:
+        elif self._player.props.repeat_mode == RepeatMode.ALL:
             icon = 'media-playlist-repeat-symbolic'
-        elif self._player.repeat == RepeatMode.SONG:
+        elif self._player.props.repeat_mode == RepeatMode.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
@@ -146,21 +146,26 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @log
     def _sync_prev_next(self, player=None):
-        self._next_button.set_sensitive(self._player.has_next())
-        self._prev_button.set_sensitive(self._player.has_previous())
+        self._next_button.set_sensitive(self._player.props.has_next)
+        self._prev_button.set_sensitive(self._player.props.has_previous)
 
     @log
-    def _update_view(self, player, playlist, current_iter):
-        media = playlist[current_iter][player.Field.SONG]
+    def _update_view(self, player, position):
+        """Updates model when the song changes
+
+        :param Player player: The main player object
+        :param int position: current song position
+        """
+        current_song = player.props.current_song
         self._duration_label.set_label(
-            utils.seconds_to_string(media.get_duration()))
+            utils.seconds_to_string(current_song.get_duration()))
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
 
-        self._artist_label.set_label(utils.get_artist_name(media))
-        self._title_label.set_label(utils.get_media_title(media))
-        self._cover_stack.update(media)
+        self._artist_label.set_label(utils.get_artist_name(current_song))
+        self._title_label.set_label(utils.get_media_title(current_song))
+        self._cover_stack.update(current_song)
 
     @log
     def _on_clock_tick(self, player, seconds):
