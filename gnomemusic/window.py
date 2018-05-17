@@ -368,17 +368,17 @@ class Window(Gtk.ApplicationWindow):
             # Toggle repeat on Ctrl + R
             if (event.keyval == Gdk.KEY_r
                     and modifiers == control_mask):
-                if self.player.get_repeat_mode() == RepeatType.SONG:
-                    self.player.set_repeat_mode(RepeatType.NONE)
+                if self.player.props.repeat_mode == RepeatType.SONG:
+                    self.player.props.repeat_mode = RepeatType.NONE
                 else:
-                    self.player.set_repeat_mode(RepeatType.SONG)
+                    self.player.props.repeat_mode = RepeatType.SONG
             # Toggle shuffle on Ctrl + S
             if (event.keyval == Gdk.KEY_s
                     and modifiers == control_mask):
-                if self.player.get_repeat_mode() == RepeatType.SHUFFLE:
-                    self.player.set_repeat_mode(RepeatType.NONE)
+                if self.player.props.repeat_mode == RepeatType.SHUFFLE:
+                    self.player.props.repeat_mode = RepeatType.NONE
                 else:
-                    self.player.set_repeat_mode(RepeatType.SHUFFLE)
+                    self.player.props.repeat_mode = RepeatType.SHUFFLE
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left
                     and modifiers == mod1_mask):

@@ -117,13 +117,13 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _sync_repeat_image(self, player=None):
         icon = None
-        if self._player.repeat == RepeatType.NONE:
+        if self._player.props.repeat_mode == RepeatType.NONE:
             icon = 'media-playlist-consecutive-symbolic'
-        elif self._player.repeat == RepeatType.SHUFFLE:
+        elif self._player.props.repeat_mode == RepeatType.SHUFFLE:
             icon = 'media-playlist-shuffle-symbolic'
-        elif self._player.repeat == RepeatType.ALL:
+        elif self._player.props.repeat_mode == RepeatType.ALL:
             icon = 'media-playlist-repeat-symbolic'
-        elif self._player.repeat == RepeatType.SONG:
+        elif self._player.props.repeat_mode == RepeatType.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
@@ -150,17 +150,22 @@ class PlayerToolbar(Gtk.ActionBar):
         self._prev_button.set_sensitive(self._player.has_previous())
 
     @log
-    def _update_view(self, player, playlist, current_iter):
-        media = playlist[current_iter][player.Field.SONG]
+    def _update_view(self, player, current_song, position):
+        """Updates model when the song changes
+
+        :param Player player: The main player object
+        :param Gtl.Current_song current_song: The song being played
+        :param int position: song position
+        """
         self._duration_label.set_label(
-            utils.seconds_to_string(media.get_duration()))
+            utils.seconds_to_string(current_song.get_duration()))
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
 
-        self._artist_label.set_label(utils.get_artist_name(media))
-        self._title_label.set_label(utils.get_media_title(media))
-        self._cover_stack.update(media)
+        self._artist_label.set_label(utils.get_artist_name(current_song))
+        self._title_label.set_label(utils.get_media_title(current_song))
+        self._cover_stack.update(current_song)
 
     @log
     def _on_clock_tick(self, player, seconds):

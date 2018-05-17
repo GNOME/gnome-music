@@ -22,9 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from collections import deque
 from enum import IntEnum
-from random import randint
+from random import shuffle, randrange
 import logging
 import time
 
@@ -32,7 +31,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, GLib, Gio, GObject, Gst, GstPbutils
+from gi.repository import Gio, GLib, GObject, Grl, Gst, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -59,6 +58,323 @@ class DiscoveryStatus:
     SUCCEEDED = 2
 
 
+class PlayerPlaylist(GObject.GObject):
+    """PlayerPlaylist object
+
+    Contains the logic to discover a song, handle RepeatType and the
+    list of songs being played.
+    """
+
+    class Type(IntEnum):
+        """Type of playlist."""
+        SONGS = 0
+        ALBUM = 1
+        ARTIST = 2
+        PLAYLIST = 3
+        SEARCH_RESULT = 4
+
+    __gsignals__ = {
+        'song-discovered': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
+    }
+
+    def __repr__(self):
+        return '<PlayerPlayList>'
+
+    @log
+    def __init__(self):
+        super().__init__()
+        self._songs = []
+        self._shuffle_indexes = []
+        self._current_index = 0
+
+        self._type = -1
+        self._id = -1
+
+        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings.connect(
+            'changed::repeat', self._on_repeat_setting_changed)
+        self._repeat = self._settings.get_enum('repeat')
+
+        self._discovering_indexes = {}
+        self._discoverer = GstPbutils.Discoverer()
+        self._discoverer.connect('discovered', self._on_discovered)
+        self._discoverer.start()
+
+    @log
+    def set_playlist(self, type_, id_, model, model_iter):
+        """Set a new playlist or change the song being played
+
+        :param PlayerPlaylist.Type type_: type of the playlist
+        :param string id_: unique identifer to recognize the playlist
+        :param GtkListStore model: list of songs to play
+        :param GtkTreeIter model_iter: requested song
+
+        :return: True if the playlist has been updated. False otherwise
+        :rtype: bool
+        """
+        changed = False
+        if (type_ != self._type
+                or id_ != self._id):
+            changed = True
+
+        path = model.get_path(model_iter)
+        self._current_index = int(path.to_string())
+
+        if changed:
+            self._type = type_
+            self._id = id_
+
+            self._songs = []
+            for row in model:
+                self._songs.append([row[5], row[11]])
+
+            if self._repeat == RepeatType.SHUFFLE:
+                self._shuffle_indexes = list(range(len(self._songs)))
+                shuffle(self._shuffle_indexes)
+                self._shuffle_indexes.remove(self._current_index)
+                self._shuffle_indexes.insert(0, self._current_index)
+
+            GLib.idle_add(self._discover_all_songs)
+
+        return changed
+
+    @log
+    def set_song(self, song_index):
+        """Change playlist index.
+
+        :param int song_index: requested song index
+        :return: True if the index has changed. False otherwise.
+        :rtype: bool
+        """
+        if song_index >= len(self._songs):
+            return False
+
+        self._current_index = song_index
+        return True
+
+    @log
+    def change_position(self, prev_pos, new_pos):
+        """Change order of a song in the playlist
+
+        :param int prev_pos: previous position
+        :param int new_pos: new position
+        :return: new index of the song being played. -1 if unchanged
+        :rtype: int
+        """
+        current_song = self._songs[self._current_index]
+        changed_song = self._songs.pop(prev_pos)
+        self._songs.insert(new_pos, changed_song)
+
+        # update current_index if necessary
+        return_index = -1
+        first_pos = min(prev_pos, new_pos)
+        last_pos = max(prev_pos, new_pos)
+        if (self._current_index >= first_pos
+                and self._current_index <= last_pos):
+            for index, song in enumerate(self._songs[first_pos:last_pos + 1]):
+                if current_song[0].get_id() == song[0].get_id():
+                    self._current_index = first_pos + index
+                    return_index = self._current_index
+                    break
+
+        if self._repeat == RepeatType.SHUFFLE:
+            index_l = self._shuffle_indexes.index(last_pos)
+            self._shuffle_indexes.pop(index_l)
+            self._shuffle_indexes = [
+                index + 1 if (index < last_pos and index >= first_pos)
+                else index
+                for index in self._shuffle_indexes]
+            self._shuffle_indexes.insert(index_l, first_pos)
+
+        return return_index
+
+    @log
+    def add_song(self, song, song_index):
+        """Add a song to the playlist.
+
+        :param Grl.Media song: new song
+        :param int song_index: song position
+        """
+        item = [song, DiscoveryStatus.PENDING]
+        self._songs.insert(song_index, item)
+        if song_index >= self._current_index:
+            self._current_index += 1
+
+        self._discoverer_song(song_index, item)
+
+        # In the shuffle case, insert song at a random position which
+        # has not been played yet.
+        if self._repeat == RepeatType.SHUFFLE:
+            index = self._shuffle_indexes.index(self._current_index)
+            new_song_index = randrange(index, len(self._shuffle_indexes))
+            self._shuffle_indexes.insert(new_song_index, song_index)
+
+    @log
+    def remove_song(self, song_index):
+        """Remove a song from the playlist.
+
+        :param int song_index: index of the song to remove
+        """
+        self._songs.pop(song_index)
+        if song_index < self._current_index:
+            self._current_index -= 1
+
+        if self._repeat == RepeatType.SHUFFLE:
+            self._shuffle_indexes.remove(song_index)
+            self._shuffle_indexes = [
+                index - 1 if index > song_index else index
+                for index in self._shuffle_indexes]
+
+    @log
+    def _on_repeat_setting_changed(self, settings, value):
+        self.props.repeat_mode = settings.get_enum('repeat')
+
+    @log
+    def _on_discovered(self, discoverer, info, error):
+        index = self._discovering_indexes[info.get_uri()]
+        del(self._discovering_indexes[info.get_uri()])
+        if error:
+            logger.warning("Info {}: error: {}".format(info, error))
+            self._songs[index][1] = DiscoveryStatus.FAILED
+        else:
+            self._songs[index][1] = DiscoveryStatus.SUCCEEDED
+        self.emit('song-discovered', index, self._songs[index][1])
+
+    @log
+    def _discoverer_song(self, index, item):
+        url = item[0].get_url()
+        if not url:
+            logger.warning(
+                "The item {} doesn't have a URL set.".format(item[0]))
+            return
+        if not url.startswith("file://"):
+            logger.debug(
+                "Skipping discovery of {} as not a local file".format(url))
+            return
+
+        if item[1] == DiscoveryStatus.PENDING:
+            self._discovering_indexes[url] = index
+            self._discoverer.discover_uri_async(url)
+
+    @log
+    def _discover_all_songs(self):
+        for index, item in enumerate(self._songs):
+            self._discoverer_song(index, item)
+
+    def has_next(self):
+        """Test if there is a song after the current one.
+
+        :return: True if there is a song. False otherwise.
+        :rtype: bool
+        """
+        if (self._repeat == RepeatType.SHUFFLE
+                and self._shuffle_indexes):
+            index = self._shuffle_indexes.index(self._current_index)
+            return index < (len(self._shuffle_indexes) - 1)
+        if self._repeat != RepeatType.NONE:
+            return True
+        return self._current_index < (len(self._songs) - 1)
+
+    def has_previous(self):
+        """Test if there is a song before the current one.
+
+        :return: True if there is a song. False otherwise.
+        :rtype: bool
+        """
+        if (self._repeat == RepeatType.SHUFFLE
+                and self._shuffle_indexes):
+            index = self._shuffle_indexes.index(self._current_index)
+            return index > 0
+        if self._repeat != RepeatType.NONE:
+            return True
+        return self._current_index > 0
+
+    def next(self):
+        """Go to the next song in the playlist.
+
+        :return: True if operation succeeded. False otherwise.
+        :rtype: bool
+        """
+        if self._repeat == RepeatType.SONG:
+            return True
+        if (self._repeat == RepeatType.ALL
+                and self._current_index == (len(self._songs) - 1)):
+            self._current_index = 0
+            return True
+        if self.has_next():
+            if self._repeat == RepeatType.SHUFFLE:
+                index = self._shuffle_indexes.index(self._current_index)
+                self._current_index = self._shuffle_indexes[index + 1]
+            else:
+                self._current_index += 1
+            return True
+        return False
+
+    def previous(self):
+        """Go to the previous song in the playlist.
+
+        :return: True if operation succeeded. False otherwise.
+        :rtype: bool
+        """
+        if self._repeat == RepeatType.SONG:
+            return True
+        if (self._repeat == RepeatType.ALL
+                and self._current_index == 0):
+            self._current_index = len(self._songs) - 1
+            return True
+        if self.has_previous():
+            if self._repeat == RepeatType.SHUFFLE:
+                index = self._shuffle_indexes.index(self._current_index)
+                self._current_index = self._shuffle_indexes[index - 1]
+            else:
+                self._current_index -= 1
+            return True
+        return False
+
+    @log
+    def get_current_index(self):
+        """Get current song index"""
+        return self._current_index
+
+    @GObject.Property(type=Grl.Media, default=None)
+    @log
+    def current_song(self):
+        if self._songs:
+            return self._songs[self._current_index][0]
+        return None
+
+    @GObject.Property(type=int, default=RepeatType.NONE)
+    @log
+    def repeat_mode(self):
+        return self._repeat
+
+    @repeat_mode.setter
+    @log
+    def repeat_mode(self, mode):
+        if (mode == RepeatType.SHUFFLE
+                and self._songs):
+            self._shuffle_indexes = list(range(len(self._songs)))
+            shuffle(self._shuffle_indexes)
+            self._shuffle_indexes.remove(self._current_index)
+            self._shuffle_indexes.insert(0, self._current_index)
+
+        self._repeat = mode
+
+    @GObject.Property(type=int)
+    @log
+    def id_(self):
+        return self._id
+
+    @GObject.Property(type=int)
+    @log
+    def type_(self):
+        return self._type
+
+    @log
+    def get_songs(self):
+        return self._songs
+
+
 class Player(GObject.GObject):
     """Main Player object
 
@@ -74,8 +390,8 @@ class Player(GObject.GObject):
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-changed': (
-            GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeModel, Gtk.TreeIter)
-        ),
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, int)),
+        'song-discovered': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
         'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -92,30 +408,13 @@ class Player(GObject.GObject):
 
         self._parent_window = parent_window
 
-        self.playlist = None
-        self.playlist_type = None
-        self.playlist_id = None
-        self.playlist_field = None
-        self.current_song = None
-        self._next_song = None
-        self._shuffle_history = deque(maxlen=10)
+        self._playlist = PlayerPlaylist()
+        self._playlist.connect('song-discovered', self._on_song_discovered)
+
         self._new_clock = True
 
         Gst.init(None)
         GstPbutils.pb_utils_init()
-
-        self._discoverer = GstPbutils.Discoverer()
-        self._discoverer.connect('discovered', self._on_discovered)
-        self._discoverer.start()
-        self._discovering_urls = {}
-
-        self._settings = Gio.Settings.new('org.gnome.Music')
-        self._settings.connect(
-            'changed::repeat', self._on_repeat_setting_changed)
-        self.repeat = self._settings.get_enum('repeat')
-
-        self.playlist_insert_handler = 0
-        self.playlist_delete_handler = 0
 
         self._player = GstPlayer()
         self._player.connect('clock-tick', self._on_clock_tick)
@@ -127,334 +426,56 @@ class Player(GObject.GObject):
         self._lastfm = LastFmScrobbler()
 
     @log
-    def _discover_item(self, item, callback, data=None):
-        url = item.get_url()
-        if not url:
-            logger.warning(
-                "The item {} doesn't have a URL set.".format(item))
-            return
-
-        if not url.startswith("file://"):
-            logger.debug(
-                "Skipping discovery of {} as not a local file".format(url))
-            return
-
-        obj = (callback, data)
-
-        if url in self._discovering_urls:
-            self._discovering_urls[url] += [obj]
-        else:
-            self._discovering_urls[url] = [obj]
-            self._discoverer.discover_uri_async(url)
-
-    @log
-    def _on_discovered(self, discoverer, info, error):
-        try:
-            cbs = self._discovering_urls[info.get_uri()]
-            del(self._discovering_urls[info.get_uri()])
-
-            for callback, data in cbs:
-                if data is not None:
-                    callback(info, error, data)
-                else:
-                    callback(info, error)
-        except KeyError:
-            # Not something we're interested in
-            return
-
-    @log
-    def _on_repeat_setting_changed(self, settings, value):
-        self.repeat = settings.get_enum('repeat')
-        self.emit('repeat-mode-changed')
-        self.emit('prev-next-invalidated')
-        self._validate_next_song()
-
-    @log
-    def _on_glib_idle(self):
-        self.current_song = self._next_song
-        self.play()
-
-    @log
-    def add_song(self, model, path, _iter):
-        """Add a song to current playlist
-
-        :param GtkListStore model: TreeModel
-        :param GtkTreePath path: song position
-        :param GtkTreeIter_iter: song iter
-        """
-        new_row = model[_iter]
-        self.playlist.insert_with_valuesv(
-            int(path.to_string()),
-            [self.Field.SONG, self.Field.DISCOVERY_STATUS],
-            [new_row[5], new_row[11]])
-        self._validate_next_song()
-        self.emit('prev-next-invalidated')
-
-    @log
-    def remove_song(self, model, path):
-        """Remove a song from current playlist
-
-        :param GtkListStore model: TreeModel
-        :param GtkTreePath path: song position
-        """
-        iter_remove = self.playlist.get_iter_from_string(path.to_string())
-        if (self.current_song.get_path().to_string() == path.to_string()):
-            if self.has_next():
-                self.next()
-            elif self.has_previous():
-                self.previous()
-            else:
-                self.stop()
-
-        self.playlist.remove(iter_remove)
-        self._validate_next_song()
-        self.emit('prev-next-invalidated')
-
-    @log
-    def _get_random_iter(self, current_song):
-        first_iter = self.playlist.get_iter_first()
-        if not current_song:
-            current_song = first_iter
-        if not current_song:
-            return None
-        if (hasattr(self.playlist, "iter_is_valid")
-                and not self.playlist.iter_is_valid(current_song)):
-            return None
-        current_path = int(self.playlist.get_path(current_song).to_string())
-        rows = self.playlist.iter_n_children(None)
-        if rows == 1:
-            return current_song
-        rand = current_path
-        while rand == current_path:
-            rand = randint(0, rows - 1)
-        return self.playlist.get_iter_from_string(str(rand))
-
-    @log
-    def _get_next_song(self):
-        if (self.current_song
-                and self.current_song.valid()):
-            iter_ = self.playlist.get_iter(self.current_song.get_path())
-        else:
-            iter_ = None
-
-        next_song = None
-
-        if self.repeat == RepeatType.SONG:
-            if iter_:
-                next_song = iter_
-            else:
-                next_song = self.playlist.get_iter_first()
-        elif self.repeat == RepeatType.ALL:
-            if iter_:
-                next_song = self.playlist.iter_next(iter_)
-            if not next_song:
-                next_song = self.playlist.get_iter_first()
-        elif self.repeat == RepeatType.NONE:
-            if iter_:
-                next_song = self.playlist.iter_next(iter_)
-        elif self.repeat == RepeatType.SHUFFLE:
-            next_song = self._get_random_iter(iter_)
-            if iter_:
-                self._shuffle_history.append(iter_)
-
-        if next_song:
-            return Gtk.TreeRowReference.new(
-                self.playlist, self.playlist.get_path(next_song))
-        else:
-            return None
-
-    @log
-    def _get_previous_song(self):
-
-        @log
-        def get_last_iter():
-            iter_ = self.playlist.get_iter_first()
-            last = None
-
-            while iter_ is not None:
-                last = iter_
-                iter_ = self.playlist.iter_next(iter_)
-
-            return last
-
-        if (self.current_song
-                and self.current_song.valid()):
-            iter_ = self.playlist.get_iter(self.current_song.get_path())
-        else:
-            iter_ = None
-
-        previous_song = None
-
-        if self.repeat == RepeatType.SONG:
-            if iter_:
-                previous_song = iter_
-            else:
-                previous_song = self.playlist.get_iter_first()
-        elif self.repeat == RepeatType.ALL:
-            if iter_:
-                previous_song = self.playlist.iter_previous(iter_)
-            if not previous_song:
-                previous_song = get_last_iter()
-        elif self.repeat == RepeatType.NONE:
-            if iter_:
-                previous_song = self.playlist.iter_previous(iter_)
-        elif self.repeat == RepeatType.SHUFFLE:
-            if iter_:
-                if (self._player.position < 5
-                        and len(self._shuffle_history) > 0):
-                    previous_song = self._shuffle_history.pop()
-
-                    # Discard the current song, which is already queued
-                    prev_path = self.playlist.get_path(previous_song)
-                    current_path = self.playlist.get_path(iter_)
-                    if prev_path == current_path:
-                        previous_song = None
-
-                if (previous_song is None
-                        and len(self._shuffle_history) > 0):
-                    previous_song = self._shuffle_history.pop()
-                else:
-                    previous_song = self._get_random_iter(iter_)
-
-        if previous_song:
-            return Gtk.TreeRowReference.new(
-                self.playlist, self.playlist.get_path(previous_song))
-        else:
-            return None
-
-    @log
     def has_next(self):
-        repeat_types = [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]
-        if (not self.playlist
-                or self.playlist.iter_n_children(None) < 1):
-            return False
-        elif not self.current_song:
-            return False
-        elif self.repeat in repeat_types:
-            return True
-        elif self.current_song.valid():
-            tmp = self.playlist.get_iter(self.current_song.get_path())
-            return self.playlist.iter_next(tmp) is not None
-        else:
-            return True
+        """Test if the playlist has a next song."""
+        return self._playlist.has_next()
 
     @log
     def has_previous(self):
-        repeat_types = [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]
-        if (not self.playlist
-                or self.playlist.iter_n_children(None) < 1):
-            return False
-        elif not self.current_song:
-            return False
-        elif self.repeat in repeat_types:
-            return True
-        elif self.current_song.valid():
-            tmp = self.playlist.get_iter(self.current_song.get_path())
-            return self.playlist.iter_previous(tmp) is not None
-        else:
-            return True
+        """Test if the playlist has a previous song."""
+        return self._playlist.has_previous()
 
     @GObject.Property
     @log
     def playing(self):
-        """Returns if a song is currently played
-
-        :return: playing
-        :rtype: bool
-        """
+        """Test if a song is currently played."""
         return self._player.state == Playback.PLAYING
 
     @log
-    def _load(self, media):
+    def _load(self, song):
         self._time_stamp = int(time.time())
 
-        url_ = media.get_url()
+        url_ = song.get_url()
         if url_ != self._player.url:
             self._player.url = url_
 
-        if self.current_song and self.current_song.valid():
-            current_song = self.playlist.get_iter(
-                self.current_song.get_path())
-            self.emit('song-changed', self.playlist, current_song)
-
-        self._validate_next_song()
-
-    @log
-    def _on_next_item_validated(self, _info, error, _iter):
-        if error:
-            logger.warning("Info {}: error: {}".format(_info, error))
-            failed = DiscoveryStatus.FAILED
-            self.playlist[_iter][self.Field.DISCOVERY_STATUS] = failed
-            next_song = self.playlist.iter_next(_iter)
-
-            if next_song:
-                next_path = self.playlist.get_path(next_song)
-                self._validate_next_song(
-                    Gtk.TreeRowReference.new(self.playlist, next_path))
-
-    @log
-    def _validate_next_song(self, song=None):
-        if song is None:
-            song = self._get_next_song()
-
-        self._next_song = song
-
-        if song is None:
-            return
-
-        iter_ = self.playlist.get_iter(self._next_song.get_path())
-        status = self.playlist[iter_][self.Field.DISCOVERY_STATUS]
-        next_song = self.playlist[iter_][self.Field.SONG]
-        url_ = next_song.get_url()
-
-        # Skip remote songs discovery
-        if (url_.startswith('http://')
-                or url_.startswith('https://')):
-            return False
-        elif status == DiscoveryStatus.PENDING:
-            self._discover_item(next_song, self._on_next_item_validated, iter_)
-        elif status == DiscoveryStatus.FAILED:
-            GLib.idle_add(self._validate_next_song)
-
-        return False
+        self.emit('song-changed', song, self._playlist.get_current_index())
 
     @log
     def _on_eos(self, klass):
-        if self._next_song:
-            GLib.idle_add(self._on_glib_idle)
-        elif (self.repeat == RepeatType.NONE):
-            self.stop()
+        def on_glib_idle():
+            self._playlist.next()
+            self.play()
 
-            if self.playlist is not None:
-                current_song = self.playlist.get_path(
-                    self.playlist.get_iter_first())
-                if current_song:
-                    self.current_song = Gtk.TreeRowReference.new(
-                        self.playlist, current_song)
-                else:
-                    self.current_song = None
-                self._load(self.get_current_media())
-            self.emit('playback-status-changed')
+        if self._playlist.has_next():
+            GLib.idle_add(on_glib_idle)
         else:
             self.stop()
             self.emit('playback-status-changed')
 
     @log
-    def play(self):
+    def play(self, song_index=None):
         """Play"""
-        if self.playlist is None:
+        if not self._playlist:
             return
 
-        media = None
+        if (song_index
+                and not self._playlist.set_song(song_index)):
+            return False
 
         if self._player.state != Playback.PAUSED:
             self.stop()
-
-            media = self.get_current_media()
-            if not media:
-                return
-
-            self._load(media)
+            self._load(self._playlist.props.current_song)
 
         self._player.state = Playback.PLAYING
         self.emit('playback-status-changed')
@@ -477,11 +498,9 @@ class Player(GObject.GObject):
 
         Play the next song of the playlist, if any.
         """
-        if not self.has_next():
-            return
 
-        self.current_song = self._next_song
-        self.play()
+        if self._playlist.next():
+            self.play()
 
     @log
     def previous(self):
@@ -489,17 +508,14 @@ class Player(GObject.GObject):
 
         Play the previous song of the playlist, if any.
         """
-        if not self.has_previous():
-            return
-
         position = self._player.position
         if position >= 5:
             self._player.seek(0)
             self._player.state = Playback.PLAYING
             return
 
-        self.current_song = self._get_previous_song()
-        self.play()
+        if self._playlist.previous():
+            self.play()
 
     @log
     def play_pause(self):
@@ -510,53 +526,89 @@ class Player(GObject.GObject):
             self.play()
 
     @log
-    def _create_model(self, model, model_iter):
-        new_model = Gtk.ListStore(GObject.TYPE_OBJECT, GObject.TYPE_INT)
-        song_id = model[model_iter][5].get_id()
-        new_path = None
-        for row in model:
-            current_iter = new_model.insert_with_valuesv(
-                -1, [self.Field.SONG, self.Field.DISCOVERY_STATUS],
-                [row[5], row[11]])
-            if row[5].get_id() == song_id:
-                new_path = new_model.get_path(current_iter)
-
-        return new_model, new_path
-
-    @log
     def set_playlist(self, type_, id_, model, iter_):
-        self.playlist, playlist_path = self._create_model(model, iter_)
-        self.current_song = Gtk.TreeRowReference.new(
-            self.playlist, playlist_path)
+        """Set a new playlist or change the song being played
 
-        if type_ != self.playlist_type or id_ != self.playlist_id:
-            self.emit('playlist-changed')
-
-        self.playlist_type = type_
-        self.playlist_id = id_
+        :param PlayerPlaylist.Type type_: type of the playlist
+        :param string id_: unique identifer to recognize the playlist
+        :param GtkListStore model: list of songs to play
+        :param GtkTreeIter model_iter: requested song
+        """
+        pl_changed = self._playlist.set_playlist(type_, id_, model, iter_)
 
         if self._player.state == Playback.PLAYING:
             self.emit('prev-next-invalidated')
 
-        GLib.idle_add(self._validate_next_song)
+        self._playlist.bind_property(
+            'repeat_mode', self, 'repeat_mode',
+            GObject.BindingFlags.SYNC_CREATE)
+
+        if pl_changed:
+            self.emit('playlist-changed')
 
     @log
-    def playling_playlist(self, type, id):
-        if type == self.playlist_type and id == self.playlist_id:
-            return self.playlist
-        else:
-            return None
+    def playlist_change_position(self, prev_pos, new_pos):
+        """Change order of a song in the playlist
+
+        :param int prev_pos: previous position
+        :param int new_pos: new position
+        :return: new index of the song being played. -1 if unchanged
+        :rtype: int
+        """
+        current_index = self._playlist.change_position(prev_pos, new_pos)
+        if current_index >= 0:
+            self.emit('prev-next-invalidated')
+        return current_index
+
+    @log
+    def remove_song(self, song_index):
+        """Remove a song from the current playlist.
+
+        :param int song_index: position of the song to remove
+        """
+        if self._playlist.get_current_index() == song_index:
+            if self.has_next():
+                self.next()
+            elif self.has_previous():
+                self.previous()
+            else:
+                self.stop()
+        self._playlist.remove_song(song_index)
+        self.emit('playlist-changed')
+        self.emit('prev-next-invalidated')
+
+    @log
+    def add_song(self, song, song_index):
+        """Add a song to the current playlist
+
+        :param int song_index: position of the song to add
+        """
+        self._playlist.add_song(song, song_index)
+        self.emit('playlist-changed')
+        self.emit('prev-next-invalidated')
+
+    @log
+    def _on_song_discovered(self, playlist, index, status):
+        self.emit('song-discovered', index, status)
+        return True
+
+    @log
+    def playing_playlist(self, type_, id_):
+        if (type_ == self._playlist.props.type_
+                and id_ == self._playlist.props.id_):
+            return True
+        return False
 
     @log
     def _on_clock_tick(self, klass, tick):
         logger.debug("Clock tick {}, player at {} seconds".format(
             tick, self._player.position))
 
-        current_media = self.get_current_media()
+        current_song = self._playlist.props.current_song
 
         if tick == 0:
             self._new_clock = True
-            self._lastfm.now_playing(current_media)
+            self._lastfm.now_playing(current_song)
 
         duration = self._player.duration
         if duration is None:
@@ -568,7 +620,7 @@ class Player(GObject.GObject):
             if (not self._lastfm.scrobbled
                     and duration > 30
                     and (percentage > 0.5 or tick > 4 * 60)):
-                self._lastfm.scrobble(current_media, self._time_stamp)
+                self._lastfm.scrobble(current_song, self._time_stamp)
 
             if (percentage > 0.5
                     and self._new_clock):
@@ -577,10 +629,36 @@ class Player(GObject.GObject):
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
                 playlists.update_all_static_playlists()
-                grilo.bump_play_count(current_media)
-                grilo.set_last_played(current_media)
+                grilo.bump_play_count(current_song)
+                grilo.set_last_played(current_song)
 
         self.emit('clock-tick', int(position))
+
+    @GObject.Property(type=int)
+    def repeat_mode(self):
+        return self._playlist.props.repeat_mode
+
+    @repeat_mode.setter
+    @log
+    def repeat_mode(self, mode):
+        self.emit('repeat-mode-changed')
+        self.emit('prev-next-invalidated')
+
+    @GObject.Property(type=Grl.Media, default=None)
+    def current_song(self):
+        if not self._playlist:
+            return None
+        return self._playlist.props.current_song
+
+    @log
+    def get_playlist_type(self):
+        """Playlist type getter"""
+        return self._playlist.props.type_
+
+    @log
+    def get_playlist_id(self):
+        """Playlist id getter"""
+        return self._playlist.props.id_
 
     # MPRIS
     @log
@@ -605,17 +683,8 @@ class Player(GObject.GObject):
         return self._player.url
 
     @log
-    def get_repeat_mode(self):
-        return self.repeat
-
-    @log
     def get_position(self):
         return self._player.position
-
-    @log
-    def set_repeat_mode(self, mode):
-        self.repeat = mode
-        self.emit('repeat-mode-changed')
 
     # TODO: used by MPRIS
     @log
@@ -646,12 +715,5 @@ class Player(GObject.GObject):
         self.emit('volume-changed')
 
     @log
-    def get_current_media(self):
-        if not self.current_song or not self.current_song.valid():
-            return None
-
-        current_song = self.playlist.get_iter(self.current_song.get_path())
-        failed = DiscoveryStatus.FAILED
-        if self.playlist[current_song][self.Field.DISCOVERY_STATUS] == failed:
-            return None
-        return self.playlist[current_song][self.Field.SONG]
+    def get_songs(self):
+        return self._playlist.get_songs()
