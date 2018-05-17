@@ -30,59 +30,46 @@ from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 
 
-class PlaylistDialog():
+@Gtk.Template(resource_path="/org/gnome/Music/PlaylistDialog.ui")
+class PlaylistDialog(Gtk.Dialog):
     """Dialog for adding items to a playlist"""
+
+    __gtype_name__ = 'PlaylistDialog'
+
+    _add_playlist_stack = Gtk.Template.Child()
+    _normal_box = Gtk.Template.Child()
+    _empty_box = Gtk.Template.Child()
+    _title_bar = Gtk.Template.Child()
+    _view = Gtk.Template.Child()
+    _selection = Gtk.Template.Child()
+    _model = Gtk.Template.Child()
+    _cancel_button = Gtk.Template.Child()
+    _select_button = Gtk.Template.Child()
+    _new_playlist_button = Gtk.Template.Child()
+    _new_playlist_entry = Gtk.Template.Child()
+    _first_playlist_button = Gtk.Template.Child()
+    _first_playlist_entry = Gtk.Template.Child()
 
     def __repr__(self):
         return '<PlaylistDialog>'
 
     @log
     def __init__(self, parent, playlists_todelete):
-        self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/PlaylistDialog.ui')
+        super().__init__()
 
-        self._dialog_box = self._ui.get_object('dialog')
-        self._dialog_box.set_transient_for(parent)
+        self._add_playlist_button = None
+        self._add_playlist_entry = None
 
-        self._add_playlist_stack = self._ui.get_object('add_playlist_stack')
-        self._normal_state = self._ui.get_object('normal_state')
-        self._empty_state = self._ui.get_object('empty_state')
-        self._title_bar = self._ui.get_object('headerbar')
-        self._dialog_box.set_titlebar(self._title_bar)
-        self._setup_dialog()
+        self.props.transient_for = parent
+        self.set_titlebar(self._title_bar)
+        self._add_list_renderers()
+        self._populate()
 
         self._playlists_todelete_ids = playlists_todelete.keys()
 
-        self._playlist = Playlists.get_default()
         self._user_playlists_available = False
-
-    @log
-    def run(self):
-        """Run the playlist dialog"""
-        return self._dialog_box.run()
-
-    @log
-    def destroy(self):
-        """Destroy the playlist dialog"""
-        return self._dialog_box.destroy()
-
-    @log
-    def _setup_dialog(self):
-        self._view = self._ui.get_object('treeview')
-        self._view.set_activate_on_single_click(False)
-        self._selection = self._ui.get_object('treeview-selection')
-        self._selection.connect('changed', self._on_selection_changed)
-        self._add_list_renderers()
-        self._view.connect('row-activated', self._on_item_activated)
-
-        self._model = self._ui.get_object('liststore')
-        self._populate()
-
-        self._cancel_button = self._ui.get_object('cancel-button')
-        self._select_button = self._ui.get_object('select-button')
-        self._select_button.set_sensitive(False)
-        self._cancel_button.connect('clicked', self._on_cancel_button_clicked)
-        self._select_button.connect('clicked', self._on_selection)
+        self._playlist = Playlists.get_default()
+        self._playlist.connect('playlist-created', self._on_playlist_created)
 
     @log
     def get_selected(self):
@@ -105,30 +92,15 @@ class PlaylistDialog():
     @log
     def _set_view(self):
         if self._user_playlists_available:
-            self._normal_state.show()
-            self._add_playlist_stack.set_visible_child(self._normal_state)
-            self._new_playlist_button = self._ui.get_object(
-                'new-playlist-button')
-            self._new_playlist_entry = self._ui.get_object(
-                'new-playlist-entry')
+            self._normal_box.show()
+            self._add_playlist_stack.props.visible_child = self._normal_box
+            self._add_playlist_button = self._new_playlist_button
+            self._add_playlist_entry = self._new_playlist_entry
         else:
-            self._empty_state.show()
-            self._add_playlist_stack.set_visible_child(self._empty_state)
-            self._new_playlist_button = self._ui.get_object(
-                'create-first-playlist-button')
-            self._new_playlist_entry = self._ui.get_object(
-                'first-playlist-entry')
-
-        self._new_playlist_button.set_sensitive(False)
-        self._new_playlist_button.connect('clicked', self._on_editing_done)
-
-        self._new_playlist_entry.connect(
-            'changed', self._on_new_playlist_entry_changed)
-        self._new_playlist_entry.connect('activate', self._on_editing_done)
-        self._new_playlist_entry.connect(
-            'focus-in-event', self._on_new_playlist_entry_focused)
-
-        self._playlist.connect('playlist-created', self._on_playlist_created)
+            self._empty_box.show()
+            self._add_playlist_stack.props.visible_child = self._empty_box
+            self._add_playlist_button = self._first_playlist_button
+            self._add_playlist_entry = self._first_playlist_entry
 
     @log
     def _populate(self):
@@ -155,33 +127,34 @@ class PlaylistDialog():
 
         return new_iter
 
+    @Gtk.Template.Callback()
     @log
     def _on_selection(self, select_button):
-        self._dialog_box.response(Gtk.ResponseType.ACCEPT)
+        self.response(Gtk.ResponseType.ACCEPT)
 
+    @Gtk.Template.Callback()
     @log
     def _on_cancel_button_clicked(self, cancel_button):
-        self._dialog_box.response(Gtk.ResponseType.REJECT)
+        self.response(Gtk.ResponseType.REJECT)
 
+    @Gtk.Template.Callback()
     @log
     def _on_item_activated(self, view, path, column):
-        self._new_playlist_entry.set_text("")
-        self._new_playlist_button.set_sensitive(False)
-        _iter = self._model.get_iter(path)
-        if self._model[_iter][1]:
-            self._view.set_cursor(path, column, True)
-        else:
-            self._dialog_box.response(Gtk.ResponseType.ACCEPT)
+        self._add_playlist_entry.props.text = ""
+        self._add_playlist_button.props.sensitive = False
 
+    @Gtk.Template.Callback()
     @log
     def _on_selection_changed(self, selection):
         model, _iter = self._selection.get_selected()
-        self._select_button.set_sensitive(_iter is not None)
+        self._select_button.props.sensitive = _iter is not None
 
+    @Gtk.Template.Callback()
     @log
     def _on_editing_done(self, sender, data=None):
-        if self._new_playlist_entry.get_text() != '':
-            self._playlist.create_playlist(self._new_playlist_entry.get_text())
+        text = self._add_playlist_entry.props.text
+        if text:
+            self._playlist.create_playlist(text)
 
     @log
     def _on_playlist_created(self, playlists, item):
@@ -191,15 +164,17 @@ class PlaylistDialog():
             path = self._model.get_path(new_iter)
             self._view.set_cursor(path, col0, False)
             self._view.row_activated(path, col0)
-            self._dialog_box.response(Gtk.ResponseType.ACCEPT)
+            self.response(Gtk.ResponseType.ACCEPT)
 
+    @Gtk.Template.Callback()
     @log
-    def _on_new_playlist_entry_changed(self, editable, data=None):
-        if editable.get_text() != '':
-            self._new_playlist_button.set_sensitive(True)
+    def _on_add_playlist_entry_changed(self, editable, data=None):
+        if editable.props.text:
+            self._add_playlist_button.props.sensitive = True
         else:
-            self._new_playlist_button.set_sensitive(False)
+            self._add_playlist_button.props.sensitive = False
 
+    @Gtk.Template.Callback()
     @log
-    def _on_new_playlist_entry_focused(self, editable, data=None):
+    def _on_add_playlist_entry_focused(self, editable, data=None):
         self._selection.unselect_all()
