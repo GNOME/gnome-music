@@ -51,6 +51,16 @@
                 }
             ]
         },
+	{
+            "name": "libdazzle",
+	    "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
+                }
+            ]
+        },
         {
             "name": "tracker",
             "cleanup": [ "/bin", "/etc", "/libexec" ],
