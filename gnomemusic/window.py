@@ -304,16 +304,16 @@ class Window(Gtk.ApplicationWindow):
                 self.player.next()
             # Toggle repeat on Ctrl + R
             if keyval == Gdk.KEY_r:
-                if self.player.get_repeat_mode() == RepeatMode.SONG:
-                    self.player.set_repeat_mode(RepeatMode.NONE)
+                if self.player.props.repeat_mode == RepeatMode.SONG:
+                    self.player.props.repeat_mode = RepeatMode.NONE
                 else:
-                    self.player.set_repeat_mode(RepeatMode.SONG)
+                    self.player.props.repeat_mode = RepeatMode.SONG
             # Toggle shuffle on Ctrl + S
             if keyval == Gdk.KEY_s:
-                if self.player.get_repeat_mode() == RepeatMode.SHUFFLE:
-                    self.player.set_repeat_mode(RepeatMode.NONE)
+                if self.player.props.repeat_mode == RepeatMode.SHUFFLE:
+                    self.player.props.repeat_mode = RepeatMode.NONE
                 else:
-                    self.player.set_repeat_mode(RepeatMode.SHUFFLE)
+                    self.player.props.repeat_mode = RepeatMode.SHUFFLE
             # Headerbar switching
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
                 self._toggle_view(View.ALBUM)
