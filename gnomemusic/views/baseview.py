@@ -184,14 +184,7 @@ class BaseView(Gtk.Stack):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
-        if n_items > 0:
-            self._header_bar._selection_menu.label.set_text(
-                ngettext("Selected {} item",
-                         "Selected {} items",
-                         n_items).format(n_items))
-        else:
-            self._header_bar._selection_menu.label.set_text(
-                _("Click on items to select them"))
+        self._header_bar.items_selected = n_items
 
     @log
     def _populate(self, data=None):
