@@ -37,7 +37,8 @@ from gnomemusic.searchbar import Searchbar, DropDown
 from gnomemusic.utils import View
 
 
-class Toolbar(GObject.GObject):
+@Gtk.Template(resource_path="/org/gnome/Music/headerbar.ui")
+class Topbar(Gtk.HeaderBar):
 
     class State(IntEnum):
         MAIN = 0
@@ -45,8 +46,15 @@ class Toolbar(GObject.GObject):
         SEARCH = 2
         EMPTY = 3
 
+    __gtype_name__ = 'Topbar'
+
+    _search_button = Gtk.Template.Child()
+    _select_button = Gtk.Template.Child()
+    _cancel_button = Gtk.Template.Child()
+    _back_button = Gtk.Template.Child()
+
     def __repr__(self):
-        return '<Toolbar>'
+        return '<Topbar>'
 
     @log
     def __init__(self):
@@ -57,28 +65,28 @@ class Toolbar(GObject.GObject):
         self._stack_switcher = Gtk.StackSwitcher(can_focus=False,
                                                  halign="center")
         self._stack_switcher.show()
+
         self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/headerbar.ui')
-        self.header_bar = self._ui.get_object('header-bar')
-        self._search_button = self._ui.get_object('search-button')
+        self._ui.add_from_resource('/org/gnome/Music/selectionmenu.ui')
+
         self.dropdown = DropDown()
         self.searchbar = Searchbar(
             self._stack_switcher, self._search_button, self.dropdown)
         self.dropdown.initialize_filters(self.searchbar)
-        self._select_button = self._ui.get_object('select-button')
-        self._cancel_button = self._ui.get_object('done-button')
-        self._back_button = self._ui.get_object('back-button')
+
         self._selection_menu = self._ui.get_object('selection-menu')
         self._selection_menu_button = self._ui.get_object(
             'selection-menu-button')
         self._selection_menu_label = self._ui.get_object(
             'selection-menu-button-label')
 
-        self._back_button.connect('clicked', self.on_back_button_clicked)
-        self._window = self.header_bar.get_parent()
+        self._back_button.connect(
+            'clicked', self.on_back_button_clicked)
+
+        self._window = self.get_toplevel()
 
         self.bind_property(
-            'selection-mode', self.header_bar, 'show-close-button',
+            'selection-mode', self, 'show-close-button',
             GObject.BindingFlags.INVERT_BOOLEAN |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -96,9 +104,9 @@ class Toolbar(GObject.GObject):
         self._selection_mode = mode
 
         if mode:
-            self.header_bar.get_style_context().add_class('selection-mode')
+            self.get_style_context().add_class('selection-mode')
         else:
-            self.header_bar.get_style_context().remove_class('selection-mode')
+            self.get_style_context().remove_class('selection-mode')
             self._select_button.set_active(False)
 
         self._update()
@@ -114,10 +122,10 @@ class Toolbar(GObject.GObject):
         self._state = value
         self._update()
 
-        search_visible = self.props.state != Toolbar.State.SEARCH
+        search_visible = self.props.state != Topbar.State.SEARCH
         self._search_button.props.visible = search_visible
 
-        if value == Toolbar.State.EMPTY:
+        if value == Topbar.State.EMPTY:
             self._search_button.props.sensitive = False
             self._select_button.props.sensitive = False
             self._stack_switcher.hide()
@@ -128,8 +136,8 @@ class Toolbar(GObject.GObject):
 
     @log
     def reset_header_title(self):
-        self.header_bar.set_title(_("Music"))
-        self.header_bar.set_custom_title(self._stack_switcher)
+        self.set_title(_("Music"))
+        self.set_custom_title(self._stack_switcher)
 
     @log
     def set_stack(self, stack):
@@ -141,7 +149,6 @@ class Toolbar(GObject.GObject):
 
     @log
     def on_back_button_clicked(self, widget=None):
-        self._window = self.header_bar.get_parent()
         visible_child = self._window.curr_view.get_visible_child()
 
         view = self._stack_switcher.get_stack().get_visible_child()
@@ -151,7 +158,7 @@ class Toolbar(GObject.GObject):
         if not ((current_view == self._window.views[View.SEARCH]
                  or current_view == self._window.views[View.EMPTY])
                 and visible_child != current_view._grid):
-            self.props.state = Toolbar.State.MAIN
+            self.props.state = Topbar.State.MAIN
         else:
             self._search_button.set_visible(True)
 
@@ -160,13 +167,13 @@ class Toolbar(GObject.GObject):
     @log
     def _update(self):
         if self.props.selection_mode:
-            self.header_bar.set_custom_title(self._selection_menu_button)
-        elif self.props.state != Toolbar.State.MAIN:
-            self.header_bar.set_custom_title(None)
+            self.set_custom_title(self._selection_menu_button)
+        elif self.props.state != Topbar.State.MAIN:
+            self.set_custom_title(None)
         else:
             self.reset_header_title()
 
         self._back_button.set_visible(
             not self._selection_mode
-            and self.props.state != Toolbar.State.MAIN
-            and self.props.state != Toolbar.State.EMPTY)
+            and self.props.state != Topbar.State.MAIN
+            and self.props.state != Topbar.State.EMPTY)

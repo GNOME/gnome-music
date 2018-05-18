@@ -125,8 +125,6 @@ class ArtistAlbumWidget(Gtk.Box):
             self._disc_listbox.props.selection_mode = True
             self._header_bar.props.selection_mode = True
             self._parent_view.set_player_visible(False)
-            self._header_bar.header_bar.set_custom_title(
-                self._header_bar._selection_menu_button)
         else:
             self._selection_mode = False
             self._disc_listbox.props.selection_mode = False
