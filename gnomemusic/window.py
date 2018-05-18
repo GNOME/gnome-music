@@ -305,7 +305,7 @@ class Window(Gtk.ApplicationWindow):
         self._stack.set_visible_child(self.views[View.ALBUM])
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
         self.toolbar.props.state = HeaderBar.State.MAIN
-        self.toolbar.set_stack(self._stack)
+        self.toolbar.props.stack = self._stack
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()
 
