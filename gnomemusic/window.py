@@ -382,7 +382,7 @@ class Window(Gtk.ApplicationWindow):
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left
                     and modifiers == mod1_mask):
-                self.toolbar.on_back_button_clicked()
+                self.toolbar._on_back_button_clicked()
             if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
                     and modifiers == control_mask):
                 self._toggle_view(View.ALBUM)
@@ -440,7 +440,7 @@ class Window(Gtk.ApplicationWindow):
         __, code = event.get_button()
         # Mouse button 8 is the navigation button
         if code == 8:
-            self.toolbar.on_back_button_clicked()
+            self.toolbar._on_back_button_clicked()
 
     @log
     def _notify_mode_disconnect(self, data=None):
