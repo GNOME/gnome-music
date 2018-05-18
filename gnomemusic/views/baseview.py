@@ -249,8 +249,7 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(False)
-        self._header_bar._selection_menu.label.set_text(
-            _("Click on items to select them"))
+        self._header_bar.items_selected = 0
         self.queue_draw()
 
     @log
