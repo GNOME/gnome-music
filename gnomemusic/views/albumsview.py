@@ -89,7 +89,7 @@ class AlbumsView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._header_bar.reset_header_title()
+        self._header_bar.state = HeaderBar.State.MAIN
         self.set_visible_child(self._grid)
 
     @log

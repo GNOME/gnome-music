@@ -156,10 +156,6 @@ class HeaderBar(Gtk.HeaderBar):
             self._stack_switcher.show()
 
     @log
-    def reset_header_title(self):
-        self.props.custom_title = self._stack_switcher
-
-    @log
     def set_stack(self, stack):
         self._stack_switcher.props.stack = stack
 
@@ -195,7 +191,7 @@ class HeaderBar(Gtk.HeaderBar):
         elif self.props.state != HeaderBar.State.MAIN:
             self.props.custom_title = None
         else:
-            self.reset_header_title()
+            self.props.custom_title = self._stack_switcher
 
         self._back_button.props.visible = (
             not self.props.selection_mode
