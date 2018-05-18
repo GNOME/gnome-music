@@ -37,7 +37,7 @@ from gnomemusic.searchbar import Searchbar, DropDown
 from gnomemusic.utils import View
 
 @Gtk.Template(resource_path="/org/gnome/Music/headerbar.ui")
-class Topbar(Gtk.HeaderBar):
+class HeaderBar(Gtk.HeaderBar):
 
     class State(IntEnum):
         MAIN = 0
@@ -45,7 +45,7 @@ class Topbar(Gtk.HeaderBar):
         SEARCH = 2
         EMPTY = 3
 
-    __gtype_name__ = 'Topbar'
+    __gtype_name__ = 'HeaderBar'
 
     _search_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
@@ -53,7 +53,7 @@ class Topbar(Gtk.HeaderBar):
     _back_button = Gtk.Template.Child()
 
     def __repr__(self):
-        return '<Topbar>'
+        return '<HeaderBar>'
 
     @log
     def __init__(self):
@@ -119,10 +119,10 @@ class Topbar(Gtk.HeaderBar):
         self._state = value
         self._update()
 
-        search_visible = self.props.state != Topbar.State.SEARCH
+        search_visible = self.props.state != HeaderBar.State.SEARCH
         self._search_button.props.visible = search_visible
 
-        if value == Topbar.State.EMPTY:
+        if value == HeaderBar.State.EMPTY:
             self._search_button.props.sensitive = False
             self._select_button.props.sensitive = False
             self._stack_switcher.hide()
@@ -167,12 +167,12 @@ class Topbar(Gtk.HeaderBar):
     def _update(self):
         if self.props.selection_mode:
             self.set_custom_title(self._selection_menu_button)
-        elif self.props.state != Topbar.State.MAIN:
+        elif self.props.state != HeaderBar.State.MAIN:
             self.set_custom_title(None)
         else:
             self.reset_header_title()
 
         self._back_button.set_visible(
             not self._selection_mode
-            and self.props.state != Topbar.State.MAIN
-            and self.props.state != Topbar.State.EMPTY)
+            and self.props.state != HeaderBar.State.MAIN
+            and self.props.state != HeaderBar.State.EMPTY)

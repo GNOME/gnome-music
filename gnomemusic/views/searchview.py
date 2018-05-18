@@ -31,7 +31,7 @@ from gnomemusic import log
 from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
-from gnomemusic.toolbar import Topbar
+from gnomemusic.toolbar import HeaderBar
 from gnomemusic.utils import View
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.albumwidget import AlbumWidget
@@ -96,7 +96,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
-        self._window.toolbar.props.state = Topbar.State.MAIN
+        self._window.toolbar.props.state = HeaderBar.State.MAIN
 
     @log
     def _on_item_activated(self, widget, id, path):
@@ -117,7 +117,7 @@ class SearchView(BaseView):
 
             self._album_widget.update(
                 item, self._header_bar, self._selection_toolbar)
-            self._header_bar.props.state = Topbar.State.SEARCH
+            self._header_bar.props.state = HeaderBar.State.SEARCH
 
             self._header_bar.props.title = title
             self._header_bar.props.subtitle = artist
@@ -133,7 +133,7 @@ class SearchView(BaseView):
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
-            self._header_bar.props.state = Topbar.State.SEARCH
+            self._header_bar.props.state = HeaderBar.State.SEARCH
             self._header_bar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.reveal(False)
@@ -344,7 +344,7 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self._header_bar.props.state = Topbar.State.MAIN
+        self._header_bar.props.state = HeaderBar.State.MAIN
 
     @log
     def get_selected_songs(self, callback):
