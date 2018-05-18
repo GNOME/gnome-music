@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import gi
+gi.require_version("Gd", "1.0")
 from gi.repository import Gd, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
