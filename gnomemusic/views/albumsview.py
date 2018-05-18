@@ -30,8 +30,8 @@ from gi.repository import GLib, GObject, Gtk, Gdk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
-from gnomemusic.toolbar import HeaderBar
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.coverstack import CoverStack
 import gnomemusic.utils as utils

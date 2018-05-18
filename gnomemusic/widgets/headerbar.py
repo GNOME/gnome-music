@@ -1,9 +1,4 @@
-# Copyright (c) 2013 Vadim Rutkovsky <vrutkovs@redhat.com>
-# Copyright (c) 2013 Arnel A. Borja <kyoushuu@yahoo.com>
-# Copyright (c) 2013 Eslam Mostafa <cseslam@gmail.com>
-# Copyright (c) 2013 Sai Suman Prayaga <suman.sai14@gmail.com>
-# Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>
-# Copyright (c) 2013 Guillaume Quintard <guillaume.quintard@gmail.com>
+# Copyright 2018 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -52,7 +47,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
         super().__init__()
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/headerbar.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/HeaderBar.ui")
 class HeaderBar(Gtk.HeaderBar):
 
     class State(IntEnum):

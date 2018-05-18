@@ -12,7 +12,6 @@ gnomemusic/mpris.py
 gnomemusic/playlists.py
 gnomemusic/query.py
 gnomemusic/searchbar.py
-gnomemusic/toolbar.py
 gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
@@ -25,6 +24,7 @@ gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/artistalbumswidget.py
 gnomemusic/widgets/artistalbumwidget.py
 gnomemusic/widgets/disclistboxwidget.py
+gnomemusic/widgets/headerbar.py
 gnomemusic/widgets/notificationspopup.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistdialog.py
@@ -33,7 +33,7 @@ gnomemusic/window.py
 data/AboutDialog.ui.in
 data/AlbumWidget.ui
 data/app-menu.ui
-data/headerbar.ui
+data/HeaderBar.ui
 data/help-overlay.ui
 data/PlayerToolbar.ui
 data/PlaylistContextMenu.ui
