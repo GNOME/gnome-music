@@ -82,8 +82,6 @@ class Topbar(Gtk.HeaderBar):
         self._back_button.connect(
             'clicked', self.on_back_button_clicked)
 
-        self._window = self.get_toplevel()
-
         self.bind_property(
             'selection-mode', self, 'show-close-button',
             GObject.BindingFlags.INVERT_BOOLEAN |
@@ -148,16 +146,18 @@ class Topbar(Gtk.HeaderBar):
 
     @log
     def on_back_button_clicked(self, widget=None):
-        visible_child = self._window.curr_view.get_visible_child()
+        window = self.get_toplevel()
+
+        visible_child = window.curr_view.get_visible_child()
 
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
 
-        current_view = self._window.curr_view
-        if not ((current_view == self._window.views[View.SEARCH]
-                 or current_view == self._window.views[View.EMPTY])
+        current_view = window.curr_view
+        if not ((current_view == window.views[View.SEARCH]
+                 or current_view == window.views[View.EMPTY])
                 and visible_child != current_view._grid):
-            self.props.state = Topbar.State.MAIN
+            self.props.state = HeaderBar.State.MAIN
         else:
             self._search_button.set_visible(True)
 
