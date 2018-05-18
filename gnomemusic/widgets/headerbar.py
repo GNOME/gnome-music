@@ -110,9 +110,9 @@ class HeaderBar(Gtk.HeaderBar):
             GObject.BindingFlags.INVERT_BOOLEAN |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "selection_mode", self._cancel_button, "visible")
+            "selection-mode", self._cancel_button, "visible")
         self.bind_property(
-            "selection_mode", self._select_button, "visible",
+            "selection-mode", self._select_button, "visible",
             GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
             "stack", self._stack_switcher, "stack",
@@ -122,10 +122,12 @@ class HeaderBar(Gtk.HeaderBar):
             "items-selected", self._selection_menu, "items-selected")
 
     @GObject.Property(type=bool, default=False)
+    @log
     def selection_mode(self):
         return self._selection_mode
 
     @selection_mode.setter
+    @log
     def selection_mode(self, mode):
         self._selection_mode = mode
 
