@@ -37,7 +37,7 @@ from gnomemusic.searchbar import Searchbar, DropDown
 from gnomemusic.utils import View
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/selectionmenu.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/SelectionBarMenuButton.ui")
 class SelectionBarMenuButton(Gtk.MenuButton):
 
     __gtype_name__ = "SelectionBarMenuButton"
