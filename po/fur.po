@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-04 09:54+0000\n"
-"PO-Revision-Date: 2018-05-06 17:23+0200\n"
+"POT-Creation-Date: 2018-05-17 07:44+0000\n"
+"PO-Revision-Date: 2018-05-18 18:03+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -32,7 +32,7 @@ msgstr "Musiche e je le gnove aplicazion GNOME par riprodusi musiche."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
 #: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musiche"
 
@@ -197,11 +197,11 @@ msgstr "Artist no cognossût"
 msgid "Untitled"
 msgstr "Cence Titul"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:507
 msgid "Albums"
 msgstr "Album"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:509
 msgid "Artists"
 msgstr "Artiscj"
 
@@ -211,27 +211,38 @@ msgid_plural "Selected {} items"
 msgstr[0] "Selezionât {} element"
 msgstr[1] "Selezionâts {} elements"
 
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:258
+#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
 #: gnomemusic/widgets/albumwidget.py:193
 #: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Cliche sui elements par selezionaju"
 
-#: gnomemusic/views/emptysearchview.py:53
-msgid "Try a different search"
-msgstr "Prove une ricercje diferente"
-
 # minuscul parce che al ven fûr la prime volte che si invie il program e il test al è tal mieç di une frase:
 # Il contignût de tô cartele di musiche...
-#: gnomemusic/views/emptyview.py:51
+#: gnomemusic/views/emptyview.py:66
 msgid "Music folder"
 msgstr "cartele de musiche"
 
-#: gnomemusic/views/initialstateview.py:50
+# %s o ai viodût che al ven fûr "cartele di musiche"
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:70
+msgid "The contents of your {} will appear here."
+msgstr "Il contignût de tô {} al vignarà mostrât achì."
+
+#: gnomemusic/views/emptyview.py:104
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
+#: gnomemusic/views/emptyview.py:114 gnomemusic/views/emptyview.py:120
+msgid "No music found"
+msgstr "Nissune musiche cjatade"
+
+#: gnomemusic/views/emptyview.py:122
+msgid "Try a different search"
+msgstr "Prove une ricercje diferente"
+
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:513
 msgid "Playlists"
 msgstr "Listis di musichis"
 
@@ -250,7 +261,7 @@ msgstr "Liste di musichis {} gjavade"
 msgid "{} removed from {}"
 msgstr "{} gjavât di {}"
 
-#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:511 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Cjancçons"
 
@@ -288,10 +299,6 @@ msgstr "Pause"
 #: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Sune"
-
-#: gnomemusic/window.py:275
-msgid "Empty"
-msgstr "Vueit"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -491,17 +498,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Torne indaûr"
 
-#: data/NoMusic.ui:36
-msgid "No music found"
-msgstr "Nissune musiche cjatade"
-
-# %s o ai viodût che al ven fûr "cartele di musiche"
-#. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
-#, python-format
-msgid "The contents of your %s will appear here."
-msgstr "Il contignût de tô %s al vegnarà mostrât chi."
-
 #: data/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Messede"
@@ -582,6 +578,9 @@ msgstr "_Zonte"
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Zonte ae liste des musichis"
+
+#~ msgid "Empty"
+#~ msgstr "Vueit"
 
 #~ msgid "Search mode"
 #~ msgstr "Modalitât di ricercje"
