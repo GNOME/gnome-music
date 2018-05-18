@@ -33,7 +33,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.toolbar import Topbar
+from gnomemusic.toolbar import HeaderBar
 from gnomemusic.player import Player, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.utils import View
@@ -211,7 +211,7 @@ class Window(Gtk.ApplicationWindow):
         self.player = Player(self)
         self.player_toolbar = PlayerToolbar(self.player)
         self.selection_toolbar = SelectionToolbar()
-        self.toolbar = Topbar()
+        self.toolbar = HeaderBar()
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -258,7 +258,7 @@ class Window(Gtk.ApplicationWindow):
         self.selection_toolbar.add_to_playlist_button.connect(
             'clicked', self._on_add_to_playlist_button_clicked)
 
-        self.toolbar.props.state = Topbar.State.MAIN
+        self.toolbar.props.state = HeaderBar.State.MAIN
         self.toolbar.show()
         self._overlay.show()
         self.player_toolbar.show_all()
@@ -274,7 +274,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
 
-        self.toolbar.props.state = Topbar.State.EMPTY
+        self.toolbar.props.state = HeaderBar.State.EMPTY
 
     @log
     def _switch_to_player_view(self):
@@ -304,7 +304,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.set_visible_child(self.views[View.ALBUM])
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
-        self.toolbar.props.state = Topbar.State.MAIN
+        self.toolbar.props.state = HeaderBar.State.MAIN
         self.toolbar.set_stack(self._stack)
         self.toolbar.searchbar.show()
         self.toolbar.dropdown.show()
@@ -313,7 +313,7 @@ class Window(Gtk.ApplicationWindow):
     def _select_all(self, action=None, param=None):
         if not self.toolbar.props.selection_mode:
             return
-        if self.toolbar.props.state == Topbar.State.MAIN:
+        if self.toolbar.props.state == HeaderBar.State.MAIN:
             view = self._stack.get_visible_child()
         else:
             view = self._stack.get_visible_child().get_visible_child()
@@ -324,7 +324,7 @@ class Window(Gtk.ApplicationWindow):
     def _select_none(self, action=None, param=None):
         if not self.toolbar.props.selection_mode:
             return
-        if self.toolbar.props.state == Topbar.State.MAIN:
+        if self.toolbar.props.state == HeaderBar.State.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()
         else:
@@ -351,7 +351,7 @@ class Window(Gtk.ApplicationWindow):
             toolbar_state = self.toolbar.props.state
             if ((event.keyval == Gdk.KEY_f and modifiers == control_mask)
                     and not self.views[View.PLAYLIST].rename_active
-                    and toolbar_state != Topbar.State.SEARCH):
+                    and toolbar_state != HeaderBar.State.SEARCH):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
@@ -428,7 +428,7 @@ class Window(Gtk.ApplicationWindow):
                 and (modifiers == Gdk.ModifierType.SHIFT_MASK
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
-                and self.toolbar.props.state != Topbar.State.SEARCH):
+                and self.toolbar.props.state != HeaderBar.State.SEARCH):
             self.toolbar.searchbar.reveal(True)
 
     @log
@@ -495,7 +495,7 @@ class Window(Gtk.ApplicationWindow):
                 and (self.curr_view == self.views[View.SEARCH]
                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
-            if self.toolbar.props.state == Topbar.State.MAIN:
+            if self.toolbar.props.state == HeaderBar.State.MAIN:
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)
