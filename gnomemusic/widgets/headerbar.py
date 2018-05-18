@@ -40,9 +40,9 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     _menu_label = Gtk.Template.Child()
 
     def __repr__(self):
-        return '<SelectionBarMenuButton>'
+        return "<SelectionBarMenuButton>"
 
-        self.items_selected = 0
+        self._items_selected = 0
 
     @log
     def __init__(self):
@@ -75,7 +75,7 @@ class HeaderBar(Gtk.HeaderBar):
         SEARCH = 2
         EMPTY = 3
 
-    __gtype_name__ = 'HeaderBar'
+    __gtype_name__ = "HeaderBar"
 
     _search_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
@@ -85,7 +85,7 @@ class HeaderBar(Gtk.HeaderBar):
     items_selected = GObject.Property(type=int, default=0, minimum=0)
 
     def __repr__(self):
-        return '<HeaderBar>'
+        return "<HeaderBar>"
 
     @log
     def __init__(self):
@@ -93,8 +93,8 @@ class HeaderBar(Gtk.HeaderBar):
 
         self._selection_mode = False
 
-        self._stack_switcher = Gtk.StackSwitcher(can_focus=False,
-                                                 halign="center")
+        self._stack_switcher = Gtk.StackSwitcher(
+            can_focus=False, halign="center")
         self._stack_switcher.show()
 
         self.dropdown = DropDown()
@@ -105,16 +105,16 @@ class HeaderBar(Gtk.HeaderBar):
         self._selection_menu = SelectionBarMenuButton()
 
         self.bind_property(
-            'selection-mode', self, 'show-close-button',
+            "selection-mode", self, "show-close-button",
             GObject.BindingFlags.INVERT_BOOLEAN |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            'selection_mode', self._cancel_button, 'visible')
+            "selection_mode", self._cancel_button, "visible")
         self.bind_property(
-            'selection_mode', self._select_button, 'visible',
+            "selection_mode", self._select_button, "visible",
             GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
-            'items-selected', self._selection_menu, 'items-selected')
+            "items-selected", self._selection_menu, "items-selected")
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
@@ -125,10 +125,10 @@ class HeaderBar(Gtk.HeaderBar):
         self._selection_mode = mode
 
         if mode:
-            self.get_style_context().add_class('selection-mode')
+            self.get_style_context().add_class("selection-mode")
         else:
-            self.get_style_context().remove_class('selection-mode')
-            self._select_button.set_active(False)
+            self.get_style_context().remove_class("selection-mode")
+            self._select_button.props.active = False
 
         self._update()
 
@@ -157,16 +157,15 @@ class HeaderBar(Gtk.HeaderBar):
 
     @log
     def reset_header_title(self):
-        self.set_title(_("Music"))
-        self.set_custom_title(self._stack_switcher)
+        self.props.custom_title = self._stack_switcher
 
     @log
     def set_stack(self, stack):
-        self._stack_switcher.set_stack(stack)
+        self._stack_switcher.props.stack = stack
 
     @log
     def get_stack(self):
-        return self._stack_switcher.get_stack()
+        return self._stack_switcher.props.stack
 
     @Gtk.Template.Callback()
     @log
@@ -185,20 +184,21 @@ class HeaderBar(Gtk.HeaderBar):
                 and visible_child != current_view._grid):
             self.props.state = HeaderBar.State.MAIN
         else:
-            self._search_button.set_visible(True)
+            self._search_button.props.visible = True
 
         self.searchbar.reveal(False)
 
     @log
     def _update(self):
         if self.props.selection_mode:
-            self.set_custom_title(self._selection_menu)
+            self.props.custom_title = self._selection_menu
         elif self.props.state != HeaderBar.State.MAIN:
-            self.set_custom_title(None)
+            self.props.custom_title = None
         else:
             self.reset_header_title()
 
-        self._back_button.set_visible(
-            not self._selection_mode
+        self._back_button.props.visible = (
+            not self.props.selection_mode
             and self.props.state != HeaderBar.State.MAIN
-            and self.props.state != HeaderBar.State.EMPTY)
+            and self.props.state != HeaderBar.State.EMPTY
+        )
