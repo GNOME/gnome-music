@@ -33,7 +33,6 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.toolbar import HeaderBar
 from gnomemusic.player import Player, RepeatType
 from gnomemusic.query import Query
 from gnomemusic.utils import View
@@ -43,6 +42,7 @@ from gnomemusic.views.emptyview import EmptyView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
+from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
