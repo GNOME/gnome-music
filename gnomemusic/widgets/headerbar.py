@@ -104,9 +104,6 @@ class HeaderBar(Gtk.HeaderBar):
 
         self._selection_menu = SelectionBarMenuButton()
 
-        self._back_button.connect(
-            'clicked', self.on_back_button_clicked)
-
         self.bind_property(
             'selection-mode', self, 'show-close-button',
             GObject.BindingFlags.INVERT_BOOLEAN |
@@ -171,12 +168,14 @@ class HeaderBar(Gtk.HeaderBar):
     def get_stack(self):
         return self._stack_switcher.get_stack()
 
+    @Gtk.Template.Callback()
     @log
-    def on_back_button_clicked(self, widget=None):
+    def _on_back_button_clicked(self, widget=None):
         window = self.get_toplevel()
 
         visible_child = window.curr_view.get_visible_child()
 
+        # FIXME: Stack switch logic should not be here.
         view = self._stack_switcher.get_stack().get_visible_child()
         view._back_button_clicked(view)
 
