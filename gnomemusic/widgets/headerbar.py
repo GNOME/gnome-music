@@ -24,7 +24,7 @@
 
 from enum import IntEnum
 
-from gettext import gettext as _
+from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
@@ -42,9 +42,28 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     def __repr__(self):
         return '<SelectionBarMenuButton>'
 
+        self.items_selected = 0
+
     @log
     def __init__(self):
         super().__init__()
+
+    @GObject.Property(type=int, default=0, minimum=0)
+    @log
+    def items_selected(self):
+        return self._items_selected
+
+    @items_selected.setter
+    @log
+    def items_selected(self, value):
+        self._items_selected = value
+
+        if value > 0:
+            text = ngettext(
+                "Selected {} item", "Selected {} items", value).format(value)
+            self.label.props.label = text
+        else:
+            self.label.props.label = _("Click on items to select them")
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/HeaderBar.ui")
@@ -62,6 +81,8 @@ class HeaderBar(Gtk.HeaderBar):
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
+
+    items_selected = GObject.Property(type=int, default=0, minimum=0)
 
     def __repr__(self):
         return '<HeaderBar>'
@@ -95,6 +116,8 @@ class HeaderBar(Gtk.HeaderBar):
         self.bind_property(
             'selection_mode', self._select_button, 'visible',
             GObject.BindingFlags.INVERT_BOOLEAN)
+        self.bind_property(
+            'items-selected', self._selection_menu, 'items-selected')
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
