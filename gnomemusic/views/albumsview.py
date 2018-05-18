@@ -105,7 +105,7 @@ class AlbumsView(BaseView):
         self._album_widget.update(
             item, self._header_bar, self._selection_toolbar)
 
-        self._header_bar.props.state = Toolbar.State.CHILD_VIEW
+        self._header_bar.props.state = Toolbar.State.CHILD
         self._header_bar.header_bar.set_title(utils.get_album_title(item))
         self._header_bar.header_bar.set_subtitle(utils.get_artist_name(item))
         self.set_visible_child(self._album_widget)
@@ -119,7 +119,7 @@ class AlbumsView(BaseView):
     def get_selected_songs(self, callback):
         # FIXME: we call into private objects with full knowledge of
         # what is there
-        if self._header_bar.props.state == Toolbar.State.CHILD_VIEW:
+        if self._header_bar.props.state == Toolbar.State.CHILD:
             callback(self._album_widget._disc_listbox.get_selected_items())
         else:
             self.items_selected = []

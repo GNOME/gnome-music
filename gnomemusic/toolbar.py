@@ -41,9 +41,9 @@ class Toolbar(GObject.GObject):
 
     class State(IntEnum):
         MAIN = 0
-        CHILD_VIEW = 1
-        SEARCH_VIEW = 2
-        EMPTY_VIEW = 3
+        CHILD = 1
+        SEARCH = 2
+        EMPTY = 3
 
     def __repr__(self):
         return '<Toolbar>'
@@ -114,10 +114,10 @@ class Toolbar(GObject.GObject):
         self._state = value
         self._update()
 
-        search_visible = self.props.state != Toolbar.State.SEARCH_VIEW
+        search_visible = self.props.state != Toolbar.State.SEARCH
         self._search_button.props.visible = search_visible
 
-        if value == Toolbar.State.EMPTY_VIEW:
+        if value == Toolbar.State.EMPTY:
             self._search_button.props.sensitive = False
             self._select_button.props.sensitive = False
             self._stack_switcher.hide()
@@ -169,4 +169,4 @@ class Toolbar(GObject.GObject):
         self._back_button.set_visible(
             not self._selection_mode
             and self.props.state != Toolbar.State.MAIN
-            and self.props.state != Toolbar.State.EMPTY_VIEW)
+            and self.props.state != Toolbar.State.EMPTY)

@@ -117,7 +117,7 @@ class SearchView(BaseView):
 
             self._album_widget.update(
                 item, self._header_bar, self._selection_toolbar)
-            self._header_bar.props.state = Toolbar.State.SEARCH_VIEW
+            self._header_bar.props.state = Toolbar.State.SEARCH
 
             self._header_bar.header_bar.set_title(title)
             self._header_bar.header_bar.set_subtitle(artist)
@@ -133,7 +133,7 @@ class SearchView(BaseView):
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
-            self._header_bar.props.state = Toolbar.State.SEARCH_VIEW
+            self._header_bar.props.state = Toolbar.State.SEARCH
             self._header_bar.header_bar.set_title(artist)
             self.set_visible_child(self._artist_albums_widget)
             self._header_bar.searchbar.reveal(False)

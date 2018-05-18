@@ -274,7 +274,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
 
-        self.toolbar.props.state = Toolbar.State.EMPTY_VIEW
+        self.toolbar.props.state = Toolbar.State.EMPTY
 
     @log
     def _switch_to_player_view(self):
@@ -351,7 +351,7 @@ class Window(Gtk.ApplicationWindow):
             toolbar_state = self.toolbar.props.state
             if ((event.keyval == Gdk.KEY_f and modifiers == control_mask)
                     and not self.views[View.PLAYLIST].rename_active
-                    and toolbar_state != Toolbar.State.SEARCH_VIEW):
+                    and toolbar_state != Toolbar.State.SEARCH):
                 self.toolbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
@@ -428,7 +428,7 @@ class Window(Gtk.ApplicationWindow):
                 and (modifiers == Gdk.ModifierType.SHIFT_MASK
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
-                and self.toolbar.props.state != Toolbar.State.SEARCH_VIEW):
+                and self.toolbar.props.state != Toolbar.State.SEARCH):
             self.toolbar.searchbar.reveal(True)
 
     @log
