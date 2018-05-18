@@ -15,13 +15,11 @@ gnomemusic/searchbar.py
 gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
-gnomemusic/views/baseview.py
 gnomemusic/views/emptyview.py
 gnomemusic/views/playlistview.py
 gnomemusic/views/searchview.py
 gnomemusic/views/songsview.py
 gnomemusic/widgets/albumwidget.py
-gnomemusic/widgets/artistalbumswidget.py
 gnomemusic/widgets/artistalbumwidget.py
 gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/headerbar.py

@@ -22,7 +22,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _, ngettext
 from gi.repository import Gd, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
@@ -184,14 +183,7 @@ class BaseView(Gtk.Stack):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
-        if n_items > 0:
-            self._header_bar._selection_menu.label.set_text(
-                ngettext("Selected {} item",
-                         "Selected {} items",
-                         n_items).format(n_items))
-        else:
-            self._header_bar._selection_menu.label.set_text(
-                _("Click on items to select them"))
+        self._header_bar.items_selected = n_items
 
     @log
     def _populate(self, data=None):
@@ -256,8 +248,7 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(False)
-        self._header_bar._selection_menu.label.set_text(
-            _("Click on items to select them"))
+        self._header_bar.items_selected = 0
         self.queue_draw()
 
     @log
