@@ -185,12 +185,12 @@ class BaseView(Gtk.Stack):
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
         if n_items > 0:
-            self._header_bar._selection_menu_label.set_text(
+            self._header_bar._selection_menu.label.set_text(
                 ngettext("Selected {} item",
                          "Selected {} items",
                          n_items).format(n_items))
         else:
-            self._header_bar._selection_menu_label.set_text(
+            self._header_bar._selection_menu.label.set_text(
                 _("Click on items to select them"))
 
     @log
@@ -256,7 +256,7 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(False)
-        self._header_bar._selection_menu_label.set_text(
+        self._header_bar._selection_menu.label.set_text(
             _("Click on items to select them"))
         self.queue_draw()
 

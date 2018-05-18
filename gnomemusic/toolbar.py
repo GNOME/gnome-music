@@ -37,6 +37,21 @@ from gnomemusic.searchbar import Searchbar, DropDown
 from gnomemusic.utils import View
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/selectionmenu.ui")
+class SelectionBarMenuButton(Gtk.MenuButton):
+
+    __gtype_name__ = "SelectionBarMenuButton"
+
+    label = Gtk.Template.Child()
+
+    def __repr__(self):
+        return '<SelectionBarMenuButton>'
+
+    @log
+    def __init__(self):
+        super().__init__()
+
+
 @Gtk.Template(resource_path="/org/gnome/Music/headerbar.ui")
 class HeaderBar(Gtk.HeaderBar):
 
@@ -66,19 +81,12 @@ class HeaderBar(Gtk.HeaderBar):
                                                  halign="center")
         self._stack_switcher.show()
 
-        self._ui = Gtk.Builder()
-        self._ui.add_from_resource('/org/gnome/Music/selectionmenu.ui')
-
         self.dropdown = DropDown()
         self.searchbar = Searchbar(
             self._stack_switcher, self._search_button, self.dropdown)
         self.dropdown.initialize_filters(self.searchbar)
 
-        self._selection_menu = self._ui.get_object('selection-menu')
-        self._selection_menu_button = self._ui.get_object(
-            'selection-menu-button')
-        self._selection_menu_label = self._ui.get_object(
-            'selection-menu-button-label')
+        self._selection_menu = SelectionBarMenuButton()
 
         self._back_button.connect(
             'clicked', self.on_back_button_clicked)
@@ -167,7 +175,7 @@ class HeaderBar(Gtk.HeaderBar):
     @log
     def _update(self):
         if self.props.selection_mode:
-            self.set_custom_title(self._selection_menu_button)
+            self.set_custom_title(self._selection_menu)
         elif self.props.state != HeaderBar.State.MAIN:
             self.set_custom_title(None)
         else:
