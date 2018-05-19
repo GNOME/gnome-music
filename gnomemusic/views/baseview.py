@@ -92,7 +92,7 @@ class BaseView(Gtk.Stack):
 
         self._star_handler = StarHandlerWidget(self, 9)
         self._window = window
-        self._header_bar = window.toolbar
+        self._header_bar = window.headerbar
         self._selection_toolbar = window.selection_toolbar
         self._header_bar._select_button.connect(
             'toggled', self._on_header_bar_toggled)

@@ -96,7 +96,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
-        self._window.toolbar.props.state = HeaderBar.State.MAIN
+        self._header_bar.props.state = HeaderBar.State.MAIN
 
     @log
     def _on_item_activated(self, widget, id, path):
