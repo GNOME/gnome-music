@@ -167,10 +167,10 @@ class HeaderBar(Gtk.HeaderBar):
     def _on_back_button_clicked(self, widget=None):
         window = self.get_toplevel()
 
-        visible_child = window.curr_view.get_visible_child()
+        visible_child = window.curr_view.props.visible_child
 
         # FIXME: Stack switch logic should not be here.
-        view = self._stack_switcher.props.stack.get_visible_child()
+        view = self._stack_switcher.props.stack.props.visible_child
         view._back_button_clicked(view)
 
         current_view = window.curr_view

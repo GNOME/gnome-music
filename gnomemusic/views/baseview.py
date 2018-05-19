@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2018 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -185,7 +185,7 @@ class BaseView(Gtk.Stack):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
-        self._header_bar.items_selected = n_items
+        self._header_bar.props.items_selected = n_items
 
     @log
     def _populate(self, data=None):
@@ -250,7 +250,7 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(False)
-        self._header_bar.items_selected = 0
+        self._header_bar.props.items_selected = 0
         self.queue_draw()
 
     @log
