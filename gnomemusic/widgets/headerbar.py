@@ -34,6 +34,10 @@ from gnomemusic.utils import View
 
 @Gtk.Template(resource_path="/org/gnome/Music/SelectionBarMenuButton.ui")
 class SelectionBarMenuButton(Gtk.MenuButton):
+    """Button for popup to select all or no items
+
+    The button label indicates the number of items selected.
+    """
 
     __gtype_name__ = "SelectionBarMenuButton"
 
@@ -51,11 +55,20 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     @GObject.Property(type=int, default=0, minimum=0)
     @log
     def items_selected(self):
+        """The number of items selected
+
+        :returns: Number of items selected
+        :rtype: int
+        """
         return self._items_selected
 
     @items_selected.setter
     @log
     def items_selected(self, value):
+        """Set the number of items selected
+
+        :param int value: The number of items selected
+        """
         self._items_selected = value
 
         if value > 0:
@@ -68,8 +81,10 @@ class SelectionBarMenuButton(Gtk.MenuButton):
 
 @Gtk.Template(resource_path="/org/gnome/Music/HeaderBar.ui")
 class HeaderBar(Gtk.HeaderBar):
+    """Headerbar of the application"""
 
     class State(IntEnum):
+        """States the Headerbar can have"""
         MAIN = 0
         CHILD = 1
         SEARCH = 2
@@ -124,11 +139,20 @@ class HeaderBar(Gtk.HeaderBar):
     @GObject.Property(type=bool, default=False)
     @log
     def selection_mode(self):
+        """Selection mode
+
+        :returns: Selection mode
+        :rtype: bool
+        """
         return self._selection_mode
 
     @selection_mode.setter
     @log
     def selection_mode(self, mode):
+        """Set the selection mode
+
+        :param bool value: Selection mode
+        """
         self._selection_mode = mode
 
         if mode:
@@ -142,11 +166,22 @@ class HeaderBar(Gtk.HeaderBar):
     @GObject.Property
     @log
     def state(self):
+        """State of the widget
+
+        :returns: Widget state
+        :rtype: HeaderBar.State
+        """
         return self._state
 
     @state.setter
     @log
     def state(self, value):
+        """Set state of the of widget
+
+        This influences the look and functionality of the headerbar.
+
+        :param HeaderBar.State value: Widget state
+        """
         self._state = value
         self._update()
 
