@@ -242,7 +242,6 @@ class BaseView(Gtk.Stack):
             select_toolbar.add_to_playlist_button.set_sensitive(True)
 
         self.update_header_from_selection(count)
-        self._view.queue_draw()
 
     @log
     def unselect_all(self):
@@ -251,7 +250,6 @@ class BaseView(Gtk.Stack):
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(False)
         self._header_bar.props.items_selected = 0
-        self.queue_draw()
 
     @log
     def set_player_visible(self, visible):
