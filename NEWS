@@ -1,3 +1,67 @@
+Overview of changes in 3.29.2
+=============================
+
+* Update appdata
+* Fix issue with untranslated UI elements
+* CI use flake8 instead of pep8 & pyflakes
+* CI generate flatpak bundles for every commit and MR
+* Use libsoup for http requests
+* Use CSS styling instead of widget attributes
+* Merge emptystate views
+* Add optional suspend inhibition gsetting
+* Cleanup and split of Player and Toolbar classes
+* Numerous miscellaneous cleanups
+
+Bugs fixed:
+ Partly untranslated user interface (#169)
+ albumartcache: Do not close non-existing stream on error (!95)
+ albumartcache: Fix possible lookup loop (!95)
+ albumartcache: Do not send two signals on error (!95)
+ Minor optimizations (!138)
+ flatpak: Enable MPRIS and GNOME media keys (!129)
+ notificationspopup: Fix source not found warning (!131)
+ Ellipsized songs in Artists View are improperly aligned (#173)
+ Fix notification calls on startup (!147)
+ grilo: Fix audio check (!159)
+ AlbumsView: Fix runtime updates still triggering
+ [playlist dialog] implement empty state dialog (#74)
+ Default search does not search in composer field (#140)
+ SearchView does not use the same model as other views (#160)
+ Use CSS style instead of html markup to color text (#163)
+ Fix Running Length label translation in AlbumViewWidget (#177)
+ local searchtag not removed when doing non-local searches (#130)
+ Replace requests usage with libsoup (#144)
+ Use DzlBoldingLabel for TrackWidget (#178)
+ player: Add optional inhibition of system suspend (#182)
+ Pressing escape when renaming a playlist does not cancel rename (#188)
+
+Thanks to our contributors this release:
+ Ashwin Mohan
+ Apostol Bakalov
+ Jean Felder
+ Marinus Schraal
+ Adrian Solom
+ Juan José González
+ Bruce Cowan
+ Alexander Mikhaylenko
+ Subhadip Jana
+ Georges Basile Stavracas
+ Piotr Drąg
+
+Translations updated:
+ Danish
+ Croatian
+ Greek
+ British English
+ Turkish
+ Russian
+ Slovenian
+ Romanian
+ Friulian
+ Czech
+ Indonesian
+ Spanish
+
 Overview of changes in 3.27.92
 ==============================
 
