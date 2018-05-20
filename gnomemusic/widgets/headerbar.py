@@ -46,14 +46,12 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     def __repr__(self):
         return "<SelectionBarMenuButton>"
 
-    @log
     def __init__(self):
         super().__init__()
 
         self._items_selected = 0
 
     @GObject.Property(type=int, default=0, minimum=0)
-    @log
     def items_selected(self):
         """The number of items selected
 
@@ -63,7 +61,6 @@ class SelectionBarMenuButton(Gtk.MenuButton):
         return self._items_selected
 
     @items_selected.setter
-    @log
     def items_selected(self, value):
         """Set the number of items selected
 
@@ -145,7 +142,6 @@ class HeaderBar(Gtk.HeaderBar):
             self._on_selection_mode_allowed_changed)
 
     @GObject.Property(type=bool, default=False)
-    @log
     def selection_mode(self):
         """Selection mode
 
@@ -155,7 +151,6 @@ class HeaderBar(Gtk.HeaderBar):
         return self._selection_mode
 
     @selection_mode.setter
-    @log
     def selection_mode(self, mode):
         """Set the selection mode
 
@@ -172,7 +167,6 @@ class HeaderBar(Gtk.HeaderBar):
         self._update()
 
     @GObject.Property
-    @log
     def state(self):
         """State of the widget
 
@@ -182,7 +176,6 @@ class HeaderBar(Gtk.HeaderBar):
         return self._state
 
     @state.setter
-    @log
     def state(self, value):
         """Set state of the of widget
 

@@ -356,7 +356,6 @@ class Player(GObject.GObject):
             return True
 
     @GObject.Property
-    @log
     def playing(self):
         """Returns if a song is currently played
 
@@ -602,7 +601,6 @@ class Player(GObject.GObject):
         return self._player.state
 
     @GObject.Property
-    @log
     def url(self):
         """GstPlayer url loaded
 

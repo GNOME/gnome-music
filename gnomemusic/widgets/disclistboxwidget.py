@@ -55,7 +55,6 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         self.get_style_context().add_class('discsongsflowbox')
 
     @GObject.Property(type=int, minimum=1, default=1)
-    @log
     def columns(self):
         """Number of columns for the song list
 
@@ -65,7 +64,6 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         return self._columns
 
     @columns.setter
-    @log
     def columns(self, columns):
         """Set the number of columns to use
 
@@ -354,7 +352,6 @@ class DiscListBox(Gtk.Box):
         self.foreach(child_select_none)
 
     @GObject.Property(type=bool, default=False)
-    @log
     def selection_mode(self):
         """selection mode getter
 
@@ -364,7 +361,6 @@ class DiscListBox(Gtk.Box):
         return self._selection_mode
 
     @selection_mode.setter
-    @log
     def selection_mode(self, value):
         """selection-mode setter
 

@@ -45,7 +45,6 @@ class StarImage(Gtk.Image):
         self.show_all()
 
     @GObject.Property(type=bool, default=False)
-    @log
     def favorite(self):
         """Return the current state of the widget
 
@@ -55,7 +54,6 @@ class StarImage(Gtk.Image):
         return self._favorite
 
     @favorite.setter
-    @log
     def favorite(self, value):
         """Set favorite
 
@@ -71,12 +69,10 @@ class StarImage(Gtk.Image):
             self.unset_state_flags(Gtk.StateFlags.SELECTED)
 
     @GObject.Property(type=bool, default=False)
-    @log
     def hover(self):
         return self._hover
 
     @hover.setter
-    @log
     def hover(self, value):
         if value:
             self.set_state_flags(Gtk.StateFlags.PRELIGHT, False)
