@@ -206,7 +206,6 @@ class GstPlayer(GObject.GObject):
         return Playback.STOPPED
 
     @GObject.Property
-    @log
     def state(self):
         """Current state of the player
 
@@ -216,7 +215,6 @@ class GstPlayer(GObject.GObject):
         return self._get_playback_status()
 
     @state.setter
-    @log
     def state(self, state):
         """Set state of the player
 
@@ -230,7 +228,6 @@ class GstPlayer(GObject.GObject):
             self._player.set_state(Gst.State.PLAYING)
 
     @GObject.Property
-    @log
     def url(self):
         """Current url loaded
 
@@ -240,7 +237,6 @@ class GstPlayer(GObject.GObject):
         return self._player.props.uri
 
     @url.setter
-    @log
     def url(self, url_):
         """url to load next
 
@@ -249,7 +245,6 @@ class GstPlayer(GObject.GObject):
         self._player.set_property('uri', url_)
 
     @GObject.Property
-    @log
     def position(self):
         """Current player position
 
@@ -262,7 +257,6 @@ class GstPlayer(GObject.GObject):
         return position
 
     @GObject.Property
-    @log
     def duration(self):
         """Total duration of current media
 
@@ -278,7 +272,6 @@ class GstPlayer(GObject.GObject):
     # Setter provided to trigger a property signal.
     # For internal use only.
     @duration.setter
-    @log
     def duration(self, duration):
         """Set duration of current media (internal)
 
@@ -287,7 +280,6 @@ class GstPlayer(GObject.GObject):
         self._duration = duration
 
     @GObject.Property
-    @log
     def volume(self):
         """Get current volume
 

@@ -73,7 +73,6 @@ class EmptyView(Gtk.Stack):
         self._state = EmptyView.State.INITIAL
 
     @GObject.Property(type=int, default=0, minimum=0, maximum=2)
-    @log
     def state(self):
         """Get the state of the empty view
 
@@ -83,7 +82,6 @@ class EmptyView(Gtk.Stack):
         return self._state
 
     @state.setter
-    @log
     def state(self, value):
         """Set the state of the empty view
 

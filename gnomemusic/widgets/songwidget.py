@@ -156,7 +156,6 @@ class SongWidget(Gtk.EventBox):
         self._star_image.props.hover = False
 
     @GObject.Property(type=bool, default=False)
-    @log
     def selection_mode(self):
         """Selection mode
 
@@ -166,7 +165,6 @@ class SongWidget(Gtk.EventBox):
         return self._selection_mode
 
     @selection_mode.setter
-    @log
     def selection_mode(self, value):
         """Set the selection mode
 
@@ -179,7 +177,6 @@ class SongWidget(Gtk.EventBox):
             self.props.selected = False
 
     @GObject.Property
-    @log
     def state(self):
         """State of the widget
 

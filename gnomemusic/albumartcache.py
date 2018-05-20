@@ -302,7 +302,6 @@ class Art(GObject.GObject):
                 GLib.filename_to_uri(thumb_file.get_path(), None))
 
     @GObject.Property
-    @log
     def surface(self):
         if self._surface is None:
             self._surface = DefaultIcon().get(
@@ -336,7 +335,6 @@ class ArtImage(Art):
         self._image.set_from_surface(self._surface)
 
     @GObject.Property
-    @log
     def image(self):
         """Returns the image object of the ArtImage class
 
@@ -347,7 +345,6 @@ class ArtImage(Art):
         return self._image.set_from_surface(self._surface)
 
     @image.setter
-    @log
     def image(self, image):
         """Set the image of the Art class instance""
 

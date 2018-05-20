@@ -91,7 +91,6 @@ class GoaLastFM(GObject.GObject):
         self.disabled = klass.props.music_disabled
 
     @GObject.Property(type=bool, default=True)
-    @log
     def disabled(self):
         """Retrieve the disabled status for the Last.fm account
 
@@ -101,7 +100,6 @@ class GoaLastFM(GObject.GObject):
         return self._disabled
 
     @disabled.setter
-    @log
     def disabled(self, value):
         """Set the disabled status for the Last.fm account
 
@@ -110,19 +108,16 @@ class GoaLastFM(GObject.GObject):
         self._disabled = value
 
     @GObject.Property
-    @log
     def secret(self):
         """Retrieve the Last.fm client secret"""
         return self._authentication.props.client_secret
 
     @GObject.Property
-    @log
     def client_id(self):
         """Retrieve the Last.fm client id"""
         return self._authentication.props.client_id
 
     @GObject.Property
-    @log
     def session_key(self):
         """Retrieve the Last.fm session key"""
         return self._authentication.call_get_access_token_sync(None)[0]
