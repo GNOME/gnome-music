@@ -75,12 +75,10 @@ class BaseManager(GObject.GObject):
         self.selected_id = self.values[1][BaseModelColumns.ID]
 
     @GObject.Property
-    @log
     def active(self):
         return self.selected_id
 
     @active.setter
-    @log
     def active(self, selected_id):
         if selected_id == "":
             return
@@ -135,12 +133,10 @@ class SourceManager(BaseManager):
         self.values.append(value)
 
     @GObject.Property
-    @log
     def active(self):
         return super().active
 
     @active.setter
-    @log
     def active(self, selected_id):
         if selected_id == "":
             return

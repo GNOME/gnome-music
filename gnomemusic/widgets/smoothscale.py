@@ -70,7 +70,6 @@ class SmoothScale(Gtk.Scale):
     # FIXME: This is a workaround for not being able to pass the player
     # object via init when using Gtk.Builder.
     @GObject.Property
-    @log
     def player(self):
         """The GstPlayer object used
 
@@ -80,7 +79,6 @@ class SmoothScale(Gtk.Scale):
         return self._player
 
     @player.setter
-    @log
     def player(self, player):
         """Set the GstPlayer object used
 
