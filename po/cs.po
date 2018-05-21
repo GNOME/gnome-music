@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-17 07:44+0000\n"
-"PO-Revision-Date: 2018-05-17 10:47+0200\n"
+"POT-Creation-Date: 2018-05-19 18:22+0000\n"
+"PO-Revision-Date: 2018-05-21 09:41+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -34,8 +34,8 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Hudba je nová aplikace GNOME sloužící k přehrávání hudby."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
-#: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
+#: gnomemusic/application.py:103 gnomemusic/window.py:66
+#: data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Hudba"
 
@@ -111,6 +111,15 @@ msgstr "Počáteční stav byl zobrazen"
 msgid "Set to true when initial state has been displayed"
 msgstr "Nastavit na zapnuto, když byl již zobrazen počáteční stav"
 
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "Bránit uspání systému"
+
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+"Zapne nebo vypne blokování uspávání systému ve chvíli, kdy se přehrává hudba."
+
 #: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Soubor nelze přehrát"
@@ -137,6 +146,10 @@ msgstr[1] ""
 "K přehrání souboru jsou zapotřebí kodeky {}, ale nejsou nainstalovány."
 msgstr[2] ""
 "K přehrání souboru jsou zapotřebí kodeky {}, ale nejsou nainstalovány."
+
+#: gnomemusic/inhibitsuspend.py:68
+msgid "Playing music"
+msgstr "Přehrává se hudba"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
@@ -211,19 +224,6 @@ msgstr "Alba"
 msgid "Artists"
 msgstr "Umělci"
 
-#: gnomemusic/views/baseview.py:186
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Vybrána {} položka"
-msgstr[1] "Vybrány {} položky"
-msgstr[2] "Vybráno {} položek"
-
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
-#: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
-msgid "Click on items to select them"
-msgstr "Klikáním vyberte položky"
-
 #: gnomemusic/views/emptyview.py:66
 msgid "Music folder"
 msgstr "Složka s hudbou"
@@ -277,18 +277,20 @@ msgstr[0] "{} minuta"
 msgstr[1] "{} minuty"
 msgstr[2] "{} minut"
 
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:212
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "Vybrána %d položka"
-msgstr[1] "Vybrány %d položky"
-msgstr[2] "Vybráno %d položek"
-
 #: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "Disk {}"
+
+#: gnomemusic/widgets/headerbar.py:76
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Vybrána {} položka"
+msgstr[1] "Vybrány {} položky"
+msgstr[2] "Vybráno {} položek"
+
+#: gnomemusic/widgets/headerbar.py:79 data/SelectionBarMenuButton.ui:32
+msgid "Click on items to select them"
+msgstr "Klikáním vyberte položky"
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -395,27 +397,19 @@ msgstr "O _aplikaci"
 msgid "_Quit"
 msgstr "U_končit"
 
-#: data/headerbar.ui:7
-msgid "Select All"
-msgstr "Vybrat vše"
-
-#: data/headerbar.ui:11
-msgid "Select None"
-msgstr "Zrušit výběr"
-
-#: data/headerbar.ui:66
+#: data/HeaderBar.ui:13
 msgid "Search"
 msgstr "Hledat"
 
-#: data/headerbar.ui:89
+#: data/HeaderBar.ui:36
 msgid "Select"
 msgstr "Vybrat"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
+#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "_Zrušit"
 
-#: data/headerbar.ui:129
+#: data/HeaderBar.ui:76
 msgid "Back"
 msgstr "Zpět"
 
@@ -581,6 +575,20 @@ msgstr "Přidání do seznamu k přehrání"
 msgid "_Add"
 msgstr "Přid_at"
 
+#: data/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Vybrat vše"
+
+#: data/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Zrušit výběr"
+
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Přid_at do seznamu k přehrání"
+
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "Vybrána %d položka"
+#~ msgstr[1] "Vybrány %d položky"
+#~ msgstr[2] "Vybráno %d položek"
