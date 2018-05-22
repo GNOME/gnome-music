@@ -77,6 +77,9 @@ class SongWidget(Gtk.EventBox):
         PLAYING = 1
         UNPLAYED = 2
 
+    def __repr__(self):
+        return '<SongWidget>'
+
     @log
     def __init__(self, media):
         super().__init__()
