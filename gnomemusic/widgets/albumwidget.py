@@ -88,10 +88,6 @@ class AlbumWidget(Gtk.EventBox):
                                    self._on_selection_changed)
         view_box.add(self._disc_listbox)
 
-        # FIXME: Assigned to appease searchview
-        # _get_selected_songs
-        self.view = self._disc_listbox
-
         self.add(self._builder.get_object('AlbumWidget'))
         self.get_style_context().add_class('view')
         self.get_style_context().add_class('content-view')
@@ -321,3 +317,8 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def select_none(self):
         self._disc_listbox.select_none()
+
+    @log
+    def get_selected_songs(self):
+        """Return a list of selected songs."""
+        return self._disc_listbox.get_selected_items()

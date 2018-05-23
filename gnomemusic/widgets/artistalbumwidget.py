@@ -174,3 +174,19 @@ class ArtistAlbumWidget(Gtk.Box):
         self._selection_mode = selection_mode
 
         self._disc_listbox.props.selection_mode = selection_mode
+
+    @log
+    def select_all(self):
+        """Select all items."""
+        self._disc_listbox.select_all()
+
+    @log
+    def select_none(self):
+        """Deselect all items."""
+        self._disc_listbox.select_none()
+
+    @log
+    def get_selected_songs(self):
+        """Return a list of selected songs."""
+        items = self._disc_listbox.get_selected_items()
+        return items

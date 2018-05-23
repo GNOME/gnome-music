@@ -349,14 +349,9 @@ class SearchView(BaseView):
     @log
     def get_selected_songs(self, callback):
         if self.get_visible_child() == self._album_widget:
-            callback(self._album_widget.view.get_selected_items())
+            callback(self._album_widget.get_selected_songs())
         elif self.get_visible_child() == self._artist_albums_widget:
-            items = []
-            # FIXME: calling into private model
-            for row in self._artist_albums_widget._model:
-                if row[6]:
-                    items.append(row[5])
-            callback(items)
+            callback(self._artist_albums_widget.get_selected_songs())
         else:
             self._albums_index = 0
             self._artists_albums_index = 0
