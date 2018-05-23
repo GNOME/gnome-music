@@ -358,6 +358,8 @@ class SearchView(BaseView):
                     items.append(row[5])
             callback(items)
         else:
+            self._albums_index = 0
+            self._artists_albums_index = 0
             self._items_selected = []
             self._items_selected_callback = callback
             self._get_selected_albums()
