@@ -82,10 +82,6 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar = header_bar
         self._selection_toolbar = selection_toolbar
 
-        # FIXME: Assigned to appease searchview
-        # _get_selected_songs
-        self.view = self._disc_listbox
-
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
@@ -275,3 +271,12 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def select_none(self):
         self._disc_listbox.select_none()
+
+    @log
+    def get_selected_songs(self):
+        """Return a list of selected songs.
+
+        :returns: selected songs
+        :rtype: list
+        """
+        return self._disc_listbox.get_selected_items()
