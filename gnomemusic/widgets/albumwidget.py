@@ -29,17 +29,30 @@ from gnomemusic import log
 from gnomemusic.albumartcache import Art, ArtImage
 from gnomemusic.grilo import grilo
 from gnomemusic.gstplayer import Playback
-from gnomemusic.widgets.disclistboxwidget import DiscBox, DiscListBox
+from gnomemusic.widgets.disclistboxwidget import DiscBox
+from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
+@Gtk.Template(resource_path='/org/gnome/Music/AlbumWidget.ui')
 class AlbumWidget(Gtk.EventBox):
     """Album widget.
 
     The album widget consists of an image with the album art
     on the left and a list of songs on the right.
     """
+
+    __gtype_name__ = 'AlbumWidget'
+
+    _artist_label = Gtk.Template.Child()
+    _composer_label = Gtk.Template.Child()
+    _composer_info_label = Gtk.Template.Child()
+    _cover = Gtk.Template.Child()
+    _disc_listbox = Gtk.Template.Child()
+    _released_info_label = Gtk.Template.Child()
+    _running_info_label = Gtk.Template.Child()
+    _title_label = Gtk.Template.Child()
 
     _duration = 0
 
@@ -63,38 +76,16 @@ class AlbumWidget(Gtk.EventBox):
 
         self._selection_mode = False
 
-        self._builder = Gtk.Builder()
-        self._builder.add_from_resource('/org/gnome/Music/AlbumWidget.ui')
         self._create_model()
         self._album = None
         self._header_bar = None
         self._selection_mode_allowed = True
 
-        self._composer_label = self._builder.get_object('composer_label')
-        self._composer_info = self._builder.get_object('composer_info')
-
-        view_box = self._builder.get_object('view')
-        self._disc_listbox = DiscListBox()
         self._disc_listbox.set_selection_mode_allowed(True)
-        # TODO: The top of the coverart is the same vertical
-        # position as the top of the album songs, however
-        # since we set a top margins for the discbox
-        # subtract that margin here. A cleaner solution is
-        # appreciated.
-        self._disc_listbox.set_margin_top(64 - 16)
-        self._disc_listbox.set_margin_bottom(64)
-        self._disc_listbox.set_margin_end(32)
-        self._disc_listbox.connect('selection-changed',
-                                   self._on_selection_changed)
-        view_box.add(self._disc_listbox)
 
         # FIXME: Assigned to appease searchview
         # _get_selected_songs
         self.view = self._disc_listbox
-
-        self.add(self._builder.get_object('AlbumWidget'))
-        self.get_style_context().add_class('view')
-        self.get_style_context().add_class('content-view')
 
         self.show_all()
 
@@ -139,7 +130,7 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar = header_bar
         self._duration = 0
         art = ArtImage(Art.Size.LARGE, item)
-        art.image = self._builder.get_object('cover')
+        art.image = self._cover
 
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
         header_bar._select_button.connect(
@@ -148,14 +139,13 @@ class AlbumWidget(Gtk.EventBox):
             'clicked', self._on_header_cancel_button_clicked)
 
         self._album = utils.get_album_title(item)
-        self._builder.get_object('artist_label').set_text(
-            utils.get_artist_name(item))
-        self._builder.get_object('title_label').set_text(self._album)
+        self._artist_label.props.label = utils.get_artist_name(item)
+        self._title_label.props.label = self._album
 
         year = utils.get_media_year(item)
         if not year:
             year = '----'
-        self._builder.get_object('released_label_info').set_text(year)
+        self._released_info_label.props.label = year
 
         self._set_composer_label(item)
 
@@ -167,18 +157,19 @@ class AlbumWidget(Gtk.EventBox):
         show = False
 
         if composer:
-            self._composer_info.set_text(composer)
+            self._composer_info_label.props.text = composer
             show = True
 
-        self._composer_label.set_visible(show)
-        self._composer_info.set_visible(show)
+        self._composer_label.props.visible = show
+        self._composer_info_label.props.visible = show
 
     @log
     def _set_duration_label(self):
         mins = (self._duration // 60) + 1
-        self._builder.get_object('running_length_label_info').set_text(
-            ngettext("{} minute", "{} minutes", mins).format(mins))
+        self._running_info_label.props.label = ngettext(
+            "{} minute", "{} minutes", mins).format(mins)
 
+    @Gtk.Template.Callback()
     @log
     def _on_selection_changed(self, widget):
         items = self._disc_listbox.get_selected_items()
