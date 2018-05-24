@@ -80,8 +80,6 @@ class AlbumWidget(Gtk.EventBox):
         self._album = None
         self._header_bar = None
 
-        self._disc_listbox.set_selection_mode_allowed(True)
-
         # FIXME: Assigned to appease searchview
         # _get_selected_songs
         self.view = self._disc_listbox
