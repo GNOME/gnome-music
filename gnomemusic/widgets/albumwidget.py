@@ -79,7 +79,6 @@ class AlbumWidget(Gtk.EventBox):
         self._create_model()
         self._album = None
         self._header_bar = None
-        self._selection_mode_allowed = True
 
         self._disc_listbox.set_selection_mode_allowed(True)
 
@@ -215,9 +214,6 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _selection_mode_toggled(self, widget):
-        if not self._selection_mode_allowed:
-            return
-
         self._selection_mode = not self._selection_mode
         self._on_selection_mode_request()
 
