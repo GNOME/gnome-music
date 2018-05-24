@@ -75,8 +75,8 @@ class ArtistAlbumWidget(Gtk.Box):
         self.cover_stack.update(self._media)
 
         self._disc_listbox = ui.get_object('disclistbox')
-        self._disc_listbox.set_selection_mode_allowed(
-            self._selection_mode_allowed)
+        self._disc_listbox.props.selection_mode_allowed = \
+            self._selection_mode_allowed
 
         ui.get_object('title').set_label(self._album_title)
         year = utils.get_media_year(self._media)
