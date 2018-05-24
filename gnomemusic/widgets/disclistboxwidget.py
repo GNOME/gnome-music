@@ -291,6 +291,8 @@ class DiscListBox(Gtk.Box):
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    selection_mode_allowed = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return '<DiscListBox>'
 
@@ -300,7 +302,6 @@ class DiscListBox(Gtk.Box):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
 
         self._selection_mode = False
-        self._selection_mode_allowed = False
         self._selected_items = []
 
     @log
@@ -366,15 +367,7 @@ class DiscListBox(Gtk.Box):
 
         :param bool value: Activate selection mode
         """
-        if not self._selection_mode_allowed:
+        if not self.props.selection_mode_allowed:
             return
 
         self._selection_mode = value
-
-    @log
-    def set_selection_mode_allowed(self, allowed):
-        """Set if selection mode is allowed
-
-        :param bool allowed: Allow selection mode
-        """
-        self._selection_mode_allowed = allowed
