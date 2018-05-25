@@ -135,7 +135,7 @@ class BaseView(Gtk.Stack):
             self._populate()
 
     @log
-    def update_header_from_selection(self, n_items):
+    def _update_header_from_selection(self, n_items):
         """Updates header during item selection."""
         self._selection_toolbar.props.items_selected = n_items
         self._header_bar.props.items_selected = n_items
@@ -191,7 +191,7 @@ class BaseView(Gtk.Stack):
         count = self._set_selection(True)
 
         self._selection_toolbar.props.items_selected = count
-        self.update_header_from_selection(count)
+        self._update_header_from_selection(count)
 
     @log
     def unselect_all(self):
