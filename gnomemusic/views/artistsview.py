@@ -57,7 +57,7 @@ class ArtistsView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'artists', _("Artists"), window, None, True, sidebar_container)
+            'artists', _("Artists"), window, True, sidebar_container)
 
         self.player = player
         self._artists = {}
@@ -73,7 +73,7 @@ class ArtistsView(BaseView):
         self._sidebar.hide()
 
     @log
-    def _setup_view(self, view_type):
+    def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 

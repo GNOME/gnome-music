@@ -52,7 +52,7 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__('search', None, window, None)
+        super().__init__('search', None, window)
 
         self._add_list_renderers()
         self.player = player
@@ -79,7 +79,7 @@ class SearchView(BaseView):
         self._items_found = None
 
     @log
-    def _setup_view(self, view_type):
+    def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 

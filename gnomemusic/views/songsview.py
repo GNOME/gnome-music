@@ -52,7 +52,7 @@ class SongsView(BaseView):
         :param GtkWidget window: The main window
         :param player: The main player object
         """
-        super().__init__('songs', _("Songs"), window, None)
+        super().__init__('songs', _("Songs"), window)
 
         self._offset = 0
         self._iter_to_clean = None
@@ -65,7 +65,7 @@ class SongsView(BaseView):
         self.player.connect('song-changed', self._update_model)
 
     @log
-    def _setup_view(self, view_type):
+    def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 
