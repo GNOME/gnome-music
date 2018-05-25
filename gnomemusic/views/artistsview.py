@@ -191,7 +191,7 @@ class ArtistsView(BaseView):
             if row.check.props.active:
                 selected_artists += 1
 
-        self.update_header_from_selection(selected_artists)
+        self._update_header_from_selection(selected_artists)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -213,12 +213,12 @@ class ArtistsView(BaseView):
     @log
     def select_all(self):
         self._toggle_all_selection(True)
-        self.update_header_from_selection(len(self._sidebar))
+        self._update_header_from_selection(len(self._sidebar))
 
     @log
     def unselect_all(self):
         self._toggle_all_selection(False)
-        self.update_header_from_selection(0)
+        self._update_header_from_selection(0)
 
     @log
     def get_selected_songs(self, callback):

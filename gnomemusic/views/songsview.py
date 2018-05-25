@@ -221,7 +221,7 @@ class SongsView(BaseView):
                 event.x, event.y)
             iter_ = self.model.get_iter(path)
             self.model[iter_][6] = not self.model[iter_][6]
-            self.update_header_from_selection(len(self.get_selected_songs()))
+            self._update_header_from_selection(len(self.get_selected_songs()))
 
     @log
     def _update_model(self, player, playlist, current_iter):
