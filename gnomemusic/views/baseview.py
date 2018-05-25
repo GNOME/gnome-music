@@ -22,9 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-gi.require_version("Gd", "1.0")
-from gi.repository import Gd, GdkPixbuf, GObject, Gtk
+from gi.repository import GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -42,13 +40,11 @@ class BaseView(Gtk.Stack):
         return '<BaseView>'
 
     @log
-    def __init__(self, name, title, window, view_type, use_sidebar=False,
-                 sidebar=None):
+    def __init__(self, name, title, window, use_sidebar=False, sidebar=None):
         """Initialize
         :param name: The view name
         :param title: The view title
         :param GtkWidget window: The main window
-        :param view_type: The Gtk view type
         :param use_sidebar: Whether to use sidebar
         :param sidebar: The sidebar object (Default: Gtk.Box)
         """
@@ -74,11 +70,11 @@ class BaseView(Gtk.Stack):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         # Setup the main view
-        self._setup_view(view_type)
+        self._setup_view()
 
         if use_sidebar:
             self.stack = Gtk.Stack(
-                transition_type=Gtk.StackTransitionType.SLIDE_RIGHT,)
+                transition_type=Gtk.StackTransitionType.SLIDE_RIGHT)
             dummy = Gtk.Frame(visible=False)
             self.stack.add_named(dummy, 'dummy')
             if sidebar:
@@ -124,23 +120,9 @@ class BaseView(Gtk.Stack):
         pass
 
     @log
-    def _setup_view(self, view_type):
+    def _setup_view(self):
         """Instantiate and set up the view object"""
-        self._view = Gd.MainView(shadow_type=Gtk.ShadowType.NONE)
-        self._view.set_view_type(view_type)
-
-        self._view.click_handler = self._view.connect('item-activated',
-                                                      self._on_item_activated)
-        self._view.connect('selection-mode-request',
-                           self._on_selection_mode_request)
-
-        self._view.bind_property('selection-mode', self, 'selection_mode',
-                                 GObject.BindingFlags.BIDIRECTIONAL)
-
-        self._view.connect('view-selection-changed',
-                           self._on_view_selection_changed)
-
-        self._box.pack_start(self._view, True, True, 0)
+        pass
 
     @log
     def _on_header_bar_toggled(self, button):
@@ -174,13 +156,6 @@ class BaseView(Gtk.Stack):
             self._populate()
 
     @log
-    def _on_view_selection_changed(self, widget):
-        if not self.selection_mode:
-            return
-        items = self._view.get_selection()
-        self.update_header_from_selection(len(items))
-
-    @log
     def update_header_from_selection(self, n_items):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
@@ -202,10 +177,6 @@ class BaseView(Gtk.Stack):
     @log
     def _retrieval_finished(self, klass):
         self.model[klass.iter][4] = klass.pixbuf
-
-    @log
-    def _add_list_renderers(self):
-        pass
 
     @log
     def _on_item_activated(self, widget, id, path):

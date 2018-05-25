@@ -44,7 +44,7 @@ class AlbumsView(BaseView):
 
     @log
     def __init__(self, window, player):
-        super().__init__('albums', _("Albums"), window, None)
+        super().__init__('albums', _("Albums"), window)
 
         self._queue = LifoQueue()
         self._album_widget = AlbumWidget(player, self)
@@ -70,7 +70,7 @@ class AlbumsView(BaseView):
             self._on_changes_pending()
 
     @log
-    def _setup_view(self, view_type):
+    def _setup_view(self):
         self._view = Gtk.FlowBox(
             homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
             valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
