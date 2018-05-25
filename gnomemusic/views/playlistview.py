@@ -360,7 +360,7 @@ class PlaylistView(BaseView):
         :param Gtk.TreeView treeview: self._view
         :param Gdk.EventButton event: clicked event
         """
-        if event.button != 3:
+        if event.button != Gdk.BUTTON_SECONDARY:
             return
 
         path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
