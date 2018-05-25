@@ -63,7 +63,7 @@ class PlaylistView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'playlists', _("Playlists"), window, None, True, sidebar_container)
+            'playlists', _("Playlists"), window, True, sidebar_container)
 
         self._window = window
         self.player = player
@@ -144,7 +144,7 @@ class PlaylistView(BaseView):
         self._pl_ctrls.props.songs_count = songs_count
 
     @log
-    def _setup_view(self, view_type):
+    def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 
