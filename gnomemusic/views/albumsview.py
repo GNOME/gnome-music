@@ -211,7 +211,7 @@ class AlbumsView(BaseView):
                 and child.media_item in self.albums_selected):
             self.albums_selected.remove(child.media_item)
 
-        self.update_header_from_selection(len(self.albums_selected))
+        self._update_header_from_selection(len(self.albums_selected))
 
     @log
     def _get_selected_album_songs(self):
@@ -243,7 +243,7 @@ class AlbumsView(BaseView):
 
             GObject.signal_handler_unblock(child.check, child.check_handler_id)
 
-        self.update_header_from_selection(len(self.albums_selected))
+        self._update_header_from_selection(len(self.albums_selected))
 
     @log
     def select_all(self):

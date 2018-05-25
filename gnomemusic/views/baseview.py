@@ -156,7 +156,7 @@ class BaseView(Gtk.Stack):
             self._populate()
 
     @log
-    def update_header_from_selection(self, n_items):
+    def _update_header_from_selection(self, n_items):
         """Updates header during item selection."""
         select_toolbar = self._selection_toolbar
         select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
@@ -212,7 +212,7 @@ class BaseView(Gtk.Stack):
             select_toolbar = self._selection_toolbar
             select_toolbar.add_to_playlist_button.set_sensitive(True)
 
-        self.update_header_from_selection(count)
+        self._update_header_from_selection(count)
 
     @log
     def unselect_all(self):
