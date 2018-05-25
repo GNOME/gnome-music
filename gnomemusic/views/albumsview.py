@@ -54,7 +54,6 @@ class AlbumsView(BaseView):
         self.all_items = []
         self.items_selected = []
         self.items_selected_callback = None
-        self._add_list_renderers()
         self._init = True
 
     @log
