@@ -47,7 +47,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/libmediaart"
+                    "url": "https://gitlab.gnome.org/GNOME/libmediaart.git"
                 }
             ]
         },
@@ -75,7 +75,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/tracker"
+                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
                 }
             ]
         },
@@ -89,7 +89,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/gnome-online-accounts"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
                 }
             ]
         },
@@ -99,7 +99,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/grilo"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo.git"
                 }
             ],
             "cleanup": [ "/include", "/bin" ]
@@ -110,7 +110,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://git.gnome.org/browse/grilo-plugins"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
                 }
             ],
             "cleanup": [ "/include" ]
