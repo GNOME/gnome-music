@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-08 06:39+0000\n"
-"PO-Revision-Date: 2018-05-10 10:58-0500\n"
+"POT-Creation-Date: 2018-05-21 17:10+0000\n"
+"PO-Revision-Date: 2018-05-23 22:18+0800\n"
 "Last-Translator: Mingcong Bai <jeffbai@aosc.xyz>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -36,8 +36,8 @@ msgid "Music is the new GNOME music playing application."
 msgstr "“音乐”是一款新的 GNOME 音乐播放应用。"
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
-#: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/application.py:103 gnomemusic/window.py:66
+#: data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "音乐"
 
@@ -111,6 +111,14 @@ msgstr "初始状态已被显示"
 msgid "Set to true when initial state has been displayed"
 msgstr "当初始状态被显示时设置为 true"
 
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "阻止系统挂起"
+
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr "播放音乐时是否阻止系统休眠"
+
 #: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "无法播放该文件"
@@ -133,6 +141,10 @@ msgstr "、"
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "需要 {} 来播放该文件，但它尚未安装。"
+
+#: gnomemusic/inhibitsuspend.py:68
+msgid "Playing music"
+msgstr "正在播放音乐"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
@@ -199,56 +211,55 @@ msgstr "未知艺术家"
 msgid "Untitled"
 msgstr "无标题"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:507
 msgid "Albums"
 msgstr "专辑"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:509
 msgid "Artists"
 msgstr "艺术家"
 
-#: gnomemusic/views/baseview.py:186
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "已选中 {} 个项目"
-
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
-#: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
-msgid "Click on items to select them"
-msgstr "点击条目以选中它们"
-
-#: gnomemusic/views/emptysearchview.py:53
-msgid "Try a different search"
-msgstr "尝试不同的搜索"
-
-#: gnomemusic/views/emptyview.py:51
+#: gnomemusic/views/emptyview.py:66
 msgid "Music folder"
 msgstr "音乐文件夹"
 
-#: gnomemusic/views/initialstateview.py:50
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:70
+msgid "The contents of your {} will appear here."
+msgstr "{} 的内容将会显示在此处。"
+
+#: gnomemusic/views/emptyview.py:104
 msgid "Hey DJ"
 msgstr "嘿 DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
+#: gnomemusic/views/emptyview.py:114 gnomemusic/views/emptyview.py:120
+msgid "No music found"
+msgstr "未找到音乐"
+
+#: gnomemusic/views/emptyview.py:122
+msgid "Try a different search"
+msgstr "尝试不同的搜索"
+
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:513
 msgid "Playlists"
 msgstr "播放列表"
 
-#: gnomemusic/views/playlistview.py:606
+#: gnomemusic/views/playlistview.py:608
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
 msgstr[0] "%d 首歌曲"
 
-#: gnomemusic/views/playlistview.py:649
+#: gnomemusic/views/playlistview.py:651
 msgid "Playlist {} removed"
 msgstr "播放列表 {} 已移除"
 
-#: gnomemusic/views/playlistview.py:655
+#: gnomemusic/views/playlistview.py:657
 msgid "{} removed from {}"
 msgstr "{} 已从 {} 移除"
 
-#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:511 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "歌曲"
 
@@ -257,16 +268,18 @@ msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} 分钟"
 
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:212
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "已选择 %d 个项目"
-
 #: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "唱片 {}"
+
+#: gnomemusic/widgets/headerbar.py:76
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "已选中 {} 个项目"
+
+#: gnomemusic/widgets/headerbar.py:79 data/SelectionBarMenuButton.ui:32
+msgid "Click on items to select them"
+msgstr "点击条目以选中它们"
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -284,10 +297,6 @@ msgstr "暂停"
 #: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "播放"
-
-#: gnomemusic/window.py:275
-msgid "Empty"
-msgstr "空"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -372,27 +381,19 @@ msgstr "关于(_A)"
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: data/headerbar.ui:7
-msgid "Select All"
-msgstr "全选"
-
-#: data/headerbar.ui:11
-msgid "Select None"
-msgstr "全不选"
-
-#: data/headerbar.ui:66
+#: data/HeaderBar.ui:13
 msgid "Search"
 msgstr "搜索"
 
-#: data/headerbar.ui:89
+#: data/HeaderBar.ui:36
 msgid "Select"
 msgstr "选择"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
+#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: data/headerbar.ui:129
+#: data/HeaderBar.ui:76
 msgid "Back"
 msgstr "后退"
 
@@ -481,16 +482,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "返回"
 
-#: data/NoMusic.ui:36
-msgid "No music found"
-msgstr "未找到音乐"
-
-#. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
-#, python-format
-msgid "The contents of your %s will appear here."
-msgstr "%s 的内容将会显示在此处。"
-
 #: data/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "随机播放"
@@ -568,9 +559,24 @@ msgstr "添加到播放列表"
 msgid "_Add"
 msgstr "添加(_A)"
 
+#: data/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "全选"
+
+#: data/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "全不选"
+
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "添加到播放列表(_A)"
+
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "已选择 %d 个项目"
+
+#~ msgid "Empty"
+#~ msgstr "空"
 
 #~ msgid "Search mode"
 #~ msgstr "搜索模式"
