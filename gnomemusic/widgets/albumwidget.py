@@ -154,7 +154,7 @@ class AlbumWidget(Gtk.EventBox):
         show = False
 
         if composer:
-            self._composer_info_label.props.text = composer
+            self._composer_info_label.props.label = composer
             show = True
 
         self._composer_label.props.visible = show
