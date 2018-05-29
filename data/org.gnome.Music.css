@@ -94,3 +94,11 @@ box#ArtistAlbumsWidget .artist-label {
 .tooltip-title {
   font-weight: bold;
 }
+
+.black {
+    color: black;
+}
+
+.white {
+    color: white;
+}
