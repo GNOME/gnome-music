@@ -122,3 +122,11 @@ box#ArtistAlbumsWidget .artist-label {
 .playing-song-label {
     font-weight: bold;
 }
+
+.black {
+    color: rgb(0, 0, 0);
+}
+
+.white {
+    color: rgb(255, 255, 255);
+}

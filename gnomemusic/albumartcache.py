@@ -28,6 +28,7 @@ from math import pi
 import os
 
 import cairo
+from PIL import Image, ImageFilter
 import gi
 gi.require_version('GstTag', '1.0')
 gi.require_version('MediaArt', '2.0')
@@ -181,6 +182,7 @@ class Art(GObject.GObject):
         MEDIUM = (128, 128)
         LARGE = (256, 256)
         XLARGE = (512, 512)
+        XXLARGE = (1024, 1024)
 
         def __init__(self, width, height):
             """Intialize width and height"""
@@ -322,6 +324,9 @@ class ArtImage(Art):
         super().__init__(size, media)
 
         self._image = None
+        self._blurred_surface = None
+        self._blurred_size = None
+        self._label_color = None
 
     @log
     def _cache_hit(self, klass, pixbuf):
@@ -369,6 +374,67 @@ class ArtImage(Art):
         self._image.set_from_surface(self._surface)
 
         self.lookup()
+
+    @log
+    def get_blurred_surface(self, width, height):
+        """Compute the blurred cairo surface of an ArtImage.
+
+        self._surface is resized and then blurred with a gaussian
+        filter. The dominant color of the blurred image is extracted
+        to detect which color (white or black) can be displayed on this
+        surface.
+        :param int width: requested width surface
+        :param int height: requested height surface
+        :returns: blurred cairo surface and foreground color
+        :rtype: (cairo.surface, Gdk.RGBA)
+        """
+        if not self._surface:
+            return None, None
+
+        size = (self._surface.get_width(), self._surface.get_height())
+        full_size = (width, height)
+
+        if (self._blurred_surface
+                and self._blurred_size[0] >= full_size[0]
+                and self._blurred_size[1] >= full_size[1]):
+            return self._blurred_surface, self._label_color
+
+        # convert cairo surface to a pillow image
+        img = Image.frombuffer(
+            "RGBA", size, self._surface.get_data(), "raw", "RGBA", 0, 1)
+
+        # resize and blur the image
+        ratio = full_size[0] / full_size[1]
+        h = int((1 / ratio) * full_size[1])
+        diff = full_size[1] - h
+        img_cropped = img.crop(
+            (0, diff // 2, size[0], size[1] - diff // 2))
+        img_scaled = img_cropped.resize(full_size, Image.BICUBIC)
+        img_blurred = img_scaled.filter(ImageFilter.GaussianBlur(30))
+
+        # convert the image to a cairo suface
+        arr = bytearray(img_blurred.tobytes('raw', 'RGBA'))
+        self._blurred_surface = cairo.ImageSurface.create_for_data(
+            arr, cairo.FORMAT_ARGB32, img_blurred.width, img_blurred.height)
+
+        self._blurred_size = (
+            self._blurred_surface.get_width(),
+            self._blurred_surface.get_height()
+        )
+
+        # compute dominant color of the blurred image to update
+        # foreground color in white or black
+        b, g, r, a = img_blurred.split()
+        img_blurred_rgb = Image.merge('RGB', (r, g, b))
+        dominant_color = utils.dominant_color(img_blurred_rgb)
+        white_ratio = utils.contrast_ratio(*dominant_color, 1., 1., 1.)
+        black_ratio = utils.contrast_ratio(*dominant_color, 0., 0., 0.)
+        if white_ratio > black_ratio:
+            self._label_color = Gdk.RGBA(1.0, 1.0, 1.0, 1.0)
+        else:
+            self._label_color = Gdk.RGBA(0.0, 0.0, 0.0, 0.0)
+
+        return self._blurred_surface, self._label_color
 
 
 class Cache(GObject.GObject):

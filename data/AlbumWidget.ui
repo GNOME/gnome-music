@@ -8,7 +8,7 @@
       <class name="content-view"/>
     </style>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="_main_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
@@ -22,7 +22,7 @@
             <property name="margin_bottom">32</property>
             <property name="vexpand">True</property>
             <child>
-              <object class="GtkBox" id="albumDetails">
+              <object class="GtkBox" id="_album_details">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">center</property>
