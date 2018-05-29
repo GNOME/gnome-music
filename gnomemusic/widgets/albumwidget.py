@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import ngettext
-from gi.repository import GdkPixbuf, GObject, Gtk
+from gi.repository import Gdk, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -45,11 +45,13 @@ class AlbumWidget(Gtk.EventBox):
 
     __gtype_name__ = 'AlbumWidget'
 
+    _album_details = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
     _disc_listbox = Gtk.Template.Child()
+    _main_box = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -80,6 +82,8 @@ class AlbumWidget(Gtk.EventBox):
 
         self._create_model()
         self._album_name = None
+
+        self._window_draw_handler = None
 
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
@@ -129,6 +133,16 @@ class AlbumWidget(Gtk.EventBox):
 
         self._album_name = utils.get_album_title(album)
         artist = utils.get_artist_name(album)
+
+        self._set_foreground_color(Gdk.RGBA(0.0, 0.0, 0.0, 0.0))
+        if self._window_draw_handler:
+            self._main_box.disconnect(self._window_draw_handler)
+        self._window_draw_handler = None
+        self._foreground_color = None
+        self._art_background = Art(
+            Art.Size.XXLARGE, album, self.props.scale_factor)
+        self._art_background.connect('finished', self._set_background)
+        self._art_background.lookup()
 
         self._title_label.props.label = self._album_name
         self._title_label.props.tooltip_text = self._album_name
@@ -185,6 +199,38 @@ class AlbumWidget(Gtk.EventBox):
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
+
+    @log
+    def _set_foreground_color(self, color):
+        remove_color = "black"
+        add_color = "white"
+        if color == Gdk.RGBA(0.0, 0.0, 0.0, 0.0):
+            remove_color = "white"
+            add_color = "black"
+
+        for widget in [self._album_details, self._disc_listbox]:
+            style_ctx = widget.get_style_context()
+            style_ctx.remove_class(remove_color)
+            style_ctx.add_class(add_color)
+
+    @log
+    def _set_background(self, klass):
+        self._window_draw_handler = self._main_box.connect(
+            "draw", self._draw_background, klass)
+
+    @log
+    def _draw_background(self, widget, ctx, klass):
+        width = self.get_allocated_width()
+        height = self.get_allocated_height()
+        background_surface, fg_color = klass.get_blurred_surface(width, height)
+
+        if not self._foreground_color:
+            self._foreground_color = fg_color
+            self._set_foreground_color(fg_color)
+
+        ctx.set_source_surface(background_surface)
+        ctx.rectangle(0, 0, width, height)
+        ctx.fill()
 
     @log
     def _song_activated(self, widget, song_widget):
