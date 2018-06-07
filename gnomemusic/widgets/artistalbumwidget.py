@@ -159,7 +159,7 @@ class ArtistAlbumWidget(Gtk.Box):
             self.emit("songs-loaded")
 
     @log
-    def _song_activated(self, widget, songArtistAlbumWidget_widget):
+    def _song_activated(self, widget, song_widget):
         if self._selection_mode:
             return
 
