@@ -464,7 +464,7 @@ class PlaylistView(BaseView):
             'song': song,
             'index': index
         }
-        self._remove_song_from_playlist(self._current_playlist, song)
+        self._remove_song_from_playlist(self._current_playlist, song, index)
         self._create_notification(PlaylistNotification.Type.SONG, song_id)
 
     @log
@@ -797,21 +797,17 @@ class PlaylistView(BaseView):
                 self.player.add_song(self.model, path, iter_)
 
     @log
-    def _remove_song_from_playlist(self, playlist, item):
+    def _remove_song_from_playlist(self, playlist, item, index):
         if (self._is_current_playlist(playlist)):
             model = self.model
         else:
             return
 
-        for row in model:
-            if row[5].get_id() == item.get_id():
-                iter_ = row.iter
-                if self.player.running_playlist(
-                        'Playlist', self._current_playlist.get_id()):
-                    path = model.get_path(iter_)
-                    self.player.remove_song(model, path)
-                model.remove(iter_)
-                break
+        iter_ = model.get_iter_from_string(str(index))
+        if self.player.running_playlist(
+                'Playlist', self._current_playlist.get_id()):
+            self.player.remove_song(model, model.get_path(iter_))
+        model.remove(iter_)
 
         self._songs_count -= 1
         self._update_songs_count()
