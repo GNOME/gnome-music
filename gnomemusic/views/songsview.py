@@ -95,7 +95,7 @@ class SongsView(BaseView):
 
         if self.model[itr][8] != self._error_icon_name:
             self.player.set_playlist('Songs', None, self.model, itr)
-            self.player.set_playing(True)
+            self.player.play()
 
     @log
     def update_model(self, player, playlist, current_iter):
