@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.12 -->
-  <object class="GtkBox" id="_artist_albums_widget">
+  <template class="ArtistAlbumsWidget" parent="GtkBox">
     <property name="name">ArtistAlbumsWidget</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -37,5 +37,5 @@
         <property name="position">1</property>
       </packing>
     </child>
-  </object>
+  </template>
 </interface>
