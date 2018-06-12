@@ -45,7 +45,6 @@ class ArtistAlbumsWidget(Gtk.Box):
     __gtype_name__ = 'ArtistAlbumsWidget'
 
     _artist = Gtk.Template.Child()
-    _artist_albums_widget = Gtk.Template.Child()
 
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
@@ -70,7 +69,6 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._row_changed_source_id = None
 
         hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox.pack_start(self._artist_albums_widget, False, False, 0)
         self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
                                   spacing=48)
         hbox.pack_start(self._album_box, False, False, 16)
