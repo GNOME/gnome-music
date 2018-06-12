@@ -142,7 +142,7 @@ class SearchView(BaseView):
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist(
                     'Search Results', None, self._songs_model, c_iter)
-                self.player.set_playing(True)
+                self.player.play()
         else:  # Headers
             if self._view.get_generic_view().row_expanded(path):
                 self._view.get_generic_view().collapse_row(path)

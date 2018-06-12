@@ -347,7 +347,7 @@ class PlaylistView(BaseView):
                 self.player.set_playlist(
                     'Playlist', self._current_playlist.get_id(), self.model,
                     _iter)
-                self.player.set_playing(True)
+                self.player.play()
 
         # 'row-activated' signal is emitted before 'drag-begin' signal.
         # Need to wait to check if drag and drop operation is active.
