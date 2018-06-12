@@ -90,22 +90,4 @@
       </packing>
     </child>
   </template>
-  <object class="GtkListStore" id="liststore1">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-      <!-- column-name gchararray2 -->
-      <column type="gchararray"/>
-      <!-- column-name gchararray3 -->
-      <column type="gchararray"/>
-      <!-- column-name gboolean1 -->
-      <column type="gboolean"/>
-      <!-- column-name gchararray4 -->
-      <column type="gchararray"/>
-      <!-- column-name GObject1 -->
-      <column type="GObject"/>
-      <!-- column-name gboolean2 -->
-      <column type="gboolean"/>
-    </columns>
-  </object>
 </interface>
