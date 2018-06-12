@@ -37,6 +37,7 @@ import gnomemusic.utils as utils
 class ArtistAlbumWidget(Gtk.Box):
 
     __gtype_name__ = 'ArtistAlbumWidget'
+
     _album_box = Gtk.Template.Child()
     _cover = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
@@ -129,6 +130,8 @@ class ArtistAlbumWidget(Gtk.Box):
         else:
             self._selection_mode = False
             self._header_bar.props.selection_mode = False
+            self._disc_listbox.props.selection_mode = False
+
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._parent_view.set_player_visible(True)
 
