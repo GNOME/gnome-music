@@ -15,6 +15,7 @@
     <file preprocess="xml-stripblanks">SelectionBarMenuButton.ui</file>
     <file preprocess="xml-stripblanks">SelectionToolbar.ui</file>
     <file preprocess="xml-stripblanks">SongWidget.ui</file>
+    <file preprocess="xml-stripblanks">DiscBoxWidget.ui</file>
     <file preprocess="xml-stripblanks">HeaderBar.ui</file>
     <file preprocess="xml-stripblanks">PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">PlaylistControls.ui</file>
