@@ -373,19 +373,6 @@ class Player(GObject.GObject):
         return True
 
     @log
-    def set_playing(self, value):
-        """Set state
-
-        :param bool value: Playing
-        """
-        if value:
-            self.play()
-        else:
-            self.pause()
-
-        self.emit('state-changed')
-
-    @log
     def _load(self, media):
         self._time_stamp = int(time.time())
 
@@ -526,9 +513,9 @@ class Player(GObject.GObject):
     def play_pause(self):
         """Toggle play/pause state"""
         if self._player.state == Playback.PLAYING:
-            self.set_playing(False)
+            self.pause()
         else:
-            self.set_playing(True)
+            self.play()
 
     @log
     def _create_model(self, model, model_iter):

@@ -468,7 +468,7 @@ class MediaPlayer2Service(Server):
             model.disconnect(self.first_song_handler)
             self.first_song_handler = 0
         self.player.set_playlist('Songs', None, model, iter_)
-        self.player.set_playing(True)
+        self.player.play()
 
     @log
     def _on_seeked(self, player, position, data=None):
@@ -542,7 +542,7 @@ class MediaPlayer2Service(Server):
         self.player.previous()
 
     def Pause(self):
-        self.player.set_playing(False)
+        self.player.pause()
 
     def PlayPause(self):
         self.player.play_pause()
@@ -552,7 +552,7 @@ class MediaPlayer2Service(Server):
 
     def Play(self):
         if self.player.playlist is not None:
-            self.player.set_playing(True)
+            self.player.play()
         elif self.first_song_handler == 0:
             window = self.app.get_active_window()
             window._stack.set_visible_child(window.views[View.SONG])
