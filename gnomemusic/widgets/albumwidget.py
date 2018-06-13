@@ -233,34 +233,34 @@ class AlbumWidget(Gtk.EventBox):
     def add_item(self, source, prefs, song, remaining, data=None):
         """Add a song to the item to album list.
 
-        :param source: The grilo source
-        :param prefs:
-        :param song: The grilo media object
-        :param remaining: Remaining number of items to add
+        If no song is remaining create DiscBox and display the widget.
+        :param GrlTrackerSource source: The grilo source
+        :param prefs: not used
+        :param GrlMedia song: The grilo media object
+        :param int remaining: Remaining number of items to add
         :param data: User data
         """
         if song:
             self._songs.append(song)
-
-            self._duration = self._duration + song.get_duration()
+            self._duration += song.get_duration()
             return
 
-        discs = {}
-        for song in self._songs:
-            disc_nr = song.get_album_disc_number()
-            if disc_nr not in discs.keys():
-                discs[disc_nr] = [song]
-            else:
-                discs[disc_nr].append(song)
-        for disc_nr in discs:
-            disc = self._create_disc_box(disc_nr, discs[disc_nr])
-            self._disc_listbox.add(disc)
-            if len(discs) == 1:
-                disc.props.show_disc_label = False
-
         if remaining == 0:
-            self._set_duration_label()
+            discs = {}
+            for song in self._songs:
+                disc_nr = song.get_album_disc_number()
+                if disc_nr not in discs.keys():
+                    discs[disc_nr] = [song]
+                else:
+                    discs[disc_nr].append(song)
 
+            for disc_nr in discs:
+                disc = self._create_disc_box(disc_nr, discs[disc_nr])
+                if len(discs) == 1:
+                    disc.props.show_disc_label = False
+                self._disc_listbox.add(disc)
+
+            self._set_duration_label()
             self.show_all()
 
     @log
