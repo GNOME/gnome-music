@@ -107,7 +107,7 @@ class SongsView(BaseView):
         """
         if self._iter_to_clean:
             self.model[self._iter_to_clean][10] = False
-        if not player.running_playlist('Songs', None):
+        if not player.playing_playlist('Songs', None):
             return False
 
         pos_str = playlist.get_path(current_iter).to_string()

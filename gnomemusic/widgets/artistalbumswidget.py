@@ -133,7 +133,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _update_model(self, player, playlist, current_iter):
-        if not player.running_playlist('Artist', self.artist):
+        if not player.playing_playlist('Artist', self.artist):
             self._clean_model()
             return False
 

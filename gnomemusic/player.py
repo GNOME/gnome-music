@@ -541,7 +541,7 @@ class Player(GObject.GObject):
         GLib.idle_add(self._validate_next_song)
 
     @log
-    def running_playlist(self, type, id):
+    def playling_playlist(self, type, id):
         if type == self.playlist_type and id == self.playlist_id:
             return self.playlist
         else:
