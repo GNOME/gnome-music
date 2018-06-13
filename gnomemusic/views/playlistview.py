@@ -241,7 +241,7 @@ class PlaylistView(BaseView):
             cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
-        if not self.player.running_playlist(
+        if not self.player.playing_playlist(
                 'Playlist', self._current_playlist.get_id()):
             cell.set_visible(False)
             return
@@ -262,7 +262,7 @@ class PlaylistView(BaseView):
     def _update_model(self, player, playlist, current_iter):
         if self._iter_to_clean:
             self._iter_to_clean_model[self._iter_to_clean][10] = False
-        if not player.running_playlist(
+        if not player.playing_playlist(
                 'Playlist', self._current_playlist.get_id()):
             return False
 
@@ -409,7 +409,7 @@ class PlaylistView(BaseView):
         last_pos = max(new_pos, prev_pos)
 
         # update player's playlist.
-        if self.player.running_playlist(
+        if self.player.playing_playlist(
                 'Playlist', self._current_playlist.get_id()):
             playing_old_path = self.player.current_song.get_path().to_string()
             playing_old_pos = int(playing_old_path)
@@ -683,7 +683,7 @@ class PlaylistView(BaseView):
                     or self._sidebar.get_row_at_index(index - 1))
         self._sidebar.remove(selection)
 
-        if self.player.running_playlist('Playlist', playlist_id):
+        if self.player.playing_playlist('Playlist', playlist_id):
             self.player.stop()
             self.set_player_visible(False)
 
@@ -713,7 +713,7 @@ class PlaylistView(BaseView):
                     and playlist.get_id() == self._current_playlist.get_id()):
                 iter_ = self._add_song_to_model(
                     song_todelete['song'], self.model, song_todelete['index'])
-                if self.player.running_playlist(
+                if self.player.playing_playlist(
                         'Playlist', self._current_playlist.get_id()):
                     path = self.model.get_path(iter_)
                     self.player.add_song(self.model, path, iter_)
@@ -791,7 +791,7 @@ class PlaylistView(BaseView):
     def _on_song_added_to_playlist(self, playlists, playlist, item):
         if self._is_current_playlist(playlist):
             iter_ = self._add_song_to_model(item, self.model)
-            if self.player.running_playlist(
+            if self.player.playing_playlist(
                     'Playlist', self._current_playlist.get_id()):
                 path = self.model.get_path(iter_)
                 self.player.add_song(self.model, path, iter_)
@@ -804,7 +804,7 @@ class PlaylistView(BaseView):
             return
 
         iter_ = model.get_iter_from_string(str(index))
-        if self.player.running_playlist(
+        if self.player.playing_playlist(
                 'Playlist', self._current_playlist.get_id()):
             self.player.remove_song(model, model.get_path(iter_))
         model.remove(iter_)
