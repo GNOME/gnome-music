@@ -269,7 +269,7 @@ class AlbumWidget(Gtk.EventBox):
         :param playlist: The current playlist
         :param current_iter: The current iter of the playlist model
         """
-        if not player.running_playlist('Album', self._album):
+        if not player.playing_playlist('Album', self._album):
             return True
 
         current_song = playlist[current_iter][player.Field.SONG]

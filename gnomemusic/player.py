@@ -541,7 +541,14 @@ class Player(GObject.GObject):
         GLib.idle_add(self._validate_next_song)
 
     @log
-    def running_playlist(self, type, id):
+    def playing_playlist(self, type, id):
+        """Test if the current playlist matches type and id.
+
+        :param string playlist_type: playlist type
+        :param string playlist_id: unique identifer to recognize the playlist
+        :returns: True if these are the same playlists. False otherwise.
+        :rtype: bool
+        """
         if type == self.playlist_type and id == self.playlist_id:
             return self.playlist
         else:
