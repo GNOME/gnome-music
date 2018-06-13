@@ -81,7 +81,6 @@ class Player(GObject.GObject):
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
-        'state-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __repr__(self):
@@ -121,7 +120,6 @@ class Player(GObject.GObject):
         self._player = GstPlayer()
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
-        self._player.connect('notify::state', self._on_state_change)
 
         root_window = parent_window.get_toplevel()
         self._inhibit_suspend = InhibitSuspend(root_window, self)
@@ -365,12 +363,6 @@ class Player(GObject.GObject):
         :rtype: bool
         """
         return self._player.state == Playback.PLAYING
-
-    @log
-    def _on_state_change(self, klass, arguments):
-        self.emit('state-changed')
-
-        return True
 
     @log
     def _load(self, media):
