@@ -388,15 +388,15 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-changed': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, int)),
         'song-discovered': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
-        'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
     }
 
     def __repr__(self):
