@@ -128,8 +128,6 @@ class AlbumWidget(Gtk.EventBox):
         art = ArtImage(Art.Size.LARGE, item)
         art.image = self._cover
 
-        GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
-
         self._album = utils.get_album_title(item)
         self._artist_label.props.label = utils.get_artist_name(item)
         self._title_label.props.label = self._album
@@ -147,6 +145,17 @@ class AlbumWidget(Gtk.EventBox):
             GObject.BindingFlags.SYNC_CREATE)
 
         self._player.connect('song-changed', self._update_model)
+
+        # If an album is playing, restore it.
+        if self._player.playing_playlist(
+                PlayerPlaylist.Type.ALBUM, self._album):
+            length = len(self._player.get_songs())
+            for i, song in enumerate(self._player.get_songs()):
+                self.add_item(None, None, song[0], length - (i + 1))
+            self.add_item(None, None, None, 0)
+            self._update_model(self._player)
+        else:
+            GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
 
     @log
     def _set_composer_label(self, item):
@@ -234,7 +243,7 @@ class AlbumWidget(Gtk.EventBox):
             self.show_all()
 
     @log
-    def _update_model(self, player, position):
+    def _update_model(self, player, position=None):
         """Updates model when the song changes
 
         :param Player player: The main player object
