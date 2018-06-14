@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-08 11:33+0000\n"
-"PO-Revision-Date: 2018-05-13 15:10+0300\n"
+"POT-Creation-Date: 2018-05-19 18:22+0000\n"
+"PO-Revision-Date: 2018-06-13 21:04+0300\n"
 "Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
 "com>\n"
 "Language-Team: Gnome Romanian Translation Team\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.0.8\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in:6
@@ -34,8 +34,8 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Muzică este noua aplicație GNOME pentru redare de muzică."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
-#: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/application.py:103 gnomemusic/window.py:66
+#: data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Muzică"
 
@@ -111,6 +111,16 @@ msgstr "Starea inițială a fost afișată"
 msgid "Set to true when initial state has been displayed"
 msgstr "Stabiliți la adevărat când starea inițială a fost afișată"
 
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "Inhibă suspendarea sistemului"
+
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+"Activează sau dezactivează inhibarea suspendării sistemului în timpul "
+"redării de muzică"
+
 #: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Nu s-a putut reda fișierul"
@@ -135,6 +145,10 @@ msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} este necesar pentru a reda fișierul, dar nu este instalat."
 msgstr[1] "{} sunt necesare pentru a reda fișierul, dar nu sunt instalate."
 msgstr[2] "{} sunt necesare pentru a reda fișierul, dar nu sunt instalate."
+
+#: gnomemusic/inhibitsuspend.py:68
+msgid "Playing music"
+msgstr "Se redă muzica"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
@@ -201,40 +215,37 @@ msgstr "Artist necunoscut"
 msgid "Untitled"
 msgstr "Fără titlu"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:509
+#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:507
 msgid "Albums"
 msgstr "Albume"
 
-#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:511
+#: gnomemusic/views/artistsview.py:56 gnomemusic/views/searchview.py:509
 msgid "Artists"
 msgstr "Artiști"
 
-#: gnomemusic/views/baseview.py:186
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Selectat {} element"
-msgstr[1] "Selectat {} elemente"
-msgstr[2] "Selectat {} de elemente"
-
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
-#: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
-msgid "Click on items to select them"
-msgstr "Clic pe obiecte pentru a le selecta"
-
-#: gnomemusic/views/emptysearchview.py:53
-msgid "Try a different search"
-msgstr "Încercați o altă căutare"
-
-#: gnomemusic/views/emptyview.py:51
+#: gnomemusic/views/emptyview.py:66
 msgid "Music folder"
 msgstr "Dosar de muzică"
 
-#: gnomemusic/views/initialstateview.py:50
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:70
+msgid "The contents of your {} will appear here."
+msgstr "Conținuturile a {} vor apărea aici."
+
+#: gnomemusic/views/emptyview.py:104
 msgid "Hey DJ"
 msgstr "Salut DJ"
 
-#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
+#: gnomemusic/views/emptyview.py:114 gnomemusic/views/emptyview.py:120
+msgid "No music found"
+msgstr "Nu s-a găsit muzică"
+
+#: gnomemusic/views/emptyview.py:122
+msgid "Try a different search"
+msgstr "Încercați o altă căutare"
+
+#: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:513
 msgid "Playlists"
 msgstr "Liste de redare"
 
@@ -254,7 +265,7 @@ msgstr "Listă de redare {} eliminată"
 msgid "{} removed from {}"
 msgstr "{} eliminat de la {}"
 
-#: gnomemusic/views/searchview.py:513 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:511 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Melodii"
 
@@ -265,18 +276,20 @@ msgstr[0] "{} minut"
 msgstr[1] "{} minute"
 msgstr[2] "{} de minute"
 
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:212
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "Selectat %d element"
-msgstr[1] "Selectat %d elemente"
-msgstr[2] "Selectat %d de elemente"
-
 #: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "Disc {}"
+
+#: gnomemusic/widgets/headerbar.py:76
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Selectat {} element"
+msgstr[1] "Selectat {} elemente"
+msgstr[2] "Selectat {} de elemente"
+
+#: gnomemusic/widgets/headerbar.py:79 data/SelectionBarMenuButton.ui:32
+msgid "Click on items to select them"
+msgstr "Clic pe obiecte pentru a le selecta"
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -294,10 +307,6 @@ msgstr "Pauză"
 #: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Redă"
-
-#: gnomemusic/window.py:275
-msgid "Empty"
-msgstr "Gol"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -387,27 +396,19 @@ msgstr "_Despre"
 msgid "_Quit"
 msgstr "_Ieșire"
 
-#: data/headerbar.ui:7
-msgid "Select All"
-msgstr "Selectează toate"
-
-#: data/headerbar.ui:11
-msgid "Select None"
-msgstr "Deselectează toate"
-
-#: data/headerbar.ui:66
+#: data/HeaderBar.ui:13
 msgid "Search"
 msgstr "Caută"
 
-#: data/headerbar.ui:89
+#: data/HeaderBar.ui:36
 msgid "Select"
 msgstr "Selectează"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
+#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: data/headerbar.ui:129
+#: data/HeaderBar.ui:76
 msgid "Back"
 msgstr "Înapoi"
 
@@ -496,16 +497,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Înapoi"
 
-#: data/NoMusic.ui:36
-msgid "No music found"
-msgstr "Nu s-a găsit muzică"
-
-#. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
-#, python-format
-msgid "The contents of your %s will appear here."
-msgstr "Conținutul lui %s va apărea aici."
-
 #: data/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Amestecă"
@@ -583,9 +574,26 @@ msgstr "Adaugă în lista de redare"
 msgid "_Add"
 msgstr "_Adaugă"
 
+#: data/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Selectează toate"
+
+#: data/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Deselectează toate"
+
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Adaugă în lista de redare"
+
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "Selectat %d element"
+#~ msgstr[1] "Selectat %d elemente"
+#~ msgstr[2] "Selectat %d de elemente"
+
+#~ msgid "Empty"
+#~ msgstr "Gol"
 
 #~ msgid "%d min"
 #~ msgstr "%d min"
