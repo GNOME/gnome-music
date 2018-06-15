@@ -33,7 +33,16 @@ from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
 
 
+@Gtk.Template(resource_path='/org/gnome/Music/ArtistAlbumWidget.ui')
 class ArtistAlbumWidget(Gtk.Box):
+
+    __gtype_name__ = 'ArtistAlbumWidget'
+
+    _album_box = Gtk.Template.Child()
+    _cover = Gtk.Template.Child()
+    _disc_list_box = Gtk.Template.Child()
+    _title = Gtk.Template.Child()
+    _year = Gtk.Template.Child()
 
     __gsignals__ = {
         'songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -66,30 +75,23 @@ class ArtistAlbumWidget(Gtk.Box):
         self._header_bar._select_button.connect(
             'toggled', self._on_header_select_button_toggled)
 
-        ui = Gtk.Builder()
-        ui.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
-
-        self.cover = ui.get_object('cover')
-
-        self.cover_stack = CoverStack(self.cover, Art.Size.MEDIUM)
+        self.cover_stack = CoverStack(self._cover, Art.Size.MEDIUM)
         self.cover_stack.update(self._media)
 
-        self._disc_listbox = ui.get_object('disclistbox')
         allowed = self._selection_mode_allowed
-        self._disc_listbox.props.selection_mode_allowed = allowed
+        self._disc_list_box.props.selection_mode_allowed = allowed
 
-        ui.get_object('title').set_label(self._album_title)
+        self._title.props.label = self._album_title
         year = utils.get_media_year(self._media)
+
         if year:
-            ui.get_object('year').set_label(year)
+            self._year.set_label(year)
 
         if self._size_group:
-            self._size_group.add_widget(ui.get_object('box1'))
+            self._size_group.add_widget(self._album_box)
 
         if self._cover_size_group:
             self._cover_size_group.add_widget(self.cover_stack._stack)
-
-        self.pack_start(ui.get_object('ArtistAlbumWidget'), True, True, 0)
 
         grilo.populate_album_songs(self._media, self._add_item)
 
@@ -122,13 +124,14 @@ class ArtistAlbumWidget(Gtk.Box):
         """Selection mode button clicked callback."""
         if button.get_active():
             self._selection_mode = True
-            self._disc_listbox.props.selection_mode = True
+            self._disc_list_box.props.selection_mode = True
             self._header_bar.props.selection_mode = True
             self._parent_view.set_player_visible(False)
         else:
             self._selection_mode = False
-            self._disc_listbox.props.selection_mode = False
             self._header_bar.props.selection_mode = False
+            self._disc_list_box.props.selection_mode = False
+
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._parent_view.set_player_visible(True)
 
@@ -148,7 +151,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
         for disc_nr in discs:
             disc = self.create_disc_box(disc_nr, discs[disc_nr])
-            self._disc_listbox.add(disc)
+            self._disc_list_box.add(disc)
             if len(discs) == 1:
                 disc.props.show_disc_label = False
 
@@ -173,4 +176,4 @@ class ArtistAlbumWidget(Gtk.Box):
             return
         self._selection_mode = selection_mode
 
-        self._disc_listbox.props.selection_mode = selection_mode
+        self._disc_list_box.props.selection_mode = selection_mode
