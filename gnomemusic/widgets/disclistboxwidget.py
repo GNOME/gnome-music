@@ -83,6 +83,7 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         self.set_min_children_per_line(max_per_line)
 
 
+@Gtk.Template(resource_path='/org/gnome/Music/DiscBox.ui')
 class DiscBox(Gtk.Box):
     """A widget which compromises one disc
 
@@ -90,6 +91,9 @@ class DiscBox(Gtk.Box):
     with a DiscSongsFlowBox beneath.
     """
     __gtype_name__ = 'DiscBox'
+
+    _disc_label = Gtk.Template.Child()
+    _disc_songs_flowbox = Gtk.Template.Child()
 
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -118,25 +122,16 @@ class DiscBox(Gtk.Box):
         self._model = model
         self._model.connect('row-changed', self._model_row_changed)
 
-        builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/Music/ArtistAlbumWidget.ui')
-
-        self._label = builder.get_object('disclabel')
-        self._label.set_no_show_all(True)
-        self._disc_songs_flowbox = builder.get_object('discsongsflowbox')
-
         self.bind_property(
             'columns', self._disc_songs_flowbox, 'columns',
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            'show-disc-label', self._label, 'visible',
+            'show-disc-label', self._disc_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
 
         self._selection_mode_allowed = True
         self._selected_items = []
         self._songs = []
-
-        self.pack_start(builder.get_object('disc'), True, True, 0)
 
     @log
     def set_disc_number(self, disc_number):
@@ -144,8 +139,8 @@ class DiscBox(Gtk.Box):
 
         :param int disc_number: Disc number to display
         """
-        self._label.set_label(_("Disc {}").format(disc_number))
-        self._label.set_visible(True)
+        self._disc_label.props.label = _("Disc {}").format(disc_number)
+        self._disc_label.props.visible = True
 
     @log
     def set_songs(self, songs):
