@@ -33,6 +33,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 logger = logging.getLogger(__name__)
 
 
+@Gtk.Template(resource_path='/org/gnome/Music/ArtistAlbumsWidget.ui')
 class ArtistAlbumsWidget(Gtk.Box):
     """Widget containing all albums by an artist
 
@@ -40,6 +41,10 @@ class ArtistAlbumsWidget(Gtk.Box):
     by one artist. Contains the model for all the song widgets of
     the album(s).
     """
+
+    __gtype_name__ = 'ArtistAlbumsWidget'
+
+    _artist = Gtk.Template.Child()
 
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
@@ -57,18 +62,13 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._selection_toolbar = selection_toolbar
         self._header_bar = header_bar
 
-        ui = Gtk.Builder()
-        ui.add_from_resource('/org/gnome/Music/ArtistAlbumsWidget.ui')
-        ui.get_object('artist').set_label(self.artist)
-
+        self._artist.props.label = self.artist
         self._widgets = []
-
         self._create_model()
 
         self._row_changed_source_id = None
 
         hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox.pack_start(ui.get_object('ArtistAlbumsWidget'), False, False, 0)
         self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
                                   spacing=48)
         hbox.pack_start(self._album_box, False, False, 16)
