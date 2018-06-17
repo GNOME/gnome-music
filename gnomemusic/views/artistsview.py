@@ -199,6 +199,8 @@ class ArtistsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
+        super()._on_selection_mode_changed(widget, data)
+
         self._artist_albums_stack.set_sensitive(
             not self._header_bar.selection_mode)
         if (not self._header_bar.selection_mode
