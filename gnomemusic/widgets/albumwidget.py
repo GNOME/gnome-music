@@ -132,8 +132,6 @@ class AlbumWidget(Gtk.EventBox):
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
         header_bar._select_button.connect(
             'toggled', self._on_header_select_button_toggled)
-        header_bar._cancel_button.connect(
-            'clicked', self._on_header_cancel_button_clicked)
 
         self._album = utils.get_album_title(item)
         self._artist_label.props.label = utils.get_artist_name(item)
@@ -172,13 +170,6 @@ class AlbumWidget(Gtk.EventBox):
         no_items = len(self._disc_listbox.get_selected_items())
         self.selection_toolbar.props.items_selected = no_items
         self._header_bar.items_selected = no_items
-
-    @log
-    def _on_header_cancel_button_clicked(self, button):
-        """Cancel selection mode callback."""
-        self._disc_listbox.props.selection_mode = False
-        self._header_bar.props.selection_mode = False
-        self._header_bar.props.title = self._album
 
     @log
     def _on_header_select_button_toggled(self, button):
