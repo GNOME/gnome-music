@@ -94,8 +94,6 @@ class BaseView(Gtk.Stack):
         self._window = window
         self._header_bar = window.headerbar
         self._selection_toolbar = window.selection_toolbar
-        self._header_bar._cancel_button.connect(
-            'clicked', self._on_cancel_button_clicked)
 
         self.name = name
         self.title = title
@@ -139,11 +137,6 @@ class BaseView(Gtk.Stack):
                            self._on_view_selection_changed)
 
         self._box.pack_start(self._view, True, True, 0)
-
-    @log
-    def _on_cancel_button_clicked(self, button):
-        self.unselect_all()
-        self.props.selection_mode = False
 
     @log
     def _on_grilo_ready(self, data=None):
