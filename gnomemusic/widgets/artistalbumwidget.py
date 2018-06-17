@@ -44,6 +44,8 @@ class ArtistAlbumWidget(Gtk.Box):
     _title = Gtk.Template.Child()
     _year = Gtk.Template.Child()
 
+    selection_mode = GObject.Property(type=bool, default=False)
+
     __gsignals__ = {
         'songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
@@ -72,14 +74,20 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._songs = []
 
-        self._header_bar._select_button.connect(
-            'toggled', self._on_header_select_button_toggled)
-
         self.cover_stack = CoverStack(self._cover, Art.Size.MEDIUM)
         self.cover_stack.update(self._media)
 
         allowed = self._selection_mode_allowed
         self._disc_list_box.props.selection_mode_allowed = allowed
+
+        self.bind_property(
+            'selection-mode', self._disc_list_box, 'selection-mode',
+            GObject.BindingFlags.SYNC_CREATE)
+        self._header_bar.bind_property(
+            'selection-mode', self, 'selection-mode',
+            GObject.BindingFlags.SYNC_CREATE)
+
+        self.connect('notify::selection-mode', self._on_selection_mode_changed)
 
         self._title.props.label = self._album_title
         year = utils.get_media_year(self._media)
@@ -104,34 +112,13 @@ class ArtistAlbumWidget(Gtk.Box):
         disc_box.props.show_favorites = False
         disc_box.props.show_song_numbers = True
         disc_box.connect('song-activated', self._song_activated)
-        disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
         return disc_box
 
-    def _selection_mode_toggled(self, widget):
-        if not self._selection_mode_allowed:
-            return
-
-        self._selection_mode = not self._selection_mode
-        self._on_selection_mode_request()
-
-        return True
-
-    def _on_selection_mode_request(self):
-        self._header_bar._select_button.clicked()
-
-    def _on_header_select_button_toggled(self, button):
-        """Selection mode button clicked callback."""
-        if button.get_active():
-            self._selection_mode = True
-            self._disc_list_box.props.selection_mode = True
-            self._header_bar.props.selection_mode = True
+    def _on_selection_mode_changed(self, widget, data):
+        if self.props.selection_mode:
             self._parent_view.set_player_visible(False)
         else:
-            self._selection_mode = False
-            self._header_bar.props.selection_mode = False
-            self._disc_list_box.props.selection_mode = False
-
             if self._player.get_playback_status() != Playback.STOPPED:
                 self._parent_view.set_player_visible(True)
 
@@ -160,7 +147,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def _song_activated(self, widget, song_widget):
-        if self._selection_mode:
+        if self.props.selection_mode:
             return
 
         self._player.stop()
@@ -169,11 +156,3 @@ class ArtistAlbumWidget(Gtk.Box):
         self._player.set_playing(True)
 
         return True
-
-    @log
-    def set_selection_mode(self, selection_mode):
-        if self._selection_mode == selection_mode:
-            return
-        self._selection_mode = selection_mode
-
-        self._disc_list_box.props.selection_mode = selection_mode
