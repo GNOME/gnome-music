@@ -94,8 +94,6 @@ class BaseView(Gtk.Stack):
         self._window = window
         self._header_bar = window.headerbar
         self._selection_toolbar = window.selection_toolbar
-        self._header_bar._select_button.connect(
-            'toggled', self._on_header_bar_toggled)
         self._header_bar._cancel_button.connect(
             'clicked', self._on_cancel_button_clicked)
 
@@ -117,7 +115,8 @@ class BaseView(Gtk.Stack):
             GObject.BindingFlags.SYNC_CREATE)
 
         self.bind_property(
-            'selection-mode', self._header_bar, 'selection-mode')
+            'selection-mode', self._header_bar, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -141,16 +140,6 @@ class BaseView(Gtk.Stack):
                            self._on_view_selection_changed)
 
         self._box.pack_start(self._view, True, True, 0)
-
-    @log
-    def _on_header_bar_toggled(self, button):
-        self.selection_mode = button.get_active()
-
-        if self.selection_mode:
-            self.set_player_visible(False)
-        else:
-            self.set_player_visible(self.player.current_song is not None)
-            self.unselect_all()
 
     @log
     def _on_cancel_button_clicked(self, button):
@@ -190,7 +179,11 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        pass
+        if self.props.selection_mode:
+            self.set_player_visible(False)
+        else:
+            self.set_player_visible(self.player.current_song is not None)
+            self.unselect_all()
 
     @log
     def populate(self):
