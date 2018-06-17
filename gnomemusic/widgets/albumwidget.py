@@ -169,10 +169,9 @@ class AlbumWidget(Gtk.EventBox):
     @Gtk.Template.Callback()
     @log
     def _on_selection_changed(self, widget):
-        items = self._disc_listbox.get_selected_items()
-        self.selection_toolbar.add_to_playlist_button.set_sensitive(
-            len(items) > 0)
-        self._header_bar.items_selected = len(items)
+        no_items = len(self._disc_listbox.get_selected_items())
+        self.selection_toolbar.props.items_selected = no_items
+        self._header_bar.items_selected = no_items
 
     @log
     def _on_header_cancel_button_clicked(self, button):
