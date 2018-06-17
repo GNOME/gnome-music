@@ -210,7 +210,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_selection_mode_request(self, *args):
-        self._header_bar._select_button.clicked()
+        self.props.selection_mode = True
 
     @log
     def get_selected_songs(self, callback):
