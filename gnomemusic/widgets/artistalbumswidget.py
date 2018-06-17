@@ -46,6 +46,8 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     _artist_label = Gtk.Template.Child()
 
+    selection_mode = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
 
@@ -57,7 +59,6 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._artist = artist
         self._window = window
         self._parent_view = parent_view
-        self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
         self._selection_toolbar = selection_toolbar
         self._header_bar = header_bar
@@ -68,7 +69,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self._create_model()
 
-        self._row_changed_source_id = None
+        self._model.connect('row-changed', self._model_row_changed)
 
         hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
@@ -127,6 +128,11 @@ class ArtistAlbumsWidget(Gtk.Box):
             self._songs_grid_size_group, self._cover_size_group)
         self._cover_size_group.add_widget(widget.cover_stack._stack)
 
+        self.bind_property(
+            'selection-mode', widget, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
+
         self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)
 
@@ -174,30 +180,8 @@ class ArtistAlbumsWidget(Gtk.Box):
         return False
 
     @log
-    def set_selection_mode(self, selection_mode):
-        """Set selection mode for the widget
-
-        :param bool selection_mode: Allow selection mode
-        """
-        if self._selection_mode == selection_mode:
-            return
-
-        self._selection_mode = selection_mode
-
-        try:
-            if self._row_changed_source_id:
-                self._model.disconnect(self._row_changed_source_id)
-            self._row_changed_source_id = self._model.connect(
-                'row-changed', self._model_row_changed)
-        except Exception as e:
-            logger.warning("Exception while tracking row-changed: %s", e)
-
-        for widget in self._widgets:
-            widget.set_selection_mode(selection_mode)
-
-    @log
     def _model_row_changed(self, model, path, itr):
-        if not self._selection_mode:
+        if not self.props.selection_mode:
             return
 
         selected_items = 0
