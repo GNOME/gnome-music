@@ -66,6 +66,8 @@ class AlbumsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
+        super()._on_selection_mode_changed(widget, data)
+
         if (not self._header_bar.selection_mode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
