@@ -150,13 +150,6 @@ class SearchView(BaseView):
                 self._view.get_generic_view().expand_row(path, False)
 
     @log
-    def _on_selection_mode_changed(self, widget, data=None):
-        if (self._artist_albums_widget is not None
-                and self.get_visible_child() == self._artist_albums_widget):
-            self._artist_albums_widget.set_selection_mode(
-                self._header_bar.selection_mode)
-
-    @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):
         if not item:
             if (grilo._search_callback_counter == 0
