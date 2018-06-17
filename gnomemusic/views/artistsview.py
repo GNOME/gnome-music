@@ -147,7 +147,7 @@ class ArtistsView(BaseView):
         self._artist_albums_stack.add(new_artist_albums_widget)
 
         artist_albums = ArtistAlbumsWidget(
-            artist, albums, self.player, self, self._header_bar,
+            artist, albums, self.player, self._header_bar,
             self._selection_toolbar, self._window)
         self._artists[artist.casefold()]['widget'] = artist_albums
         new_artist_albums_widget.add(artist_albums)
