@@ -511,11 +511,6 @@ class Window(Gtk.ApplicationWindow):
     def _on_selection_mode_changed(self, widget, data=None):
         if self.headerbar.props.selection_mode == False:
             self._on_changes_pending()
-        else:
-            child = self._stack.get_visible_child()
-            in_playlist = (child == self.views[View.PLAYLIST])
-            self.selection_toolbar.add_to_playlist_button.set_visible(
-                not in_playlist)
 
     @log
     def _on_add_to_playlist_button_clicked(self, widget):
