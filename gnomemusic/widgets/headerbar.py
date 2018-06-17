@@ -221,6 +221,11 @@ class HeaderBar(Gtk.HeaderBar):
 
         self.searchbar.reveal(False)
 
+    @Gtk.Template.Callback()
+    @log
+    def _on_cancel_button_clicked(self, button):
+        self.props.selection_mode = False
+
     @log
     def _update(self):
         if self.props.selection_mode:
