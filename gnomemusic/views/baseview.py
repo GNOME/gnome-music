@@ -183,8 +183,7 @@ class BaseView(Gtk.Stack):
     @log
     def update_header_from_selection(self, n_items):
         """Updates header during item selection."""
-        select_toolbar = self._selection_toolbar
-        select_toolbar.add_to_playlist_button.set_sensitive(n_items > 0)
+        self._selection_toolbar.props.items_selected = n_items
         self._header_bar.props.items_selected = n_items
 
     @log
@@ -237,18 +236,14 @@ class BaseView(Gtk.Stack):
         """Select all the available songs."""
         count = self._set_selection(True)
 
-        if count > 0:
-            select_toolbar = self._selection_toolbar
-            select_toolbar.add_to_playlist_button.set_sensitive(True)
-
+        self._selection_toolbar.props.items_selected = count
         self.update_header_from_selection(count)
 
     @log
     def unselect_all(self):
         """Unselects all the selected songs."""
         self._set_selection(False)
-        select_toolbar = self._selection_toolbar
-        select_toolbar.add_to_playlist_button.set_sensitive(False)
+        self._selection_toolbar.props.items_selected = 0
         self._header_bar.props.items_selected = 0
 
     @log

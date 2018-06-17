@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 
@@ -34,9 +34,20 @@ class SelectionToolbar(Gtk.ActionBar):
 
     add_to_playlist_button = Gtk.Template.Child()
 
+    items_selected = GObject.Property(type=int, default=0, minimum=0)
+
     def __repr__(self):
         return '<SelectionToolbar>'
 
     @log
     def __init__(self):
         super().__init__()
+
+        self.connect('notify::items-selected', self._on_item_selection_changed)
+
+    @log
+    def _on_item_selection_changed(self, widget, data):
+        if self.props.items_selected > 0:
+            self.add_to_playlist_button.props.sensitive = True
+        else:
+            self.add_to_playlist_button.props.sensitive = False
