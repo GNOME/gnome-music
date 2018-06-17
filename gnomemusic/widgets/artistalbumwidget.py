@@ -87,6 +87,8 @@ class ArtistAlbumWidget(Gtk.Box):
              'selection-mode', self, 'selection-mode',
              GObject.BindingFlags.SYNC_CREATE)
 
+        self.connect('notify::selection-mode', self._on_selection_mode_changed)
+
         self._title.props.label = self._album_title
         year = utils.get_media_year(self._media)
 
@@ -113,11 +115,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         return disc_box
 
-    def _on_header_select_button_toggled(self, button):
-        """Selection mode button clicked callback."""
-        mode = button.get_active()
-
-        if mode:
+    def _on_selection_mode_changed(self, widget, data):
+        if self.props.selection_mode:
             self._parent_view.set_player_visible(False)
         else:
             if self._player.get_playback_status() != Playback.STOPPED:
