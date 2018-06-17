@@ -44,7 +44,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     __gtype_name__ = 'ArtistAlbumsWidget'
 
-    _artist = Gtk.Template.Child()
+    _artist_label = Gtk.Template.Child()
 
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
@@ -54,7 +54,7 @@ class ArtistAlbumsWidget(Gtk.Box):
                  selection_toolbar, window, selection_mode_allowed=False):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self._player = player
-        self.artist = artist
+        self._artist = artist
         self._window = window
         self._parent_view = parent_view
         self._selection_mode = False
@@ -62,7 +62,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._selection_toolbar = selection_toolbar
         self._header_bar = header_bar
 
-        self._artist.props.label = self.artist
+        self._artist_label.props.label = self._artist
 
         self._widgets = []
 
@@ -135,7 +135,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _update_model(self, player, playlist, current_iter):
-        if not player.running_playlist('Artist', self.artist):
+        if not player.running_playlist('Artist', self._artist):
             self._clean_model()
             return False
 
