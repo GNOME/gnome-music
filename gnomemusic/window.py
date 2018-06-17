@@ -256,8 +256,8 @@ class Window(Gtk.ApplicationWindow):
             'toggled', self._on_search_toggled)
         self.headerbar.connect(
             'notify::selection-mode', self._on_selection_mode_changed)
-        self.selection_toolbar.add_to_playlist_button.connect(
-            'clicked', self._on_add_to_playlist_button_clicked)
+        self.selection_toolbar.connect(
+            'add-to-playlist', self._on_add_to_playlist)
 
         self.headerbar.props.state = HeaderBar.State.MAIN
         self.headerbar.show()
@@ -513,7 +513,7 @@ class Window(Gtk.ApplicationWindow):
             self._on_changes_pending()
 
     @log
-    def _on_add_to_playlist_button_clicked(self, widget):
+    def _on_add_to_playlist(self, widget):
         if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
             return
 
