@@ -103,7 +103,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         grilo.populate_album_songs(self._media, self._add_item)
 
-    def create_disc_box(self, disc_nr, disc_songs):
+    @log
+    def _create_disc_box(self, disc_nr, disc_songs):
         disc_box = DiscBox(self._model)
         disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
@@ -137,7 +138,7 @@ class ArtistAlbumWidget(Gtk.Box):
                 discs[disc_nr].append(song)
 
         for disc_nr in discs:
-            disc = self.create_disc_box(disc_nr, discs[disc_nr])
+            disc = self._create_disc_box(disc_nr, discs[disc_nr])
             self._disc_list_box.add(disc)
             if len(discs) == 1:
                 disc.props.show_disc_label = False
