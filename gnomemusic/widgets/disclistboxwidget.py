@@ -47,10 +47,11 @@ class DiscSongsFlowBox(Gtk.FlowBox):
 
         :param int columns: The number of columns the widget uses
         """
-        super().__init__()
-        super().set_selection_mode(Gtk.SelectionMode.NONE)
+        super().__init__(selection_mode=Gtk.SelectionMode.NONE)
 
-        self._columns = columns
+        self._columns = 1
+        self.props.columns = columns
+
         self.get_style_context().add_class('discsongsflowbox')
 
     @GObject.Property(type=int, minimum=1, default=1)
@@ -79,8 +80,8 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         else:
             max_per_line = int(children_n / self._columns) + 1
 
-        self.set_max_children_per_line(max_per_line)
-        self.set_min_children_per_line(max_per_line)
+        self.props.max_children_per_line = max_per_line
+        self.props.min_children_per_line = max_per_line
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/DiscBox.ui')
