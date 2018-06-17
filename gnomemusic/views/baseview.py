@@ -106,8 +106,7 @@ class BaseView(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
-        self._header_bar.connect(
-            'notify::selection-mode', self._on_selection_mode_changed)
+        self.connect('notify::selection-mode', self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
 
         self.bind_property(
