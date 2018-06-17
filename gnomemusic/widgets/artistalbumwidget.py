@@ -27,7 +27,6 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
-from gnomemusic.gstplayer import Playback
 from gnomemusic.widgets.coverstack import CoverStack
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
@@ -54,9 +53,9 @@ class ArtistAlbumWidget(Gtk.Box):
         return '<ArtistAlbumWidget>'
 
     @log
-    def __init__(self, media, player, model, parent_view, header_bar,
-                 selection_mode_allowed, size_group=None,
-                 cover_size_group=None):
+    def __init__(
+            self, media, player, model, header_bar, selection_mode_allowed,
+            size_group=None, cover_size_group=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
@@ -67,7 +66,6 @@ class ArtistAlbumWidget(Gtk.Box):
         self._artist = utils.get_artist_name(self._media)
         self._album_title = utils.get_album_title(self._media)
         self._model = model
-        self._parent_view = parent_view
         self._header_bar = header_bar
         self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
@@ -86,8 +84,6 @@ class ArtistAlbumWidget(Gtk.Box):
         self._header_bar.bind_property(
             'selection-mode', self, 'selection-mode',
             GObject.BindingFlags.SYNC_CREATE)
-
-        self.connect('notify::selection-mode', self._on_selection_mode_changed)
 
         self._title.props.label = self._album_title
         year = utils.get_media_year(self._media)
@@ -115,13 +111,6 @@ class ArtistAlbumWidget(Gtk.Box):
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
-
-    def _on_selection_mode_changed(self, widget, data):
-        if self.props.selection_mode:
-            self._parent_view.set_player_visible(False)
-        else:
-            if self._player.get_playback_status() != Playback.STOPPED:
-                self._parent_view.set_player_visible(True)
 
     @log
     def _add_item(self, source, prefs, song, remaining, data=None):
