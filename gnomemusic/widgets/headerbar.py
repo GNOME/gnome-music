@@ -130,6 +130,9 @@ class HeaderBar(Gtk.HeaderBar):
             "selection-mode", self._select_button, "visible",
             GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
+            "selection-mode", self._select_button, "active",
+            GObject.BindingFlags.BIDIRECTIONAL)
+        self.bind_property(
             "stack", self._stack_switcher, "stack",
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
