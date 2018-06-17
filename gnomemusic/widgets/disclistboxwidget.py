@@ -103,6 +103,7 @@ class DiscBox(Gtk.Box):
 
     columns = GObject.Property(type=int, minimum=1, default=1)
     selection_mode = GObject.Property(type=bool, default=False)
+    selection_mode_allowed = GObject.Property(type=bool, default=True)
     show_disc_label = GObject.Property(type=bool, default=False)
     show_durations = GObject.Property(type=bool, default=False)
     show_favorites = GObject.Property(type=bool, default=False)
@@ -255,7 +256,10 @@ class DiscBox(Gtk.Box):
                 itr = widget.itr
                 self._model[itr][6] = not self._model[itr][6]
         else:
-            self.emit('selection-toggle')
+            # NOTE: Right-click toggling selection mode.
+            if self.props.selection_mode_allowed:
+                self.props.selection_mode = not self.props.selection_mode
+
             if self.props.selection_mode:
                 itr = widget.itr
                 self._model[itr][6] = True
@@ -307,6 +311,9 @@ class DiscListBox(Gtk.Box):
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
+            GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            'selection-mode-allowed', widget, 'selection-mode-allowed',
             GObject.BindingFlags.SYNC_CREATE)
 
     @log
