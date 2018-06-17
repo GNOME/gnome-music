@@ -59,6 +59,7 @@
         <property name="use_underline">True</property>
         <property name="valign">center</property>
         <property name="sensitive">True</property>
+        <signal name="clicked" handler="_on_cancel_button_clicked" swapped="no"/>
         <style>
           <class name="text-button"/>
         </style>
