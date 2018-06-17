@@ -110,17 +110,8 @@ class ArtistAlbumWidget(Gtk.Box):
         disc_box.props.show_favorites = False
         disc_box.props.show_song_numbers = True
         disc_box.connect('song-activated', self._song_activated)
-        # disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
         return disc_box
-
-    def _selection_mode_toggled(self, widget):
-        #if not self._selection_mode_allowed:
-        #    return
-
-        #self.props.selection_mode = not self.props.selection_mode
-
-        return True
 
     def _on_header_select_button_toggled(self, button):
         """Selection mode button clicked callback."""
