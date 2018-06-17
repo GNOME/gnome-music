@@ -156,3 +156,13 @@ class ArtistAlbumWidget(Gtk.Box):
         self._player.set_playing(True)
 
         return True
+
+    @log
+    def select_all(self):
+        """Select all items"""
+        self._disc_list_box.select_all()
+
+    @log
+    def select_none(self):
+        """Deselect all items"""
+        self._disc_list_box.select_none()
