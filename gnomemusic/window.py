@@ -474,8 +474,8 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.EMPTY],
             self.views[View.PLAYLIST]
         ]
-        self.headerbar._select_button.set_sensitive(
-            self.curr_view not in no_selection_mode)
+        allowed = self.curr_view not in no_selection_mode
+        self.headerbar.props.selection_mode_allowed = allowed
 
         # Disable renaming playlist if it was active when leaving
         # Playlist view
