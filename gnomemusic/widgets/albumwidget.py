@@ -54,6 +54,8 @@ class AlbumWidget(Gtk.EventBox):
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
+    selection_mode = GObject.Property(type=bool, default=False)
+
     _duration = 0
 
     def __repr__(self):
@@ -74,8 +76,6 @@ class AlbumWidget(Gtk.EventBox):
         self._player = player
         self._iter_to_clean = None
 
-        self._selection_mode = False
-
         self._create_model()
         self._album = None
         self._header_bar = None
@@ -84,12 +84,11 @@ class AlbumWidget(Gtk.EventBox):
         # _get_selected_songs
         self.view = self._disc_listbox
 
-        self.show_all()
+        self.bind_property(
+            'selection-mode', self._disc_listbox, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
-    @log
-    def _on_selection_mode_request(self, *args):
-        """Selection mode toggled."""
-        self._header_bar._select_button.clicked()
+        self.show_all()
 
     @log
     def _create_model(self):
@@ -130,8 +129,6 @@ class AlbumWidget(Gtk.EventBox):
         art.image = self._cover
 
         GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
-        header_bar._select_button.connect(
-            'toggled', self._on_header_select_button_toggled)
 
         self._album = utils.get_album_title(item)
         self._artist_label.props.label = utils.get_artist_name(item)
@@ -143,6 +140,11 @@ class AlbumWidget(Gtk.EventBox):
         self._released_info_label.props.label = year
 
         self._set_composer_label(item)
+
+        self.bind_property(
+            'selection-mode', self._header_bar, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
 
         self._player.connect('song-changed', self._update_model)
 
@@ -172,21 +174,6 @@ class AlbumWidget(Gtk.EventBox):
         self._header_bar.items_selected = no_items
 
     @log
-    def _on_header_select_button_toggled(self, button):
-        """Selection mode button clicked callback."""
-        if button.get_active():
-            self._selection_mode = True
-            self._disc_listbox.props.selection_mode = True
-            self._header_bar.props.selection_mode = True
-            self._parent_view.set_player_visible(False)
-        else:
-            self._selection_mode = False
-            self._disc_listbox.props.selection_mode = False
-            self._header_bar.props.selection_mode = False
-            if self._player.get_playback_status() != Playback.STOPPED:
-                self._parent_view.set_player_visible(True)
-
-    @log
     def _create_disc_box(self, disc_nr, disc_songs):
         disc_box = DiscBox(self._model)
         disc_box.set_songs(disc_songs)
@@ -202,12 +189,11 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _selection_mode_toggled(self, widget):
-        self._selection_mode = not self._selection_mode
-        self._on_selection_mode_request()
+        self.props.selection_mode = not self.props.selection_mode
 
     @log
     def _song_activated(self, widget, song_widget):
-        if self._selection_mode:
+        if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
             return
 
