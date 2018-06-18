@@ -98,6 +98,7 @@ class HeaderBar(Gtk.HeaderBar):
     _back_button = Gtk.Template.Child()
 
     items_selected = GObject.Property(type=int, default=0, minimum=0)
+    selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
 
     def __repr__(self):
@@ -138,6 +139,10 @@ class HeaderBar(Gtk.HeaderBar):
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "items-selected", self._selection_menu, "items-selected")
+
+        self.connect(
+            "notify::selection-mode-allowed",
+            self._on_selection_mode_allowed_changed)
 
     @GObject.Property(type=bool, default=False)
     @log
@@ -240,3 +245,10 @@ class HeaderBar(Gtk.HeaderBar):
             and self.props.state != HeaderBar.State.MAIN
             and self.props.state != HeaderBar.State.EMPTY
         )
+
+    @log
+    def _on_selection_mode_allowed_changed(self, widget, data):
+        if self.props.selection_mode_allowed:
+            self._select_button.props.sensitive = True
+        else:
+            self._select_button.props.sensitive = False
