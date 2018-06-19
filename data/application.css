@@ -122,3 +122,8 @@ box#ArtistAlbumsWidget .artist-label {
 .playing-song-label {
     font-weight: bold;
 }
+
+/* headerbar - smooth selection-mode transition */
+.selection-mode {
+    transition: 250ms ease-in-out;
+}
