@@ -130,3 +130,8 @@ box#ArtistAlbumsWidget .artist-label {
                                                 alpha(@theme_selected_bg_color, 0.27) 2px,
                                                 alpha(@theme_selected_bg_color, 0.20) 3px);
 }
+
+/* headerbar - smooth selection-mode transition */
+headerbar {
+    transition: 250ms ease-in-out;
+}
