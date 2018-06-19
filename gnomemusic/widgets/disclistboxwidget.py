@@ -98,7 +98,6 @@ class DiscBox(Gtk.Box):
 
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'selection-toggle': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
 
@@ -312,6 +311,7 @@ class DiscListBox(Gtk.Box):
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'selection-mode-allowed', widget, 'selection-mode-allowed',

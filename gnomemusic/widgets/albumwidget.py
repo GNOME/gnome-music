@@ -182,13 +182,8 @@ class AlbumWidget(Gtk.EventBox):
         disc_box.props.show_favorites = True
         disc_box.props.show_song_numbers = False
         disc_box.connect('song-activated', self._song_activated)
-        disc_box.connect('selection-toggle', self._selection_mode_toggled)
 
         return disc_box
-
-    @log
-    def _selection_mode_toggled(self, widget):
-        self.props.selection_mode = not self.props.selection_mode
 
     @log
     def _song_activated(self, widget, song_widget):
