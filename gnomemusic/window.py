@@ -33,7 +33,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.player import Player, RepeatType
+from gnomemusic.player import Player, RepeatMode
 from gnomemusic.query import Query
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
@@ -368,17 +368,17 @@ class Window(Gtk.ApplicationWindow):
             # Toggle repeat on Ctrl + R
             if (event.keyval == Gdk.KEY_r
                     and modifiers == control_mask):
-                if self.player.get_repeat_mode() == RepeatType.SONG:
-                    self.player.set_repeat_mode(RepeatType.NONE)
+                if self.player.get_repeat_mode() == RepeatMode.SONG:
+                    self.player.set_repeat_mode(RepeatMode.NONE)
                 else:
-                    self.player.set_repeat_mode(RepeatType.SONG)
+                    self.player.set_repeat_mode(RepeatMode.SONG)
             # Toggle shuffle on Ctrl + S
             if (event.keyval == Gdk.KEY_s
                     and modifiers == control_mask):
-                if self.player.get_repeat_mode() == RepeatType.SHUFFLE:
-                    self.player.set_repeat_mode(RepeatType.NONE)
+                if self.player.get_repeat_mode() == RepeatMode.SHUFFLE:
+                    self.player.set_repeat_mode(RepeatMode.NONE)
                 else:
-                    self.player.set_repeat_mode(RepeatType.SHUFFLE)
+                    self.player.set_repeat_mode(RepeatMode.SHUFFLE)
             # Go back from Album view on Alt + Left
             if (event.keyval == Gdk.KEY_Left
                     and modifiers == mod1_mask):
