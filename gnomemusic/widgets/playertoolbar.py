@@ -28,7 +28,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.gstplayer import Playback
-from gnomemusic.player import RepeatType
+from gnomemusic.player import RepeatMode
 from gnomemusic.widgets.coverstack import CoverStack
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 import gnomemusic.utils as utils
@@ -117,13 +117,13 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _sync_repeat_image(self, player=None):
         icon = None
-        if self._player.repeat == RepeatType.NONE:
+        if self._player.repeat == RepeatMode.NONE:
             icon = 'media-playlist-consecutive-symbolic'
-        elif self._player.repeat == RepeatType.SHUFFLE:
+        elif self._player.repeat == RepeatMode.SHUFFLE:
             icon = 'media-playlist-shuffle-symbolic'
-        elif self._player.repeat == RepeatType.ALL:
+        elif self._player.repeat == RepeatMode.ALL:
             icon = 'media-playlist-repeat-symbolic'
-        elif self._player.repeat == RepeatType.SONG:
+        elif self._player.repeat == RepeatMode.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)

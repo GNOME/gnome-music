@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 playlists = Playlists.get_default()
 
 
-class RepeatType:
+class RepeatMode:
     NONE = 0
     SONG = 1
     ALL = 2
@@ -239,20 +239,20 @@ class Player(GObject.GObject):
 
         next_song = None
 
-        if self.repeat == RepeatType.SONG:
+        if self.repeat == RepeatMode.SONG:
             if iter_:
                 next_song = iter_
             else:
                 next_song = self.playlist.get_iter_first()
-        elif self.repeat == RepeatType.ALL:
+        elif self.repeat == RepeatMode.ALL:
             if iter_:
                 next_song = self.playlist.iter_next(iter_)
             if not next_song:
                 next_song = self.playlist.get_iter_first()
-        elif self.repeat == RepeatType.NONE:
+        elif self.repeat == RepeatMode.NONE:
             if iter_:
                 next_song = self.playlist.iter_next(iter_)
-        elif self.repeat == RepeatType.SHUFFLE:
+        elif self.repeat == RepeatMode.SHUFFLE:
             next_song = self._get_random_iter(iter_)
             if iter_:
                 self._shuffle_history.append(iter_)
@@ -285,20 +285,20 @@ class Player(GObject.GObject):
 
         previous_song = None
 
-        if self.repeat == RepeatType.SONG:
+        if self.repeat == RepeatMode.SONG:
             if iter_:
                 previous_song = iter_
             else:
                 previous_song = self.playlist.get_iter_first()
-        elif self.repeat == RepeatType.ALL:
+        elif self.repeat == RepeatMode.ALL:
             if iter_:
                 previous_song = self.playlist.iter_previous(iter_)
             if not previous_song:
                 previous_song = get_last_iter()
-        elif self.repeat == RepeatType.NONE:
+        elif self.repeat == RepeatMode.NONE:
             if iter_:
                 previous_song = self.playlist.iter_previous(iter_)
-        elif self.repeat == RepeatType.SHUFFLE:
+        elif self.repeat == RepeatMode.SHUFFLE:
             if iter_:
                 if (self._player.position < 5
                         and len(self._shuffle_history) > 0):
@@ -324,13 +324,13 @@ class Player(GObject.GObject):
 
     @log
     def has_next(self):
-        repeat_types = [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]
+        repeat_modes = [RepeatMode.ALL, RepeatMode.SONG, RepeatMode.SHUFFLE]
         if (not self.playlist
                 or self.playlist.iter_n_children(None) < 1):
             return False
         elif not self.current_song:
             return False
-        elif self.repeat in repeat_types:
+        elif self.repeat in repeat_modes:
             return True
         elif self.current_song.valid():
             tmp = self.playlist.get_iter(self.current_song.get_path())
@@ -340,13 +340,13 @@ class Player(GObject.GObject):
 
     @log
     def has_previous(self):
-        repeat_types = [RepeatType.ALL, RepeatType.SONG, RepeatType.SHUFFLE]
+        repeat_modes = [RepeatMode.ALL, RepeatMode.SONG, RepeatMode.SHUFFLE]
         if (not self.playlist
                 or self.playlist.iter_n_children(None) < 1):
             return False
         elif not self.current_song:
             return False
-        elif self.repeat in repeat_types:
+        elif self.repeat in repeat_modes:
             return True
         elif self.current_song.valid():
             tmp = self.playlist.get_iter(self.current_song.get_path())
@@ -422,7 +422,7 @@ class Player(GObject.GObject):
     def _on_eos(self, klass):
         if self._next_song:
             GLib.idle_add(self._on_glib_idle)
-        elif (self.repeat == RepeatType.NONE):
+        elif (self.repeat == RepeatMode.NONE):
             self.stop()
 
             if self.playlist is not None:
