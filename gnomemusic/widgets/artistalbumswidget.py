@@ -198,11 +198,11 @@ class ArtistAlbumsWidget(Gtk.Box):
     def select_all(self):
         """Select all items"""
         for widget in self._widgets:
-            widget._disc_list_box.select_all()
+            widget.select_all()
 
     @log
     def select_none(self):
         """Deselect all items"""
         for widget in self._widgets:
-            widget._disc_list_box.select_none()
+            widget.select_none()
 
