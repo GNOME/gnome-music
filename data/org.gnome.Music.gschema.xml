@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-    <enum id="org.gnome.Music.RepeatType">
+    <enum id="org.gnome.Music.RepeatMode">
         <value nick="none" value="0"/>
         <value nick="song" value="1"/>
         <value nick="all" value="2"/>
@@ -22,7 +22,7 @@
             <summary>Window maximized</summary>
             <description>Window maximized state.</description>
         </key>
-        <key enum="org.gnome.Music.RepeatType" name="repeat">
+        <key enum="org.gnome.Music.RepeatMode" name="repeat">
             <default>'none'</default>
             <summary>Playback repeat mode</summary>
             <!-- Translators: Don't translate allowed values, just the description in the brackets -->

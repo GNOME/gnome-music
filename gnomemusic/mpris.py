@@ -26,7 +26,7 @@
 import codecs
 
 from gnomemusic.gstplayer import Playback
-from gnomemusic.player import RepeatType
+from gnomemusic.player import RepeatMode
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.utils import View
@@ -255,9 +255,9 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_loop_status(self):
-        if self.player.repeat == RepeatType.NONE:
+        if self.player.repeat == RepeatMode.NONE:
             return 'None'
-        elif self.player.repeat == RepeatType.SONG:
+        elif self.player.repeat == RepeatMode.SONG:
             return 'Track'
         else:
             return 'Playlist'
@@ -409,7 +409,7 @@ class MediaPlayer2Service(Server):
 
     @log
     def _on_current_song_changed(self, player, current_iter, data=None):
-        if self.player.repeat == RepeatType.SONG:
+        if self.player.repeat == RepeatMode.SONG:
             self.Seeked(0)
 
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
@@ -441,7 +441,7 @@ class MediaPlayer2Service(Server):
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'LoopStatus': GLib.Variant('s', self._get_loop_status()),
-                                   'Shuffle': GLib.Variant('b', self.player.repeat == RepeatType.SHUFFLE),
+                                   'Shuffle': GLib.Variant('b', self.player.repeat == RepeatMode.SHUFFLE),
                                },
                                [])
 
@@ -682,7 +682,7 @@ class MediaPlayer2Service(Server):
                 'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
                 'LoopStatus': GLib.Variant('s', self._get_loop_status()),
                 'Rate': GLib.Variant('d', 1.0),
-                'Shuffle': GLib.Variant('b', self.player.repeat == RepeatType.SHUFFLE),
+                'Shuffle': GLib.Variant('b', self.player.repeat == RepeatMode.SHUFFLE),
                 'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                 'Volume': GLib.Variant('d', self.player.get_volume()),
                 'Position': GLib.Variant('x', self.player.get_position()),
@@ -727,16 +727,16 @@ class MediaPlayer2Service(Server):
                 self.player.set_volume(new_value)
             elif property_name == 'LoopStatus':
                 if new_value == 'None':
-                    self.player.set_repeat_mode(RepeatType.NONE)
+                    self.player.set_repeat_mode(RepeatMode.NONE)
                 elif new_value == 'Track':
-                    self.player.set_repeat_mode(RepeatType.SONG)
+                    self.player.set_repeat_mode(RepeatMode.SONG)
                 elif new_value == 'Playlist':
-                    self.player.set_repeat_mode(RepeatType.ALL)
+                    self.player.set_repeat_mode(RepeatMode.ALL)
             elif property_name == 'Shuffle':
                 if new_value:
-                    self.player.set_repeat_mode(RepeatType.SHUFFLE)
+                    self.player.set_repeat_mode(RepeatMode.SHUFFLE)
                 else:
-                    self.player.set_repeat_mode(RepeatType.NONE)
+                    self.player.set_repeat_mode(RepeatMode.NONE)
         else:
             raise Exception(
                 'org.mpris.MediaPlayer2.GnomeMusic',
