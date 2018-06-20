@@ -32,7 +32,11 @@ class SelectionToolbar(Gtk.ActionBar):
 
     __gtype_name__ = 'SelectionToolbar'
 
-    add_to_playlist_button = Gtk.Template.Child()
+    _add_to_playlist_button = Gtk.Template.Child()
+
+    __gsignals__ = {
+        'add-to-playlist': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
 
     items_selected = GObject.Property(type=int, default=0, minimum=0)
 
@@ -45,9 +49,14 @@ class SelectionToolbar(Gtk.ActionBar):
 
         self.connect('notify::items-selected', self._on_item_selection_changed)
 
+    @Gtk.Template.Callback()
+    @log
+    def _on_add_to_playlist_button_clicked(self, widget):
+        self.emit('add-to-playlist')
+
     @log
     def _on_item_selection_changed(self, widget, data):
         if self.props.items_selected > 0:
-            self.add_to_playlist_button.props.sensitive = True
+            self._add_to_playlist_button.props.sensitive = True
         else:
-            self.add_to_playlist_button.props.sensitive = False
+            self._add_to_playlist_button.props.sensitive = False
