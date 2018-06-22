@@ -131,7 +131,7 @@ class ArtistsView(BaseView):
 
         if widget:
             artist_stack = self._artist_albums_stack
-            if self.player.playing_playlist('Artist', widget.artist):
+            if self.player.playing_playlist('Artist', widget.props.artist):
                 self._artist_albums_widget = widget.get_parent()
                 GLib.idle_add(self._artist_albums_stack.set_visible_child,
                               self._artist_albums_widget)

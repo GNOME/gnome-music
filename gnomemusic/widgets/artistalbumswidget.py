@@ -146,7 +146,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _update_model(self, player, playlist, current_iter):
-        if not player.playing_playlist('Artist', self._artist):
+        if not player.playing_playlist('Artist', self.props.artist):
             self._clean_model()
             return False
 
@@ -208,3 +208,8 @@ class ArtistAlbumsWidget(Gtk.Box):
         """Deselect all items"""
         for widget in self._widgets:
             widget.select_none()
+
+    @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
+    def artist(self):
+        """Artist name"""
+        return self._artist
