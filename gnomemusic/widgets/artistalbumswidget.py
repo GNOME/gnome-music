@@ -57,13 +57,12 @@ class ArtistAlbumsWidget(Gtk.Box):
             window, selection_mode_allowed=False):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self._player = player
-        self._artist = artist
         self._window = window
         self._selection_mode_allowed = selection_mode_allowed
         self._selection_toolbar = selection_toolbar
         self._header_bar = header_bar
 
-        self._artist_label.props.label = self._artist
+        self._artist_label.props.label = artist
 
         self._widgets = []
 
@@ -141,7 +140,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def _update_model(self, player, playlist, current_iter):
-        if not player.playing_playlist('Artist', self._artist):
+        if not player.playing_playlist('Artist', self.props.artist):
             self._clean_model()
             return False
 
@@ -203,3 +202,8 @@ class ArtistAlbumsWidget(Gtk.Box):
         """Deselect all items"""
         for widget in self._widgets:
             widget.select_none()
+
+    @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
+    def artist(self):
+        """Artist name"""
+        return self._artist_label.props.label
