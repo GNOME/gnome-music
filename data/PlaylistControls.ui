@@ -15,7 +15,7 @@
       <attribute name="action">win.playlist_rename</attribute>
     </item>
   </menu>
-  <object class="GtkGrid" id="grid">
+  <template class="PlaylistControls" parent="GtkGrid">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="margin_start">18</property>
@@ -23,68 +23,71 @@
     <property name="margin_top">18</property>
     <property name="margin_bottom">18</property>
     <child>
-      <object class="GtkStack" id="stack">
-    <child>
-      <object class="GtkLabel" id="playlist_name">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="hexpand">True</property>
-        <property name="xalign">0</property>
-        <property name="label" translatable="yes">Playlist Name</property>
-        <property name="ellipsize">middle</property>
-        <style>
-          <class name="playlist-name-label"/>
-        </style>
-      </object>
-    </child>
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">horizontal</property>
-        <style>
-          <class name="linked"/>
-        </style>
+      <object class="GtkStack" id="_name_stack">
         <child>
-          <object class="GtkEntry" id="playlist_rename_entry">
-        <property name="visible">True</property>
-        <property name="can_focus">True</property>
-        <property name="is_focus">True</property>
-        <property name="has_focus">True</property>
-        <property name="receives_default">True</property>
+          <object class="GtkLabel" id="_name_label">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">Playlist Name</property>
+            <property name="ellipsize">middle</property>
+            <style>
+              <class name="playlist-name-label"/>
+            </style>
           </object>
         </child>
         <child>
-          <object class="GtkButton" id="playlist_rename_done_button">
-        <property name="visible">True</property>
-        <property name="no_show_all">True</property>
-        <property name="can_focus">True</property>
-        <property name="has_focus">True</property>
-        <property name="receives_default">True</property>
-        <property name="label" translatable="yes">_Done</property>
-        <property name="use_underline">True</property>
-        <property name="valign">center</property>
-        <property name="sensitive">True</property>
-        <style>
-          <class name="suggested-action"/>
-        </style>
-          </object>
-        </child>
-      </object>
-      <packing>
-        <property name="name">renaming_dialog</property>
-      </packing>
-    </child>
-      </object>
-      <packing>
-        <property name="left_attach">0</property>
-        <property name="top_attach">0</property>
-        <property name="width">1</property>
-        <property name="height">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="songs_count">
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">horizontal</property>
+            <style>
+              <class name="linked"/>
+            </style>
+            <child>
+              <object class="GtkEntry" id="_rename_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="is_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="changed" handler="_on_rename_entry_changed" swapped="no"/>
+                <signal name="activate" handler="_on_rename_entry_changed" swapped="no"/>
+                <signal name="key-press-event" handler="_on_rename_entry_key_pressed" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="_rename_done_button">
+                <property name="visible">True</property>
+                <property name="no_show_all">True</property>
+                <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">_Done</property>
+                <property name="use_underline">True</property>
+                <property name="valign">center</property>
+                <property name="sensitive">True</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+        </object>
+        <packing>
+          <property name="name">renaming_dialog</property>
+        </packing>
+      </child>
+        </object>
+        <packing>
+          <property name="left_attach">0</property>
+          <property name="top_attach">0</property>
+          <property name="width">1</property>
+          <property name="height">1</property>
+        </packing>
+      </child>
+      <child>
+      <object class="GtkLabel" id="_songs_count_label">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="xalign">0</property>
@@ -101,7 +104,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkMenuButton" id="playlist_menubutton">
+      <object class="GtkMenuButton" id="_menubutton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -123,5 +126,5 @@
         <property name="height">2</property>
       </packing>
     </child>
-  </object>
+  </template>
 </interface>
