@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-17 07:44+0000\n"
-"PO-Revision-Date: 2018-05-18 18:03+0200\n"
+"POT-Creation-Date: 2018-05-19 18:22+0000\n"
+"PO-Revision-Date: 2018-06-24 13:49+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -31,8 +31,8 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Musiche e je le gnove aplicazion GNOME par riprodusi musiche."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
-#: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:66 data/AboutDialog.ui.in:7
+#: gnomemusic/application.py:103 gnomemusic/window.py:66
+#: data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Musiche"
 
@@ -108,6 +108,16 @@ msgstr "Il stât iniziâl al è stât mostrât"
 msgid "Set to true when initial state has been displayed"
 msgstr "Imposte a vêr cuant che il stât iniziâl al è stât mostrât"
 
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "Inibìs la sospension dal sisteme"
+
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+"Abilite o disabilite la inibizion a sospindi il sisteme intant che si scolte "
+"la musiche"
+
 #: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Impussibil riprodusi il file"
@@ -131,6 +141,10 @@ msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Al covente {} par riprodusi il file, ma nol è instalât."
 msgstr[1] "A coventin {} par riprodusi il file, ma no son instalâts."
+
+#: gnomemusic/inhibitsuspend.py:68
+msgid "Playing music"
+msgstr "Riproduzion musiche"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
@@ -205,18 +219,6 @@ msgstr "Album"
 msgid "Artists"
 msgstr "Artiscj"
 
-#: gnomemusic/views/baseview.py:186
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Selezionât {} element"
-msgstr[1] "Selezionâts {} elements"
-
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
-#: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
-msgid "Click on items to select them"
-msgstr "Cliche sui elements par selezionaju"
-
 # minuscul parce che al ven fûr la prime volte che si invie il program e il test al è tal mieç di une frase:
 # Il contignût de tô cartele di musiche...
 #: gnomemusic/views/emptyview.py:66
@@ -271,17 +273,19 @@ msgid_plural "{} minutes"
 msgstr[0] "{} minût"
 msgstr[1] "{} minûts"
 
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:212
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "Selezionât %d element"
-msgstr[1] "Selezionâts %d elements"
-
 #: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "Disc {}"
+
+#: gnomemusic/widgets/headerbar.py:76
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Selezionât {} element"
+msgstr[1] "Selezionâts {} elements"
+
+#: gnomemusic/widgets/headerbar.py:79 data/SelectionBarMenuButton.ui:32
+msgid "Click on items to select them"
+msgstr "Cliche sui elements par selezionaju"
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -389,27 +393,19 @@ msgstr "_Informazions"
 msgid "_Quit"
 msgstr "_Jes"
 
-#: data/headerbar.ui:7
-msgid "Select All"
-msgstr "Selezione dut"
-
-#: data/headerbar.ui:11
-msgid "Select None"
-msgstr "Selezione nuie"
-
-#: data/headerbar.ui:66
+#: data/HeaderBar.ui:13
 msgid "Search"
 msgstr "Cîr"
 
-#: data/headerbar.ui:89
+#: data/HeaderBar.ui:36
 msgid "Select"
 msgstr "Selezione"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
+#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "_Anule"
 
-#: data/headerbar.ui:129
+#: data/HeaderBar.ui:76
 msgid "Back"
 msgstr "Torne indaûr"
 
@@ -575,9 +571,22 @@ msgstr "Zonte ae liste des musichis"
 msgid "_Add"
 msgstr "_Zonte"
 
+#: data/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Selezione dut"
+
+#: data/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Selezione nuie"
+
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Zonte ae liste des musichis"
+
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "Selezionât %d element"
+#~ msgstr[1] "Selezionâts %d elements"
 
 #~ msgid "Empty"
 #~ msgstr "Vueit"
