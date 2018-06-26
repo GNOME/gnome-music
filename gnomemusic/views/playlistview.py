@@ -22,8 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _, ngettext
-from gi.repository import Gio, GLib, GObject, Gtk, Gdk, Pango
+from gi.repository import Gio, GLib, GObject, Gtk, Pango
+from gettext import gettext as _
+
+import logging
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -31,8 +33,12 @@ from gnomemusic.player import DiscoveryStatus
 from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
+from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
+from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 import gnomemusic.utils as utils
+
+logger = logging.getLogger(__name__)
 
 playlists = Playlists.get_default()
 
@@ -69,26 +75,9 @@ class PlaylistView(BaseView):
 
         self._add_list_renderers()
 
-        builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/Music/PlaylistControls.ui')
-        headerbar = builder.get_object('grid')
-        self._name_stack = builder.get_object('stack')
-        self._name_label = builder.get_object('playlist_name')
-        self._rename_entry = builder.get_object('playlist_rename_entry')
-        self._rename_entry.connect('changed', self._on_rename_entry_changed)
-        self._rename_entry.connect(
-            'key-press-event', self._on_rename_entry_key_pressed)
-        self._rename_done_button = builder.get_object(
-            'playlist_rename_done_button')
-        self._songs_count_label = builder.get_object('songs_count')
-        self._menubutton = builder.get_object('playlist_menubutton')
+        self._pl_ctrls = PlaylistControls()
 
-        builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/Music/PlaylistContextMenu.ui')
-        self._popover_menu = builder.get_object('song_menu')
-        self._song_popover = Gtk.Popover.new_from_model(
-            self._view, self._popover_menu)
-        self._song_popover.set_position(Gtk.PositionType.BOTTOM)
+        self._song_popover = PlaylistContextMenu(self._view)
 
         play_song = Gio.SimpleAction.new('play_song', None)
         play_song.connect('activate', self._play_song)
@@ -120,7 +109,7 @@ class PlaylistView(BaseView):
         self._window.add_action(self._playlist_rename_action)
 
         self._grid.insert_row(0)
-        self._grid.attach(headerbar, 1, 0, 1, 1)
+        self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
 
         sidebar_container.set_size_request(220, -1)
         sidebar_container.get_style_context().add_class('side-panel')
@@ -139,10 +128,8 @@ class PlaylistView(BaseView):
         self.pls_todelete = {}
         self._songs_todelete = {}
         self._songs_count = 0
-        self._handler_rename_done_button = 0
-        self._handler_rename_entry = 0
 
-        self._update_songs_count()
+        self._pl_ctrls.update_songs_count(self._songs_count)
 
         self.model.connect('row-inserted', self._on_song_inserted)
         self.model.connect('row-deleted', self._on_song_deleted)
@@ -542,7 +529,7 @@ class PlaylistView(BaseView):
             self.disable_rename_playlist()
 
         self._current_playlist = playlist
-        self._name_label.set_text(playlist_name)
+        self._pl_ctrls.set_playlist_name(playlist_name)
         self._current_playlist_index = row.get_index()
 
         # if the active queue has been set by this playlist,
@@ -588,7 +575,7 @@ class PlaylistView(BaseView):
         :param Gtk.ListStore model: model
         """
         if not song:
-            self._update_songs_count()
+            self._pl_ctrls.update_songs_count(self._songs_count)
             self.emit('playlist-songs-loaded')
             return None
 
@@ -601,12 +588,6 @@ class PlaylistView(BaseView):
 
         self._songs_count += 1
         return iter_
-
-    @log
-    def _update_songs_count(self):
-        self._songs_count_label.set_text(
-            ngettext("%d Song", "%d Songs", self._songs_count)
-            % self._songs_count)
 
     @log
     def _on_play_activate(self, menuitem, data=None):
@@ -717,7 +698,7 @@ class PlaylistView(BaseView):
                         'Playlist', self._current_playlist.get_id()):
                     path = self.model.get_path(iter_)
                     self.player.add_song(self.model, path, iter_)
-                self._update_songs_count()
+                self._pl_ctrls.update_songs_count(self._songs_count)
             self._songs_todelete.pop(media_id)
 
     @log
@@ -737,26 +718,9 @@ class PlaylistView(BaseView):
             self._songs_todelete.pop(media_id)
 
     @GObject.Property(type=bool, default=False)
-    @log
     def rename_active(self):
         """Indicate if renaming dialog is active"""
-        return self._name_stack.get_visible_child_name() == 'renaming_dialog'
-
-    @log
-    def _on_rename_entry_changed(self, selection):
-        self._rename_done_button.set_sensitive(selection.get_text_length() > 0)
-
-    @log
-    def _on_rename_entry_key_pressed(self, widget, event):
-        if event.keyval == Gdk.KEY_Escape:
-            self.disable_rename_playlist()
-
-    @log
-    def disable_rename_playlist(self):
-        """disables rename button and entry"""
-        self._name_stack.set_visible_child(self._name_label)
-        self._rename_done_button.disconnect(self._handler_rename_done_button)
-        self._rename_entry.disconnect(self._handler_rename_entry)
+        return self._pl_ctrls.rename_active()
 
     @log
     def _stage_playlist_for_renaming(self, menuitem, data=None):
@@ -764,23 +728,24 @@ class PlaylistView(BaseView):
         pl_torename = selection.playlist
 
         def playlist_renamed_callback(widget):
-            new_name = self._rename_entry.get_text()
+            new_name = self._pl_ctrls.get_rename_entry_text()
             if not new_name:
                 return
 
             selection.get_child().set_text(new_name)
             pl_torename.set_title(new_name)
             playlists.rename(pl_torename, new_name)
-            self._name_label.set_text(new_name)
-            self.disable_rename_playlist()
+            self._pl_ctrls.set_playlist_name(new_name)
+            self._pl_ctrls.disable_rename_playlist()
 
-        self._name_stack.set_visible_child_name('renaming_dialog')
-        self._rename_entry.set_text(utils.get_media_title(pl_torename))
-        self._rename_entry.grab_focus()
-        self._handler_rename_entry = self._rename_entry.connect(
-            'activate', playlist_renamed_callback)
-        self._handler_rename_done_button = self._rename_done_button.connect(
-            'clicked', playlist_renamed_callback)
+        self._pl_ctrls.set_name('renaming_dialog')
+        self._pl_ctrls.set_rename_entry_text_and_focus(
+            utils.get_media_title(pl_torename))
+
+        self._pl_ctrls.connect_rename_entry('activate',
+                                            playlist_renamed_callback)
+        self._pl_ctrls.connect_rename_done_btn('clicked',
+                                               playlist_renamed_callback)
 
     @log
     def _on_playlist_created(self, playlists, playlist):
@@ -810,7 +775,7 @@ class PlaylistView(BaseView):
         model.remove(iter_)
 
         self._songs_count -= 1
-        self._update_songs_count()
+        self._pl_ctrls.update_songs_count(self._songs_count)
         return
 
     @log
