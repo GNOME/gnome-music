@@ -26,6 +26,7 @@ gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/headerbar.py
 gnomemusic/widgets/notificationspopup.py
 gnomemusic/widgets/playertoolbar.py
+gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
 gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py
