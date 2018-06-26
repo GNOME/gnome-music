@@ -65,7 +65,7 @@ class SearchView(BaseView):
         self._albums_selected = []
         self._albums = {}
         self._albums_index = 0
-        self._album_widget = AlbumWidget(player, self)
+        self._album_widget = AlbumWidget(player, self, self._header_bar)
         self.add(self._album_widget)
 
         self._artists_albums_selected = []
@@ -115,8 +115,7 @@ class SearchView(BaseView):
             artist = self.model[_iter][3]
             item = self.model[_iter][5]
 
-            self._album_widget.update(
-                item, self._header_bar, self._selection_toolbar)
+            self._album_widget.update(item, self._selection_toolbar)
             self._header_bar.props.state = HeaderBar.State.SEARCH
 
             self._header_bar.props.title = title
