@@ -122,3 +122,11 @@ box#ArtistAlbumsWidget .artist-label {
 .playing-song-label {
     font-weight: bold;
 }
+
+/* visual hint for development */
+.devel headerbar {
+    background: @theme_bg_color linear-gradient(to top,
+						alpha(@theme_selected_bg_color, 0.34),
+						alpha(@theme_selected_bg_color, 0.27) 2px,
+						alpha(@theme_selected_bg_color, 0.20) 3px);
+}

@@ -113,6 +113,8 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self._window.set_default_icon_name(self._application_id)
+            if self._application_id == 'org.gnome.MusicDevel':
+                self._window.get_style_context().add_class('devel')
             MediaPlayer2Service(self)
 
         self._window.present()
