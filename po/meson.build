@@ -1,1 +1,1 @@
-i18n.gettext(PROJECT_RDNN_NAME, preset:'glib')
+i18n.gettext(APPLICATION_ID, preset:'glib')

@@ -105,10 +105,10 @@ def set_log_level():
 
 def set_internationalization():
     """Sets application internationalization."""
-    locale.bindtextdomain('@rdnn_name@', LOCALE_DIR)
-    locale.textdomain('@rdnn_name@')
-    gettext.bindtextdomain('@rdnn_name@', LOCALE_DIR)
-    gettext.textdomain('@rdnn_name@')
+    locale.bindtextdomain('@application_id@', LOCALE_DIR)
+    locale.textdomain('@application_id@')
+    gettext.bindtextdomain('@application_id@', LOCALE_DIR)
+    gettext.textdomain('@application_id@')
 
 
 def set_resources():
@@ -122,7 +122,7 @@ def run_application():
     """Runs GNOME Music application and returns its exit code."""
     from gnomemusic.application import Application
 
-    app = Application()
+    app = Application('@application_id@')
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     return app.run(sys.argv)
 

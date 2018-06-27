@@ -1,11 +1,11 @@
 {
-    "app-id": "org.gnome.Music",
+    "app-id": "org.gnome.MusicDevel",
     "runtime": "org.gnome.Platform",
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
-    "tags": ["nightly"],
-    "desktop-file-name-prefix": "(Nightly) ",
+    "tags": ["devel", "development", "nightly"],
+    "desktop-file-name-prefix": "(Development) ",
     "finish-args": [
         "--share=ipc", "--socket=x11",
         "--share=network",
@@ -117,6 +117,9 @@
         },
         {
             "name": "gnome-music",
+	    "config-opts" : [
+		"-Dprofile=development"
+            ],
             "buildsystem": "meson",
             "sources": [
                 {

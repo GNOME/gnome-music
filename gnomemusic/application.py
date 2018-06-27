@@ -46,9 +46,9 @@ class Application(Gtk.Application):
         return '<Application>'
 
     @log
-    def __init__(self):
+    def __init__(self, application_id):
         super().__init__(
-            application_id='org.gnome.Music',
+            application_id=application_id,
             flags=Gio.ApplicationFlags.FLAGS_NONE)
 
         GLib.set_application_name(_("Music"))
@@ -57,6 +57,7 @@ class Application(Gtk.Application):
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._init_style()
         self._window = None
+        self._application_id = application_id
 
     def _init_style(self):
         css_provider_file = Gio.File.new_for_uri(
@@ -109,7 +110,7 @@ class Application(Gtk.Application):
 
     def do_activate(self):
         if not self._window:
-            self._window = Window(self)
+            self._window = Window(self, self._application_id)
             MediaPlayer2Service(self)
 
         self._window.present()
