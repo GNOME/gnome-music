@@ -1,5 +1,5 @@
 project('gnome-music',
-    version: '3.29.2.1'
+	version: '3.29.2.1'
 )
 
 # Importing modules
@@ -15,7 +15,7 @@ endif
 # Constants
 PACKAGE_URL = 'https://wiki.gnome.org/Apps/Music'
 PACKAGE_URL_BUG = 'https://gitlab.gnome.org/GNOME/gnome-music'
-PROJECT_RDNN_NAME='org.gnome.Music'
+PROJECT_RDNN_NAME = 'org.gnome.Music'
 
 PYTHON_DIR = join_paths(get_option('prefix'), python.sysconfig_path('purelib'))
 PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), PROJECT_RDNN_NAME)

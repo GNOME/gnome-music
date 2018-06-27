@@ -17,7 +17,7 @@ gnome.compile_resources(
   )
 )
 
-# Installing the schema file 
+# Installing the schema file
 install_data(
   PROJECT_RDNN_NAME + '.gschema.xml',
   install_dir: 'share/glib-2.0/schemas'
