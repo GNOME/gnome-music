@@ -1,5 +1,5 @@
 {
-    "app-id": "org.gnome.Music",
+    "app-id": "org.gnome.MusicDevel",
     "runtime": "org.gnome.Platform",
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
@@ -117,6 +117,9 @@
         },
         {
             "name": "gnome-music",
+	    "config-opts" : [
+		"-Dprofile=development"
+            ],
             "buildsystem": "meson",
             "sources": [
                 {
