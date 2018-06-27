@@ -77,6 +77,9 @@ class Window(Gtk.ApplicationWindow):
         self.set_size_request(200, 100)
         self.set_default_icon_name(application_id)
 
+        if application_id == 'org.gnome.MusicDevel':
+            self.get_style_context().add_class('devel')
+
         self.prev_view = None
         self.curr_view = None
 
