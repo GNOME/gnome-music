@@ -4,7 +4,7 @@
   <object class="GtkAboutDialog" id="about_dialog">
     <property name="can_focus">False</property>
     <property name="modal">True</property>
-    <property name="program_name" translatable="yes">Music</property>
+    <property name="program_name">@PROGRAM_NAME@</property>
     <property name="version">@PACKAGE_VERSION@</property>
     <property name="copyright" translatable="yes">Copyright © 2018 GNOME Music Developers</property>
     <property name="comments" translatable="yes">A music player and management application for GNOME.</property>
@@ -142,7 +142,7 @@ Yosef Or Boczko
 Yuras Shumovich
 Yuri Myasoedov
     </property>
-    <property name="logo_icon_name">org.gnome.Music</property>
+    <property name="logo_icon_name">@APPID@</property>
     <property name="wrap_license">True</property>
   </object>
 </interface>
