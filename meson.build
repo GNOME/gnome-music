@@ -1,5 +1,6 @@
 project('gnome-music',
-	version: '3.29.2.1'
+	version: '3.29.2.1',
+	meson_version: '>= 0.46.0'
 )
 
 # Importing modules
@@ -17,9 +18,19 @@ PACKAGE_URL = 'https://wiki.gnome.org/Apps/Music'
 PACKAGE_URL_BUG = 'https://gitlab.gnome.org/GNOME/gnome-music'
 PROJECT_RDNN_NAME = 'org.gnome.Music'
 
+# NAME_SUFFIX is used in the about dialog
+if get_option('profile') == 'development'
+  PROFILE = 'Devel'
+  NAME_SUFFIX = ' (Development Snapshot)'
+else
+  PROFILE = ''
+  NAME_SUFFIX = ''
+endif
+
+APPLICATION_ID = 'org.gnome.Music@0@'.format(PROFILE)
 PYTHON_DIR = join_paths(get_option('prefix'), python.sysconfig_path('purelib'))
-PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), PROJECT_RDNN_NAME)
-PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), PROJECT_RDNN_NAME)
+PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), APPLICATION_ID)
+PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), APPLICATION_ID)
 
 # Dependencies
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
@@ -53,6 +64,7 @@ install_subdir(
 
 # Install the executable file
 bin_config = configuration_data()
+bin_config.set('application_id', APPLICATION_ID)
 bin_config.set('rdnn_name', PROJECT_RDNN_NAME)
 bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
@@ -73,6 +85,7 @@ configure_file(
 
 # Install the builddir executable
 local_config = configuration_data()
+local_config.set('application_id', APPLICATION_ID)
 local_config.set('rdnn_name', PROJECT_RDNN_NAME)
 local_config.set('pkgdatadir', join_paths(meson.build_root(), 'data'))
 local_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
