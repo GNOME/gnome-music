@@ -62,7 +62,7 @@ class Window(Gtk.ApplicationWindow):
         return '<Window>'
 
     @log
-    def __init__(self, app):
+    def __init__(self, app, application_id):
         super().__init__(application=app, title=_("Music"))
 
         self.settings = Gio.Settings.new('org.gnome.Music')
@@ -75,7 +75,7 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(select_none)
 
         self.set_size_request(200, 100)
-        self.set_default_icon_name('org.gnome.Music')
+        self.set_default_icon_name(application_id)
 
         self.prev_view = None
         self.curr_view = None
