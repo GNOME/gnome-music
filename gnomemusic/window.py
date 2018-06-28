@@ -421,7 +421,6 @@ class Window(Gtk.ApplicationWindow):
                 else:
                     self.headerbar.searchbar.reveal(False)
 
-
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(event.keyval)
         if ((not self.headerbar.searchbar.get_search_mode()
