@@ -1,0 +1,80 @@
+Build started at 2018-06-29T00:40:49.014120
+Main binary: /usr/bin/python3
+Python system: Linux
+The Meson build system
+Version: 0.46.1
+Source dir: /home/raji/GNOME/gnome-music
+Build dir: /home/raji/GNOME/gnome-music/_build
+Build type: native build
+Project name: gnome-music
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Found pkg-config: /usr/bin/pkg-config (1.4.2)
+Determining dependency 'gobject-introspection-1.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency gobject-introspection-1.0 found: YES 1.57.1
+Determining dependency 'gtk+-3.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency gtk+-3.0 found: YES 3.22.30
+Determining dependency 'libdazzle-1.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency libdazzle-1.0 found: YES 3.29.3
+Determining dependency 'libmediaart-2.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency libmediaart-2.0 found: YES 1.9.4
+Determining dependency 'libsoup-2.4' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency libsoup-2.4 found: YES 2.63.2
+Determining dependency 'tracker-sparql-2.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency tracker-sparql-2.0 found: YES 2.0.4
+Determining dependency 'pygobject-3.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency pygobject-3.0 found: YES 3.29.3
+Determining dependency 'py3cairo' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency py3cairo found: YES 1.14.1
+Determining dependency 'grilo-0.3' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency grilo-0.3 found: YES 0.3.5
+
+
+Executing subproject libgd.
+
+Project name: libgd
+Sanity testing C compiler: ccache cc
+Is cross compiler: False.
+Sanity check compiler command line: ccache cc /home/raji/GNOME/gnome-music/_build/meson-private/sanitycheckc.c -o /home/raji/GNOME/gnome-music/_build/meson-private/sanitycheckc.exe
+Sanity check compile stdout:
+
+-----
+Sanity check compile stderr:
+
+-----
+Running test binary command: /home/raji/GNOME/gnome-music/_build/meson-private/sanitycheckc.exe
+Native C compiler: ccache cc (gcc 8.1.0 "cc (GCC) 8.1.0")
+Appending CFLAGS from environment: '-O2 -g'
+Appending LDFLAGS from environment: '-L/app/lib '
+Running compile:
+Working directory:  /tmp/tmpng3g1grp
+Command line:  ccache cc -L/app/lib /tmp/tmpng3g1grp/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -o /tmp/tmpng3g1grp/output.exe -O2 -g -O0 -Wl,--start-group -lm -Wl,--end-group 
+
+Code:
+ int main(int argc, char **argv) { return 0; }
+Compiler stdout:
+ 
+Compiler stderr:
+ 
+Library m found: YES
+Determining dependency 'gobject-introspection-1.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency gobject-introspection-1.0 found: YES 1.57.1
+Got pkgconfig variable girdir : 
+Got pkgconfig variable girdir : 
+Build targets in project: 5
+
+Subproject libgd finished.
+Configuring AboutDialog.ui using configuration
+Determining dependency 'glib-2.0' with pkg-config executable '/usr/bin/pkg-config'
+Native dependency glib-2.0 found: YES 2.57.1
+Program desktop-file-validate found: YES (/usr/bin/desktop-file-validate)
+Adding test "Validate desktop file".
+Program appstreamcli found: NO
+Program appstream-util found: YES (/usr/bin/appstream-util)
+Adding test "Validate appdata file".
+Configuring gnome-music using configuration
+Configuring local-music using configuration
+Program meson_post_conf.py found: YES (/home/raji/GNOME/gnome-music/meson_post_conf.py)
+Program meson_post_install.py found: YES (/home/raji/GNOME/gnome-music/meson_post_install.py)
+Build targets in project: 13
+Found ninja-1.8.2 at /usr/bin/ninja

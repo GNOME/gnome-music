@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkAboutDialog" id="about_dialog">
+    <property name="can_focus">False</property>
+    <property name="modal">True</property>
+    <property name="program_name" translatable="yes">Music</property>
+    <property name="version">3.29.2.1</property>
+    <property name="copyright" translatable="yes">Copyright © 2018 GNOME Music Developers</property>
+    <property name="comments" translatable="yes">A music player and management application for GNOME.</property>
+    <property name="website">https://wiki.gnome.org/Apps/Music</property>
+    <property name="website_label" translatable="yes">Visit GNOME Music website</property>
+    <property name="license" translatable="yes">GNOME Music is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version.
+
+“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403</property>
+    <property name="authors">Abhinav Singh
+Adrian Solom
+Alberto Fanjul
+Alexander Mikhaylenko
+Andreas Nilsson
+Apostol Bakalov
+Arnel A. Borja
+Ashwin Mohan
+Benoît Legat
+Bilal Elmoussaoui
+Billy Barrow
+Bruce Cowan
+Carlos Garnacho
+Carlos Soriano
+Clayton G. Hobbs
+Divyanshu Vishwakarma
+Eslam Mostafa
+Elias Entrup
+Evandro Giovanini
+Fabiano Fidêncio
+Felipe Borges
+Florian Darfeuille
+Gaurav Narula
+Georges Basile Stavracas Neto
+Guillaume Quintard
+Gyanesh Malhotra
+Janne Körkkö
+Jan-Michael Brummer
+Jean Felder
+Jeremy Bicha
+Jordan Petridis
+Juan José González
+Juan Suarez
+Kainaat Singh
+Kalev Lember
+Kevin Haller
+Konstantin Pospelov
+Marinus Schraal
+Niels De Graef
+Pablo Palácios
+Phil Dawson
+Piotr Drąg
+Prashant Tyagi
+Rashi Sah
+Robert Greener
+Sai Suman Prayaga
+Sambhav Kothari
+Seif Lotfy
+Shivani Poddar
+Subhadip Jana
+Suyash Garg
+Vadim Rutkovsky
+Yash Singh
+    </property>
+    <property name="artists">Allan Day
+Jakub Steiner
+William Jon McCann
+    </property>
+    <property name="translator_credits">Alain Lojewski
+Alexandre Franke
+Anders Jonsson
+Andika Triwidada
+Anish Sheela
+Arash Mousavi
+Ask Hjorth Larsen
+Aurimas Černius
+Balázs Meskó
+Balázs Úr
+Baurzhan Muftakhidinov
+Bruce Cowan
+Cédric Valmary
+Chao-Hsiung Liao
+Charles Monzat
+Cheng Lu
+Cheng-Chia Tseng
+Daniel Korostil
+Daniel Mustieles
+Daniel Șerbănescu
+David King
+Dušan Kazik
+Enrico Nicoletto
+Inaki Larranaga Murgoitio
+Jiri Grönroos
+Joe Hansen
+Jordi Mas
+Justin van Steijn
+Efstathios Iosifidis
+Emin Tufan Çetin
+Fábio Nogueira
+Fabio Tomat
+Fran Diéguez
+Furkan Tokaç
+Gábor Kelemen
+Gil Forcada Codinachs
+Goran Vidović
+Guillaume Bernard
+Kjartan Maraas
+Kristjan Schmidt
+Kukuh Syafaat
+Marek Černocký
+Mario Blättermann
+Matej Urbančič
+Milo Casagrande
+Марко Костић
+Мирослав Николић
+Милош Поповић
+Nathan Follens
+Osman Karagöz
+Piotr Drąg
+Rafael Fontenelle
+Rūdolfs Mazurs
+Sebastian Rasmussen
+Seong-ho Cho
+Stas Solovey
+Sveinn í Felli
+Tiago Santos
+Tom Tryfonidis
+Trần Ngọc Quân
+Xavi Ivars
+Yosef Or Boczko
+Yuras Shumovich
+Yuri Myasoedov
+    </property>
+    <property name="logo_icon_name">org.gnome.Music</property>
+    <property name="wrap_license">True</property>
+  </object>
+</interface>
