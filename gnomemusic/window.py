@@ -413,12 +413,12 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_Delete
                     and child == self.views[View.PLAYLIST]):
                 self.views[View.PLAYLIST].remove_playlist()
-            # Close search bar after Esc is pressed
+            # Close search bar or disable selection mode after Esc is pressed
             if event.keyval == Gdk.KEY_Escape:
-                self.headerbar.searchbar.reveal(False)
-                # Also disable selection
                 if self.headerbar.props.selection_mode:
                     self.headerbar.props.selection_mode = False
+                else:
+                    self.headerbar.searchbar.reveal(False)
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(event.keyval)
