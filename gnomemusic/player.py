@@ -441,7 +441,7 @@ class Player(GObject.GObject):
             self.emit('playback-status-changed')
 
     @log
-    def play(self):
+    def play(self, selection_mode=False):
         """Play"""
         if self.playlist is None:
             return
@@ -458,13 +458,17 @@ class Player(GObject.GObject):
             self._load(media)
 
         self._player.state = Playback.PLAYING
-        self.emit('playback-status-changed')
+
+        if selection_mode is False:
+            self.emit('playback-status-changed')
 
     @log
-    def pause(self):
+    def pause(self, selection_mode=False):
         """Pause"""
         self._player.state = Playback.PAUSED
-        self.emit('playback-status-changed')
+
+        if selection_mode is False:
+            self.emit('playback-status-changed')
 
     @log
     def stop(self):
@@ -503,12 +507,12 @@ class Player(GObject.GObject):
         self.play()
 
     @log
-    def play_pause(self):
+    def play_pause(self, selection_mode=False):
         """Toggle play/pause state"""
         if self._player.state == Playback.PLAYING:
-            self.pause()
+            self.pause(selection_mode)
         else:
-            self.play()
+            self.play(selection_mode)
 
     @log
     def _create_model(self, model, model_iter):
