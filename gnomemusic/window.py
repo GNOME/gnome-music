@@ -208,10 +208,10 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.player = Player(self)
-        self.player_toolbar = PlayerToolbar(self.player)
         self.selection_toolbar = SelectionToolbar()
         self.headerbar = HeaderBar()
+        self.player = Player(self)
+        self.player_toolbar = PlayerToolbar(self.player)
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -356,7 +356,11 @@ class Window(Gtk.ApplicationWindow):
             # Play / Pause on Ctrl + SPACE
             if (event.keyval == Gdk.KEY_space
                     and modifiers == control_mask):
-                self.player.play_pause()
+                if self.headerbar.props.selection_mode:
+                    self.player.play_pause(selection_mode=True)
+                else:
+                    self.player.play_pause()
+
             # Play previous on Ctrl + B
             if (event.keyval == Gdk.KEY_b
                     and modifiers == control_mask):
