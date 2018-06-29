@@ -357,6 +357,8 @@ class Window(Gtk.ApplicationWindow):
             if (event.keyval == Gdk.KEY_space
                     and modifiers == control_mask):
                 self.player.play_pause()
+                if self.headerbar.props.selection_mode:
+                    self.set_player_visible(False)
             # Play previous on Ctrl + B
             if (event.keyval == Gdk.KEY_b
                     and modifiers == control_mask):
