@@ -130,6 +130,10 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @log
     def _sync_playing(self, player):
+        if self._player.get_playback_status() == Playback.STOPPED:
+            self.hide()
+            return
+
         self.show()
 
         if self._player.get_playback_status() == Playback.PLAYING:
