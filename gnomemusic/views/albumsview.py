@@ -48,7 +48,8 @@ class AlbumsView(BaseView):
 
         self._queue = LifoQueue()
         self.player = player
-        self._album_widget = AlbumWidget(player, self, self._header_bar)
+        self._album_widget = AlbumWidget(
+            player, self, self._header_bar, self._selection_toolbar)
         self.add(self._album_widget)
         self.albums_selected = []
         self.all_items = []
@@ -104,7 +105,7 @@ class AlbumsView(BaseView):
             return
 
         # Update and display the album widget if not in selection mode
-        self._album_widget.update(item, self._selection_toolbar)
+        self._album_widget.update(item)
 
         self._header_bar.props.state = HeaderBar.State.CHILD
         self._header_bar.props.title = utils.get_album_title(item)
