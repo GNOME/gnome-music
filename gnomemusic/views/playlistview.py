@@ -359,7 +359,6 @@ class PlaylistView(BaseView):
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
         self._song_popover.popup()
-        return
 
     @log
     def _drag_begin(self, widget_, drag_context):
@@ -602,18 +601,13 @@ class PlaylistView(BaseView):
     @log
     def _current_playlist_is_protected(self):
         current_playlist_id = self._current_playlist.get_id()
-        if current_playlist_id in StaticPlaylists().get_ids():
-            return True
-        else:
-            return False
+        return current_playlist_id in StaticPlaylists().get_ids()
 
     @log
     def _is_current_playlist(self, playlist):
         """Check if playlist is currently displayed"""
-        if (self._current_playlist
-                and playlist.get_id() == self._current_playlist.get_id()):
-            return True
-        return False
+        return (self._current_playlist
+                and playlist.get_id() == self._current_playlist.get_id())
 
     @log
     def _get_removal_notification_message(self, type_, media_id):
@@ -754,18 +748,15 @@ class PlaylistView(BaseView):
     def _remove_song_from_playlist(self, playlist, item, index):
         if (self._is_current_playlist(playlist)):
             model = self.model
-        else:
-            return
 
-        iter_ = model.get_iter_from_string(str(index))
-        if self.player.playing_playlist(
-                'Playlist', self._current_playlist.get_id()):
-            self.player.remove_song(model, model.get_path(iter_))
-        model.remove(iter_)
+            iter_ = model.get_iter_from_string(str(index))
+            if self.player.playing_playlist(
+                    'Playlist', self._current_playlist.get_id()):
+                self.player.remove_song(model, model.get_path(iter_))
+            model.remove(iter_)
 
-        self._songs_count -= 1
-        self._pl_ctrls.update_songs_count(self._songs_count)
-        return
+            self._songs_count -= 1
+            self._pl_ctrls.update_songs_count(self._songs_count)
 
     @log
     def populate(self):
