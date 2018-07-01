@@ -358,7 +358,6 @@ class PlaylistView(BaseView):
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
         self._song_popover.popup()
-        return
 
     @log
     def _drag_begin(self, widget_, drag_context):
@@ -601,18 +600,15 @@ class PlaylistView(BaseView):
     @log
     def _current_playlist_is_protected(self):
         current_playlist_id = self._current_playlist.get_id()
-        if current_playlist_id in StaticPlaylists().get_ids():
-            return True
-        else:
-            return False
+        return current_playlist_id in StaticPlaylists().get_ids()
 
     @log
     def _is_current_playlist(self, playlist):
         """Check if playlist is currently displayed"""
-        if (self._current_playlist
-                and playlist.get_id() == self._current_playlist.get_id()):
-            return True
-        return False
+        if self._current_playlist is None:
+            return False
+
+        return playlist.get_id() == self._current_playlist.get_id()
 
     @log
     def _get_removal_notification_message(self, type_, media_id):
@@ -751,10 +747,10 @@ class PlaylistView(BaseView):
 
     @log
     def _remove_song_from_playlist(self, playlist, item, index):
-        if (self._is_current_playlist(playlist)):
-            model = self.model
-        else:
+        if not self._is_current_playlist(playlist):
             return
+
+        model = self.model
 
         iter_ = model.get_iter_from_string(str(index))
         if self.player.playing_playlist(
@@ -764,7 +760,6 @@ class PlaylistView(BaseView):
 
         self._songs_count -= 1
         self._pl_ctrls.update_songs_count(self._songs_count)
-        return
 
     @log
     def populate(self):
