@@ -60,30 +60,22 @@ box#ArtistAlbumsWidget .artist-label {
     font-weight: bold;
 }
 
-.side-panel .view:dir(ltr) {
+.sidebar .view:dir(ltr) {
     border-style: solid;
     border-width: 0 1px 0 0;
 }
 
-.side-panel .view:dir(rtl) {
+.sidebar .view:dir(rtl) {
     border-style: solid;
     border-width: 0 0 0 1px;
 }
 
-.side-panel .view {
-    background-color: mix(@theme_fg_color, @theme_bg_color, 0.9);
-}
-
-.side-panel .view:dir(ltr) {
+.sidebar .view:dir(ltr) {
     box-shadow: inset -10px 0 5px -10px alpha(black, 0.25);
 }
 
-.side-panel .view:dir(rtl) {
+.sidebar .view:dir(rtl) {
     box-shadow: inset 10px 0 5px -10px alpha(black, 0.25);
-}
-
-.side-panel row:selected {
-    background-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
 }
 
 .songs-list {

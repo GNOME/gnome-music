@@ -63,7 +63,7 @@ class ArtistsView(BaseView):
         self._artists = {}
 
         sidebar_container.props.width_request = 220
-        sidebar_container.get_style_context().add_class('side-panel')
+        sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.get_style_context().add_class('view')
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
