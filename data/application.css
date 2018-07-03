@@ -60,11 +60,13 @@ box#ArtistAlbumsWidget .artist-label {
     font-weight: bold;
 }
 
-.side-panel:dir(ltr) {
+.side-panel .view:dir(ltr) {
+    border-style: solid;
     border-width: 0 1px 0 0;
 }
 
-.side-panel:dir(rtl) {
+.side-panel .view:dir(rtl) {
+    border-style: solid;
     border-width: 0 0 0 1px;
 }
 
