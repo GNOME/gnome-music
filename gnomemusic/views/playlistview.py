@@ -110,8 +110,7 @@ class PlaylistView(BaseView):
         self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
 
         sidebar_container.set_size_request(220, -1)
-        sidebar_container.get_style_context().add_class('side-panel')
-        self._sidebar.get_style_context().add_class('view')
+        sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self._sidebar.connect('row-activated', self._on_playlist_activated)
 
