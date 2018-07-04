@@ -61,11 +61,13 @@ class AlbumWidget(Gtk.EventBox):
         return '<AlbumWidget>'
 
     @log
-    def __init__(self, player, parent_view):
+    def __init__(self, player, parent_view, header_bar, selection_toolbar):
         """Initialize the AlbumWidget.
 
         :param player: The player object
         :param parent_view: The view this widget is part of
+        :param header_bar: The header bar object
+        :param selection_toolbar: The selection toolbar object
         """
         super().__init__()
 
@@ -77,7 +79,8 @@ class AlbumWidget(Gtk.EventBox):
 
         self._create_model()
         self._album = None
-        self._header_bar = None
+        self._header_bar = header_bar
+        self._selection_toolbar = selection_toolbar
 
         # FIXME: Assigned to appease searchview
         # _get_selected_songs
@@ -86,6 +89,11 @@ class AlbumWidget(Gtk.EventBox):
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
+
+        self.bind_property(
+            'selection-mode', self._header_bar, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
 
         self.show_all()
 
@@ -108,12 +116,10 @@ class AlbumWidget(Gtk.EventBox):
         )
 
     @log
-    def update(self, item, header_bar, selection_toolbar):
+    def update(self, item):
         """Update the album widget.
 
         :param item: The grilo media item
-        :param header_bar: The header bar object
-        :param selection_toolbar: The selection toolbar object
         """
         # reset view
         self._songs = []
@@ -121,8 +127,6 @@ class AlbumWidget(Gtk.EventBox):
         for widget in self._disc_listbox.get_children():
             self._disc_listbox.remove(widget)
 
-        self.selection_toolbar = selection_toolbar
-        self._header_bar = header_bar
         self._duration = 0
         art = ArtImage(Art.Size.LARGE, item)
         art.image = self._cover
@@ -139,11 +143,6 @@ class AlbumWidget(Gtk.EventBox):
         self._released_info_label.props.label = year
 
         self._set_composer_label(item)
-
-        self.bind_property(
-            'selection-mode', self._header_bar, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
 
         self._player.connect('song-changed', self._update_model)
 
@@ -169,7 +168,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_selection_changed(self, widget):
         n_items = len(self._disc_listbox.get_selected_items())
-        self.selection_toolbar.props.items_selected = n_items
+        self._selection_toolbar.props.items_selected = n_items
         self._header_bar.items_selected = n_items
 
     @log
