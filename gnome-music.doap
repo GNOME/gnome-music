@@ -22,4 +22,11 @@
       <gnome:userid>mschraal</gnome:userid>
     </foaf:Person>
   </maintainer>
+  <maintainer>
+    <foaf:Person>
+      <foaf:name>Jean Felder</foaf:name>
+      <foaf:mbox rdf:resource="mailto:jfelder@gnome.org" />
+      <gnome:userid>jfelder</gnome:userid>
+    </foaf:Person>
+  </maintainer>
 </Project>
