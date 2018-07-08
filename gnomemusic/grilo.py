@@ -30,6 +30,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
 from gnomemusic.query import Query
 from gnomemusic import log, TrackerWrapper
+import gnomemusic.utils as utils
 import logging
 import os
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
@@ -71,8 +72,19 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_THUMBNAIL,
     ]
 
+    _ACOUSTIC_KEYS = [
+        Grl.METADATA_KEY_MB_ARTIST_ID,
+        Grl.METADATA_KEY_ARTIST,
+        Grl.METADATA_KEY_MB_ALBUM_ID,
+        Grl.METADATA_KEY_ALBUM,
+        Grl.METADATA_KEY_MB_RECORDING_ID,
+        Grl.METADATA_KEY_TITLE
+    ]
+
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
+
+    _ACOUST_ID_API_KEY = 'Nb8SVVtH1C'
 
     def __repr__(self):
         return '<Grilo>'
@@ -117,6 +129,10 @@ class Grilo(GObject.GObject):
     def _find_sources(self):
         self.registry.connect('source_added', self._on_source_added)
         self.registry.connect('source_removed', self._on_source_removed)
+
+        config = Grl.Config.new('grl-lua-factory', 'grl-acoustid')
+        config.set_api_key(self._ACOUST_ID_API_KEY)
+        self.registry.add_config(config)
 
         try:
             self.registry.load_all_plugins(True)
@@ -393,6 +409,57 @@ class Grilo(GObject.GObject):
 
         self.search_source.query(query, self.METADATA_THUMBNAIL_KEYS, options,
                                  callback)
+
+    @log
+    def _musicbrainz_callback(self, source, operation, media, callback, error):
+        print("--------------------------------")
+        print("musicbrainz finished")
+        print("album", media.get_mb_album_id(), utils.get_album_title(media))
+        print("artist", media.get_mb_artist_id(), utils.get_artist_name(media))
+        print(
+            "song", media.get_mb_recording_id(), utils.get_media_title(media))
+        print("thumbnail", media.get_thumbnail())
+        print("--------------------------------")
+        callback(source, None, media, 0, error)
+
+    @log
+    def _acoustid_callback(self, source, operation, media, data, error):
+        musicbrainz_source = grilo.registry.lookup_source(
+            'grl-musicbrainz-coverart')
+        musicbrainz_source.resolve(
+            media, [Grl.METADATA_KEY_THUMBNAIL], self.options,
+            self._musicbrainz_callback, data)
+
+    @log
+    def _resolve_acoustid(self, source, op_id, item, data=None, error=None):
+        fingerprint_key = grilo.registry.lookup_metadata_key('chromaprint')
+        chromaprint = item.get_string(fingerprint_key)
+
+        media = Grl.Media.audio_new()
+        media.set_string(fingerprint_key, chromaprint)
+        media.set_duration(item.get_duration())
+
+        options = Grl.OperationOptions.new()
+        options.set_resolution_flags(Grl.ResolutionFlags.NORMAL)
+
+        source = grilo.registry.lookup_source('grl-acoustid')
+        source.resolve(
+            media, self._ACOUSTIC_KEYS, options, self._acoustid_callback, data)
+
+    @log
+    def get_album_art_for_item_from_musicbrainz(self, item, callback):
+        if item.is_audio():
+            audio_item = item
+        else:
+            audio_item = Grl.Media.audio_new()
+            audio_item.set_url(item.get_url())
+            audio_item.set_title(item.get_title())
+
+        source = self.registry.lookup_source('grl-chromaprint')
+        fingerprint_key = grilo.registry.lookup_metadata_key('chromaprint')
+        keys = [fingerprint_key, Grl.METADATA_KEY_DURATION]
+        source.resolve(
+            audio_item, keys, self.options, self._resolve_acoustid, callback)
 
     @log
     def get_playlist_with_id(self, playlist_id, callback):

@@ -631,6 +631,7 @@ class RemoteArt(GObject.GObject):
 
         :param Grl.Media media: The media object to search art for
         """
+        self._media = media
         self._album = utils.get_album_title(media)
         self._artist = utils.get_artist_name(media)
 
@@ -720,8 +721,12 @@ class RemoteArt(GObject.GObject):
         thumb_uri = item.get_thumbnail()
 
         if thumb_uri is None:
-            self.emit('unavailable')
-            return
+            if source.get_id() != "grl-musicbrainz-coverart":
+                return grilo.get_album_art_for_item_from_musicbrainz(
+                    self._media, self._remote_album_art)
+            else:
+                self.emit('unavailable')
+                return
 
         src = Gio.File.new_for_uri(thumb_uri)
         src.read_async(
