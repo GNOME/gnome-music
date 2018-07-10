@@ -81,6 +81,7 @@ class TrackerWrapper:
     class __TrackerWrapper:
         def __init__(self):
             try:
+                Tracker.SparqlConnection.set_domain('org.gnome.Music')
                 self.tracker = Tracker.SparqlConnection.get(None)
             except Exception as e:
                 from sys import exit

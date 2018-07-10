@@ -1,0 +1,23 @@
+[DomainOntology]
+# Location for the Tracker database (not optional)
+CacheLocation=$XDG_CACHE_HOME/gnome-music/tracker
+
+# Location for the data journal, used in data recovery
+# situations (optional)
+JournalLocation=$XDG_DATA_HOME/gnome-music/tracker/data
+
+# Name of the ontology to use, must be one located in
+# $(sharedir)/tracker/ontologies
+OntologyName=nepomuk
+
+# DBus name for the owner (not optional). Tracker will use
+# the domain as the prefix of the DBus name for all the
+# services related to this domain ontology.
+Domain=org.gnome.Music
+
+# Miners that the domain ontology will require. This is
+# purely a hint (mainly for libtracker-control), and not
+# any sort of white list. Anything else knowing about this
+# domain ontology may still perform updates, miners and
+# non-miners.
+Miners=Miner.Files;Miner.Extract

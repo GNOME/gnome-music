@@ -77,3 +77,8 @@ install_data(
     join_paths('icons/hicolor/symbolic/apps', PROJECT_RDNN_NAME + '-symbolic.svg'),
     install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons/hicolor/symbolic/apps')
 )
+
+# Tracker domain rule
+install_data(
+    join_paths('data', PROJECT_RDNN_NAME + '.rule),
+    install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'tracker', 'domain-ontologies'))
