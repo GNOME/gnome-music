@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-05-15 17:43+0000\n"
-"PO-Revision-Date: 2018-05-15 22:22+0200\n"
+"POT-Creation-Date: 2018-05-29 13:37+0000\n"
+"PO-Revision-Date: 2018-05-30 20:44+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -34,8 +34,8 @@ msgid "Music is the new GNOME music playing application."
 msgstr "Glasba je program za predvajanje glasbe za namizje GNOME."
 
 #: data/org.gnome.Music.desktop.in:3 gnomemusic/application.py:54
-#: gnomemusic/application.py:103 gnomemusic/toolbar.py:92
-#: gnomemusic/window.py:68 data/AboutDialog.ui.in:7
+#: gnomemusic/application.py:103 gnomemusic/window.py:66
+#: data/AboutDialog.ui.in:7
 msgid "Music"
 msgstr "Glasba"
 
@@ -111,6 +111,16 @@ msgstr "Začetno stanje je onemogočeno"
 msgid "Set to true when initial state has been displayed"
 msgstr "Izbrana možnost določa, da je bilo začetno stanje prikazano."
 
+#: data/org.gnome.Music.gschema.xml:43
+msgid "Inhibit system suspend"
+msgstr "Prepreči sistemski prehod v pripravljenost"
+
+#: data/org.gnome.Music.gschema.xml:44
+msgid "Enables or disables inhibiting system suspend while playing music"
+msgstr ""
+"Preklopi možnost preprečevanja prehoda v stanje pripravljenosti med "
+"predvajanjem glasbe."
+
 #: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Datoteke ni mogoče predvajati."
@@ -136,6 +146,10 @@ msgstr[0] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
 msgstr[1] "{} je zahtevan za predvajanje datoteke, vendar ni nameščen."
 msgstr[2] "{} sta zahtevana za predvajanje datoteke, vendar nista nameščena."
 msgstr[3] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
+
+#: gnomemusic/inhibitsuspend.py:68
+msgid "Playing music"
+msgstr "Predvajanje glasbe"
 
 #. TRANSLATORS: this is a playlist name
 #: gnomemusic/playlists.py:60
@@ -174,7 +188,7 @@ msgstr "Izvajalec"
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:167
+#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:172
 msgid "Composer"
 msgstr "Skladatelj"
 
@@ -210,37 +224,33 @@ msgstr "Albumi"
 msgid "Artists"
 msgstr "Izvajalci"
 
-#: gnomemusic/views/baseview.py:186
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Izbranih je {} predmetov"
-msgstr[1] "Izbran je {} predmet"
-msgstr[2] "Izbrana sta {} predmeta"
-msgstr[3] "Izbrani so {} predmeti"
-
-#: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:257
-#: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
-msgid "Click on items to select them"
-msgstr "S klikom se predmeti izberejo."
-
-#: gnomemusic/views/emptysearchview.py:53
-msgid "Try a different search"
-msgstr "Poskusite drugačno iskanje"
-
-#: gnomemusic/views/emptyview.py:51
+#: gnomemusic/views/emptyview.py:66
 msgid "Music folder"
 msgstr "Glasbena mapa"
 
-#: gnomemusic/views/initialstateview.py:50
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:70
+msgid "The contents of your {} will appear here."
+msgstr "Vsebina {} bo prikazana na tem mestu."
+
+#: gnomemusic/views/emptyview.py:104
 msgid "Hey DJ"
 msgstr "Hej, DJ ..."
+
+#: gnomemusic/views/emptyview.py:114 gnomemusic/views/emptyview.py:120
+msgid "No music found"
+msgstr "Ni shranjene glasbe"
+
+#: gnomemusic/views/emptyview.py:122
+msgid "Try a different search"
+msgstr "Poskusite drugačno iskanje"
 
 #: gnomemusic/views/playlistview.py:63 gnomemusic/views/searchview.py:515
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: gnomemusic/views/playlistview.py:606
+#: gnomemusic/views/playlistview.py:608
 #, python-format
 msgid "%d Song"
 msgid_plural "%d Songs"
@@ -249,11 +259,11 @@ msgstr[1] "%d skladba"
 msgstr[2] "%d skladbi"
 msgstr[3] "%d skladbe"
 
-#: gnomemusic/views/playlistview.py:649
+#: gnomemusic/views/playlistview.py:651
 msgid "Playlist {} removed"
 msgstr "Seznam predvajanja {} je odstranjen"
 
-#: gnomemusic/views/playlistview.py:655
+#: gnomemusic/views/playlistview.py:657
 msgid "{} removed from {}"
 msgstr "{} odstranjen iz {}"
 
@@ -261,7 +271,7 @@ msgstr "{} odstranjen iz {}"
 msgid "Songs"
 msgstr "Skladbe"
 
-#: gnomemusic/widgets/albumwidget.py:180
+#: gnomemusic/widgets/albumwidget.py:167
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -269,19 +279,21 @@ msgstr[1] "{} minuta"
 msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
-#: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:212
-#, python-format
-msgid "Selected %d item"
-msgid_plural "Selected %d items"
-msgstr[0] "Izbranih je %d predmetov"
-msgstr[1] "Izbran je %d predmet"
-msgstr[2] "Izbrana sta %d predmeta"
-msgstr[3] "Izbrani so %d predmeti"
-
 #: gnomemusic/widgets/disclistboxwidget.py:147
 msgid "Disc {}"
 msgstr "Disk {}"
+
+#: gnomemusic/widgets/headerbar.py:76
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Izbranih je {} predmetov"
+msgstr[1] "Izbran je {} predmet"
+msgstr[2] "Izbrana sta {} predmeta"
+msgstr[3] "Izbrani so {} predmeti"
+
+#: gnomemusic/widgets/headerbar.py:79 data/SelectionBarMenuButton.ui:32
+msgid "Click on items to select them"
+msgstr "S klikom se predmeti izberejo."
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -299,10 +311,6 @@ msgstr "Premor"
 #: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Predvajaj"
-
-#: gnomemusic/window.py:275
-msgid "Empty"
-msgstr "Prazno"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -367,11 +375,11 @@ msgstr ""
 "Slika Samija Pyylampija »Magic of the vinyl« je objavljena z dovoljenjem CC-"
 "BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:106
+#: data/AlbumWidget.ui:111
 msgid "Released"
 msgstr "izdano"
 
-#: data/AlbumWidget.ui:122
+#: data/AlbumWidget.ui:127
 msgid "Running Length"
 msgstr "Dolžina predvajanja"
 
@@ -391,27 +399,19 @@ msgstr "_O programu"
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: data/headerbar.ui:7
-msgid "Select All"
-msgstr "Izberi vse"
-
-#: data/headerbar.ui:11
-msgid "Select None"
-msgstr "Odstrani izbor"
-
-#: data/headerbar.ui:66
+#: data/HeaderBar.ui:13
 msgid "Search"
 msgstr "Iskanje"
 
-#: data/headerbar.ui:89
+#: data/HeaderBar.ui:36
 msgid "Select"
 msgstr "Izberi"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
+#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
 msgid "_Cancel"
 msgstr "_Prekliči"
 
-#: data/headerbar.ui:129
+#: data/HeaderBar.ui:76
 msgid "Back"
 msgstr "Nazaj"
 
@@ -500,16 +500,6 @@ msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Skoči na predhodni pogled"
 
-#: data/NoMusic.ui:36
-msgid "No music found"
-msgstr "Ni shranjene glasbe"
-
-#. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
-#, python-format
-msgid "The contents of your %s will appear here."
-msgstr "Vsebina %s bo prikazana v tem oknu."
-
 #: data/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Premešaj"
@@ -567,29 +557,47 @@ msgstr "_Končano"
 msgid "Enter a name for your first playlist"
 msgstr "Ime prvega seznama predvajanja"
 
-#: data/PlaylistDialog.ui:94
+#: data/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "_Ustvari"
 
-#: data/PlaylistDialog.ui:164
+#: data/PlaylistDialog.ui:168
 msgid "New Playlist…"
 msgstr "Nov seznam predvajanja ..."
 
-#: data/PlaylistDialog.ui:177
+#: data/PlaylistDialog.ui:184
 msgid "Add"
 msgstr "Dodaj"
 
-#: data/PlaylistDialog.ui:268
+#: data/PlaylistDialog.ui:279
 msgid "Add to Playlist"
 msgstr "Dodaj na seznam predvajanja"
 
-#: data/PlaylistDialog.ui:283
+#: data/PlaylistDialog.ui:295
 msgid "_Add"
 msgstr "_Dodaj"
+
+#: data/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Izberi vse"
+
+#: data/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Odstrani izbor"
 
 #: data/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Dodaj na _seznam predvajanja"
+
+#~ msgid "Selected %d item"
+#~ msgid_plural "Selected %d items"
+#~ msgstr[0] "Izbranih je %d predmetov"
+#~ msgstr[1] "Izbran je %d predmet"
+#~ msgstr[2] "Izbrana sta %d predmeta"
+#~ msgstr[3] "Izbrani so %d predmeti"
+
+#~ msgid "Empty"
+#~ msgstr "Prazno"
 
 #~ msgid "Search mode"
 #~ msgstr "Iskalni način"
