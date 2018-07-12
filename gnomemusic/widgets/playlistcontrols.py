@@ -85,7 +85,7 @@ class PlaylistControls(Gtk.Grid):
     def enable_rename_playlist(self, pl_torename):
         """Enables rename button and entry
 
-        :param playlist pl_torename : The playlist to rename
+        :param Grl.Media pl_torename : The playlist to rename
         """
         self._name_stack.props.visible_child_name = "renaming_dialog"
         self._set_rename_entry_text_and_focus(
