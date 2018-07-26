@@ -44,6 +44,8 @@ class BaseModelColumns(IntEnum):
 
 class BaseManager(GObject.GObject):
 
+    default_value = GObject.Property(type=int, default=1)
+
     def __repr__(self):
         return '<BaseManager>'
 
@@ -69,10 +71,13 @@ class BaseManager(GObject.GObject):
                 ['search_composer', _("Composer"), ''],
                 ['search_track', _("Track Title"), ''],
             ]
+
         for value in self.values:
             iter_ = model.append()
             model[iter_][0, 1, 2] = value
-        self.selected_id = self.values[1][BaseModelColumns.ID]
+
+        value = self.values[self.props.default_value]
+        self.selected_id = value[BaseModelColumns.ID]
 
     @GObject.Property
     def active(self):
@@ -88,17 +93,15 @@ class BaseManager(GObject.GObject):
 
         if selected_value != []:
             selected_value = selected_value[0]
+            selected_index = self.values.index(selected_value)
             self.selected_id = selected_value[BaseModelColumns.ID]
 
-            # If selected values has first entry then it is a default
-            # value. No need to set the tag there.
-            value_id = selected_value[BaseModelColumns.ID]
-            if (value_id != 'search_all'
-                    and value_id != 'grl-tracker-source'):
+            # If selected value is the default one, hide the tag.
+            if selected_index == self.props.default_value:
+                self.entry.remove_tag(self._tag)
+            else:
                 self._tag.set_label(selected_value[BaseModelColumns.NAME])
                 self.entry.add_tag(self._tag)
-            else:
-                self.entry.remove_tag(self._tag)
 
 
 class SourceManager(BaseManager):
@@ -113,6 +116,7 @@ class SourceManager(BaseManager):
         self.values.append(['', '', self._label])
         self.values.append(['all', _("All"), ""])
         self.values.append(['grl-tracker-source', _("Local"), ''])
+        self.props.default_value = 2
 
         grilo.connect('new-source-added', self._add_new_source)
 
@@ -348,7 +352,8 @@ class Searchbar(Gtk.SearchBar):
     @Gtk.Template.Callback()
     @log
     def _tag_button_clicked(self, entry, tag_):
-        tag_.manager.active = tag_.manager.values[1][BaseModelColumns.ID]
+        default_value = tag_.manager.values[tag_.manager.props.default_value]
+        tag_.manager.props.active = default_value[BaseModelColumns.ID]
         self._search_entry_changed(None)
 
     @Gtk.Template.Callback()
