@@ -106,7 +106,7 @@
         },
         {
             "name": "grilo-plugins",
-            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no" ],
+            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no", "--enable-podcasts=no" ],
             "sources": [
                 {
                     "type": "git",
