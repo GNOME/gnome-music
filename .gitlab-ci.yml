@@ -2,6 +2,7 @@ image: registry.gitlab.gnome.org/gnome/gnome-nightly-oci/nightly:master
 stages:
   - check
   - build-flatpak
+  - deploy
 
 variables:
   BUNDLE: "gnome-music-dev.flatpak"
@@ -27,9 +28,34 @@ flatpak:
   cache:
     paths:
       - .flatpak-builder/cache
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: https://gitlab.gnome.org/$CI_PROJECT_PATH/-/jobs/$CI_JOB_ID/artifacts/raw/${BUNDLE}
+
+review:
+    stage: deploy
+    dependencies:
+        - flatpak
+    script:
+        - echo "Generating flatpak deployment"
+    artifacts:
+        paths:
+            - ${BUNDLE}
+        expire_in: 30 days
+    environment:
+        name: review/$CI_COMMIT_REF_NAME
+        url: https://gitlab.gnome.org/$CI_PROJECT_PATH/-/jobs/$CI_JOB_ID/artifacts/raw/${BUNDLE}
+        on_stop: stop_review
+    except:
+        - master@GNOME/gnome-music
+
+stop_review:
+    stage: deploy
+    script:
+        - echo "Stopping flatpak deployment"
+    when: manual
+    environment:
+        name: review/$CI_COMMIT_REF_NAME
+        action: stop
+    except:
+        - master@GNOME/gnome-music
 
 flake8:
   stage: check
