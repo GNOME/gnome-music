@@ -95,7 +95,7 @@
         },
         {
             "name": "grilo",
-            "config-opts": [ "--disable-static" ],
+	    "buildsystem": "meson",
             "sources": [
                 {
                     "type": "git",
@@ -106,7 +106,8 @@
         },
         {
             "name": "grilo-plugins",
-            "config-opts": [ "--enable-tracker", "--enable-dleyna", "--enable-goa", "--enable-filesystem=no", "--enable-optical-media=no", "--enable-youtube=no", "--enable-bookmarks=no", "--enable-lua-factory=no", "--enable-metadata-store=no", "--enable-vimeo=no", "--enable-localmetadata=no", "--enable-thetvdb=no", "--enable-tmdb=no", "--enable-freebox=no", "--enable-opensubtitles=no" ],
+	    "buildsystem": "meson",
+            "config-opts": [ "-Denable-tracker", "-Denable-dleyna", "-Denable-goa", "-Denable-filesystem=no", "-Denable-optical-media=no", "-Denable-youtube=no", "-Denable-bookmarks=no", "-Denable-lua-factory=no", "-Denable-metadata-store=no", "-Denable-vimeo=no", "-Denable-localmetadata=no", "-Denable-thetvdb=no", "-Denable-tmdb=no", "-Denable-freebox=no", "-Denable-opensubtitles=no" ],
             "sources": [
                 {
                     "type": "git",
