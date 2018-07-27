@@ -51,12 +51,12 @@
                 }
             ]
         },
-	{
+        {
             "name": "libdazzle",
-	    "config-opts" : [
+            "config-opts" : [
                 "--libdir=/app/lib"
             ],
-	    "buildsystem": "meson",
+            "buildsystem": "meson",
             "sources": [
                 {
                     "type": "git",
@@ -117,8 +117,8 @@
         },
         {
             "name": "gnome-music",
-	    "config-opts" : [
-		"-Dprofile=development"
+            "config-opts" : [
+                "-Dprofile=development"
             ],
             "buildsystem": "meson",
             "sources": [
