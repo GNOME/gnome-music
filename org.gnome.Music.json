@@ -107,7 +107,7 @@
         {
             "name": "grilo-plugins",
 	    "buildsystem": "meson",
-            "config-opts": [ "-Denable-tracker", "-Denable-dleyna", "-Denable-goa", "-Denable-filesystem=no", "-Denable-optical-media=no", "-Denable-youtube=no", "-Denable-bookmarks=no", "-Denable-lua-factory=no", "-Denable-metadata-store=no", "-Denable-vimeo=no", "-Denable-localmetadata=no", "-Denable-thetvdb=no", "-Denable-tmdb=no", "-Denable-freebox=no", "-Denable-opensubtitles=no" ],
+            "config-opts": [ "-Denable-tracker", "-Denable-dleyna", "-Denable-goa", "-Denable-filesystem=no", "-Denable-optical-media=no", "-Denable-youtube=no", "-Denable-bookmarks=no", "-Denable-lua-factory=no", "-Denable-metadata-store=no", "-Denable-vimeo=no", "-Denable-localmetadata=no", "-Denable-thetvdb=no", "-Denable-tmdb=no", "-Denable-freebox=no", "-Denable-opensubtitles=no", "-Denable-podcasts=no" ],
             "sources": [
                 {
                     "type": "git",
