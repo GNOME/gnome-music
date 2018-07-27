@@ -1,7 +1,7 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-data/org.gnome.Music.appdata.xml.in
-data/org.gnome.Music.desktop.in
+data/org.gnome.Music.appdata.xml.in.in
+data/org.gnome.Music.desktop.in.in
 data/org.gnome.Music.gschema.xml
 gnomemusic/__init__.py
 gnomemusic/albumartcache.py
