@@ -113,26 +113,26 @@ class DefaultIcon(GObject.GObject):
         width = art_size.width * scale
         height = art_size.height * scale
 
-        icon = Gtk.IconTheme.get_default().load_icon(icon_type.value,
-                                                     max(width, height) / 4,
-                                                     0)
+        default_theme = Gtk.IconTheme.get_default()
+        icon_info = default_theme.lookup_icon_for_scale(
+            icon_type.value, max(width / scale, height / scale), scale, 0)
+        icon = icon_info.load_icon()
 
-        # create an empty pixbuf with the requested size
-        result = GdkPixbuf.Pixbuf.new(icon.get_colorspace(),
-                                      True,
-                                      icon.get_bits_per_sample(),
-                                      width,
-                                      height)
+        result = GdkPixbuf.Pixbuf.new(
+            icon.get_colorspace(), True, icon.get_bits_per_sample(), width,
+            height)
         result.fill(0xffffffff)
 
-        icon.composite(result,
-                       icon.get_width() * 3 / 2,
-                       icon.get_height() * 3 / 2,
-                       icon.get_width(),
-                       icon.get_height(),
-                       icon.get_width() * 3 / 2,
-                       icon.get_height() * 3 / 2,
-                       1, 1, GdkPixbuf.InterpType.HYPER, 0x33)
+        icon_scale = 0.33
+
+        def icon_offset(x):
+            return (x / 2) - (x * icon_scale * 0.5)
+
+        icon.composite(
+            result, icon_offset(width), icon_offset(height),
+            width * icon_scale, height * icon_scale, icon_offset(width),
+            icon_offset(height), icon_scale, icon_scale,
+            GdkPixbuf.InterpType.HYPER, 0x77)
 
         icon_surface = _make_icon_frame(result, art_size, scale)
 
