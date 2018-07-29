@@ -125,7 +125,7 @@ class PlaylistView(BaseView):
         self._current_playlist_index = None
         self.pls_todelete = {}
         self._songs_todelete = {}
-        self._update_songs_count(0)
+        self._songs_count = 0
 
         self.model.connect('row-inserted', self._on_song_inserted)
         self.model.connect('row-deleted', self._on_song_deleted)
@@ -141,7 +141,7 @@ class PlaylistView(BaseView):
     @log
     def _update_songs_count(self, songs_count):
         self._songs_count = songs_count
-        self._pl_ctrls.update_songs_count(songs_count)
+        self._pl_ctrls.props.songs_count = songs_count
 
     @log
     def _setup_view(self, view_type):
