@@ -47,6 +47,8 @@ class PlaylistControls(Gtk.Grid):
     _songs_count_label = Gtk.Template.Child()
     _menubutton = Gtk.Template.Child()
 
+    songs_count = GObject.Property(
+        type=int, default=0, minimum=0, flags=GObject.ParamFlags.READWRITE)
     playlist_name = GObject.Property(
         type=str, default="", flags=GObject.ParamFlags.READWRITE)
 
@@ -56,6 +58,8 @@ class PlaylistControls(Gtk.Grid):
     def __init__(self):
         super().__init__()
         self.bind_property("playlist-name", self._name_label, "label")
+
+        self.connect("notify::songs-count", self._on_songs_count_changed)
 
     @Gtk.Template.Callback()
     @log
@@ -82,6 +86,12 @@ class PlaylistControls(Gtk.Grid):
         self.emit('playlist-renamed', new_name)
 
     @log
+    def _on_songs_count_changed(self, klass, data=None):
+        self._songs_count_label.props.label = gettext.ngettext(
+            "{} Song", "{} Songs", self.props.songs_count).format(
+                self.props.songs_count)
+
+    @log
     def enable_rename_playlist(self, pl_torename):
         """Enables rename button and entry
 
@@ -95,15 +105,6 @@ class PlaylistControls(Gtk.Grid):
     def disable_rename_playlist(self):
         """Disables rename button and entry"""
         self._name_stack.props.visible_child = self._name_label
-
-    @log
-    def update_songs_count(self, songs_count):
-        """Updates the number of songs label
-
-        :param int songs_count: The number of songs in the playlist
-        """
-        self._songs_count_label.props.label = gettext.ngettext(
-            "{} Song", "{} Songs", songs_count).format(songs_count)
 
     @GObject.Property(type=bool, default=False)
     def rename_active(self):

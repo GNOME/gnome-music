@@ -141,7 +141,7 @@ class PlaylistView(BaseView):
     @log
     def _update_songs_count(self, songs_count):
         self._songs_count = songs_count
-        self._pl_ctrls.update_songs_count(songs_count)
+        self._pl_ctrls.props.songs_count = songs_count
 
     @log
     def _setup_view(self, view_type):
