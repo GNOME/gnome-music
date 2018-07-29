@@ -383,16 +383,16 @@ class Window(Gtk.ApplicationWindow):
                     and modifiers == mod1_mask):
                 self.headerbar._on_back_button_clicked()
             if ((event.keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
-                    and modifiers == control_mask):
+                    and modifiers == mod1_mask):
                 self._toggle_view(View.ALBUM)
             if ((event.keyval in [Gdk.KEY_2, Gdk.KEY_KP_2])
-                    and modifiers == control_mask):
+                    and modifiers == mod1_mask):
                 self._toggle_view(View.ARTIST)
             if ((event.keyval in [Gdk.KEY_3, Gdk.KEY_KP_3])
-                    and modifiers == control_mask):
+                    and modifiers == mod1_mask):
                 self._toggle_view(View.SONG)
             if ((event.keyval in [Gdk.KEY_4, Gdk.KEY_KP_4])
-                    and modifiers == control_mask):
+                    and modifiers == mod1_mask):
                 self._toggle_view(View.PLAYLIST)
         else:
             if (event.keyval == Gdk.KEY_AudioPlay
