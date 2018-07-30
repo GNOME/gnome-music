@@ -73,8 +73,7 @@ class BaseView(Gtk.Stack):
         self._setup_view()
 
         if use_sidebar:
-            self.stack = Gtk.Stack(
-                transition_type=Gtk.StackTransitionType.SLIDE_RIGHT)
+            self.stack = Gtk.Stack()
             dummy = Gtk.Frame(visible=False)
             self.stack.add_named(dummy, 'dummy')
             if sidebar:
