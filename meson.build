@@ -1,6 +1,6 @@
 project('gnome-music',
-	version: '3.29.2.1',
-	meson_version: '>= 0.46.0'
+    version: '3.29.90',
+    meson_version: '>= 0.46.0'
 )
 
 # Importing modules

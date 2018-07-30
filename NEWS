@@ -1,3 +1,41 @@
+Overview of changes in 3.29.90
+==============================
+
+* Lots of widgets ported to use Gtk.Template
+* Added development app bundles to CI
+* Codebase wide cleanups and refactoring
+* Port sidebars away from libgd views
+
+Bugs fixed:
+ Using keyboard reveals the playerbar in in selection mode (#197)
+ High contrast theme not folled for sidebars (#37)
+ Right click to select Albums is inconsistent (#89)
+ Flatpak + CI devops (#185)
+ Music goes into an endless loop (#200)
+ artistalbumswidget: missing attribute artist (#199)
+ searchmode: Leaving selection mode with Escape dismisses search results (#195)
+ Hard transition when entering selection mode (#27)
+
+Thanks to our contributors this release:
+ Apostol Bakalov
+ Jean Felder
+ Jordan Petridis
+ Marinus Schraal
+ Piotr Drąg
+
+Translations updated:
+ Czech
+ Chinese (China)
+ Spanish
+ Chinese (Taiwan)
+ Romanian
+ Friulian
+ Catalan
+ Slovenian
+ German
+ French
+ Greek
+
 Overview of changes in 3.29.2.1
 ===============================
 
