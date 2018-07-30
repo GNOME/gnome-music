@@ -207,10 +207,10 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.player = Player(self)
-        self.player_toolbar = PlayerToolbar(self.player)
-        self.selection_toolbar = SelectionToolbar()
         self.headerbar = HeaderBar()
+        self.player = Player(self)
+        self.player_toolbar = PlayerToolbar(self.player, self.headerbar)
+        self.selection_toolbar = SelectionToolbar()
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
