@@ -171,10 +171,7 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.props.selection_mode:
-            self.set_player_visible(False)
-        else:
-            self.set_player_visible(self.player.current_song is not None)
+        if not self.props.selection_mode:
             self.unselect_all()
 
     @log
