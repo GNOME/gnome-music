@@ -27,6 +27,8 @@ from enum import IntEnum
 from gettext import gettext as _
 from gi.repository import Gio
 
+from gnomemusic import log
+
 
 class View(IntEnum):
     """Enum for views"""
@@ -125,3 +127,41 @@ def seconds_to_string(duration):
     seconds %= 60
 
     return '{:d}:{:02d}'.format(minutes, seconds)
+
+
+class LookupQueue(object):
+    """A queue for IO operations"""
+
+    def __repr__(self):
+        return '<LookupQueue>'
+
+    def __init__(self, max_simultaneous_lookups):
+        self._lookup_queue = []
+        self._n_lookups = 0
+        self._max_simultaneous_lookups = max_simultaneous_lookups
+
+    @log
+    def push(self, *args):
+        """Push a lookup counter or queue the lookup if needed"""
+
+        # If reached the limit, queue the operation.
+        if self._n_lookups >= self._max_simultaneous_lookups:
+            self._lookup_queue.append(args)
+            return False
+        else:
+            self._n_lookups += 1
+            return True
+
+    @log
+    def pop(self):
+        """Pops a lookup counter and consume the lookup queue if needed"""
+
+        self._n_lookups -= 1
+
+        # An available lookup slot appeared! Let's continue looking up
+        # artwork then.
+        if (self._n_lookups < self._max_simultaneous_lookups
+                and self._lookup_queue):
+            self._n_lookups += 1
+            func, args = self._lookup_queue.pop(0)
+            func(*args)

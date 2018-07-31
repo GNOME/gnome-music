@@ -34,6 +34,7 @@ from gi.repository import GLib, GObject, Grl
 
 from gnomemusic import log
 from gnomemusic.query import Query
+from gnomemusic.musicbrainz import MusicBrainzCoverArt
 from gnomemusic.trackerwrapper import TrackerWrapper
 
 
@@ -138,6 +139,8 @@ class Grilo(GObject.GObject):
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
+
+        self._musicbrainz_coverart = MusicBrainzCoverArt(self)
 
         self._find_sources()
 
@@ -323,16 +326,16 @@ class Grilo(GObject.GObject):
             Query.all_user_playlists(), offset, callback, count)
 
     @log
-    def populate_album_songs(self, album, callback, count=-1):
+    def populate_album_songs(self, album, callback, count=-1, data=None):
         if album.get_source() == 'grl-tracker-source':
             self.populate_items(
-                Query.album_songs(album.get_id()), 0, callback, count)
+                Query.album_songs(album.get_id()), 0, callback, count, data)
         else:
             source = self.props.sources[album.get_source()]
             length = len(album.songs)
             for i, track in enumerate(album.songs):
-                callback(source, None, track, length - (i + 1), None)
-            callback(source, None, None, 0, None)
+                callback(source, None, track, length - (i + 1), data)
+            callback(source, None, None, 0, data)
 
     @log
     def populate_playlist_songs(self, playlist, callback, count=-1):
@@ -437,8 +440,19 @@ class Grilo(GObject.GObject):
         options = self.full_options.copy()
         options.set_count(1)
 
-        self.search_source.query(query, self.METADATA_THUMBNAIL_KEYS, options,
-                                 callback)
+        def _musicbrainz_cb(source, param, item, count, error):
+            if error:
+                logger.warning("Grilo error {}".format(error))
+
+            thumb_uri = item.get_thumbnail()
+            if (not thumb_uri and
+                    self._musicbrainz_coverart.props.loaded):
+                self._musicbrainz_coverart.get_album_art(item, callback)
+            else:
+                callback(source, param, item, count, None)
+
+        self.search_source.query(
+            query, self.METADATA_THUMBNAIL_KEYS, options, _musicbrainz_cb)
 
     @log
     def get_playlist_with_id(self, playlist_id, callback):
