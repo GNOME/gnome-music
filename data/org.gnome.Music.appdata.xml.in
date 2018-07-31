@@ -29,7 +29,7 @@
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-music/issues</url>
   <url type="donation">https://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
-
+  
   <kudos>
     <kudo>AppMenu</kudo>
     <kudo>HiDpiIcon</kudo>
@@ -39,4 +39,5 @@
 
   <update_contact>mschraal@gnome.org</update_contact>
   <translation type="gettext">org.gnome.Music</translation>
+  <content_rating type="oars-1.1" />
 </component>
