@@ -25,20 +25,24 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-gi.require_version('Grl', '0.3')
-from gi.repository import GLib, GObject
-from gnomemusic.query import Query
-from gnomemusic import log
-from gnomemusic.trackerwrapper import TrackerWrapper
 import logging
 import os
+
+import gi
+gi.require_version('Grl', '0.3')
+from gi.repository import GLib, GObject, Grl
+
+from gnomemusic import log
+from gnomemusic.query import Query
+from gnomemusic.trackerwrapper import TrackerWrapper
+
+
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
                                   "grl-filesystem:4,"
                                   "grl-tracker-source:3,"
                                   "grl-lastfm-cover:2,"
                                   "grl-theaudiodb-cover:1")
-from gi.repository import Grl
+
 logger = logging.getLogger(__name__)
 
 
