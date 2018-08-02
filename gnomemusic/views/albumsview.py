@@ -22,18 +22,15 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from queue import LifoQueue
-
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk, Gdk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
+from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
-from gnomemusic.widgets.coverstack import CoverStack
 import gnomemusic.utils as utils
 
 
@@ -46,7 +43,6 @@ class AlbumsView(BaseView):
     def __init__(self, window, player):
         super().__init__('albums', _("Albums"), window)
 
-        self._queue = LifoQueue()
         self.player = player
         self._album_widget = AlbumWidget(
             player, self, self._header_bar, self._selection_toolbar)
@@ -99,7 +95,7 @@ class AlbumsView(BaseView):
         if self.props.selection_mode:
             return
 
-        item = child.media_item
+        item = child.props.media
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
@@ -138,79 +134,28 @@ class AlbumsView(BaseView):
             self._offset += 1
         elif remaining == 0:
             self._view.show()
-
-            # FIXME: To work around slow updating of the albumsview,
-            # load album covers with a fixed delay. This results in a
-            # quick first show with a placeholder cover and then a
-            # reasonably responsive view while loading the actual
-            # covers.
-            while not self._queue.empty():
-                func, arg = self._queue.get()
-                GLib.timeout_add(
-                    65 * self._queue.qsize(), func, arg,
-                    priority=GLib.PRIORITY_LOW)
-
             self._window.notifications_popup.pop_loading()
             self._init = False
 
     def _create_album_item(self, item):
-        artist = utils.get_artist_name(item)
-        title = utils.get_media_title(item)
+        child = AlbumCover(item)
 
-        builder = Gtk.Builder.new_from_resource(
-            '/org/gnome/Music/AlbumCover.ui')
+        child.connect('notify::selected', self._on_selection_changed)
 
-        child = Gtk.FlowBoxChild()
-        child.get_style_context().add_class('tile')
-        child.stack = builder.get_object('stack')
-        child.check = builder.get_object('check')
-        child.title = builder.get_object('title')
-        child.subtitle = builder.get_object('subtitle')
-        child.events = builder.get_object('events')
-        child.media_item = item
-
-        child.title.set_label(title)
-        child.subtitle.set_label(artist)
-
-        child.events.add_events(Gdk.EventMask.TOUCH_MASK)
-
-        child.events.connect('button-release-event',
-                             self._on_album_event_triggered,
-                             child)
-
-        child.check_handler_id = child.check.connect('notify::active',
-                                                     self._on_child_toggled,
-                                                     child)
-
-        child.check.bind_property('visible', self, 'selection_mode',
-                                  GObject.BindingFlags.BIDIRECTIONAL)
-
-        child.add(builder.get_object('main_box'))
-        child.show()
-
-        cover_stack = CoverStack(child.stack, Art.Size.MEDIUM)
-        self._queue.put((cover_stack.update, item))
+        self.bind_property(
+            'selection-mode', child, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         return child
 
     @log
-    def _on_album_event_triggered(self, evbox, event, child):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self._on_selection_mode_request()
-
-        if self.props.selection_mode:
-            child.check.props.active = not child.check.props.active
-
-    @log
-    def _on_child_toggled(self, check, pspec, child):
-        if (check.get_active()
-                and child.media_item not in self.albums_selected):
-            self.albums_selected.append(child.media_item)
-        elif (not check.get_active()
-                and child.media_item in self.albums_selected):
-            self.albums_selected.remove(child.media_item)
+    def _on_selection_changed(self, child, data=None):
+        if (child.props.selected
+                and child.props.media not in self.albums_selected):
+            self.albums_selected.append(child.props.media)
+        elif (not child.props.selected
+                and child.props.media in self.albums_selected):
+            self.albums_selected.remove(child.props.media)
 
         self._update_header_from_selection(len(self.albums_selected))
 
@@ -237,14 +182,7 @@ class AlbumsView(BaseView):
         signal for performance purposes.
         """
         for child in self._view.get_children():
-            GObject.signal_handler_block(child.check, child.check_handler_id)
-
-            # Set the checkbutton state without emiting the signal
-            child.check.props.active = selected
-
-            GObject.signal_handler_unblock(child.check, child.check_handler_id)
-
-        self._update_header_from_selection(len(self.albums_selected))
+            child.props.selected = selected
 
     @log
     def select_all(self):
