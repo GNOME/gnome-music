@@ -48,3 +48,6 @@ class AlbumCover(Gtk.FlowBoxChild):
         super().__init__()
 
         self._media = media
+
+        self._artist_label.props.label = utils.get_artist_name(media)
+        self._title_label.props.label = utils.get_media_title(media)

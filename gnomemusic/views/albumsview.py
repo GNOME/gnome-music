@@ -155,16 +155,10 @@ class AlbumsView(BaseView):
             self._init = False
 
     def _create_album_item(self, item):
-        artist = utils.get_artist_name(item)
-        title = utils.get_media_title(item)
-
         child = AlbumCover(item)
 
         child.get_style_context().add_class('tile')
         child.media_item = item
-
-        child._title_label.set_label(title)
-        child._artist_label.set_label(artist)
 
         child._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
