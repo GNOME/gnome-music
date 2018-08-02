@@ -157,8 +157,7 @@ class AlbumsView(BaseView):
     def _create_album_item(self, item):
         child = AlbumCover(item)
 
-        child.check_handler_id = child.connect(
-            'notify::selected', self._on_selection_changed)
+        child.connect('notify::selected', self._on_selection_changed)
 
         self.bind_property(
             'selection-mode', child, 'selection-mode',
@@ -203,15 +202,7 @@ class AlbumsView(BaseView):
         signal for performance purposes.
         """
         for child in self._view.get_children():
-            GObject.signal_handler_block(child._check, child.check_handler_id)
-
-            # Set the checkbutton state without emiting the signal
             child.props.selected = selected
-
-            GObject.signal_handler_unblock(
-                child._check, child.check_handler_id)
-
-        self._update_header_from_selection(len(self.albums_selected))
 
     @log
     def select_all(self):
