@@ -27,7 +27,6 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
-from gnomemusic.widgets.coverstack import CoverStack
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
 
@@ -38,7 +37,7 @@ class ArtistAlbumWidget(Gtk.Box):
     __gtype_name__ = 'ArtistAlbumWidget'
 
     _album_box = Gtk.Template.Child()
-    _cover = Gtk.Template.Child()
+    _cover_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
     _title = Gtk.Template.Child()
     _year = Gtk.Template.Child()
@@ -72,8 +71,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._songs = []
 
-        self.cover_stack = CoverStack(self._cover, Art.Size.MEDIUM)
-        self.cover_stack.update(self._media)
+        self._cover_stack.props.size = Art.Size.MEDIUM
+        self._cover_stack.update(self._media)
 
         allowed = self._selection_mode_allowed
         self._disc_list_box.props.selection_mode_allowed = allowed
@@ -93,7 +92,7 @@ class ArtistAlbumWidget(Gtk.Box):
             self._size_group.add_widget(self._album_box)
 
         if self._cover_size_group:
-            self._cover_size_group.add_widget(self.cover_stack._stack)
+            self._cover_size_group.add_widget(self._cover_stack)
 
         grilo.populate_album_songs(self._media, self._add_item)
 

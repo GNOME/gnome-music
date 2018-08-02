@@ -1,4 +1,4 @@
-# Copyright © 2018 The GNOME Music developers
+# Copyright 2018 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,13 +28,15 @@ from gnomemusic import log
 from gnomemusic.albumartcache import Art, DefaultIcon
 
 
-class CoverStack(GObject.GObject):
+class CoverStack(Gtk.Stack):
     """Provides a smooth transition between image states
 
     Uses a Gtk.Stack to provide an in-situ transition between an image
     state. Either between the 'loading' state versus the 'loaded' state
     or in between songs.
     """
+
+    __gtype_name__ = 'CoverStack'
 
     __gsignals__ = {
         'updated': (GObject.SignalFlags.RUN_FIRST, None, ())
@@ -43,29 +45,37 @@ class CoverStack(GObject.GObject):
     _default_icon = DefaultIcon()
 
     @log
-    def __init__(self, stack, size):
+    def __init__(self, size=Art.Size.MEDIUM):
         super().__init__()
 
-        self._size = size
-        self._stack = stack
-        self._stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        self._scale = self._stack.get_scale_factor()
+        self.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        self._scale = self.get_scale_factor()
         self._handler_id = None
 
-        self._loading_icon = self._default_icon.get(
-            DefaultIcon.Type.LOADING, self._size, self._scale)
-
-        self._loading_cover = Gtk.Image.new_from_surface(self._loading_icon)
-
+        self._loading_cover = Gtk.Image()
         self._cover_a = Gtk.Image()
         self._cover_b = Gtk.Image()
 
-        self._stack.add_named(self._loading_cover, "loading")
-        self._stack.add_named(self._cover_a, "A")
-        self._stack.add_named(self._cover_b, "B")
+        self.add_named(self._loading_cover, "loading")
+        self.add_named(self._cover_a, "A")
+        self.add_named(self._cover_b, "B")
 
-        self._stack.set_visible_child_name("loading")
-        self._stack.show_all()
+        self.props.size = size
+
+        self.set_visible_child_name("loading")
+        self.show_all()
+
+    @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
+    def size(self):
+        return self._size
+
+    @size.setter
+    def size(self, value):
+        self._size = value
+
+        self._loading_cover.set_from_surface(
+            self._default_icon.get(
+                DefaultIcon.Type.LOADING, self.props.size, self._scale))
 
     @log
     def update(self, media):
@@ -74,7 +84,7 @@ class CoverStack(GObject.GObject):
         Update the stack with the art retrieved from the given media.
         :param Grl.Media media: The media object
         """
-        self._active_child = self._stack.get_visible_child_name()
+        self._active_child = self.get_visible_child_name()
 
         art = Art(self._size, media, self._scale)
         self._handler_id = art.connect('finished', self._art_retrieved)
@@ -85,9 +95,9 @@ class CoverStack(GObject.GObject):
         klass.disconnect(self._handler_id)
         if self._active_child == "B":
             self._cover_a.set_from_surface(klass.surface)
-            self._stack.set_visible_child_name("A")
+            self.set_visible_child_name("A")
         else:
             self._cover_b.set_from_surface(klass.surface)
-            self._stack.set_visible_child_name("B")
+            self.set_visible_child_name("B")
 
         self.emit('updated')
