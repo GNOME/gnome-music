@@ -132,8 +132,6 @@ class ArtistAlbumsWidget(Gtk.Box):
             self._selection_mode_allowed, self._songs_grid_size_group,
             self._cover_size_group)
 
-        self._cover_size_group.add_widget(widget.cover_stack._stack)
-
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
