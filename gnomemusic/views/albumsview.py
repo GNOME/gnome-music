@@ -22,8 +22,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from queue import LifoQueue
-
 from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk, Gdk
 
@@ -45,7 +43,6 @@ class AlbumsView(BaseView):
     def __init__(self, window, player):
         super().__init__('albums', _("Albums"), window)
 
-        self._queue = LifoQueue()
         self.player = player
         self._album_widget = AlbumWidget(
             player, self, self._header_bar, self._selection_toolbar)
@@ -137,18 +134,6 @@ class AlbumsView(BaseView):
             self._offset += 1
         elif remaining == 0:
             self._view.show()
-
-            # FIXME: To work around slow updating of the albumsview,
-            # load album covers with a fixed delay. This results in a
-            # quick first show with a placeholder cover and then a
-            # reasonably responsive view while loading the actual
-            # covers.
-            while not self._queue.empty():
-                func, arg = self._queue.get()
-                GLib.timeout_add(
-                    65 * self._queue.qsize(), func, arg,
-                    priority=GLib.PRIORITY_LOW)
-
             self._window.notifications_popup.pop_loading()
             self._init = False
 
@@ -160,9 +145,6 @@ class AlbumsView(BaseView):
         self.bind_property(
             'selection-mode', child, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
-
-        cover_stack = child.stack
-        self._queue.put((cover_stack.update, item))
 
         return child
 

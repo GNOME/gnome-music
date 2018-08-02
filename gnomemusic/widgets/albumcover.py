@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
-from gi.repository import Gdk, GObject, Grl, Gtk
+from gi.repository import Gdk, GLib, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
@@ -33,6 +33,8 @@ from gnomemusic.widgets.coverstack import CoverStack
 
 @Gtk.Template(resource_path='/org/gnome/Music/AlbumCover.ui')
 class AlbumCover(Gtk.FlowBoxChild):
+
+    _nr_albums = 0
 
     __gtype_name__ = 'AlbumCover'
 
@@ -54,6 +56,8 @@ class AlbumCover(Gtk.FlowBoxChild):
     def __init__(self, media):
         super().__init__()
 
+        AlbumCover._nr_albums += 1
+
         self._media = media
 
         self._artist_label.props.label = utils.get_artist_name(media)
@@ -69,17 +73,22 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
-        self._internal_stack = CoverStack(self._stack, Art.Size.MEDIUM)
+        self._cover_stack = CoverStack(self._stack, Art.Size.MEDIUM)
 
         self.show()
+
+        # FIXME: To work around slow updating of the albumsview,
+        # load album covers with a fixed delay. This results in a
+        # quick first show with a placeholder cover and then a
+        # reasonably responsive view while loading the actual
+        # covers.
+        GLib.timeout_add(
+            50 * self._nr_albums, self._cover_stack.update, media,
+            priority=GLib.PRIORITY_LOW)
 
     @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
     def media(self):
         return self._media
-
-    @GObject.Property(type=Gtk.Stack, flags=GObject.ParamFlags.READABLE)
-    def stack(self):
-        return self._internal_stack
 
     @Gtk.Template.Callback()
     @log
