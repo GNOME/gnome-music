@@ -22,18 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from enum import IntEnum
-
 import gi
-gi.require_version('Dazzle', '1.0')
 from gi.repository import Gdk, GObject, Gtk
-from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic import utils
-from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists, StaticPlaylists
-from gnomemusic.widgets.starimage import StarImage  # noqa: F401
+
 
 @Gtk.Template(resource_path='/org/gnome/Music/AlbumCover.ui')
 class AlbumCover(Gtk.FlowBoxChild):
