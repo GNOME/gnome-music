@@ -3,7 +3,7 @@
   <requires lib="gtk+" version="3.18"/>
   <template class="AlbumCover" parent="GtkFlowBoxChild">
     <child>
-      <object class="GtkBox" id="main_box">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
@@ -14,11 +14,11 @@
             <property name="can_focus">False</property>
             <property name="margin_bottom">4</property>
             <child>
-              <object class="GtkEventBox" id="events">
+              <object class="GtkEventBox" id="_events">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkStack" id="stack">
+                  <object class="GtkStack" id="_stack">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="vexpand">True</property>
@@ -29,7 +29,7 @@
               </object>
             </child>
             <child type="overlay">
-              <object class="GtkCheckButton" id="check">
+              <object class="GtkCheckButton" id="_check">
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
                 <property name="halign">end</property>
@@ -40,7 +40,7 @@
           </object>
         </child>
         <child>
-          <object class="GtkLabel" id="title">
+          <object class="GtkLabel" id="_title_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="justify">center</property>
@@ -48,18 +48,18 @@
             <property name="ellipsize">middle</property>
             <property name="max_width_chars">20</property>
             <property name="lines">2</property>
-            <property name="tooltip_text" bind-source="title" bind-property="label" bind-flags="default" />
+            <property name="tooltip_text" bind-source="_title_label" bind-property="label" bind-flags="default" />
           </object>
         </child>
         <child>
-          <object class="GtkLabel" id="subtitle">
+          <object class="GtkLabel" id="_artist_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="ellipsize">middle</property>
             <property name="max_width_chars">20</property>
-            <property name="tooltip_text" bind-source="subtitle" bind-property="label" bind-flags="default" />
+            <property name="tooltip_text" bind-source="_artist_label" bind-property="label" bind-flags="default" />
             <style>
-              <class name="cover-subtitle"/>
+              <class name="albumcover-artist-label"/>
               <class name="dim-label"/>
             </style>
           </object>

@@ -40,11 +40,11 @@ class AlbumCover(Gtk.FlowBoxChild):
 
     __gtype_name__ = 'AlbumCover'
 
-    stack = Gtk.Template.Child()
-    check = Gtk.Template.Child()
-    title = Gtk.Template.Child()
-    subtitle = Gtk.Template.Child()
-    events = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
+    _check = Gtk.Template.Child()
+    _title_label = Gtk.Template.Child()
+    _artist_label = Gtk.Template.Child()
+    _events = Gtk.Template.Child()
 
     def __repr__(self):
         return '<DiscBox>'

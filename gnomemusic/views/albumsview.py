@@ -163,26 +163,26 @@ class AlbumsView(BaseView):
         child.get_style_context().add_class('tile')
         child.media_item = item
 
-        child.title.set_label(title)
-        child.subtitle.set_label(artist)
+        child._title_label.set_label(title)
+        child._artist_label.set_label(artist)
 
-        child.events.add_events(Gdk.EventMask.TOUCH_MASK)
+        child._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
-        child.events.connect('button-release-event',
+        child._events.connect('button-release-event',
                              self._on_album_event_triggered,
                              child)
 
-        child.check_handler_id = child.check.connect('notify::active',
+        child.check_handler_id = child._check.connect('notify::active',
                                                      self._on_child_toggled,
                                                      child)
 
-        child.check.bind_property('visible', self, 'selection_mode',
+        child._check.bind_property('visible', self, 'selection_mode',
                                   GObject.BindingFlags.BIDIRECTIONAL)
 
         # child.add(builder.get_object('main_box'))
         child.show()
 
-        cover_stack = CoverStack(child.stack, Art.Size.MEDIUM)
+        cover_stack = CoverStack(child._stack, Art.Size.MEDIUM)
         self._queue.put((cover_stack.update, item))
 
         return child
@@ -195,7 +195,7 @@ class AlbumsView(BaseView):
             self._on_selection_mode_request()
 
         if self.props.selection_mode:
-            child.check.props.active = not child.check.props.active
+            child._check.props.active = not child._check.props.active
 
     @log
     def _on_child_toggled(self, check, pspec, child):
@@ -231,12 +231,13 @@ class AlbumsView(BaseView):
         signal for performance purposes.
         """
         for child in self._view.get_children():
-            GObject.signal_handler_block(child.check, child.check_handler_id)
+            GObject.signal_handler_block(child._check, child.check_handler_id)
 
             # Set the checkbutton state without emiting the signal
-            child.check.props.active = selected
+            child._check.props.active = selected
 
-            GObject.signal_handler_unblock(child.check, child.check_handler_id)
+            GObject.signal_handler_unblock(
+                child._check, child.check_handler_id)
 
         self._update_header_from_selection(len(self.albums_selected))
 
