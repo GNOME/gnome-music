@@ -40,6 +40,9 @@ class AlbumCover(Gtk.FlowBoxChild):
     _artist_label = Gtk.Template.Child()
     _events = Gtk.Template.Child()
 
+    selection_mode = GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
+
     def __repr__(self):
         return '<DiscBox>'
 
@@ -53,6 +56,10 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._artist_label.props.label = utils.get_artist_name(media)
         self._title_label.props.label = utils.get_media_title(media)
+
+        self.bind_property(
+            'selection-mode', self._check, 'visible',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
     @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
     def media(self):

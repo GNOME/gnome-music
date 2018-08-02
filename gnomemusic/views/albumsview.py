@@ -167,8 +167,9 @@ class AlbumsView(BaseView):
                                                      self._on_child_toggled,
                                                      child)
 
-        child._check.bind_property('visible', self, 'selection_mode',
-                                  GObject.BindingFlags.BIDIRECTIONAL)
+        self.bind_property(
+            'selection-mode', child, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         child.show()
 
