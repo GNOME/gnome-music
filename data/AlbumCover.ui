@@ -67,5 +67,8 @@
         </child>
       </object>
     </child>
+    <style>
+      <class name="tile" />
+    </style>
   </template>
 </interface>
