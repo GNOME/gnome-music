@@ -45,6 +45,7 @@ review:
         on_stop: stop_review
     except:
         - master@GNOME/gnome-music
+        - tags
 
 stop_review:
     stage: deploy
@@ -56,6 +57,7 @@ stop_review:
         action: stop
     except:
         - master@GNOME/gnome-music
+        - tags
 
 flake8:
   stage: check
