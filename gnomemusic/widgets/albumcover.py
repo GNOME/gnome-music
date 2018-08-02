@@ -65,6 +65,8 @@ class AlbumCover(Gtk.FlowBoxChild):
         self._events.connect(
             'button-release-event', self._on_album_event_triggered)
 
+        self.show()
+
     @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
     def media(self):
         return self._media
