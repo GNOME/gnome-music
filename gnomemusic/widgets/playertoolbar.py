@@ -71,7 +71,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player = player
         self._progress_scale.player = self._player.get_gst_player()
 
-        self._cover_stack = CoverStack(self._cover_stack, Art.Size.XSMALL)
+        self._cover_stack.props.size = Art.Size.XSMALL
         self._cover_stack.connect('updated', self._on_cover_stack_updated)
 
         self._sync_repeat_image()

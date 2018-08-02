@@ -74,7 +74,7 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
-        self._cover_stack = CoverStack(self._stack, Art.Size.MEDIUM)
+        self._stack.props.size = Art.Size.MEDIUM
 
         self.show()
 
@@ -84,7 +84,7 @@ class AlbumCover(Gtk.FlowBoxChild):
         # reasonably responsive view while loading the actual
         # covers.
         GLib.timeout_add(
-            50 * self._nr_albums, self._cover_stack.update, media,
+            50 * self._nr_albums, self._stack.update, media,
             priority=GLib.PRIORITY_LOW)
 
     @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
