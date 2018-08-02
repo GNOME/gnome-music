@@ -27,6 +27,8 @@ from gi.repository import Gdk, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
+from gnomemusic.albumartcache import Art
+from gnomemusic.widgets.coverstack import CoverStack
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/AlbumCover.ui')
@@ -67,11 +69,17 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
+        self._internal_stack = CoverStack(self._stack, Art.Size.MEDIUM)
+
         self.show()
 
     @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
     def media(self):
         return self._media
+
+    @GObject.Property(type=Gtk.Stack, flags=GObject.ParamFlags.READABLE)
+    def stack(self):
+        return self._internal_stack
 
     @Gtk.Template.Callback()
     @log

@@ -28,13 +28,11 @@ from gettext import gettext as _
 from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
-from gnomemusic.widgets.coverstack import CoverStack
 import gnomemusic.utils as utils
 
 
@@ -163,7 +161,7 @@ class AlbumsView(BaseView):
             'selection-mode', child, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        cover_stack = CoverStack(child._stack, Art.Size.MEDIUM)
+        cover_stack = child.stack
         self._queue.put((cover_stack.update, item))
 
         return child
