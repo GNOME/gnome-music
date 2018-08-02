@@ -62,8 +62,6 @@ class AlbumCover(Gtk.FlowBoxChild):
             GObject.BindingFlags.BIDIRECTIONAL)
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
-        self._events.connect(
-            'button-release-event', self._on_album_event_triggered)
 
         self.show()
 
@@ -71,8 +69,9 @@ class AlbumCover(Gtk.FlowBoxChild):
     def media(self):
         return self._media
 
+    @Gtk.Template.Callback()
     @log
-    def _on_album_event_triggered(self, evbox, event, data=None):
+    def _on_album_event(self, evbox, event, data=None):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):

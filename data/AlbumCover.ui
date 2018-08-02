@@ -17,6 +17,7 @@
               <object class="GtkEventBox" id="_events">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <signal name="button-release-event" handler="_on_album_event" swapped="no"/>
                 <child>
                   <object class="GtkStack" id="_stack">
                     <property name="visible">True</property>
