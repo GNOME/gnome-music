@@ -100,4 +100,4 @@ class AlbumCover(Gtk.FlowBoxChild):
             self.props.selection_mode = True
 
         if self.props.selection_mode:
-            self._check.props.active = not self._check.props.active
+            self.props.selected = not self.props.selected
