@@ -25,7 +25,7 @@
 from queue import LifoQueue
 
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk, Gdk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -157,12 +157,6 @@ class AlbumsView(BaseView):
     def _create_album_item(self, item):
         child = AlbumCover(item)
 
-        child._events.add_events(Gdk.EventMask.TOUCH_MASK)
-
-        child._events.connect('button-release-event',
-                             self._on_album_event_triggered,
-                             child)
-
         child.check_handler_id = child._check.connect('notify::active',
                                                      self._on_child_toggled,
                                                      child)
@@ -177,16 +171,6 @@ class AlbumsView(BaseView):
         self._queue.put((cover_stack.update, item))
 
         return child
-
-    @log
-    def _on_album_event_triggered(self, evbox, event, child):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self._on_selection_mode_request()
-
-        if self.props.selection_mode:
-            child._check.props.active = not child._check.props.active
 
     @log
     def _on_child_toggled(self, check, pspec, child):
