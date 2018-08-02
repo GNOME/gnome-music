@@ -165,8 +165,6 @@ class AlbumsView(BaseView):
             'selection-mode', child, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        child.show()
-
         cover_stack = CoverStack(child._stack, Art.Size.MEDIUM)
         self._queue.put((cover_stack.update, item))
 
