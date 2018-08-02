@@ -4,7 +4,7 @@
   <requires lib="gtk+" version="3.12"/>
   <template parent="GtkBox" class="ArtistAlbumWidget">
     <child>
-      <object class="GtkStack" id="_cover">
+      <object class="CoverStack" id="_cover_stack">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
