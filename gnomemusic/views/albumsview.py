@@ -207,7 +207,7 @@ class AlbumsView(BaseView):
             GObject.signal_handler_block(child._check, child.check_handler_id)
 
             # Set the checkbutton state without emiting the signal
-            child._check.props.active = selected
+            child.props.selected = selected
 
             GObject.signal_handler_unblock(
                 child._check, child.check_handler_id)
