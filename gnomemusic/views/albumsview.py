@@ -170,7 +170,6 @@ class AlbumsView(BaseView):
         child._check.bind_property('visible', self, 'selection_mode',
                                   GObject.BindingFlags.BIDIRECTIONAL)
 
-        # child.add(builder.get_object('main_box'))
         child.show()
 
         cover_stack = CoverStack(child._stack, Art.Size.MEDIUM)
