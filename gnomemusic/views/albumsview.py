@@ -157,9 +157,8 @@ class AlbumsView(BaseView):
     def _create_album_item(self, item):
         child = AlbumCover(item)
 
-        child.check_handler_id = child._check.connect('notify::active',
-                                                     self._on_child_toggled,
-                                                     child)
+        child.check_handler_id = child.connect(
+            'notify::selected', self._on_selection_changed)
 
         self.bind_property(
             'selection-mode', child, 'selection-mode',
@@ -171,11 +170,11 @@ class AlbumsView(BaseView):
         return child
 
     @log
-    def _on_child_toggled(self, check, pspec, child):
-        if (check.get_active()
+    def _on_selection_changed(self, child, data=None):
+        if (child.props.selected
                 and child.props.media not in self.albums_selected):
             self.albums_selected.append(child.props.media)
-        elif (not check.get_active()
+        elif (not child.props.selected
                 and child.props.media in self.albums_selected):
             self.albums_selected.remove(child.props.media)
 
