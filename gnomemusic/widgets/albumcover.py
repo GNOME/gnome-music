@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic import utils
@@ -53,3 +53,7 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._artist_label.props.label = utils.get_artist_name(media)
         self._title_label.props.label = utils.get_media_title(media)
+
+    @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
+    def media(self):
+        return self._media

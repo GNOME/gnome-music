@@ -100,7 +100,7 @@ class AlbumsView(BaseView):
         if self.props.selection_mode:
             return
 
-        item = child.media_item
+        item = child.props.media
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
@@ -157,8 +157,6 @@ class AlbumsView(BaseView):
     def _create_album_item(self, item):
         child = AlbumCover(item)
 
-        child.media_item = item
-
         child._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
         child._events.connect('button-release-event',
@@ -193,11 +191,11 @@ class AlbumsView(BaseView):
     @log
     def _on_child_toggled(self, check, pspec, child):
         if (check.get_active()
-                and child.media_item not in self.albums_selected):
-            self.albums_selected.append(child.media_item)
+                and child.props.media not in self.albums_selected):
+            self.albums_selected.append(child.props.media)
         elif (not check.get_active()
-                and child.media_item in self.albums_selected):
-            self.albums_selected.remove(child.media_item)
+                and child.props.media in self.albums_selected):
+            self.albums_selected.remove(child.props.media)
 
         self._update_header_from_selection(len(self.albums_selected))
 
