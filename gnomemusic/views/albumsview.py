@@ -32,6 +32,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
+from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.coverstack import CoverStack
 import gnomemusic.utils as utils
@@ -157,16 +158,9 @@ class AlbumsView(BaseView):
         artist = utils.get_artist_name(item)
         title = utils.get_media_title(item)
 
-        builder = Gtk.Builder.new_from_resource(
-            '/org/gnome/Music/AlbumCover.ui')
+        child = AlbumCover(item)
 
-        child = Gtk.FlowBoxChild()
         child.get_style_context().add_class('tile')
-        child.stack = builder.get_object('stack')
-        child.check = builder.get_object('check')
-        child.title = builder.get_object('title')
-        child.subtitle = builder.get_object('subtitle')
-        child.events = builder.get_object('events')
         child.media_item = item
 
         child.title.set_label(title)
@@ -185,7 +179,7 @@ class AlbumsView(BaseView):
         child.check.bind_property('visible', self, 'selection_mode',
                                   GObject.BindingFlags.BIDIRECTIONAL)
 
-        child.add(builder.get_object('main_box'))
+        # child.add(builder.get_object('main_box'))
         child.show()
 
         cover_stack = CoverStack(child.stack, Art.Size.MEDIUM)
