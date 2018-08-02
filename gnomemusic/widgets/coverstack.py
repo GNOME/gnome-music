@@ -52,8 +52,7 @@ class CoverStack(Gtk.Stack):
         """
         super().__init__()
 
-        self.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        self._scale = self.get_scale_factor()
+        self._size = None
         self._handler_id = None
 
         self._loading_cover = Gtk.Image()
@@ -65,8 +64,9 @@ class CoverStack(Gtk.Stack):
         self.add_named(self._cover_b, "B")
 
         self.props.size = size
+        self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
+        self.props.visible_child_name = "loading"
 
-        self.set_visible_child_name("loading")
         self.show_all()
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
@@ -86,9 +86,9 @@ class CoverStack(Gtk.Stack):
         """
         self._size = value
 
-        self._loading_cover.set_from_surface(
-            self._default_icon.get(
-                DefaultIcon.Type.LOADING, self.props.size, self._scale))
+        icon = self._default_icon.get(
+            DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
+        self._loading_cover.props.surface = icon
 
     @log
     def update(self, media):
@@ -97,9 +97,9 @@ class CoverStack(Gtk.Stack):
         Update the stack with the art retrieved from the given media.
         :param Grl.Media media: The media object
         """
-        self._active_child = self.get_visible_child_name()
+        self._active_child = self.props.visible_child_name
 
-        art = Art(self._size, media, self._scale)
+        art = Art(self.props.size, media, self.props.scale_factor)
         self._handler_id = art.connect('finished', self._art_retrieved)
         art.lookup()
 
@@ -107,10 +107,10 @@ class CoverStack(Gtk.Stack):
     def _art_retrieved(self, klass):
         klass.disconnect(self._handler_id)
         if self._active_child == "B":
-            self._cover_a.set_from_surface(klass.surface)
-            self.set_visible_child_name("A")
+            self._cover_a.props.surface = klass.surface
+            self.props.visible_child_name = "A"
         else:
-            self._cover_b.set_from_surface(klass.surface)
-            self.set_visible_child_name("B")
+            self._cover_b.props.surface = klass.surface
+            self.props.visible_child_name = "B"
 
         self.emit('updated')
