@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 import gi
+gi.require_version('Grl', '0.3')
 from gi.repository import Gdk, GLib, GObject, Grl, Gtk
 
 from gnomemusic import log
