@@ -13,7 +13,7 @@ flowbox, treeview, widget {
 }
 
 /* AlbumCover */
-.cover-subtitle {
+.albumcover-artist-label {
     font-size: smaller;
 }
 
