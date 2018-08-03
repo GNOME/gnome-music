@@ -44,6 +44,7 @@ class Playback(IntEnum):
     STOPPED = 0
     PAUSED = 1
     PLAYING = 2
+    LOADING = 3
 
 
 class GstPlayer(GObject.GObject):
@@ -226,6 +227,8 @@ class GstPlayer(GObject.GObject):
             self._player.set_state(Gst.State.NULL)
         if state == Playback.PLAYING:
             self._player.set_state(Gst.State.PLAYING)
+        if state == Playback.LOADING:
+            self._player.set_state(Gst.State.READY)
 
     @GObject.Property
     def url(self):

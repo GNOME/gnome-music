@@ -443,6 +443,7 @@ class Player(GObject.GObject):
 
     @log
     def _load(self, song):
+        self._player.state = Playback.LOADING
         self._time_stamp = int(time.time())
 
         url_ = song.get_url()
@@ -474,7 +475,6 @@ class Player(GObject.GObject):
             return False
 
         if self._player.state != Playback.PAUSED:
-            self.stop()
             self._load(self._playlist.props.current_song)
 
         self._player.state = Playback.PLAYING
