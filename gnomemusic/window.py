@@ -529,11 +529,3 @@ class Window(Gtk.ApplicationWindow):
             playlist_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)
-
-    @log
-    def set_player_visible(self, visible):
-        """Set PlayWidget action visibility
-
-        :param bool visible: actionbar visibility
-        """
-        self.player_toolbar.set_visible(visible)

@@ -137,10 +137,13 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @log
     def _sync_playing(self, player):
-        if not self._headerbar.props.selection_mode:
-            self.show()
+        status = self._player.get_playback_status()
+        if (status == Playback.STOPPED
+                or self._headerbar.props.selection_mode):
+            self.hide()
+            return
 
-        if self._player.get_playback_status() == Playback.PLAYING:
+        if status == Playback.PLAYING:
             image = self._pause_image
             tooltip = _("Pause")
         else:
@@ -151,6 +154,7 @@ class PlayerToolbar(Gtk.ActionBar):
             self._play_button.set_image(image)
 
         self._play_button.set_tooltip_text(tooltip)
+        self.show()
 
     @log
     def _sync_prev_next(self, player=None):
