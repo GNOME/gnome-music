@@ -107,10 +107,7 @@ class PlayerToolbar(Gtk.ActionBar):
     @Gtk.Template.Callback()
     @log
     def _on_play_button_clicked(self, button):
-        if self._player.get_playback_status() == Playback.PLAYING:
-            self._player.pause()
-        else:
-            self._player.play()
+        self._player.play_pause()
 
     @Gtk.Template.Callback()
     @log
