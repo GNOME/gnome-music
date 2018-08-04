@@ -1,5 +1,9 @@
 # Compiling the resources
-VCS_TAG = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+VCS_TAG = ''
+git = find_program('git', required : false)
+if git.found()
+  VCS_TAG = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+endif
 if VCS_TAG == ''
   if get_option('profile') != 'default'
     VCS_TAG = 'devel'
