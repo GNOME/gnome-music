@@ -2,7 +2,7 @@
 <interface>
   <menu id="_song_menu">
     <item>
-      <attribute name="label" translatable="yes">Play</attribute>
+      <attribute name="label" translatable="yes" context="context menu item">Play</attribute>
       <attribute name="action">win.play_song</attribute>
     </item>
     <item>
