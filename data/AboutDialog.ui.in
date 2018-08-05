@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkAboutDialog" id="about_dialog">
+  <template class="AboutDialog" parent="GtkAboutDialog">
     <property name="can_focus">False</property>
     <property name="modal">True</property>
     <property name="program_name">@PROGRAM_NAME@</property>
@@ -147,5 +147,5 @@ Yuri Myasoedov
     </property>
     <property name="logo_icon_name">@APPID@</property>
     <property name="wrap_license">True</property>
-  </object>
+  </template>
 </interface>
