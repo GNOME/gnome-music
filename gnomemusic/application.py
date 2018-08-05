@@ -38,6 +38,7 @@ from gi.repository import Gtk, Gio, GLib, Gdk, Notify
 
 from gnomemusic import log
 from gnomemusic.mpris import MediaPlayer2Service
+from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.window import Window
 
 
@@ -89,15 +90,8 @@ class Application(Gtk.Application):
 
     @log
     def _about(self, action, param):
-        def about_response(dialog, response):
-            dialog.destroy()
-
-        builder = Gtk.Builder()
-        builder.add_from_resource('/org/gnome/Music/AboutDialog.ui')
-        about = builder.get_object('about_dialog')
-        about.set_transient_for(self._window)
-        about.connect("response", about_response)
-        about.show()
+        about = AboutDialog()
+        about.props.transient_for = self._window
 
     @log
     def do_startup(self):
