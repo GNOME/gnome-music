@@ -33,6 +33,7 @@ PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), APPLICATIO
 PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), APPLICATION_ID)
 
 # Dependencies
+dependency('goa-1.0')
 dependency('gobject-introspection-1.0', version: '>= 1.35.0')
 dependency('gtk+-3.0', version: '>= 3.19.3')
 dependency('libdazzle-1.0', version: '>= 3.28.0')
