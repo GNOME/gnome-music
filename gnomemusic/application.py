@@ -32,9 +32,7 @@
 
 from gettext import gettext as _
 
-import gi
-gi.require_version('Notify', '0.7')
-from gi.repository import Gtk, Gio, GLib, Gdk, Notify
+from gi.repository import Gtk, Gio, GLib, Gdk
 
 from gnomemusic import log
 from gnomemusic.mpris import MediaPlayer2Service
@@ -102,7 +100,7 @@ class Application(Gtk.Application):
     @log
     def do_startup(self):
         Gtk.Application.do_startup(self)
-        Notify.init(_("Music"))
+
         self._build_app_menu()
 
     @log
