@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-08-02 13:29+0000\n"
-"PO-Revision-Date: 2018-08-04 19:38+0200\n"
+"POT-Creation-Date: 2018-08-05 09:24+0000\n"
+"PO-Revision-Date: 2018-08-05 12:35+0200\n"
 "Last-Translator: Mario Blättermann <mario.blaettermann@gmail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "Language: de\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.9\n"
+"X-Generator: Poedit 2.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -312,13 +312,10 @@ msgid "Pause"
 msgstr "Pause"
 
 #: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
-#: data/PlaylistContextMenu.ui:5
 msgid "Play"
-msgstr "Abspielen"
+msgstr "Wiedergeben"
 
 #: gnomemusic/widgets/playlistcontrols.py:91
-#| msgid "%d Song"
-#| msgid_plural "%d Songs"
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Titel"
@@ -541,6 +538,11 @@ msgstr "Vorheriges"
 #: data/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Nächstes"
+
+#: data/PlaylistContextMenu.ui:5
+msgctxt "context menu item"
+msgid "Play"
+msgstr "Abspielen"
 
 #: data/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
