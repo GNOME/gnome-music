@@ -150,15 +150,15 @@ class SongsView(BaseView):
             cell.props.text = utils.get_album_title(item)
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        track_uri = self.player.url
-        if not track_uri:
+        if not self.player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
             cell.props.visible = False
-            return
+            return False
 
+        current_song = self.player.props.current_song
         if model[itr][11] == ValidationStatus.FAILED:
             cell.props.icon_name = self._error_icon_name
             cell.props.visible = True
-        elif model[itr][5].get_url() == track_uri:
+        elif model[itr][5].get_id() == current_song.get_id():
             cell.props.icon_name = self._now_playing_icon_name
             cell.props.visible = True
         else:
