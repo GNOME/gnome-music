@@ -234,10 +234,11 @@ class PlaylistView(BaseView):
         if not model.iter_is_valid(_iter):
             return
 
+        current_song = self.player.props.current_song
         if model[_iter][11] == ValidationStatus.FAILED:
             cell.set_property('icon-name', self._error_icon_name)
             cell.set_visible(True)
-        elif model[_iter][5].get_url() == self.player.url:
+        elif model[_iter][5].get_id() == current_song.get_id():
             cell.set_property('icon-name', self._now_playing_icon_name)
             cell.set_visible(True)
         else:
