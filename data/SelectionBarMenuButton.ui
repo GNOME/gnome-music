@@ -37,11 +37,10 @@
           </packing>
         </child>
         <child>
-          <object class="GtkArrow" id="selection-menu-button-arrow">
+          <object class="GtkImage">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="arrow-type">down</property>
-            <property name="shadow-type">none</property>
+            <property name="icon-name">go-down-symbolic</property>
           </object>
           <packing>
             <property name="pack-type">start</property>
