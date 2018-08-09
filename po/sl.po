@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-08-03 09:16+0000\n"
-"PO-Revision-Date: 2018-08-03 17:14+0200\n"
+"POT-Creation-Date: 2018-08-09 10:28+0000\n"
+"PO-Revision-Date: 2018-08-09 20:03+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -46,8 +46,8 @@ msgstr ""
 "Iskanje posnetkov v zbirki, pridobivanje glasbe prek strežnikov DLNA in "
 "iskanje s storitvami Jamendo in Magnatune."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:105 gnomemusic/window.py:66
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:53
+#: gnomemusic/window.py:66
 msgid "Music"
 msgstr "Glasba"
 
@@ -228,7 +228,7 @@ msgstr "Neznan izvajalec"
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:573
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:573
 msgid "Albums"
 msgstr "Albumi"
 
@@ -294,7 +294,7 @@ msgstr[1] "Izbran je {} predmet"
 msgstr[2] "Izbrana sta {} predmeta"
 msgstr[3] "Izbrani so {} predmeti"
 
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:32
+#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:31
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
@@ -311,7 +311,6 @@ msgid "Pause"
 msgstr "Premor"
 
 #: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
-#: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -535,6 +534,11 @@ msgstr "Predhodna"
 #: data/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Naslednja"
+
+#: data/PlaylistContextMenu.ui:5
+msgctxt "context menu item"
+msgid "Play"
+msgstr "Predvajaj"
 
 #: data/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
