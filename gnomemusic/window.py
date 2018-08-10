@@ -419,7 +419,7 @@ class Window(Gtk.ApplicationWindow):
         if ((not self.headerbar.searchbar.get_search_mode()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
-                and (modifiers == Gdk.ModifierType.SHIFT_MASK
+                and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self.headerbar.props.state != HeaderBar.State.SEARCH):
