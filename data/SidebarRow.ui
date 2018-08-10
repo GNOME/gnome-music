@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="SidebarRow" parent="GtkListBoxRow">
+    <child>
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="expand">False</property>
+        <property name="orientation">horizontal</property>
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkCheckButton" id="_check">
+            <property name="margin_start">12</property>
+            <property name="visible">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_label">
+            <property name="can_focus">False</property>
+            <property name="ellipsize">end</property>
+            <property name="halign">start</property>
+            <property name="margin">16</property>
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
