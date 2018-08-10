@@ -244,13 +244,13 @@ class DiscBox(Gtk.Box):
 
     @log
     def _song_activated(self, widget, event):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        if (event.get_state() & Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode
                 and self.props.selection_mode_allowed):
             self.props.selection_mode = True
 
-        if (event.button == Gdk.BUTTON_PRIMARY
+        (_, button) = event.get_button()
+        if (button == Gdk.BUTTON_PRIMARY
                 and not self.props.selection_mode):
             self.emit('song-activated', widget)
 
