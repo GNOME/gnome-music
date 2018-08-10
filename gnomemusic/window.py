@@ -100,7 +100,7 @@ class Window(Gtk.ApplicationWindow):
         self._init_media_keys_proxy()
 
         self.window_size_update_timeout = None
-        self.connect("window-state-event", self._on_window_state_event)
+        self.connect("notify::is-maximized", self._on_maximized)
         self.connect("configure-event", self._on_configure_event)
         grilo.connect('changes-pending', self._on_changes_pending)
 
@@ -143,8 +143,8 @@ class Window(Gtk.ApplicationWindow):
         return False
 
     @log
-    def _on_window_state_event(self, widget, event):
-        self.settings.set_boolean('window-maximized', 'GDK_WINDOW_STATE_MAXIMIZED' in event.new_window_state.value_names)
+    def _on_maximized(self, klass, value, data=None):
+        self.settings.set_boolean('window-maximized', self.is_maximized())
 
     @log
     def _init_media_keys_proxy(self):
