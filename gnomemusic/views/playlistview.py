@@ -294,7 +294,7 @@ class PlaylistView(BaseView):
         row = Gtk.ListBoxRow()
         row.playlist = playlist
         label = Gtk.Label(
-            label=title, xalign=0, xpad=16, ypad=16,
+            label=title, xalign=0, margin=16,
             ellipsize=Pango.EllipsizeMode.END)
         row.add(label)
         row.show_all()

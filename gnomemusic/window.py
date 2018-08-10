@@ -230,7 +230,8 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        self._overlay = Gtk.Overlay(child=self._stack)
+        self._overlay = Gtk.Overlay()
+        self._overlay.add(self._stack)
         self._overlay.add_overlay(self.headerbar.dropdown)
         self.set_titlebar(self.headerbar)
         self._box.pack_start(self.headerbar.searchbar, False, False, 0)

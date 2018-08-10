@@ -147,10 +147,10 @@ class ArtistsView(BaseView):
             row.artist = artist
             box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
             row.add(box)
-            row.check = Gtk.CheckButton(margin_left=12)
+            row.check = Gtk.CheckButton(margin_start=12)
             row.check.connect('toggled', self._on_selection_toggled)
             artist_label = Gtk.Label(
-                label=artist, xalign=0, xpad=16, ypad=16,
+                label=artist, xalign=0, margin=16,
                 ellipsize=Pango.EllipsizeMode.END)
             box.pack_start(row.check, False, True, 0)
             box.pack_start(artist_label, True, True, 0)
