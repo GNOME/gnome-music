@@ -337,64 +337,60 @@ class Window(Gtk.ApplicationWindow):
         modifiers = event.get_state()
         (_, keyval) = event.get_keyval()
 
-        if modifiers != 0:
-            control_mask = Gdk.ModifierType.CONTROL_MASK
-            shift_mask = Gdk.ModifierType.SHIFT_MASK
-            mod1_mask = Gdk.ModifierType.MOD1_MASK
+        control_mask = Gdk.ModifierType.CONTROL_MASK
+        shift_mask = Gdk.ModifierType.SHIFT_MASK
+        mod1_mask = Gdk.ModifierType.MOD1_MASK
+        shift_ctrl_mask = control_mask | shift_mask
 
-            if (keyval == Gdk.KEY_a
-                    and modifiers == control_mask):
+        # Ctrl+<KEY>
+        if control_mask == modifiers:
+            if keyval == Gdk.KEY_a:
                 self._select_all()
-            if (keyval == Gdk.KEY_A
-                    and modifiers == (shift_mask | control_mask)):
-                self._select_none()
             # Open search bar on Ctrl + F
-            if ((keyval == Gdk.KEY_f and modifiers == control_mask)
+            if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and self.headerbar.props.state != HeaderBar.State.SEARCH):
                 self.headerbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
-            if (keyval == Gdk.KEY_space
-                    and modifiers == control_mask):
+            if keyval == Gdk.KEY_space:
                 self.player.play_pause()
             # Play previous on Ctrl + B
-            if (keyval == Gdk.KEY_b
-                    and modifiers == control_mask):
+            if keyval == Gdk.KEY_b:
                 self.player.previous()
             # Play next on Ctrl + N
-            if (keyval == Gdk.KEY_n
-                    and modifiers == control_mask):
+            if keyval == Gdk.KEY_n:
                 self.player.next()
             # Toggle repeat on Ctrl + R
-            if (keyval == Gdk.KEY_r
-                    and modifiers == control_mask):
+            if keyval == Gdk.KEY_r:
                 if self.player.get_repeat_mode() == RepeatMode.SONG:
                     self.player.set_repeat_mode(RepeatMode.NONE)
                 else:
                     self.player.set_repeat_mode(RepeatMode.SONG)
             # Toggle shuffle on Ctrl + S
-            if (keyval == Gdk.KEY_s
-                    and modifiers == control_mask):
+            if keyval == Gdk.KEY_s:
                 if self.player.get_repeat_mode() == RepeatMode.SHUFFLE:
                     self.player.set_repeat_mode(RepeatMode.NONE)
                 else:
                     self.player.set_repeat_mode(RepeatMode.SHUFFLE)
-            # Go back from Album view on Alt + Left
-            if (keyval == Gdk.KEY_Left
-                    and modifiers == mod1_mask):
-                self.headerbar._on_back_button_clicked()
-            if ((keyval in [Gdk.KEY_1, Gdk.KEY_KP_1])
-                    and modifiers == control_mask):
+            # Headerbar switching
+            if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
                 self._toggle_view(View.ALBUM)
-            if ((keyval in [Gdk.KEY_2, Gdk.KEY_KP_2])
-                    and modifiers == control_mask):
+            if keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
                 self._toggle_view(View.ARTIST)
-            if ((keyval in [Gdk.KEY_3, Gdk.KEY_KP_3])
-                    and modifiers == control_mask):
+            if keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
                 self._toggle_view(View.SONG)
-            if ((keyval in [Gdk.KEY_4, Gdk.KEY_KP_4])
-                    and modifiers == control_mask):
+            if keyval in [Gdk.KEY_4, Gdk.KEY_KP_4]:
                 self._toggle_view(View.PLAYLIST)
+        # Ctrl+Shift+<KEY>
+        elif modifiers == shift_ctrl_mask:
+            if keyval == Gdk.KEY_A:
+                self._select_none()
+        # Alt+<KEY>
+        elif modifiers == mod1_mask:
+            # Go back from Album view on Alt + Left
+            if keyval == Gdk.KEY_Left:
+                self.headerbar._on_back_button_clicked()
+        # No modifier
         else:
             if (keyval == Gdk.KEY_AudioPlay
                     or keyval == Gdk.KEY_AudioPause):
@@ -425,7 +421,7 @@ class Window(Gtk.ApplicationWindow):
         if ((not self.headerbar.searchbar.get_search_mode()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
-                and (modifiers == Gdk.ModifierType.SHIFT_MASK
+                and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self.headerbar.props.state != HeaderBar.State.SEARCH):
