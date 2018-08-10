@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
+from gi.repository import Gio, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -343,7 +343,7 @@ class PlaylistView(BaseView):
         :param Gtk.TreeView treeview: self._view
         :param Gdk.EventButton event: clicked event
         """
-        if event.button != Gdk.BUTTON_SECONDARY:
+        if not event.triggers_context_menu():
             return
 
         path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
