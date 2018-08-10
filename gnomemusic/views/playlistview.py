@@ -35,6 +35,7 @@ from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.sidebarrow import SidebarRow
 import gnomemusic.utils as utils
 
 playlists = Playlists.get_default()
@@ -291,13 +292,11 @@ class PlaylistView(BaseView):
             index = 0
 
         title = utils.get_media_title(playlist)
-        row = Gtk.ListBoxRow()
+        row = SidebarRow()
+        row.props.text = title
+        # FIXME: Passing the Grl.Media with the row object is ugly.
         row.playlist = playlist
-        label = Gtk.Label(
-            label=title, xalign=0, margin=16,
-            ellipsize=Pango.EllipsizeMode.END)
-        row.add(label)
-        row.show_all()
+
         self._sidebar.insert(row, index)
         self._offset += 1
 
