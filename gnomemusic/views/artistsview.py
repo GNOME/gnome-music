@@ -24,12 +24,13 @@
 
 import logging
 from gettext import gettext as _
-from gi.repository import Gdk, GObject, GLib, Gtk, Pango
+from gi.repository import Gdk, GObject, GLib, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
+from gnomemusic.widgets.sidebarrow import SidebarRow
 import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
@@ -98,11 +99,11 @@ class ArtistsView(BaseView):
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         if self.props.selection_mode:
-            row.check.props.active = not row.check.props.active
+            row.props.selected = not row.props.selected
             return
 
         self._last_selected_row = row
-        artist = row.artist
+        artist = row.props.text
         albums = self._artists[artist.casefold()]['albums']
         widget = self._artists[artist.casefold()]['widget']
 
@@ -143,23 +144,11 @@ class ArtistsView(BaseView):
         artist = utils.get_artist_name(item)
         if not artist.casefold() in self._artists:
             # populate sidebar
-            row = Gtk.ListBoxRow()
-            row.artist = artist
-            box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-            row.add(box)
-            row.check = Gtk.CheckButton(margin_start=12)
-            row.check.connect('toggled', self._on_selection_toggled)
-            artist_label = Gtk.Label(
-                label=artist, xalign=0, margin=16,
-                ellipsize=Pango.EllipsizeMode.END)
-            box.pack_start(row.check, False, True, 0)
-            box.pack_start(artist_label, True, True, 0)
+            row = SidebarRow()
+            row.props.text = artist
+            row.connect('notify::selected', self._on_selection_changed)
+            self.bind_property('selection-mode', row, 'selection-mode')
             self._sidebar.add(row)
-            row.show_all()
-            row.check.hide()
-            row.check.bind_property(
-                'visible', self, 'selection_mode',
-                GObject.BindingFlags.BIDIRECTIONAL)
 
             self._artists[artist.casefold()] = {
                 'albums': [],
@@ -181,10 +170,10 @@ class ArtistsView(BaseView):
             self._on_selection_mode_request()
 
     @log
-    def _on_selection_toggled(self, widget, data=None):
+    def _on_selection_changed(self, widget, value, data=None):
         selected_artists = 0
         for row in self._sidebar:
-            if row.check.props.active:
+            if row.props.selected:
                 selected_artists += 1
 
         self._update_header_from_selection(selected_artists)
@@ -206,7 +195,7 @@ class ArtistsView(BaseView):
     @log
     def _toggle_all_selection(self, selected):
         for row in self._sidebar:
-            row.check.props.active = selected
+            row.props.selected = selected
 
     @log
     def select_all(self):
@@ -228,8 +217,8 @@ class ArtistsView(BaseView):
         """
         selected_albums = []
         for row in self._sidebar:
-            if row.check.props.active:
-                artist = row.artist
+            if row.props.selected:
+                artist = row.props.text
                 albums = self._artists[artist.casefold()]['albums']
                 selected_albums.extend(albums)
 
