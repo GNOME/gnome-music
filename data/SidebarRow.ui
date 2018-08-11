@@ -8,9 +8,16 @@
         <property name="orientation">horizontal</property>
         <property name="visible">True</property>
         <child>
-          <object class="GtkCheckButton" id="_check">
-            <property name="margin_start">12</property>
-            <property name="visible">False</property>
+          <object class="GtkRevealer" id="_revealer">
+            <property name="reveal-child">False</property>
+            <property name="transition-type">slide-right</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkCheckButton" id="_check">
+                <property name="margin-start">12</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
