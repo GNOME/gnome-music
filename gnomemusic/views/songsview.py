@@ -214,7 +214,7 @@ class SongsView(BaseView):
         :param Gdk.EventButton event: clicked event
         """
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self._on_selection_mode_request()
 
