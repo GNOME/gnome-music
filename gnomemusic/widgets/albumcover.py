@@ -107,7 +107,7 @@ class AlbumCover(Gtk.FlowBoxChild):
     @log
     def _on_album_event(self, evbox, event, data=None):
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self.props.selection_mode = True
 
