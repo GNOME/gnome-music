@@ -55,9 +55,11 @@ class SmoothScale(Gtk.Scale):
 
         self._timeout = None
 
-        self.connect('button-press-event', self._on_smooth_scale_event)
-        self.connect(
-            'button-release-event', self._on_smooth_scale_button_released)
+        self._controller = Gtk.GestureMultiPress().new(self)
+        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._controller.connect("pressed", self._on_button_pressed)
+        self._controller.connect("released", self._on_button_released)
+
         self.connect('change-value', self._on_smooth_scale_seek)
 
     # FIXME: This is a workaround for not being able to pass the player
@@ -148,19 +150,21 @@ class SmoothScale(Gtk.Scale):
         return True
 
     @log
-    def _on_smooth_scale_button_released(self, scale, data):
+    def _on_button_released(self, gesture, n_press, x, y, data=None):
         if self._seek_timeout:
             GLib.source_remove(self._seek_timeout)
             self._on_smooth_scale_seek_finish(
                 self.get_value())
 
         self._update_position_callback()
+
         return False
 
     @log
-    def _on_smooth_scale_event(self, scale, data):
+    def _on_button_pressed(self, gesture, n_press, x, y, data=None):
         self._remove_timeout()
         self._old_smooth_scale_value = self.get_value()
+
         return False
 
     @log
