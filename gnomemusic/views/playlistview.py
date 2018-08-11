@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gio, GLib, GObject, Gtk, Pango
+from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -154,11 +154,16 @@ class PlaylistView(BaseView):
         self._view.set_model(self.model)
         self._view.set_activate_on_single_click(True)
         self._view.get_selection().set_mode(Gtk.SelectionMode.SINGLE)
+
         self._view.connect('row-activated', self._on_song_activated)
-        self._view.connect('button-press-event', self._on_view_clicked)
         self._view.connect('drag-begin', self._drag_begin)
         self._view.connect('drag-end', self._drag_end)
         self._song_drag = {'active': False}
+
+        self._controller = Gtk.GestureMultiPress().new(self._view)
+        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._controller.set_button(Gdk.BUTTON_SECONDARY)
+        self._controller.connect("pressed", self._on_view_right_clicked)
 
         view_container.add(self._view)
 
@@ -356,22 +361,13 @@ class PlaylistView(BaseView):
         GLib.idle_add(activate_song)
 
     @log
-    def _on_view_clicked(self, treeview, event):
-        """Right click on self._view displays a context menu
-
-        :param Gtk.TreeView treeview: self._view
-        :param Gdk.EventButton event: clicked event
-        """
-        if not event.triggers_context_menu():
-            return
-
-        (coord_x, coord_y) = event.get_coords()
-        path, col, cell_x, cell_y = treeview.get_path_at_pos(coord_x, coord_y)
+    def _on_view_right_clicked(self, gesture, n_press, x, y, data=None):
+        (path, _, _, _) = self._view.get_path_at_pos(x, y)
         self._view.get_selection().select_path(path)
 
         rect = self._view.get_visible_rect()
-        rect.x = coord_x - rect.width / 2.0
-        rect.y = coord_y - rect.height + 5
+        rect.x = x - rect.width / 2.0
+        rect.y = y - rect.height + 5
 
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
