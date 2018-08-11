@@ -226,8 +226,11 @@ class Window(Gtk.ApplicationWindow):
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect(
-            'key_press_event', self._on_key_press)
+
+        self._controller = Gtk.EventControllerKey().new(self)
+        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._key_press_event_id = self._controller.connect(
+            'key-pressed', self._on_key_press)
 
         # FIXME: In case Grilo is already initialized before the views
         # get created, they never receive a 'ready' signal to trigger
@@ -290,9 +293,10 @@ class Window(Gtk.ApplicationWindow):
             view.select_none()
 
     @log
-    def _on_key_press(self, widget, event):
-        modifiers = event.get_state()
-        (_, keyval) = event.get_keyval()
+    def _on_key_press(self, controller, keyval, keycode, modifiers, data=None):
+        print(keyval, keycode, modifiers)
+        # modifiers = Gtk.accelerator_get_default_mod_mask()
+        # modifiers = (event.state & modifiers)
 
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
