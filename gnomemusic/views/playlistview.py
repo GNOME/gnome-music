@@ -346,12 +346,13 @@ class PlaylistView(BaseView):
         if not event.triggers_context_menu():
             return
 
-        path, col, cell_x, cell_y = treeview.get_path_at_pos(event.x, event.y)
+        (coord_x, coord_y) = event.get_coords()
+        path, col, cell_x, cell_y = treeview.get_path_at_pos(coord_x, coord_y)
         self._view.get_selection().select_path(path)
 
         rect = self._view.get_visible_rect()
-        rect.x = event.x - rect.width / 2.0
-        rect.y = event.y - rect.height + 5
+        rect.x = coord_x - rect.width / 2.0
+        rect.y = coord_y - rect.height + 5
 
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
