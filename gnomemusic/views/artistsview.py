@@ -156,6 +156,10 @@ class ArtistsView(BaseView):
             }
         self._artists[artist.casefold()]['albums'].append(item)
 
+        if len(self._sidebar) == 1:
+            self._sidebar.select_row(row)
+            self._sidebar.emit('row-activated', row)
+
     @log
     def populate(self):
         """Populates the view"""
