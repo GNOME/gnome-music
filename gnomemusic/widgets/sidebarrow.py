@@ -38,6 +38,7 @@ class SidebarRow(Gtk.ListBoxRow):
 
     _check = Gtk.Template.Child()
     _label = Gtk.Template.Child()
+    _revealer = Gtk.Template.Child()
 
     selected = GObject.Property(type=bool, default=False)
     selection_mode = GObject.Property(type=bool, default=False)
@@ -50,10 +51,10 @@ class SidebarRow(Gtk.ListBoxRow):
     def __init__(self):
         super().__init__()
 
-        self.bind_property('text', self._label, 'label')
         self.bind_property(
             'selected', self._check, 'active',
             GObject.BindingFlags.BIDIRECTIONAL)
-        self.bind_property('selection-mode', self._check, 'visible')
+        self.bind_property('selection-mode', self._revealer, 'reveal-child')
+        self.bind_property('text', self._label, 'label')
 
         self.show()
