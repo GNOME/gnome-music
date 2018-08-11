@@ -133,7 +133,8 @@ class SongWidget(Gtk.EventBox):
     @Gtk.Template.Callback()
     @log
     def _on_star_toggle(self, widget, event):
-        if event.button != Gdk.BUTTON_PRIMARY:
+        (_, button) = event.get_button()
+        if button != Gdk.BUTTON_PRIMARY:
             return False
 
         favorite = not self._star_image.favorite
