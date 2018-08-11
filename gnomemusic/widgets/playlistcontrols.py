@@ -70,7 +70,8 @@ class PlaylistControls(Gtk.Grid):
     @Gtk.Template.Callback()
     @log
     def _on_rename_entry_key_pressed(self, widget, event):
-        if event.keyval == Gdk.KEY_Escape:
+        (_, keyval) = event.get_keyval()
+        if keyval == Gdk.KEY_Escape:
             self.disable_rename_playlist()
 
     @Gtk.Template.Callback()
