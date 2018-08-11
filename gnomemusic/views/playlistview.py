@@ -347,8 +347,7 @@ class PlaylistView(BaseView):
             return
 
         (coord_x, coord_y) = event.get_coords()
-        path, col, cell_x, cell_y = treeview.get_path_at_pos(
-            coord_x, coord_y)
+        path, col, cell_x, cell_y = treeview.get_path_at_pos(coord_x, coord_y)
         self._view.get_selection().select_path(path)
 
         rect = self._view.get_visible_rect()
