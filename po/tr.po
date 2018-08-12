@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-08-02 13:29+0000\n"
-"PO-Revision-Date: 2018-08-05 01:00+0300\n"
+"POT-Creation-Date: 2018-08-06 07:15+0000\n"
+"PO-Revision-Date: 2018-08-12 09:48+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
@@ -51,8 +51,8 @@ msgstr ""
 "Yerel derleminizdeki parçaları bulun, DLNA sunucularından müzik alın veya "
 "Jamendo ve Magnatune hizmetleriyle yeni şeyler deneyin."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:105 gnomemusic/window.py:66
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:53
+#: gnomemusic/window.py:66
 msgid "Music"
 msgstr "Müzik"
 
@@ -142,7 +142,6 @@ msgid "Unable to play the file"
 msgstr "Dosya çalınamıyor"
 
 #: gnomemusic/gstplayer.py:408
-#| msgid "_Find in %s"
 msgid "_Find in {}"
 msgstr "{} içinde _bul"
 
@@ -157,8 +156,6 @@ msgid ", "
 msgstr ", "
 
 #: gnomemusic/gstplayer.py:424
-#| msgid "%s is required to play the file, but is not installed."
-#| msgid_plural "%s are required to play the file, but are not installed."
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Dosyayı çalmak için {} gerekiyor ancak kurulu değil."
@@ -232,7 +229,7 @@ msgstr "Bilinmeyen Sanatçı"
 msgid "Untitled"
 msgstr "Başlıksız"
 
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:573
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:573
 msgid "Albums"
 msgstr "Albümler"
 
@@ -247,7 +244,6 @@ msgstr "Müzik klasörü"
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
 #: gnomemusic/views/emptyview.py:70
-#| msgid "The contents of your %s will appear here."
 msgid "The contents of your {} will appear here."
 msgstr "{} içeriğiniz burada görünecek."
 
@@ -310,13 +306,10 @@ msgid "Pause"
 msgstr "Duraklat"
 
 #: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
-#: data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Çal"
 
 #: gnomemusic/widgets/playlistcontrols.py:91
-#| msgid "%d Song"
-#| msgid_plural "%d Songs"
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Şarkı"
@@ -334,31 +327,6 @@ msgid "Visit GNOME Music website"
 msgstr "GNOME Müzik web sitesini ziyaret et"
 
 #: data/AboutDialog.ui.in:13
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version.\n"
-#| "\n"
-#| "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#| "https://www.flickr.com/photos/_spy_/12270839403\n"
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -559,6 +527,12 @@ msgstr "Önceki"
 msgid "Next"
 msgstr "Sonraki"
 
+#: data/PlaylistContextMenu.ui:5
+#| msgid "Play"
+msgctxt "context menu item"
+msgid "Play"
+msgstr "Çal"
+
 #: data/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Çalma Listesine Ekle…"
@@ -596,7 +570,6 @@ msgid "C_reate"
 msgstr "Oluştu_r"
 
 #: data/PlaylistDialog.ui:168
-#| msgid "New Playlist"
 msgid "New Playlist…"
 msgstr "Yeni Çalma Listesi…"
 
@@ -605,7 +578,6 @@ msgid "Add"
 msgstr "Ekle"
 
 #: data/PlaylistDialog.ui:279
-#| msgid "_Add to Playlist"
 msgid "Add to Playlist"
 msgstr "Çalma Listesine Ekle"
 
