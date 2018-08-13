@@ -288,12 +288,11 @@ class Searchbar(Gtk.SearchBar):
         return '<Searchbar>'
 
     @log
-    def __init__(self, stack_switcher, search_button, dropdown):
+    def __init__(self, stack_switcher, dropdown):
         super().__init__()
 
         self._timeout = None
         self._stack_switcher = stack_switcher
-        self._search_button = search_button
         self._dropdown = dropdown
         self._search_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
@@ -360,8 +359,7 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def reveal(self, show, clear=True):
-        self.set_search_mode(show)
-        self._search_button.set_active(show)
+        self.props.search_mode_enabled = show
 
         if show:
             self._search_entry.realize()
