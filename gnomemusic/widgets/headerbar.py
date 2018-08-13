@@ -28,7 +28,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.searchbar import Searchbar
+from gnomemusic.widgets.searchbar import Searchbar
 from gnomemusic.utils import View
 
 
