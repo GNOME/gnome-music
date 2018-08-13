@@ -282,6 +282,8 @@ class DropDown(Gtk.Revealer):
 
 class Searchbar(Gtk.SearchBar):
 
+    __gtype_name__ = 'Searchbar'
+
     def __repr__(self):
         return '<Searchbar>'
 
