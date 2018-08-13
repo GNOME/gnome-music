@@ -250,6 +250,8 @@ class DropDown(Gtk.Revealer):
 
         self.add(frame)
 
+        self.show()
+
     @log
     def initialize_filters(self, searchbar):
         self._source_manager = SourceManager(
@@ -288,12 +290,12 @@ class Searchbar(Gtk.SearchBar):
         return '<Searchbar>'
 
     @log
-    def __init__(self, stack_switcher, dropdown):
+    def __init__(self, stack_switcher):
         super().__init__()
 
         self._timeout = None
         self._stack_switcher = stack_switcher
-        self._dropdown = dropdown
+
         self._search_box = Gtk.Box(
             orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
         self._search_box.get_style_context().add_class('linked')
@@ -303,6 +305,9 @@ class Searchbar(Gtk.SearchBar):
         self._search_entry.connect("changed", self._search_entry_timeout)
         self._search_entry.show()
         self._search_box.add(self._search_entry)
+
+        self._dropdown = DropDown()
+        self._dropdown.initialize_filters(self)
 
         arrow = Gtk.Image.new_from_icon_name(
             'pan-down-symbolic', Gtk.IconSize.BUTTON)

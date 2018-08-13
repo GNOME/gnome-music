@@ -28,7 +28,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.searchbar import Searchbar, DropDown
+from gnomemusic.searchbar import Searchbar
 from gnomemusic.utils import View
 
 
@@ -111,9 +111,7 @@ class HeaderBar(Gtk.HeaderBar):
             can_focus=False, halign="center")
         self._stack_switcher.show()
 
-        self.dropdown = DropDown()
-        self.searchbar = Searchbar(self._stack_switcher, self.dropdown)
-        self.dropdown.initialize_filters(self.searchbar)
+        self.searchbar = Searchbar(self._stack_switcher)
 
         self._selection_menu = SelectionBarMenuButton()
 
