@@ -84,6 +84,11 @@ class SmoothScale(Gtk.Scale):
 
         :param GstPlayer player: The GstPlayer to use
         """
+        if (player is None
+                or (self._player is not None
+                    and self._player != player)):
+            return
+
         self._player = player
 
         self._player.connect('notify::state', self._on_state_change)
