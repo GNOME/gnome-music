@@ -150,15 +150,16 @@ class ArtistsView(BaseView):
             self.bind_property('selection-mode', row, 'selection-mode')
             self._sidebar.add(row)
 
+            if len(self._sidebar) == 1:
+                self._sidebar.select_row(row)
+                self._sidebar.emit('row-activated', row)
+
             self._artists[artist.casefold()] = {
                 'albums': [],
                 'widget': None
             }
-        self._artists[artist.casefold()]['albums'].append(item)
 
-        if len(self._sidebar) == 1:
-            self._sidebar.select_row(row)
-            self._sidebar.emit('row-activated', row)
+        self._artists[artist.casefold()]['albums'].append(item)
 
     @log
     def populate(self):
