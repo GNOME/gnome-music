@@ -283,6 +283,8 @@ class DropDown(Gtk.Revealer):
 
 
 class Searchbar(Gtk.SearchBar):
+    """Widget containing the search entry
+    """
 
     __gtype_name__ = 'Searchbar'
 
@@ -291,6 +293,11 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def __init__(self, stack_switcher):
+        """Initialize the Searchbar
+
+        :param Gtk.Stack stack_switcher: The stack switcher containing
+          the search view.
+        """
         super().__init__()
 
         self._timeout = None
@@ -364,6 +371,11 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def reveal(self, show, clear=True):
+        """Hides or reveals the searchbar
+
+        :param bool show: Whether to show the searchbar
+        :param bool clear: Whether to clear the search entry
+        """
         self.props.search_mode_enabled = show
 
         if show:
@@ -376,4 +388,5 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def toggle(self):
+        """Toggle the searchbar showing"""
         self.reveal(not self.get_search_mode())
