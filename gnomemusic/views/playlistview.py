@@ -125,7 +125,6 @@ class PlaylistView(BaseView):
         self._current_playlist_index = None
         self.pls_todelete = {}
         self._songs_todelete = {}
-        self._songs_count = 0
 
         self.model.connect('row-inserted', self._on_song_inserted)
         self.model.connect('row-deleted', self._on_song_deleted)
@@ -137,11 +136,6 @@ class PlaylistView(BaseView):
             'song-added-to-playlist', self._on_song_added_to_playlist)
 
         self.show_all()
-
-    @log
-    def _update_songs_count(self, songs_count):
-        self._songs_count = songs_count
-        self._pl_ctrls.props.songs_count = songs_count
 
     @log
     def _setup_view(self):
@@ -533,7 +527,7 @@ class PlaylistView(BaseView):
         self.model.clear()
         self._iter_to_clean = None
         self._iter_to_clean_model = None
-        self._update_songs_count(0)
+        self._pl_ctrls.props.songs_count = 0
         self._pl_ctrls.display_songs_count(False)
         grilo.populate_playlist_songs(playlist, self._add_song)
 
@@ -582,7 +576,7 @@ class PlaylistView(BaseView):
             index, [2, 3, 5, 9],
             [title, artist, song, song.get_favourite()])
 
-        self._update_songs_count(self._songs_count + 1)
+        self._pl_ctrls.props.songs_count += 1
         return iter_
 
     @log
@@ -756,7 +750,7 @@ class PlaylistView(BaseView):
             self.player.remove_song(model, model.get_path(iter_))
         model.remove(iter_)
 
-        self._update_songs_count(self._songs_count - 1)
+        self._pl_ctrls.props.songs_count -= 1
 
     @log
     def populate(self):
