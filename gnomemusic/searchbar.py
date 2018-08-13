@@ -31,6 +31,7 @@ from gettext import gettext as _
 import gi
 gi.require_version('Gd', '1.0')
 from gi.repository import Gd, GLib, GObject, Gtk, Pango
+from gi.repository.Gd import TaggedEntry  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -282,11 +283,15 @@ class DropDown(Gtk.Revealer):
                 'search_all' if id_ != 'grl-tracker-source' else '')
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/Searchbar.ui")
 class Searchbar(Gtk.SearchBar):
     """Widget containing the search entry
     """
 
     __gtype_name__ = 'Searchbar'
+
+    _search_entry = Gtk.Template.Child()
+    _drop_down_button = Gtk.Template.Child()
 
     def __repr__(self):
         return '<Searchbar>'
@@ -303,44 +308,21 @@ class Searchbar(Gtk.SearchBar):
         self._timeout = None
         self._stack_switcher = stack_switcher
 
-        self._search_box = Gtk.Box(
-            orientation=Gtk.Orientation.HORIZONTAL, halign=Gtk.Align.CENTER)
-        self._search_box.get_style_context().add_class('linked')
-
-        self._search_entry = Gd.TaggedEntry(
-            width_request=500, halign=Gtk.Align.CENTER)
-        self._search_entry.connect("changed", self._search_entry_timeout)
-        self._search_entry.show()
-        self._search_box.add(self._search_entry)
-
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
 
-        arrow = Gtk.Image.new_from_icon_name(
-            'pan-down-symbolic', Gtk.IconSize.BUTTON)
-        self._drop_down_button = Gtk.ToggleButton()
-        self._drop_down_button.add(arrow)
-        self._drop_down_button.get_style_context().add_class('image-button')
-        self._drop_down_button.connect(
-            "toggled", self._drop_down_button_toggled)
-        self._drop_down_button.show_all()
-        self._search_box.add(self._drop_down_button)
-
-        self._search_entry.connect(
-            "tag-button-clicked", self._tag_button_clicked)
-
-        self._search_box.show_all()
-        self.add(self._search_box)
-
+    @Gtk.Template.Callback()
     @log
     def _drop_down_button_toggled(self, *args):
         self._dropdown.set_reveal_child(self._drop_down_button.get_active())
 
+    @Gtk.Template.Callback()
     @log
     def _tag_button_clicked(self, entry, tag_):
         tag_.manager.active = tag_.manager.values[1][BaseModelColumns.ID]
         self._search_entry_changed(None)
 
+    @Gtk.Template.Callback()
     @log
     def _search_entry_timeout(self, widget):
         if self._timeout:
