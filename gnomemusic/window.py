@@ -174,7 +174,8 @@ class Window(Gtk.ApplicationWindow):
 
         self._overlay = Gtk.Overlay()
         self._overlay.add(self._stack)
-        self._overlay.add_overlay(self.headerbar.dropdown)
+        # FIXME: Need to find a proper way to do this.
+        self._overlay.add_overlay(self.headerbar.searchbar._dropdown)
         self.set_titlebar(self.headerbar)
         self._box.pack_start(self.headerbar.searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
@@ -250,7 +251,6 @@ class Window(Gtk.ApplicationWindow):
         self.headerbar.props.state = HeaderBar.State.MAIN
         self.headerbar.props.stack = self._stack
         self.headerbar.searchbar.show()
-        self.headerbar.dropdown.show()
 
     @log
     def _select_all(self, action=None, param=None):
