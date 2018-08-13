@@ -51,6 +51,8 @@ class PlaylistControls(Gtk.Grid):
         type=int, default=0, minimum=0, flags=GObject.ParamFlags.READWRITE)
     playlist_name = GObject.Property(
         type=str, default="", flags=GObject.ParamFlags.READWRITE)
+    display_songs_count = GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
 
     def __repr__(self):
         return '<PlaylistControls>'
@@ -58,6 +60,8 @@ class PlaylistControls(Gtk.Grid):
     def __init__(self):
         super().__init__()
         self.bind_property("playlist-name", self._name_label, "label")
+        self.bind_property(
+            "display-songs-count", self._songs_count_label, "visible")
 
         self.connect("notify::songs-count", self._on_songs_count_changed)
 
