@@ -12,7 +12,6 @@ gnomemusic/inhibitsuspend.py
 gnomemusic/mpris.py
 gnomemusic/playlists.py
 gnomemusic/query.py
-gnomemusic/searchbar.py
 gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
@@ -28,6 +27,7 @@ gnomemusic/widgets/notificationspopup.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
+gnomemusic/widgets/searchbar.py
 gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py
 data/AboutDialog.ui.in
