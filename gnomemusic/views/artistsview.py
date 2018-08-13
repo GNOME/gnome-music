@@ -154,9 +154,11 @@ class ArtistsView(BaseView):
                 'albums': [],
                 'widget': None
             }
+
         self._artists[artist.casefold()]['albums'].append(item)
 
-        if len(self._sidebar) == 1:
+        if (row is not None
+                and len(self._sidebar) == 1):
             self._sidebar.select_row(row)
             self._sidebar.emit('row-activated', row)
 
