@@ -1,3 +1,45 @@
+Overview of changes in 3.29.91
+==============================
+
+* Finished moving the existing ui to use Gtk.Template
+* Added some minor transitions going to selection-mode
+* Add OARS tag
+* Reword application description
+
+Bugs fixed:
+ Wait for last album to load (#174)
+ appdata: Add OARS tag & reword description (!177)
+ disable sidebar stack transition (!206)
+ playlistview: Add translator context to Play menu (!211)
+ add GOA dependency (#212)
+ use Gtk.Template for AlbumCover (#183)
+ tarball fails to build (#211)
+ use Gtk.Template for About dialog (#183)
+ App-bundles selection-mode headerbar color incorrect (#208)
+ Use Gdk.Event accessors (#213)
+ Add SidebarRow widget (!221)
+ use Gtk.Template for Searchbar and move to widgets (!226)
+
+Thanks to our contributors this release:
+ Alexander Mikhaylenko
+ Jean Felder
+ Jordan Petridis
+ Marinus Schraal
+ Nick Richards
+ Piotr Drąg
+ Tyler Garcia
+
+Translations updated:
+ Spanish
+ Slovenian
+ German
+ Polish
+ Turkish
+ Czech
+ Lithuanian
+ Chinese (Taiwan)
+ Greek
+
 Overview of changes in 3.29.90
 ==============================
 
