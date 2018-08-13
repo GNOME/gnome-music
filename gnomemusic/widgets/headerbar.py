@@ -112,12 +112,15 @@ class HeaderBar(Gtk.HeaderBar):
         self._stack_switcher.show()
 
         self.dropdown = DropDown()
-        self.searchbar = Searchbar(
-            self._stack_switcher, self._search_button, self.dropdown)
+        self.searchbar = Searchbar(self._stack_switcher, self.dropdown)
         self.dropdown.initialize_filters(self.searchbar)
 
         self._selection_menu = SelectionBarMenuButton()
 
+        self._search_button.bind_property(
+            "active", self.searchbar, "search-mode-enabled",
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", self, "show-close-button",
             GObject.BindingFlags.INVERT_BOOLEAN |
