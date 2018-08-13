@@ -534,6 +534,7 @@ class PlaylistView(BaseView):
         self._iter_to_clean = None
         self._iter_to_clean_model = None
         self._update_songs_count(0)
+        self._pl_ctrls.display_songs_count(False)
         grilo.populate_playlist_songs(playlist, self._add_song)
 
         if self._current_playlist_is_protected():
@@ -562,6 +563,7 @@ class PlaylistView(BaseView):
         self._add_song_to_model(song, self.model)
         if remaining == 0:
             self._view.set_model(self.model)
+            self._pl_ctrls.display_songs_count(True)
 
     @log
     def _add_song_to_model(self, song, model, index=-1):

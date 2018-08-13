@@ -93,6 +93,14 @@ class PlaylistControls(Gtk.Grid):
                 self.props.songs_count)
 
     @log
+    def display_songs_count(self, value):
+        """Set the _songs_count_label visibility
+
+        :param bool value: visibility
+        """
+        self._songs_count_label.props.visible = value
+
+    @log
     def enable_rename_playlist(self, pl_torename):
         """Enables rename button and entry
 
