@@ -299,14 +299,16 @@ class Playlists(GObject.GObject):
                 cursor.next_async(None, callback, final_query)
                 return
 
-            self.tracker.update_blank_async(final_query, GLib.PRIORITY_LOW,
-                                            None, None, None)
-
-            # tell system we updated the playlist so playlist is reloaded
-            self.emit('playlist-updated', playlist.ID)
+            self.tracker.update_blank_async(
+                final_query, GLib.PRIORITY_LOW, None,
+                self._static_playlist_update_finished, playlist)
 
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
+
+    @log
+    def _static_playlist_update_finished(self, source, res, static_playlist):
+        self.emit('playlist-updated', static_playlist.ID)
 
     @log
     def update_all_static_playlists(self):
