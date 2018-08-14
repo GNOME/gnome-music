@@ -121,7 +121,7 @@ class PlayerToolbar(Gtk.ActionBar):
     def _on_selection_mode_changed(self, headerbar, selection_mode):
         if self._headerbar.props.selection_mode:
             self.hide()
-        elif self._player.playing:
+        elif self._player.props.playing:
             self.show()
 
     @log
