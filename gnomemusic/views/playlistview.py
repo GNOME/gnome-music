@@ -456,6 +456,7 @@ class PlaylistView(BaseView):
         :param playlists: playlists
         :param playlist_id: updated playlist's id
         """
+        self._star_handler.star_renderer_click = False
         for row in self._sidebar:
             playlist = row.playlist
             if (str(playlist_id) == playlist.get_id()
