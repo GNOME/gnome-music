@@ -149,6 +149,7 @@ class SourceManager(BaseManager):
         grilo.search_source = src
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/FilterView.ui")
 class FilterView(Gtk.TreeView):
 
     __gtype_name__ = 'FilterView'
@@ -228,6 +229,15 @@ class FilterView(Gtk.TreeView):
         if additional_func:
             additional_func(col, cell, model, _iter)
 
+    @Gtk.Template.Callback()
+    @log
+    def _on_row_activated(self, filterview, path, col):
+        model = filterview.get_model()
+        id_ = model[model.get_iter(path)][BaseModelColumns.ID]
+
+        self.emit('selection-changed', self.props.manager, id_)
+        self.props.manager.entry.emit('changed')
+
 
 @Gtk.Template(resource_path="/org/gnome/Music/DropDown.ui")
 class DropDown(Gtk.Revealer):
@@ -273,26 +283,12 @@ class DropDown(Gtk.Revealer):
     @log
     def _on_selection_changed(self, klass, manager, id_):
         manager.active = id_
-        if manager == self._source_manager:
-            self._search_filter.props.sensitive = self._is_tracker(id_)
-            self.search_manager.active = (
-                'search_all' if id_ != 'grl-tracker-source' else '')
 
-    @Gtk.Template.Callback()
-    @log
-    def _on_row_activated(self, filterview, path, col):
-        model = filterview.get_model()
-        id_ = model[model.get_iter(path)][BaseModelColumns.ID]
-
-        manager = filterview.props.manager
-        manager.active = id_
         if manager == self._source_manager:
             is_tracker = self._is_tracker(id_)
             self._search_filter.props.sensitive = is_tracker
             self.search_manager.props.active = (
                 'search_all' if not is_tracker else '')
-
-        manager.entry.emit('changed')
 
     @log
     def _is_tracker(self, grilo_id):
