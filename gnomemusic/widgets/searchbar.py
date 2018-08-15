@@ -159,6 +159,8 @@ class FilterView(Gtk.TreeView):
         ),
     }
 
+    manager = GObject.Property(type=GObject.GObject)
+
     def __repr__(self):
         return '<FilterView>'
 
@@ -166,15 +168,11 @@ class FilterView(Gtk.TreeView):
     def __init__(self, manager):
         super().__init__()
 
-        self._manager = manager
-
         self._model = Gtk.ListStore.new([
             GObject.TYPE_STRING,  # ID
             GObject.TYPE_STRING,  # NAME
             GObject.TYPE_STRING,  # TEXT
         ])
-
-        self._manager.fill_in_values(self._model)
 
         self.set_activate_on_single_click(True)
         self.set_headers_visible(False)
@@ -207,19 +205,26 @@ class FilterView(Gtk.TreeView):
         col.set_cell_data_func(
             self._text_renderer, self._head_visible, False)
 
+        self.connect('notify::manager', self._on_manager_changed)
+
         self.show()
+
+    @log
+    def _on_manager_changed(self, klass, value, data=None):
+        if value is not None:
+            self.props.manager.fill_in_values(self._model)
 
     @log
     def _row_activated(self, view, path, col):
         id_ = self._model[self._model.get_iter(path)][BaseModelColumns.ID]
 
-        self.emit('selection-changed', self._manager, id_)
-        self._manager.entry.emit('changed')
+        self.emit('selection-changed', self.props.manager, id_)
+        self.props.manager.entry.emit('changed')
 
     @log
     def _render_radio(self, col, cell, model, iter_):
         id_ = model[iter_][BaseModelColumns.ID]
-        cell.set_active(self._manager.active == id_)
+        cell.set_active(self.props.manager.active == id_)
 
     @classmethod
     @log
@@ -260,7 +265,8 @@ class DropDown(Gtk.Revealer):
     def initialize_filters(self, searchbar):
         self._source_manager = SourceManager(
             'source', _("Sources"), searchbar._search_entry)
-        _source_filter = FilterView(self._source_manager)
+        _source_filter = FilterView()
+        _source_filter.manager = self._source_manager
         _source_filter.connect('selection-changed', self._on_selection_changed)
         self._grid.add(_source_filter)
 
@@ -269,7 +275,8 @@ class DropDown(Gtk.Revealer):
 
         self.search_manager = BaseManager(
             'search', _("Match"), searchbar._search_entry)
-        self._search_filter = FilterView(self.search_manager)
+        self._search_filter = FilterView()
+        self._search_filter.manager = self.search_manager
         self._search_filter.connect(
             'selection-changed', self._on_selection_changed)
         self._grid.add(self._search_filter)
