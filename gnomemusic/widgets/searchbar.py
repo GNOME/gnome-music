@@ -154,6 +154,9 @@ class FilterView(Gtk.TreeView):
 
     __gtype_name__ = 'FilterView'
 
+    col = Gtk.Template.Child()
+    time = Gtk.Template.Child()
+
     __gsignals__ = {
         'selection-changed': (
             GObject.SignalFlags.RUN_FIRST, None, (GObject.GObject, str,)
@@ -177,28 +180,29 @@ class FilterView(Gtk.TreeView):
 
         self.set_model(self._model)
 
-        col = Gtk.TreeViewColumn()
-        self.append_column(col)
+        print(self.time, self.col)
+        # col = Gtk.TreeViewColumn()
+        self.append_column(self.col)
 
         self._head_renderer = Gtk.CellRendererText(
             weight=Pango.Weight.BOLD, weight_set=True)
-        col.pack_start(self._head_renderer, False)
-        col.add_attribute(
+        self.col.pack_start(self._head_renderer, False)
+        self.col.add_attribute(
             self._head_renderer, 'text', BaseModelColumns.HEADING_TEXT)
-        col.set_cell_data_func(
+        self.col.set_cell_data_func(
             self._head_renderer, self._head_visible, True)
 
         self._radio_renderer = Gtk.CellRendererToggle(
             radio=True, mode=Gtk.CellRendererMode.INERT)
-        col.pack_start(self._radio_renderer, False)
-        col.set_cell_data_func(
+        self.col.pack_start(self._radio_renderer, False)
+        self.col.set_cell_data_func(
             self._radio_renderer, self._head_visible,
             [False, self._render_radio])
 
         self._text_renderer = Gtk.CellRendererText()
-        col.pack_start(self._text_renderer, True)
-        col.add_attribute(self._text_renderer, 'text', BaseModelColumns.NAME)
-        col.set_cell_data_func(
+        self.col.pack_start(self._text_renderer, True)
+        self.col.add_attribute(self._text_renderer, 'text', BaseModelColumns.NAME)
+        self.col.set_cell_data_func(
             self._text_renderer, self._head_visible, False)
 
         self.connect('notify::manager', self._on_manager_changed)
@@ -254,6 +258,7 @@ class DropDown(Gtk.Revealer):
     @log
     def __init__(self):
         super().__init__()
+        print(self._grid)
 
         self._source_manager = None
         self.search_manager = None

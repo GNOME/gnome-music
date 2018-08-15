@@ -11,5 +11,17 @@
         <property name="mode">none</property>
       </object>
     </child>
+    <child>
+      <object class="GtkTreeViewColumn" id="col">
+        <property name="resizable">True</property>
+        <property name="sizing">autosize</property>
+        <property name="min_width">100</property>
+        <property name="title" translatable="yes">Time</property>
+        <property name="clickable">True</property>
+        <child>
+          <object class="GtkCellRendererText" id="time"/>
+        </child>
+      </object>
+    </child>
   </template>
 </interface>
