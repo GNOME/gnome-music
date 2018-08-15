@@ -232,29 +232,23 @@ class FilterView(Gtk.TreeView):
             additional_func(col, cell, model, _iter)
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/DropDown.ui")
 class DropDown(Gtk.Revealer):
+
+    __gtype_name__ = 'DropDown'
+
+    _grid = Gtk.Template.Child()
 
     def __repr__(self):
         return '<DropDown>'
 
     @log
     def __init__(self):
-        super().__init__(halign=Gtk.Align.CENTER, valign=Gtk.Align.START)
+        super().__init__()
 
         self._source_manager = None
         self.search_manager = None
         self._search_filter = None
-
-        self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-
-        frame = Gtk.Frame(shadow_type=Gtk.ShadowType.IN, opacity=0.9)
-        frame.get_style_context().add_class('documents-dropdown')
-        frame.add(self._grid)
-        frame.show_all()
-
-        self.add(frame)
-
-        self.show()
 
     @log
     def initialize_filters(self, searchbar):
