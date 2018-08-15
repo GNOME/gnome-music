@@ -157,15 +157,20 @@ class FilterView(Gtk.TreeView):
 
     __gtype_name__ = 'FilterView'
 
+    __gsignals__ = {
+        'selection-changed': (
+            GObject.SignalFlags.RUN_FIRST, None, (GObject.GObject, str,)
+        ),
+    }
+
     def __repr__(self):
         return '<FilterView>'
 
     @log
-    def __init__(self, manager, dropdown):
+    def __init__(self, manager):
         super().__init__()
 
         self._manager = manager
-        self._dropdown = dropdown
 
         self._model = Gtk.ListStore.new([
             GObject.TYPE_STRING,  # ID
@@ -211,7 +216,8 @@ class FilterView(Gtk.TreeView):
     @log
     def _row_activated(self, view, path, col):
         id_ = self._model[self._model.get_iter(path)][BaseModelColumns.ID]
-        self._dropdown.do_select(self._manager, id_)
+
+        self.emit('selection-changed', self._manager, id_)
         self._manager.entry.emit('changed')
 
     @log
@@ -263,7 +269,8 @@ class DropDown(Gtk.Revealer):
     def initialize_filters(self, searchbar):
         self._source_manager = SourceManager(
             'source', _("Sources"), searchbar._search_entry)
-        _source_filter = FilterView(self._source_manager, self)
+        _source_filter = FilterView(self._source_manager)
+        _source_filter.connect('selection-changed', self._on_selection_changed)
         self._grid.add(_source_filter)
 
         grilo.connect('new-source-added', self._source_manager.add_new_source)
@@ -271,7 +278,9 @@ class DropDown(Gtk.Revealer):
 
         self.search_manager = BaseManager(
             'search', _("Match"), searchbar._search_entry)
-        self._search_filter = FilterView(self.search_manager, self)
+        self._search_filter = FilterView(self.search_manager)
+        self._search_filter.connect(
+            'selection-changed', self._on_selection_changed)
         self._grid.add(self._search_filter)
 
         self._grid.show_all()
@@ -281,7 +290,7 @@ class DropDown(Gtk.Revealer):
         )
 
     @log
-    def do_select(self, manager, id_):
+    def _on_selection_changed(self, klass, manager, id_):
         manager.active = id_
         if manager == self._source_manager:
             self._search_filter.set_sensitive(id_ == 'grl-tracker-source')
