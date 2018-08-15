@@ -19,6 +19,11 @@
                 <property name="enable-search">False</property>
                 <property name="headers-visible">False</property>
                 <signal name="row-activated" handler="_on_row_activated"/>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection">
+                    <property name="mode">none</property>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
@@ -27,6 +32,11 @@
                 <property name="enable-search">False</property>
                 <property name="headers-visible">False</property>
                 <signal name="row-activated" handler="_on_row_activated"/>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection">
+                    <property name="mode">none</property>
+                  </object>
+                </child>
               </object>
             </child>
           </object>
