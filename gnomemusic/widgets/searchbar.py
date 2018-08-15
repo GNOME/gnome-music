@@ -176,7 +176,6 @@ class FilterView(Gtk.TreeView):
 
         self.set_model(self._model)
         self.get_selection().set_mode(Gtk.SelectionMode.NONE)
-        self.connect("row-activated", self._row_activated)
 
         col = Gtk.TreeViewColumn()
         self.append_column(col)
@@ -210,13 +209,6 @@ class FilterView(Gtk.TreeView):
     def _on_manager_changed(self, klass, value, data=None):
         if value is not None:
             self.props.manager.fill_in_values(self._model)
-
-    @log
-    def _row_activated(self, view, path, col):
-        id_ = self._model[self._model.get_iter(path)][BaseModelColumns.ID]
-
-        self.emit('selection-changed', self.props.manager, id_)
-        self.props.manager.entry.emit('changed')
 
     @log
     def _render_radio(self, col, cell, model, iter_):
@@ -289,6 +281,21 @@ class DropDown(Gtk.Revealer):
             self._search_filter.set_sensitive(id_ == 'grl-tracker-source')
             self.search_manager.active = (
                 'search_all' if id_ != 'grl-tracker-source' else '')
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_row_activated(self, filterview, path, col):
+        model = filterview.get_model()
+        id_ = model[model.get_iter(path)][BaseModelColumns.ID]
+
+        manager = filterview.props.manager
+        manager.active = id_
+        if manager == self._source_manager:
+            self._search_filter.set_sensitive(id_ == 'grl-tracker-source')
+            self.search_manager.active = (
+                'search_all' if id_ != 'grl-tracker-source' else '')
+
+        manager.entry.emit('changed')
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/Searchbar.ui")
