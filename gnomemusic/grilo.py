@@ -368,6 +368,10 @@ class Grilo(GObject.GObject):
 
     @log
     def get_album_art_for_item(self, item, callback):
+        # Tracker not (yet) loaded.
+        if self.search_source is None:
+            return
+
         item_id = item.get_id()
 
         if item.is_audio():
