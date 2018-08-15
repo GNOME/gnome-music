@@ -276,15 +276,14 @@ class DropDown(Gtk.Revealer):
         self._search_filter.connect(
             'selection-changed', self._on_selection_changed)
 
-        self._search_filter.set_sensitive(
-            self._source_manager.active == 'grl-tracker-source'
-        )
+        self._search_filter.props.sensitive = (
+            self._is_tracker(self._source_manager.props.active))
 
     @log
     def _on_selection_changed(self, klass, manager, id_):
         manager.active = id_
         if manager == self._source_manager:
-            self._search_filter.set_sensitive(id_ == 'grl-tracker-source')
+            self._search_filter.props.sensitive = self._is_tracker(id_)
             self.search_manager.active = (
                 'search_all' if id_ != 'grl-tracker-source' else '')
 
@@ -297,11 +296,16 @@ class DropDown(Gtk.Revealer):
         manager = filterview.props.manager
         manager.active = id_
         if manager == self._source_manager:
-            self._search_filter.set_sensitive(id_ == 'grl-tracker-source')
-            self.search_manager.active = (
-                'search_all' if id_ != 'grl-tracker-source' else '')
+            is_tracker = self._is_tracker(id_)
+            self._search_filter.props.sensitive = is_tracker
+            self.search_manager.props.active = (
+                'search_all' if not is_tracker else '')
 
         manager.entry.emit('changed')
+
+    @log
+    def _is_tracker(self, grilo_id):
+        return grilo_id == "grl-tracker-source"
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/Searchbar.ui")
