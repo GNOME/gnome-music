@@ -13,6 +13,20 @@
           <object class="GtkGrid" id="_grid">
             <property name="orientation">horizontal</property>
             <property name="visible">True</property>
+            <child>
+              <object class="FilterView" id="_source_filter">
+                <property name="activate-on-single-click">True</property>
+                <property name="enable-search">False</property>
+                <property name="headers-visible">False</property>
+              </object>
+            </child>
+            <child>
+              <object class="FilterView" id="_search_filter">
+                <property name="activate-on-single-click">True</property>
+                <property name="enable-search">False</property>
+                <property name="headers-visible">False</property>
+              </object>
+            </child>
           </object>
         </child>
       </object>

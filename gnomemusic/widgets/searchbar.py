@@ -174,9 +174,6 @@ class FilterView(Gtk.TreeView):
             GObject.TYPE_STRING,  # TEXT
         ])
 
-        self.set_activate_on_single_click(True)
-        self.set_headers_visible(False)
-        self.set_enable_search(False)
         self.set_model(self._model)
         self.get_selection().set_mode(Gtk.SelectionMode.NONE)
         self.connect("row-activated", self._row_activated)
@@ -249,6 +246,8 @@ class DropDown(Gtk.Revealer):
     __gtype_name__ = 'DropDown'
 
     _grid = Gtk.Template.Child()
+    _search_filter = Gtk.Template.Child()
+    _source_filter = Gtk.Template.Child()
 
     def __repr__(self):
         return '<DropDown>'
@@ -259,29 +258,25 @@ class DropDown(Gtk.Revealer):
 
         self._source_manager = None
         self.search_manager = None
-        self._search_filter = None
 
     @log
     def initialize_filters(self, searchbar):
         self._source_manager = SourceManager(
             'source', _("Sources"), searchbar._search_entry)
-        _source_filter = FilterView()
-        _source_filter.manager = self._source_manager
-        _source_filter.connect('selection-changed', self._on_selection_changed)
-        self._grid.add(_source_filter)
+
+        self._source_filter.props.manager = self._source_manager
+        self._source_filter.connect(
+            'selection-changed', self._on_selection_changed)
 
         grilo.connect('new-source-added', self._source_manager.add_new_source)
         grilo._find_sources()
 
         self.search_manager = BaseManager(
             'search', _("Match"), searchbar._search_entry)
-        self._search_filter = FilterView()
-        self._search_filter.manager = self.search_manager
+
+        self._search_filter.props.manager = self.search_manager
         self._search_filter.connect(
             'selection-changed', self._on_selection_changed)
-        self._grid.add(self._search_filter)
-
-        self._grid.show_all()
 
         self._search_filter.set_sensitive(
             self._source_manager.active == 'grl-tracker-source'
