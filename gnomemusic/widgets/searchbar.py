@@ -149,13 +149,21 @@ class SourceManager(BaseManager):
         grilo.search_source = src
 
 
-class FilterView(object):
+class FilterView(Gtk.TreeView):
+    """TreeView for search entry items
+
+    Shows a radio button with a title.
+    """
+
+    __gtype_name__ = 'FilterView'
 
     def __repr__(self):
         return '<FilterView>'
 
     @log
     def __init__(self, manager, dropdown):
+        super().__init__()
+
         self._manager = manager
         self._dropdown = dropdown
 
@@ -167,16 +175,15 @@ class FilterView(object):
 
         self._manager.fill_in_values(self._model)
 
-        self.view = Gtk.TreeView()
-        self.view.set_activate_on_single_click(True)
-        self.view.set_headers_visible(False)
-        self.view.set_enable_search(False)
-        self.view.set_model(self._model)
-        self.view.get_selection().set_mode(Gtk.SelectionMode.NONE)
-        self.view.connect("row-activated", self._row_activated)
+        self.set_activate_on_single_click(True)
+        self.set_headers_visible(False)
+        self.set_enable_search(False)
+        self.set_model(self._model)
+        self.get_selection().set_mode(Gtk.SelectionMode.NONE)
+        self.connect("row-activated", self._row_activated)
 
         col = Gtk.TreeViewColumn()
-        self.view.append_column(col)
+        self.append_column(col)
 
         self._head_renderer = Gtk.CellRendererText(
             weight=Pango.Weight.BOLD, weight_set=True)
@@ -199,7 +206,7 @@ class FilterView(object):
         col.set_cell_data_func(
             self._text_renderer, self._head_visible, False)
 
-        self.view.show()
+        self.show()
 
     @log
     def _row_activated(self, view, path, col):
@@ -258,7 +265,7 @@ class DropDown(Gtk.Revealer):
         self._source_manager = SourceManager(
             'source', _("Sources"), searchbar._search_entry)
         _source_filter = FilterView(self._source_manager, self)
-        self._grid.add(_source_filter.view)
+        self._grid.add(_source_filter)
 
         grilo.connect('new-source-added', self._source_manager.add_new_source)
         grilo._find_sources()
@@ -266,11 +273,11 @@ class DropDown(Gtk.Revealer):
         self.search_manager = BaseManager(
             'search', _("Match"), searchbar._search_entry)
         self._search_filter = FilterView(self.search_manager, self)
-        self._grid.add(self._search_filter.view)
+        self._grid.add(self._search_filter)
 
         self._grid.show_all()
 
-        self._search_filter.view.set_sensitive(
+        self._search_filter.set_sensitive(
             self._source_manager.active == 'grl-tracker-source'
         )
 
@@ -278,7 +285,7 @@ class DropDown(Gtk.Revealer):
     def do_select(self, manager, id_):
         manager.active = id_
         if manager == self._source_manager:
-            self._search_filter.view.set_sensitive(id_ == 'grl-tracker-source')
+            self._search_filter.set_sensitive(id_ == 'grl-tracker-source')
             self.search_manager.active = (
                 'search_all' if id_ != 'grl-tracker-source' else '')
 
