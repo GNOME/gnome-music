@@ -175,7 +175,6 @@ class FilterView(Gtk.TreeView):
         ])
 
         self.set_model(self._model)
-        self.get_selection().set_mode(Gtk.SelectionMode.NONE)
 
         col = Gtk.TreeViewColumn()
         self.append_column(col)
