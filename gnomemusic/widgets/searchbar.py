@@ -202,8 +202,6 @@ class FilterView(Gtk.TreeView):
 
         self.connect('notify::manager', self._on_manager_changed)
 
-        self.show()
-
     @log
     def _on_manager_changed(self, klass, value, data=None):
         if value is not None:
