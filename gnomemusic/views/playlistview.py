@@ -456,11 +456,11 @@ class PlaylistView(BaseView):
         :param playlists: playlists
         :param playlist_id: updated playlist's id
         """
-        self._star_handler.star_renderer_click = False
         for row in self._sidebar:
             playlist = row.playlist
             if (str(playlist_id) == playlist.get_id()
                     and self._is_current_playlist(playlist)):
+                self._star_handler.star_renderer_click = False
                 GLib.idle_add(self._on_playlist_activated, self._sidebar, row)
                 break
 
