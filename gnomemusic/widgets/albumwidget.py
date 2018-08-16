@@ -127,7 +127,7 @@ class AlbumWidget(Gtk.EventBox):
         art = ArtImage(Art.Size.LARGE, item)
         art.image = self._cover
 
-        GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
+        grilo.populate_album_songs(item, self.add_item)
 
         self._album = utils.get_album_title(item)
         self._artist_label.props.label = utils.get_artist_name(item)
