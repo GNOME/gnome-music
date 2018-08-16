@@ -110,8 +110,7 @@ class ArtistsView(BaseView):
         if widget:
             if self.player.playing_playlist('Artist', widget.props.artist):
                 self._artist_albums_widget = widget.get_parent()
-                GLib.idle_add(
-                    self._view.set_visible_child, self._artist_albums_widget)
+                self._view.set_visible_child(self._artist_albums_widget)
                 return
             elif widget.get_parent() == self._view:
                 return
@@ -132,7 +131,7 @@ class ArtistsView(BaseView):
 
         # Replace previous widget
         self._artist_albums_widget = new_artist_albums_widget
-        GLib.idle_add(self._view.set_visible_child, new_artist_albums_widget)
+        self._view.set_visible_child(new_artist_albums_widget)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
