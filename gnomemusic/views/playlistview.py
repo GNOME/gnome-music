@@ -577,6 +577,21 @@ class PlaylistView(BaseView):
             self._view.set_model(self.model)
             self._pl_ctrls.props.display_songs_count = True
 
+            pl_id = self._current_playlist.get_id()
+            if not self.player.playing_playlist(
+                    PlayerPlaylist.Type.PLAYLIST, pl_id):
+                return
+
+            itr_ = self.model.get_iter_first()
+            current_song_url = self.player.props.current_song.get_url()
+            for i, row in enumerate(self.model):
+                if row[5].get_url() == current_song_url:
+                    itr_ = self.model.get_iter_from_string(str(i))
+                    break
+
+            self.player.set_playlist(
+                PlayerPlaylist.Type.PLAYLIST, pl_id, self.model, itr_)
+
     @log
     def _add_song_to_model(self, song, model, index=-1):
         """Add song to a playlist
