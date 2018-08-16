@@ -42,8 +42,9 @@ playlists = Playlists.get_default()
 class Playback(IntEnum):
     """Playback status enumerator"""
     STOPPED = 0
-    PAUSED = 1
-    PLAYING = 2
+    LOADING = 1
+    PAUSED = 2
+    PLAYING = 3
 
 
 class GstPlayer(GObject.GObject):
@@ -224,6 +225,8 @@ class GstPlayer(GObject.GObject):
             self._player.set_state(Gst.State.PAUSED)
         if state == Playback.STOPPED:
             self._player.set_state(Gst.State.NULL)
+        if state == Playback.LOADING:
+            self._player.set_state(Gst.State.READY)
         if state == Playback.PLAYING:
             self._player.set_state(Gst.State.PLAYING)
 
