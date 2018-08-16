@@ -83,15 +83,10 @@ class InhibitSuspend(GObject.GObject):
 
     @log
     def _on_playback_status_changed(self, arguments):
-        if self._player.get_playback_status() == Playback.PLAYING:
+        if (self._player.get_playback_status() == Playback.PLAYING
+                or self._player.get_playback_status() == Playback.LOADING):
             self._inhibit_suspend()
 
-        # TODO: The additional check for has_next property is necessary
-        # since after a track is done, the player
-        # goes into STOPPED state before it goes back to PLAYING.
-        # To be simplified when the player's behavior is corrected.
-
         if (self._player.get_playback_status() == Playback.PAUSED
-                or (self._player.get_playback_status() == Playback.STOPPED
-                    and not self._player.props.has_next)):
+                or self._player.get_playback_status() == Playback.STOPPED):
             self._uninhibit_suspend()
