@@ -169,7 +169,7 @@ class SongsView(BaseView):
                 and not self.props.selection_mode):
             self.model.clear()
             self._offset = 0
-            GLib.idle_add(self.populate)
+            self.populate()
             grilo.changes_pending['Songs'] = False
 
     @log
@@ -273,7 +273,7 @@ class SongsView(BaseView):
         self._init = True
         if grilo.tracker:
             self._window.notifications_popup.push_loading()
-            GLib.idle_add(grilo.populate_songs, self._offset, self._add_item)
+            grilo.populate_songs(self._offset, self._add_item)
 
     @log
     def get_selected_songs(self, callback=None):
