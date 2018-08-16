@@ -244,6 +244,9 @@ class PlaylistView(BaseView):
 
     @log
     def _update_model(self, player, playlist, current_iter):
+        if self._current_playlist is None:
+            return
+
         if self._iter_to_clean:
             self._iter_to_clean_model[self._iter_to_clean][10] = False
         if not player.playing_playlist(
@@ -766,3 +769,4 @@ class PlaylistView(BaseView):
         """
         self._window.notifications_popup.push_loading()
         grilo.populate_playlists(self._offset, self._add_playlist_item)
+        self._init = True
