@@ -115,6 +115,8 @@ class SourceManager(BaseManager):
         self.values.append(['all', _("All"), ""])
         self.values.append(['grl-tracker-source', _("Local"), ''])
 
+        grilo.connect('new-source-added', self._add_new_source)
+
     @log
     def fill_in_values(self, model):
         self._model = model
@@ -127,11 +129,20 @@ class SourceManager(BaseManager):
             self, 'grl-tracker-source')
 
     @log
-    def add_new_source(self, klass, source):
+    def _add_new_source(self, klass, source):
         value = [source.get_id(), source.get_name(), '']
         iter_ = self._model.append()
         self._model[iter_][0, 1, 2] = value
         self.values.append(value)
+
+    @log
+    def add_sources(self):
+        """Add available Grilo sources
+
+        Adds available Grilo sources to the internal model.
+        """
+        for id_ in grilo.props.sources:
+            self._add_new_source(None, grilo.props.sources[id_])
 
     @GObject.Property
     def active(self):
@@ -276,8 +287,7 @@ class DropDown(Gtk.Revealer):
         self._source_filter.connect(
             'selection-changed', self._on_selection_changed)
 
-        grilo.connect('new-source-added', self._source_manager.add_new_source)
-        grilo._find_sources()
+        self._source_manager.add_sources()
 
         self.search_manager = BaseManager(
             'search', _("Match"), searchbar._search_entry)

@@ -42,6 +42,8 @@ logger = logging.getLogger(__name__)
 
 class Grilo(GObject.GObject):
 
+    __gtype_name__ = 'Grilo'
+
     __gsignals__ = {
         'ready': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'changes-pending': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -74,6 +76,8 @@ class Grilo(GObject.GObject):
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
 
+    sources = GObject.Property()
+
     def __repr__(self):
         return '<Grilo>'
 
@@ -95,7 +99,8 @@ class Grilo(GObject.GObject):
         self.full_options.set_resolution_flags(Grl.ResolutionFlags.FULL |
                                                Grl.ResolutionFlags.IDLE_RELAY)
 
-        self.sources = {}
+        self.props.sources = {}
+
         self.blacklist = [
             'grl-filesystem',
             'grl-bookmarks',
@@ -113,6 +118,8 @@ class Grilo(GObject.GObject):
 
         self.sparqltracker = TrackerWrapper().tracker
 
+        self._find_sources()
+
     @log
     def _find_sources(self):
         self.registry.connect('source_added', self._on_source_added)
@@ -125,6 +132,7 @@ class Grilo(GObject.GObject):
         if self.tracker is not None:
             logger.debug("tracker found")
 
+    @log
     def _rate_limited_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
         [self.pending_changed_medias.append(media) for media in changedMedias]
         if self.content_changed_timeout is None:
@@ -205,7 +213,7 @@ class Grilo(GObject.GObject):
             if id == 'grl-tracker-source':
                 if ops & Grl.SupportedOps.SEARCH:
                     logger.debug("found searchable tracker source")
-                    self.sources[id] = mediaSource
+                    self.props.sources[id] = mediaSource
                     self.tracker = mediaSource
                     self.search_source = mediaSource
 
@@ -218,13 +226,13 @@ class Grilo(GObject.GObject):
 
             elif (id.startswith('grl-upnp')):
                 logger.debug("found upnp source %s", id)
-                self.sources[id] = mediaSource
+                self.props.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
 
             elif (ops & Grl.SupportedOps.SEARCH
                   and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
                 logger.debug("source %s is searchable", id)
-                self.sources[id] = mediaSource
+                self.props.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
 
         except Exception as e:
@@ -273,7 +281,7 @@ class Grilo(GObject.GObject):
             self.populate_items(
                 Query.album_songs(album.get_id()), 0, callback, count)
         else:
-            source = self.sources[album.get_source()]
+            source = self.props.sources[album.get_source()]
             length = len(album.songs)
             for i, track in enumerate(album.songs):
                 callback(source, None, track, length - (i + 1), None)
@@ -361,10 +369,10 @@ class Grilo(GObject.GObject):
             self.search_source.search(q, self.METADATA_KEYS, options,
                                       _search_callback, data)
         else:
-            Grl.multiple_search([self.sources[key] for key in self.sources
-                                 if key != 'grl-tracker-source'],
-                                q, self.METADATA_KEYS, options,
-                                _multiple_search_callback, data)
+            Grl.multiple_search(
+                [self.props.sources[key] for key in self.props.sources
+                 if key != 'grl-tracker-source'], q,
+                 self.METADATA_KEYS, options, _multiple_search_callback, data)
 
     @log
     def get_album_art_for_item(self, item, callback):
