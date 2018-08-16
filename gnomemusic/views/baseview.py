@@ -124,6 +124,7 @@ class BaseView(Gtk.Stack):
         if (self._header_bar.props.stack.props.visible_child == self
                 and not self._init):
             self._populate()
+
         self._header_bar.props.stack.connect(
             'notify::visible-child', self._on_headerbar_visible)
 

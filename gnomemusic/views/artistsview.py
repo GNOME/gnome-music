@@ -93,7 +93,7 @@ class ArtistsView(BaseView):
                 and not self.props.selection_mode):
             self._artists.clear()
             self._offset = 0
-            GLib.idle_add(self._populate)
+            self._populate()
             grilo.changes_pending['Artists'] = False
 
     @log
@@ -170,6 +170,7 @@ class ArtistsView(BaseView):
         """Populates the view"""
         self._window.notifications_popup.push_loading()
         grilo.populate_artists(self._offset, self._add_item)
+        self._init = True
 
     @log
     def _on_sidebar_clicked(self, widget, event):

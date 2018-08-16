@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -51,13 +51,12 @@ class AlbumsView(BaseView):
         self.all_items = []
         self.items_selected = []
         self.items_selected_callback = None
-        self._init = True
 
     @log
     def _on_changes_pending(self, data=None):
         if (self._init and not self._header_bar.selection_mode):
             self._offset = 0
-            GLib.idle_add(self.populate)
+            self.populate()
             grilo.changes_pending['Albums'] = False
 
     @log
@@ -108,6 +107,7 @@ class AlbumsView(BaseView):
     def populate(self):
         self._window.notifications_popup.push_loading()
         grilo.populate_albums(self._offset, self._add_item)
+        self._init = True
 
     @log
     def get_selected_songs(self, callback):
