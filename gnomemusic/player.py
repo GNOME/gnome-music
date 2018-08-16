@@ -128,7 +128,8 @@ class PlayerPlaylist(GObject.GObject):
         # Playlist is the same. Check that the requested song is valid.
         # If not, try to get the next valid one
         if (playlist_type == self._type
-                and playlist_id == self._id):
+                and playlist_id == self._id
+                and len(self._songs) == len(model)):
             if not self._current_song_is_valid():
                 self.next()
             else:
