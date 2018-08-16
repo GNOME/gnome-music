@@ -251,6 +251,9 @@ class PlaylistView(BaseView):
         :param Player player: The main player object
         :param int position: current song position
         """
+        if self._current_playlist is None:
+            return
+
         if self._iter_to_clean:
             self._iter_to_clean_model[self._iter_to_clean][10] = False
         if not player.playing_playlist(
@@ -312,6 +315,9 @@ class PlaylistView(BaseView):
 
     @log
     def _on_song_validated(self, player, index, status):
+        if self._current_playlist is None:
+            return
+
         if not self.player.playing_playlist(
                 PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
             return
@@ -781,3 +787,4 @@ class PlaylistView(BaseView):
         """
         self._window.notifications_popup.push_loading()
         grilo.populate_playlists(self._offset, self._add_playlist_item)
+        self._init = True

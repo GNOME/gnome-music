@@ -244,7 +244,6 @@ class Window(Gtk.ApplicationWindow):
                 self._stack.add_titled(i, i.name, i.title)
             else:
                 self._stack.add_named(i, i.name)
-            GLib.idle_add(i.populate)
 
         self._stack.set_visible_child(self.views[View.ALBUM])
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
