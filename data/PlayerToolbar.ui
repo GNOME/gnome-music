@@ -118,7 +118,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkBox" id="nowplaying">
+      <object class="GtkBox" id="_song_info_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">center</property>
@@ -136,7 +136,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="nowplaying_labels">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">center</property>
@@ -204,7 +204,7 @@
       </object>
     </child>
     <child>
-      <object class="GtkBox" id="timer">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="halign">start</property>
@@ -225,7 +225,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="separator">
+          <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="halign">start</property>

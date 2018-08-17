@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -48,16 +48,17 @@ class PlayerToolbar(Gtk.ActionBar):
     __gtype_name__ = 'PlayerToolbar'
 
     _artist_label = Gtk.Template.Child()
+    _cover_stack = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
-    _pause_image = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
+    _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
     _play_image = Gtk.Template.Child()
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
     _repeat_image = Gtk.Template.Child()
-    _cover_stack = Gtk.Template.Child()
+    _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
     def __repr__(self):
@@ -171,8 +172,15 @@ class PlayerToolbar(Gtk.ActionBar):
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
 
-        self._artist_label.set_label(utils.get_artist_name(current_song))
-        self._title_label.set_label(utils.get_media_title(current_song))
+        title = GLib.markup_escape_text(utils.get_media_title(current_song))
+        self._title_label.set_markup(title)
+
+        artist = GLib.markup_escape_text(utils.get_artist_name(current_song))
+        self._artist_label.set_markup(artist)
+
+        tooltip = "<span font_weight='bold'>" + title + "</span>\n" + artist
+        self._song_info_box.props.tooltip_markup = tooltip
+
         self._cover_stack.update(current_song)
 
     @log
