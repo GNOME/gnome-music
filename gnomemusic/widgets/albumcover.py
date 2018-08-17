@@ -68,8 +68,14 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._media = media
 
-        self._artist_label.props.label = utils.get_artist_name(media)
-        self._title_label.props.label = utils.get_media_title(media)
+        artist = GLib.markup_escape_text(utils.get_artist_name(media))
+        self._artist_label.set_markup(artist)
+
+        title = GLib.markup_escape_text(utils.get_media_title(media))
+        self._title_label.set_markup(title)
+
+        tooltip = "<span font_weight='bold'>" + title + "</span>\n" + artist
+        self.props.tooltip_markup = tooltip
 
         self.bind_property(
             'selected', self._check, 'active',
