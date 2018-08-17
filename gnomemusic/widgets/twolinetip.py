@@ -27,35 +27,27 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/SidebarRow.ui')
-class SidebarRow(Gtk.ListBoxRow):
-    """Row for sidebars
+@Gtk.Template(resource_path='/org/gnome/Music/TwoLineTip.ui')
+class TwoLineTip(Gtk.Box):
+    """Tooltip with two lines of text
 
-    Contains a label and an optional checkbox.
+    A bolded title and a regular subtitle.
     """
 
-    __gtype_name__ = 'SidebarRow'
+    __gtype_name__ = 'TwoLineTip'
 
-    _check = Gtk.Template.Child()
-    _label = Gtk.Template.Child()
-    _revealer = Gtk.Template.Child()
+    _title_label = Gtk.Template.Child()
+    _subtitle_label = Gtk.Template.Child()
 
-    selected = GObject.Property(type=bool, default=False)
-    selection_mode = GObject.Property(type=bool, default=False)
-    text = GObject.Property(type=str, default='')
+    title = GObject.Property(type=str)
+    subtitle = GObject.Property(type=str)
 
     def __repr__(self):
-        return '<SidebarRow>'
+        return '<TwoLineTip>'
 
     @log
     def __init__(self):
         super().__init__()
 
-        self.bind_property(
-            'selected', self._check, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL)
-        self.bind_property('selection-mode', self._revealer, 'reveal-child')
-        self.bind_property('text', self._label, 'label')
-        self.bind_property('text', self._label, 'tooltip-text')
-
-        self.show()
+        self.bind_property('title', self._title_label, 'label')
+        self.bind_property('subtitle', self._subtitle_label, 'label')

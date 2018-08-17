@@ -96,6 +96,7 @@ class SongWidget(Gtk.EventBox):
         title = utils.get_media_title(media)
         self._title_label.set_max_width_chars(50)
         self._title_label.set_text(title)
+        self._title_label.props.tooltip_text = title
 
         time = utils.seconds_to_string(media.get_duration())
         self._duration_label.set_text(time)
