@@ -31,6 +31,7 @@ from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatMode
 from gnomemusic.widgets.coverstack import CoverStack  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
+from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
 
 
@@ -48,16 +49,17 @@ class PlayerToolbar(Gtk.ActionBar):
     __gtype_name__ = 'PlayerToolbar'
 
     _artist_label = Gtk.Template.Child()
+    _cover_stack = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
-    _pause_image = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
+    _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
     _play_image = Gtk.Template.Child()
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
     _repeat_image = Gtk.Template.Child()
-    _cover_stack = Gtk.Template.Child()
+    _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
     def __repr__(self):
@@ -73,6 +75,8 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._cover_stack.props.size = Art.Size.XSMALL
         self._cover_stack.connect('updated', self._on_cover_stack_updated)
+
+        self._tooltip = TwoLineTip()
 
         self._sync_repeat_image()
 
@@ -171,10 +175,24 @@ class PlayerToolbar(Gtk.ActionBar):
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
 
-        self._artist_label.set_label(utils.get_artist_name(current_song))
-        self._title_label.set_label(utils.get_media_title(current_song))
+        artist = utils.get_artist_name(current_song)
+        title = utils.get_media_title(current_song)
+
+        self._title_label.props.label = title
+        self._artist_label.props.label = artist
+
+        self._tooltip.props.title = title
+        self._tooltip.props.subtitle = artist
+
         self._cover_stack.update(current_song)
 
     @log
     def _on_clock_tick(self, player, seconds):
         self._progress_time_label.set_label(utils.seconds_to_string(seconds))
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
+        tooltip.set_custom(self._tooltip)
+
+        return True

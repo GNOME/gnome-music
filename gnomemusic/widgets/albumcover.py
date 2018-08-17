@@ -29,6 +29,7 @@ from gi.repository import Gdk, GLib, GObject, Grl, Gtk
 from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.albumartcache import Art
+from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/AlbumCover.ui')
@@ -68,8 +69,16 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._media = media
 
-        self._artist_label.props.label = utils.get_artist_name(media)
-        self._title_label.props.label = utils.get_media_title(media)
+        self._tooltip = TwoLineTip()
+
+        artist = utils.get_artist_name(media)
+        title = utils.get_media_title(media)
+
+        self._tooltip.props.title = utils.get_artist_name(media)
+        self._tooltip.props.subtitle = utils.get_media_title(media)
+
+        self._artist_label.props.label = artist
+        self._title_label.props.label = title
 
         self.bind_property(
             'selected', self._check, 'active',
@@ -78,6 +87,8 @@ class AlbumCover(Gtk.FlowBoxChild):
         self.bind_property(
             'selection-mode', self._check, 'visible',
             GObject.BindingFlags.BIDIRECTIONAL)
+
+        self.connect('query-tooltip', self._on_tooltip_query)
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
@@ -113,3 +124,10 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         if self.props.selection_mode:
             self.props.selected = not self.props.selected
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
+        tooltip.set_custom(self._tooltip)
+
+        return True
