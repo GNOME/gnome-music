@@ -35,12 +35,12 @@ box#ArtistAlbumsWidget .artist-label {
 }
 
 /* PlayerToolbar */
-.player-artist-label {
+.player-title-label {
     font-weight: bold;
     font-size: smaller;
 }
 
-.player-title-label {
+.player-artist-label {
     font-size: smaller;
 }
 
