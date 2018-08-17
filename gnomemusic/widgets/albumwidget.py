@@ -129,8 +129,14 @@ class AlbumWidget(Gtk.EventBox):
         art.image = self._cover
 
         self._album = utils.get_album_title(item)
-        self._artist_label.props.label = utils.get_artist_name(item)
+        artist = utils.get_artist_name(item)
+
         self._title_label.props.label = self._album
+        self._title_label.props.tooltip_text = self._album
+
+        self._artist_label.props.label = artist
+        self._artist_label.props.tooltip_text = artist
+
 
         year = utils.get_media_year(item)
         if not year:
