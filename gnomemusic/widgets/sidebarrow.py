@@ -56,5 +56,6 @@ class SidebarRow(Gtk.ListBoxRow):
             GObject.BindingFlags.BIDIRECTIONAL)
         self.bind_property('selection-mode', self._revealer, 'reveal-child')
         self.bind_property('text', self._label, 'label')
+        self.bind_property('text', self._label, 'tooltip-text')
 
         self.show()
