@@ -28,6 +28,8 @@
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
+
+from gnomemusic.musicbrainz import MusicBrainz
 from gnomemusic.query import Query
 from gnomemusic import log
 from gnomemusic.trackerwrapper import TrackerWrapper
@@ -134,6 +136,8 @@ class Grilo(GObject.GObject):
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
+
+        self._musicbrainz = MusicBrainz(self)
 
         self._find_sources()
 
@@ -539,6 +543,10 @@ class Grilo(GObject.GObject):
 
         self.tracker_sparql.query_async(
             Query.all_songs_count(), None, songs_query_cb, None)
+
+    @log
+    def get_tags_from_musicbrainz(self, media, callback):
+        return self._musicbrainz.get_song_tags(media, callback)
 
 
 grilo = Grilo()
