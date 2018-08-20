@@ -49,6 +49,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchbar import Searchbar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
+from gnomemusic.widgets.tageditordialog import TagEditorDialog
 from gnomemusic.windowplacement import WindowPlacement
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
@@ -122,7 +123,7 @@ class Window(Gtk.ApplicationWindow):
         self._searchbar = Searchbar()
         self._player = Player(self)
         self._player_toolbar = PlayerToolbar(self._player, self)
-        selection_toolbar = SelectionToolbar()
+        selection_toolbar = SelectionToolbar(self)
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -178,6 +179,7 @@ class Window(Gtk.ApplicationWindow):
             'toggled', self._on_search_toggled)
         selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
+        selection_toolbar.connect('edit-details', self._on_edit_tags)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
@@ -503,6 +505,24 @@ class Window(Gtk.ApplicationWindow):
                     playlist_dialog.get_selected(), selected_songs)
             self.props.selection_mode = False
             playlist_dialog.destroy()
+
+        self._stack.get_visible_child().get_selected_songs(callback)
+
+    @log
+    def _on_edit_tags(self, widget):
+        if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
+            return
+
+        def callback(selected_songs):
+            if len(selected_songs) < 1:
+                return
+
+            tags_editor_dialog = TagEditorDialog(self, selected_songs[0])
+            if tags_editor_dialog.run() == Gtk.ResponseType.ACCEPT:
+                return
+
+            self.props.selection_mode = False
+            tags_editor_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)
 
