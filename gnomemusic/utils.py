@@ -175,4 +175,4 @@ fields = {
     'title': get_media_title,
     'track': get_media_track_nr,
     'year': get_media_year
-    }
+}
