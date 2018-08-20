@@ -24,6 +24,7 @@
     <file preprocess="xml-stripblanks">ui/SelectionToolbar.ui</file>
     <file preprocess="xml-stripblanks">ui/SidebarRow.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
+    <file preprocess="xml-stripblanks">ui/TagEditorDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
   </gresource>
 </gresources>
