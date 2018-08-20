@@ -353,7 +353,7 @@ class MPRIS(DBusInterface):
             'xesam:albumArtist': GLib.Variant('as', [artist])
         }
 
-        genre = media.get_genre()
+        genre = utils.get_media_genre(media)
         if genre is not None:
             metadata['xesam:genre'] = GLib.Variant('as', [genre])
 
@@ -362,9 +362,9 @@ class MPRIS(DBusInterface):
             last_played_str = last_played.format("%FT%T%:z")
             metadata['xesam:lastUsed'] = GLib.Variant('s', last_played_str)
 
-        track_nr = media.get_track_number()
-        if track_nr > 0:
-            metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
+        track_nr = utils.get_media_track_nr(media)
+        if track_nr:
+            metadata['xesam:trackNumber'] = GLib.Variant('i', int(track_nr))
 
         # If the media has already been part of an MPRIS playlist, its
         # thumbnail is already set. Otherwise, try to look for it in the

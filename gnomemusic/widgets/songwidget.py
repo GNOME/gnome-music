@@ -88,10 +88,8 @@ class SongWidget(Gtk.EventBox):
         self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
 
-        song_number = media.get_track_number()
-        if song_number == 0:
-            song_number = ""
-        self._number_label.set_text(str(song_number))
+        song_number = utils.get_media_track_nr(media)
+        self._number_label.props.label = song_number
 
         title = utils.get_media_title(media)
         self._title_label.set_max_width_chars(50)
