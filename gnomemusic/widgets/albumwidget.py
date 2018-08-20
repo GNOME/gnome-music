@@ -149,7 +149,7 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _set_composer_label(self, album):
-        composer = album.get_composer()
+        composer = utils.get_composer(album)
         show = False
 
         if composer:
@@ -217,7 +217,7 @@ class AlbumWidget(Gtk.EventBox):
         if remaining == 0:
             discs = {}
             for song in self._songs:
-                disc_nr = song.get_album_disc_number()
+                disc_nr = utils.get_album_disc_nr(song)
                 if disc_nr not in discs.keys():
                     discs[disc_nr] = [song]
                 else:
