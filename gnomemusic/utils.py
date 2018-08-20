@@ -56,6 +56,19 @@ def get_album_title(item):
     return album
 
 
+def get_album_disc_nr(item):
+    """Returns the album song number associated with the media item
+
+    :param Grl.Media item: song
+    :return: The album title
+    :rtype: string
+    """
+    track_number = item.get_album_disc_number()
+    if track_number == 0:
+        track_number = ""
+    return str(track_number)
+
+
 def get_artist_name(item):
     """Returns the preferred artist for a media item.
 
@@ -73,6 +86,43 @@ def get_artist_name(item):
     return (item.get_album_artist()
             or item.get_artist()
             or _("Unknown Artist"))
+
+
+def get_composer_name(item):
+    """Returns the composer for a media item.
+
+    :param Grl.Media item: song
+    :return: The artist name
+    :rtype: string
+    """
+
+    return (item.get_composer()
+            or None)
+
+
+def get_media_genre(item):
+    """Returns the title of the media item.
+
+    :param item: A Grilo Media object
+    :return: The title
+    :rtype:
+    """
+
+    return (item.get_genre()
+            or None)
+
+
+def get_media_track_nr(item):
+    """Returns the title of the media item.
+
+    :param item: A Grilo Media object
+    :return: The title
+    :rtype:
+    """
+    track_number = item.get_track_number()
+    if track_number == 0:
+        return ""
+    return str(track_number)
 
 
 def get_media_title(item):
