@@ -281,7 +281,7 @@ class MediaPlayer2Service(Server):
             pass
 
         try:
-            trackNumber = media.get_track_number()
+            trackNumber = utils.get_media_track_nr(media)
             assert trackNumber is not None
             metadata['xesam:trackNumber'] = GLib.Variant('i', trackNumber)
         except:
@@ -317,7 +317,7 @@ class MediaPlayer2Service(Server):
         metadata['xesam:albumArtist'] = GLib.Variant('as', [artist])
 
         try:
-            genre = media.get_genre()
+            genre = utils.get_media_genre(media)
             assert genre is not None
             metadata['xesam:genre'] = GLib.Variant('as', genre)
         except:
