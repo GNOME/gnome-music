@@ -55,15 +55,24 @@ class DBusInterface:
                 object_path=path, interface_info=interface,
                 method_call_closure=self.on_method_call)
 
-        self.method_inargs = method_inargs
-        self.method_outargs = method_outargs
+        self._method_inargs = method_inargs
+        self._method_outargs = method_outargs
 
     def on_method_call(
         self, connection, sender, object_path, interface_name, method_name,
             parameters, invocation):
+        """GObject.Closure to handle incoming method calls.
 
+        :param Gio.DBusConnection connection: D-Bus connection
+        :param str sender: bus name that invoked the method
+        :param srt object_path: object path the method was invoked on
+        :param str interface_name: name of the D-Bus interface
+        :param str method_name: name of the method that was invoked
+        :param GLib.Variant parameters: parameters of the method invocation
+        :param Gio.DBusMethodInvocation invocation: invocation
+        """
         args = list(parameters.unpack())
-        for i, sig in enumerate(self.method_inargs[method_name]):
+        for i, sig in enumerate(self._method_inargs[method_name]):
             if sig is 'h':
                 msg = invocation.get_message()
                 fd_list = msg.get_unix_fd_list()
@@ -77,7 +86,7 @@ class DBusInterface:
         # https://bugzilla.gnome.org/show_bug.cgi?id=765603
         result = (result,)
 
-        out_args = self.method_outargs[method_name]
+        out_args = self._method_outargs[method_name]
         if out_args != '()':
             variant = GLib.Variant(out_args, result)
             invocation.return_value(variant)
