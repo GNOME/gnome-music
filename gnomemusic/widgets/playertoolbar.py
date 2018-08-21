@@ -169,8 +169,10 @@ class PlayerToolbar(Gtk.ActionBar):
         :param int position: current song position
         """
         current_song = player.props.current_song
-        self._duration_label.set_label(
-            utils.seconds_to_string(current_song.get_duration()))
+        duration = player._player.props.duration
+        if duration is not None:
+            self._duration_label.set_label(
+                utils.seconds_to_string(int(duration)))
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
