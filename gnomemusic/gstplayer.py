@@ -30,7 +30,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
+from gi.repository import Gtk, Gio, GLib, GObject, Gst, GstAudio, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.playlists import Playlists
@@ -53,8 +53,9 @@ class GstPlayer(GObject.GObject):
     Handles GStreamer interaction for Player and SmoothScale.
     """
     __gsignals__ = {
-        'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, )),
+        'eos': (GObject.SignalFlags.RUN_FIRST, None, (bool, )),
+        'stream-start': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __repr__(self):
@@ -67,6 +68,7 @@ class GstPlayer(GObject.GObject):
         Gst.init(None)
 
         self._duration = -1.
+        self._tick = 0
 
         self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
@@ -88,6 +90,9 @@ class GstPlayer(GObject.GObject):
         self._bus.connect(
             'message::duration-changed', self._on_duration_changed)
         self._bus.connect('message::new-clock', self._on_new_clock)
+        self._bus.connect('message::stream-start', self._on_stream_start)
+
+        self._player.connect('about-to-finish', self._on_about_to_finish)
 
         self._previous_state = Playback.STOPPED
         self.props.state = Playback.STOPPED
@@ -118,6 +123,11 @@ class GstPlayer(GObject.GObject):
             return
 
     @log
+    def _on_about_to_finish(self, klass, data=None):
+        print("about to finish")
+        self.emit('eos', True)
+
+    @log
     def _on_replaygain_setting_changed(self, settings, value):
         if value:
             self._player.set_property("audio-filter", self._filter_bin)
@@ -132,13 +142,14 @@ class GstPlayer(GObject.GObject):
 
         # TODO: Workaround the first duration change not being emitted
         # and hence smoothscale not being initialized properly.
-        if self.props.duration == -1.:
-            self._on_duration_changed(None, None)
+        # if self.props.duration == -1.:
+        #     self._on_duration_changed(None, None)
 
     @log
     def _on_clock_tick(self, clock, time, id, data):
-        tick = time / Gst.SECOND
-        self.emit('clock-tick', tick)
+        self.emit('clock-tick', self._tick)
+        print("TICK", self._tick)
+        self._tick += 1
 
     @log
     def _on_bus_state_changed(self, bus, message):
@@ -186,12 +197,26 @@ class GstPlayer(GObject.GObject):
                 message.src.get_name(), error.message))
         logger.warning("Debugging info:\n{}".format(debug))
 
-        self.emit('eos')
+        self.emit('eos', False)
         return True
 
     @log
     def _on_bus_eos(self, bus, message):
-        self.emit('eos')
+        print("bus eos")
+        self.emit('eos', False)
+
+    @log
+    def _on_stream_start(self, bus, message):
+        print("stream start")
+
+        def delayed_query(bus, message):
+            self._on_duration_changed(None, None)
+            self._tick = 0
+            self.emit('stream-start')
+
+            return False
+
+        GLib.timeout_add(1, delayed_query, bus, message)
 
     @log
     def _get_playback_status(self):
@@ -311,6 +336,7 @@ class GstPlayer(GObject.GObject):
 
         :param float seconds: Position in seconds to seek
         """
+        print("seek", seconds)
         # FIXME: seek should be signalled to MPRIS
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
