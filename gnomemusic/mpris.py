@@ -23,16 +23,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
+
+from gi.repository import Gio, GLib
+
+from gnomemusic import log
+from gnomemusic.grilo import grilo
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
-from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 
-from gi.repository import GLib
-from gi.repository import Gio
-from gnomemusic import log
-import logging
 logger = logging.getLogger(__name__)
 
 
