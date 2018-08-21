@@ -1,5 +1,4 @@
-# Copyright (c) 2013 Arnel A. Borja <kyoushuu@yahoo.com>
-# Copyright (c) 2013 Vadim Rutkovsky <vrutkovs@redhat.com>
+# Copyright 2019 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
