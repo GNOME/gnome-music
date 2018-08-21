@@ -583,6 +583,8 @@ class Player(GObject.GObject):
         self._gst_player = GstPlayer()
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
+        self._gst_player.connect('stream-start', self._on_stream_start)
+
         self._gst_player.bind_property(
             'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
         self._gst_player.bind_property(
@@ -635,15 +637,22 @@ class Player(GObject.GObject):
         self.emit('song-changed', self._playlist.get_current_index())
 
     @log
-    def _on_eos(self, klass):
-        def on_glib_idle():
-            self._playlist.next()
-            self.play()
+    def _on_eos(self, klass, gapless=False):
+        print("eos, gapless:", gapless)
 
         if self.props.has_next:
-            GLib.idle_add(on_glib_idle)
+            self._playlist.next()
+            if gapless:
+                new_url = self._playlist.props.current_song.get_url()
+                self._gst_player.props.url = new_url
+            else:
+                GLib.idle_add(self.play)
         else:
-            self.stop()
+            GLib.idle_add(self.stop)
+
+    @log
+    def _on_stream_start(self, klass):
+        self.emit('song-changed', self._playlist.get_current_index())
 
     @log
     def play(self, song_offset=None):

@@ -48,6 +48,7 @@ class SmoothScale(Gtk.Scale):
         super().__init__()
 
         self._player = None
+        self._previous_duration = -1
         self._old_smooth_scale_value = 0.0
 
         self._seek_timeout = None
@@ -112,10 +113,16 @@ class SmoothScale(Gtk.Scale):
     @log
     def _on_duration_changed(self, klass, arguments):
         duration = self._player.props.duration
+        print("duration changed", duration)
 
-        if duration != -1.:
+        if (duration != -1
+                and duration != self._previous_duration):
+            print("RESET SCALE")
+            self._previous_duration = duration
             self.set_range(0.0, duration * 60)
             self.set_increments(300, 600)
+            self.set_value(0)
+            self._on_button_pressed(None, None, None, None)
 
     @log
     def _on_smooth_scale_seek_finish(self, value):
