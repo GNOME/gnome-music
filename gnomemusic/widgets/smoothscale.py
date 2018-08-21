@@ -110,10 +110,13 @@ class SmoothScale(Gtk.Scale):
     @log
     def _on_duration_changed(self, klass, arguments):
         duration = self._player.props.duration
+        print("duration changed", duration)
 
         if duration != -1.:
             self.set_range(0.0, duration * 60)
             self.set_increments(300, 600)
+            self.set_value(0)
+            self._on_smooth_scale_event(None, None)
 
     @log
     def _on_smooth_scale_seek_finish(self, value):
