@@ -1,13 +1,3 @@
-@binding-set unbind-ctrl-space {
-    unbind "<ctrl>space";
-}
-
-/* Use widget for libgd classes, since they aren't updated
-   to gtk+-3.20 css naming yet. */
-flowbox, treeview, widget {
-    -gtk-key-bindings: unbind-ctrl-space;
-}
-
 .discsongsflowbox > flowboxchild {
     padding: 0px;
 }
