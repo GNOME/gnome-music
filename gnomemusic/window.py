@@ -313,15 +313,6 @@ class Window(Gtk.ApplicationWindow):
                     self.player.props.repeat_mode = RepeatMode.NONE
                 else:
                     self.player.props.repeat_mode = RepeatMode.SHUFFLE
-            # Headerbar switching
-            if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
-                self._toggle_view(View.ALBUM)
-            if keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
-                self._toggle_view(View.ARTIST)
-            if keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
-                self._toggle_view(View.SONG)
-            if keyval in [Gdk.KEY_4, Gdk.KEY_KP_4]:
-                self._toggle_view(View.PLAYLIST)
         # Ctrl+Shift+<KEY>
         elif modifiers == shift_ctrl_mask:
             if keyval == Gdk.KEY_A:
@@ -331,6 +322,15 @@ class Window(Gtk.ApplicationWindow):
             # Go back from Album view on Alt + Left
             if keyval == Gdk.KEY_Left:
                 self.headerbar._on_back_button_clicked()
+            # Headerbar switching
+            if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
+                self._toggle_view(View.ALBUM)
+            if keyval in [Gdk.KEY_2, Gdk.KEY_KP_2]:
+                self._toggle_view(View.ARTIST)
+            if keyval in [Gdk.KEY_3, Gdk.KEY_KP_3]:
+                self._toggle_view(View.SONG)
+            if keyval in [Gdk.KEY_4, Gdk.KEY_KP_4]:
+                self._toggle_view(View.PLAYLIST)
         # No modifier
         else:
             if (keyval == Gdk.KEY_AudioPlay
