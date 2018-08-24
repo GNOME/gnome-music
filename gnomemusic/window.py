@@ -422,7 +422,14 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _toggle_view(self, view_enum):
-        self._stack.set_visible_child(self.views[view_enum])
+        # TODO: The SEARCH state actually refers to the child state of
+        # the search mode. This fixes the behaviour as needed, but is
+        # incorrect: searchview currently does not switch states
+        # correctly.
+        if (not self.headerbar.props.selection_mode
+                and not self.headerbar.props.state == HeaderBar.State.CHILD
+                and not self.headerbar.props.state == HeaderBar.State.SEARCH):
+            self._stack.set_visible_child(self.views[view_enum])
 
     @log
     def _on_search_toggled(self, button, data=None):
