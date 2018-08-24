@@ -128,3 +128,8 @@ box#ArtistAlbumsWidget .artist-label {
 headerbar {
     transition: 250ms ease-in-out;
 }
+
+/* TwoLineTip */
+.tooltip-title {
+  font-weight: bold;
+}

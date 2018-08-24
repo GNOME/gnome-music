@@ -6,8 +6,10 @@
       <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="has_tooltip">True</property>
         <property name="valign">start</property>
         <property name="orientation">vertical</property>
+        <signal name="query-tooltip" handler="_on_tooltip_query"/>
         <child>
           <object class="GtkOverlay">
             <property name="visible">True</property>
@@ -49,7 +51,6 @@
             <property name="ellipsize">middle</property>
             <property name="max_width_chars">20</property>
             <property name="lines">2</property>
-            <property name="tooltip_text" bind-source="_title_label" bind-property="label" bind-flags="default" />
           </object>
         </child>
         <child>
@@ -58,7 +59,6 @@
             <property name="can_focus">False</property>
             <property name="ellipsize">middle</property>
             <property name="max_width_chars">20</property>
-            <property name="tooltip_text" bind-source="_artist_label" bind-property="label" bind-flags="default" />
             <style>
               <class name="albumcover-artist-label"/>
               <class name="dim-label"/>
