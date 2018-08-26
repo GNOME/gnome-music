@@ -183,18 +183,6 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(self.selection_toolbar, False, False, 0)
         self.add(self._box)
 
-        def songs_available_cb(available):
-            if available:
-                self._switch_to_player_view()
-            else:
-                self._switch_to_empty_view()
-
-        Query()
-        if Query.music_folder:
-            grilo.songs_available(songs_available_cb)
-        else:
-            self._switch_to_empty_view()
-
         self.headerbar._search_button.connect(
             'toggled', self._on_search_toggled)
         self.headerbar.connect(
@@ -208,6 +196,18 @@ class Window(Gtk.ApplicationWindow):
         self.player_toolbar.show_all()
         self._box.show()
         self.show()
+
+        def songs_available_cb(available):
+            if available:
+                self._switch_to_player_view()
+            else:
+                self._switch_to_empty_view()
+
+        Query()
+        if Query.music_folder:
+            grilo.songs_available(songs_available_cb)
+        else:
+            self._switch_to_empty_view()
 
     @log
     def _switch_to_empty_view(self):
@@ -229,6 +229,26 @@ class Window(Gtk.ApplicationWindow):
         self._key_press_event_id = self.connect(
             'key_press_event', self._on_key_press)
 
+        # FIXME: In case Grilo is already initialized before the views
+        # get created, they never receive a 'ready' signal to trigger
+        # population. To fix this another check was added to baseview
+        # to populate if grilo is ready at the end of init. For this to
+        # work however, the headerbar stack needs to be created and
+        # populated. This is done below, by binding headerbar.stack to
+        # to window._stack. For this to succeed, the stack needs to be
+        # filled with something: Gtk.Box.
+        # This is a bit of circular logic that needs to be fixed.
+        self.views[View.ALBUM] = Gtk.Box()
+        self.views[View.ARTIST] = Gtk.Box()
+        self.views[View.SONG] = Gtk.Box()
+        self.views[View.PLAYLIST] = Gtk.Box()
+        self.views[View.SEARCH] = Gtk.Box()
+
+        self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
+        self.headerbar.props.state = HeaderBar.State.MAIN
+        self.headerbar.props.stack = self._stack
+        self.headerbar.searchbar.show()
+
         self.views[View.ALBUM] = AlbumsView(self, self.player)
         self.views[View.ARTIST] = ArtistsView(self, self.player)
         self.views[View.SONG] = SongsView(self, self.player)
@@ -246,10 +266,6 @@ class Window(Gtk.ApplicationWindow):
                 self._stack.add_named(i, i.name)
 
         self._stack.set_visible_child(self.views[View.ALBUM])
-        self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
-        self.headerbar.props.state = HeaderBar.State.MAIN
-        self.headerbar.props.stack = self._stack
-        self.headerbar.searchbar.show()
 
     @log
     def _select_all(self, action=None, param=None):
