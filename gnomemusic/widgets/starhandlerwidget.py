@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2018 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,9 +50,6 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
                       GObject.ParamFlags.READWRITE)
     }
 
-    star_icon = 'starred-symbolic'
-    non_star_icon = 'non-starred-symbolic'
-
     def __repr__(self):
         return '<CellRendererClickablePixbuf>'
 
@@ -61,14 +58,45 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
 
         self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
         self.set_property('xpad', 32)
-        self.set_property('icon_name', '')
+
+        _, width, height = Gtk.IconSize.lookup(Gtk.IconSize.SMALL_TOOLBAR)
+
+        self._icon_width = width
+        self._icon_height = height
 
         self._show_star = 0
 
-    def do_activate(self, event, widget, path, background_area, cell_area,
-                    flags):
+    def do_render(self, ctx, widget, bg_area, cell_area, flags):
+        style_ctx = widget.get_style_context()
+        style_ctx.save()
+        style_ctx.add_class('star')
+
+        if self.props.show_star == 1:
+            style_ctx.set_state(Gtk.StateFlags.SELECTED)
+        else:
+            style_ctx.set_state(Gtk.StateFlags.NORMAL)
+
+        y = cell_area.y + ((cell_area.height - self._icon_height) / 2)
+        x = cell_area.x + ((cell_area.width - self._icon_width) / 2)
+
+        Gtk.render_background(
+            style_ctx, ctx, x, y, self._icon_width, self._icon_height)
+
+        style_ctx.restore()
+
+    def do_get_preferred_width(self, widget):
+        width = self._icon_width + self.props.xpad * 2
+
+        return (width, width)
+
+    def do_get_preferred_height(self, widget):
+        height = self._icon_height + self.props.ypad * 2
+
+        return (height, height)
+
+    def do_activate(
+            self, event, widget, path, background_area, cell_area, flags):
         """Activate event for the cellrenderer"""
-        self._show_star = 0
         self.emit('clicked', path)
 
     def do_get_property(self, property):
@@ -80,11 +108,11 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
         """PyGI property setters"""
         if property.name == 'show-star':
             if self._show_star == 1:
-                self.set_property('icon_name', self.star_icon)
+                self.props.visible = True
             elif self._show_star == 0:
-                self.set_property('icon_name', self.non_star_icon)
+                self.props.visible = True
             else:
-                self.set_property('icon_name', '')
+                self.props.visible = False
             self._show_star = value
 
 
