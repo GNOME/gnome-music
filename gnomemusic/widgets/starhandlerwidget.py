@@ -31,7 +31,7 @@ from gnomemusic.playlists import Playlists, StaticPlaylists
 playlists = Playlists.get_default()
 
 
-class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
+class CellRendererStar(Gtk.CellRendererPixbuf):
     """Starwidget cellrenderer implementation"""
 
     __gsignals__ = {
@@ -39,7 +39,7 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
     }
 
     def __repr__(self):
-        return '<CellRendererClickablePixbuf>'
+        return '<CellRendererStar>'
 
     def __init__(self):
         super().__init__()
@@ -128,7 +128,7 @@ class StarHandlerWidget(object):
 
         :param col: GtkTreeViewColumn to use
         """
-        star_renderer = CellRendererClickablePixbuf()
+        star_renderer = CellRendererStar()
         star_renderer.connect("clicked", self._on_star_toggled)
 
         col.pack_start(star_renderer, False)
