@@ -110,6 +110,10 @@ class BaseView(Gtk.Stack):
             'selection-mode', self._header_bar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
+        if (grilo.tracker is not None
+                and self._init == False):
+            self._on_grilo_ready()
+
     @log
     def _on_changes_pending(self, data=None):
         pass
