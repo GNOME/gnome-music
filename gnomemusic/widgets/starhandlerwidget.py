@@ -35,19 +35,7 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
     """Starwidget cellrenderer implementation"""
 
     __gsignals__ = {
-        'clicked': (GObject.SignalFlags.RUN_LAST,
-                    GObject.TYPE_NONE,
-                    (GObject.TYPE_STRING,))
-    }
-
-    __gproperties__ = {
-        'show_star': (GObject.TYPE_INT,
-                      'Show star',
-                      'show star',
-                      0,
-                      2,
-                      1,
-                      GObject.ParamFlags.READWRITE)
+        'clicked': (GObject.SignalFlags.RUN_LAST, None, (str,))
     }
 
     def __repr__(self):
@@ -56,8 +44,8 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
     def __init__(self):
         super().__init__()
 
-        self.set_property('mode', Gtk.CellRendererMode.ACTIVATABLE)
-        self.set_property('xpad', 32)
+        self.props.mode = Gtk.CellRendererMode.ACTIVATABLE
+        self.props.xpad = 32
 
         _, width, height = Gtk.IconSize.lookup(Gtk.IconSize.SMALL_TOOLBAR)
 
@@ -94,26 +82,27 @@ class CellRendererClickablePixbuf(Gtk.CellRendererPixbuf):
 
         return (height, height)
 
-    def do_activate(
-            self, event, widget, path, background_area, cell_area, flags):
+    def do_activate(self, event, widget, path, bg_area, cell_area, flags):
         """Activate event for the cellrenderer"""
         self.emit('clicked', path)
 
-    def do_get_property(self, property):
-        """PyGI property getters"""
-        if property.name == 'show-star':
-            return self._show_star
+    @GObject.Property(type=int, default=0, minimum=0, maximum=2)
+    def show_star(self):
+        return self._show_star
 
-    def do_set_property(self, property, value):
-        """PyGI property setters"""
-        if property.name == 'show-star':
-            if self._show_star == 1:
-                self.props.visible = True
-            elif self._show_star == 0:
-                self.props.visible = True
-            else:
-                self.props.visible = False
-            self._show_star = value
+    @show_star.setter
+    def show_star(self, value):
+        """Set the show-star value
+
+        :param int value: Possible values: 0 = not selected,
+        1 = selected, 2 = do not show.
+        """
+        self._show_star = value
+
+        if value == 2:
+            self.props.visible = False
+        else:
+            self.props.visible = True
 
 
 class StarHandlerWidget(object):
