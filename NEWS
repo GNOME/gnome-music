@@ -1,3 +1,44 @@
+Overview of changes in 3.29.92
+==============================
+
+* Make static playlists more reliable
+* Populate views on demand (improves startup)
+* Fix player toolbar song/artist order
+* Switch view navigation from <Ctrl> to <Alt>
+* Add tooltips in more places
+* Style treeview stars
+* Lots of cleanups and reliability fixes
+
+Bugs fixed:
+ Fix Flatpak delayed loading (!239)
+ Style treeview stars with CSS (!238)
+ Use alt instead of ctrl for navigating tabs (#198)
+ Do not allow view switching in all modes (!237)
+ Introduce loading state (!233)
+ grilo: Fix crash when Tracker is not (yet) loaded (!230)
+ Populate views when opened (!232)
+ views: Fix now-playing icon display (#203)
+ On last play done, first song gets notified (#60)
+ Shuffle shouldn't replay songs (#154)
+ playlistview: improvements and bugfixes (!227,!229)
+ meson: Do not add version suffix on default build (!228)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Swedish
+ Friulian
+ Brazilian Portuguese
+ Finnish
+ Icelandic
+ Romanian
+ Kazakh
+ Korean
+ Indonesian
+ Italian
+
 Overview of changes in 3.29.91
 ==============================
 
