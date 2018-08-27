@@ -43,12 +43,14 @@ logger = logging.getLogger(__name__)
 
 
 @log
-def _make_icon_frame(pixbuf, art_size=None, scale=1):
+def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     border = 3
     degrees = pi / 180
     radius = 3
 
-    ratio = pixbuf.get_height() / pixbuf.get_width()
+    icon_w = icon_surface.get_width()
+    icon_h = icon_surface.get_height()
+    ratio = icon_h / icon_w
 
     # Scale down the image according to the biggest axis
     if ratio > 1:
@@ -70,7 +72,7 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
     ctx.arc(radius, radius, radius - 0.5, 180 * degrees, 270 * degrees)
     ctx.close_path()
     ctx.set_line_width(0.6)
-    ctx.set_source_rgb(0.2, 0.2, 0.2)
+    ctx.set_source_rgba(0, 0, 0, 0.7)
     ctx.stroke_preserve()
 
     # fill the center
@@ -78,12 +80,18 @@ def _make_icon_frame(pixbuf, art_size=None, scale=1):
     ctx.fill()
 
     matrix = cairo.Matrix()
-    matrix.scale(pixbuf.get_width() / (w - border * 2),
-                 pixbuf.get_height() / (h - border * 2))
+
+    if default_icon:
+        matrix.translate(-w * (1 / 3), -h * (1 / 3))
+        ctx.set_operator(cairo.Operator.DIFFERENCE)
+    else:
+        matrix.scale(
+            icon_w / ((w - border * 2) * scale),
+            icon_h / ((h - border * 2) * scale))
+
     matrix.translate(-border, -border)
 
-    # paste the scaled pixbuf in the center
-    Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 0, 0)
+    ctx.set_source_surface(icon_surface, 0, 0)
     pattern = ctx.get_source()
     pattern.set_matrix(matrix)
     ctx.rectangle(border, border, w - border * 2, h - border * 2)
@@ -100,6 +108,7 @@ class DefaultIcon(GObject.GObject):
         MUSIC = 'folder-music-symbolic'
 
     _cache = {}
+    _default_theme = Gtk.IconTheme.get_default()
 
     def __repr__(self):
         return '<DefaultIcon>'
@@ -110,32 +119,11 @@ class DefaultIcon(GObject.GObject):
 
     @log
     def _make_default_icon(self, icon_type, art_size, scale):
-        width = art_size.width * scale
-        height = art_size.height * scale
+        icon_info = self._default_theme.lookup_icon_for_scale(
+            icon_type.value, art_size.width / 3, scale, 0)
+        icon = icon_info.load_surface()
 
-        # TODO: Load icon async.
-        default_theme = Gtk.IconTheme.get_default()
-        icon_info = default_theme.lookup_icon_for_scale(
-            icon_type.value, max(art_size.width, art_size.height), scale, 0)
-        icon = icon_info.load_icon()
-
-        result = GdkPixbuf.Pixbuf.new(
-            icon.get_colorspace(), True, icon.get_bits_per_sample(), width,
-            height)
-        result.fill(0xffffffff)
-
-        icon_scale = 0.33
-
-        def icon_offset(x):
-            return int((x / 2) - (x * icon_scale * 0.5))
-
-        icon.composite(
-            result, icon_offset(width), icon_offset(height),
-            width * icon_scale, height * icon_scale, icon_offset(width),
-            icon_offset(height), icon_scale, icon_scale,
-            GdkPixbuf.InterpType.HYPER, 0x77)
-
-        icon_surface = _make_icon_frame(result, art_size, scale)
+        icon_surface = _make_icon_frame(icon, art_size, scale, True)
 
         return icon_surface
 
@@ -222,7 +210,9 @@ class Art(GObject.GObject):
 
     @log
     def _cache_hit(self, klass, pixbuf):
-        surface = _make_icon_frame(pixbuf, self._size, self._scale)
+        surface = Gdk.cairo_surface_create_from_pixbuf(
+            pixbuf, self._scale, None)
+        surface = _make_icon_frame(surface, self._size, self._scale)
         self._surface = surface
         self._set_grilo_thumbnail_path()
 
