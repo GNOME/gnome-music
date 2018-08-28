@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gio, GLib
+from gi.repository import GObject, Gio, GLib, Gtk
 
 from gnomemusic import log
 
@@ -79,12 +79,14 @@ class MediaKeys(GObject.GObject):
                 "Error: Failed to contact settings daemon:", e.message)
             return
 
-        self._grab_media_player_keys()
         self._media_keys_proxy.connect("g-signal", self._handle_media_keys)
-        self._window.connect("focus-in-event", self._grab_media_player_keys)
+
+        self._ctrlr = Gtk.EventControllerKey().new(self._window)
+        self._ctrlr.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._ctrlr.connect("focus-in", self._grab_media_player_keys)
 
     @log
-    def _grab_media_player_keys(self, window=None, event=None):
+    def _grab_media_player_keys(self, controller=None, data=None):
         def proxy_call_finished(proxy, result, data=None):
             try:
                 proxy.call_finish(result)
