@@ -217,6 +217,12 @@ class Window(Gtk.ApplicationWindow):
         self._key_press_event_id = self.connect(
             'key_press_event', self._on_key_press)
 
+        self._btn_ctrl = Gtk.GestureMultiPress().new(self)
+        self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        # Mouse button 8 is the back button.
+        self._btn_ctrl.props.button = 8
+        self._btn_ctrl.connect("pressed", self._on_back_button_pressed)
+
         # FIXME: In case Grilo is already initialized before the views
         # get created, they never receive a 'ready' signal to trigger
         # population. To fix this another check was added to baseview
@@ -384,15 +390,8 @@ class Window(Gtk.ApplicationWindow):
             self._searchbar.reveal(True)
 
     @log
-    def do_button_release_event(self, event):
-        """Override default button release event
-
-        :param Gdk.EventButton event: Button event
-        """
-        __, code = event.get_button()
-        # Mouse button 8 is the navigation button
-        if code == 8:
-            self._switch_back_from_childview()
+    def _on_back_button_pressed(self, gesture, n_press, x, y, data=None):
+        self.headerbar._on_back_button_clicked()
 
     @log
     def _notify_mode_disconnect(self, data=None):
