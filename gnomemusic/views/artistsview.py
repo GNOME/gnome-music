@@ -68,7 +68,11 @@ class ArtistsView(BaseView):
         sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
-        self._sidebar.connect('button-release-event', self._on_sidebar_clicked)
+
+        self._ctrl = Gtk.GestureMultiPress().new(self._sidebar)
+        self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._ctrl.props.button = Gdk.BUTTON_PRIMARY
+        self._ctrl.connect("released", self._on_sidebar_clicked)
 
         self.show_all()
         self._sidebar.hide()
@@ -172,9 +176,10 @@ class ArtistsView(BaseView):
         self._init = True
 
     @log
-    def _on_sidebar_clicked(self, widget, event):
+    def _on_sidebar_clicked(self, gesture, n_press, x, y, data=None):
+        success, state = Gtk.get_current_event_state()
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        if ((state & modifiers) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self._on_selection_mode_request()
 
