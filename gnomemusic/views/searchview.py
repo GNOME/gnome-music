@@ -94,7 +94,10 @@ class SearchView(BaseView):
         self._view.get_style_context().add_class('content-view')
         self._view.get_selection().props.mode = Gtk.SelectionMode.NONE
         self._view.connect('row-activated', self._on_item_activated)
-        self._view.connect('button-release-event', self._on_view_clicked)
+
+        self._ctrl = Gtk.GestureMultiPress().new(self._view)
+        self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._ctrl.connect("released", self._on_view_clicked)
 
         view_container.add(self._view)
 
@@ -174,21 +177,17 @@ class SearchView(BaseView):
                 self._view.expand_row(path, False)
 
     @log
-    def _on_view_clicked(self, treeview, event):
-        """Ctrl+click on self._view triggers selection mode.
-
-        :param Gtk.TreeView treeview: self._view
-        :param Gdk.EventButton event: clicked event
-        """
+    def _on_view_clicked(self, gesture, n_press, x, y, data=None):
+        """Ctrl+click on self._view triggers selection mode."""
+        _, state = Gtk.get_current_event_state()
         modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.state & modifiers) == Gdk.ModifierType.CONTROL_MASK
+        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
             self._on_selection_mode_request()
 
         if (self.selection_mode
                 and not self._star_handler.star_renderer_click):
-            path, col, cell_x, cell_y = treeview.get_path_at_pos(
-                event.x, event.y)
+            path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
             iter_ = self.model.get_iter(path)
             self.model[iter_][6] = not self.model[iter_][6]
             selected_iters = self._get_selected_iters()
