@@ -328,7 +328,7 @@ class Grilo(GObject.GObject):
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
         try:
-            self.tracker.store_metadata_sync(
+            GLib.idle_add(self.tracker.store_metadata_sync,
                 song_item, [Grl.METADATA_KEY_FAVOURITE], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
@@ -420,7 +420,7 @@ class Grilo(GObject.GObject):
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
         try:
-            self.tracker.store_metadata_sync(
+            GLib.idle_add(self.tracker.store_metadata_sync,
                 media, [Grl.METADATA_KEY_PLAY_COUNT], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
@@ -436,7 +436,7 @@ class Grilo(GObject.GObject):
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
         try:
-            self.tracker.store_metadata_sync(
+            GLib.idle_add(self.tracker.store_metadata_sync,
                 media, [Grl.METADATA_KEY_LAST_PLAYED], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
