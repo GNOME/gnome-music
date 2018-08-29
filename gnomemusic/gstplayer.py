@@ -68,7 +68,7 @@ class GstPlayer(GObject.GObject):
         Gst.init(None)
 
         self._duration = None
-
+        self._tick = 0
         self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
 
@@ -140,13 +140,14 @@ class GstPlayer(GObject.GObject):
 
         # TODO: Workaround the first duration change not being emitted
         # and hence smoothscale not being initialized properly.
-        if self.duration is None:
-            self._on_duration_changed(None, None)
+        # if self.duration is None:
+        #     self._on_duration_changed(None, None)
 
     @log
     def _on_clock_tick(self, clock, time, id, data):
-        tick = time / Gst.SECOND
-        self.emit('clock-tick', tick)
+        self.emit('clock-tick', self._tick)
+        print("TICK", self._tick)
+        self._tick += 1
 
     @log
     def _on_bus_state_changed(self, bus, message):
@@ -206,6 +207,7 @@ class GstPlayer(GObject.GObject):
 
         def delayed_query(bus, message):
             self._on_duration_changed(None, None)
+            self._tick = 0
             self.emit('stream-start')
 
             return False
