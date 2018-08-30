@@ -1,0 +1,135 @@
+@binding-set unbind-ctrl-space {
+    unbind "<ctrl>space";
+}
+
+/* Use widget for libgd classes, since they aren't updated
+   to gtk+-3.20 css naming yet. */
+flowbox, treeview, widget {
+    -gtk-key-bindings: unbind-ctrl-space;
+}
+
+.discsongsflowbox > flowboxchild {
+    padding: 0px;
+}
+
+/* AlbumCover */
+.albumcover-artist-label {
+    font-size: smaller;
+}
+
+/* AlbumWidget */
+.title-artist {
+    font-size: larger;
+    font-weight: bold;
+}
+
+/* ArtistAlbumsWidget */
+box#ArtistAlbumsWidget .artist-label {
+    font-weight: bold;
+}
+
+/* NoMusic */
+.no-music-found-label {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+/* PlayerToolbar */
+.player-title-label {
+    font-weight: bold;
+    font-size: smaller;
+}
+
+.player-artist-label {
+    font-size: smaller;
+}
+
+/* PlaylistControls */
+.playlist-name-label {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+/* ArtistAlbumWidget */
+.album-cover {
+    padding-left:24px;
+}
+
+.album-title {
+    padding-left:24px;
+    font-weight: bold;
+}
+
+.songs-list {
+    box-shadow: inset 0 -1px shade(@borders, 1.30);
+    background-color: @theme_bg_color;
+}
+
+.songs-list:selected {
+    color: shade(@theme_fg_color, 0.0);
+    border-color: mix(@theme_fg_color, @theme_bg_color, 0.5);
+}
+
+/* We use background-image as a workaround on the StarImage widget to
+   enable transitions between the non-starred and starred icons. */
+.star {
+    background-image: -gtk-icontheme('non-starred-symbolic');
+    color: shade(@theme_bg_color, 0.8);
+    transition: 100ms linear;
+}
+
+.star:hover {
+    color: shade(@theme_bg_color, 0.5);
+}
+
+.star:selected {
+    background-image: -gtk-icontheme('starred-symbolic');
+    color: @theme_selected_bg_color;
+    transition: 100ms linear;
+}
+
+.content-view { background-color: @theme_bg; }
+
+.grey-image {
+    color: alpha(@theme_fg_color, 0.3);
+}
+
+/* Used in AlbumWidget and ArtistAlbumsWidget */
+.playing-song-label {
+    font-weight: bold;
+}
+
+/* visual hint for development */
+.devel headerbar {
+    background: transparent -gtk-icontheme("system-run-symbolic") 80% 0/128px 128px no-repeat,
+                linear-gradient(to left,
+                                mix(@theme_fg_color, @theme_bg_color, 0.5) 0%,
+                                @theme_bg_color 25%);
+    color: alpha(@theme_fg_color, 0.2);
+}
+
+.devel headerbar label {
+    color: @theme_fg_color;
+}
+
+.devel headerbar.selection-mode {
+    background: transparent -gtk-icontheme("system-run-symbolic") 80% 0/128px 128px no-repeat,
+                linear-gradient(to left,
+                                @theme_selected_bg_color 0%,
+                                @theme_selected_bg_color 25%);
+    color: alpha(@theme_fg_color, 0.2);
+}
+
+.devel headerbar.selection-mode label {
+    color: @theme_selected_fg_color;
+}
+
+/* headerbar - smooth selection-mode transition */
+headerbar {
+    transition: 250ms ease-in-out;
+}
+
+/* TwoLineTip */
+.tooltip-title {
+  font-weight: bold;
+}
