@@ -103,11 +103,7 @@ class BaseView(Gtk.Stack):
         grilo.connect('changes-pending', self._on_changes_pending)
 
         self.bind_property(
-            'selection-mode', self._selection_toolbar, 'visible',
-            GObject.BindingFlags.SYNC_CREATE)
-
-        self.bind_property(
-            'selection-mode', self._header_bar, 'selection-mode',
+            'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
         if (grilo.tracker is not None
