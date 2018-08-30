@@ -66,10 +66,10 @@ class PlayerToolbar(Gtk.ActionBar):
         return '<PlayerToolbar>'
 
     @log
-    def __init__(self, player, headerbar):
+    def __init__(self, player, main_window):
         super().__init__()
 
-        self._headerbar = headerbar
+        self._main_window = main_window
         self._player = player
         self._progress_scale.player = self._player.get_gst_player()
 
@@ -80,8 +80,6 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._sync_repeat_image()
 
-        self._headerbar.connect(
-            'notify::selection-mode', self._on_selection_mode_changed)
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('song-changed', self._update_view)
         self._player.connect('prev-next-invalidated', self._sync_prev_next)
@@ -119,13 +117,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.next()
 
     @log
-    def _on_selection_mode_changed(self, headerbar, selection_mode):
-        if self._headerbar.props.selection_mode:
-            self.hide()
-        elif self._player.props.playing:
-            self.show()
-
-    @log
     def _sync_repeat_image(self, player=None):
         icon = None
         if self._player.props.repeat_mode == RepeatMode.NONE:
@@ -141,7 +132,7 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @log
     def _sync_playing(self, player):
-        if not self._headerbar.props.selection_mode:
+        if not self._main_window.props.selection_mode:
             self.show()
 
         if self._player.get_playback_status() == Playback.PLAYING:
