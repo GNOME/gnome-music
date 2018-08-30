@@ -575,12 +575,11 @@ class Player(GObject.GObject):
     def _on_eos(self, klass, gapless=False):
         print("eos, gapless:", gapless)
         def on_glib_idle():
-            self._playlist.next()
             self.play()
 
         if self.props.has_next:
+            self._playlist.next()
             if gapless:
-                self._playlist.next()
                 new_url = self._playlist.props.current_song.get_url()
                 self._player.props.url = new_url
             else:
