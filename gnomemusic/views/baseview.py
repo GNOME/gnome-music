@@ -196,11 +196,3 @@ class BaseView(Gtk.Stack):
         self._set_selection(False)
         self._selection_toolbar.props.items_selected = 0
         self._header_bar.props.items_selected = 0
-
-    @log
-    def set_player_visible(self, visible):
-        """Set PlayWidget action visibility
-
-        :param bool visible: Set actionbar visibility
-        """
-        self._window.player_toolbar.set_visible(visible)
