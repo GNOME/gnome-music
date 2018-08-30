@@ -32,7 +32,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.query import Query
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/EmptyView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
 class EmptyView(Gtk.Stack):
     """Empty view when there is no music to display
 
@@ -102,7 +102,7 @@ class EmptyView(Gtk.Stack):
         self._main_label.props.label = _("Hey DJ")
         self._main_label.props.margin_bottom = 18
 
-        self._icon.props.resource = "/org/gnome/Music/initial-state.png"
+        self._icon.props.resource = "/org/gnome/Music/icons/initial-state.png"
         self._icon.props.margin_bottom = 32
         self._icon.props.height_request = Art.Size.LARGE.height
         self._icon.props.width_request = Art.Size.LARGE.width

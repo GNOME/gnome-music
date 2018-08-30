@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.12 -->
+  <template class="SelectionToolbar" parent="GtkActionBar">
+    <property name="visible">False</property>
+    <property name="can_focus">False</property>
+    <child>
+      <object class="GtkButton" id="_add_to_playlist_button">
+        <property name="label" translatable="yes">_Add to Playlist</property>
+        <property name="use_underline">True</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <signal name="clicked" handler="_on_add_to_playlist_button_clicked" swapped="no"/>
+        <style>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
+  </template>
+</interface>

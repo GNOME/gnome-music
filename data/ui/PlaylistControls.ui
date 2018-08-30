@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <!-- interface-requires gtk+ 3.12 -->
+  <menu id="playlistMenu">
+    <item>
+      <attribute name="label" translatable="yes">_Play</attribute>
+      <attribute name="action">win.playlist_play</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Delete</attribute>
+      <attribute name="action">win.playlist_delete</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">_Rename…</attribute>
+      <attribute name="action">win.playlist_rename</attribute>
+    </item>
+  </menu>
+  <template class="PlaylistControls" parent="GtkGrid">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_start">18</property>
+    <property name="margin_end">24</property>
+    <property name="margin_top">18</property>
+    <property name="margin_bottom">18</property>
+    <child>
+      <object class="GtkStack" id="_name_stack">
+        <child>
+          <object class="GtkLabel" id="_name_label">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="hexpand">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">Playlist Name</property>
+            <property name="ellipsize">middle</property>
+            <style>
+              <class name="playlist-name-label"/>
+            </style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">horizontal</property>
+            <style>
+              <class name="linked"/>
+            </style>
+            <child>
+              <object class="GtkEntry" id="_rename_entry">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="is_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="activate" handler="_on_playlist_renamed" swapped="no"/>
+                <signal name="changed" handler="_on_rename_entry_changed" swapped="no"/>
+                <signal name="key-press-event" handler="_on_rename_entry_key_pressed" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkButton" id="_rename_done_button">
+                <property name="visible">True</property>
+                <property name="no_show_all">True</property>
+                <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="label" translatable="yes">_Done</property>
+                <property name="use_underline">True</property>
+                <property name="valign">center</property>
+                <property name="sensitive">True</property>
+                <signal name="clicked" handler="_on_playlist_renamed" swapped="no" />
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="name">renaming_dialog</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="_songs_count_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="xalign">0</property>
+        <property name="label">3 Songs</property>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+      <packing>
+        <property name="left_attach">0</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkMenuButton" id="_menubutton">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="halign">end</property>
+        <property name="valign">center</property>
+        <property name="focus_on_click">False</property>
+        <property name="menu-model">playlistMenu</property>
+        <property name="direction">none</property>
+        <property name="use_popover">True</property>
+        <style>
+          <class name="image-button"/>
+          <class name="circular"/>
+        </style>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">0</property>
+        <property name="width">1</property>
+        <property name="height">2</property>
+      </packing>
+    </child>
+  </template>
+</interface>

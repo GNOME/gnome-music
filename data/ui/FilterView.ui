@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="FilterView" parent="GtkTreeView">
+    <property name="activate-on-single-click">True</property>
+    <property name="enable-search">False</property>
+    <property name="headers-visible">False</property>
+    <property name="visible">True</property>
+    <signal name="row-activated" handler="_on_row_activated"/>
+    <child internal-child="selection">
+      <object class="GtkTreeSelection">
+        <property name="mode">none</property>
+      </object>
+    </child>
+  </template>
+</interface>

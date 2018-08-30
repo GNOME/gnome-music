@@ -82,7 +82,7 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         self.props.min_children_per_line = max_per_line
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/DiscBox.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
 class DiscBox(Gtk.Box):
     """A widget which compromises one disc
 

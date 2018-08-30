@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="DropDown" parent="GtkRevealer">
+    <property name="halign">center</property>
+    <property name="valign">start</property>
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkFrame">
+        <property name="opacity">0.9</property>
+        <property name="shadow-type">in</property>
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkGrid" id="_grid">
+            <property name="orientation">horizontal</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="FilterView" id="_source_filter">
+              </object>
+            </child>
+            <child>
+              <object class="FilterView" id="_search_filter">
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
