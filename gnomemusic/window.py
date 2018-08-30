@@ -151,7 +151,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.headerbar = HeaderBar()
+        self._headerbar = HeaderBar()
         self.player = Player(self)
         self.player_toolbar = PlayerToolbar(self.player, self)
         self.selection_toolbar = SelectionToolbar()
@@ -165,7 +165,7 @@ class Window(Gtk.ApplicationWindow):
 
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         self.bind_property(
-            'selection-mode', self.headerbar, 'selection-mode',
+            'selection-mode', self._headerbar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -185,21 +185,21 @@ class Window(Gtk.ApplicationWindow):
         self._overlay = Gtk.Overlay()
         self._overlay.add(self._stack)
         # FIXME: Need to find a proper way to do this.
-        self._overlay.add_overlay(self.headerbar.searchbar._dropdown)
-        self.set_titlebar(self.headerbar)
-        self._box.pack_start(self.headerbar.searchbar, False, False, 0)
+        self._overlay.add_overlay(self._headerbar.searchbar._dropdown)
+        self.set_titlebar(self._headerbar)
+        self._box.pack_start(self._headerbar.searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self.player_toolbar, False, False, 0)
         self._box.pack_start(self.selection_toolbar, False, False, 0)
         self.add(self._box)
 
-        self.headerbar._search_button.connect(
+        self._headerbar._search_button.connect(
             'toggled', self._on_search_toggled)
         self.selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
 
-        self.headerbar.props.state = HeaderBar.State.MAIN
-        self.headerbar.show()
+        self._headerbar.props.state = HeaderBar.State.MAIN
+        self._headerbar.show()
         self._overlay.show()
         self.player_toolbar.show_all()
         self._box.show()
@@ -226,7 +226,7 @@ class Window(Gtk.ApplicationWindow):
         else:
             self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
 
-        self.headerbar.props.state = HeaderBar.State.EMPTY
+        self._headerbar.props.state = HeaderBar.State.EMPTY
 
     @log
     def _switch_to_player_view(self):
@@ -253,9 +253,9 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.SEARCH] = Gtk.Box()
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
-        self.headerbar.props.state = HeaderBar.State.MAIN
-        self.headerbar.props.stack = self._stack
-        self.headerbar.searchbar.show()
+        self._headerbar.props.state = HeaderBar.State.MAIN
+        self._headerbar.props.stack = self._stack
+        self._headerbar.searchbar.show()
 
         self.views[View.ALBUM] = AlbumsView(self, self.player)
         self.views[View.ARTIST] = ArtistsView(self, self.player)
@@ -279,7 +279,7 @@ class Window(Gtk.ApplicationWindow):
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
-        if self.headerbar.props.state == HeaderBar.State.MAIN:
+        if self._headerbar.props.state == HeaderBar.State.MAIN:
             view = self._stack.get_visible_child()
         else:
             view = self._stack.get_visible_child().get_visible_child()
@@ -290,7 +290,7 @@ class Window(Gtk.ApplicationWindow):
     def _select_none(self, action=None, param=None):
         if not self.props.selection_mode:
             return
-        if self.headerbar.props.state == HeaderBar.State.MAIN:
+        if self._headerbar.props.state == HeaderBar.State.MAIN:
             view = self._stack.get_visible_child()
             view.unselect_all()
         else:
@@ -314,8 +314,8 @@ class Window(Gtk.ApplicationWindow):
             # Open search bar on Ctrl + F
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
-                    and self.headerbar.props.state != HeaderBar.State.SEARCH):
-                self.headerbar.searchbar.toggle()
+                    and self._headerbar.props.state != HeaderBar.State.SEARCH):
+                self._headerbar.searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self.player.play_pause()
@@ -345,7 +345,7 @@ class Window(Gtk.ApplicationWindow):
         elif modifiers == mod1_mask:
             # Go back from Album view on Alt + Left
             if keyval == Gdk.KEY_Left:
-                self.headerbar._on_back_button_clicked()
+                self._headerbar._on_back_button_clicked()
             # Headerbar switching
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
                 self._toggle_view(View.ALBUM)
@@ -379,18 +379,18 @@ class Window(Gtk.ApplicationWindow):
                 if self.props.selection_mode:
                     self.props.selection_mode = False
                 else:
-                    self.headerbar.searchbar.reveal(False)
+                    self._headerbar.searchbar.reveal(False)
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
-        if ((not self.headerbar.searchbar.get_search_mode()
+        if ((not self._headerbar.searchbar.get_search_mode()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
-                and self.headerbar.props.state != HeaderBar.State.SEARCH):
-            self.headerbar.searchbar.reveal(True)
+                and self._headerbar.props.state != HeaderBar.State.SEARCH):
+            self._headerbar.searchbar.reveal(True)
 
     @log
     def do_button_release_event(self, event):
@@ -401,7 +401,7 @@ class Window(Gtk.ApplicationWindow):
         __, code = event.get_button()
         # Mouse button 8 is the navigation button
         if code == 8:
-            self.headerbar._on_back_button_clicked()
+            self._headerbar._on_back_button_clicked()
 
     @log
     def _notify_mode_disconnect(self, data=None):
@@ -422,7 +422,7 @@ class Window(Gtk.ApplicationWindow):
 
         if (self.curr_view != self.views[View.SEARCH]
                 and self.curr_view != self.views[View.EMPTY]):
-            self.headerbar.searchbar.reveal(False)
+            self._headerbar.searchbar.reveal(False)
 
         # Disable the selection button for the EmptySearch and Playlist
         # view
@@ -431,7 +431,7 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.PLAYLIST]
         ]
         allowed = self.curr_view not in no_selection_mode
-        self.headerbar.props.selection_mode_allowed = allowed
+        self._headerbar.props.selection_mode_allowed = allowed
 
         # Disable renaming playlist if it was active when leaving
         # Playlist view
@@ -446,19 +446,19 @@ class Window(Gtk.ApplicationWindow):
         # incorrect: searchview currently does not switch states
         # correctly.
         if (not self.props.selection_mode
-                and not self.headerbar.props.state == HeaderBar.State.CHILD
-                and not self.headerbar.props.state == HeaderBar.State.SEARCH):
+                and not self._headerbar.props.state == HeaderBar.State.CHILD
+                and not self._headerbar.props.state == HeaderBar.State.SEARCH):
             self._stack.set_visible_child(self.views[view_enum])
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self.headerbar.searchbar.reveal(
+        self._headerbar.searchbar.reveal(
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
-            if self.headerbar.props.state == HeaderBar.State.MAIN:
+            if self._headerbar.props.state == HeaderBar.State.MAIN:
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)

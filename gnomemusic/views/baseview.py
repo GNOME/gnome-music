@@ -78,7 +78,7 @@ class BaseView(Gtk.Stack):
 
         self._star_handler = StarHandlerWidget(self, 9)
         self._window = window
-        self._header_bar = window.headerbar
+        self._header_bar = window._headerbar
         self._selection_toolbar = window.selection_toolbar
 
         self.name = name
