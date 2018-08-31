@@ -64,7 +64,7 @@ class PlaylistView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'playlists', _("Playlists"), window, True, sidebar_container)
+            'playlists', _("Playlists"), window, sidebar_container)
 
         self._window = window
         self.player = player

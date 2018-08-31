@@ -58,8 +58,7 @@ class ArtistsView(BaseView):
         sidebar_container = Gtk.ScrolledWindow()
         sidebar_container.add(self._sidebar)
 
-        super().__init__(
-            'artists', _("Artists"), window, True, sidebar_container)
+        super().__init__('artists', _("Artists"), window, sidebar_container)
 
         self.player = player
         self._artists = {}
