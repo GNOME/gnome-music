@@ -72,18 +72,10 @@ class BaseView(Gtk.Stack):
         # Setup the main view
         self._setup_view()
 
-        if use_sidebar:
-            self.stack = Gtk.Stack()
-            dummy = Gtk.Frame(visible=False)
-            self.stack.add_named(dummy, 'dummy')
-            if sidebar:
-                self.stack.add_named(sidebar, 'sidebar')
-            else:
-                self.stack.add_named(self._box, 'sidebar')
-            self.stack.set_visible_child_name('dummy')
-            self._grid.add(self.stack)
-        if not use_sidebar or sidebar:
-            self._grid.add(self._box)
+        if sidebar:
+            self._grid.add(sidebar)
+
+        self._grid.add(self._box)
 
         self._star_handler = StarHandlerWidget(self, 9)
         self._window = window

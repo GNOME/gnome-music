@@ -115,9 +115,8 @@ class PlaylistView(BaseView):
         self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self._sidebar.connect('row-activated', self._on_playlist_activated)
 
-        self._grid.insert_column(0)
-        self._grid.child_set_property(self.stack, 'top-attach', 0)
-        self._grid.child_set_property(self.stack, 'height', 2)
+        self._grid.child_set_property(sidebar_container, 'top-attach', 0)
+        self._grid.child_set_property(sidebar_container, 'height', 2)
 
         self._iter_to_clean = None
         self._iter_to_clean_model = None

@@ -412,11 +412,6 @@ class Window(Gtk.ApplicationWindow):
                     or self.prev_view == self.views[View.EMPTY])):
             self.curr_view.set_visible_child(self.curr_view._grid)
 
-        # Slide out sidebar on switching to Artists or Playlists view
-        if self.curr_view == self.views[View.ARTIST] or \
-           self.curr_view == self.views[View.PLAYLIST]:
-            self.curr_view.stack.set_visible_child_name('dummy')
-            self.curr_view.stack.set_visible_child_name('sidebar')
         if (self.curr_view != self.views[View.SEARCH]
                 and self.curr_view != self.views[View.EMPTY]):
             self.headerbar.searchbar.reveal(False)
