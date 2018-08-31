@@ -237,47 +237,47 @@ msgstr ""
 "\n"
 "GNOME Music 作者羣特此授予不兼容於 GPL 授權的 GStreamer 外掛程式能隨 GStreamer 及 GNOME Music 一同使用、散佈之許可。這項許可高於且超出 GNOME Music 遵照之 GPL 授權所授予之許可範圍。如果你修改此份程式碼，你可以將此例外條款擴及至你自身的版本上，但你沒有義務必須也這麼作。如果你不希望有此例外條款，請將例外聲明從你的版本中移除。"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "發行"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "播放長度"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_New Playlist"
 msgstr "新增播放清單(_N)"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "關於(_A)"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "結束(_Q)"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "亂數"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "全部重複播放"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "重複播放歌曲"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "亂數/重複播放關閉"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "找不到音樂"
 
@@ -293,21 +293,21 @@ msgstr "取消全選"
 msgid "Cancel"
 msgstr "取消"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "加入至播放清單"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 #| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "從播放清單移除"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 #| msgid "Play"
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "刪除(_D)"
 

@@ -120,7 +120,7 @@ msgstr "Música"
 msgid "Music is the new GNOME music playing application."
 msgstr "Música é a nova aplicação de reprodução de música do GNOME"
 
-#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:55 ../data/ui/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Anterior"
 
@@ -129,11 +129,11 @@ msgid "Pause"
 msgstr "Pausa"
 
 #: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
-#: ../data/PlayerToolbar.ui.h:7
+#: ../data/ui/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Reproduzir"
 
-#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+#: ../gnomemusic/notification.py:63 ../data/ui/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Seguinte"
 
@@ -215,7 +215,7 @@ msgstr "Artista"
 msgid "Album"
 msgstr "Álbum"
 
-#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
+#: ../gnomemusic/searchbar.py:66 ../data/ui/AlbumWidget.ui.h:3
 msgid "Composer"
 msgstr "Compositor"
 
@@ -259,7 +259,7 @@ msgstr[1] "Itens {} selecionados"
 
 #: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
 #: ../gnomemusic/widgets/albumwidget.py:198
-#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Clique nos itens para os selecionar"
 
@@ -388,203 +388,203 @@ msgstr ""
 "A imagem “Magic of the vinyl” de Sami Pyylampi é licensiada por CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Lançado"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Duração da execução"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Keyboard Shortcuts"
 msgstr "_Atalhos de teclado"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "A_Juda"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "_Sobre"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_Sair"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Selecionar todas"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Não selecionar nenhuma"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Procurar"
 
-#: ../data/headerbar.ui.h:5
+#: ../data/ui/headerbar.ui.h:5
 msgid "Select"
 msgstr "Selecionar"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Recuar"
 
-#: ../data/help-overlay.ui.h:1
+#: ../data/ui/help-overlay.ui.h:1
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Geral"
 
-#: ../data/help-overlay.ui.h:2
+#: ../data/ui/help-overlay.ui.h:2
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Fechar janela"
 
-#: ../data/help-overlay.ui.h:3
+#: ../data/ui/help-overlay.ui.h:3
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Procurar"
 
-#: ../data/help-overlay.ui.h:4
+#: ../data/ui/help-overlay.ui.h:4
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Ajuda"
 
-#: ../data/help-overlay.ui.h:5
+#: ../data/ui/help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Atalhos"
 
-#: ../data/help-overlay.ui.h:6
+#: ../data/ui/help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Reproduzir"
 
-#: ../data/help-overlay.ui.h:7
+#: ../data/ui/help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Reproduzir/Pausa"
 
-#: ../data/help-overlay.ui.h:8
+#: ../data/ui/help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Música seguinte"
 
-#: ../data/help-overlay.ui.h:9
+#: ../data/ui/help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Música anterior"
 
-#: ../data/help-overlay.ui.h:10
+#: ../data/ui/help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Alternar repetir"
 
-#: ../data/help-overlay.ui.h:11
+#: ../data/ui/help-overlay.ui.h:11
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Alternar misturar"
 
-#: ../data/help-overlay.ui.h:12
+#: ../data/ui/help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navegação"
 
-#: ../data/help-overlay.ui.h:13
+#: ../data/ui/help-overlay.ui.h:13
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Ir para Álbuns"
 
-#: ../data/help-overlay.ui.h:14
+#: ../data/ui/help-overlay.ui.h:14
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Ir para Artistas"
 
-#: ../data/help-overlay.ui.h:15
+#: ../data/ui/help-overlay.ui.h:15
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Ir para Canções"
 
-#: ../data/help-overlay.ui.h:16
+#: ../data/ui/help-overlay.ui.h:16
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Adicionar à lista de reprodução"
 
-#: ../data/help-overlay.ui.h:17
+#: ../data/ui/help-overlay.ui.h:17
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Voltar atrás"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Nenhuma música encontrada"
 
 #. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
+#: ../data/ui/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "O conteúdo de %s aparece aqui."
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Misturar"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Repetir todas"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Repetir música"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/ui/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Desligar Misturar/Repetir"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "Re_Produzir"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Eliminar"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Nome da lista de reprodução"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Enter a name for your first playlist"
 msgstr "Introduza um nome para a sua primeira playlist"
 
-#: ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/PlaylistDialog.ui.h:2
 msgid "C_reate"
 msgstr "C_riar"
 
-#: ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Nova lista de reprodução"
 
-#: ../data/PlaylistDialog.ui.h:4
+#: ../data/ui/PlaylistDialog.ui.h:4
 msgid "Add"
 msgstr "Adicionar"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/ui/PlaylistDialog.ui.h:6
 msgid "_Add"
 msgstr "_Adicionar"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
 msgstr "_Adicionar à lista de reprodução"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Remover da lista de reprodução"
 

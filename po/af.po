@@ -205,47 +205,47 @@ msgid ""
 "statement from your version."
 msgstr ""
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Vrygestel"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Speeltyd"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_New Playlist"
 msgstr "_Nuwe speellys"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Now Playing"
 msgstr "Speel _tans"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About Music"
 msgstr "_Aangaande Musiek"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_Sluit af"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Skommel"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Herhaal almal"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Herhaal liedjie"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Skommel/Herhaal afgeskakel"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "Geen musiek gevind nie"
 
@@ -265,6 +265,6 @@ msgstr "Klik op items om hulle te selekteer"
 msgid "Cancel"
 msgstr "Kanselleer"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Voeg by speellys"

@@ -127,7 +127,7 @@ msgstr "ആദ്യത്തെ അവസ്ഥ കാണിക്കുന്�
 msgid "Set to true when initial state has been displayed"
 msgstr "ആദ്യത്തെ അവസ്ഥ കാണിക്കുമ്പോള്‍ ട്രൂ ആയി സജ്ജികരിക്കുന്നു"
 
-#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:55 ../data/ui/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "മുമ്പിലത്തെ"
 
@@ -136,11 +136,11 @@ msgid "Pause"
 msgstr "വിരാമം"
 
 #: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
-#: ../data/PlayerToolbar.ui.h:7
+#: ../data/ui/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "പ്ലേ"
 
-#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+#: ../gnomemusic/notification.py:63 ../data/ui/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "അടുത്തത്"
 
@@ -224,7 +224,7 @@ msgstr "ഗായകര്‍"
 msgid "Album"
 msgstr "ആല്‍ബം"
 
-#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
+#: ../gnomemusic/searchbar.py:66 ../data/ui/AlbumWidget.ui.h:3
 msgid "Composer"
 msgstr "സംഗീതജ്ഞന്‍"
 
@@ -268,7 +268,7 @@ msgstr[1] "തെരഞ്ഞെടുത്ത {} ഇനങ്ങള്‍"
 
 #: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
 #: ../gnomemusic/widgets/albumwidget.py:198
-#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "തിരഞ്ഞെടുക്കാനായി ആ ഇനങ്ങളില്‍ ക്ലിക്ക് ചെയ്യുക"
 
@@ -411,226 +411,226 @@ msgstr ""
 "ഗ്നോം മ്യൂസിക്ക് ഉപയോഗപ്പെടും എന്ന വിശ്വാസത്തോടെയാണു വിതരണം ചെയ്തിരിക്കുന്നത്"
 ", എന്നാല്‍ ഒരു വാറന്റിയും ഇല്ല."
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "പുറത്തിറങ്ങിയത്"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "സമയദൈര്‍ഘ്യം"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Keyboard Shortcuts"
 msgstr "കീബോഡ് എളുപ്പവഴികള്‍ (_K)"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "സഹായം (_H)"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 #| msgid "_About Music"
 msgid "_About"
 msgstr "ഗ്നോം സംഗീതത്തെ കുറിച്ച് (_H)"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "പൂട്ടുക (_Q)"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "എല്ലാം തിരഞ്ഞെടുക്കുക"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "ഒന്നും തിരഞ്ഞെടുക്കരുത്"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 #| msgid "Search mode"
 msgid "Search"
 msgstr "തിരച്ചില്‍"
 
-#: ../data/headerbar.ui.h:5
+#: ../data/ui/headerbar.ui.h:5
 #| msgid "Select All"
 msgid "Select"
 msgstr "തിരഞ്ഞെടുക്കുക"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 #| msgid "Cancel"
 msgid "_Cancel"
 msgstr "റദ്ദാക്കുക (_C)"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "പുറകോട്ട്"
 
-#: ../data/help-overlay.ui.h:1
+#: ../data/ui/help-overlay.ui.h:1
 msgctxt "shortcut window"
 msgid "General"
 msgstr "സാധാരണ"
 
-#: ../data/help-overlay.ui.h:2
+#: ../data/ui/help-overlay.ui.h:2
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "ജാലകം അടയ്ക്കുക"
 
-#: ../data/help-overlay.ui.h:3
+#: ../data/ui/help-overlay.ui.h:3
 #| msgid "Search mode"
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "തിരച്ചില്‍"
 
-#: ../data/help-overlay.ui.h:4
+#: ../data/ui/help-overlay.ui.h:4
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "സഹായം"
 
-#: ../data/help-overlay.ui.h:5
+#: ../data/ui/help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "കുറുക്ക് വഴികള്‍"
 
-#: ../data/help-overlay.ui.h:6
+#: ../data/ui/help-overlay.ui.h:6
 #| msgid "Play"
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "കേള്‍ക്കുക"
 
-#: ../data/help-overlay.ui.h:7
+#: ../data/ui/help-overlay.ui.h:7
 #| msgid "Pause"
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "കേള്‍ക്കുക/നിര്‍ത്തുക"
 
-#: ../data/help-overlay.ui.h:8
+#: ../data/ui/help-overlay.ui.h:8
 #| msgid "Next"
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "അടുത്ത പാട്ട്"
 
-#: ../data/help-overlay.ui.h:9
+#: ../data/ui/help-overlay.ui.h:9
 #| msgid "Previous"
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "മുമ്പിലത്തെ പാട്ട്"
 
-#: ../data/help-overlay.ui.h:10
+#: ../data/ui/help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "വീണ്ടും കേള്‍ക്കുക/വേണ്ട"
 
-#: ../data/help-overlay.ui.h:11
+#: ../data/ui/help-overlay.ui.h:11
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "ക്രമമില്ലാത്താക്കുക/ക്രമമാക്കുക"
 
-#: ../data/help-overlay.ui.h:12
+#: ../data/ui/help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr ""
 
-#: ../data/help-overlay.ui.h:13
+#: ../data/ui/help-overlay.ui.h:13
 #| msgid "Albums"
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "ആല്‍ബത്തിലോട്ട് പോവുക"
 
-#: ../data/help-overlay.ui.h:14
+#: ../data/ui/help-overlay.ui.h:14
 #| msgid "Artists"
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "ഗായകരിലോട്ട് പോവുക"
 
-#: ../data/help-overlay.ui.h:15
+#: ../data/ui/help-overlay.ui.h:15
 #| msgid "Songs"
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "പാട്ടുകളിലോട്ട് പോവുക"
 
-#: ../data/help-overlay.ui.h:16
+#: ../data/ui/help-overlay.ui.h:16
 #| msgid "Add to Playlist"
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "ഗാനനിരയിലേക്കു പോവുക"
 
-#: ../data/help-overlay.ui.h:17
+#: ../data/ui/help-overlay.ui.h:17
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "പുറകിലോട്ട് പോവുക"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 #| msgid "No Music Found"
 msgid "No music found"
 msgstr "പാട്ട് ഒന്നും കണ്ടില്ല"
 
 #. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
+#: ../data/ui/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "%s ലെ ഉള്ളടക്കം ഇവിടെ വരും."
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "കലര്‍ത്തുക"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "എല്ലാം ആവര്‍ത്തിക്കുക"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "പാട്ട് ആവര്‍ത്തിക്കുക"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/ui/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "കലര്‍ത്തല്‍/ആവര്‍ത്തനം നിര്‍ത്തുക"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 #| msgid "Play"
 msgid "_Play"
 msgstr "പ്ലേ (_P)"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "കളയുക (_D)"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 #| msgid "Playlists"
 msgid "Playlist Name"
 msgstr "ഗാനനിരയുടെ പേര്"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Enter a name for your first playlist"
 msgstr "നിങ്ങളുടെ ആദ്യത്തെ പാട്ട് പട്ടികയ്ക്ക് പേര് തരിക"
 
-#: ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/PlaylistDialog.ui.h:2
 msgid "C_reate"
 msgstr "ഉണ്ടാക്കുക (_r)"
 
-#: ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/PlaylistDialog.ui.h:3
 #| msgid "_New Playlist"
 msgid "New Playlist"
 msgstr "പു‌തിയ ഗാനനിര (_N)"
 
-#: ../data/PlaylistDialog.ui.h:4
+#: ../data/ui/PlaylistDialog.ui.h:4
 msgid "Add"
 msgstr "ചേര്‍ക്കുക"
 
-#: ../data/PlaylistDialog.ui.h:5
+#: ../data/ui/PlaylistDialog.ui.h:5
 #| msgid "Select All"
 msgid "Select Playlist"
 msgstr "ഗാനനിര തിരഞ്ഞെടുക്കുക"
 
-#: ../data/PlaylistDialog.ui.h:7
+#: ../data/ui/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "ചേര്‍ക്കുക (_A)"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 #| msgid "Add to Playlist"
 msgid "_Add to Playlist"
 msgstr "ഗാനനിരയിലേക്കു ചേര്‍ക്കുക (_A)"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 #| msgid "_New Playlist"
 msgid "_Remove from Playlist"
 msgstr "‌ഗാനനിരയില്‍ നിന്ന് മാറ്റുക"

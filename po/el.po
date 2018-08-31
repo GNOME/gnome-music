@@ -202,7 +202,7 @@ msgstr "Καλλιτέχνης"
 msgid "Album"
 msgstr "Δίσκος"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:172
+#: gnomemusic/searchbar.py:69 data/ui/AlbumWidget.ui:172
 msgid "Composer"
 msgstr "Συνθέτης"
 
@@ -292,7 +292,7 @@ msgid_plural "Selected {} items"
 msgstr[0] "Επιλέχθηκε %d στοιχείο"
 msgstr[1] "Επιλέχθηκαν %d στοιχεία"
 
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:32
+#: gnomemusic/widgets/headerbar.py:76 data/ui/SelectionBarMenuButton.ui:32
 msgid "Click on items to select them"
 msgstr "Πατήστε σε αντικείμενα για να τα επιλέξετε"
 
@@ -308,7 +308,7 @@ msgstr "Α_ναίρεση"
 msgid "Pause"
 msgstr "Παύση"
 
-#: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
+#: gnomemusic/widgets/playertoolbar.py:151 data/ui/PlayerToolbar.ui:88
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
@@ -384,222 +384,222 @@ msgstr ""
 "\"Magic of the vinyl\" από Sami Pyylampi εικόνα υπό την άδεια CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:111
+#: data/ui/AlbumWidget.ui:111
 msgid "Released"
 msgstr "Κυκλοφόρησε"
 
-#: data/AlbumWidget.ui:127
+#: data/ui/AlbumWidget.ui:127
 msgid "Running Length"
 msgstr "Εκτελούμενη διάρκεια"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "1821"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_Περί"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "Έ_ξοδος"
 
-#: data/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:13
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: data/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36
 msgid "Select"
 msgstr "Επιλογή"
 
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/PlaylistDialog.ui:282
 msgid "_Cancel"
 msgstr "Ακύ_ρωση"
 
-#: data/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77
 msgid "Back"
 msgstr "Πίσω"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Γενικά"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Κλείσιμο παραθύρου"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Συντομεύσεις"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Αναπαραγωγή"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Αναπαραγωγή/Παύση"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Επόμενο τραγούδι"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Προηγούμενο τραγούδι"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Εναλλαγή επανάληψης"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Εναλλαγή τυχαίας σειράς"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Περιήγηση"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Μετάβαση στους δίσκους"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Μετάβαση στους καλλιτέχνες"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Μετάβαση στα τραγούδια"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Μετάβαση στις λίστες αναπαραγωγής"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Μετάβαση πίσω"
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Τυχαία σειρά"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Επανάληψη όλων"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Επανάληψη τραγουδιού"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Τυχαία σειρά/Ανενεργή επανάληψη"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Επόμενο"
 
-#: data/PlaylistContextMenu.ui:5
+#: data/ui/PlaylistContextMenu.ui:5
 msgctxt "context menu item"
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Προσθήκη στη λίστα αναπαραγωγής…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Αφαίρεση από την λίστα αναπαραγωγής"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Αναπαραγωγή"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Διαγραφή"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Μετονομασία…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Όνομα λίστας αναπαραγωγής"
 
-#: data/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:67
 msgid "_Done"
 msgstr "_Ολοκληρώθηκε"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Πληκτρολογήστε ένα όνομα για την πρώτη σας λίστα αναπαραγωγής"
 
-#: data/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "Δ_ημιουργία"
 
-#: data/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:168
 msgid "New Playlist…"
 msgstr "Νέα λίστα αναπαραγωγής…"
 
-#: data/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:184
 msgid "Add"
 msgstr "Προσθήκη"
 
-#: data/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:279
 msgid "Add to Playlist"
 msgstr "Προσθήκη στη λίστα αναπαραγωγής"
 
-#: data/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:295
 msgid "_Add"
 msgstr "_Προσθήκη"
 
-#: data/SelectionBarMenuButton.ui:7
+#: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Επιλογή όλων"
 
-#: data/SelectionBarMenuButton.ui:11
+#: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
 msgstr "Καμία επιλογή"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Προ_σθήκη στη λίστα αναπαραγωγής"
 

@@ -121,7 +121,7 @@ msgstr "GNOME Musika"
 msgid "Music is the new GNOME music playing application."
 msgstr "Musika GNOMEren musika erreproduzitzeko aplikazio berria da."
 
-#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:55 ../data/ui/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Aurrekoa"
 
@@ -130,11 +130,11 @@ msgid "Pause"
 msgstr "Pausarazi"
 
 #: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:562
-#: ../data/PlayerToolbar.ui.h:7
+#: ../data/ui/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Erreproduzitu"
 
-#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+#: ../gnomemusic/notification.py:63 ../data/ui/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Hurrengoa"
 
@@ -219,7 +219,7 @@ msgstr "Artista"
 msgid "Album"
 msgstr "Albuma"
 
-#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
+#: ../gnomemusic/searchbar.py:66 ../data/ui/AlbumWidget.ui.h:3
 msgid "Composer"
 msgstr "Konpositorea"
 
@@ -265,7 +265,7 @@ msgstr[1] "{} elementu hautatuta"
 
 #: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
 #: ../gnomemusic/widgets/albumwidget.py:198
-#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Egin klik elementuen gainean hautatzeko"
 
@@ -395,203 +395,203 @@ msgstr ""
 "“Magic of the vinyl“ Sami Pyylampi garatuta, irudia CC-BY-SA 2.0 "
 "lizentziarekin https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Argitaratua"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Iraupena"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Keyboard Shortcuts"
 msgstr "_Laster-teklak"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Laguntza"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "Honi _buruz"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "I_rten"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Hautatu dena"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Hautatu bat ere ez"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Bilatu"
 
-#: ../data/headerbar.ui.h:5
+#: ../data/ui/headerbar.ui.h:5
 msgid "Select"
 msgstr "Hautatu"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Utzi"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Atzera"
 
-#: ../data/help-overlay.ui.h:1
+#: ../data/ui/help-overlay.ui.h:1
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Orokorra"
 
-#: ../data/help-overlay.ui.h:2
+#: ../data/ui/help-overlay.ui.h:2
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Itxi leihoa"
 
-#: ../data/help-overlay.ui.h:3
+#: ../data/ui/help-overlay.ui.h:3
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Bilatu"
 
-#: ../data/help-overlay.ui.h:4
+#: ../data/ui/help-overlay.ui.h:4
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Laguntza"
 
-#: ../data/help-overlay.ui.h:5
+#: ../data/ui/help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Lasterbideak"
 
-#: ../data/help-overlay.ui.h:6
+#: ../data/ui/help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Erreproduzitu"
 
-#: ../data/help-overlay.ui.h:7
+#: ../data/ui/help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Erreproduzitu/Pausarazi"
 
-#: ../data/help-overlay.ui.h:8
+#: ../data/ui/help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Hurrengoa abestia"
 
-#: ../data/help-overlay.ui.h:9
+#: ../data/ui/help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Aurreko abestia"
 
-#: ../data/help-overlay.ui.h:10
+#: ../data/ui/help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Txandakatu errepikatzea"
 
-#: ../data/help-overlay.ui.h:11
+#: ../data/ui/help-overlay.ui.h:11
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Txandakatu ausazkoa"
 
-#: ../data/help-overlay.ui.h:12
+#: ../data/ui/help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Nabigazioa"
 
-#: ../data/help-overlay.ui.h:13
+#: ../data/ui/help-overlay.ui.h:13
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Joan albumetara"
 
-#: ../data/help-overlay.ui.h:14
+#: ../data/ui/help-overlay.ui.h:14
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Joan artistetara"
 
-#: ../data/help-overlay.ui.h:15
+#: ../data/ui/help-overlay.ui.h:15
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Joan abestietara"
 
-#: ../data/help-overlay.ui.h:16
+#: ../data/ui/help-overlay.ui.h:16
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Joan zerrendatara"
 
-#: ../data/help-overlay.ui.h:17
+#: ../data/ui/help-overlay.ui.h:17
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Joan atzera"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Ez da musikarik aurkitu"
 
 #. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
+#: ../data/ui/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "'%s'(e)ko edukia hemen agertuko da."
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Ausaz"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Errepikatu dena"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Errepikatu abestia"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/ui/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Ausaz/Ez errepikatu"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "_Erreproduzitu"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Ezabatu"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Zerrendaren izena"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Enter a name for your first playlist"
 msgstr "Sartu aurreneko zerrendaren izena"
 
-#: ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/PlaylistDialog.ui.h:2
 msgid "C_reate"
 msgstr "_Sortu"
 
-#: ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Zerrenda berria"
 
-#: ../data/PlaylistDialog.ui.h:4
+#: ../data/ui/PlaylistDialog.ui.h:4
 msgid "Add"
 msgstr "Gehitu"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/ui/PlaylistDialog.ui.h:6
 msgid "_Add"
 msgstr "_Gehitu"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
 msgstr "_Gehitu zerrendari"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Kendu zerrendatik"
 

@@ -158,7 +158,7 @@ msgstr "Пауза"
 msgid "by %s, from %s"
 msgstr "на %s, от албума „%s“"
 
-#: ../gnomemusic/notification.py:131 ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:131 ../data/ui/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Предишна"
 
@@ -167,11 +167,11 @@ msgid "Pause"
 msgstr "Пауза"
 
 #: ../gnomemusic/notification.py:137 ../gnomemusic/player.py:557
-#: ../data/PlayerToolbar.ui.h:7
+#: ../data/ui/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Изпълнение"
 
-#: ../gnomemusic/notification.py:139 ../data/PlayerToolbar.ui.h:8
+#: ../gnomemusic/notification.py:139 ../data/ui/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Следваща"
 
@@ -275,7 +275,7 @@ msgstr[1] "Избрани са %d елемента"
 
 #: ../gnomemusic/view.py:191 ../gnomemusic/widgets.py:283
 #: ../gnomemusic/widgets.py:534 ../gnomemusic/window.py:308
-#: ../gnomemusic/window.py:320 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:320 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Изберете елементи чрез натискане"
 
@@ -408,97 +408,97 @@ msgstr ""
 "„Магията на винила“ от Сами Пилампи, изображението е лицензирано по "
 "условията на CC-BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Издаден"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Продължителност"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Help"
 msgstr "Помо_щ"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_About"
 msgstr "_Относно"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Спиране на програмата"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Разбъркване"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Повтаряне на всички"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Повтаряне на песента"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/ui/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Разбъркване/повтаряне изключено"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Няма никаква музика"
 
 #. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
+#: ../data/ui/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Съдържанието на „%s“ ще се появи тук."
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Избор на всички"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Избор на някои"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Търсене"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 msgid "Select"
 msgstr "Избор"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Отказ"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Назад"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Добавяне в списък"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "Изваждане от списък"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "_Изпълнение"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Изтриване"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Име на списъка за изпълнение"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Избор на списък за изпълнение"

@@ -121,7 +121,7 @@ msgstr "Музыка GNOME"
 msgid "Music is the new GNOME music playing application."
 msgstr "Гэта новы музычны прайгравальнік для GNOME."
 
-#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:55 ../data/ui/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Раней"
 
@@ -130,11 +130,11 @@ msgid "Pause"
 msgstr "Прыпыніць"
 
 #: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
-#: ../data/PlayerToolbar.ui.h:7
+#: ../data/ui/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Зайграць"
 
-#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+#: ../gnomemusic/notification.py:63 ../data/ui/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Далей"
 
@@ -216,7 +216,7 @@ msgstr "Выканаўца"
 msgid "Album"
 msgstr "Альбом"
 
-#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
+#: ../gnomemusic/searchbar.py:66 ../data/ui/AlbumWidget.ui.h:3
 msgid "Composer"
 msgstr "Кампазітар"
 
@@ -261,7 +261,7 @@ msgstr[2] "Выбрана {} песень"
 
 #: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
 #: ../gnomemusic/widgets/albumwidget.py:198
-#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Каб вылучыць аб'екты, пстрыкайце ў іх"
 
@@ -393,203 +393,203 @@ msgstr ""
 "Выява Sami Pyylampi \"Magic of the vinyl\" мае ліцэнзію CC-BY-SA 2.0 https://"
 "www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Выдадзены"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Працягласць"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Keyboard Shortcuts"
 msgstr "_Клавіятурныя скароты"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Дапамога"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "_Аб праграме"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "_Выйсці"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Вылучыць усё"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Скасаваць вылучэнне"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Пошук"
 
-#: ../data/headerbar.ui.h:5
+#: ../data/ui/headerbar.ui.h:5
 msgid "Select"
 msgstr "Выбраць"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:5
 msgid "_Cancel"
 msgstr "_Скасаваць"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Назад"
 
-#: ../data/help-overlay.ui.h:1
+#: ../data/ui/help-overlay.ui.h:1
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Агульнае"
 
-#: ../data/help-overlay.ui.h:2
+#: ../data/ui/help-overlay.ui.h:2
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Закрыць акно"
 
-#: ../data/help-overlay.ui.h:3
+#: ../data/ui/help-overlay.ui.h:3
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Пошук"
 
-#: ../data/help-overlay.ui.h:4
+#: ../data/ui/help-overlay.ui.h:4
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Дапамога"
 
-#: ../data/help-overlay.ui.h:5
+#: ../data/ui/help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Скароты"
 
-#: ../data/help-overlay.ui.h:6
+#: ../data/ui/help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Прайграванне"
 
-#: ../data/help-overlay.ui.h:7
+#: ../data/ui/help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Зайграць/прыпыніць"
 
-#: ../data/help-overlay.ui.h:8
+#: ../data/ui/help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Наступная песня"
 
-#: ../data/help-overlay.ui.h:9
+#: ../data/ui/help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Папярэдняя песня"
 
-#: ../data/help-overlay.ui.h:10
+#: ../data/ui/help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Пераключыць паўтор"
 
-#: ../data/help-overlay.ui.h:11
+#: ../data/ui/help-overlay.ui.h:11
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Пераключыць тасаванне"
 
-#: ../data/help-overlay.ui.h:12
+#: ../data/ui/help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Навігацыя"
 
-#: ../data/help-overlay.ui.h:13
+#: ../data/ui/help-overlay.ui.h:13
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Перайсці да альбомаў"
 
-#: ../data/help-overlay.ui.h:14
+#: ../data/ui/help-overlay.ui.h:14
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Перайсці да выканаўцаў"
 
-#: ../data/help-overlay.ui.h:15
+#: ../data/ui/help-overlay.ui.h:15
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Перайсці да песень"
 
-#: ../data/help-overlay.ui.h:16
+#: ../data/ui/help-overlay.ui.h:16
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Перайсці да спісаў прайгравання"
 
-#: ../data/help-overlay.ui.h:17
+#: ../data/ui/help-overlay.ui.h:17
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Назад"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Музыка не знойдзена"
 
 #. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
+#: ../data/ui/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Тут будзе з'яўляцца змесціва %s"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Ператасаваць"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Паўтараць усё"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Паўтараць песню"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/ui/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Выключыць ператасоўванне ці паўтор"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "_Зайграць"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Выдаліць"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Назва спіса прайгравання"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Enter a name for your first playlist"
 msgstr "Увядзіце назву вашага першага спіса прайгравання"
 
-#: ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/PlaylistDialog.ui.h:2
 msgid "C_reate"
 msgstr "С_тварыць"
 
-#: ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Новы спіс прайгравання"
 
-#: ../data/PlaylistDialog.ui.h:4
+#: ../data/ui/PlaylistDialog.ui.h:4
 msgid "Add"
 msgstr "Дадаць"
 
-#: ../data/PlaylistDialog.ui.h:6
+#: ../data/ui/PlaylistDialog.ui.h:6
 msgid "_Add"
 msgstr "_Дадаць"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
 msgstr "_Дадаць у спіс прайгравання"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "_Выдаліць са спіса прайгравання"
 

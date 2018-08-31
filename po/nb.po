@@ -119,7 +119,7 @@ msgstr "Første tilstand er vist"
 msgid "Set to true when initial state has been displayed"
 msgstr "Sett til «true» når første tilstand har blitt vist"
 
-#: ../gnomemusic/notification.py:55 ../data/PlayerToolbar.ui.h:6
+#: ../gnomemusic/notification.py:55 ../data/ui/PlayerToolbar.ui.h:6
 msgid "Previous"
 msgstr "Forrige"
 
@@ -128,11 +128,11 @@ msgid "Pause"
 msgstr "Pause"
 
 #: ../gnomemusic/notification.py:61 ../gnomemusic/player.py:561
-#: ../data/PlayerToolbar.ui.h:7
+#: ../data/ui/PlayerToolbar.ui.h:7
 msgid "Play"
 msgstr "Spill av"
 
-#: ../gnomemusic/notification.py:63 ../data/PlayerToolbar.ui.h:8
+#: ../gnomemusic/notification.py:63 ../data/ui/PlayerToolbar.ui.h:8
 msgid "Next"
 msgstr "Neste"
 
@@ -202,7 +202,7 @@ msgstr "Artist"
 msgid "Album"
 msgstr "Album"
 
-#: ../gnomemusic/searchbar.py:66 ../data/AlbumWidget.ui.h:3
+#: ../gnomemusic/searchbar.py:66 ../data/ui/AlbumWidget.ui.h:3
 msgid "Composer"
 msgstr "Komponist"
 
@@ -246,7 +246,7 @@ msgstr[1] "{} oppføringer valgt"
 
 #: ../gnomemusic/views/baseview.py:201 ../gnomemusic/views/baseview.py:303
 #: ../gnomemusic/widgets/albumwidget.py:198
-#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/headerbar.ui.h:3
+#: ../gnomemusic/widgets/artistalbumswidget.py:232 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Klikk på oppføringer for å velge dem"
 
@@ -376,206 +376,206 @@ msgstr ""
 "Bildet «Magic of the vinyl» av Sami Pyylampi er lisensiert med CC-BY-SA 2.0. "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Utgitt"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Spillelengde"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastatursnarveier"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "_Om"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "A_vslutt"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Velg alle"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Velg ingen"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Søk"
 
-#: ../data/headerbar.ui.h:5
+#: ../data/ui/headerbar.ui.h:5
 msgid "Select"
 msgstr "Velg"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:6
 msgid "_Cancel"
 msgstr "A_vbryt"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Tilbake"
 
-#: ../data/help-overlay.ui.h:1
+#: ../data/ui/help-overlay.ui.h:1
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Generelt"
 
-#: ../data/help-overlay.ui.h:2
+#: ../data/ui/help-overlay.ui.h:2
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Lukk vindu"
 
-#: ../data/help-overlay.ui.h:3
+#: ../data/ui/help-overlay.ui.h:3
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Søk"
 
-#: ../data/help-overlay.ui.h:4
+#: ../data/ui/help-overlay.ui.h:4
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Hjelp"
 
-#: ../data/help-overlay.ui.h:5
+#: ../data/ui/help-overlay.ui.h:5
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Snarveier"
 
-#: ../data/help-overlay.ui.h:6
+#: ../data/ui/help-overlay.ui.h:6
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Avspilling"
 
-#: ../data/help-overlay.ui.h:7
+#: ../data/ui/help-overlay.ui.h:7
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Spill av/pause"
 
-#: ../data/help-overlay.ui.h:8
+#: ../data/ui/help-overlay.ui.h:8
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Neste sang"
 
-#: ../data/help-overlay.ui.h:9
+#: ../data/ui/help-overlay.ui.h:9
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Forrige sang"
 
-#: ../data/help-overlay.ui.h:10
+#: ../data/ui/help-overlay.ui.h:10
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Slå av/på gjenta"
 
-#: ../data/help-overlay.ui.h:11
+#: ../data/ui/help-overlay.ui.h:11
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Slå av/på tilfeldig rekkefølge"
 
-#: ../data/help-overlay.ui.h:12
+#: ../data/ui/help-overlay.ui.h:12
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigasjon"
 
-#: ../data/help-overlay.ui.h:13
+#: ../data/ui/help-overlay.ui.h:13
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Gå til album"
 
-#: ../data/help-overlay.ui.h:14
+#: ../data/ui/help-overlay.ui.h:14
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Gå til artister"
 
-#: ../data/help-overlay.ui.h:15
+#: ../data/ui/help-overlay.ui.h:15
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Gå til sanger"
 
-#: ../data/help-overlay.ui.h:16
+#: ../data/ui/help-overlay.ui.h:16
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Gå til spillelister"
 
-#: ../data/help-overlay.ui.h:17
+#: ../data/ui/help-overlay.ui.h:17
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Gå tilbake"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Fant ingen musikk"
 
 #. Translators: %s will be replaced with a link with text
-#: ../data/NoMusic.ui.h:4
+#: ../data/ui/NoMusic.ui.h:4
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Innholdet i %s din vises her."
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Bland"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Gjenta alle"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Gjenta sang"
 
 #. Causes tracks to play in random order
-#: ../data/PlayerToolbar.ui.h:5
+#: ../data/ui/PlayerToolbar.ui.h:5
 msgid "Shuffle/Repeat Off"
 msgstr "Bland/Gjenta av"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "S_pill av"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Slett"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Navn på spilleliste"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Enter a name for your first playlist"
 msgstr "Oppgi et navn for din første spilleliste"
 
-#: ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/PlaylistDialog.ui.h:2
 msgid "C_reate"
 msgstr "_Lag"
 
-#: ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/PlaylistDialog.ui.h:3
 msgid "New Playlist"
 msgstr "Ny spilleliste"
 
-#: ../data/PlaylistDialog.ui.h:4
+#: ../data/ui/PlaylistDialog.ui.h:4
 msgid "Add"
 msgstr "Legg til"
 
-#: ../data/PlaylistDialog.ui.h:5
+#: ../data/ui/PlaylistDialog.ui.h:5
 msgid "Select Playlist"
 msgstr "Velg spilleliste"
 
-#: ../data/PlaylistDialog.ui.h:7
+#: ../data/ui/PlaylistDialog.ui.h:7
 msgid "_Add"
 msgstr "_Legg til"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "_Add to Playlist"
 msgstr "_Legg til i spilleliste"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "_Remove from Playlist"
 msgstr "Fje_rn fra spilleliste"

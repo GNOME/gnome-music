@@ -122,7 +122,7 @@ msgstr "متوقّف"
 msgid "by %s, from %s"
 msgstr "أدّاها %s، من %s"
 
-#: ../gnomemusic/notification.py:128 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:128 ../data/ui/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "السابقة"
 
@@ -131,11 +131,11 @@ msgid "Pause"
 msgstr "ألبِث"
 
 #: ../gnomemusic/notification.py:134 ../gnomemusic/player.py:351
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/ui/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "شغّل"
 
-#: ../gnomemusic/notification.py:136 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:136 ../data/ui/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "التالية"
 
@@ -181,7 +181,7 @@ msgstr[5] "%d عنصر محدّد"
 
 #: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
 #: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:294 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "انقر على العناصر لتحديدها"
 
@@ -289,91 +289,91 @@ msgstr ""
 "الاستثناء إلى إصدار الشِفرة خاصّتك، ولكنك لست ملزمًا بذلك. إن لم ترغب بذلك، "
 "احذف بيان الاستثناء هذا من الإصدار خاصّتك."
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "أُصدر في"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "طول التشغيل"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_New Playlist"
 msgstr "قائمة تشغيل _جديدة"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "م_ساعدة"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "_عنْ"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "أ_نهِ"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "اخلط"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "كرّر الكلّ"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "كرّر الأغنية"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "أوقف الخلط/التكرار"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "لم يُعثر على موسيقى"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "حدّد الكلّ"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "حدّد لا شيء"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "ابحث"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 msgid "Select"
 msgstr "اختر"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "ألغِ"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "ارجع"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "أضف إلى قائمة التشغيل"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "أزِل من قائمة التشغيل"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "_شغّل"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "اح_ذف"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "اختر قائمة تشغيل"
 

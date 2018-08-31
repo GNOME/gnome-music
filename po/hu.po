@@ -171,7 +171,7 @@ msgstr "Előadó"
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:167
+#: gnomemusic/searchbar.py:69 data/ui/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "Zeneszerző"
 
@@ -215,7 +215,7 @@ msgstr[1] "{} elem kijelölve"
 
 #: gnomemusic/views/baseview.py:191 gnomemusic/views/baseview.py:258
 #: gnomemusic/widgets/albumwidget.py:193
-#: gnomemusic/widgets/artistalbumswidget.py:216 data/headerbar.ui:32
+#: gnomemusic/widgets/artistalbumswidget.py:216 data/ui/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Kattintson az elemekre a kiválasztásukhoz"
 
@@ -286,8 +286,8 @@ msgstr "_Visszavonás"
 msgid "Pause"
 msgstr "Szünet"
 
-#: gnomemusic/widgets/playertoolbar.py:140 data/PlayerToolbar.ui:88
-#: data/PlaylistContextMenu.ui:5
+#: gnomemusic/widgets/playertoolbar.py:140 data/ui/PlayerToolbar.ui:88
+#: data/ui/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Lejátszás"
 
@@ -357,228 +357,228 @@ msgstr ""
 "„Magic of the vinyl” – Sami Pyylampi képe CC-BY-SA 2.0 licenc szerint: "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:106
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Kiadva"
 
-#: data/AlbumWidget.ui:122
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Futási hossz"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Gyorsbillentyűk"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "_Súgó"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_Névjegy"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "_Kilépés"
 
-#: data/headerbar.ui:7
+#: data/ui/headerbar.ui:7
 msgid "Select All"
 msgstr "Összes kijelölése"
 
-#: data/headerbar.ui:11
+#: data/ui/headerbar.ui:11
 msgid "Select None"
 msgstr "Kijelölés törlése"
 
-#: data/headerbar.ui:66
+#: data/ui/headerbar.ui:66
 msgid "Search"
 msgstr "Keresés"
 
-#: data/headerbar.ui:89
+#: data/ui/headerbar.ui:89
 msgid "Select"
 msgstr "Kiválasztás"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:271
+#: data/ui/headerbar.ui:111 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "_Mégse"
 
-#: data/headerbar.ui:129
+#: data/ui/headerbar.ui:129
 msgid "Back"
 msgstr "Vissza"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Általános"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Ablak bezárása"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Keresés"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Súgó"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Gyorsbillentyűk"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Lejátszás"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Lejátszás/szünet"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Következő szám"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Előző szám"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Ismétlés ki/be"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Véletlenszerű lejátszás ki/be"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigáció"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Ugrás az albumokhoz"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Ugrás az előadókhoz"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Ugrás a számokhoz"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Ugrás a lejátszólistákhoz"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Vissza"
 
-#: data/NoMusic.ui:36
+#: data/ui/NoMusic.ui:36
 msgid "No music found"
 msgstr "Nem található zene"
 
 # %s = "Zenék mappa"
 #. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
+#: data/ui/NoMusic.ui:55
 #, python-format
 msgid "The contents of your %s will appear here."
 msgstr "A %s tartalma itt fog megjelenni."
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Véletlen sorrend"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Összes ismétlése"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Szám ismétlése"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Véletlen/Ismétlés kikapcsolva"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Előző"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Következő"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Hozzáadás a lejátszólistához…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Eltávolítás a lejátszólistáról"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Lejátszás"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Törlés"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "Át_nevezés…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Lejátszólista neve"
 
-#: data/PlaylistControls.ui:64
+#: data/ui/PlaylistControls.ui:64
 msgid "_Done"
 msgstr "_Kész"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Adjon nevet az első lejátszólistájának"
 
-#: data/PlaylistDialog.ui:94
+#: data/ui/PlaylistDialog.ui:94
 msgid "C_reate"
 msgstr "Lét_rehozás"
 
-#: data/PlaylistDialog.ui:164
+#: data/ui/PlaylistDialog.ui:164
 msgid "New Playlist…"
 msgstr "Új lejátszólista…"
 
-#: data/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.ui:177
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: data/PlaylistDialog.ui:268
+#: data/ui/PlaylistDialog.ui:268
 msgid "Add to Playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
-#: data/PlaylistDialog.ui:283
+#: data/ui/PlaylistDialog.ui:283
 msgid "_Add"
 msgstr "_Hozzáadás"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Hozzá_adás a lejátszólistához"
 

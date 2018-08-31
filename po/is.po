@@ -124,7 +124,7 @@ msgstr "Upphafsstaða var birt"
 msgid "Set to true when initial state has been displayed"
 msgstr "Setja sem satt þegar upphafsstaða hefur verið birt"
 
-#: gnomemusic/notification.py:55 data/PlayerToolbar.ui:70
+#: gnomemusic/notification.py:55 data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Fyrra"
 
@@ -133,11 +133,11 @@ msgid "Pause"
 msgstr "Hlé"
 
 #: gnomemusic/notification.py:61 gnomemusic/player.py:564
-#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
+#: data/ui/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Spila"
 
-#: gnomemusic/notification.py:63 data/PlayerToolbar.ui:104
+#: gnomemusic/notification.py:63 data/ui/PlayerToolbar.ui:104
 msgid "Next"
 msgstr "Næsta"
 
@@ -207,7 +207,7 @@ msgstr "Flytjandi"
 msgid "Album"
 msgstr "Albúm"
 
-#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
+#: gnomemusic/searchbar.py:67 data/ui/AlbumWidget.ui:171
 msgid "Composer"
 msgstr "Tónskáld"
 
@@ -251,7 +251,7 @@ msgstr[1] "Valdi {} atriði"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
+#: gnomemusic/widgets/artistalbumswidget.py:228 data/ui/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Smelltu á atriði til að velja þau"
 
@@ -385,221 +385,221 @@ msgstr ""
 "Myndin \"Magic of the vinyl\" eftir Sami Pyylampi er notuð skv. CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: data/AlbumWidget.ui:110
+#: data/ui/AlbumWidget.ui:110
 msgid "Released"
 msgstr "Útgefið"
 
-#: data/AlbumWidget.ui:126
+#: data/ui/AlbumWidget.ui:126
 msgid "Running Length"
 msgstr "Spilunartími"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Flýtivísanir á lyklaborði"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "_Hjálp"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_Um"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "_Hætta"
 
-#: data/headerbar.ui:7
+#: data/ui/headerbar.ui:7
 msgid "Select All"
 msgstr "Velja allt"
 
-#: data/headerbar.ui:11
+#: data/ui/headerbar.ui:11
 msgid "Select None"
 msgstr "Velja ekkert"
 
-#: data/headerbar.ui:66
+#: data/ui/headerbar.ui:66
 msgid "Search"
 msgstr "Leita"
 
-#: data/headerbar.ui:89
+#: data/ui/headerbar.ui:89
 msgid "Select"
 msgstr "Velja"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
+#: data/ui/headerbar.ui:111 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Hætta við"
 
-#: data/headerbar.ui:129
+#: data/ui/headerbar.ui:129
 msgid "Back"
 msgstr "Til baka"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Almennt"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Loka glugga"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Leita"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Hjálp"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Flýtilyklar"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Afspilun"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Spila / Bíða"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Næsta lag"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Fyrra lag"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Víxla endurtekningu af/á"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Víxla stokkun af/á"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Flakk"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Fara í Albúm"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Fara í Flytjendur"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Fara í Lög"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Fara í Spilunarlistar"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Fara til baka"
 
-#: data/NoMusic.ui:35
+#: data/ui/NoMusic.ui:35
 msgid "No music found"
 msgstr "Engin tónlist fannst"
 
 #. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
+#: data/ui/NoMusic.ui:55
 #, python-format
 msgid "The contents of your %s will appear here."
 msgstr "Innihald %s birtist hér."
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Stokka"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Endurtaka allt"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Endurtaka lag"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Stokkun/Endurtekning af"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 #| msgid "_Add to Playlist"
 msgid "Add to Playlist…"
 msgstr "Bæta við spilunarlista…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 #| msgid "_Remove from Playlist"
 msgid "Remove From Playlist"
 msgstr "Fjarlægja af spilunarlista"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "S_pila"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Eyða"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "Endu_rnefna…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Heiti spilunarlista"
 
-#: data/PlaylistControls.ui:65
+#: data/ui/PlaylistControls.ui:65
 msgid "_Done"
 msgstr "_Lokið"
 
-#: data/PlaylistDialog.ui:63
+#: data/ui/PlaylistDialog.ui:63
 msgid "Enter a name for your first playlist"
 msgstr "Settu inn heiti á fyrsta spilunarlistann þinn"
 
-#: data/PlaylistDialog.ui:88
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "_Búa til"
 
-#: data/PlaylistDialog.ui:157
+#: data/ui/PlaylistDialog.ui:157
 msgid "New Playlist"
 msgstr "Nýr spilunarlisti"
 
-#: data/PlaylistDialog.ui:170
+#: data/ui/PlaylistDialog.ui:170
 msgid "Add"
 msgstr "Bæta við"
 
-#: data/PlaylistDialog.ui:261
+#: data/ui/PlaylistDialog.ui:261
 msgid "Select Playlist"
 msgstr "Veldu spilunarlista"
 
-#: data/PlaylistDialog.ui:276
+#: data/ui/PlaylistDialog.ui:276
 msgid "_Add"
 msgstr "Bæt_a við"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Bæt_a við spilunarlista"
 

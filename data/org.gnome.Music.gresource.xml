@@ -2,28 +2,28 @@
 <gresources>
   <gresource prefix="/org/gnome/Music">
     <file preprocess="xml-stripblanks">AboutDialog.ui</file>
-    <file alias="gtk/menus.ui" preprocess="xml-stripblanks">app-menu.ui</file>
-    <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">help-overlay.ui</file>
+    <file alias="gtk/menus.ui" preprocess="xml-stripblanks">ui/app-menu.ui</file>
+    <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">ui/help-overlay.ui</file>
     <file>application.css</file>
-    <file>initial-state.png</file>
-    <file preprocess="xml-stripblanks">AlbumCover.ui</file>
-    <file preprocess="xml-stripblanks">AlbumWidget.ui</file>
-    <file preprocess="xml-stripblanks">ArtistAlbumWidget.ui</file>
-    <file preprocess="xml-stripblanks">ArtistAlbumsWidget.ui</file>
-    <file preprocess="xml-stripblanks">DiscBox.ui</file>
-    <file preprocess="xml-stripblanks">DropDown.ui</file>
-    <file preprocess="xml-stripblanks">EmptyView.ui</file>
-    <file preprocess="xml-stripblanks">FilterView.ui</file>
-    <file preprocess="xml-stripblanks">PlayerToolbar.ui</file>
-    <file preprocess="xml-stripblanks">Searchbar.ui</file>
-    <file preprocess="xml-stripblanks">SelectionBarMenuButton.ui</file>
-    <file preprocess="xml-stripblanks">SelectionToolbar.ui</file>
-    <file preprocess="xml-stripblanks">SidebarRow.ui</file>
-    <file preprocess="xml-stripblanks">SongWidget.ui</file>
-    <file preprocess="xml-stripblanks">HeaderBar.ui</file>
-    <file preprocess="xml-stripblanks">PlaylistContextMenu.ui</file>
-    <file preprocess="xml-stripblanks">PlaylistControls.ui</file>
-    <file preprocess="xml-stripblanks">PlaylistDialog.ui</file>
-    <file preprocess="xml-stripblanks">TwoLineTip.ui</file>
+    <file>icons/initial-state.png</file>
+    <file preprocess="xml-stripblanks">ui/AlbumCover.ui</file>
+    <file preprocess="xml-stripblanks">ui/AlbumWidget.ui</file>
+    <file preprocess="xml-stripblanks">ui/ArtistAlbumWidget.ui</file>
+    <file preprocess="xml-stripblanks">ui/ArtistAlbumsWidget.ui</file>
+    <file preprocess="xml-stripblanks">ui/DiscBox.ui</file>
+    <file preprocess="xml-stripblanks">ui/DropDown.ui</file>
+    <file preprocess="xml-stripblanks">ui/EmptyView.ui</file>
+    <file preprocess="xml-stripblanks">ui/FilterView.ui</file>
+    <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
+    <file preprocess="xml-stripblanks">ui/Searchbar.ui</file>
+    <file preprocess="xml-stripblanks">ui/SelectionBarMenuButton.ui</file>
+    <file preprocess="xml-stripblanks">ui/SelectionToolbar.ui</file>
+    <file preprocess="xml-stripblanks">ui/SidebarRow.ui</file>
+    <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
+    <file preprocess="xml-stripblanks">ui/HeaderBar.ui</file>
+    <file preprocess="xml-stripblanks">ui/PlaylistContextMenu.ui</file>
+    <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
+    <file preprocess="xml-stripblanks">ui/PlaylistDialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
   </gresource>
 </gresources>

@@ -161,7 +161,7 @@ msgstr "Ҳозир пахш намекунад"
 msgid "by %s, from %s"
 msgstr "Ҳунарманди %s, албоми %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:125 ../data/ui/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Қаблӣ"
 
@@ -170,11 +170,11 @@ msgid "Pause"
 msgstr "Таваққуф"
 
 #: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:522
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/ui/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Пахш кардан"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:133 ../data/ui/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Навбатӣ"
 
@@ -278,7 +278,7 @@ msgstr[1] "%d объект интихоб шудаанд"
 
 #: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:269
 #: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:306
-#: ../gnomemusic/window.py:318 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:318 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Барои интихоби объект онро зер кунед"
 
@@ -414,96 +414,96 @@ msgstr ""
 "\"Magic of the vinyl\" by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Санаи нашр"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Давомнокии пахш"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Help"
 msgstr "_Кумак"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_About"
 msgstr "_Дар бораи барнома"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Хуруҷ"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Тасодуфӣ"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Ҳамаро такрор кардан"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Такрор кардани суруд"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Хомӯш кардани тасодуфӣ/такрорӣ"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Ягон мусиқӣ ёфт нашуд"
 
-#: ../data/NoMusic.ui.h:3
+#: ../data/ui/NoMusic.ui.h:3
 #, no-c-format
 msgid "The contents of your %s will appear here."
 msgstr "Муҳтавои %s дар ин ҷо намоиш дода мешавад."
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Ҳамаро интихоб кардан"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Ҳеҷ чизро интихоб накардан"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Ҷустуҷӯ"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 msgid "Select"
 msgstr "Интихоб кардан"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Бекор кардан"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Ба қафо"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Илова кардан ба феҳристи пахш"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "Тоза кардан аз феҳристи пахш"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "_Пахш кардан"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Нест кардан"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Номи феҳристи пахш"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Интихоби феҳристи пахш"
 

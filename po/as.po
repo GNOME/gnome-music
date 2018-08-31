@@ -121,7 +121,7 @@ msgstr "বজোৱা নাই"
 msgid "by %s, from %s"
 msgstr "%s দ্বাৰা, %s ৰ পৰা"
 
-#: ../gnomemusic/notification.py:130 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:130 ../data/ui/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "পূৰ্বৱৰ্তী"
 
@@ -130,11 +130,11 @@ msgid "Pause"
 msgstr "বিৰাম দিয়ক"
 
 #: ../gnomemusic/notification.py:136 ../gnomemusic/player.py:351
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/ui/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "বজাওক"
 
-#: ../gnomemusic/notification.py:138 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:138 ../data/ui/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "পৰৱৰ্তী"
 
@@ -178,7 +178,7 @@ msgstr[1] "নিৰ্বাচিত %d বস্তুবোৰ"
 
 #: ../gnomemusic/view.py:203 ../gnomemusic/widgets.py:227
 #: ../gnomemusic/widgets.py:444 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:294 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "বস্তুবোৰ নিৰ্বাচন কৰিবলৈ সিহতক ক্লিক কৰক"
 
@@ -295,95 +295,95 @@ msgstr ""
 "নিবিচাৰে, "
 "এই ব্যতিক্ৰম বিবৃতিক আপোনাৰ সংস্কৰণৰ পৰা মচি পেলাব।"
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "উন্মোচিত"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "চলাৰ দৈৰ্ঘ্য"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_New Playlist"
 msgstr "নতুন প্লেলিস্ট (_N)"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "সহায় (_H)"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "বিষয়ে (_A)"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "প্ৰস্থান কৰক (_Q)"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "সানমিহলি কৰক"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "সকলো পুনৰাবৃত্তি কৰক"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "গান পুনৰ বজাওক"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "সানমিহলি/পুনৰাবৃত্তি বন্ধ"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "কোনো সংগীত পোৱা নগল"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "সকলো বাছক"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "একো নাবাছিব"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 #| msgid "Search mode"
 msgid "Search"
 msgstr "সন্ধান কৰক"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 #| msgid "Select All"
 msgid "Select"
 msgstr "বাছক"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "বাতিল কৰক"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "পিছলৈ"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "প্লেলিস্টলৈ যোগ কৰক"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 #| msgid "Add to Playlist"
 msgid "Remove from Playlist"
 msgstr "প্লেলিস্টৰ পৰা আতৰাওক"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 #| msgid "Play"
 msgid "_Play"
 msgstr "বজাওক (_P)"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "মচি পেলাওক (_D)"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 #| msgid "Select All"
 msgid "Select Playlist"
 msgstr "প্লেলিস্ট বাছক"

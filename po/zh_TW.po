@@ -188,7 +188,7 @@ msgstr "演出者"
 msgid "Album"
 msgstr "專輯"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:172
+#: gnomemusic/searchbar.py:69 data/ui/AlbumWidget.ui:172
 msgid "Composer"
 msgstr "作曲家"
 
@@ -276,7 +276,7 @@ msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "己選擇 {} 項目"
 
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:32
+#: gnomemusic/widgets/headerbar.py:76 data/ui/SelectionBarMenuButton.ui:32
 msgid "Click on items to select them"
 msgstr "點按項目來選取它們"
 
@@ -292,7 +292,7 @@ msgstr "復原(_U)"
 msgid "Pause"
 msgstr "暫停"
 
-#: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
+#: gnomemusic/widgets/playertoolbar.py:151 data/ui/PlayerToolbar.ui:88
 msgid "Play"
 msgstr "播放"
 
@@ -360,222 +360,222 @@ msgstr ""
 "\"Magic of the vinyl\" 作者 Sami Pyylampi 影像是以 CC-BY-SA 2.0 授權 https://"
 "www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:111
+#: data/ui/AlbumWidget.ui:111
 msgid "Released"
 msgstr "發行"
 
-#: data/AlbumWidget.ui:127
+#: data/ui/AlbumWidget.ui:127
 msgid "Running Length"
 msgstr "播放長度"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "鍵盤捷徑鍵(_K)"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "關於(_A)"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "結束(_Q)"
 
-#: data/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:13
 msgid "Search"
 msgstr "搜尋"
 
-#: data/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36
 msgid "Select"
 msgstr "選擇"
 
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/PlaylistDialog.ui:282
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: data/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77
 msgid "Back"
 msgstr "返回"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "一般"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "關閉視窗"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "搜尋"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "求助"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "捷徑鍵"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "播放控制"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "播放/暫停"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "下一首"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "上一首"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "切換重複與否"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "切換隨機與否"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "導覽"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "前往「專輯」"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "前往「演出者」"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "前往「歌曲」"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "前往「播放清單」"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "返回"
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "亂數"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "全部重複播放"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "重複播放歌曲"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "亂數/重複播放關閉"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "前一首"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "下一首"
 
-#: data/PlaylistContextMenu.ui:5
+#: data/ui/PlaylistContextMenu.ui:5
 msgctxt "context menu item"
 msgid "Play"
 msgstr "播放"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "加入至播放清單…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "從播放清單移除"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "播放(_P)"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "刪除(_D)"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "重新命名(_R)…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "播放清單名稱"
 
-#: data/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:67
 msgid "_Done"
 msgstr "完成(_D)"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "輸入您第一個播放清單的名稱"
 
-#: data/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "建立(_R)"
 
-#: data/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:168
 msgid "New Playlist…"
 msgstr "新增播放清單..."
 
-#: data/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:184
 msgid "Add"
 msgstr "加入"
 
-#: data/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:279
 msgid "Add to Playlist"
 msgstr "加入至播放清單"
 
-#: data/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:295
 msgid "_Add"
 msgstr "加入(_A)"
 
-#: data/SelectionBarMenuButton.ui:7
+#: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "全選"
 
-#: data/SelectionBarMenuButton.ui:11
+#: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
 msgstr "取消全選"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "加入至播放清單(_A)"
 
