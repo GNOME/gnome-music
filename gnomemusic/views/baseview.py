@@ -40,12 +40,11 @@ class BaseView(Gtk.Stack):
         return '<BaseView>'
 
     @log
-    def __init__(self, name, title, window, use_sidebar=False, sidebar=None):
+    def __init__(self, name, title, window, sidebar=None):
         """Initialize
         :param name: The view name
         :param title: The view title
         :param GtkWidget window: The main window
-        :param use_sidebar: Whether to use sidebar
         :param sidebar: The sidebar object (Default: Gtk.Box)
         """
 
