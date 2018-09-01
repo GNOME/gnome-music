@@ -27,7 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/SidebarRow.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/SidebarRow.ui')
 class SidebarRow(Gtk.ListBoxRow):
     """Row for sidebars
 
