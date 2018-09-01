@@ -128,7 +128,7 @@ class SongWidget(Gtk.EventBox):
 
     @Gtk.Template.Callback()
     @log
-    def _on_selection_changed(self, klass):
+    def _on_selection_changed(self, klass, value):
         self.emit('selection-changed')
 
     @Gtk.Template.Callback()
