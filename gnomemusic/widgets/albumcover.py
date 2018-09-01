@@ -32,7 +32,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/AlbumCover.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumCover.ui')
 class AlbumCover(Gtk.FlowBoxChild):
     """Cover tile as used in AlbumsView
 

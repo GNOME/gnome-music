@@ -27,7 +27,7 @@ from gi.repository import Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/PlaylistContextMenu.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistContextMenu.ui')
 class PlaylistContextMenu(Gtk.Popover):
 
     __gtype_name__ = 'PlaylistContextMenu'
