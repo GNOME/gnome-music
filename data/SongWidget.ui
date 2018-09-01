@@ -5,6 +5,7 @@
   <template class="SongWidget" parent="GtkEventBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <signal name="notify::selected" handler="_on_selection_changed"/>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -40,7 +41,6 @@
                 <property name="receives_default">False</property>
                 <property name="no_show_all">True</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="_on_selection_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -151,3 +151,5 @@
     </child>
   </template>
 </interface>
+
+
