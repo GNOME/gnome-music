@@ -200,7 +200,7 @@ msgstr "Izvajalec"
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:172
+#: gnomemusic/searchbar.py:69 data/ui/AlbumWidget.ui:172
 msgid "Composer"
 msgstr "Skladatelj"
 
@@ -294,7 +294,7 @@ msgstr[1] "Izbran je {} predmet"
 msgstr[2] "Izbrana sta {} predmeta"
 msgstr[3] "Izbrani so {} predmeti"
 
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:31
+#: gnomemusic/widgets/headerbar.py:76 data/ui/SelectionBarMenuButton.ui:31
 msgid "Click on items to select them"
 msgstr "S klikom se predmeti izberejo."
 
@@ -310,7 +310,7 @@ msgstr "_Razveljavi"
 msgid "Pause"
 msgstr "Premor"
 
-#: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
+#: gnomemusic/widgets/playertoolbar.py:151 data/ui/PlayerToolbar.ui:88
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -385,222 +385,222 @@ msgstr ""
 "Slika Samija Pyylampija »Magic of the vinyl« je objavljena z dovoljenjem CC-"
 "BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:111
+#: data/ui/AlbumWidget.ui:111
 msgid "Released"
 msgstr "izdano"
 
-#: data/AlbumWidget.ui:127
+#: data/ui/AlbumWidget.ui:127
 msgid "Running Length"
 msgstr "Dolžina predvajanja"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Tipkovne bližnjice"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "Pomo_č"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_O programu"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "_Končaj"
 
-#: data/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:13
 msgid "Search"
 msgstr "Iskanje"
 
-#: data/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36
 msgid "Select"
 msgstr "Izberi"
 
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/PlaylistDialog.ui:282
 msgid "_Cancel"
 msgstr "_Prekliči"
 
-#: data/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77
 msgid "Back"
 msgstr "Nazaj"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Splošno"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Zapre okno"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Začne iskanje"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Pomoč"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Tipkovne bližnjice"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Predvajanje"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Predvajanje/Premor"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Naslednja skladba"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Predhodna skladba"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Preklopi ponavljanje"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Preklopi premešanje"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Upravljanje"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Skoči na pogled albumov"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Skoči na pogled izvajalcev"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Skoči na pogled skladb"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Skoči na sezname predvajanja"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Skoči na predhodni pogled"
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Premešaj"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Ponovi vse"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Ponovi skladbo"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Onemogoči premešanje/ponavljanje"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Predhodna"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Naslednja"
 
-#: data/PlaylistContextMenu.ui:5
+#: data/ui/PlaylistContextMenu.ui:5
 msgctxt "context menu item"
 msgid "Play"
 msgstr "Predvajaj"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Dodaj na seznam predvajanja …"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Odstrani s seznama predvajanja"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Predvajaj"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Izbriši"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "P_reimenuj …"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Ime seznama predvajanja"
 
-#: data/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:67
 msgid "_Done"
 msgstr "_Končano"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Ime prvega seznama predvajanja"
 
-#: data/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "_Ustvari"
 
-#: data/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:168
 msgid "New Playlist…"
 msgstr "Nov seznam predvajanja ..."
 
-#: data/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:184
 msgid "Add"
 msgstr "Dodaj"
 
-#: data/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:279
 msgid "Add to Playlist"
 msgstr "Dodaj na seznam predvajanja"
 
-#: data/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:295
 msgid "_Add"
 msgstr "_Dodaj"
 
-#: data/SelectionBarMenuButton.ui:7
+#: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Izberi vse"
 
-#: data/SelectionBarMenuButton.ui:11
+#: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
 msgstr "Odstrani izbor"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Dodaj na _seznam predvajanja"
 

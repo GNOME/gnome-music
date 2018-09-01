@@ -130,7 +130,7 @@ msgstr "Inital state has been displayed"
 msgid "Set to true when initial state has been displayed"
 msgstr "Set to true when initial state has been displayed"
 
-#: gnomemusic/notification.py:55 data/PlayerToolbar.ui:70
+#: gnomemusic/notification.py:55 data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Previous"
 
@@ -139,11 +139,11 @@ msgid "Pause"
 msgstr "Pause"
 
 #: gnomemusic/notification.py:61 gnomemusic/player.py:564
-#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
+#: data/ui/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Play"
 
-#: gnomemusic/notification.py:63 data/PlayerToolbar.ui:104
+#: gnomemusic/notification.py:63 data/ui/PlayerToolbar.ui:104
 msgid "Next"
 msgstr "Next"
 
@@ -213,7 +213,7 @@ msgstr "Artist"
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
+#: gnomemusic/searchbar.py:67 data/ui/AlbumWidget.ui:171
 msgid "Composer"
 msgstr "Composer"
 
@@ -259,7 +259,7 @@ msgstr[1] "Selected {} items"
 
 #: gnomemusic/views/baseview.py:193 gnomemusic/views/baseview.py:284
 #: gnomemusic/widgets/albumwidget.py:189
-#: gnomemusic/widgets/artistalbumswidget.py:228 data/headerbar.ui:32
+#: gnomemusic/widgets/artistalbumswidget.py:228 data/ui/headerbar.ui:32
 msgid "Click on items to select them"
 msgstr "Click on items to select them"
 
@@ -418,223 +418,223 @@ msgstr ""
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: data/AlbumWidget.ui:110
+#: data/ui/AlbumWidget.ui:110
 msgid "Released"
 msgstr "Released"
 
-#: data/AlbumWidget.ui:126
+#: data/ui/AlbumWidget.ui:126
 msgid "Running Length"
 msgstr "Running Length"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Keyboard Shortcuts"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "_Help"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_About"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "_Quit"
 
-#: data/headerbar.ui:7
+#: data/ui/headerbar.ui:7
 msgid "Select All"
 msgstr "Select All"
 
-#: data/headerbar.ui:11
+#: data/ui/headerbar.ui:11
 msgid "Select None"
 msgstr "Select None"
 
-#: data/headerbar.ui:66
+#: data/ui/headerbar.ui:66
 msgid "Search"
 msgstr "Search"
 
-#: data/headerbar.ui:89
+#: data/ui/headerbar.ui:89
 msgid "Select"
 msgstr "Select"
 
-#: data/headerbar.ui:111 data/PlaylistDialog.ui:264
+#: data/ui/headerbar.ui:111 data/PlaylistDialog.ui:264
 #| msgid "Cancel"
 msgid "_Cancel"
 msgstr "_Cancel"
 
-#: data/headerbar.ui:129
+#: data/ui/headerbar.ui:129
 msgid "Back"
 msgstr "Back"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "General"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Close window"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Search"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Help"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Shortcuts"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Playback"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Play/Pause"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Next song"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Previous song"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Toggle repeat"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Toggle shuffle"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigation"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Go to Albums"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Go to Artists"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Go to Songs"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Go to Playlists"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Go back"
 
-#: data/NoMusic.ui:35
+#: data/ui/NoMusic.ui:35
 msgid "No music found"
 msgstr "No music found"
 
 #. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
+#: data/ui/NoMusic.ui:55
 #, python-format
 msgid "The contents of your %s will appear here."
 msgstr "The contents of your %s will appear here."
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Shuffle"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Repeat All"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Repeat Song"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Shuffle/Repeat Off"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 #| msgid "Add to Playlist"
 msgid "Add to Playlist…"
 msgstr "Add to Playlist…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 #| msgid "Remove from Playlist"
 msgid "Remove From Playlist"
 msgstr "Remove From Playlist"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Play"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Delete"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Rename…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Playlist Name"
 
-#: data/PlaylistControls.ui:65
+#: data/ui/PlaylistControls.ui:65
 msgid "_Done"
 msgstr "_Done"
 
-#: data/PlaylistDialog.ui:63
+#: data/ui/PlaylistDialog.ui:63
 msgid "Enter a name for your first playlist"
 msgstr "Enter a name for your first playlist"
 
-#: data/PlaylistDialog.ui:88
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "C_reate"
 
-#: data/PlaylistDialog.ui:157
+#: data/ui/PlaylistDialog.ui:157
 msgid "New Playlist"
 msgstr "New Playlist"
 
-#: data/PlaylistDialog.ui:170
+#: data/ui/PlaylistDialog.ui:170
 msgid "Add"
 msgstr "Add"
 
-#: data/PlaylistDialog.ui:261
+#: data/ui/PlaylistDialog.ui:261
 #| msgid "New Playlist"
 msgid "Select Playlist"
 msgstr "Select Playlist"
 
-#: data/PlaylistDialog.ui:276
+#: data/ui/PlaylistDialog.ui:276
 msgid "_Add"
 msgstr "_Add"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 #| msgid "Add to Playlist"
 msgid "_Add to Playlist"
 msgstr "_Add to Playlist"

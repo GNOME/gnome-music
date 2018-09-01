@@ -141,7 +141,7 @@ msgstr "再生していません"
 msgid "by %s, from %s"
 msgstr "%s によるアルバム %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:125 ../data/ui/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "前"
 
@@ -150,11 +150,11 @@ msgid "Pause"
 msgstr "一時停止"
 
 #: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:421
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/ui/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "再生"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:133 ../data/ui/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "次"
 
@@ -228,7 +228,7 @@ msgstr[0] "%d 件選択"
 
 #: ../gnomemusic/view.py:192 ../gnomemusic/widgets.py:269
 #: ../gnomemusic/widgets.py:510 ../gnomemusic/window.py:296
-#: ../gnomemusic/window.py:308 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:308 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "アイテムをクリックして選択"
 
@@ -315,95 +315,95 @@ msgstr ""
 "\n"
 "The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer plugins to be used and distributed together with GStreamer and GNOME Music.  This permission is above and beyond the permissions granted by the GPL license by which GNOME Music is covered.  If you modify this code, you may extend this exception to your version of the code, but you are not obligated to do so.  If you do not wish to do so, delete this exception statement from your version."
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "リリース日"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "再生時間"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_About"
 msgstr "このアプリケーションについて(_A)"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "終了(_Q)"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "シャッフル"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "すべてリピート"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "1曲リピート"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "シャッフル/リピートオフ"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "曲が見つかりません"
 
-#: ../data/NoMusic.ui.h:2
+#: ../data/ui/NoMusic.ui.h:2
 msgid "The contents of your music folder will appear here."
 msgstr "あなたの音楽フォルダーの内容がここに表示されます。"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "すべて選択"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "選択なし"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "検索"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 msgid "Select"
 msgstr "選択"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "戻る"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "プレイリストに追加"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "プレイリストから削除"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "再生(_P)"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "削除(_D)"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "プレイリスト名"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "プレイリストの選択"
 

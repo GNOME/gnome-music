@@ -128,7 +128,7 @@ msgstr "Komenca stato estis montrita"
 msgid "Set to true when initial state has been displayed"
 msgstr "Agordu al vero kiam komenca stato estas montrita"
 
-#: gnomemusic/notification.py:55 data/PlayerToolbar.ui:70
+#: gnomemusic/notification.py:55 data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Antaŭa"
 
@@ -137,11 +137,11 @@ msgid "Pause"
 msgstr "Paŭzi"
 
 #: gnomemusic/notification.py:61 gnomemusic/player.py:543
-#: data/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
+#: data/ui/PlayerToolbar.ui:87 data/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Ludi"
 
-#: gnomemusic/notification.py:63 data/PlayerToolbar.ui:104
+#: gnomemusic/notification.py:63 data/ui/PlayerToolbar.ui:104
 msgid "Next"
 msgstr "Sekva"
 
@@ -211,7 +211,7 @@ msgstr "Artisto"
 msgid "Album"
 msgstr "Albumo"
 
-#: gnomemusic/searchbar.py:67 data/AlbumWidget.ui:171
+#: gnomemusic/searchbar.py:67 data/ui/AlbumWidget.ui:171
 msgid "Composer"
 msgstr "Komponisto"
 
@@ -255,7 +255,7 @@ msgstr[1] "{} eroj elektitaj"
 
 #: gnomemusic/views/baseview.py:201 gnomemusic/views/baseview.py:303
 #: gnomemusic/widgets/albumwidget.py:196
-#: gnomemusic/widgets/artistalbumswidget.py:232 data/headerbar.ui:33
+#: gnomemusic/widgets/artistalbumswidget.py:232 data/ui/headerbar.ui:33
 msgid "Click on items to select them"
 msgstr "Alklaku erojn por elekti ilin"
 
@@ -384,223 +384,223 @@ msgstr ""
 "“Magic of the vinyl” de Sami Pyylampi, bildo estas rajtigite per CC-BY-SA "
 "2.0 https://www.flickr.com/photos/_spy_/12270839403\n"
 
-#: data/AlbumWidget.ui:110
+#: data/ui/AlbumWidget.ui:110
 msgid "Released"
 msgstr "Eldonita"
 
-#: data/AlbumWidget.ui:126
+#: data/ui/AlbumWidget.ui:126
 msgid "Running Length"
 msgstr "Ludada daŭro"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Fulmklavoj"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "_Helpo"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_Pri"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "Ĉ_esi"
 
-#: data/headerbar.ui:7
+#: data/ui/headerbar.ui:7
 msgid "Select All"
 msgstr "Elekti ĉiujn"
 
-#: data/headerbar.ui:12
+#: data/ui/headerbar.ui:12
 msgid "Select None"
 msgstr "Elekti neniun"
 
-#: data/headerbar.ui:67
+#: data/ui/headerbar.ui:67
 msgid "Search"
 msgstr "Serĉi"
 
-#: data/headerbar.ui:90
+#: data/ui/headerbar.ui:90
 msgid "Select"
 msgstr "Elekti"
 
-#: data/headerbar.ui:112 data/PlaylistDialog.ui:264
+#: data/ui/headerbar.ui:112 data/PlaylistDialog.ui:264
 msgid "_Cancel"
 msgstr "_Nuligi"
 
-#: data/headerbar.ui:130
+#: data/ui/headerbar.ui:130
 msgid "Back"
 msgstr "Reen"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Ĝeneralo"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Fermi fenestron"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Serĉilo"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Helpo"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Fulmklavoj"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Ludi"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Ludi/Paŭzi"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Sekva muzikaĵo"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Antaŭa muzikaĵo"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Baskuligi ripeton"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Baskuligi hazardelekto"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigado"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Iri al albumoj"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Iri al artistoj"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Iri al muzikaĵoj"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Iri al ludlistoj"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Reen iri"
 
-#: data/NoMusic.ui:35
+#: data/ui/NoMusic.ui:35
 msgid "No music found"
 msgstr "Neniu muziko trovita"
 
 #. Translators: %s will be replaced with a link with text 'Music folder'
-#: data/NoMusic.ui:55
+#: data/ui/NoMusic.ui:55
 #, python-format
 msgid "The contents of your %s will appear here."
 msgstr "La enhavo de via %s aperos ĉi tie."
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Hazardelekti"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Ripetadi ĉion"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Ripetadi muzikaĵon"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Ne hazardelekti, ne ripetadi"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Aldoni al ludlisto…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Forigi el ludlisto"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Ludi"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Forigi"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Alinomi…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Ludlista nomo"
 
-#: data/PlaylistControls.ui:65
+#: data/ui/PlaylistControls.ui:65
 msgid "_Done"
 msgstr "Far_ita"
 
-#: data/PlaylistDialog.ui:63
+#: data/ui/PlaylistDialog.ui:63
 msgid "Enter a name for your first playlist"
 msgstr "Enigu nomon por via unua ludlisto"
 
-#: data/PlaylistDialog.ui:88
+#: data/ui/PlaylistDialog.ui:88
 msgid "C_reate"
 msgstr "_Krei"
 
-#: data/PlaylistDialog.ui:157
+#: data/ui/PlaylistDialog.ui:157
 msgid "New Playlist"
 msgstr "Nova ludlisto"
 
-#: data/PlaylistDialog.ui:170
+#: data/ui/PlaylistDialog.ui:170
 msgid "Add"
 msgstr "Aldoni"
 
-#: data/PlaylistDialog.ui:261
+#: data/ui/PlaylistDialog.ui:261
 msgid "Select Playlist"
 msgstr "Elekti ludliston"
 
-#: data/PlaylistDialog.ui:276
+#: data/ui/PlaylistDialog.ui:276
 msgid "_Add"
 msgstr "_Aldoni"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Aldoni al _ludlisto"
 
-#: data/SelectionToolbar.ui:21
+#: data/ui/SelectionToolbar.ui:21
 msgid "_Remove from Playlist"
 msgstr "Forigi _el ludlisto"
 

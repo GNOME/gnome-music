@@ -189,7 +189,7 @@ msgstr "Artista"
 msgid "Album"
 msgstr "Àlbum"
 
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:167
+#: gnomemusic/searchbar.py:69 data/ui/AlbumWidget.ui:167
 msgid "Composer"
 msgstr "Compositor"
 
@@ -286,7 +286,7 @@ msgid_plural "Selected {} items"
 msgstr[0] "{} element seleccionat"
 msgstr[1] "{} elements seleccionats"
 
-#: gnomemusic/widgets/headerbar.py:79 data/SelectionBarMenuButton.ui:32
+#: gnomemusic/widgets/headerbar.py:79 data/ui/SelectionBarMenuButton.ui:32
 msgid "Click on items to select them"
 msgstr "Feu clic als elements per seleccionar-los"
 
@@ -302,8 +302,8 @@ msgstr "_Desfés"
 msgid "Pause"
 msgstr "Fes una pausa"
 
-#: gnomemusic/widgets/playertoolbar.py:140 data/PlayerToolbar.ui:88
-#: data/PlaylistContextMenu.ui:5
+#: gnomemusic/widgets/playertoolbar.py:140 data/ui/PlayerToolbar.ui:88
+#: data/ui/PlaylistContextMenu.ui:5
 msgid "Play"
 msgstr "Reprodueix"
 
@@ -371,216 +371,216 @@ msgstr ""
 "La imatge «Magic of the vinyl» d'en Sami Pyylampi està llicenciada sota CC-"
 "BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:106
+#: data/ui/AlbumWidget.ui:106
 msgid "Released"
 msgstr "Publicat"
 
-#: data/AlbumWidget.ui:122
+#: data/ui/AlbumWidget.ui:122
 msgid "Running Length"
 msgstr "Durada"
 
-#: data/app-menu.ui:5
+#: data/ui/app-menu.ui:5
 msgid "_Keyboard Shortcuts"
 msgstr "_Tecles de drecera"
 
-#: data/app-menu.ui:9
+#: data/ui/app-menu.ui:9
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: data/app-menu.ui:15
+#: data/ui/app-menu.ui:15
 msgid "_About"
 msgstr "_Quant a"
 
-#: data/app-menu.ui:19
+#: data/ui/app-menu.ui:19
 msgid "_Quit"
 msgstr "_Surt"
 
-#: data/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:13
 msgid "Search"
 msgstr "Cerca"
 
-#: data/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36
 msgid "Select"
 msgstr "Selecciona"
 
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:271
+#: data/ui/HeaderBar.ui:58 data/PlaylistDialog.ui:271
 msgid "_Cancel"
 msgstr "_Cancel·la"
 
-#: data/HeaderBar.ui:76
+#: data/ui/HeaderBar.ui:76
 msgid "Back"
 msgstr "Enrere"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "General"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Tanca la finestra"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Cerca"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Ajuda"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Dreceres"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Reprodueix"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Reprodueix/Fes una pausa"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Cançó següent"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Cançó anterior"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Commuta la repetició"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Commuta la mescla"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navegació"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Vés als àlbums"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Vés als artistes"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Vés a les cançons"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Vés a les llistes de reproducció"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Torna enrere"
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Mescla"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Repeteix-ho tot"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Repeteix la cançó"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Aleatori/Repetició desactivada"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Anterior"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Següent"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Afegeix a la llista de reproducció…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Suprimeix de la llista de reproducció"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Reprodueix"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Suprimeix"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Canvia el nom…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Nom de la llista de reproducció"
 
-#: data/PlaylistControls.ui:64
+#: data/ui/PlaylistControls.ui:64
 msgid "_Done"
 msgstr "_Fet"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Introduïu un nom per a la vostra primera llista de reproducció"
 
-#: data/PlaylistDialog.ui:94
+#: data/ui/PlaylistDialog.ui:94
 msgid "C_reate"
 msgstr "_Crea"
 
-#: data/PlaylistDialog.ui:164
+#: data/ui/PlaylistDialog.ui:164
 msgid "New Playlist…"
 msgstr "Llista de reproducció nova…"
 
-#: data/PlaylistDialog.ui:177
+#: data/ui/PlaylistDialog.ui:177
 msgid "Add"
 msgstr "Afegeix"
 
-#: data/PlaylistDialog.ui:268
+#: data/ui/PlaylistDialog.ui:268
 msgid "Add to Playlist"
 msgstr "Afegeix a la llista de reproducció"
 
-#: data/PlaylistDialog.ui:283
+#: data/ui/PlaylistDialog.ui:283
 msgid "_Add"
 msgstr "_Afegeix"
 
-#: data/SelectionBarMenuButton.ui:7
+#: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
-#: data/SelectionBarMenuButton.ui:11
+#: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
 msgstr "No en seleccionis cap"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Afegeix a la llista de reproducció"

@@ -32,7 +32,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.query import Query
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/EmptyView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
 class EmptyView(Gtk.Stack):
     """Empty view when there is no music to display
 

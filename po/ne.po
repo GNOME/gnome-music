@@ -117,7 +117,7 @@ msgstr "बजेन"
 msgid "by %s, from %s"
 msgstr "%s बाट %s देखि"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:125 ../data/ui/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "अघिल्लो"
 
@@ -126,11 +126,11 @@ msgid "Pause"
 msgstr "पज गर्नुहोस्"
 
 #: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:351
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/ui/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "प्ले गर्नुहोस्"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:133 ../data/ui/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "पछिल्लो:"
 
@@ -172,7 +172,7 @@ msgstr[1] "%d बस्तु चयन भयो"
 
 #: ../gnomemusic/view.py:200 ../gnomemusic/widgets.py:224
 #: ../gnomemusic/widgets.py:441 ../gnomemusic/window.py:282
-#: ../gnomemusic/window.py:294 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:294 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "वस्तुहरू चयनका लागि क्लिक गर्नुहोस्"
 
@@ -261,91 +261,91 @@ msgid ""
 "statement from your version."
 msgstr ""
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr ""
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 #, fuzzy
 msgid "Running Length"
 msgstr "चलिरहेको"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_New Playlist"
 msgstr "नयाँ सूची"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_Help"
 msgstr "सहयोग"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_About"
 msgstr "बारेमा"
 
-#: ../data/app-menu.ui.h:4
+#: ../data/ui/app-menu.ui.h:4
 msgid "_Quit"
 msgstr "अन्त्य गर्नुहोस्"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "फिट्नुहोस्"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "सबै दोहोर्याउनुस्"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "गाना दोहोर्याउनुस्"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "फिट्नुहोस्/दोहोर्याउनुस् बन्द"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No Music Found"
 msgstr "सङ्गित भेटिएन"
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "सबै छान्नुहोस्"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "कुनै पनि चयन नगर्नुहोस्"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "खोजी"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 msgid "Select"
 msgstr "चयन गर्नुहोस्..."
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "रद्द गर्नुहोस्"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "पछाडि"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "सुचिमा थप्नुहोस्..."
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "सूचीबाट हटाउनुहोस्"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "प्ले गर्नुहोस्"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "मेट्नुहोस्"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "सूचिचयन गर्नुहोस्..."

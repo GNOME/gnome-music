@@ -152,7 +152,7 @@ msgstr "Ne izvodi se"
 msgid "by %s, from %s"
 msgstr "od %s  ,  do  %s"
 
-#: ../gnomemusic/notification.py:125 ../data/PlayerToolbar.ui.h:5
+#: ../gnomemusic/notification.py:125 ../data/ui/PlayerToolbar.ui.h:5
 msgid "Previous"
 msgstr "Prethodna"
 
@@ -161,11 +161,11 @@ msgid "Pause"
 msgstr "Pauziraj"
 
 #: ../gnomemusic/notification.py:131 ../gnomemusic/player.py:405
-#: ../data/PlayerToolbar.ui.h:6
+#: ../data/ui/PlayerToolbar.ui.h:6
 msgid "Play"
 msgstr "Pokreni"
 
-#: ../gnomemusic/notification.py:133 ../data/PlayerToolbar.ui.h:7
+#: ../gnomemusic/notification.py:133 ../data/ui/PlayerToolbar.ui.h:7
 msgid "Next"
 msgstr "Sljedeći"
 
@@ -241,7 +241,7 @@ msgstr[2] "Odabrano %d stavki"
 
 #: ../gnomemusic/view.py:193 ../gnomemusic/widgets.py:277
 #: ../gnomemusic/widgets.py:517 ../gnomemusic/window.py:292
-#: ../gnomemusic/window.py:304 ../data/headerbar.ui.h:3
+#: ../gnomemusic/window.py:304 ../data/ui/headerbar.ui.h:3
 msgid "Click on items to select them"
 msgstr "Kliknite na stavke da ih označite"
 
@@ -352,94 +352,94 @@ msgstr ""
 "izuzetak vašoj verziji koda,ali niste obavezni uraditi.Ako ste sigurni da ne "
 "želite,izbrišite ovaj izuzetak iz vaše verzije."
 
-#: ../data/AlbumWidget.ui.h:1
+#: ../data/ui/AlbumWidget.ui.h:1
 msgid "Released"
 msgstr "Izdanje"
 
-#: ../data/AlbumWidget.ui.h:2
+#: ../data/ui/AlbumWidget.ui.h:2
 msgid "Running Length"
 msgstr "Vrijeme trajanja"
 
-#: ../data/app-menu.ui.h:1
+#: ../data/ui/app-menu.ui.h:1
 msgid "_Help"
 msgstr "_Pomoć"
 
-#: ../data/app-menu.ui.h:2
+#: ../data/ui/app-menu.ui.h:2
 msgid "_About"
 msgstr "_O programu"
 
-#: ../data/app-menu.ui.h:3
+#: ../data/ui/app-menu.ui.h:3
 msgid "_Quit"
 msgstr "_Izlaz"
 
-#: ../data/PlayerToolbar.ui.h:1
+#: ../data/ui/PlayerToolbar.ui.h:1
 msgid "Shuffle"
 msgstr "Izmiješaj"
 
-#: ../data/PlayerToolbar.ui.h:2
+#: ../data/ui/PlayerToolbar.ui.h:2
 msgid "Repeat All"
 msgstr "Ponovi sve"
 
-#: ../data/PlayerToolbar.ui.h:3
+#: ../data/ui/PlayerToolbar.ui.h:3
 msgid "Repeat Song"
 msgstr "Ponovi pjesmu"
 
-#: ../data/PlayerToolbar.ui.h:4
+#: ../data/ui/PlayerToolbar.ui.h:4
 msgid "Shuffle/Repeat Off"
 msgstr "Izmješaj/isključi ponavljanje"
 
-#: ../data/NoMusic.ui.h:1
+#: ../data/ui/NoMusic.ui.h:1
 msgid "No music found"
 msgstr "Nije pronađena muzika"
 
-#: ../data/NoMusic.ui.h:2
+#: ../data/ui/NoMusic.ui.h:2
 msgid "The contents of your music folder will appear here."
 msgstr "Sadržaj Vašeg direktorija sa muzikom će se pojaviti ovdje."
 
-#: ../data/headerbar.ui.h:1
+#: ../data/ui/headerbar.ui.h:1
 msgid "Select All"
 msgstr "Izaberi sve"
 
-#: ../data/headerbar.ui.h:2
+#: ../data/ui/headerbar.ui.h:2
 msgid "Select None"
 msgstr "Bez izbora"
 
-#: ../data/headerbar.ui.h:4
+#: ../data/ui/headerbar.ui.h:4
 msgid "Search"
 msgstr "Traži"
 
-#: ../data/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
+#: ../data/ui/headerbar.ui.h:5 ../data/PlaylistDialog.ui.h:3
 msgid "Select"
 msgstr "Odaberi"
 
-#: ../data/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
+#: ../data/ui/headerbar.ui.h:6 ../data/PlaylistDialog.ui.h:2
 msgid "Cancel"
 msgstr "Otkaži"
 
-#: ../data/headerbar.ui.h:7
+#: ../data/ui/headerbar.ui.h:7
 msgid "Back"
 msgstr "Nazad"
 
-#: ../data/SelectionToolbar.ui.h:1
+#: ../data/ui/SelectionToolbar.ui.h:1
 msgid "Add to Playlist"
 msgstr "Dodajte u listu za izvedbu"
 
-#: ../data/SelectionToolbar.ui.h:2
+#: ../data/ui/SelectionToolbar.ui.h:2
 msgid "Remove from Playlist"
 msgstr "Ukloni sa liste pjesama"
 
-#: ../data/PlaylistControls.ui.h:1
+#: ../data/ui/PlaylistControls.ui.h:1
 msgid "_Play"
 msgstr "_Izvedi"
 
-#: ../data/PlaylistControls.ui.h:2
+#: ../data/ui/PlaylistControls.ui.h:2
 msgid "_Delete"
 msgstr "_Izbriši"
 
-#: ../data/PlaylistControls.ui.h:3
+#: ../data/ui/PlaylistControls.ui.h:3
 msgid "Playlist Name"
 msgstr "Naziv liste numera"
 
-#: ../data/PlaylistDialog.ui.h:1
+#: ../data/ui/PlaylistDialog.ui.h:1
 msgid "Select Playlist"
 msgstr "Izaberite listu numera"
