@@ -30,7 +30,7 @@ from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/PlaylistDialog.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
 class PlaylistDialog(Gtk.Dialog):
     """Dialog for adding items to a playlist"""
 

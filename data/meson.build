@@ -25,7 +25,7 @@ gnome.compile_resources(
   install_dir: PKGDATA_DIR,
   install: true,
   dependencies: configure_file(
-    input: 'AboutDialog.ui.in',
+    input: 'ui/AboutDialog.ui.in',
     output: 'AboutDialog.ui',
     configuration: about_dialog_conf
   )

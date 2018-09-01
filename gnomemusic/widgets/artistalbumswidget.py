@@ -34,7 +34,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 logger = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ArtistAlbumsWidget.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumsWidget.ui')
 class ArtistAlbumsWidget(Gtk.Box):
     """Widget containing all albums by an artist
 
