@@ -92,8 +92,6 @@ class BaseView(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
-        self.connect(
-            'notify::selected-items-count', self._update_selected_items_count)
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
 
@@ -128,15 +126,6 @@ class BaseView(Gtk.Stack):
         if (self == widget.get_visible_child()
                 and not self._init):
             self._populate()
-
-    @log
-    def _update_header_from_selection(self, n_items):
-        """Updates header during item selection."""
-        self._selection_toolbar.props.items_selected = n_items
-
-    @log
-    def _update_selected_items_count(self, klass, value):
-        self._update_header_from_selection(self.props.selected_items_count)
 
     @log
     def _populate(self, data=None):
@@ -178,19 +167,16 @@ class BaseView(Gtk.Stack):
                 self.model[itr][6] = value
                 count += 1
             itr = self.model.iter_next(itr)
+
         return count
 
     @log
     def select_all(self):
         """Select all the available songs."""
-        count = self._set_selection(True)
-
-        self._selection_toolbar.props.items_selected = count
-        self._update_header_from_selection(count)
+        self.props.selected_items_count = self._set_selection(True)
 
     @log
     def unselect_all(self):
         """Unselects all the selected songs."""
         self._set_selection(False)
-        self._selection_toolbar.props.items_selected = 0
-        self._header_bar.props.items_selected = 0
+        self.props.selected_items_count = 0
