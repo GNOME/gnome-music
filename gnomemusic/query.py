@@ -338,7 +338,8 @@ class Query():
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        nmm:artistName(?album_artist) AS ?artist
+        tracker:coalesce(nmm:artistName(?album_artist),
+                         nmm:artistName(?song_artist)) AS ?artist
         nie:title(?album) AS ?album
     WHERE {
         ?album a nmm:MusicAlbum .
@@ -363,7 +364,8 @@ class Query():
     SELECT DISTINCT
         rdf:type(?album)
         tracker:id(?album) AS ?id
-        nmm:artistName(?album_artist) AS ?artist
+        tracker:coalesce(nmm:artistName(?album_artist),
+                         nmm:artistName(?song_artist)) AS ?artist
         nie:title(?album) AS ?album
     WHERE {
         ?song a nmm:MusicPiece ;
