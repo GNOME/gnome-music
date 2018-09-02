@@ -157,7 +157,7 @@ class AlbumsView(BaseView):
                 and child.props.media in self.albums_selected):
             self.albums_selected.remove(child.props.media)
 
-        self._update_header_from_selection(len(self.albums_selected))
+        self.props.selected_items_count = len(self.albums_selected)
 
     @log
     def _get_selected_album_songs(self):
@@ -171,7 +171,7 @@ class AlbumsView(BaseView):
         if item:
             self.items_selected.append(item)
         if remaining == 0:
-            if self.albums_index < len(self.albums_selected):
+            if self.albums_index < self.props.selected_items_count:
                 self._get_selected_album_songs()
             else:
                 self.items_selected_callback(self.items_selected)

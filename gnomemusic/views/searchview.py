@@ -188,7 +188,8 @@ class SearchView(BaseView):
             iter_ = self.model.get_iter(path)
             self.model[iter_][6] = not self.model[iter_][6]
             selected_iters = self._get_selected_iters()
-            self._update_header_from_selection(len(selected_iters))
+
+            self.props.selected_items_count = len(selected_iters)
 
     @log
     def _get_selected_iters(self):

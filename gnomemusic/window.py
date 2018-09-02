@@ -59,6 +59,7 @@ playlists = Playlists.get_default()
 
 class Window(Gtk.ApplicationWindow):
 
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
@@ -165,6 +166,8 @@ class Window(Gtk.ApplicationWindow):
 
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         self.bind_property(
+            'selected-items-count', self._headerbar, 'items-selected')
+        self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
@@ -262,6 +265,11 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.SONG] = SongsView(self, self.player)
         self.views[View.PLAYLIST] = PlaylistView(self, self.player)
         self.views[View.SEARCH] = SearchView(self, self.player)
+
+        selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
+        for view in selectable_views:
+            self.views[view].bind_property(
+                'selected-items-count', self, 'selected-items-count')
 
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM

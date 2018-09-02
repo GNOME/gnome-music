@@ -54,6 +54,7 @@ class AlbumWidget(Gtk.EventBox):
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _duration = 0
@@ -91,6 +92,9 @@ class AlbumWidget(Gtk.EventBox):
             'selection-mode', self._header_bar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            'selected-items-count', self._parent_view, 'selected-items-count')
 
         self.show_all()
 
@@ -179,8 +183,7 @@ class AlbumWidget(Gtk.EventBox):
     @log
     def _on_selection_changed(self, widget):
         n_items = len(self._disc_listbox.get_selected_items())
-        self._selection_toolbar.props.items_selected = n_items
-        self._header_bar.items_selected = n_items
+        self.props.selected_items_count = n_items
 
     @log
     def _create_disc_box(self, disc_nr, disc_songs):
