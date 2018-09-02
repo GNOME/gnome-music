@@ -34,6 +34,8 @@ class BaseView(Gtk.Stack):
 
     _now_playing_icon_name = 'media-playback-start-symbolic'
     _error_icon_name = 'dialog-error-symbolic'
+
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
@@ -99,6 +101,8 @@ class BaseView(Gtk.Stack):
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
+        self.connect(
+            'notify::selected-items-count', self._update_selected_items_count)
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
 
@@ -138,7 +142,10 @@ class BaseView(Gtk.Stack):
     def _update_header_from_selection(self, n_items):
         """Updates header during item selection."""
         self._selection_toolbar.props.items_selected = n_items
-        self._header_bar.props.items_selected = n_items
+
+    @log
+    def _update_selected_items_count(self, klass, value):
+        self._update_header_from_selection(self.props.selected_items_count)
 
     @log
     def _populate(self, data=None):
