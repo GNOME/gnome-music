@@ -202,6 +202,9 @@ class HeaderBar(Gtk.HeaderBar):
     @Gtk.Template.Callback()
     @log
     def _on_back_button_clicked(self, widget=None):
+        if self.props.selection_mode:
+            return
+
         window = self.get_toplevel()
 
         visible_child = window.curr_view.props.visible_child
