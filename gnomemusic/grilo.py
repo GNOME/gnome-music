@@ -35,7 +35,8 @@ import os
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
                                   "grl-filesystem:4,"
                                   "grl-tracker-source:3,"
-                                  "grl-lastfm-cover:2")
+                                  "grl-lastfm-cover:2,"
+                                  "grl-theaudiodb-cover:1")
 from gi.repository import Grl
 logger = logging.getLogger(__name__)
 
@@ -75,6 +76,8 @@ class Grilo(GObject.GObject):
 
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
+
+    _theaudiodb_api_key = "195003"
 
     sources = GObject.Property()
 
@@ -122,6 +125,10 @@ class Grilo(GObject.GObject):
 
     @log
     def _find_sources(self):
+        config = Grl.Config.new('grl-lua-factory', 'grl-theaudiodb-cover')
+        config.set_api_key(self._theaudiodb_api_key)
+        self.registry.add_config(config)
+
         self.registry.connect('source_added', self._on_source_added)
         self.registry.connect('source_removed', self._on_source_removed)
 
