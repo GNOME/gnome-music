@@ -63,13 +63,11 @@ class AlbumWidget(Gtk.EventBox):
         return '<AlbumWidget>'
 
     @log
-    def __init__(self, player, parent_view, header_bar, selection_toolbar):
+    def __init__(self, player, parent_view):
         """Initialize the AlbumWidget.
 
         :param player: The player object
         :param parent_view: The view this widget is part of
-        :param header_bar: The header bar object
-        :param selection_toolbar: The selection toolbar object
         """
         super().__init__()
 
@@ -81,15 +79,13 @@ class AlbumWidget(Gtk.EventBox):
 
         self._create_model()
         self._album = None
-        self._header_bar = header_bar
-        self._selection_toolbar = selection_toolbar
 
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
         self.bind_property(
-            'selection-mode', self._header_bar, 'selection-mode',
+            'selection-mode', self._parent_view, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
 

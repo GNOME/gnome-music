@@ -65,8 +65,7 @@ class SearchView(BaseView):
         self._albums_selected = []
         self._albums = {}
         self._albums_index = 0
-        self._album_widget = AlbumWidget(
-            player, self, self._header_bar, self._selection_toolbar)
+        self._album_widget = AlbumWidget(player, self)
         self.add(self._album_widget)
 
         self._artists_albums_selected = []
