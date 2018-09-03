@@ -2,7 +2,6 @@ gnome.compile_resources(
   PROJECT_RDNN_NAME,
   PROJECT_RDNN_NAME + '.gresource.xml',
   gresource_bundle: true,
-  source_dir: '.',
   install_dir: PKGDATA_DIR,
   install: true,
   dependencies: about_dialog
