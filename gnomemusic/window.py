@@ -49,6 +49,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchbar import Searchbar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
+from gnomemusic.windowplacement import WindowPlacement
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
 
@@ -80,22 +81,10 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(select_none)
 
         self.set_size_request(200, 100)
+        WindowPlacement(self, self._settings)
 
         self.prev_view = None
         self.curr_view = None
-
-        size_setting = self._settings.get_value('window-size')
-        if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
-            self.resize(size_setting[0], size_setting[1])
-
-        position_setting = self._settings.get_value('window-position')
-        if len(position_setting) == 2 \
-           and isinstance(position_setting[0], int) \
-           and isinstance(position_setting[1], int):
-            self.move(position_setting[0], position_setting[1])
-
-        if self._settings.get_value('window-maximized'):
-            self.maximize()
 
         self._setup_view()
         self.notifications_popup = NotificationsPopup()
@@ -103,9 +92,6 @@ class Window(Gtk.ApplicationWindow):
 
         MediaKeys(self.player, self)
 
-        self.window_size_update_timeout = None
-        self.connect("notify::is-maximized", self._on_maximized)
-        self.connect("configure-event", self._on_configure_event)
         grilo.connect('changes-pending', self._on_changes_pending)
 
     @log
@@ -129,26 +115,6 @@ class Window(Gtk.ApplicationWindow):
                 self._switch_to_empty_view()
 
         grilo.songs_available(songs_available_cb)
-
-    @log
-    def _on_configure_event(self, widget, event):
-        if self.window_size_update_timeout is None:
-            self.window_size_update_timeout = GLib.timeout_add(500, self.store_window_size_and_position, widget)
-
-    @log
-    def store_window_size_and_position(self, widget):
-        size = widget.get_size()
-        self._settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
-
-        position = widget.get_position()
-        self._settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
-        GLib.source_remove(self.window_size_update_timeout)
-        self.window_size_update_timeout = None
-        return False
-
-    @log
-    def _on_maximized(self, klass, value, data=None):
-        self._settings.set_boolean('window-maximized', self.is_maximized())
 
     @log
     def _setup_view(self):
