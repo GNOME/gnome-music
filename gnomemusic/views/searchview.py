@@ -23,6 +23,8 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
+import gi
+gi.require_version('Gd', '1.0')
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
 
 from gnomemusic.albumartcache import Art
@@ -53,6 +55,8 @@ class SearchView(BaseView):
     @log
     def __init__(self, window, player):
         super().__init__('search', None, window)
+
+        self._searchbar = window._searchbar
 
         self._add_list_renderers()
         self.player = player
@@ -102,7 +106,7 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._headerbar.searchbar.reveal(True, False)
+        self._searchbar.reveal(True, False)
 
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
@@ -140,7 +144,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
-            self._headerbar.searchbar.reveal(False)
+            self._searchbar.reveal(False)
         elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
@@ -159,7 +163,7 @@ class SearchView(BaseView):
             self._headerbar.props.state = HeaderBar.State.SEARCH
             self._headerbar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
-            self._headerbar.searchbar.reveal(False)
+            self._searchbar.reveal(False)
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
