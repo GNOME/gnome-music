@@ -1,11 +1,10 @@
 {
-    "app-id": "org.gnome.MusicDevel",
+    "app-id": "org.gnome.Music",
     "runtime": "org.gnome.Platform",
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
-    "tags": ["devel", "development", "nightly"],
-    "desktop-file-name-prefix": "(Development) ",
+    "tags": ["stable", "3.30"],
     "finish-args": [
         "--share=ipc", "--socket=x11",
         "--share=network",
@@ -89,7 +88,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git",
+                    "branch": "gnome-3-30"
                 }
             ]
         },
