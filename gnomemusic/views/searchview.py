@@ -153,6 +153,9 @@ class SearchView(BaseView):
 
             self._artist_albums_widget.bind_property(
                 'selected-items-count', self, 'selected-items-count')
+            self.bind_property(
+                'selection-mode', self._artist_albums_widget, 'selection-mode',
+                GObject.BindingFlags.BIDIRECTIONAL)
 
             self._headerbar.props.state = HeaderBar.State.SEARCH
             self._headerbar.props.title = artist

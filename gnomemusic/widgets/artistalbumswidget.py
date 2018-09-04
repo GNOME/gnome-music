@@ -89,11 +89,6 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
-        self.bind_property(
-            'selection-mode', self._headerbar, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
-
         self._window.notifications_popup.push_loading()
 
         self._albums_to_load = len(albums)
