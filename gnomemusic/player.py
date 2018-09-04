@@ -492,7 +492,7 @@ class PlayerPlaylist(GObject.GObject):
         This method is used by mpris to expose a TrackList.
 
         :returns: current playlist
-        :rtype: list of Grl.Media
+        :rtype: list of index and Grl.Media
         """
         if not self.props.current_song:
             return []
@@ -530,7 +530,8 @@ class PlayerPlaylist(GObject.GObject):
                 range(nb_songs - offset_inf, nb_songs), indexes,
                 range(offset_sup))
 
-        songs = [self._songs[index][PlayerField.SONG] for index in indexes]
+        songs = [[index, self._songs[index][PlayerField.SONG]]
+                 for index in indexes]
         return songs
 
 
@@ -622,7 +623,7 @@ class Player(GObject.GObject):
 
         self._gst_player.props.url = song.get_url()
 
-        self.emit('song-changed', self._playlist.props.current_song_index)
+        self.emit('song-changed', self.props.current_song_index)
 
     @log
     def _on_eos(self, klass):
@@ -729,7 +730,7 @@ class Player(GObject.GObject):
 
         :param int song_index: position of the song to remove
         """
-        if self._playlist.props.current_song_index == song_index:
+        if self.props.current_song_index == song_index:
             if self.props.has_next:
                 self.next()
             elif self.props.has_previous:
@@ -815,6 +816,15 @@ class Player(GObject.GObject):
         self._repeat = mode
         self._settings.set_enum('repeat', mode)
 
+    @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
+    def current_song_index(self):
+        """Gets current song index.
+
+        :returns: position of the current song in the playlist.
+        :rtype: int
+        """
+        return self._playlist.props.current_song_index
+
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
     def current_song(self):
@@ -879,6 +889,6 @@ class Player(GObject.GObject):
         This method is used by mpris to expose a TrackList.
 
         :returns: current playlist
-        :rtype: list of Grl.Media
+        :rtype: list of index and Grl.Media
         """
         return self._playlist.get_mpris_playlist()
