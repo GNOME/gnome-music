@@ -259,13 +259,16 @@ class MediaPlayer2Service(Server):
             return 'Playlist'
 
     @log
-    def _get_metadata(self, media=None):
+    def _get_metadata(self, media=None, index=None):
+        song_dbus_path = self._get_song_dbus_path(media, index)
+        if not self.player.props.current_song:
+            return {
+                'mpris:trackid': GLib.Variant('o', song_dbus_path)
+            }
+
         if not media:
             media = self.player.props.current_song
-        if not media:
-            return {}
 
-        song_dbus_path = self._get_song_dbus_path(media)
         metadata = {
             'mpris:trackid': GLib.Variant('o', song_dbus_path),
             'xesam:url': GLib.Variant('s', media.get_url())
@@ -338,20 +341,29 @@ class MediaPlayer2Service(Server):
         return metadata
 
     @log
-    def _get_song_dbus_path(self, media):
+    def _get_song_dbus_path(self, media=None, index=None):
         """Convert a Grilo media to a D-Bus path
 
         The hex encoding is used to remove any possible invalid character.
+        Use player index to make the path truly unique in case the same song
+        is present multiple times in a playlist.
+        If media is None, it means that the current song path is requested.
 
         :param Grl.Media media: The media object
+        :param int index: The media position in the current playlist
         :return: a D-Bus id to uniquely identify the song
         :rtype: str
         """
-        if not media:
+        if not self.player.props.current_song:
             return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
+        if not media:
+            media = self.player.props.current_song
+            index = self.player.get_current_song_index()
+
         id_hex = media.get_id().encode('ascii').hex()
-        path = "/org/gnome/GnomeMusic/TrackList/{}".format(id_hex)
+        path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
+            id_hex, index)
         return path
 
     @log
@@ -359,9 +371,9 @@ class MediaPlayer2Service(Server):
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
-        for song in self.player.get_mpris_playlist():
-            path = self._get_song_dbus_path(song)
-            metadata = self._get_metadata(song)
+        for index, song in self.player.get_mpris_playlist():
+            path = self._get_song_dbus_path(song, index)
+            metadata = self._get_metadata(song, index)
             self._path_list.append(path)
             self._metadata_list.append(metadata)
 
@@ -369,8 +381,7 @@ class MediaPlayer2Service(Server):
         if (not previous_path_list
                 or previous_path_list[0] != self._path_list[0]
                 or previous_path_list[-1] != self._path_list[-1]):
-            current_song_path = self._get_song_dbus_path(
-                self.player.props.current_song)
+            current_song_path = self._get_song_dbus_path()
             self.TrackListReplaced(self._path_list, current_song_path)
             self.PropertiesChanged(
                 MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -610,8 +621,7 @@ class MediaPlayer2Service(Server):
         pass
 
     def GoTo(self, path):
-        current_song_path = self._get_song_dbus_path(
-            self.player.props.current_song)
+        current_song_path = self._get_song_dbus_path()
         current_song_index = self._path_list.index(current_song_path)
         goto_index = self._path_list.index(path)
         song_offset = goto_index - current_song_index
