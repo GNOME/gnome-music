@@ -53,7 +53,7 @@ class AlbumsView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and not self._headerbar.selection_mode):
+        if (self._init and not self.props.selection_mode):
             self._offset = 0
             self.populate()
             grilo.changes_pending['Albums'] = False
@@ -62,7 +62,7 @@ class AlbumsView(BaseView):
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
-        if (not self._headerbar.selection_mode
+        if (not self.props.selection_mode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
 
