@@ -619,7 +619,9 @@ class MPRIS(DBusInterface):
         :param str track_id: The currently playing track's identifier
         :param int position_msecond: new position in microseconds
         """
-        if track_id != self._get_metadata().get('mpris:trackid').get_string():
+        metadata = self._get_metadata()
+        current_track_id = metadata["mpris:trackid"].get_string()
+        if track_id != current_track_id:
             return
         self.player.set_position(position_msecond / 1e6)
 
