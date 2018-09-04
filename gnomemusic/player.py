@@ -861,6 +861,15 @@ class Player(GObject.GObject):
         return self._playlist.props.playlist_id
 
     @log
+    def get_current_index(self):
+        """Get current song index.
+
+        :returns: position of the current song int the playlist.
+        :rtype: int
+        """
+        return self._playlist.get_current_index()
+
+    @log
     def get_position(self):
         """Get player position.
 
