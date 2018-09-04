@@ -502,7 +502,7 @@ class PlayerPlaylist(GObject.GObject):
         This method is used by mpris to expose a TrackList.
 
         :returns: current playlist
-        :rtype: list of Grl.Media
+        :rtype: list of index and Grl.Media
         """
         if not self.props.current_song:
             return []
@@ -540,7 +540,8 @@ class PlayerPlaylist(GObject.GObject):
                 range(nb_songs - offset_inf, nb_songs), indexes,
                 range(offset_sup))
 
-        songs = [self._songs[index][PlayerField.SONG] for index in indexes]
+        songs = [[index, self._songs[index][PlayerField.SONG]]
+                 for index in indexes]
         return songs
 
 
@@ -862,6 +863,15 @@ class Player(GObject.GObject):
         return self._playlist.props.playlist_id
 
     @log
+    def get_current_index(self):
+        """Get current song index.
+
+        :returns: position of the current song int the playlist.
+        :rtype: int
+        """
+        return self._playlist.get_current_index()
+
+    @log
     def get_position(self):
         """Get player position.
 
@@ -906,6 +916,6 @@ class Player(GObject.GObject):
         This method is used by mpris to expose a TrackList.
 
         :returns: current playlist
-        :rtype: list of Grl.Media
+        :rtype: list of index and Grl.Media
         """
         return self._playlist.get_mpris_playlist()
