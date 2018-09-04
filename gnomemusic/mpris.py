@@ -453,12 +453,12 @@ class MPRIS(DBusInterface):
         has_previous = self.player.props.has_previous
         self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                                    'CanGoNext': GLib.Variant('b', has_next),
                                    'CanGoPrevious': GLib.Variant(
                                        'b', has_previous),
                                    'CanPlay': GLib.Variant('b', True),
                                    'CanPause': GLib.Variant('b', True),
+                                   'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                                },
                                [])
 
@@ -585,7 +585,9 @@ class MPRIS(DBusInterface):
         :param str track_id: The currently playing track's identifier
         :param int position_msecond: new position in microseconds
         """
-        if track_id != self._get_metadata().get('mpris:trackid').get_string():
+        metadata = self._get_metadata()
+        current_track_id = metadata["mpris:trackid"].get_string()
+        if track_id != current_track_id:
             return
         self.player.set_position(position_msecond / 1e6)
 
