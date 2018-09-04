@@ -15,13 +15,13 @@
           <property name="margin_start">60</property>
           <property name="margin_bottom">4</property>
           <property name="no_show_all">True</property>
+	  <property name="vexpand">True</property>
+	  <property name="valign">True</property>
           <style>
             <class name="dim-label"/>
           </style>
         </object>
         <packing>
-          <property name="expand">False</property>
-          <property name="fill">True</property>
           <property name="position">0</property>
         </packing>
       </child>

@@ -16,10 +16,14 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
+            <property name="hexpand">False</property>
+            <property name="halign">fill</property>
             <child>
               <object class="GtkEventBox" id="eventbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="hexpand">False</property>
+                <property name="halign">fill</property>
                 <child>
                   <object class="GtkImage" id="_play_icon">
                     <property name="can_focus">False</property>
@@ -28,8 +32,6 @@
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -40,11 +42,11 @@
                 <property name="receives_default">False</property>
                 <property name="no_show_all">True</property>
                 <property name="draw_indicator">True</property>
+                <property name="hexpand">False</property>
+                <property name="halign">fill</property>
                 <signal name="toggled" handler="_on_selection_changed" swapped="no"/>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -54,21 +56,19 @@
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="justify">right</property>
+                <property name="hexpand">False</property>
+                <property name="halign">fill</property>
                 <style>
                   <class name="dim-label"/>
                 </style>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="pack_type">end</property>
                 <property name="position">2</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -88,11 +88,10 @@
                 <property name="ellipsize">end</property>
                 <property name="max_width_chars">90</property>
                 <property name="justify">fill</property>
+                <property name="hexpand">True</property>
+                <property name="margin">9</property>
               </object>
               <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">9</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -104,10 +103,9 @@
                 <property name="halign">end</property>
                 <property name="valign">center</property>
                 <property name="single_line_mode">True</property>
+                <property name="hexpand">False</property>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -126,6 +124,7 @@
             <property name="halign">end</property>
             <property name="valign">center</property>
             <property name="visible_window">True</property>
+            <property name="hexpand">False</property>
             <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/>
             <signal name="enter-notify-event" handler="_on_star_hover" swapped="no"/>
             <signal name="leave-notify-event" handler="_on_star_unhover" swapped="no"/>
@@ -139,8 +138,6 @@
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
         </child>

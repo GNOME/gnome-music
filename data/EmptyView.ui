@@ -21,19 +21,21 @@
             <property name="icon_name">emblem-music-symbolic</property>
             <property name="icon_size">0</property>
             <property name="margin_bottom">18</property>
+            <property name="vexpand">False</property>
+            <property name="valign">fill</property>
             <style>
               <class name="grey-image"/>
             </style>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
           <object class="GtkBox" id="box">
             <property name="orientation">vertical</property>
+            <property name="vexpand">False</property>
+            <property name="valign">fill</property>
             <child>
               <object class="GtkLabel" id="_main_label">
                 <property name="visible">True</property>
@@ -41,6 +43,8 @@
                 <property name="halign">center</property>
                 <property name="xalign">0</property>
                 <property name="margin_bottom">12</property>
+                <property name="vexpand">False</property>
+                <property name="valign">fill</property>
                 <style>
                   <class name="no-music-found-label"/>
                   <class name="dim-label"/>
@@ -48,8 +52,6 @@
 
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -59,20 +61,18 @@
                 <property name="can_focus">False</property>
                 <property name="justify">left</property>
                 <property name="use_markup">true</property>
+                <property name="vexpand">False</property>
+                <property name="valign">fill</property>
                 <style>
                   <class name="dim-label"/>
                 </style>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
