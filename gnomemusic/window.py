@@ -498,8 +498,12 @@ class Window(Gtk.ApplicationWindow):
 
         visible_child = self.curr_view.props.visible_child
 
-        view = self._stack.props.visible_child
-        view._back_button_clicked(view)
+        views_with_child = [
+            self.views[View.ALBUM],
+            self.views[View.SEARCH]
+        ]
+        if self.curr_view in views_with_child:
+            self.curr_view._back_button_clicked(self.curr_view)
 
         if not ((self.curr_view == self.views[View.SEARCH]
                  or self.curr_view == self.views[View.EMPTY])
