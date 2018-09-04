@@ -96,7 +96,8 @@ class DBusInterface:
 
 class MPRIS(DBusInterface):
     '''
-    <!DOCTYPE node PUBLIC '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
+    <!DOCTYPE node PUBLIC
+    '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
     'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>
     <node>
         <interface name='org.freedesktop.DBus.Introspectable'>
