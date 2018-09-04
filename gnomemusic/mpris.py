@@ -337,6 +337,8 @@ class MPRIS(DBusInterface):
         """Convert a Grilo media to a D-Bus path
 
         The hex encoding is used to remove any possible invalid character.
+        Use player index to make the path truly unique in case the same song
+        is present multiple times in a playlist.
 
         :param Grl.Media media: The media object
         :return: a D-Bus id to uniquely identify the song
@@ -346,7 +348,9 @@ class MPRIS(DBusInterface):
             return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
         id_hex = media.get_id().encode('ascii').hex()
-        path = "/org/gnome/GnomeMusic/TrackList/{}".format(id_hex)
+        current_index = self.player.get_current_index()
+        path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
+            id_hex, current_index)
         return path
 
     @log
