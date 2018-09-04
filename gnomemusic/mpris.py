@@ -221,7 +221,7 @@ class MediaPlayer2Service(Server):
         super().__init__(self.con, '/org/mpris/MediaPlayer2')
 
         self.app = app
-        self.player = app.get_active_window().player
+        self.player = app.get_active_window()._player
         self.player.connect(
             'song-changed', self._on_current_song_changed)
         self.player.connect('playback-status-changed', self._on_playback_status_changed)
@@ -230,7 +230,7 @@ class MediaPlayer2Service(Server):
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seeked', self._on_seeked)
         self.player.connect('playlist-changed', self._on_playlist_changed)
-        self.player_toolbar = app.get_active_window().player_toolbar
+        self.player_toolbar = app.get_active_window()._player_toolbar
         self.player_toolbar.connect(
             'thumbnail-updated', self._on_thumbnail_updated)
         playlists = Playlists.get_default()

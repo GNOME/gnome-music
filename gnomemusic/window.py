@@ -90,7 +90,7 @@ class Window(Gtk.ApplicationWindow):
         self.notifications_popup = NotificationsPopup()
         self._overlay.add_overlay(self.notifications_popup)
 
-        MediaKeys(self.player, self)
+        MediaKeys(self._player, self)
 
         grilo.connect('changes-pending', self._on_changes_pending)
 
@@ -121,9 +121,9 @@ class Window(Gtk.ApplicationWindow):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._headerbar = HeaderBar()
         self._searchbar = Searchbar()
-        self.player = Player(self)
-        self.player_toolbar = PlayerToolbar(self.player, self)
-        self.selection_toolbar = SelectionToolbar()
+        self._player = Player(self)
+        self._player_toolbar = PlayerToolbar(self._player, self)
+        selection_toolbar = SelectionToolbar()
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -144,14 +144,13 @@ class Window(Gtk.ApplicationWindow):
         self.bind_property(
             'selected-items-count', self._headerbar, 'selected-items-count')
         self.bind_property(
-            'selected-items-count', self.selection_toolbar,
-            'selected-items-count')
+            'selected-items-count', selection_toolbar, 'selected-items-count')
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            'selection-mode', self.selection_toolbar, 'visible',
+            'selection-mode', selection_toolbar, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
@@ -171,19 +170,19 @@ class Window(Gtk.ApplicationWindow):
         self.set_titlebar(self._headerbar)
         self._box.pack_start(self._searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
-        self._box.pack_start(self.player_toolbar, False, False, 0)
-        self._box.pack_start(self.selection_toolbar, False, False, 0)
+        self._box.pack_start(self._player_toolbar, False, False, 0)
+        self._box.pack_start(selection_toolbar, False, False, 0)
         self.add(self._box)
 
         self._headerbar._search_button.connect(
             'toggled', self._on_search_toggled)
-        self.selection_toolbar.connect(
+        selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
         self._overlay.show()
-        self.player_toolbar.show_all()
+        self._player_toolbar.show_all()
         self._box.show()
         self.show()
 
@@ -239,11 +238,11 @@ class Window(Gtk.ApplicationWindow):
         self._headerbar.props.stack = self._stack
         self._searchbar.show()
 
-        self.views[View.ALBUM] = AlbumsView(self, self.player)
-        self.views[View.ARTIST] = ArtistsView(self, self.player)
-        self.views[View.SONG] = SongsView(self, self.player)
-        self.views[View.PLAYLIST] = PlaylistView(self, self.player)
-        self.views[View.SEARCH] = SearchView(self, self.player)
+        self.views[View.ALBUM] = AlbumsView(self, self._player)
+        self.views[View.ARTIST] = ArtistsView(self, self._player)
+        self.views[View.SONG] = SongsView(self, self._player)
+        self.views[View.PLAYLIST] = PlaylistView(self, self._player)
+        self.views[View.SEARCH] = SearchView(self, self._player)
 
         selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
         for view in selectable_views:
@@ -305,25 +304,25 @@ class Window(Gtk.ApplicationWindow):
                 self._searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
-                self.player.play_pause()
+                self._player.play_pause()
             # Play previous on Ctrl + B
             if keyval == Gdk.KEY_b:
-                self.player.previous()
+                self._player.previous()
             # Play next on Ctrl + N
             if keyval == Gdk.KEY_n:
-                self.player.next()
+                self._player.next()
             # Toggle repeat on Ctrl + R
             if keyval == Gdk.KEY_r:
-                if self.player.props.repeat_mode == RepeatMode.SONG:
-                    self.player.props.repeat_mode = RepeatMode.NONE
+                if self._player.props.repeat_mode == RepeatMode.SONG:
+                    self._player.props.repeat_mode = RepeatMode.NONE
                 else:
-                    self.player.props.repeat_mode = RepeatMode.SONG
+                    self._player.props.repeat_mode = RepeatMode.SONG
             # Toggle shuffle on Ctrl + S
             if keyval == Gdk.KEY_s:
-                if self.player.props.repeat_mode == RepeatMode.SHUFFLE:
-                    self.player.props.repeat_mode = RepeatMode.NONE
+                if self._player.props.repeat_mode == RepeatMode.SHUFFLE:
+                    self._player.props.repeat_mode = RepeatMode.NONE
                 else:
-                    self.player.props.repeat_mode = RepeatMode.SHUFFLE
+                    self._player.props.repeat_mode = RepeatMode.SHUFFLE
         # Ctrl+Shift+<KEY>
         elif modifiers == shift_ctrl_mask:
             if keyval == Gdk.KEY_A:
@@ -346,16 +345,16 @@ class Window(Gtk.ApplicationWindow):
         else:
             if (keyval == Gdk.KEY_AudioPlay
                     or keyval == Gdk.KEY_AudioPause):
-                self.player.play_pause()
+                self._player.play_pause()
 
             if keyval == Gdk.KEY_AudioStop:
-                self.player.stop()
+                self._player.stop()
 
             if keyval == Gdk.KEY_AudioPrev:
-                self.player.previous()
+                self._player.previous()
 
             if keyval == Gdk.KEY_AudioNext:
-                self.player.next()
+                self._player.next()
 
             child = self._stack.get_visible_child()
             if (keyval == Gdk.KEY_Delete
@@ -392,7 +391,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _notify_mode_disconnect(self, data=None):
-        self.player.stop()
+        self._player.stop()
         self.notifications_popup.terminate_pending()
         self._stack.disconnect(self._on_notify_model_id)
 
@@ -475,9 +474,9 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         if self.props.selection_mode:
-            self.player_toolbar.hide()
-        elif self.player.props.playing:
-            self.player_toolbar.show()
+            self._player_toolbar.hide()
+        elif self._player.props.playing:
+            self._player_toolbar.show()
         if not self.props.selection_mode:
             self._on_changes_pending()
 
@@ -506,4 +505,4 @@ class Window(Gtk.ApplicationWindow):
 
         :param bool visible: actionbar visibility
         """
-        self.player_toolbar.set_visible(visible)
+        self._player_toolbar.set_visible(visible)
