@@ -256,9 +256,11 @@ class MPRIS(DBusInterface):
         self.player.connect(
             'song-changed', self._on_current_song_changed)
         self.player.connect('notify::state', self._on_player_state_changed)
-        self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
+        self.player.connect(
+            'notify::repeat-mode', self._on_repeat_mode_changed)
         self.player.connect('volume-changed', self._on_volume_changed)
-        self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
+        self.player.connect(
+            'prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seek-finished', self._on_seek_finished)
         self.player.connect(
             'playlist-changed', self._on_player_playlist_changed)
