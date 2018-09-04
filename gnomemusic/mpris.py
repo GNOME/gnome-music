@@ -267,8 +267,9 @@ class MediaPlayer2Service(Server):
         if not media:
             return {}
 
+        song_dbus_path = self._get_song_dbus_path(media)
         metadata = {
-            'mpris:trackid': GLib.Variant('o', self._get_media_id(media)),
+            'mpris:trackid': GLib.Variant('o', song_dbus_path),
             'xesam:url': GLib.Variant('s', media.get_url())
         }
 
@@ -339,39 +340,57 @@ class MediaPlayer2Service(Server):
         return metadata
 
     @log
-    def _get_media_id(self, media):
+    def _get_song_dbus_path(self, media):
+        """Convert a Grilo media to a D-Bus path
+
+        The hex encoding is used to remove any possible invalid character.
+
+        :param Grl.Media media: The media object
+        :return: a D-Bus id to uniquely identify the song
+        :rtype: str
+        """
         if media:
-            trackid = "/org/gnome/GnomeMusic/Tracklist/{}".format(
+            path = "/org/gnome/GnomeMusic/Tracklist/{}".format(
                 codecs.encode(
                     bytes(media.get_id(), 'ascii'), 'hex').decode('ascii'))
         else:
-            trackid = "/org/mpris/MediaPlayer2/TrackList/NoTrack"
+            path = "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
-        return trackid
+        return path
 
     @log
-    def _get_media_from_id(self, track_id):
-        for track in self.player.get_songs():
-            media = track[PlayerField.SONG]
-            if track_id == self._get_media_id(media):
-                return media
+    def _get_song_from_dbus_path(self, path):
+        for item in self.player.get_songs():
+            song = item[PlayerField.SONG]
+            if path == self._get_song_dbus_path(song):
+                return song
         return None
 
     @log
     def _get_track_list(self):
         if self.player.props.playing:
-            return [self._get_media_id(song[PlayerField.SONG])
+            return [self._get_song_dbus_path(song[PlayerField.SONG])
                     for song in self.player.get_songs()]
         else:
             return []
 
     @log
-    def _get_playlist_path(self, playlist):
-        return '/org/mpris/MediaPlayer2/Playlist/%s' % \
-            (playlist.get_id() if playlist else 'Invalid')
+    def _get_playlist_dbus_path(self, playlist):
+        """Convert a playlist to a D-Bus path
+
+        :param Grl.media playlist: The playlist object
+        :return: a D-Bus id to uniquely identify the playlist
+        :rtype: str
+        """
+        if playlist:
+            id_ = playlist.get_id()
+        else:
+            id_ = 'Invalid'
+
+        return '/org/mpris/MediaPlayer2/Playlist/{}'.format(id_)
 
     @log
-    def _get_playlist_from_path(self, playlist_path):
+    def _get_playlist_from_dbus_path(self, playlist_path):
         for playlist in self.playlists:
             if playlist_path == self._get_playlist_path(playlist):
                 return playlist
@@ -479,8 +498,9 @@ class MediaPlayer2Service(Server):
     def _on_player_playlist_changed(self, klass):
         if self.player.props.current_song:
             track_list = self._get_track_list()
-            self.TrackListReplaced(
-                track_list, self._get_media_id(self.player.props.current_song))
+            current_song_path = self._get_song_dbus_path(
+                self.player.props.current_song)
+            self.TrackListReplaced(track_list, current_song_path)
             self.PropertiesChanged(
                 MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
                 {'Tracks': GLib.Variant('ao', track_list), }, [])
@@ -582,21 +602,22 @@ class MediaPlayer2Service(Server):
             None, '/org/mpris/MediaPlayer2',
             MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
 
-    def GetTracksMetadata(self, track_ids):
+    def GetTracksMetadata(self, track_paths):
         metadata = []
-        for track_id in track_ids:
-            metadata.append(self._get_metadata(self._get_media_from_id(track_id)))
+        for path in track_paths:
+            media = self._get_song_from_dbus_path(path)
+            metadata.append(self._get_metadata(media))
         return metadata
 
     def AddTrack(self, uri, after_track, set_as_current):
         pass
 
-    def RemoveTrack(self, track_id):
+    def RemoveTrack(self, path):
         pass
 
-    def GoTo(self, track_id):
+    def GoTo(self, path):
         for index, song in enumerate(self.player.get_songs()):
-            if track_id == self._get_media_id(song[PlayerField.SONG]):
+            if path == self._get_song_dbus_path(song[PlayerField.SONG]):
                 self.player.play(index)
                 return
 
@@ -616,29 +637,28 @@ class MediaPlayer2Service(Server):
                              GLib.Variant.new_tuple(GLib.Variant('a{sv}', metadata),
                                                     GLib.Variant('o', after_track)))
 
-    def TrackRemoved(self, track_id):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackRemoved',
-                             GLib.Variant.new_tuple(GLib.Variant('o', track_id)))
+    def TrackRemoved(self, path):
+        self.con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackRemoved',
+            GLib.Variant.new_tuple(GLib.Variant('o', path)))
 
-    def TrackMetadataChanged(self, track_id, metadata):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackMetadataChanged',
-                             GLib.Variant.new_tuple(GLib.Variant('o', track_id),
-                                                    GLib.Variant('a{sv}', metadata)))
+    def TrackMetadataChanged(self, path, metadata):
+        self.con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+            'TrackMetadataChanged',
+            GLib.Variant.new_tuple(
+                GLib.Variant('o', path), GLib.Variant('a{sv}', metadata)))
 
     def ActivatePlaylist(self, playlist_path):
-        playlist_id = self._get_playlist_from_path(playlist_path).get_id()
+        playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
         self.app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
 
     def GetPlaylists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':
             return []
-        playlists = [(self._get_playlist_path(playlist),
+        playlists = [(self._get_playlist_dbus_path(playlist),
                       utils.get_media_title(playlist) or '', '')
                      for playlist in self.playlists]
         return playlists[index:index + max_count] if not reverse \
