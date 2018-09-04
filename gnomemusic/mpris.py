@@ -329,12 +329,8 @@ class MPRIS(DBusInterface):
         except:
             pass
 
-        try:
-            userRating = media.get_rating()
-            assert userRating is not None
-            metadata['xesam:userRating'] = GLib.Variant('d', userRating)
-        except:
-            pass
+        user_rating = 1.0 if media.get_favourite() else 0.0
+        metadata['xesam:userRating'] = GLib.Variant('d', user_rating)
 
         try:
             title = utils.get_media_title(media)
@@ -732,15 +728,17 @@ class MPRIS(DBusInterface):
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYER_IFACE:
             position_msecond = int(self.player.get_position() * 1e6)
+            favourite = self.player.props.current_song.get_favourite()
+            rate = 1.0 if favourite else 0.0
             return {
                 'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
                 'LoopStatus': GLib.Variant('s', self._get_loop_status()),
-                'Rate': GLib.Variant('d', 1.0),
+                'Rate': GLib.Variant('d', rate),
                 'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
                 'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                 'Volume': GLib.Variant('d', self.player.get_volume()),
                 'Position': GLib.Variant('x', position_msecond),
-                'MinimumRate': GLib.Variant('d', 1.0),
+                'MinimumRate': GLib.Variant('d', 0.0),
                 'MaximumRate': GLib.Variant('d', 1.0),
                 'CanGoNext': GLib.Variant('b', self.player.props.has_next),
                 'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
