@@ -28,7 +28,6 @@ from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.widgets.searchbar import Searchbar
 from gnomemusic.utils import View
 
 
@@ -89,11 +88,16 @@ class HeaderBar(Gtk.HeaderBar):
 
     __gtype_name__ = "HeaderBar"
 
+    __gsignals__ = {
+        'back-button-clicked': (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
+
     _search_button = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
 
+    search_mode_enabled = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
@@ -111,14 +115,8 @@ class HeaderBar(Gtk.HeaderBar):
             can_focus=False, halign="center")
         self._stack_switcher.show()
 
-        self.searchbar = Searchbar(self._stack_switcher)
-
         self._selection_menu = SelectionBarMenuButton()
 
-        self._search_button.bind_property(
-            "active", self.searchbar, "search-mode-enabled",
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", self, "show-close-button",
             GObject.BindingFlags.INVERT_BOOLEAN |
@@ -138,6 +136,10 @@ class HeaderBar(Gtk.HeaderBar):
         self.bind_property(
             "selected-items-count", self._selection_menu,
             "selected-items-count")
+        self.bind_property(
+            "search-mode-enabled", self._search_button, "active",
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
 
         self.connect(
             "notify::selection-mode-allowed",
@@ -203,26 +205,7 @@ class HeaderBar(Gtk.HeaderBar):
     @Gtk.Template.Callback()
     @log
     def _on_back_button_clicked(self, widget=None):
-        if self.props.selection_mode:
-            return
-
-        window = self.get_toplevel()
-
-        visible_child = window.curr_view.props.visible_child
-
-        # FIXME: Stack switch logic should not be here.
-        view = self._stack_switcher.props.stack.props.visible_child
-        view._back_button_clicked(view)
-
-        current_view = window.curr_view
-        if not ((current_view == window.views[View.SEARCH]
-                 or current_view == window.views[View.EMPTY])
-                and visible_child != current_view._grid):
-            self.props.state = HeaderBar.State.MAIN
-        else:
-            self._search_button.props.visible = True
-
-        self.searchbar.reveal(False)
+        self.emit('back-button-clicked')
 
     @Gtk.Template.Callback()
     @log
