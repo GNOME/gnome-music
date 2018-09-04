@@ -54,6 +54,7 @@ subproject('libgd',
         'pkglibdir=' + PKGLIB_DIR
     ])
 
+subdir('data/ui')
 subdir('data')
 subdir('help')
 subdir('po')
