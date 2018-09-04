@@ -269,70 +269,34 @@ class MediaPlayer2Service(Server):
         if not media:
             media = self.player.props.current_song
 
+        length = media.get_duration() * 1e6
+        user_rating = 1.0 if media.get_favourite() else 0.0
+        artist = utils.get_artist_name(media)
+
         metadata = {
             'mpris:trackid': GLib.Variant('o', song_dbus_path),
-            'xesam:url': GLib.Variant('s', media.get_url())
+            'xesam:url': GLib.Variant('s', media.get_url()),
+            'mpris:length': GLib.Variant('x', length),
+            'xesam:trackNumber': GLib.Variant('i', media.get_track_number()),
+            'xesam:useCount': GLib.Variant('i', media.get_play_count()),
+            'xesam:userRating': GLib.Variant('d', user_rating),
+            'xesam:title': GLib.Variant('s', utils.get_media_title(media)),
+            'xesam:album': GLib.Variant('s', utils.get_album_title(media)),
+            'xesam:artist': GLib.Variant('as', [artist]),
+            'xesam:albumArtist': GLib.Variant('as', [artist])
         }
 
-        try:
-            length = media.get_duration() * 1000000
-            assert length is not None
-            metadata['mpris:length'] = GLib.Variant('x', length)
-        except:
-            pass
+        genre = media.get_genre()
+        if genre is not None:
+            metadata['xesam:genre'] = GLib.Variant('as', [genre])
 
-        try:
-            trackNumber = media.get_track_number()
-            assert trackNumber is not None
-            metadata['xesam:trackNumber'] = GLib.Variant('i', trackNumber)
-        except:
-            pass
+        last_played = media.get_last_played()
+        if last_played is not None:
+            metadata['xesam:lastUsed'] = GLib.Variant('s', last_played)
 
-        try:
-            useCount = media.get_play_count()
-            assert useCount is not None
-            metadata['xesam:useCount'] = GLib.Variant('i', useCount)
-        except:
-            pass
-
-        user_rating = 1.0 if media.get_favourite() else 0.0
-        metadata['xesam:userRating'] = GLib.Variant('d', user_rating)
-
-        try:
-            title = utils.get_media_title(media)
-            assert title is not None
-            metadata['xesam:title'] = GLib.Variant('s', title)
-        except:
-            pass
-
-
-        album = utils.get_album_title(media)
-        metadata['xesam:album'] = GLib.Variant('s', album)
-
-        artist = utils.get_artist_name(media)
-        metadata['xesam:artist'] = GLib.Variant('as', [artist])
-        metadata['xesam:albumArtist'] = GLib.Variant('as', [artist])
-
-        try:
-            genre = media.get_genre()
-            assert genre is not None
-            metadata['xesam:genre'] = GLib.Variant('as', genre)
-        except:
-            pass
-
-        try:
-            lastUsed = media.get_last_played()
-            assert lastUsed is not None
-            metadata['xesam:lastUsed'] = GLib.Variant('s', lastUsed)
-        except:
-            pass
-
-        try:
-            artUrl = media.get_thumbnail()
-            assert artUrl is not None
-            metadata['mpris:artUrl'] = GLib.Variant('s', artUrl)
-        except:
-            pass
+        art_url = media.get_thumbnail()
+        if art_url is not None:
+            metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
 
         return metadata
 
