@@ -70,8 +70,8 @@ class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title=_("Music"))
 
-        self.settings = Gio.Settings.new('org.gnome.Music')
-        self.add_action(self.settings.create_action('repeat'))
+        self._settings = Gio.Settings.new('org.gnome.Music')
+        self.add_action(self._settings.create_action('repeat'))
         select_all = Gio.SimpleAction.new('select_all', None)
         select_all.connect('activate', self._select_all)
         self.add_action(select_all)
@@ -84,17 +84,17 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = None
         self.curr_view = None
 
-        size_setting = self.settings.get_value('window-size')
+        size_setting = self._settings.get_value('window-size')
         if isinstance(size_setting[0], int) and isinstance(size_setting[1], int):
             self.resize(size_setting[0], size_setting[1])
 
-        position_setting = self.settings.get_value('window-position')
+        position_setting = self._settings.get_value('window-position')
         if len(position_setting) == 2 \
            and isinstance(position_setting[0], int) \
            and isinstance(position_setting[1], int):
             self.move(position_setting[0], position_setting[1])
 
-        if self.settings.get_value('window-maximized'):
+        if self._settings.get_value('window-maximized'):
             self.maximize()
 
         self._setup_view()
@@ -138,17 +138,17 @@ class Window(Gtk.ApplicationWindow):
     @log
     def store_window_size_and_position(self, widget):
         size = widget.get_size()
-        self.settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
+        self._settings.set_value('window-size', GLib.Variant('ai', [size[0], size[1]]))
 
         position = widget.get_position()
-        self.settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
+        self._settings.set_value('window-position', GLib.Variant('ai', [position[0], position[1]]))
         GLib.source_remove(self.window_size_update_timeout)
         self.window_size_update_timeout = None
         return False
 
     @log
     def _on_maximized(self, klass, value, data=None):
-        self.settings.set_boolean('window-maximized', self.is_maximized())
+        self._settings.set_boolean('window-maximized', self.is_maximized())
 
     @log
     def _setup_view(self):
@@ -235,7 +235,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _switch_to_empty_view(self):
-        did_initial_state = self.settings.get_boolean('did-initial-state')
+        did_initial_state = self._settings.get_boolean('did-initial-state')
 
         if did_initial_state:
             self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
@@ -246,7 +246,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _switch_to_player_view(self):
-        self.settings.set_boolean('did-initial-state', True)
+        self._settings.set_boolean('did-initial-state', True)
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
