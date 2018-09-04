@@ -82,7 +82,6 @@
         {
             "name": "gnome-online-accounts",
             "config-opts": [ "--enable-introspection",
-                             "--disable-telepathy",
                              "--disable-documentation",
                              "--disable-backend",
                              "--disable-Werror" ],
