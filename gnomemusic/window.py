@@ -510,7 +510,8 @@ class Window(Gtk.ApplicationWindow):
                 and visible_child != self.curr_view._grid):
             self._headerbar.props.state = HeaderBar.State.MAIN
 
-        self._searchbar.reveal(False)
+        if view != self.views[View.SEARCH]:
+            self._searchbar.reveal(False)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
