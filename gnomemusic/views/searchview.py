@@ -102,7 +102,7 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._header_bar.searchbar.reveal(True, False)
+        self._headerbar.searchbar.reveal(True, False)
 
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
@@ -112,7 +112,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
-        self._header_bar.props.state = HeaderBar.State.MAIN
+        self._headerbar.props.state = HeaderBar.State.MAIN
 
     @log
     def _on_item_activated(self, treeview, path, column):
@@ -135,26 +135,26 @@ class SearchView(BaseView):
             item = self.model[_iter][5]
 
             self._album_widget.update(item)
-            self._header_bar.props.state = HeaderBar.State.SEARCH
+            self._headerbar.props.state = HeaderBar.State.SEARCH
 
-            self._header_bar.props.title = title
-            self._header_bar.props.subtitle = artist
+            self._headerbar.props.title = title
+            self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
-            self._header_bar.searchbar.reveal(False)
+            self._headerbar.searchbar.reveal(False)
         elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
 
             self._artist_albums_widget = ArtistAlbumsWidget(
-                artist, albums, self.player, self._header_bar,
+                artist, albums, self.player, self._headerbar,
                 self._selection_toolbar, self._window, True)
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
-            self._header_bar.props.state = HeaderBar.State.SEARCH
-            self._header_bar.props.title = artist
+            self._headerbar.props.state = HeaderBar.State.SEARCH
+            self._headerbar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
-            self._header_bar.searchbar.reveal(False)
+            self._headerbar.searchbar.reveal(False)
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
@@ -417,7 +417,7 @@ class SearchView(BaseView):
     @log
     def populate(self):
         self._init = True
-        self._header_bar.props.state = HeaderBar.State.MAIN
+        self._headerbar.props.state = HeaderBar.State.MAIN
 
     @log
     def get_selected_songs(self, callback):

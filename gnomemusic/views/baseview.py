@@ -80,7 +80,7 @@ class BaseView(Gtk.Stack):
 
         self._star_handler = StarHandlerWidget(self, 9)
         self._window = window
-        self._header_bar = window._headerbar
+        self._headerbar = window._headerbar
         self._selection_toolbar = window.selection_toolbar
 
         self.name = name
@@ -114,11 +114,11 @@ class BaseView(Gtk.Stack):
 
     @log
     def _on_grilo_ready(self, data=None):
-        if (self._header_bar.props.stack.props.visible_child == self
+        if (self._headerbar.props.stack.props.visible_child == self
                 and not self._init):
             self._populate()
 
-        self._header_bar.props.stack.connect(
+        self._headerbar.props.stack.connect(
             'notify::visible-child', self._on_headerbar_visible)
 
     @log

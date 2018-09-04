@@ -53,7 +53,7 @@ class AlbumsView(BaseView):
 
     @log
     def _on_changes_pending(self, data=None):
-        if (self._init and not self._header_bar.selection_mode):
+        if (self._init and not self._headerbar.selection_mode):
             self._offset = 0
             self.populate()
             grilo.changes_pending['Albums'] = False
@@ -62,7 +62,7 @@ class AlbumsView(BaseView):
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
-        if (not self._header_bar.selection_mode
+        if (not self._headerbar.selection_mode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
 
@@ -85,7 +85,7 @@ class AlbumsView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._header_bar.state = HeaderBar.State.MAIN
+        self._headerbar.state = HeaderBar.State.MAIN
         self.set_visible_child(self._grid)
 
     @log
@@ -97,9 +97,9 @@ class AlbumsView(BaseView):
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
-        self._header_bar.props.state = HeaderBar.State.CHILD
-        self._header_bar.props.title = utils.get_album_title(item)
-        self._header_bar.props.subtitle = utils.get_artist_name(item)
+        self._headerbar.props.state = HeaderBar.State.CHILD
+        self._headerbar.props.title = utils.get_album_title(item)
+        self._headerbar.props.subtitle = utils.get_artist_name(item)
         self.set_visible_child(self._album_widget)
 
     @log
@@ -112,7 +112,7 @@ class AlbumsView(BaseView):
     def get_selected_songs(self, callback):
         # FIXME: we call into private objects with full knowledge of
         # what is there
-        if self._header_bar.props.state == HeaderBar.State.CHILD:
+        if self._headerbar.props.state == HeaderBar.State.CHILD:
             callback(self._album_widget._disc_listbox.get_selected_items())
         else:
             self.items_selected = []
