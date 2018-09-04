@@ -496,8 +496,12 @@ class Window(Gtk.ApplicationWindow):
         if self.props.selection_mode:
             return
 
-        view = self._stack.props.visible_child
-        view._back_button_clicked(view)
+        views_with_child = [
+            self.views[View.ALBUM],
+            self.views[View.SEARCH]
+        ]
+        if self.curr_view in views_with_child:
+            self.curr_view._back_button_clicked(self.curr_view)
 
         self._searchbar.reveal(False)
 
