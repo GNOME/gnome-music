@@ -327,12 +327,8 @@ class MPRIS(DBusInterface):
         except:
             pass
 
-        try:
-            userRating = media.get_rating()
-            assert userRating is not None
-            metadata['xesam:userRating'] = GLib.Variant('d', userRating)
-        except:
-            pass
+        user_rating = 1.0 if media.get_favourite() else 0.0
+        metadata['xesam:userRating'] = GLib.Variant('d', user_rating)
 
         try:
             title = utils.get_media_title(media)
