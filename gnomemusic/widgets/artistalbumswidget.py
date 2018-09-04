@@ -47,6 +47,7 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     _artist_label = Gtk.Template.Child()
 
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
@@ -199,8 +200,7 @@ class ArtistAlbumsWidget(Gtk.Box):
             if row[6]:
                 selected_items += 1
 
-        self._selection_toolbar.props.selected_items_count = selected_items
-        self._headerbar.props.selected_items_count = selected_items
+        self.props.selected_items_count = selected_items
 
     @log
     def select_all(self):

@@ -151,6 +151,9 @@ class SearchView(BaseView):
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
+            self._artist_albums_widget.bind_property(
+                'selected-items-count', self, 'selected-items-count')
+
             self._headerbar.props.state = HeaderBar.State.SEARCH
             self._headerbar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
