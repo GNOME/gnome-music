@@ -199,8 +199,8 @@ class ArtistAlbumsWidget(Gtk.Box):
             if row[6]:
                 selected_items += 1
 
-        self._selection_toolbar.props.items_selected = selected_items
-        self._headerbar.props.items_selected = selected_items
+        self._selection_toolbar.props.selected_items_count = selected_items
+        self._headerbar.props.selected_items_count = selected_items
 
     @log
     def select_all(self):

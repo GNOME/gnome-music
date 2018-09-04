@@ -166,9 +166,10 @@ class Window(Gtk.ApplicationWindow):
 
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         self.bind_property(
-            'selected-items-count', self._headerbar, 'items-selected')
+            'selected-items-count', self._headerbar, 'selected-items-count')
         self.bind_property(
-            'selected-items-count', self.selection_toolbar, 'items-selected')
+            'selected-items-count', self.selection_toolbar,
+            'selected-items-count')
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |

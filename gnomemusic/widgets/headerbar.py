@@ -49,24 +49,24 @@ class SelectionBarMenuButton(Gtk.MenuButton):
     def __init__(self):
         super().__init__()
 
-        self._items_selected = 0
+        self._selected_items_count = 0
 
     @GObject.Property(type=int, default=0, minimum=0)
-    def items_selected(self):
+    def selected_items_count(self):
         """The number of items selected
 
         :returns: Number of items selected
         :rtype: int
         """
-        return self._items_selected
+        return self._selected_items_count
 
-    @items_selected.setter
-    def items_selected(self, value):
+    @selected_items_count.setter
+    def selected_items_count(self, value):
         """Set the number of items selected
 
         :param int value: The number of items selected
         """
-        self._items_selected = value
+        self._selected_items_count = value
 
         if value > 0:
             text = ngettext(
@@ -94,7 +94,7 @@ class HeaderBar(Gtk.HeaderBar):
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
 
-    items_selected = GObject.Property(type=int, default=0, minimum=0)
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
 
@@ -136,7 +136,8 @@ class HeaderBar(Gtk.HeaderBar):
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            "items-selected", self._selection_menu, "items-selected")
+            "selected-items-count", self._selection_menu,
+            "selected-items-count")
 
         self.connect(
             "notify::selection-mode-allowed",
