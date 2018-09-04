@@ -47,6 +47,7 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.searchbar import Searchbar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
@@ -153,6 +154,7 @@ class Window(Gtk.ApplicationWindow):
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._headerbar = HeaderBar()
+        self._searchbar = Searchbar()
         self.player = Player(self)
         self.player_toolbar = PlayerToolbar(self.player, self)
         self.selection_toolbar = SelectionToolbar()
@@ -163,6 +165,14 @@ class Window(Gtk.ApplicationWindow):
             homogeneous=False,
             visible=True,
             can_focus=False)
+
+        self._headerbar.bind_property(
+            "search-mode-enabled", self._searchbar, "search-mode-enabled",
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
+        self._searchbar.props.stack = self._stack
+        self._headerbar.connect(
+            'back-button-clicked', self._switch_back_from_childview)
 
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         self.bind_property(
@@ -191,9 +201,9 @@ class Window(Gtk.ApplicationWindow):
         self._overlay = Gtk.Overlay()
         self._overlay.add(self._stack)
         # FIXME: Need to find a proper way to do this.
-        self._overlay.add_overlay(self._headerbar.searchbar._dropdown)
+        self._overlay.add_overlay(self._searchbar._dropdown)
         self.set_titlebar(self._headerbar)
-        self._box.pack_start(self._headerbar.searchbar, False, False, 0)
+        self._box.pack_start(self._searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self.player_toolbar, False, False, 0)
         self._box.pack_start(self.selection_toolbar, False, False, 0)
@@ -261,7 +271,7 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
-        self._headerbar.searchbar.show()
+        self._searchbar.show()
 
         self.views[View.ALBUM] = AlbumsView(self, self.player)
         self.views[View.ARTIST] = ArtistsView(self, self.player)
@@ -326,7 +336,7 @@ class Window(Gtk.ApplicationWindow):
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and self._headerbar.props.state != HeaderBar.State.SEARCH):
-                self._headerbar.searchbar.toggle()
+                self._searchbar.toggle()
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self.player.play_pause()
@@ -354,9 +364,9 @@ class Window(Gtk.ApplicationWindow):
                 self._select_none()
         # Alt+<KEY>
         elif modifiers == mod1_mask:
-            # Go back from Album view on Alt + Left
+            # Go back from child view on Alt + Left
             if keyval == Gdk.KEY_Left:
-                self._headerbar._on_back_button_clicked()
+                self._switch_back_from_childview()
             # Headerbar switching
             if keyval in [Gdk.KEY_1, Gdk.KEY_KP_1]:
                 self._toggle_view(View.ALBUM)
@@ -390,18 +400,18 @@ class Window(Gtk.ApplicationWindow):
                 if self.props.selection_mode:
                     self.props.selection_mode = False
                 else:
-                    self._headerbar.searchbar.reveal(False)
+                    self._searchbar.reveal(False)
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
-        if ((not self._headerbar.searchbar.get_search_mode()
+        if ((not self._searchbar.get_search_mode()
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
-            self._headerbar.searchbar.reveal(True)
+            self._searchbar.reveal(True)
 
     @log
     def do_button_release_event(self, event):
@@ -412,7 +422,7 @@ class Window(Gtk.ApplicationWindow):
         __, code = event.get_button()
         # Mouse button 8 is the navigation button
         if code == 8:
-            self._headerbar._on_back_button_clicked()
+            self._switch_back_from_childview()
 
     @log
     def _notify_mode_disconnect(self, data=None):
@@ -433,7 +443,7 @@ class Window(Gtk.ApplicationWindow):
 
         if (self.curr_view != self.views[View.SEARCH]
                 and self.curr_view != self.views[View.EMPTY]):
-            self._headerbar.searchbar.reveal(False)
+            self._searchbar.reveal(False)
 
         # Disable the selection button for the EmptySearch and Playlist
         # view
@@ -463,7 +473,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self._headerbar.searchbar.reveal(
+        self._searchbar.reveal(
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
@@ -480,6 +490,16 @@ class Window(Gtk.ApplicationWindow):
 
             if self.props.selection_mode:
                 self.props.selection_mode = False
+
+    @log
+    def _switch_back_from_childview(self, klass=None):
+        if self.props.selection_mode:
+            return
+
+        view = self._stack.props.visible_child
+        view._back_button_clicked(view)
+
+        self._searchbar.reveal(False)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):

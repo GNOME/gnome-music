@@ -324,20 +324,17 @@ class Searchbar(Gtk.SearchBar):
     _search_entry = Gtk.Template.Child()
     _drop_down_button = Gtk.Template.Child()
 
+    stack = GObject.Property(type=Gtk.Stack)
+
     def __repr__(self):
         return '<Searchbar>'
 
     @log
-    def __init__(self, stack_switcher):
-        """Initialize the Searchbar
-
-        :param Gtk.Stack stack_switcher: The stack switcher containing
-          the search view.
-        """
+    def __init__(self):
+        """Initialize the Searchbar"""
         super().__init__()
 
         self._timeout = None
-        self._stack_switcher = stack_switcher
 
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
@@ -371,10 +368,9 @@ class Searchbar(Gtk.SearchBar):
         else:
             fields_filter = 'search_all'
 
-        stack = self._stack_switcher.props.stack
         if search_term != "":
-            stack.set_visible_child_name('search')
-            view = stack.get_visible_child()
+            self.props.stack.set_visible_child_name('search')
+            view = self.props.stack.get_visible_child()
             view.set_search_text(search_term, fields_filter)
 
         self._drop_down_button.set_active(False)
