@@ -146,8 +146,7 @@ class SearchView(BaseView):
             albums = self._artists[artist.casefold()]['albums']
 
             self._artist_albums_widget = ArtistAlbumsWidget(
-                artist, albums, self.player, self._headerbar,
-                self._selection_toolbar, self._window, True)
+                artist, albums, self.player, self._window, True)
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 

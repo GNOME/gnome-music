@@ -55,15 +55,13 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def __init__(
-            self, artist, albums, player, headerbar, selection_toolbar,
-            window, selection_mode_allowed=False):
+            self, artist, albums, player, window,
+            selection_mode_allowed=False):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
         self._player = player
         self._artist = artist
         self._window = window
         self._selection_mode_allowed = selection_mode_allowed
-        self._selection_toolbar = selection_toolbar
-        self._headerbar = headerbar
 
         self._artist_label.props.label = self._artist
 
@@ -125,9 +123,8 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def _add_album(self, album):
         widget = ArtistAlbumWidget(
-            album, self._player, self._model, self._headerbar,
-            self._selection_mode_allowed, self._songs_grid_size_group,
-            self._cover_size_group)
+            album, self._player, self._model, self._selection_mode_allowed,
+            self._songs_grid_size_group, self._cover_size_group)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
