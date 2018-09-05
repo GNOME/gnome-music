@@ -86,9 +86,8 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = None
         self.curr_view = None
 
-        self._setup_view()
         self.notifications_popup = NotificationsPopup()
-        self._overlay.add_overlay(self.notifications_popup)
+        self._setup_view()
 
         MediaKeys(self._player, self)
 
@@ -167,6 +166,7 @@ class Window(Gtk.ApplicationWindow):
         self._overlay.add(self._stack)
         # FIXME: Need to find a proper way to do this.
         self._overlay.add_overlay(self._searchbar._dropdown)
+        self._overlay.add_overlay(self.notifications_popup)
         self.set_titlebar(self._headerbar)
         self._box.pack_start(self._searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
