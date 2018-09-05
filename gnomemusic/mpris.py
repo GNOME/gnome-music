@@ -150,7 +150,6 @@ class MediaPlayer2Service(Server):
             <property name='Shuffle' type='b' access='readwrite'/>
             <property name='Metadata' type='a{sv}' access='read'>
             </property>
-            <property name='Volume' type='d' access='readwrite'/>
             <property name='Position' type='x' access='read'/>
             <property name='MinimumRate' type='d' access='read'/>
             <property name='MaximumRate' type='d' access='read'/>
@@ -224,7 +223,6 @@ class MediaPlayer2Service(Server):
             'song-changed', self._on_current_song_changed)
         self.player.connect('notify::state', self._on_player_state_changed)
         self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
-        self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('seek-finished', self._on_seek_finished)
         self.player.connect(
             'playlist-changed', self._on_player_playlist_changed)
@@ -494,14 +492,6 @@ class MediaPlayer2Service(Server):
                                [])
 
     @log
-    def _on_volume_changed(self, player, data=None):
-        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'Volume': GLib.Variant('d', self.player.get_volume()),
-                               },
-                               [])
-
-    @log
     def _on_seek_finished(self, player, position_second):
         self.Seeked(int(position_second * 1e6))
 
@@ -709,7 +699,6 @@ class MediaPlayer2Service(Server):
                 'Rate': GLib.Variant('d', 1.0),
                 'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
                 'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
-                'Volume': GLib.Variant('d', self.player.get_volume()),
                 'Position': GLib.Variant('x', position_msecond),
                 'MinimumRate': GLib.Variant('d', 1.0),
                 'MaximumRate': GLib.Variant('d', 1.0),
@@ -746,10 +735,8 @@ class MediaPlayer2Service(Server):
             if property_name == 'Fullscreen':
                 pass
         elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE:
-            if property_name == 'Rate':
+            if property_name in ['Rate', 'Volume']:
                 pass
-            elif property_name == 'Volume':
-                self.player.set_volume(new_value)
             elif property_name == 'LoopStatus':
                 if new_value == 'None':
                     self.player.props.repeat_mode = RepeatMode.NONE
