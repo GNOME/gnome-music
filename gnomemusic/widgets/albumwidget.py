@@ -35,7 +35,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/AlbumWidget.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
 class AlbumWidget(Gtk.EventBox):
     """Album widget.
 

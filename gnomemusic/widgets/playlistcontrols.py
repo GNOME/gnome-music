@@ -30,7 +30,7 @@ from gnomemusic import log
 import gnomemusic.utils as utils
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/PlaylistControls.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
 class PlaylistControls(Gtk.Grid):
     """Widget holding the playlist controls"""
 

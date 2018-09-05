@@ -27,7 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/TwoLineTip.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/TwoLineTip.ui')
 class TwoLineTip(Gtk.Box):
     """Tooltip with two lines of text
 

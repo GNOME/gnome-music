@@ -32,7 +32,7 @@ from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ArtistAlbumWidget.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
 class ArtistAlbumWidget(Gtk.Box):
 
     __gtype_name__ = 'ArtistAlbumWidget'
