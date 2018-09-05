@@ -84,6 +84,10 @@ class BaseManager(GObject.GObject):
         if selected_id == "":
             return
 
+        return
+        # if self.entry is None:
+        #    return
+
         selected_value = [
             x for x in self.values if x[BaseModelColumns.ID] == selected_id]
 

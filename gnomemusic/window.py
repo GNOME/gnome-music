@@ -58,11 +58,20 @@ logger = logging.getLogger(__name__)
 
 playlists = Playlists.get_default()
 
-
+@Gtk.Template(resource_path='/org/gnome/Music/ui/Window.ui')
 class Window(Gtk.ApplicationWindow):
+
+    __gtype_name__ = 'Window'
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+
+    notifications_popup = Gtk.Template.Child()
+    _box = Gtk.Template.Child()
+    _overlay = Gtk.Template.Child()
+    _searchbar = Gtk.Template.Child()
+    _selection_toolbar = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
 
     def __repr__(self):
         return '<Window>'
@@ -80,13 +89,11 @@ class Window(Gtk.ApplicationWindow):
         select_none.connect('activate', self._select_none)
         self.add_action(select_none)
 
-        self.set_size_request(200, 100)
         WindowPlacement(self, self._settings)
 
         self.prev_view = None
         self.curr_view = None
 
-        self.notifications_popup = NotificationsPopup()
         self._setup_view()
 
         MediaKeys(self._player, self)
@@ -117,19 +124,10 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _setup_view(self):
-        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._headerbar = HeaderBar()
-        self._searchbar = Searchbar()
         self._player = Player(self)
         self._player_toolbar = PlayerToolbar(self._player, self)
-        selection_toolbar = SelectionToolbar()
         self.views = [None] * len(View)
-        self._stack = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE,
-            transition_duration=100,
-            homogeneous=False,
-            visible=True,
-            can_focus=False)
 
         self._headerbar.bind_property(
             "search-mode-enabled", self._searchbar, "search-mode-enabled",
@@ -143,13 +141,14 @@ class Window(Gtk.ApplicationWindow):
         self.bind_property(
             'selected-items-count', self._headerbar, 'selected-items-count')
         self.bind_property(
-            'selected-items-count', selection_toolbar, 'selected-items-count')
+            'selected-items-count', self._selection_toolbar,
+            'selected-items-count')
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            'selection-mode', selection_toolbar, 'visible',
+            'selection-mode', self._selection_toolbar, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
@@ -162,29 +161,22 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        self._overlay = Gtk.Overlay()
-        self._overlay.add(self._stack)
         # FIXME: Need to find a proper way to do this.
         self._overlay.add_overlay(self._searchbar._dropdown)
-        self._overlay.add_overlay(self.notifications_popup)
-        self.set_titlebar(self._headerbar)
-        self._box.pack_start(self._searchbar, False, False, 0)
-        self._box.pack_start(self._overlay, True, True, 0)
+
         self._box.pack_start(self._player_toolbar, False, False, 0)
-        self._box.pack_start(selection_toolbar, False, False, 0)
-        self.add(self._box)
+
+        self.set_titlebar(self._headerbar)
 
         self._headerbar._search_button.connect(
             'toggled', self._on_search_toggled)
-        selection_toolbar.connect(
+        self._selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
-        self._overlay.show()
+
         self._player_toolbar.show_all()
-        self._box.show()
-        self.show()
 
         def songs_available_cb(available):
             if available:
