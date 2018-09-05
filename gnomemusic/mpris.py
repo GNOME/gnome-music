@@ -166,7 +166,6 @@ class MPRIS(DBusInterface):
             <property name='Shuffle' type='b' access='readwrite'/>
             <property name='Metadata' type='a{sv}' access='read'>
             </property>
-            <property name='Volume' type='d' access='readwrite'/>
             <property name='Position' type='x' access='read'/>
             <property name='MinimumRate' type='d' access='read'/>
             <property name='MaximumRate' type='d' access='read'/>
@@ -258,7 +257,6 @@ class MPRIS(DBusInterface):
         self.player.connect('notify::state', self._on_player_state_changed)
         self.player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
-        self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect(
             'prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seek-finished', self._on_seek_finished)
@@ -477,14 +475,6 @@ class MPRIS(DBusInterface):
                                {
                                    'LoopStatus': GLib.Variant('s', self._get_loop_status()),
                                    'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
-                               },
-                               [])
-
-    @log
-    def _on_volume_changed(self, player, data=None):
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'Volume': GLib.Variant('d', self.player.get_volume()),
                                },
                                [])
 
@@ -708,7 +698,6 @@ class MPRIS(DBusInterface):
                 'Rate': GLib.Variant('d', rate),
                 'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
                 'Metadata': GLib.Variant('a{sv}', metadata),
-                'Volume': GLib.Variant('d', self.player.get_volume()),
                 'Position': GLib.Variant('x', position_msecond),
                 'MinimumRate': GLib.Variant('d', 0.0),
                 'MaximumRate': GLib.Variant('d', 1.0),
@@ -743,10 +732,8 @@ class MPRIS(DBusInterface):
             if property_name == 'Fullscreen':
                 pass
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYER_IFACE:
-            if property_name == 'Rate':
+            if property_name in ['Rate', 'Volume']:
                 pass
-            elif property_name == 'Volume':
-                self.player.set_volume(new_value)
             elif property_name == 'LoopStatus':
                 if new_value == 'None':
                     self.player.props.repeat_mode = RepeatMode.NONE
