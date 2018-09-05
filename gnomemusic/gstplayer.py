@@ -287,24 +287,6 @@ class GstPlayer(GObject.GObject):
         """
         self._duration = duration
 
-    @GObject.Property
-    def volume(self):
-        """Get current volume
-
-        :return: volume
-        :rtype: float
-        """
-        volume = self._player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
-        return volume
-
-    @volume.setter
-    def volume(self, volume):
-        """Set volume
-
-        :param float volume: The volume to set (0-10)
-        """
-        self._player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, volume)
-
     @log
     def seek(self, seconds):
         """Seek to position
