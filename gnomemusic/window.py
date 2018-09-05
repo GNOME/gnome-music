@@ -192,8 +192,7 @@ class Window(Gtk.ApplicationWindow):
             else:
                 self._switch_to_empty_view()
 
-        Query()
-        if Query.music_folder:
+        if Query().music_folder:
             grilo.songs_available(songs_available_cb)
         else:
             self._switch_to_empty_view()
