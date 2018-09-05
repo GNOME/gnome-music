@@ -557,7 +557,6 @@ class Player(GObject.GObject):
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
-        'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
@@ -895,15 +894,6 @@ class Player(GObject.GObject):
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
             self.emit('seek-finished', position_second)
-
-    @log
-    def get_volume(self):
-        return self._gst_player.props.volume
-
-    @log
-    def set_volume(self, rate):
-        self._gst_player.props.volume = rate
-        self.emit('volume-changed')
 
     @log
     def get_mpris_playlist(self):
