@@ -38,14 +38,15 @@ class NotificationsPopup(Gtk.Revealer):
     Messages are arranged under each other
     """
 
+    __gtype_name__ = "NotificationsPopup"
+
     def __repr__(self):
         return '<NotificationsPopup>'
 
     @log
     def __init__(self):
-        super().__init__(
-            halign=Gtk.Align.CENTER, valign=Gtk.Align.START,
-            transition_type=Gtk.RevealerTransitionType.SLIDE_DOWN)
+        super().__init__()
+
         self._setup_view()
 
     @log
