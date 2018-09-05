@@ -28,9 +28,8 @@ import logging
 from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
-gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
+from gi.repository import Gtk, Gio, GObject, Gst, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.playlists import Playlists
@@ -286,24 +285,6 @@ class GstPlayer(GObject.GObject):
         For internal use only.
         """
         self._duration = duration
-
-    @GObject.Property
-    def volume(self):
-        """Get current volume
-
-        :return: volume
-        :rtype: float
-        """
-        volume = self._player.get_volume(GstAudio.StreamVolumeFormat.LINEAR)
-        return volume
-
-    @volume.setter
-    def volume(self, volume):
-        """Set volume
-
-        :param float volume: The volume to set (0-10)
-        """
-        self._player.set_volume(GstAudio.StreamVolumeFormat.LINEAR, volume)
 
     @log
     def seek(self, seconds):
