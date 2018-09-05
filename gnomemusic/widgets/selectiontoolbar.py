@@ -27,7 +27,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/SelectionToolbar.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/SelectionToolbar.ui')
 class SelectionToolbar(Gtk.ActionBar):
 
     __gtype_name__ = 'SelectionToolbar'

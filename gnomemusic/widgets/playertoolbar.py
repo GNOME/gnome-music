@@ -35,7 +35,7 @@ from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/PlayerToolbar.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/PlayerToolbar.ui')
 class PlayerToolbar(Gtk.ActionBar):
     """Main Player widget object
 

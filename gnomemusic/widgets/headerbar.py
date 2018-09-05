@@ -30,7 +30,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/SelectionBarMenuButton.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/SelectionBarMenuButton.ui")
 class SelectionBarMenuButton(Gtk.MenuButton):
     """Button for popup to select all or no items
 
@@ -74,7 +74,7 @@ class SelectionBarMenuButton(Gtk.MenuButton):
             self._menu_label.props.label = _("Click on items to select them")
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/HeaderBar.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
 class HeaderBar(Gtk.HeaderBar):
     """Headerbar of the application"""
 

@@ -27,7 +27,7 @@ from gi.repository import Gtk
 from gnomemusic import log
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/AboutDialog.ui')
+@Gtk.Template(resource_path='/org/gnome/Music/ui/AboutDialog.ui')
 class AboutDialog(Gtk.AboutDialog):
     """About dialog"""
 

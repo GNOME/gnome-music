@@ -160,7 +160,7 @@ class SourceManager(BaseManager):
         grilo.search_source = src
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/FilterView.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/FilterView.ui")
 class FilterView(Gtk.TreeView):
     """TreeView for search entry items
 
@@ -254,7 +254,7 @@ class FilterView(Gtk.TreeView):
         self.props.manager.entry.emit('changed')
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/DropDown.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/DropDown.ui")
 class DropDown(Gtk.Revealer):
     """Dropdown source/option selection widget for search
 
@@ -314,7 +314,7 @@ class DropDown(Gtk.Revealer):
         return grilo_id == "grl-tracker-source"
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/Searchbar.ui")
+@Gtk.Template(resource_path="/org/gnome/Music/ui/Searchbar.ui")
 class Searchbar(Gtk.SearchBar):
     """Widget containing the search entry
     """
