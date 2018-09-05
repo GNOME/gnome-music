@@ -50,7 +50,7 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
-from gnomemusic.widgets.searchbar import SearchBar
+from gnomemusic.widgets.searchbar import SearchBar  # noqa: F401
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.windowplacement import WindowPlacement
 
@@ -60,10 +60,20 @@ logger = logging.getLogger(__name__)
 playlists = Playlists.get_default()
 
 
+@Gtk.Template(resource_path='/org/gnome/Music/ui/Window.ui')
 class Window(Gtk.ApplicationWindow):
+
+    __gtype_name__ = 'Window'
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+
+    notifications_popup = Gtk.Template.Child()
+    _box = Gtk.Template.Child()
+    _overlay = Gtk.Template.Child()
+    _searchbar = Gtk.Template.Child()
+    _selection_toolbar = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
 
     def __repr__(self):
         return '<Window>'
@@ -124,11 +134,9 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _setup_view(self):
-        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-
         self._search = Search()
         self._headerbar = HeaderBar()
-        self._searchbar = SearchBar()
+
         self._search.bind_property(
             "search-mode-active", self._headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -141,16 +149,10 @@ class Window(Gtk.ApplicationWindow):
             GObject.BindingFlags.SYNC_CREATE)
 
         self._player_toolbar = PlayerToolbar(self._player, self)
-        selection_toolbar = SelectionToolbar()
         self.views = [None] * len(View)
-        self._stack = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE,
-            transition_duration=100,
-            homogeneous=False,
-            visible=True,
-            can_focus=False)
 
         self._searchbar.props.stack = self._stack
+        selection_toolbar = SelectionToolbar()
         self._headerbar.connect(
             'back-button-clicked', self._switch_back_from_childview)
 
@@ -177,28 +179,20 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        self._overlay = Gtk.Overlay()
-        self._overlay.add(self._stack)
         # FIXME: Need to find a proper way to do this.
         self._overlay.add_overlay(self._searchbar._dropdown)
-        self._overlay.add_overlay(self.notifications_popup)
-        self.set_titlebar(self._headerbar)
-        self._box.pack_start(self._searchbar, False, False, 0)
-        self._box.pack_start(self._overlay, True, True, 0)
-        self._box.pack_start(self._player_toolbar, False, False, 0)
-        self._box.pack_start(selection_toolbar, False, False, 0)
-        self.add(self._box)
 
-        selection_toolbar.connect(
-            'add-to-playlist', self._on_add_to_playlist)
+        self._box.pack_start(self._player_toolbar, False, False, 0)
+
+        self.set_titlebar(self._headerbar)
+
+        selection_toolbar.connect('add-to-playlist', self._on_add_to_playlist)
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
-        self._overlay.show()
+
         self._player_toolbar.show_all()
-        self._box.show()
-        self.show()
 
         def songs_available_cb(available):
             if available:
