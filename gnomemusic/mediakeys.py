@@ -75,7 +75,6 @@ class MediaKeys(GObject.GObject):
         try:
             self._media_keys_proxy = proxy.new_finish(result)
         except GLib.Error as e:
-            print("error")
             logger.warning(
                 "Error: Failed to contact settings daemon:", e.message)
             return
@@ -90,7 +89,6 @@ class MediaKeys(GObject.GObject):
             try:
                 proxy.call_finish(result)
             except GLib.Error as e:
-                print('blah')
                 logger.warning(
                     "Error: Failed to grab mediaplayer keys: {}".format(
                         e.message))
