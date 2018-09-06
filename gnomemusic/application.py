@@ -60,10 +60,8 @@ class Application(Gtk.Application):
         self._application_id = application_id
 
     def _init_style(self):
-        css_provider_file = Gio.File.new_for_uri(
-            'resource:///org/gnome/Music/application.css')
         css_provider = Gtk.CssProvider()
-        css_provider.load_from_file(css_provider_file)
+        css_provider.load_from_resource('/org/gnome/Music/application.css')
         screen = Gdk.Screen.get_default()
         style_context = Gtk.StyleContext()
         style_context.add_provider_for_screen(
