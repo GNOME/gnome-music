@@ -54,7 +54,7 @@ class Application(Gtk.Application):
         GLib.set_application_name(_("Music"))
         GLib.set_prgname(application_id)
         GLib.setenv("PULSE_PROP_media.role", "music", True)
-        self._settings = Gio.Settings.new('org.gnome.Music')
+
         self._init_style()
         self._window = None
         self._application_id = application_id
