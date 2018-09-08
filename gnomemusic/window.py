@@ -148,7 +148,8 @@ class Window(Gtk.ApplicationWindow):
             "state", self._searchbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._player_toolbar = PlayerToolbar(self._player, self)
+        self._player_toolbar = PlayerToolbar(self._player)
+
         self.views = [None] * len(View)
 
         self._headerbar.connect(
@@ -196,8 +197,6 @@ class Window(Gtk.ApplicationWindow):
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
-
-        self._player_toolbar.show_all()
 
         def songs_available_cb(available):
             if available:
@@ -487,10 +486,6 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.props.selection_mode:
-            self._player_toolbar.hide()
-        elif self._player.props.playing:
-            self._player_toolbar.show()
         if not self.props.selection_mode:
             self._on_changes_pending()
 
