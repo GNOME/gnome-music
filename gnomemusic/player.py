@@ -38,7 +38,6 @@ from gi.repository import Gio, GLib, GObject, Grl, Gst, GstPbutils
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
-from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
@@ -567,10 +566,8 @@ class Player(GObject.GObject):
         return '<Player>'
 
     @log
-    def __init__(self, parent_window):
+    def __init__(self):
         super().__init__()
-
-        self._parent_window = parent_window
 
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
@@ -592,8 +589,6 @@ class Player(GObject.GObject):
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
-        root_window = parent_window.get_toplevel()
-        self._inhibit_suspend = InhibitSuspend(root_window, self)
         self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
