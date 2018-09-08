@@ -27,6 +27,7 @@ from gettext import gettext as _
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.gstplayer import Playback
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
 from gnomemusic.playlists import Playlists
@@ -141,13 +142,13 @@ class Window(Gtk.ApplicationWindow):
             "state", self._searchbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._player_toolbar = PlayerToolbar(self._player, self)
+        self._player_toolbar = PlayerToolbar(self._player)
+
         self.views = [None] * len(View)
 
         self._headerbar.connect(
             'back-button-clicked', self._switch_back_from_childview)
 
-        self.connect('notify::selection-mode', self._on_selection_mode_changed)
         self.bind_property(
             'selected-items-count', self._headerbar, 'selected-items-count')
         self.bind_property(
@@ -162,6 +163,7 @@ class Window(Gtk.ApplicationWindow):
             GObject.BindingFlags.INVERT_BOOLEAN)
         self.bind_property(
             "selection-mode", self._selection_toolbar, "visible")
+        self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
@@ -189,8 +191,6 @@ class Window(Gtk.ApplicationWindow):
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
-
-        self._player_toolbar.show_all()
 
         def songs_available_cb(available):
             if available:
@@ -480,10 +480,9 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.props.selection_mode:
+        if (not self.props.selection_mode
+                and self._player.state == Playback.STOPPED):
             self._player_toolbar.hide()
-        elif self._player.props.playing:
-            self._player_toolbar.show()
         if not self.props.selection_mode:
             self._on_changes_pending()
 
