@@ -148,7 +148,8 @@ class Window(Gtk.ApplicationWindow):
             "state", self._searchbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._player_toolbar = PlayerToolbar(self._player, self)
+        self._player_toolbar = PlayerToolbar(self._player)
+
         self.views = [None] * len(View)
 
         self._searchbar.props.stack = self._stack
@@ -166,8 +167,10 @@ class Window(Gtk.ApplicationWindow):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            'selection-mode', selection_toolbar, 'visible',
-            GObject.BindingFlags.SYNC_CREATE)
+            'selection-mode', self._player_toolbar, 'visible',
+            GObject.BindingFlags.INVERT_BOOLEAN)
+        self.bind_property('selection-mode', selection_toolbar, 'visible')
+
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
         # if some music is available, populate stack with mainviews,
@@ -191,8 +194,6 @@ class Window(Gtk.ApplicationWindow):
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
-
-        self._player_toolbar.show_all()
 
         def songs_available_cb(available):
             if available:
@@ -285,6 +286,9 @@ class Window(Gtk.ApplicationWindow):
         self._search.bind_property(
             "search-mode-active", self.views[View.ALBUM],
             "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
+
+        # Hide the player toolbar on startup.
+        self._player_toolbar.hide()
 
     @log
     def _select_all(self, action=None, param=None):
@@ -482,10 +486,6 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if self.props.selection_mode:
-            self._player_toolbar.hide()
-        elif self._player.props.playing:
-            self._player_toolbar.show()
         if not self.props.selection_mode:
             self._on_changes_pending()
 
