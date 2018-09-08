@@ -66,10 +66,9 @@ class PlayerToolbar(Gtk.ActionBar):
         return '<PlayerToolbar>'
 
     @log
-    def __init__(self, player, main_window):
+    def __init__(self, player):
         super().__init__()
 
-        self._main_window = main_window
         self._player = player
         self._progress_scale.player = self._player.get_gst_player()
 
@@ -132,8 +131,7 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @log
     def _sync_playing(self, player):
-        if not self._main_window.props.selection_mode:
-            self.show()
+        self.show()
 
         if self._player.get_playback_status() == Playback.PLAYING:
             image = self._pause_image
