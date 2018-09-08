@@ -33,6 +33,7 @@ from gi.repository import Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic import log
+from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import Player, RepeatMode
 from gnomemusic.query import Query
@@ -94,8 +95,11 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = None
         self.curr_view = None
 
+        self._player = Player()
+
         self._setup_view()
 
+        InhibitSuspend(self, self._player)
         MediaKeys(self._player, self)
 
         grilo.connect('changes-pending', self._on_changes_pending)
@@ -125,7 +129,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._headerbar = HeaderBar()
-        self._player = Player(self)
+
         self._player_toolbar = PlayerToolbar(self._player, self)
         self.views = [None] * len(View)
 
