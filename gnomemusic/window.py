@@ -130,7 +130,9 @@ class Window(Gtk.ApplicationWindow):
     def _setup_view(self):
         self._headerbar = HeaderBar()
 
-        self._player_toolbar = PlayerToolbar(self._player)
+        self._player_toolbar = PlayerToolbar()
+        self._player_toolbar.props.player = self._player
+
         self.views = [None] * len(View)
 
         self._headerbar.bind_property(
