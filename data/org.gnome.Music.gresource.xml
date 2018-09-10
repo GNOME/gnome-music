@@ -19,6 +19,7 @@
     <file preprocess="xml-stripblanks">ui/PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistDialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/RepeatBox.ui</file>
     <file preprocess="xml-stripblanks">ui/Searchbar.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionBarMenuButton.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionToolbar.ui</file>
