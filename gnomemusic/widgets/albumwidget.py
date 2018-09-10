@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
+
 from gettext import ngettext
 from gi.repository import GdkPixbuf, GObject, Gtk
 
@@ -51,20 +53,26 @@ class AlbumWidget(Gtk.EventBox):
     _composer_info_label = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
     _disc_listbox = Gtk.Template.Child()
+    _information_grid = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
+    _viewport = Gtk.Template.Child()
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _duration = 0
 
+    class Mode(IntEnum):
+        ALBUM = 0
+        PLAYBACK = 1
+
     def __repr__(self):
         return '<AlbumWidget>'
 
     @log
-    def __init__(self, player, parent_view):
+    def __init__(self, player, parent_view, mode):
         """Initialize the AlbumWidget.
 
         :param player: The player object
@@ -77,22 +85,29 @@ class AlbumWidget(Gtk.EventBox):
         self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
         self._player = player
+        self._mode = mode
         self._iter_to_clean = None
 
         self._create_model()
         self._album_id = None
 
-        self.bind_property(
-            'selection-mode', self._disc_listbox, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL)
+        if self._mode == AlbumWidget.Mode.ALBUM:
+            self.bind_property(
+                'selection-mode', self._disc_listbox, 'selection-mode',
+                GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.bind_property(
-            'selection-mode', self._parent_view, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
+            self.bind_property(
+                'selection-mode', self._parent_view, 'selection-mode',
+                GObject.BindingFlags.BIDIRECTIONAL
+                | GObject.BindingFlags.SYNC_CREATE)
 
-        self.bind_property(
-            'selected-items-count', self._parent_view, 'selected-items-count')
+        else:
+            self._album_info.props.margin_top = 0
+            self._disc_listbox.props.margin_top = 0
+            self._viewport.props.width_request = 400
+
+        album_mode = (self._mode == AlbumWidget.Mode.ALBUM)
+        self._information_grid.props.visible = album_mode
 
     @log
     def _create_model(self):
@@ -138,12 +153,12 @@ class AlbumWidget(Gtk.EventBox):
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        year = utils.get_media_year(album)
-        if not year:
-            year = '----'
-        self._released_info_label.props.label = year
-
-        self._set_composer_label(album)
+        if self._mode == AlbumWidget.Mode.ALBUM:
+            year = utils.get_media_year(album)
+            if not year:
+                year = '----'
+            self._released_info_label.props.label = year
+            self._set_composer_label(album)
 
         self._player.connect('song-changed', self._update_model)
 
@@ -182,7 +197,7 @@ class AlbumWidget(Gtk.EventBox):
         disc_box.set_disc_number(disc_nr)
         disc_box.props.columns = 1
         disc_box.props.show_durations = True
-        disc_box.props.show_favorites = True
+        disc_box.props.show_favorites = (self._mode == AlbumWidget.Mode.ALBUM)
         disc_box.props.show_song_numbers = False
         disc_box.connect('song-activated', self._song_activated)
 
