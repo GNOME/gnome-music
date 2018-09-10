@@ -62,6 +62,13 @@ class PlayerToolbar(Gtk.ActionBar):
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
+    _repeat_dict = {
+        RepeatMode.ALL: 'media-playlist-repeat-symbolic',
+        RepeatMode.NONE: 'media-playlist-consecutive-symbolic',
+        RepeatMode.SHUFFLE: 'media-playlist-shuffle-symbolic',
+        RepeatMode.SONG: 'media-playlist-repeat-song-symbolic'
+    }
+
     def __repr__(self):
         return '<PlayerToolbar>'
 
@@ -135,18 +142,8 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.next()
 
     @log
-    def _sync_repeat_image(self, player=None, param=None):
-        icon = None
-        repeat_mode = self._player.props.repeat_mode
-        if repeat_mode == RepeatMode.NONE:
-            icon = 'media-playlist-consecutive-symbolic'
-        elif repeat_mode == RepeatMode.SHUFFLE:
-            icon = 'media-playlist-shuffle-symbolic'
-        elif repeat_mode == RepeatMode.ALL:
-            icon = 'media-playlist-repeat-symbolic'
-        elif repeat_mode == RepeatMode.SONG:
-            icon = 'media-playlist-repeat-song-symbolic'
-
+    def _sync_repeat_image(self, player, mode):
+        icon = self._repeat_dict[self._player.props.repeat_mode]
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
 
     @log
