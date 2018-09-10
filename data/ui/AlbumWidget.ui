@@ -91,7 +91,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkGrid" id="grid">
+                  <object class="GtkGrid" id="_information_grid">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="margin_top">21</property>
