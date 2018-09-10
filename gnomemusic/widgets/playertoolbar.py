@@ -53,6 +53,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _cover_stack = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
+    _nowplaying_button = Gtk.Template.Child()
     _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
     _play_image = Gtk.Template.Child()
