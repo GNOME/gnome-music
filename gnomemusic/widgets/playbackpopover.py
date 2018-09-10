@@ -23,11 +23,19 @@
 # delete this exception statement from your version.
 
 from __future__ import annotations
+from typing import Optional
 import typing
 
-from gi.repository import Gfm, Gtk
+from enum import IntEnum
+from gettext import gettext as _
 
+from gi.repository import Gfm, GObject, Gtk
+
+from gnomemusic.coreartist import CoreArtist
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongState
+from gnomemusic.widgets.albumwidget import AlbumWidget
+from gnomemusic.widgets.repeatbox import RepeatBox
 from gnomemusic.widgets.twolinewidget import TwoLineWidget
 if typing.TYPE_CHECKING:
     from gnomemusic.application import Application
@@ -84,3 +92,94 @@ class LinearPlaybackWidget(Gtk.ScrolledWindow):
         self._player.play(coresong)
         current_coresong.props.state = SongState.PLAYED
         coresong.props.state = SongState.PLAYING
+
+
+@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaybackPopover.ui")
+class PlaybackPopover(Gtk.Popover):
+    """Popover showing the following tracks in the current playlist"""
+
+    __gtype_name__ = "PlaybackPopover"
+
+    _headerbar = Gtk.Template.Child()
+    _main_box = Gtk.Template.Child()
+
+    class Mode(IntEnum):
+        """Playback mode"""
+        LINEAR = 0
+        ALBUM = 1
+
+    def __init__(self, application):
+        """Instantiate LinearPlaybackWidget
+
+        :param Application application: Application object
+        """
+        super().__init__()
+
+        self._coremodel: CoreModel = application.props.coremodel
+        self._coremodel.connect("playlist-loaded", self._on_playlist_changed)
+
+        player: Player = application.props.player
+        self._album_wiget: AlbumWidget = AlbumWidget(
+            application, AlbumWidget.Mode.PLAYBACK)
+        self._main_box.add(self._album_wiget)
+
+        self._linear_playback: LinearPlaybackWidget = LinearPlaybackWidget(
+            application)
+        self._main_box.add(self._linear_playback)
+
+        repeat_box: RepeatBox = RepeatBox(player)
+        self._main_box.add(repeat_box)
+
+        self._playlist_type: Optional[PlayerPlaylist.Type] = None
+        self._mode: PlaybackPopover.Mode = PlaybackPopover.Mode.LINEAR
+        self._set_linear_mode()
+
+    @GObject.Property(type=int, default=0, minimum=0, maximum=1)
+    def mode(self) -> PlaybackPopover.Mode:
+        """Get the playback mode
+
+        :returns: The view state
+        :rtype: int
+        """
+        return self._mode
+
+    @mode.setter  # type: ignore
+    def mode(self, value: PlaybackPopover.Mode) -> None:
+        """Set the playback mode
+
+        :param int value: new playback mode
+        """
+        self._mode = value
+        if self._mode == PlaybackPopover.Mode.LINEAR:
+            self._set_linear_mode()
+        elif self._mode == PlaybackPopover.Mode.ALBUM:
+            self._set_album_mode()
+
+    def _set_linear_mode(self) -> None:
+        self._album_wiget.hide()
+        self._linear_playback.show()
+
+    def _set_album_mode(self) -> None:
+        self._linear_playback.hide()
+        self._album_wiget.update(self._coremodel.props.active_core_object)
+        self._album_wiget.show()
+
+    def _on_playlist_changed(
+            self, coremodel: CoreModel,
+            playlist_type: PlayerPlaylist.Type) -> None:
+        self._playlist_type = playlist_type
+        if playlist_type == PlayerPlaylist.Type.ALBUM:
+            self.props.mode = PlaybackPopover.Mode.ALBUM
+        else:
+            self.props.mode = PlaybackPopover.Mode.LINEAR
+
+        core_object: GObject.GObject = self._coremodel.props.active_core_object
+        if isinstance(core_object, CoreSong):
+            pl_title: str = _("Songs")
+        elif isinstance(core_object, CoreArtist):
+            pl_title = core_object.props.artist
+        else:
+            pl_title = core_object.props.title
+
+        title: str = _("Playing {}".format(pl_title))
+        self._headerbar.props.title = title

@@ -28,6 +28,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic.gstplayer import Playback
 from gnomemusic.utils import ArtSize
 from gnomemusic.player import Player, RepeatMode
+from gnomemusic.widgets.playbackpopover import PlaybackPopover
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
@@ -96,6 +97,10 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._player = player
         self._progress_scale.props.player = self._player
+
+        # FIXME
+        self._playback_popover = PlaybackPopover(
+            self._player._app, self._nowplaying_button)
 
         self._player.connect('song-changed', self._update_view)
         self._player.connect(

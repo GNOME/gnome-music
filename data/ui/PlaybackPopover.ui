@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PlaybackPopover" parent="GtkPopover">
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkHeaderBar" id="_headerbar">
+            <property name="visible">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox" id="_main_box">
+            <property name="orientation">vertical</property>
+            <property name="visible">True</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
