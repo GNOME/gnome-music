@@ -78,7 +78,7 @@ class AlbumWidget(Gtk.EventBox):
         self._iter_to_clean = None
 
         self._create_model()
-        self._album = None
+        self._album_name = None
 
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
@@ -113,10 +113,10 @@ class AlbumWidget(Gtk.EventBox):
         )
 
     @log
-    def update(self, item):
+    def update(self, album):
         """Update the album widget.
 
-        :param item: The grilo media item
+        :param Grl.Media album: The grilo media album
         """
         # reset view
         self._songs = []
@@ -125,41 +125,41 @@ class AlbumWidget(Gtk.EventBox):
             self._disc_listbox.remove(widget)
 
         self._duration = 0
-        art = ArtImage(Art.Size.LARGE, item)
+        art = ArtImage(Art.Size.LARGE, album)
         art.image = self._cover
 
-        self._album = utils.get_album_title(item)
-        artist = utils.get_artist_name(item)
+        self._album_name = utils.get_album_title(album)
+        artist = utils.get_artist_name(album)
 
-        self._title_label.props.label = self._album
-        self._title_label.props.tooltip_text = self._album
+        self._title_label.props.label = self._album_name
+        self._title_label.props.tooltip_text = self._album_name
 
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        year = utils.get_media_year(item)
+        year = utils.get_media_year(album)
         if not year:
             year = '----'
         self._released_info_label.props.label = year
 
-        self._set_composer_label(item)
+        self._set_composer_label(album)
 
         self._player.connect('song-changed', self._update_model)
 
         # If an album is playing, restore it.
         if self._player.playing_playlist(
-                PlayerPlaylist.Type.ALBUM, self._album):
+                PlayerPlaylist.Type.ALBUM, self._album_name):
             length = len(self._player.get_songs())
             for i, song in enumerate(self._player.get_songs()):
                 self.add_item(None, None, song[0], length - (i + 1))
             self.add_item(None, None, None, 0)
             self._update_model(self._player)
         else:
-            GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
+            GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
 
     @log
-    def _set_composer_label(self, item):
-        composer = item.get_composer()
+    def _set_composer_label(self, album):
+        composer = album.get_composer()
         show = False
 
         if composer:
@@ -201,7 +201,7 @@ class AlbumWidget(Gtk.EventBox):
             return
 
         self._player.set_playlist(
-            PlayerPlaylist.Type.ALBUM, self._album, song_widget.model,
+            PlayerPlaylist.Type.ALBUM, self._album_name, song_widget.model,
             song_widget.itr)
         self._player.play()
         return True
@@ -247,7 +247,8 @@ class AlbumWidget(Gtk.EventBox):
         :param Player player: The main player object
         :param int position: current song position
         """
-        if not player.playing_playlist(PlayerPlaylist.Type.ALBUM, self._album):
+        if not player.playing_playlist(
+                PlayerPlaylist.Type.ALBUM, self._album_name):
             return True
 
         current_song = player.props.current_song
