@@ -78,7 +78,7 @@ class AlbumWidget(Gtk.EventBox):
         self._iter_to_clean = None
 
         self._create_model()
-        self._album = None
+        self._album_id = None
 
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
@@ -128,12 +128,13 @@ class AlbumWidget(Gtk.EventBox):
         art = ArtImage(Art.Size.LARGE, item)
         art.image = self._cover
 
-        self._album = utils.get_album_title(item)
+        self._album_id = item.get_id()
+
+        album_name = utils.get_album_title(item)
+        self._title_label.props.label = album_name
+        self._title_label.props.tooltip_text = album_name
+
         artist = utils.get_artist_name(item)
-
-        self._title_label.props.label = self._album
-        self._title_label.props.tooltip_text = self._album
-
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
@@ -148,7 +149,7 @@ class AlbumWidget(Gtk.EventBox):
 
         # If an album is playing, restore it.
         if self._player.playing_playlist(
-                PlayerPlaylist.Type.ALBUM, self._album):
+                PlayerPlaylist.Type.ALBUM, self._album_id):
             length = len(self._player.get_songs())
             for i, song in enumerate(self._player.get_songs()):
                 self.add_item(None, None, song[0], length - (i + 1))
@@ -201,7 +202,7 @@ class AlbumWidget(Gtk.EventBox):
             return
 
         self._player.set_playlist(
-            PlayerPlaylist.Type.ALBUM, self._album, song_widget.model,
+            PlayerPlaylist.Type.ALBUM, self._album_id, song_widget.model,
             song_widget.itr)
         self._player.play()
         return True
@@ -247,7 +248,8 @@ class AlbumWidget(Gtk.EventBox):
         :param Player player: The main player object
         :param int position: current song position
         """
-        if not player.playing_playlist(PlayerPlaylist.Type.ALBUM, self._album):
+        if not player.playing_playlist(
+                PlayerPlaylist.Type.ALBUM, self._album_id):
             return True
 
         current_song = player.props.current_song
