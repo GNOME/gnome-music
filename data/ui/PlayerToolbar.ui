@@ -67,6 +67,7 @@
             <property name="image">previous_image</property>
             <property name="always_show_image">True</property>
             <property name="tooltip_text" translatable="yes">Previous</property>
+	    <property name="valign">center</property>
             <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
           </object>
           <packing>
@@ -83,6 +84,7 @@
             <property name="image">_play_image</property>
             <property name="always_show_image">True</property>
             <property name="tooltip_text" translatable="yes">Play</property>
+	    <property name="valign">center</property>
             <signal name="clicked" handler="_on_play_button_clicked" swapped="no"/>
           </object>
           <packing>
@@ -99,6 +101,7 @@
             <property name="image">next_image</property>
             <property name="always_show_image">True</property>
             <property name="tooltip_text" translatable="yes">Next</property>
+	    <property name="valign">center</property>
             <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
           </object>
           <packing>
@@ -120,62 +123,91 @@
         <property name="spacing">8</property>
         <signal name="query-tooltip" handler="_on_tooltip_query"/>
         <child>
-          <object class="CoverStack" id="_cover_stack">
+          <object class="GtkToggleButton" id="_nowplaying_button">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-          </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="nowplaying_labels">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
             <property name="halign">center</property>
             <property name="valign">center</property>
-            <property name="orientation">vertical</property>
-            <property name="homogeneous">True</property>
+            <signal name="toggled" handler="_on_nowplaying_button_toggled" swapped="no"/>
+            <style>
+              <class name="flat"/>
+	      <class name="now-playing"/>
+            </style>
             <child>
-              <object class="GtkLabel" id="_title_label">
+              <object class="GtkBox" id="nowplaying">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="xalign">0</property>
-                <property name="ellipsize">middle</property>
-                <property name="width_chars">8</property>
-                <property name="max_width_chars">42</property>
-                <style>
-                  <class name="player-title-label"/>
-                </style>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="spacing">8</property>
+                <child>
+                  <object class="CoverStack" id="_cover_stack">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="nowplaying_labels">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="_title_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="xalign">0</property>
+                        <property name="ellipsize">middle</property>
+                        <property name="width_chars">8</property>
+                        <property name="max_width_chars">42</property>
+                        <style>
+                          <class name="player-title-label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="_artist_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="xalign">0</property>
+                        <property name="ellipsize">middle</property>
+                        <property name="width_chars">8</property>
+                        <property name="max_width_chars">42</property>
+                        <style>
+                          <class name="player-artist-label"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="_artist_label">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="halign">start</property>
-                <property name="valign">start</property>
-                <property name="xalign">0</property>
-                <property name="ellipsize">middle</property>
-                <property name="width_chars">8</property>
-                <property name="max_width_chars">42</property>
-                <style>
-                  <class name="player-artist-label"/>
-                </style>
-              </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
     </child>
