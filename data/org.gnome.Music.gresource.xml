@@ -22,6 +22,7 @@
     <file preprocess="xml-stripblanks">ui/LinearPlaybackWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/LoadingNotification.ui</file>
     <file preprocess="xml-stripblanks">ui/NotificationsPopup.ui</file>
+    <file preprocess="xml-stripblanks">ui/PlaybackPopover.ui</file>
     <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistContextMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistControls.ui</file>
