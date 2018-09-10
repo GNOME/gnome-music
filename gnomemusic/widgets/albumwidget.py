@@ -113,10 +113,10 @@ class AlbumWidget(Gtk.EventBox):
         )
 
     @log
-    def update(self, item):
+    def update(self, album):
         """Update the album widget.
 
-        :param item: The grilo media item
+        :param Grl.Media album: The grilo media album
         """
         # reset view
         self._songs = []
@@ -125,25 +125,25 @@ class AlbumWidget(Gtk.EventBox):
             self._disc_listbox.remove(widget)
 
         self._duration = 0
-        art = ArtImage(Art.Size.LARGE, item)
+        art = ArtImage(Art.Size.LARGE, album)
         art.image = self._cover
 
-        self._album_id = item.get_id()
+        self._album_id = album.get_id()
 
-        album_name = utils.get_album_title(item)
+        album_name = utils.get_album_title(album)
         self._title_label.props.label = album_name
         self._title_label.props.tooltip_text = album_name
 
-        artist = utils.get_artist_name(item)
+        artist = utils.get_artist_name(album)
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        year = utils.get_media_year(item)
+        year = utils.get_media_year(album)
         if not year:
             year = '----'
         self._released_info_label.props.label = year
 
-        self._set_composer_label(item)
+        self._set_composer_label(album)
 
         self._player.connect('song-changed', self._update_model)
 
@@ -156,7 +156,7 @@ class AlbumWidget(Gtk.EventBox):
             self.add_item(None, None, None, 0)
             self._update_model(self._player)
         else:
-            GLib.idle_add(grilo.populate_album_songs, item, self.add_item)
+            GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
 
     @log
     def _set_composer_label(self, item):
