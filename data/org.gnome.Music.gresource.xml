@@ -30,6 +30,7 @@
     <file preprocess="xml-stripblanks">ui/PlaylistsView.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistsWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistTile.ui</file>
+    <file preprocess="xml-stripblanks">ui/RepeatBox.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchHeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchView.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionBarMenuButton.ui</file>
