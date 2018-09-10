@@ -22,10 +22,16 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
+from gettext import gettext as _
 
 from gnomemusic import log
+from gnomemusic.grilo import grilo
+from gnomemusic.player import PlayerPlaylist
+from gnomemusic.widgets.albumwidget import AlbumWidget
+from gnomemusic.widgets.repeatbox import RepeatBox
 from gnomemusic.widgets.songwidget import WidgetState, TwoLineWidget
+import gnomemusic.utils as utils
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/LinearPlaybackWindow.ui')
@@ -129,3 +135,97 @@ class LinearPlaybackWindow(Gtk.ScrolledWindow):
     def _on_row_activated(self, klass, row):
         index = row.get_index()
         self._player.play(index - self._current_index)
+
+
+@Gtk.Template(resource_path='/org/gnome/Music/ui/PlaybackPopover.ui')
+class PlaybackPopover(Gtk.Popover):
+    """Popover showing the following tracks in the current playlist"""
+
+    __gtype_name__ = 'PlaybackPopover'
+
+    __gsignals__ = {
+        'current-changed':
+        (GObject.SignalFlags.RUN_FIRST, None, (Gtk.TreeIter,)),
+    }
+
+    _headerbar = Gtk.Template.Child()
+    _main_box = Gtk.Template.Child()
+
+    def __repr__(self):
+        return '<PlaybackPopover>'
+
+    @log
+    def __init__(self, player, button):
+        super().__init__(relative_to=button)
+
+        self._player = player
+        button.connect('toggled', self._on_button_toggled)
+        self._player.connect('playlist-changed', self._on_playlist_changed)
+
+        self._album_playback = AlbumWidget(
+            player, self, AlbumWidget.Mode.PLAYBACK)
+        self._main_box.add(self._album_playback)
+
+        self._linear_playback = LinearPlaybackWindow(self._player)
+        self._main_box.add(self._linear_playback)
+
+        repeat_box = RepeatBox(self._player)
+        self._main_box.add(repeat_box)
+
+    @log
+    def _on_button_toggled(self, klass):
+        self.popup()
+
+    @log
+    def _set_title(self, title_suffix):
+        header = _("Playing")
+        self._headerbar.props.title = header + " " + title_suffix
+
+    @log
+    def _display_album_widget(self, source, param, item, count, error, data):
+        if not item:
+            return
+
+        self._album_playback.update(item)
+        self._set_title(utils.get_album_title(item))
+        self._linear_playback.hide()
+        self._album_playback.show()
+
+    @log
+    def _update_playlist_title(self, source, param, item, count, error, data):
+        if not item:
+            return
+        self._set_title(utils.get_media_title(item))
+
+    @log
+    def _update_linear_mode_title(self):
+        playlist_type = self._player.get_playlist_type()
+        if playlist_type == PlayerPlaylist.Type.PLAYLIST:
+            pl_id = self._player.get_playlist_id()
+            grilo.get_playlist_with_id(pl_id, self._update_playlist_title)
+        elif playlist_type == PlayerPlaylist.Type.ARTIST:
+            self._set_title(self._player.get_playlist_id())
+        else:
+            self._set_title(_("Songs"))
+
+    @log
+    def _on_playlist_changed(self, klass, data=None):
+        playlist_type = self._player.get_playlist_type()
+        linear_playlists = [
+                            PlayerPlaylist.Type.ARTIST,
+                            PlayerPlaylist.Type.PLAYLIST,
+                            PlayerPlaylist.Type.SONGS]
+
+        if playlist_type == PlayerPlaylist.Type.ALBUM:
+            album_id = self._player.get_playlist_id()
+            grilo.get_album_with_id(album_id, self._display_album_widget)
+
+        elif playlist_type in linear_playlists:
+            self._album_playback.hide()
+            self._linear_playback.update()
+            self._update_linear_mode_title()
+            self._linear_playback.show()
+
+        else:
+            self._album_playback.hide()
+            self._linear_playback.hide()
