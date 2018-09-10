@@ -30,6 +30,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatMode
 from gnomemusic.widgets.coverstack import CoverStack  # noqa: F401
+from gnomemusic.widgets.playbackpopover import PlaybackPopover
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 import gnomemusic.utils as utils
@@ -80,6 +81,9 @@ class PlayerToolbar(Gtk.ActionBar):
         self._tooltip = TwoLineTip()
 
         self._sync_repeat_image()
+
+        self._playback_popover = PlaybackPopover(
+            self._player, self._nowplaying_button)
 
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('song-changed', self._update_view)

@@ -631,6 +631,17 @@ class Query():
         return query
 
     @staticmethod
+    def get_album_with_id(playlist_id):
+        query = """
+    ?playlist a nmm:Playlist .
+    FILTER (
+        tracker:id(?playlist) = %(playlist_id)s
+    )
+    """.replace('\n', ' ').strip() % {'playlist_id': playlist_id}
+
+        return Query.playlists(query)
+
+    @staticmethod
     def get_playlist_with_id(playlist_id):
         query = """
     ?playlist a nmm:Playlist .

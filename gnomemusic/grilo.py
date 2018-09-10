@@ -421,6 +421,13 @@ class Grilo(GObject.GObject):
                                  callback)
 
     @log
+    def get_album_with_id(self, album_id, callback):
+        options = self.options.copy()
+        query = Query.get_album_for_album_id(album_id)
+
+        self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
+
+    @log
     def get_playlist_with_id(self, playlist_id, callback):
         options = self.options.copy()
         query = Query.get_playlist_with_id(playlist_id)
