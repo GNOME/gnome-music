@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="RepeatBox" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="orientation">horizontal</property>
+    <property name="homogeneous">True</property>
+    <property name="halign">center</property>
+    <property name="margin_top">6</property>
+    <property name="margin_bottom">6</property>
+    <child>
+      <object class="GtkToggleButton" id="_linear_mode_button">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">True</property>
+        <property name="image">linear_mode_image</property>
+        <property name="always_show_image">True</property>
+        <signal name="toggled" handler="_repeat_button_clicked" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="_repeat_song_mode_button">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">True</property>
+        <property name="image">repeat_song_mode_image</property>
+        <property name="always_show_image">True</property>
+        <signal name="toggled" handler="_repeat_button_clicked" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="_repeat_all_mode_button">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">True</property>
+        <property name="image">repeat_all_mode_image</property>
+        <property name="always_show_image">True</property>
+        <signal name="toggled" handler="_repeat_button_clicked" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkToggleButton" id="_shuffle_mode_button">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="receives_default">True</property>
+        <property name="image">shuffle_mode_image</property>
+        <property name="always_show_image">True</property>
+        <signal name="toggled" handler="_repeat_button_clicked" swapped="no"/>
+      </object>
+    </child>
+  </template>
+  <object class="GtkImage" id="linear_mode_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playlist-consecutive-symbolic</property>
+  </object>
+  <object class="GtkImage" id="shuffle_mode_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playlist-shuffle-symbolic</property>
+  </object>nn
+  <object class="GtkImage" id="repeat_all_mode_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playlist-repeat-symbolic</property>
+  </object>
+  <object class="GtkImage" id="repeat_song_mode_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="icon_name">media-playlist-repeat-song-symbolic</property>
+  </object>
+</interface>
