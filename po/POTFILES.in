@@ -39,6 +39,7 @@ gnomemusic/widgets/disclistboxwidget.py
 gnomemusic/widgets/headerbar.py
 gnomemusic/widgets/lastfmdialog.py
 gnomemusic/widgets/notificationspopup.py
+gnomemusic/widgets/playbackpopover.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
