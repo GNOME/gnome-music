@@ -68,13 +68,13 @@ if appstreamcli.found()
 endif
 
 # Installing the icons
-icon_sizes = ['16', '22', '32', '48', '256']
+icon_sizes = ['scalable']
 
 foreach i : icon_sizes
   install_data(
-    join_paths('icons/hicolor', i + 'x' + i, 'apps', PROJECT_RDNN_NAME + '.png'),
-    install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i + 'x' + i, 'apps'),
-    rename: '@0@.png'.format(APPLICATION_ID)
+    join_paths('icons/hicolor', i , 'apps', PROJECT_RDNN_NAME + '.svg'),
+    install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i , 'apps'),
+    rename: '@0@.svg'.format(APPLICATION_ID)
   )
 endforeach
 
