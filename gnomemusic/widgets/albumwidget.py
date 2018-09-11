@@ -147,7 +147,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._player.connect('song-changed', self._update_model)
 
-        GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
+        grilo.populate_album_songs(album, self.add_item)
 
     @log
     def _set_composer_label(self, item):
