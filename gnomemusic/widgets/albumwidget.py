@@ -92,8 +92,6 @@ class AlbumWidget(Gtk.EventBox):
         self.bind_property(
             'selected-items-count', self._parent_view, 'selected-items-count')
 
-        self.show_all()
-
     @log
     def _create_model(self):
         """Create the ListStore model for this widget."""
@@ -230,7 +228,6 @@ class AlbumWidget(Gtk.EventBox):
 
             self._set_duration_label()
             self._update_model(self._player)
-            self.show_all()
 
     @log
     def _update_model(self, player, position=None):
