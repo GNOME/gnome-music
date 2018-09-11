@@ -146,16 +146,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._player.connect('song-changed', self._update_model)
 
-        # If an album is playing, restore it.
-        if self._player.playing_playlist(
-                PlayerPlaylist.Type.ALBUM, self._album_name):
-            length = len(self._player.get_songs())
-            for i, song in enumerate(self._player.get_songs()):
-                self.add_item(None, None, song[0], length - (i + 1))
-            self.add_item(None, None, None, 0)
-            self._update_model(self._player)
-        else:
-            GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
+        GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
 
     @log
     def _set_composer_label(self, album):
@@ -238,6 +229,7 @@ class AlbumWidget(Gtk.EventBox):
                 self._disc_listbox.add(disc)
 
             self._set_duration_label()
+            self._update_model(self._player)
             self.show_all()
 
     @log
