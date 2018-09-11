@@ -231,7 +231,6 @@ class AlbumWidget(Gtk.EventBox):
 
             self._set_duration_label()
             self._update_model(self._player)
-            self.show_all()
 
     @log
     def _update_model(self, player, position=None):
