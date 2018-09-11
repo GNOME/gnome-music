@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import ngettext
-from gi.repository import GdkPixbuf, GLib, GObject, Gtk
+from gi.repository import GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art, ArtImage
@@ -147,7 +147,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._player.connect('song-changed', self._update_model)
 
-        GLib.idle_add(grilo.populate_album_songs, album, self.add_item)
+        grilo.populate_album_songs(album, self.add_item)
 
     @log
     def _set_composer_label(self, item):
