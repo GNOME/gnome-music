@@ -24,7 +24,7 @@
 import logging
 
 from gettext import gettext as _
-from gi.repository import Gtk, Gio, GObject
+from gi.repository import GLib, Gtk, Gio, GObject
 
 from gnomemusic import log
 from gnomemusic.gstplayer import Playback
@@ -59,6 +59,8 @@ class InhibitSuspend(GObject.GObject):
         self._settings.connect(
             'changed::inhibit-suspend', self._on_inhibit_suspend_changed)
 
+        self._init_pause_on_suspend()
+
     @log
     def _inhibit_suspend(self):
         if (self._inhibit_cookie == 0
@@ -90,3 +92,41 @@ class InhibitSuspend(GObject.GObject):
         if (self._player.get_playback_status() == Playback.PAUSED
                 or self._player.get_playback_status() == Playback.STOPPED):
             self._uninhibit_suspend()
+
+    @log
+    def _init_pause_on_suspend(self):
+        Gio.DBusProxy.new_for_bus(
+            Gio.BusType.SYSTEM,
+            Gio.DBusProxyFlags.DO_NOT_LOAD_PROPERTIES, None,
+            "org.freedesktop.login1",
+            "/org/freedesktop/login1",
+            "org.freedesktop.login1.Manager", None,
+            self._suspend_proxy_ready)
+
+    @log
+    def _suspend_proxy_ready(self, proxy, result, data=None):
+        try:
+            self._suspend_proxy = proxy.new_finish(result)
+        except GLib.Error as e:
+            logger.warning(
+                "Error: Failed to contact settings daemon:", e.message)
+            return
+
+        try:
+            # If I set signal to "PrepareForSleep" here, I've got rutime error
+            # So I decided to just use basic "g-signal"
+            # Needs reviewing. Don't have good understanding of how it works.
+            self._suspend_proxy.connect("g-signal", self._stop_playing)
+        except GLib.Error as e:
+            logger.warning(
+                "Error: ", e.message)
+
+    @log
+    def _stop_playing(self, proxy, sender, signal, parameters):
+        # logind has 8 signals. Check if this is one we need.
+        # Also, there's actually 2 signals coming through this:
+        # when PrepareForSleep sets to true, and when it sets to false.
+        # We don't care about second one, cause music already was paused
+        if signal == "PrepareForSleep":
+            # Also, do I need to check player state?
+            self._player.pause()
