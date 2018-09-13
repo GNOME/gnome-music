@@ -358,6 +358,7 @@ class MediaPlayer2Service(Server):
 
     @log
     def _update_songs_list(self):
+        previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
         for song in self.player.get_songs():
@@ -365,6 +366,17 @@ class MediaPlayer2Service(Server):
             metadata = self._get_metadata(song)
             self._path_list.append(path)
             self._metadata_list.append(metadata)
+
+        # current song has changed
+        if (not previous_path_list
+                or previous_path_list[0] != self._path_list[0]
+                or previous_path_list[-1] != self._path_list[-1]):
+            current_song_path = self._get_song_dbus_path(
+                self.player.props.current_song)
+            self.TrackListReplaced(self._path_list, current_song_path)
+            self.PropertiesChanged(
+                MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                {'Tracks': GLib.Variant('ao', self._path_list), }, [])
 
     @log
     def _get_playlist_dbus_path(self, playlist):
@@ -429,6 +441,7 @@ class MediaPlayer2Service(Server):
 
     @log
     def _on_current_song_changed(self, player, position):
+        self._update_songs_list()
         if self.player.props.repeat_mode == RepeatMode.SONG:
             self.Seeked(0)
 
@@ -490,14 +503,6 @@ class MediaPlayer2Service(Server):
     @log
     def _on_player_playlist_changed(self, klass):
         self._update_songs_list()
-
-        if self.player.props.current_song:
-            current_song_path = self._get_song_dbus_path(
-                self.player.props.current_song)
-            self.TrackListReplaced(self._path_list, current_song_path)
-            self.PropertiesChanged(
-                MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                {'Tracks': GLib.Variant('ao', self._path_list), }, [])
 
         if (self.player.get_playlist_type() == PlayerPlaylist.Type.PLAYLIST
                 or self._player_previous_type == PlayerPlaylist.Type.PLAYLIST):
@@ -610,8 +615,11 @@ class MediaPlayer2Service(Server):
         pass
 
     def GoTo(self, path):
-        index = self.path_list.index(path)
-        self.player.play(index)
+        current_song_path = self._get_song_dbus_path(
+            self.player.props.current_song)
+        current_song_index = self._path_list.index(current_song_path)
+        goto_index = self._path_list.index(path)
+        self.player.play(goto_index - current_song_index)
         return
 
     def TrackListReplaced(self, tracks, current_song):
