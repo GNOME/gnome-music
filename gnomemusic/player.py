@@ -473,13 +473,20 @@ class PlayerPlaylist(GObject.GObject):
         return self._type
 
     @log
-    def get_songs(self):
-        """Get the current playlist.
+    def get_songs(self, nb_songs, start_at_current_index):
+        """Get some songs from the current playlist.
 
+        :param int nb_songs: number of songs to get
+        :param bool start_at_current_index: start at the current song
         :returns: current playlist
         :rtype: list of Grl.Media
         """
-        songs = [elt[PlayerField.SONG] for elt in self._songs]
+        first_index = 0
+        if start_at_current_index:
+            first_index = self._current_index
+        max_index = min(first_index + nb_songs, len(self._songs))
+        songs = [elt[PlayerField.SONG]
+                 for elt in self._songs[first_index:max_index]]
         return songs
 
 
@@ -857,10 +864,12 @@ class Player(GObject.GObject):
         return self._playlist.props.current_song is not None
 
     @log
-    def get_songs(self):
-        """Get the current playlist.
+    def get_songs(self, nb_songs, start_at_current_index=True):
+        """Get some songs from the current playlist.
 
+        :param int nb_songs: number of songs to get
+        :param bool start_at_current_index: start at the current song
         :returns: current playlist
         :rtype: list of Grl.Media
         """
-        return self._playlist.get_songs()
+        return self._playlist.get_songs(nb_songs, start_at_current_index)
