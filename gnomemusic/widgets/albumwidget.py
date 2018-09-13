@@ -45,6 +45,7 @@ class AlbumWidget(Gtk.EventBox):
 
     __gtype_name__ = 'AlbumWidget'
 
+    _album_info = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
@@ -229,6 +230,13 @@ class AlbumWidget(Gtk.EventBox):
                 if len(discs) == 1:
                     disc.props.show_disc_label = False
                 self._disc_listbox.add(disc)
+
+            # vertically align coverart and disc listbox
+            first_disc_box = self._disc_listbox.get_children()[0]
+            first_disc_box_margin = first_disc_box.props.margin
+            disc_box_margin = self._disc_listbox.props.margin_top
+            album_margin = disc_box_margin + first_disc_box_margin
+            self._album_info.props.margin_top = album_margin
 
             self._set_duration_label()
             self._update_model(self._player)
