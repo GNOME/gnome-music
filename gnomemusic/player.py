@@ -852,6 +852,12 @@ class Player(GObject.GObject):
         self._player.volume = rate
         self.emit('volume-changed')
 
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def has_songs(self):
+        """Check if the playlist has songs"""
+        return self._playlist.props.current_song is not None
+
     @log
     def get_songs(self):
         return self._playlist.get_songs()

@@ -538,7 +538,7 @@ class MediaPlayer2Service(Server):
         self.player.stop()
 
     def Play(self):
-        if self.player.get_songs():
+        if self.player.props.has_songs:
             self.player.play()
         elif self.first_song_handler == 0:
             window = self.app.get_active_window()
