@@ -86,6 +86,8 @@ class PlayerPlaylist(GObject.GObject):
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
     }
 
+    _nb_songs_max = 10
+
     def __repr__(self):
         return '<PlayerPlayList>'
 
@@ -160,13 +162,14 @@ class PlayerPlaylist(GObject.GObject):
         return True
 
     @log
-    def set_song(self, song_index):
+    def set_song(self, song_offset):
         """Change playlist index.
 
         :param int song_index: requested song index
         :return: True if the index has changed. False otherwise.
         :rtype: bool
         """
+        song_index = song_offset + self._current_index
         if song_index >= len(self._songs):
             return False
 
@@ -287,36 +290,42 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer.discover_uri_async(url)
 
     @log
-    def _get_next_index(self):
-        if not self.has_next():
+    def _get_next_index(self, index=None):
+        if index is None:
+            index = self._current_index
+
+        if not self.has_next(index):
             return -1
 
         if self._repeat == RepeatMode.SONG:
-            return self._current_index
+            return index
         if (self._repeat == RepeatMode.ALL
-                and self._current_index == (len(self._songs) - 1)):
+                and index == (len(self._songs) - 1)):
             return 0
         if self._repeat == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._current_index)
-            return self._shuffle_indexes[index + 1]
+            shuffle_index = self._shuffle_indexes.index(index)
+            return self._shuffle_indexes[shuffle_index + 1]
         else:
-            return self._current_index + 1
+            return index + 1
 
     @log
-    def _get_previous_index(self):
-        if not self.has_previous():
+    def _get_previous_index(self, index=None):
+        if index is None:
+            index = self._current_index
+
+        if not self.has_previous(index):
             return -1
 
         if self._repeat == RepeatMode.SONG:
-            return self._current_index
+            return index
         if (self._repeat == RepeatMode.ALL
-                and self._current_index == 0):
+                and index == 0):
             return len(self._songs) - 1
         if self._repeat == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._current_index)
-            return self._shuffle_indexes[index - 1]
+            shuffle_index = self._shuffle_indexes.index(index)
+            return self._shuffle_indexes[shuffle_index - 1]
         else:
-            return self._current_index - 1
+            return index - 1
 
     @log
     def _validate_next_song(self):
@@ -337,27 +346,32 @@ class PlayerPlaylist(GObject.GObject):
             self._validate_song(previous_index)
 
     @log
-    def has_next(self):
+    def has_next(self, index=None):
         """Test if there is a song after the current one.
 
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
+        if index is None:
+            index = self._current_index
         if (self._repeat == RepeatMode.SHUFFLE
                 and self._shuffle_indexes):
-            index = self._shuffle_indexes.index(self._current_index)
+            index = self._shuffle_indexes.index(index)
             return index < (len(self._shuffle_indexes) - 1)
         if self._repeat != RepeatMode.NONE:
             return True
-        return self._current_index < (len(self._songs) - 1)
+        return index < (len(self._songs) - 1)
 
     @log
-    def has_previous(self):
+    def has_previous(self, index=None):
         """Test if there is a song before the current one.
 
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
+        if index is None:
+            index = self._current_index
+
         if (self._repeat == RepeatMode.SHUFFLE
                 and self._shuffle_indexes):
             index = self._shuffle_indexes.index(self._current_index)
@@ -478,12 +492,53 @@ class PlayerPlaylist(GObject.GObject):
 
     @log
     def get_songs(self):
-        """Get the current playlist.
+        """Get recent and next songs from the current playlist.
+
+        If the playlist is an album, return all songs.
+        Returned songs are sorted according to the repeat mode.
 
         :returns: current playlist
         :rtype: list of Grl.Media
         """
-        songs = [elt[PlayerField.SONG] for elt in self._songs]
+        if not self.props.current_song:
+            return []
+
+        songs = []
+
+        if self._type == PlayerPlaylist.Type.ALBUM:
+            first_index = 0
+            last_index = len(self._songs)
+        else:
+            first_index = self._current_index - self._nb_songs_max
+            last_index = self._current_index + self._nb_songs_max
+
+        # RepeatMode SONG is a special case as get_next_index and
+        # _get_previous_index methods will always return the same index.
+        # So, they cannot be used.
+        if self._repeat == RepeatMode.SONG:
+            first_index = max(0, first_index)
+            last_index = min(last_index, len(self._songs))
+            for index in range(first_index, last_index):
+                songs.append(self._songs[index][PlayerField.SONG])
+            return songs
+
+        index_max = min(0, last_index)
+        index = index_max
+        for i in range(first_index, index_max):
+            index = self._get_previous_index(index)
+            if index == -1:
+                break
+            songs.insert(0, self._songs[index][PlayerField.SONG])
+
+        index_min = max(index_max, first_index)
+        songs.append(self._songs[index_min][PlayerField.SONG])
+        index = index_min
+        for i in range(index_min, last_index):
+            index = self._get_next_index(index)
+            if index == -1:
+                break
+            songs.append(self._songs[index][PlayerField.SONG])
+
         return songs
 
 
@@ -593,13 +648,13 @@ class Player(GObject.GObject):
             self.stop()
 
     @log
-    def play(self, song_index=None):
+    def play(self, song_offset=None):
         """Play"""
         if self.props.current_song is None:
             return
 
-        if (song_index is not None
-                and not self._playlist.set_song(song_index)):
+        if (song_offset is not None
+                and not self._playlist.set_song(song_offset)):
             return False
 
         if self.props.state != Playback.PAUSED:
@@ -835,7 +890,9 @@ class Player(GObject.GObject):
 
     @log
     def get_songs(self):
-        """Get the current playlist.
+        """Get recent and next songs from the current playlist.
+
+        Returned songs are sorted according to the repeat mode.
 
         :returns: current playlist
         :rtype: list of Grl.Media
