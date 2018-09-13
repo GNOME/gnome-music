@@ -19,6 +19,7 @@
     <file preprocess="xml-stripblanks">ui/FilterView.ui</file>
     <file preprocess="xml-stripblanks">ui/HeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/LastfmDialog.ui</file>
+    <file preprocess="xml-stripblanks">ui/LinearPlaybackWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/LoadingNotification.ui</file>
     <file preprocess="xml-stripblanks">ui/NotificationsPopup.ui</file>
     <file preprocess="xml-stripblanks">ui/PlayerToolbar.ui</file>
