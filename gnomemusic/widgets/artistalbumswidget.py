@@ -29,7 +29,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidget import WidgetState
 
 logger = logging.getLogger(__name__)
 
@@ -157,13 +157,13 @@ class ArtistAlbumsWidget(Gtk.Box):
             song_widget = song.song_widget
 
             if (song.get_id() == current_song.get_id()):
-                song_widget.props.state = SongWidget.State.PLAYING
+                song_widget.props.state = WidgetState.PLAYING
                 song_passed = True
             elif (song_passed):
                 # Counter intuitive, but this is due to call order.
-                song_widget.props.state = SongWidget.State.UNPLAYED
+                song_widget.props.state = WidgetState.UNPLAYED
             else:
-                song_widget.props.state = SongWidget.State.PLAYED
+                song_widget.props.state = WidgetState.PLAYED
 
             itr = self._model.iter_next(itr)
 
@@ -176,7 +176,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         while itr:
             song = self._model[itr][5]
             song_widget = song.song_widget
-            song_widget.props.state = SongWidget.State.UNPLAYED
+            song_widget.props.state = WidgetState.UNPLAYED
 
             itr = self._model.iter_next(itr)
 

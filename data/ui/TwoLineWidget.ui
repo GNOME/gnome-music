@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="TwoLineWidget" parent="GtkListBoxRow">
+    <property name="can_focus">False</property>
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkBox">
+        <property name="can_focus">False</property>
+        <property name="hexpand">False</property>
+        <property name="orientation">horizontal</property>
+        <property name="visible">True</property>
+        <property name="margin">6</property>
+        <property name="spacing">8</property>
+        <child>
+          <object class="GtkImage" id="_play_icon">
+            <property name="icon_size">4</property>
+            <property name="visible">True</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="halign">fill</property>
+            <property name="hexpand">True</property>
+            <property name="visible">True</property>
+            <property name="spacing">12</property>
+            <child>
+              <object class="CoverStack" id="_cover_stack">
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="orientation">vertical</property>
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="_main_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">fill</property>
+		    <property name="hexpand">true</property>
+                    <property name="valign">start</property>
+                    <property name="xalign">0</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="width_chars">8</property>
+                    <property name="max_width_chars">42</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="_secondary_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="valign">start</property>
+                    <property name="xalign">0</property>
+                    <property name="ellipsize">middle</property>
+                    <property name="width_chars">8</property>
+                    <property name="max_width_chars">42</property>
+                    <style>
+                      <class name="player-artist-label"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
