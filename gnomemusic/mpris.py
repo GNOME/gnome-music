@@ -208,6 +208,8 @@ class MediaPlayer2Service(Server):
     MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
     MEDIA_PLAYER2_PLAYLISTS_IFACE = 'org.mpris.MediaPlayer2.Playlists'
 
+    _nb_songs = -10
+
     def __repr__(self):
         return '<MediaPlayer2Service>'
 
@@ -350,7 +352,9 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_media_from_id(self, track_id):
-        for media in self.player.get_songs():
+        songs = self.player.get_songs(
+            self._nb_songs, self._nb_songs)
+        for media in songs:
             if track_id == self._get_media_id(media):
                 return media
         return None
@@ -358,8 +362,9 @@ class MediaPlayer2Service(Server):
     @log
     def _get_track_list(self):
         if self.player.props.playing:
-            return [self._get_media_id(song)
-                    for song in self.player.get_songs()]
+            songs = self.player.get_songs(
+                self._nb_songs, self._nb_songs)
+            return [self._get_media_id(song) for song in songs]
         else:
             return []
 
@@ -580,7 +585,9 @@ class MediaPlayer2Service(Server):
         pass
 
     def GoTo(self, track_id):
-        for index, song in enumerate(self.player.get_songs()):
+        songs = self.player.get_songs(
+            self._nb_songs, self._nb_songs)
+        for index, song in enumerate(songs):
             if track_id == self._get_media_id(song):
                 self.player_play(index)
                 return
