@@ -26,7 +26,7 @@
 import codecs
 
 from gnomemusic.gstplayer import Playback
-from gnomemusic.player import PlayerField, PlayerPlaylist, RepeatMode
+from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.utils import View
@@ -350,8 +350,7 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_media_from_id(self, track_id):
-        for track in self.player.get_songs():
-            media = track[PlayerField.SONG]
+        for media in self.player.get_songs():
             if track_id == self._get_media_id(media):
                 return media
         return None
@@ -359,7 +358,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_track_list(self):
         if self.player.props.playing:
-            return [self._get_media_id(song[PlayerField.SONG])
+            return [self._get_media_id(song)
                     for song in self.player.get_songs()]
         else:
             return []
@@ -582,7 +581,7 @@ class MediaPlayer2Service(Server):
 
     def GoTo(self, track_id):
         for index, song in enumerate(self.player.get_songs()):
-            if track_id == self._get_media_id(song[PlayerField.SONG]):
+            if track_id == self._get_media_id(song):
                 self.player_play(index)
                 return
 
