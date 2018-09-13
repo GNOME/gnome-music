@@ -33,7 +33,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidget import WidgetState
 import gnomemusic.utils as utils
 
 
@@ -276,13 +276,13 @@ class AlbumWidget(Gtk.EventBox):
             self._duration += song.get_duration()
 
             if (song.get_id() == current_song.get_id()):
-                song_widget.props.state = SongWidget.State.PLAYING
+                song_widget.props.state = WidgetState.PLAYING
                 song_passed = True
             elif (song_passed):
                 # Counter intuitive, but this is due to call order.
-                song_widget.props.state = SongWidget.State.UNPLAYED
+                song_widget.props.state = WidgetState.UNPLAYED
             else:
-                song_widget.props.state = SongWidget.State.PLAYED
+                song_widget.props.state = WidgetState.PLAYED
 
         self._set_duration_label()
 

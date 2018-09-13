@@ -31,9 +31,18 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic import utils
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
+
+
+class WidgetState(IntEnum):
+        """The state of the SongWidget
+        """
+        PLAYED = 0
+        PLAYING = 1
+        UNPLAYED = 2
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SongWidget.ui')
@@ -70,13 +79,6 @@ class SongWidget(Gtk.EventBox):
     _star_image = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
 
-    class State(IntEnum):
-        """The state of the SongWidget
-        """
-        PLAYED = 0
-        PLAYING = 1
-        UNPLAYED = 2
-
     def __repr__(self):
         return '<SongWidget>'
 
@@ -86,7 +88,7 @@ class SongWidget(Gtk.EventBox):
 
         self._media = media
         self._selection_mode = False
-        self._state = SongWidget.State.UNPLAYED
+        self._state = WidgetState.UNPLAYED
 
         song_number = media.get_track_number()
         if song_number == 0:
@@ -183,7 +185,7 @@ class SongWidget(Gtk.EventBox):
         """State of the widget
 
         :returns: Widget state
-        :rtype: SongWidget.State
+        :rtype: WidgetState
         """
         return self._state
 
@@ -194,7 +196,7 @@ class SongWidget(Gtk.EventBox):
         This influences the look of the widgets label and if there is a
         song play indicator being shown.
 
-        :param SongWidget.State value: Widget state
+        :param WidgetState value: Widget state
         """
         self._state = value
 
@@ -204,8 +206,84 @@ class SongWidget(Gtk.EventBox):
         style_ctx.remove_class('playing-song-label')
         self._play_icon.set_visible(False)
 
-        if value == SongWidget.State.PLAYED:
+        if value == WidgetState.PLAYED:
             style_ctx.add_class('dim-label')
-        elif value == SongWidget.State.PLAYING:
+        elif value == WidgetState.PLAYING:
             self._play_icon.set_visible(True)
             style_ctx.add_class('playing-song-label')
+
+
+@Gtk.Template(resource_path='/org/gnome/Music/ui/TwoLineWidget.ui')
+class TwoLineWidget(Gtk.ListBoxRow):
+
+    __gtype_name__ = 'TwoLineWidget'
+
+    _cover_stack = Gtk.Template.Child()
+    _main_label = Gtk.Template.Child()
+    _play_icon = Gtk.Template.Child()
+    _secondary_label = Gtk.Template.Child()
+
+    def __repr__(self):
+        return '<TwoLineWidget>'
+
+    @log
+    def __init__(self, song, state):
+        super().__init__()
+
+        self.update(song, state)
+
+    @log
+    def update(self, song, state):
+        self._song_id = song.get_id()
+
+        self._cover_stack.props.size = Art.Size.SMALL
+        self._cover_stack.update(song)
+
+        self._main_label.props.label = utils.get_media_title(song)
+        self._secondary_label.props.label = utils.get_artist_name(song)
+
+        self.props.state = state
+
+    @GObject.Property(type=int)
+    def state(self):
+        """State of the widget
+
+        :returns: Widget state
+        :rtype: WidgetState
+        """
+        return self._state
+
+    @state.setter
+    def state(self, value):
+        """Set state of the of widget
+
+        This influences the look of the widgets label and if there is a
+        song play indicator being shown.
+
+        :param WidgetState value: Widget state
+        """
+        self._state = value
+
+        main_style_ctx = self._main_label.get_style_context()
+        secondary_style_ctx = self._secondary_label.get_style_context()
+
+        main_style_ctx.remove_class('dim-label')
+        main_style_ctx.remove_class('playing-song-label')
+        secondary_style_ctx.remove_class('dim-label')
+        self._play_icon.props.icon_name = ''
+
+        if value == WidgetState.PLAYED:
+            main_style_ctx.add_class('dim-label')
+            secondary_style_ctx.add_class('dim-label')
+        elif value == WidgetState.PLAYING:
+            self._play_icon.props.icon_name = 'media-playback-start-symbolic'
+            main_style_ctx.add_class('playing-song-label')
+
+    @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
+    def song_id(self):
+        """Song id getter
+
+        :returns: the song id
+        :rtype: int
+        """
+        return self._song_id
