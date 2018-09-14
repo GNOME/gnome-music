@@ -31,7 +31,6 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-import logging
 
 from gi.repository import Gtk, Gio, GLib, Gdk
 
@@ -83,10 +82,7 @@ class Application(Gtk.Application):
 
     @log
     def _help(self, action, param):
-        try:
-            Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
-        except Exception as e:
-            logging.warning("Help topic not found")
+        Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
 
     @log
     def _about(self, action, param):
