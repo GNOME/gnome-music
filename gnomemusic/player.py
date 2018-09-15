@@ -39,6 +39,7 @@ from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
 from gnomemusic.inhibitsuspend import InhibitSuspend
+from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 
@@ -590,6 +591,7 @@ class Player(GObject.GObject):
 
         root_window = parent_window.get_toplevel()
         self._inhibit_suspend = InhibitSuspend(root_window, self)
+        self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
 
