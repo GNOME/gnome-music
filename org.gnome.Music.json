@@ -20,7 +20,8 @@
         "--talk-name=com.intel.dleyna-server",
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
-        "--filesystem=xdg-cache/media-art"
+        "--filesystem=xdg-cache/media-art",
+        "--system-talk-name=org.freedesktop.login1"
     ],
     "build-options" : {
         "cflags": "-O2 -g",
