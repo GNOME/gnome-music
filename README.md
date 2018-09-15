@@ -177,3 +177,7 @@ Implemented fix.
 
 Closes: #issuenr
 >>>
+
+## Merge requests
+
+When opening a Merge Request, please enable the [_'Allow commits from members who can merge to the target branch'_](https://docs.gitlab.com/ee/user/project/merge_requests/allow_collaboration.html) checkbox. This allows the Music maintainers to help out on the Merge Request as needed.
