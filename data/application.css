@@ -17,6 +17,11 @@ flowbox, treeview, widget {
     font-size: smaller;
 }
 
+/* By default in Adwaita dark this is not transparent */
+.tile {
+    background-color: transparent;
+}
+
 /* AlbumWidget */
 .title-artist {
     font-size: larger;
