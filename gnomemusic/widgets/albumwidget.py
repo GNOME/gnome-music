@@ -192,6 +192,7 @@ class AlbumWidget(Gtk.EventBox):
         self._player.set_playlist(
             PlayerPlaylist.Type.ALBUM, self._album_name, song_widget.model,
             song_widget.itr)
+        self._player.get_songs(-2, 5)
         self._player.play()
         return True
 

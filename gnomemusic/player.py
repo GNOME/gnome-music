@@ -287,36 +287,42 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer.discover_uri_async(url)
 
     @log
-    def _get_next_index(self):
-        if not self.has_next():
+    def _get_next_index(self, index=None):
+        if index is None:
+            index = self._current_index
+
+        if not self.has_next(index):
             return -1
 
         if self._repeat == RepeatMode.SONG:
-            return self._current_index
+            return index
         if (self._repeat == RepeatMode.ALL
-                and self._current_index == (len(self._songs) - 1)):
+                and index == (len(self._songs) - 1)):
             return 0
         if self._repeat == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._current_index)
-            return self._shuffle_indexes[index + 1]
+            shuffle_index = self._shuffle_indexes.index(index)
+            return self._shuffle_indexes[shuffle_index + 1]
         else:
-            return self._current_index + 1
+            return index + 1
 
     @log
-    def _get_previous_index(self):
-        if not self.has_previous():
+    def _get_previous_index(self, index=None):
+        if index is None:
+            index = self._current_index
+
+        if not self.has_previous(index):
             return -1
 
         if self._repeat == RepeatMode.SONG:
-            return self._current_index
+            return index
         if (self._repeat == RepeatMode.ALL
-                and self._current_index == 0):
+                and index == 0):
             return len(self._songs) - 1
         if self._repeat == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._current_index)
-            return self._shuffle_indexes[index - 1]
+            shuffle_index = self._shuffle_indexes.index(index)
+            return self._shuffle_indexes[shuffle_index - 1]
         else:
-            return self._current_index - 1
+            return index - 1
 
     @log
     def _validate_next_song(self):
@@ -337,27 +343,32 @@ class PlayerPlaylist(GObject.GObject):
             self._validate_song(previous_index)
 
     @log
-    def has_next(self):
+    def has_next(self, index=None):
         """Test if there is a song after the current one.
 
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
+        if index is None:
+            index = self._current_index
         if (self._repeat == RepeatMode.SHUFFLE
                 and self._shuffle_indexes):
-            index = self._shuffle_indexes.index(self._current_index)
+            index = self._shuffle_indexes.index(index)
             return index < (len(self._shuffle_indexes) - 1)
         if self._repeat != RepeatMode.NONE:
             return True
-        return self._current_index < (len(self._songs) - 1)
+        return index < (len(self._songs) - 1)
 
     @log
-    def has_previous(self):
+    def has_previous(self, index=None):
         """Test if there is a song before the current one.
 
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
+        if index is None:
+            index = self._current_index
+
         if (self._repeat == RepeatMode.SHUFFLE
                 and self._shuffle_indexes):
             index = self._shuffle_indexes.index(self._current_index)
@@ -481,10 +492,31 @@ class PlayerPlaylist(GObject.GObject):
         :returns: current playlist
         :rtype: list of Grl.Media
         """
-        first_pos = max(self._current_index - first_index, 0)
-        last_pos = min(self._current_index + last_index + 1, len(self._songs))
-        songs = [elt[PlayerField.SONG]
-                 for elt in self._songs[first_pos:last_pos]]
+        if self._repeat == RepeatMode.SHUFFLE:
+            print("shuffle", self._shuffle_indexes)
+
+        songs = []
+        index = self._current_index
+        for i in range(first_index, 0):
+            index = self._get_previous_index(index)
+            print("i moi ca prev", i, index)
+            if index == -1:
+                break
+            songs.insert(0, self._songs[index][PlayerField.SONG])
+
+        songs.append(self._songs[self._current_index][PlayerField.SONG])
+        index = self._current_index
+        for i in range(last_index):
+            index = self._get_next_index(index)
+            print("i moi ca suiv", i, index)
+            if index == -1:
+                break
+            songs.append(self._songs[index][PlayerField.SONG])
+
+        print(len(songs))
+        import gnomemusic.utils as utils
+        for song in songs:
+            print(utils.get_media_title(song))
         return songs
 
 
