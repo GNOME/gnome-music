@@ -225,7 +225,7 @@ class MediaPlayer2Service(Server):
         self.player.connect(
             'song-changed', self._on_current_song_changed)
         self.player.connect('playback-status-changed', self._on_playback_status_changed)
-        self.player.connect('repeat-mode-changed', self._on_repeat_mode_changed)
+        self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seeked', self._on_seeked)
@@ -437,7 +437,7 @@ class MediaPlayer2Service(Server):
                                [])
 
     @log
-    def _on_repeat_mode_changed(self, player, data=None):
+    def _on_repeat_mode_changed(self, player, param):
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'LoopStatus': GLib.Variant('s', self._get_loop_status()),

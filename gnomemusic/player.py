@@ -500,7 +500,6 @@ class Player(GObject.GObject):
         'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'repeat-mode-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
@@ -770,7 +769,6 @@ class Player(GObject.GObject):
     @repeat_mode.setter
     def repeat_mode(self, mode):
         self._repeat = mode
-        self.emit('repeat-mode-changed')
         self.emit('prev-next-invalidated')
 
     @GObject.Property(
