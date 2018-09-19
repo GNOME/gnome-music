@@ -83,7 +83,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('song-changed', self._update_view)
         self._player.connect('prev-next-invalidated', self._sync_prev_next)
-        self._player.connect('repeat-mode-changed', self._sync_repeat_image)
+        self._player.connect('notify::repeat-mode', self._sync_repeat_image)
         self._player.connect('playback-status-changed', self._sync_playing)
 
     @Gtk.Template.Callback()
@@ -117,15 +117,16 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.next()
 
     @log
-    def _sync_repeat_image(self, player=None):
+    def _sync_repeat_image(self, player=None, param=None):
         icon = None
-        if self._player.props.repeat_mode == RepeatMode.NONE:
+        repeat_mode = self._player.props.repeat_mode
+        if repeat_mode == RepeatMode.NONE:
             icon = 'media-playlist-consecutive-symbolic'
-        elif self._player.props.repeat_mode == RepeatMode.SHUFFLE:
+        elif repeat_mode == RepeatMode.SHUFFLE:
             icon = 'media-playlist-shuffle-symbolic'
-        elif self._player.props.repeat_mode == RepeatMode.ALL:
+        elif repeat_mode == RepeatMode.ALL:
             icon = 'media-playlist-repeat-symbolic'
-        elif self._player.props.repeat_mode == RepeatMode.SONG:
+        elif repeat_mode == RepeatMode.SONG:
             icon = 'media-playlist-repeat-song-symbolic'
 
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
