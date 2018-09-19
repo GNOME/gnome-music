@@ -445,6 +445,9 @@ class PlayerPlaylist(GObject.GObject):
 
         :param RepeatMode mode: new repeat_mode
         """
+        if mode == self._repeat:
+            return
+
         if (mode == RepeatMode.SHUFFLE
                 and self._songs):
             self._shuffle_indexes = list(range(len(self._songs)))
@@ -453,6 +456,7 @@ class PlayerPlaylist(GObject.GObject):
             self._shuffle_indexes.insert(0, self._current_index)
 
         self._repeat = mode
+        self._settings.set_enum('repeat', mode)
 
     @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
     def playlist_id(self):
@@ -514,6 +518,10 @@ class Player(GObject.GObject):
 
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
+        self._playlist.bind_property(
+            'repeat-mode', self, 'repeat-mode',
+            GObject.BindingFlags.SYNC_CREATE |
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         self._new_clock = True
 
@@ -657,10 +665,6 @@ class Player(GObject.GObject):
         if self._player.state == Playback.PLAYING:
             self.emit('prev-next-invalidated')
 
-        self._playlist.bind_property(
-            'repeat_mode', self, 'repeat_mode',
-            GObject.BindingFlags.SYNC_CREATE)
-
         if playlist_changed:
             self.emit('playlist-changed')
 
@@ -761,10 +765,11 @@ class Player(GObject.GObject):
 
     @GObject.Property(type=int)
     def repeat_mode(self):
-        return self._playlist.props.repeat_mode
+        return self._repeat
 
     @repeat_mode.setter
     def repeat_mode(self, mode):
+        self._repeat = mode
         self.emit('repeat-mode-changed')
         self.emit('prev-next-invalidated')
 
