@@ -580,7 +580,6 @@ class Player(GObject.GObject):
             GLib.idle_add(on_glib_idle)
         else:
             self.stop()
-            self.emit('playback-status-changed')
 
     @log
     def play(self, song_index=None):
