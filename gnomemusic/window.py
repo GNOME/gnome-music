@@ -321,14 +321,20 @@ class Window(Gtk.ApplicationWindow):
             if keyval == Gdk.KEY_r:
                 if self.player.props.repeat_mode == RepeatMode.SONG:
                     self.player.props.repeat_mode = RepeatMode.NONE
+                    repeat_state = GLib.Variant("s", ("none"))
                 else:
                     self.player.props.repeat_mode = RepeatMode.SONG
+                    repeat_state = GLib.Variant("s", ("song"))
+                self.lookup_action('repeat').change_state(repeat_state)
             # Toggle shuffle on Ctrl + S
             if keyval == Gdk.KEY_s:
                 if self.player.props.repeat_mode == RepeatMode.SHUFFLE:
                     self.player.props.repeat_mode = RepeatMode.NONE
+                    repeat_state = GLib.Variant("s", ("none"))
                 else:
                     self.player.props.repeat_mode = RepeatMode.SHUFFLE
+                    repeat_state = GLib.Variant("s", ("shuffle"))
+                self.lookup_action('repeat').change_state(repeat_state)
         # Ctrl+Shift+<KEY>
         elif modifiers == shift_ctrl_mask:
             if keyval == Gdk.KEY_A:
