@@ -18,6 +18,7 @@
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=com.intel.dleyna-server",
+        "--talk-name=org.gtk.vfs.mountpoint_http",
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
         "--filesystem=xdg-cache/media-art"
