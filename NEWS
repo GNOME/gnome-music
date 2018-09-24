@@ -1,3 +1,28 @@
+Overview of changes in 3.30.1
+=============================
+
+* Dark mode fixes
+* Add TheAudioDB support for coverart
+* Fix issues with repeatmode handling
+
+Bugs fixed:
+ albumwidget: Fix checkbox selection (!245)
+ Set the appliation id correctly (!241)
+ Add TheAudioDB support (!247)
+ Do not switch view in selection mode (!246)
+ Dark mode fixes (!269,!271)
+ player: Synchronize Player and PlayerPlaylist repeat-mode (!274)
+ Music crashes when accessing help with Yelp not installed (#220)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+ Shivansh Handa
+
+Translations updated:
+ Russian
+ Spanish
+
 Overview of changes in 3.30.0
 =============================
 
