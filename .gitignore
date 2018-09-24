@@ -24,6 +24,7 @@ subprojects/libgd/
 /Makefile
 /Makefile.in
 /TAGS
+/_build
 /_libs
 /aclocal.m4
 /autom4te.cache
