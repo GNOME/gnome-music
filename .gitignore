@@ -71,7 +71,6 @@ subprojects/libgd/
 *.compiled
 data/Makefile
 data/Makefile.in
-*.patch
 *.pyc
 Makefile
 gnome-music
