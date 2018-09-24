@@ -1,3 +1,6 @@
 [submodule "subprojects/libgd"]
 	path = subprojects/libgd
 	url = https://gitlab.gnome.org/GNOME/libgd.git
+[submodule "subprojects/shared-modules"]
+	path = subprojects/shared-modules
+	url = https://github.com/flathub/shared-modules.git
