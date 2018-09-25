@@ -1,6 +1,6 @@
 *~
 builddir/
-subprojects/libgd/
+subprojects/
 /*.bak
 /*.lo
 /*.o
