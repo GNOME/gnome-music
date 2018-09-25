@@ -471,8 +471,8 @@ class MediaPlayer2Service(Server):
         self.player.play()
 
     @log
-    def _on_seeked(self, player, position, data=None):
-        self.Seeked(position)
+    def _on_seeked(self, player, position_second):
+        self.Seeked(int(position_second * 1e6))
 
     @log
     def _on_playlist_changed(self, player, data=None):
@@ -550,23 +550,45 @@ class MediaPlayer2Service(Server):
             else:
                 self.first_song_handler = model.connect('row-inserted', self._play_first_song)
 
-    def Seek(self, offset):
-        self.player.set_position(offset, True, True)
+    def Seek(self, offset_msecond):
+        """Seek forward in the current track.
 
-    def SetPosition(self, track_id, position):
+        Seek is relative to the current player position.
+        If the value passed in would mean seeking beyond the end of the track,
+        acts like a call to Next.
+        :param int offset_msecond: number of microseconds
+        """
+        current_position_second = self.player.get_position()
+        new_position_second = current_position_second + offset_msecond / 1e6
+
+        duration_second = self.player.props.duration
+        if new_position_second <= duration_second:
+            self.player.set_position(new_position_second)
+        else:
+            self.player.next()
+
+    def SetPosition(self, track_id, position_msecond):
+        """Set the current track position in microseconds.
+
+        :param str track_id: The currently playing track's identifier
+        :param int position_msecond: new position in microseconds
+        """
         if track_id != self._get_metadata().get('mpris:trackid').get_string():
             return
-        self.player.set_position(position)
+        self.player.set_position(position_msecond / 1e6)
 
     def OpenUri(self, uri):
         pass
 
-    def Seeked(self, position):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
-                             'Seeked',
-                             GLib.Variant.new_tuple(GLib.Variant('x', position)))
+    def Seeked(self, position_msecond):
+        """Indicate that the track position has changed.
+
+        :param int position_msecond: new position in microseconds.
+        """
+        variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
+        self.con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
 
     def GetTracksMetadata(self, track_ids):
         metadata = []
@@ -661,6 +683,7 @@ class MediaPlayer2Service(Server):
                 ]),
             }
         elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE:
+            position_msecond = int(self.player.get_position() * 1e6)
             return {
                 'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
                 'LoopStatus': GLib.Variant('s', self._get_loop_status()),
@@ -668,7 +691,7 @@ class MediaPlayer2Service(Server):
                 'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
                 'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                 'Volume': GLib.Variant('d', self.player.get_volume()),
-                'Position': GLib.Variant('x', self.player.get_position()),
+                'Position': GLib.Variant('x', position_msecond),
                 'MinimumRate': GLib.Variant('d', 1.0),
                 'MaximumRate': GLib.Variant('d', 1.0),
                 'CanGoNext': GLib.Variant('b', self.player.props.has_next),
