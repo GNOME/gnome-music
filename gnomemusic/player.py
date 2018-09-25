@@ -804,32 +804,29 @@ class Player(GObject.GObject):
 
     @log
     def get_position(self):
+        """Get player position.
+
+        Player position in seconds.
+        :returns: position
+        :rtype: float
+        """
         return self._player.position
 
     # TODO: used by MPRIS
     @log
-    def set_position(self, offset, start_if_ne=False, next_on_overflow=False):
+    def set_position(self, position_second):
         """Change GstPlayer position.
 
-        :param int offset: requested position in second
-        :param bool start_if_ne: if position is negative, set it to zero
-        :param bool next_on_overflow: next song if position is greater than
-                                      duration
+        If the position if negative, set it to zero.
+        If the position if greater than song, duration do nothing
+        :param float position_second: requested position in second
         """
-        if offset < 0:
-            if start_if_ne:
-                offset = 0
-            else:
-                return
+        if position_second < 0.0:
+            position_second = 0.0
 
-        if self.props.duration == -1.:
-            return
-
-        if self.props.duration >= offset:
-            self._player.seek(offset)
-            self.emit('seeked', offset)
-        elif next_on_overflow:
-            self.next()
+        duration_second = self._player.props.duration
+        if position_second <= duration_second:
+            self._player.seek(position_second)
 
     @log
     def get_volume(self):
