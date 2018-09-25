@@ -471,7 +471,8 @@ class MediaPlayer2Service(Server):
         self.player.play()
 
     @log
-    def _on_seeked(self, player, position_second):
+    def _on_seeked(self, player):
+        position_second = self.player.get_position()
         self.Seeked(position_second * 1e6)
 
     @log

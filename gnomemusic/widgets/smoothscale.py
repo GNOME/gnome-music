@@ -41,12 +41,6 @@ class SmoothScale(Gtk.Scale):
     """
     __gtype_name__ = 'SmoothScale'
 
-    __gsignals__ = {
-        'seek-finished': (
-            GObject.SignalFlags.RUN_FIRST, None, (float,)
-        ),
-    }
-
     def __repr__(self):
         return '<SmoothScale>'
 
@@ -107,6 +101,7 @@ class SmoothScale(Gtk.Scale):
             self.set_sensitive(True)
 
         if state == Playback.PLAYING:
+            self._update_position_callback()
             self._update_timeout()
         else:
             self._remove_timeout()
@@ -130,7 +125,6 @@ class SmoothScale(Gtk.Scale):
             self._on_smooth_scale_change_value(self)
             self._old_smooth_scale_value = round(value, round_digits)
 
-        self.emit('seek-finished', value)
         return False
 
     @log

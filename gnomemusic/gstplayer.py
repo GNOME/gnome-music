@@ -54,7 +54,8 @@ class GstPlayer(GObject.GObject):
     """
     __gsignals__ = {
         'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, )),
+        'seeked': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __repr__(self):
@@ -310,6 +311,7 @@ class GstPlayer(GObject.GObject):
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * Gst.SECOND)
+        self.emit('seeked')
 
     @log
     def _start_plugin_installation(

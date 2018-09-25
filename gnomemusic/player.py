@@ -500,7 +500,7 @@ class Player(GObject.GObject):
         'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        'seeked': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -530,6 +530,7 @@ class Player(GObject.GObject):
         self._player = GstPlayer()
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
+        self._player.connect('seeked', self._on_seeked)
 
         root_window = parent_window.get_toplevel()
         self._inhibit_suspend = InhibitSuspend(root_window, self)
@@ -587,6 +588,11 @@ class Player(GObject.GObject):
             GLib.idle_add(on_glib_idle)
         else:
             self.stop()
+
+    @log
+    def _on_seeked(self, klass):
+        self.play()
+        self.emit('seeked')
 
     @log
     def play(self, song_index=None):
