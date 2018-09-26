@@ -109,6 +109,9 @@
         {
             "name": "grilo",
             "buildsystem": "meson",
+            "config-opts" : [
+                "-Denable-grl-net=true"
+            ],
             "sources": [
                 {
                     "type": "git",
