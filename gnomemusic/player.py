@@ -812,16 +812,6 @@ class Player(GObject.GObject):
         # FIXME: Just a proxy right now.
         return self._player.state
 
-    @GObject.Property
-    def url(self):
-        """GstPlayer url loaded
-
-        :return: url
-        :rtype: string
-        """
-        # FIXME: Just a proxy right now.
-        return self._player.url
-
     @log
     def get_position(self):
         return self._player.position
