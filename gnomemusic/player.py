@@ -804,12 +804,6 @@ class Player(GObject.GObject):
         """
         return self._playlist.props.playlist_id
 
-    # MPRIS
-    @log
-    def get_gst_player(self):
-        """GstPlayer getter"""
-        return self._player
-
     @log
     def get_position(self):
         return self._player.position
