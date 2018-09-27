@@ -235,6 +235,7 @@ class Art(GObject.GObject):
         remote_art = RemoteArt()
         remote_art.connect('retrieved', self._remote_art_retrieved)
         remote_art.connect('unavailable', self._remote_art_unavailable)
+        remote_art.connect('no-sources', self._remote_art_no_sources)
         remote_art.query(self._media)
 
     @log
@@ -247,6 +248,10 @@ class Art(GObject.GObject):
     @log
     def _remote_art_unavailable(self, klass):
         self._add_to_blacklist()
+        self._no_art_available()
+
+    @log
+    def _remote_art_no_sources(self, klass):
         self._no_art_available()
 
     @log
@@ -599,7 +604,8 @@ class RemoteArt(GObject.GObject):
 
     __gsignals__ = {
         'retrieved': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'unavailable': (GObject.SignalFlags.RUN_FIRST, None, ())
+        'unavailable': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'no-sources': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __repr__(self):
@@ -620,10 +626,22 @@ class RemoteArt(GObject.GObject):
         """
         self._album = utils.get_album_title(media)
         self._artist = utils.get_artist_name(media)
+        self._media = media
 
-        # FIXME: It seems this Grilo query does not always return,
-        # especially on queries with little info.
-        grilo.get_album_art_for_item(media, self._remote_album_art)
+        if not grilo.props.cover_sources:
+            print("NO SOURCES for", self._artist, self._album)
+            self.emit('no-sources')
+            grilo.connect(
+                'notify::cover-sources', self._on_grilo_cover_sources_changed)
+        else:
+            # FIXME: It seems this Grilo query does not always return,
+            # especially on queries with little info.
+            grilo.get_album_art_for_item(media, self._remote_album_art)
+
+    def _on_grilo_cover_sources_changed(self, klass, data):
+        print("COVER SOURCES CHANGED")
+        if grilo.props.cover_sources:
+            grilo.get_album_art_for_item(self._media, self._remote_album_art)
 
     @log
     def _delete_callback(self, src, result, data):

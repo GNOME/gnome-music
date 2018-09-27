@@ -80,6 +80,7 @@ class Grilo(GObject.GObject):
     _theaudiodb_api_key = "195003"
 
     sources = GObject.Property()
+    cover_sources = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
         return '<Grilo>'
@@ -207,6 +208,8 @@ class Grilo(GObject.GObject):
     @log
     def _trigger_art_update(self):
         self._thumbnail_sources_timeout = None
+        if len(self._thumbnail_sources) > 0:
+            self.props.cover_sources = True
         print("UPDATE", self._thumbnail_sources)
 
         return GLib.SOURCE_REMOVE

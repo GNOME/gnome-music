@@ -68,6 +68,7 @@ class CoverStack(Gtk.Stack):
 
         self.props.size = size
         self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
+        self.props.transition_duration = 1000
         self.props.visible_child_name = "loading"
 
         self.show_all()
@@ -103,12 +104,12 @@ class CoverStack(Gtk.Stack):
         self._active_child = self.props.visible_child_name
 
         art = Art(self.props.size, media, self.props.scale_factor)
+        # if not self._handler_id:
         self._handler_id = art.connect('finished', self._art_retrieved)
         art.lookup()
 
     @log
     def _art_retrieved(self, klass):
-        klass.disconnect(self._handler_id)
         if self._active_child == "B":
             self._cover_a.props.surface = klass.surface
             self.props.visible_child_name = "A"
@@ -116,4 +117,5 @@ class CoverStack(Gtk.Stack):
             self._cover_b.props.surface = klass.surface
             self.props.visible_child_name = "B"
 
+        self._active_child = self.props.visible_child_name
         self.emit('updated')
