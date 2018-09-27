@@ -80,6 +80,7 @@ class Grilo(GObject.GObject):
     _theaudiodb_api_key = "195003"
 
     sources = GObject.Property()
+    cover_sources = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
         return '<Grilo>'
@@ -116,6 +117,9 @@ class Grilo(GObject.GObject):
         self.pending_event_id = 0
         self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
         self.pending_changed_medias = []
+
+        self._thumbnail_sources = []
+        self._thumbnail_sources_timeout = None
 
         self.registry = Grl.Registry.get_default()
 
@@ -202,6 +206,14 @@ class Grilo(GObject.GObject):
         return False
 
     @log
+    def _trigger_art_update(self):
+        self._thumbnail_sources_timeout = None
+        if len(self._thumbnail_sources) > 0:
+            self.props.cover_sources = True
+
+        return GLib.SOURCE_REMOVE
+
+    @log
     def _on_source_added(self, pluginRegistry, mediaSource):
         if ("net:plaintext" in mediaSource.get_tags()
                 or mediaSource.get_id() in self.blacklist):
@@ -211,6 +223,14 @@ class Grilo(GObject.GObject):
                 logger.error(
                     "Failed to unregister {}".format(mediaSource.get_id()))
             return
+
+        if Grl.METADATA_KEY_THUMBNAIL in mediaSource.supported_keys():
+            self._thumbnail_sources.append(mediaSource)
+            if not self._thumbnail_sources_timeout:
+                # Aggregate sources being added, for example when the
+                # network comes online.
+                self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
+                    5, self._trigger_art_update)
 
         id = mediaSource.get_id()
         logger.debug("new grilo source %s was added", id)
