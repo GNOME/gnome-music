@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art, DefaultIcon
@@ -55,8 +55,10 @@ class CoverStack(Gtk.Stack):
         """
         super().__init__()
 
-        self._size = None
+        self._art = None
         self._handler_id = None
+        self._size = None
+        self._timeout = None
 
         self._loading_cover = Gtk.Image()
         self._cover_a = Gtk.Image()
@@ -68,6 +70,7 @@ class CoverStack(Gtk.Stack):
 
         self.props.size = size
         self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
+        self.props.transition_duration = 1000
         self.props.visible_child_name = "loading"
 
         self.show_all()
@@ -100,20 +103,42 @@ class CoverStack(Gtk.Stack):
         Update the stack with the art retrieved from the given media.
         :param Grl.Media media: The media object
         """
+        if self._handler_id and self._art:
+            # Remove a possible dangling 'finished' callback if update
+            # is called again, but it is still looking for the previous
+            # art.
+            self._art.disconnect(self._handler_id)
+            # Set the loading state only after a delay to make between
+            # song transitions smooth if loading time is negligible.
+            self._timeout = GLib.timeout_add(100, self._set_loading_child)
+
         self._active_child = self.props.visible_child_name
 
-        art = Art(self.props.size, media, self.props.scale_factor)
-        self._handler_id = art.connect('finished', self._art_retrieved)
-        art.lookup()
+        self._art = Art(self.props.size, media, self.props.scale_factor)
+        self._handler_id = self._art.connect('finished', self._art_retrieved)
+        self._art.lookup()
+
+    @log
+    def _set_loading_child(self):
+        self.props.visible_child_name = "loading"
+        self._active_child = self.props.visible_child_name
+
+        return GLib.SOURCE_REMOVE
 
     @log
     def _art_retrieved(self, klass):
-        klass.disconnect(self._handler_id)
+        if self._timeout:
+            GLib.source_remove(self._timeout)
+            self._timeout = None
+
         if self._active_child == "B":
             self._cover_a.props.surface = klass.surface
             self.props.visible_child_name = "A"
         else:
             self._cover_b.props.surface = klass.surface
             self.props.visible_child_name = "B"
+
+        self._active_child = self.props.visible_child_name
+        self._art = None
 
         self.emit('updated')
