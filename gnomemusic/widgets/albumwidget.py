@@ -26,7 +26,7 @@ from gettext import ngettext
 from gi.repository import GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, ArtImage
+from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
@@ -48,7 +48,7 @@ class AlbumWidget(Gtk.EventBox):
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
-    _cover = Gtk.Template.Child()
+    _cover_stack = Gtk.Template.Child()
     _disc_listbox = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
@@ -73,6 +73,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._songs = []
 
+        self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
         self._player = player
         self._iter_to_clean = None
@@ -122,9 +123,9 @@ class AlbumWidget(Gtk.EventBox):
         for widget in self._disc_listbox.get_children():
             self._disc_listbox.remove(widget)
 
+        self._cover_stack.update(album)
+
         self._duration = 0
-        art = ArtImage(Art.Size.LARGE, album)
-        art.image = self._cover
 
         self._album_name = utils.get_album_title(album)
         artist = utils.get_artist_name(album)

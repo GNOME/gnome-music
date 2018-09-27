@@ -300,64 +300,6 @@ class Art(GObject.GObject):
         return self._surface
 
 
-class ArtImage(Art):
-    """Extends Art class to support Gtk.Image specifically"""
-
-    def __repr__(self):
-        return '<ArtImage>'
-
-    @log
-    def __init__(self, size, media):
-        super().__init__(size, media)
-
-        self._image = None
-
-    @log
-    def _cache_hit(self, klass, pixbuf):
-        super()._cache_hit(klass, pixbuf)
-
-        self._image.set_from_surface(self._surface)
-
-    @log
-    def _no_art_available(self):
-        super()._no_art_available()
-
-        self._image.set_from_surface(self._surface)
-
-    @GObject.Property
-    def image(self):
-        """Returns the image object of the ArtImage class
-
-        :returns: The current image available in the class
-        :rtype: Gtk.Image
-        """
-
-        return self._image.set_from_surface(self._surface)
-
-    @image.setter
-    def image(self, image):
-        """Set the image of the Art class instance""
-
-        And starts the lookup process, automatically updating the image
-        when found.
-        :param Gtk.Image image: An Gtk.Image object
-        """
-
-        self._image = image
-
-        self._image.set_property("width-request", self._size.width)
-        self._image.set_property("height-request", self._size.height)
-
-        self._scale = self._image.get_scale_factor()
-
-        self._surface = DefaultIcon().get(
-            DefaultIcon.Type.LOADING, self._size, self._scale)
-
-        self._image.set_from_surface(self._surface)
-
-        self.lookup()
-
-
 class Cache(GObject.GObject):
     """Handles retrieval of MediaArt cache art
 
