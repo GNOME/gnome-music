@@ -37,7 +37,7 @@ class SmoothScale(Gtk.Scale):
 
     The progressbar Gtk.Scale, extended with smoothing capabilities, so
     the indicator updates every pixel available.
-    This class interacts directly with the GstPlayer class.
+    This class interacts directly with the Player class.
     """
     __gtype_name__ = 'SmoothScale'
 
@@ -71,18 +71,18 @@ class SmoothScale(Gtk.Scale):
     # object via init when using Gtk.Builder.
     @GObject.Property
     def player(self):
-        """The GstPlayer object used
+        """The Player object used
 
         :return: player object
-        :rtype: GstPlayer
+        :rtype: Player
         """
         return self._player
 
     @player.setter
     def player(self, player):
-        """Set the GstPlayer object used
+        """Set the Player object used
 
-        :param GstPlayer player: The GstPlayer to use
+        :param Player player: The Player to use
         """
         if (player is None
                 or (self._player is not None
@@ -213,7 +213,7 @@ class SmoothScale(Gtk.Scale):
 
     @log
     def _update_position_callback(self):
-        position = self._player.position
+        position = self._player.get_position()
         if position > 0:
             self.set_value(position * 60)
         self._update_timeout()
