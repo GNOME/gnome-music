@@ -89,16 +89,16 @@ class SmoothScale(Gtk.Scale):
 
     @log
     def _on_state_change(self, klass, arguments):
-        state = self._player.state
+        state = self._player.props.state
 
         self._previous_state = state
 
         if (state == Playback.STOPPED
                 or state == Playback.LOADING):
             self.set_value(0)
-            self.set_sensitive(False)
+            self.props.sensitive = False
         else:
-            self.set_sensitive(True)
+            self.props.sensitive = True
 
         if state == Playback.PLAYING:
             self._update_timeout()
@@ -119,7 +119,7 @@ class SmoothScale(Gtk.Scale):
     def _on_smooth_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
         self._seek_timeout = None
-        round_digits = self.get_property('round-digits')
+        round_digits = self.props.round_digits
         if self._old_smooth_scale_value != round(value, round_digits):
             self._on_smooth_scale_change_value(self)
             self._old_smooth_scale_value = round(value, round_digits)
