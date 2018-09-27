@@ -117,6 +117,9 @@ class Grilo(GObject.GObject):
         self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
         self.pending_changed_medias = []
 
+        self._thumbnail_sources = []
+        self._thumbnail_sources_timeout = None
+
         self.registry = Grl.Registry.get_default()
 
         self.sparqltracker = TrackerWrapper().tracker
@@ -202,6 +205,13 @@ class Grilo(GObject.GObject):
         return False
 
     @log
+    def _trigger_art_update(self):
+        self._thumbnail_sources_timeout = None
+        print("UPDATE", self._thumbnail_sources)
+
+        return GLib.SOURCE_REMOVE
+
+    @log
     def _on_source_added(self, pluginRegistry, mediaSource):
         if ("net:plaintext" in mediaSource.get_tags()
                 or mediaSource.get_id() in self.blacklist):
@@ -211,6 +221,13 @@ class Grilo(GObject.GObject):
                 logger.error(
                     "Failed to unregister {}".format(mediaSource.get_id()))
             return
+
+        if Grl.METADATA_KEY_THUMBNAIL in mediaSource.supported_keys():
+            self._thumbnail_sources.append(mediaSource)
+            print("source can cover", mediaSource.props.source_name)
+            if not self._thumbnail_sources_timeout:
+                self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
+                    5, self._trigger_art_update)
 
         id = mediaSource.get_id()
         logger.debug("new grilo source %s was added", id)
