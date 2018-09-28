@@ -664,7 +664,8 @@ class RemoteArt(GObject.GObject):
 
         thumb_uri = item.get_thumbnail()
 
-        if thumb_uri is None:
+        if (thumb_uri is None
+                or thumb_uri == ""):
             self.emit('unavailable')
             return
 
