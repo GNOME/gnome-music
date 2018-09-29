@@ -28,6 +28,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.widgets.appmenu import AppMenu
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SelectionBarMenuButton.ui")
@@ -95,6 +96,7 @@ class HeaderBar(Gtk.HeaderBar):
     _select_button = Gtk.Template.Child()
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
+    _menu_button = Gtk.Template.Child()
 
     search_mode_enabled = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
@@ -115,6 +117,8 @@ class HeaderBar(Gtk.HeaderBar):
         self._stack_switcher.show()
 
         self._selection_menu = SelectionBarMenuButton()
+
+        self._menu_button.set_popover(AppMenu())
 
         self.bind_property(
             "selection-mode", self, "show-close-button",
@@ -224,6 +228,11 @@ class HeaderBar(Gtk.HeaderBar):
             not self.props.selection_mode
             and self.props.state != HeaderBar.State.MAIN
             and self.props.state != HeaderBar.State.EMPTY
+        )
+
+        self._menu_button.props.visible = (
+            not self.props.selection_mode
+            and self.props.state == HeaderBar.State.MAIN
         )
 
     @log
