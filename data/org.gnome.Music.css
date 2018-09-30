@@ -47,7 +47,7 @@ box#ArtistAlbumsWidget .artist-label {
 
 /* ArtistAlbumWidget */
 .album-title {
-    padding-left:24px;
+    padding-left: 32px;
     font-weight: bold;
 }
 
