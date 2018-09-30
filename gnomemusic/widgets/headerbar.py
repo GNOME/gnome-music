@@ -238,6 +238,11 @@ class HeaderBar(Gtk.HeaderBar):
             and self.props.state != HeaderBar.State.EMPTY
         )
 
+        self._menu_button.props.visible = (
+            not self.props.selection_mode
+            and self.props.state == HeaderBar.State.MAIN
+        )
+
     @log
     def _on_selection_mode_allowed_changed(self, widget, data):
         if self.props.selection_mode_allowed:
