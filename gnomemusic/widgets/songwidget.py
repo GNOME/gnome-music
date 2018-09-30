@@ -66,6 +66,7 @@ class SongWidget(Gtk.EventBox):
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
+    _stack = Gtk.Template.Child()
     _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
@@ -103,11 +104,8 @@ class SongWidget(Gtk.EventBox):
 
         self._star_image.props.favorite = media.get_favourite()
 
-        self._select_button.set_visible(False)
-
-        self._play_icon.set_from_icon_name(
-            'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
-        self._play_icon.set_no_show_all(True)
+        self._play_icon.props.icon_name = None
+        self._play_icon.props.icon_size = Gtk.IconSize.SMALL_TOOLBAR
 
         self.bind_property(
             'selected', self._select_button, 'active',
@@ -173,9 +171,11 @@ class SongWidget(Gtk.EventBox):
         :param bool value: Selection mode
         """
         self._selection_mode = value
-        self._select_button.set_visible(value)
 
-        if not value:
+        if self._selection_mode:
+            self._stack.props.visible_child_name = "check"
+        else:
+            self._stack.props.visible_child_name = "icon"
             self.props.selected = False
 
     @GObject.Property
@@ -202,10 +202,10 @@ class SongWidget(Gtk.EventBox):
 
         style_ctx.remove_class('dim-label')
         style_ctx.remove_class('playing-song-label')
-        self._play_icon.set_visible(False)
+        self._play_icon.props.icon_name = ""
 
         if value == SongWidget.State.PLAYED:
             style_ctx.add_class('dim-label')
         elif value == SongWidget.State.PLAYING:
-            self._play_icon.set_visible(True)
+            self._play_icon.props.icon_name = "media-playback-start-symbolic"
             style_ctx.add_class('playing-song-label')

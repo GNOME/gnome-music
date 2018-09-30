@@ -13,32 +13,38 @@
         <property name="spacing">3</property>
         <child>
           <object class="GtkBox" id="box3">
-            <property name="width_request">48</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkImage" id="_play_icon">
-                <property name="can_focus">False</property>
-                <property name="icon_size">button</property>
-              </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="_select_button">
+              <object class="GtkStack" id="_stack">
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="receives_default">False</property>
-                <property name="no_show_all">True</property>
-                <property name="draw_indicator">True</property>
+                  <child>
+                    <object class="GtkImage" id="_play_icon">
+                      <property name="visible">True</property>
+                      <property name="can_focus">False</property>
+                    </object>
+                    <packing>
+                      <property name="name">icon</property>
+                      <property name="position">0</property>
+                    </packing>
+                  </child>
+                  <child>
+                    <object class="GtkCheckButton" id="_select_button">
+                      <property name="visible">True</property>
+                      <property name="can_focus">False</property>
+                      <property name="receives_default">False</property>
+                      <property name="draw_indicator">True</property>
+                      <property name="margin-start">6</property>
+                      <property name="margin-end">6</property>
+                    </object>
+                    <packing>
+                      <property name="name">check</property>
+                      <property name="position">1</property>
+                    </packing>
+                  </child>
+                <property name="visible-child">icon</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel" id="_number_label">
