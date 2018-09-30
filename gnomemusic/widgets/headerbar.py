@@ -28,6 +28,7 @@ from gettext import gettext as _, ngettext
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.widgets.appmenu import AppMenu
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SelectionBarMenuButton.ui")
@@ -72,15 +73,6 @@ class SelectionBarMenuButton(Gtk.MenuButton):
             self._menu_label.props.label = text
         else:
             self._menu_label.props.label = _("Click on items to select them")
-
-
-@Gtk.Template(resource_path="/org/gnome/Music/ui/AppMenu.ui")
-class AppMenu(Gtk.PopoverMenu):
-
-    __gtype_name__ = "AppMenu"
-
-    def __init__(self):
-        super().__init__()
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/HeaderBar.ui")
