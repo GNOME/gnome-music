@@ -35,8 +35,8 @@
                       <property name="can_focus">False</property>
                       <property name="receives_default">False</property>
                       <property name="draw_indicator">True</property>
-                      <property name="margin-start">6</property>
-                      <property name="margin-end">6</property>
+                      <property name="margin-start">2</property>
+                      <property name="margin-end">2</property>
                     </object>
                     <packing>
                       <property name="name">check</property>
