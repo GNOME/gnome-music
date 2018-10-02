@@ -1,7 +1,7 @@
 {
     "app-id": "org.gnome.Music",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
+    "runtime-version": "3.30",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
     "tags": ["stable", "3.30"],
@@ -59,7 +59,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
+                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git",
+                    "branch": "libdazzle-3-30"
                 }
             ]
         },
@@ -148,7 +149,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git",
+                    "branch": "gnome-3-30"
                 }
             ]
         }
