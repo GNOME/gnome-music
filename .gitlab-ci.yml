@@ -10,7 +10,7 @@ variables:
   FLATPAK_MODULE: "gnome-music"
   GIT_SUBMODULE_STRATEGY: normal
   MANIFEST_PATH: "org.gnome.Music.json"
-  RUNTIME_REPO: "https://sdk.gnome.org/gnome.flatpakrepo"
+  RUNTIME_REPO: "registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.30"
 
 flatpak:
   stage: build-flatpak
