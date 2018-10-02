@@ -84,7 +84,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.connect('song-changed', self._update_view)
         self._player.connect('prev-next-invalidated', self._sync_prev_next)
         self._player.connect('notify::repeat-mode', self._sync_repeat_image)
-        self._player.connect('playback-status-changed', self._sync_playing)
+        self._player.connect('notify::state', self._sync_playing)
 
     @Gtk.Template.Callback()
     @log
@@ -132,11 +132,11 @@ class PlayerToolbar(Gtk.ActionBar):
         self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
 
     @log
-    def _sync_playing(self, player):
+    def _sync_playing(self, klass, args):
         if not self._main_window.props.selection_mode:
             self.show()
 
-        if self._player.get_playback_status() == Playback.PLAYING:
+        if self._player.props.state == Playback.PLAYING:
             image = self._pause_image
             tooltip = _("Pause")
         else:
