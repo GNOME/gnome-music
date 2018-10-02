@@ -214,7 +214,7 @@ class GstPlayer(GObject.GObject):
 
         return Playback.STOPPED
 
-    @GObject.Property
+    @GObject.Property(type=int)
     def state(self):
         """Current state of the player
 

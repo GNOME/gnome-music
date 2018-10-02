@@ -224,7 +224,7 @@ class MediaPlayer2Service(Server):
         self.player = app.get_active_window()._player
         self.player.connect(
             'song-changed', self._on_current_song_changed)
-        self.player.connect('playback-status-changed', self._on_playback_status_changed)
+        self.player.connect('notify::state', self._on_player_state_changed)
         self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
@@ -242,7 +242,7 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_playback_status(self):
-        state = self.player.get_playback_status()
+        state = self.player.props.state
         if state == Playback.PLAYING:
             return 'Playing'
         elif state == Playback.PAUSED:
@@ -429,7 +429,7 @@ class MediaPlayer2Service(Server):
                                [])
 
     @log
-    def _on_playback_status_changed(self, data=None):
+    def _on_player_state_changed(self, klass, args):
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
