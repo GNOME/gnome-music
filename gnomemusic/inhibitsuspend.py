@@ -51,8 +51,7 @@ class InhibitSuspend(GObject.GObject):
         self._player = player
         self._inhibit_cookie = 0
 
-        self._player.connect(
-            'playback-status-changed', self._on_playback_status_changed)
+        self._player.connect('notify::state', self._on_player_state_changed)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._should_inhibit = self._settings.get_boolean('inhibit-suspend')
@@ -79,14 +78,14 @@ class InhibitSuspend(GObject.GObject):
     @log
     def _on_inhibit_suspend_changed(self, settings, value):
         self._should_inhibit = value
-        self._on_playback_status_changed(None)
+        self._on_player_state_changed(None, None)
 
     @log
-    def _on_playback_status_changed(self, arguments):
-        if (self._player.get_playback_status() == Playback.PLAYING
-                or self._player.get_playback_status() == Playback.LOADING):
+    def _on_player_state_changed(self, klass, arguments):
+        if (self._player.props.state == Playback.PLAYING
+                or self._player.props.state == Playback.LOADING):
             self._inhibit_suspend()
 
-        if (self._player.get_playback_status() == Playback.PAUSED
-                or self._player.get_playback_status() == Playback.STOPPED):
+        if (self._player.props.state == Playback.PAUSED
+                or self._player.props.state == Playback.STOPPED):
             self._uninhibit_suspend()

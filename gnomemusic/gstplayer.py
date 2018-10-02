@@ -206,7 +206,7 @@ class GstPlayer(GObject.GObject):
 
         return Playback.STOPPED
 
-    @GObject.Property
+    @GObject.Property(type=int)
     def state(self):
         """Current state of the player
 
@@ -310,6 +310,7 @@ class GstPlayer(GObject.GObject):
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * Gst.SECOND)
+        self.state = self.state
 
     @log
     def _start_plugin_installation(
