@@ -147,9 +147,6 @@ class GstPlayer(GObject.GObject):
         # Gst.State.NULL are never async and thus don't cause a
         # message. In practice, self means only Gst.State.PLAYING and
         # Gst.State.PAUSED are.
-
-        # Setting self.state triggers the property signal, which is
-        # used down the line.
         current_state = self.props.state
         if current_state == self._previous_state:
             return
@@ -214,7 +211,7 @@ class GstPlayer(GObject.GObject):
 
         return Playback.STOPPED
 
-    @GObject.Property
+    @GObject.Property(type=int)
     def state(self):
         """Current state of the player
 
