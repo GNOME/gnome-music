@@ -497,7 +497,6 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
-        'playback-status-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seeked': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
@@ -505,6 +504,8 @@ class Player(GObject.GObject):
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
+
+    state = GObject.Property(type=int, default=Playback.STOPPED)
 
     def __repr__(self):
         return '<Player>'
@@ -530,6 +531,10 @@ class Player(GObject.GObject):
         self._player = GstPlayer()
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
+        self._player.bind_property(
+            'state', self, 'state',
+            GObject.BindingFlags.SYNC_CREATE |
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         root_window = parent_window.get_toplevel()
         self._inhibit_suspend = InhibitSuspend(root_window, self)
@@ -564,11 +569,11 @@ class Player(GObject.GObject):
         :returns: True if a song is currently played.
         :rtype: bool
         """
-        return self._player.state == Playback.PLAYING
+        return self.props.state == Playback.PLAYING
 
     @log
     def _load(self, song):
-        self._player.state = Playback.LOADING
+        self.props.state = Playback.LOADING
         self._time_stamp = int(time.time())
 
         url_ = song.get_url()
@@ -598,23 +603,20 @@ class Player(GObject.GObject):
                 and not self._playlist.set_song(song_index)):
             return False
 
-        if self._player.state != Playback.PAUSED:
+        if self.props.state != Playback.PAUSED:
             self._load(self._playlist.props.current_song)
 
-        self._player.state = Playback.PLAYING
-        self.emit('playback-status-changed')
+        self.props.state = Playback.PLAYING
 
     @log
     def pause(self):
         """Pause"""
-        self._player.state = Playback.PAUSED
-        self.emit('playback-status-changed')
+        self.props.state = Playback.PAUSED
 
     @log
     def stop(self):
         """Stop"""
-        self._player.state = Playback.STOPPED
-        self.emit('playback-status-changed')
+        self.props.state = Playback.STOPPED
 
     @log
     def next(self):
@@ -634,7 +636,7 @@ class Player(GObject.GObject):
         position = self._player.position
         if position >= 5:
             self._player.seek(0)
-            self._player.state = Playback.PLAYING
+            self.props.state = Playback.PLAYING
             return
 
         if self._playlist.previous():
@@ -643,7 +645,7 @@ class Player(GObject.GObject):
     @log
     def play_pause(self):
         """Toggle play/pause state"""
-        if self._player.state == Playback.PLAYING:
+        if self.props.state == Playback.PLAYING:
             self.pause()
         else:
             self.play()
@@ -660,7 +662,7 @@ class Player(GObject.GObject):
         playlist_changed = self._playlist.set_playlist(
             playlist_type, playlist_id, model, iter_)
 
-        if self._player.state == Playback.PLAYING:
+        if self.props.state == Playback.PLAYING:
             self.emit('prev-next-invalidated')
 
         if playlist_changed:
@@ -805,11 +807,6 @@ class Player(GObject.GObject):
     def get_gst_player(self):
         """GstPlayer getter"""
         return self._player
-
-    @log
-    def get_playback_status(self):
-        # FIXME: Just a proxy right now.
-        return self._player.state
 
     @log
     def get_position(self):
