@@ -1,4 +1,4 @@
-image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:master
+image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.30
 stages:
   - check
   - build-flatpak
@@ -10,7 +10,7 @@ variables:
   FLATPAK_MODULE: "gnome-music"
   GIT_SUBMODULE_STRATEGY: normal
   MANIFEST_PATH: "org.gnome.Music.json"
-  RUNTIME_REPO: "https://sdk.gnome.org/gnome.flatpakrepo"
+  RUNTIME_REPO: "https://flathub.org/repo/flathub.flatpakrepo"
 
 flatpak:
   stage: build-flatpak
