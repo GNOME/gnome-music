@@ -506,6 +506,7 @@ class Player(GObject.GObject):
     }
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
+    duration = GObject.Property(type=int, default=-1)
 
     def __repr__(self):
         return '<Player>'
@@ -531,6 +532,8 @@ class Player(GObject.GObject):
         self._player = GstPlayer()
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('eos', self._on_eos)
+        self._player.bind_property(
+            'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
         self._player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
@@ -737,15 +740,14 @@ class Player(GObject.GObject):
             self._new_clock = True
             self._lastfm.now_playing(current_song)
 
-        duration = self._player.duration
-        if duration is None:
+        if self.props.duration == -1:
             return
 
         position = self._player.position
         if position > 0:
-            percentage = tick / duration
+            percentage = tick / self.props.duration
             if (not self._lastfm.scrobbled
-                    and duration > 30
+                    and self.props.duration > 30
                     and (percentage > 0.5 or tick > 4 * 60)):
                 self._lastfm.scrobble(current_song, self._time_stamp)
 
@@ -819,11 +821,10 @@ class Player(GObject.GObject):
             else:
                 return
 
-        duration = self._player.duration
-        if duration is None:
+        if self.props.duration == -1:
             return
 
-        if duration >= offset * 1000:
+        if self.props.duration >= offset * 1000:
             self._player.seek(offset * 1000)
             self.emit('seeked', offset)
         elif next_on_overflow:
