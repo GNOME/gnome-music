@@ -112,7 +112,7 @@ class SmoothScale(Gtk.Scale):
     def _on_duration_changed(self, klass, arguments):
         duration = self._player.duration
 
-        if duration is not None:
+        if duration != -1:
             self.set_range(0.0, duration * 60)
             self.set_increments(300, 600)
 
@@ -176,7 +176,7 @@ class SmoothScale(Gtk.Scale):
         # provides a duration.
         duration = self._player.duration
         if (self.get_realized() is False
-                or duration is None):
+                or duration == -1):
             return
 
         # Update self._timeout.
