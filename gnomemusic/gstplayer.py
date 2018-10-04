@@ -66,7 +66,7 @@ class GstPlayer(GObject.GObject):
 
         Gst.init(None)
 
-        self._duration = None
+        self._duration = 0
 
         self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
@@ -131,7 +131,7 @@ class GstPlayer(GObject.GObject):
 
         # TODO: Workaround the first duration change not being emitted
         # and hence smoothscale not being initialized properly.
-        if self.duration is None:
+        if self.duration == 0:
             self._on_duration_changed(None, None)
 
     @log
@@ -159,7 +159,7 @@ class GstPlayer(GObject.GObject):
         if success:
             self.duration = duration / Gst.SECOND
         else:
-            self.duration = None
+            self.duration = 0
 
     @log
     def _on_bus_element(self, bus, message):
@@ -259,7 +259,7 @@ class GstPlayer(GObject.GObject):
 
         return position
 
-    @GObject.Property
+    @GObject.Property(type=int)
     def duration(self):
         """Total duration of current media
 
@@ -268,7 +268,7 @@ class GstPlayer(GObject.GObject):
         :rtype: float or None
         """
         if self.state == Playback.STOPPED:
-            return None
+            return 0
 
         return self._duration
 
