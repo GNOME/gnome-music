@@ -72,8 +72,7 @@ class Application(Gtk.Application):
     def _build_app_menu(self):
         action_entries = [
             ('about', self._about),
-            ('help', self._help),
-            ('quit', self.quit),
+            ('help', self._help)
         ]
 
         for action, callback in action_entries:

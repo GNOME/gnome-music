@@ -294,6 +294,8 @@ class Window(Gtk.ApplicationWindow):
 
         # Ctrl+<KEY>
         if control_mask == modifiers:
+            if keyval == Gdk.KEY_q:
+                self.props.application.quit()
             if keyval == Gdk.KEY_a:
                 self._select_all()
             # Open search bar on Ctrl + F
