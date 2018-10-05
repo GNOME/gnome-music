@@ -1,3 +1,38 @@
+Overview of changes in 3.31.1
+=============================
+
+* Replace app menu with Primary menu (initiative #4)
+* Add TheAudioDB for coverart lookup
+* Dark mode fixes
+* Fix crash on opening help
+* New app icon (initiative #2)
+* Flatpak fixes
+
+Bugs fixed:
+ Fix checkbox selection (!245)
+ Set application id correctly (!241)
+ Add The AudioDB support (!247)
+ Fix search dissapearing on return from child (!253)
+ Clean up data dir (#193)
+ mpris: Prevent crash from play call with no playlist (!255)
+ application: Fix crash on opening help (#22)
+ Darkmode fixes (!269,!271)
+ repeat-mode fixes (!274)
+ Restart remote cover lookup on source availability (!284)
+ ui: Change arrow menu button icons (#233)
+
+Thanks to our contributors this release:
+ Christopher Davis
+ Islam Bahnasy
+ Jakub Steiner
+ Jean Felder
+ Marinus Schraal
+ Shivansh Handa
+ Tapasweni Pathak
+
+Translations updated:
+ Serbian
+
 Overview of changes in 3.30.0
 =============================
 
