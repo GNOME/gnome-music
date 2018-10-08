@@ -17,6 +17,7 @@
           <property name="no_show_all">True</property>
           <style>
             <class name="dim-label"/>
+            <class name="disc-label"/>
           </style>
         </object>
         <packing>

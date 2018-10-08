@@ -18,6 +18,12 @@
     font-weight: bold;
 }
 
+/* DiscLabel */
+.disc-label {
+    font-weight: bold;
+    font-size : larger;
+}
+
 /* ArtistAlbumsWidget */
 box#ArtistAlbumsWidget .artist-label {
     font-weight: bold;
