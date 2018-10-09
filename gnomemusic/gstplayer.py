@@ -81,7 +81,6 @@ class GstPlayer(GObject.GObject):
         self._on_replaygain_setting_changed(
             None, self._settings.get_value('replaygain'))
 
-        self._bus.connect('message::state-changed', self._on_bus_state_changed)
         self._bus.connect('message::error', self._on_bus_error)
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
@@ -138,18 +137,6 @@ class GstPlayer(GObject.GObject):
     def _on_clock_tick(self, clock, time, id, data):
         tick = time / Gst.SECOND
         self.emit('clock-tick', tick)
-
-    @log
-    def _on_bus_state_changed(self, bus, message):
-        # Note: not all state changes are signaled through here, in
-        # particular transitions between Gst.State.READY and
-        # Gst.State.NULL are never async and thus don't cause a
-        # message. In practice, self means only Gst.State.PLAYING and
-        # Gst.State.PAUSED are.
-
-        # Setting self.state triggers the property signal, which is
-        # used down the line.
-        self.state = self.state
 
     @log
     def _on_duration_changed(self, bus, message):
