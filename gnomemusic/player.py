@@ -622,7 +622,6 @@ class Player(GObject.GObject):
 
         Play the next song of the playlist, if any.
         """
-
         if self._playlist.next():
             self.play()
 
