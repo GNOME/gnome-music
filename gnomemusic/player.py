@@ -817,6 +817,13 @@ class Player(GObject.GObject):
     # TODO: used by MPRIS
     @log
     def set_position(self, offset, start_if_ne=False, next_on_overflow=False):
+        """Change GstPlayer position.
+
+        :param int offset: requested position in second
+        :param bool start_if_ne: if position is negative, set it to zero
+        :param bool next_on_overflow: next song if position is greater than
+                                      duration
+        """
         if offset < 0:
             if start_if_ne:
                 offset = 0
@@ -826,8 +833,8 @@ class Player(GObject.GObject):
         if self.props.duration == 0:
             return
 
-        if self.props.duration >= offset * 1000:
-            self._player.seek(offset * 1000)
+        if self.props.duration >= offset:
+            self._player.seek(offset)
             self.emit('seeked', offset)
         elif next_on_overflow:
             self.next()
