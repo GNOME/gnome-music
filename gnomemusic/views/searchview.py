@@ -22,8 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _
 from enum import IntEnum
+
+from gettext import gettext as _
 import gi
 gi.require_version('Gd', '1.0')
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
@@ -46,14 +47,14 @@ playlists = Playlists.get_default()
 
 class SearchView(BaseView):
 
+    state = GObject.Property(type=int)
+
     class State(IntEnum):
         """States the SearchView can have
-           SEARCH: You got some results.
-           CHILD: You clicked on an album or an artist from 
-                  SearchView.
+           SEARCH: search returned results.
+           CHILD: album or an artist from SearchView activated.
            NORESULT: No music found.
         """
- 
         SEARCH = 1
         CHILD = 2
         NORESULT = 3
@@ -137,7 +138,6 @@ class SearchView(BaseView):
             title = self.model[_iter][2]
             artist = self.model[_iter][3]
             item = self.model[_iter][5]
-
 
             self._album_widget.update(item)
             self._headerbar.props.state = HeaderBar.State.SEARCH
@@ -228,7 +228,7 @@ class SearchView(BaseView):
                     and grilo.search_source):
                 self.props.state = SearchView.State.NORESULT
             return
-    
+
         if data != self.model:
             return
 
@@ -271,19 +271,13 @@ class SearchView(BaseView):
             + self.model.iter_n_children(self._head_iters[3])
         )
 
-
         if (category == 'song'
-                and self._items_found == 0
                 and remaining == 0):
-            if grilo.search_source:
-                self.props.state = SearchView.State.NORESULT
-        if (category == 'song'
-                and self._items_found != 0
-                and remaining == 0):
+            if self._items_found == 0:
+                if grilo.search_source:
+                    self.props.state = SearchView.State.NORESULT
+            else:
                 self.props.state = SearchView.State.SEARCH
-                
-        
-                
 
         # We need to remember the view before the search view
         emptysearchview = self._window.views[View.EMPTY]
@@ -621,25 +615,20 @@ class SearchView(BaseView):
             # nope, can't do - reverting to Search
             grilo.search(search_term, self._add_search_item, self.model)
 
-    @GObject.Property(type=int)
-    def state(self):
-        """State of the widget
+    # @GObject.Property(type=int)
+    # def state(self):
+    #     """State of the widget
 
-        :returns: Widget state
-        :rtype: SearchView.State
-        """
-        return self._state
+    #     :returns: Widget state
+    #     :rtype: SearchView.State
+    #     """
+    #     return self._state
 
-    @state.setter
-    def state(self, value):
-        """Set state of the widget
+    # @state.setter
+    # def state(self, value):
+    #     """Set state of the widget
 
-        This influences the working of the SearchView and SearchBar
-        
-        :param SearchView.State value: Widget state
-        """
-        self._state = value
-
-
-
-            
+    #     This influences the working of the SearchView and SearchBar.
+    #     :param SearchView.State value: Widget state
+    #     """
+    #     self._state = value
