@@ -18,6 +18,14 @@
     font-weight: bold;
 }
 
+/* DiscName */
+.disc-label {
+    font-weight: bold;
+    color: @theme_fg_color;
+    font-size: small;
+}
+
+
 /* ArtistAlbumsWidget */
 box#ArtistAlbumsWidget .artist-label {
     font-weight: bold;
