@@ -22,8 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gettext import gettext as _
 from enum import IntEnum
+
+from gettext import gettext as _
 import gi
 gi.require_version('Gd', '1.0')
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
@@ -53,7 +54,6 @@ class SearchView(BaseView):
                   SearchView.
            NORESULT: No music found.
         """
- 
         SEARCH = 1
         CHILD = 2
         NORESULT = 3
@@ -261,30 +261,27 @@ class SearchView(BaseView):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if data is None:
             return
-
+        
         model, category = data
-
+        
         self._items_found = (
             self.model.iter_n_children(self._head_iters[0])
             + self.model.iter_n_children(self._head_iters[1])
             + self.model.iter_n_children(self._head_iters[2])
             + self.model.iter_n_children(self._head_iters[3])
         )
-
-
+        
         if (category == 'song'
                 and self._items_found == 0
                 and remaining == 0):
             if grilo.search_source:
                 self.props.state = SearchView.State.NORESULT
+
         if (category == 'song'
                 and self._items_found != 0
                 and remaining == 0):
                 self.props.state = SearchView.State.SEARCH
                 
-        
-                
-
         # We need to remember the view before the search view
         emptysearchview = self._window.views[View.EMPTY]
         if (self._window.curr_view != emptysearchview
@@ -634,12 +631,8 @@ class SearchView(BaseView):
     def state(self, value):
         """Set state of the widget
 
-        This influences the working of the SearchView and SearchBar
-        
+        This influences the working of the SearchView and SearchBar.
+
         :param SearchView.State value: Widget state
         """
         self._state = value
-
-
-
-            
