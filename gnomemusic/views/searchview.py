@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
+from enum import IntEnum
 import gi
 gi.require_version('Gd', '1.0')
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
@@ -45,9 +46,17 @@ playlists = Playlists.get_default()
 
 class SearchView(BaseView):
 
-    __gsignals__ = {
-        'no-music-found': (GObject.SignalFlags.RUN_FIRST, None, ())
-    }
+    class State(IntEnum):
+        """States the SearchView can have
+           SEARCH: You got some results.
+           CHILD: You clicked on an album or an artist from 
+                  SearchView.
+           NORESULT: No music found.
+        """
+ 
+        SEARCH = 1
+        CHILD = 2
+        NORESULT = 3
 
     def __repr__(self):
         return '<SearchView>'
@@ -56,16 +65,12 @@ class SearchView(BaseView):
     def __init__(self, window, player):
         super().__init__('search', None, window)
 
-        # FIXME: Searchbar handling does not belong here.
-        self._searchbar = window._searchbar
-
         self._add_list_renderers()
         self.player = player
         self._head_iters = [None, None, None, None]
         self._filter_model = None
 
         self.previous_view = None
-        self.connect('no-music-found', self._no_music_found_callback)
 
         self._albums_selected = []
         self._albums = {}
@@ -101,14 +106,7 @@ class SearchView(BaseView):
         view_container.add(self._view)
 
     @log
-    def _no_music_found_callback(self, view):
-        # FIXME: call into private members
-        self._searchbar._search_entry.get_style_context().add_class('error')
-        self._window._stack.set_visible_child_name("emptyview")
-
-    @log
     def _back_button_clicked(self, widget, data=None):
-        self._searchbar.reveal(True, False)
 
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
@@ -140,13 +138,15 @@ class SearchView(BaseView):
             artist = self.model[_iter][3]
             item = self.model[_iter][5]
 
+
             self._album_widget.update(item)
             self._headerbar.props.state = HeaderBar.State.SEARCH
 
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
-            self._searchbar.reveal(False)
+            self.props.state = SearchView.State.CHILD
+
         elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
@@ -165,7 +165,7 @@ class SearchView(BaseView):
             self._headerbar.props.state = HeaderBar.State.SEARCH
             self._headerbar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
-            self._searchbar.reveal(False)
+            self.props.state = SearchView.State.CHILD
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
@@ -226,9 +226,9 @@ class SearchView(BaseView):
         if not item:
             if (grilo._search_callback_counter == 0
                     and grilo.search_source):
-                self.emit('no-music-found')
+                self.props.state = SearchView.State.NORESULT
             return
-
+    
         if data != self.model:
             return
 
@@ -271,11 +271,19 @@ class SearchView(BaseView):
             + self.model.iter_n_children(self._head_iters[3])
         )
 
+
         if (category == 'song'
                 and self._items_found == 0
                 and remaining == 0):
             if grilo.search_source:
-                self.emit('no-music-found')
+                self.props.state = SearchView.State.NORESULT
+        if (category == 'song'
+                and self._items_found != 0
+                and remaining == 0):
+                self.props.state = SearchView.State.SEARCH
+                
+        
+                
 
         # We need to remember the view before the search view
         emptysearchview = self._window.views[View.EMPTY]
@@ -612,3 +620,26 @@ class SearchView(BaseView):
                 or grilo.search_source.get_id() != 'grl-tracker-source'):
             # nope, can't do - reverting to Search
             grilo.search(search_term, self._add_search_item, self.model)
+
+    @GObject.Property(type=int)
+    def state(self):
+        """State of the widget
+
+        :returns: Widget state
+        :rtype: SearchView.State
+        """
+        return self._state
+
+    @state.setter
+    def state(self, value):
+        """Set state of the widget
+
+        This influences the working of the SearchView and SearchBar
+        
+        :param SearchView.State value: Widget state
+        """
+        self._state = value
+
+
+
+            
