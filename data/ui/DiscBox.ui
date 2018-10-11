@@ -16,7 +16,6 @@
           <property name="margin_bottom">4</property>
           <property name="no_show_all">True</property>
           <style>
-            <class name="dim-label"/>
             <class name="disc-label"/>
           </style>
         </object>
