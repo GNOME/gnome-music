@@ -19,7 +19,7 @@
 #
 # You should have received a copy of the GNU General Public License along
 # with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.s
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 # The GNOME Music authors hereby grant permission for non-GPL compatible
 # GStreamer plugins to be used and distributed together with GStreamer
@@ -273,6 +273,7 @@ class Window(Gtk.ApplicationWindow):
         if self.views[View.SEARCH].props.state == SearchView.State.CHILD:
             self._searchbar.reveal(False)
         elif self.views[View.SEARCH].props.state == SearchView.State.NORESULT:
+            self._searchbar._search_entry.get_style_context().add_class('error')
             self._stack.set_visible_child_name("emptyview")
 
     @log
