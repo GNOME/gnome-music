@@ -68,9 +68,6 @@
         },
         {
             "name": "tracker",
-	    "config-opts" : [
-                "--libdir=/app/lib"
-            ],
             "buildsystem": "meson",
             "cleanup": [ "/bin", "/etc", "/libexec" ],
             "config-opts": [ "-Ddocs=false",
