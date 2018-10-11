@@ -53,7 +53,6 @@ class SearchView(BaseView):
                   SearchView.
            NORESULT: No music found.
         """
- 
         SEARCH = 1
         CHILD = 2
         NORESULT = 3
@@ -261,30 +260,27 @@ class SearchView(BaseView):
     def _add_item(self, source, param, item, remaining=0, data=None):
         if data is None:
             return
-
+        
         model, category = data
-
+        
         self._items_found = (
             self.model.iter_n_children(self._head_iters[0])
             + self.model.iter_n_children(self._head_iters[1])
             + self.model.iter_n_children(self._head_iters[2])
             + self.model.iter_n_children(self._head_iters[3])
         )
-
-
+        
         if (category == 'song'
                 and self._items_found == 0
                 and remaining == 0):
             if grilo.search_source:
                 self.props.state = SearchView.State.NORESULT
+
         if (category == 'song'
                 and self._items_found != 0
                 and remaining == 0):
                 self.props.state = SearchView.State.SEARCH
                 
-        
-                
-
         # We need to remember the view before the search view
         emptysearchview = self._window.views[View.EMPTY]
         if (self._window.curr_view != emptysearchview
@@ -639,7 +635,3 @@ class SearchView(BaseView):
         :param SearchView.State value: Widget state
         """
         self._state = value
-
-
-
-            
