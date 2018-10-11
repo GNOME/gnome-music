@@ -100,7 +100,8 @@ class SmoothScale(Gtk.Scale):
 
         self._previous_state = state
 
-        if state == Playback.STOPPED:
+        if (state == Playback.STOPPED
+                or state == Playback.LOADING):
             self.set_value(0)
             self.set_sensitive(False)
         else:
