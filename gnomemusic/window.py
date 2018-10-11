@@ -19,7 +19,7 @@
 #
 # You should have received a copy of the GNU General Public License along
 # with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.s
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 # The GNOME Music authors hereby grant permission for non-GPL compatible
 # GStreamer plugins to be used and distributed together with GStreamer
@@ -265,14 +265,15 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.SEARCH].connect(
                 'notify::state', self._search_view_changed)
 
-    def _search_view_changed(self, action=None, param=None):
-        """This function is called when there is a change in the state 
-           of searchview. 
-        """
-        
-        if self.views[View.SEARCH].props.state == SearchView.State.CHILD:
+    def _search_view_changed(self, action, param):
+        searchview_state = self.views[View.SEARCH].get_property("state")
+
+        self._searchbar._search_entry.get_style_context().remove_class('error')
+
+        if searchview_state == SearchView.State.CHILD:
             self._searchbar.reveal(False)
-        elif self.views[View.SEARCH].props.state == SearchView.State.NORESULT:
+        elif searchview_state == SearchView.State.NORESULT:
+            self._searchbar._search_entry.get_style_context().add_class('error')
             self._stack.set_visible_child_name("emptyview")
 
     @log
@@ -425,7 +426,7 @@ class Window(Gtk.ApplicationWindow):
         # Switch to all albums view when we're clicking Albums
         if (self.curr_view == self.views[View.ALBUM]
                 and not (self.prev_view == self.views[View.SEARCH]
-                    or self.prev_view == self.views[View.EMPTY])):
+                         or self.prev_view == self.views[View.EMPTY])):
             self.curr_view.set_visible_child(self.curr_view._grid)
 
         if (self.curr_view != self.views[View.SEARCH]
@@ -464,13 +465,14 @@ class Window(Gtk.ApplicationWindow):
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
-                    or self.curr_view == self.views[View.EMPTY])):
+                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
             if self._headerbar.props.state == HeaderBar.State.MAIN:
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)
-            elif (self.views[View.SEARCH].previous_view == self.views[View.ALBUM]
+            elif ((self.views[View.SEARCH].previous_view ==
+                   self.views[View.ALBUM])
                     and child != self.curr_view._album_widget
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
