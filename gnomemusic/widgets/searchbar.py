@@ -361,7 +361,6 @@ class Searchbar(Gtk.SearchBar):
     @log
     def _search_entry_changed(self, widget):
         self._timeout = None
-        self._search_entry.get_style_context().remove_class('error')
 
         search_term = self._search_entry.get_text()
         if grilo.search_source:
