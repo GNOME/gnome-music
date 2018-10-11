@@ -273,6 +273,7 @@ class Window(Gtk.ApplicationWindow):
         if self.views[View.SEARCH].props.state == SearchView.State.CHILD:
             self._searchbar.reveal(False)
         elif self.views[View.SEARCH].props.state == SearchView.State.NORESULT:
+            self._searchbar._search_entry.get_style_context().add_class('error')
             self._stack.set_visible_child_name("emptyview")
 
     @log
