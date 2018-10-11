@@ -19,7 +19,7 @@
 #
 # You should have received a copy of the GNU General Public License along
 # with GNOME Music; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.s
 #
 # The GNOME Music authors hereby grant permission for non-GPL compatible
 # GStreamer plugins to be used and distributed together with GStreamer
@@ -259,6 +259,21 @@ class Window(Gtk.ApplicationWindow):
                 self._stack.add_named(i, i.name)
 
         self._stack.set_visible_child(self.views[View.ALBUM])
+
+        # Call _search_view_changed, when SearchView.State is changed to
+        # perform corresponding actions.
+        self.views[View.SEARCH].connect(
+                'notify::state', self._search_view_changed)
+
+    def _search_view_changed(self, action=None, param=None):
+        """This function is called when there is a change in the state 
+           of searchview. 
+        """
+        
+        if self.views[View.SEARCH].props.state == SearchView.State.CHILD:
+            self._searchbar.reveal(False)
+        elif self.views[View.SEARCH].props.state == SearchView.State.NORESULT:
+            self._stack.set_visible_child_name("emptyview")
 
     @log
     def _select_all(self, action=None, param=None):
