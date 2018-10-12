@@ -260,6 +260,19 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.set_visible_child(self.views[View.ALBUM])
 
+        # Call _search_view_changed, when SearchView.State is changed to
+        # perform corresponding actions.
+        self.views[View.SEARCH].connect(
+                'notify::state', self._search_view_changed)
+
+    def _search_view_changed(self, action, param):
+        searchview_state = self.views[View.SEARCH].get_property("state")
+
+        if searchview_state == SearchView.State.CHILD:
+            self._searchbar.reveal(False)
+        elif searchview_state == SearchView.State.NORESULT:
+            self._stack.set_visible_child_name("emptyview")
+
     @log
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:
@@ -410,7 +423,7 @@ class Window(Gtk.ApplicationWindow):
         # Switch to all albums view when we're clicking Albums
         if (self.curr_view == self.views[View.ALBUM]
                 and not (self.prev_view == self.views[View.SEARCH]
-                    or self.prev_view == self.views[View.EMPTY])):
+                         or self.prev_view == self.views[View.EMPTY])):
             self.curr_view.set_visible_child(self.curr_view._grid)
 
         if (self.curr_view != self.views[View.SEARCH]
@@ -449,13 +462,14 @@ class Window(Gtk.ApplicationWindow):
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
-                    or self.curr_view == self.views[View.EMPTY])):
+                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
             if self._headerbar.props.state == HeaderBar.State.MAIN:
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)
-            elif (self.views[View.SEARCH].previous_view == self.views[View.ALBUM]
+            elif ((self.views[View.SEARCH].previous_view ==
+                   self.views[View.ALBUM])
                     and child != self.curr_view._album_widget
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
