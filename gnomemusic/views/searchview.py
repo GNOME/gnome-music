@@ -51,6 +51,7 @@ class SearchView(BaseView):
 
     class State(IntEnum):
         """States the SearchView can have
+
            SEARCH: search returned results.
            CHILD: album or an artist from SearchView activated.
            NORESULT: No music found.
