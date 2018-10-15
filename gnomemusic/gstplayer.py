@@ -90,7 +90,7 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::new-clock', self._on_new_clock)
 
         self._previous_state = Playback.STOPPED
-        self.state = Playback.STOPPED
+        self.props.state = Playback.STOPPED
 
     @log
     def _setup_replaygain(self):
@@ -132,7 +132,7 @@ class GstPlayer(GObject.GObject):
 
         # TODO: Workaround the first duration change not being emitted
         # and hence smoothscale not being initialized properly.
-        if self.duration == -1:
+        if self.props.duration == -1:
             self._on_duration_changed(None, None)
 
     @log
@@ -163,9 +163,9 @@ class GstPlayer(GObject.GObject):
             Gst.Format.TIME)
 
         if success:
-            self.duration = duration / Gst.SECOND
+            self.props.duration = duration / Gst.SECOND
         else:
-            self.duration = -1
+            self.props.duration = -1
 
     @log
     def _on_bus_element(self, bus, message):
@@ -175,7 +175,7 @@ class GstPlayer(GObject.GObject):
     @log
     def _on_bus_error(self, bus, message):
         if self._is_missing_plugin_message(message):
-            self.state = Playback.PAUSED
+            self.props.state = Playback.PAUSED
             self._handle_missing_plugins()
             return True
 
@@ -183,7 +183,7 @@ class GstPlayer(GObject.GObject):
         debug = debug.split('\n')
         debug = [('     ') + line.lstrip() for line in debug]
         debug = '\n'.join(debug)
-        logger.warning("URI: {}".format(self.url))
+        logger.warning("URI: {}".format(self.props.url))
         logger.warning(
             "Error from element {}: {}".format(
                 message.src.get_name(), error.message))
@@ -275,7 +275,7 @@ class GstPlayer(GObject.GObject):
         :return: duration
         :rtype: float or None
         """
-        if self.state == Playback.STOPPED:
+        if self.props.state == Playback.STOPPED:
             return -1
 
         return self._duration
