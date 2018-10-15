@@ -97,6 +97,7 @@ class SmoothScale(Gtk.Scale):
     @log
     def _on_state_change(self, klass, arguments):
         state = self._player.state
+        print("smoothscale - state_changed", state)
 
         self._previous_state = state
 

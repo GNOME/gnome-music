@@ -149,6 +149,7 @@ class GstPlayer(GObject.GObject):
 
         # Setting self.state triggers the property signal, which is
         # used down the line.
+        print("gstplayer - bus_state_changed", self.state)
         self.state = self.state
 
     @log
@@ -223,6 +224,7 @@ class GstPlayer(GObject.GObject):
 
         :param Playback state: The state to set
         """
+        print("gstplayer - state setter", state)
         if state == Playback.PAUSED:
             self._player.set_state(Gst.State.PAUSED)
         if state == Playback.STOPPED:
