@@ -201,7 +201,6 @@
         <property name="valign">center</property>
         <property name="hexpand">True</property>
         <property name="draw_value">False</property>
-        <signal name = "seek-finished" handler="_on_seek_finished" swapped="no"/>
         <signal name = "value-changed" handler="_on_progress_value_changed" swapped="no"/>
       </object>
     </child>

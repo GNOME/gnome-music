@@ -88,11 +88,6 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @Gtk.Template.Callback()
     @log
-    def _on_seek_finished(self, klass, time):
-        self._player.play()
-
-    @Gtk.Template.Callback()
-    @log
     def _on_progress_value_changed(self, progress_scale):
         seconds = int(progress_scale.get_value() / 60)
         self._progress_time_label.set_label(utils.seconds_to_string(seconds))
