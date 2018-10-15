@@ -89,6 +89,7 @@ class GstPlayer(GObject.GObject):
             'message::duration-changed', self._on_duration_changed)
         self._bus.connect('message::new-clock', self._on_new_clock)
 
+        self._previous_state = Playback.STOPPED
         self.state = Playback.STOPPED
 
     @log
@@ -149,8 +150,15 @@ class GstPlayer(GObject.GObject):
 
         # Setting self.state triggers the property signal, which is
         # used down the line.
-        print("gstplayer - bus_state_changed", self.state)
-        self.state = self.state
+        current_state = self.props.state
+        if current_state == self._previous_state:
+            return
+
+        print(
+            "gstplayer - bus_state_changed", self.state, "previous state:",
+            self._previous_state)
+        self._previous_state = current_state
+        self.notify('state')
 
     @log
     def _on_duration_changed(self, bus, message):
