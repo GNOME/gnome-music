@@ -92,7 +92,7 @@ class PlayerToolbar(Gtk.ActionBar):
         print(
             'playertoolbar - seek finished',
             self._player.get_playback_status())
-        self._player.play()
+        # self._player.play()
 
     @Gtk.Template.Callback()
     @log
