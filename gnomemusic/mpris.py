@@ -736,10 +736,8 @@ class MediaPlayer2Service(Server):
         elif interface_name == 'org.freedesktop.DBus.Introspectable':
             return {}
         else:
-            raise Exception(
-                'org.mpris.MediaPlayer2.GnomeMusic',
-                'This object does not implement the %s interface'
-                % interface_name)
+            logger.warning(
+                "MPRIS does not implement {} interface".format(interface_name))
 
     def Set(self, interface_name, property_name, new_value):
         if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
@@ -761,10 +759,8 @@ class MediaPlayer2Service(Server):
                 else:
                     self.player.props.repeat_mode = RepeatMode.NONE
         else:
-            raise Exception(
-                'org.mpris.MediaPlayer2.GnomeMusic',
-                'This object does not implement the %s interface'
-                % interface_name)
+            logger.warning(
+                "MPRIS does not implement {} interface".format(interface_name))
 
     def PropertiesChanged(self, interface_name, changed_properties,
                           invalidated_properties):
