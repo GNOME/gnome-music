@@ -54,6 +54,7 @@ class DBusInterface:
 
         method_outargs = {}
         method_inargs = {}
+        signals = {}
         for interface in Gio.DBusNodeInfo.new_for_xml(self.__doc__).interfaces:
 
             for method in interface.methods:
@@ -62,12 +63,18 @@ class DBusInterface:
                 method_inargs[method.name] = tuple(
                     arg.signature for arg in method.in_args)
 
+            for signal in interface.signals:
+                args = {arg.name: arg.signature for arg in signal.args}
+                signals[signal.name] = {
+                    'interface': interface.name, 'args': args}
+
             self._con.register_object(
                 object_path=self._path, interface_info=interface,
                 method_call_closure=self.on_method_call)
 
         self._method_inargs = method_inargs
         self._method_outargs = method_outargs
+        self._signals = signals
 
     def on_method_call(
         self, connection, sender, object_path, interface_name, method_name,
@@ -104,6 +111,17 @@ class DBusInterface:
             invocation.return_value(variant)
         else:
             invocation.return_value(None)
+
+    def _dbus_emit_signal(self, signal_name, values):
+        signal = self._signals[signal_name]
+        parameters = []
+        for arg_name, arg_signature in signal['args'].items():
+            value = values[arg_name]
+            parameters.append(GLib.Variant(arg_signature, value))
+
+        variant = GLib.Variant.new_tuple(*parameters)
+        self._con.emit_signal(
+            None, self._path, signal['interface'], signal_name, variant)
 
 
 class MPRIS(DBusInterface):
@@ -452,25 +470,26 @@ class MPRIS(DBusInterface):
         has_next = self.player.props.has_next
         has_previous = self.player.props.has_previous
         metadata = self._get_metadata(self.player.props.current_song)
-        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'CanGoNext': GLib.Variant('b', has_next),
-                                   'CanGoPrevious': GLib.Variant(
-                                       'b', has_previous),
-                                   'CanPlay': GLib.Variant('b', True),
-                                   'CanPause': GLib.Variant('b', True),
-                                   'Metadata': GLib.Variant('a{sv}', metadata),
-                               },
-                               [])
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+            {
+                'CanGoNext': GLib.Variant('b', has_next),
+                'CanGoPrevious': GLib.Variant('b', has_previous),
+                'CanPause': GLib.Variant('b', True),
+                'CanPlay': GLib.Variant('b', True),
+                'Metadata': GLib.Variant('a{sv}', metadata),
+            },
+            [])
 
     @log
     def _on_thumbnail_updated(self, player, data=None):
         metadata = self._get_metadata(self.player.props.current_song)
-        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'Metadata': GLib.Variant('a{sv}', metadata),
-                               },
-                               [])
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+            {
+                'Metadata': GLib.Variant('a{sv}', metadata),
+            },
+            [])
 
     @log
     def _on_player_state_changed(self, klass, args):
@@ -479,30 +498,35 @@ class MPRIS(DBusInterface):
             return
 
         self._previous_playback_status = playback_status
-        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'PlaybackStatus': GLib.Variant('s', playback_status),
-                               },
-                               [])
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+            {
+                'PlaybackStatus': GLib.Variant('s', playback_status),
+            },
+            [])
 
     @log
     def _on_repeat_mode_changed(self, player, param):
-        self._update_songs_list()
-        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'LoopStatus': GLib.Variant('s', self._get_loop_status()),
-                                   'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
-                               },
-                               [])
+        is_shuffle = self.player.props.repeat_mode == RepeatMode.SHUFFLE
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+            {
+                'LoopStatus': GLib.Variant('s', self._get_loop_status()),
+                'Shuffle': GLib.Variant('b', is_shuffle),
+            },
+            [])
 
     @log
     def _on_prev_next_invalidated(self, player, data=None):
-        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'CanGoNext': GLib.Variant('b', self.player.props.has_next),
-                                   'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
-                               },
-                               [])
+        has_next = self.player.props.has_next
+        has_previous = self.player.props.has_previous
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+            {
+                'CanGoNext': GLib.Variant('b', has_previous),
+                'CanGoPrevious': GLib.Variant('b', has_next),
+            },
+            [])
 
     @log
     def _on_seek_finished(self, player, position_second):
@@ -525,11 +549,12 @@ class MPRIS(DBusInterface):
     def _reload_playlists(self):
         def query_playlists_callback(playlists):
             self.playlists = playlists
-            self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                                   {
-                                       'PlaylistCount': GLib.Variant('u', len(playlists)),
-                                   },
-                                   [])
+            self._properties_changed(
+                MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                {
+                    'PlaylistCount': GLib.Variant('u', len(playlists)),
+                },
+                [])
 
         self._query_playlists(query_playlists_callback)
 
@@ -605,10 +630,7 @@ class MPRIS(DBusInterface):
 
         :param int position_msecond: new position in microseconds.
         """
-        variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
-        self.con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
+        self._dbus_emit_signal('Seeked', {'Position': position_msecond})
 
     def _get_tracks_metadata(self, track_paths):
         metadata = []
@@ -632,33 +654,19 @@ class MPRIS(DBusInterface):
         return
 
     def _track_list_replaced(self, tracks, current_song):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackListReplaced',
-            GLib.Variant.new_tuple(
-                GLib.Variant('ao', tracks), GLib.Variant('o', current_song)))
+        parameters = {'Tracks': tracks, 'CurrentTrack': current_song}
+        self._dbus_emit_signal('TrackListReplaced', parameters)
 
     def _track_added(self, metadata, after_track):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackAdded',
-            GLib.Variant.new_tuple(
-                GLib.Variant('a{sv}', metadata),
-                GLib.Variant('o', after_track)))
+        parameters = {'Metadata': metadata, 'AfterTrack': after_track}
+        self._dbus_emit_signal('TrackAdded', parameters)
 
     def _track_removed(self, path):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackRemoved',
-            GLib.Variant.new_tuple(GLib.Variant('o', path)))
+        self._dbus_emit_signal('TrackRemoved', {'TrackRemoved': path})
 
     def _track_metadata_changed(self, path, metadata):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackMetadataChanged',
-            GLib.Variant.new_tuple(
-                GLib.Variant('o', path),
-                GLib.Variant('a{sv}', metadata)))
+        parameters = {'TrackId': path, 'Metadata': metadata}
+        self._dbus_emit_signal('TrackMetadataChanged', parameters)
 
     def _activate_playlist(self, playlist_path):
         playlist_id = self._get_playlist_from_path(playlist_path).get_id()
@@ -681,10 +689,7 @@ class MPRIS(DBusInterface):
         return playlists[index + max_count - 1:first_index:-1]
 
     def PlaylistChanged(self, playlist):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, 'PlaylistChanged',
-            GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
+        self._dbus_emit_signal('PlaylistChanged', {'foo': playlist})
 
     def _get(self, interface_name, property_name):
         return self._get_all(interface_name)[property_name]
@@ -771,13 +776,12 @@ class MPRIS(DBusInterface):
 
     def _properties_changed(self, interface_name, changed_properties,
                             invalidated_properties):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2', 'org.freedesktop.DBus.Properties',
-            'PropertiesChanged',
-            GLib.Variant.new_tuple(
-                GLib.Variant('s', interface_name),
-                GLib.Variant('a{sv}', changed_properties),
-                GLib.Variant('as', invalidated_properties)))
+        parameters = {
+            'interface_name': interface_name,
+            'changed_properties': changed_properties,
+            'invalidated_properties': invalidated_properties
+        }
+        self._dbus_emit_signal('PropertiesChanged', parameters)
 
     def _introspect(self):
         return self.__doc__
