@@ -45,7 +45,12 @@ def camelcase_to_snake_case(name):
 
 class DBusInterface:
 
-    def __init__(self, con, path):
+    def __init__(self, name, path):
+        self._con = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+        Gio.bus_own_name_on_connection(
+            self._con, name, Gio.BusNameOwnerFlags.NONE, None, None)
+        self._path = path
+
         method_outargs = {}
         method_inargs = {}
         for interface in Gio.DBusNodeInfo.new_for_xml(self.__doc__).interfaces:
@@ -56,8 +61,8 @@ class DBusInterface:
                 method_inargs[method.name] = tuple(
                     arg.signature for arg in method.in_args)
 
-            con.register_object(
-                object_path=path, interface_info=interface,
+            self._con.register_object(
+                object_path=self._path, interface_info=interface,
                 method_call_closure=self.on_method_call)
 
         self._method_inargs = method_inargs
@@ -249,13 +254,9 @@ class MPRIS(DBusInterface):
         return '<MPRIS>'
 
     def __init__(self, app):
-        self.con = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-        Gio.bus_own_name_on_connection(self.con,
-                                       'org.mpris.MediaPlayer2.GnomeMusic',
-                                       Gio.BusNameOwnerFlags.NONE,
-                                       None,
-                                       None)
-        super().__init__(self.con, '/org/mpris/MediaPlayer2')
+        name = 'org.mpris.MediaPlayer2.GnomeMusic'
+        path = '/org/mpris/MediaPlayer2'
+        super().__init__(name, path)
 
         self.app = app
         self.player = app.props.player
@@ -391,7 +392,7 @@ class MPRIS(DBusInterface):
         if (not previous_path_list
                 or previous_path_list[0] != self._path_list[0]
                 or previous_path_list[-1] != self._path_list[-1]):
-            self.con.emit_signal(
+            self._con.emit_signal(
                 None, '/org/mpris/MediaPlayer2',
                 MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackListReplaced',
                 GLib.Variant.new_tuple(
@@ -554,7 +555,7 @@ class MPRIS(DBusInterface):
     def _on_seek_finished(self, player, position_second):
         position_msecond = int(position_second * 1e6)
         variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
-        self.con.emit_signal(
+        self._con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
 
@@ -589,7 +590,7 @@ class MPRIS(DBusInterface):
     def _on_playlist_renamed(self, playlists, renamed_playlist):
         mpris_playlist = self._get_mpris_playlist_from_playlist(
             renamed_playlist)
-        self.con.emit_signal(
+        self._con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, 'PlaylistChanged',
             GLib.Variant.new_tuple(GLib.Variant('(oss)', mpris_playlist)))
@@ -793,13 +794,13 @@ class MPRIS(DBusInterface):
 
     def _properties_changed(self, interface_name, changed_properties,
                             invalidated_properties):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             'org.freedesktop.DBus.Properties',
-                             'PropertiesChanged',
-                             GLib.Variant.new_tuple(GLib.Variant('s', interface_name),
-                                                    GLib.Variant('a{sv}', changed_properties),
-                                                    GLib.Variant('as', invalidated_properties)))
+        self._con.emit_signal(
+            None, '/org/mpris/MediaPlayer2', 'org.freedesktop.DBus.Properties',
+            'PropertiesChanged',
+            GLib.Variant.new_tuple(
+                GLib.Variant('s', interface_name),
+                GLib.Variant('a{sv}', changed_properties),
+                GLib.Variant('as', invalidated_properties)))
 
     def _introspect(self):
         return self.__doc__
