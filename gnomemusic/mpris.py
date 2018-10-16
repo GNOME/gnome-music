@@ -53,6 +53,7 @@ class DBusInterface:
 
         method_outargs = {}
         method_inargs = {}
+        signals = {}
         for interface in Gio.DBusNodeInfo.new_for_xml(self.__doc__).interfaces:
 
             for method in interface.methods:
@@ -61,12 +62,18 @@ class DBusInterface:
                 method_inargs[method.name] = tuple(
                     arg.signature for arg in method.in_args)
 
+            for signal in interface.signals:
+                args = {arg.name: arg.signature for arg in signal.args}
+                signals[signal.name] = {
+                    'interface': interface.name, 'args': args}
+
             self._con.register_object(
                 object_path=self._path, interface_info=interface,
                 method_call_closure=self.on_method_call)
 
         self._method_inargs = method_inargs
         self._method_outargs = method_outargs
+        self._signals = signals
 
     def on_method_call(
         self, connection, sender, object_path, interface_name, method_name,
@@ -103,6 +110,17 @@ class DBusInterface:
             invocation.return_value(variant)
         else:
             invocation.return_value(None)
+
+    def _dbus_emit_signal(self, signal_name, values):
+        signal = self._signals[signal_name]
+        parameters = []
+        for arg_name, arg_signature in signal['args'].items():
+            value = values[arg_name]
+            parameters.append(GLib.Variant(arg_signature, value))
+
+        variant = GLib.Variant.new_tuple(*parameters)
+        self._con.emit_signal(
+            None, self._path, signal['interface'], signal_name, variant)
 
 
 class MPRIS(DBusInterface):
@@ -391,12 +409,10 @@ class MPRIS(DBusInterface):
         if (not previous_path_list
                 or previous_path_list[0] != self._path_list[0]
                 or previous_path_list[-1] != self._path_list[-1]):
-            self._con.emit_signal(
-                None, '/org/mpris/MediaPlayer2',
-                MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackListReplaced',
-                GLib.Variant.new_tuple(
-                    GLib.Variant('ao', self._path_list),
-                    GLib.Variant('o', self._get_song_dbus_path())))
+            parameters = {
+                'Tracks': self._path_list,
+                'CurrentTrack': self._get_song_dbus_path()}
+            self._dbus_emit_signal('TrackListReplaced', parameters)
 
             self._properties_changed(
                 MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -553,10 +569,7 @@ class MPRIS(DBusInterface):
     @log
     def _on_seek_finished(self, player, position_second):
         position_msecond = int(position_second * 1e6)
-        variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
+        self._dbus_emit_signal('Seeked', {'Position': position_msecond})
 
     @log
     def _on_player_playlist_changed(self, klass):
@@ -591,10 +604,7 @@ class MPRIS(DBusInterface):
     def _on_playlist_renamed(self, playlists, renamed_playlist):
         mpris_playlist = self._get_mpris_playlist_from_playlist(
             renamed_playlist)
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, 'PlaylistChanged',
-            GLib.Variant.new_tuple(GLib.Variant('(oss)', mpris_playlist)))
+        self._dbus_emit_signal('PlaylistChanged', {'Playlist': mpris_playlist})
 
     @log
     def _on_grilo_ready(self, grilo):
@@ -795,13 +805,12 @@ class MPRIS(DBusInterface):
 
     def _properties_changed(self, interface_name, changed_properties,
                             invalidated_properties):
-        self._con.emit_signal(
-            None, '/org/mpris/MediaPlayer2', 'org.freedesktop.DBus.Properties',
-            'PropertiesChanged',
-            GLib.Variant.new_tuple(
-                GLib.Variant('s', interface_name),
-                GLib.Variant('a{sv}', changed_properties),
-                GLib.Variant('as', invalidated_properties)))
+        parameters = {
+            'interface_name': interface_name,
+            'changed_properties': changed_properties,
+            'invalidated_properties': invalidated_properties
+        }
+        self._dbus_emit_signal('PropertiesChanged', parameters)
 
     def _introspect(self):
         return self.__doc__
