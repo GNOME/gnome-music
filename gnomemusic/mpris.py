@@ -24,6 +24,7 @@
 # delete this exception statement from your version.
 
 import logging
+import re
 
 from gi.repository import Gio, GLib
 
@@ -36,6 +37,11 @@ from gnomemusic.utils import View
 import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
+
+
+def camelcase_to_snake_case(name):
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return '_' + re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
 
 class DBusInterface:
@@ -78,7 +84,8 @@ class DBusInterface:
                 fd_list = msg.get_unix_fd_list()
                 args[i] = fd_list.get(args[i])
 
-        result = getattr(self, method_name)(*args)
+        method_snake_name = camelcase_to_snake_case(method_name)
+        result = getattr(self, method_snake_name)(*args)
 
         # out_args is at least (signature1). We therefore always wrap the
         # result as a tuple.
@@ -371,7 +378,7 @@ class MPRIS(DBusInterface):
             current_song_path = self._get_song_dbus_path(
                 self.player.props.current_song)
             self.TrackListReplaced(self._path_list, current_song_path)
-            self.PropertiesChanged(
+            self._properties__changed(
                 MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
                 {'Tracks': GLib.Variant('ao', self._path_list), }, [])
 
@@ -440,10 +447,10 @@ class MPRIS(DBusInterface):
     def _on_current_song_changed(self, player, position):
         self._update_songs_list()
         if self.player.props.repeat_mode == RepeatMode.SONG:
-            self.Seeked(0)
+            self._seeked(0)
 
         metadata = self._get_metadata(self.player.props.current_song)
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'Metadata': GLib.Variant('a{sv}', metadata),
                                    'CanPlay': GLib.Variant('b', True),
@@ -454,7 +461,7 @@ class MPRIS(DBusInterface):
     @log
     def _on_thumbnail_updated(self, player, data=None):
         metadata = self._get_metadata(self.player.props.current_song)
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'Metadata': GLib.Variant('a{sv}', metadata),
                                },
@@ -462,7 +469,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_player_state_changed(self, klass, args):
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
                                },
@@ -471,7 +478,7 @@ class MPRIS(DBusInterface):
     @log
     def _on_repeat_mode_changed(self, player, param):
         self._update_songs_list()
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'LoopStatus': GLib.Variant('s', self._get_loop_status()),
                                    'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
@@ -480,7 +487,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_prev_next_invalidated(self, player, data=None):
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'CanGoNext': GLib.Variant('b', self.player.props.has_next),
                                    'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
@@ -489,7 +496,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_seek_finished(self, player, position_second):
-        self.Seeked(int(position_second * 1e6))
+        self._seeked(int(position_second * 1e6))
 
     @log
     def _on_player_playlist_changed(self, klass):
@@ -498,7 +505,7 @@ class MPRIS(DBusInterface):
         if (self.player.get_playlist_type() == PlayerPlaylist.Type.PLAYLIST
                 or self._player_previous_type == PlayerPlaylist.Type.PLAYLIST):
             variant = GLib.Variant('(b(oss))', self._get_active_playlist())
-            self.PropertiesChanged(
+            self._properties_changed(
                 MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                 {'ActivePlaylist': variant, }, [])
 
@@ -508,7 +515,7 @@ class MPRIS(DBusInterface):
     def _reload_playlists(self):
         def get_playlists_callback(playlists):
             self.playlists = playlists
-            self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+            self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                                    {
                                        'PlaylistCount': GLib.Variant('u', len(playlists)),
                                    },
@@ -524,35 +531,35 @@ class MPRIS(DBusInterface):
     def _on_grilo_ready(self, grilo):
         self._reload_playlists()
 
-    def Raise(self):
+    def _raise(self):
         self.app.do_activate()
 
-    def Quit(self):
+    def _quit(self):
         self.app.quit()
 
-    def Next(self):
+    def _next(self):
         self.player.next()
 
-    def Previous(self):
+    def _previous(self):
         self.player.previous()
 
-    def Pause(self):
+    def _pause(self):
         self.player.pause()
 
-    def PlayPause(self):
+    def _play_pause(self):
         self.player.play_pause()
 
-    def Stop(self):
+    def _stop(self):
         self.player.stop()
 
-    def Play(self):
+    def _play(self):
         """Start or resume playback.
 
         If there is no track to play, this has no effect.
         """
         self.player.play()
 
-    def Seek(self, offset_msecond):
+    def _seek(self, offset_msecond):
         """Seek forward in the current track.
 
         Seek is relative to the current player position.
@@ -569,7 +576,7 @@ class MPRIS(DBusInterface):
         else:
             self.player.next()
 
-    def SetPosition(self, track_id, position_msecond):
+    def _set_position(self, path, position_msecond):
         """Set the current track position in microseconds.
 
         :param str track_id: The currently playing track's identifier
@@ -580,10 +587,10 @@ class MPRIS(DBusInterface):
             return
         self.player.set_position(position_msecond / 1e6)
 
-    def OpenUri(self, uri):
+    def _open_uri(self, uri):
         pass
 
-    def Seeked(self, position_msecond):
+    def _seeked(self, position_msecond):
         """Indicate that the track position has changed.
 
         :param int position_msecond: new position in microseconds.
@@ -593,20 +600,20 @@ class MPRIS(DBusInterface):
             None, '/org/mpris/MediaPlayer2',
             MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
 
-    def GetTracksMetadata(self, track_paths):
+    def _get_tracks_metadata(self, track_paths):
         metadata = []
         for path in track_paths:
             index = self._path_list.index(path)
             metadata.append(self._metadata_list[index])
         return metadata
 
-    def AddTrack(self, uri, after_track, set_as_current):
+    def _add_track(self, uri, after_track, set_as_current):
         pass
 
-    def RemoveTrack(self, path):
+    def _remove_track(self, path):
         pass
 
-    def GoTo(self, path):
+    def _go_to(self, path):
         current_song_path = self._get_song_dbus_path(
             self.player.props.current_song)
         current_song_index = self._path_list.index(current_song_path)
@@ -614,7 +621,7 @@ class MPRIS(DBusInterface):
         self.player.play(goto_index - current_song_index)
         return
 
-    def TrackListReplaced(self, tracks, current_song):
+    def _track_list_replaced(self, tracks, current_song):
         self.con.emit_signal(None,
                              '/org/mpris/MediaPlayer2',
                              MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -622,7 +629,7 @@ class MPRIS(DBusInterface):
                              GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
                                                     GLib.Variant('o', current_song)))
 
-    def TrackAdded(self, metadata, after_track):
+    def _track_added(self, metadata, after_track):
         self.con.emit_signal(None,
                              '/org/mpris/MediaPlayer2',
                              MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -630,13 +637,13 @@ class MPRIS(DBusInterface):
                              GLib.Variant.new_tuple(GLib.Variant('a{sv}', metadata),
                                                     GLib.Variant('o', after_track)))
 
-    def TrackRemoved(self, path):
+    def _track_removed(self, path):
         self.con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackRemoved',
             GLib.Variant.new_tuple(GLib.Variant('o', path)))
 
-    def TrackMetadataChanged(self, path, metadata):
+    def _track_metadata_changed(self, path, metadata):
         self.con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
@@ -644,11 +651,11 @@ class MPRIS(DBusInterface):
             GLib.Variant.new_tuple(
                 GLib.Variant('o', path), GLib.Variant('a{sv}', metadata)))
 
-    def ActivatePlaylist(self, playlist_path):
-        playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
+    def _activate_playlist(self, playlist_path):
+        playlist_id = self._get_playlist_from_path(playlist_path).get_id()
         self.app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
 
-    def GetPlaylists(self, index, max_count, order, reverse):
+    def _get_playlists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':
             return []
         playlists = [(self._get_playlist_dbus_path(playlist),
@@ -664,10 +671,10 @@ class MPRIS(DBusInterface):
                              'PlaylistChanged',
                              GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
 
-    def Get(self, interface_name, property_name):
-        return self.GetAll(interface_name)[property_name]
+    def _get(self, interface_name, property_name):
+        return self._get_all(interface_name)[property_name]
 
-    def GetAll(self, interface_name):
+    def _get_all(self, interface_name):
         if interface_name == MPRIS.MEDIA_PLAYER2_IFACE:
             return {
                 'CanQuit': GLib.Variant('b', True),
@@ -727,7 +734,7 @@ class MPRIS(DBusInterface):
             logger.warning(
                 'MPRIS does not implement {} interface'.format(interface_name))
 
-    def Set(self, interface_name, property_name, new_value):
+    def _set(self, interface_name, property_name, new_value):
         if interface_name == MPRIS.MEDIA_PLAYER2_IFACE:
             if property_name == 'Fullscreen':
                 pass
@@ -750,8 +757,8 @@ class MPRIS(DBusInterface):
             logger.warning(
                 'MPRIS does not implement {} interface'.format(interface_name))
 
-    def PropertiesChanged(self, interface_name, changed_properties,
-                          invalidated_properties):
+    def _properties_changed(self, interface_name, changed_properties,
+                            invalidated_properties):
         self.con.emit_signal(None,
                              '/org/mpris/MediaPlayer2',
                              'org.freedesktop.DBus.Properties',
@@ -760,5 +767,5 @@ class MPRIS(DBusInterface):
                                                     GLib.Variant('a{sv}', changed_properties),
                                                     GLib.Variant('as', invalidated_properties)))
 
-    def Introspect(self):
+    def _introspect(self):
         return self.__doc__
