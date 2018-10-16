@@ -37,7 +37,8 @@ import gnomemusic.utils as utils
 logger = logging.getLogger(__name__)
 
 
-class Server:
+class DBusInterface:
+
     def __init__(self, con, path):
         method_outargs = {}
         method_inargs = {}
@@ -84,7 +85,7 @@ class Server:
             invocation.return_value(None)
 
 
-class MediaPlayer2Service(Server):
+class MediaPlayer2Service(DBusInterface):
     '''
     <!DOCTYPE node PUBLIC '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
     'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>
