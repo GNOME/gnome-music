@@ -46,7 +46,12 @@ def camelcase_to_snake_case(name):
 
 class DBusInterface:
 
-    def __init__(self, con, path):
+    def __init__(self, name, path):
+        self._con = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+        Gio.bus_own_name_on_connection(
+            self._con, name, Gio.BusNameOwnerFlags.NONE, None, None)
+        self._path = path
+
         method_outargs = {}
         method_inargs = {}
         for interface in Gio.DBusNodeInfo.new_for_xml(self.__doc__).interfaces:
@@ -57,8 +62,8 @@ class DBusInterface:
                 method_inargs[method.name] = tuple(
                     arg.signature for arg in method.in_args)
 
-            con.register_object(
-                object_path=path, interface_info=interface,
+            self._con.register_object(
+                object_path=self._path, interface_info=interface,
                 method_call_closure=self.on_method_call)
 
         self._method_inargs = method_inargs
@@ -249,13 +254,9 @@ class MPRIS(DBusInterface):
         return '<MPRIS>'
 
     def __init__(self, app):
-        self.con = Gio.bus_get_sync(Gio.BusType.SESSION, None)
-        Gio.bus_own_name_on_connection(self.con,
-                                       'org.mpris.MediaPlayer2.GnomeMusic',
-                                       Gio.BusNameOwnerFlags.NONE,
-                                       None,
-                                       None)
-        super().__init__(self.con, '/org/mpris/MediaPlayer2')
+        name = 'org.mpris.MediaPlayer2.GnomeMusic'
+        path = '/org/mpris/MediaPlayer2'
+        super().__init__(name, path)
 
         self.app = app
         self.player = app.get_active_window()._player
@@ -631,34 +632,33 @@ class MPRIS(DBusInterface):
         return
 
     def _track_list_replaced(self, tracks, current_song):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackListReplaced',
-                             GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
-                                                    GLib.Variant('o', current_song)))
+        self._con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackListReplaced',
+            GLib.Variant.new_tuple(
+                GLib.Variant('ao', tracks), GLib.Variant('o', current_song)))
 
     def _track_added(self, metadata, after_track):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackAdded',
-                             GLib.Variant.new_tuple(GLib.Variant('a{sv}', metadata),
-                                                    GLib.Variant('o', after_track)))
+        self._con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackAdded',
+            GLib.Variant.new_tuple(
+                GLib.Variant('a{sv}', metadata),
+                GLib.Variant('o', after_track)))
 
     def _track_removed(self, path):
-        self.con.emit_signal(
+        self._con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackRemoved',
             GLib.Variant.new_tuple(GLib.Variant('o', path)))
 
     def _track_metadata_changed(self, path, metadata):
-        self.con.emit_signal(
+        self._con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-            'TrackMetadataChanged',
+            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackMetadataChanged',
             GLib.Variant.new_tuple(
-                GLib.Variant('o', path), GLib.Variant('a{sv}', metadata)))
+                GLib.Variant('o', path),
+                GLib.Variant('a{sv}', metadata)))
 
     def _activate_playlist(self, playlist_path):
         playlist_id = self._get_playlist_from_path(playlist_path).get_id()
@@ -681,11 +681,10 @@ class MPRIS(DBusInterface):
         return playlists[index + max_count - 1:first_index:-1]
 
     def PlaylistChanged(self, playlist):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                             'PlaylistChanged',
-                             GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
+        self._con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, 'PlaylistChanged',
+            GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
 
     def _get(self, interface_name, property_name):
         return self._get_all(interface_name)[property_name]
@@ -772,13 +771,13 @@ class MPRIS(DBusInterface):
 
     def _properties_changed(self, interface_name, changed_properties,
                             invalidated_properties):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             'org.freedesktop.DBus.Properties',
-                             'PropertiesChanged',
-                             GLib.Variant.new_tuple(GLib.Variant('s', interface_name),
-                                                    GLib.Variant('a{sv}', changed_properties),
-                                                    GLib.Variant('as', invalidated_properties)))
+        self._con.emit_signal(
+            None, '/org/mpris/MediaPlayer2', 'org.freedesktop.DBus.Properties',
+            'PropertiesChanged',
+            GLib.Variant.new_tuple(
+                GLib.Variant('s', interface_name),
+                GLib.Variant('a{sv}', changed_properties),
+                GLib.Variant('as', invalidated_properties)))
 
     def _introspect(self):
         return self.__doc__
