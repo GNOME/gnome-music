@@ -588,8 +588,6 @@ class Player(GObject.GObject):
     @log
     def _on_eos(self, klass, gapless=False):
         print("eos, gapless:", gapless)
-        def on_glib_idle():
-            self.play()
 
         if self.props.has_next:
             self._playlist.next()
@@ -597,7 +595,7 @@ class Player(GObject.GObject):
                 new_url = self._playlist.props.current_song.get_url()
                 self._player.props.url = new_url
             else:
-                GLib.idle_add(on_glib_idle)
+                GLib.idle_add(self.play)
         else:
             GLib.idle_add(self.stop)
 
