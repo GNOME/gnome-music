@@ -123,6 +123,7 @@ class SmoothScale(Gtk.Scale):
             self.set_increments(300, 600)
             self.set_value(0)
             self._on_button_pressed(None, None, None, None)
+            self._on_state_change(None, None)
 
     @log
     def _on_smooth_scale_seek_finish(self, value):
