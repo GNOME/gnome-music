@@ -83,6 +83,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('song-changed', self._update_view)
         self._player.connect('prev-next-invalidated', self._sync_prev_next)
+        self._player.connect('notify::duration', self._on_duration_changed)
         self._player.connect('notify::repeat-mode', self._sync_repeat_image)
         self._player.connect('notify::state', self._sync_playing)
 
@@ -149,6 +150,14 @@ class PlayerToolbar(Gtk.ActionBar):
         self._prev_button.props.sensitive = self._player.props.has_previous
 
     @log
+    def _on_duration_changed(self, klass, data=None):
+        duration = klass.props.duration
+
+        if duration != -1:
+            self._duration_label.set_label(
+                utils.seconds_to_string(int(duration)))
+
+    @log
     def _update_view(self, player, position):
         """Updates model when the song changes
 
@@ -156,10 +165,6 @@ class PlayerToolbar(Gtk.ActionBar):
         :param int position: current song position
         """
         current_song = player.props.current_song
-        duration = player.props.duration
-        if duration != -1:
-            self._duration_label.set_label(
-                utils.seconds_to_string(int(duration)))
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
