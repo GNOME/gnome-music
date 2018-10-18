@@ -101,7 +101,7 @@ class SmoothScale(Gtk.Scale):
             self.props.sensitive = True
 
         if state == Playback.PLAYING:
-            self._update_timeout()
+            self._update_position_callback()
         else:
             self._remove_timeout()
 
