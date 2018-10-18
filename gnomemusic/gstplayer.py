@@ -261,7 +261,6 @@ class GstPlayer(GObject.GObject):
         :rtype: float
         """
         position = self._player.query_position(Gst.Format.TIME)[1] / Gst.SECOND
-
         return position
 
     @GObject.Property(type=float)
