@@ -637,7 +637,6 @@ class Player(GObject.GObject):
         position = self._player.position
         if position >= 5:
             self._player.seek(0)
-            self._player.state = Playback.PLAYING
             return
 
         if self._playlist.previous():
