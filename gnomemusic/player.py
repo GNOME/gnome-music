@@ -574,12 +574,12 @@ class Player(GObject.GObject):
 
     @log
     def _load(self, song):
-        self._gst_player.state = Playback.LOADING
+        self._gst_player.props.state = Playback.LOADING
         self._time_stamp = int(time.time())
 
         url_ = song.get_url()
-        if url_ != self._gst_player.url:
-            self._gst_player.url = url_
+        if url_ != self._gst_player.props.url:
+            self._gst_player.props.url = url_
 
         self.emit('song-changed', self._playlist.get_current_index())
 
@@ -607,17 +607,17 @@ class Player(GObject.GObject):
         if self.props.state != Playback.PAUSED:
             self._load(self._playlist.props.current_song)
 
-        self._gst_player.state = Playback.PLAYING
+        self._gst_player.props.state = Playback.PLAYING
 
     @log
     def pause(self):
         """Pause"""
-        self._gst_player.state = Playback.PAUSED
+        self._gst_player.props.state = Playback.PAUSED
 
     @log
     def stop(self):
         """Stop"""
-        self._gst_player.state = Playback.STOPPED
+        self._gst_player.props.state = Playback.STOPPED
 
     @log
     def next(self):
@@ -634,7 +634,7 @@ class Player(GObject.GObject):
 
         Play the previous song of the playlist, if any.
         """
-        position = self._gst_player.position
+        position = self._gst_player.props.position
         if position >= 5:
             self.set_position(0.0)
             return
@@ -731,7 +731,7 @@ class Player(GObject.GObject):
     @log
     def _on_clock_tick(self, klass, tick):
         logger.debug("Clock tick {}, player at {} seconds".format(
-            tick, self._gst_player.position))
+            tick, self._gst_player.props.position))
 
         current_song = self._playlist.props.current_song
 
@@ -742,7 +742,7 @@ class Player(GObject.GObject):
         if self.props.duration == -1.:
             return
 
-        position = self._gst_player.position
+        position = self._gst_player.props.position
         if position > 0:
             percentage = tick / self.props.duration
             if (not self._lastfm.scrobbled
@@ -809,7 +809,7 @@ class Player(GObject.GObject):
         :returns: position
         :rtype: float
         """
-        return self._gst_player.position
+        return self._gst_player.props.position
 
     # TODO: used by MPRIS
     @log
@@ -830,11 +830,11 @@ class Player(GObject.GObject):
 
     @log
     def get_volume(self):
-        return self._gst_player.volume
+        return self._gst_player.props.volume
 
     @log
     def set_volume(self, rate):
-        self._gst_player.volume = rate
+        self._gst_player.props.volume = rate
         self.emit('volume-changed')
 
     @log
