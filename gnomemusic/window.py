@@ -284,7 +284,9 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_key_press(self, widget, event):
-        modifiers = event.get_state()
+        # Only check alt, ctrl and shift modifier
+        default_modifiers = Gtk.accelerator_get_default_mod_mask()
+        modifiers = event.get_state() & default_modifiers
         (_, keyval) = event.get_keyval()
 
         control_mask = Gdk.ModifierType.CONTROL_MASK
