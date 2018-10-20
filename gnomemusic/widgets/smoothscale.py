@@ -109,7 +109,7 @@ class SmoothScale(Gtk.Scale):
 
     @log
     def _on_duration_changed(self, klass, arguments):
-        duration = self._player.duration
+        duration = self._player.props.duration
 
         if duration != -1.:
             self.set_range(0.0, duration * 60)
@@ -173,7 +173,7 @@ class SmoothScale(Gtk.Scale):
         """
         # Do not run until SmoothScale has been realized and GStreamer
         # provides a duration.
-        duration = self._player.duration
+        duration = self._player.props.duration
         if (self.get_realized() is False
                 or duration == -1.):
             return
