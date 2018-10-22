@@ -888,6 +888,7 @@ class Player(GObject.GObject):
             position_second = 0.0
 
         duration_second = self._gst_player.props.duration
+        print("SEEK:", position_second, duration_second)
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
             self.emit('seek-finished', position_second)
