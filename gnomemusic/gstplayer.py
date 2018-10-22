@@ -338,6 +338,11 @@ class GstPlayer(GObject.GObject):
         """
         print("seek", seconds)
         # FIXME: seek should be signalled to MPRIS
+        delta = self.props.duration - seconds
+        print("DELTA", delta)
+        if delta == 0:
+            seconds = seconds - 1
+
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * Gst.SECOND)
