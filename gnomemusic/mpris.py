@@ -398,15 +398,23 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_active_playlist(self):
-        playlist = None
-        playlist_name = ''
-        if self.player.get_playlist_type() == PlayerPlaylist.Type.PLAYLIST:
-            playlist = self._get_playlist_from_id(
-                self.player.get_playlist_id())
-            playlist_name = utils.get_media_title(playlist)
+        """Get Active Maybe_Playlist
 
+        Maybe_Playlist is a structure describing a playlist, or nothing
+        according to MPRIS specifications.
+        If a playlist is active, return True and its description
+        (path, name and icon).
+        If no playlist is active, return False and an undefined structure.
+        :returns: playlist existence and its structure
+        :rtype: tuple
+        """
+        if self.player.get_playlist_type() != PlayerPlaylist.Type.PLAYLIST:
+            return (False, ("/", "", ""))
+
+        playlist = self._get_playlist_from_id(self.player.get_playlist_id())
+        playlist_name = utils.get_media_title(playlist)
         path = self._get_playlist_path(playlist)
-        return (playlist is not None, (path, playlist_name, ''))
+        return (True, (path, playlist_name, ""))
 
     @log
     def _on_current_song_changed(self, player, position):
