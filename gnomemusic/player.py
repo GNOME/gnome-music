@@ -597,7 +597,7 @@ class Player(GObject.GObject):
     @log
     def play(self, song_index=None):
         """Play"""
-        if not self._playlist:
+        if self.props.current_song is None:
             return
 
         if (song_index is not None
@@ -779,8 +779,6 @@ class Player(GObject.GObject):
         :returns: the song being played. None if there is no playlist.
         :rtype: Grl.Media
         """
-        if not self._playlist:
-            return None
         return self._playlist.props.current_song
 
     @log
