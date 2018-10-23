@@ -37,7 +37,7 @@ from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
 from gnomemusic.inhibitsuspend import InhibitSuspend
-from gnomemusic.mpris import MediaPlayer2Service
+from gnomemusic.mpris import MPRIS
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.widgets.aboutdialog import AboutDialog
@@ -137,7 +137,7 @@ class Application(Gtk.Application):
             self._window.set_default_icon_name(self.props.application_id)
             if self.props.application_id == 'org.gnome.MusicDevel':
                 self._window.get_style_context().add_class('devel')
-            MediaPlayer2Service(self)
+            MPRIS(self)
 
         # gtk_window_present does not work on Wayland.
         # Use gtk_present_with_time as a workaround instead.
