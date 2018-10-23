@@ -477,25 +477,19 @@ class MediaPlayer2Service(Server):
 
     @log
     def _on_player_playlist_changed(self, klass):
-        self._on_player_playlist_modified()
-
-        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                               {
-                                'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
-                               },
-                               [])
-
-    @log
-    def _on_player_playlist_modified(self, path=None, _iter=None, data=None):
         if self.player.props.current_song:
             track_list = self._get_track_list()
             self.TrackListReplaced(
                 track_list, self._get_media_id(self.player.props.current_song))
-            self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                                   {
-                                       'Tracks': GLib.Variant('ao', track_list),
-                                   },
-                                   [])
+            self.PropertiesChanged(
+                MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
+                {'Tracks': GLib.Variant('ao', track_list), }, [])
+
+        active_playlist = self._get_active_playlist()
+        self.PropertiesChanged(
+            MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+            {'ActivePlaylist': GLib.Variant('(b(oss))', active_playlist), },
+            [])
 
     @log
     def _reload_playlists(self):
