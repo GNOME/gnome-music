@@ -1,3 +1,22 @@
+Overview of changes in 3.30.2
+=============================
+
+* Delayed loading of remote cover art
+* Fix keyboard shortcuts
+* Flatpak fixes
+
+Bugs fixed:
+ flatpak: Grilo lua plugin support is disabled (#226)
+ Almost none of the keyboard shortcuts work (#238)
+
+Thanks to our contributors this release:
+ Christophe van den Abbeele
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Serbian
+
 Overview of changes in 3.30.1
 =============================
 
