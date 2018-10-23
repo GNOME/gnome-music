@@ -239,7 +239,6 @@ class MediaPlayer2Service(Server):
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
         grilo.connect('ready', self._on_grilo_ready)
         self.playlists = []
-        self.first_song_handler = 0
         self._player_previous_type = None
 
     @log
@@ -473,14 +472,6 @@ class MediaPlayer2Service(Server):
                                [])
 
     @log
-    def _play_first_song(self, model, path, iter_, data=None):
-        if self.first_song_handler:
-            model.disconnect(self.first_song_handler)
-            self.first_song_handler = 0
-        self.player.set_playlist(PlayerPlaylist.Type.SONGS, None, model, iter_)
-        self.player.play()
-
-    @log
     def _on_seek_finished(self, player, position_second):
         self.Seeked(int(position_second * 1e6))
 
@@ -545,17 +536,11 @@ class MediaPlayer2Service(Server):
         self.player.stop()
 
     def Play(self):
-        if self.player.get_songs():
-            self.player.play()
-        elif self.first_song_handler == 0:
-            window = self.app.get_active_window()
-            window._stack.set_visible_child(window.views[View.SONG])
-            model = window.views[View.SONG].model
-            if model.iter_n_children(None):
-                _iter = model.get_iter_first()
-                self._play_first_song(model, model.get_path(_iter), _iter)
-            else:
-                self.first_song_handler = model.connect('row-inserted', self._play_first_song)
+        """Start or resume playback.
+
+        If there is no track to play, this has no effect.
+        """
+        self.player.play()
 
     def Seek(self, offset_msecond):
         """Seek forward in the current track.
