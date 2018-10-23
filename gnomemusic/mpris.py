@@ -229,7 +229,8 @@ class MediaPlayer2Service(Server):
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seek-finished', self._on_seek_finished)
-        self.player.connect('playlist-changed', self._on_playlist_changed)
+        self.player.connect(
+            'playlist-changed', self._on_player_playlist_changed)
         self.player_toolbar = app.get_active_window()._player_toolbar
         self.player_toolbar.connect(
             'thumbnail-updated', self._on_thumbnail_updated)
@@ -475,8 +476,8 @@ class MediaPlayer2Service(Server):
         self.Seeked(int(position_second * 1e6))
 
     @log
-    def _on_playlist_changed(self, player, data=None):
-        self._on_playlist_modified()
+    def _on_player_playlist_changed(self, klass):
+        self._on_player_playlist_modified()
 
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                                {
@@ -485,7 +486,7 @@ class MediaPlayer2Service(Server):
                                [])
 
     @log
-    def _on_playlist_modified(self, path=None, _iter=None, data=None):
+    def _on_player_playlist_modified(self, path=None, _iter=None, data=None):
         if self.player.props.current_song:
             track_list = self._get_track_list()
             self.TrackListReplaced(
