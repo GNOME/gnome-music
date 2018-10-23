@@ -240,6 +240,7 @@ class MediaPlayer2Service(Server):
         grilo.connect('ready', self._on_grilo_ready)
         self.playlists = []
         self.first_song_handler = 0
+        self._player_previous_type = None
 
     @log
     def _get_playback_status(self):
@@ -493,11 +494,14 @@ class MediaPlayer2Service(Server):
                 MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
                 {'Tracks': GLib.Variant('ao', track_list), }, [])
 
-        active_playlist = self._get_active_playlist()
-        self.PropertiesChanged(
-            MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-            {'ActivePlaylist': GLib.Variant('(b(oss))', active_playlist), },
-            [])
+        if (self.player.get_playlist_type() == PlayerPlaylist.Type.PLAYLIST
+                or self._player_previous_type == PlayerPlaylist.Type.PLAYLIST):
+            variant = GLib.Variant('(b(oss))', self._get_active_playlist())
+            self.PropertiesChanged(
+                MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                {'ActivePlaylist':  variant, }, [])
+
+        self._player_previous_type = klass.get_playlist_type()
 
     @log
     def _reload_playlists(self):
