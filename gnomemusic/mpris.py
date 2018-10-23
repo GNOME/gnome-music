@@ -605,7 +605,7 @@ class MediaPlayer2Service(Server):
     def GoTo(self, track_id):
         for index, song in enumerate(self.player.get_songs()):
             if track_id == self._get_media_id(song[PlayerField.SONG]):
-                self.player_play(index)
+                self.player.play(index)
                 return
 
     def TrackListReplaced(self, tracks, current_song):
