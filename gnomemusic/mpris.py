@@ -23,8 +23,6 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import codecs
-
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerField, PlayerPlaylist, RepeatMode
 from gnomemusic.grilo import grilo
@@ -349,13 +347,11 @@ class MediaPlayer2Service(Server):
         :return: a D-Bus id to uniquely identify the song
         :rtype: str
         """
-        if media:
-            path = "/org/gnome/GnomeMusic/Tracklist/{}".format(
-                codecs.encode(
-                    bytes(media.get_id(), 'ascii'), 'hex').decode('ascii'))
-        else:
-            path = "/org/mpris/MediaPlayer2/TrackList/NoTrack"
+        if not media:
+            return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
+        id_hex = media.get_id().encode('ascii').hex()
+        path = "/org/gnome/GnomeMusic/Tracklist/{}".format(id_hex)
         return path
 
     @log
@@ -392,7 +388,7 @@ class MediaPlayer2Service(Server):
     @log
     def _get_playlist_from_dbus_path(self, playlist_path):
         for playlist in self.playlists:
-            if playlist_path == self._get_playlist_path(playlist):
+            if playlist_path == self._get_playlist_dbus_path(playlist):
                 return playlist
         return None
 
@@ -432,7 +428,7 @@ class MediaPlayer2Service(Server):
 
         playlist = self._get_playlist_from_id(self.player.get_playlist_id())
         playlist_name = utils.get_media_title(playlist)
-        path = self._get_playlist_path(playlist)
+        path = self._get_playlist_dbus_path(playlist)
         return (True, (path, playlist_name, ""))
 
     @log
