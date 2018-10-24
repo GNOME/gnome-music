@@ -238,6 +238,8 @@ class MediaPlayer2Service(Server):
         grilo.connect('ready', self._on_grilo_ready)
         self.playlists = []
         self._player_previous_type = None
+        self._path_list = []
+        self._metadata_list = []
 
     @log
     def _get_playback_status(self):
@@ -355,20 +357,15 @@ class MediaPlayer2Service(Server):
         return path
 
     @log
-    def _get_song_from_dbus_path(self, path):
+    def _update_songs_list(self):
+        self._path_list = []
+        self._metadata_list = []
         for item in self.player.get_songs():
             song = item[PlayerField.SONG]
-            if path == self._get_song_dbus_path(song):
-                return song
-        return None
-
-    @log
-    def _get_track_list(self):
-        if self.player.props.playing:
-            return [self._get_song_dbus_path(song[PlayerField.SONG])
-                    for song in self.player.get_songs()]
-        else:
-            return []
+            path = self._get_song_dbus_path(song)
+            metadata = self._get_metadata(song)
+            self._path_list.append(path)
+            self._metadata_list.append(metadata)
 
     @log
     def _get_playlist_dbus_path(self, playlist):
@@ -492,14 +489,15 @@ class MediaPlayer2Service(Server):
 
     @log
     def _on_player_playlist_changed(self, klass):
+        self._update_songs_list()
+
         if self.player.props.current_song:
-            track_list = self._get_track_list()
             current_song_path = self._get_song_dbus_path(
                 self.player.props.current_song)
-            self.TrackListReplaced(track_list, current_song_path)
+            self.TrackListReplaced(self._path_list, current_song_path)
             self.PropertiesChanged(
                 MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                {'Tracks': GLib.Variant('ao', track_list), }, [])
+                {'Tracks': GLib.Variant('ao', self._path_list), }, [])
 
         if (self.player.get_playlist_type() == PlayerPlaylist.Type.PLAYLIST
                 or self._player_previous_type == PlayerPlaylist.Type.PLAYLIST):
@@ -601,8 +599,8 @@ class MediaPlayer2Service(Server):
     def GetTracksMetadata(self, track_paths):
         metadata = []
         for path in track_paths:
-            media = self._get_song_from_dbus_path(path)
-            metadata.append(self._get_metadata(media))
+            index = self._path_list.index(path)
+            metadata.append(self._metadata_list[index])
         return metadata
 
     def AddTrack(self, uri, after_track, set_as_current):
@@ -612,10 +610,9 @@ class MediaPlayer2Service(Server):
         pass
 
     def GoTo(self, path):
-        for index, song in enumerate(self.player.get_songs()):
-            if path == self._get_song_dbus_path(song[PlayerField.SONG]):
-                self.player.play(index)
-                return
+        index = self.path_list.index(path)
+        self.player.play(index)
+        return
 
     def TrackListReplaced(self, tracks, current_song):
         self.con.emit_signal(None,
@@ -711,7 +708,7 @@ class MediaPlayer2Service(Server):
             }
         elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE:
             return {
-                'Tracks': GLib.Variant('ao', self._get_track_list()),
+                'Tracks': GLib.Variant('ao', self._path_list),
                 'CanEditTracks': GLib.Variant('b', False)
             }
         elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE:
