@@ -24,7 +24,7 @@
 # delete this exception statement from your version.
 
 from gnomemusic.gstplayer import Playback
-from gnomemusic.player import PlayerField, PlayerPlaylist, RepeatMode
+from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.utils import View
@@ -360,8 +360,7 @@ class MediaPlayer2Service(Server):
     def _update_songs_list(self):
         self._path_list = []
         self._metadata_list = []
-        for item in self.player.get_songs():
-            song = item[PlayerField.SONG]
+        for song in self.player.get_songs():
             path = self._get_song_dbus_path(song)
             metadata = self._get_metadata(song)
             self._path_list.append(path)
