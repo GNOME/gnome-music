@@ -480,13 +480,11 @@ class PlayerPlaylist(GObject.GObject):
     def get_songs(self):
         """Get the current playlist.
 
-        Each member of the list has two elements: the song, and the validation
-        status.
-
         :returns: current playlist
-        :rtype: list
+        :rtype: list of Grl.Media
         """
-        return self._songs
+        songs = [elt[PlayerField.SONG] for elt in self._songs]
+        return songs
 
 
 class Player(GObject.GObject):
@@ -837,4 +835,9 @@ class Player(GObject.GObject):
 
     @log
     def get_songs(self):
+        """Get the current playlist.
+
+        :returns: current playlist
+        :rtype: list of Grl.Media
+        """
         return self._playlist.get_songs()
