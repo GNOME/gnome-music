@@ -351,7 +351,7 @@ class MediaPlayer2Service(Server):
             return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
         id_hex = media.get_id().encode('ascii').hex()
-        path = "/org/gnome/GnomeMusic/Tracklist/{}".format(id_hex)
+        path = "/org/gnome/GnomeMusic/TrackList/{}".format(id_hex)
         return path
 
     @log
