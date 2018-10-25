@@ -600,7 +600,7 @@ class Player(GObject.GObject):
         if not self._playlist:
             return
 
-        if (song_index
+        if (song_index is not None
                 and not self._playlist.set_song(song_index)):
             return False
 
