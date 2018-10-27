@@ -92,7 +92,7 @@ class Window(Gtk.ApplicationWindow):
 
         MediaKeys(self._player, self)
 
-        #grilo.connect('changes-pending', self._on_changes_pending)
+        grilo.connect('changes-pending', self._on_changes_pending)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -227,8 +227,6 @@ class Window(Gtk.ApplicationWindow):
         # to window._stack. For this to succeed, the stack needs to be
         # filled with something: Gtk.Box.
         # This is a bit of circular logic that needs to be fixed.
-        print(len(self.views))
-        print(len(View))
         self.views[View.ALBUM] = Gtk.Box()
         self.views[View.ARTIST] = Gtk.Box()
         self.views[View.SONG] = Gtk.Box()
@@ -271,12 +269,11 @@ class Window(Gtk.ApplicationWindow):
     def _search_view_changed(self, action, param):
         searchview_state = self.views[View.SEARCH].get_property("state")
 
-        self._searchbar._search_entry.get_style_context().remove_class('error')
-        
+        self._searchbar.error_style(False)
         if searchview_state == Search.State.NONE:
             self._searchbar.reveal(False)
         elif searchview_state == Search.State.NO_RESULT:
-            self._searchbar._search_entry.get_style_context().add_class('error')
+            self._searchbar.error_style(True)
             self._stack.set_visible_child_name("emptyview")
 
     @log
