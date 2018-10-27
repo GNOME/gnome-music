@@ -396,6 +396,17 @@ class Searchbar(Gtk.SearchBar):
             self._drop_down_button.set_active(False)
 
     @log
+    def error_style(self, error):
+        """Adds error state to searchbar.
+
+        :param bool error: Whether to add error state
+        """
+        if error:
+            self._search_entry.get_style_context().add_class('error')
+        else:
+            self._search_entry.get_style_context().remove_class('error')
+
+    @log
     def toggle(self):
         """Toggle the searchbar showing"""
         self.reveal(not self.get_search_mode())

@@ -24,6 +24,7 @@
 
 from enum import IntEnum
 
+
 class Search():
 
     class State(IntEnum):
