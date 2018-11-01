@@ -260,6 +260,9 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.set_visible_child(self.views[View.ALBUM])
 
+        self.views[View.SEARCH].bind_property(
+            'search-state', self._searchbar, 'search-state')
+
     @log
     def _select_all(self, action=None, param=None):
         if not self.props.selection_mode:

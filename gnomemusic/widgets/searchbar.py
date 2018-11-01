@@ -35,6 +35,7 @@ from gi.repository.Gd import TaggedEntry  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.search import Search
 
 
 class BaseModelColumns(IntEnum):
@@ -318,6 +319,8 @@ class DropDown(Gtk.Revealer):
 class Searchbar(Gtk.SearchBar):
     """Widget containing the search entry
     """
+
+    search_state = GObject.Property(type=int)
 
     __gtype_name__ = 'Searchbar'
 
