@@ -341,7 +341,7 @@ class Searchbar(Gtk.SearchBar):
 
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
-        self.connect('notify::search-state', self.search_view_changed_cb)
+        self.connect('notify::search-state', self._search_state_changed_cb)
 
     @Gtk.Template.Callback()
     @log
@@ -399,13 +399,27 @@ class Searchbar(Gtk.SearchBar):
         else:
             self._drop_down_button.set_active(False)
 
-    def search_view_changed_cb(self, action, param):
-        search_state = self.get_property("search_state")
+    def _search_state_changed_cb(self, action, param):
+        search_state = self.props.search_state
+        self._error_style(False)
 
         if search_state == Search.State.NONE:
             self.reveal(False)
         elif search_state == Search.State.NO_RESULT:
+            self._error_style(True)
             self.props.stack.set_visible_child_name("emptyview")
+
+    @log
+    def _error_style(self, error):
+        """Adds error state to searchbar.
+
+        :param bool error: Whether to add error state
+        """
+        style_context = self._search_entry.get_style_context()
+        if error:
+            style_context.add_class('error')
+        else:
+            style_context.remove_class('error')
 
     @log
     def toggle(self):
