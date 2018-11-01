@@ -401,11 +401,24 @@ class Searchbar(Gtk.SearchBar):
 
     def search_view_changed_cb(self, action, param):
         search_state = self.get_property("search_state")
+        self.error_style(False)
 
         if search_state == Search.State.NONE:
             self.reveal(False)
         elif search_state == Search.State.NO_RESULT:
+            self.error_style(True)
             self.props.stack.set_visible_child_name("emptyview")
+
+    @log
+    def error_style(self, error):
+        """Adds error state to searchbar.
+
+        :param bool error: Whether to add error state
+        """
+        if error:
+            self._search_entry.get_style_context().add_class('error')
+        else:
+            self._search_entry.get_style_context().remove_class('error')
 
     @log
     def toggle(self):
