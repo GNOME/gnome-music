@@ -341,6 +341,7 @@ class Searchbar(Gtk.SearchBar):
 
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
+        self.connect('notify::search-state', self.search_view_changed_cb)
 
     @Gtk.Template.Callback()
     @log
@@ -397,6 +398,14 @@ class Searchbar(Gtk.SearchBar):
             self._search_entry.grab_focus()
         else:
             self._drop_down_button.set_active(False)
+
+    def search_view_changed_cb(self, action, param):
+        search_state = self.get_property("search_state")
+
+        if search_state == Search.State.NONE:
+            self.reveal(False)
+        elif search_state == Search.State.NO_RESULT:
+            self.props.stack.set_visible_child_name("emptyview")
 
     @log
     def toggle(self):
