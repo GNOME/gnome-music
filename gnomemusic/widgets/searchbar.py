@@ -373,6 +373,8 @@ class Searchbar(Gtk.SearchBar):
             self.props.stack.set_visible_child_name('search')
             view = self.props.stack.get_visible_child()
             view.set_search_text(search_term, fields_filter)
+        else:
+            self._error_style(False)
 
         self._drop_down_button.set_active(False)
         self._dropdown.set_reveal_child(False)
@@ -403,7 +405,23 @@ class Searchbar(Gtk.SearchBar):
         if search_state == Search.State.NONE:
             self.reveal(False)
         elif search_state == Search.State.NO_RESULT:
-            self.props.stack.set_visible_child_name('emptyview')
+            self._error_style(True)
+            self.props.stack.props.visible_child_name = 'emptyview'
+        else:
+            self._error_style(False)
+            self.props.stack.props.visible_child_name = 'search'
+
+    @log
+    def _error_style(self, error):
+        """Adds error state to searchbar.
+
+        :param bool error: Whether to add error state
+        """
+        style_context = self._search_entry.get_style_context()
+        if error:
+            style_context.add_class('error')
+        else:
+            style_context.remove_class('error')
 
     @log
     def toggle(self):
