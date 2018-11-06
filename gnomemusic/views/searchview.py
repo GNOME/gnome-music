@@ -34,6 +34,7 @@ from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.utils import View
+from gnomemusic.search import Search
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumwidget import AlbumWidget
@@ -45,9 +46,7 @@ playlists = Playlists.get_default()
 
 class SearchView(BaseView):
 
-    __gsignals__ = {
-        'no-music-found': (GObject.SignalFlags.RUN_FIRST, None, ())
-    }
+    search_state = GObject.Property(type=int)
 
     def __repr__(self):
         return '<SearchView>'
@@ -65,7 +64,6 @@ class SearchView(BaseView):
         self._filter_model = None
 
         self.previous_view = None
-        self.connect('no-music-found', self._no_music_found_callback)
 
         self._albums_selected = []
         self._albums = {}
@@ -99,11 +97,6 @@ class SearchView(BaseView):
         self._view.connect('button-release-event', self._on_view_clicked)
 
         view_container.add(self._view)
-
-    @log
-    def _no_music_found_callback(self, view):
-        # FIXME: call into private members
-        self._window._stack.set_visible_child_name("emptyview")
 
     @log
     def _back_button_clicked(self, widget, data=None):
@@ -145,7 +138,8 @@ class SearchView(BaseView):
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
-            self._searchbar.reveal(False)
+            self.props.search_state = Search.State.NONE
+
         elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
             albums = self._artists[artist.casefold()]['albums']
@@ -164,7 +158,7 @@ class SearchView(BaseView):
             self._headerbar.props.state = HeaderBar.State.SEARCH
             self._headerbar.props.title = artist
             self.set_visible_child(self._artist_albums_widget)
-            self._searchbar.reveal(False)
+            self.props.search_state = Search.State.NONE
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
@@ -225,7 +219,7 @@ class SearchView(BaseView):
         if not item:
             if (grilo._search_callback_counter == 0
                     and grilo.search_source):
-                self.emit('no-music-found')
+                self.props.search_state = Search.State.NO_RESULT
             return
 
         if data != self.model:
@@ -270,11 +264,13 @@ class SearchView(BaseView):
             + self.model.iter_n_children(self._head_iters[3])
         )
 
-        if (category == 'song'
-                and self._items_found == 0
-                and remaining == 0):
-            if grilo.search_source:
-                self.emit('no-music-found')
+        if (category == 'song'):
+            if remaining != 0:
+                self.props.search_state = Search.State.RESULT
+            else:
+                if self._items_found == 0:
+                    if grilo.search_source:
+                        self.props.search_state = Search.State.NO_RESULT
 
         # We need to remember the view before the search view
         emptysearchview = self._window.views[View.EMPTY]
