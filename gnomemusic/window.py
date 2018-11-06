@@ -37,7 +37,6 @@ from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import Player, RepeatMode
 from gnomemusic.query import Query
 from gnomemusic.utils import View
-from gnomemusic.search import Search
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
@@ -261,16 +260,8 @@ class Window(Gtk.ApplicationWindow):
 
         self._stack.set_visible_child(self.views[View.ALBUM])
 
-        self.views[View.SEARCH].connect(
-            'notify::search-state', self._search_view_changed)
-
-    def _search_view_changed(self, action=None, param=None):
-        searchview_state = self.views[View.SEARCH].get_property("search-state")
-
-        if searchview_state == Search.State.NONE:
-            self._searchbar.reveal(False)
-        elif searchview_state == Search.State.NO_RESULT:
-            self._stack.set_visible_child_name("emptyview")
+        self.views[View.SEARCH].bind_property(
+            'search-state', self._searchbar, 'search-state')
 
     @log
     def _select_all(self, action=None, param=None):

@@ -1,4 +1,4 @@
-
+# Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>
 # Copyright (c) 2013 Vadim Rutkovsky <vrutkovs@redhat.com>
 # Copyright (c) 2014 Arnel A. Borja <kyoushuu@yahoo.com>
 #
@@ -35,6 +35,7 @@ from gi.repository.Gd import TaggedEntry  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.search import Search
 
 
 class BaseModelColumns(IntEnum):
@@ -324,6 +325,7 @@ class Searchbar(Gtk.SearchBar):
     _search_entry = Gtk.Template.Child()
     _drop_down_button = Gtk.Template.Child()
 
+    search_state = GObject.Property(type=int)
     stack = GObject.Property(type=Gtk.Stack)
 
     def __repr__(self):
@@ -338,6 +340,7 @@ class Searchbar(Gtk.SearchBar):
 
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
+        self.connect('notify::search-state', self._search_state_changed_cb)
 
     @Gtk.Template.Callback()
     @log
@@ -394,6 +397,14 @@ class Searchbar(Gtk.SearchBar):
             self._search_entry.grab_focus()
         else:
             self._drop_down_button.set_active(False)
+
+    def _search_state_changed_cb(self, action, param):
+        search_state = self.props.search_state
+
+        if search_state == Search.State.NONE:
+            self.reveal(False)
+        elif search_state == Search.State.NO_RESULT:
+            self.props.stack.set_visible_child_name('emptyview')
 
     @log
     def toggle(self):
