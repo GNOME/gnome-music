@@ -1,4 +1,4 @@
-# Copyright (c) 2013 Seif Lotfy <seif@lotfy.com>
+
 # Copyright (c) 2013 Vadim Rutkovsky <vrutkovs@redhat.com>
 # Copyright (c) 2014 Arnel A. Borja <kyoushuu@yahoo.com>
 #
