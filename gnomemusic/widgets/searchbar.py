@@ -364,6 +364,7 @@ class Searchbar(Gtk.SearchBar):
     @log
     def _search_entry_changed(self, widget):
         self._timeout = None
+        self._error_style(False)
 
         search_term = self._search_entry.get_text()
         if grilo.search_source:
@@ -404,7 +405,20 @@ class Searchbar(Gtk.SearchBar):
         if search_state == Search.State.NONE:
             self.reveal(False)
         elif search_state == Search.State.NO_RESULT:
-            self.props.stack.set_visible_child_name('emptyview')
+            self._error_style(True)
+            self.props.stack.props.visible_child_name = 'emptyview'
+
+    @log
+    def _error_style(self, error):
+        """Adds error state to searchbar.
+
+        :param bool error: Whether to add error state
+        """
+        style_context = self._search_entry.get_style_context()
+        if error:
+            style_context.add_class('error')
+        else:
+            style_context.remove_class('error')
 
     @log
     def toggle(self):
