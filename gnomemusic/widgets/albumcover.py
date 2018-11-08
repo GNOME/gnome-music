@@ -105,7 +105,7 @@ class AlbumCover(Gtk.FlowBoxChild):
             50 * self._nr_albums, self._cover_stack.update, media,
             priority=GLib.PRIORITY_LOW)
 
-    @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
+    @GObject.Property(type=Grl.Media)
     def media(self):
         """Media item used in AlbumCover
 
@@ -113,6 +113,11 @@ class AlbumCover(Gtk.FlowBoxChild):
         :rtype: Grl.Media
         """
         return self._media
+
+    @media.setter
+    def media(self, media):
+        self._media = media
+        self._cover_stack.update(self._media)
 
     @Gtk.Template.Callback()
     @log

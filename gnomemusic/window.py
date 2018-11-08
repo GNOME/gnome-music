@@ -29,7 +29,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk, Gdk, Gio, GLib, GObject
+from gi.repository import Gtk, Gdk, Gio, GLib, GObject, Grl
 from gettext import gettext as _
 
 from gnomemusic import log
@@ -43,6 +43,7 @@ from gnomemusic.views.emptyview import EmptyView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
+from gnomemusic.widgets.albumeditordialog import AlbumEditorDialog
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
@@ -52,6 +53,7 @@ from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.windowplacement import WindowPlacement
 from gnomemusic.playlists import Playlists
 from gnomemusic.grilo import grilo
+import gnomemusic.utils as utils
 
 import logging
 logger = logging.getLogger(__name__)
@@ -122,7 +124,7 @@ class Window(Gtk.ApplicationWindow):
         self._searchbar = Searchbar()
         self._player = Player(self)
         self._player_toolbar = PlayerToolbar(self._player, self)
-        selection_toolbar = SelectionToolbar()
+        selection_toolbar = SelectionToolbar(self)
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
@@ -178,6 +180,7 @@ class Window(Gtk.ApplicationWindow):
             'toggled', self._on_search_toggled)
         selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
+        selection_toolbar.connect('edit-cover', self._on_edit_cover)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
@@ -498,6 +501,28 @@ class Window(Gtk.ApplicationWindow):
             playlist_dialog.destroy()
 
         self._stack.get_visible_child().get_selected_songs(callback)
+
+    @log
+    def _on_edit_cover(self, widget):
+        current_view = self._stack.get_visible_child()
+        if current_view != self.views[View.ALBUM]:
+            return
+
+        def callback(selected_songs):
+            if len(selected_songs) < 1:
+                return
+
+            album = selected_songs[0]
+            new_cover = None
+            editor_dialog = AlbumEditorDialog(self, album)
+            if editor_dialog.run() == Gtk.ResponseType.ACCEPT:
+                new_cover = editor_dialog.props.cover
+
+            current_view.update_cover_from_selection(new_cover)
+            self.props.selection_mode = False
+            editor_dialog.destroy()
+
+        current_view.get_selected_songs(callback)
 
     @log
     def set_player_visible(self, visible):
