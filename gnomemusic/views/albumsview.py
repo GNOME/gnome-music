@@ -22,16 +22,21 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
+
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Grl, Gtk
 
 from gnomemusic import log
+from gnomemusic.albumartcache import ArtLoader
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 import gnomemusic.utils as utils
+
+logger = logging.getLogger(__name__)
 
 
 class AlbumsView(BaseView):
@@ -191,3 +196,42 @@ class AlbumsView(BaseView):
     def unselect_all(self):
         self.children_selected = []
         self._toggle_all_selection(False)
+
+    @log
+    def update_cover_from_selection(self, new_cover):
+        """Update cover of the selected album
+
+        :param str new_cover: cover path
+        """
+        if (not new_cover
+                or len(self.children_selected) != 1):
+            return
+
+        child = self.children_selected[0]
+        child_index = child.get_index()
+        album = child.props.media
+        tmp_media = Grl.Media.audio_new()
+        tmp_media.set_album(utils.get_album_title(album))
+        tmp_media.set_artist(utils.get_artist_name(album))
+        tmp_media.set_thumbnail(GLib.filename_to_uri(new_cover, None))
+
+        art_loader = ArtLoader()
+        art_loader.connect(
+            'failed', self._on_loading_new_cover_failed, new_cover)
+        art_loader.connect(
+            'succeeded', self._on_loading_new_cover_succeeded,
+            (new_cover, child_index))
+        art_loader.load(tmp_media)
+
+    @log
+    def _on_loading_new_cover_succeeded(self, klass, data):
+        new_cover, child_index = data
+        child = self._view.get_child_at_index(child_index)
+        media = child.props.media
+        media.set_thumbnail(GLib.filename_to_uri(new_cover, None))
+        child.props.media = media
+
+    @log
+    def _on_loading_new_cover_failed(self, klass, cover):
+        logger.warning(
+            "Unable to load new cover from file {}".format(cover))

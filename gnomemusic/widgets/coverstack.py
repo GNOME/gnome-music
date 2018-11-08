@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import GdkPixbuf, GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art, DefaultIcon
@@ -118,6 +118,18 @@ class CoverStack(Gtk.Stack):
         self._art.lookup()
 
     @log
+    def update_from_surface(self, surface):
+        if self._active_child == "B":
+            self._cover_a.props.surface = surface
+            self.props.visible_child_name = "A"
+        else:
+            self._cover_b.props.surface = surface
+            self.props.visible_child_name = "B"
+        self._active_child = self.props.visible_child_name
+
+        self.emit('updated')
+
+    @log
     def _set_loading_child(self):
         self.props.visible_child_name = "loading"
         self._active_child = self.props.visible_child_name
@@ -131,14 +143,5 @@ class CoverStack(Gtk.Stack):
             GLib.source_remove(self._timeout)
             self._timeout = None
 
-        if self._active_child == "B":
-            self._cover_a.props.surface = klass.surface
-            self.props.visible_child_name = "A"
-        else:
-            self._cover_b.props.surface = klass.surface
-            self.props.visible_child_name = "B"
-
-        self._active_child = self.props.visible_child_name
+        self.update_from_surface(klass.surface)
         self._art = None
-
-        self.emit('updated')

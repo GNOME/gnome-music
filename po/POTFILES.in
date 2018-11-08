@@ -4,6 +4,7 @@ data/org.gnome.Music.appdata.xml.in.in
 data/org.gnome.Music.desktop.in.in
 data/org.gnome.Music.gschema.xml
 data/ui/AboutDialog.ui.in
+data/ui/AlbumEditorDialog.ui
 data/ui/AlbumWidget.ui
 data/ui/AppMenu.ui
 data/ui/HeaderBar.ui
@@ -30,6 +31,7 @@ gnomemusic/views/emptyview.py
 gnomemusic/views/playlistview.py
 gnomemusic/views/searchview.py
 gnomemusic/views/songsview.py
+gnomemusic/widgets/albumeditordialog.py
 gnomemusic/widgets/albumwidget.py
 gnomemusic/widgets/artistalbumwidget.py
 gnomemusic/widgets/disclistboxwidget.py
