@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 
 @log
-def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
+def make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     border = 3
     degrees = pi / 180
     radius = 3
@@ -122,7 +122,7 @@ class DefaultIcon(GObject.GObject):
             icon_type.value, art_size.width / 3, scale, 0)
         icon = icon_info.load_surface()
 
-        icon_surface = _make_icon_frame(icon, art_size, scale, True)
+        icon_surface = make_icon_frame(icon, art_size, scale, True)
 
         return icon_surface
 
@@ -322,7 +322,7 @@ class Art(GObject.GObject):
     def _cache_hit(self, klass, pixbuf):
         surface = Gdk.cairo_surface_create_from_pixbuf(
             pixbuf, self._scale, None)
-        surface = _make_icon_frame(surface, self._size, self._scale)
+        surface = make_icon_frame(surface, self._size, self._scale)
         self._surface = surface
         self._set_grilo_thumbnail_path()
 
