@@ -128,8 +128,8 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)

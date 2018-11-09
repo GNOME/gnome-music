@@ -122,8 +122,8 @@ class HeaderBar(Gtk.HeaderBar):
 
         self.bind_property(
             "selection-mode", self, "show-close-button",
-            GObject.BindingFlags.INVERT_BOOLEAN |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.INVERT_BOOLEAN
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selection-mode", self._cancel_button, "visible")
         self.bind_property(
@@ -134,15 +134,15 @@ class HeaderBar(Gtk.HeaderBar):
             GObject.BindingFlags.BIDIRECTIONAL)
         self.bind_property(
             "stack", self._stack_switcher, "stack",
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             "selected-items-count", self._selection_menu,
             "selected-items-count")
         self.bind_property(
             "search-mode-enabled", self._search_button, "active",
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self.connect(
             "notify::selection-mode-allowed",

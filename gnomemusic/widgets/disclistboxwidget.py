@@ -306,8 +306,8 @@ class DiscListBox(Gtk.Box):
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'selection-mode-allowed', widget, 'selection-mode-allowed',
             GObject.BindingFlags.SYNC_CREATE)

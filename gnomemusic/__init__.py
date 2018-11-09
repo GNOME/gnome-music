@@ -84,8 +84,9 @@ class TrackerWrapper:
                 self.tracker = Tracker.SparqlConnection.get(None)
             except Exception as e:
                 from sys import exit
-                logger.error("Cannot connect to tracker, error '%s'\Exiting",
-                             str(e))
+                logger.error(
+                    "Cannot connect to tracker, error {}\nExiting".format(
+                        str(e)))
                 exit(1)
 
         def __str__(self):

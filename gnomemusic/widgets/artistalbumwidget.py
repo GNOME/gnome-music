@@ -79,8 +79,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self.bind_property(
             'selection-mode', self._disc_list_box, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self._title.props.label = self._album_title
         year = utils.get_media_year(self._media)

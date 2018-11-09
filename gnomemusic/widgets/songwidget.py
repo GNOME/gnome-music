@@ -111,8 +111,8 @@ class SongWidget(Gtk.EventBox):
 
         self.bind_property(
             'selected', self._select_button, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'show-duration', self._duration_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)

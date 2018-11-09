@@ -82,8 +82,8 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.bind_property(
             'selected', self._check, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'selection-mode', self._check, 'visible',
             GObject.BindingFlags.BIDIRECTIONAL)

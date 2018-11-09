@@ -87,8 +87,8 @@ class AlbumWidget(Gtk.EventBox):
 
         self.bind_property(
             'selection-mode', self._parent_view, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self.bind_property(
             'selected-items-count', self._parent_view, 'selected-items-count')

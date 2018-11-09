@@ -521,8 +521,8 @@ class Player(GObject.GObject):
         self._playlist.connect('song-validated', self._on_song_validated)
         self._playlist.bind_property(
             'repeat-mode', self, 'repeat-mode',
-            GObject.BindingFlags.SYNC_CREATE |
-            GObject.BindingFlags.BIDIRECTIONAL)
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
 
         self._new_clock = True
 

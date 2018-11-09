@@ -651,8 +651,8 @@ class RemoteArt(GObject.GObject):
         # FIXME: Passing the iostream here, otherwise it gets
         # closed. PyGI specific issue?
         ostream.splice_async(
-            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE |
-            Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
+            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
+            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
             None, self._splice_callback, [tmp_file, iostream])
 
     @log
