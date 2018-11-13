@@ -146,6 +146,117 @@ class DefaultIcon(GObject.GObject):
         return self._cache[(icon_type, art_size, scale)]
 
 
+class ArtLoader(GObject.GObject):
+    """ArtLoader object
+
+    Contains the logic to load an album cover from a Grl.Media thumbnail
+    and save it to The MediaArt cache.
+    """
+
+    __gsignals__ = {
+        'failed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'succeeded': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
+    def __repr__(self):
+        return '<ArtLoader>'
+
+    def __init__(self):
+        super().__init__()
+
+        self._album = None
+        self._artist = None
+        self._media = None
+
+    @log
+    def _close_iostream_callback(self, src, result, data):
+        try:
+            src.close_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+
+    @log
+    def _delete_callback(self, src, result, data):
+        try:
+            src.delete_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+
+    @log
+    def _splice_callback(self, src, result, data):
+        tmp_file, iostream = data
+
+        iostream.close_async(
+            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
+
+        try:
+            src.splice_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.emit('failed')
+            return
+
+        success, cache_path = MediaArt.get_path(
+            self._artist, self._album, "album")
+
+        if not success:
+            self.emit('failed')
+            return
+
+        try:
+            # FIXME: I/O blocking
+            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.emit('failed')
+            return
+
+        self.emit('succeeded')
+
+        tmp_file.delete_async(
+            GLib.PRIORITY_LOW, None, self._delete_callback, None)
+
+    @log
+    def _read_callback(self, src, result, data):
+        try:
+            istream = src.read_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.emit('failed')
+            return
+
+        try:
+            [tmp_file, iostream] = Gio.File.new_tmp()
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.emit('failed')
+            return
+
+        ostream = iostream.get_output_stream()
+        # FIXME: Passing the iostream here, otherwise it gets
+        # closed. PyGI specific issue?
+        ostream.splice_async(
+            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
+            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
+            None, self._splice_callback, [tmp_file, iostream])
+
+    def load(self, media):
+        thumb_uri = media.get_thumbnail()
+
+        if (thumb_uri is None
+                or thumb_uri == ""):
+            self.emit('failed')
+            return
+
+        self._album = utils.get_album_title(media)
+        self._artist = utils.get_artist_name(media)
+        self._media = media
+
+        src = Gio.File.new_for_uri(thumb_uri)
+        src.read_async(
+            GLib.PRIORITY_LOW, None, self._read_callback, None)
+
+
 class Art(GObject.GObject):
     """Retrieves art for an album or song
 
@@ -584,91 +695,21 @@ class RemoteArt(GObject.GObject):
             grilo.get_album_art_for_item(self._media, self._remote_album_art)
 
     @log
-    def _delete_callback(self, src, result, data):
-        try:
-            src.delete_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-
-    @log
-    def _splice_callback(self, src, result, data):
-        tmp_file, iostream = data
-
-        iostream.close_async(
-            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
-
-        try:
-            src.splice_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self.emit('unavailable')
-            return
-
-        success, cache_path = MediaArt.get_path(
-            self._artist, self._album, "album")
-
-        if not success:
-            self.emit('unavailable')
-            return
-
-        try:
-            # FIXME: I/O blocking
-            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self.emit('unavailable')
-            return
-
-        self.emit('retrieved')
-
-        tmp_file.delete_async(
-            GLib.PRIORITY_LOW, None, self._delete_callback, None)
-
-    @log
-    def _close_iostream_callback(self, src, result, data):
-        try:
-            src.close_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-
-    @log
-    def _read_callback(self, src, result, data):
-        try:
-            istream = src.read_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self.emit('unavailable')
-            return
-
-        try:
-            [tmp_file, iostream] = Gio.File.new_tmp()
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self.emit('unavailable')
-            return
-
-        ostream = iostream.get_output_stream()
-        # FIXME: Passing the iostream here, otherwise it gets
-        # closed. PyGI specific issue?
-        ostream.splice_async(
-            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
-            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
-            None, self._splice_callback, [tmp_file, iostream])
-
-    @log
     def _remote_album_art(self, source, param, item, count, error):
         if error:
             logger.warning("Grilo error {}".format(error))
             self.emit('unavailable')
             return
 
-        thumb_uri = item.get_thumbnail()
+        art_loader = ArtLoader()
+        art_loader.connect('failed', self._on_loading_media_failed)
+        art_loader.connect('succeeded', self._on_loading_media_succeeded)
+        art_loader.load(item)
 
-        if (thumb_uri is None
-                or thumb_uri == ""):
-            self.emit('unavailable')
-            return
+    @log
+    def _on_loading_media_failed(self, klass):
+        self.emit('unavailable')
 
-        src = Gio.File.new_for_uri(thumb_uri)
-        src.read_async(
-            GLib.PRIORITY_LOW, None, self._read_callback, None)
+    @log
+    def _on_loading_media_succeeded(self, klass):
+        self.emit('retrieved')
