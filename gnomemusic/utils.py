@@ -75,6 +75,17 @@ def get_artist_name(item):
             or _("Unknown Artist"))
 
 
+def get_media_genre(item):
+    """Returns the genre of the media item.
+
+    :param item: A Grilo Media object
+    :return: The genre
+    :rtype: string
+    """
+
+    return item.get_genre()
+
+
 def get_media_title(item):
     """Returns the title of the media item.
 
