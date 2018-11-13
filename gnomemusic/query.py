@@ -255,6 +255,8 @@ class Query():
         nie:title(?song) AS ?title
         nmm:artistName(nmm:performer(?song)) AS ?artist
         nie:title(nmm:musicAlbum(?song)) AS ?album
+        YEAR(nie:contentCreated(?song)) AS ?creation_date
+        nfo:genre(?song) AS ?genre
         nfo:duration(?song) AS ?duration
         nmm:trackNumber(?song) AS ?track_number
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
