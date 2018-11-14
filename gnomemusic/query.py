@@ -174,7 +174,7 @@ class Query():
         FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
     }
     GROUP BY ?album
-    ORDER BY (%(artist_sort)s) ?creation_date ?album_collation
+    ORDER BY %(artist_sort)s ?creation_date %(album_order)s
     """.replace('\n', ' ').strip() % {
             'where_clause': where_clause.replace('\n', ' ').strip(),
             'music_dir': Query.MUSIC_URI,
