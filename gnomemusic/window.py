@@ -472,9 +472,6 @@ class Window(Gtk.ApplicationWindow):
         if self.curr_view in views_with_child:
             self.curr_view._back_button_clicked(self.curr_view)
 
-        if self.curr_view != self.views[View.SEARCH]:
-            self._searchbar.reveal(False)
-
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         if self.props.selection_mode:
