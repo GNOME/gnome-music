@@ -55,9 +55,6 @@ class SearchView(BaseView):
     def __init__(self, window, player):
         super().__init__('search', None, window)
 
-        # FIXME: Searchbar handling does not belong here.
-        self._searchbar = window._searchbar
-
         self._add_list_renderers()
         self.player = player
         self._head_iters = [None, None, None, None]
@@ -100,7 +97,7 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._searchbar.reveal(True, False)
+        self.props.search_state = Search.State.RESULT
 
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
@@ -138,7 +135,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
-            self.props.search_state = Search.State.NONE
+            self.props.search_state = Search.State.CHILD
 
         elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
@@ -159,7 +156,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = artist
             self._headerbar.props.subtitle = ''
             self.set_visible_child(self._artist_albums_widget)
-            self.props.search_state = Search.State.NONE
+            self.props.search_state = Search.State.CHILD
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]

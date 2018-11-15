@@ -339,6 +339,7 @@ class Searchbar(Gtk.SearchBar):
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
         self.connect('notify::search-state', self._search_state_changed)
+        self._previous_search_state = Search.State.NONE
 
     @Gtk.Template.Callback()
     @log
@@ -402,7 +403,8 @@ class Searchbar(Gtk.SearchBar):
     def _search_state_changed(self, klass, data):
         search_state = self.props.search_state
 
-        if search_state == Search.State.NONE:
+        if (search_state == Search.State.NONE
+                or search_state == Search.State.CHILD):
             self.reveal(False)
         elif search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
@@ -410,6 +412,11 @@ class Searchbar(Gtk.SearchBar):
         else:
             self._set_error_style(False)
             self.props.stack.props.visible_child_name = 'search'
+            # display searchbar when switching back to results
+            if self._previous_search_state == Search.State.CHILD:
+                self.reveal(True, False)
+
+        self._previous_search_state = search_state
 
     @log
     def _set_error_style(self, error):
