@@ -410,12 +410,6 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = self.curr_view
         self.curr_view = stack.get_visible_child()
 
-        # Switch to all albums view when we're clicking Albums
-        if (self.curr_view == self.views[View.ALBUM]
-                and not (self.prev_view == self.views[View.SEARCH]
-                    or self.prev_view == self.views[View.EMPTY])):
-            self.curr_view.set_visible_child(self.curr_view._grid)
-
         if (self.curr_view != self.views[View.SEARCH]
                 and self.curr_view != self.views[View.EMPTY]):
             self._searchbar.reveal(False)
