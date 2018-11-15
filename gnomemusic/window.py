@@ -36,6 +36,7 @@ from gnomemusic import log
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import Player, RepeatMode
 from gnomemusic.query import Query
+from gnomemusic.search import Search
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
@@ -174,8 +175,8 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(selection_toolbar, False, False, 0)
         self.add(self._box)
 
-        self._headerbar._search_button.connect(
-            'toggled', self._on_search_toggled)
+        self._searchbar.connect(
+            "notify::search-state", self._on_search_state_changed)
         selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
 
@@ -442,19 +443,14 @@ class Window(Gtk.ApplicationWindow):
             self._stack.set_visible_child(self.views[view_enum])
 
     @log
-    def _on_search_toggled(self, button, data=None):
-        if (not button.get_active()
-                and (self.curr_view == self.views[View.SEARCH]
-                    or self.curr_view == self.views[View.EMPTY])):
-            child = self.curr_view.get_visible_child()
-            if self._headerbar.props.state == HeaderBar.State.MAIN:
-                # We should get back to the view before the search
-                self._stack.set_visible_child(
-                    self.views[View.SEARCH].previous_view)
-            elif (self.views[View.SEARCH].previous_view == self.views[View.ALBUM]
-                    and child != self.curr_view._album_widget
-                    and child != self.curr_view._artist_albums_widget):
-                self._stack.set_visible_child(self.views[View.ALBUM])
+    def _on_search_state_changed(self, klass, data):
+        # Get back to the view before the search if curr_view has not already
+        # been changed by a keyboard shortcut.
+        search_views = [self.views[View.SEARCH], self.views[View.EMPTY]]
+        if (self._searchbar.props.search_state == Search.State.NONE
+                and self.curr_view in search_views):
+            self._stack.set_visible_child(
+                self.views[View.SEARCH].previous_view)
 
         if self.props.selection_mode:
             self.props.selection_mode = False
