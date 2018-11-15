@@ -64,6 +64,7 @@ class Window(Gtk.ApplicationWindow):
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+    search_mode_allowed = GObject.Property(type=bool, default=True)
 
     def __repr__(self):
         return '<Window>'
@@ -141,6 +142,8 @@ class Window(Gtk.ApplicationWindow):
             'back-button-clicked', self._switch_back_from_childview)
 
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
+        self.bind_property(
+            'search-mode-allowed', self._headerbar, 'search-mode-allowed')
         self.bind_property(
             'selected-items-count', self._headerbar, 'selected-items-count')
         self.bind_property(
@@ -303,7 +306,7 @@ class Window(Gtk.ApplicationWindow):
             # Open search bar on Ctrl + F
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
-                    and self._headerbar.props.state != HeaderBar.State.SEARCH):
+                    and self.props.search_mode_allowed):
                 search_enabled = self._searchbar.props.search_mode_enabled
                 self._searchbar.props.search_mode_enabled = not search_enabled
             # Play / Pause on Ctrl + SPACE
@@ -387,7 +390,7 @@ class Window(Gtk.ApplicationWindow):
                 and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
-                and self._headerbar.props.state != HeaderBar.State.SEARCH):
+                and self.props.search_mode_allowed):
             self._searchbar.props.search_mode_enabled = True
 
     @log
@@ -444,10 +447,13 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_state_changed(self, klass, data):
+        search_state = self._searchbar.props.search_state
+        self.props.search_mode_allowed = (search_state != Search.State.CHILD)
+
         # get back to the view before the search if curr_view has not already
         # been changed by a keyboard shortcult
         search_views = [self.views[View.SEARCH], self.views[View.EMPTY]]
-        if (self._searchbar.props.search_state == Search.State.NONE
+        if (search_state == Search.State.NONE
                 and self.curr_view in search_views):
             self._stack.set_visible_child(
                 self.views[View.SEARCH].previous_view)
