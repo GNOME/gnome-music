@@ -98,6 +98,7 @@ class HeaderBar(Gtk.HeaderBar):
     _back_button = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
+    search_mode_allowed = GObject.Property(type=bool, default=True)
     search_mode_enabled = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
@@ -143,6 +144,8 @@ class HeaderBar(Gtk.HeaderBar):
             "search-mode-enabled", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "search-mode-allowed", self._search_button, "visible")
 
         self.connect(
             "notify::selection-mode-allowed",
@@ -192,9 +195,6 @@ class HeaderBar(Gtk.HeaderBar):
         """
         self._state = value
         self._update()
-
-        search_visible = self.props.state != HeaderBar.State.SEARCH
-        self._search_button.props.visible = search_visible
 
         if value == HeaderBar.State.EMPTY:
             self._search_button.props.sensitive = False
