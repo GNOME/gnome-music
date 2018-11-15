@@ -83,8 +83,7 @@ class HeaderBar(Gtk.HeaderBar):
         """States the Headerbar can have"""
         MAIN = 0
         CHILD = 1
-        SEARCH = 2
-        EMPTY = 3
+        EMPTY = 2
 
     __gtype_name__ = "HeaderBar"
 
