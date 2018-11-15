@@ -307,8 +307,7 @@ class Window(Gtk.ApplicationWindow):
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and self.props.search_mode_allowed):
-                search_enabled = self._searchbar.props.search_mode_enabled
-                self._searchbar.props.search_mode_enabled = not search_enabled
+                self._searchbar.props.search_mode_enabled = True
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self._player.play_pause()
