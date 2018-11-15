@@ -157,6 +157,7 @@ class SearchView(BaseView):
 
             self._headerbar.props.state = HeaderBar.State.SEARCH
             self._headerbar.props.title = artist
+            self._headerbar.props.subtitle = None
             self.set_visible_child(self._artist_albums_widget)
             self.props.search_state = Search.State.NONE
         elif self.model[_iter][12] == 'song':
