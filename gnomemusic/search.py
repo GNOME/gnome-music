@@ -33,7 +33,9 @@ class Search():
            NONE: No ongoing search.
            RESULT: Search with result.
            NO_RESULT: Search without result.
+           CHILD: clicked on an album or artist from Search
         """
         NONE = 0
         RESULT = 1
         NO_RESULT = 2
+        CHILD = 3
