@@ -339,6 +339,8 @@ class Searchbar(Gtk.SearchBar):
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
         self.connect('notify::search-state', self._search_state_changed)
+        self.connect(
+            'notify::search-mode-enabled', self._on_search_mode_changed)
         self._previous_search_state = Search.State.NONE
 
     @Gtk.Template.Callback()
@@ -383,29 +385,24 @@ class Searchbar(Gtk.SearchBar):
         return False
 
     @log
-    def reveal(self, show, clear=True):
-        """Hides or reveals the searchbar
-
-        :param bool show: Whether to show the searchbar
-        :param bool clear: Whether to clear the search entry
-        """
-        self.props.search_mode_enabled = show
-
-        if show:
+    def _on_search_mode_changed(self, klass, params):
+        if self.props.search_mode_enabled:
             self._search_entry.realize()
-            if clear:
-                self._search_entry.set_text('')
             self._search_entry.grab_focus()
         else:
             self._drop_down_button.set_active(False)
+            # reset search state when leaving search mode
+            if self.props.search_state != Search.State.CHILD:
+                self.props.search_state = Search.State.NONE
 
     @log
     def _search_state_changed(self, klass, data):
         search_state = self.props.search_state
 
-        if (search_state == Search.State.NONE
-                or search_state == Search.State.CHILD):
-            self.reveal(False)
+        if search_state == Search.State.NONE:
+            self._search_entry.props.text = ''
+        elif search_state == Search.State.CHILD:
+            self.props.search_mode_enabled = False
         elif search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
             self.props.stack.props.visible_child_name = 'emptyview'
@@ -414,7 +411,7 @@ class Searchbar(Gtk.SearchBar):
             self.props.stack.props.visible_child_name = 'search'
             # display searchbar when switching back to results
             if self._previous_search_state == Search.State.CHILD:
-                self.reveal(True, False)
+                self.props.search_mode_enabled = True
 
         self._previous_search_state = search_state
 
@@ -429,8 +426,3 @@ class Searchbar(Gtk.SearchBar):
             style_context.add_class('error')
         else:
             style_context.remove_class('error')
-
-    @log
-    def toggle(self):
-        """Toggle the searchbar showing"""
-        self.reveal(not self.get_search_mode())

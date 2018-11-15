@@ -303,7 +303,8 @@ class Window(Gtk.ApplicationWindow):
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and self._headerbar.props.state != HeaderBar.State.SEARCH):
-                self._searchbar.toggle()
+                search_enabled = self._searchbar.props.search_mode_enabled
+                self._searchbar.props.search_mode_enabled = not search_enabled
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self._player.play_pause()
@@ -374,19 +375,19 @@ class Window(Gtk.ApplicationWindow):
             if keyval == Gdk.KEY_Escape:
                 if self.props.selection_mode:
                     self.props.selection_mode = False
-                else:
-                    self._searchbar.reveal(False)
+                elif self._searchbar.props.search_mode_enabled:
+                    self._searchbar.props.search_mode_enabled = False
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
-        if ((not self._searchbar.get_search_mode()
+        if ((not self._searchbar.props.search_mode_enabled
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
-            self._searchbar.reveal(True)
+            self._searchbar.props.search_mode_enabled = True
 
     @log
     def do_button_release_event(self, event):
@@ -412,7 +413,7 @@ class Window(Gtk.ApplicationWindow):
 
         if (self.curr_view != self.views[View.SEARCH]
                 and self.curr_view != self.views[View.EMPTY]):
-            self._searchbar.reveal(False)
+            self._searchbar.props.search_mode_enabled = False
 
         # Disable the selection button for the EmptySearch and Playlist
         # view
@@ -442,8 +443,6 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self._searchbar.reveal(
-            button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
                     or self.curr_view == self.views[View.EMPTY])):
