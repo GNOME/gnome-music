@@ -457,8 +457,8 @@ class Window(Gtk.ApplicationWindow):
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
 
-            if self.props.selection_mode:
-                self.props.selection_mode = False
+        if self.props.selection_mode:
+            self.props.selection_mode = False
 
     @log
     def _switch_back_from_childview(self, klass=None):
