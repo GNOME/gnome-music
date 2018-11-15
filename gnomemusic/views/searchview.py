@@ -130,7 +130,7 @@ class SearchView(BaseView):
             item = self.model[_iter][5]
 
             self._album_widget.update(item)
-            self._headerbar.props.state = HeaderBar.State.SEARCH
+            self._headerbar.props.state = HeaderBar.State.CHILD
 
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
@@ -152,7 +152,7 @@ class SearchView(BaseView):
                 'selection-mode', self._artist_albums_widget, 'selection-mode',
                 GObject.BindingFlags.BIDIRECTIONAL)
 
-            self._headerbar.props.state = HeaderBar.State.SEARCH
+            self._headerbar.props.state = HeaderBar.State.CHILD
             self._headerbar.props.title = artist
             self._headerbar.props.subtitle = ''
             self.set_visible_child(self._artist_albums_widget)
