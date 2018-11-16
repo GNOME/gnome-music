@@ -303,7 +303,7 @@ class Window(Gtk.ApplicationWindow):
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and self._headerbar.props.state != HeaderBar.State.SEARCH):
-                self._searchbar.toggle()
+                self._searchbar.reveal(True, False)
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self._player.play_pause()
