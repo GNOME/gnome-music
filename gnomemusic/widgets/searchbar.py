@@ -422,8 +422,3 @@ class Searchbar(Gtk.SearchBar):
             style_context.add_class('error')
         else:
             style_context.remove_class('error')
-
-    @log
-    def toggle(self):
-        """Toggle the searchbar showing"""
-        self.reveal(not self.get_search_mode())
