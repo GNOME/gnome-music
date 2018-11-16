@@ -559,9 +559,7 @@ class Query():
                     ?playlist
                         a nmm:Playlist ;
                         a nfo:MediaList ;
-                        nfo:hasMediaFileListEntry ?removed_entry .
-                    ?removed_entry
-                        nfo:listPosition ?removed_position .
+                        nfo:hasMediaFileListEntry/nfo:listPosition ?removed_position .
                     FILTER (
                         tracker:id(?playlist) = %(playlist_id)s &&
                         tracker:id(?removed_entry) = %(song_id)s
@@ -649,8 +647,7 @@ class Query():
         query = """
     ?playlist
         a nmm:Playlist ;
-        nao:hasTag ?tag .
-    ?tag rdfs:comment ?tag_text .
+        nao:hasTag/rdfs:comment ?tag_text .
     FILTER ( ?tag_text = '%(playlist_tag)s' )
     """.replace('\n', ' ').strip() % {'playlist_tag': playlist_tag}
 
@@ -714,8 +711,7 @@ class Query():
         WHERE {
             ?song a nmm:MusicPiece ;
                 nie:usageCounter ?count ;
-                nie:isStoredAs ?as .
-          ?as nie:url ?url .
+                nie:isStoredAs/nie:url ?url .
           FILTER ( STRSTARTS(?url, '%(music_dir)s') )
         } ORDER BY DESC(?count) LIMIT 50
         """.replace('\n', ' ').strip() % {
@@ -730,8 +726,7 @@ class Query():
         SELECT ?url
         WHERE {
             ?song a nmm:MusicPiece ;
-                nie:isStoredAs ?as .
-            ?as nie:url ?url .
+                nie:isStoredAs/nie:url ?url .
             FILTER ( NOT EXISTS { ?song nie:usageCounter ?count .}
                      && STRSTARTS(?url, '%(music_dir)s') )
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
@@ -755,9 +750,8 @@ class Query():
             SELECT ?url
             WHERE {
                 ?song a nmm:MusicPiece ;
-                    nie:isStoredAs ?as ;
+                    nie:isStoredAs/nie:url ?url ;
                     nie:contentAccessed ?last_played .
-                ?as nie:url ?url .
                 FILTER ( ?last_played > '%(compare_date)s'^^xsd:dateTime
                          && EXISTS { ?song nie:usageCounter ?count .}
                          && STRSTARTS(?url, '%(music_dir)s') )
@@ -784,9 +778,8 @@ class Query():
         SELECT ?url
         WHERE {
             ?song a nmm:MusicPiece ;
-                nie:isStoredAs ?as ;
+                nie:isStoredAs/nie:url ?url ;
                 tracker:added ?added .
-            ?as nie:url ?url .
             FILTER ( ?added > '%(compare_date)s'^^xsd:dateTime
                      && STRSTARTS(?url, '%(music_dir)s') )
         } ORDER BY DESC(?added) LIMIT 50
@@ -803,9 +796,8 @@ class Query():
     SELECT ?url
     WHERE {
         ?song a nmm:MusicPiece ;
-            nie:isStoredAs ?as ;
+            nie:isStoredAs/nie:url ?url ;
             nao:hasTag nao:predefined-tag-favorite .
-        ?as nie:url ?url .
         FILTER ( STRSTARTS(?url, '%(music_dir)s') )
     } ORDER BY DESC(tracker:added(?song))
     """.replace('\n', ' ').strip() % {
@@ -863,8 +855,7 @@ class Query():
     def get_albums_with_composer_match(name):
         name = Tracker.sparql_escape_string(name)
         query = """
-            ?song nmm:composer ?composer .
-            ?composer fts:match '"nmm:artistName" : %(name)s*' .
+            ?song nmm:composer/fts:match '"nmm:artistName" : %(name)s*' .
         """.replace('\n', ' ').strip() % {
             'name': name
         }
@@ -925,8 +916,7 @@ class Query():
     def get_artists_with_composer_match(name):
         name = Tracker.sparql_escape_string(name)
         query = """
-            ?song nmm:composer ?composer .
-            ?composer fts:match '"nmm:artistName" : %(name)s*' .
+            ?song nmm:composer/fts:match '"nmm:artistName" : %(name)s*' .
         """.replace('\n', ' ').strip() % {
             'name': name
         }
@@ -972,21 +962,21 @@ class Query():
     @staticmethod
     def get_songs_with_artist_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?song nmm:performer [ fts:match '%(name)s*' ] . """.replace('\n',' ').strip() % {'name': name}
+        query = """?song nmm:performer/fts:match '%(name)s*' . """.replace('\n',' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_album_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?song nmm:musicAlbum [ fts:match '%(name)s*' ] . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song nmm:musicAlbum/fts:match '%(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
     @staticmethod
     def get_songs_with_composer_match(name):
         name = Tracker.sparql_escape_string(name)
-        query = """?song nmm:composer [ fts:match '%(name)s*' ] . """.replace('\n', ' ').strip() % {'name': name}
+        query = """?song nmm:composer/fts:match '%(name)s*' . """.replace('\n', ' ').strip() % {'name': name}
 
         return Query.songs(query)
 
