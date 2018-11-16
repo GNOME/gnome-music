@@ -135,8 +135,8 @@ class Window(Gtk.ApplicationWindow):
 
         self._headerbar.bind_property(
             "search-mode-enabled", self._searchbar, "search-mode-enabled",
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self._searchbar.props.stack = self._stack
         self._headerbar.connect(
             'back-button-clicked', self._switch_back_from_childview)
@@ -150,8 +150,8 @@ class Window(Gtk.ApplicationWindow):
             'selected-items-count', selection_toolbar, 'selected-items-count')
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'selection-mode', selection_toolbar, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
