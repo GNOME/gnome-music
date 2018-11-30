@@ -744,7 +744,7 @@ class PlaylistView(BaseView):
     @log
     def _on_playlist_renamed(self, arguments, new_name):
         selection = self._sidebar.get_selected_row()
-        selection.get_child().props.label = new_name
+        selection.props.text = new_name
 
         pl_torename = selection.playlist
         pl_torename.set_title(new_name)
