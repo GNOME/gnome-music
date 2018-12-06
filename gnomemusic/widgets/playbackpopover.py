@@ -60,6 +60,17 @@ class LinearPlaybackWindow(Gtk.ScrolledWindow):
 
         self._listbox.connect('row-activated', self._on_row_activated)
 
+        self.props.vadjustment.connect(
+            'changed', self._vertical_adjustment_changed)
+
+    @log
+    def _vertical_adjustment_changed(self, klass):
+        v_adjust = self.props.vadjustment
+        if v_adjust.props.upper != self._window_height:
+            self._window_height = v_adjust.props.upper
+            self._row_height = self._window_height / len(self._listbox)
+        v_adjust.props.value = self._current_index * self._row_height + self._row_height / 2 - v_adjust.props.page_size / 2
+
     @log
     def _init_listbox_rows(self):
         songs = self._player.get_mpris_playlist()
