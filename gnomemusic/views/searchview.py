@@ -164,7 +164,7 @@ class SearchView(BaseView):
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
                 self.player.set_playlist(
-                    PlayerPlaylist.Type.SEARCH_RESULT, None, self._songs_model,
+                    PlayerPlaylist.Type.SEARCH_RESULT, "", self._songs_model,
                     c_iter)
                 self.player.play()
         else:  # Headers

@@ -204,7 +204,7 @@ class SongsView(BaseView):
 
         itr = self.model.get_iter(path)
         self.player.set_playlist(
-            PlayerPlaylist.Type.SONGS, None, self.model, itr)
+            PlayerPlaylist.Type.SONGS, "", self.model, itr)
         self.player.play()
 
     @log

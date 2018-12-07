@@ -458,12 +458,13 @@ class PlayerPlaylist(GObject.GObject):
         self._repeat = mode
         self._settings.set_enum('repeat', mode)
 
-    @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
+    @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE,
+                      default=None)
     def playlist_id(self):
         """Get playlist unique identifier.
 
         :returns: playlist id
-        :rtype: int
+        :rtype: string
         """
         return self._id
 
@@ -797,7 +798,7 @@ class Player(GObject.GObject):
         """Playlist id getter
 
         :returns: PlayerPlaylist identifier. None if no playlist.
-        :rtype: int
+        :rtype: string
         """
         return self._playlist.props.playlist_id
 
