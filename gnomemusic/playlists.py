@@ -285,23 +285,22 @@ class Playlists(GObject.GObject):
             return
 
         def callback(cursor, res, final_query):
-            uri = cursor.get_string(0)[0]
-            final_query += Query.add_song_to_playlist(playlist.ID, uri)
-
+            has_next = False
             try:
                 has_next = cursor.next_finish(res)
             except GLib.Error as err:
                 logger.warning("Error: {}, {}".format(err.__class__, err))
-                has_next = False
 
             # Only perform the update when the cursor reached the end
             if has_next:
-                cursor.next_async(None, callback, final_query)
-                return
+                uri = cursor.get_string(0)[0]
+                final_query += Query.add_song_to_playlist(playlist.ID, uri)
 
-            self.tracker.update_blank_async(
-                final_query, GLib.PRIORITY_LOW, None,
-                self._static_playlist_update_finished, playlist)
+                cursor.next_async(None, callback, final_query)
+            else:
+                self.tracker.update_blank_async(
+                    final_query, GLib.PRIORITY_LOW, None,
+                    self._static_playlist_update_finished, playlist)
 
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
