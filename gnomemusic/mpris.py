@@ -361,7 +361,7 @@ class MediaPlayer2Service(Server):
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
-        for song in self.player.get_songs():
+        for song in self.player.get_mpris_playlist():
             path = self._get_song_dbus_path(song)
             metadata = self._get_metadata(song)
             self._path_list.append(path)

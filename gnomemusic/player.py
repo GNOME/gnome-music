@@ -490,11 +490,12 @@ class PlayerPlaylist(GObject.GObject):
         return self._type
 
     @log
-    def get_songs(self):
+    def get_mpris_playlist(self):
         """Get recent and next songs from the current playlist.
 
         If the playlist is an album, return all songs.
         Returned songs are sorted according to the repeat mode.
+        This method is used by mpris to expose a TrackList.
 
         :returns: current playlist
         :rtype: list of Grl.Media
@@ -892,13 +893,14 @@ class Player(GObject.GObject):
         self.emit('volume-changed')
 
     @log
-    def get_songs(self):
+    def get_mpris_playlist(self):
         """Get recent and next songs from the current playlist.
 
         If the playlist is an album, return all songs.
         Returned songs are sorted according to the repeat mode.
+        This method is used by mpris to expose a TrackList.
 
         :returns: current playlist
         :rtype: list of Grl.Media
         """
-        return self._playlist.get_songs()
+        return self._playlist.get_mpris_playlist()
