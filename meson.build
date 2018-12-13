@@ -6,10 +6,13 @@ project('gnome-music',
 # Importing modules
 gnome = import('gnome')
 i18n  = import('i18n')
-python = import('python3')
+python = import('python')
+
+# Module objects
+py_installation = python.find_installation('python3')
 
 # Make sure Python is installed and found
-if not python.find_python().found()
+if not py_installation.found()
     error('No valid python3 binary found')
 endif
 
@@ -28,7 +31,7 @@ else
 endif
 
 APPLICATION_ID = 'org.gnome.Music@0@'.format(PROFILE)
-PYTHON_DIR = join_paths(get_option('prefix'), python.sysconfig_path('purelib'))
+PYTHON_DIR = py_installation.get_path('purelib')
 PKGDATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), APPLICATION_ID)
 PKGLIB_DIR = join_paths(get_option('prefix'), get_option('libdir'), APPLICATION_ID)
 
@@ -62,7 +65,7 @@ subdir('po')
 
 install_subdir(
     'gnomemusic',
-    install_dir: PYTHON_DIR
+    install_dir: py_installation.get_install_dir()
 )
 
 # Install the executable file
@@ -72,7 +75,7 @@ bin_config.set('rdnn_name', PROJECT_RDNN_NAME)
 bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
-bin_config.set('pyexecdir', join_paths(get_option('prefix'), python.sysconfig_path('stdlib')))
+bin_config.set('pyexecdir', py_installation.get_path('stdlib'))
 bin_config.set('schemasdir', '')
 # Used for libgd
 bin_config.set('pkglibdir', PKGLIB_DIR)
