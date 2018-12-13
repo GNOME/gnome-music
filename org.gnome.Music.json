@@ -23,13 +23,6 @@
         "--filesystem=xdg-music",
         "--filesystem=xdg-cache/media-art"
     ],
-    "build-options" : {
-        "cflags": "-O2 -g",
-        "cxxflags": "-O2 -g",
-        "env": {
-            "V": "1"
-        }
-    },
     "cleanup": [
         "/include",
         "/lib/pkgconfig",
@@ -55,9 +48,6 @@
         },
         {
             "name": "libdazzle",
-            "config-opts" : [
-                "--libdir=/app/lib"
-            ],
             "buildsystem": "meson",
             "sources": [
                 {
