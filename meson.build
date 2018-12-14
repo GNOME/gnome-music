@@ -72,7 +72,7 @@ subdir('po')
 
 install_subdir(
     'gnomemusic',
-    install_dir: PYTHON_DIR
+    install_dir: py_installation.get_install_dir()
 )
 
 # Install the executable file
