@@ -137,6 +137,9 @@ class StarHandlerWidget(object):
     @log
     def _on_star_toggled(self, widget, path):
         """Called if a star is clicked"""
+        if self._parent.props.selection_mode:
+            return
+
         try:
             _iter = self._parent.model.get_iter(path)
         except TypeError:

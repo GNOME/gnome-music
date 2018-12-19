@@ -219,8 +219,6 @@ class SongsView(BaseView):
                 and not self.props.selection_mode):
             self._on_selection_mode_request()
 
-        # FIXME: In selection mode, star clicks might still trigger
-        # activation.
         if self.props.selection_mode:
             path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
             iter_ = self.model.get_iter(path)
