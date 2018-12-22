@@ -168,32 +168,22 @@ class SmoothScale(Gtk.Scale):
         return False
 
     @log
-    def _update_timeout(self):
+    def _update_timeout(*Argument_Tuple):
         """Update the duration for self._timeout
-
         Sets the period of self._timeout to a value small enough to make
         the slider SmoothScale move smoothly based on the current song
         duration and scale length.
         """
-        # Do not run until SmoothScale has been realized and GStreamer
-        # provides a duration.
-        duration = self._player.props.duration
-        if (self.get_realized() is False
-                or duration == -1.):
-            return
-
-        # Update self._timeout.
-        width = self.get_allocated_width()
-        padding = self.get_style_context().get_padding(
-            Gtk.StateFlags.NORMAL)
-        width -= padding.left + padding.right
-
-        timeout_period = min(1000 * duration // width, 1000)
-
-        if self._timeout:
-            GLib.source_remove(self._timeout)
-        self._timeout = GLib.timeout_add(
-            timeout_period, self._update_position_callback)
+        Instance, = Argument_Tuple
+        if Instance._timeout:
+            GLib.source_remove(Instance._timeout)
+        if Instance.get_realized() and not Instance._player.duration == None and Instance._player.duration > 0:
+            Padding = Instance.get_style_context().get_padding(Gtk.StateFlags.NORMAL)
+            Width = Instance.get_allocated_width() - Padding.right - Padding.left
+            if Width > 0:
+                Instance._timeout = GLib.timeout_add(min(1000 * Instance._player.duration // Width, 1000), Instance._update_position_callback)
+                return
+        Instance._timeout = GLib.timeout_add(1, Instance._update_timeout)
 
     @log
     def _remove_timeout(self):
