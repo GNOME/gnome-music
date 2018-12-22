@@ -178,10 +178,14 @@ class SmoothScale(Gtk.Scale):
         if Instance._timeout:
             GLib.source_remove(Instance._timeout)
         if Instance.get_realized() and Instance._player.duration > 0:
-            Padding = Instance.get_style_context().get_padding(Gtk.StateFlags.NORMAL)
-            Width = Instance.get_allocated_width() - Padding.right - Padding.left
+            Padding = Instance.get_style_context().get_padding(
+                Gtk.StateFlags.NORMAL)
+            Width = Instance.get_allocated_width() - Padding.right -\
+                Padding.left
             if Width > 0:
-                Instance._timeout = GLib.timeout_add(min(1000 * Instance._player.duration // Width, 1000), Instance._update_position_callback)
+                Instance._timeout = GLib.timeout_add(min(1000 *
+                    Instance._player.duration // Width, 1000),
+                    Instance._update_position_callback)
                 return
         Instance._timeout = GLib.timeout_add(1, Instance._update_timeout)
 
