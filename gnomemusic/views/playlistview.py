@@ -366,8 +366,9 @@ class PlaylistView(BaseView):
         self._view.get_selection().select_path(path)
 
         rect = self._view.get_visible_rect()
+        rect.height = self._view.get_cell_area(path, None).height
         rect.x = x - rect.width / 2.0
-        rect.y = y - rect.height + 5
+        rect.y = y - rect.height / 2.0
 
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
