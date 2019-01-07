@@ -186,7 +186,7 @@ class SmoothScale(Gtk.Scale):
         width = self.get_allocated_width()
         padding = self.get_style_context().get_padding(
             Gtk.StateFlags.NORMAL)
-        width -= padding.left + padding.right
+        width = max(width - (padding.left + padding.right), 1)
 
         timeout_period = min(1000 * duration // width, 1000)
 
