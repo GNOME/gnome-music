@@ -45,6 +45,7 @@ class AlbumWidget(Gtk.EventBox):
 
     __gtype_name__ = 'AlbumWidget'
 
+    _album_info = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
@@ -52,6 +53,7 @@ class AlbumWidget(Gtk.EventBox):
     _disc_listbox = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
+    _scrolled_window = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
@@ -72,6 +74,8 @@ class AlbumWidget(Gtk.EventBox):
         super().__init__()
 
         self._songs = []
+        self._initial_margin_top = self._album_info.props.margin_top
+        self._album_info_height = 0
 
         self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
@@ -92,6 +96,9 @@ class AlbumWidget(Gtk.EventBox):
 
         self.bind_property(
             'selected-items-count', self._parent_view, 'selected-items-count')
+
+        self._scrolled_window.props.vadjustment.connect(
+            "value-changed", self._on_scroll_value_changed)
 
     @log
     def _create_model(self):
@@ -142,6 +149,8 @@ class AlbumWidget(Gtk.EventBox):
         self._released_info_label.props.label = year
 
         self._set_composer_label(album)
+
+        self._album_info.props.margin_top = self._initial_margin_top
 
         self._player.connect('song-changed', self._update_model)
 
@@ -280,3 +289,18 @@ class AlbumWidget(Gtk.EventBox):
         :rtype: list
         """
         return self._disc_listbox.get_selected_items()
+
+    @log
+    def _on_scroll_value_changed(self, adjustment):
+        self._album_info.props.margin_top = (adjustment.props.value
+                                             + self._initial_margin_top)
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_album_info_size_changed(self, widget, allocation):
+        if allocation.height != self._album_info_height:
+            self._album_info_height = allocation.height
+            min_height = (allocation.height
+                          + self._initial_margin_top
+                          + self._album_info.props.margin_bottom)
+            self._scrolled_window.props.min_content_height = min_height
