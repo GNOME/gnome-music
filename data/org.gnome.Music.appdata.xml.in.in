@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<component type="desktop">
-  <id>@appid@.desktop</id>
+<component type="desktop-application">
+  <id>@appid@</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+ and LGPL-2.0+ and CC-BY-SA-4.0</project_license>
   <name>GNOME Music</name>
@@ -27,13 +27,18 @@
       <image type="source">https://gitlab.gnome.org/GNOME/gnome-music/raw/master/data/screenshots/gnome-music-4.png</image>
     </screenshot>
   </screenshots>
+  <releases>
+    <release version="3.30.1" date="2018-09-24" />
+    <release version="3.30.0" date="2018-09-03" />
+  </releases>
   <project_group>GNOME</project_group>
+  <developer_name>The GNOME Project</developer_name>
+  <launchable type="desktop-id">@appid@.desktop</launchable>
   <url type="homepage">https://wiki.gnome.org/Apps/Music</url>
   <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-music/issues</url>
   <url type="donation">https://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
   <kudos>
-    <kudo>AppMenu</kudo>
     <kudo>HiDpiIcon</kudo>
     <kudo>ModernToolkit</kudo>
     <kudo>UserDocs</kudo>
