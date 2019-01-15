@@ -362,12 +362,13 @@ class PlaylistView(BaseView):
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
-        (path, _, _, _) = self._view.get_path_at_pos(x, y)
+        (path, column, cell_x, cell_y) = self._view.get_path_at_pos(x, y)
         self._view.get_selection().select_path(path)
+        row_height = self._view.get_cell_area(path, None).height
 
-        rect = self._view.get_visible_rect()
-        rect.x = x - rect.width / 2.0
-        rect.y = y - rect.height + 5
+        rect = Gdk.Rectangle()
+        rect.x = x
+        rect.y = y - cell_y + 0.5 * row_height
 
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
