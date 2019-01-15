@@ -365,9 +365,14 @@ class PlaylistView(BaseView):
         (path, _, _, _) = self._view.get_path_at_pos(x, y)
         self._view.get_selection().select_path(path)
 
-        rect = self._view.get_visible_rect()
-        rect.x = x - rect.width / 2.0
-        rect.y = y - rect.height + 5
+        rect = Gdk.Rectangle()
+        rect.height = self._view.get_cell_area(path, None).height
+        rect.x = x
+        rect.y = y - rect.height / 2.0
+
+        if (y + 0.5 * rect.height + self._song_popover.get_allocated_height()) \
+            > self._view.get_visible_rect().height:
+            rect.y += 10
 
         self._song_popover.set_relative_to(self._view)
         self._song_popover.set_pointing_to(rect)
