@@ -370,8 +370,12 @@ class PlaylistView(BaseView):
         rect.x = x
         rect.y = y - rect.height / 2.0
 
-        if (y + 0.5 * rect.height + self._song_popover.get_allocated_height()) \
-            > self._view.get_visible_rect().height:
+        # amount of space needed for the popover to appear below the cursor
+        space = 0.5 * rect.height + self._song_popover.get_allocated_height()
+
+        # if there is not enough space, the popover will appear above
+        # need to adjust distance between mouse and popover
+        if y + space > self._view.get_visible_rect().height:
             rect.y += 10
 
         self._song_popover.set_relative_to(self._view)
