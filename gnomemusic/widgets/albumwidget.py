@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import ngettext
-from gi.repository import GdkPixbuf, GObject, Gtk
+from gi.repository import Gdk, GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -51,6 +51,7 @@ class AlbumWidget(Gtk.EventBox):
     _cover_stack = Gtk.Template.Child()
     _disc_listbox = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
+    _scrolledWindow = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
@@ -92,6 +93,9 @@ class AlbumWidget(Gtk.EventBox):
 
         self.bind_property(
             'selected-items-count', self._parent_view, 'selected-items-count')
+
+        self.add_events(Gdk.EventMask.SCROLL_MASK)
+        self.connect("scroll-event", self._album_widget_scrolled)
 
     @log
     def _create_model(self):
@@ -280,3 +284,14 @@ class AlbumWidget(Gtk.EventBox):
         :rtype: list
         """
         return self._disc_listbox.get_selected_items()
+
+    def _album_widget_scrolled(self, klass, event):
+        direction = event.direction
+        if direction not in [Gdk.ScrollDirection.DOWN, Gdk.ScrollDirection.UP]:
+            return
+
+        delta = -1.0
+        if direction == Gdk.ScrollDirection.DOWN:
+            delta = 1.0
+        vadjust = self._scrolledWindow.props.vadjustment
+        vadjust.props.value += delta * vadjust.props.step_increment
