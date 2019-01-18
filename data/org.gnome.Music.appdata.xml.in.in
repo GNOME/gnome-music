@@ -28,8 +28,8 @@
     </screenshot>
   </screenshots>
   <project_group>GNOME</project_group>
-  <url type="homepage">https://wiki.gnome.org/Apps/Music</url>
-  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnome-music/issues</url>
+  <url type="homepage">@package_url@</url>
+  <url type="bugtracker">@package_url_bug@</url>
   <url type="donation">https://www.gnome.org/friends/</url>
   <url type="help">https://help.gnome.org/users/gnome-music/stable/</url>
   <kudos>

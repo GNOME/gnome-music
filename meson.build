@@ -18,7 +18,7 @@ endif
 
 # Constants
 PACKAGE_URL = 'https://wiki.gnome.org/Apps/Music'
-PACKAGE_URL_BUG = 'https://gitlab.gnome.org/GNOME/gnome-music'
+PACKAGE_URL_BUG = 'https://gitlab.gnome.org/GNOME/gnome-music/issues'
 PROJECT_RDNN_NAME = 'org.gnome.Music'
 
 # NAME_SUFFIX is used in the about dialog
