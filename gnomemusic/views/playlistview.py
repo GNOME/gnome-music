@@ -370,8 +370,8 @@ class PlaylistView(BaseView):
         rect.x = x
         rect.y = y - cell_y + 0.5 * row_height
 
-        self._song_popover.set_relative_to(self._view)
-        self._song_popover.set_pointing_to(rect)
+        self._song_popover.props.relative_to = self._view
+        self._song_popover.props.pointing_to = rect
         self._song_popover.popup()
 
     @log
