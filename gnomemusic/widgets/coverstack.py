@@ -121,6 +121,7 @@ class CoverStack(Gtk.Stack):
     def _set_loading_child(self):
         self.props.visible_child_name = "loading"
         self._active_child = self.props.visible_child_name
+        self._timeout = None
 
         return GLib.SOURCE_REMOVE
 
