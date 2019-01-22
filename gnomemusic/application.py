@@ -110,4 +110,5 @@ class Application(Gtk.Application):
                 self._window.get_style_context().add_class('devel')
             MediaPlayer2Service(self)
 
-        self._window.present()
+        # https://gitlab.gnome.org/GNOME/gtk/issues/624#note_10996
+        self._window.present_with_time(GLib.get_monotonic_time() / 1000)
