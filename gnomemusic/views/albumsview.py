@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -70,12 +70,14 @@ class AlbumsView(BaseView):
     def _setup_view(self):
         self._view = Gtk.FlowBox(
             homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
-            valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
+            valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.MULTIPLE,
             margin=18, row_spacing=12, column_spacing=6,
             min_children_per_line=1, max_children_per_line=20)
 
         self._view.get_style_context().add_class('content-view')
         self._view.connect('child-activated', self._on_child_activated)
+        self._view.connect(
+            'selected-children-changed', self._on_selected_children_changed)
 
         scrolledwin = Gtk.ScrolledWindow()
         scrolledwin.add(self._view)
@@ -101,6 +103,20 @@ class AlbumsView(BaseView):
         self._headerbar.props.title = utils.get_album_title(item)
         self._headerbar.props.subtitle = utils.get_artist_name(item)
         self.set_visible_child(self._album_widget)
+
+    @log
+    def _on_selected_children_changed(self, widget):
+        def select_children():
+            if self._headerbar.props.state == HeaderBar.State.CHILD:
+                return
+
+            if not self.props.selection_mode:
+                self.props.selection_mode = True
+
+            for child in self._view.get_selected_children():
+                child.props.selected = True
+
+        GLib.idle_add(select_children)
 
     @log
     def populate(self):

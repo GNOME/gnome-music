@@ -51,6 +51,9 @@
             <property name="ellipsize">middle</property>
             <property name="max_width_chars">20</property>
             <property name="lines">2</property>
+            <style>
+              <class name="albumcover-title-label"/>
+            </style>
           </object>
         </child>
         <child>
