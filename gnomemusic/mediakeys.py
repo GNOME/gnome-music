@@ -41,7 +41,7 @@ class MediaKeys(GObject.GObject):
 
     @log
     def __init__(self, player, window):
-        """Intialize media keys handling
+        """Initialize media keys handling
 
         :param Player player: Player object
         :param Gtk.Window window: Window to grab keys if focused
