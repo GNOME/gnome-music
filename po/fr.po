@@ -318,7 +318,7 @@ msgstr "Correspondance"
 
 #: data/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Copyright © 2018 Développeurs de l’application Musique de GNOME"
+msgstr "Copyright © 2018 Développeurs de l’application GNOME Musique"
 
 #: data/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
