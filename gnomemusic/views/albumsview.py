@@ -46,8 +46,8 @@ class AlbumsView(BaseView):
         self.player = player
         self._album_widget = AlbumWidget(player, self)
         self.add(self._album_widget)
-        self.albums_selected = []
-        self.all_items = []
+        self.children_selected = []
+        self.all_children = []
         self.items_selected = []
         self.items_selected_callback = None
 
@@ -118,15 +118,12 @@ class AlbumsView(BaseView):
             self.items_selected = []
             self.items_selected_callback = callback
             self.albums_index = 0
-            if len(self.albums_selected):
+            if len(self.children_selected):
                 self._get_selected_album_songs()
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
         if item:
-            # Store all items to optimize 'Select All' action
-            self.all_items.append(item)
-
             # Add to the flowbox
             child = self._create_album_item(item)
             self._view.add(child)
@@ -139,6 +136,9 @@ class AlbumsView(BaseView):
     def _create_album_item(self, item):
         child = AlbumCover(item)
 
+        # Store all covers to optimize 'Select All' action
+        self.all_children.append(child)
+
         child.connect('notify::selected', self._on_selection_changed)
 
         self.bind_property(
@@ -150,19 +150,18 @@ class AlbumsView(BaseView):
     @log
     def _on_selection_changed(self, child, data=None):
         if (child.props.selected
-                and child.props.media not in self.albums_selected):
-            self.albums_selected.append(child.props.media)
+                and child not in self.children_selected):
+            self.children_selected.append(child)
         elif (not child.props.selected
-                and child.props.media in self.albums_selected):
-            self.albums_selected.remove(child.props.media)
+                and child in self.children_selected):
+            self.children_selected.remove(child)
 
-        self.props.selected_items_count = len(self.albums_selected)
+        self.props.selected_items_count = len(self.children_selected)
 
     @log
     def _get_selected_album_songs(self):
-        grilo.populate_album_songs(
-            self.albums_selected[self.albums_index],
-            self._add_selected_item)
+        child = self.children_selected[self.albums_index]
+        grilo.populate_album_songs(child.props.media, self._add_selected_item)
         self.albums_index += 1
 
     @log
@@ -185,10 +184,10 @@ class AlbumsView(BaseView):
 
     @log
     def select_all(self):
-        self.albums_selected = list(self.all_items)
+        self.children_selected = self.all_children
         self._toggle_all_selection(True)
 
     @log
     def unselect_all(self):
-        self.albums_selected = []
+        self.children_selected = []
         self._toggle_all_selection(False)
