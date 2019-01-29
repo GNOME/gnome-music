@@ -285,6 +285,8 @@ class DropDown(Gtk.Revealer):
     def initialize_filters(self, searchbar):
         self._source_manager = SourceManager(
             'source', _("Sources"), searchbar._search_entry)
+        self._source_manager.connect(
+            "notify::active", self._on_source_manager_value_changed)
 
         self._source_filter.props.manager = self._source_manager
         self._source_filter.connect(
@@ -306,11 +308,12 @@ class DropDown(Gtk.Revealer):
     def _on_selection_changed(self, klass, manager, id_):
         manager.active = id_
 
-        if manager == self._source_manager:
-            is_tracker = self._is_tracker(id_)
-            self._search_filter.props.sensitive = is_tracker
-            self.search_manager.props.active = (
-                'search_all' if not is_tracker else '')
+    @log
+    def _on_source_manager_value_changed(self, klass, value):
+        is_tracker = self._is_tracker(klass.props.active)
+        self._search_filter.props.sensitive = is_tracker
+        self.search_manager.props.active = (
+            'search_all' if not is_tracker else '')
 
     @log
     def _is_tracker(self, grilo_id):
