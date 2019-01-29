@@ -73,7 +73,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._songs = []
 
-        self._cover_stack.props.size = Art.Size.LARGE
+        self._cover_stack.props.size = Art.Size.XLARGE
         self._parent_view = parent_view
         self._player = player
         self._iter_to_clean = None

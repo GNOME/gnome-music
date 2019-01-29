@@ -104,8 +104,8 @@ class EmptyView(Gtk.Stack):
 
         self._icon.props.resource = "/org/gnome/Music/icons/initial-state.png"
         self._icon.props.margin_bottom = 32
-        self._icon.props.height_request = Art.Size.LARGE.height
-        self._icon.props.width_request = Art.Size.LARGE.width
+        self._icon.props.height_request = Art.Size.XLARGE.height
+        self._icon.props.width_request = Art.Size.XLARGE.width
 
     @log
     def _set_empty_state(self):
