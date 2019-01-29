@@ -118,6 +118,22 @@ class CoverStack(Gtk.Stack):
         self._art.lookup()
 
     @log
+    def update_from_surface(self, surface):
+        """Update CoverStack surface
+
+        :param cairo.ImageSurface surface: the new surface
+        """
+        if self._active_child == "B":
+            self._cover_a.props.surface = surface
+            self.props.visible_child_name = "A"
+        else:
+            self._cover_b.props.surface = surface
+            self.props.visible_child_name = "B"
+        self._active_child = self.props.visible_child_name
+
+        self.emit('updated')
+
+    @log
     def _set_loading_child(self):
         self.props.visible_child_name = "loading"
         self._active_child = self.props.visible_child_name
@@ -131,14 +147,5 @@ class CoverStack(Gtk.Stack):
             GLib.source_remove(self._timeout)
             self._timeout = None
 
-        if self._active_child == "B":
-            self._cover_a.props.surface = klass.surface
-            self.props.visible_child_name = "A"
-        else:
-            self._cover_b.props.surface = klass.surface
-            self.props.visible_child_name = "B"
-
-        self._active_child = self.props.visible_child_name
+        self.update_from_surface(klass.surface)
         self._art = None
-
-        self.emit('updated')
