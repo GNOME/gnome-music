@@ -25,6 +25,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import gi
+gi.require_version('Tracker', '2.0')
+
 from gi.repository import GLib, Tracker
 from gnomemusic import log
 import os
