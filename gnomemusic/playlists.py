@@ -29,7 +29,6 @@
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
-from gnomemusic import TrackerWrapper
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
@@ -131,7 +130,7 @@ class Playlists(GObject.GObject):
     }
 
     instance = None
-    tracker = None
+    _tracker = None
 
     def __repr__(self):
         return '<Playlists>'
@@ -148,7 +147,6 @@ class Playlists(GObject.GObject):
     def __init__(self):
         super().__init__()
 
-        self.tracker = TrackerWrapper().tracker
         self._static_playlists = StaticPlaylists()
 
         grilo.connect('ready', self._on_grilo_ready)
@@ -186,9 +184,10 @@ class Playlists(GObject.GObject):
             # Search for the playlist ID
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
+        self._tracker = grilo.tracker_sparql
         # Start fetching all the static playlists
         for playlist in self._static_playlists.get_all():
-            self.tracker.query_async(
+            self._tracker.query_async(
                 Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
                 callback, playlist)
 
@@ -234,7 +233,7 @@ class Playlists(GObject.GObject):
             query = Query.get_playlist_with_urn(playlist_urn)
 
             # Start fetching the playlist
-            self.tracker.query_async(
+            self._tracker.query_async(
                 query, None, playlist_queried_cb, playlist)
 
         def tag_created_cb(obj, res, playlist):
@@ -242,14 +241,14 @@ class Playlists(GObject.GObject):
             creation_query = Query.create_playlist_with_tag(title, tag_text)
 
             # Start creating the playlist itself
-            self.tracker.update_blank_async(
+            self._tracker.update_blank_async(
                 creation_query, GLib.PRIORITY_LOW, None, playlist_created_cb,
                 playlist)
 
         # Start the playlist creation by creating the tag
-        self.tracker.update_blank_async(Query.create_tag(tag_text),
-                                        GLib.PRIORITY_LOW, None,
-                                        tag_created_cb, playlist)
+        self._tracker.update_blank_async(
+            Query.create_tag(tag_text), GLib.PRIORITY_LOW, None,
+            tag_created_cb, playlist)
 
     @log
     def update_static_playlist(self, playlist):
@@ -262,15 +261,16 @@ class Playlists(GObject.GObject):
     def clear_playlist(self, playlist):
         """Starts cleaning the playlist"""
         query = Query.clear_playlist_with_id(playlist.ID)
-        self.tracker.update_async(query, GLib.PRIORITY_LOW, None,
-                                  self._static_playlist_cleared_cb, playlist)
+        self._tracker.update_async(
+            query, GLib.PRIORITY_LOW, None, self._static_playlist_cleared_cb,
+            playlist)
 
     @log
     def _static_playlist_cleared_cb(self, connection, res, playlist):
         """After clearing the playlist, start querying the playlist's songs"""
         # Get a list of matching songs
-        self.tracker.query_async(playlist.QUERY, None,
-                                 self._static_playlist_query_cb, playlist)
+        self._tracker.query_async(
+            playlist.QUERY, None, self._static_playlist_query_cb, playlist)
 
     @log
     def _static_playlist_query_cb(self, connection, res, playlist):
@@ -298,7 +298,7 @@ class Playlists(GObject.GObject):
 
                 cursor.next_async(None, callback, final_query)
             else:
-                self.tracker.update_blank_async(
+                self._tracker.update_blank_async(
                     final_query, GLib.PRIORITY_LOW, None,
                     self._static_playlist_update_finished, playlist)
 
@@ -344,15 +344,13 @@ class Playlists(GObject.GObject):
 
         def update_callback(conn, res, data):
             playlist_urn = conn.update_blank_finish(res)[0][0]['playlist']
-            self.tracker.query_async(
-                Query.get_playlist_with_urn(playlist_urn),
-                None, query_callback, None
-            )
+            self._tracker.query_async(
+                Query.get_playlist_with_urn(playlist_urn), None,
+                query_callback, None)
 
-        self.tracker.update_blank_async(
-            Query.create_playlist(title), GLib.PRIORITY_LOW,
-            None, update_callback, None
-        )
+        self._tracker.update_blank_async(
+            Query.create_playlist(title), GLib.PRIORITY_LOW, None,
+            update_callback, None)
 
     @log
     def rename(self, item, new_name):
@@ -369,7 +367,7 @@ class Playlists(GObject.GObject):
             conn.update_finish(res)
             self.emit('playlist-renamed', item)
 
-        self.tracker.update_async(
+        self._tracker.update_async(
             Query.rename_playlist(item.get_id(), new_name), GLib.PRIORITY_LOW,
             None, update_callback, None)
 
@@ -379,7 +377,7 @@ class Playlists(GObject.GObject):
             conn.update_finish(res)
             self.emit('playlist-deleted', item)
 
-        self.tracker.update_async(
+        self._tracker.update_async(
             Query.delete_playlist(item.get_id()), GLib.PRIORITY_LOW,
             None, update_callback, None
         )
@@ -401,20 +399,17 @@ class Playlists(GObject.GObject):
 
         def update_callback(conn, res, data):
             entry_urn = conn.update_blank_finish(res)[0][0]['entry']
-            self.tracker.query_async(
-                Query.get_playlist_song_with_urn(entry_urn),
-                None, query_callback, None
-            )
+            self._tracker.query_async(
+                Query.get_playlist_song_with_urn(entry_urn), None,
+                query_callback, None)
 
         for item in items:
             uri = item.get_url()
             if not uri:
                 continue
-            self.tracker.update_blank_async(
+            self._tracker.update_blank_async(
                 Query.add_song_to_playlist(playlist.get_id(), uri),
-                GLib.PRIORITY_LOW,
-                None, update_callback, None
-            )
+                GLib.PRIORITY_LOW, None, update_callback, None)
 
     @log
     def remove_from_playlist(self, playlist, items):
@@ -423,13 +418,10 @@ class Playlists(GObject.GObject):
             self.emit('song-removed-from-playlist', playlist, data)
 
         for item in items:
-            self.tracker.update_async(
-                Query.remove_song_from_playlist(
-                    playlist.get_id(), item.get_id()
-                ),
-                GLib.PRIORITY_LOW,
-                None, update_callback, item
-            )
+            item_id = item.get_id()
+            self._tracker.update_async(
+                Query.remove_song_from_playlist(playlist.get_id(), item_id),
+                GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log
     def reorder_playlist(self, playlist, items, new_positions):
@@ -442,10 +434,11 @@ class Playlists(GObject.GObject):
         def update_callback(conn, res, data):
             conn.update_finish(res)
 
+        playlist_id = playlist.get_id()
         for item, new_position in zip(items, new_positions):
-            self.tracker.update_async(
-                Query.change_song_position(
-                    playlist.get_id(), item.get_id(), new_position),
+            item_id = item.get_id()
+            self._tracker.update_async(
+                Query.change_song_position(playlist_id, item_id, new_position),
                 GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log

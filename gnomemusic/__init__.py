@@ -29,10 +29,6 @@ from itertools import chain
 from time import time
 import logging
 
-import gi
-gi.require_version('Tracker', '2.0')
-from gi.repository import Tracker
-
 logger = logging.getLogger(__name__)
 tabbing = 0
 
@@ -75,28 +71,3 @@ def log(fn):
         return retval
 
     return wrapped
-
-
-class TrackerWrapper:
-    class __TrackerWrapper:
-        def __init__(self):
-            try:
-                self.tracker = Tracker.SparqlConnection.get(None)
-            except Exception as e:
-                from sys import exit
-                logger.error(
-                    "Cannot connect to tracker, error {}\nExiting".format(
-                        str(e)))
-                exit(1)
-
-        def __str__(self):
-            return repr(self)
-
-    _instance = None
-
-    def __init__(self):
-        if not TrackerWrapper._instance:
-            TrackerWrapper._instance = TrackerWrapper.__TrackerWrapper()
-
-    def __getattr__(self, name):
-        return getattr(self._instance, name)
