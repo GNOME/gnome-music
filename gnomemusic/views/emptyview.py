@@ -48,6 +48,7 @@ class EmptyView(Gtk.Stack):
         INITIAL = 0
         EMPTY = 1
         SEARCH = 2
+        NO_TRACKER = 3
 
     __gtype_name__ = "EmptyView"
 
@@ -72,7 +73,7 @@ class EmptyView(Gtk.Stack):
 
         self._state = EmptyView.State.INITIAL
 
-    @GObject.Property(type=int, default=0, minimum=0, maximum=2)
+    @GObject.Property(type=int, default=0, minimum=0, maximum=3)
     def state(self):
         """Get the state of the empty view
 
@@ -94,6 +95,8 @@ class EmptyView(Gtk.Stack):
             self._set_empty_state()
         elif self._state == EmptyView.State.SEARCH:
             self._set_search_state()
+        elif self._state == EmptyView.State.NO_TRACKER:
+            self._set_no_tracker_state()
         self.show_all()
 
     @log
@@ -118,3 +121,13 @@ class EmptyView(Gtk.Stack):
         self._main_label.props.label = _("No music found")
         self._icon.props.margin_bottom = 18
         self._information_label.props.label = _("Try a different search")
+
+    @log
+    def _set_no_tracker_state(self):
+        self._main_label.props.margin_bottom = 12
+        self._main_label.props.label = _(
+            "Unable to find Tracker on your operating system")
+        self._icon.props.margin_bottom = 18
+        self._information_label.props.label = ""
+
+        self._icon.props.icon_name = "dialog-error"

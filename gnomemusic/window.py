@@ -201,7 +201,9 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        if did_initial_state:
+        if not grilo.props.tracker_available:
+            self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
+        elif did_initial_state:
             self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
         else:
             self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
