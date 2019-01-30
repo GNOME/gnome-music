@@ -29,7 +29,8 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
 from gnomemusic.query import Query
-from gnomemusic import log, TrackerWrapper
+from gnomemusic import log
+from gnomemusic.tracker import TrackerWrapper
 import logging
 import os
 os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
@@ -123,7 +124,8 @@ class Grilo(GObject.GObject):
 
         self.registry = Grl.Registry.get_default()
 
-        self.sparqltracker = TrackerWrapper().tracker
+        tracker_wrapper = TrackerWrapper()
+        self.tracker_sparql = tracker_wrapper.props.tracker
 
         self._find_sources()
 
@@ -505,8 +507,8 @@ class Grilo(GObject.GObject):
 
         # TODO: currently just checks tracker, should work with any
         # queryable supported Grilo source.
-        self.sparqltracker.query_async(Query.all_songs_count(), None,
-                                       songs_query_cb, None)
+        self.tracker_sparql.query_async(Query.all_songs_count(), None,
+                                        songs_query_cb, None)
 
 
 grilo = Grilo()
