@@ -123,7 +123,8 @@ class Grilo(GObject.GObject):
 
         self.registry = Grl.Registry.get_default()
 
-        self.sparqltracker = TrackerWrapper().tracker
+        tracker_wrapper = TrackerWrapper()
+        self.sparqltracker = tracker_wrapper.props.tracker
 
         self._find_sources()
 

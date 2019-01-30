@@ -31,7 +31,7 @@ import logging
 
 import gi
 gi.require_version('Tracker', '2.0')
-from gi.repository import Tracker
+from gi.repository import GObject, Tracker
 
 logger = logging.getLogger(__name__)
 tabbing = 0
@@ -77,26 +77,19 @@ def log(fn):
     return wrapped
 
 
-class TrackerWrapper:
-    class __TrackerWrapper:
-        def __init__(self):
-            try:
-                self.tracker = Tracker.SparqlConnection.get(None)
-            except Exception as e:
-                from sys import exit
-                logger.error(
-                    "Cannot connect to tracker, error {}\nExiting".format(
-                        str(e)))
-                exit(1)
-
-        def __str__(self):
-            return repr(self)
-
-    _instance = None
+class TrackerWrapper(GObject.GObject):
+    """Create a connection to an instance of Tracker"""
 
     def __init__(self):
-        if not TrackerWrapper._instance:
-            TrackerWrapper._instance = TrackerWrapper.__TrackerWrapper()
+        self._tracker = None
+        try:
+            self._tracker = Tracker.SparqlConnection.get(None)
+        except Exception as e:
+            from sys import exit
+            logger.error(
+                "Cannot connect to tracker, error {}\nExiting".format(str(e)))
+            exit(1)
 
-    def __getattr__(self, name):
-        return getattr(self._instance, name)
+    @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
+    def tracker(self):
+        return self._tracker
