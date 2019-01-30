@@ -507,8 +507,17 @@ class Grilo(GObject.GObject):
 
         # TODO: currently just checks tracker, should work with any
         # queryable supported Grilo source.
+        if not self.props.tracker_available:
+            callback(False)
+            return
+
         self.sparqltracker.query_async(Query.all_songs_count(), None,
                                        songs_query_cb, None)
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def tracker_available(self):
+        return self.sparqltracker is not None
 
 
 grilo = Grilo()
