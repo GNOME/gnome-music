@@ -82,6 +82,7 @@ class Grilo(GObject.GObject):
 
     sources = GObject.Property()
     cover_sources = GObject.Property(type=bool, default=False)
+    tracker_available = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
         return '<Grilo>'
@@ -124,8 +125,12 @@ class Grilo(GObject.GObject):
 
         self.registry = Grl.Registry.get_default()
 
-        tracker_wrapper = TrackerWrapper()
-        self.tracker_sparql = tracker_wrapper.props.tracker
+        self._tracker_wrapper = TrackerWrapper()
+        self.tracker_sparql = self._tracker_wrapper.props.tracker
+        self.bind_property(
+            "tracker-available", self._tracker_wrapper, "tracker-available",
+            GObject.BindingFlags.BIDIRECTIONAL |
+            GObject.BindingFlags.SYNC_CREATE)
 
         self._find_sources()
 
@@ -500,6 +505,7 @@ class Grilo(GObject.GObject):
                 cursor = conn.query_finish(res)
             except GLib.Error as err:
                 logger.warning("Error: {}, {}".format(err.__class__, err))
+                self.props.tracker_available = False
                 callback(False)
                 return
 
@@ -507,8 +513,12 @@ class Grilo(GObject.GObject):
 
         # TODO: currently just checks tracker, should work with any
         # queryable supported Grilo source.
-        self.tracker_sparql.query_async(Query.all_songs_count(), None,
-                                        songs_query_cb, None)
+        if not self.props.tracker_available:
+            callback(False)
+            return
+
+        self.tracker_sparql.query_async(
+            Query.all_songs_count(), None, songs_query_cb, None)
 
 
 grilo = Grilo()

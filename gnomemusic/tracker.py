@@ -33,15 +33,41 @@ class TrackerWrapper(GObject.GObject):
 
     def __init__(self):
         super().__init__()
-        self._tracker = None
         try:
             self._tracker = Tracker.SparqlConnection.get(None)
+            self._tracker_available = True
         except Exception as e:
-            from sys import exit
+            self._tracker = None
+            self._tracker_available = False
             logger.error(
-                "Cannot connect to tracker, error {}\nExiting".format(str(e)))
-            exit(1)
+                "Cannot connect to tracker, error {}\n".format(str(e)))
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def tracker(self):
         return self._tracker
+
+    @GObject.Property(type=bool, default=False)
+    def tracker_available(self):
+        """Get Tracker availability.
+
+        Tracker is available if is SparqlConnection has been opened and
+        if a query can be
+
+        :returns: tracker availability
+        :rtype: bool
+        """
+        return self._tracker_available
+
+    @tracker_available.setter
+    def tracker_available(self, value):
+        """Set Tracker availability.
+
+        If a SparqlConnection has not been opened, Tracker availability
+        cannot be set to True.
+
+        :param bool value: new value
+        """
+        if self._tracker is None:
+            self._tracker_available = False
+        else:
+            self._tracker_available = value
