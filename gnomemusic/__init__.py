@@ -81,14 +81,12 @@ class TrackerWrapper(GObject.GObject):
     """Create a connection to an instance of Tracker"""
 
     def __init__(self):
-        self._tracker = None
         try:
             self._tracker = Tracker.SparqlConnection.get(None)
         except Exception as e:
-            from sys import exit
+            self._tracker = None
             logger.error(
-                "Cannot connect to tracker, error {}\nExiting".format(str(e)))
-            exit(1)
+                "Cannot connect to tracker, error {}\n".format(str(e)))
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def tracker(self):
