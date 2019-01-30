@@ -242,7 +242,7 @@ class GstPlayer(GObject.GObject):
         :return: url
         :rtype: string
         """
-        return self._player.props.uri
+        return self._player.props.current_uri
 
     @url.setter
     def url(self, url_):
