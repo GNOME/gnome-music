@@ -628,9 +628,7 @@ class Player(GObject.GObject):
         self._gst_player.props.state = Playback.LOADING
         self._time_stamp = int(time.time())
 
-        url_ = song.get_url()
-        if url_ != self._gst_player.props.url:
-            self._gst_player.props.url = url_
+        self._gst_player.props.url = song.get_url()
 
         self.emit('song-changed', self._playlist.get_current_index())
 
@@ -661,7 +659,8 @@ class Player(GObject.GObject):
                 and not self._playlist.set_song(song_offset)):
             return False
 
-        if self.props.state != Playback.PAUSED:
+        url = self._playlist.props.current_song.get_url()
+        if url != self._gst_player.props.url:
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
