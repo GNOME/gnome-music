@@ -125,7 +125,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         widget = ArtistAlbumWidget(
             album, self._player, self._model, self._selection_mode_allowed,
             self._songs_grid_size_group, self._cover_size_group)
-
+        widget._sync_icon()
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL
