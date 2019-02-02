@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
-      <object class="GtkImage" id="_play_image">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_top">1</property>
-        <property name="receives_default">True</property>
-        <property name="icon_name">media-playback-start-symbolic</property>
-        <property name="icon_size">1</property>
-      </object>
-      <object class="GtkImage" id="_pause_image">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="margin_top">1</property>
-        <property name="icon_name">media-playback-pause-symbolic</property>
-        <property name="icon_size">1</property>
-      </object>
-
   <template class="AlbumWidget" parent="GtkEventBox">
     <property name="visible">True</property>
-    <style>
-      <class name="view"/>
-      <class name="content-view"/>
-    </style>
+    <property name="can_focus">False</property>
     <child>
       <object class="GtkBox">
         <property name="visible">True</property>
@@ -47,19 +28,7 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">18</property>
                 <child>
-                  <object class="CoverStack" id="_cover_stack">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">start</property>
-                    <property name="margin_start">1</property>
-                    <property name="margin_end">1</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <object class="GtkBox" id="artistBox">
@@ -111,45 +80,6 @@
                     <property name="position">1</property>
                   </packing>
                 </child>
-              <child>
-                    <object class="GtkButton" id="_album_play_button">
-                      <property name="width_request">60</property>
-                      <property name="visible">True</property>
-                      <property name="sensitive">True</property>
-                      <property name="can_focus">True</property>
-                      <property name="receives_default">True</property>
-                      <property name="image">_play_image</property>
-                      <property name="always_show_image">True</property>
-                      <property name="tooltip_text" translatable="yes">Play</property>
-                      <signal name="clicked" handler="_album_play_pause" swapped="no"/>
-                    </object>
-                <packing>
-                  <property name="pack_type">end</property>
-                </packing>
-              </child>
-              <child>
-                <object class="GtkButton" id="_album_more_button">
-                  <property name="visible">True</property>
-                  <property name="can_focus">False</property>
-                  <property name="valign">center</property>
-                  <property name="sensitive">True</property>
-                  <property name="tooltip_text" translatable="yes">More</property>
-                  <style>
-                    <class name="image-button"/>
-                  </style>
-                  <child>
-                    <object class="GtkImage" id="_album_more_button_image">
-                      <property name="visible">True</property>
-                      <property name="can_focus">False</property>
-                      <property name="icon-name">view-more-symbolic</property>
-                      <property name="icon-size">1</property>
-                    </object>
-                  </child>
-                </object>
-                <packing>
-                  <property name="pack_type">end</property>
-                </packing>
-              </child>
                 <child>
                   <object class="GtkGrid" id="grid">
                     <property name="visible">True</property>
@@ -288,20 +218,7 @@
                 <property name="hexpand">True</property>
                 <property name="shadow_type">none</property>
                 <child>
-                  <!-- TODO: The top of the coverart is the same vertical -->
-                  <!-- position as the top of the album songs, however -->
-                  <!-- since we set a top margins for the discbox -->
-                  <!-- subtract that margin here. A cleaner solution is appreciated. -->
-                  <object class="DiscListBox" id="_disc_listbox">
-                    <property name="can_focus">False</property>
-                    <property name="margin_top">48</property>
-                    <property name="margin_bottom">64</property>
-                    <property name="margin_end">32</property>
-                    <property name="orientation">vertical</property>
-                    <property name="selection_mode_allowed">True</property>
-                    <property name="visible">True</property>
-                    <signal name="selection-changed" handler="_on_selection_changed" swapped="no"/>
-                  </object>
+                  <placeholder/>
                 </child>
               </object>
             </child>
@@ -314,5 +231,12 @@
         </child>
       </object>
     </child>
+    <style>
+      <class name="view"/>
+      <class name="content-view"/>
+    </style>
   </template>
+  <object class="GtkAction">
+    <property name="icon_name">play</property>
+  </object>
 </interface>
