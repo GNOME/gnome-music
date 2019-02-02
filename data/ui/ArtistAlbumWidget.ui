@@ -2,27 +2,144 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
+  <object class="GtkImage" id="_play_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_top">1</property>
+    <property name="receives_default">True</property>
+    <property name="icon_name">media-playback-start-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <object class="GtkImage" id="_pause_image">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="margin_top">1</property>
+    <property name="icon_name">media-playback-pause-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
+  <menu id="repeatMenu1">
+    <item>
+      <attribute name="label" translatable="yes">Shuffle</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">shuffle</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Repeat All</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">all</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes">Repeat Song</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">song</attribute>
+    </item>
+    <item>
+      <attribute name="label" translatable="yes" comments="Causes tracks to play in random order">Shuffle/Repeat Off</attribute>
+      <attribute name="action">win.repeat</attribute>
+      <attribute name="target">none</attribute>
+    </item>
+  </menu>
+  
   <template parent="GtkBox" class="ArtistAlbumWidget">
+    <property name="halign">start</property>
     <child>
-      <object class="CoverStack" id="_cover_stack">
+      <object class="GtkBox" id="albumbox">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="halign">start</property>
         <property name="valign">start</property>
-        <style>
-          <class name="album-cover"/>
-        </style>
+        <property name="orientation">vertical</property>
+        <property name="spacing">0</property>
+        <child>
+          <object class="CoverStack" id="_cover_stack">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="valign">start</property>
+            <style>
+              <class name="album-cover"/>
+            </style>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="albumbuttons">
+            <property name="visible">True</property>
+            <property name="halign">center</property>
+            <property name="valign">start</property>
+            <property name="orientation">horizontal</property>
+            <property name="margin_start">1</property>
+            <property name="margin_end">0</property>
+            <property name="spacing">0</property>
+            <child>
+              <object class="GtkButton" id="_album_play_button">
+                <property name="width-request">92</property>
+                <property name="visible">True</property>
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="sensitive">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">_play_image</property>
+                <property name="always_show_image">True</property>
+                <property name="tooltip_text" translatable="yes">Play</property>
+                <signal name="clicked" handler="_album_play_pause" swapped="no"/>
+              </object>
+              <packing>
+                  <property name="pack_type">start</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkMenuButton" id="_album_more_button">
+                <property name="width-request">13</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">end</property>
+                <property name="sensitive">True</property>
+                <property name="tooltip_text" translatable="yes">More</property>
+                <property name="receives_default">True</property>
+                <property name="use_popover">True</property>
+                <property name="menu_model">repeatMenu1</property>
+                <style>
+                  <class name="image-button"/>
+                </style>
+                <child>
+                  <object class="GtkImage" id="_album_more_button_image">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon-name">view-more-symbolic</property>
+                    <property name="icon-size">1</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                  <property name="pack_type">end</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
       </object>
       <packing>
-        <property name="expand">False</property>
+        <property name="expand">True</property>
         <property name="fill">True</property>
-        <property name="position">0</property>
+        <property name="position">1</property>
       </packing>
     </child>
+
     <child>
       <object class="GtkBox" id="_album_box">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
+        <property name="margin">0</property>
         <child>
           <object class="GtkBox" id="box3">
             <property name="visible">True</property>

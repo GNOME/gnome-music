@@ -32,6 +32,7 @@ from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
+from gi.repository import Gio
 import gnomemusic.utils as utils
 
 
@@ -53,6 +54,9 @@ class AlbumWidget(Gtk.EventBox):
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
+    _album_play_button = Gtk.Template.Child()
+    _pause_image = Gtk.Template.Child()
+    _play_image = Gtk.Template.Child()
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
@@ -92,6 +96,12 @@ class AlbumWidget(Gtk.EventBox):
 
         self.bind_property(
             'selected-items-count', self._parent_view, 'selected-items-count')
+
+        self._player.connect('notify::state', self._sync_icon)
+        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings.connect(
+            'changed::repeat', self._on_repeat_setting_changed)
+        self._repeat = self._settings.get_enum('repeat')
 
     @log
     def _create_model(self):
@@ -147,6 +157,8 @@ class AlbumWidget(Gtk.EventBox):
 
         grilo.populate_album_songs(album, self.add_item)
 
+        self._sync_icon()
+
     @log
     def _set_composer_label(self, album):
         composer = album.get_composer()
@@ -197,6 +209,38 @@ class AlbumWidget(Gtk.EventBox):
             song_widget.itr)
         self._player.play()
         return True
+
+    @log
+    def _sync_icon(self, klass=None, args=None):
+        if not self._player.playing:
+            image = self._play_image
+            tooltip = "Play"
+        else:
+            if self._player.get_playlist_id() == self._album_name:
+                image = self._pause_image
+                tooltip = "Pause"
+            else:
+                image = self._play_image
+                tooltip = "Play"
+
+        if self._album_play_button.get_image() != image:
+            self._album_play_button.set_image(image)
+
+        self._album_play_button.set_tooltip_text(tooltip)
+
+    @Gtk.Template.Callback()
+    @log
+    def _album_play_pause(self, widget):
+        if self._player.get_playlist_id() != self._album_name:
+            firstsong = self._songs[0].song_widget
+            self._player.set_playlist(
+                PlayerPlaylist.Type.ALBUM, self._album_name, firstsong.model,
+                firstsong.itr)
+            self._player._load(self._songs[0])
+            self._player.play()
+        else:
+            self._player.play_pause()
+        self._sync_icon()
 
     @log
     def add_item(self, source, prefs, song, remaining, data=None):
@@ -280,3 +324,7 @@ class AlbumWidget(Gtk.EventBox):
         :rtype: list
         """
         return self._disc_listbox.get_selected_items()
+
+    @log
+    def _on_repeat_setting_changed(self, settings, value):
+        self._player.props.repeat_mode = settings.get_enum('repeat')
