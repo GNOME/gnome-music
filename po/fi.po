@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-08-16 16:32+0000\n"
-"PO-Revision-Date: 2018-08-17 11:31+0300\n"
+"POT-Creation-Date: 2018-10-03 10:18+0000\n"
+"PO-Revision-Date: 2019-02-04 21:51+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -43,8 +43,8 @@ msgstr ""
 "Etsi kappaleita paikallisesta kokoelmastasi, toista musiikkia DLNA-"
 "palvelimilta tai löydä jotain uutta Jamendo- ja Magnatune-palveluista."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:54
-#: gnomemusic/window.py:67
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
+#: gnomemusic/window.py:72
 msgid "Music"
 msgstr "Musiikki"
 
@@ -129,25 +129,296 @@ msgstr ""
 "Ottaa käyttöön tai poistaa käytöstä järjestelmän valmiustilaan siirtymisen "
 "estämisen kun musiikkia toistetaan"
 
-#: gnomemusic/gstplayer.py:402
+#: data/ui/AboutDialog.ui.in:9
+msgid "Copyright © 2018 GNOME Music Developers"
+msgstr "Tekijänoikeus © 2018 Gnomen musiikkisoittimen kehittäjät"
+
+#: data/ui/AboutDialog.ui.in:10
+msgid "A music player and management application for GNOME."
+msgstr "Gnomen musiikkisoitin."
+
+#: data/ui/AboutDialog.ui.in:12
+msgid "Visit GNOME Music website"
+msgstr "Käy Gnomen musiikkisoittimen verkkosivustolla"
+
+#: data/ui/AboutDialog.ui.in:13
+msgid ""
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
+"\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
+"\n"
+"You should have received a copy of the GNU General Public License along with "
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version.\n"
+"\n"
+"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403"
+msgstr ""
+
+#: data/ui/AlbumWidget.ui:112
+msgid "Released"
+msgstr "Julkaistu"
+
+#: data/ui/AlbumWidget.ui:128
+msgid "Running Length"
+msgstr "Kesto"
+
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:70
+msgid "Composer"
+msgstr "Säveltäjä"
+
+#: data/ui/AppMenu.ui:21
+msgid "_Keyboard Shortcuts"
+msgstr "_Pikanäppäimet"
+
+#: data/ui/AppMenu.ui:35
+msgid "_Help"
+msgstr "_Ohje"
+
+#: data/ui/AppMenu.ui:49
+msgid "_About Music"
+msgstr "_Tietoja - Musiikki"
+
+#: data/ui/HeaderBar.ui:13
+msgid "Menu"
+msgstr "Valikko"
+
+#: data/ui/HeaderBar.ui:36
+msgid "Search"
+msgstr "Hae"
+
+#: data/ui/HeaderBar.ui:59
+msgid "Select"
+msgstr "Valitse"
+
+#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+msgid "_Cancel"
+msgstr "_Peru"
+
+#: data/ui/HeaderBar.ui:100
+msgid "Back"
+msgstr "Takaisin"
+
+#: data/ui/help-overlay.ui:13
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Yleiset"
+
+#: data/ui/help-overlay.ui:17
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Sulje ikkuna"
+
+#: data/ui/help-overlay.ui:24
+msgctxt "shortcut window"
+msgid "Search"
+msgstr "Haku"
+
+#: data/ui/help-overlay.ui:31
+msgctxt "shortcut window"
+msgid "Help"
+msgstr "Ohje"
+
+#: data/ui/help-overlay.ui:38
+msgctxt "shortcut window"
+msgid "Shortcuts"
+msgstr "Pikanäppäimet"
+
+#: data/ui/help-overlay.ui:47
+msgctxt "shortcut window"
+msgid "Playback"
+msgstr "Toista"
+
+#: data/ui/help-overlay.ui:51
+msgctxt "shortcut window"
+msgid "Play/Pause"
+msgstr "Toista/keskeytä"
+
+#: data/ui/help-overlay.ui:58
+msgctxt "shortcut window"
+msgid "Next song"
+msgstr "Seuraava kappale"
+
+#: data/ui/help-overlay.ui:65
+msgctxt "shortcut window"
+msgid "Previous song"
+msgstr "Edellinen kappale"
+
+#: data/ui/help-overlay.ui:72
+msgctxt "shortcut window"
+msgid "Toggle repeat"
+msgstr "Kertaus päälle/pois"
+
+#: data/ui/help-overlay.ui:79
+msgctxt "shortcut window"
+msgid "Toggle shuffle"
+msgstr "Sekoitus päälle/pois"
+
+#: data/ui/help-overlay.ui:88
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr "Liikkuminen"
+
+#: data/ui/help-overlay.ui:92
+msgctxt "shortcut window"
+msgid "Go to Albums"
+msgstr "Siirry albumeihin"
+
+#: data/ui/help-overlay.ui:99
+msgctxt "shortcut window"
+msgid "Go to Artists"
+msgstr "Siirry esittäjiin"
+
+#: data/ui/help-overlay.ui:106
+msgctxt "shortcut window"
+msgid "Go to Songs"
+msgstr "Siirry kappaleisiin"
+
+#: data/ui/help-overlay.ui:113
+msgctxt "shortcut window"
+msgid "Go to Playlists"
+msgstr "Siirry soittolistoihin"
+
+#: data/ui/help-overlay.ui:120
+msgctxt "shortcut window"
+msgid "Go back"
+msgstr "Siirry takaisin"
+
+#: data/ui/PlayerToolbar.ui:6
+msgid "Shuffle"
+msgstr "Sekoita"
+
+#: data/ui/PlayerToolbar.ui:11
+msgid "Repeat All"
+msgstr "Kertaa kaikki"
+
+#: data/ui/PlayerToolbar.ui:16
+msgid "Repeat Song"
+msgstr "Kertaa kappale"
+
+#. Causes tracks to play in random order
+#: data/ui/PlayerToolbar.ui:21
+msgid "Shuffle/Repeat Off"
+msgstr "Sekoitus/kertaus pois"
+
+#: data/ui/PlayerToolbar.ui:70
+msgid "Previous"
+msgstr "Edellinen"
+
+#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:144
+msgid "Play"
+msgstr "Toista"
+
+#: data/ui/PlayerToolbar.ui:106
+msgid "Next"
+msgstr "Seuraava"
+
+#: data/ui/PlaylistContextMenu.ui:5
+msgctxt "context menu item"
+msgid "Play"
+msgstr "Toista"
+
+#: data/ui/PlaylistContextMenu.ui:9
+msgid "Add to Playlist…"
+msgstr "Lisää soittolistalle…"
+
+#: data/ui/PlaylistContextMenu.ui:13
+msgid "Remove From Playlist"
+msgstr "Poista soittolistalta"
+
+#: data/ui/PlaylistControls.ui:6
+msgid "_Play"
+msgstr "_Toista"
+
+#: data/ui/PlaylistControls.ui:10
+msgid "_Delete"
+msgstr "_Poista"
+
+#: data/ui/PlaylistControls.ui:14
+msgid "_Rename…"
+msgstr "_Nimeä uudelleen…"
+
+#: data/ui/PlaylistControls.ui:33
+msgid "Playlist Name"
+msgstr "Soittolistan nimi"
+
+#: data/ui/PlaylistControls.ui:67
+msgid "_Done"
+msgstr "_Valmis"
+
+#: data/ui/PlaylistDialog.ui:68
+msgid "Enter a name for your first playlist"
+msgstr "Anna nimi ensimmäiselle soittolistallesi"
+
+#: data/ui/PlaylistDialog.ui:97
+msgid "C_reate"
+msgstr "_Luo"
+
+#: data/ui/PlaylistDialog.ui:168
+msgid "New Playlist…"
+msgstr "Uusi soittolista…"
+
+#: data/ui/PlaylistDialog.ui:184
+msgid "Add"
+msgstr "Lisää"
+
+#: data/ui/PlaylistDialog.ui:279
+msgid "Add to Playlist"
+msgstr "Lisää soittolistaan"
+
+#: data/ui/PlaylistDialog.ui:295
+msgid "_Add"
+msgstr "_Lisää"
+
+#: data/ui/SelectionBarMenuButton.ui:7
+msgid "Select All"
+msgstr "Valitse kaikki"
+
+#: data/ui/SelectionBarMenuButton.ui:11
+msgid "Select None"
+msgstr "Älä valitse mitään"
+
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+msgid "Click on items to select them"
+msgstr "Napsauta kohteita valitaksesi ne"
+
+#: data/ui/SelectionToolbar.ui:9
+msgid "_Add to Playlist"
+msgstr "Lisää _soittolistalle"
+
+#: gnomemusic/gstplayer.py:405
 msgid "Unable to play the file"
 msgstr "Tiedoston toistaminen epäonnistui"
 
-#: gnomemusic/gstplayer.py:408
+#: gnomemusic/gstplayer.py:411
 msgid "_Find in {}"
 msgstr "_Etsi sovelluksella {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:419
+#: gnomemusic/gstplayer.py:422
 msgid " and "
 msgstr " ja "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:422
+#: gnomemusic/gstplayer.py:425
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:427
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} vaaditaan tiedoston toistamiseksi, mutta sitä ei ole asennettu."
@@ -190,11 +461,11 @@ msgstr "Tuntematon esittäjä"
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:574
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:584
 msgid "Albums"
 msgstr "Levyt"
 
-#: gnomemusic/views/artistsview.py:62 gnomemusic/views/searchview.py:576
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:586
 msgid "Artists"
 msgstr "Esittäjät"
 
@@ -220,23 +491,23 @@ msgstr "Musiikkia ei löytynyt"
 msgid "Try a different search"
 msgstr "Kokeile haku eri ehdoilla"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:580
+#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:590
 msgid "Playlists"
 msgstr "Soittolistat"
 
-#: gnomemusic/views/playlistview.py:638
+#: gnomemusic/views/playlistview.py:643
 msgid "Playlist {} removed"
 msgstr "Soittolista {} poistettu"
 
-#: gnomemusic/views/playlistview.py:644
+#: gnomemusic/views/playlistview.py:649
 msgid "{} removed from {}"
 msgstr "{} poistettu soittolistalta {}"
 
-#: gnomemusic/views/searchview.py:578 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:588 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Kappaleet"
 
-#: gnomemusic/widgets/albumwidget.py:171
+#: gnomemusic/widgets/albumwidget.py:166
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuutti"
@@ -246,15 +517,11 @@ msgstr[1] "{} minuuttia"
 msgid "Disc {}"
 msgstr "Levy {}"
 
-#: gnomemusic/widgets/headerbar.py:73
+#: gnomemusic/widgets/headerbar.py:72
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Valittu {} kohde"
 msgstr[1] "Valittu {} kohdetta"
-
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:31
-msgid "Click on items to select them"
-msgstr "Napsauta kohteita valitaksesi ne"
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -264,13 +531,9 @@ msgstr "Ladataan"
 msgid "_Undo"
 msgstr "_Kumoa"
 
-#: gnomemusic/widgets/playertoolbar.py:145
+#: gnomemusic/widgets/playertoolbar.py:141
 msgid "Pause"
 msgstr "Keskeytä"
-
-#: gnomemusic/widgets/playertoolbar.py:148 data/PlayerToolbar.ui:88
-msgid "Play"
-msgstr "Toista"
 
 #: gnomemusic/widgets/playlistcontrols.py:96
 msgid "{} Song"
@@ -290,10 +553,6 @@ msgstr "Esittäjä"
 msgid "Album"
 msgstr "Levy"
 
-#: gnomemusic/widgets/searchbar.py:70 data/AlbumWidget.ui:172
-msgid "Composer"
-msgstr "Säveltäjä"
-
 #: gnomemusic/widgets/searchbar.py:71
 msgid "Track Title"
 msgstr "Kappaleen nimi"
@@ -302,272 +561,16 @@ msgstr "Kappaleen nimi"
 msgid "Local"
 msgstr "Paikalliset"
 
-#: gnomemusic/widgets/searchbar.py:259
+#: gnomemusic/widgets/searchbar.py:284
 msgid "Sources"
 msgstr "Lähteet"
 
-#: gnomemusic/widgets/searchbar.py:267
+#: gnomemusic/widgets/searchbar.py:293
 msgid "Match"
 msgstr "Vastaavuus"
 
-#: data/AboutDialog.ui.in:9
-msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Tekijänoikeus © 2018 Gnomen musiikkisoittimen kehittäjät"
-
-#: data/AboutDialog.ui.in:10
-msgid "A music player and management application for GNOME."
-msgstr "Gnomen musiikkisoitin."
-
-#: data/AboutDialog.ui.in:12
-msgid "Visit GNOME Music website"
-msgstr "Käy Gnomen musiikkisoittimen verkkosivustolla"
-
-#: data/AboutDialog.ui.in:13
-msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under "
-"the terms of the GNU General Public License as published by the Free "
-"Software Foundation; either version 2 of the License, or (at your option) "
-"any later version.\n"
-"\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
-"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
-"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
-"more details.\n"
-"\n"
-"You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-"\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible "
-"GStreamer plugins to be used and distributed together with GStreamer and "
-"GNOME Music.  This permission is above and beyond the permissions granted by "
-"the GPL license by which GNOME Music is covered.  If you modify this code, "
-"you may extend this exception to your version of the code, but you are not "
-"obligated to do so.  If you do not wish to do so, delete this exception "
-"statement from your version.\n"
-"\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-"https://www.flickr.com/photos/_spy_/12270839403"
-msgstr ""
-
-#: data/AlbumWidget.ui:111
-msgid "Released"
-msgstr "Julkaistu"
-
-#: data/AlbumWidget.ui:127
-msgid "Running Length"
-msgstr "Kesto"
-
-#: data/app-menu.ui:5
-msgid "_Keyboard Shortcuts"
-msgstr "_Pikanäppäimet"
-
-#: data/app-menu.ui:9
-msgid "_Help"
-msgstr "_Ohje"
-
-#: data/app-menu.ui:15
-msgid "_About"
-msgstr "_Tietoja"
-
-#: data/app-menu.ui:19
-msgid "_Quit"
-msgstr "_Lopeta"
-
-#: data/HeaderBar.ui:13
-msgid "Search"
-msgstr "Hae"
-
-#: data/HeaderBar.ui:36
-msgid "Select"
-msgstr "Valitse"
-
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
-msgid "_Cancel"
-msgstr "_Peru"
-
-#: data/HeaderBar.ui:77
-msgid "Back"
-msgstr "Takaisin"
-
-#: data/help-overlay.ui:13
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Yleiset"
-
-#: data/help-overlay.ui:17
-msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Sulje ikkuna"
-
-#: data/help-overlay.ui:24
-msgctxt "shortcut window"
-msgid "Search"
-msgstr "Haku"
-
-#: data/help-overlay.ui:31
-msgctxt "shortcut window"
-msgid "Help"
-msgstr "Ohje"
-
-#: data/help-overlay.ui:38
-msgctxt "shortcut window"
-msgid "Shortcuts"
-msgstr "Pikanäppäimet"
-
-#: data/help-overlay.ui:47
-msgctxt "shortcut window"
-msgid "Playback"
-msgstr "Toista"
-
-#: data/help-overlay.ui:51
-msgctxt "shortcut window"
-msgid "Play/Pause"
-msgstr "Toista/keskeytä"
-
-#: data/help-overlay.ui:58
-msgctxt "shortcut window"
-msgid "Next song"
-msgstr "Seuraava kappale"
-
-#: data/help-overlay.ui:65
-msgctxt "shortcut window"
-msgid "Previous song"
-msgstr "Edellinen kappale"
-
-#: data/help-overlay.ui:72
-msgctxt "shortcut window"
-msgid "Toggle repeat"
-msgstr "Kertaus päälle/pois"
-
-#: data/help-overlay.ui:79
-msgctxt "shortcut window"
-msgid "Toggle shuffle"
-msgstr "Sekoitus päälle/pois"
-
-#: data/help-overlay.ui:88
-msgctxt "shortcut window"
-msgid "Navigation"
-msgstr "Liikkuminen"
-
-#: data/help-overlay.ui:92
-msgctxt "shortcut window"
-msgid "Go to Albums"
-msgstr "Siirry albumeihin"
-
-#: data/help-overlay.ui:99
-msgctxt "shortcut window"
-msgid "Go to Artists"
-msgstr "Siirry esittäjiin"
-
-#: data/help-overlay.ui:106
-msgctxt "shortcut window"
-msgid "Go to Songs"
-msgstr "Siirry kappaleisiin"
-
-#: data/help-overlay.ui:113
-msgctxt "shortcut window"
-msgid "Go to Playlists"
-msgstr "Siirry soittolistoihin"
-
-#: data/help-overlay.ui:120
-msgctxt "shortcut window"
-msgid "Go back"
-msgstr "Siirry takaisin"
-
-#: data/PlayerToolbar.ui:6
-msgid "Shuffle"
-msgstr "Sekoita"
-
-#: data/PlayerToolbar.ui:11
-msgid "Repeat All"
-msgstr "Kertaa kaikki"
-
-#: data/PlayerToolbar.ui:16
-msgid "Repeat Song"
-msgstr "Kertaa kappale"
-
-#. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
-msgid "Shuffle/Repeat Off"
-msgstr "Sekoitus/kertaus pois"
-
-#: data/PlayerToolbar.ui:70
-msgid "Previous"
-msgstr "Edellinen"
-
-#: data/PlayerToolbar.ui:106
-msgid "Next"
-msgstr "Seuraava"
-
-#: data/PlaylistContextMenu.ui:5
-msgctxt "context menu item"
-msgid "Play"
-msgstr "Toista"
-
-#: data/PlaylistContextMenu.ui:9
-msgid "Add to Playlist…"
-msgstr "Lisää soittolistalle…"
-
-#: data/PlaylistContextMenu.ui:13
-msgid "Remove From Playlist"
-msgstr "Poista soittolistalta"
-
-#: data/PlaylistControls.ui:6
-msgid "_Play"
-msgstr "_Toista"
-
-#: data/PlaylistControls.ui:10
-msgid "_Delete"
-msgstr "_Poista"
-
-#: data/PlaylistControls.ui:14
-msgid "_Rename…"
-msgstr "_Nimeä uudelleen…"
-
-#: data/PlaylistControls.ui:33
-msgid "Playlist Name"
-msgstr "Soittolistan nimi"
-
-#: data/PlaylistControls.ui:67
-msgid "_Done"
-msgstr "_Valmis"
-
-#: data/PlaylistDialog.ui:68
-msgid "Enter a name for your first playlist"
-msgstr "Anna nimi ensimmäiselle soittolistallesi"
-
-#: data/PlaylistDialog.ui:97
-msgid "C_reate"
-msgstr "_Luo"
-
-#: data/PlaylistDialog.ui:168
-msgid "New Playlist…"
-msgstr "Uusi soittolista…"
-
-#: data/PlaylistDialog.ui:184
-msgid "Add"
-msgstr "Lisää"
-
-#: data/PlaylistDialog.ui:279
-msgid "Add to Playlist"
-msgstr "Lisää soittolistaan"
-
-#: data/PlaylistDialog.ui:295
-msgid "_Add"
-msgstr "_Lisää"
-
-#: data/SelectionBarMenuButton.ui:7
-msgid "Select All"
-msgstr "Valitse kaikki"
-
-#: data/SelectionBarMenuButton.ui:11
-msgid "Select None"
-msgstr "Älä valitse mitään"
-
-#: data/SelectionToolbar.ui:9
-msgid "_Add to Playlist"
-msgstr "Lisää _soittolistalle"
+#~ msgid "_Quit"
+#~ msgstr "_Lopeta"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "Musiikki on Gnomen uusi musiikintoistosovellus."
