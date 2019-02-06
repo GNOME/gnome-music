@@ -13,8 +13,6 @@
         </style>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
         <property name="position">0</property>
       </packing>
     </child>
@@ -34,16 +32,12 @@
                 <property name="margin_start">6</property>
                 <property name="margin_end">6</property>
                 <property name="ellipsize">middle</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
                 <style>
                   <class name="album-title"/>
                   <class name="dim-label"/>
                 </style>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -51,24 +45,15 @@
               <object class="GtkLabel" id="_year">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
                 <style>
                   <class name="dim-label"/>
                 </style>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="DiscListBox" id="_disc_list_box">
@@ -77,15 +62,11 @@
             <property name="orientation">vertical</property>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
       </object>
       <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
         <property name="position">1</property>
       </packing>
     </child>
