@@ -17,11 +17,6 @@
           <object class="GtkButtonBox">
             <property name="can_focus">False</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkStack" id="_add_playlist_stack">
@@ -41,11 +36,14 @@
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
                     <property name="valign">end</property>
+                    <property name="vexpand">True</property>
+                    <property name="margin_bottom">18</property>
                     <child>
                       <object class="GtkImage" id="image">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="valign">center</property>
+                        <property name="vexpand">True</property>
                         <property name="pixel_size">100</property>
                         <property name="icon_name">emblem-music-symbolic</property>
                         <property name="icon_size">0</property>
@@ -55,9 +53,6 @@
                         </style>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="padding">18</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -66,10 +61,9 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">Enter a name for your first playlist</property>
+                        <property name="vexpand">True</property>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -80,15 +74,13 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="halign">center</property>
+                        <property name="margin_top">18</property>
                         <property name="margin_bottom">16</property>
                         <signal name="activate" handler="_on_editing_done" swapped="no"/>
                         <signal name="changed" handler="_on_add_playlist_entry_changed" swapped="no"/>
                         <signal name="focus-in-event" handler="_on_add_playlist_entry_focused" swapped="no"/>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="padding">18</property>
                         <property name="position">2</property>
                       </packing>
                     </child>
@@ -109,17 +101,12 @@
                         <signal name="clicked" handler="_on_editing_done" swapped="no"/>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
                         <property name="position">3</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
                     <property name="position">0</property>
-                    <property name="padding">18</property>
                   </packing>
                 </child>
                 <child>
@@ -127,8 +114,6 @@
                     <property name="can_focus">False</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -150,8 +135,6 @@
                         <property name="can_focus">False</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -174,8 +157,6 @@
                             </style>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
                             <property name="position">0</property>
                           </packing>
                         </child>
@@ -193,8 +174,6 @@
                             </style>
                           </object>
                           <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
                             <property name="position">1</property>
                           </packing>
                         </child>
@@ -203,15 +182,11 @@
                         </style>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
                     <property name="pack_type">end</property>
                     <property name="position">0</property>
                   </packing>
@@ -243,8 +218,6 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -253,8 +226,6 @@
                     <property name="can_focus">False</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -265,8 +236,6 @@
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
         </child>
