@@ -32,6 +32,7 @@ from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 from gnomemusic.widgets.songwidget import SongWidget
+from gi.repository import Gio
 import gnomemusic.utils as utils
 
 
@@ -97,6 +98,10 @@ class AlbumWidget(Gtk.EventBox):
             'selected-items-count', self._parent_view, 'selected-items-count')
         
         self._player.connect('notify::state', self._sync_icon)
+        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings.connect(
+            'changed::repeat', self._on_repeat_setting_changed)
+        self._repeat = self._settings.get_enum('repeat')
 
     @log
     def _create_model(self):
@@ -151,6 +156,8 @@ class AlbumWidget(Gtk.EventBox):
         self._player.connect('song-changed', self._update_model)
 
         grilo.populate_album_songs(album, self.add_item)
+        
+        self._sync_icon()
 
     @log
     def _set_composer_label(self, album):
@@ -317,3 +324,7 @@ class AlbumWidget(Gtk.EventBox):
         :rtype: list
         """
         return self._disc_listbox.get_selected_items()
+
+    @log
+    def _on_repeat_setting_changed(self, settings, value):
+        self._player.props.repeat_mode = settings.get_enum('repeat')
