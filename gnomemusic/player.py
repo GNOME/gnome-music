@@ -59,8 +59,9 @@ class RepeatMode(IntEnum):
 class ValidationStatus(IntEnum):
     """Enum for song validation"""
     PENDING = 0
-    FAILED = 1
-    SUCCEEDED = 2
+    DOING = 1
+    FAILED = 2
+    SUCCEEDED = 3
 
 
 class PlayerField(IntEnum):
@@ -127,7 +128,6 @@ class PlayerPlaylist(GObject.GObject):
         """
         path = model.get_path(model_iter)
         self._current_index = int(path.to_string())
-        self._validation_indexes = defaultdict(list)
 
         # Playlist is the same. Check that the requested song is valid.
         # If not, try to get the next valid one
@@ -140,6 +140,7 @@ class PlayerPlaylist(GObject.GObject):
                 self._validate_next_song()
             return False
 
+        self._validation_indexes = defaultdict(list)
         self._type = playlist_type
         self._id = playlist_id
 
@@ -283,8 +284,9 @@ class PlayerPlaylist(GObject.GObject):
     @log
     def _validate_song(self, index):
         item = self._songs[index]
-        # Song has already been processed, nothing to do.
-        if item[PlayerField.VALIDATION] != ValidationStatus.PENDING:
+        # Song is being processed or has already been processed.
+        # Nothing to do.
+        if item[PlayerField.VALIDATION] > ValidationStatus.PENDING:
             return
 
         song = item[PlayerField.SONG]
@@ -297,6 +299,7 @@ class PlayerPlaylist(GObject.GObject):
                 "Skipping validation of {} as not a local file".format(url))
             return
 
+        item[PlayerField.VALIDATION] = ValidationStatus.DOING
         self._validation_indexes[url].append(index)
         self._discoverer.discover_uri_async(url)
 
