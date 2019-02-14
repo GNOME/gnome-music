@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-01-18 09:57+0000\n"
-"PO-Revision-Date: 2019-02-01 15:26+0700\n"
+"POT-Creation-Date: 2019-02-13 09:09+0000\n"
+"PO-Revision-Date: 2019-02-14 21:03+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -446,34 +446,34 @@ msgstr ", "
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
-msgstr[1] ""
+msgstr[1] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
 
 #: gnomemusic/inhibitsuspend.py:67
 msgid "Playing music"
 msgstr "Memutar musik"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:60
+#: gnomemusic/playlists.py:59
 msgid "Most Played"
 msgstr "Paling Sering Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:65
+#: gnomemusic/playlists.py:64
 msgid "Never Played"
 msgstr "Tak Pernah Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:70
+#: gnomemusic/playlists.py:69
 msgid "Recently Played"
 msgstr "Baru-baru Ini Diputar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:75
+#: gnomemusic/playlists.py:74
 msgid "Recently Added"
 msgstr "Baru-baru Ini Ditambahkan"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:80
+#: gnomemusic/playlists.py:79
 msgid "Favorite Songs"
 msgstr "Lagu Favorit"
 
@@ -493,27 +493,35 @@ msgstr "Album"
 msgid "Artists"
 msgstr "Artis"
 
-#: gnomemusic/views/emptyview.py:66
+#: gnomemusic/views/emptyview.py:67
 msgid "Music folder"
 msgstr "Folder musik"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:70
+#: gnomemusic/views/emptyview.py:71
 msgid "The contents of your {} will appear here."
 msgstr "Konten {} Anda akan muncul di sini."
 
-#: gnomemusic/views/emptyview.py:102
+#: gnomemusic/views/emptyview.py:105
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:112 gnomemusic/views/emptyview.py:118
+#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
 msgid "No music found"
 msgstr "Tak ada musik"
 
-#: gnomemusic/views/emptyview.py:120
+#: gnomemusic/views/emptyview.py:123
 msgid "Try a different search"
 msgstr "Cobalah pencarian lain"
+
+#: gnomemusic/views/emptyview.py:129
+msgid "GNOME Music could not connect to Tracker"
+msgstr "GNOME Musik tidak dapat terhubung ke Pelacak"
+
+#: gnomemusic/views/emptyview.py:132
+msgid "Your music files cannot be indexed without Tracker running"
+msgstr "Berkas musik Anda tidak dapat diindeks tanpa Pelacak berjalan"
 
 #: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
 msgid "Playlists"
@@ -535,7 +543,7 @@ msgstr "Lagu"
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} menit"
-msgstr[1] ""
+msgstr[1] "{} menit"
 
 #: gnomemusic/widgets/disclistboxwidget.py:141
 msgid "Disc {}"
@@ -545,7 +553,7 @@ msgstr "Cakram {}"
 msgid "Selected {} item"
 msgid_plural "Selected {} items"
 msgstr[0] "Dipilih {} butir"
-msgstr[1] ""
+msgstr[1] "Dipilih {} butir"
 
 #: gnomemusic/widgets/notificationspopup.py:169
 msgid "Loading"
@@ -563,7 +571,7 @@ msgstr "Tahan"
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Lagu"
-msgstr[1] ""
+msgstr[1] "{} Lagu"
 
 #: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
 msgid "All"
