@@ -252,15 +252,21 @@ class PlaylistNotification(Gtk.Grid):
 
 class ButtonWindow(Gtk.Window):
 
+    @log
     def __init__(self):
         Gtk.Window.__init__(self, title="Button")
 
-    def on_close_clicked(self, button):
-        Gtk.main_quit()
-        
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
+
         button = Gtk.Button.new_with_mnemonic("_Close")
         button.connect("clicked", self.on_close_clicked)
         hbox.pack_start(button, True, True, 0)
+    
+    @log
+    def on_close_clicked(self, button):
+        Gtk.main_quit()
+        
 
 win = ButtonWindow()
 win.connect("destroy", Gtk.main_quit)
