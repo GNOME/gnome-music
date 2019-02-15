@@ -59,51 +59,6 @@
             <property name="margin_top">64</property>
             <property name="margin_bottom">32</property>
             <property name="vexpand">True</property>
-              <child>
-                  <object class="GtkButton" id="_album_play_button">
-                    <property name="visible">True</property>
-                    <property name="valign">center</property>
-                    <property name="halign">fill</property>
-                    <property name="hexpand">True</property>
-                    <property name="sensitive">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="image">_play_image</property>
-                    <property name="always_show_image">True</property>
-                    <property name="tooltip_text" translatable="yes">Play</property>
-                    <signal name="clicked" handler="_album_play_pause" swapped="no"/>
-                  </object>
-                <packing>
-                    <property name="pack_type">start</property>
-                </packing>
-              </child>
-              <child>
-                <object class="GtkMenuButton" id="_album_more_button">
-                  <property name="visible">True</property>
-                  <property name="can_focus">False</property>
-                  <property name="valign">center</property>
-                  <property name="halign">end</property>
-                  <property name="sensitive">True</property>
-                  <property name="tooltip_text" translatable="yes">More</property>
-                  <property name="receives_default">True</property>
-                  <property name="use_popover">True</property>
-                  <property name="menu_model">repeatMenu1</property>
-                  <style>
-                    <class name="image-button"/>
-                  </style>
-                  <child>
-                    <object class="GtkImage" id="_album_more_button_image">
-                      <property name="visible">True</property>
-                      <property name="can_focus">False</property>
-                      <property name="icon-name">view-more-symbolic</property>
-                      <property name="icon-size">1</property>
-                    </object>
-                  </child>
-                </object>
-                <packing>
-                    <property name="pack_type">end</property>
-                </packing>
-              </child>
             <child>
               <object class="GtkBox" id="albumDetails">
                 <property name="visible">True</property>
@@ -111,7 +66,7 @@
                 <property name="halign">center</property>
                 <property name="valign">start</property>
                 <property name="orientation">vertical</property>
-                <property name="spacing">18</property>
+                <property name="spacing">0</property>
                 <child>
                   <object class="CoverStack" id="_cover_stack">
                     <property name="visible">True</property>
@@ -128,13 +83,74 @@
                   </packing>
                 </child>
                 <child>
+                  <object class="GtkBox" id="albumbuttons">
+                    <property name="visible">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">start</property>
+                    <property name="orientation">horizontal</property>
+                    <property name="margin_start">1</property>
+                    <property name="margin_end">0</property>
+                    <property name="spacing">0</property>
+                    <child>
+                      <object class="GtkButton" id="_album_play_button">
+                        <property name="width-request">220</property>
+                        <property name="visible">True</property>
+                        <property name="halign">fill</property>
+                        <property name="hexpand">True</property>
+                        <property name="sensitive">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="image">_play_image</property>
+                        <property name="always_show_image">True</property>
+                        <property name="tooltip_text" translatable="yes">Play</property>
+                        <signal name="clicked" handler="_album_play_pause" swapped="no"/>
+                      </object>
+                      <packing>
+                          <property name="pack_type">start</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton" id="_album_more_button">
+                        <property name="width-request">30</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="halign">end</property>
+                        <property name="sensitive">True</property>
+                        <property name="tooltip_text" translatable="yes">More</property>
+                        <property name="receives_default">True</property>
+                        <property name="use_popover">True</property>
+                        <property name="menu_model">repeatMenu1</property>
+                        <style>
+                          <class name="image-button"/>
+                        </style>
+                        <child>
+                          <object class="GtkImage" id="_album_more_button_image">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-name">view-more-symbolic</property>
+                            <property name="icon-size">1</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                          <property name="pack_type">end</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkBox" id="artistBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="valign">start</property>
                     <property name="orientation">vertical</property>
-                    <property name="margin_top">50</property>
+                    <property name="margin_top">40</property>
                     <property name="spacing">3</property>
                     <child>
                       <object class="GtkLabel" id="_title_label">
@@ -150,7 +166,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">0</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                     <child>
@@ -175,7 +191,7 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
