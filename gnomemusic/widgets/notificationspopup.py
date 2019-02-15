@@ -248,3 +248,12 @@ class PlaylistNotification(Gtk.Grid):
             self._timeout_id = 0
 
         self._notifications_popup.remove_notification(self, 'undo-deletion')
+
+class ButtonWindow(Gtk.Window):
+
+    def __init__(self):
+        Gtk.Window.__init__(self, title="Button")
+ win = ButtonWindow()
+ win.connect("destroy", Gtk.main_quit)
+ win.show_all()
+ Gtk.main()
