@@ -266,7 +266,7 @@ class ButtonWindow(Gtk.Window):
     @log
     def on_close_clicked(self, button):
         Gtk.main_quit()
-        
+       
 
 win = ButtonWindow()
 win.connect("destroy", Gtk.main_quit)
