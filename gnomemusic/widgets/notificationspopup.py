@@ -255,8 +255,10 @@ class ButtonWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Button")
 
+
     def on_close_clicked(self, button):
         Gtk.main_quit()
+        
 
 win = ButtonWindow()
 win.connect("destroy", Gtk.main_quit)
