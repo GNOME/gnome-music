@@ -262,10 +262,11 @@ class ButtonWindow(Gtk.Window):
         button = Gtk.Button.new_with_mnemonic("_Close")
         button.connect("clicked", self.on_close_clicked)
         hbox.pack_start(button, True, True, 0)
-    
+
     @log
     def on_close_clicked(self, button):
-        Gtk.main_quit()       
+        Gtk.main_quit()
+
 
 win = ButtonWindow()
 win.connect("destroy", Gtk.main_quit)
