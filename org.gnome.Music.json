@@ -63,7 +63,7 @@
             "cleanup": [ "/bin", "/etc", "/libexec" ],
             "config-opts": [ "-Ddocs=false",
                              "-Dfunctional_tests=false",
-                             "-Dnetwork_manager=no",
+                             "-Dnetwork_manager=disabled",
                              "-Dstemmer=no",
                              "-Dunicode_support=icu",
                              "-Dbash_completion=no" ],
