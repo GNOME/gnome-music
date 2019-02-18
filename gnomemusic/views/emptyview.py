@@ -132,3 +132,13 @@ class EmptyView(Gtk.Stack):
             "Your music files cannot be indexed without Tracker running")
 
         self._icon.props.icon_name = "dialog-error-symbolic"
+
+    @log
+    def select_all(self):
+        """Cannot select songs from EmptyView."""
+        pass
+
+    @log
+    def unselect_all(self):
+        """Cannot select songs from EmptyView."""
+        pass
