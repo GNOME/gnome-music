@@ -8,39 +8,40 @@
 # Osman Karagöz <osmank3@gmail.com>, 2017.
 # Furkan Tokaç <developmentft@gmail.com>, 2017.
 # Doğa Deniz Arıcı <bluegreenbrain@gmail.com>, 2018.
-# Emin Tufan Çetin <etcetin@gmail.com>, 2013, 2017, 2018.
+# Emin Tufan Çetin <etcetin@gmail.com>, 2013-2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-10-03 10:18+0000\n"
-"PO-Revision-Date: 2019-01-02 21:00+0200\n"
-"Last-Translator: sabri Ünal <yakushabb@gmail.com>\n"
+"POT-Creation-Date: 2019-02-13 09:09+0000\n"
+"PO-Revision-Date: 2019-02-19 21:41+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Türkçe <gnome-turk@gnome.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Gtranslator 3.30.1\n"
 "X-POOTLE-MTIME: 1433363480.000000\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
 msgstr "GNOME Müzik"
 
-#: data/org.gnome.Music.appdata.xml.in.in:7 data/org.gnome.Music.desktop.in.in:5
+#: data/org.gnome.Music.appdata.xml.in.in:7
+#: data/org.gnome.Music.desktop.in.in:5
 msgid "Play and organize your music collection"
 msgstr "Müzik derleminizi çalın ve yönetin"
 
 #: data/org.gnome.Music.appdata.xml.in.in:9
 msgid ""
-"An easy way to play your music. Automatically discover music on your computer, "
-"the local network and internet services."
+"An easy way to play your music. Automatically discover music on your "
+"computer, the local network and internet services."
 msgstr ""
-"Müziğinizi çalmanın kolay yolu. Bilgisayarınızdaki, yerel ağınızdaki ve internet "
-"hizmetlerinizdeki müziği kendiliğinden keşfeder."
+"Müziğinizi çalmanın kolay yolu. Bilgisayarınızdaki, yerel ağınızdaki ve "
+"internet hizmetlerinizdeki müziği kendiliğinden keşfeder."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
@@ -100,10 +101,10 @@ msgstr "Çalma yineleme kipi"
 #. Translators: Don't translate allowed values, just the description in the brackets
 #: data/org.gnome.Music.gschema.xml:29
 msgid ""
-"Value identifies whether to repeat or randomize playback through the collection. "
-"Allowed values are: “none” (repeat and shuffle are off), “song” (repeat current "
-"song), “all” (repeat playlist, no shuffle), “shuffle” (shuffle playlist, "
-"presumes repeat all)."
+"Value identifies whether to repeat or randomize playback through the "
+"collection. Allowed values are: “none” (repeat and shuffle are off), "
+"“song” (repeat current song), “all” (repeat playlist, no shuffle), "
+"“shuffle” (shuffle playlist, presumes repeat all)."
 msgstr ""
 "Bu değer, derlemdeki parçaların yinelemeli mi yoksa karışık mı çalınacağını "
 "belirtir. İzin verilen değerler şunlardır: “none” (yineleme ve karıştırma "
@@ -133,8 +134,8 @@ msgstr "Sistemin askıya alınmasını önle"
 #: data/org.gnome.Music.gschema.xml:44
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
-"Müzik çalarken sistemin askıya alınmasını önlemeyi etkinleştir veya devre dışı "
-"bırak"
+"Müzik çalarken sistemin askıya alınmasını önlemeyi etkinleştir veya devre "
+"dışı bırak"
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
@@ -150,47 +151,51 @@ msgstr "GNOME Müzik web sitesini ziyaret et"
 
 #: data/ui/AboutDialog.ui.in:13
 msgid ""
-"GNOME Music is free software; you can redistribute it and/or modify it under the "
-"terms of the GNU General Public License as published by the Free Software "
-"Foundation; either version 2 of the License, or (at your option) any later "
-"version.\n"
+"GNOME Music is free software; you can redistribute it and/or modify it under "
+"the terms of the GNU General Public License as published by the Free "
+"Software Foundation; either version 2 of the License, or (at your option) "
+"any later version.\n"
 "\n"
-"GNOME Music is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A "
-"PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n"
+"GNOME Music is distributed in the hope that it will be useful, but WITHOUT "
+"ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
+"FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
+"more details.\n"
 "\n"
 "You should have received a copy of the GNU General Public License along with "
-"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 Franklin "
-"Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
+"GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
+"Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
 "\n"
-"The GNOME Music authors hereby grant permission for non-GPL compatible GStreamer "
-"plugins to be used and distributed together with GStreamer and GNOME Music.  "
-"This permission is above and beyond the permissions granted by the GPL license "
-"by which GNOME Music is covered.  If you modify this code, you may extend this "
-"exception to your version of the code, but you are not obligated to do so.  If "
-"you do not wish to do so, delete this exception statement from your version.\n"
+"The GNOME Music authors hereby grant permission for non-GPL compatible "
+"GStreamer plugins to be used and distributed together with GStreamer and "
+"GNOME Music.  This permission is above and beyond the permissions granted by "
+"the GPL license by which GNOME Music is covered.  If you modify this code, "
+"you may extend this exception to your version of the code, but you are not "
+"obligated to do so.  If you do not wish to do so, delete this exception "
+"statement from your version.\n"
 "\n"
-"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 https://"
-"www.flickr.com/photos/_spy_/12270839403"
+"“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
+"https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
 "GNOME Müzik, özgür yazılımdır; Özgür Yazılım Vakfı tarafından yayımlanan GNU "
-"Genel Kamu Lisansının 2. sürümü ya da (isteğe bağlı olarak) sonraki sürümleri "
-"koşulları altında yeniden dağıtabilir ve/veya değiştirebilirsiniz.\n"
+"Genel Kamu Lisansının 2. sürümü ya da (isteğe bağlı olarak) sonraki "
+"sürümleri koşulları altında yeniden dağıtabilir ve/veya "
+"değiştirebilirsiniz.\n"
 "\n"
-"GNOME Müzik kullanışlı olması maksadıyla dağıtılmaktadır, ancak HİÇBİR GARANTİSİ "
-"YOKTUR; aynı zamanda BİR AMACA UYGUNLUĞU ya da SATILABİLİRLİĞİ garanti etmez.  "
-"Daha çok ayrıntı için GNU Genel Kamu Lisansına bakınız.\n"
+"GNOME Müzik kullanışlı olması maksadıyla dağıtılmaktadır, ancak HİÇBİR "
+"GARANTİSİ YOKTUR; aynı zamanda BİR AMACA UYGUNLUĞU ya da SATILABİLİRLİĞİ "
+"garanti etmez.  Daha çok ayrıntı için GNU Genel Kamu Lisansına bakınız.\n"
 "\n"
-"GNU Genel Kamu Lisansı’nın bir kopyasını GNOME Müzik ile almış olmalısınız; eğer "
-"almadıysanız Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, "
-"Boston, MA 02110-1301 USA adresine yazın.\n"
+"GNU Genel Kamu Lisansı’nın bir kopyasını GNOME Müzik ile almış olmalısınız; "
+"eğer almadıysanız Free Software Foundation, Inc., 51 Franklin Street, Fifth "
+"Floor, Boston, MA 02110-1301 USA adresine yazın.\n"
 "\n"
-"GNOME Müzik yazarları GPL uyumlu olmayan GStreamer eklentilerinin GStreamer ve "
-"GNOME Müzik ile birlikte kullanılmasına ve dağıtılmasına izin vermektedirler.  "
-"Bu izin GNOME Müzik’in lisansı olan GPL lisansının üzerinde ve onu kapsayıcı "
-"olarak verilmektedir.  Eğer bu kodu değiştirirseniz zorunlu olmamakla birlikte "
-"bu genişletmeyi kendi kodunuza uygulayabilirsiniz.  Bunu yapmak istemezseniz "
-"kendi sürümünüzden bu istisna ifadesini kaldırabilirsiniz.\n"
+"GNOME Müzik yazarları GPL uyumlu olmayan GStreamer eklentilerinin GStreamer "
+"ve GNOME Müzik ile birlikte kullanılmasına ve dağıtılmasına izin "
+"vermektedirler.  Bu izin GNOME Müzik’in lisansı olan GPL lisansının üzerinde "
+"ve onu kapsayıcı olarak verilmektedir.  Eğer bu kodu değiştirirseniz zorunlu "
+"olmamakla birlikte bu genişletmeyi kendi kodunuza uygulayabilirsiniz.  Bunu "
+"yapmak istemezseniz kendi sürümünüzden bu istisna ifadesini "
+"kaldırabilirsiniz.\n"
 "\n"
 "Sami Pyylampi eseri “Magic of the vinyl” CC-BY-SA 2.0 ile lisanslanmıştır "
 "https://www.flickr.com/photos/_spy_/12270839403"
@@ -203,7 +208,7 @@ msgstr "Yayımlandı"
 msgid "Running Length"
 msgstr "Uzunluk"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
 msgid "Composer"
 msgstr "Besteci"
 
@@ -345,7 +350,7 @@ msgstr "Karıştırma/Yineleme Kapalı"
 msgid "Previous"
 msgstr "Önceki"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:144
+#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
 msgid "Play"
 msgstr "Çal"
 
@@ -426,55 +431,55 @@ msgstr "Seçmek için ögelere tıklayın"
 msgid "_Add to Playlist"
 msgstr "Çalma Listesine _Ekle"
 
-#: gnomemusic/gstplayer.py:405
+#: gnomemusic/gstplayer.py:410
 msgid "Unable to play the file"
 msgstr "Dosya çalınamıyor"
 
-#: gnomemusic/gstplayer.py:411
+#: gnomemusic/gstplayer.py:416
 msgid "_Find in {}"
 msgstr "{} içinde _bul"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:422
+#: gnomemusic/gstplayer.py:427
 msgid " and "
 msgstr " ve "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:425
+#: gnomemusic/gstplayer.py:430
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:432
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Dosyayı çalmak için {} gerekiyor ancak kurulu değil."
 
-#: gnomemusic/inhibitsuspend.py:68
+#: gnomemusic/inhibitsuspend.py:67
 msgid "Playing music"
 msgstr "Çalan müzik"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:60
+#: gnomemusic/playlists.py:59
 msgid "Most Played"
 msgstr "En Çok Çalınanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:65
+#: gnomemusic/playlists.py:64
 msgid "Never Played"
 msgstr "Hiç Çalınmayanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:70
+#: gnomemusic/playlists.py:69
 msgid "Recently Played"
 msgstr "Son Çalınanlar"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:75
+#: gnomemusic/playlists.py:74
 msgid "Recently Added"
 msgstr "Yeni Eklenenler"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:80
+#: gnomemusic/playlists.py:79
 msgid "Favorite Songs"
 msgstr "En Sevdiğiniz Şarkılar"
 
@@ -486,53 +491,61 @@ msgstr "Bilinmeyen Sanatçı"
 msgid "Untitled"
 msgstr "Başlıksız"
 
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:584
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
 msgid "Albums"
 msgstr "Albümler"
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:586
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
 msgid "Artists"
 msgstr "Sanatçılar"
 
-#: gnomemusic/views/emptyview.py:66
+#: gnomemusic/views/emptyview.py:67
 msgid "Music folder"
 msgstr "Müzik klasörü"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:70
+#: gnomemusic/views/emptyview.py:71
 msgid "The contents of your {} will appear here."
 msgstr "{} içeriğiniz burada görünecek."
 
-#: gnomemusic/views/emptyview.py:102
+#: gnomemusic/views/emptyview.py:105
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:112 gnomemusic/views/emptyview.py:118
+#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
 msgid "No music found"
 msgstr "Hiç müzik bulunamadı"
 
-#: gnomemusic/views/emptyview.py:120
+#: gnomemusic/views/emptyview.py:123
 msgid "Try a different search"
 msgstr "Başka bir arama deneyin"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:590
+#: gnomemusic/views/emptyview.py:129
+msgid "GNOME Music could not connect to Tracker"
+msgstr "GNOME Müzik, Trackerʼa bağlanamadı"
+
+#: gnomemusic/views/emptyview.py:132
+msgid "Your music files cannot be indexed without Tracker running"
+msgstr "Müzik dosyalarınız Tracker çalışmadan dizinlenemez"
+
+#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
 msgid "Playlists"
 msgstr "Çalma listeleri"
 
-#: gnomemusic/views/playlistview.py:643
+#: gnomemusic/views/playlistview.py:640
 msgid "Playlist {} removed"
 msgstr "{} çalma listesi kaldırıldı"
 
-#: gnomemusic/views/playlistview.py:649
+#: gnomemusic/views/playlistview.py:646
 msgid "{} removed from {}"
 msgstr "{}, {}ʼden silindi"
 
-#: gnomemusic/views/searchview.py:588 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Şarkılar"
 
-#: gnomemusic/widgets/albumwidget.py:166
+#: gnomemusic/widgets/albumwidget.py:168
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} dakika"
@@ -554,7 +567,7 @@ msgstr "Yükleniyor"
 msgid "_Undo"
 msgstr "_Geri Al"
 
-#: gnomemusic/widgets/playertoolbar.py:141
+#: gnomemusic/widgets/playertoolbar.py:136
 msgid "Pause"
 msgstr "Duraklat"
 
@@ -563,31 +576,31 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Şarkı"
 
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
 msgid "All"
 msgstr "Tümü"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:67
 msgid "Artist"
 msgstr "Sanatçı"
 
-#: gnomemusic/widgets/searchbar.py:69
+#: gnomemusic/widgets/searchbar.py:68
 msgid "Album"
 msgstr "Albüm"
 
-#: gnomemusic/widgets/searchbar.py:71
+#: gnomemusic/widgets/searchbar.py:70
 msgid "Track Title"
 msgstr "Parça Adı"
 
-#: gnomemusic/widgets/searchbar.py:116
+#: gnomemusic/widgets/searchbar.py:115
 msgid "Local"
 msgstr "Yerel"
 
-#: gnomemusic/widgets/searchbar.py:284
+#: gnomemusic/widgets/searchbar.py:283
 msgid "Sources"
 msgstr "Kaynaklar"
 
-#: gnomemusic/widgets/searchbar.py:293
+#: gnomemusic/widgets/searchbar.py:292
 msgid "Match"
 msgstr "Eşleştir"
 
@@ -630,15 +643,16 @@ msgstr "Eşleştir"
 #~ msgstr "the|a|an"
 
 #~ msgid "Max chars to display in track name on Artist view"
-#~ msgstr "Sanatçı görünümünde gösterilen parça adı için en fazla karakter sayısı"
+#~ msgstr ""
+#~ "Sanatçı görünümünde gösterilen parça adı için en fazla karakter sayısı"
 
 #~ msgid ""
 #~ "This setting modifies the amount of chars for track title on Artist view "
 #~ "before its been ellipsized. Set this to -1 to disable"
 #~ msgstr ""
-#~ "Bu ayar sanatçı görünümünde gösterilen parça adının üç nokta koyulmadan önce "
-#~ "görünecek karakter sayısını değiştirir. Devre dışı bırakmak için -1 olarak "
-#~ "ayarlayın."
+#~ "Bu ayar sanatçı görünümünde gösterilen parça adının üç nokta koyulmadan "
+#~ "önce görünecek karakter sayısını değiştirir. Devre dışı bırakmak için -1 "
+#~ "olarak ayarlayın."
 
 #~ msgid "Unknown Album"
 #~ msgstr "Bilinmeyen Albüm"
