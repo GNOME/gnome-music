@@ -1,3 +1,83 @@
+Overview of changes in 3.31.91
+==============================
+
+* Show an empty view when Tracker is unavailable
+
+Bugs fixed:
+ Play correct song while paused (#256)
+ Show a warning when Tracker is not available (#165)
+ Cannot cancel 'All' sources in search via button (#92)
+ Crashes when trying to play any song (#244)
+ Crash while tracks are being loaded (#252)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+ Sagar Lakhani
+
+Translations updated:
+ Czech
+ Polish
+ Spanish
+ Romanian
+ Hungarian
+ Swedish
+ Indonesian
+ Slovenian
+ Galician
+ Kazakh
+ Danish
+ Chinese (Taiwan)
+
+Overview of changes in 3.31.90
+==============================
+
+* Add pause on suspend
+* Rework and cleanup MPRIS a lot
+* Use new Adwaita devel styling
+* Partial port to Gtk.EventController
+* Set error style on searchbar entry if applicable
+
+Bugs fixed:
+ Limit composer length (#222)
+ Fix keyboard shortcuts (#238)
+ Correct MPRIS positioning (#227)
+ Fix playlist renaming (#248)
+ Fix Tracker criticals (#251)
+ Fix popover positioning (#214)
+ Pause when suspending (#68)
+ Add error state for searchbar entry (#228)
+
+Thanks to our contributors this release:
+ Christophe van den Abbeele
+ Christopher Davis
+ Harry Xie
+ Jean Felder
+ Jordan Petridis
+ Marinus Schraal
+ Mohanna Datta Yelugoti
+ Nikolay Yanchuk
+
+Translations updated:
+ Czech
+ Slovenian
+ Esperanto
+ Spanish
+ French
+ Greek
+ Friulian
+ Swedish
+ Hungarian
+ Galician
+ Romanian
+ Indonesian
+ Italian
+ Finnish
+ Turkish
+ Polish
+ Catalan
+ Hungarian
+
 Overview of changes in 3.31.1
 =============================
 

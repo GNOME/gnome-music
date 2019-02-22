@@ -39,6 +39,7 @@ from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
 from gnomemusic.inhibitsuspend import InhibitSuspend
+from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 
@@ -58,8 +59,9 @@ class RepeatMode(IntEnum):
 class ValidationStatus(IntEnum):
     """Enum for song validation"""
     PENDING = 0
-    FAILED = 1
-    SUCCEEDED = 2
+    IN_PROGRESS = 1
+    FAILED = 2
+    SUCCEEDED = 3
 
 
 class PlayerField(IntEnum):
@@ -126,7 +128,6 @@ class PlayerPlaylist(GObject.GObject):
         """
         path = model.get_path(model_iter)
         self._current_index = int(path.to_string())
-        self._validation_indexes = defaultdict(list)
 
         # Playlist is the same. Check that the requested song is valid.
         # If not, try to get the next valid one
@@ -139,6 +140,7 @@ class PlayerPlaylist(GObject.GObject):
                 self._validate_next_song()
             return False
 
+        self._validation_indexes = defaultdict(list)
         self._type = playlist_type
         self._id = playlist_id
 
@@ -282,8 +284,9 @@ class PlayerPlaylist(GObject.GObject):
     @log
     def _validate_song(self, index):
         item = self._songs[index]
-        # Song has already been processed, nothing to do.
-        if item[PlayerField.VALIDATION] != ValidationStatus.PENDING:
+        # Song is being processed or has already been processed.
+        # Nothing to do.
+        if item[PlayerField.VALIDATION] > ValidationStatus.PENDING:
             return
 
         song = item[PlayerField.SONG]
@@ -296,6 +299,7 @@ class PlayerPlaylist(GObject.GObject):
                 "Skipping validation of {} as not a local file".format(url))
             return
 
+        item[PlayerField.VALIDATION] = ValidationStatus.IN_PROGRESS
         self._validation_indexes[url].append(index)
         self._discoverer.discover_uri_async(url)
 
@@ -590,6 +594,7 @@ class Player(GObject.GObject):
 
         root_window = parent_window.get_toplevel()
         self._inhibit_suspend = InhibitSuspend(root_window, self)
+        self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
 
@@ -628,9 +633,7 @@ class Player(GObject.GObject):
         self._gst_player.props.state = Playback.LOADING
         self._time_stamp = int(time.time())
 
-        url_ = song.get_url()
-        if url_ != self._gst_player.props.url:
-            self._gst_player.props.url = url_
+        self._gst_player.props.url = song.get_url()
 
         self.emit('song-changed', self._playlist.get_current_index())
 
@@ -661,7 +664,8 @@ class Player(GObject.GObject):
                 and not self._playlist.set_song(song_offset)):
             return False
 
-        if self.props.state != Playback.PAUSED:
+        url = self._playlist.props.current_song.get_url()
+        if url != self._gst_player.props.url:
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING

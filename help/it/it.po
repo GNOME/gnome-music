@@ -1,30 +1,26 @@
-# Hungarian translation for gnome-music.
-# Copyright (C) 2014, 2015, 2017, 2019 Free Software Foundation, Inc.
+# Italian translation for gnome-music.
+# Copyright (C) 2019 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
+# Milo Casagrande <milo@milo.name>, 2019.
 #
-# Balázs Úr <urbalazs at gmail dot com>, 2014, 2019.
-# Gabor Kelemen <kelemeng at gnome dot hu>, 2014, 2015, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
-"POT-Creation-Date: 2018-08-16 16:32+0000\n"
-"PO-Revision-Date: 2019-02-07 17:00+0100\n"
-"Last-Translator: Balázs Úr <balazs at urbalazs dot hu>\n"
-"Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
-"Language: hu\n"
+"POT-Creation-Date: 2019-01-28 23:03+0000\n"
+"PO-Revision-Date: 2019-01-31 14:34+0100\n"
+"Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"Last-Translator: Milo Casagrande <milo@milo.name>\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
 msgctxt "_"
 msgid "translator-credits"
-msgstr ""
-"Kelemen Gábor <kelemeng at gnome dot hu>, 2014.\n"
-"Úr Balázs <urbalazs at gmail dot com>, 2014.\n"
-"Hammer Attila <hammera at pickup dot hu>, 2014."
+msgstr "Milo Casagrande <milo@milo.name>, 2019"
 
 #. (itstool) path: credit/name
 #: C/introduction.page:11 C/index.page:11 C/play-music.page:11
@@ -51,55 +47,55 @@ msgid ""
 "A simple and elegant replacement for using <app>Files</app> to show the "
 "music directory."
 msgstr ""
-"Egyszerű és elegáns eszköz a zenegyűjtemény megjelenítésére a <app>Fájlok<"
-"/app> alkalmazással."
+"Un'alternativa semplice ed elegante all'utilizzo di <app>File</app> per "
+"consultare la propria musica."
 
 #. (itstool) path: page/title
 #: C/introduction.page:22
 msgid "Introduction to Music"
-msgstr "A Zene bemutatása"
+msgstr "Introduzione a Musica"
 
 #. (itstool) path: info/title
 #: C/index.page:6
 msgctxt "link"
 msgid "Music"
-msgstr "Zene"
+msgstr "Musica"
 
 #. (itstool) path: info/title
 #: C/index.page:7
 msgctxt "text"
 msgid "Music"
-msgstr "Zene"
+msgstr "Musica"
 
 #. (itstool) path: page/title
 #: C/index.page:18
 msgid "<_:media-1/> Music"
-msgstr "<_:media-1/> Zene"
+msgstr "<_:media-1/> Musica"
 
 #. (itstool) path: section/title
 #: C/index.page:25
 msgid "Create playlist"
-msgstr "Lejátszólista létrehozása"
+msgstr "Creare playlist"
 
 #. (itstool) path: section/title
 #: C/index.page:28
 msgid "Play a song"
-msgstr "Szám lejátszása"
+msgstr "Riprodurre un brano"
 
 #. (itstool) path: section/title
 #: C/index.page:31
 msgid "Remove songs and playlist"
-msgstr "Számok és lejátszólista eltávolítása"
+msgstr "Rimuovere brani e playlist"
 
 #. (itstool) path: info/desc
 #: C/play-music.page:18
 msgid "Play your favorite songs."
-msgstr "Kedvenc számainak lejátszása."
+msgstr "Riprodurre i brani preferiti."
 
 #. (itstool) path: page/title
 #: C/play-music.page:22
 msgid "Play music"
-msgstr "Zenék lejátszása"
+msgstr "Riprodurre musica"
 
 #. (itstool) path: page/p
 #: C/play-music.page:24
@@ -107,39 +103,40 @@ msgid ""
 "You can play your favorite music by creating a playlist or by simply "
 "clicking on the song of your choice from any view."
 msgstr ""
-"Kedvenc zenéit lejátszhatja lejátszólista létrehozásával, vagy egyszerűen "
-"csak rákattintva a számra bármely nézetben."
+"È possibile riprodurre i propri brani preferiti creando una playlist o "
+"semplicemente selezionando il brano desiderato dalla finestra."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
 #: C/playlist-remove-songs.page:27
 msgid "While in <em>Playlists</em>:"
-msgstr "A <em>Lejátszólistákban</em>:"
+msgstr "In modalità <em>Playlist</em>:"
 
 #. (itstool) path: item/p
 #: C/play-music.page:30
 msgid "Select a playlist."
-msgstr "Válasszon egy lejátszólistát"
+msgstr "Selezionare una playlist."
 
+# (ndt) o pulsante con l'ingranaggio?
 #. (itstool) path: item/p
 #: C/play-music.page:33 C/playlist-delete.page:32
 msgid "Click on the gear button on the right hand side."
-msgstr "Kattintson a fogaskerék gombra a jobb oldalon."
+msgstr "Fare clic sul pulsante delle azioni sul lato destro."
 
 #. (itstool) path: item/p
 #: C/play-music.page:36
 msgid "Click on <gui>Play</gui>."
-msgstr "Kattintson a <gui>Lejátszás</gui> menüpontra."
+msgstr "Fare clic su <gui>Riproduci</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-albums.page:18
 msgid "Add songs to playlists using albums."
-msgstr "Számok lejátszólistához adása albumokkal."
+msgstr "Aggiungere brani alle playlist utilizzando gli album."
 
 #. (itstool) path: page/title
 #: C/playlist-create-albums.page:21
 msgid "Create a playlist using albums"
-msgstr "Lejátszólista létrehozása albumok használatával"
+msgstr "Creare una playlist utilizzando gli album"
 
 #. (itstool) path: page/p
 #: C/playlist-create-albums.page:23
@@ -147,70 +144,72 @@ msgid ""
 "You can view all your albums by clicking on the <gui style=\"button"
 "\">Albums</gui> button."
 msgstr ""
-"Összes albumát megjelenítheti az <gui style=\"button\">Albumok</gui> gombra "
-"kattintással."
+"È possibile visualizzare tutti i propri album facendo clic sul pulsante "
+"<gui style=\"button\">Albums</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
 msgid "To add all the songs in an album:"
-msgstr "Egy album összes számának hozzáadásához:"
+msgstr "Per aggiungere tutti i brani in un album:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
 #: C/playlist-create-artists.page:30
 msgid "Click on the check button in the top-right of the window."
-msgstr "Kattintson az ablak jobb felső sarkában lévő pipa gombra."
+msgstr ""
+"Fare clic sul pulsante di selezione nell'angolo in alto a destra della "
+"finestra."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:32
 msgid "Select albums."
-msgstr "Válasszon ki albumokat."
+msgstr "Selezionare gli album."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
 #: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
 msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
 msgstr ""
-"Nyomja meg a <gui style=\"button\">Hozzáadás a lejátszólistához</gui> gombot."
+"Fare clic sul pulsante <gui style=\"button\">Aggiungi a playlist</gui>."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
 #: C/playlist-create-artists.page:40
 msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
 msgstr ""
-"Kattintson az <gui>Új lejátszólista</gui> gombra, és írja be a lejátszólista "
-"nevét."
+"Fare clic su <gui>Nuova playlist</gui> e digitare il nome per la playlist."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
 #: C/playlist-create-songs.page:42
 msgid "Click on <gui style=\"button\">Select</gui>."
-msgstr "Kattintson a <gui style=\"button\">Kijelölés</gui> gombra."
+msgstr "Fare clic su <gui style=\"button\">Seleziona</gui>."
 
 #. (itstool) path: page/p
 #: C/playlist-create-albums.page:46
 msgid "You can also create a playlist from specific songs."
-msgstr "Létrehozhat lejátszólistát adott számokból is."
+msgstr ""
+"È anche possibile creare una playlist partendo da dei brani specifici."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:49
 msgid "To add selected songs from an album:"
-msgstr "Kijelölt számok hozzáadásához egy albumról:"
+msgstr "Per aggiungere i brani selezionati da un album:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:51
 msgid "Click on an album."
-msgstr "Kattintson egy albumra."
+msgstr "Fare clic su un album."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:54
 msgid "Click on the check button."
-msgstr "Kattintson a pipa gombra."
+msgstr "Fare clic sul pulsante di selezione."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:57
 msgid "Select songs."
-msgstr "Válasszon ki számokat."
+msgstr "Selezionare i brani."
 
 #. (itstool) path: note/p
 #: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
@@ -220,10 +219,10 @@ msgid ""
 "gui><gui>Select All</gui></guiseq> in the toolbar or press "
 "<keyseq><key>Ctrl</key><key>A</key></keyseq>."
 msgstr ""
-"Az összes szám kiválasztásához kattintson az eszköztáron a "
-"<guiseq><gui>Kattintson az elemekre a kiválasztásukhoz</gui><gui>Összes "
-"kijelölése</gui></guiseq> lehetőségre, vagy nyomja meg a <keyseq><key>Ctrl</"
-"key><key>A</key></keyseq> billentyűkombinációt."
+"Per selezionare tutti i brani fare clic su <guiseq><gui>Fare clic sugli "
+"elementi per selezionarli</gui><gui>Seleziona tutto</gui></guiseq> nella "
+"barra degli strumenti o premere <keyseq><key>Ctrl</key><key>A</key></"
+"keyseq>."
 
 #. (itstool) path: note/p
 #: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
@@ -232,19 +231,19 @@ msgid ""
 "To clear the selection click <guiseq><gui>Click on items to select them</"
 "gui><gui>Select None</gui></guiseq> in the toolbar."
 msgstr ""
-"A kijelölés törléséhez kattintson az eszköztáron a <guiseq><gui>Kattintson "
-"az elemekre a kiválasztásukhoz</gui><gui>Kijelölés törlése</gui></guiseq> "
-"lehetőségre."
+"Per annullare la selezione, fare clic su <guiseq><gui>Fare clic sugli "
+"elementi per selezionarli</gui><gui>Deseleziona tutto</gui></guiseq> nella "
+"barra degli strumenti."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-songs.page:18
 msgid "Create playlist by selecting your favorite songs."
-msgstr "Lejátszólista létrehozása kedvenc számai kiválasztásával."
+msgstr "Creare una playlist selezionando i brani preferiti."
 
 #. (itstool) path: page/title
 #: C/playlist-create-songs.page:21
 msgid "Create playlists using songs"
-msgstr "Lejátszólista létrehozása számok használatával"
+msgstr "Creare playlist utilizzando brani"
 
 #. (itstool) path: page/p
 #: C/playlist-create-songs.page:23
@@ -252,18 +251,18 @@ msgid ""
 "You can view all the songs by clicking on the <gui style=\"button\">Songs</"
 "gui> button."
 msgstr ""
-"Az összes számot megjelenítheti a <gui style=\"button\">Számok</gui> gomb "
-"megnyomásával."
+"È possibile visualizzare tutti i propri brani facendo clic sul pulsante "
+"<gui style=\"button\">Brani</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-songs.page:27
 msgid "To create a new playlist while in <em>Songs</em> view:"
-msgstr "Új lejátszólista létrehozása a <em>Számok</em> nézetben:"
+msgstr "Per creare una playlist in modalità <em>Brani</em>:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:32
 msgid "Select all the songs you want to add to the playlist."
-msgstr "Jelölje ki a lejátszólistához adandó összes számot."
+msgstr "Selezionare tutti i brani da aggiungere alla playlist."
 
 #. (itstool) path: item/p
 #: C/playlist-create-songs.page:38
@@ -271,18 +270,18 @@ msgid ""
 "Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
 "playlist."
 msgstr ""
-"Kattintson az <gui style=\"button\">Új lejátszólista</gui> gombra, és írja "
-"be a lejátszólista nevét."
+"Fare clic su <gui style=\"button\">Nuova playlist</gui> e digitare il nome "
+"per la playlist."
 
 #. (itstool) path: info/desc
 #: C/playlist-create-artists.page:18
 msgid "Create playlist by selecting your favorite artists."
-msgstr "Lejátszólista létrehozása kedvenc előadói kiválasztásával."
+msgstr "Creare playlist selezionando gli artisti preferiti."
 
 #. (itstool) path: page/title
 #: C/playlist-create-artists.page:22
 msgid "Create playlists using artists"
-msgstr "Lejátszólista létrehozása előadók használatával"
+msgstr "Creare playlist basate sugli artisti"
 
 #. (itstool) path: page/p
 #: C/playlist-create-artists.page:24
@@ -290,126 +289,124 @@ msgid ""
 "You can view all the artists and their songs by clicking on the <gui style="
 "\"button\">Artists</gui> button."
 msgstr ""
-"Az összes előadót és számaikat megjelenítheti az <gui style=\"button"
-"\">Előadók</gui> gomb megnyomásával."
+"È possibile visualizzare tutti gli artisti e i loro brani facendo clil sul "
+"pulsante <gui style=\"button\">Artisti</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-artists.page:28
 msgid "To create a new playlist while in <em>Artists</em> view:"
-msgstr "Új lejátszólista létrehozása az <em>Előadók</em> nézetben:"
+msgstr "Per creare una playlist in modalità <em>Artisti</em>:"
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:33
 msgid "Select all the artists whose songs you want to add to the playlist."
 msgstr ""
-"Jelölje ki az összes előadót, akiknek számait a lejátszólistához szeretné "
-"adni."
+"Selezionare tutti gli artisti i cui brani devono essere inclusi nella "
+"playlist."
 
 #. (itstool) path: item/p
 #: C/playlist-create-artists.page:44
 msgid "Click on <gui>Select</gui>."
-msgstr "Kattintson a <gui>Kijelölés</gui> gombra."
+msgstr "Fare clic su <gui>Seleziona</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-delete.page:18
 msgid "Remove an unwanted playlist."
-msgstr "Fölösleges lejátszólista eltávolítása."
+msgstr "Rimuovere una playlist."
 
 #. (itstool) path: page/title
 #: C/playlist-delete.page:22
 msgid "Delete a playlist"
-msgstr "Lejátszólista törlése"
+msgstr "Eliminare una playlist"
 
 #. (itstool) path: page/p
 #: C/playlist-delete.page:24
 msgid "You can remove an old and unwanted playlist."
-msgstr "A régi és már nem szükséges lejátszólistákat eltávolíthatja."
+msgstr ""
+"È possibile rimuovere le vecchie playlist o quelle che non si utilizzano "
+"più."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:29
 msgid "Select the playlist which you want to delete."
-msgstr "Válassza ki a törölni kívánt lejátszólistát."
+msgstr "Selezionare la playlist da eliminare."
 
 #. (itstool) path: item/p
 #: C/playlist-delete.page:35
 msgid "Click on <gui>Delete</gui>."
-msgstr "Kattintson a <gui>Törlés</gui> gombra."
+msgstr "Fare clic su <gui>Elimina</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-remove-songs.page:18
 msgid "Delete songs from the playlist."
-msgstr "Számok törlése a lejátszólistáról."
+msgstr "Eliminare brani dalla playlist."
 
 #. (itstool) path: page/title
 #: C/playlist-remove-songs.page:22
 msgid "Remove songs"
-msgstr "Számok eltávolítása"
+msgstr "Rimuovere brani"
 
 #. (itstool) path: page/p
 #: C/playlist-remove-songs.page:24
 msgid "You can remove any unwanted songs from a playlist."
-msgstr "A már nem kívánt számokat eltávolíthatja a lejátszólistáról."
+msgstr "È possibile rimuovere un qualsiasi brano da una playlist."
 
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:29
 msgid "Select the playlist from which you want to remove songs."
-msgstr "Válassza ki a lejátszólistát, amelyről számokat szeretne eltávolítani."
+msgstr "Selezionare la playlist da cui rimuovere i brani."
 
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:32
 msgid "Click on the check button on the toolbar."
-msgstr "Kattintson a pipa gombra az eszköztáron."
+msgstr "Fare clic sul pulsante di selezione nella barra del titolo."
 
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:35
 msgid "Select all the songs which you want to remove."
-msgstr "Jelölje ki az összes eltávolítani kívánt számot."
+msgstr "Selezionare tutti i brani di rimuovere."
 
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:38
 msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
-msgstr ""
-"Kattintson az <gui style=\"button\">Eltávolítás a lejátszólistáról</gui> "
-"gombra."
+msgstr "Fare clic su <gui style=\"button\">Rimuovi da playlist</gui>."
 
 #. (itstool) path: info/desc
 #: C/playlist-repeat.page:18
 msgid "Repeat all songs in the playlist or only the current song."
-msgstr ""
-"Az összes szám, vagy egyetlen szám ismétlődő lejátszása a lejátszólistából."
+msgstr "Ripetere tutti i brani nella playlist o solo quello in riproduzione."
 
 #. (itstool) path: page/title
 #: C/playlist-repeat.page:22
 msgid "How do I play songs on repeat?"
-msgstr "Hogyan lehet a számok lejátszását ismételtetni?"
+msgstr "Riprodurre i brani in ripetizione"
 
 #. (itstool) path: list/title
 #: C/playlist-repeat.page:25
 msgid "In the taskbar, click on the button on the right side:"
-msgstr "A tálca jobb oldalán kattintson a gombra:"
+msgstr "Nella barra del titolo, fare clic sul pulsante a destra:"
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:27
 msgid "Select <gui>Repeat Song</gui> to repeat a single song."
-msgstr ""
-"Egyetlen szám ismétléséhez válassza a <gui>Szám ismétlése</gui> lehetőséget."
+msgstr "Selezionare <gui>Ripeti brano</gui> per ripetere un singolo brano."
 
 #. (itstool) path: item/p
 #: C/playlist-repeat.page:30
 msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
 msgstr ""
-"A lejátszólistában levő összes szám ismétléséhez válassza az <gui>Összes "
-"ismétlése</gui> lehetőséget."
+"Selezionare <gui>Ripeti tutto</gui> per ripetere tutti i brani nella "
+"playlist."
 
 #. (itstool) path: info/desc
 #: C/playlist-shuffle.page:18
 msgid "Shuffle songs in the playlist."
-msgstr "Számok véletlenszerű lejátszása a lejátszólistából."
+msgstr "Mischiare i brani in un playlist."
 
 #. (itstool) path: page/title
 #: C/playlist-shuffle.page:22
 msgid "How do I shuffle my songs?"
-msgstr "Hogyan játszhatom le véletlenszerűen a számaimat?"
+msgstr "Mischiare i brani"
 
 #. (itstool) path: page/p
 #: C/playlist-shuffle.page:24
@@ -417,18 +414,18 @@ msgid ""
 "In the taskbar, click on the button on right hand side and select "
 "<gui>Shuffle</gui>."
 msgstr ""
-"A tálca jobb oldalán kattintson a gombra, majd válassza a "
-"<gui>Véletlenszerű</gui> lehetőséget."
+"Nella barra del titolo, fare clic sul pulsante a destra e selezionare "
+"<gui>Mischia</gui>."
 
 #. (itstool) path: info/desc
 #: C/search.page:18
 msgid "Search through your music collection."
-msgstr "Keressen zenegyűjteményében."
+msgstr "Cercare nella propria collezione musicale."
 
 #. (itstool) path: page/title
 #: C/search.page:22
 msgid "Find music"
-msgstr "Zene keresése"
+msgstr "Trovare musica"
 
 #. (itstool) path: page/p
 #: C/search.page:24
@@ -437,16 +434,15 @@ msgid ""
 "want to search through then click the <gui>Search</gui> button and start "
 "searching."
 msgstr ""
-"Kereshet albumok, előadók, számok és lejátszólisták alapján. Válassza ki, "
-"hogy miben szeretne keresni, majd kattintson a <gui>Keresés</gui> gombra a "
-"keresés megkezdéséhez."
+"È possibile cercare tra album, artisti, brani e playlist. Selezionare il "
+"criterio di ricerca quindi fare clic sul pulsante <gui>Cerca</gui>."
 
 #. (itstool) path: p/link
 #: C/legal.xml:5
 msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
-msgstr "Creative Commons Nevezd meg!-Így add tovább! 3.0 átíratlan licenc"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported"
 
 #. (itstool) path: license/p
 #: C/legal.xml:4
 msgid "This work is licensed under a <_:link-1/>."
-msgstr "Ez a mű a <_:link-1/> feltételei szerint terjeszthető."
+msgstr "Questo documento è fornito nei termini della licenza <_:link-1/>."

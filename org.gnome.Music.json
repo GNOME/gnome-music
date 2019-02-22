@@ -21,7 +21,8 @@
         "--talk-name=org.gtk.vfs.mountpoint_http",
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
-        "--filesystem=xdg-cache/media-art"
+        "--filesystem=xdg-cache/media-art",
+        "--system-talk-name=org.freedesktop.login1"
     ],
     "cleanup": [
         "/include",
@@ -62,8 +63,8 @@
             "cleanup": [ "/bin", "/etc", "/libexec" ],
             "config-opts": [ "-Ddocs=false",
                              "-Dfunctional_tests=false",
-                             "-Dnetwork_manager=no",
-                             "-Dstemmer=no",
+                             "-Dnetwork_manager=disabled",
+                             "-Dstemmer=disabled",
                              "-Dunicode_support=icu",
                              "-Dbash_completion=no" ],
             "sources": [
