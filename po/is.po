@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2018-09-04 18:04+0000\n"
-"PO-Revision-Date: 2019-02-21 09:20+0000\n"
+"PO-Revision-Date: 2019-02-22 16:47+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <translation-team-is@lists.sourceforge.net>\n"
 "Language: is\n"
@@ -31,12 +31,16 @@ msgid ""
 "An easy way to play your music. Automatically discover music on your "
 "computer, the local network and internet services."
 msgstr ""
+"Einföld leið til að spila tónlistina þína. Finndu sjálfkrafa tónlist á"
+" tölvunni þinni, staðarnetinu og internetþjónustum."
 
 #: data/org.gnome.Music.appdata.xml.in.in:12
 msgid ""
 "Find tracks in your local collection, get music from DLNA servers or try "
 "something new with the Jamendo and Magnatune services."
 msgstr ""
+"Finndu lög í þínu eigin safni, náðu í tónlist af DLNA-þjónum eða prófaðu"
+" eitthvað alveg nýtt frá þjónustum á borð við Jamendo og Magnatune."
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:54
 #: gnomemusic/window.py:67
@@ -117,11 +121,12 @@ msgstr "Setja sem satt þegar upphafsstaða hefur verið birt"
 
 #: data/org.gnome.Music.gschema.xml:43
 msgid "Inhibit system suspend"
-msgstr ""
+msgstr "Koma í veg fyrir svæfingu kerfis"
 
 #: data/org.gnome.Music.gschema.xml:44
 msgid "Enables or disables inhibiting system suspend while playing music"
 msgstr ""
+"Virkjar eða gerir óvirkt kerfi sem setur í hvíld á meðan tónlist er spiluð"
 
 #: gnomemusic/gstplayer.py:405
 msgid "Unable to play the file"
