@@ -91,6 +91,8 @@ class Application(Gtk.Application):
     def _about(self, action, param):
         about = AboutDialog()
         about.props.transient_for = self._window
+        # This has to be set after transient_for
+        about.props.modal = True
 
     @log
     def do_startup(self):
