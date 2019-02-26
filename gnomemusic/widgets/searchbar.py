@@ -404,12 +404,10 @@ class Searchbar(Gtk.SearchBar):
     def _search_state_changed(self, klass, data):
         search_state = self.props.search_state
 
-        if search_state == Search.State.NONE:
-            self.props.search_mode_enabled = False
-        elif search_state == Search.State.NO_RESULT:
+        if search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
             self.props.stack.props.visible_child_name = 'emptyview'
-        else:
+        elif search_state == Search.State.RESULT:
             self._set_error_style(False)
             self.props.stack.props.visible_child_name = 'search'
 

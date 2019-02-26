@@ -50,3 +50,14 @@ class Search(GObject.GObject):
     @log
     def __init__(self):
         super().__init__()
+        self._state = Search.State.NONE
+
+    @GObject.Property(type=int, default=State.NONE)
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        self._state = state
+        none_state = (self._state == Search.State.NONE)
+        self.props.search_mode_enabled = not none_state
