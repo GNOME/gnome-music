@@ -55,9 +55,6 @@ class SearchView(BaseView):
     def __init__(self, window, player):
         super().__init__('search', None, window)
 
-        # FIXME: Searchbar handling does not belong here.
-        self._searchbar = window._searchbar
-
         self._add_list_renderers()
         self.player = player
         self._head_iters = [None, None, None, None]
@@ -81,6 +78,8 @@ class SearchView(BaseView):
 
         self._items_found = None
 
+        self._previous_search_state = Search.State.NONE
+
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
@@ -103,8 +102,6 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._searchbar.props.search_mode_enabled = True
-
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
             self._artist_albums_widget = None
@@ -113,6 +110,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
+        self.props.search_state = self._previous_search_state
         self._headerbar.props.state = HeaderBar.State.MAIN
 
     @log
@@ -141,6 +139,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
+            self._previous_search_state = self.props.search_state
             self.props.search_state = Search.State.NONE
 
         elif self.model[_iter][12] == 'artist':
@@ -162,6 +161,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = artist
             self._headerbar.props.subtitle = None
             self.set_visible_child(self._artist_albums_widget)
+            self._previous_search_state = self.props.search_state
             self.props.search_state = Search.State.NONE
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
