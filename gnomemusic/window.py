@@ -129,8 +129,10 @@ class Window(Gtk.ApplicationWindow):
             | GObject.BindingFlags.SYNC_CREATE)
         self._search.bind_property(
             "search-mode-enabled", self._searchbar, "search-mode-enabled",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.SYNC_CREATE)
+        self._search.bind_property(
+            "state", self._searchbar, "search-state",
+            GObject.BindingFlags.SYNC_CREATE)
 
         self._player = Player(self)
         self._player_toolbar = PlayerToolbar(self._player, self)
@@ -257,7 +259,7 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.ARTIST] = ArtistsView(self, self._player)
         self.views[View.SONG] = SongsView(self, self._player)
         self.views[View.PLAYLIST] = PlaylistView(self, self._player)
-        self.views[View.SEARCH] = SearchView(self, self._player)
+        self.views[View.SEARCH] = SearchView(self, self._player, self._search)
 
         selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
         for view in selectable_views:
@@ -275,9 +277,6 @@ class Window(Gtk.ApplicationWindow):
                 self._stack.add_named(i, i.name)
 
         self._stack.set_visible_child(self.views[View.ALBUM])
-
-        self.views[View.SEARCH].bind_property(
-            'search-state', self._searchbar, 'search-state')
 
     @log
     def _select_all(self, action=None, param=None):
