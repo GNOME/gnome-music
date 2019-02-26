@@ -337,14 +337,26 @@ class Searchbar(Gtk.SearchBar):
         return '<Searchbar>'
 
     @log
-    def __init__(self):
-        """Initialize the Searchbar"""
+    def __init__(self, search):
+        """Initialize the Searchbar
+
+        :param Search search: Search object
+        """
         super().__init__()
 
         self._timeout = None
 
         self._dropdown = DropDown()
         self._dropdown.initialize_filters(self)
+
+        self._search = search
+        self._search.bind_property(
+            "search-mode-enabled", self, "search-mode-enabled",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self.connect(
+            "notify::search-mode-enabled", self._search_mode_changed)
+
         self.connect('notify::search-state', self._search_state_changed)
 
     @Gtk.Template.Callback()
@@ -390,18 +402,9 @@ class Searchbar(Gtk.SearchBar):
         return False
 
     @log
-    def reveal(self, show, clear=True):
-        """Hides or reveals the searchbar
-
-        :param bool show: Whether to show the searchbar
-        :param bool clear: Whether to clear the search entry
-        """
-        self.props.search_mode_enabled = show
-
-        if show:
+    def _search_mode_changed(self, klass, data):
+        if self.props.search_mode_enabled:
             self._search_entry.realize()
-            if clear:
-                self._search_entry.set_text('')
             self._search_entry.grab_focus()
         else:
             self._drop_down_button.set_active(False)
@@ -411,7 +414,7 @@ class Searchbar(Gtk.SearchBar):
         search_state = self.props.search_state
 
         if search_state == Search.State.NONE:
-            self.reveal(False)
+            self.props.search_mode_enabled = False
         elif search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
             self.props.stack.props.visible_child_name = 'emptyview'
@@ -432,6 +435,6 @@ class Searchbar(Gtk.SearchBar):
             style_context.remove_class('error')
 
     @log
-    def toggle(self):
-        """Toggle the searchbar showing"""
-        self.reveal(not self.get_search_mode())
+    def clear(self):
+        """Clear the searchbar."""
+        self._search_entry.props.text = ""
