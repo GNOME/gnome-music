@@ -148,10 +148,6 @@ class BaseView(Gtk.Stack):
         pass
 
     @log
-    def _on_selection_mode_request(self, *args):
-        self.props.selection_mode = not self.props.selection_mode
-
-    @log
     def get_selected_songs(self, callback):
         callback([])
 

@@ -217,7 +217,7 @@ class SongsView(BaseView):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
-            self._on_selection_mode_request()
+            self.props.selection_mode = True
 
         # FIXME: In selection mode, star clicks might still trigger
         # activation.
