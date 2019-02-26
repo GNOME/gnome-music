@@ -52,11 +52,20 @@ class SearchView(BaseView):
         return '<SearchView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, window, player, search):
+        """Initialize SearchView.
+
+        :param Window window: Window object
+        :param Player player: Player object
+        :param Search search: Search object
+        """
         super().__init__('search', None, window)
 
-        # FIXME: Searchbar handling does not belong here.
-        self._searchbar = window._searchbar
+        self._search = search
+        self.bind_property(
+            "search-state", self._search, "state",
+            GObject.BindingFlags.SYNC_CREATE)
+        self._previous_search_state = Search.State.NONE
 
         self._add_list_renderers()
         self.player = player
@@ -103,8 +112,6 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._searchbar.props.search_mode_enabled = True
-
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
             self._artist_albums_widget = None
@@ -113,6 +120,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
+        self.props.search_state = self._previous_search_state
         self._headerbar.props.state = HeaderBar.State.MAIN
 
     @log
@@ -141,6 +149,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
+            self._previous_search_state = self.props.search_state
             self.props.search_state = Search.State.NONE
 
         elif self.model[_iter][12] == 'artist':
@@ -162,6 +171,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = artist
             self._headerbar.props.subtitle = None
             self.set_visible_child(self._artist_albums_widget)
+            self._previous_search_state = self.props.search_state
             self.props.search_state = Search.State.NONE
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
