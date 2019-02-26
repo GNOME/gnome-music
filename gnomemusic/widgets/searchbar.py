@@ -330,7 +330,6 @@ class Searchbar(Gtk.SearchBar):
     _search_entry = Gtk.Template.Child()
     _drop_down_button = Gtk.Template.Child()
 
-    search_state = GObject.Property(type=int, default=Search.State.NONE)
     stack = GObject.Property(type=Gtk.Stack)
 
     def __repr__(self):
@@ -352,12 +351,11 @@ class Searchbar(Gtk.SearchBar):
         self._search = search
         self._search.bind_property(
             "search-mode-enabled", self, "search-mode-enabled",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.SYNC_CREATE)
         self.connect(
             "notify::search-mode-enabled", self._search_mode_changed)
-
-        self.connect('notify::search-state', self._search_state_changed)
+        self._search.connect(
+            'notify::state', self._search_state_changed)
 
     @Gtk.Template.Callback()
     @log
@@ -411,14 +409,12 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def _search_state_changed(self, klass, data):
-        search_state = self.props.search_state
+        search_state = self._search.props.state
 
-        if search_state == Search.State.NONE:
-            self.props.search_mode_enabled = False
-        elif search_state == Search.State.NO_RESULT:
+        if search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
             self.props.stack.props.visible_child_name = 'emptyview'
-        else:
+        elif search_state == Search.State.RESULT:
             self._set_error_style(False)
             self.props.stack.props.visible_child_name = 'search'
 
