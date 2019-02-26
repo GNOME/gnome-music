@@ -183,7 +183,7 @@ class SearchView(BaseView):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
-            self._on_selection_mode_request()
+            self.props.selection_mode = True
 
         if (self.selection_mode
                 and not self._star_handler.star_renderer_click):
