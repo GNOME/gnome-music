@@ -36,6 +36,7 @@ from gnomemusic import log
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import Player, RepeatMode
 from gnomemusic.query import Query
+from gnomemusic.search import Search
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
@@ -118,8 +119,19 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        self._search = Search()
         self._headerbar = HeaderBar()
         self._searchbar = Searchbar()
+        self._search.bind_property(
+            "search-mode-enabled", self._headerbar, "search-mode-enabled",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self._search.bind_property(
+            "search-mode-enabled", self._searchbar, "search-mode-enabled",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         self._player = Player(self)
         self._player_toolbar = PlayerToolbar(self._player, self)
         selection_toolbar = SelectionToolbar()
@@ -131,10 +143,6 @@ class Window(Gtk.ApplicationWindow):
             visible=True,
             can_focus=False)
 
-        self._headerbar.bind_property(
-            "search-mode-enabled", self._searchbar, "search-mode-enabled",
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
         self._searchbar.props.stack = self._stack
         self._headerbar.connect(
             'back-button-clicked', self._switch_back_from_childview)
@@ -311,7 +319,8 @@ class Window(Gtk.ApplicationWindow):
             if (keyval == Gdk.KEY_f
                     and not self.views[View.PLAYLIST].rename_active
                     and self._headerbar.props.state != HeaderBar.State.SEARCH):
-                self._searchbar.toggle()
+                search_mode = self._search.props.search_mode_enabled
+                self._search.props.search_mode_enabled = not search_mode
             # Play / Pause on Ctrl + SPACE
             if keyval == Gdk.KEY_space:
                 self._player.play_pause()
@@ -382,8 +391,8 @@ class Window(Gtk.ApplicationWindow):
             if keyval == Gdk.KEY_Escape:
                 if self.props.selection_mode:
                     self.props.selection_mode = False
-                else:
-                    self._searchbar.reveal(False)
+                elif self._search.props.search_mode_enabled:
+                    self._search.props.search_mode_enabled = False
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
@@ -394,7 +403,7 @@ class Window(Gtk.ApplicationWindow):
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
-            self._searchbar.reveal(True)
+            self._search.props.search_mode_enabled = True
 
     @log
     def _on_back_button_pressed(self, gesture, n_press, x, y):
@@ -411,9 +420,11 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = self.curr_view
         self.curr_view = stack.get_visible_child()
 
-        if (self.curr_view != self.views[View.SEARCH]
-                and self.curr_view != self.views[View.EMPTY]):
-            self._searchbar.reveal(False)
+        # Disable search mode when switching view
+        search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
+        if (self.curr_view not in search_views
+                and self._search.props.search_mode_enabled is True):
+            self._search.props.search_mode_enabled = False
 
         # Disable the selection button for the EmptySearch and Playlist
         # view
@@ -443,8 +454,6 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_search_toggled(self, button, data=None):
-        self._searchbar.reveal(
-            button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
                     or self.curr_view == self.views[View.EMPTY])):
@@ -453,10 +462,12 @@ class Window(Gtk.ApplicationWindow):
                 # We should get back to the view before the search
                 self._stack.set_visible_child(
                     self.views[View.SEARCH].previous_view)
+                self._searchbar.clear()
             elif (self.views[View.SEARCH].previous_view == self.views[View.ALBUM]
                     and child != self.curr_view._album_widget
                     and child != self.curr_view._artist_albums_widget):
                 self._stack.set_visible_child(self.views[View.ALBUM])
+                self._searchbar.clear()
 
             if self.props.selection_mode:
                 self.props.selection_mode = False
