@@ -55,9 +55,6 @@ class SearchView(BaseView):
     def __init__(self, window, player):
         super().__init__('search', None, window)
 
-        # FIXME: Searchbar handling does not belong here.
-        self._searchbar = window._searchbar
-
         self._add_list_renderers()
         self.player = player
         self._head_iters = [None, None, None, None]
@@ -81,6 +78,8 @@ class SearchView(BaseView):
 
         self._items_found = None
 
+        self._search_mode_active = False
+
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
@@ -103,8 +102,6 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._searchbar.props.search_mode_enabled = True
-
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
             self._artist_albums_widget = None
@@ -113,6 +110,7 @@ class SearchView(BaseView):
                 self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._grid)
+        self.props.search_mode_active = True
         self._headerbar.props.state = HeaderBar.State.MAIN
 
     @log
@@ -141,7 +139,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = title
             self._headerbar.props.subtitle = artist
             self.set_visible_child(self._album_widget)
-            self.props.search_state = Search.State.NONE
+            self.props.search_mode_active = False
 
         elif self.model[_iter][12] == 'artist':
             artist = self.model[_iter][2]
@@ -162,7 +160,7 @@ class SearchView(BaseView):
             self._headerbar.props.title = artist
             self._headerbar.props.subtitle = None
             self.set_visible_child(self._artist_albums_widget)
-            self.props.search_state = Search.State.NONE
+            self.props.search_mode_active = False
         elif self.model[_iter][12] == 'song':
             if self.model[_iter][11] != ValidationStatus.FAILED:
                 c_iter = self._songs_model.convert_child_iter_to_iter(_iter)[1]
@@ -213,6 +211,29 @@ class SearchView(BaseView):
         cells = col.get_cells()
         cells[4].props.visible = self.props.selection_mode
         col.queue_resize()
+
+    @GObject.Property(type=bool, default=False)
+    def search_mode_active(self):
+        """Get search mode status.
+
+        :returns: the search mode status
+        :rtype: bool
+        """
+        return self._search_mode_active
+
+    @search_mode_active.setter
+    def search_mode_active(self, value):
+        """Set search mode status.
+
+        :param bool mode: new search mode
+        """
+        # FIXME: search_mode_active should not change search_state.
+        # This is necessary because Search state cannot interact with
+        # the child views.
+        self._search_mode_active = value
+        if (not self._search_mode_active
+                and self.get_visible_child() == self._grid):
+            self.props.search_state = Search.State.NONE
 
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):

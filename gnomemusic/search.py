@@ -43,6 +43,7 @@ class Search(GObject.GObject):
         NO_RESULT = 2
 
     search_mode_active = GObject.Property(type=bool, default=False)
+    state = GObject.Property(type=int, default=0)
 
     def __repr__(self):
         return "<Search>"
