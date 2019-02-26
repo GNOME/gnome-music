@@ -98,7 +98,6 @@ class HeaderBar(Gtk.HeaderBar):
     _back_button = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
 
-    search_mode_enabled = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
@@ -107,7 +106,11 @@ class HeaderBar(Gtk.HeaderBar):
         return "<HeaderBar>"
 
     @log
-    def __init__(self):
+    def __init__(self, search):
+        """Initialize the headerbar
+
+        :param Search search: Search object
+        """
         super().__init__()
 
         self._selection_mode = False
@@ -139,7 +142,9 @@ class HeaderBar(Gtk.HeaderBar):
         self.bind_property(
             "selected-items-count", self._selection_menu,
             "selected-items-count")
-        self.bind_property(
+
+        self._search = search
+        self._search.bind_property(
             "search-mode-enabled", self._search_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)

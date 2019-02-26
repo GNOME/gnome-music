@@ -103,7 +103,7 @@ class SearchView(BaseView):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        self._searchbar.reveal(True, False)
+        self._searchbar.props.search_mode_enabled = True
 
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
