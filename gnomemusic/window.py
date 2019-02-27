@@ -144,8 +144,8 @@ class Window(Gtk.ApplicationWindow):
             'selected-items-count', selection_toolbar, 'selected-items-count')
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL |
-            GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'selection-mode', selection_toolbar, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
