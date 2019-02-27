@@ -1,5 +1,5 @@
 # Italian translation of Gnome Music.
-# Copyright (C) 2012, 2013, 2014, 2015, 2016, 2017, 2018 Free Software Foundation, Inc.
+# Copyright (C) 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019 Free Software Foundation, Inc.
 #
 # Convenzioni usate:
 #
@@ -12,14 +12,14 @@
 #   Bonjour/Zeroconf ed il widget che permette di filtrare
 #   per artista/album/autore. Il primo è browser, il
 #   secondo catalogo (ove possibile distinguere)
-# Milo Casagrande <milo@milo.name>, 2012, 2013, 2014, 2015, 2016, 2017, 2018.
+# Milo Casagrande <milo@milo.name>, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-08-05 09:24+0000\n"
-"PO-Revision-Date: 2018-08-08 16:03+0200\n"
+"POT-Creation-Date: 2019-02-13 09:09+0000\n"
+"PO-Revision-Date: 2019-02-15 14:03+0100\n"
 "Last-Translator: Milo Casagrande <milo@milo.name>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "Language: it\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Launchpad-Export-Date: 2012-03-06 09:28+0000\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -57,7 +57,7 @@ msgstr ""
 "qualche cosa di nuovo è possibile usare servizi come Jamendo e Magnatune."
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/application.py:105 gnomemusic/window.py:66
+#: gnomemusic/window.py:72
 msgid "Music"
 msgstr "Musica"
 
@@ -143,225 +143,19 @@ msgstr ""
 "Abilita/Disabilita la sospensione del sistema quando viene riprodotta della "
 "musica"
 
-#: gnomemusic/gstplayer.py:402
-msgid "Unable to play the file"
-msgstr "Impossibile riprodurre il file"
-
-#: gnomemusic/gstplayer.py:408
-msgid "_Find in {}"
-msgstr "_Trova in {}"
-
-#. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:419
-msgid " and "
-msgstr " e "
-
-#. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:422
-msgid ", "
-msgstr ", "
-
-#: gnomemusic/gstplayer.py:424
-msgid "{} is required to play the file, but is not installed."
-msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "{} è richiesto per riprodurre i file, ma non è installato."
-msgstr[1] "{} sono richiesti per riprodurre il file, ma non sono installati."
-
-#: gnomemusic/inhibitsuspend.py:68
-msgid "Playing music"
-msgstr "Musica in riproduzione"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:60
-msgid "Most Played"
-msgstr "Più ascoltati"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:65
-msgid "Never Played"
-msgstr "Mai ascoltati"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:70
-msgid "Recently Played"
-msgstr "Ascoltati di recente"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:75
-msgid "Recently Added"
-msgstr "Aggiunti di recente"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:80
-msgid "Favorite Songs"
-msgstr "Brani preferiti"
-
-#: gnomemusic/searchbar.py:66 gnomemusic/searchbar.py:114
-msgid "All"
-msgstr "Tutto"
-
-#: gnomemusic/searchbar.py:67
-msgid "Artist"
-msgstr "Artista"
-
-#: gnomemusic/searchbar.py:68
-msgid "Album"
-msgstr "Album"
-
-#: gnomemusic/searchbar.py:69 data/AlbumWidget.ui:172
-msgid "Composer"
-msgstr "Compositore"
-
-#: gnomemusic/searchbar.py:70
-msgid "Track Title"
-msgstr "Titolo"
-
-#: gnomemusic/searchbar.py:115
-msgid "Local"
-msgstr "Locale"
-
-#: gnomemusic/searchbar.py:256
-msgid "Sources"
-msgstr "Sorgenti"
-
-#: gnomemusic/searchbar.py:264
-msgid "Match"
-msgstr "Corrispondenza"
-
-#: gnomemusic/utils.py:75
-msgid "Unknown Artist"
-msgstr "Artista sconosciuto"
-
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Senza titolo"
-
-#: gnomemusic/views/albumsview.py:47 gnomemusic/views/searchview.py:573
-msgid "Albums"
-msgstr "Album"
-
-#: gnomemusic/views/artistsview.py:60 gnomemusic/views/searchview.py:575
-msgid "Artists"
-msgstr "Artisti"
-
-#: gnomemusic/views/emptyview.py:66
-msgid "Music folder"
-msgstr "Cartella Musica"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:70
-msgid "The contents of your {} will appear here."
-msgstr "Il contenuto della propria «{}» apparirà qui."
-
-#: gnomemusic/views/emptyview.py:102
-msgid "Hey DJ"
-msgstr "Hey DJ"
-
-#: gnomemusic/views/emptyview.py:112 gnomemusic/views/emptyview.py:118
-msgid "No music found"
-msgstr "Nessuna musica trovata"
-
-#: gnomemusic/views/emptyview.py:120
-msgid "Try a different search"
-msgstr "Provare con un'altra ricerca"
-
-#: gnomemusic/views/playlistview.py:66 gnomemusic/views/searchview.py:579
-msgid "Playlists"
-msgstr "Playlist"
-
-#: gnomemusic/views/playlistview.py:623
-msgid "Playlist {} removed"
-msgstr "Playlist {} rimossa"
-
-#: gnomemusic/views/playlistview.py:629
-msgid "{} removed from {}"
-msgstr "{} rimosso da {}"
-
-#: gnomemusic/views/searchview.py:577 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Brani"
-
-#: gnomemusic/widgets/albumwidget.py:161
-msgid "{} minute"
-msgid_plural "{} minutes"
-msgstr[0] "{} minuto"
-msgstr[1] "{} minuti"
-
-#: gnomemusic/widgets/disclistboxwidget.py:141
-msgid "Disc {}"
-msgstr "Disco {}"
-
-#: gnomemusic/widgets/headerbar.py:73
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "Selezionato {} elemento"
-msgstr[1] "Selezionati {} elementi"
-
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:32
-msgid "Click on items to select them"
-msgstr "Fare clic sugli elementi per selezionarli"
-
-#: gnomemusic/widgets/notificationspopup.py:169
-msgid "Loading"
-msgstr "Caricamento"
-
-#: gnomemusic/widgets/notificationspopup.py:232
-msgid "_Undo"
-msgstr "A_nnulla"
-
-#: gnomemusic/widgets/playertoolbar.py:148
-msgid "Pause"
-msgstr "Pausa"
-
-#: gnomemusic/widgets/playertoolbar.py:151 data/PlayerToolbar.ui:88
-msgid "Play"
-msgstr "Riproduci"
-
-#: gnomemusic/widgets/playlistcontrols.py:91
-msgid "{} Song"
-msgid_plural "{} Songs"
-msgstr[0] "{} brano"
-msgstr[1] "{} brani"
-
-#: data/AboutDialog.ui.in:9
+#: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Copyright © 2018 Gli sviluppatori di GNOME Musica"
 
-#: data/AboutDialog.ui.in:10
+#: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
 msgstr "Una applicazione per GNOME per riprodurre e gestire la propria musica."
 
-#: data/AboutDialog.ui.in:12
+#: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
 msgstr "Visita il sito web di GNOME Musica"
 
-#: data/AboutDialog.ui.in:13
-#| msgid ""
-#| "GNOME Music is free software; you can redistribute it and/or modify it "
-#| "under the terms of the GNU General Public License as published by the "
-#| "Free Software Foundation; either version 2 of the License, or (at your "
-#| "option) any later version.\n"
-#| "\n"
-#| "GNOME Music is distributed in the hope that it will be useful, but "
-#| "WITHOUT ANY WARRANTY; without even the implied warranty of "
-#| "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General "
-#| "Public License for more details.\n"
-#| "\n"
-#| "You should have received a copy of the GNU General Public License along "
-#| "with GNOME Music; if not, write to the Free Software Foundation, Inc., 51 "
-#| "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.\n"
-#| "\n"
-#| "The GNOME Music authors hereby grant permission for non-GPL compatible "
-#| "GStreamer plugins to be used and distributed together with GStreamer and "
-#| "GNOME Music.  This permission is above and beyond the permissions granted "
-#| "by the GPL license by which GNOME Music is covered.  If you modify this "
-#| "code, you may extend this exception to your version of the code, but you "
-#| "are not obligated to do so.  If you do not wish to do so, delete this "
-#| "exception statement from your version.\n"
-#| "\n"
-#| "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
-#| "https://www.flickr.com/photos/_spy_/12270839403\n"
+#: data/ui/AboutDialog.ui.in:13
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -413,279 +207,412 @@ msgstr ""
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:111
+#: data/ui/AlbumWidget.ui:112
 msgid "Released"
 msgstr "Pubblicato"
 
-#: data/AlbumWidget.ui:127
+#: data/ui/AlbumWidget.ui:128
 msgid "Running Length"
 msgstr "Durata"
 
-#: data/app-menu.ui:5
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+msgid "Composer"
+msgstr "Compositore"
+
+#: data/ui/AppMenu.ui:21
 msgid "_Keyboard Shortcuts"
 msgstr "_Scorciatoie da tastiera"
 
-#: data/app-menu.ui:9
+#: data/ui/AppMenu.ui:35
 msgid "_Help"
 msgstr "A_iuto"
 
-#: data/app-menu.ui:15
-msgid "_About"
-msgstr "I_nformazioni"
+#: data/ui/AppMenu.ui:49
+msgid "_About Music"
+msgstr "I_nformazioni su Musica"
 
-#: data/app-menu.ui:19
-msgid "_Quit"
-msgstr "_Esci"
+#: data/ui/HeaderBar.ui:13
+msgid "Menu"
+msgstr "Menù"
 
-#: data/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:36
 msgid "Search"
 msgstr "Cerca"
 
-#: data/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Seleziona"
 
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
 msgid "_Cancel"
 msgstr "A_nnulla"
 
-#: data/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:100
 msgid "Back"
 msgstr "Indietro"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Generale"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Chiude la finestra"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Search"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Aiuto"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Scorciatoie"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Riproduzione"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Riproduci/Pausa"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Brano successiv0"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Brano precedente"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Attiva/Disattiva ripetizione"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Attiva/Disattiva riproduzione casuale"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigazione"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Va agli album"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Va agli artisti"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Va ai brani"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Va alle playlist"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Indietro"
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Mischia"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Ripeti tutto"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Ripeti brano"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Mischia/Ripeti disattivati"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Precedente"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+msgid "Play"
+msgstr "Riproduci"
+
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Successiva"
 
-#: data/PlaylistContextMenu.ui:5
+#: data/ui/PlaylistContextMenu.ui:5
 msgctxt "context menu item"
 msgid "Play"
 msgstr "Riproduci"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Aggiungi a playlist…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Rimuovi da playlist"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Riproduci"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Elimina"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Rinomina…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Nome playlist"
 
-#: data/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:67
 msgid "_Done"
 msgstr "_Fatto"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Inserire un nome per la prima playlist"
 
-#: data/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "C_rea"
 
-#: data/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:168
 msgid "New Playlist…"
 msgstr "Nuova playlist…"
 
-#: data/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:184
 msgid "Add"
 msgstr "Aggiungi"
 
-#: data/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:279
 msgid "Add to Playlist"
 msgstr "Aggiungi a playlist"
 
-#: data/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:295
 msgid "_Add"
 msgstr "A_ggiungi"
 
-#: data/SelectionBarMenuButton.ui:7
+#: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Seleziona tutto"
 
-#: data/SelectionBarMenuButton.ui:11
+#: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
 msgstr "Deseleziona tutto"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+msgid "Click on items to select them"
+msgstr "Fare clic sugli elementi per selezionarli"
+
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "Aggiungi a _playlist"
 
-#~ msgid "Music is the new GNOME music playing application."
-#~ msgstr "Musica è la nuova applicazione GNOME per ascoltare musica."
+#: gnomemusic/gstplayer.py:410
+msgid "Unable to play the file"
+msgstr "Impossibile riprodurre il file"
 
-#~| msgid "gnome-music"
-#~ msgid "org.gnome.Music"
-#~ msgstr "org.gnome.Music"
+#: gnomemusic/gstplayer.py:416
+msgid "_Find in {}"
+msgstr "_Trova in {}"
 
-#~ msgid "Search mode"
-#~ msgstr "Modalità di ricerca"
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:427
+msgid " and "
+msgstr " e "
 
-#~ msgid "If true, the search bar is shown."
-#~ msgstr "Se VERO, viene mostrata la barra di ricerca."
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:430
+msgid ", "
+msgstr ", "
 
-#~ msgid "Notifications mode"
-#~ msgstr "Modalità notifiche"
+#: gnomemusic/gstplayer.py:432
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "{} è richiesto per riprodurre i file, ma non è installato."
+msgstr[1] "{} sono richiesti per riprodurre il file, ma non sono installati."
 
-#~ msgid "Enables or disables playback notifications"
-#~ msgstr "Abilita o disabilita le notifiche di riproduzione"
+#: gnomemusic/inhibitsuspend.py:67
+msgid "Playing music"
+msgstr "Musica in riproduzione"
 
-#~ msgid "Selected %d item"
-#~ msgid_plural "Selected %d items"
-#~ msgstr[0] "Selezionato %d elemento"
-#~ msgstr[1] "Selezionati %d elementi"
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:59
+msgid "Most Played"
+msgstr "Più ascoltati"
 
-#~ msgid "%d min"
-#~ msgstr "%d min"
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:64
+msgid "Never Played"
+msgstr "Mai ascoltati"
 
-#~ msgid "Empty"
-#~ msgstr "Vuota"
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:69
+msgid "Recently Played"
+msgstr "Ascoltati di recente"
 
-#~ msgid "Select Playlist"
-#~ msgstr "Seleziona playlist"
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:74
+msgid "Recently Added"
+msgstr "Aggiunti di recente"
 
-#~ msgid "the|a|an"
-#~ msgstr "the|a|an|il|la|le|un|uno|una|lo|i"
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:79
+msgid "Favorite Songs"
+msgstr "Brani preferiti"
 
-#~ msgid "Max chars to display in track name on Artist view"
-#~ msgstr ""
-#~ "Numero di caratteri da visualizzare nel nome della traccia o nella vista "
-#~ "artisti"
+#: gnomemusic/utils.py:75
+msgid "Unknown Artist"
+msgstr "Artista sconosciuto"
 
-#~ msgid ""
-#~ "This setting modifies the amount of chars for track title on Artist view "
-#~ "before its been ellipsized. Set this to -1 to disable"
-#~ msgstr ""
-#~ "Questa impostazione modifica il numero di caratteri visualizzati per il "
-#~ "titolo del brano nella vista artisti, prima che venga troncato; impostare "
-#~ "a -1 per disabilitare"
+#: gnomemusic/utils.py:87
+msgid "Untitled"
+msgstr "Senza titolo"
 
-#~ msgid "Unknown Album"
-#~ msgstr "Album sconosciuto"
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+msgid "Albums"
+msgstr "Album"
 
-#~ msgid "the a an"
-#~ msgstr "il lo la the un uno una a an"
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+msgid "Artists"
+msgstr "Artisti"
 
-#~ msgid "All Artists"
-#~ msgstr "Tutti gli artisti"
+#: gnomemusic/views/emptyview.py:67
+msgid "Music folder"
+msgstr "Cartella Musica"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:71
+msgid "The contents of your {} will appear here."
+msgstr "Il contenuto della propria «{}» apparirà qui."
+
+#: gnomemusic/views/emptyview.py:105
+msgid "Hey DJ"
+msgstr "Hey DJ"
+
+#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
+msgid "No music found"
+msgstr "Nessuna musica trovata"
+
+#: gnomemusic/views/emptyview.py:123
+msgid "Try a different search"
+msgstr "Provare con un'altra ricerca"
+
+#: gnomemusic/views/emptyview.py:129
+msgid "GNOME Music could not connect to Tracker"
+msgstr "Impossibile collegarsi a Tracker"
+
+#: gnomemusic/views/emptyview.py:132
+msgid "Your music files cannot be indexed without Tracker running"
+msgstr ""
+"Non è possibile indicizzare i propri file musicali senza Tracker in "
+"esecuzione"
+
+#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+msgid "Playlists"
+msgstr "Playlist"
+
+#: gnomemusic/views/playlistview.py:640
+msgid "Playlist {} removed"
+msgstr "Playlist {} rimossa"
+
+#: gnomemusic/views/playlistview.py:646
+msgid "{} removed from {}"
+msgstr "{} rimosso da {}"
+
+#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+msgid "Songs"
+msgstr "Brani"
+
+#: gnomemusic/widgets/albumwidget.py:168
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuto"
+msgstr[1] "{} minuti"
+
+#: gnomemusic/widgets/disclistboxwidget.py:141
+msgid "Disc {}"
+msgstr "Disco {}"
+
+#: gnomemusic/widgets/headerbar.py:72
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "Selezionato {} elemento"
+msgstr[1] "Selezionati {} elementi"
+
+#: gnomemusic/widgets/notificationspopup.py:169
+msgid "Loading"
+msgstr "Caricamento"
+
+#: gnomemusic/widgets/notificationspopup.py:232
+msgid "_Undo"
+msgstr "A_nnulla"
+
+#: gnomemusic/widgets/playertoolbar.py:136
+msgid "Pause"
+msgstr "Pausa"
+
+#: gnomemusic/widgets/playlistcontrols.py:96
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} brano"
+msgstr[1] "{} brani"
+
+#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+msgid "All"
+msgstr "Tutto"
+
+#: gnomemusic/widgets/searchbar.py:67
+msgid "Artist"
+msgstr "Artista"
+
+#: gnomemusic/widgets/searchbar.py:68
+msgid "Album"
+msgstr "Album"
+
+#: gnomemusic/widgets/searchbar.py:70
+msgid "Track Title"
+msgstr "Titolo"
+
+#: gnomemusic/widgets/searchbar.py:115
+msgid "Local"
+msgstr "Locale"
+
+#: gnomemusic/widgets/searchbar.py:283
+msgid "Sources"
+msgstr "Sorgenti"
+
+#: gnomemusic/widgets/searchbar.py:292
+msgid "Match"
+msgstr "Corrispondenza"
