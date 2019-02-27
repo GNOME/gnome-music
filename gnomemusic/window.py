@@ -184,10 +184,10 @@ class Window(Gtk.ApplicationWindow):
         self._box.pack_start(selection_toolbar, False, False, 0)
         self.add(self._box)
 
-        self._headerbar._search_button.connect(
-            'toggled', self._on_search_toggled)
         selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
+        self._search.connect(
+            "notify::search-mode-enabled", self._on_search_mode_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
@@ -452,24 +452,18 @@ class Window(Gtk.ApplicationWindow):
             self._stack.set_visible_child(self.views[view_enum])
 
     @log
-    def _on_search_toggled(self, button, data=None):
-        if (not button.get_active()
-                and (self.curr_view == self.views[View.SEARCH]
-                    or self.curr_view == self.views[View.EMPTY])):
-            child = self.curr_view.get_visible_child()
-            if self._headerbar.props.state == HeaderBar.State.MAIN:
-                # We should get back to the view before the search
-                self._stack.set_visible_child(
-                    self.views[View.SEARCH].previous_view)
-                self._searchbar.clear()
-            elif (self.views[View.SEARCH].previous_view == self.views[View.ALBUM]
-                    and child != self.curr_view._album_widget
-                    and child != self.curr_view._artist_albums_widget):
-                self._stack.set_visible_child(self.views[View.ALBUM])
-                self._searchbar.clear()
+    def _on_search_mode_changed(self, klass, param):
+        if (self._search.props.search_mode_enabled
+                or self._search.props.state == Search.State.NONE):
+            return
 
-            if self.props.selection_mode:
-                self.props.selection_mode = False
+        # Get back to the view before the search
+        search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
+        if self.curr_view in search_views:
+            self._stack.set_visible_child(
+                self.views[View.SEARCH].previous_view)
+
+        self._searchbar.clear()
 
     @log
     def _switch_back_from_childview(self, klass=None):
