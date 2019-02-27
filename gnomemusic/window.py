@@ -283,6 +283,9 @@ class Window(Gtk.ApplicationWindow):
         self._search.bind_property(
             "search-mode-active", self.views[View.SEARCH],
             "search-mode-active", GObject.BindingFlags.BIDIRECTIONAL)
+        self._search.bind_property(
+            "search-mode-active", self.views[View.ALBUM],
+            "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
 
     @log
     def _select_all(self, action=None, param=None):
