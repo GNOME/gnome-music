@@ -40,7 +40,7 @@ class AlbumsView(BaseView):
         return '<AlbumsView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, window, player, search):
         super().__init__('albums', _("Albums"), window)
 
         self.player = player
@@ -50,6 +50,10 @@ class AlbumsView(BaseView):
         self.all_items = []
         self.items_selected = []
         self.items_selected_callback = None
+
+        self._search = search
+        self._search.connect(
+            "notify::search-mode-enabled", self._on_search_mode_changed)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -65,6 +69,13 @@ class AlbumsView(BaseView):
         if (not self.props.selection_mode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
+
+    @log
+    def _on_search_mode_changed(self, klass, param):
+        if (not self._search.props.search_mode_enabled
+                and self._headerbar.props.stack.props.visible_child == self
+                and self.get_visible_child() == self._album_widget):
+            self._set_album_headerbar(self._album_widget.props.album)
 
     @log
     def _setup_view(self):
@@ -97,10 +108,14 @@ class AlbumsView(BaseView):
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
-        self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = utils.get_album_title(item)
-        self._headerbar.props.subtitle = utils.get_artist_name(item)
+        self._set_album_headerbar(item)
         self.set_visible_child(self._album_widget)
+
+    @log
+    def _set_album_headerbar(self, album):
+        self._headerbar.props.state = HeaderBar.State.CHILD
+        self._headerbar.props.title = utils.get_album_title(album)
+        self._headerbar.props.subtitle = utils.get_artist_name(album)
 
     @log
     def populate(self):
