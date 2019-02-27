@@ -36,6 +36,8 @@ import gnomemusic.utils as utils
 
 class AlbumsView(BaseView):
 
+    search_mode_active = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return '<AlbumsView>'
 
@@ -51,6 +53,9 @@ class AlbumsView(BaseView):
         self.items_selected = []
         self.items_selected_callback = None
 
+        self.connect(
+            "notify::search-mode-active", self._on_search_mode_changed)
+
     @log
     def _on_changes_pending(self, data=None):
         if (self._init and not self.props.selection_mode):
@@ -65,6 +70,13 @@ class AlbumsView(BaseView):
         if (not self.props.selection_mode
                 and grilo.changes_pending['Albums']):
             self._on_changes_pending()
+
+    @log
+    def _on_search_mode_changed(self, klass, param):
+        if (not self.props.search_mode_active
+                and self._headerbar.props.stack.props.visible_child == self
+                and self.get_visible_child() == self._album_widget):
+            self._set_album_headerbar(self._album_widget.props.album)
 
     @log
     def _setup_view(self):
@@ -97,10 +109,14 @@ class AlbumsView(BaseView):
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
-        self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = utils.get_album_title(item)
-        self._headerbar.props.subtitle = utils.get_artist_name(item)
+        self._set_album_headerbar(item)
         self.set_visible_child(self._album_widget)
+
+    @log
+    def _set_album_headerbar(self, album):
+        self._headerbar.props.state = HeaderBar.State.CHILD
+        self._headerbar.props.title = utils.get_album_title(album)
+        self._headerbar.props.subtitle = utils.get_artist_name(album)
 
     @log
     def populate(self):

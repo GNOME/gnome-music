@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import ngettext
-from gi.repository import GdkPixbuf, GObject, Gtk
+from gi.repository import GdkPixbuf, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -71,6 +71,7 @@ class AlbumWidget(Gtk.EventBox):
         """
         super().__init__()
 
+        self._album = None
         self._songs = []
 
         self._cover_stack.props.size = Art.Size.LARGE
@@ -142,6 +143,8 @@ class AlbumWidget(Gtk.EventBox):
         self._released_info_label.props.label = year
 
         self._set_composer_label(album)
+
+        self._album = album
 
         self._player.connect('song-changed', self._update_model)
 
@@ -280,3 +283,13 @@ class AlbumWidget(Gtk.EventBox):
         :rtype: list
         """
         return self._disc_listbox.get_selected_items()
+
+    @GObject.Property(
+        type=Grl.Media, default=False, flags=GObject.ParamFlags.READABLE)
+    def album(self):
+        """Get the current album.
+
+        :returns: the current album
+        :rtype: Grl.Media
+        """
+        return self._album
