@@ -79,6 +79,7 @@ class SearchView(BaseView):
         self._items_found = None
 
         self._search_mode_active = False
+        self.connect("notify::search-state", self._on_search_state_changed)
 
     @log
     def _setup_view(self):
@@ -211,6 +212,14 @@ class SearchView(BaseView):
         cells = col.get_cells()
         cells[4].props.visible = self.props.selection_mode
         col.queue_resize()
+
+    @log
+    def _on_search_state_changed(self, klass, param):
+        # If a search is triggered when selection mode is activated,
+        # reset the number of selected items.
+        if (self.props.selection_mode
+                and self.props.search_state != Search.State.NONE):
+            self.props.selected_items_count = 0
 
     @GObject.Property(type=bool, default=False)
     def search_mode_active(self):
