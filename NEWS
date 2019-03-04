@@ -1,3 +1,30 @@
+Overview of changes in 3.31.92
+==============================
+
+Bugs fixed:
+ Fix initial state graphics in dark mode (#258)
+
+Thanks to our contributors this release:
+ Tjipke van der Heide
+ Veerasamy Sevagen
+
+Translations updated:
+ Turkish
+ Finnish
+ Icelandic
+ Dutch
+ Lithuanian
+ Basque
+ Brazilian Portuguese
+ Korean
+ Italian
+ Russian
+ Serbian
+ Friulian
+ German
+ Vietnamese
+ Latvian
+
 Overview of changes in 3.31.91
 ==============================
 
