@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-13 09:09+0000\n"
-"PO-Revision-Date: 2019-02-20 22:14+0200\n"
+"POT-Creation-Date: 2019-02-23 06:50+0000\n"
+"PO-Revision-Date: 2019-03-05 09:58+0200\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos+l10n@iki.fi>\n"
 "Language-Team: suomi <lokalisointi-lista@googlegroups.com>\n"
 "Language: fi\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -113,11 +113,11 @@ msgstr "Ottaa käyttöön/poistaa käytöstä ReplayGainin albumeille"
 
 #: data/org.gnome.Music.gschema.xml:38
 msgid "Inital state has been displayed"
-msgstr ""
+msgstr "Alkutila on näytetty"
 
 #: data/org.gnome.Music.gschema.xml:39
 msgid "Set to true when initial state has been displayed"
-msgstr ""
+msgstr "Aseta todeksi kun alkutila on näytetty"
 
 #: data/org.gnome.Music.gschema.xml:43
 msgid "Inhibit system suspend"
@@ -177,7 +177,7 @@ msgstr "Julkaistu"
 msgid "Running Length"
 msgstr "Kesto"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Säveltäjä"
 
@@ -549,31 +549,31 @@ msgid_plural "{} Songs"
 msgstr[0] "{} kappale"
 msgstr[1] "{} kappaletta"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
 msgid "All"
 msgstr "Kaikki"
 
-#: gnomemusic/widgets/searchbar.py:67
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Artist"
 msgstr "Esittäjä"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:70
 msgid "Album"
 msgstr "Levy"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:72
 msgid "Track Title"
 msgstr "Kappaleen nimi"
 
-#: gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:118
 msgid "Local"
 msgstr "Paikalliset"
 
-#: gnomemusic/widgets/searchbar.py:283
+#: gnomemusic/widgets/searchbar.py:287
 msgid "Sources"
 msgstr "Lähteet"
 
-#: gnomemusic/widgets/searchbar.py:292
+#: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Vastaavuus"
 
