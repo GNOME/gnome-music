@@ -246,10 +246,7 @@ class PlaylistNotification(Gtk.Grid):
         self._notifications_popup.add_notification(self)
 
     def _close_clicked(self, widget_):
-        self._notifications_popup.remove_notification( self, 'finish-deletion')
-
-    def __del__( self):
-        pass
+        self._notifications_popup.terminate_pending()
 
     @log
     def _undo_clicked(self, widget_):
