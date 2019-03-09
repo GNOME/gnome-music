@@ -717,15 +717,21 @@ class PlaylistView(BaseView):
         media_id = playlist_notification.media_id
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
-            pl_todelete = self.pls_todelete[media_id]
-            playlists.delete_playlist(pl_todelete['playlist'])
-            self.pls_todelete.pop(media_id)
+            try:
+                pl_todelete = self.pls_todelete[media_id]
+                playlists.delete_playlist(pl_todelete['playlist'])
+                self.pls_todelete.pop(media_id)
+            except KeyError:
+                pass
 
         else:
-            song_todelete = self._songs_todelete[media_id]
-            playlists.remove_from_playlist(
-                song_todelete['playlist'], [song_todelete['song']])
-            self._songs_todelete.pop(media_id)
+            try:
+                song_todelete = self._songs_todelete[media_id]
+                playlists.remove_from_playlist(
+                    song_todelete['playlist'], [song_todelete['song']])
+                self._songs_todelete.pop(media_id)
+            except KeyError:
+                pass
 
     @GObject.Property(type=bool, default=False)
     def rename_active(self):
