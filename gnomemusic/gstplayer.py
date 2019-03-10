@@ -72,6 +72,7 @@ class GstPlayer(GObject.GObject):
         self._settings = Gio.Settings.new('org.gnome.Music')
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')
+        assert self._player, "replaygain is not currently available"
         self._bus = self._player.get_bus()
         self._bus.add_signal_watch()
         self._setup_replaygain()
