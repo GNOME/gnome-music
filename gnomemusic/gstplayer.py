@@ -104,7 +104,6 @@ class GstPlayer(GObject.GObject):
                 or not self._rg_limiter):
             logger.debug("Replay Gain is not available")
             return
-            
         self._filter_bin.add(self._rg_volume)
         self._filter_bin.add(self._rg_limiter)
         self._rg_volume.link(self._rg_limiter)
