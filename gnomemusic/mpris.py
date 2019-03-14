@@ -288,9 +288,10 @@ class MPRIS(DBusInterface):
         self._player.connect(
             'playlist-changed', self._on_player_playlist_changed)
 
-        self.player_toolbar = app.get_active_window()._player_toolbar
-        self.player_toolbar.connect(
+        self._player_toolbar = app.get_active_window()._player_toolbar
+        self._player_toolbar.connect(
             'thumbnail-updated', self._on_thumbnail_updated)
+
         self._playlists = Playlists.get_default()
         self._playlists.connect(
             'playlist-created', self._on_playlists_count_changed)
