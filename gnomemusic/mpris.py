@@ -684,7 +684,7 @@ class MediaPlayer2Service(Server):
                 'CanRaise': GLib.Variant('b', True),
                 'HasTrackList': GLib.Variant('b', True),
                 'Identity': GLib.Variant('s', 'Music'),
-                'DesktopEntry': GLib.Variant('s', 'gnome-music'),
+                'DesktopEntry': GLib.Variant('s', 'org.gnome.Music'),
                 'SupportedUriSchemes': GLib.Variant('as', [
                     'file'
                 ]),
