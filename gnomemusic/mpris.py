@@ -278,14 +278,16 @@ class MPRIS(DBusInterface):
         super().__init__(name, path)
 
         self._app = app
-        self.player = app.props.player
-        self.player.connect(
+        self._player = app.props.player
+        self._player.connect(
             'song-changed', self._on_current_song_changed)
-        self.player.connect('notify::state', self._on_player_state_changed)
-        self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
-        self.player.connect('seek-finished', self._on_seek_finished)
-        self.player.connect(
+        self._player.connect('notify::state', self._on_player_state_changed)
+        self._player.connect(
+            'notify::repeat-mode', self._on_repeat_mode_changed)
+        self._player.connect('seek-finished', self._on_seek_finished)
+        self._player.connect(
             'playlist-changed', self._on_player_playlist_changed)
+
         self._playlists = Playlists.get_default()
         self._playlists.connect(
             'playlist-created', self._on_playlists_count_changed)
@@ -307,7 +309,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _get_playback_status(self):
-        state = self.player.props.state
+        state = self._player.props.state
         if state == Playback.STOPPED:
             return 'Stopped'
         elif state == Playback.PAUSED:
@@ -317,9 +319,9 @@ class MPRIS(DBusInterface):
 
     @log
     def _get_loop_status(self):
-        if self.player.props.repeat_mode == RepeatMode.NONE:
+        if self._player.props.repeat_mode == RepeatMode.NONE:
             return 'None'
-        elif self.player.props.repeat_mode == RepeatMode.SONG:
+        elif self._player.props.repeat_mode == RepeatMode.SONG:
             return 'Track'
         else:
             return 'Playlist'
@@ -327,13 +329,13 @@ class MPRIS(DBusInterface):
     @log
     def _get_metadata(self, media=None, index=None):
         song_dbus_path = self._get_song_dbus_path(media, index)
-        if not self.player.props.current_song:
+        if not self._player.props.current_song:
             return {
                 'mpris:trackid': GLib.Variant('o', song_dbus_path)
             }
 
         if not media:
-            media = self.player.props.current_song
+            media = self._player.props.current_song
 
         length = media.get_duration() * 1e6
         user_rating = 1.0 if media.get_favourite() else 0.0
@@ -394,12 +396,12 @@ class MPRIS(DBusInterface):
         :return: a D-Bus id to uniquely identify the song
         :rtype: str
         """
-        if not self.player.props.current_song:
+        if not self._player.props.current_song:
             return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
         if not media:
-            media = self.player.props.current_song
-            index = self.player.props.current_song_index
+            media = self._player.props.current_song
+            index = self._player.props.current_song_index
 
         id_hex = media.get_id().encode('ascii').hex()
         path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
@@ -411,7 +413,7 @@ class MPRIS(DBusInterface):
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
-        for index, song in self.player.get_mpris_playlist():
+        for index, song in self._player.get_mpris_playlist():
             path = self._get_song_dbus_path(song, index)
             metadata = self._get_metadata(song, index)
             self._path_list.append(path)
@@ -486,10 +488,10 @@ class MPRIS(DBusInterface):
         :returns: playlist existence and its structure
         :rtype: tuple
         """
-        if self.player.get_playlist_type() != PlayerPlaylist.Type.PLAYLIST:
+        if self._player.get_playlist_type() != PlayerPlaylist.Type.PLAYLIST:
             return (False, ("/", "", ""))
 
-        playlist = self._get_playlist_from_id(self.player.get_playlist_id())
+        playlist = self._get_playlist_from_id(self._player.get_playlist_id())
         mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
         return (True, mpris_playlist)
 
@@ -544,7 +546,7 @@ class MPRIS(DBusInterface):
 
         properties = {}
 
-        is_shuffled = self.player.props.repeat_mode == RepeatMode.SHUFFLE
+        is_shuffled = self._player.props.repeat_mode == RepeatMode.SHUFFLE
         if is_shuffled != self._previous_is_shuffled:
             properties["Shuffle"] = GLib.Variant("b", is_shuffled)
             self._previous_is_shuffled = is_shuffled
@@ -609,26 +611,26 @@ class MPRIS(DBusInterface):
         self._app.quit()
 
     def _next(self):
-        self.player.next()
+        self._player.next()
 
     def _previous(self):
-        self.player.previous()
+        self._player.previous()
 
     def _pause(self):
-        self.player.pause()
+        self._player.pause()
 
     def _play_pause(self):
-        self.player.play_pause()
+        self._player.play_pause()
 
     def _stop(self):
-        self.player.stop()
+        self._player.stop()
 
     def _play(self):
         """Start or resume playback.
 
         If there is no track to play, this has no effect.
         """
-        self.player.play()
+        self._player.play()
 
     def _seek(self, offset_msecond):
         """Seek forward in the current track.
@@ -638,14 +640,14 @@ class MPRIS(DBusInterface):
         acts like a call to Next.
         :param int offset_msecond: number of microseconds
         """
-        current_position_second = self.player.get_position()
+        current_position_second = self._player.get_position()
         new_position_second = current_position_second + offset_msecond / 1e6
 
-        duration_second = self.player.props.duration
+        duration_second = self._player.props.duration
         if new_position_second <= duration_second:
-            self.player.set_position(new_position_second)
+            self._player.set_position(new_position_second)
         else:
-            self.player.next()
+            self._player.next()
 
     def _set_position(self, track_id, position_msecond):
         """Set the current track position in microseconds.
@@ -657,7 +659,7 @@ class MPRIS(DBusInterface):
         current_track_id = metadata["mpris:trackid"].get_string()
         if track_id != current_track_id:
             return
-        self.player.set_position(position_msecond / 1e6)
+        self._player.set_position(position_msecond / 1e6)
 
     def _open_uri(self, uri):
         pass
@@ -735,20 +737,20 @@ class MPRIS(DBusInterface):
                 ]),
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYER_IFACE:
-            position_msecond = int(self.player.get_position() * 1e6)
+            position_msecond = int(self._player.get_position() * 1e6)
             return {
                 'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
                 'LoopStatus': GLib.Variant('s', self._get_loop_status()),
                 'Rate': GLib.Variant('d', 1.0),
-                'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
+                'Shuffle': GLib.Variant('b', self._player.props.repeat_mode == RepeatMode.SHUFFLE),
                 'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                 'Position': GLib.Variant('x', position_msecond),
                 'MinimumRate': GLib.Variant('d', 1.0),
                 'MaximumRate': GLib.Variant('d', 1.0),
-                'CanGoNext': GLib.Variant('b', self.player.props.has_next),
-                'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
-                'CanPlay': GLib.Variant('b', self.player.props.current_song is not None),
-                'CanPause': GLib.Variant('b', self.player.props.current_song is not None),
+                'CanGoNext': GLib.Variant('b', self._player.props.has_next),
+                'CanGoPrevious': GLib.Variant('b', self._player.props.has_previous),
+                'CanPlay': GLib.Variant('b', self._player.props.current_song is not None),
+                'CanPause': GLib.Variant('b', self._player.props.current_song is not None),
                 'CanSeek': GLib.Variant('b', True),
                 'CanControl': GLib.Variant('b', True),
             }
@@ -781,16 +783,16 @@ class MPRIS(DBusInterface):
                 pass
             elif property_name == 'LoopStatus':
                 if new_value == 'None':
-                    self.player.props.repeat_mode = RepeatMode.NONE
+                    self._player.props.repeat_mode = RepeatMode.NONE
                 elif new_value == 'Track':
-                    self.player.props.repeat_mode = RepeatMode.SONG
+                    self._player.props.repeat_mode = RepeatMode.SONG
                 elif new_value == 'Playlist':
-                    self.player.props.repeat_mode = RepeatMode.ALL
+                    self._player.props.repeat_mode = RepeatMode.ALL
             elif property_name == 'Shuffle':
                 if new_value:
-                    self.player.props.repeat_mode = RepeatMode.SHUFFLE
+                    self._player.props.repeat_mode = RepeatMode.SHUFFLE
                 else:
-                    self.player.props.repeat_mode = RepeatMode.NONE
+                    self._player.props.repeat_mode = RepeatMode.NONE
         else:
             logger.warning(
                 "MPRIS does not implement {} interface".format(interface_name))
