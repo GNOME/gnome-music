@@ -277,7 +277,7 @@ class MPRIS(DBusInterface):
         path = '/org/mpris/MediaPlayer2'
         super().__init__(name, path)
 
-        self.app = app
+        self._app = app
         self.player = app.props.player
         self.player.connect(
             'song-changed', self._on_current_song_changed)
@@ -600,10 +600,10 @@ class MPRIS(DBusInterface):
         self._reload_playlists()
 
     def _raise(self):
-        self.app.do_activate()
+        self._app.do_activate()
 
     def _quit(self):
-        self.app.quit()
+        self._app.quit()
 
     def _next(self):
         self.player.next()
@@ -725,7 +725,7 @@ class MPRIS(DBusInterface):
 
     def _get_all(self, interface_name):
         if interface_name == MPRIS.MEDIA_PLAYER2_IFACE:
-            application_id = self.app.props.application_id
+            application_id = self._app.props.application_id
             return {
                 'CanQuit': GLib.Variant('b', True),
                 'Fullscreen': GLib.Variant('b', False),
