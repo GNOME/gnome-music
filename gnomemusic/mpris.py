@@ -276,7 +276,7 @@ class MPRIS(DBusInterface):
         path = '/org/mpris/MediaPlayer2'
         super().__init__(name, path)
 
-        self.app = app
+        self._app = app
         self.player = app.get_active_window()._player
         self.player.connect(
             'song-changed', self._on_current_song_changed)
@@ -560,10 +560,10 @@ class MPRIS(DBusInterface):
         self._reload_playlists()
 
     def _raise(self):
-        self.app.do_activate()
+        self._app.do_activate()
 
     def _quit(self):
-        self.app.quit()
+        self._app.quit()
 
     def _next(self):
         self.player.next()
@@ -663,7 +663,7 @@ class MPRIS(DBusInterface):
 
     def _activate_playlist(self, playlist_path):
         playlist_id = self._get_playlist_from_path(playlist_path).get_id()
-        self.app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
+        self._app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
 
     def _get_playlists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':
