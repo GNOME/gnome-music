@@ -514,7 +514,7 @@ class MediaPlayer2Service(Server):
             variant = GLib.Variant('(b(oss))', self._get_active_playlist())
             self.PropertiesChanged(
                 MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                {'ActivePlaylist':  variant, }, [])
+                {'ActivePlaylist': variant, }, [])
 
         self._player_previous_type = klass.get_playlist_type()
 
