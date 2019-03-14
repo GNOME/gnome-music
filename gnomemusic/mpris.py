@@ -95,7 +95,7 @@ class DBusInterface:
 
 
 class MPRIS(DBusInterface):
-    '''
+    """
     <!DOCTYPE node PUBLIC
     '-//freedesktop//DTD D-BUS Object Introspection 1.0//EN'
     'http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd'>
@@ -111,10 +111,10 @@ class MPRIS(DBusInterface):
                 <arg name='property' direction='in' type='s'/>
                 <arg name='value' direction='out' type='v'/>
             </method>
-            <method name="Set">
-                <arg name="interface_name" direction="in" type="s"/>
-                <arg name="property_name" direction="in" type="s"/>
-                <arg name="value" direction="in" type="v"/>
+            <method name='Set'>
+                <arg name='interface_name' direction='in' type='s'/>
+                <arg name='property_name' direction='in' type='s'/>
+                <arg name='value' direction='in' type='v'/>
             </method>
             <method name='GetAll'>
                 <arg name='interface' direction='in' type='s'/>
@@ -210,7 +210,7 @@ class MPRIS(DBusInterface):
             <property name='CanEditTracks' type='b' access='read'/>
         </interface>
     </node>
-    '''
+    """
 
     MEDIA_PLAYER2_IFACE = 'org.mpris.MediaPlayer2'
     MEDIA_PLAYER2_PLAYER_IFACE = 'org.mpris.MediaPlayer2.Player'
