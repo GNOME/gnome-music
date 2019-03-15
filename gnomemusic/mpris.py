@@ -119,6 +119,11 @@ class MPRIS(DBusInterface):
                 <arg name='interface' direction='in' type='s'/>
                 <arg name='properties' direction='out' type='a{sv}'/>
             </method>
+            <signal name='PropertiesChanged'>
+                <arg name='interface_name' type='s' />
+                <arg name='changed_properties' type='a{sv}' />
+                <arg name='invalidated_properties' type='as' />
+            </signal>
         </interface>
         <interface name='org.mpris.MediaPlayer2'>
             <method name='Raise'>
