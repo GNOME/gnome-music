@@ -395,7 +395,7 @@ class MediaPlayer2Service(Server):
         return None
 
     @log
-    def _get_playlists(self, callback):
+    def _query_playlists(self, callback):
         playlists = []
 
         def populate_callback(source, param, item, remaining=0, data=None):
@@ -499,7 +499,7 @@ class MediaPlayer2Service(Server):
 
     @log
     def _reload_playlists(self):
-        def get_playlists_callback(playlists):
+        def query_playlists_callback(playlists):
             self.playlists = playlists
             self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                                    {
@@ -507,7 +507,7 @@ class MediaPlayer2Service(Server):
                                    },
                                    [])
 
-        self._get_playlists(get_playlists_callback)
+        self._query_playlists(query_playlists_callback)
 
     @log
     def _on_playlists_count_changed(self, playlists, item):
