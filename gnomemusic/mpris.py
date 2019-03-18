@@ -445,9 +445,14 @@ class MediaPlayer2Service(Server):
         if self.player.props.repeat_mode == RepeatMode.SONG:
             self.Seeked(0)
 
+        has_next = self.player.props.has_next
+        has_previous = self.player.props.has_previous
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
+                                   'CanGoNext': GLib.Variant('b', has_next),
+                                   'CanGoPrevious': GLib.Variant(
+                                       'b', has_previous),
                                    'CanPlay': GLib.Variant('b', True),
                                    'CanPause': GLib.Variant('b', True),
                                },
