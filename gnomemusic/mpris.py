@@ -510,11 +510,9 @@ class MPRIS(DBusInterface):
             return
 
         self._previous_playback_status = playback_status
-        self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'PlaybackStatus': GLib.Variant('s', playback_status),
-                               },
-                               [])
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+            {'PlaybackStatus': GLib.Variant('s', playback_status), }, [])
 
     @log
     def _on_repeat_mode_changed(self, player, param):
@@ -772,19 +770,23 @@ class MPRIS(DBusInterface):
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYER_IFACE:
             position_msecond = int(self._player.get_position() * 1e6)
+            playback_status = self._get_playback_status()
+            is_shuffle = (self._player.props.repeat_mode == RepeatMode.SHUFFLE)
+            can_play = (self._player.props.current_song is not None)
+            has_previous = (self._player.props.has_previous)
             return {
-                'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
+                'PlaybackStatus': GLib.Variant('s', playback_status),
                 'LoopStatus': GLib.Variant('s', self._get_loop_status()),
                 'Rate': GLib.Variant('d', 1.0),
-                'Shuffle': GLib.Variant('b', self._player.props.repeat_mode == RepeatMode.SHUFFLE),
+                'Shuffle': GLib.Variant('b', is_shuffle),
                 'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                 'Position': GLib.Variant('x', position_msecond),
                 'MinimumRate': GLib.Variant('d', 1.0),
                 'MaximumRate': GLib.Variant('d', 1.0),
                 'CanGoNext': GLib.Variant('b', self._player.props.has_next),
-                'CanGoPrevious': GLib.Variant('b', self._player.props.has_previous),
-                'CanPlay': GLib.Variant('b', self._player.props.current_song is not None),
-                'CanPause': GLib.Variant('b', self._player.props.current_song is not None),
+                'CanGoPrevious': GLib.Variant('b', has_previous),
+                'CanPlay': GLib.Variant('b', can_play),
+                'CanPause': GLib.Variant('b', can_play),
                 'CanSeek': GLib.Variant('b', True),
                 'CanControl': GLib.Variant('b', True),
             }
@@ -795,10 +797,11 @@ class MPRIS(DBusInterface):
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE:
             playlist_count = len(self._stored_playlists)
+            active_playlist = self._get_active_playlist()
             return {
                 'PlaylistCount': GLib.Variant('u', playlist_count),
                 'Orderings': GLib.Variant('as', ['Alphabetical']),
-                'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
+                'ActivePlaylist': GLib.Variant('(b(oss))', active_playlist),
             }
         elif interface_name == 'org.freedesktop.DBus.Properties':
             return {}
