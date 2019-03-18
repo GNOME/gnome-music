@@ -434,7 +434,7 @@ class MPRIS(DBusInterface):
         return None
 
     @log
-    def _get_playlists(self, callback):
+    def _query_playlists(self, callback):
         playlists = []
 
         def populate_callback(source, param, item, remaining=0, data=None):
@@ -560,7 +560,7 @@ class MPRIS(DBusInterface):
                 },
                 [])
 
-        self._get_playlists(get_playlists_callback)
+        self._query_playlists(get_playlists_callback)
 
     @log
     def _on_playlists_count_changed(self, playlists, item):
