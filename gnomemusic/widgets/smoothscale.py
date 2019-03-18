@@ -116,6 +116,7 @@ class SmoothScale(Gtk.Scale):
         if duration != -1.:
             self.set_range(0.0, duration * 60)
             self.set_increments(300, 600)
+            self._update_position_callback()
 
     @log
     def _on_smooth_scale_seek_finish(self, value):
