@@ -562,6 +562,7 @@ class Player(GObject.GObject):
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
     duration = GObject.Property(type=float, default=-1.)
+    player_available = GObject.Property(type=bool, default=True)
 
     def __repr__(self):
         return '<Player>'
@@ -585,12 +586,15 @@ class Player(GObject.GObject):
         GstPbutils.pb_utils_init()
 
         self._gst_player = GstPlayer()
-        self._gst_player.connect('clock-tick', self._on_clock_tick)
-        self._gst_player.connect('eos', self._on_eos)
-        self._gst_player.bind_property(
-            'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
-        self._gst_player.bind_property(
-            'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
+        if(self._gst_player.props.gstplayer_available):
+            self._gst_player.connect('clock-tick', self._on_clock_tick)
+            self._gst_player.connect('eos', self._on_eos)
+            self._gst_player.bind_property(
+                'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
+            self._gst_player.bind_property(
+                'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
+        else:
+            self.props.player_available = False
 
         root_window = parent_window.get_toplevel()
         self._inhibit_suspend = InhibitSuspend(root_window, self)
