@@ -73,7 +73,7 @@ class GstPlayer(GObject.GObject):
         self._missing_plugin_messages = []
         self._settings = Gio.Settings.new('org.gnome.Music')
 
-        self._player = Gst.ElementFactory.make('playin3', 'player')
+        self._player = Gst.ElementFactory.make('playbin3', 'player')
         if(self._player is None):
             self.props.gstplayer_available = False
         else:
