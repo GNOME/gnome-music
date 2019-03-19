@@ -185,6 +185,10 @@ class Window(Gtk.ApplicationWindow):
         self._player_toolbar.show_all()
         self._box.show()
         self.show()
+        if(not self._player.props.player_available):
+            from gnomemusic.widgets.infobar import Info
+            err = Info(self._box)
+            err.error("playbin is not available", "Please check your Gstreamer installation")
 
         def songs_available_cb(available):
             if available:
