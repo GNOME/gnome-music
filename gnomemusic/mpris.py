@@ -271,6 +271,7 @@ class MPRIS(DBusInterface):
         self._player_previous_type = None
         self._path_list = []
         self._metadata_list = []
+        self._previous_playback_status = "Stopped"
 
     @log
     def _get_playback_status(self):
@@ -465,9 +466,14 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_player_state_changed(self, klass, args):
+        playback_status = self._get_playback_status()
+        if playback_status == self._previous_playback_status:
+            return
+
+        self._previous_playback_status = playback_status
         self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
-                                   'PlaybackStatus': GLib.Variant('s', self._get_playback_status()),
+                                   'PlaybackStatus': GLib.Variant('s', playback_status),
                                },
                                [])
 
