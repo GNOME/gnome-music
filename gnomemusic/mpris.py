@@ -654,11 +654,18 @@ class MPRIS(DBusInterface):
     def GetPlaylists(self, index, max_count, order, reverse):
         if order != 'Alphabetical':
             return []
+
         playlists = [(self._get_playlist_dbus_path(playlist),
-                      utils.get_media_title(playlist) or '', '')
+                      utils.get_media_title(playlist), '')
                      for playlist in self.playlists]
-        return playlists[index:index + max_count] if not reverse \
-            else playlists[index + max_count - 1:index - 1 if index - 1 >= 0 else None:-1]
+
+        if not reverse:
+            return playlists[index:index + max_count]
+
+        first_index = index - 1
+        if first_index < 0:
+            first_index = None
+        return playlists[index + max_count - 1:first_index:-1]
 
     def PlaylistChanged(self, playlist):
         self.con.emit_signal(None,
