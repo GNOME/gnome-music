@@ -294,7 +294,7 @@ class MPRIS(DBusInterface):
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
         playlists.connect('playlist-renamed', self._on_playlist_renamed)
         grilo.connect('ready', self._on_grilo_ready)
-        self.playlists = []
+        self._playlists = []
         self._player_previous_type = None
         self._path_list = []
         self._metadata_list = []
@@ -429,7 +429,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _get_playlist_from_dbus_path(self, playlist_path):
-        for playlist in self.playlists:
+        for playlist in self._playlists:
             if playlist_path == self._get_playlist_dbus_path(playlist):
                 return playlist
         return None
@@ -442,7 +442,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _get_playlist_from_id(self, playlist_id):
-        for playlist in self.playlists:
+        for playlist in self._playlists:
             if playlist_id == playlist.get_id():
                 return playlist
         return None
@@ -599,7 +599,7 @@ class MPRIS(DBusInterface):
     @log
     def _reload_playlists(self):
         def query_playlists_callback(playlists):
-            self.playlists = playlists
+            self._playlists = playlists
             self._properties_changed(MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
                                    {
                                        'PlaylistCount': GLib.Variant('u', len(playlists)),
@@ -720,7 +720,7 @@ class MPRIS(DBusInterface):
             return []
 
         mpris_playlists = [self._get_mpris_playlist_from_playlist(playlist)
-                           for playlist in self.playlists]
+                           for playlist in self._playlists]
 
         if not reverse:
             return mpris_playlists[index:index + max_count]
@@ -779,7 +779,7 @@ class MPRIS(DBusInterface):
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE:
             return {
-                'PlaylistCount': GLib.Variant('u', len(self.playlists)),
+                'PlaylistCount': GLib.Variant('u', len(self._playlists)),
                 'Orderings': GLib.Variant('as', ['Alphabetical']),
                 'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
             }
