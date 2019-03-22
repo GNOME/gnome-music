@@ -450,3 +450,4 @@ class Playlists(GObject.GObject):
         """
 
         return playlist.get_id() in self._static_playlists.get_ids()
+        
