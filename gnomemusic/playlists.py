@@ -448,8 +448,5 @@ class Playlists(GObject.GObject):
         :return: True if the playlist is static
         :rtype: bool
         """
-        for static_playlist_id in self._static_playlists.get_ids():
-            if playlist.get_id() == static_playlist_id:
-                return True
 
-        return False
+        return playlist.get_id() in self._static_playlists.get_ids()
