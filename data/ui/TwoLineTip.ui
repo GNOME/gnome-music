@@ -2,6 +2,7 @@
 <interface>
   <template class="TwoLineTip" parent="GtkBox">
     <property name="can_focus">False</property>
+    <property name="expand">False</property>
     <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <child>

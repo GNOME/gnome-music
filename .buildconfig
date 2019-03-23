@@ -1,0 +1,9 @@
+[default]
+name=Default
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/sumaid/.cache/gnome-builder/install/gnome-music/host
+app-id=
+postbuild=
+prebuild=

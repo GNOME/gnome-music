@@ -1,20 +1,27 @@
 {
-    "app-id": "org.gnome.MusicDevel",
-    "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
-    "sdk": "org.gnome.Sdk",
-    "command": "gnome-music",
-    "tags": ["devel", "development", "nightly"],
-    "desktop-file-name-prefix": "(Development) ",
-    "finish-args": [
-        "--share=ipc", "--socket=x11",
+    "app-id" : "org.gnome.MusicDevel",
+    "runtime" : "org.gnome.Platform",
+    "runtime-version" : "master",
+    "sdk" : "org.gnome.Sdk",
+    "command" : "gnome-music",
+    "tags" : [
+        "devel",
+        "development",
+        "nightly"
+    ],
+    "desktop-file-name-prefix" : "(Development) ",
+    "finish-args" : [
+        "--share=ipc",
+        "--socket=x11",
         "--share=network",
         "--socket=wayland",
         "--talk-name=org.freedesktop.Tracker1",
         "--env=TRACKER_SPARQL_BACKEND=bus",
         "--talk-name=org.gnome.OnlineAccounts",
-        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
-        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
+        "--filesystem=xdg-run/dconf",
+        "--filesystem=~/.config/dconf:ro",
+        "--talk-name=ca.desrt.dconf",
+        "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=com.intel.dleyna-server",
@@ -24,7 +31,7 @@
         "--filesystem=xdg-cache/media-art",
         "--system-talk-name=org.freedesktop.login1"
     ],
-    "cleanup": [
+    "cleanup" : [
         "/include",
         "/lib/pkgconfig",
         "/share/pkgconfig",
@@ -36,116 +43,135 @@
         "*.la",
         "*.a"
     ],
-    "modules": [
+    "modules" : [
         "subprojects/shared-modules/lua5.3/lua-5.3.2.json",
         {
-            "name": "libmediaart",
-            "sources": [
+            "name" : "libmediaart",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libmediaart.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/libmediaart.git"
                 }
             ]
         },
         {
-            "name": "libdazzle",
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "libdazzle",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/libdazzle.git"
                 }
             ]
         },
         {
-            "name": "tracker",
-            "buildsystem": "meson",
-            "cleanup": [ "/bin", "/etc", "/libexec" ],
-            "config-opts": [ "-Ddocs=false",
-                             "-Dfunctional_tests=false",
-                             "-Dnetwork_manager=disabled",
-                             "-Dstemmer=disabled",
-                             "-Dunicode_support=icu",
-                             "-Dbash_completion=no" ],
-            "sources": [
+            "name" : "tracker",
+            "buildsystem" : "meson",
+            "cleanup" : [
+                "/bin",
+                "/etc",
+                "/libexec"
+            ],
+            "config-opts" : [
+                "-Ddocs=false",
+                "-Dfunctional_tests=false",
+                "-Dnetwork_manager=disabled",
+                "-Dstemmer=disabled",
+                "-Dunicode_support=icu",
+                "-Dbash_completion=no"
+            ],
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/tracker.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/tracker.git"
                 }
             ]
         },
         {
-            "name": "gnome-online-accounts",
-            "config-opts": [ "--enable-introspection",
-                             "--disable-documentation",
-                             "--disable-backend",
-                             "--disable-Werror" ],
-            "sources": [
+            "name" : "gnome-online-accounts",
+            "config-opts" : [
+                "--enable-introspection",
+                "--disable-documentation",
+                "--disable-backend",
+                "--disable-Werror"
+            ],
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/gnome-online-accounts.git"
                 }
             ]
         },
         {
-            "name": "totem-pl-parser",
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "totem-pl-parser",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/totem-pl-parser.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/totem-pl-parser.git"
                 }
             ]
         },
         {
-            "name": "grilo",
-            "buildsystem": "meson",
-            "sources": [
+            "name" : "grilo",
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/grilo.git"
                 }
             ],
-            "cleanup": [ "/include", "/bin" ]
+            "cleanup" : [
+                "/include",
+                "/bin"
+            ]
         },
         {
-            "name": "grilo-plugins",
-            "buildsystem": "meson",
-            "config-opts": [ "-Denable-dleyna=yes",
-                             "-Denable-tracker=yes",
-                             "-Denable-bookmarks=no",
-                             "-Denable-filesystem=no",
-                             "-Denable-freebox=no",
-                             "-Denable-local-metadata=no",
-                             "-Denable-lua-factory=yes",
-                             "-Denable-metadata-store=no",
-                             "-Denable-opensubtitles=no",
-                             "-Denable-optical-media=no",
-                             "-Denable-podcasts=no",
-                             "-Denable-thetvdb=no",
-                             "-Denable-tmdb=no",
-                             "-Denable-vimeo=no",
-                             "-Denable-youtube=no" ],
-            "sources": [
+            "name" : "grilo-plugins",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "-Denable-dleyna=yes",
+                "-Denable-tracker=yes",
+                "-Denable-bookmarks=no",
+                "-Denable-filesystem=no",
+                "-Denable-freebox=no",
+                "-Denable-local-metadata=no",
+                "-Denable-lua-factory=yes",
+                "-Denable-metadata-store=no",
+                "-Denable-opensubtitles=no",
+                "-Denable-optical-media=no",
+                "-Denable-podcasts=no",
+                "-Denable-thetvdb=no",
+                "-Denable-tmdb=no",
+                "-Denable-vimeo=no",
+                "-Denable-youtube=no"
+            ],
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
                 }
             ],
-            "cleanup": [ "/include" ]
+            "cleanup" : [
+                "/include"
+            ]
         },
         {
-            "name": "gnome-music",
+            "name" : "gnome-music",
             "config-opts" : [
                 "-Dprofile=development"
             ],
-            "buildsystem": "meson",
-            "sources": [
+            "buildsystem" : "meson",
+            "sources" : [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
+                    "type" : "git",
+                    "url" : "https://gitlab.gnome.org/GNOME/gnome-music.git"
                 }
             ]
         }
-    ]
+    ],
+    "build-options" : {
+        "env" : {
+        }
+    }
 }
