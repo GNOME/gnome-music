@@ -25,6 +25,7 @@
 from enum import IntEnum
 
 from gettext import gettext as _
+from gi.repository import GLib
 
 
 class View(IntEnum):
@@ -83,8 +84,15 @@ def get_media_title(item):
     :rtype:
     """
 
-    return (item.get_title()
-            or _("Untitled"))
+    title = item.get_title()
+
+    if not title:
+        url = item.get_url()
+        filename = GLib.filename_from_uri (url)
+        basename = GLib.filename_display_basename (filename[0])
+        title = str(basename)
+
+    return title.replace("_", " ")
 
 
 def get_media_year(item):
