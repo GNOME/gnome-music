@@ -83,8 +83,13 @@ def get_media_title(item):
     :rtype:
     """
 
-    return (item.get_title()
-            or _("Untitled"))
+    title = item.get_title()
+
+    if not title:
+        url = item.get_url()
+        title = url.split('/')[-1].split('.')[0]
+
+    return title
 
 
 def get_media_year(item):
