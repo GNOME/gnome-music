@@ -22,6 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import os
+
+import urllib.parse
+
 from enum import IntEnum
 
 from gettext import gettext as _
@@ -83,8 +87,15 @@ def get_media_title(item):
     :rtype:
     """
 
-    return (item.get_title()
-            or _("Untitled"))
+    title = item.get_title()
+
+    if not title:
+        url = item.get_url()
+        url = urllib.parse.unquote(url)
+        filename = os.path.basename(url)
+        title = os.path.splitext(filename)[0]
+
+    return title.replace("_", " ")
 
 
 def get_media_year(item):
