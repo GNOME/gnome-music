@@ -272,6 +272,8 @@ class MPRIS(DBusInterface):
         self._player_previous_type = None
         self._path_list = []
         self._metadata_list = []
+        self._metadata_timeout = None
+        self._current_thumbnail = None
         self._previous_playback_status = "Stopped"
 
     @log
@@ -444,30 +446,49 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_current_song_changed(self, player, position):
+        def send_signal():
+            current_song = self.player.props.current_song
+            has_next = self.player.props.has_next
+            has_previous = self.player.props.has_previous
+            metadata = self._get_metadata(current_song)
+            self.PropertiesChanged(
+                MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+                {
+                    'CanGoNext': GLib.Variant('b', has_next),
+                    'CanGoPrevious': GLib.Variant('b', has_previous),
+                    'CanPlay': GLib.Variant('b', True),
+                    'CanPause': GLib.Variant('b', True),
+                    'Metadata': GLib.Variant('a{sv}', metadata),
+                },
+                [])
+            self._metadata_timeout = None
+            self._current_thumbnail = current_song.get_thumbnail()
+
         self._update_songs_list()
 
-        has_next = self.player.props.has_next
-        has_previous = self.player.props.has_previous
-        metadata = self._get_metadata(self.player.props.current_song)
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'CanGoNext': GLib.Variant('b', has_next),
-                                   'CanGoPrevious': GLib.Variant(
-                                       'b', has_previous),
-                                   'CanPlay': GLib.Variant('b', True),
-                                   'CanPause': GLib.Variant('b', True),
-                                   'Metadata': GLib.Variant('a{sv}', metadata),
-                               },
-                               [])
+        # When a song changes, two signals are emitted:
+        # "current-song-changed" and "thumbnail-updated". Most of the
+        # time, "current-song-changed" will arrive first. So, the
+        # metadata property will be sent with an empty artUrl. Then, the
+        # thumbnail_updated method will send again the metadata with the
+        # correct artUrl. By adding a timeout, it waits for the arrival
+        # of the second signal and prevents to send two different
+        # signals.
+        self._metadata_timeout = GLib.timeout_add(250, send_signal)
 
     @log
     def _on_thumbnail_updated(self, player, data=None):
-        metadata = self._get_metadata(self.player.props.current_song)
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'Metadata': GLib.Variant('a{sv}', metadata),
-                               },
-                               [])
+        new_thumbnail = self.player.props.current_song.get_thumbnail()
+        if (not self._metadata_timeout
+                and new_thumbnail != self._current_thumbnail):
+            metadata = self._get_metadata(self.player.props.current_song)
+            self.PropertiesChanged(
+                MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
+                {
+                    'Metadata': GLib.Variant('a{sv}', metadata),
+                },
+                [])
+            self._current_thumbnail = new_thumbnail
 
     @log
     def _on_player_state_changed(self, klass, args):
