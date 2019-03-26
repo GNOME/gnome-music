@@ -65,6 +65,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_LYRICS,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
+        Grl.METADATA_KEY_START_TIME,
         Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_TRACK_NUMBER,
         Grl.METADATA_KEY_URL
