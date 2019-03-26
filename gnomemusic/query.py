@@ -88,7 +88,7 @@ class Query():
 
     @staticmethod
     def all_songs():
-        return Query.songs('?song a nmm:MusicPiece ; a nfo:FileDataObject .')
+        return Query.songs('?song a nmm:MusicPiece .')
 
     @staticmethod
     def all_playlists():
@@ -108,8 +108,8 @@ class Query():
         COUNT(?song) AS ?childcount
     {
         ?song a nmm:MusicPiece ;
-              a nfo:FileDataObject ;
-	      nie:url ?url .
+              nie:isStoredAs ?file .
+	    ?file nie:url ?url .
         FILTER(STRSTARTS(?url, '%(music_dir)s/'))
     }
     """.replace('\n', ' ').strip() % {
@@ -135,13 +135,14 @@ class Query():
         %(where_clause)s
         ?song a nmm:MusicPiece ;
             nmm:musicAlbum ?album ;
-            nmm:performer ?performer .
+            nmm:performer ?performer ;
+            nie:isStoredAs ?file .
         ?album nie:title ?title .
         OPTIONAL { ?album nmm:albumArtist ?albumArtist . }
         OPTIONAL { ?song nmm:composer ?composer . }
         BIND(tracker:coalesce(nmm:artistName(?albumArtist),
                               nmm:artistName(?performer)) AS ?artist_presort)
-        FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
+        FILTER(STRSTARTS(nie:url(?file), '%(music_dir)s/'))
     }
     GROUP BY ?album
     ORDER BY %(album_order)s %(artist_order)s ?creation_date
@@ -170,11 +171,12 @@ class Query():
         ?album a nmm:MusicAlbum ;
                nie:title ?title .
         ?song nmm:musicAlbum ?album ;
-              nmm:performer ?performer .
+              nmm:performer ?performer ;
+              nie:isStoredAs ?file .
         OPTIONAL { ?album nmm:albumArtist ?albumArtist }
         BIND(tracker:coalesce(nmm:artistName(?albumArtist),
                               nmm:artistName(?performer)) AS ?artist_presort)
-        FILTER(STRSTARTS(nie:url(?song), '%(music_dir)s/'))
+        FILTER(STRSTARTS(nie:url(?file), '%(music_dir)s/'))
     }
     GROUP BY ?album
     ORDER BY %(artist_sort)s ?creation_date %(album_order)s
@@ -204,7 +206,8 @@ class Query():
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
-            nie:url ?url .
+            nie:isStoredAs ?file .
+        ?file nie:url ?url .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
         FILTER(STRSTARTS(?url, '%(music_dir)s/'))
@@ -254,7 +257,7 @@ class Query():
         rdf:type(?song)
         ?song AS ?tracker_urn
         tracker:id(?song) AS ?id
-        nie:url(?song) AS ?url
+        nie:url(?file) AS ?url
         nie:title(?song) AS ?title
         nmm:artistName(nmm:performer(?song)) AS ?artist
         nie:title(nmm:musicAlbum(?song)) AS ?album
@@ -265,12 +268,12 @@ class Query():
         nie:usageCounter(?song) AS ?play_count
     WHERE {
         ?song a nmm:MusicPiece ;
-              a nfo:FileDataObject ;
+              nie:isStoredAs ?file ;
               nmm:musicAlbum ?album .
         OPTIONAL { ?song nao:hasTag ?tag .
                    FILTER (?tag = nao:predefined-tag-favorite) } .
         FILTER (tracker:id(?album) = %(album_id)s &&
-                (STRSTARTS(nie:url(?song), '%(music_dir)s/')))
+                (STRSTARTS(nie:url(?file), '%(music_dir)s/')))
     }
     ORDER BY
          ?album_disc_number
@@ -290,7 +293,7 @@ class Query():
         rdf:type(?song)
         ?song AS ?tracker_urn
         tracker:id(?entry) AS ?id
-        nie:url(?song) AS ?url
+        nie:url(?file) AS ?url
         nie:title(?song) AS ?title
         nmm:artistName(nmm:performer(?song)) AS ?artist
         nie:title(nmm:musicAlbum(?song)) AS ?album
@@ -304,7 +307,6 @@ class Query():
         ?entry a nfo:MediaFileListEntry ;
             nfo:entryUrl ?url .
         ?song a nmm:MusicPiece ;
-             a nfo:FileDataObject ;
              nie:url ?url .
         OPTIONAL {
             ?song nao:hasTag ?tag .
@@ -348,6 +350,7 @@ class Query():
         ?album a nmm:MusicAlbum .
         ?song a nmm:MusicPiece ;
             nmm:musicAlbum ?album ;
+            nie:isStoredAs ?file
             nmm:performer ?song_artist .
         OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
@@ -373,13 +376,14 @@ class Query():
     WHERE {
         ?song a nmm:MusicPiece ;
               nmm:musicAlbum ?album ;
+              nie:isStoredAs ?file
               nmm:performer ?song_artist .
         OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
             tracker:id(?song) = %(song_id)s
         )
         FILTER (
-            STRSTARTS(nie:url(?song), '%(music_dir)s')
+            STRSTARTS(nie:url(?file), '%(music_dir)s')
         )
         FILTER (
             NOT EXISTS {
