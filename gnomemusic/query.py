@@ -203,6 +203,7 @@ class Query():
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
         nie:usageCounter(?song) AS ?play_count
+        nfo:audioOffset(?song) AS ?start_time
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
@@ -266,6 +267,7 @@ class Query():
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
         ?tag AS ?favourite
         nie:usageCounter(?song) AS ?play_count
+        nfo:audioOffset(?song) AS ?start_time
     WHERE {
         ?song a nmm:MusicPiece ;
               nie:isStoredAs ?file ;
@@ -300,6 +302,7 @@ class Query():
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
         nie:usageCounter(?song) AS ?play_count
+        nfo:audioOffset(?song) AS ?start_time
     WHERE {
         ?playlist a nmm:Playlist ;
             a nfo:MediaList ;
@@ -350,7 +353,7 @@ class Query():
         ?album a nmm:MusicAlbum .
         ?song a nmm:MusicPiece ;
             nmm:musicAlbum ?album ;
-            nie:isStoredAs ?file
+            nie:isStoredAs ?file;
             nmm:performer ?song_artist .
         OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
@@ -376,7 +379,7 @@ class Query():
     WHERE {
         ?song a nmm:MusicPiece ;
               nmm:musicAlbum ?album ;
-              nie:isStoredAs ?file
+              nie:isStoredAs ?file;
               nmm:performer ?song_artist .
         OPTIONAL { ?album nmm:albumArtist ?album_artist . }
         FILTER (
