@@ -99,6 +99,12 @@ class GstPlayer(GObject.GObject):
         self._rg_limiter = Gst.ElementFactory.make("rglimiter", "rg limiter")
 
         self._filter_bin = Gst.ElementFactory.make("bin", "filter bin")
+        if (not self._filter_bin
+                or not self._rg_volume
+                or not self._rg_limiter):
+            logger.debug("Replay Gain is not available")
+            return
+
         self._filter_bin.add(self._rg_volume)
         self._filter_bin.add(self._rg_limiter)
         self._rg_volume.link(self._rg_limiter)
@@ -110,12 +116,6 @@ class GstPlayer(GObject.GObject):
         pad_sink = self._rg_volume.get_static_pad('sink')
         ghost_sink = Gst.GhostPad.new('sink', pad_sink)
         self._filter_bin.add_pad(ghost_sink)
-
-        if (not self._filter_bin
-                or not self._rg_volume
-                or not self._rg_limiter):
-            logger.debug("Replay Gain is not available")
-            return
 
     @log
     def _on_replaygain_setting_changed(self, settings, value):
