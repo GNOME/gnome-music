@@ -57,6 +57,8 @@ class GstPlayer(GObject.GObject):
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
     }
 
+    gstplayer_available = GObject.Property(type=bool, default=True)
+
     def __repr__(self):
         return '<GstPlayer>'
 
@@ -72,22 +74,29 @@ class GstPlayer(GObject.GObject):
         self._settings = Gio.Settings.new('org.gnome.Music')
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')
-        self._bus = self._player.get_bus()
-        self._bus.add_signal_watch()
-        self._setup_replaygain()
+        if self._player is None:
+            self.props.gstplayer_available = False
+        else:
+            self.props.gstplayer_available = True
 
-        self._settings.connect(
-            'changed::replaygain', self._on_replaygain_setting_changed)
-        self._on_replaygain_setting_changed(
-            None, self._settings.get_value('replaygain'))
+        if self.props.gstplayer_available:
+            self._bus = self._player.get_bus()
+            self._bus.add_signal_watch()
+            self._setup_replaygain()
 
-        self._bus.connect('message::state-changed', self._on_bus_state_changed)
-        self._bus.connect('message::error', self._on_bus_error)
-        self._bus.connect('message::element', self._on_bus_element)
-        self._bus.connect('message::eos', self._on_bus_eos)
-        self._bus.connect(
-            'message::duration-changed', self._on_duration_changed)
-        self._bus.connect('message::new-clock', self._on_new_clock)
+            self._settings.connect(
+                'changed::replaygain', self._on_replaygain_setting_changed)
+            self._on_replaygain_setting_changed(
+                None, self._settings.get_value('replaygain'))
+
+            self._bus.connect(
+                'message::state-changed', self._on_bus_state_changed)
+            self._bus.connect('message::error', self._on_bus_error)
+            self._bus.connect('message::element', self._on_bus_element)
+            self._bus.connect('message::eos', self._on_bus_eos)
+            self._bus.connect(
+                'message::duration-changed', self._on_duration_changed)
+            self._bus.connect('message::new-clock', self._on_new_clock)
 
         self._previous_state = Playback.STOPPED
         self.props.state = Playback.STOPPED
@@ -226,6 +235,9 @@ class GstPlayer(GObject.GObject):
 
         :param Playback state: The state to set
         """
+        if not self.props.gstplayer_available:
+            return
+
         if state == Playback.PAUSED:
             self._player.set_state(Gst.State.PAUSED)
         if state == Playback.STOPPED:
