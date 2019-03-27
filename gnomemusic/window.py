@@ -44,6 +44,7 @@ from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
 from gnomemusic.views.playlistview import PlaylistView
 from gnomemusic.widgets.headerbar import HeaderBar
+from gnomemusic.widgets.infobar import InfoBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
@@ -185,6 +186,9 @@ class Window(Gtk.ApplicationWindow):
         self._player_toolbar.show_all()
         self._box.show()
         self.show()
+        if not self._player.props.player_available:
+            player_error_infobar = InfoBar(self._box)
+            player_error_infobar.error("playbin is not available", "Please check your Gstreamer installation")
 
         def songs_available_cb(available):
             if available:
