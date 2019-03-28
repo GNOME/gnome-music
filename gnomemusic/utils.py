@@ -89,7 +89,10 @@ def get_media_title(item):
     if not title:
         url = item.get_url()
         file_ = Gio.File.new_for_uri(url)
-        fileinfo = file_.query_info("standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
+        fileinfo = file_.query_info(
+                 "standard::display-name",
+                 Gio.FileQueryInfoFlags.NONE,
+                 None)
         title = fileinfo.get_display_name()
         title = title.replace("_", " ")
 
