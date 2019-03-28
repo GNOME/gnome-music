@@ -597,6 +597,8 @@ class Player(GObject.GObject):
         self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
+        self._check_start_time = False
+        self._end_time = 0
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
@@ -668,6 +670,10 @@ class Player(GObject.GObject):
         if url != self._gst_player.props.url:
             self._load(self._playlist.props.current_song)
 
+        if self.props.current_song.get_start_time() > 0:
+            self._check_start_time = True
+        self._end_time = (self.props.current_song.get_start_time()
+                          + self.props.current_song.get_duration())
         self._gst_player.props.state = Playback.PLAYING
 
     @log
@@ -803,7 +809,12 @@ class Player(GObject.GObject):
         if self.props.duration == -1.:
             return
 
-        position = self._gst_player.props.position
+        time = self._gst_player.props.position
+
+        if self._end_time > 0 and time > self._end_time:
+            self._on_eos()
+
+        position = time - current_song.get_start_time()
         if position > 0:
             percentage = tick / self.props.duration
             if (not self._lastfm.scrobbled
@@ -879,6 +890,10 @@ class Player(GObject.GObject):
         If the position if greater than song duration, do nothing
         :param float position_second: requested position in second
         """
+        if self._check_start_time and self.playing:
+            self._check_start_time = False
+            position_second = (self.props.current_song.get_start_time()
+                               * Gst.SECOND)
         if position_second < 0.0:
             position_second = 0.0
 
