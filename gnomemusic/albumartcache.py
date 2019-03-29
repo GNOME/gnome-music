@@ -465,10 +465,6 @@ class EmbeddedArt(GObject.GObject):
         tags = info.get_tags()
         index = 0
 
-        # FIXME: tags should not return as None, but it sometimes is.
-        # So as a workaround until we figure out what is wrong check
-        # for it.
-        # https://bugzilla.gnome.org/show_bug.cgi?id=780980
         if (error is not None
                 or tags is None):
             if error:
