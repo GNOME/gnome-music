@@ -49,10 +49,11 @@ def get_album_title(item):
     :return: The album title
     :rtype: string
     """
-    album = item.get_album()
-
-    if not album:
+    if item.is_container():
         album = get_media_title(item)
+    else:
+        album = (item.get_album()
+                 or _("Unknown album"))
 
     return album
 
