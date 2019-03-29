@@ -1,7 +1,7 @@
 # Swedish translation for gnome-music.
-# Copyright © 2014-2018 gnome-music's COPYRIGHT HOLDER
+# Copyright © 2014-2019 gnome-music's COPYRIGHT HOLDER
 # This file is distributed under the same license as the gnome-music package.
-# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2016, 2017, 2018.
+# Anders Jonsson <anders.jonsson@norsjovallen.se>, 2014, 2016, 2017, 2018, 2019.
 # Sebastian Rasmussen <sebras@gmail.com>, 2015.
 # Marcus Gisslén <marcus.gisslen@gmail.com>, 2015.
 #
@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-13 09:09+0000\n"
-"PO-Revision-Date: 2019-02-13 21:32+0100\n"
+"POT-Creation-Date: 2019-03-29 14:12+0000\n"
+"PO-Revision-Date: 2019-03-29 15:16+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -45,6 +45,10 @@ msgstr ""
 "Hitta spår i din lokala samling, erhåll musik från DLNA-servrar eller pröva "
 "någonting nytt med Jamendo och Magnatune-tjänsterna."
 
+#: data/org.gnome.Music.appdata.xml.in.in:34
+msgid "The GNOME Music developers"
+msgstr "GNOME Musik-utvecklarna"
+
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
 #: gnomemusic/window.py:72
 msgid "Music"
@@ -53,11 +57,6 @@ msgstr "Musik"
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Musikspelare"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -204,7 +203,7 @@ msgstr "Utgiven"
 msgid "Running Length"
 msgstr "Speltid"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Kompositör"
 
@@ -576,33 +575,36 @@ msgid_plural "{} Songs"
 msgstr[0] "{} låt"
 msgstr[1] "{} låtar"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
 msgid "All"
 msgstr "Alla"
 
-#: gnomemusic/widgets/searchbar.py:67
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Artist"
 msgstr "Artist"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:70
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:72
 msgid "Track Title"
 msgstr "Låttitel"
 
-#: gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:118
 msgid "Local"
 msgstr "Lokal"
 
-#: gnomemusic/widgets/searchbar.py:283
+#: gnomemusic/widgets/searchbar.py:287
 msgid "Sources"
 msgstr "Källor"
 
-#: gnomemusic/widgets/searchbar.py:292
+#: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Träff"
+
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
 
 #~ msgid "_Quit"
 #~ msgstr "A_vsluta"
