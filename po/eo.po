@@ -4,15 +4,15 @@
 # dms <detlefkar@gmail.com>, 2013.
 # Daniel PUENTES <blatberk@openmailbox.org>, 2015.
 # Baptiste DARTHENAY < >, 2016.
-# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013, 2015, 2016, 2018.
 # Sébastien ZURFLUH <sebastien.zurfluh@gmail.com>, 2018.
-# Carmen Bianca BAKKER <carmen@carmenbianca.eu>, 2018.
+# Carmen Bianca BAKKER <carmen@carmenbianca.eu>, 2018-2019.
+# Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>, 2013-2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2018-09-04 18:04+0000\n"
-"PO-Revision-Date: 2018-10-27 11:38+0200\n"
+"POT-Creation-Date: 2019-03-29 14:12+0000\n"
+"PO-Revision-Date: 2019-03-30 10:29+0200\n"
 "Last-Translator: Kristjan SCHMIDT <kristjan.schmidt@googlemail.com>\n"
 "Language-Team: Esperanto <gnome-eo-list@gnome.org>\n"
 "Language: eo\n"
@@ -49,19 +49,18 @@ msgstr ""
 "Trovu muzikaĵojn en via loka kolekto, akiru muzikon de DLNA-serviloj, aŭ "
 "provu ion novan kun la Jamendo aŭ Magnatune servoj."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:54
-#: gnomemusic/window.py:67
+#: data/org.gnome.Music.appdata.xml.in.in:34
+msgid "The GNOME Music developers"
+msgstr "Verkistoj de GNOME Muziko"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
+#: gnomemusic/window.py:72
 msgid "Music"
 msgstr "Muziko"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Muzikludilo"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -106,9 +105,9 @@ msgid ""
 msgstr ""
 "Valoro identigas ĉu ripeti aŭ hazardigi la ludadon tra la muzikaro. "
 "Permesataj valoroj estas: “none” (neniu: ripetado kaj miksado estas "
-"malŝaltita), “song” (muzikaĵo: ripetas la nunludantan muzikaĵon), “all” (ĉiu:"
-" ripeti la ludliston, ne hazardelekti), “shuffle” (hazardelekti ludliston, "
-"supozas ripetadon de ĉiuj)."
+"malŝaltita), “song” (muzikaĵo: ripetas la nunludantan muzikaĵon), "
+"“all” (ĉiu: ripeti la ludliston, ne hazardelekti), “shuffle” (hazardelekti "
+"ludliston, supozas ripetadon de ĉiuj)."
 
 #: data/org.gnome.Music.gschema.xml:33
 msgid "Enable ReplayGain"
@@ -126,201 +125,19 @@ msgstr "Komenca stato estis montrita"
 msgid "Set to true when initial state has been displayed"
 msgstr "Agordu al vero kiam komenca stato estas montrita"
 
-#: gnomemusic/gstplayer.py:405
-msgid "Unable to play the file"
-msgstr "Ne eblas ludi la dosieron"
-
-#: gnomemusic/gstplayer.py:411
-msgid "_Find in {}"
-msgstr "_Trovi en {}"
-
-#. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:422
-msgid " and "
-msgstr " kaj "
-
-#. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:425
-msgid ", "
-msgstr ", "
-
-#: gnomemusic/gstplayer.py:427
-msgid "{} is required to play the file, but is not installed."
-msgid_plural "{} are required to play the file, but are not installed."
-msgstr[0] "{} estas bezonata por ludi la dosieron, sed ĝi ne estas instalita."
-msgstr[1] ""
-"{} estas bezonataj por ludi la dosieron, sed ili ne estas instalitaj."
-
-#: gnomemusic/inhibitsuspend.py:68
-msgid "Playing music"
-msgstr "Ludi muzikon"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:60
-msgid "Most Played"
-msgstr "Plejofte luditaj"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:65
-msgid "Never Played"
-msgstr "Neniam luditaj"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:70
-msgid "Recently Played"
-msgstr "Lastatempe luditaj"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:75
-msgid "Recently Added"
-msgstr "Freŝaldonitaj"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:80
-msgid "Favorite Songs"
-msgstr "Favorataj muzikaĵoj"
-
-#: gnomemusic/utils.py:75
-msgid "Unknown Artist"
-msgstr "Nekonata artisto"
-
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Sentitola"
-
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:574
-msgid "Albums"
-msgstr "Albumoj"
-
-#: gnomemusic/views/artistsview.py:62 gnomemusic/views/searchview.py:576
-msgid "Artists"
-msgstr "Artistoj"
-
-#: gnomemusic/views/emptyview.py:66
-msgid "Music folder"
-msgstr "Muzika dosierujo"
-
-#. TRANSLATORS: This is a label to display a link to open user's music
-#. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:70
-msgid "The contents of your {} will appear here."
-msgstr "La enhavo de via {} aperos ĉi tie."
-
-#: gnomemusic/views/emptyview.py:102
-msgid "Hey DJ"
-msgstr "Hej DĴ"
-
-#: gnomemusic/views/emptyview.py:112 gnomemusic/views/emptyview.py:118
-msgid "No music found"
-msgstr "Neniu muziko trovita"
-
-#: gnomemusic/views/emptyview.py:120
-msgid "Try a different search"
-msgstr "Provu alian serĉon"
-
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:580
-msgid "Playlists"
-msgstr "Ludlistoj"
-
-#: gnomemusic/views/playlistview.py:644
-msgid "Playlist {} removed"
-msgstr "Ludlisto {} forigita"
-
-#: gnomemusic/views/playlistview.py:650
-msgid "{} removed from {}"
-msgstr "{} forigita el {}"
-
-#: gnomemusic/views/searchview.py:578 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Muzikaĵoj"
-
-#: gnomemusic/widgets/albumwidget.py:176
-msgid "{} minute"
-msgid_plural "{} minutes"
-msgstr[0] "{} minuto"
-msgstr[1] "{} minutoj"
-
-#: gnomemusic/widgets/disclistboxwidget.py:141
-msgid "Disc {}"
-msgstr "Disko {}"
-
-#: gnomemusic/widgets/headerbar.py:73
-msgid "Selected {} item"
-msgid_plural "Selected {} items"
-msgstr[0] "{} ero elektita"
-msgstr[1] "{} eroj elektitaj"
-
-#: gnomemusic/widgets/headerbar.py:76 data/SelectionBarMenuButton.ui:31
-msgid "Click on items to select them"
-msgstr "Alklaku erojn por elekti ilin"
-
-#: gnomemusic/widgets/notificationspopup.py:169
-msgid "Loading"
-msgstr "Ŝargante"
-
-#: gnomemusic/widgets/notificationspopup.py:232
-msgid "_Undo"
-msgstr "_Malfari"
-
-#: gnomemusic/widgets/playertoolbar.py:149
-msgid "Pause"
-msgstr "Paŭzi"
-
-#: gnomemusic/widgets/playertoolbar.py:152 data/PlayerToolbar.ui:88
-msgid "Play"
-msgstr "Ludi"
-
-#: gnomemusic/widgets/playlistcontrols.py:96
-msgid "{} Song"
-msgid_plural "{} Songs"
-msgstr[0] "{} muzikaĵo"
-msgstr[1] "{} muzikaĵoj"
-
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:115
-msgid "All"
-msgstr "Ĉiuj"
-
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Artisto"
-
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Albumo"
-
-#: gnomemusic/widgets/searchbar.py:70 data/AlbumWidget.ui:172
-msgid "Composer"
-msgstr "Komponisto"
-
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Muzikaĵa titolo"
-
-#: gnomemusic/widgets/searchbar.py:116
-msgid "Local"
-msgstr "Loka"
-
-#: gnomemusic/widgets/searchbar.py:284
-msgid "Sources"
-msgstr "Fontoj"
-
-#: gnomemusic/widgets/searchbar.py:293
-msgid "Match"
-msgstr "Kongrui"
-
-#: data/AboutDialog.ui.in:9
+#: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
 msgstr "Kopirajto © 2018 Programistoj de GNOME Muziko"
 
-#: data/AboutDialog.ui.in:10
+#: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
 msgstr "Muzikludilo kaj -organizilo por GNOME."
 
-#: data/AboutDialog.ui.in:12
+#: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
 msgstr "Vizitu la retejon de GNOME Muziko"
 
-#: data/AboutDialog.ui.in:13
+#: data/ui/AboutDialog.ui.in:13
 msgid ""
 "GNOME Music is free software; you can redistribute it and/or modify it under "
 "the terms of the GNU General Public License as published by the Free "
@@ -372,224 +189,420 @@ msgstr ""
 "“Magic of the vinyl” de Sami Pyylampi, bildo estas rajtigite per CC-BY-SA "
 "2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/AlbumWidget.ui:111
+#: data/ui/AlbumWidget.ui:112
 msgid "Released"
 msgstr "Eldonita"
 
-#: data/AlbumWidget.ui:127
+#: data/ui/AlbumWidget.ui:128
 msgid "Running Length"
 msgstr "Ludada daŭro"
 
-#: data/app-menu.ui:5
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
+msgid "Composer"
+msgstr "Komponisto"
+
+#: data/ui/AppMenu.ui:21
 msgid "_Keyboard Shortcuts"
 msgstr "_Fulmklavoj"
 
-#: data/app-menu.ui:9
+#: data/ui/AppMenu.ui:35
 msgid "_Help"
 msgstr "_Helpo"
 
-#: data/app-menu.ui:15
-msgid "_About"
-msgstr "_Pri"
+#: data/ui/AppMenu.ui:49
+msgid "_About Music"
+msgstr "_Pri Muziko"
 
-#: data/app-menu.ui:19
-msgid "_Quit"
-msgstr "Ĉ_esi"
+#: data/ui/HeaderBar.ui:13
+msgid "Menu"
+msgstr "Menuo"
 
-#: data/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:36
 msgid "Search"
 msgstr "Serĉi"
 
-#: data/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Elekti"
 
-#: data/HeaderBar.ui:58 data/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
 msgid "_Cancel"
 msgstr "_Nuligi"
 
-#: data/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:100
 msgid "Back"
 msgstr "Reen"
 
-#: data/help-overlay.ui:13
+#: data/ui/help-overlay.ui:13
 msgctxt "shortcut window"
 msgid "General"
 msgstr "Ĝeneralo"
 
-#: data/help-overlay.ui:17
+#: data/ui/help-overlay.ui:17
 msgctxt "shortcut window"
 msgid "Close window"
 msgstr "Fermi fenestron"
 
-#: data/help-overlay.ui:24
+#: data/ui/help-overlay.ui:24
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Serĉilo"
 
-#: data/help-overlay.ui:31
+#: data/ui/help-overlay.ui:31
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Helpo"
 
-#: data/help-overlay.ui:38
+#: data/ui/help-overlay.ui:38
 msgctxt "shortcut window"
 msgid "Shortcuts"
 msgstr "Fulmklavoj"
 
-#: data/help-overlay.ui:47
+#: data/ui/help-overlay.ui:47
 msgctxt "shortcut window"
 msgid "Playback"
 msgstr "Ludi"
 
-#: data/help-overlay.ui:51
+#: data/ui/help-overlay.ui:51
 msgctxt "shortcut window"
 msgid "Play/Pause"
 msgstr "Ludi/Paŭzi"
 
-#: data/help-overlay.ui:58
+#: data/ui/help-overlay.ui:58
 msgctxt "shortcut window"
 msgid "Next song"
 msgstr "Sekva muzikaĵo"
 
-#: data/help-overlay.ui:65
+#: data/ui/help-overlay.ui:65
 msgctxt "shortcut window"
 msgid "Previous song"
 msgstr "Antaŭa muzikaĵo"
 
-#: data/help-overlay.ui:72
+#: data/ui/help-overlay.ui:72
 msgctxt "shortcut window"
 msgid "Toggle repeat"
 msgstr "Baskuligi ripeton"
 
-#: data/help-overlay.ui:79
+#: data/ui/help-overlay.ui:79
 msgctxt "shortcut window"
 msgid "Toggle shuffle"
 msgstr "Baskuligi hazardelekton"
 
-#: data/help-overlay.ui:88
+#: data/ui/help-overlay.ui:88
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigado"
 
-#: data/help-overlay.ui:92
+#: data/ui/help-overlay.ui:92
 msgctxt "shortcut window"
 msgid "Go to Albums"
 msgstr "Iri al albumoj"
 
-#: data/help-overlay.ui:99
+#: data/ui/help-overlay.ui:99
 msgctxt "shortcut window"
 msgid "Go to Artists"
 msgstr "Iri al artistoj"
 
-#: data/help-overlay.ui:106
+#: data/ui/help-overlay.ui:106
 msgctxt "shortcut window"
 msgid "Go to Songs"
 msgstr "Iri al muzikaĵoj"
 
-#: data/help-overlay.ui:113
+#: data/ui/help-overlay.ui:113
 msgctxt "shortcut window"
 msgid "Go to Playlists"
 msgstr "Iri al ludlistoj"
 
-#: data/help-overlay.ui:120
+#: data/ui/help-overlay.ui:120
 msgctxt "shortcut window"
 msgid "Go back"
 msgstr "Reen iri"
 
-#: data/PlayerToolbar.ui:6
+#: data/ui/PlayerToolbar.ui:6
 msgid "Shuffle"
 msgstr "Hazardelekti"
 
-#: data/PlayerToolbar.ui:11
+#: data/ui/PlayerToolbar.ui:11
 msgid "Repeat All"
 msgstr "Ripeti ĉion"
 
-#: data/PlayerToolbar.ui:16
+#: data/ui/PlayerToolbar.ui:16
 msgid "Repeat Song"
 msgstr "Ripeti muzikaĵon"
 
 #. Causes tracks to play in random order
-#: data/PlayerToolbar.ui:21
+#: data/ui/PlayerToolbar.ui:21
 msgid "Shuffle/Repeat Off"
 msgstr "Ne hazardelekti, ne ripetadi"
 
-#: data/PlayerToolbar.ui:70
+#: data/ui/PlayerToolbar.ui:70
 msgid "Previous"
 msgstr "Antaŭa"
 
-#: data/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+msgid "Play"
+msgstr "Ludi"
+
+#: data/ui/PlayerToolbar.ui:106
 msgid "Next"
 msgstr "Sekva"
 
-#: data/PlaylistContextMenu.ui:5
+#: data/ui/PlaylistContextMenu.ui:5
 msgctxt "context menu item"
 msgid "Play"
 msgstr "Ludi"
 
-#: data/PlaylistContextMenu.ui:9
+#: data/ui/PlaylistContextMenu.ui:9
 msgid "Add to Playlist…"
 msgstr "Aldoni al ludlisto…"
 
-#: data/PlaylistContextMenu.ui:13
+#: data/ui/PlaylistContextMenu.ui:13
 msgid "Remove From Playlist"
 msgstr "Forigi el ludlisto"
 
-#: data/PlaylistControls.ui:6
+#: data/ui/PlaylistControls.ui:6
 msgid "_Play"
 msgstr "_Ludi"
 
-#: data/PlaylistControls.ui:10
+#: data/ui/PlaylistControls.ui:10
 msgid "_Delete"
 msgstr "_Forigi"
 
-#: data/PlaylistControls.ui:14
+#: data/ui/PlaylistControls.ui:14
 msgid "_Rename…"
 msgstr "_Alinomi…"
 
-#: data/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:33
 msgid "Playlist Name"
 msgstr "Ludlista nomo"
 
-#: data/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:67
 msgid "_Done"
 msgstr "Far_ita"
 
-#: data/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:68
 msgid "Enter a name for your first playlist"
 msgstr "Enigu nomon por via unua ludlisto"
 
-#: data/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:97
 msgid "C_reate"
 msgstr "_Krei"
 
-#: data/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:168
 msgid "New Playlist…"
 msgstr "Nova ludlisto…"
 
-#: data/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:184
 msgid "Add"
 msgstr "Aldoni"
 
-#: data/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:279
 msgid "Add to Playlist"
 msgstr "Aldoni al ludlisto"
 
-#: data/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:295
 msgid "_Add"
 msgstr "_Aldoni"
 
-#: data/SelectionBarMenuButton.ui:7
+#: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Elekti ĉiujn"
 
-#: data/SelectionBarMenuButton.ui:11
+#: data/ui/SelectionBarMenuButton.ui:11
 msgid "Select None"
 msgstr "Elekti neniun"
 
-#: data/SelectionToolbar.ui:9
+#: data/ui/SelectionBarMenuButton.ui:31 gnomemusic/widgets/headerbar.py:75
+msgid "Click on items to select them"
+msgstr "Alklaku erojn por elekti ilin"
+
+#: data/ui/SelectionToolbar.ui:9
 msgid "_Add to Playlist"
 msgstr "_Aldoni al ludlisto"
+
+#: gnomemusic/gstplayer.py:410
+msgid "Unable to play the file"
+msgstr "Ne eblas ludi la dosieron"
+
+#: gnomemusic/gstplayer.py:416
+msgid "_Find in {}"
+msgstr "_Trovi en {}"
+
+#. TRANSLATORS: separator for two codecs
+#: gnomemusic/gstplayer.py:427
+msgid " and "
+msgstr " kaj "
+
+#. TRANSLATORS: separator for a list of codecs
+#: gnomemusic/gstplayer.py:430
+msgid ", "
+msgstr ", "
+
+#: gnomemusic/gstplayer.py:432
+msgid "{} is required to play the file, but is not installed."
+msgid_plural "{} are required to play the file, but are not installed."
+msgstr[0] "{} estas bezonata por ludi la dosieron, sed ĝi ne estas instalita."
+msgstr[1] ""
+"{} estas bezonataj por ludi la dosieron, sed ili ne estas instalitaj."
+
+#: gnomemusic/inhibitsuspend.py:67
+msgid "Playing music"
+msgstr "Ludi muzikon"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:59
+msgid "Most Played"
+msgstr "Plejofte luditaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:64
+msgid "Never Played"
+msgstr "Neniam luditaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:69
+msgid "Recently Played"
+msgstr "Lastatempe luditaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:74
+msgid "Recently Added"
+msgstr "Freŝaldonitaj"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/playlists.py:79
+msgid "Favorite Songs"
+msgstr "Favorataj muzikaĵoj"
+
+#: gnomemusic/utils.py:75
+msgid "Unknown Artist"
+msgstr "Nekonata artisto"
+
+#: gnomemusic/utils.py:87
+msgid "Untitled"
+msgstr "Sentitola"
+
+#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+msgid "Albums"
+msgstr "Albumoj"
+
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+msgid "Artists"
+msgstr "Artistoj"
+
+#: gnomemusic/views/emptyview.py:67
+msgid "Music folder"
+msgstr "Muzika dosierujo"
+
+#. TRANSLATORS: This is a label to display a link to open user's music
+#. folder. {} will be replaced with the translated text 'Music folder'
+#: gnomemusic/views/emptyview.py:71
+msgid "The contents of your {} will appear here."
+msgstr "La enhavo de via {} aperos ĉi tie."
+
+#: gnomemusic/views/emptyview.py:105
+msgid "Hey DJ"
+msgstr "Hej DĴ"
+
+#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
+msgid "No music found"
+msgstr "Neniu muziko trovita"
+
+#: gnomemusic/views/emptyview.py:123
+msgid "Try a different search"
+msgstr "Provu alian serĉon"
+
+#: gnomemusic/views/emptyview.py:129
+msgid "GNOME Music could not connect to Tracker"
+msgstr "GNOME Muziko ne povis konekti al Ŝanĝospurilo"
+
+#: gnomemusic/views/emptyview.py:132
+msgid "Your music files cannot be indexed without Tracker running"
+msgstr "Ne povis indeksigi viajn muzikdosierojn sen rulanta Ŝanĝospurilo"
+
+#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+msgid "Playlists"
+msgstr "Ludlistoj"
+
+#: gnomemusic/views/playlistview.py:640
+msgid "Playlist {} removed"
+msgstr "Ludlisto {} forigita"
+
+#: gnomemusic/views/playlistview.py:646
+msgid "{} removed from {}"
+msgstr "{} forigita el {}"
+
+#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+msgid "Songs"
+msgstr "Muzikaĵoj"
+
+#: gnomemusic/widgets/albumwidget.py:168
+msgid "{} minute"
+msgid_plural "{} minutes"
+msgstr[0] "{} minuto"
+msgstr[1] "{} minutoj"
+
+#: gnomemusic/widgets/disclistboxwidget.py:141
+msgid "Disc {}"
+msgstr "Disko {}"
+
+#: gnomemusic/widgets/headerbar.py:72
+msgid "Selected {} item"
+msgid_plural "Selected {} items"
+msgstr[0] "{} ero elektita"
+msgstr[1] "{} eroj elektitaj"
+
+#: gnomemusic/widgets/notificationspopup.py:169
+msgid "Loading"
+msgstr "Ŝargante"
+
+#: gnomemusic/widgets/notificationspopup.py:232
+msgid "_Undo"
+msgstr "_Malfari"
+
+#: gnomemusic/widgets/playertoolbar.py:136
+msgid "Pause"
+msgstr "Paŭzi"
+
+#: gnomemusic/widgets/playlistcontrols.py:96
+msgid "{} Song"
+msgid_plural "{} Songs"
+msgstr[0] "{} muzikaĵo"
+msgstr[1] "{} muzikaĵoj"
+
+#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
+msgid "All"
+msgstr "Ĉiuj"
+
+#: gnomemusic/widgets/searchbar.py:69
+msgid "Artist"
+msgstr "Artisto"
+
+#: gnomemusic/widgets/searchbar.py:70
+msgid "Album"
+msgstr "Albumo"
+
+#: gnomemusic/widgets/searchbar.py:72
+msgid "Track Title"
+msgstr "Muzikaĵa titolo"
+
+#: gnomemusic/widgets/searchbar.py:118
+msgid "Local"
+msgstr "Loka"
+
+#: gnomemusic/widgets/searchbar.py:287
+msgid "Sources"
+msgstr "Fontoj"
+
+#: gnomemusic/widgets/searchbar.py:298
+msgid "Match"
+msgstr "Kongrui"
+
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
+
+#~ msgid "_Quit"
+#~ msgstr "Ĉ_esi"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "Muziko estas la nova muzikludanta aplikaĵo de GNOME."
