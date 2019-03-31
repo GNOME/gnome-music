@@ -398,7 +398,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_back_button_pressed(self, gesture, n_press, x, y):
-        self._headerbar._on_back_button_clicked()
+        self._headerbar.emit('back-button-clicked')
 
     @log
     def _notify_mode_disconnect(self, data=None):
