@@ -14,16 +14,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-13 09:09+0000\n"
-"PO-Revision-Date: 2019-02-26 23:27-0300\n"
+"POT-Creation-Date: 2019-03-29 14:12+0000\n"
+"PO-Revision-Date: 2019-04-01 14:17-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Language-Team: Portuguese - Brazil <gnome-pt_br-list@gnome.org>\n"
+"Language-Team: Brazilian Portuguese <gnome-pt_br-list@gnome.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
-"X-Generator: Gtranslator 3.31.90\n"
+"X-Generator: Gtranslator 3.32.0\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -51,6 +51,11 @@ msgstr ""
 "Encontre faixas em sua coleção local, obtenha músicas de servidores DLNA ou "
 "tente algo novo com os serviços Jamendo e Magnatune."
 
+#: data/org.gnome.Music.appdata.xml.in.in:34
+#| msgid "Copyright © 2018 GNOME Music Developers"
+msgid "The GNOME Music developers"
+msgstr "Os Desenvolvedores do GNOME Música"
+
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
 #: gnomemusic/window.py:72
 msgid "Music"
@@ -59,11 +64,6 @@ msgstr "Música"
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Reprodutor de músicas"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -210,7 +210,7 @@ msgstr "Lançado"
 msgid "Running Length"
 msgstr "Comprimento de reprodução"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Compositor"
 
@@ -223,7 +223,6 @@ msgid "_Help"
 msgstr "A_juda"
 
 #: data/ui/AppMenu.ui:49
-#| msgid "_About"
 msgid "_About Music"
 msgstr "_Sobre o Música"
 
@@ -584,33 +583,36 @@ msgid_plural "{} Songs"
 msgstr[0] "{} música"
 msgstr[1] "{} músicas"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
 msgid "All"
 msgstr "Todas"
 
-#: gnomemusic/widgets/searchbar.py:67
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Artist"
 msgstr "Artista"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:70
 msgid "Album"
 msgstr "Álbum"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:72
 msgid "Track Title"
 msgstr "Título da faixa"
 
-#: gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:118
 msgid "Local"
 msgstr "Local"
 
-#: gnomemusic/widgets/searchbar.py:283
+#: gnomemusic/widgets/searchbar.py:287
 msgid "Sources"
 msgstr "Fontes"
 
-#: gnomemusic/widgets/searchbar.py:292
+#: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Corresponder"
+
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
 
 #~ msgid "_Quit"
 #~ msgstr "_Sair"
