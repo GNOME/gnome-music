@@ -53,7 +53,10 @@ class Grilo(GObject.GObject):
     __gsignals__ = {
         'ready': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'changes-pending': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'new-source-added': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, ))
+        'new-resolve-source-added': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
+        'new-search-source-added': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, ))
     }
 
     METADATA_KEYS = [
@@ -265,13 +268,19 @@ class Grilo(GObject.GObject):
             elif (id.startswith('grl-upnp')):
                 logger.debug("found upnp source %s", id)
                 self.props.sources[id] = mediaSource
-                self.emit('new-source-added', mediaSource)
+                self.emit('new-search-source-added', mediaSource)
+
+            elif (ops & Grl.SupportedOps.RESOLVE
+                  and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+                logger.debug("source %s can be resolved", id)
+                self.props.sources[id] = mediaSource
+                self.emit('new-resolve-source-added', mediaSource)
 
             elif (ops & Grl.SupportedOps.SEARCH
                   and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
                 logger.debug("source %s is searchable", id)
                 self.props.sources[id] = mediaSource
-                self.emit('new-source-added', mediaSource)
+                self.emit('new-search-source-added', mediaSource)
 
         except Exception as e:
             logger.debug("Source {}: exception {}".format(id, e))

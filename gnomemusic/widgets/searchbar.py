@@ -118,7 +118,7 @@ class SourceManager(BaseManager):
         self.values.append(['grl-tracker-source', _("Local"), ''])
         self.props.default_value = 2
 
-        grilo.connect('new-source-added', self._add_new_source)
+        grilo.connect('new-search-source-added', self._add_new_search_source)
 
     @log
     def fill_in_values(self, model):
@@ -132,7 +132,7 @@ class SourceManager(BaseManager):
             self, 'grl-tracker-source')
 
     @log
-    def _add_new_source(self, klass, source):
+    def _add_new_search_source(self, klass, source):
         value = [source.get_id(), source.get_name(), '']
         iter_ = self._model.append()
         self._model[iter_][0, 1, 2] = value
@@ -145,7 +145,7 @@ class SourceManager(BaseManager):
         Adds available Grilo sources to the internal model.
         """
         for id_ in grilo.props.sources:
-            self._add_new_source(None, grilo.props.sources[id_])
+            self._add_new_search_source(None, grilo.props.sources[id_])
 
     @GObject.Property
     def active(self):
