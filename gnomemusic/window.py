@@ -124,7 +124,7 @@ class Window(Gtk.ApplicationWindow):
         self._headerbar = HeaderBar()
         self._searchbar = Searchbar()
         self._search.bind_property(
-            "search-mode-active", self._headerbar, "search-mode-enabled",
+            "search-mode-active", self._headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self._search.bind_property(
