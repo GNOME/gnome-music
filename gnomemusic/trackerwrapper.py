@@ -23,7 +23,10 @@
 
 import logging
 
-from gi.repository import GObject, Tracker
+from gi.repository import GLib, GObject, Tracker
+
+from gnomemusic import log
+from gnomemusic.query import Query
 
 logger = logging.getLogger(__name__)
 
@@ -49,7 +52,8 @@ class TrackerWrapper(GObject.GObject):
     def tracker(self):
         return self._tracker
 
-    @GObject.Property(type=bool, default=False)
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def tracker_available(self):
         """Get Tracker availability.
 
@@ -74,3 +78,46 @@ class TrackerWrapper(GObject.GObject):
             self._tracker_available = False
         else:
             self._tracker_available = value
+
+    @log
+    def local_songs_available(self, callback):
+        """Checks if there are any local songs available.
+
+        Calls a callback function with True or False depending on the
+        availability of songs.
+        :param callback: Function to call on result
+        """
+        def cursor_next_cb(conn, res, data):
+            try:
+                has_next = conn.next_finish(res)
+            except GLib.Error as err:
+                logger.warning("Error: {}, {}".format(err.__class__, err))
+                callback(False)
+                return
+
+            if has_next:
+                count = conn.get_integer(0)
+
+                if count > 0:
+                    callback(True)
+                    return
+
+            callback(False)
+
+        def songs_query_cb(conn, res, data):
+            try:
+                cursor = conn.query_finish(res)
+            except GLib.Error as err:
+                logger.warning("Error: {}, {}".format(err.__class__, err))
+                self.props.tracker_available = False
+                callback(False)
+                return
+
+            cursor.next_async(None, cursor_next_cb, None)
+
+        if not self.props.tracker_available:
+            callback(False)
+            return
+
+        self._tracker.query_async(
+            Query.all_songs_count(), None, songs_query_cb, None)
