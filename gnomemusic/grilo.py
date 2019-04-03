@@ -129,7 +129,6 @@ class Grilo(GObject.GObject):
         self.tracker_sparql = self._tracker_wrapper.props.tracker
         self._tracker_wrapper.bind_property(
             "tracker-available", self, "tracker-available",
-            GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
 
         self._find_sources()
@@ -495,42 +494,9 @@ class Grilo(GObject.GObject):
         availability of songs.
         :param callback: Function to call on result
         """
-        def cursor_next_cb(conn, res, data):
-            try:
-                has_next = conn.next_finish(res)
-            except GLib.Error as err:
-                logger.warning("Error: {}, {}".format(err.__class__, err))
-                callback(False)
-                return
-
-            if has_next:
-                count = conn.get_integer(0)
-
-                if count > 0:
-                    callback(True)
-                    return
-
-            callback(False)
-
-        def songs_query_cb(conn, res, data):
-            try:
-                cursor = conn.query_finish(res)
-            except GLib.Error as err:
-                logger.warning("Error: {}, {}".format(err.__class__, err))
-                self.props.tracker_available = False
-                callback(False)
-                return
-
-            cursor.next_async(None, cursor_next_cb, None)
-
         # TODO: currently just checks tracker, should work with any
         # queryable supported Grilo source.
-        if not self.props.tracker_available:
-            callback(False)
-            return
-
-        self.tracker_sparql.query_async(
-            Query.all_songs_count(), None, songs_query_cb, None)
+        self._tracker_wrapper.local_songs_available(callback)
 
 
 grilo = Grilo()
