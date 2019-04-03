@@ -13,5 +13,5 @@ gnome.yelp(meson.project_name(),
     'search.page',
     'legal.xml'
   ],
-  media: 'figures/gnome-music-3.12.png'
+  media: 'figures/gnome-music-3.32.png'
 )
