@@ -53,8 +53,8 @@ class TrackerWrapper(GObject.GObject):
     def tracker_available(self):
         """Get Tracker availability.
 
-        Tracker is available if is SparqlConnection has been opened and
-        if a query can be
+        Tracker is available if a SparqlConnection has been opened and
+        if a query can be performed.
 
         :returns: tracker availability
         :rtype: bool
