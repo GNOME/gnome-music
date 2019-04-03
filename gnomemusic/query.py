@@ -38,7 +38,6 @@ import time
 sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
 
 SECONDS_PER_DAY = 86400
-PUNCTUATION_FILTER = " !\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~"
 
 
 class Query():
