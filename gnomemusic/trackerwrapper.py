@@ -31,6 +31,9 @@ logger = logging.getLogger(__name__)
 class TrackerWrapper(GObject.GObject):
     """Create a connection to an instance of Tracker"""
 
+    def __repr__(self):
+        return "<TrackerWrapper>"
+
     def __init__(self):
         super().__init__()
         try:
