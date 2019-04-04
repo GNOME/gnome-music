@@ -276,6 +276,10 @@ class MPRIS(DBusInterface):
         self._metadata_timeout = None
         self._current_thumbnail = None
         self._previous_playback_status = "Stopped"
+        self._previous_can_go_next = False
+        self._previous_can_go_previous = False
+        self._first_song_played = False
+        self._previous_loop_status = ""
 
     @log
     def _get_playback_status(self):
@@ -455,18 +459,27 @@ class MPRIS(DBusInterface):
     @log
     def _on_current_song_changed(self, player, position):
         def send_signal():
+            properties = {}
+            properties['Metadata'] = GLib.Variant(
+                'a{sv}', self._get_metadata())
+
             has_next = self.player.props.has_next
+            if self._previous_can_go_next != has_next:
+                properties['CanGoNext'] = GLib.Variant('b', has_next)
+                self._previous_can_go_next = has_next
+
             has_previous = self.player.props.has_previous
+            if self._previous_can_go_previous != has_previous:
+                properties['CanGoPrevious'] = GLib.Variant('b', has_previous)
+                self._previous_can_go_previous = has_previous
+
+            if not self._first_song_played:
+                properties['CanPause'] = GLib.Variant('b', True)
+                properties['CanPlay'] = GLib.Variant('b', True)
+                self._first_song_played = True
+
             self.PropertiesChanged(
-                MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                {
-                    'CanGoNext': GLib.Variant('b', has_next),
-                    'CanGoPrevious': GLib.Variant('b', has_previous),
-                    'CanPlay': GLib.Variant('b', True),
-                    'CanPause': GLib.Variant('b', True),
-                    'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
-                },
-                [])
+                MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
             self._metadata_timeout = None
             current_song = self.player.props.current_song
             self._current_thumbnail = current_song.get_thumbnail()
@@ -512,21 +525,34 @@ class MPRIS(DBusInterface):
     @log
     def _on_repeat_mode_changed(self, player, param):
         self._update_songs_list()
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'LoopStatus': GLib.Variant('s', self._get_loop_status()),
-                                   'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
-                               },
-                               [])
+        properties = {}
+        is_shuffled = self.player.props.repeat_mode == RepeatMode.SHUFFLE
+        properties['Shuffle'] = GLib.Variant('b', is_shuffled)
+
+        loop_status = self._get_loop_status()
+        if loop_status != self._previous_loop_status:
+            properties['LoopStatus'] = GLib.Variant('s', loop_status)
+            self._previous_loop_status = loop_status
+
+        self.PropertiesChanged(
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     @log
     def _on_prev_next_invalidated(self, player, data=None):
-        self.PropertiesChanged(MPRIS.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'CanGoNext': GLib.Variant('b', self.player.props.has_next),
-                                   'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
-                               },
-                               [])
+        properties = {}
+        has_next = self.player.props.has_next
+        if self._previous_can_go_next != has_next:
+            properties['CanGoNext'] = GLib.Variant('b', has_next)
+            self._previous_can_go_next = has_next
+
+        has_previous = self.player.props.has_previous
+        if self._previous_can_go_previous != has_previous:
+            properties['CanGoPrevious'] = GLib.Variant('b', has_previous)
+            self._previous_can_go_previous = has_previous
+
+        if properties:
+            self.PropertiesChanged(
+                MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     @log
     def _on_seek_finished(self, player, position_second):
