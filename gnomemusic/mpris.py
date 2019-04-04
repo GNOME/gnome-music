@@ -438,6 +438,7 @@ class MediaPlayer2Service(Server):
         If a playlist is active, return True and its description
         (path, name and icon).
         If no playlist is active, return False and an undefined structure.
+
         :returns: playlist existence and its structure
         :rtype: tuple
         """
