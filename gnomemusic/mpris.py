@@ -197,19 +197,6 @@ class MPRIS(DBusInterface):
                 <arg name='Tracks' type='ao'/>
                 <arg name='CurrentTrack' type='o'/>
             </signal>
-            <signal name='TrackAdded'>
-                <arg name='Metadata' type='a{sv}'>
-                </arg>
-                <arg name='AfterTrack' type='o'/>
-            </signal>
-            <signal name='TrackRemoved'>
-                <arg name='TrackId' type='o'/>
-            </signal>
-            <signal name='TrackMetadataChanged'>
-                <arg name='TrackId' type='o'/>
-                <arg name='Metadata' type='a{sv}'>
-                </arg>
-            </signal>
             <property name='Tracks' type='ao' access='read'/>
             <property name='CanEditTracks' type='b' access='read'/>
         </interface>
@@ -669,28 +656,6 @@ class MPRIS(DBusInterface):
                              'TrackListReplaced',
                              GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
                                                     GLib.Variant('o', current_song)))
-
-    def TrackAdded(self, metadata, after_track):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackAdded',
-                             GLib.Variant.new_tuple(GLib.Variant('a{sv}', metadata),
-                                                    GLib.Variant('o', after_track)))
-
-    def TrackRemoved(self, path):
-        self.con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackRemoved',
-            GLib.Variant.new_tuple(GLib.Variant('o', path)))
-
-    def TrackMetadataChanged(self, path, metadata):
-        self.con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-            'TrackMetadataChanged',
-            GLib.Variant.new_tuple(
-                GLib.Variant('o', path), GLib.Variant('a{sv}', metadata)))
 
     def ActivatePlaylist(self, playlist_path):
         playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
