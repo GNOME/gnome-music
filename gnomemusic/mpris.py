@@ -628,39 +628,50 @@ class MPRIS(DBusInterface):
         self._reload_playlists()
 
     def _raise(self):
+        """Brings user interface to the front (MPRIS Method)."""
         self._app.do_activate()
 
     def _quit(self):
+        """Causes the media player to stop running (MPRIS Method)."""
         self._app.quit()
 
     def _next(self):
+        """Skips to the next track in the tracklist (MPRIS Method)."""
         self._player.next()
 
     def _previous(self):
+        """Skips to the previous track in the tracklist.
+
+        (MPRIS Method)
+        """
         self._player.previous()
 
     def _pause(self):
+        """Pauses playback (MPRIS Method)."""
         self._player.pause()
 
     def _play_pause(self):
+        """Play or Pauses playback (MPRIS Method)."""
         self._player.play_pause()
 
     def _stop(self):
+        """Stop playback (MPRIS Method)."""
         self._player.stop()
 
     def _play(self):
-        """Start or resume playback.
+        """Start or resume playback (MPRIS Method).
 
         If there is no track to play, this has no effect.
         """
         self._player.play()
 
     def _seek(self, offset_msecond):
-        """Seek forward in the current track.
+        """Seek forward in the current track (MPRIS Method).
 
         Seek is relative to the current player position.
         If the value passed in would mean seeking beyond the end of the track,
         acts like a call to Next.
+
         :param int offset_msecond: number of microseconds
         """
         current_position_second = self._player.get_position()
@@ -673,7 +684,7 @@ class MPRIS(DBusInterface):
             self._player.next()
 
     def _set_position(self, track_id, position_msecond):
-        """Set the current track position in microseconds.
+        """Set the current track position in microseconds (MPRIS Method)
 
         :param str track_id: The currently playing track's identifier
         :param int position_msecond: new position in microseconds
@@ -685,9 +696,23 @@ class MPRIS(DBusInterface):
         self._player.set_position(position_msecond / 1e6)
 
     def _open_uri(self, uri):
+        """Opens the Uri given as an argument (MPRIS Method).
+
+        Not implemented.
+
+        :param str uri: Uri of the track to load.
+        """
         pass
 
     def _get_tracks_metadata(self, track_paths):
+        """Gets all the metadata available for a set of tracks.
+
+        (MPRIS Method)
+
+        :param list track_paths: list of track ids
+        :returns: Metadata of the set of tracks given as input.
+        :rtype: list
+        """
         metadata = []
         for path in track_paths:
             index = self._path_list.index(path)
@@ -695,12 +720,24 @@ class MPRIS(DBusInterface):
         return metadata
 
     def _add_track(self, uri, after_track, set_as_current):
+        """Adds a URI in the TrackList. (MPRIS Method).
+
+        This is not implemented (CanEditTracks is set to False).
+        """
         pass
 
     def _remove_track(self, path):
+        """Removess an item from the TrackList. (MPRIS Method).
+
+        This is not implemented (CanEditTracks is set to False).
+        """
         pass
 
     def _go_to(self, path):
+        """Skip to the specified TrackId (MPRIS Method).
+
+        :param str path: Identifier of the track to skip to
+        """
         current_song_path = self._get_song_dbus_path(
             self._player.props.current_song)
         current_song_index = self._path_list.index(current_song_path)
@@ -708,6 +745,10 @@ class MPRIS(DBusInterface):
         self._player.play(goto_index - current_song_index)
 
     def _activate_playlist(self, playlist_path):
+        """Starts playing the given playlist (MPRIS Method).
+
+        :param str playlist_path: The id of the playlist to activate.
+        """
         playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
         self._app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
 
