@@ -670,28 +670,6 @@ class MPRIS(DBusInterface):
                              GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
                                                     GLib.Variant('o', current_song)))
 
-    def TrackAdded(self, metadata, after_track):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackAdded',
-                             GLib.Variant.new_tuple(GLib.Variant('a{sv}', metadata),
-                                                    GLib.Variant('o', after_track)))
-
-    def TrackRemoved(self, path):
-        self.con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackRemoved',
-            GLib.Variant.new_tuple(GLib.Variant('o', path)))
-
-    def TrackMetadataChanged(self, path, metadata):
-        self.con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-            'TrackMetadataChanged',
-            GLib.Variant.new_tuple(
-                GLib.Variant('o', path), GLib.Variant('a{sv}', metadata)))
-
     def ActivatePlaylist(self, playlist_path):
         playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
         self._playlists.activate_playlist(playlist_id)
