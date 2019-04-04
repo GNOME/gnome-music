@@ -389,6 +389,12 @@ class MediaPlayer2Service(Server):
         return None
 
     @log
+    def _get_mpris_playlist_from_playlist(self, playlist):
+        playlist_name = utils.get_media_title(playlist)
+        path = self._get_playlist_dbus_path(playlist)
+        return (path, playlist_name, "")
+
+    @log
     def _get_playlist_from_id(self, playlist_id):
         for playlist in self._stored_playlists:
             if playlist_id == playlist.get_id():
@@ -423,9 +429,8 @@ class MediaPlayer2Service(Server):
             return (False, ("/", "", ""))
 
         playlist = self._get_playlist_from_id(self.player.get_playlist_id())
-        playlist_name = utils.get_media_title(playlist)
-        path = self._get_playlist_dbus_path(playlist)
-        return (True, (path, playlist_name, ""))
+        mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
+        return (True, mpris_playlist)
 
     @log
     def _on_current_song_changed(self, player):
@@ -652,17 +657,16 @@ class MediaPlayer2Service(Server):
         if order != 'Alphabetical':
             return []
 
-        playlists = [(self._get_playlist_dbus_path(playlist),
-                      utils.get_media_title(playlist), '')
-                     for playlist in self._stored_playlists]
+        mpris_playlists = [self._get_mpris_playlist_from_playlist(playlist)
+                           for playlist in self._stored_playlists]
 
         if not reverse:
-            return playlists[index:index + max_count]
+            return mpris_playlists[index:index + max_count]
 
         first_index = index - 1
         if first_index < 0:
             first_index = None
-        return playlists[index + max_count - 1:first_index:-1]
+        return mpris_playlists[index + max_count - 1:first_index:-1]
 
     def PlaylistChanged(self, playlist):
         self.con.emit_signal(None,
