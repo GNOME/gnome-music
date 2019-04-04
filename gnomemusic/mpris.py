@@ -251,6 +251,7 @@ class MediaPlayer2Service(Server):
             'playlist-created', self._on_playlists_count_changed)
         self._playlists.connect(
             'playlist-deleted', self._on_playlists_count_changed)
+        self._playlists.connect('playlist-renamed', self._on_playlist_renamed)
         grilo.connect('ready', self._on_grilo_ready)
         self._stored_playlists = []
         self._player_previous_type = None
@@ -518,6 +519,15 @@ class MediaPlayer2Service(Server):
         self._reload_playlists()
 
     @log
+    def _on_playlist_renamed(self, playlists, renamed_playlist):
+        mpris_playlist = self._get_mpris_playlist_from_playlist(
+            renamed_playlist)
+        self.con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, 'PlaylistChanged',
+            GLib.Variant.new_tuple(GLib.Variant('(oss)', mpris_playlist)))
+
+    @log
     def _on_grilo_ready(self, grilo):
         self._reload_playlists()
 
@@ -667,13 +677,6 @@ class MediaPlayer2Service(Server):
         if first_index < 0:
             first_index = None
         return mpris_playlists[index + max_count - 1:first_index:-1]
-
-    def PlaylistChanged(self, playlist):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                             'PlaylistChanged',
-                             GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
 
     def Get(self, interface_name, property_name):
         return self.GetAll(interface_name)[property_name]
