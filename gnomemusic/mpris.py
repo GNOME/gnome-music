@@ -383,8 +383,13 @@ class MPRIS(DBusInterface):
         if (not previous_path_list
                 or previous_path_list[0] != self._path_list[0]
                 or previous_path_list[-1] != self._path_list[-1]):
-            current_song_path = self._get_song_dbus_path()
-            self.TrackListReplaced(self._path_list, current_song_path)
+            self.con.emit_signal(
+                None, '/org/mpris/MediaPlayer2',
+                MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE, 'TrackListReplaced',
+                GLib.Variant.new_tuple(
+                    GLib.Variant('ao', self._path_list),
+                    GLib.Variant('o', self._get_song_dbus_path())))
+
             self.PropertiesChanged(
                 MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
                 {'Tracks': GLib.Variant('ao', self._path_list), }, [])
@@ -666,14 +671,6 @@ class MPRIS(DBusInterface):
         goto_index = self._path_list.index(path)
         song_offset = goto_index - current_song_index
         self.player.play(song_offset=song_offset)
-
-    def TrackListReplaced(self, tracks, current_song):
-        self.con.emit_signal(None,
-                             '/org/mpris/MediaPlayer2',
-                             MPRIS.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                             'TrackListReplaced',
-                             GLib.Variant.new_tuple(GLib.Variant('ao', tracks),
-                                                    GLib.Variant('o', current_song)))
 
     def ActivatePlaylist(self, playlist_path):
         playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
