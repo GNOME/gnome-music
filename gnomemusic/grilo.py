@@ -114,7 +114,7 @@ class Grilo(GObject.GObject):
             'grl-podcasts',
             'grl-spotify-cover'
         ]
-        self.tracker = None
+        self._tracker_plugin = None
         self.changed_media_ids = []
         self.pending_event_id = 0
         self.changes_pending = {'Albums': False, 'Artists': False, 'Songs': False}
@@ -146,8 +146,8 @@ class Grilo(GObject.GObject):
             self.registry.load_all_plugins(True)
         except GLib.GError:
             logger.error('Failed to load plugins.')
-        if self.tracker is not None:
-            logger.debug("tracker found")
+        if self._tracker_plugin is not None:
+            logger.debug("tracker plugin found")
 
     @log
     def _rate_limited_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
@@ -159,7 +159,7 @@ class Grilo(GObject.GObject):
     @log
     def _on_content_changed(self, mediaSource, changedMedias, changeType, locationUnknown):
         try:
-            with self.tracker.handler_block(self.notification_handler):
+            with self._tracker_plugin.handler_block(self.notification_handler):
                 for media in changedMedias:
                     media_id = media.get_id()
                     if (changeType == Grl.SourceChangeType.ADDED
@@ -247,15 +247,15 @@ class Grilo(GObject.GObject):
                 if ops & Grl.SupportedOps.SEARCH:
                     logger.debug("found searchable tracker source")
                     self.props.sources[id] = mediaSource
-                    self.tracker = mediaSource
+                    self._tracker_plugin = mediaSource
                     self.search_source = mediaSource
-                    if self.tracker is None:
+                    if self._tracker_plugin is None:
                         return
 
                     self.emit('ready')
-                    self.tracker.notify_change_start()
+                    self._tracker_plugin.notify_change_start()
                     self.content_changed_timeout = None
-                    self.notification_handler = self.tracker.connect(
+                    self.notification_handler = self._tracker_plugin.connect(
                         'content-changed', self._rate_limited_content_changed)
 
             elif (id.startswith('grl-upnp')):
@@ -344,7 +344,8 @@ class Grilo(GObject.GObject):
                 logger.warning(
                     "Error {}: {}".format(error.domain, error.message))
             callback(source, param, item, remaining, data)
-        self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
+        self._tracker_plugin.query(
+            query, self.METADATA_KEYS, options, _callback, data)
 
     @log
     def toggle_favorite(self, song_item):
@@ -364,7 +365,7 @@ class Grilo(GObject.GObject):
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
         try:
-            self.tracker.store_metadata_sync(
+            self._tracker_plugin.store_metadata_sync(
                 song_item, [Grl.METADATA_KEY_FAVOURITE], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
@@ -434,14 +435,16 @@ class Grilo(GObject.GObject):
         options = self.options.copy()
         query = Query.get_playlist_with_id(playlist_id)
 
-        self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
+        self._tracker_plugin.query(
+            query, self.METADATA_KEYS, options, callback, None)
 
     @log
     def get_playlist_song_with_id(self, playlist_id, entry_id, callback):
         options = self.options.copy()
         query = Query.get_playlist_song_with_id(playlist_id, entry_id)
 
-        self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
+        self._tracker_plugin.query(
+            query, self.METADATA_KEYS, options, callback, None)
 
     @log
     def bump_play_count(self, media):
@@ -456,7 +459,7 @@ class Grilo(GObject.GObject):
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
         try:
-            self.tracker.store_metadata_sync(
+            self._tracker_plugin.store_metadata_sync(
                 media, [Grl.METADATA_KEY_PLAY_COUNT], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
@@ -472,7 +475,7 @@ class Grilo(GObject.GObject):
         # FIXME: We assume this is the tracker plugin.
         # FIXME: Doing this async crashes
         try:
-            self.tracker.store_metadata_sync(
+            self._tracker_plugin.store_metadata_sync(
                 media, [Grl.METADATA_KEY_LAST_PLAYED], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
@@ -492,7 +495,7 @@ class Grilo(GObject.GObject):
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
     def tracker_plugin_available(self):
-        return self.tracker is not None
+        return self._tracker_plugin is not None
 
 
 grilo = Grilo()
