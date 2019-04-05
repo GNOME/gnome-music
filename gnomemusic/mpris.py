@@ -445,8 +445,6 @@ class MPRIS(DBusInterface):
     @log
     def _on_current_song_changed(self, player, position):
         self._update_songs_list()
-        if self.player.props.repeat_mode == RepeatMode.SONG:
-            self.Seeked(0)
 
         has_next = self.player.props.has_next
         has_previous = self.player.props.has_previous
