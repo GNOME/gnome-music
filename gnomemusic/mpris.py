@@ -505,7 +505,11 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_seek_finished(self, player, position_second):
-        self.Seeked(int(position_second * 1e6))
+        position_msecond = int(position_second * 1e6)
+        variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
+        self.con.emit_signal(
+            None, '/org/mpris/MediaPlayer2',
+            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
 
     @log
     def _on_player_playlist_changed(self, klass):
@@ -606,16 +610,6 @@ class MPRIS(DBusInterface):
 
     def OpenUri(self, uri):
         pass
-
-    def Seeked(self, position_msecond):
-        """Indicate that the track position has changed.
-
-        :param int position_msecond: new position in microseconds.
-        """
-        variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
-        self.con.emit_signal(
-            None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_PLAYER_IFACE, 'Seeked', variant)
 
     def GetTracksMetadata(self, track_paths):
         metadata = []
