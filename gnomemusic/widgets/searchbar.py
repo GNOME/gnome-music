@@ -369,6 +369,9 @@ class Searchbar(Gtk.SearchBar):
 
     @log
     def _search_entry_changed(self, widget):
+        if not self._timeout:
+            return False
+
         self._timeout = None
 
         search_term = self._search_entry.get_text()
@@ -400,11 +403,16 @@ class Searchbar(Gtk.SearchBar):
 
         if show:
             self._search_entry.realize()
-            if clear:
-                self._search_entry.set_text('')
             self._search_entry.grab_focus()
         else:
             self._drop_down_button.set_active(False)
+
+        if clear:
+            if self._timeout:
+                # Prevent a pending search from showing results
+                GLib.source_remove(self._timeout)
+                self._timeout = None
+            self._search_entry.set_text('')
 
     @log
     def _search_state_changed(self, klass, data):
