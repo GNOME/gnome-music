@@ -320,8 +320,8 @@ class DropDown(Gtk.Revealer):
         return grilo_id == "grl-tracker-source"
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/Searchbar.ui")
-class Searchbar(Gtk.SearchBar):
+@Gtk.Template(resource_path="/org/gnome/Music/ui/SearchBar.ui")
+class SearchBar(Gtk.SearchBar):
     """Widget containing the search entry
     """
 
@@ -334,11 +334,11 @@ class Searchbar(Gtk.SearchBar):
     stack = GObject.Property(type=Gtk.Stack)
 
     def __repr__(self):
-        return '<Searchbar>'
+        return '<SearchBar>'
 
     @log
     def __init__(self):
-        """Initialize the Searchbar"""
+        """Initialize the SearchBar"""
         super().__init__()
 
         self._timeout = None
