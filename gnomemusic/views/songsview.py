@@ -173,7 +173,7 @@ class SongsView(BaseView):
                 and not self.props.selection_mode):
             self.model.clear()
             self._offset = 0
-            self.populate()
+            self._populate()
             grilo.changes_pending['Songs'] = False
 
     @log
@@ -276,7 +276,7 @@ class SongsView(BaseView):
             [utils.get_media_title(item), artist, item, item.get_favourite()])
 
     @log
-    def populate(self):
+    def _populate(self, data=None):
         """Populates the view"""
         self._init = True
         if grilo.tracker:

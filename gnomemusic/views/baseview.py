@@ -128,16 +128,12 @@ class BaseView(Gtk.Stack):
 
     @log
     def _populate(self, data=None):
-        self.populate()
+        pass
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         if not self.props.selection_mode:
             self.unselect_all()
-
-    @log
-    def populate(self):
-        pass
 
     @log
     def _retrieval_finished(self, klass):

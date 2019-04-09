@@ -448,7 +448,7 @@ class SearchView(BaseView):
             cell.props.visible = False
 
     @log
-    def populate(self):
+    def _populate(self, data=None):
         self._init = True
         self._headerbar.props.state = HeaderBar.State.MAIN
 

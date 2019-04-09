@@ -60,7 +60,7 @@ class AlbumsView(BaseView):
     def _on_changes_pending(self, data=None):
         if (self._init and not self.props.selection_mode):
             self._offset = 0
-            self.populate()
+            self._populate()
             grilo.changes_pending['Albums'] = False
 
     @log
@@ -119,7 +119,7 @@ class AlbumsView(BaseView):
         self._headerbar.props.subtitle = utils.get_artist_name(album)
 
     @log
-    def populate(self):
+    def _populate(self, data=None):
         self._window.notifications_popup.push_loading()
         grilo.populate_albums(self._offset, self._add_item)
         self._init = True

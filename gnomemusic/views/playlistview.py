@@ -777,7 +777,7 @@ class PlaylistView(BaseView):
         self._update_songs_count(self._songs_count - 1)
 
     @log
-    def populate(self):
+    def _populate(self, data=None):
         """Populate sidebar.
         Do not reload playlists already displayed.
         """

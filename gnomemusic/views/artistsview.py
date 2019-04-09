@@ -167,7 +167,7 @@ class ArtistsView(BaseView):
             self._sidebar.emit('row-activated', row)
 
     @log
-    def populate(self):
+    def _populate(self, data=None):
         """Populates the view"""
         self._window.notifications_popup.push_loading()
         grilo.populate_artists(self._offset, self._add_item)
