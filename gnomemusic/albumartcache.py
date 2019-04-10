@@ -323,8 +323,6 @@ class Cache(GObject.GObject):
     def __init__(self):
         super().__init__()
 
-        self._media_art = MediaArt.Process.new()
-
         # FIXME: async
         self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
         if not os.path.exists(self.cache_dir):
