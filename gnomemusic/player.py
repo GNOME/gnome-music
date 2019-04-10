@@ -593,7 +593,8 @@ class Player(GObject.GObject):
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
         root_window = parent_window.get_toplevel()
-        self._inhibit_suspend = InhibitSuspend(root_window, self)
+        self._inhibit_suspend = InhibitSuspend(
+            root_window.props.application, self)
         self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
