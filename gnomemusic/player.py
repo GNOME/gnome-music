@@ -570,13 +570,6 @@ class Player(GObject.GObject):
     def __init__(self, application):
         super().__init__()
 
-        self._playlist = PlayerPlaylist()
-        self._playlist.connect('song-validated', self._on_song_validated)
-        self._playlist.bind_property(
-            'repeat-mode', self, 'repeat-mode',
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
-
         self._new_clock = True
 
         self._gst_player = GstPlayer(application)
@@ -591,6 +584,13 @@ class Player(GObject.GObject):
         self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
+
+        self._playlist = PlayerPlaylist()
+        self._playlist.connect('song-validated', self._on_song_validated)
+        self._playlist.bind_property(
+            'repeat-mode', self, 'repeat-mode',
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
