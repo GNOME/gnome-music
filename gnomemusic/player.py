@@ -572,6 +572,10 @@ class Player(GObject.GObject):
 
     @log
     def __init__(self, application):
+        """Initialize the player
+
+        :param Application application: Application object
+        """
         super().__init__()
 
         self._playlist = PlayerPlaylist()
