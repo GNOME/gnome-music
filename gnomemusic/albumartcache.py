@@ -43,6 +43,25 @@ logger = logging.getLogger(__name__)
 
 
 @log
+def lookup_art_file_from_cache(media):
+    """Lookup MediaArt cache art of an album or song.
+
+    :param Grl.Media media: song or album
+    :returns: a cache file
+    :rtype: Gio.File
+    """
+    album = utils.get_album_title(media)
+    artist = utils.get_artist_name(media)
+
+    success, thumb_file = MediaArt.get_file(artist, album, "album")
+    if (not success
+            or not thumb_file.query_exists()):
+        return None
+
+    return thumb_file
+
+
+@log
 def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     border = 3
     degrees = pi / 180
@@ -213,7 +232,6 @@ class Art(GObject.GObject):
             pixbuf, self._scale, None)
         surface = _make_icon_frame(surface, self._size, self._scale)
         self._surface = surface
-        self._set_grilo_thumbnail_path()
 
         self.emit('finished')
 
@@ -284,18 +302,6 @@ class Art(GObject.GObject):
 
         return False
 
-    def _set_grilo_thumbnail_path(self):
-        # TODO: This sets the thumbnail path for the Grilo Media object
-        # to be used by MPRIS. However, calling this by default for
-        # every cache hit is unnecessary.
-        album = utils.get_album_title(self._media)
-        artist = utils.get_artist_name(self._media)
-
-        success, thumb_file = MediaArt.get_file(artist, album, "album")
-        if success:
-            self._media.set_thumbnail(
-                GLib.filename_to_uri(thumb_file.get_path(), None))
-
     @GObject.Property
     def surface(self):
         if self._surface is None:
@@ -339,13 +345,8 @@ class Cache(GObject.GObject):
 
         :param Grl.Media media: The media object to search art for
         """
-        album = utils.get_album_title(media)
-        artist = utils.get_artist_name(media)
-
-        success, thumb_file = MediaArt.get_file(artist, album, "album")
-
-        if (success
-                and thumb_file.query_exists()):
+        thumb_file = lookup_art_file_from_cache(media)
+        if thumb_file:
             thumb_file.read_async(
                 GLib.PRIORITY_LOW, None, self._open_stream, None)
             return
