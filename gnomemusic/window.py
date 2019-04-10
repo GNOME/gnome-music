@@ -33,8 +33,10 @@ from gi.repository import Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic import log
+from gnomemusic.grilo import grilo
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import Player, RepeatMode
+from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.search import Search
 from gnomemusic.utils import View
@@ -51,8 +53,6 @@ from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchbar import Searchbar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.windowplacement import WindowPlacement
-from gnomemusic.playlists import Playlists
-from gnomemusic.grilo import grilo
 
 import logging
 logger = logging.getLogger(__name__)
