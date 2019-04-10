@@ -148,7 +148,7 @@ class PlayerPlaylist(GObject.GObject):
         for row in model:
             self._songs.append([row[5], row[11]])
 
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             self._shuffle_indexes = list(range(len(self._songs)))
             shuffle(self._shuffle_indexes)
             self._shuffle_indexes.remove(self._current_index)
@@ -172,13 +172,13 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the index has changed. False otherwise.
         :rtype: bool
         """
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             shuffle = self._shuffle_indexes.index(self._current_index)
             self._current_index = self._shuffle_indexes[shuffle + song_offset]
             return True
 
         song_index = song_offset + self._current_index
-        if self._repeat == RepeatMode.ALL:
+        if self.props.repeat_mode == RepeatMode.ALL:
             song_index = song_index % len(self._songs)
 
         if(song_index >= len(self._songs)
@@ -214,7 +214,7 @@ class PlayerPlaylist(GObject.GObject):
                     return_index = self._current_index
                     break
 
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             index_l = self._shuffle_indexes.index(last_pos)
             self._shuffle_indexes.pop(index_l)
             self._shuffle_indexes = [
@@ -241,7 +241,7 @@ class PlayerPlaylist(GObject.GObject):
 
         # In the shuffle case, insert song at a random position which
         # has not been played yet.
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             index = self._shuffle_indexes.index(self._current_index)
             new_song_index = randrange(index, len(self._shuffle_indexes))
             self._shuffle_indexes.insert(new_song_index, song_index)
@@ -256,7 +256,7 @@ class PlayerPlaylist(GObject.GObject):
         if song_index < self._current_index:
             self._current_index -= 1
 
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             self._shuffle_indexes.remove(song_index)
             self._shuffle_indexes = [
                 index - 1 if index > song_index else index
@@ -308,12 +308,12 @@ class PlayerPlaylist(GObject.GObject):
         if not self.has_next():
             return -1
 
-        if self._repeat == RepeatMode.SONG:
+        if self.props.repeat_mode == RepeatMode.SONG:
             return self._current_index
-        if (self._repeat == RepeatMode.ALL
+        if (self.props.repeat_mode == RepeatMode.ALL
                 and self._current_index == (len(self._songs) - 1)):
             return 0
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             index = self._shuffle_indexes.index(self._current_index)
             return self._shuffle_indexes[index + 1]
         else:
@@ -324,12 +324,12 @@ class PlayerPlaylist(GObject.GObject):
         if not self.has_previous():
             return -1
 
-        if self._repeat == RepeatMode.SONG:
+        if self.props.repeat_mode == RepeatMode.SONG:
             return self._current_index
-        if (self._repeat == RepeatMode.ALL
+        if (self.props.repeat_mode == RepeatMode.ALL
                 and self._current_index == 0):
             return len(self._songs) - 1
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             shuffle_index = self._shuffle_indexes.index(self._current_index)
             return self._shuffle_indexes[shuffle_index - 1]
         else:
@@ -337,7 +337,7 @@ class PlayerPlaylist(GObject.GObject):
 
     @log
     def _validate_next_song(self):
-        if self._repeat == RepeatMode.SONG:
+        if self.props.repeat_mode == RepeatMode.SONG:
             return
 
         next_index = self._get_next_index()
@@ -346,7 +346,7 @@ class PlayerPlaylist(GObject.GObject):
 
     @log
     def _validate_previous_song(self):
-        if self._repeat == RepeatMode.SONG:
+        if self.props.repeat_mode == RepeatMode.SONG:
             return
 
         previous_index = self._get_previous_index()
@@ -360,11 +360,11 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self._repeat == RepeatMode.SHUFFLE
+        if (self.props.repeat_mode == RepeatMode.SHUFFLE
                 and self._shuffle_indexes):
             index = self._shuffle_indexes.index(self._current_index)
             return index < (len(self._shuffle_indexes) - 1)
-        if self._repeat != RepeatMode.NONE:
+        if self.props.repeat_mode != RepeatMode.NONE:
             return True
         return self._current_index < (len(self._songs) - 1)
 
@@ -375,11 +375,11 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self._repeat == RepeatMode.SHUFFLE
+        if (self.props.repeat_mode == RepeatMode.SHUFFLE
                 and self._shuffle_indexes):
             index = self._shuffle_indexes.index(self._current_index)
             return index > 0
-        if self._repeat != RepeatMode.NONE:
+        if self.props.repeat_mode != RepeatMode.NONE:
             return True
         return self._current_index > 0
 
@@ -510,7 +510,7 @@ class PlayerPlaylist(GObject.GObject):
         songs = []
         nb_songs = len(self._songs)
         current_index = self._current_index
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             current_index = self._shuffle_indexes.index(self._current_index)
 
         index_min = current_index - self._nb_songs_max
@@ -522,12 +522,12 @@ class PlayerPlaylist(GObject.GObject):
         first_index = max(index_min, 0)
         last_index = min(index_max, nb_songs)
 
-        if self._repeat == RepeatMode.SHUFFLE:
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
             indexes = self._shuffle_indexes[first_index:last_index]
         else:
             indexes = range(first_index, last_index)
 
-        if (self._repeat == RepeatMode.ALL
+        if (self.props.repeat_mode == RepeatMode.ALL
                 and (last_index - first_index) < (2 * self._nb_songs_max + 1)):
             offset_sup = min(
                 self._nb_songs_max - last_index + current_index + 1,
@@ -666,7 +666,7 @@ class Player(GObject.GObject):
 
         url = self._playlist.props.current_song.get_url()
         if (url != self._gst_player.props.url
-                or self._repeat == RepeatMode.SONG):
+                or self.props.repeat_mode == RepeatMode.SONG):
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
