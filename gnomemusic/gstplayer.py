@@ -65,6 +65,7 @@ class GstPlayer(GObject.GObject):
         super().__init__()
 
         Gst.init(None)
+        GstPbutils.pb_utils_init()
 
         self._application = application
         self._duration = -1.
