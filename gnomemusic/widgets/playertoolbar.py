@@ -42,10 +42,6 @@ class PlayerToolbar(Gtk.ActionBar):
     Contains the ui of playing a song with Music.
     """
 
-    __gsignals__ = {
-        'thumbnail-updated': (GObject.SignalFlags.RUN_FIRST, None, ()),
-    }
-
     __gtype_name__ = 'PlayerToolbar'
 
     _artist_label = Gtk.Template.Child()
@@ -74,7 +70,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._progress_scale.props.player = self._player
 
         self._cover_stack.props.size = Art.Size.XSMALL
-        self._cover_stack.connect('updated', self._on_cover_stack_updated)
 
         self._tooltip = TwoLineTip()
 
@@ -91,10 +86,6 @@ class PlayerToolbar(Gtk.ActionBar):
     def _on_progress_value_changed(self, progress_scale):
         seconds = int(progress_scale.get_value() / 60)
         self._progress_time_label.set_label(utils.seconds_to_string(seconds))
-
-    @log
-    def _on_cover_stack_updated(self, klass):
-        self.emit('thumbnail-updated')
 
     @Gtk.Template.Callback()
     @log

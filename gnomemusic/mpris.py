@@ -23,6 +23,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gnomemusic.albumartcache import lookup_art_file_from_cache
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.grilo import grilo
@@ -229,9 +230,6 @@ class MediaPlayer2Service(Server):
         self.player.connect('seek-finished', self._on_seek_finished)
         self.player.connect(
             'playlist-changed', self._on_player_playlist_changed)
-        self.player_toolbar = app.get_active_window()._player_toolbar
-        self.player_toolbar.connect(
-            'thumbnail-updated', self._on_thumbnail_updated)
         playlists = Playlists.get_default()
         playlists.connect('playlist-created', self._on_playlists_count_changed)
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
@@ -330,12 +328,15 @@ class MediaPlayer2Service(Server):
         except:
             pass
 
-        try:
-            artUrl = media.get_thumbnail()
-            assert artUrl is not None
-            metadata['mpris:artUrl'] = GLib.Variant('s', artUrl)
-        except:
-            pass
+        art_url = media.get_thumbnail()
+        if not art_url:
+            thumb_file = lookup_art_file_from_cache(media)
+            if thumb_file:
+                art_url = GLib.filename_to_uri(thumb_file.get_path())
+                media.set_thumbnail(art_url)
+
+        if art_url:
+            metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
 
         return metadata
 
@@ -455,14 +456,6 @@ class MediaPlayer2Service(Server):
                                        'b', has_previous),
                                    'CanPlay': GLib.Variant('b', True),
                                    'CanPause': GLib.Variant('b', True),
-                               },
-                               [])
-
-    @log
-    def _on_thumbnail_updated(self, player, data=None):
-        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
                                },
                                [])
 

@@ -29,7 +29,6 @@ from gettext import gettext as _, ngettext
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
-gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
 
 from gnomemusic import log
