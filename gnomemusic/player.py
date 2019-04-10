@@ -33,7 +33,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gio, GLib, GObject, Grl, Gst, GstPbutils
+from gi.repository import Gio, GLib, GObject, Grl, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -97,6 +97,9 @@ class PlayerPlaylist(GObject.GObject):
     @log
     def __init__(self):
         super().__init__()
+
+        GstPbutils.pb_utils_init()
+
         self._songs = []
         self._shuffle_indexes = []
         self._current_index = 0
@@ -578,9 +581,6 @@ class Player(GObject.GObject):
             | GObject.BindingFlags.BIDIRECTIONAL)
 
         self._new_clock = True
-
-        Gst.init(None)
-        GstPbutils.pb_utils_init()
 
         self._gst_player = GstPlayer(application)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
