@@ -43,10 +43,10 @@ class InhibitSuspend(GObject.GObject):
         return '<InhibitSuspend>'
 
     @log
-    def __init__(self, root_window, player):
+    def __init__(self, application, player):
         super().__init__()
 
-        self._application = root_window.get_application()
+        self._application = application
         self._player = player
         self._inhibit_cookie = 0
 
