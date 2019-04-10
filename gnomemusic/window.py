@@ -35,7 +35,7 @@ from gettext import gettext as _
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.mediakeys import MediaKeys
-from gnomemusic.player import Player, RepeatMode
+from gnomemusic.player import RepeatMode
 from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.search import Search
@@ -87,7 +87,7 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = None
         self.curr_view = None
 
-        self._player = Player(app)
+        self._player = app.props.player
 
         self.notifications_popup = NotificationsPopup()
         self._setup_view()

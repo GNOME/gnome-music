@@ -219,7 +219,7 @@ class MediaPlayer2Service(Server):
         super().__init__(self.con, '/org/mpris/MediaPlayer2')
 
         self.app = app
-        self.player = app.get_active_window()._player
+        self.player = app.props.player
         self.player.connect(
             'song-changed', self._on_current_song_changed)
         self.player.connect('notify::state', self._on_player_state_changed)
