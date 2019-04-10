@@ -91,6 +91,8 @@ class PlayerPlaylist(GObject.GObject):
 
     _nb_songs_max = 10
 
+    repeat_mode = GObject.Property(type=int, default=RepeatMode.NONE)
+
     def __repr__(self):
         return '<PlayerPlayList>'
 
@@ -104,15 +106,12 @@ class PlayerPlaylist(GObject.GObject):
         self._type = -1
         self._id = -1
 
-        self._settings = Gio.Settings.new('org.gnome.Music')
-        self._settings.connect(
-            'changed::repeat', self._on_repeat_setting_changed)
-        self._repeat = self._settings.get_enum('repeat')
-
         self._validation_indexes = None
         self._discoverer = GstPbutils.Discoverer()
         self._discoverer.connect('discovered', self._on_discovered)
         self._discoverer.start()
+
+        self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
     @log
     def set_playlist(self, playlist_type, playlist_id, model, model_iter):
@@ -261,10 +260,6 @@ class PlayerPlaylist(GObject.GObject):
             self._shuffle_indexes = [
                 index - 1 if index > song_index else index
                 for index in self._shuffle_indexes]
-
-    @log
-    def _on_repeat_setting_changed(self, settings, value):
-        self.props.repeat_mode = settings.get_enum('repeat')
 
     @log
     def _on_discovered(self, discoverer, info, error):
@@ -447,33 +442,14 @@ class PlayerPlaylist(GObject.GObject):
         current_item = self._songs[self._current_index]
         return current_item[PlayerField.VALIDATION] != ValidationStatus.FAILED
 
-    @GObject.Property(type=int, default=RepeatMode.NONE)
-    def repeat_mode(self):
-        """Get repeat mode.
-
-        :returns: the repeat mode
-        :rtype: RepeatMode
-        """
-        return self._repeat
-
-    @repeat_mode.setter
-    def repeat_mode(self, mode):
-        """Set repeat mode.
-
-        :param RepeatMode mode: new repeat_mode
-        """
-        if mode == self._repeat:
-            return
-
-        if (mode == RepeatMode.SHUFFLE
+    @log
+    def _on_repeat_mode_changed(self, klass, param):
+        if (self.props.repeat_mode == RepeatMode.SHUFFLE
                 and self._songs):
             self._shuffle_indexes = list(range(len(self._songs)))
             shuffle(self._shuffle_indexes)
             self._shuffle_indexes.remove(self._current_index)
             self._shuffle_indexes.insert(0, self._current_index)
-
-        self._repeat = mode
-        self._settings.set_enum('repeat', mode)
 
     @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
     def playlist_id(self):
@@ -572,13 +548,16 @@ class Player(GObject.GObject):
 
         self._parent_window = parent_window
 
+        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings.connect(
+            'changed::repeat', self._on_repeat_setting_changed)
+        self._repeat = self._settings.get_enum('repeat')
+
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
-        self._playlist.bind_property(
-            'repeat-mode', self, 'repeat-mode',
-            GObject.BindingFlags.SYNC_CREATE
-            | GObject.BindingFlags.BIDIRECTIONAL)
-
+        self.bind_property(
+            'repeat-mode', self._playlist, 'repeat-mode',
+            GObject.BindingFlags.SYNC_CREATE)
         self._new_clock = True
 
         Gst.init(None)
@@ -824,13 +803,21 @@ class Player(GObject.GObject):
 
         self.emit('clock-tick', int(position))
 
-    @GObject.Property(type=int)
+    @log
+    def _on_repeat_setting_changed(self, settings, value):
+        self.props.repeat_mode = settings.get_enum('repeat')
+
+    @GObject.Property(type=int, default=RepeatMode.NONE)
     def repeat_mode(self):
         return self._repeat
 
     @repeat_mode.setter
     def repeat_mode(self, mode):
+        if mode == self._repeat:
+            return
+
         self._repeat = mode
+        self._settings.set_enum('repeat', mode)
         self.emit('prev-next-invalidated')
 
     @GObject.Property(
