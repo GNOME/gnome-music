@@ -33,10 +33,11 @@
 from gettext import gettext as _
 import logging
 
-from gi.repository import Gtk, Gio, GLib, Gdk
+from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
 from gnomemusic.mpris import MediaPlayer2Service
+from gnomemusic.player import Player
 from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.window import Window
 
@@ -59,6 +60,8 @@ class Application(Gtk.Application):
         self._init_style()
         self._window = None
 
+        self._player = Player(self)
+
     def _init_style(self):
         css_provider = Gtk.CssProvider()
         css_provider.load_from_resource('/org/gnome/Music/org.gnome.Music.css')
@@ -66,6 +69,16 @@ class Application(Gtk.Application):
         style_context = Gtk.StyleContext()
         style_context.add_provider_for_screen(
             screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    @GObject.Property(
+        type=Player, default=None, flags=GObject.ParamFlags.READABLE)
+    def player(self):
+        """Get application-wide music player.
+
+        :returns: the player
+        :rtype: Player
+        """
+        return self._player
 
     @log
     def _build_app_menu(self):
