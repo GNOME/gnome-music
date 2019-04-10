@@ -567,10 +567,8 @@ class Player(GObject.GObject):
         return '<Player>'
 
     @log
-    def __init__(self, parent_window):
+    def __init__(self, application):
         super().__init__()
-
-        self._parent_window = parent_window
 
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
@@ -592,9 +590,7 @@ class Player(GObject.GObject):
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
-        root_window = parent_window.get_toplevel()
-        self._inhibit_suspend = InhibitSuspend(
-            root_window.props.application, self)
+        self._inhibit_suspend = InhibitSuspend(application, self)
         self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()

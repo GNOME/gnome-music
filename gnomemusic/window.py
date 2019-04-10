@@ -87,7 +87,7 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = None
         self.curr_view = None
 
-        self._player = Player(self)
+        self._player = Player(app)
 
         self.notifications_popup = NotificationsPopup()
         self._setup_view()
