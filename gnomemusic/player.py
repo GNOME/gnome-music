@@ -32,7 +32,6 @@ import time
 import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
-gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gio, GLib, GObject, Grl, Gst, GstPbutils
 
 from gnomemusic import log
