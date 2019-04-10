@@ -61,11 +61,12 @@ class GstPlayer(GObject.GObject):
         return '<GstPlayer>'
 
     @log
-    def __init__(self):
+    def __init__(self, application):
         super().__init__()
 
         Gst.init(None)
 
+        self._application = application
         self._duration = -1.
 
         self._missing_plugin_messages = []
@@ -344,7 +345,8 @@ class GstPlayer(GObject.GObject):
     @log
     def _show_codec_confirmation_dialog(
             self, install_helper_name, missing_plugin_messages):
-        dialog = MissingCodecsDialog(self._parent_window, install_helper_name)
+        active_window = self._application.props.active_window
+        dialog = MissingCodecsDialog(active_window, install_helper_name)
 
         def on_dialog_response(dialog, response_type):
             if response_type == Gtk.ResponseType.ACCEPT:

@@ -582,7 +582,7 @@ class Player(GObject.GObject):
         Gst.init(None)
         GstPbutils.pb_utils_init()
 
-        self._gst_player = GstPlayer()
+        self._gst_player = GstPlayer(application)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
         self._gst_player.bind_property(
