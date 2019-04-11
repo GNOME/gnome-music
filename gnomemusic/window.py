@@ -134,7 +134,7 @@ class Window(Gtk.ApplicationWindow):
             "state", self._searchbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._player = Player(self)
+        self._player = Player(self, self._settings)
         self._player_toolbar = PlayerToolbar(self._player, self)
         selection_toolbar = SelectionToolbar()
         self.views = [None] * len(View)
