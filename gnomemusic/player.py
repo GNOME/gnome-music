@@ -33,7 +33,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gio, GLib, GObject, Grl, Gst, GstPbutils
+from gi.repository import GLib, GObject, Grl, Gst, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -543,14 +543,16 @@ class Player(GObject.GObject):
         return '<Player>'
 
     @log
-    def __init__(self, parent_window):
+    def __init__(self, parent_window, gsettings):
+        """Main player
+
+        :param Gtk.Window window: Main window
+        :param Gio.Settings gsettings: GSettings instance to use
+        """
         super().__init__()
 
         self._parent_window = parent_window
-
-        self._settings = Gio.Settings.new('org.gnome.Music')
-        self._settings.connect(
-            'changed::repeat', self._on_repeat_setting_changed)
+        self._settings = gsettings
         self._repeat = self._settings.get_enum('repeat')
 
         self._playlist = PlayerPlaylist()
@@ -563,7 +565,7 @@ class Player(GObject.GObject):
         Gst.init(None)
         GstPbutils.pb_utils_init()
 
-        self._gst_player = GstPlayer()
+        self._gst_player = GstPlayer(self._settings)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
         self._gst_player.bind_property(
