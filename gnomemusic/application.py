@@ -58,7 +58,6 @@ class Application(Gtk.Application):
 
         self._init_style()
         self._window = None
-        self._application_id = application_id
 
     def _init_style(self):
         css_provider = Gtk.CssProvider()
@@ -105,8 +104,8 @@ class Application(Gtk.Application):
     def do_activate(self):
         if not self._window:
             self._window = Window(self)
-            self._window.set_default_icon_name(self._application_id)
-            if self._application_id == 'org.gnome.MusicDevel':
+            self._window.set_default_icon_name(self.props.application_id)
+            if self.props.application_id == 'org.gnome.MusicDevel':
                 self._window.get_style_context().add_class('devel')
             MediaPlayer2Service(self)
 
