@@ -682,6 +682,7 @@ class MediaPlayer2Service(Server):
 
     def GetAll(self, interface_name):
         if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
+            application_id = self.app.props.application_id
             return {
                 'CanQuit': GLib.Variant('b', True),
                 'Fullscreen': GLib.Variant('b', False),
@@ -689,7 +690,7 @@ class MediaPlayer2Service(Server):
                 'CanRaise': GLib.Variant('b', True),
                 'HasTrackList': GLib.Variant('b', True),
                 'Identity': GLib.Variant('s', 'Music'),
-                'DesktopEntry': GLib.Variant('s', 'org.gnome.Music'),
+                'DesktopEntry': GLib.Variant('s', application_id),
                 'SupportedUriSchemes': GLib.Variant('as', [
                     'file'
                 ]),
