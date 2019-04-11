@@ -24,7 +24,7 @@
 import logging
 
 from gettext import gettext as _
-from gi.repository import Gtk, Gio, GObject
+from gi.repository import Gtk, GObject
 
 from gnomemusic import log
 from gnomemusic.gstplayer import Playback
@@ -57,7 +57,7 @@ class InhibitSuspend(GObject.GObject):
 
         self._player.connect('notify::state', self._on_player_state_changed)
 
-        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings = self._application.props.settings
         self._should_inhibit = self._settings.get_boolean('inhibit-suspend')
         self._settings.connect(
             'changed::inhibit-suspend', self._on_inhibit_suspend_changed)

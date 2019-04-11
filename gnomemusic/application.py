@@ -60,6 +60,7 @@ class Application(Gtk.Application):
         self._init_style()
         self._window = None
 
+        self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
 
     def _init_style(self):
@@ -79,6 +80,16 @@ class Application(Gtk.Application):
         :rtype: Player
         """
         return self._player
+
+    @GObject.Property(
+        type=Gio.Settings, flags=GObject.ParamFlags.READABLE)
+    def settings(self):
+        """Get application-wide settings.
+
+        :returns: settings
+        :rtype: Gio.settings
+        """
+        return self._settings
 
     @log
     def _build_app_menu(self):

@@ -72,7 +72,7 @@ class Window(Gtk.ApplicationWindow):
     def __init__(self, app):
         super().__init__(application=app, title=_("Music"))
 
-        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings = app.props.settings
         self.add_action(self._settings.create_action('repeat'))
         select_all = Gio.SimpleAction.new('select_all', None)
         select_all.connect('activate', self._select_all)
