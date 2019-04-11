@@ -61,7 +61,13 @@ class GstPlayer(GObject.GObject):
         return '<GstPlayer>'
 
     @log
-    def __init__(self):
+    def __init__(self, gsettings):
+        """Gstreamer player
+
+        :param Gio.Settings gsettings: GSettings instance to use
+        :returns:
+        :rtype:
+        """
         super().__init__()
 
         Gst.init(None)
@@ -69,7 +75,7 @@ class GstPlayer(GObject.GObject):
         self._duration = -1.
 
         self._missing_plugin_messages = []
-        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings = settings
 
         self._player = Gst.ElementFactory.make('playbin3', 'player')
         self._bus = self._player.get_bus()
