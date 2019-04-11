@@ -32,6 +32,7 @@ import gnomemusic.utils as utils
 
 from gi.repository import GLib
 from gi.repository import Gio
+from gi.repository import Gtk
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -689,7 +690,7 @@ class MediaPlayer2Service(Server):
                 'CanRaise': GLib.Variant('b', True),
                 'HasTrackList': GLib.Variant('b', True),
                 'Identity': GLib.Variant('s', 'Music'),
-                'DesktopEntry': GLib.Variant('s', 'org.gnome.Music'),
+                'DesktopEntry': GLib.Variant('s', self.app.props.application_id),
                 'SupportedUriSchemes': GLib.Variant('as', [
                     'file'
                 ]),
