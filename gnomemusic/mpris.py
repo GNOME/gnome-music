@@ -32,6 +32,7 @@ import gnomemusic.utils as utils
 
 from gi.repository import GLib
 from gi.repository import Gio
+from gi.repository import Gtk
 from gnomemusic import log
 import logging
 logger = logging.getLogger(__name__)
@@ -681,6 +682,7 @@ class MediaPlayer2Service(Server):
         return self.GetAll(interface_name)[property_name]
 
     def GetAll(self, interface_name):
+        application_id  = Gtk.Application.get_default().get_application_id()
         if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
             return {
                 'CanQuit': GLib.Variant('b', True),
@@ -689,7 +691,7 @@ class MediaPlayer2Service(Server):
                 'CanRaise': GLib.Variant('b', True),
                 'HasTrackList': GLib.Variant('b', True),
                 'Identity': GLib.Variant('s', 'Music'),
-                'DesktopEntry': GLib.Variant('s', 'org.gnome.Music'),
+                'DesktopEntry': GLib.Variant('s', application_id),
                 'SupportedUriSchemes': GLib.Variant('as', [
                     'file'
                 ]),
