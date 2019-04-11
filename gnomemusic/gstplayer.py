@@ -325,8 +325,8 @@ class GstPlayer(GObject.GObject):
     def _start_plugin_installation(
             self, missing_plugin_messages, confirm_search):
         install_ctx = GstPbutils.InstallPluginsContext.new()
-
-        install_ctx.set_desktop_id('org.gnome.Music.desktop')
+        application_id = self._application.props.application_id
+        install_ctx.set_desktop_id(application_id + '.desktop')
         install_ctx.set_confirm_search(confirm_search)
 
         startup_id = "_TIME{}".format(Gtk.get_current_event_time())
