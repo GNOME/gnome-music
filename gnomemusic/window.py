@@ -82,7 +82,7 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(select_none)
 
         self.set_size_request(200, 100)
-        WindowPlacement(self, self._settings)
+        WindowPlacement(self)
 
         self.prev_view = None
         self.curr_view = None

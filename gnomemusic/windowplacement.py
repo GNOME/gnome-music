@@ -40,16 +40,16 @@ class WindowPlacement(GObject.GObject):
         return '<WindowPlacement>'
 
     @log
-    def __init__(self, window, gsettings):
+    def __init__(self, window):
         """Initialize WindowPlacement
 
         :param Gtk.Window window: Main window
-        :param Gio.Settings gsettings: GSettings instance to use
         """
         super().__init__()
 
         self._window = window
-        self._settings = gsettings
+        application = self._window.props.application
+        self._settings = application.props.settings
 
         self._restore_window_state()
 
