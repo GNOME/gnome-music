@@ -65,7 +65,7 @@ class Application(Gtk.Application):
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
 
-        InhibitSuspend(self, self._player)
+        InhibitSuspend(self)
         PauseOnSuspend(self._player)
 
     def _init_style(self):
