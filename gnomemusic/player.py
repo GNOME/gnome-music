@@ -33,7 +33,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gio, GLib, GObject, Grl, GstPbutils
+from gi.repository import GLib, GObject, Grl, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -95,8 +95,11 @@ class PlayerPlaylist(GObject.GObject):
         return '<PlayerPlayList>'
 
     @log
-    def __init__(self):
-        """Initialize the player playlist"""
+    def __init__(self, application):
+        """Initialize the player playlist
+
+        :param Gtk.Application application: Application object
+        """
         super().__init__()
 
         GstPbutils.pb_utils_init()
@@ -108,7 +111,7 @@ class PlayerPlaylist(GObject.GObject):
         self._type = -1
         self._id = -1
 
-        self._settings = Gio.Settings.new('org.gnome.Music')
+        self._settings = application.props.settings
         self._settings.connect(
             'changed::repeat', self._on_repeat_setting_changed)
         self._repeat = self._settings.get_enum('repeat')
@@ -578,7 +581,7 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
-        self._playlist = PlayerPlaylist()
+        self._playlist = PlayerPlaylist(application)
         self._playlist.connect('song-validated', self._on_song_validated)
         self._playlist.bind_property(
             'repeat-mode', self, 'repeat-mode',
