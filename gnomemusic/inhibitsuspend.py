@@ -43,16 +43,15 @@ class InhibitSuspend(GObject.GObject):
         return '<InhibitSuspend>'
 
     @log
-    def __init__(self, application, player):
+    def __init__(self, application):
         """Initialize supend inhibitor
 
         :param Application application: Application object
-        :param Player player: Player object
         """
         super().__init__()
 
         self._application = application
-        self._player = player
+        self._player = application.props.player
         self._inhibit_cookie = 0
 
         self._player.connect('notify::state', self._on_player_state_changed)
