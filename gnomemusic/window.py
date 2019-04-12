@@ -70,6 +70,10 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def __init__(self, app):
+        """Initialize the main window.
+
+        :param Gtk.Application app: Application object
+        """
         super().__init__(application=app, title=_("Music"))
 
         self._settings = Gio.Settings.new('org.gnome.Music')
