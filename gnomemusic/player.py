@@ -38,8 +38,6 @@ from gi.repository import GLib, GObject, Grl, GstPbutils
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
-from gnomemusic.inhibitsuspend import InhibitSuspend
-from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 
@@ -597,9 +595,6 @@ class Player(GObject.GObject):
             'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
-
-        self._inhibit_suspend = InhibitSuspend(application, self)
-        self._pause_on_suspend = PauseOnSuspend(self)
 
         self._lastfm = LastFmScrobbler()
 

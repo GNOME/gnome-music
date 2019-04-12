@@ -36,7 +36,9 @@ import logging
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
+from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MediaPlayer2Service
+from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.window import Window
@@ -62,6 +64,9 @@ class Application(Gtk.Application):
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
+
+        InhibitSuspend(self, self._player)
+        PauseOnSuspend(self._player)
 
     def _init_style(self):
         css_provider = Gtk.CssProvider()
