@@ -50,7 +50,7 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
-from gnomemusic.widgets.searchbar import Searchbar
+from gnomemusic.widgets.searchbar import SearchBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar
 from gnomemusic.windowplacement import WindowPlacement
 
@@ -128,7 +128,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._search = Search()
         self._headerbar = HeaderBar()
-        self._searchbar = Searchbar()
+        self._searchbar = SearchBar()
         self._search.bind_property(
             "search-mode-active", self._headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
