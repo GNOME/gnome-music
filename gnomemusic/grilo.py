@@ -289,14 +289,16 @@ class Grilo(GObject.GObject):
         self.populate_items(Query.all_songs(), offset, callback, count)
 
     @log
-    def populate_playlists(self, offset, callback, count=-1):
+    def populate_playlists(self, offset, callback, count=-1, data=None):
         """Asynchronously get playlists (user and smart ones)
 
         :param int offset: start index
         :param function callback: callback function
         :param int count: limit number of results
+        :param object data: user data
         """
-        self.populate_items(Query.all_playlists(), offset, callback, count)
+        self.populate_items(
+            Query.all_playlists(), offset, callback, count, data)
 
     @log
     def populate_user_playlists(self, offset, callback, count=-1):

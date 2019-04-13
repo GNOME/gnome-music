@@ -44,11 +44,6 @@ playlists = Playlists.get_default()
 class PlaylistView(BaseView):
     """Main view for playlists"""
 
-    __gsignals__ = {
-        'playlists-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'playlist-songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
-    }
-
     def __repr__(self):
         return '<PlaylistView>'
 
@@ -122,6 +117,7 @@ class PlaylistView(BaseView):
         self._iter_to_clean_model = None
         self._current_playlist = None
         self._current_playlist_index = None
+        self._plays_songs_on_activation = False
         self.pls_todelete = {}
         self._songs_todelete = {}
         self._songs_count = 0
@@ -273,8 +269,9 @@ class PlaylistView(BaseView):
         return False
 
     @log
-    def _add_playlist_item(self, source, param, playlist, remaining=0,
-                           data=None):
+    def _add_playlist_item(
+            self, source, param, playlist, remaining=0,
+            select_playlist_id=None):
         """Grilo.populate_playlists callback.
 
         Add all playlists found by Grilo to sidebar
@@ -283,17 +280,22 @@ class PlaylistView(BaseView):
         :param int param: param
         :param GrlMedia playlist: playlist to add
         :param int remaining: next playlist_id or zero if None
-        :param data: associated data
+        :param str select_playlist_id: playlist id to select on load
         """
         if not playlist:
             self._window.notifications_popup.pop_loading()
-            self.emit('playlists-loaded')
+            if not self._sidebar.get_selected_row():
+                first_row = self._sidebar.get_row_at_index(0)
+                self._sidebar.select_row(first_row)
+                first_row.emit('activate')
             return
 
-        self._add_playlist_to_sidebar(playlist, None)
+        select_playlist = (playlist.get_id() == select_playlist_id)
+        self._add_playlist_to_sidebar(playlist, None, select_playlist)
 
     @log
-    def _add_playlist_to_sidebar(self, playlist, index=None):
+    def _add_playlist_to_sidebar(
+            self, playlist, index=None, select_playlist=False):
         """Add a playlist to sidebar
 
         :param GrlMedia playlist: playlist to add
@@ -313,7 +315,7 @@ class PlaylistView(BaseView):
         self._sidebar.insert(row, index)
         self._offset += 1
 
-        if len(self._sidebar) == 1:
+        if select_playlist:
             self._sidebar.select_row(row)
             row.emit('activate')
 
@@ -480,48 +482,35 @@ class PlaylistView(BaseView):
 
     @log
     def activate_playlist(self, playlist_id):
+        """Selects and starts playing a playlist.
 
-        def find_and_activate_playlist():
-            for row in self._sidebar:
-                if row.playlist.get_id() == playlist_id:
-                    selection = self._sidebar.get_selected_row()
-                    if selection.get_index() == row.get_index():
-                        self._on_play_activate(None)
-                    else:
-                        self._sidebar.select_row(row)
-                        handler = 0
+        If the view has not been populated yet, populate it and then
+        select the requested playlist. Otherwise, directly select the
+        requested playlist and start playing.
 
-                        def songs_loaded_callback(view):
-                            self.disconnect(handler)
-                            self._on_play_activate(None)
+        :param str playlist_id: requested playlist id
+        """
+        if not self._init:
+            self._plays_songs_on_activation = True
+            self._populate(playlist_id)
+            return
 
-                        handler = self.connect('playlist-songs-loaded',
-                                               songs_loaded_callback)
-                        row.emit('activate')
+        playlist_row = None
+        for row in self._sidebar:
+            if row.playlist.get_id() == playlist_id:
+                playlist_row = row
+                break
 
-                    return
+        if not playlist_row:
+            return
 
-        if self._init:
-            find_and_activate_playlist()
+        selection = self._sidebar.get_selected_row()
+        if selection.get_index() == row.get_index():
+            self._on_play_activate(None)
         else:
-            handler = 0
-
-            def playlists_loaded_callback(view):
-                self.disconnect(handler)
-                def_handler = 0
-
-                def songs_loaded_callback(view):
-                    self.disconnect(def_handler)
-                    find_and_activate_playlist()
-
-                # Skip load of default playlist
-                def_handler = self.connect('playlist-songs-loaded',
-                                           songs_loaded_callback)
-
-            handler = self.connect('playlists-loaded',
-                                   playlists_loaded_callback)
-
-            self._populate()
+            self._plays_songs_on_activation = True
+            self._sidebar.select_row(row)
+            row.emit('activate')
 
     @log
     def remove_playlist(self):
@@ -579,6 +568,13 @@ class PlaylistView(BaseView):
         if remaining == 0:
             self._view.set_model(self.model)
             self._pl_ctrls.props.display_songs_count = True
+            if self._plays_songs_on_activation:
+                first_iter = self.model.get_iter_first()
+                self.player.set_playlist(
+                    PlayerPlaylist.Type.PLAYLIST,
+                    self._current_playlist.get_id(), self.model, first_iter)
+                self.player.play()
+                self._plays_songs_on_activation = False
 
     @log
     def _add_song_to_model(self, song, model, index=-1):
@@ -587,7 +583,6 @@ class PlaylistView(BaseView):
         :param Gtk.ListStore model: model
         """
         if not song:
-            self.emit('playlist-songs-loaded')
             return None
 
         title = utils.get_media_title(song)
@@ -782,5 +777,6 @@ class PlaylistView(BaseView):
         Do not reload playlists already displayed.
         """
         self._window.notifications_popup.push_loading()
-        grilo.populate_playlists(self._offset, self._add_playlist_item)
+        grilo.populate_playlists(
+            self._offset, self._add_playlist_item, -1, data)
         self._init = True
