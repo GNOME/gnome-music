@@ -81,15 +81,12 @@ class GstPlayer(GObject.GObject):
         self._on_replaygain_setting_changed(
             None, self._settings.get_value('replaygain'))
 
-        self._bus.connect('message::state-changed', self._on_bus_state_changed)
+        self._bus.connect('message::async-done', self._on_async_done)
         self._bus.connect('message::error', self._on_bus_error)
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
-        self._bus.connect(
-            'message::duration-changed', self._on_duration_changed)
         self._bus.connect('message::new-clock', self._on_new_clock)
 
-        self._previous_state = Playback.STOPPED
         self.props.state = Playback.STOPPED
 
     @log
@@ -125,44 +122,27 @@ class GstPlayer(GObject.GObject):
             self._player.set_property("audio-filter", None)
 
     @log
-    def _on_new_clock(self, bus, message):
-        clock = message.parse_new_clock()
-        id_ = clock.new_periodic_id(0, 1 * Gst.SECOND)
-        clock.id_wait_async(id_, self._on_clock_tick, None)
-
-        # TODO: Workaround the first duration change not being emitted
-        # and hence smoothscale not being initialized properly.
-        if self.props.duration == -1.:
-            self._on_duration_changed(None, None)
-
-    @log
-    def _on_clock_tick(self, clock, time, id, data):
-        tick = time / Gst.SECOND
-        self.emit('clock-tick', tick)
-
-    @log
-    def _on_bus_state_changed(self, bus, message):
-        # Note: not all state changes are signaled through here, in
-        # particular transitions between Gst.State.READY and
-        # Gst.State.NULL are never async and thus don't cause a
-        # message. In practice, self means only Gst.State.PLAYING and
-        # Gst.State.PAUSED are.
-        current_state = self.props.state
-        if current_state == self._previous_state:
-            return
-
-        self._previous_state = current_state
-        self.notify('state')
-
-    @log
-    def _on_duration_changed(self, bus, message):
+    def _on_async_done(self, bus, message):
         success, duration = self._player.query_duration(
             Gst.Format.TIME)
 
         if success:
             self.props.duration = duration / Gst.SECOND
         else:
-            self.props.duration = -1.
+            self.props.duration = duration
+
+        self.notify('state')
+
+    @log
+    def _on_new_clock(self, bus, message):
+        clock = message.parse_new_clock()
+        id_ = clock.new_periodic_id(0, 1 * Gst.SECOND)
+        clock.id_wait_async(id_, self._on_clock_tick, None)
+
+    @log
+    def _on_clock_tick(self, clock, time, id, data):
+        tick = time / Gst.SECOND
+        self.emit('clock-tick', tick)
 
     @log
     def _on_bus_element(self, bus, message):
