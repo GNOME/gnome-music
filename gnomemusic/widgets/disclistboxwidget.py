@@ -71,7 +71,7 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         """
         self._columns = columns
 
-        children_n = len(self.get_children())
+        children_n = max(len(self.get_children()), 1)
 
         if children_n % self._columns == 0:
             max_per_line = children_n / self._columns
