@@ -30,7 +30,6 @@
           <property name="valign">start</property>
           <property name="orientation">vertical</property>
           <property name="homogeneous">True</property>
-          <property name="max_children_per_line">1</property>
           <property name="selection_mode">none</property>
         </object>
         <packing>
