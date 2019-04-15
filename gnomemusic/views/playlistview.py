@@ -23,12 +23,13 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
+from random import randrange
 
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.player import ValidationStatus, PlayerPlaylist
+from gnomemusic.player import RepeatMode, ValidationStatus, PlayerPlaylist
 from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
@@ -607,6 +608,9 @@ class PlaylistView(BaseView):
     @log
     def _on_play_activate(self, menuitem, data=None):
         _iter = self.model.get_iter_first()
+        if self.player.props.repeat_mode == RepeatMode.SHUFFLE:
+            index = randrange(len(self.model))
+            _iter = self.model.get_iter_from_string(str(index))
         if not _iter:
             return
 
