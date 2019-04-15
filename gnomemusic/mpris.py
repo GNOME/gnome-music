@@ -27,7 +27,6 @@ from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
-from gnomemusic.utils import View
 import gnomemusic.utils as utils
 
 from gi.repository import GLib
@@ -247,9 +246,11 @@ class MediaPlayer2Service(Server):
         self.player_toolbar = app.get_active_window()._player_toolbar
         self.player_toolbar.connect(
             'thumbnail-updated', self._on_thumbnail_updated)
-        playlists = Playlists.get_default()
-        playlists.connect('playlist-created', self._on_playlists_count_changed)
-        playlists.connect('playlist-deleted', self._on_playlists_count_changed)
+        self._playlists = Playlists.get_default()
+        self._playlists.connect(
+            'playlist-created', self._on_playlists_count_changed)
+        self._playlists.connect(
+            'playlist-deleted', self._on_playlists_count_changed)
         grilo.connect('ready', self._on_grilo_ready)
         self._stored_playlists = []
         self._player_previous_type = None
@@ -636,7 +637,7 @@ class MediaPlayer2Service(Server):
 
     def ActivatePlaylist(self, playlist_path):
         playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
-        self.app._window.views[View.PLAYLIST].activate_playlist(playlist_id)
+        self._playlists.activate_playlist(playlist_id)
 
     def GetPlaylists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).
