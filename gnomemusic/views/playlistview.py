@@ -266,6 +266,8 @@ class PlaylistView(BaseView):
 
         iter_ = self.model.get_iter_from_string(str(position))
         self.model[iter_][10] = True
+        path = self.model.get_path(iter_)
+        self._view.scroll_to_cell(path, None, False, 0., 0.)
         if self.model[iter_][8] != self._error_icon_name:
             self._iter_to_clean = iter_.copy()
             self._iter_to_clean_model = self.model
