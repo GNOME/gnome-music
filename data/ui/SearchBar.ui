@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="Searchbar" parent="GtkSearchBar">
+  <template class="SearchBar" parent="GtkSearchBar">
     <child>
       <object class="GtkBox">
         <property name="halign">center</property>
