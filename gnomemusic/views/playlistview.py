@@ -315,7 +315,7 @@ class PlaylistView(BaseView):
 
         if len(self._sidebar) == 1:
             self._sidebar.select_row(row)
-            self._sidebar.emit('row-activated', row)
+            row.emit('activate')
 
     @log
     def _on_song_validated(self, player, index, status):
@@ -497,7 +497,7 @@ class PlaylistView(BaseView):
 
                         handler = self.connect('playlist-songs-loaded',
                                                songs_loaded_callback)
-                        self._sidebar.emit('row-activated', row)
+                        row.emit('activate')
 
                     return
 
@@ -679,7 +679,7 @@ class PlaylistView(BaseView):
 
         if row_next:
             self._sidebar.select_row(row_next)
-            self._sidebar.emit('row-activated', row_next)
+            row_next.emit('activate')
 
         self._create_notification(
             PlaylistNotification.Type.PLAYLIST, playlist_id)
