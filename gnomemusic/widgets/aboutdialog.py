@@ -42,8 +42,6 @@ class AboutDialog(Gtk.AboutDialog):
 
         self.connect("response", self._about_response)
 
-        self.show()
-
     @log
     def _about_response(self, klass, data=None):
         klass.destroy()
