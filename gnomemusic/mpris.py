@@ -251,7 +251,7 @@ class MediaPlayer2Service(Server):
         playlists.connect('playlist-created', self._on_playlists_count_changed)
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
         grilo.connect('ready', self._on_grilo_ready)
-        self.playlists = []
+        self._stored_playlists = []
         self._player_previous_type = None
         self._path_list = []
         self._metadata_list = []
@@ -382,14 +382,14 @@ class MediaPlayer2Service(Server):
 
     @log
     def _get_playlist_from_dbus_path(self, playlist_path):
-        for playlist in self.playlists:
+        for playlist in self._stored_playlists:
             if playlist_path == self._get_playlist_dbus_path(playlist):
                 return playlist
         return None
 
     @log
     def _get_playlist_from_id(self, playlist_id):
-        for playlist in self.playlists:
+        for playlist in self._stored_playlists:
             if playlist_id == playlist.get_id():
                 return playlist
         return None
@@ -500,12 +500,10 @@ class MediaPlayer2Service(Server):
     @log
     def _reload_playlists(self):
         def query_playlists_callback(playlists):
-            self.playlists = playlists
-            self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                                   {
-                                       'PlaylistCount': GLib.Variant('u', len(playlists)),
-                                   },
-                                   [])
+            self._stored_playlists = playlists
+            self.PropertiesChanged(
+                MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                {'PlaylistCount': GLib.Variant('u', len(playlists)), }, [])
 
         self._query_playlists(query_playlists_callback)
 
@@ -655,7 +653,7 @@ class MediaPlayer2Service(Server):
 
         playlists = [(self._get_playlist_dbus_path(playlist),
                       utils.get_media_title(playlist), '')
-                     for playlist in self.playlists]
+                     for playlist in self._stored_playlists]
 
         if not reverse:
             return playlists[index:index + max_count]
@@ -720,8 +718,9 @@ class MediaPlayer2Service(Server):
                 'CanEditTracks': GLib.Variant('b', False)
             }
         elif interface_name == MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE:
+            playlist_count = len(self._stored_playlists)
             return {
-                'PlaylistCount': GLib.Variant('u', len(self.playlists)),
+                'PlaylistCount': GLib.Variant('u', playlist_count),
                 'Orderings': GLib.Variant('as', ['Alphabetical']),
                 'ActivePlaylist': GLib.Variant('(b(oss))', self._get_active_playlist()),
             }
