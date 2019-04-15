@@ -131,6 +131,8 @@ class PlaylistsView(BaseView):
         playlists.connect('playlist-updated', self._on_playlist_update)
         playlists.connect(
             'song-added-to-playlist', self._on_song_added_to_playlist)
+        playlists.connect(
+            'activate-playlist', self._on_playlist_activation_request)
 
         self.show_all()
 
@@ -485,13 +487,14 @@ class PlaylistsView(BaseView):
                 break
 
     @log
-    def activate_playlist(self, playlist_id):
+    def _on_playlist_activation_request(self, klass, playlist_id):
         """Selects and starts playing a playlist.
 
         If the view has not been populated yet, populate it and then
         select the requested playlist. Otherwise, directly select the
         requested playlist and start playing.
 
+        :param Playlists klass: Playlists object
         :param str playlist_id: requested playlist id
         """
         if not self._init:
