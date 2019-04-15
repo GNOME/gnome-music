@@ -353,6 +353,8 @@ class PlaylistView(BaseView):
             if self.model[_iter][8] == self._error_icon_name:
                 return
 
+            self._view.scroll_to_cell(path, None, False, 0., 0.)
+
             playlist_id = self._current_playlist.get_id()
             self.player.set_playlist(
                 PlayerPlaylist.Type.PLAYLIST, playlist_id, self.model, _iter)
