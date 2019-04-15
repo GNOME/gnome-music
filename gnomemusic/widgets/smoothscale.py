@@ -175,14 +175,8 @@ class SmoothScale(Gtk.Scale):
         the slider SmoothScale move smoothly based on the current song
         duration and scale length.
         """
-        # Do not run until SmoothScale has been realized and GStreamer
-        # provides a duration.
-        duration = self._player.props.duration
-        if (self.get_realized() is False
-                or duration == -1.):
-            return
+        duration = abs(self._player.props.duration)
 
-        # Update self._timeout.
         style_context = self.get_style_context()
         state = style_context.get_state()
 
@@ -190,7 +184,7 @@ class SmoothScale(Gtk.Scale):
         padding = style_context.get_padding(state)
         width = max(width - (padding.left + padding.right), 1)
 
-        timeout_period = min(1000 * duration // width, 1000)
+        timeout_period = min(1000 * duration // width, 200)
 
         if self._timeout:
             GLib.source_remove(self._timeout)
