@@ -108,6 +108,7 @@ class SmartPlaylists:
 class Playlists(GObject.GObject):
 
     __gsignals__ = {
+        'activate-playlist': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         'playlist-created': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
         ),
@@ -452,3 +453,14 @@ class Playlists(GObject.GObject):
                 return True
 
         return False
+
+    @log
+    def activate_playlist(self, playlist_id):
+        """Activates a playlist.
+
+        Selects a playlist and start playing.
+
+        :param str playlist_id: playlist id
+        """
+        # FIXME: just a proxy
+        self.emit('activate-playlist', playlist_id)
