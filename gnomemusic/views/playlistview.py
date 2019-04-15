@@ -350,11 +350,13 @@ class PlaylistView(BaseView):
                 return
 
             _iter = self.model.get_iter(path)
-            if self.model[_iter][8] != self._error_icon_name:
-                self.player.set_playlist(
-                    PlayerPlaylist.Type.PLAYLIST,
-                    self._current_playlist.get_id(), self.model, _iter)
-                self.player.play()
+            if self.model[_iter][8] == self._error_icon_name:
+                return
+
+            playlist_id = self._current_playlist.get_id()
+            self.player.set_playlist(
+                PlayerPlaylist.Type.PLAYLIST, playlist_id, self.model, _iter)
+            self.player.play()
 
         # 'row-activated' signal is emitted before 'drag-begin' signal.
         # Need to wait to check if drag and drop operation is active.
