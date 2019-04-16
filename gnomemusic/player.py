@@ -531,7 +531,6 @@ class Player(GObject.GObject):
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
         'volume-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -871,7 +870,6 @@ class Player(GObject.GObject):
         duration_second = self._gst_player.props.duration
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
-            self.emit('seek-finished', position_second)
 
     @log
     def get_volume(self):
