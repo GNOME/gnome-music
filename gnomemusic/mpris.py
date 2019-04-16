@@ -240,6 +240,7 @@ class MediaPlayer2Service(Server):
         self._path_list = []
         self._metadata_list = []
         self._previous_playback_status = "Stopped"
+        self._song_position = 0
 
     @log
     def _get_playback_status(self):
@@ -610,6 +611,13 @@ class MediaPlayer2Service(Server):
 
         :param int position_msecond: new position in microseconds.
         """
+        # Only send the signal when the position has changed in a way
+        # that is inconsistant with the current playing state
+        if abs(position_msecond - self._song_position) < 2e6:
+            self._song_position = position_msecond
+            return
+
+        self._song_position = position_msecond
         variant = GLib.Variant.new_tuple(GLib.Variant('x', position_msecond))
         self.con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
