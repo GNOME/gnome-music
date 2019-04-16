@@ -296,7 +296,6 @@ class GstPlayer(GObject.GObject):
 
         :param float seconds: Position in seconds to seek
         """
-        # FIXME: seek should be signalled to MPRIS
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * Gst.SECOND)

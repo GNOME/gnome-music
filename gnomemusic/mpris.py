@@ -226,7 +226,6 @@ class MediaPlayer2Service(Server):
         self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
         self.player.connect('volume-changed', self._on_volume_changed)
         self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
-        self.player.connect('seek-finished', self._on_seek_finished)
         self.player.connect(
             'playlist-changed', self._on_player_playlist_changed)
         self.player_toolbar = app.get_active_window()._player_toolbar
@@ -470,6 +469,13 @@ class MediaPlayer2Service(Server):
     @log
     def _on_player_state_changed(self, klass, args):
         playback_status = self._get_playback_status()
+
+        if playback_status == "Playing":
+            position_second = self.player.get_position()
+            # at startup, position is never exactly equal to 0
+            if position_second > 0.01:
+                self.Seeked(int(position_second * 1e6))
+
         if playback_status == self._previous_playback_status:
             return
 
@@ -506,10 +512,6 @@ class MediaPlayer2Service(Server):
                                    'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
                                },
                                [])
-
-    @log
-    def _on_seek_finished(self, player, position_second):
-        self.Seeked(int(position_second * 1e6))
 
     @log
     def _on_player_playlist_changed(self, klass):
