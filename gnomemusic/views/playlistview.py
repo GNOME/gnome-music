@@ -351,7 +351,9 @@ class PlaylistView(BaseView):
                 self._star_handler.star_renderer_click = False
                 return
 
-            _iter = self.model.get_iter(path)
+            _iter = None
+            if path:
+                _iter = self.model.get_iter(path)
             playlist_id = self._current_playlist.get_id()
             self.player.set_playlist(
                 PlayerPlaylist.Type.PLAYLIST, playlist_id, self.model, _iter)
@@ -596,14 +598,8 @@ class PlaylistView(BaseView):
 
     @log
     def _on_play_activate(self, menuitem, data=None):
-        _iter = self.model.get_iter_first()
-        if not _iter:
-            return
-
-        selection = self._view.get_selection()
-        selection.select_path(self.model.get_path(_iter))
         cols = self._view.get_columns()
-        self._view.emit('row-activated', self.model.get_path(_iter), cols[0])
+        self._view.emit('row-activated', None, cols[0])
 
     @log
     def _current_playlist_is_protected(self):
