@@ -436,8 +436,7 @@ class PlaylistView(BaseView):
     def _play_song(self, menuitem, data=None):
         model, _iter = self._view.get_selection().get_selected()
         path = model.get_path(_iter)
-        cols = self._view.get_columns()
-        self._view.emit('row-activated', path, cols[0])
+        self._view.emit('row-activated', path, None)
 
     @log
     def _add_song_to_playlist(self, menuitem, data=None):
@@ -603,8 +602,7 @@ class PlaylistView(BaseView):
 
     @log
     def _on_play_activate(self, menuitem, data=None):
-        cols = self._view.get_columns()
-        self._view.emit('row-activated', None, cols[0])
+        self._view.emit('row-activated', None, None)
 
     @log
     def _current_playlist_is_protected(self):
