@@ -115,8 +115,13 @@ class PlayerPlaylist(GObject.GObject):
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
     @log
-    def set_playlist(self, playlist_type, playlist_id, model, model_iter):
+    def set_playlist(self, playlist_type, playlist_id, model, model_iter=None):
         """Set a new playlist or change the song being played
+
+        If no song is requested (through model_iter), a song will be
+        automatically selected:
+        * the first song in a linear mode
+        * a random song in shuffle mode
 
         :param PlayerPlaylist.Type playlist_type: playlist type
         :param string playlist_id: unique identifer to recognize the playlist
@@ -126,6 +131,13 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the playlist has been updated. False otherwise
         :rtype: bool
         """
+        if not model_iter:
+            if self.props.repeat_mode == RepeatMode.SHUFFLE:
+                index = randrange(len(model))
+                model_iter = model.get_iter_from_string(str(index))
+            else:
+                model_iter = model.get_iter_first()
+
         path = model.get_path(model_iter)
         self._current_index = int(path.to_string())
 
@@ -690,7 +702,7 @@ class Player(GObject.GObject):
             self.play()
 
     @log
-    def set_playlist(self, playlist_type, playlist_id, model, iter_):
+    def set_playlist(self, playlist_type, playlist_id, model, iter_=None):
         """Set a new playlist or change the song being played.
 
         :param PlayerPlaylist.Type playlist_type: playlist type
