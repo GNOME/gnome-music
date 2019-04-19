@@ -405,7 +405,7 @@ class Window(Gtk.ApplicationWindow):
                 if self.props.selection_mode:
                     self.props.selection_mode = False
                 elif self._search.props.search_mode_active:
-                    self._search.props.search_mode_active = False
+                    self._disable_search_mode()
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
@@ -416,7 +416,7 @@ class Window(Gtk.ApplicationWindow):
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
-            self._search.props.search_mode_active = True
+            self._enable_search_mode()
 
     @log
     def _on_back_button_pressed(self, gesture, n_press, x, y):
@@ -466,13 +466,38 @@ class Window(Gtk.ApplicationWindow):
             self._stack.set_visible_child(self.views[view_enum])
 
     @log
-    def _on_search_state_changed(self, klass, param):
-        if (self._search.props.state != Search.State.NONE
-                or not self.views[View.SEARCH].previous_view):
+    def _enable_search_mode(self):
+        current_view = self._stack.props.visible_child
+        self.views[View.SEARCH].previous_view = current_view
+        self._search.props.search_mode_active = True
+
+    @log
+    def _disable_search_mode(self):
+        self.curr_view = self._stack.props.visible_child
+        self._search.props.search_mode_active = False
+
+        # If a view button other than the view that led to this search is
+        #  clicked,the previous view will be shown instead of the newly
+        #  clicked view. The following check prevents that from happening.
+        search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
+        if (self.curr_view not in search_views):
             return
 
-        # Get back to the view before the search
-        self._stack.set_visible_child(self.views[View.SEARCH].previous_view)
+        previous_view = self.views[View.SEARCH].previous_view
+        if previous_view:
+            self._stack.props.visible_child = previous_view
+
+    @log
+    def _on_search_state_changed(self, search_instance, param):
+        if self._search.props.search_mode_active:
+            search_state = search_instance.props.state
+            if search_state == Search.State.NO_RESULT:
+                self._stack.props.visible_child_name = "emptyview"
+            elif search_state == Search.State.RESULT:
+                if self._search.props.search_mode_active:
+                    self._stack.props.visible_child_name = "search"
+        else:
+            self._disable_search_mode()
 
     @log
     def _switch_back_from_childview(self, klass=None):
