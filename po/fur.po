@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-23 06:50+0000\n"
-"PO-Revision-Date: 2019-03-01 15:56+0100\n"
+"POT-Creation-Date: 2019-04-01 11:13+0000\n"
+"PO-Revision-Date: 2019-04-19 14:30+0200\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -43,6 +43,10 @@ msgstr ""
 "Cjate i tocs te colezion locâl, oten musiche dai servidôrs DLNA o cîr alc di "
 "gnûf cui servizis Jamendo e Magnatune."
 
+#: data/org.gnome.Music.appdata.xml.in.in:34
+msgid "The GNOME Music developers"
+msgstr "I svilupadôrs di GNOME Musiche"
+
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
 #: gnomemusic/window.py:72
 msgid "Music"
@@ -51,11 +55,6 @@ msgstr "Musiche"
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Letôr musicâl"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -195,15 +194,15 @@ msgstr ""
 "La imagjin “Magic of the vinyl” by Sami Pyylampi e je in licence di CC-BY-SA "
 "2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Publicât"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Durade"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Compositôr"
 
@@ -231,7 +230,7 @@ msgstr "Cîr"
 msgid "Select"
 msgstr "Selezione"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:255
 msgid "_Cancel"
 msgstr "_Anule"
 
@@ -345,11 +344,11 @@ msgstr "Messede/ripet studâts"
 msgid "Previous"
 msgstr "Precedent"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:139
 msgid "Play"
 msgstr "Sune"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Prossim"
 
@@ -386,27 +385,27 @@ msgstr "Non de liste des musichis"
 msgid "_Done"
 msgstr "_Fat"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Scrîf un non pe tô prime liste di riproduzion"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "C_ree"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Gnove liste di musichis…"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Zonte"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:252
 msgid "Add to Playlist"
 msgstr "Zonte ae liste des musichis"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:268
 msgid "_Add"
 msgstr "_Zonte"
 
@@ -479,13 +478,13 @@ msgstr "Zontât di recent"
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:56
+msgid "Unknown album"
+msgstr "Album no cognossût"
+
+#: gnomemusic/utils.py:77
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
-
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Cence Titul"
 
 #: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
 msgid "Albums"
@@ -608,6 +607,12 @@ msgstr "Sorzints"
 msgid "Match"
 msgstr "Corispuindince"
 
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
+
+#~ msgid "Untitled"
+#~ msgstr "Cence Titul"
+
 #~ msgid "_Quit"
 #~ msgstr "_Jes"
 
@@ -645,9 +650,6 @@ msgstr "Corispuindince"
 
 #~ msgid "the|a|an"
 #~ msgstr "the|a|an|il|i|la|lis|un|une|l'"
-
-#~ msgid "Unknown Album"
-#~ msgstr "Album no cognossût"
 
 #~ msgid "Max chars to display in track name on Artist view"
 #~ msgstr ""
