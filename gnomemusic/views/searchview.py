@@ -60,8 +60,6 @@ class SearchView(BaseView):
         self._head_iters = [None, None, None, None]
         self._filter_model = None
 
-        self.previous_view = None
-
         self._albums_selected = []
         self._albums = {}
         self._albums_index = 0
@@ -243,6 +241,12 @@ class SearchView(BaseView):
 
         :param bool mode: new search mode
         """
+
+        # Avoid unnecessarily setting the search_state and
+        # other properties.
+        if self._search_mode_active == value:
+            return
+
         # FIXME: search_mode_active should not change search_state.
         # This is necessary because Search state cannot interact with
         # the child views.
@@ -300,12 +304,6 @@ class SearchView(BaseView):
             + self.model.iter_n_children(self._head_iters[2])
             + self.model.iter_n_children(self._head_iters[3])
         )
-
-        # We need to remember the view before the search view
-        emptysearchview = self._window.views[View.EMPTY]
-        if (self._window.curr_view != emptysearchview
-                and self._window.prev_view != emptysearchview):
-            self.previous_view = self._window.prev_view
 
         if self._items_found == 0:
             self.props.search_state = Search.State.NO_RESULT
