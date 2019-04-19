@@ -380,9 +380,8 @@ class SearchBar(Gtk.SearchBar):
         else:
             fields_filter = 'search_all'
 
-        if search_term != "":
-            self.props.stack.set_visible_child_name('search')
-            view = self.props.stack.get_visible_child()
+        if search_term != "":            
+            view = self.props.stack.get_child_by_name('search')
             view.set_search_text(search_term, fields_filter)
         else:
             self._set_error_style(False)
@@ -406,10 +405,10 @@ class SearchBar(Gtk.SearchBar):
 
         if search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
-            self.props.stack.props.visible_child_name = 'emptyview'
+            #self.props.stack.props.visible_child_name = 'emptyview'
         elif search_state == Search.State.RESULT:
             self._set_error_style(False)
-            self.props.stack.props.visible_child_name = 'search'
+            #self.props.stack.props.visible_child_name = 'search'
         elif search_state == Search.State.NONE:
             self._search_entry.props.text = ""
 
