@@ -22,18 +22,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gnomemusic.search import Search
+from gnomemusic.grilo import grilo
+from gnomemusic import log
+from gi.repository import Gd, GLib, GObject, Gtk, Pango
 from enum import IntEnum
 
 from gettext import gettext as _
 
 import gi
 gi.require_version('Gd', '1.0')
-from gi.repository import Gd, GLib, GObject, Gtk, Pango
 from gi.repository.Gd import TaggedEntry  # noqa: F401
-
-from gnomemusic import log
-from gnomemusic.grilo import grilo
-from gnomemusic.search import Search
 
 
 class BaseModelColumns(IntEnum):
@@ -380,7 +379,7 @@ class SearchBar(Gtk.SearchBar):
         else:
             fields_filter = 'search_all'
 
-        if search_term != "":            
+        if search_term != "":
             view = self.props.stack.get_child_by_name('search')
             view.set_search_text(search_term, fields_filter)
         else:
@@ -405,10 +404,8 @@ class SearchBar(Gtk.SearchBar):
 
         if search_state == Search.State.NO_RESULT:
             self._set_error_style(True)
-            #self.props.stack.props.visible_child_name = 'emptyview'
         elif search_state == Search.State.RESULT:
             self._set_error_style(False)
-            #self.props.stack.props.visible_child_name = 'search'
         elif search_state == Search.State.NONE:
             self._search_entry.props.text = ""
 
