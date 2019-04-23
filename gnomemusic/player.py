@@ -817,7 +817,6 @@ class Player(GObject.GObject):
 
         self._repeat = mode
         self._settings.set_enum('repeat', mode)
-        self.emit('prev-next-invalidated')
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
