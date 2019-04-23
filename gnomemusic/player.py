@@ -530,7 +530,6 @@ class Player(GObject.GObject):
     __gsignals__ = {
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
@@ -733,7 +732,6 @@ class Player(GObject.GObject):
                 self.stop()
         self._playlist.remove_song(song_index)
         self.emit('playlist-changed')
-        self.emit('prev-next-invalidated')
 
     @log
     def add_song(self, song, song_index):
@@ -743,7 +741,6 @@ class Player(GObject.GObject):
         """
         self._playlist.add_song(song, song_index)
         self.emit('playlist-changed')
-        self.emit('prev-next-invalidated')
 
     @log
     def _on_song_validated(self, playlist, index, status):
