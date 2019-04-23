@@ -701,9 +701,6 @@ class Player(GObject.GObject):
         playlist_changed = self._playlist.set_playlist(
             playlist_type, playlist_id, model, iter_)
 
-        if self.props.state == Playback.PLAYING:
-            self.emit('prev-next-invalidated')
-
         if playlist_changed:
             self.emit('playlist-changed')
 
