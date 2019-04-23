@@ -643,7 +643,7 @@ class Player(GObject.GObject):
 
         url = self._playlist.props.current_song.get_url()
         if (url != self._gst_player.props.url
-                or self.props.repeat_mode == RepeatMode.SONG):
+                or self.props.repeat_mode >= RepeatMode.SONG):
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
