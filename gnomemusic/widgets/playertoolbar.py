@@ -82,8 +82,8 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('song-changed', self._update_view)
-        self._player.connect('prev-next-invalidated', self._sync_prev_next)
-        self._player.connect('notify::repeat-mode', self._sync_repeat_image)
+        self._player.connect(
+            'notify::repeat-mode', self._on_repeat_mode_changed)
         self._player.connect('notify::state', self._sync_playing)
 
     @Gtk.Template.Callback()
@@ -110,6 +110,11 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _on_next_button_clicked(self, button):
         self._player.next()
+
+    @log
+    def _on_repeat_mode_changed(self, klass, param):
+        self._sync_repeat_image()
+        self._sync_prev_next()
 
     @log
     def _sync_repeat_image(self, player=None, param=None):
