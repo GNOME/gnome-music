@@ -716,7 +716,7 @@ class Player(GObject.GObject):
         """
         current_index = self._playlist.change_position(prev_pos, new_pos)
         if current_index >= 0:
-            self.emit('prev-next-invalidated')
+            self.emit('playlist-changed')
         return current_index
 
     @log
