@@ -49,9 +49,9 @@ playlists = Playlists.get_default()
 class RepeatMode(IntEnum):
     """Enum for player repeat mode"""
     NONE = 0
-    SONG = 1
-    ALL = 2
-    SHUFFLE = 3
+    SHUFFLE = 1
+    SONG = 2
+    ALL = 3
 
 
 class ValidationStatus(IntEnum):

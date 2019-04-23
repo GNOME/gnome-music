@@ -2,9 +2,9 @@
 <schemalist>
     <enum id="org.gnome.Music.RepeatMode">
         <value nick="none" value="0"/>
-        <value nick="song" value="1"/>
-        <value nick="all" value="2"/>
-        <value nick="shuffle" value="3"/>
+        <value nick="shuffle" value="1"/>
+        <value nick="song" value="2"/>
+        <value nick="all" value="3"/>
     </enum>
     <schema path="/org/gnome/Music/" id="org.gnome.Music" gettext-domain="org.gnome.Music">
         <key type="ai" name="window-size">
