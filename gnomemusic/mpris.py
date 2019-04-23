@@ -225,7 +225,6 @@ class MediaPlayer2Service(Server):
         self.player.connect('notify::state', self._on_player_state_changed)
         self.player.connect('notify::repeat-mode', self._on_repeat_mode_changed)
         self.player.connect('volume-changed', self._on_volume_changed)
-        self.player.connect('prev-next-invalidated', self._on_prev_next_invalidated)
         self.player.connect('seek-finished', self._on_seek_finished)
         self.player.connect(
             'playlist-changed', self._on_player_playlist_changed)
@@ -477,8 +476,12 @@ class MediaPlayer2Service(Server):
     @log
     def _on_repeat_mode_changed(self, player, param):
         self._update_songs_list()
+        has_next = self.player.props.has_next
+        has_previous = self.player.props.has_previous
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
+                                   'CanGoNext': GLib.Variant('b', has_next),
+                                   'CanGoPrevious': GLib.Variant('b', has_previous),
                                    'LoopStatus': GLib.Variant('s', self._get_loop_status()),
                                    'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
                                },
@@ -489,15 +492,6 @@ class MediaPlayer2Service(Server):
         self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
                                {
                                    'Volume': GLib.Variant('d', self.player.get_volume()),
-                               },
-                               [])
-
-    @log
-    def _on_prev_next_invalidated(self, player, data=None):
-        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'CanGoNext': GLib.Variant('b', self.player.props.has_next),
-                                   'CanGoPrevious': GLib.Variant('b', self.player.props.has_previous),
                                },
                                [])
 
