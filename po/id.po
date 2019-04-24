@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-03-29 14:12+0000\n"
-"PO-Revision-Date: 2019-03-30 14:36+0700\n"
+"POT-Creation-Date: 2019-04-01 11:13+0000\n"
+"PO-Revision-Date: 2019-04-24 19:00+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -192,15 +192,15 @@ msgstr ""
 "Citra \"Magic of the vinyl\" oleh Sami Pyylampi dilisensikan memakai CC-BY-"
 "SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Dirilis"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Lama Putar"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Pencipta"
 
@@ -228,7 +228,7 @@ msgstr "Cari"
 msgid "Select"
 msgstr "Pilih"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:255
 msgid "_Cancel"
 msgstr "_Batal"
 
@@ -342,11 +342,11 @@ msgstr "Acak/Ulang Mati"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:139
 msgid "Play"
 msgstr "Putar"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Selanjutnya"
 
@@ -383,27 +383,27 @@ msgstr "Nama Daftar Putar"
 msgid "_Done"
 msgstr "_Selesai"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Masukkan nama daftar putar pertama Anda"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "B_uat"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Daftar Putar Baru…"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Tambah"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:252
 msgid "Add to Playlist"
 msgstr "Tambah ke Daftar Putar"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:268
 msgid "_Add"
 msgstr "T_ambah"
 
@@ -476,13 +476,13 @@ msgstr "Baru-baru Ini Ditambahkan"
 msgid "Favorite Songs"
 msgstr "Lagu Favorit"
 
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:56
+msgid "Unknown album"
+msgstr "Album tak dikenal"
+
+#: gnomemusic/utils.py:77
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
-
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Tanpa judul"
 
 #: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
 msgid "Albums"
@@ -599,6 +599,9 @@ msgstr "Sumber"
 #: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Cocok"
+
+#~ msgid "Untitled"
+#~ msgstr "Tanpa judul"
 
 #~ msgid "@icon@"
 #~ msgstr "@icon@"
