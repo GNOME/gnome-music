@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-04-01 11:13+0000\n"
-"PO-Revision-Date: 2019-04-23 10:14+0200\n"
+"POT-Creation-Date: 2019-04-23 08:27+0000\n"
+"PO-Revision-Date: 2019-04-24 09:34+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: es <gnome-es-list@gnome.org>\n"
 "Language: es\n"
@@ -46,12 +46,11 @@ msgstr ""
 "probar algo nuevo con los servicios de Jamendo y Magnatunes."
 
 #: data/org.gnome.Music.appdata.xml.in.in:34
-#| msgid "Copyright © 2018 GNOME Music Developers"
 msgid "The GNOME Music developers"
 msgstr "Los desarrolladores de GNOME Música"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Música"
 
@@ -224,16 +223,16 @@ msgid "Menu"
 msgstr "Menú"
 
 #: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Buscar"
-
-#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Seleccionar"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:255
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:255
 msgid "_Cancel"
 msgstr "_Cancelar"
+
+#: data/ui/HeaderBar.ui:77
+msgid "Search"
+msgstr "Buscar"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -426,32 +425,32 @@ msgstr "Pulse sobre los elementos para seleccionarlos"
 msgid "_Add to Playlist"
 msgstr "Añadir a la _lista de reproducción"
 
-#: gnomemusic/gstplayer.py:410
+#: gnomemusic/gstplayer.py:396
 msgid "Unable to play the file"
 msgstr "No se puede reproducir el archivo"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:402
 msgid "_Find in {}"
 msgstr "_Buscar en {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:413
 msgid " and "
 msgstr " y "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:416
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:418
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Se necesita {} para reproducir el archivo, pero no está instalado."
 msgstr[1] ""
 "Se necesitan {} para reproducir el archivo, pero no están instalados."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Reproducir música"
 
@@ -481,7 +480,6 @@ msgid "Favorite Songs"
 msgstr "Canciones favoritas"
 
 #: gnomemusic/utils.py:56
-#, fuzzy
 #| msgid "Unknown Album"
 msgid "Unknown album"
 msgstr "Álbum desconocido"
@@ -490,11 +488,11 @@ msgstr "Álbum desconocido"
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
 
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+#: gnomemusic/views/albumsview.py:46 gnomemusic/views/searchview.py:607
 msgid "Albums"
 msgstr "Álbumes"
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:609
 msgid "Artists"
 msgstr "Artistas"
 
@@ -529,7 +527,7 @@ msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Sus archivos de música no se pueden indexar si Tracker no está en ejecución"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:613
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
@@ -541,11 +539,11 @@ msgstr "Lista de reproducción {} eliminada"
 msgid "{} removed from {}"
 msgstr "{} eliminado de {}"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:611 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Canciones"
 
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:171
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuto"
