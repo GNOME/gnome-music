@@ -749,7 +749,13 @@ class PlaylistView(BaseView):
 
     @log
     def _on_playlist_created(self, playlists, playlist):
-        """Add new playlist to sidebar"""
+        """Adds new playlist to sidebar
+
+        If the sidebar has not been populated yet, it has no effect:
+        the playlist will be displayed once the playlists are loaded.
+        """
+        if not self._init:
+            return
         self._add_playlist_to_sidebar(playlist)
 
     @log
