@@ -115,8 +115,13 @@ class PlayerPlaylist(GObject.GObject):
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
     @log
-    def set_playlist(self, playlist_type, playlist_id, model, model_iter):
+    def set_playlist(self, playlist_type, playlist_id, model, model_iter=None):
         """Set a new playlist or change the song being played
+
+        If no song is requested (through model_iter), a song will be
+        automatically selected:
+        * the first song in a linear mode
+        * a random song in shuffle mode
 
         :param PlayerPlaylist.Type playlist_type: playlist type
         :param string playlist_id: unique identifer to recognize the playlist
@@ -126,6 +131,13 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the playlist has been updated. False otherwise
         :rtype: bool
         """
+        if not model_iter:
+            if self.props.repeat_mode == RepeatMode.SHUFFLE:
+                index = randrange(len(model))
+                model_iter = model.get_iter_from_string(str(index))
+            else:
+                model_iter = model.get_iter_first()
+
         path = model.get_path(model_iter)
         self._current_index = int(path.to_string())
 
@@ -530,7 +542,6 @@ class Player(GObject.GObject):
     __gsignals__ = {
         'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'prev-next-invalidated': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
@@ -642,8 +653,9 @@ class Player(GObject.GObject):
             return False
 
         url = self._playlist.props.current_song.get_url()
+        loop_modes = [RepeatMode.SONG, RepeatMode.ALL]
         if (url != self._gst_player.props.url
-                or self.props.repeat_mode == RepeatMode.SONG):
+                or self.props.repeat_mode in loop_modes):
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
@@ -690,7 +702,7 @@ class Player(GObject.GObject):
             self.play()
 
     @log
-    def set_playlist(self, playlist_type, playlist_id, model, iter_):
+    def set_playlist(self, playlist_type, playlist_id, model, iter_=None):
         """Set a new playlist or change the song being played.
 
         :param PlayerPlaylist.Type playlist_type: playlist type
@@ -700,9 +712,6 @@ class Player(GObject.GObject):
         """
         playlist_changed = self._playlist.set_playlist(
             playlist_type, playlist_id, model, iter_)
-
-        if self.props.state == Playback.PLAYING:
-            self.emit('prev-next-invalidated')
 
         if playlist_changed:
             self.emit('playlist-changed')
@@ -718,7 +727,7 @@ class Player(GObject.GObject):
         """
         current_index = self._playlist.change_position(prev_pos, new_pos)
         if current_index >= 0:
-            self.emit('prev-next-invalidated')
+            self.emit('playlist-changed')
         return current_index
 
     @log
@@ -736,7 +745,6 @@ class Player(GObject.GObject):
                 self.stop()
         self._playlist.remove_song(song_index)
         self.emit('playlist-changed')
-        self.emit('prev-next-invalidated')
 
     @log
     def add_song(self, song, song_index):
@@ -746,7 +754,6 @@ class Player(GObject.GObject):
         """
         self._playlist.add_song(song, song_index)
         self.emit('playlist-changed')
-        self.emit('prev-next-invalidated')
 
     @log
     def _on_song_validated(self, playlist, index, status):
@@ -816,7 +823,6 @@ class Player(GObject.GObject):
 
         self._repeat = mode
         self._settings.set_enum('repeat', mode)
-        self.emit('prev-next-invalidated')
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
