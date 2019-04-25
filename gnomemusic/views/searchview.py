@@ -294,12 +294,6 @@ class SearchView(BaseView):
             + self.model.iter_n_children(self._head_iters[3])
         )
 
-        # We need to remember the view before the search view
-        # emptysearchview = self._window.views[View.EMPTY]
-        # if (self._window.curr_view != emptysearchview
-        #         and self._window.prev_view != emptysearchview):
-        #     self.previous_view = self._window.prev_view
-
         if self._items_found == 0:
             self.props.search_state = Search.State.NO_RESULT
         else:
