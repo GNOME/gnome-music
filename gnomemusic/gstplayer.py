@@ -33,10 +33,8 @@ gi.require_version('GstPbutils', '1.0')
 from gi.repository import Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
 
 from gnomemusic import log
-from gnomemusic.playlists import Playlists
 
 logger = logging.getLogger(__name__)
-playlists = Playlists.get_default()
 
 
 class Playback(IntEnum):
