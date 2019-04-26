@@ -30,6 +30,7 @@ import logging
 import time
 
 import gi
+gi.require_version('Grl', '0.3')
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
