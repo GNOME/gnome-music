@@ -628,12 +628,8 @@ class Player(GObject.GObject):
 
     @log
     def _on_eos(self, klass):
-        def on_glib_idle():
-            self._playlist.next()
-            self.play()
-
         if self.props.has_next:
-            GLib.idle_add(on_glib_idle)
+            self.next()
         else:
             self.stop()
 
