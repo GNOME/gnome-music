@@ -34,7 +34,7 @@ gi.require_version('Grl', '0.3')
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GLib, GObject, Grl, GstPbutils
+from gi.repository import GObject, Grl, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -628,12 +628,8 @@ class Player(GObject.GObject):
 
     @log
     def _on_eos(self, klass):
-        def on_glib_idle():
-            self._playlist.next()
-            self.play()
-
         if self.props.has_next:
-            GLib.idle_add(on_glib_idle)
+            self.next()
         else:
             self.stop()
 
