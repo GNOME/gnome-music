@@ -78,8 +78,6 @@ class Grilo(GObject.GObject):
     CHANGED_MEDIA_MAX_ITEMS = 500
     CHANGED_MEDIA_SIGNAL_TIMEOUT = 2000
 
-    _theaudiodb_api_key = "195003"
-
     sources = GObject.Property()
     cover_sources = GObject.Property(type=bool, default=False)
     tracker_available = GObject.Property(type=bool, default=False)
@@ -124,6 +122,8 @@ class Grilo(GObject.GObject):
         self._thumbnail_sources_timeout = None
 
         self.registry = Grl.Registry.get_default()
+        self.registry.add_config_from_resource(
+            "/org/gnome/Music/music-grilo.conf")
 
         self._tracker_wrapper = TrackerWrapper()
         self.tracker_sparql = self._tracker_wrapper.props.tracker
@@ -135,10 +135,6 @@ class Grilo(GObject.GObject):
 
     @log
     def _find_sources(self):
-        config = Grl.Config.new('grl-lua-factory', 'grl-theaudiodb-cover')
-        config.set_api_key(self._theaudiodb_api_key)
-        self.registry.add_config(config)
-
         self.registry.connect('source_added', self._on_source_added)
         self.registry.connect('source_removed', self._on_source_removed)
 
