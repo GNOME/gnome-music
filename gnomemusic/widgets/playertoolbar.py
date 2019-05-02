@@ -80,7 +80,6 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._sync_repeat_image()
 
-        self._player.connect('clock-tick', self._on_clock_tick)
         self._player.connect('song-changed', self._update_view)
         self._player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
@@ -177,10 +176,6 @@ class PlayerToolbar(Gtk.ActionBar):
         self._tooltip.props.subtitle = artist
 
         self._cover_stack.update(current_song)
-
-    @log
-    def _on_clock_tick(self, player, seconds):
-        self._progress_time_label.set_label(utils.seconds_to_string(seconds))
 
     @Gtk.Template.Callback()
     @log
