@@ -541,7 +541,6 @@ class Player(GObject.GObject):
     """
 
     __gsignals__ = {
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
@@ -802,8 +801,6 @@ class Player(GObject.GObject):
                 playlists.update_all_static_playlists()
                 grilo.bump_play_count(current_song)
                 grilo.set_last_played(current_song)
-
-        self.emit('clock-tick', int(position))
 
     @log
     def _on_repeat_setting_changed(self, settings, value):
