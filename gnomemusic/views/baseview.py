@@ -90,7 +90,6 @@ class BaseView(Gtk.Stack):
         self._view.hide()
 
         self._init = False
-        grilo.connect('ready', self._on_grilo_ready)
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
         grilo.connect('changes-pending', self._on_changes_pending)
 
@@ -98,9 +97,8 @@ class BaseView(Gtk.Stack):
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        if (grilo.props.tracker_plugin_available
-                and not self._init):
-            self._on_grilo_ready()
+        self._headerbar.props.stack.connect(
+            'notify::visible-child', self._on_headerbar_visible)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -112,17 +110,9 @@ class BaseView(Gtk.Stack):
         pass
 
     @log
-    def _on_grilo_ready(self, data=None):
-        if (self._headerbar.props.stack.props.visible_child == self
-                and not self._init):
-            self._populate()
-
-        self._headerbar.props.stack.connect(
-            'notify::visible-child', self._on_headerbar_visible)
-
-    @log
     def _on_headerbar_visible(self, widget, param):
         if (self == widget.get_visible_child()
+                and grilo.props.tracker_plugin_available
                 and not self._init):
             self._populate()
 
