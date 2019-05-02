@@ -279,9 +279,8 @@ class SongsView(BaseView):
     def _populate(self, data=None):
         """Populates the view"""
         self._init = True
-        if grilo.tracker:
-            self._window.notifications_popup.push_loading()
-            grilo.populate_songs(self._offset, self._add_item)
+        self._window.notifications_popup.push_loading()
+        grilo.populate_songs(self._offset, self._add_item)
 
     @log
     def get_selected_songs(self, callback=None):
