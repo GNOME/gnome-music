@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/org/gnome/Music">
     <file alias="gtk/help-overlay.ui" preprocess="xml-stripblanks">ui/help-overlay.ui</file>
+    <file>music-grilo.conf</file>
     <file>org.gnome.Music.css</file>
     <file>icons/initial-state.png</file>
     <file preprocess="xml-stripblanks">ui/AboutDialog.ui</file>
