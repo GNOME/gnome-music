@@ -498,5 +498,10 @@ class Grilo(GObject.GObject):
         # queryable supported Grilo source.
         self._tracker_wrapper.local_songs_available(callback)
 
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def tracker_plugin_available(self):
+        return self.tracker is not None
+
 
 grilo = Grilo()

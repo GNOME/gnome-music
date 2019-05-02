@@ -98,7 +98,7 @@ class BaseView(Gtk.Stack):
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        if (grilo.tracker is not None
+        if (grilo.props.tracker_plugin_available
                 and not self._init):
             self._on_grilo_ready()
 
