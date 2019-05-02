@@ -249,13 +249,14 @@ class Grilo(GObject.GObject):
                     self.props.sources[id] = mediaSource
                     self.tracker = mediaSource
                     self.search_source = mediaSource
+                    if self.tracker is None:
+                        return
 
-                    if self.tracker is not None:
-                        self.emit('ready')
-                        self.tracker.notify_change_start()
-                        self.content_changed_timeout = None
-                        self.notification_handler = self.tracker.connect(
-                            'content-changed', self._rate_limited_content_changed)
+                    self.emit('ready')
+                    self.tracker.notify_change_start()
+                    self.content_changed_timeout = None
+                    self.notification_handler = self.tracker.connect(
+                        'content-changed', self._rate_limited_content_changed)
 
             elif (id.startswith('grl-upnp')):
                 logger.debug("found upnp source %s", id)
