@@ -347,16 +347,6 @@ class Grilo(GObject.GObject):
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
 
     @log
-    def set_favorite(self, song_item, favorite):
-        """Set the favorite status of a media item
-
-        :param song_item: A Grilo media item
-        :param bool favorite: Set favorite status
-        """
-        if song_item.get_favourite() != favorite:
-            self.toggle_favorite(song_item)
-
-    @log
     def search(self, q, callback, data=None):
         options = self.options.copy()
         self._search_callback_counter = 0
