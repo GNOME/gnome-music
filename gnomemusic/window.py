@@ -478,14 +478,15 @@ class Window(Gtk.ApplicationWindow):
 
         self._search.props.search_mode_active = False
 
-        # if a view button other than the view that led to this search is clicked,
-        # the previous view will be shown instead of the newly clicked view.
-        # this line prevents that from happening.
+        # if a view button other than the view that led to this search is
+        #  clicked,the previous view will be shown instead of the newly
+        #  clicked view. This line prevents that from happening.
         if (self.curr_view not in search_views):
             return
 
         if self.views[View.SEARCH].previous_view:
-            self._stack.props.visible_child = self.views[View.SEARCH].previous_view
+            self._stack.props.visible_child = (
+                self.views[View.SEARCH].previous_view)
 
     @log
     def _on_search_state_changed(self, search_instance, param):
