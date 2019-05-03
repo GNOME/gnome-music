@@ -28,7 +28,6 @@ gi.require_version('Gd', '1.0')
 from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
 
 from gnomemusic.albumartcache import Art
-from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.query import Query
@@ -62,7 +61,7 @@ class SearchView(BaseView):
         self._albums_selected = []
         self._albums = {}
         self._albums_index = 0
-        self._album_widget = AlbumWidget(player, self)
+        self._album_widget = AlbumWidget(player, self._grilo, self)
         self.add(self._album_widget)
 
         self._artists_albums_selected = []
@@ -244,8 +243,8 @@ class SearchView(BaseView):
     @log
     def _add_search_item(self, source, param, item, remaining=0, data=None):
         if not item:
-            if (grilo._search_callback_counter == 0
-                    and grilo.search_source):
+            if (self._grilo._search_callback_counter == 0
+                    and self._grilo.search_source):
                 self.props.search_state = Search.State.NO_RESULT
             return
 
@@ -351,7 +350,7 @@ class SearchView(BaseView):
         # FIXME: Figure out why iter can be None here, seems illogical.
         if _iter is not None:
             scale = self._view.get_scale_factor()
-            art = Art(Art.Size.SMALL, item, scale)
+            art = Art(self._grilo, Art.Size.SMALL, item, scale)
             self.model[_iter][13] = art.surface
             art.connect(
                 'finished', self._retrieval_finished, self.model, _iter)
@@ -478,7 +477,7 @@ class SearchView(BaseView):
 
     @log
     def _get_selected_albums_songs(self):
-        grilo.populate_album_songs(
+        self._grilo.populate_album_songs(
             self._albums_selected[self._albums_index],
             self._add_selected_albums_songs)
         self._albums_index += 1
@@ -514,7 +513,7 @@ class SearchView(BaseView):
 
     @log
     def _get_selected_artists_albums_songs(self):
-        grilo.populate_album_songs(
+        self._grilo.populate_album_songs(
             self._artists_albums_selected[self._artists_albums_index],
             self._add_selected_artists_albums_songs)
         self._artists_albums_index += 1
@@ -620,14 +619,14 @@ class SearchView(BaseView):
             self.model.get_path(songs_iter))
 
         # Use queries for Tracker
-        if (not grilo.search_source
-                or grilo.search_source.get_id() == 'grl-tracker-source'):
+        if (not self._grilo.search_source
+                or self._grilo.search_source.get_id() == 'grl-tracker-source'):
             for category in ('album', 'artist', 'song'):
                 query = query_matcher[category][fields_filter](search_term)
                 self._window.notifications_popup.push_loading()
-                grilo.populate_custom_query(
+                self._grilo.populate_custom_query(
                     query, self._add_item, -1, [self.model, category])
-        if (not grilo.search_source
-                or grilo.search_source.get_id() != 'grl-tracker-source'):
+        if (not self._grilo.search_source
+                or self._grilo.search_source.get_id() != 'grl-tracker-source'):
             # nope, can't do - reverting to Search
-            grilo.search(search_term, self._add_search_item, self.model)
+            self._grilo.search(search_term, self._add_search_item, self.model)

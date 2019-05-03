@@ -61,6 +61,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._player = player
         self._artist = artist
         self._window = window
+        self._grilo = window._grilo
         self._selection_mode_allowed = selection_mode_allowed
 
         self._artist_label.props.label = self._artist
@@ -123,8 +124,9 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def _add_album(self, album):
         widget = ArtistAlbumWidget(
-            album, self._player, self._model, self._selection_mode_allowed,
-            self._songs_grid_size_group, self._cover_size_group)
+            self._grilo, album, self._player, self._model,
+            self._selection_mode_allowed, self._songs_grid_size_group,
+            self._cover_size_group)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',

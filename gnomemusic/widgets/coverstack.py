@@ -60,6 +60,8 @@ class CoverStack(Gtk.Stack):
         self._size = None
         self._timeout = None
 
+        self._grilo = None
+
         self._loading_cover = Gtk.Image()
         self._cover_a = Gtk.Image()
         self._cover_b = Gtk.Image()
@@ -73,6 +75,30 @@ class CoverStack(Gtk.Stack):
         self.props.visible_child_name = "loading"
 
         self.show_all()
+
+    # FIXME: This is a workaround for not being able to pass the grilo
+    # object via init when using Gtk.Builder.
+    @GObject.Property
+    def grilo(self):
+        """The Grilo object used
+
+        :return: grilo object
+        :rtype: Grilo
+        """
+        return self._grilo
+
+    @grilo.setter
+    def grilo(self, grilo):
+        """Set the Grilo object used
+
+        :param Grilo grilo: The Grilo to use
+        """
+        if (grilo is None
+                or (self._grilo is not None
+                    and self._grilo != grilo)):
+            return
+
+        self._grilo = grilo
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def size(self):
@@ -113,7 +139,8 @@ class CoverStack(Gtk.Stack):
 
         self._active_child = self.props.visible_child_name
 
-        self._art = Art(self.props.size, media, self.props.scale_factor)
+        self._art = Art(
+            self._grilo, self.props.size, media, self.props.scale_factor)
         self._handler_id = self._art.connect('finished', self._art_retrieved)
         self._art.lookup()
 

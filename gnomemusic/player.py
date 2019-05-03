@@ -38,7 +38,6 @@ from gi.repository import GObject, Grl, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.grilo import grilo
 from gnomemusic.scrobbler import LastFmScrobbler
 
 
@@ -560,6 +559,8 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
+        self._grilo = application.props.grilo
+
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
 
@@ -799,8 +800,8 @@ class Player(GObject.GObject):
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
                 self._playlists.update_all_static_playlists()
-                grilo.bump_play_count(current_song)
-                grilo.set_last_played(current_song)
+                self._grilo.bump_play_count(current_song)
+                self._grilo.set_last_played(current_song)
 
     @log
     def _on_repeat_setting_changed(self, settings, value):

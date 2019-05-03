@@ -27,7 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
@@ -174,7 +173,7 @@ class SongsView(BaseView):
             self.model.clear()
             self._offset = 0
             self._populate()
-            grilo.changes_pending['Songs'] = False
+            self._grilo.changes_pending['Songs'] = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -184,7 +183,7 @@ class SongsView(BaseView):
         cols[1].props.visible = self.props.selection_mode
 
         if (not self.props.selection_mode
-                and grilo.changes_pending['Songs']):
+                and self._grilo.changes_pending['Songs']):
             self._on_changes_pending()
 
     @log
@@ -279,9 +278,9 @@ class SongsView(BaseView):
     def _populate(self, data=None):
         """Populates the view"""
         self._init = True
-        if grilo.tracker:
+        if self._grilo.tracker:
             self._window.notifications_popup.push_loading()
-            grilo.populate_songs(self._offset, self._add_item)
+            self._grilo.populate_songs(self._offset, self._add_item)
 
     @log
     def get_selected_songs(self, callback=None):

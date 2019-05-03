@@ -33,7 +33,6 @@ from gi.repository import Gtk, Gdk, Gio, GLib, GObject
 from gettext import gettext as _
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
 from gnomemusic.playlists import StaticPlaylists
@@ -91,14 +90,15 @@ class Window(Gtk.ApplicationWindow):
         self.prev_view = None
         self.curr_view = None
 
+        self._grilo = app.props.grilo
+        self._grilo.connect('changes-pending', self._on_changes_pending)
+
         self._player = app.props.player
 
         self.notifications_popup = NotificationsPopup()
         self._setup_view()
 
         MediaKeys(self._player, self)
-
-        grilo.connect('changes-pending', self._on_changes_pending)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -120,7 +120,7 @@ class Window(Gtk.ApplicationWindow):
 
                 self._switch_to_empty_view()
 
-        grilo.songs_available(songs_available_cb)
+        self._grilo.songs_available(songs_available_cb)
 
     @log
     def _setup_view(self):
@@ -128,7 +128,7 @@ class Window(Gtk.ApplicationWindow):
 
         self._search = Search()
         self._headerbar = HeaderBar()
-        self._searchbar = SearchBar()
+        self._searchbar = SearchBar(self._grilo)
         self._search.bind_property(
             "search-mode-active", self._headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -140,7 +140,7 @@ class Window(Gtk.ApplicationWindow):
             "state", self._searchbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
 
-        self._player_toolbar = PlayerToolbar(self._player, self)
+        self._player_toolbar = PlayerToolbar(self._player, self._grilo, self)
         selection_toolbar = SelectionToolbar()
         self.views = [None] * len(View)
         self._stack = Gtk.Stack(
@@ -207,7 +207,7 @@ class Window(Gtk.ApplicationWindow):
                 self._switch_to_empty_view()
 
         if Query().music_folder:
-            grilo.songs_available(songs_available_cb)
+            self._grilo.songs_available(songs_available_cb)
         else:
             self._switch_to_empty_view()
 
@@ -215,7 +215,7 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        if not grilo.props.tracker_available:
+        if not self._grilo.props.tracker_available:
             self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
         elif did_initial_state:
             self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
@@ -506,7 +506,7 @@ class Window(Gtk.ApplicationWindow):
                 return
 
             playlist_dialog = PlaylistDialog(
-                self, self.views[View.PLAYLIST].pls_todelete)
+                self, self._grilo, self.views[View.PLAYLIST].pls_todelete)
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 self._playlists.add_to_playlist(
                     playlist_dialog.get_selected(), selected_songs)
@@ -525,7 +525,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def refresh_views_favorite(self, visible_view, media):
-        grilo.toggle_favorite(media)
+        self._grilo.toggle_favorite(media)
         self._playlists.update_static_playlist(StaticPlaylists.Favorites)
 
         # FIXME: the refresh should be triggered by listening to the

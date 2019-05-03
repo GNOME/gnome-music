@@ -26,7 +26,6 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
@@ -46,7 +45,7 @@ class AlbumsView(BaseView):
         super().__init__('albums', _("Albums"), window)
 
         self.player = player
-        self._album_widget = AlbumWidget(player, self)
+        self._album_widget = AlbumWidget(player, self._grilo, self)
         self.add(self._album_widget)
         self.albums_selected = []
         self.all_items = []
@@ -61,14 +60,14 @@ class AlbumsView(BaseView):
         if (self._init and not self.props.selection_mode):
             self._offset = 0
             self._populate()
-            grilo.changes_pending['Albums'] = False
+            self._grilo.changes_pending['Albums'] = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
         if (not self.props.selection_mode
-                and grilo.changes_pending['Albums']):
+                and self._grilo.changes_pending['Albums']):
             self._on_changes_pending()
 
     @log
@@ -121,7 +120,7 @@ class AlbumsView(BaseView):
     @log
     def _populate(self, data=None):
         self._window.notifications_popup.push_loading()
-        grilo.populate_albums(self._offset, self._add_item)
+        self._grilo.populate_albums(self._offset, self._add_item)
         self._init = True
 
     @log
@@ -153,7 +152,7 @@ class AlbumsView(BaseView):
             self._init = False
 
     def _create_album_item(self, item):
-        child = AlbumCover(item)
+        child = AlbumCover(self._grilo, item)
 
         child.connect('notify::selected', self._on_selection_changed)
 
@@ -176,7 +175,7 @@ class AlbumsView(BaseView):
 
     @log
     def _get_selected_album_songs(self):
-        grilo.populate_album_songs(
+        self._grilo.populate_album_songs(
             self.albums_selected[self.albums_index],
             self._add_selected_item)
         self.albums_index += 1

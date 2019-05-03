@@ -29,7 +29,6 @@
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
-from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
 import inspect
@@ -135,12 +134,17 @@ class Playlists(GObject.GObject):
         return '<Playlists>'
 
     @log
-    def __init__(self):
+    def __init__(self, application):
+        """Initialize the playlists
+
+        :param Application application: Application object
+        """
         super().__init__()
 
         self._static_playlists = StaticPlaylists()
 
-        grilo.connect('ready', self._on_grilo_ready)
+        self._grilo = application.props.grilo
+        self._grilo.connect('ready', self._on_grilo_ready)
 
     @log
     def _on_grilo_ready(self, data=None):
@@ -175,7 +179,7 @@ class Playlists(GObject.GObject):
             # Search for the playlist ID
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
-        self._tracker = grilo.tracker_sparql
+        self._tracker = self._grilo.tracker_sparql
         # Start fetching all the static playlists
         for playlist in self._static_playlists.get_all():
             self._tracker.query_async(
@@ -319,7 +323,7 @@ class Playlists(GObject.GObject):
                 return
 
             playlist_id = cursor.get_integer(0)
-            grilo.get_playlist_with_id(playlist_id, get_callback)
+            self._grilo.get_playlist_with_id(playlist_id, get_callback)
 
         def query_callback(conn, res, data):
             try:
@@ -383,7 +387,7 @@ class Playlists(GObject.GObject):
             if not cursor or not cursor.next():
                 return
             entry_id = cursor.get_integer(0)
-            grilo.get_playlist_song_with_id(
+            self._grilo.get_playlist_song_with_id(
                 playlist_id, entry_id, get_callback)
 
         def update_callback(conn, res, data):

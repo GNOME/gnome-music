@@ -35,7 +35,6 @@ from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils)
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
 
@@ -179,9 +178,10 @@ class Art(GObject.GObject):
         return '<Art>'
 
     @log
-    def __init__(self, size, media, scale=1):
+    def __init__(self, grilo, size, media, scale=1):
         super().__init__()
 
+        self._grilo = grilo
         self._size = size
         self._media = media
         self._media_url = self._media.get_url()
@@ -232,7 +232,7 @@ class Art(GObject.GObject):
 
     @log
     def _embedded_art_unavailable(self, klass):
-        remote_art = RemoteArt()
+        remote_art = RemoteArt(self._grilo)
         remote_art.connect('retrieved', self._remote_art_retrieved)
         remote_art.connect('unavailable', self._remote_art_unavailable)
         remote_art.connect('no-remote-sources', self._remote_art_no_sources)
@@ -550,8 +550,10 @@ class RemoteArt(GObject.GObject):
         return '<RemoteArt>'
 
     @log
-    def __init__(self):
+    def __init__(self, grilo):
         super().__init__()
+
+        self._grilo = grilo
 
         self._artist = None
         self._album = None
@@ -566,18 +568,19 @@ class RemoteArt(GObject.GObject):
         self._artist = utils.get_artist_name(media)
         self._media = media
 
-        if not grilo.props.cover_sources:
+        if not self._grilo.props.cover_sources:
             self.emit('no-remote-sources')
-            grilo.connect(
+            self._grilo.connect(
                 'notify::cover-sources', self._on_grilo_cover_sources_changed)
         else:
             # FIXME: It seems this Grilo query does not always return,
             # especially on queries with little info.
-            grilo.get_album_art_for_item(media, self._remote_album_art)
+            self._grilo.get_album_art_for_item(media, self._remote_album_art)
 
     def _on_grilo_cover_sources_changed(self, klass, data):
-        if grilo.props.cover_sources:
-            grilo.get_album_art_for_item(self._media, self._remote_album_art)
+        if self._grilo.props.cover_sources:
+            self._grilo.get_album_art_for_item(
+                self._media, self._remote_album_art)
 
     @log
     def _delete_callback(self, src, result, data):

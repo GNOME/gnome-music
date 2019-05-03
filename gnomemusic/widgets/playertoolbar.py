@@ -66,13 +66,15 @@ class PlayerToolbar(Gtk.ActionBar):
         return '<PlayerToolbar>'
 
     @log
-    def __init__(self, player, main_window):
+    def __init__(self, player, grilo, main_window):
         super().__init__()
 
+        self._grilo = grilo
         self._main_window = main_window
         self._player = player
         self._progress_scale.props.player = self._player
 
+        self._cover_stack.props.grilo = self._grilo
         self._cover_stack.props.size = Art.Size.XSMALL
         self._cover_stack.connect('updated', self._on_cover_stack_updated)
 

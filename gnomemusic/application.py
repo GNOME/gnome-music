@@ -36,6 +36,7 @@ import logging
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
+from gnomemusic.grilo import Grilo
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MediaPlayer2Service
 from gnomemusic.pauseonsuspend import PauseOnSuspend
@@ -63,6 +64,7 @@ class Application(Gtk.Application):
         self._init_style()
         self._window = None
 
+        self._grilo = Grilo()
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._playlists = Playlists(self)
         self._player = Player(self)
@@ -77,6 +79,16 @@ class Application(Gtk.Application):
         style_context = Gtk.StyleContext()
         style_context.add_provider_for_screen(
             screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+
+    @GObject.Property(
+        type=Grilo, default=None, flags=GObject.ParamFlags.READABLE)
+    def grilo(self):
+        """Get application-wide grilo.
+
+        :returns: the grilo instance
+        :rtype: Grilo
+        """
+        return self._grilo
 
     @GObject.Property(
         type=Player, default=None, flags=GObject.ParamFlags.READABLE)

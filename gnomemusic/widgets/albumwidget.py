@@ -27,7 +27,6 @@ from gi.repository import GdkPixbuf, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
@@ -63,7 +62,7 @@ class AlbumWidget(Gtk.EventBox):
         return '<AlbumWidget>'
 
     @log
-    def __init__(self, player, parent_view):
+    def __init__(self, player, grilo, parent_view):
         """Initialize the AlbumWidget.
 
         :param player: The player object
@@ -74,8 +73,10 @@ class AlbumWidget(Gtk.EventBox):
         self._album = None
         self._songs = []
 
+        self._cover_stack.props.grilo = grilo
         self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
+        self._grilo = grilo
         self._player = player
         self._iter_to_clean = None
 
@@ -148,7 +149,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._player.connect('song-changed', self._update_model)
 
-        grilo.populate_album_songs(album, self.add_item)
+        self._grilo.populate_album_songs(album, self.add_item)
 
     @log
     def _set_composer_label(self, album):

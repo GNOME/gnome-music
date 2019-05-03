@@ -25,7 +25,6 @@
 from gi.repository import Gtk, Pango
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
 
@@ -53,7 +52,7 @@ class PlaylistDialog(Gtk.Dialog):
         return '<PlaylistDialog>'
 
     @log
-    def __init__(self, parent, playlists_todelete):
+    def __init__(self, parent, grilo, playlists_todelete):
         super().__init__()
 
         self._add_playlist_button = None
@@ -62,6 +61,7 @@ class PlaylistDialog(Gtk.Dialog):
         self.props.transient_for = parent
         self.set_titlebar(self._title_bar)
         self._add_list_renderers()
+        self._grilo = grilo
         self._populate()
 
         self._playlists_todelete_ids = playlists_todelete.keys()
@@ -103,7 +103,7 @@ class PlaylistDialog(Gtk.Dialog):
 
     @log
     def _populate(self):
-        grilo.populate_user_playlists(0, self._add_item)
+        self._grilo.populate_user_playlists(0, self._add_item)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):

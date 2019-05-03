@@ -27,7 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.playlists import StaticPlaylists
 from gnomemusic.views.baseview import BaseView
@@ -545,7 +544,7 @@ class PlaylistView(BaseView):
         self._iter_to_clean_model = None
         self._update_songs_count(0)
         self._pl_ctrls.props.display_songs_count = False
-        grilo.populate_playlist_songs(playlist, self._add_song)
+        self._grilo.populate_playlist_songs(playlist, self._add_song)
 
         if self._current_playlist_is_protected():
             self._playlist_delete_action.set_enabled(False)
@@ -783,7 +782,7 @@ class PlaylistView(BaseView):
         Do not reload playlists already displayed.
         """
         self._window.notifications_popup.push_loading()
-        grilo.populate_playlists(
+        self._grilo.populate_playlists(
             self._offset, self._add_playlist_item, -1, data)
         self._init = True
 

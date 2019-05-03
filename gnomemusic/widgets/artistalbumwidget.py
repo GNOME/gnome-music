@@ -26,7 +26,6 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 import gnomemusic.utils as utils
@@ -54,13 +53,14 @@ class ArtistAlbumWidget(Gtk.Box):
 
     @log
     def __init__(
-            self, media, player, model, selection_mode_allowed,
+            self, grilo, media, player, model, selection_mode_allowed,
             size_group=None, cover_size_group=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
 
+        self._grilo = grilo
         self._media = media
         self._player = player
         self._artist = utils.get_artist_name(self._media)
@@ -71,6 +71,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._songs = []
 
+        self._cover_stack.props.grilo = grilo
         self._cover_stack.props.size = Art.Size.MEDIUM
         self._cover_stack.update(self._media)
 
@@ -94,7 +95,7 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        grilo.populate_album_songs(self._media, self._add_item)
+        self._grilo.populate_album_songs(self._media, self._add_item)
 
     @log
     def _create_disc_box(self, disc_nr, disc_songs):

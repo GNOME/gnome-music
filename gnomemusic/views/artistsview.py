@@ -27,7 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
@@ -97,7 +96,7 @@ class ArtistsView(BaseView):
             self._artists.clear()
             self._offset = 0
             self._populate()
-            grilo.changes_pending['Artists'] = False
+            self._grilo.changes_pending['Artists'] = False
 
     @log
     def _on_artist_activated(self, sidebar, row, data=None):
@@ -170,7 +169,7 @@ class ArtistsView(BaseView):
     def _populate(self, data=None):
         """Populates the view"""
         self._window.notifications_popup.push_loading()
-        grilo.populate_artists(self._offset, self._add_item)
+        self._grilo.populate_artists(self._offset, self._add_item)
         self._init = True
 
     @log
@@ -201,7 +200,7 @@ class ArtistsView(BaseView):
             self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
 
         if (not self.props.selection_mode
-                and grilo.changes_pending['Artists']):
+                and self._grilo.changes_pending['Artists']):
             self._on_changes_pending()
 
     @log
@@ -246,9 +245,9 @@ class ArtistsView(BaseView):
             if remaining == 0:
                 self._album_index += 1
                 if self._album_index < len(albums):
-                    grilo.populate_album_songs(
+                    self._grilo.populate_album_songs(
                         albums[self._album_index], add_songs)
                 else:
                     callback(selected_songs)
 
-        grilo.populate_album_songs(albums[self._album_index], add_songs)
+        self._grilo.populate_album_songs(albums[self._album_index], add_songs)

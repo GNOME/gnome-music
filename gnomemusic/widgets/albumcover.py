@@ -58,9 +58,10 @@ class AlbumCover(Gtk.FlowBoxChild):
         return '<AlbumCover>'
 
     @log
-    def __init__(self, media):
+    def __init__(self, grilo, media):
         """Initialize the AlbumCover
 
+        :param Grilo grilo: The Grilo instance
         :param Grl.Media media: The media object to use
         """
         super().__init__()
@@ -92,6 +93,7 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
+        self._cover_stack.props.grilo = grilo
         self._cover_stack.props.size = Art.Size.MEDIUM
 
         self.show()

@@ -521,6 +521,3 @@ class Grilo(GObject.GObject):
 
         self.tracker_sparql.query_async(
             Query.all_songs_count(), None, songs_query_cb, None)
-
-
-grilo = Grilo()
