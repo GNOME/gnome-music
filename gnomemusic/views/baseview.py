@@ -26,10 +26,7 @@ from gi.repository import GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
-
-playlists = Playlists.get_default()
 
 
 class BaseView(Gtk.Stack):
@@ -153,8 +150,7 @@ class BaseView(Gtk.Stack):
         Updates Favorites Playlist too.
         :param Grl.Media media: song to update
         """
-        grilo.toggle_favorite(media)
-        playlists.update_static_playlist(StaticPlaylists.Favorites)
+        self._window.refresh_views_favorite(self, media)
 
     @log
     def get_selected_songs(self, callback):

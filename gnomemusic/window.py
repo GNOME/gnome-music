@@ -36,7 +36,7 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
-from gnomemusic.playlists import Playlists
+from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.query import Query
 from gnomemusic.search import Search
 from gnomemusic.utils import View
@@ -521,3 +521,16 @@ class Window(Gtk.ApplicationWindow):
         :param bool visible: actionbar visibility
         """
         self._player_toolbar.set_visible(visible)
+
+    @log
+    def refresh_views_favorite(self, visible_view, media):
+        grilo.toggle_favorite(media)
+        playlists.update_static_playlist(StaticPlaylists.Favorites)
+
+        # FIXME: the refresh should be triggered by listening to the
+        # relevant tracker event.
+        # refresh the main views if necessary
+        list_views = [self.views[View.SONG], self.views[View.PLAYLIST]]
+        for view in list_views:
+            if view != visible_view:
+                view.refresh_favorite(media)

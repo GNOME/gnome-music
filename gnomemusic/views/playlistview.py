@@ -783,3 +783,31 @@ class PlaylistView(BaseView):
         grilo.populate_playlists(
             self._offset, self._add_playlist_item, -1, data)
         self._init = True
+
+    @log
+    def refresh_favorite(self, media):
+        """Changes favorite icon of a song.
+
+        When an other view has changed the favorite status of a song,
+        this view needs to be refreshed.
+        If the visible playlist is the favorite one, it has already
+        been refreshed, so nothing needs to be done.
+
+        :param Grl.media media: song whose favorite status changed
+        """
+        static_playlist_id = StaticPlaylists.Favorites.ID
+        if (self._current_playlist is None
+                or self._current_playlist.get_id() == static_playlist_id):
+            return
+
+        # It is impossible to use the media ids because the media from
+        # the PlaylistView do not have the same ids as the ones from the
+        # other views.
+        # The same song can be present several times in a playlist. So,
+        # the loop cannot be exited.
+        media_title = utils.get_media_title(media)
+        media_album = utils.get_album_title(media)
+        for row in self.model:
+            if (utils.get_media_title(row[5]) == media_title
+                    and utils.get_album_title(row[5]) == media_album):
+                row[9] = not row[9]
