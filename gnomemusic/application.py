@@ -40,6 +40,7 @@ from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MediaPlayer2Service
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
+from gnomemusic.playlists import Playlists
 from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.window import Window
 
@@ -63,6 +64,7 @@ class Application(Gtk.Application):
         self._window = None
 
         self._settings = Gio.Settings.new('org.gnome.Music')
+        self._playlists = Playlists(self)
         self._player = Player(self)
 
         InhibitSuspend(self)
@@ -85,6 +87,16 @@ class Application(Gtk.Application):
         :rtype: Player
         """
         return self._player
+
+    @GObject.Property(
+        type=Playlists, default=None, flags=GObject.ParamFlags.READABLE)
+    def playlists(self):
+        """Get application-wide music playlists.
+
+        :returns: the playlists
+        :rtype: Playlists
+        """
+        return self._playlists
 
     @GObject.Property(
         type=Gio.Settings, flags=GObject.ParamFlags.READABLE)

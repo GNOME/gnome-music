@@ -129,19 +129,10 @@ class Playlists(GObject.GObject):
         ),
     }
 
-    instance = None
     _tracker = None
 
     def __repr__(self):
         return '<Playlists>'
-
-    @classmethod
-    def get_default(cls, tracker=None):
-        if cls.instance:
-            return cls.instance
-        else:
-            cls.instance = Playlists()
-        return cls.instance
 
     @log
     def __init__(self):

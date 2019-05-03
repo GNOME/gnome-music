@@ -36,7 +36,7 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
-from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.playlists import StaticPlaylists
 from gnomemusic.query import Query
 from gnomemusic.search import Search
 from gnomemusic.utils import View
@@ -57,8 +57,6 @@ from gnomemusic.windowplacement import WindowPlacement
 import logging
 logger = logging.getLogger(__name__)
 
-playlists = Playlists.get_default()
-
 
 class Window(Gtk.ApplicationWindow):
 
@@ -75,6 +73,8 @@ class Window(Gtk.ApplicationWindow):
         :param Gtk.Application app: Application object
         """
         super().__init__(application=app, title=_("Music"))
+
+        self._playlists = app.props.playlists
 
         self._settings = app.props.settings
         self.add_action(self._settings.create_action('repeat'))
@@ -262,7 +262,8 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.ALBUM] = AlbumsView(self, self._player)
         self.views[View.ARTIST] = ArtistsView(self, self._player)
         self.views[View.SONG] = SongsView(self, self._player)
-        self.views[View.PLAYLIST] = PlaylistView(self, self._player)
+        self.views[View.PLAYLIST] = PlaylistView(
+            self, self._player, self._playlists)
         self.views[View.SEARCH] = SearchView(self, self._player)
 
         selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
@@ -507,7 +508,7 @@ class Window(Gtk.ApplicationWindow):
             playlist_dialog = PlaylistDialog(
                 self, self.views[View.PLAYLIST].pls_todelete)
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-                playlists.add_to_playlist(
+                self._playlists.add_to_playlist(
                     playlist_dialog.get_selected(), selected_songs)
             self.props.selection_mode = False
             playlist_dialog.destroy()
@@ -525,7 +526,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def refresh_views_favorite(self, visible_view, media):
         grilo.toggle_favorite(media)
-        playlists.update_static_playlist(StaticPlaylists.Favorites)
+        self._playlists.update_static_playlist(StaticPlaylists.Favorites)
 
         # FIXME: the refresh should be triggered by listening to the
         # relevant tracker event.

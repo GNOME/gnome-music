@@ -39,12 +39,10 @@ from gi.repository import GObject, Grl, GstPbutils
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 
 
 logger = logging.getLogger(__name__)
-playlists = Playlists.get_default()
 
 
 class RepeatMode(IntEnum):
@@ -565,6 +563,8 @@ class Player(GObject.GObject):
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
 
+        self._playlists = application.props.playlists
+
         self._settings = application.props.settings
         self._settings.connect(
             'changed::repeat', self._on_repeat_setting_changed)
@@ -798,7 +798,7 @@ class Player(GObject.GObject):
                 # FIXME: we should not need to update static
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
-                playlists.update_all_static_playlists()
+                self._playlists.update_all_static_playlists()
                 grilo.bump_play_count(current_song)
                 grilo.set_last_played(current_song)
 

@@ -26,7 +26,6 @@
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists
 from gnomemusic.utils import View
 import gnomemusic.utils as utils
 
@@ -231,7 +230,7 @@ class MediaPlayer2Service(Server):
         self.player_toolbar = app.get_active_window()._player_toolbar
         self.player_toolbar.connect(
             'thumbnail-updated', self._on_thumbnail_updated)
-        playlists = Playlists.get_default()
+        playlists = app.props.playlists
         playlists.connect('playlist-created', self._on_playlists_count_changed)
         playlists.connect('playlist-deleted', self._on_playlists_count_changed)
         grilo.connect('ready', self._on_grilo_ready)

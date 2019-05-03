@@ -26,7 +26,6 @@ from gi.repository import Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists
 import gnomemusic.utils as utils
 
 
@@ -68,7 +67,7 @@ class PlaylistDialog(Gtk.Dialog):
         self._playlists_todelete_ids = playlists_todelete.keys()
 
         self._user_playlists_available = False
-        self._playlist = Playlists.get_default()
+        self._playlist = parent._playlists
         self._playlist.connect('playlist-created', self._on_playlist_created)
 
     @log

@@ -29,7 +29,7 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
-from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.playlists import StaticPlaylists
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
@@ -37,8 +37,6 @@ from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.sidebarrow import SidebarRow
 import gnomemusic.utils as utils
-
-playlists = Playlists.get_default()
 
 
 class PlaylistView(BaseView):
@@ -48,11 +46,12 @@ class PlaylistView(BaseView):
         return '<PlaylistView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, window, player, playlists):
         """Initialize
 
         :param GtkWidget window: The main window
         :param player: The main player object
+        :param Playlists playlists: The main playlists object
         """
         self._sidebar = Gtk.ListBox()
         sidebar_container = Gtk.ScrolledWindow()
@@ -63,6 +62,7 @@ class PlaylistView(BaseView):
 
         self._window = window
         self.player = player
+        self._playlists = playlists
 
         self._view.get_style_context().add_class('songs-list')
 
@@ -127,9 +127,9 @@ class PlaylistView(BaseView):
 
         self.player.connect('song-changed', self._update_model)
         self.player.connect('song-validated', self._on_song_validated)
-        playlists.connect('playlist-created', self._on_playlist_created)
-        playlists.connect('playlist-updated', self._on_playlist_update)
-        playlists.connect(
+        self._playlists.connect('playlist-created', self._on_playlist_created)
+        self._playlists.connect('playlist-updated', self._on_playlist_update)
+        self._playlists.connect(
             'song-added-to-playlist', self._on_song_added_to_playlist)
 
         self.show_all()
@@ -305,7 +305,7 @@ class PlaylistView(BaseView):
         """
         if index is None:
             index = -1
-        if playlists.is_static_playlist(playlist):
+        if self._playlists.is_static_playlist(playlist):
             index = 0
 
         title = utils.get_media_title(playlist)
@@ -436,7 +436,8 @@ class PlaylistView(BaseView):
             songs.append(model[_iter][5])
             positions.append(pos + 1)
 
-        playlists.reorder_playlist(self._current_playlist, songs, positions)
+        self._playlists.reorder_playlist(
+            self._current_playlist, songs, positions)
 
     @log
     def _play_song(self, menuitem, data=None):
@@ -452,7 +453,8 @@ class PlaylistView(BaseView):
         playlist_dialog = PlaylistDialog(
             self._window, self.pls_todelete)
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlists.add_to_playlist(playlist_dialog.get_selected(), [song])
+            self._playlists.add_to_playlist(
+                playlist_dialog.get_selected(), [song])
         playlist_dialog.destroy()
 
     @log
@@ -710,12 +712,13 @@ class PlaylistView(BaseView):
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
             pl_todelete = self.pls_todelete[media_id]
-            playlists.delete_playlist(pl_todelete['playlist'])
+            self._playlists.delete_playlist(
+                pl_todelete['playlist'])
             self.pls_todelete.pop(media_id)
 
         else:
             song_todelete = self._songs_todelete[media_id]
-            playlists.remove_from_playlist(
+            self._playlists.remove_from_playlist(
                 song_todelete['playlist'], [song_todelete['song']])
             self._songs_todelete.pop(media_id)
 
@@ -737,7 +740,7 @@ class PlaylistView(BaseView):
 
         pl_torename = selection.playlist
         pl_torename.set_title(new_name)
-        playlists.rename(pl_torename, new_name)
+        self._playlists.rename(pl_torename, new_name)
 
     @log
     def _on_playlist_created(self, playlists, playlist):
