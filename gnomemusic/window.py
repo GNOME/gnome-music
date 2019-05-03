@@ -416,8 +416,7 @@ class Window(Gtk.ApplicationWindow):
                      or modifiers == 0)
                 and not self.views[View.PLAYLIST].rename_active
                 and self._headerbar.props.state != HeaderBar.State.SEARCH):
-            if not self._search.props.search_mode_active:
-                self._enable_search_mode()
+            self._enable_search_mode()
 
     @log
     def _on_back_button_pressed(self, gesture, n_press, x, y):
@@ -474,27 +473,29 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _disable_search_mode(self):
-        self.curr_view = self._stack.get_visible_child()
+        self.curr_view = self._stack.props.visible_child
         search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
+
+        self._search.props.search_mode_active = False
+
+        # if a view button other than the view that led to this search is clicked,
+        # the previous view will be shown instead of the newly clicked view.
+        # this line prevents that from happening.
         if (self.curr_view not in search_views):
             return
 
         if self.views[View.SEARCH].previous_view:
-            self._stack.set_visible_child(
-                self.views[View.SEARCH].previous_view)
-
-        if self._search.props.search_mode_active:
-            self._search.props.search_mode_active = False
+            self._stack.props.visible_child = self.views[View.SEARCH].previous_view
 
     @log
     def _on_search_state_changed(self, search_instance, param):
         if self._search.props.search_mode_active:
-            search_state = search_instance.get_property(param.name)
+            search_state = search_instance.props.state
             if search_state == Search.State.NO_RESULT:
-                self._stack.set_visible_child_name('emptyview')
+                self._stack.props.visible_child_name = "emptyview"
             elif search_state == Search.State.RESULT:
                 if self._search.props.search_mode_active:
-                    self._stack.set_visible_child_name('search')
+                    self._stack.props.visible_child_name = "search"
         else:
             self._disable_search_mode()
 

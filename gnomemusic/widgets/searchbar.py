@@ -22,17 +22,18 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gnomemusic.search import Search
-from gnomemusic.grilo import grilo
-from gnomemusic import log
-from gi.repository import Gd, GLib, GObject, Gtk, Pango
 from enum import IntEnum
 
 from gettext import gettext as _
 
 import gi
 gi.require_version('Gd', '1.0')
+from gi.repository import Gd, GLib, GObject, Gtk, Pango
 from gi.repository.Gd import TaggedEntry  # noqa: F401
+
+from gnomemusic import log
+from gnomemusic.grilo import grilo
+from gnomemusic.search import Search
 
 
 class BaseModelColumns(IntEnum):

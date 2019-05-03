@@ -22,23 +22,24 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gnomemusic.utils as utils
-from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
-from gnomemusic.widgets.albumwidget import AlbumWidget
-from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.views.baseview import BaseView
-from gnomemusic.search import Search
-from gnomemusic.utils import View
-from gnomemusic.query import Query
-from gnomemusic.playlists import Playlists
-from gnomemusic.player import ValidationStatus, PlayerPlaylist
-from gnomemusic import log
-from gnomemusic.grilo import grilo
-from gnomemusic.albumartcache import Art
-from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
 from gettext import gettext as _
 import gi
 gi.require_version('Gd', '1.0')
+from gi.repository import Gd, Gdk, GdkPixbuf, GObject, Grl, Gtk, Pango
+
+from gnomemusic.albumartcache import Art
+from gnomemusic.grilo import grilo
+from gnomemusic import log
+from gnomemusic.player import ValidationStatus, PlayerPlaylist
+from gnomemusic.playlists import Playlists
+from gnomemusic.query import Query
+from gnomemusic.utils import View
+from gnomemusic.search import Search
+from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.headerbar import HeaderBar
+from gnomemusic.widgets.albumwidget import AlbumWidget
+from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
+import gnomemusic.utils as utils
 
 
 playlists = Playlists.get_default()
@@ -236,6 +237,14 @@ class SearchView(BaseView):
 
         :param bool mode: new search mode
         """
+
+        current_mode = self._search_mode_active
+
+        # avoid unnecessarily setting the search_state and
+        # other properties.
+        if current_mode == value:
+            return
+
         # FIXME: search_mode_active should not change search_state.
         # This is necessary because Search state cannot interact with
         # the child views.
