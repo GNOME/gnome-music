@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic.widgets.songwidget import SongWidget
@@ -95,6 +95,8 @@ class DiscBox(Gtk.Box):
     _disc_songs_flowbox = Gtk.Template.Child()
 
     __gsignals__ = {
+        'favorite-status-changed': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, )),
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
@@ -214,6 +216,8 @@ class DiscBox(Gtk.Box):
         song_widget.itr = itr
         song_widget.model = self._model
         song_widget.connect('button-release-event', self._song_activated)
+        song_widget.connect(
+            'favorite-status-changed', self._favorite_status_changed)
         song_widget.connect('selection-changed', self._on_selection_changed)
 
         self.bind_property(
@@ -230,6 +234,12 @@ class DiscBox(Gtk.Box):
             GObject.BindingFlags.SYNC_CREATE)
 
         return song_widget
+
+    @log
+    def _favorite_status_changed(self, klass, media):
+        self.emit('favorite-status-changed', media)
+
+        return True
 
     @log
     def _on_selection_changed(self, widget):

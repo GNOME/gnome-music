@@ -25,10 +25,6 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists, StaticPlaylists
-
-playlists = Playlists.get_default()
 
 
 class CellRendererStar(Gtk.CellRendererPixbuf):
@@ -151,8 +147,7 @@ class StarHandlerWidget(object):
         new_value = not self._parent.model[_iter][self._star_index]
         self._parent.model[_iter][self._star_index] = new_value
         song_item = self._parent.model[_iter][5]
-        grilo.toggle_favorite(song_item)
-        playlists.update_static_playlist(StaticPlaylists.Favorites)
+        self._parent.update_favorite(song_item)
 
         # Use this flag to ignore the upcoming _on_item_activated call
         self.star_renderer_click = True

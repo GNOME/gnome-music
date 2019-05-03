@@ -186,6 +186,8 @@ class AlbumWidget(Gtk.EventBox):
         disc_box.props.show_favorites = True
         disc_box.props.show_song_numbers = False
         disc_box.connect('song-activated', self._song_activated)
+        disc_box.connect(
+            'favorite-status-changed', self._favorite_status_changed)
 
         return disc_box
 
@@ -200,6 +202,10 @@ class AlbumWidget(Gtk.EventBox):
             song_widget.itr)
         self._player.play()
         return True
+
+    @log
+    def _favorite_status_changed(self, klass, media):
+        self._parent_view.update_favorite(media)
 
     @log
     def add_item(self, source, prefs, song, remaining, data=None):

@@ -26,13 +26,11 @@ from enum import IntEnum
 
 import gi
 gi.require_version('Dazzle', '1.0')
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GObject, Grl, Gtk
 from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic import utils
-from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists, StaticPlaylists
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
@@ -52,6 +50,8 @@ class SongWidget(Gtk.EventBox):
     __gtype_name__ = 'SongWidget'
 
     __gsignals__ = {
+        'favorite-status-changed': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, )),
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
@@ -59,8 +59,6 @@ class SongWidget(Gtk.EventBox):
     show_duration = GObject.Property(type=bool, default=True)
     show_favorite = GObject.Property(type=bool, default=True)
     show_song_number = GObject.Property(type=bool, default=True)
-
-    _playlists = Playlists.get_default()
 
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
@@ -141,9 +139,7 @@ class SongWidget(Gtk.EventBox):
         favorite = not self._star_image.favorite
         self._star_image.props.favorite = favorite
 
-        # TODO: Rework and stop updating widgets from here directly.
-        grilo.set_favorite(self._media, favorite)
-        self._playlists.update_static_playlist(StaticPlaylists.Favorites)
+        self.emit("favorite-status-changed", self._media)
 
         return True
 
