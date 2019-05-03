@@ -30,10 +30,11 @@ import logging
 import time
 
 import gi
+gi.require_version('Grl', '0.3')
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GLib, GObject, Grl, GstPbutils
+from gi.repository import GObject, Grl, GstPbutils
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -540,7 +541,6 @@ class Player(GObject.GObject):
     """
 
     __gsignals__ = {
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
@@ -627,12 +627,8 @@ class Player(GObject.GObject):
 
     @log
     def _on_eos(self, klass):
-        def on_glib_idle():
-            self._playlist.next()
-            self.play()
-
         if self.props.has_next:
-            GLib.idle_add(on_glib_idle)
+            self.next()
         else:
             self.stop()
 
@@ -805,8 +801,6 @@ class Player(GObject.GObject):
                 playlists.update_all_static_playlists()
                 grilo.bump_play_count(current_song)
                 grilo.set_last_played(current_song)
-
-        self.emit('clock-tick', int(position))
 
     @log
     def _on_repeat_setting_changed(self, settings, value):

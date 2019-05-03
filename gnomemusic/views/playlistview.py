@@ -347,11 +347,11 @@ class PlaylistView(BaseView):
         """
         def activate_song():
             if self._song_drag['active']:
-                return
+                return GLib.SOURCE_REMOVE
 
             if self._star_handler.star_renderer_click:
                 self._star_handler.star_renderer_click = False
-                return
+                return GLib.SOURCE_REMOVE
 
             _iter = None
             if path:
@@ -360,6 +360,8 @@ class PlaylistView(BaseView):
             self.player.set_playlist(
                 PlayerPlaylist.Type.PLAYLIST, playlist_id, self.model, _iter)
             self.player.play()
+
+            return GLib.SOURCE_REMOVE
 
         # 'row-activated' signal is emitted before 'drag-begin' signal.
         # Need to wait to check if drag and drop operation is active.
@@ -479,7 +481,7 @@ class PlaylistView(BaseView):
             if (str(playlist_id) == playlist.get_id()
                     and self._is_current_playlist(playlist)):
                 self._star_handler.star_renderer_click = False
-                GLib.idle_add(self._on_playlist_activated, self._sidebar, row)
+                self._on_playlist_activated(self._sidebar, row)
                 break
 
     @log
