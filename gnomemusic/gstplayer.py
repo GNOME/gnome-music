@@ -303,9 +303,12 @@ class GstPlayer(GObject.GObject):
 
         :param float seconds: Position in seconds to seek
         """
+        if seconds > 0:
+            seconds = (seconds * Gst.SECOND) - 1
+
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
-            seconds * Gst.SECOND)
+            seconds)
 
     @log
     def _start_plugin_installation(
