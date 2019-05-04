@@ -236,11 +236,11 @@ class AlbumWidget(Gtk.EventBox):
             self._update_model(self._player)
 
     @log
-    def _update_model(self, player, position=None):
+    def _update_model(self, player, index=None):
         """Updates model when the song changes
 
         :param Player player: The main player object
-        :param int position: current song position
+        :param int index: Current song model index
         """
         if not player.playing_playlist(
                 PlayerPlaylist.Type.ALBUM, self._album_name):

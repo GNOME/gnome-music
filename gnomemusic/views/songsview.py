@@ -229,18 +229,18 @@ class SongsView(BaseView):
             self.props.selected_items_count = len(self.get_selected_songs())
 
     @log
-    def _update_model(self, player, position):
+    def _update_model(self, player, index):
         """Updates model when the song changes
 
         :param Player player: The main player object
-        :param int position: current song position
+        :param int index: Current song playlist index
         """
         if self._iter_to_clean:
             self.model[self._iter_to_clean][10] = False
         if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
             return False
 
-        iter_ = self.model.get_iter_from_string(str(position))
+        iter_ = self.model.get_iter_from_string(str(index))
         self.model[iter_][10] = True
         path = self.model.get_path(iter_)
         self._view.scroll_to_cell(path, None, False, 0., 0.)
