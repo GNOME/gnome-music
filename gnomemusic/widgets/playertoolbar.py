@@ -66,23 +66,47 @@ class PlayerToolbar(Gtk.ActionBar):
         return '<PlayerToolbar>'
 
     @log
-    def __init__(self, player):
+    def __init__(self):
         super().__init__()
 
-        self._player = player
-        self._progress_scale.props.player = self._player
+        self._player = None
 
         self._cover_stack.props.size = Art.Size.XSMALL
         self._cover_stack.connect('updated', self._on_cover_stack_updated)
 
         self._tooltip = TwoLineTip()
 
-        self._sync_repeat_image()
+    # FIXME: This is a workaround for not being able to pass the player
+    # object via init when using Gtk.Builder.
+    @GObject.Property
+    def player(self):
+        """The GstPlayer object used
+
+        :return: player object
+        :rtype: GstPlayer
+        """
+        return self._player
+
+    @player.setter
+    def player(self, player):
+        """Set the GstPlayer object used
+
+        :param GstPlayer player: The GstPlayer to use
+        """
+        if (player is None
+                or (self._player is not None
+                    and self._player != player)):
+            return
+
+        self._player = player
+        self._progress_scale.props.player = self._player
 
         self._player.connect('song-changed', self._update_view)
         self._player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
         self._player.connect('notify::state', self._sync_playing)
+
+        self._sync_repeat_image()
 
     @Gtk.Template.Callback()
     @log
