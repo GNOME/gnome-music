@@ -318,7 +318,7 @@ class GstPlayer(GObject.GObject):
         # FIXME: seek should be signalled to MPRIS
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
-            seconds * Gst.SECOND)
+            (seconds * Gst.SECOND) - 1)
 
     @log
     def _start_plugin_installation(
