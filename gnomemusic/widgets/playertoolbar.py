@@ -180,6 +180,7 @@ class PlayerToolbar(Gtk.ActionBar):
         current_song = player.props.current_song
         self._duration_label.set_label(
             utils.seconds_to_string(current_song.get_duration()))
+        self._progress_time_label.props.label = "0:00"
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
