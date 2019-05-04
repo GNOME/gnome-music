@@ -30,7 +30,7 @@ import gi
 gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
+from gi.repository import GLib, Gtk, Gio, GObject, Gst, GstAudio, GstPbutils
 
 from gnomemusic import log
 
@@ -51,8 +51,10 @@ class GstPlayer(GObject.GObject):
     Handles GStreamer interaction for Player and SmoothScale.
     """
     __gsignals__ = {
+        "about-to-finish": (GObject.SignalFlags.RUN_FIRST, None, ()),
         'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
+        "clock-tick": (GObject.SignalFlags.RUN_FIRST, None, (int, )),
+        "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __repr__(self):
@@ -70,6 +72,7 @@ class GstPlayer(GObject.GObject):
 
         self._application = application
         self._duration = -1.
+        self._tick = 0
 
         self._missing_plugin_messages = []
         self._settings = application.props.settings
@@ -89,6 +92,9 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::element', self._on_bus_element)
         self._bus.connect('message::eos', self._on_bus_eos)
         self._bus.connect('message::new-clock', self._on_new_clock)
+        self._bus.connect("message::stream-start", self._on_bus_stream_start)
+
+        self._player.connect("about-to-finish", self._on_about_to_finish)
 
         self.props.state = Playback.STOPPED
 
@@ -125,6 +131,10 @@ class GstPlayer(GObject.GObject):
             self._player.set_property("audio-filter", None)
 
     @log
+    def _on_about_to_finish(self, klass):
+        self.emit("about-to-finish")
+
+    @log
     def _on_async_done(self, bus, message):
         success, duration = self._player.query_duration(
             Gst.Format.TIME)
@@ -144,13 +154,24 @@ class GstPlayer(GObject.GObject):
 
     @log
     def _on_clock_tick(self, clock, time, id, data):
-        tick = time / Gst.SECOND
-        self.emit('clock-tick', tick)
+        self.emit('clock-tick', self._tick)
+        self._tick += 1
 
     @log
     def _on_bus_element(self, bus, message):
         if GstPbutils.is_missing_plugin_message(message):
             self._missing_plugin_messages.append(message)
+
+    @log
+    def _on_bus_stream_start(self, bus, message):
+        def delayed_query():
+            self._on_async_done(None, None)
+            self._tick = 0
+            self.emit("stream-start")
+
+        # Delay the signalling slightly or the new duration will not
+        # have been set yet.
+        GLib.timeout_add(1, delayed_query)
 
     @log
     def _on_bus_error(self, bus, message):
