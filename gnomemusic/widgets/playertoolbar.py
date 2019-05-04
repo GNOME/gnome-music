@@ -164,7 +164,7 @@ class PlayerToolbar(Gtk.ActionBar):
 
     @log
     def _update_view(self, player):
-        """Updates model when the song changes
+        """Update all visual elements on song change
 
         :param Player player: The main player object
         """
