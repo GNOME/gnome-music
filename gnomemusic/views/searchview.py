@@ -41,7 +41,6 @@ from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
 
-
 playlists = Playlists.get_default()
 
 
@@ -237,10 +236,9 @@ class SearchView(BaseView):
 
         :param bool mode: new search mode
         """
-
         current_mode = self._search_mode_active
 
-        # avoid unnecessarily setting the search_state and
+        # Avoid unnecessarily setting the search_state and
         # other properties.
         if current_mode == value:
             return
