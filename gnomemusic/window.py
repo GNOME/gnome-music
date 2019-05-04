@@ -478,7 +478,7 @@ class Window(Gtk.ApplicationWindow):
 
         # If a view button other than the view that led to this search is
         #  clicked,the previous view will be shown instead of the newly
-        #  clicked view. The following check prevents that from happening.        
+        #  clicked view. The following check prevents that from happening.
         search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
         if (self.curr_view not in search_views):
             return
