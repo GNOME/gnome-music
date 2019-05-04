@@ -245,11 +245,11 @@ class PlaylistView(BaseView):
             cell.set_visible(False)
 
     @log
-    def _update_model(self, player, position):
+    def _update_model(self, player, index):
         """Updates model when the song changes
 
         :param Player player: The main player object
-        :param int position: current song position
+        :param int index: Current song playlist index
         """
         if self._current_playlist is None:
             return
@@ -260,7 +260,7 @@ class PlaylistView(BaseView):
                 PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
             return False
 
-        iter_ = self.model.get_iter_from_string(str(position))
+        iter_ = self.model.get_iter_from_string(str(index))
         self.model[iter_][10] = True
         path = self.model.get_path(iter_)
         self._view.scroll_to_cell(path, None, False, 0., 0.)
