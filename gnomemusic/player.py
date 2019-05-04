@@ -561,6 +561,14 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
+        # In the case of gapless playback, both 'about-to-finish'
+        # and 'eos' can occur during the same stream. 'about-to-finish'
+        # already sets self._playlist to the next song, so doing it
+        # again on eos would skip a song.
+        # TODO: Improve playlist handling so this hack is no longer
+        # needed.
+        self._gapless_set = False
+
         self._playlist = PlayerPlaylist()
         self._playlist.connect('song-validated', self._on_song_validated)
 
@@ -576,8 +584,10 @@ class Player(GObject.GObject):
         self._new_clock = True
 
         self._gst_player = GstPlayer(application)
+        self._gst_player.connect("about-to-finish", self._on_about_to_finish)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
+        self._gst_player.connect("stream-start", self._on_stream_start)
         self._gst_player.bind_property(
             'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
         self._gst_player.bind_property(
@@ -625,11 +635,30 @@ class Player(GObject.GObject):
         self.emit('song-changed', self._playlist.get_current_index())
 
     @log
-    def _on_eos(self, klass):
+    def _on_about_to_finish(self, klass):
         if self.props.has_next:
-            self.next()
+            self._playlist.next()
+
+            new_url = self._playlist.props.current_song.get_url()
+            self._gst_player.props.url = new_url
+            self._gapless_set = True
+
+    @log
+    def _on_eos(self, klass):
+        if self._gapless_set:
+            # After 'eos' in the gapless case, the pipeline needs to be
+            # hard reset.
+            self.stop()
+            self.play()
         else:
             self.stop()
+
+        self._gapless_set = False
+
+    def _on_stream_start(self, klass):
+        self._gapless_set = False
+        self._time_stamp = int(time.time())
+        self.emit("song-changed", self._playlist.get_current_index())
 
     @log
     def play(self, song_changed=True, song_offset=None):
@@ -648,7 +677,8 @@ class Player(GObject.GObject):
                 and not self._playlist.set_song(song_offset)):
             return False
 
-        if song_changed is True:
+        if (song_changed
+                or self._gapless_set):
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
