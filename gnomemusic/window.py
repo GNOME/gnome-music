@@ -152,8 +152,6 @@ class Window(Gtk.ApplicationWindow):
         self._player_toolbar = PlayerToolbar()
         self._player_toolbar.props.player = self._player
 
-        self.views = [None] * len(View)
-
         self._headerbar.connect(
             'back-button-clicked', self._switch_back_from_childview)
 
@@ -173,6 +171,7 @@ class Window(Gtk.ApplicationWindow):
         self.bind_property(
             'selection-mode', self._selection_toolbar, 'visible')
 
+        self.views = [Gtk.Box()] * len(View)
         # Create only the empty view at startup
         # if no music, switch to empty view and hide stack
         # if some music is available, populate stack with mainviews,
@@ -239,6 +238,8 @@ class Window(Gtk.ApplicationWindow):
         self._btn_ctrl.props.button = 8
         self._btn_ctrl.connect("pressed", self._on_back_button_pressed)
 
+        self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
+
         # FIXME: In case Grilo is already initialized before the views
         # get created, they never receive a 'ready' signal to trigger
         # population. To fix this another check was added to baseview
@@ -248,13 +249,6 @@ class Window(Gtk.ApplicationWindow):
         # to window._stack. For this to succeed, the stack needs to be
         # filled with something: Gtk.Box.
         # This is a bit of circular logic that needs to be fixed.
-        self.views[View.ALBUM] = Gtk.Box()
-        self.views[View.ARTIST] = Gtk.Box()
-        self.views[View.SONG] = Gtk.Box()
-        self.views[View.PLAYLIST] = Gtk.Box()
-        self.views[View.SEARCH] = Gtk.Box()
-
-        self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
         self._searchbar.show()
