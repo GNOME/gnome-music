@@ -632,12 +632,13 @@ class Player(GObject.GObject):
             self.stop()
 
     @log
-    def play(self, song_offset=None):
+    def play(self, song_changed=True, song_offset=None):
         """Play a song.
 
-        If song_offset is None, load and play current song. Otherwise, load a
-        new song and play it.
+        Load a new song or resume playback depending on song_changed
+        value. If song_offset is defined, set a new song and play it.
 
+        :param bool song_changed: indicate if a new song must be loaded
         :param int song_offset: position relative to current song
         """
         if self.props.current_song is None:
@@ -647,10 +648,7 @@ class Player(GObject.GObject):
                 and not self._playlist.set_song(song_offset)):
             return False
 
-        url = self._playlist.props.current_song.get_url()
-        loop_modes = [RepeatMode.SONG, RepeatMode.ALL]
-        if (url != self._gst_player.props.url
-                or self.props.repeat_mode in loop_modes):
+        if song_changed is True:
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
@@ -694,7 +692,7 @@ class Player(GObject.GObject):
         if self.props.state == Playback.PLAYING:
             self.pause()
         else:
-            self.play()
+            self.play(False)
 
     @log
     def set_playlist(self, playlist_type, playlist_id, model, iter_=None):
