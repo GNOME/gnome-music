@@ -1,6 +1,20 @@
 Overview of changes in 3.32.1
 =============================
 
+Bugs fixed:
+ Fix player scale starting on first song (#274)
+ About dialog movable (#261)
+ Keep the same app ID as in 3.30
+
+Thanks to ou contributors this release:
+ Georges Basile Stavacras Neto
+ Jean Felder
+ Kalev Lember
+ Marinus Schraal
+
+Overview of changes in 3.32.1
+=============================
+
 * MPRIS fixes
 * Update help application icon
 * Fix scale update on first song
