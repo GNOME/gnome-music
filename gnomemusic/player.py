@@ -575,6 +575,7 @@ class Player(GObject.GObject):
             GObject.BindingFlags.SYNC_CREATE)
 
         self._new_clock = True
+        self._song_changed = False
 
         self._gst_player = GstPlayer(application)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
@@ -644,14 +645,14 @@ class Player(GObject.GObject):
         if self.props.current_song is None:
             return
 
-        if (song_offset is not None
-                and not self._playlist.set_song(song_offset)):
-            return False
+        if song_offset is not None:
+            if self._playlist.set_song(song_offset):
+                self._song_changed = True
+            else:
+                return
 
-        url = self._playlist.props.current_song.get_url()
-        loop_modes = [RepeatMode.SONG, RepeatMode.ALL]
-        if (url != self._gst_player.props.url
-                or self.props.repeat_mode in loop_modes):
+        if self._song_changed is True:
+            self._song_changed = False
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
@@ -673,6 +674,7 @@ class Player(GObject.GObject):
         Play the next song of the playlist, if any.
         """
         if self._playlist.next():
+            self._song_changed = True
             self.play()
 
     @log
@@ -687,6 +689,7 @@ class Player(GObject.GObject):
             return
 
         if self._playlist.previous():
+            self._song_changed = True
             self.play()
 
     @log
@@ -706,6 +709,7 @@ class Player(GObject.GObject):
         :param GtkListStore model: list of songs to play
         :param GtkTreeIter model_iter: requested song
         """
+        self._song_changed = True
         playlist_changed = self._playlist.set_playlist(
             playlist_type, playlist_id, model, iter_)
 
