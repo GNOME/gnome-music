@@ -664,10 +664,7 @@ class Player(GObject.GObject):
                 and not self._playlist.set_song(song_offset)):
             return False
 
-        url = self._playlist.props.current_song.get_url()
-        loop_modes = [RepeatMode.SONG, RepeatMode.ALL]
-        if (url != self._gst_player.props.url
-                or self._repeat in loop_modes):
+        if self.props.state != Playback.PAUSED:
             self._load(self._playlist.props.current_song)
 
         self._gst_player.props.state = Playback.PLAYING
