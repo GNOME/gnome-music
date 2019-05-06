@@ -624,7 +624,8 @@ class MediaPlayer2Service(Server):
             self.player.props.current_song)
         current_song_index = self._path_list.index(current_song_path)
         goto_index = self._path_list.index(path)
-        self.player.play(goto_index - current_song_index)
+        song_offset = goto_index - current_song_index
+        self.player.play(song_offset=song_offset)
         return
 
     def TrackListReplaced(self, tracks, current_song):
