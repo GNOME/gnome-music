@@ -54,6 +54,64 @@ class CoreGrilo(GObject.GObject):
             self._tracker_source = source
             self._tracker_initial_fill(source)
             print(self._tracker_source, "added")
+            self._tracker_source.connect(
+                "content-changed", self._on_content_changed)
+
+    def _on_content_changed(self, source, medias, change_type, loc_unknown):
+        print("Content changed")
+
+        for media in medias:
+            if change_type == Grl.SourceChangeType.CHANGED:
+                print("CHANGED", media.get_id())
+                self._requery_media(media.get_id())
+
+    def _requery_media(self, grilo_id):
+        query = """
+            SELECT DISTINCT
+                rdf:type(?song)
+                ?song AS ?tracker_urn
+                nie:title(?song) AS ?title
+                tracker:id(?song) AS ?id
+                ?song
+                nie:url(?song) AS ?url
+                nie:title(?song) AS ?title
+                nmm:artistName(nmm:performer(?song)) AS ?artist
+                nie:title(nmm:musicAlbum(?song)) AS ?album
+                nfo:duration(?song) AS ?duration
+                nie:usageCounter(?song) AS ?play_count
+                nmm:trackNumber(?song) AS ?track_number
+                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+                ?tag AS ?favourite
+            WHERE {
+                ?song a nmm:MusicPiece .
+                OPTIONAL {
+                    ?song nao:hasTag ?tag .
+                    FILTER (?tag = nao:predefined-tag-favorite)
+                }
+                FILTER ( tracker:id(?song) = %(grilo_id)s )
+            }
+        """.replace('\n', ' ').strip() % {
+            'grilo_id': grilo_id
+        }
+
+        # print("query", query)
+        print("grilo id", grilo_id)
+
+        options = self._fast_options.copy()
+
+        self._tracker_source.query(
+            query, self.METADATA_KEYS, options, self._update_media)
+
+    def _update_media(self, source, op_id, media, user_data, error):
+        if error:
+            print("ERROR", error)
+            return
+
+        if not media:
+            print("NO MEDIA", source, op_id, media, error)
+            return
+
+        self._table[media.get_id()].update(media)
 
     def _on_source_removed(self, registry, source):
         print("removed", source.props.source_id)
