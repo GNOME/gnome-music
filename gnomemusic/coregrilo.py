@@ -73,6 +73,7 @@ class CoreGrilo(GObject.GObject):
                 nfo:duration(?song) AS ?duration
                 nie:usageCounter(?song) AS ?play_count
                 nmm:trackNumber(?song) AS ?track_number
+                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
             WHERE {
                 ?song a nmm:MusicPiece .
                 OPTIONAL {
