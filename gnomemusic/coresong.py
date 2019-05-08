@@ -14,7 +14,7 @@ class CoreSong(GObject.GObject):
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
     duration = GObject.Property(type=int)
-    favorite = GObject.Property(type=int)
+    favorite = GObject.Property(type=bool, default=False)
     play_count = GObject.Property(type=int)
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
