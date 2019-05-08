@@ -1,4 +1,4 @@
-from gi.repository import GObject
+from gi.repository import GObject, Gio
 
 from gnomemusic import log
 
@@ -9,3 +9,5 @@ class CoreModel(GObject.GObject):
     def __init__(self):
         super().__init__()
 
+        self._model = Gio.ListStore()
+        self._hash = {}
