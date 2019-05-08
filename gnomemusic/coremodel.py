@@ -13,4 +13,4 @@ class CoreModel(GObject.GObject):
         self._model = Gio.ListStore()
         self._hash = {}
 
-        self._grilo = CoreGrilo()
+        self._grilo = CoreGrilo(self._model, self._hash)
