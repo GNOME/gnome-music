@@ -72,7 +72,13 @@ class CoreGrilo(GObject.GObject):
                 nie:title(nmm:musicAlbum(?song)) AS ?album
                 nfo:duration(?song) AS ?duration
                 nie:usageCounter(?song) AS ?play_count
-            WHERE { ?song a nmm:MusicPiece . }
+            WHERE {
+                ?song a nmm:MusicPiece .
+                OPTIONAL {
+                    ?song nao:hasTag ?tag .
+                    FILTER (?tag = nao:predefined-tag-favorite)
+                }
+            }
         """.replace('\n', ' ').strip()
 
         print(query)
