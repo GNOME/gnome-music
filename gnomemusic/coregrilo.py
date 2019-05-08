@@ -2,6 +2,8 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GObject
 
+from gnomemusic.coresong import CoreSong
+
 
 class CoreGrilo(GObject.GObject):
 
@@ -89,7 +91,8 @@ class CoreGrilo(GObject.GObject):
             print("NO MEDIA", source, op_id, media, error)
             return
 
-        self._model.append(media)
-        self._table[media.get_id()] = media
+        song = CoreSong(media)
+        self._model.append(song)
+        self._table[media.get_id()] = song
 
-        # print(media.get_url(), media.get_title())
+        # print(song.props.title, song.props.url)
