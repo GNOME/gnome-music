@@ -25,9 +25,14 @@ class CoreModel(GObject.GObject):
         store = Gio.ListStore()
         album_id = media.get_id()
 
+        def _reverse_sort(song_a, song_b):
+            return song_b.props.track_number - song_a.props.track_number
+
         def _callback(source, dunno, media, something, something2):
             if media is None:
+                store.sort(_reverse_sort)
                 return
+
             print("media", media)
 
             song = self._hash[media.get_id()]
