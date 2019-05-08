@@ -36,6 +36,7 @@ import logging
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
+from gnomemusic.coremodel import CoreModel
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MediaPlayer2Service
 from gnomemusic.pauseonsuspend import PauseOnSuspend
@@ -61,6 +62,8 @@ class Application(Gtk.Application):
 
         self._init_style()
         self._window = None
+
+        coremodel = CoreModel()
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
