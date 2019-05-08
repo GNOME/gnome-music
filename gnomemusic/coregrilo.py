@@ -72,6 +72,7 @@ class CoreGrilo(GObject.GObject):
                 nie:title(nmm:musicAlbum(?song)) AS ?album
                 nfo:duration(?song) AS ?duration
                 nie:usageCounter(?song) AS ?play_count
+                nmm:trackNumber(?song) AS ?track_number
             WHERE {
                 ?song a nmm:MusicPiece .
                 OPTIONAL {
