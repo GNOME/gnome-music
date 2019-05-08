@@ -76,6 +76,9 @@ class Window(Gtk.ApplicationWindow):
         """
         super().__init__(application=app, title=_("Music"))
 
+        # Hack
+        self._app = app
+
         self._settings = app.props.settings
         self.add_action(self._settings.create_action('repeat'))
         select_all = Gio.SimpleAction.new('select_all', None)
