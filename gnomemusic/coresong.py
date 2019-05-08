@@ -56,3 +56,17 @@ class CoreSong(GObject.GObject):
 
         self._media.set_favourite(self._favorite)
         grilo.toggle_favorite(self._media, True)
+
+    @log
+    def update(self, media):
+        self._media = media
+
+        self.props.album = utils.get_album_title(media)
+        self.props.album_disc_number = self._media.get_album_disc_number()
+        self.props.artist = utils.get_artist_name(media)
+        self.props.favorite = self._media.get_favourite()
+        self.props.play_count = self._media.get_play_count()
+        self.props.title = utils.get_media_title(self._media)
+        self.props.track_number = self._media.get_track_number()
+        self.props.url = self._media.get_url()
+
