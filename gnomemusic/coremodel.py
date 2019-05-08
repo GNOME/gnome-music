@@ -1,6 +1,7 @@
 from gi.repository import GObject, Gio
 
 from gnomemusic import log
+from gnomemusic.coregrilo import CoreGrilo
 
 
 class CoreModel(GObject.GObject):
@@ -11,3 +12,5 @@ class CoreModel(GObject.GObject):
 
         self._model = Gio.ListStore()
         self._hash = {}
+
+        self._grilo = CoreGrilo()
