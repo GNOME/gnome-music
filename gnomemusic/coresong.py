@@ -3,6 +3,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GObject
 
 from gnomemusic import log
+from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
 
@@ -25,7 +26,7 @@ class CoreSong(GObject.GObject):
 
         self._media = media
 
-        self._favorte = False
+        self._favorite = False
 
         self.props.album = utils.get_album_title(media)
         self.props.album_disc_number = self._media.get_album_disc_number()
@@ -46,3 +47,12 @@ class CoreSong(GObject.GObject):
     @favorite.setter
     def favorite(self, favorite):
         self._favorite = favorite
+
+        # FIXME: I think some old code is triggering the signal and
+        # going haywire. So just check if there is anything to update.
+        old_fav = self._media.get_favourite()
+        if old_fav == self._favorite:
+            return
+
+        self._media.set_favourite(self._favorite)
+        grilo.toggle_favorite(self._media, True)
