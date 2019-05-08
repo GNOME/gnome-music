@@ -48,35 +48,14 @@ class AlbumWidget2(Gtk.EventBox):
         super().__init__()
 
         self._album = None
-        self._songs = []
 
         self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
         self._player = player
-        self._iter_to_clean = None
 
-        self._create_model()
         self._album_name = None
 
         self._listbox.connect("row-activated", self._on_row_activated)
-
-    @log
-    def _create_model(self):
-        """Create the ListStore model for this widget."""
-        self._model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,    # icon
-            GObject.TYPE_OBJECT,  # song object
-            GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
 
     @log
     def update(self, album):
@@ -84,12 +63,6 @@ class AlbumWidget2(Gtk.EventBox):
 
         :param Grl.Media album: The grilo media album
         """
-        # reset view
-        self._songs = []
-        self._create_model()
-        # for widget in self._disc_listbox.get_children():
-        #     self._disc_listbox.remove(widget)
-
         self._cover_stack.update(album)
 
         self._duration = 0
@@ -112,9 +85,6 @@ class AlbumWidget2(Gtk.EventBox):
 
         self._album = album
 
-        # self._player.connect('song-changed', self._update_model)
-
-        # grilo.populate_album_songs(album, self.add_item)
         self._listbox.bind_model(
             self._parent_view._window._app._coremodel.get_album_model(album),
             self._create_widget)
@@ -182,78 +152,12 @@ class AlbumWidget2(Gtk.EventBox):
         return True
 
     @log
-    def add_item(self, source, prefs, song, remaining, data=None):
-        """Add a song to the item to album list.
-
-        If no song is remaining create DiscBox and display the widget.
-        :param GrlTrackerSource source: The grilo source
-        :param prefs: not used
-        :param GrlMedia song: The grilo media object
-        :param int remaining: Remaining number of items to add
-        :param data: User data
-        """
-        if song:
-            self._songs.append(song)
-            self._duration += song.get_duration()
-            return
-
-        if remaining == 0:
-            discs = {}
-            for song in self._songs:
-                disc_nr = song.get_album_disc_number()
-                if disc_nr not in discs.keys():
-                    discs[disc_nr] = [song]
-                else:
-                    discs[disc_nr].append(song)
-
-            for disc_nr in discs:
-                disc = self._create_disc_box(disc_nr, discs[disc_nr])
-                if len(discs) == 1:
-                    disc.props.show_disc_label = False
-                self._disc_listbox.add(disc)
-
-            self._set_duration_label()
-            self._update_model(self._player)
-
-    @log
-    def _update_model(self, player, position=None):
-        """Updates model when the song changes
-
-        :param Player player: The main player object
-        :param int position: current song position
-        """
-        if not player.playing_playlist(
-                PlayerPlaylist.Type.ALBUM, self._album_name):
-            return True
-
-        current_song = player.props.current_song
-        self._duration = 0
-        song_passed = False
-
-        for song in self._songs:
-            song_widget = song.song_widget
-            self._duration += song.get_duration()
-
-            if (song.get_id() == current_song.get_id()):
-                song_widget.props.state = SongWidget.State.PLAYING
-                song_passed = True
-            elif (song_passed):
-                # Counter intuitive, but this is due to call order.
-                song_widget.props.state = SongWidget.State.UNPLAYED
-            else:
-                song_widget.props.state = SongWidget.State.PLAYED
-
-        self._set_duration_label()
-
-        return True
-
-    @log
     def select_all(self):
-        self._disc_listbox.select_all()
+        pass
 
     @log
     def select_none(self):
-        self._disc_listbox.select_none()
+        pass
 
     @log
     def get_selected_songs(self):
@@ -262,7 +166,7 @@ class AlbumWidget2(Gtk.EventBox):
         :returns: selected songs
         :rtype: list
         """
-        return self._disc_listbox.get_selected_items()
+        return []
 
     @GObject.Property(
         type=Grl.Media, default=False, flags=GObject.ParamFlags.READABLE)
