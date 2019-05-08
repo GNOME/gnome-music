@@ -14,3 +14,7 @@ class CoreModel(GObject.GObject):
         self._hash = {}
 
         self._grilo = CoreGrilo(self._model, self._hash)
+
+    @log
+    def get_model(self):
+        return self._model
