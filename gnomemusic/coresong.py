@@ -16,7 +16,6 @@ class CoreSong(GObject.GObject):
     duration = GObject.Property(type=int)
     favorite = GObject.Property(type=int)
     play_count = GObject.Property(type=int)
-    position = GObject.Property(type=int)
     title = GObject.Property(type=str)
     url = GObject.Property(type=str)
 
