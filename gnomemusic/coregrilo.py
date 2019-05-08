@@ -7,6 +7,10 @@ from gnomemusic.coresong import CoreSong
 
 class CoreGrilo(GObject.GObject):
 
+    __gsignals__ = {
+        "media-removed": (GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,))
+    }
+
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_ARTIST,
@@ -28,11 +32,13 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(self, model, table):
+    def __init__(self, model, table, url_hash):
         super().__init__()
 
         self._model = model
         self._table = table
+        # Only way to figure out removed items
+        self._url_table = url_hash
 
         Grl.init(None)
 
@@ -58,12 +64,17 @@ class CoreGrilo(GObject.GObject):
                 "content-changed", self._on_content_changed)
 
     def _on_content_changed(self, source, medias, change_type, loc_unknown):
-        print("Content changed")
+        # print("Content changed")
 
         for media in medias:
             if change_type == Grl.SourceChangeType.CHANGED:
                 print("CHANGED", media.get_id())
                 self._requery_media(media.get_id())
+            if change_type == Grl.SourceChangeType.REMOVED:
+                # print("REMOVED", media.get_id(), media.get_title(), media.get_url())
+                # print(self._table[media.get_id()])
+                self.emit("media-removed", media)
+                # print(self._table[media.get_id()])
 
     def _requery_media(self, grilo_id):
         query = """
@@ -161,5 +172,6 @@ class CoreGrilo(GObject.GObject):
         song = CoreSong(media)
         self._model.append(song)
         self._table[media.get_id()] = song
+        self._url_table[media.get_url()] = song
 
         # print(song.props.title, song.props.url)
