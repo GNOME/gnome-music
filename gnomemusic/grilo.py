@@ -469,19 +469,21 @@ class Grilo(GObject.GObject):
             self._store_metadata, media, Grl.METADATA_KEY_LAST_PLAYED)
 
     @log
-    def toggle_favorite(self, media):
+    def toggle_favorite(self, media, override=False):
         """Toggles favorite status for media item
 
         Toggles favorite status and writes it back to the tracker store
         :param media: A Grilo media item
         """
-        if media.get_favourite():
-            # For now keep unsetting the lyrics to deal with how
-            # previous versions dealt with favorites.
-            media.set_lyrics("")
-            media.set_favourite(False)
-        else:
-            media.set_favourite(True)
+        print("favorite for media", media)
+        if not override:
+            if media.get_favourite():
+                # For now keep unsetting the lyrics to deal with how
+                # previous versions dealt with favorites.
+                media.set_lyrics("")
+                media.set_favourite(False)
+            else:
+                media.set_favourite(True)
 
         # FIXME: Do this as an idle call, otherwise it may not return
         # and block other sources. This seems to point to a problem in
