@@ -55,6 +55,7 @@ class SongWidget(Gtk.EventBox):
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    favorite = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_duration = GObject.Property(type=bool, default=True)
     show_favorite = GObject.Property(type=bool, default=True)
@@ -100,8 +101,8 @@ class SongWidget(Gtk.EventBox):
 
         time = utils.seconds_to_string(media.get_duration())
         self._duration_label.set_text(time)
-
-        self._star_image.props.favorite = media.get_favourite()
+        print(media.get_favourite())
+        # self._star_image.props.favorite = media.get_favourite()
 
         self._select_button.set_visible(False)
 
@@ -125,6 +126,11 @@ class SongWidget(Gtk.EventBox):
             'show-song-number', self._number_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
         self._number_label.set_no_show_all(True)
+
+        self.bind_property(
+            "favorite", self._star_image, "favorite",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
     @Gtk.Template.Callback()
     @log

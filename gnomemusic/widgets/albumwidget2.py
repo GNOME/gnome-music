@@ -133,6 +133,11 @@ class AlbumWidget2(Gtk.EventBox):
     def _create_widget(self, song):
         song_widget = SongWidget(song._media)
 
+        song.bind_property(
+            "favorite", song_widget, "favorite",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         return song_widget
 
     @log
