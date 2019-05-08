@@ -126,7 +126,7 @@ class AlbumWidget2(Gtk.EventBox):
 
         # grilo.populate_album_songs(album, self.add_item)
         self._listbox.bind_model(
-            self._parent_view._window._app._coremodel.get_model(),
+            self._parent_view._window._app._coremodel.get_album_model(album),
             self._create_widget)
 
     @log
