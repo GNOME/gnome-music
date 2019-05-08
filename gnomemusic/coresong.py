@@ -14,7 +14,6 @@ class CoreSong(GObject.GObject):
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
     duration = GObject.Property(type=int)
-    favorite = GObject.Property(type=bool, default=False)
     play_count = GObject.Property(type=int)
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
@@ -26,6 +25,8 @@ class CoreSong(GObject.GObject):
 
         self._media = media
 
+        self._favorte = False
+
         self.props.album = utils.get_album_title(media)
         self.props.album_disc_number = self._media.get_album_disc_number()
         self.props.artist = utils.get_artist_name(media)
@@ -35,3 +36,13 @@ class CoreSong(GObject.GObject):
         self.props.track_number = self._media.get_track_number()
         self.props.url = self._media.get_url()
 
+        if self.props.favorite:
+            print("favorite", self.props.title)
+
+    @GObject.Property(type=bool, default=False)
+    def favorite(self):
+        return self._favorite
+
+    @favorite.setter
+    def favorite(self, favorite):
+        self._favorite = favorite
