@@ -125,6 +125,15 @@ class AlbumWidget2(Gtk.EventBox):
         # self._player.connect('song-changed', self._update_model)
 
         # grilo.populate_album_songs(album, self.add_item)
+        self._listbox.bind_model(
+            self._parent_view._window._app._coremodel.get_model(),
+            self._create_widget)
+
+    @log
+    def _create_widget(self, song):
+        song_widget = SongWidget(song._media)
+
+        return song_widget
 
     @log
     def _set_composer_label(self, album):
