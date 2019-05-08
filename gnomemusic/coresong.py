@@ -28,6 +28,7 @@ class CoreSong(GObject.GObject):
 
         self.props.album = utils.get_album_title(media)
         self.props.artist = utils.get_artist_name(media)
+        self.props.favorite = self._media.get_favourite()
         self.props.play_count = self._media.get_play_count()
         self.props.title = utils.get_media_title(self._media)
         self.props.url = self._media.get_url()
