@@ -17,6 +17,7 @@ class CoreSong(GObject.GObject):
     favorite = GObject.Property(type=int)
     play_count = GObject.Property(type=int)
     title = GObject.Property(type=str)
+    track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
 
     @log
@@ -30,5 +31,6 @@ class CoreSong(GObject.GObject):
         self.props.favorite = self._media.get_favourite()
         self.props.play_count = self._media.get_play_count()
         self.props.title = utils.get_media_title(self._media)
+        self.props.track_number = self._media.get_track_number()
         self.props.url = self._media.get_url()
 
