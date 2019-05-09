@@ -84,10 +84,8 @@ class AlbumWidget2(Gtk.EventBox):
         self._set_composer_label(album)
 
         self._album = album
-
-        self._listbox.bind_model(
-            self._parent_view._window._app._coremodel.get_album_model(album),
-            self._create_widget)
+        self._model = self._parent_view._window._app._coremodel.get_album_model(album)
+        self._listbox.bind_model(self._model, self._create_widget)
 
     @log
     def _create_widget(self, song):
@@ -97,6 +95,15 @@ class AlbumWidget2(Gtk.EventBox):
             "favorite", song_widget, "favorite",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+        song.bind_property(
+            "selected", song_widget, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            "selection-mode", song_widget, "selection-mode")
+
+        song.connect("notify::selected", self._on_selection_changed)
 
         return song_widget
 
@@ -120,24 +127,14 @@ class AlbumWidget2(Gtk.EventBox):
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
-    # @Gtk.Template.Callback()
     @log
-    def _on_selection_changed(self, widget):
-        n_items = len(self._disc_listbox.get_selected_items())
+    def _on_selection_changed(self, klass, value):
+        n_items = 0
+        for song in self._model:
+            if song.props.selected:
+                n_items += 1
+
         self.props.selected_items_count = n_items
-
-    @log
-    def _create_disc_box(self, disc_nr, disc_songs):
-        disc_box = DiscBox(self._model)
-        disc_box.set_songs(disc_songs)
-        disc_box.set_disc_number(disc_nr)
-        disc_box.props.columns = 1
-        disc_box.props.show_durations = True
-        disc_box.props.show_favorites = True
-        disc_box.props.show_song_numbers = False
-        disc_box.connect('song-activated', self._song_activated)
-
-        return disc_box
 
     @log
     def _song_activated(self, widget, song_widget):
@@ -153,11 +150,13 @@ class AlbumWidget2(Gtk.EventBox):
 
     @log
     def select_all(self):
-        pass
+        for song in self._model:
+            song.props.selected = True
 
     @log
     def select_none(self):
-        pass
+        for song in self._model:
+            song.props.selected = False
 
     @log
     def get_selected_songs(self):
@@ -166,7 +165,13 @@ class AlbumWidget2(Gtk.EventBox):
         :returns: selected songs
         :rtype: list
         """
-        return []
+        selected_songs = []
+
+        for song in self._model:
+            if song.props.selected:
+                selected_songs.append(song._media)
+
+        return selected_songs
 
     @GObject.Property(
         type=Grl.Media, default=False, flags=GObject.ParamFlags.READABLE)
