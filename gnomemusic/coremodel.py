@@ -33,7 +33,7 @@ class CoreModel(GObject.GObject):
         model_filter.set_filter_func(lambda a: False)
 
         def _filter_func(core_song):
-            return core_song._media.get_id() in albums_ids
+            return core_song.props.media.get_id() in albums_ids
 
         def _reverse_sort(song_a, song_b):
             return song_b.props.track_number - song_a.props.track_number
@@ -72,7 +72,7 @@ class CoreModel(GObject.GObject):
                     self._album_store.remove(i)
                     break
         
-        print("pop1", self._hash.pop(old_song._media.get_id()))
         print("pop2", self._url_hash.pop(media.get_url()))
+        print("pop1", self._hash.pop(old_song.props.media.get_id()))
 
                 # print("ITEM IN MODEL", media.get_id(), self._url_hash[media.get_url()]._media.get_id())
