@@ -15,6 +15,7 @@ class CoreSong(GObject.GObject):
     album_disc_number = GObject.Property(type=int)
     artist = GObject.Property(type=str)
     duration = GObject.Property(type=int)
+    media = GObject.Property(type=Grl.Media)
     play_count = GObject.Property(type=int)
     selected = GObject.Property(type=bool, default=False)
     title = GObject.Property(type=str)
@@ -25,18 +26,17 @@ class CoreSong(GObject.GObject):
     def __init__(self, media):
         super().__init__()
 
-        self._media = media
-
         self._favorite = False
 
+        self.props.media = media
         self.props.album = utils.get_album_title(media)
-        self.props.album_disc_number = self._media.get_album_disc_number()
+        self.props.album_disc_number = media.get_album_disc_number()
         self.props.artist = utils.get_artist_name(media)
-        self.props.favorite = self._media.get_favourite()
-        self.props.play_count = self._media.get_play_count()
-        self.props.title = utils.get_media_title(self._media)
-        self.props.track_number = self._media.get_track_number()
-        self.props.url = self._media.get_url()
+        self.props.favorite = media.get_favourite()
+        self.props.play_count = media.get_play_count()
+        self.props.title = utils.get_media_title(media)
+        self.props.track_number = media.get_track_number()
+        self.props.url = media.get_url()
 
         if self.props.favorite:
             print("favorite", self.props.title)
@@ -51,23 +51,22 @@ class CoreSong(GObject.GObject):
 
         # FIXME: I think some old code is triggering the signal and
         # going haywire. So just check if there is anything to update.
-        old_fav = self._media.get_favourite()
+        old_fav = self.props.media.get_favourite()
         if old_fav == self._favorite:
             return
 
-        self._media.set_favourite(self._favorite)
-        grilo.toggle_favorite(self._media, True)
+        self.props.media.set_favourite(self._favorite)
+        grilo.toggle_favorite(self.props.media, True)
 
     @log
     def update(self, media):
-        self._media = media
-
+        self.props.media = media
         self.props.album = utils.get_album_title(media)
-        self.props.album_disc_number = self._media.get_album_disc_number()
+        self.props.album_disc_number = media.get_album_disc_number()
         self.props.artist = utils.get_artist_name(media)
-        self.props.favorite = self._media.get_favourite()
-        self.props.play_count = self._media.get_play_count()
-        self.props.title = utils.get_media_title(self._media)
-        self.props.track_number = self._media.get_track_number()
-        self.props.url = self._media.get_url()
+        self.props.favorite = media.get_favourite()
+        self.props.play_count = media.get_play_count()
+        self.props.title = utils.get_media_title(media)
+        self.props.track_number = media.get_track_number()
+        self.props.url = media.get_url()
 
