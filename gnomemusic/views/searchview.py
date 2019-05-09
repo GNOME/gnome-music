@@ -236,11 +236,10 @@ class SearchView(BaseView):
 
         :param bool mode: new search mode
         """
-        current_mode = self._search_mode_active
 
         # Avoid unnecessarily setting the search_state and
         # other properties.
-        if current_mode == value:
+        if self._search_mode_active == value:
             return
 
         # FIXME: search_mode_active should not change search_state.
