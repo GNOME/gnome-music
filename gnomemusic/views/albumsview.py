@@ -150,21 +150,6 @@ class AlbumsView(BaseView):
             if len(self.albums_selected):
                 self._get_selected_album_songs()
 
-    @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            # Store all items to optimize 'Select All' action
-            self.all_items.append(item)
-
-            # Add to the flowbox
-            child = self._create_album_item(item)
-            self._view.add(child)
-            self._offset += 1
-        elif remaining == 0:
-            self._view.show()
-            self._window.notifications_popup.pop_loading()
-            self._init = False
-
     def _create_album_item(self, item):
         child = AlbumCover(item)
 
