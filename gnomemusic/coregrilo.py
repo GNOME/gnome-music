@@ -2,6 +2,8 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GObject
 
+from gnomemusic import log
+from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coresong import CoreSong
 
 
@@ -32,10 +34,11 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(self, model, table, url_hash):
+    def __init__(self, model, table, url_hash, albums_model):
         super().__init__()
 
         self._model = model
+        self._albums_model = albums_model
         self._table = table
         # Only way to figure out removed items
         self._url_table = url_hash
@@ -59,6 +62,7 @@ class CoreGrilo(GObject.GObject):
         if source.props.source_id == "grl-tracker-source":
             self._tracker_source = source
             self._tracker_initial_fill(source)
+            self._initial_albums_fill(source)
             print(self._tracker_source, "added")
             self._tracker_source.connect(
                 "content-changed", self._on_content_changed)
@@ -175,3 +179,35 @@ class CoreGrilo(GObject.GObject):
         self._url_table[media.get_url()] = song
 
         # print(song.props.title, song.props.url)
+
+    @log
+    def _initial_albums_fill(self, source):
+        query = """
+        SELECT
+            rdf:type(?album)
+            tracker:id(?album) AS ?id
+            nmm:artistName(?album_artist) AS ?album_artist
+            nie:title(?album) as ?title
+        {
+            ?album a nmm:MusicAlbum .
+            OPTIONAL { ?album nmm:albumArtist ?albumArtist . }
+        }
+        """.replace('\n', ' ').strip()
+
+        options = self._fast_options.copy()
+
+        source.query(
+            query, self.METADATA_KEYS, options, self._add_to_albums_model)
+
+    @log
+    def _add_to_albums_model(self, source, op_id, media, user_data, error):
+        if error:
+            print("ERROR", error)
+            return
+
+        if not media:
+            print("NO MEDIA", source, op_id, media, error)
+            return
+
+        album = CoreAlbum(media)
+        self._albums_model.append(album)

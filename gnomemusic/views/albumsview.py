@@ -43,6 +43,7 @@ class AlbumsView(BaseView):
 
     @log
     def __init__(self, window, player):
+        self._window = window
         super().__init__('albums', _("Albums"), window)
 
         self.player = player
@@ -84,7 +85,7 @@ class AlbumsView(BaseView):
             homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
             valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
             margin=18, row_spacing=12, column_spacing=6,
-            min_children_per_line=1, max_children_per_line=20)
+            min_children_per_line=1, max_children_per_line=20, visible=True)
 
         self._view.get_style_context().add_class('content-view')
         self._view.connect('child-activated', self._on_child_activated)
@@ -94,6 +95,17 @@ class AlbumsView(BaseView):
         scrolledwin.show()
 
         self._box.add(scrolledwin)
+
+        self._model = self._window._app._coremodel.get_albums_model()
+        self._view.bind_model(self._model, self._create_widget)
+
+        self._view.show()
+
+    @log
+    def _create_widget(self, album):
+        album_widget = AlbumCover(album.props.media)
+        print(album.props.artist)
+        return album_widget
 
     @log
     def _back_button_clicked(self, widget, data=None):
@@ -120,9 +132,10 @@ class AlbumsView(BaseView):
 
     @log
     def _populate(self, data=None):
-        self._window.notifications_popup.push_loading()
-        grilo.populate_albums(self._offset, self._add_item)
+        # self._window.notifications_popup.push_loading()
+        # grilo.populate_albums(self._offset, self._add_item)
         self._init = True
+        self._view.show()
 
     @log
     def get_selected_songs(self, callback):
