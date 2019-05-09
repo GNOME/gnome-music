@@ -135,7 +135,7 @@ class AlbumsView(BaseView):
         # FIXME: we call into private objects with full knowledge of
         # what is there
         if self._headerbar.props.state == HeaderBar.State.CHILD:
-            callback(self._album_widget._disc_listbox.get_selected_items())
+            callback(self._album_widget.get_selected_songs())
         else:
             self.items_selected = []
             self.items_selected_callback = callback
