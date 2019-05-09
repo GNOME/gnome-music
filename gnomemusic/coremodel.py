@@ -14,11 +14,13 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._model = Gio.ListStore()
+        self._album_model = Gio.ListStore()
         self._album_store = None
         self._hash = {}
         self._url_hash = {}
 
-        self._grilo = CoreGrilo(self._model, self._hash, self._url_hash)
+        self._grilo = CoreGrilo(
+            self._model, self._hash, self._url_hash, self._album_model)
         self._grilo.connect("media-removed", self._on_media_removed)
 
     @log
@@ -49,6 +51,10 @@ class CoreModel(GObject.GObject):
         grilo.populate_album_songs(media, _callback)
 
         return model_filter
+
+    @log
+    def get_albums_model(self):
+        return self._album_model
 
     @log
     def _on_media_removed(self, klass, media):
