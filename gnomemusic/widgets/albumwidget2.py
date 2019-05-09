@@ -134,7 +134,7 @@ class AlbumWidget2(Gtk.EventBox):
             "{} minute", "{} minutes", mins).format(mins)
 
     @log
-    def _on_row_activated(self, klass, value):
+    def _on_row_activated(self, klass, listboxrow):
         old_model = Gtk.ListStore(
             GObject.TYPE_STRING,  # title
             GObject.TYPE_STRING,
@@ -152,8 +152,9 @@ class AlbumWidget2(Gtk.EventBox):
 
         for song in self._model:
             _iter = old_model.insert_with_valuesv(-1, [5], [song.props.media])
-            if song is self._model[value.get_index()]:
+            if song is self._model[listboxrow.get_index()]:
                 activated_iter = _iter
+                listboxrow.get_child().props.state = SongWidget.State.PLAYING
 
         self._player.set_playlist(
             PlayerPlaylist.Type.ALBUM, self._album_name, old_model,
