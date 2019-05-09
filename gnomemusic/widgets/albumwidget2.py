@@ -111,6 +111,8 @@ class AlbumWidget2(Gtk.EventBox):
 
         song.connect("notify::selected", self._on_selection_changed)
 
+        self._set_duration_label()
+
         return song_widget
 
     @log
@@ -129,7 +131,11 @@ class AlbumWidget2(Gtk.EventBox):
 
     @log
     def _set_duration_label(self):
-        mins = (self._duration // 60) + 1
+        total_duration = 0
+        for song in self._model:
+            total_duration += song.props.duration
+
+        mins = (total_duration // 60) + 1
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
