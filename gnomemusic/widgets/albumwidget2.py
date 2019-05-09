@@ -95,7 +95,7 @@ class AlbumWidget2(Gtk.EventBox):
 
     @log
     def _create_widget(self, song):
-        song_widget = SongWidget(song._media)
+        song_widget = SongWidget(song.props.media)
 
         song.bind_property(
             "favorite", song_widget, "favorite",
@@ -175,7 +175,7 @@ class AlbumWidget2(Gtk.EventBox):
 
         for song in self._model:
             if song.props.selected:
-                selected_songs.append(song._media)
+                selected_songs.append(song.props.media)
 
         return selected_songs
 
