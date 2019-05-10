@@ -485,7 +485,7 @@ class Window(Gtk.ApplicationWindow):
 
         previous_view = self.views[View.SEARCH].previous_view
         if previous_view:
-            self._stack.props.visible_child = (previous_view)
+            self._stack.props.visible_child = previous_view
 
     @log
     def _on_search_state_changed(self, search_instance, param):
