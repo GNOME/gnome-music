@@ -690,18 +690,20 @@ class PlaylistView(BaseView):
 
         else:
             song_todelete = self._songs_todelete[media_id]
-            playlist = song_todelete['playlist']
-            if (self._current_playlist
-                    and playlist.get_id() == self._current_playlist.get_id()):
-                iter_ = self._add_song_to_model(
-                    song_todelete['song'], self.model, song_todelete['index'])
-                playlist_id = self._current_playlist.get_id()
-                if self.player.playing_playlist(
-                        PlayerPlaylist.Type.PLAYLIST, playlist_id):
-                    song = self.model[iter_][5]
-                    path = self.model.get_path(iter_)
-                    self.player.add_song(song, int(path.to_string()))
             self._songs_todelete.pop(media_id)
+            if not self._is_current_playlist(song_todelete['playlist']):
+                return
+
+            iter_ = self._add_song_to_model(
+                song_todelete['song'], self.model, song_todelete['index'])
+
+            playlist_id = self._current_playlist.get_id()
+            if not self.player.playing_playlist(
+                    PlayerPlaylist.Type.PLAYLIST, playlist_id):
+                return
+
+            path = self.model.get_path(iter_)
+            self.player.add_song(self.model[iter_][5], int(path.to_string()))
 
     @log
     def _finish_pending_deletion(self, playlist_notification):
