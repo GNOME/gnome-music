@@ -247,7 +247,7 @@ class PlayerPlaylist(GObject.GObject):
         """
         item = [song, ValidationStatus.PENDING]
         self._songs.insert(song_index, item)
-        if song_index >= self._current_index:
+        if song_index <= self._current_index:
             self._current_index += 1
 
         self._validate_song(song_index)
