@@ -125,12 +125,18 @@ class PlaylistsView(BaseView):
         self.player.connect('song-validated', self._on_song_validated)
 
         self._playlists = Playlists.get_default()
-        self._playlists.connect("playlist-created", self._on_playlist_created)
+        self._playlists.connect("notify::ready", self._on_playlists_loading)
         self._playlists.connect("playlist-updated", self._on_playlist_update)
         self._playlists.connect(
             "song-added-to-playlist", self._on_song_added_to_playlist)
         self._playlists.connect(
             "activate-playlist", self._on_playlist_activation_request)
+
+        self._playlists_model = self._playlists.get_playlists()
+        self._sidebar.bind_model(
+            self._playlists_model, self._add_playlist_to_sidebar)
+        self._playlists_model.connect(
+            "items-changed", self._on_playlists_model_changed)
 
         self.show_all()
 
@@ -226,8 +232,9 @@ class PlaylistsView(BaseView):
             cell.set_property('text', utils.get_album_title(item))
 
     def _on_list_widget_icon_render(self, col, cell, model, _iter, data):
+        playlist_id = self._current_playlist.props.pl_id
         if not self.player.playing_playlist(
-                PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
+                PlayerPlaylist.Type.PLAYLIST, playlist_id):
             cell.set_visible(False)
             return
 
@@ -253,10 +260,11 @@ class PlaylistsView(BaseView):
         if self._current_playlist is None:
             return
 
+        playlist_id = self._current_playlist.props.pl_id
         if self._iter_to_clean:
             self._iter_to_clean_model[self._iter_to_clean][10] = False
         if not player.playing_playlist(
-                PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
+                PlayerPlaylist.Type.PLAYLIST, playlist_id):
             return False
 
         index = self.player.props.current_song_index
@@ -271,63 +279,42 @@ class PlaylistsView(BaseView):
         return False
 
     @log
-    def _add_playlist_item(
-            self, source, param, playlist, remaining=0,
-            select_playlist_id=None):
-        """Grilo.populate_playlists callback.
-
-        Add all playlists found by Grilo to sidebar
-
-        :param GrlTrackerSource source: tracker source
-        :param int param: param
-        :param GrlMedia playlist: playlist to add
-        :param int remaining: next playlist_id or zero if None
-        :param str select_playlist_id: playlist id to select on load
-        """
-        if not playlist:
-            self._window.notifications_popup.pop_loading()
-            if not self._sidebar.get_selected_row():
-                first_row = self._sidebar.get_row_at_index(0)
-                self._sidebar.select_row(first_row)
-                first_row.emit('activate')
-            return
-
-        select_playlist = (playlist.get_id() == select_playlist_id)
-        self._add_playlist_to_sidebar(playlist, None, select_playlist)
-
-    @log
-    def _add_playlist_to_sidebar(
-            self, playlist, index=None, select_playlist=False):
+    def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
 
         :param GrlMedia playlist: playlist to add
         :param int index: position
         """
-        if index is None:
-            index = -1
-        if self._playlists.is_smart_playlist(playlist):
-            index = 0
-
-        title = utils.get_media_title(playlist)
         row = SidebarRow()
-        row.props.text = title
-        # FIXME: Passing the Grl.Media with the row object is ugly.
+        row.props.text = playlist.props.title
+        # FIXME: Passing the Playlist with the row object is ugly.
         row.playlist = playlist
 
-        self._sidebar.insert(row, index)
-        self._offset += 1
+        return row
 
-        if select_playlist:
-            self._sidebar.select_row(row)
-            row.emit('activate')
+    def _on_playlists_model_changed(self, model, position, removed, added):
+        # select the next row when a playlist is deleted
+        if removed > 0:
+            row_next = (self._sidebar.get_row_at_index(position)
+                        or self._sidebar.get_row_at_index(position - 1))
+            if row_next:
+                self._sidebar.select_row(row_next)
+                row_next.emit("activate")
+
+        elif (added > 0
+              and position == 0):
+            first_row = self._sidebar.get_row_at_index(0)
+            self._sidebar.select_row(first_row)
+            first_row.emit("activate")
 
     @log
     def _on_song_validated(self, player, index, status):
         if self._current_playlist is None:
             return
 
+        playlist_id = self._current_playlist.props.pl_id
         if not self.player.playing_playlist(
-                PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
+                PlayerPlaylist.Type.PLAYLIST, playlist_id):
             return
 
         iter_ = self.model.get_iter_from_string(str(index))
@@ -356,7 +343,7 @@ class PlaylistsView(BaseView):
             _iter = None
             if path:
                 _iter = self.model.get_iter(path)
-            playlist_id = self._current_playlist.get_id()
+            playlist_id = self._current_playlist.props.pl_id
             self.player.set_playlist(
                 PlayerPlaylist.Type.PLAYLIST, playlist_id, self.model, _iter)
             self.player.play()
@@ -415,8 +402,9 @@ class PlaylistsView(BaseView):
         last_pos = max(new_pos, prev_pos)
 
         # update player's playlist if necessary
+        playlist_id = self._current_playlist.props.pl_id
         if self.player.playing_playlist(
-                PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
+                PlayerPlaylist.Type.PLAYLIST, playlist_id):
             if new_pos < prev_pos:
                 prev_pos -= 1
             else:
@@ -471,17 +459,25 @@ class PlaylistsView(BaseView):
         self._create_notification(PlaylistNotification.Type.SONG, song_id)
 
     @log
-    def _on_playlist_update(self, playlists, playlist_id):
+    def _on_playlists_loading(self, klass, value):
+        if not self._playlists.props.ready:
+            self._window.notifications_popup.push_loading()
+        else:
+            self._window.notifications_popup.pop_loading()
+
+    @log
+    def _on_playlist_update(self, playlists, playlist):
         """Refresh the displayed playlist if necessary
 
-        :param playlists: playlists
-        :param playlist_id: updated playlist's id
+        :param playlists: playlists object
+        :param Playlist playlist: updated playlist
         """
+        if not self._is_current_playlist(playlist):
+            return
+
+        self._star_handler.star_renderer_click = False
         for row in self._sidebar:
-            playlist = row.playlist
-            if (str(playlist_id) == playlist.get_id()
-                    and self._is_current_playlist(playlist)):
-                self._star_handler.star_renderer_click = False
+            if playlist == row.playlist:
                 self._on_playlist_activated(self._sidebar, row)
                 break
 
@@ -503,7 +499,7 @@ class PlaylistsView(BaseView):
 
         playlist_row = None
         for row in self._sidebar:
-            if row.playlist.get_id() == playlist_id:
+            if row.playlist.props.pl_id == playlist_id:
                 playlist_row = row
                 break
 
@@ -521,7 +517,7 @@ class PlaylistsView(BaseView):
     @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
-        if self._playlists.is_smart_playlist(self._current_playlist):
+        if self._current_playlist.props.is_smart:
             return
         self._stage_playlist_for_deletion(None)
 
@@ -529,7 +525,7 @@ class PlaylistsView(BaseView):
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
         playlist = row.playlist
-        playlist_name = utils.get_media_title(playlist)
+        playlist_name = playlist.props.title
 
         if self.rename_active:
             self._pl_ctrls.disable_rename_playlist()
@@ -547,8 +543,7 @@ class PlaylistsView(BaseView):
         self._update_songs_count(0)
         grilo.populate_playlist_songs(playlist, self._add_song)
 
-        protected_pl = self._playlists.is_smart_playlist(
-            self._current_playlist)
+        protected_pl = self._current_playlist.props.is_smart
         self._playlist_delete_action.set_enabled(not protected_pl)
         self._playlist_rename_action.set_enabled(not protected_pl)
         self._remove_song_action.set_enabled(not protected_pl)
@@ -574,7 +569,7 @@ class PlaylistsView(BaseView):
                 first_iter = self.model.get_iter_first()
                 self.player.set_playlist(
                     PlayerPlaylist.Type.PLAYLIST,
-                    self._current_playlist.get_id(), self.model, first_iter)
+                    self._current_playlist.props.pl_id, self.model, first_iter)
                 self.player.play()
                 self._plays_songs_on_activation = False
 
@@ -607,7 +602,7 @@ class PlaylistsView(BaseView):
         if self._current_playlist is None:
             return False
 
-        return playlist.get_id() == self._current_playlist.get_id()
+        return playlist.props.pl_id == self._current_playlist.props.pl_id
 
     @log
     def _get_removal_notification_message(self, type_, data):
@@ -621,13 +616,12 @@ class PlaylistsView(BaseView):
 
         if type_ == PlaylistNotification.Type.PLAYLIST:
             pl_todelete = data
-            playlist_title = utils.get_media_title(pl_todelete)
-            msg = _("Playlist {} removed".format(playlist_title))
+            msg = _("Playlist {} removed".format(pl_todelete.props.title))
 
         else:
             song_id = data
             song_todelete = self._songs_todelete[song_id]
-            playlist_title = utils.get_media_title(song_todelete['playlist'])
+            playlist_title = song_todelete["playlist"].props.title
             song_title = utils.get_media_title(song_todelete['song'])
             msg = _("{} removed from {}".format(
                 song_title, playlist_title))
@@ -649,20 +643,13 @@ class PlaylistsView(BaseView):
         self.model.clear()
         selection = self._sidebar.get_selected_row()
         index = selection.get_index()
-        playlist_id = self._current_playlist.get_id()
+        playlist_id = selection.playlist.props.pl_id
         self._playlists.stage_playlist_for_deletion(selection.playlist, index)
-        row_next = (self._sidebar.get_row_at_index(index + 1)
-                    or self._sidebar.get_row_at_index(index - 1))
-        self._sidebar.remove(selection)
 
         if self.player.playing_playlist(
                 PlayerPlaylist.Type.PLAYLIST, playlist_id):
             self.player.stop()
             self._window.set_player_visible(False)
-
-        if row_next:
-            self._sidebar.select_row(row_next)
-            row_next.emit('activate')
 
         self._create_notification(
             PlaylistNotification.Type.PLAYLIST, selection.playlist)
@@ -674,8 +661,7 @@ class PlaylistsView(BaseView):
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
             pl_todelete = playlist_notification.data
-            index = self._playlists.undo_pending_deletion(pl_todelete)
-            self._add_playlist_to_sidebar(pl_todelete, index)
+            self._playlists.undo_pending_deletion(pl_todelete)
 
         else:
             song_id = playlist_notification.data
@@ -687,7 +673,7 @@ class PlaylistsView(BaseView):
             iter_ = self._add_song_to_model(
                 song_todelete['song'], self.model, song_todelete['index'])
 
-            playlist_id = self._current_playlist.get_id()
+            playlist_id = self._current_playlist.props.pl_id
             if not self.player.playing_playlist(
                     PlayerPlaylist.Type.PLAYLIST, playlist_id):
                 return
@@ -701,7 +687,7 @@ class PlaylistsView(BaseView):
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
             pl_todelete = playlist_notification.data
-            self._playlists.delete_playlist(pl_todelete.get_id())
+            self._playlists.delete_playlist(pl_todelete)
         else:
             song_id = playlist_notification.data
             song_todelete = self._songs_todelete[song_id]
@@ -730,34 +716,25 @@ class PlaylistsView(BaseView):
         self._playlists.rename(pl_torename, new_name)
 
     @log
-    def _on_playlist_created(self, playlists, playlist):
-        """Adds new playlist to sidebar
-
-        If the sidebar has not been populated yet, it has no effect:
-        the playlist will be displayed once the playlists are loaded.
-        """
-        if not self._init:
-            return
-        self._add_playlist_to_sidebar(playlist)
-
-    @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
-        if (self._current_playlist
-                and playlist.props.pl_id != self._current_playlist.get_id()):
-            iter_ = self._add_song_to_model(item, self.model)
-            playlist_id = self._current_playlist.get_id()
-            if self.player.playing_playlist(
-                    PlayerPlaylist.Type.PLAYLIST, playlist_id):
-                path = self.model.get_path(iter_)
-                self.player.add_song(item, int(path.to_string()))
+        if not self._is_current_playlist(playlist):
+            return
+
+        iter_ = self._add_song_to_model(item, self.model)
+        playlist_id = self._current_playlist.props.pl_id
+        if self.player.playing_playlist(
+                PlayerPlaylist.Type.PLAYLIST, playlist_id):
+            path = self.model.get_path(iter_)
+            self.player.add_song(item, int(path.to_string()))
 
     @log
     def _remove_song_from_playlist(self, playlist, item, index):
         if not self._is_current_playlist(playlist):
             return
 
+        playlist_id = self._current_playlist.props.pl_id
         if self.player.playing_playlist(
-                PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
+                PlayerPlaylist.Type.PLAYLIST, playlist_id):
             self.player.remove_song(index)
 
         iter_ = self.model.get_iter_from_string(str(index))
@@ -770,7 +747,4 @@ class PlaylistsView(BaseView):
         """Populate sidebar.
         Do not reload playlists already displayed.
         """
-        self._window.notifications_popup.push_loading()
-        grilo.populate_playlists(
-            self._offset, self._add_playlist_item, -1, data)
         self._init = True
