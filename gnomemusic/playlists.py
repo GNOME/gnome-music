@@ -574,19 +574,6 @@ class Playlists(GObject.GObject):
         return self._smart_playlists[name]
 
     @log
-    def is_smart_playlist(self, playlist):
-        """Checks whether the given playlist is smart or not
-
-        :return: True if the playlist is smart
-        :rtype: bool
-        """
-        for smart_playlist in self._smart_playlists.values():
-            if playlist.get_id() == smart_playlist.props.pl_id:
-                return True
-
-        return False
-
-    @log
     def activate_playlist(self, playlist_id):
         """Activates a playlist.
 
