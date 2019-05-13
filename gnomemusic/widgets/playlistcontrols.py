@@ -27,7 +27,6 @@ import gettext
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
-import gnomemusic.utils as utils
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
@@ -99,8 +98,7 @@ class PlaylistControls(Gtk.Grid):
         :param Grl.Media pl_torename : The playlist to rename
         """
         self._name_stack.props.visible_child_name = "renaming_dialog"
-        self._set_rename_entry_text_and_focus(
-            utils.get_media_title(pl_torename))
+        self._set_rename_entry_text_and_focus(pl_torename.props.title)
 
     @log
     def disable_rename_playlist(self):

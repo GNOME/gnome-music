@@ -162,13 +162,9 @@ class Playlists(GObject.GObject):
         'playlist-created': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
         ),
-        'playlist-deleted': (
-            GObject.SignalFlags.RUN_FIRST, None, (str,)
-        ),
-        "playlist-updated": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        'playlist-renamed': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
-        ),
+        "playlist-deleted": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
+        "playlist-updated": (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
+        "playlist-renamed": (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         'song-added-to-playlist': (
             GObject.SignalFlags.RUN_FIRST, None, (Playlist, Grl.Media)
         ),
@@ -202,7 +198,7 @@ class Playlists(GObject.GObject):
         }
         self._playlists_model = Gio.ListStore.new(Playlist)
 
-        self._pls_todelete = {}
+        self._pls_todelete = []
 
         self._loading_counter = len(self._smart_playlists)
         self._user_playlists_ready = False
@@ -457,38 +453,34 @@ class Playlists(GObject.GObject):
             update_callback, None)
 
     @log
-    def rename(self, item, new_name):
+    def rename(self, playlist, new_name):
         """Rename a playlist
 
-        :param item: playlist to rename
-        :param new_name: new playlist name
-        :type item: Grl.Media
-        :type new_name: str
-        :return: None
-        :rtype: None
+        :param Playlist item: playlist to rename
+        :param str new_name: new playlist name
         """
         def update_callback(conn, res, data):
             conn.update_finish(res)
-            self.emit('playlist-renamed', item)
+            self.emit("playlist-renamed", playlist)
 
+        query = Query.rename_playlist(playlist.props.pl_id, new_name)
         self._tracker.update_async(
-            Query.rename_playlist(item.get_id(), new_name), GLib.PRIORITY_LOW,
-            None, update_callback, None)
+            query, GLib.PRIORITY_LOW, None, update_callback, None)
 
     @log
-    def delete_playlist(self, item_id):
+    def delete_playlist(self, playlist):
         """Deletes a user playlist
 
-        :param str item_id: Playlist id to delete
+        :param Playlist playlist: Playlist to delete
         """
         def update_callback(conn, res, data):
             conn.update_finish(res)
-            self.emit("playlist-deleted", item_id)
+            self.emit("playlist-deleted", playlist.props.pl_id)
 
-        self._pls_todelete.pop(item_id)
+        self._pls_todelete.remove(playlist)
+        query = Query.delete_playlist(playlist.props.pl_id)
         self._tracker.update_async(
-            Query.delete_playlist(item_id), GLib.PRIORITY_LOW,
-            None, update_callback, None)
+            query, GLib.PRIORITY_LOW, None, update_callback, None)
 
     @log
     def add_to_playlist(self, playlist, items):
@@ -528,25 +520,24 @@ class Playlists(GObject.GObject):
         def update_callback(conn, res, data):
             conn.update_finish(res)
 
-        playlist_id = playlist.get_id()
         for item in items:
             item_id = item.get_id()
             self._tracker.update_async(
-                Query.remove_song_from_playlist(playlist_id, item_id),
+                Query.remove_song_from_playlist(playlist.props.pl_id, item_id),
                 GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log
     def reorder_playlist(self, playlist, items, new_positions):
         """Change the order of songs on a playlist.
 
-        :param GlrMedia playlist: playlist to reorder
+        :param Playlist playlist: playlist to reorder
         :param list items: songs to reorder
         :param list new_positions: new songs positions
         """
         def update_callback(conn, res, data):
             conn.update_finish(res)
 
-        playlist_id = playlist.get_id()
+        playlist_id = playlist.props.pl_id
         for item, new_position in zip(items, new_positions):
             item_id = item.get_id()
             self._tracker.update_async(
@@ -565,7 +556,7 @@ class Playlists(GObject.GObject):
     @log
     def get_user_playlists(self):
         def user_playlists_filter(playlist):
-            return (playlist.props.pl_id not in self._pls_todelete.keys()
+            return (playlist not in self._pls_todelete
                     and not playlist.props.is_smart)
 
         model_filter = Dazzle.ListModelFilter.new(self._playlists_model)
@@ -610,32 +601,21 @@ class Playlists(GObject.GObject):
     def stage_playlist_for_deletion(self, playlist, index):
         """Adds a playlist to the list of playlists to delete
 
-        :param Grl.Media playlist: playlist to delete
+        :param Playlist playlist: playlist to delete
         :param int index: Playlist position in PlaylistView
         """
-        playlist_id = playlist.get_id()
-        self._pls_todelete[playlist_id] = {
-            "playlist": playlist,
-            "index": index
-        }
+        self._pls_todelete.append(playlist)
         self._playlists_model.remove(index)
 
     @log
     def undo_pending_deletion(self, playlist):
         """Undo pending playlist deletion
 
-        :param Grl.Media playlist: playlist to restore
-        :returns: playlist previous index
-        :rtype: int
+        :param Playlist playlist: playlist to restore
         """
-        playlist_id = playlist.get_id()
-        index = self._pls_todelete[playlist_id]["index"]
-        self._pls_todelete.pop(playlist_id)
-        playlist = Playlist(
-            pl_id=playlist_id, title=utils.get_media_title(playlist))
-        self._playlists_model.insert(index, playlist)
-
-        return index
+        self._pls_todelete.remove(playlist)
+        self._playlists_model.insert_sorted(
+            playlist, Playlist.compare_playlist_func)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
