@@ -46,6 +46,9 @@ class Playlist(GObject.GObject):
     TAG_TEXT = ""
     TITLE = ""
 
+    def __repr__(self):
+        return "<Playlist>"
+
     def __init__(self):
         super().__init()
 
