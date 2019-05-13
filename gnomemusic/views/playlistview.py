@@ -305,7 +305,7 @@ class PlaylistView(BaseView):
         """
         if index is None:
             index = -1
-        if playlists.is_static_playlist(playlist):
+        if playlists.is_smart_playlist(playlist):
             index = 0
 
         title = utils.get_media_title(playlist)
@@ -519,7 +519,7 @@ class PlaylistView(BaseView):
     @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
-        if playlists.is_static_playlist(self._current_playlist):
+        if playlists.is_smart_playlist(self._current_playlist):
             return
         self._stage_playlist_for_deletion(None)
 
@@ -546,7 +546,7 @@ class PlaylistView(BaseView):
         self._pl_ctrls.props.display_songs_count = False
         grilo.populate_playlist_songs(playlist, self._add_song)
 
-        protected_pl = playlists.is_static_playlist(self._current_playlist)
+        protected_pl = playlists.is_smart_playlist(self._current_playlist)
         self._playlist_delete_action.set_enabled(not protected_pl)
         self._playlist_rename_action.set_enabled(not protected_pl)
         self._remove_song_action.set_enabled(not protected_pl)

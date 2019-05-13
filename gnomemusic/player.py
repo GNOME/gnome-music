@@ -792,10 +792,10 @@ class Player(GObject.GObject):
             if (percentage > 0.5
                     and self._new_clock):
                 self._new_clock = False
-                # FIXME: we should not need to update static
+                # FIXME: we should not need to update smart
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
-                playlists.update_all_static_playlists()
+                playlists.update_all_smart_playlists()
                 grilo.bump_play_count(current_song)
                 grilo.set_last_played(current_song)
 
