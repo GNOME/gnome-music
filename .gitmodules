@@ -4,3 +4,6 @@
 [submodule "subprojects/shared-modules"]
 	path = subprojects/shared-modules
 	url = https://github.com/flathub/shared-modules.git
+[submodule "subprojects/gfm"]
+	path = subprojects/gfm
+	url = https://gitlab.gnome.org/mschraal/gfm.git
