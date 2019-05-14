@@ -101,7 +101,6 @@ class SongWidget(Gtk.EventBox):
 
         time = utils.seconds_to_string(media.get_duration())
         self._duration_label.set_text(time)
-        print(media.get_favourite())
         # self._star_image.props.favorite = media.get_favourite()
 
         self._select_button.set_visible(False)
