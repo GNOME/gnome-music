@@ -25,19 +25,20 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gettext import gettext as _
+import logging
 import math
 
 import gi
 gi.require_version("Dazzle", "1.0")
 gi.require_version('Grl', '0.3')
-from gi.repository import Dazzle, Gio, Grl, GLib, GObject
+from gi.repository import Dazzle, Gio, GLib, GObject, Grl
+
+from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 import gnomemusic.utils as utils
-from gettext import gettext as _
 
-from gnomemusic import log
-import logging
 logger = logging.getLogger(__name__)
 
 
