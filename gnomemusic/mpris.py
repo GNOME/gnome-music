@@ -294,7 +294,7 @@ class MPRIS(DBusInterface):
 
         self._playlists = Playlists.get_default()
         self._playlists.connect('playlist-renamed', self._on_playlist_renamed)
-        self._playlists.connect("notify::ready", self._on_playlists_loaded)
+        self._playlists.connect("notify::ready", self._on_playlists_loading)
 
         self._player_previous_type = None
         self._path_list = []
@@ -554,7 +554,10 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    def _on_playlists_loaded(self, klass, param):
+    def _on_playlists_loading(self, klass, param):
+        if not self._playlists.props.ready:
+            return
+
         self._playlists_model = self._playlists.get_playlists()
         self._playlists_model.connect(
             "items-changed", self._on_playlists_count_changed)
