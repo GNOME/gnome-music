@@ -63,11 +63,10 @@ class AlbumWidget(Gtk.EventBox):
         return '<AlbumWidget>'
 
     @log
-    def __init__(self, player, parent_view):
+    def __init__(self, player):
         """Initialize the AlbumWidget.
 
         :param player: The player object
-        :param parent_view: The view this widget is part of
         """
         super().__init__()
 
@@ -75,7 +74,6 @@ class AlbumWidget(Gtk.EventBox):
         self._songs = []
 
         self._cover_stack.props.size = Art.Size.LARGE
-        self._parent_view = parent_view
         self._player = player
         self._iter_to_clean = None
 
@@ -85,14 +83,6 @@ class AlbumWidget(Gtk.EventBox):
         self.bind_property(
             'selection-mode', self._disc_listbox, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
-
-        self.bind_property(
-            'selection-mode', self._parent_view, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-
-        self.bind_property(
-            'selected-items-count', self._parent_view, 'selected-items-count')
 
     @log
     def _create_model(self):

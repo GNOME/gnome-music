@@ -46,7 +46,14 @@ class AlbumsView(BaseView):
         super().__init__('albums', _("Albums"), window)
 
         self.player = player
-        self._album_widget = AlbumWidget(player, self)
+
+        self._album_widget = AlbumWidget(player)
+        self._album_widget.bind_property(
+            'selection-mode', self, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
+        self._album_widget.bind_property(
+            'selected-items-count', self, 'selected-items-count')
+
         self.add(self._album_widget)
         self.albums_selected = []
         self.all_items = []
