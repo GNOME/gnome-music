@@ -519,8 +519,9 @@ class PlaylistView(BaseView):
     @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
-        if not self._current_playlist_is_protected():
-            self._stage_playlist_for_deletion(None)
+        if playlists.is_static_playlist(self._current_playlist):
+            return
+        self._stage_playlist_for_deletion(None)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
@@ -545,16 +546,11 @@ class PlaylistView(BaseView):
         self._pl_ctrls.props.display_songs_count = False
         grilo.populate_playlist_songs(playlist, self._add_song)
 
-        if self._current_playlist_is_protected():
-            self._playlist_delete_action.set_enabled(False)
-            self._playlist_rename_action.set_enabled(False)
-            self._remove_song_action.set_enabled(False)
-            self._view.set_reorderable(False)
-        else:
-            self._playlist_delete_action.set_enabled(True)
-            self._playlist_rename_action.set_enabled(True)
-            self._remove_song_action.set_enabled(True)
-            self._view.set_reorderable(True)
+        protected_pl = playlists.is_static_playlist(self._current_playlist)
+        self._playlist_delete_action.set_enabled(not protected_pl)
+        self._playlist_rename_action.set_enabled(not protected_pl)
+        self._remove_song_action.set_enabled(not protected_pl)
+        self._view.set_reorderable(not protected_pl)
 
     @log
     def _add_song(self, source, param, song, remaining=0, data=None):
@@ -602,11 +598,6 @@ class PlaylistView(BaseView):
     @log
     def _on_play_activate(self, menuitem, data=None):
         self._view.emit('row-activated', None, None)
-
-    @log
-    def _current_playlist_is_protected(self):
-        current_playlist_id = self._current_playlist.get_id()
-        return current_playlist_id in StaticPlaylists().get_ids()
 
     @log
     def _is_current_playlist(self, playlist):
