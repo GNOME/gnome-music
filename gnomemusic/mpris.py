@@ -692,7 +692,12 @@ class MediaPlayer2Service(Server):
                              GLib.Variant.new_tuple(GLib.Variant('(oss)', playlist)))
 
     def Get(self, interface_name, property_name):
-        return self.GetAll(interface_name)[property_name]
+        try:
+            return self.GetAll(interface_name)[property_name]
+        except KeyError as e:
+            logger.warning(
+                "Trying to get unknow {} property".format(property_name))
+            return GLib.Variant('mi', None),
 
     def GetAll(self, interface_name):
         if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
