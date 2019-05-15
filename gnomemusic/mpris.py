@@ -62,6 +62,26 @@ class Server:
                        method_name,
                        parameters,
                        invocation):
+        if method_name.startswith("Get"):
+            print("request method", method_name)
+            print("parameters", parameters)
+
+            self.bus_proxy = Gio.DBusProxy.new_sync(
+                connection,
+                Gio.DBusProxyFlags.NONE,
+                None,
+                'org.freedesktop.DBus',
+                '/org/freedesktop/DBus',
+                'org.freedesktop.DBus', None)
+
+            result = self.bus_proxy.call_sync(
+                "GetConnectionUnixProcessID", GLib.Variant('(s)', (sender,)),
+                Gio.DBusCallFlags.NONE, -1, None)
+            pid = result.unpack()[0]
+            proc_path = '/proc/' + str(pid) + '/cmdline'
+            with open(proc_path, 'r') as f:
+                command_line = " ".join(f.readline().split('\0'))
+            print("pid {} and cmd: {}\n".format(pid, command_line))
 
         args = list(parameters.unpack())
         for i, sig in enumerate(self.method_inargs[method_name]):
