@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="PlaylistDialogRow" parent="GtkListBoxRow">
+    <property name="visible">True</property>
+    <style>
+      <class name="playlistdialog-row"/>
+    </style>
+    <child>
+      <object class="GtkLabel" id="_label">
+        <property name="margin">8</property>
+        <property name="visible">True</property>
+        <property name="xalign">0.0</property>
+      </object>
+    </child>
+  </template>
+</interface>
