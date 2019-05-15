@@ -24,7 +24,7 @@ class CoreModel(GObject.GObject):
 
         self._grilo = CoreGrilo(
             self._model, self._hash, self._url_hash, self._album_model)
-        self._grilo.connect("media-removed", self._on_media_removed)
+        # self._grilo.connect("media-removed", self._on_media_removed)
 
     @log
     def get_model(self):
