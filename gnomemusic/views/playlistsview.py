@@ -38,8 +38,6 @@ from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.sidebarrow import SidebarRow
 import gnomemusic.utils as utils
 
-playlists = Playlists.get_default()
-
 
 class PlaylistsView(BaseView):
     """Main view for playlists"""
@@ -125,12 +123,14 @@ class PlaylistsView(BaseView):
 
         self.player.connect('song-changed', self._update_model)
         self.player.connect('song-validated', self._on_song_validated)
-        playlists.connect('playlist-created', self._on_playlist_created)
-        playlists.connect('playlist-updated', self._on_playlist_update)
-        playlists.connect(
-            'song-added-to-playlist', self._on_song_added_to_playlist)
-        playlists.connect(
-            'activate-playlist', self._on_playlist_activation_request)
+
+        self._playlists = Playlists.get_default()
+        self._playlists.connect("playlist-created", self._on_playlist_created)
+        self._playlists.connect("playlist-updated", self._on_playlist_update)
+        self._playlists.connect(
+            "song-added-to-playlist", self._on_song_added_to_playlist)
+        self._playlists.connect(
+            "activate-playlist", self._on_playlist_activation_request)
 
         self.show_all()
 
@@ -305,7 +305,7 @@ class PlaylistsView(BaseView):
         """
         if index is None:
             index = -1
-        if playlists.is_smart_playlist(playlist):
+        if self._playlists.is_smart_playlist(playlist):
             index = 0
 
         title = utils.get_media_title(playlist)
@@ -436,7 +436,8 @@ class PlaylistsView(BaseView):
             songs.append(model[_iter][5])
             positions.append(pos + 1)
 
-        playlists.reorder_playlist(self._current_playlist, songs, positions)
+        self._playlists.reorder_playlist(
+            self._current_playlist, songs, positions)
 
     @log
     def _play_song(self, menuitem, data=None):
@@ -451,7 +452,8 @@ class PlaylistsView(BaseView):
 
         playlist_dialog = PlaylistDialog(self._window)
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-            playlists.add_to_playlist(playlist_dialog.get_selected(), [song])
+            self._playlists.add_to_playlist(
+                playlist_dialog.get_selected(), [song])
         playlist_dialog.destroy()
 
     @log
@@ -519,7 +521,7 @@ class PlaylistsView(BaseView):
     @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
-        if playlists.is_smart_playlist(self._current_playlist):
+        if self._playlists.is_smart_playlist(self._current_playlist):
             return
         self._stage_playlist_for_deletion(None)
 
@@ -545,7 +547,8 @@ class PlaylistsView(BaseView):
         self._update_songs_count(0)
         grilo.populate_playlist_songs(playlist, self._add_song)
 
-        protected_pl = playlists.is_smart_playlist(self._current_playlist)
+        protected_pl = self._playlists.is_smart_playlist(
+            self._current_playlist)
         self._playlist_delete_action.set_enabled(not protected_pl)
         self._playlist_rename_action.set_enabled(not protected_pl)
         self._remove_song_action.set_enabled(not protected_pl)
@@ -647,7 +650,7 @@ class PlaylistsView(BaseView):
         selection = self._sidebar.get_selected_row()
         index = selection.get_index()
         playlist_id = self._current_playlist.get_id()
-        playlists.stage_playlist_for_deletion(selection.playlist, index)
+        self._playlists.stage_playlist_for_deletion(selection.playlist, index)
         row_next = (self._sidebar.get_row_at_index(index + 1)
                     or self._sidebar.get_row_at_index(index - 1))
         self._sidebar.remove(selection)
@@ -671,7 +674,7 @@ class PlaylistsView(BaseView):
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
             pl_todelete = playlist_notification.data
-            index = playlists.undo_pending_deletion(pl_todelete)
+            index = self._playlists.undo_pending_deletion(pl_todelete)
             self._add_playlist_to_sidebar(pl_todelete, index)
 
         else:
@@ -698,11 +701,11 @@ class PlaylistsView(BaseView):
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
             pl_todelete = playlist_notification.data
-            playlists.delete_playlist(pl_todelete.get_id())
+            self._playlists.delete_playlist(pl_todelete.get_id())
         else:
             song_id = playlist_notification.data
             song_todelete = self._songs_todelete[song_id]
-            playlists.remove_from_playlist(
+            self._playlists.remove_from_playlist(
                 song_todelete['playlist'], [song_todelete['song']])
             self._songs_todelete.pop(song_id)
 
@@ -724,7 +727,7 @@ class PlaylistsView(BaseView):
 
         pl_torename = selection.playlist
         pl_torename.set_title(new_name)
-        playlists.rename(pl_torename, new_name)
+        self._playlists.rename(pl_torename, new_name)
 
     @log
     def _on_playlist_created(self, playlists, playlist):
