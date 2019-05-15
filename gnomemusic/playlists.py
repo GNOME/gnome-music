@@ -33,7 +33,6 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
 import inspect
-sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
 
 from gnomemusic import log
 import logging
