@@ -201,19 +201,11 @@
                     <property name="can_focus">True</property>
                     <property name="vexpand">True</property>
                     <child>
-                      <object class="GtkTreeView" id="_view">
+                      <object class="GtkListBox" id="_listbox">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">_model</property>
-                        <property name="headers_visible">False</property>
-                        <property name="search_column">0</property>
-                        <property name="activate_on_single_click">True</property>
-                        <signal name="row-activated" handler="_on_item_activated" swapped="no"/>
-                        <child internal-child="selection">
-                          <object class="GtkTreeSelection" id="_selection">
-                            <signal name="changed" handler="_on_selection_changed" swapped="no"/>
-                          </object>
-                        </child>
+                        <property name="selection_mode">single</property>
+                        <signal name="row-selected" handler="_on_row_selected" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -278,13 +270,5 @@
         <property name="position">1</property>
       </packing>
     </child>
-  </object>
-  <object class="GtkListStore" id="_model">
-    <columns>
-      <!-- column-name playlist-name -->
-      <column type="gchararray"/>
-      <!-- column-name item -->
-      <column type="GObject"/>
-    </columns>
   </object>
 </interface>
