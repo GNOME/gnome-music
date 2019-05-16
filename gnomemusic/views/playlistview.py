@@ -29,7 +29,7 @@ from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
-from gnomemusic.playlists import Playlists, StaticPlaylists
+from gnomemusic.playlists import Playlists
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
@@ -305,7 +305,7 @@ class PlaylistView(BaseView):
         """
         if index is None:
             index = -1
-        if playlists.is_static_playlist(playlist):
+        if playlists.is_smart_playlist(playlist):
             index = 0
 
         title = utils.get_media_title(playlist)
@@ -519,8 +519,9 @@ class PlaylistView(BaseView):
     @log
     def remove_playlist(self):
         """Removes the current selected playlist"""
-        if not self._current_playlist_is_protected():
-            self._stage_playlist_for_deletion(None)
+        if playlists.is_smart_playlist(self._current_playlist):
+            return
+        self._stage_playlist_for_deletion(None)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
@@ -545,16 +546,11 @@ class PlaylistView(BaseView):
         self._pl_ctrls.props.display_songs_count = False
         grilo.populate_playlist_songs(playlist, self._add_song)
 
-        if self._current_playlist_is_protected():
-            self._playlist_delete_action.set_enabled(False)
-            self._playlist_rename_action.set_enabled(False)
-            self._remove_song_action.set_enabled(False)
-            self._view.set_reorderable(False)
-        else:
-            self._playlist_delete_action.set_enabled(True)
-            self._playlist_rename_action.set_enabled(True)
-            self._remove_song_action.set_enabled(True)
-            self._view.set_reorderable(True)
+        protected_pl = playlists.is_smart_playlist(self._current_playlist)
+        self._playlist_delete_action.set_enabled(not protected_pl)
+        self._playlist_rename_action.set_enabled(not protected_pl)
+        self._remove_song_action.set_enabled(not protected_pl)
+        self._view.set_reorderable(not protected_pl)
 
     @log
     def _add_song(self, source, param, song, remaining=0, data=None):
@@ -602,11 +598,6 @@ class PlaylistView(BaseView):
     @log
     def _on_play_activate(self, menuitem, data=None):
         self._view.emit('row-activated', None, None)
-
-    @log
-    def _current_playlist_is_protected(self):
-        current_playlist_id = self._current_playlist.get_id()
-        return current_playlist_id in StaticPlaylists().get_ids()
 
     @log
     def _is_current_playlist(self, playlist):
@@ -690,18 +681,20 @@ class PlaylistView(BaseView):
 
         else:
             song_todelete = self._songs_todelete[media_id]
-            playlist = song_todelete['playlist']
-            if (self._current_playlist
-                    and playlist.get_id() == self._current_playlist.get_id()):
-                iter_ = self._add_song_to_model(
-                    song_todelete['song'], self.model, song_todelete['index'])
-                playlist_id = self._current_playlist.get_id()
-                if self.player.playing_playlist(
-                        PlayerPlaylist.Type.PLAYLIST, playlist_id):
-                    song = self.model[iter_][5]
-                    path = self.model.get_path(iter_)
-                    self.player.add_song(song, int(path.to_string()))
             self._songs_todelete.pop(media_id)
+            if not self._is_current_playlist(song_todelete['playlist']):
+                return
+
+            iter_ = self._add_song_to_model(
+                song_todelete['song'], self.model, song_todelete['index'])
+
+            playlist_id = self._current_playlist.get_id()
+            if not self.player.playing_playlist(
+                    PlayerPlaylist.Type.PLAYLIST, playlist_id):
+                return
+
+            path = self.model.get_path(iter_)
+            self.player.add_song(self.model[iter_][5], int(path.to_string()))
 
     @log
     def _finish_pending_deletion(self, playlist_notification):

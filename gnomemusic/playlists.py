@@ -33,7 +33,6 @@ from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
 import inspect
-sparql_dateTime_format = "%Y-%m-%dT%H:%M:%SZ"
 
 from gnomemusic import log
 import logging
@@ -41,17 +40,17 @@ logger = logging.getLogger(__name__)
 
 
 class Playlist:
-    """ Base class of static and intelligent playlists """
+    """ Base class of all playlists """
     ID = None
     QUERY = None
     TAG_TEXT = ""
     TITLE = ""
 
 
-class StaticPlaylists:
+class SmartPlaylists:
 
     def __repr__(self):
-        return '<StaticPlaylists>'
+        return '<SmartPlaylists>'
 
     class MostPlayed(Playlist):
         TAG_TEXT = "MOST_PLAYED"
@@ -88,21 +87,21 @@ class StaticPlaylists:
 
     @staticmethod
     def get_ids():
-        """Get all static playlist IDs
+        """Get all smart playlist IDs
 
         :return: A list of tracker.id's
         :rtype: A list of integers
         """
-        return [str(playlist.ID) for playlist in StaticPlaylists.get_all()]
+        return [str(playlist.ID) for playlist in SmartPlaylists.get_all()]
 
     @staticmethod
     def get_all():
-        """Get all static playlist classes
+        """Get all smart playlist classes
 
-        :return: All StaticPlaylists innerclasses
+        :return: All SmartPlaylists innerclasses
         :rtype: A list of classes
         """
-        return [cls for name, cls in inspect.getmembers(StaticPlaylists)
+        return [cls for name, cls in inspect.getmembers(SmartPlaylists)
                 if inspect.isclass(cls) and not name == "__class__"]
 
 
@@ -147,13 +146,13 @@ class Playlists(GObject.GObject):
     def __init__(self):
         super().__init__()
 
-        self._static_playlists = StaticPlaylists()
+        self._smart_playlists = SmartPlaylists()
 
         grilo.connect('ready', self._on_grilo_ready)
 
     @log
     def _on_grilo_ready(self, data=None):
-        """For all static playlists: get ID, if exists; if not, create
+        """For all smart playlists: get ID, if exists; if not, create
         the playlist and get ID."""
 
         def playlist_id_fetched_cb(cursor, res, playlist):
@@ -167,11 +166,11 @@ class Playlists(GObject.GObject):
             playlist.ID = cursor.get_integer(1)
 
             if not playlist.ID:
-                # Create the  static playlist
-                self._create_static_playlist(playlist)
+                # Create the smart playlist
+                self._create_smart_playlist(playlist)
             else:
                 # Update playlist
-                self.update_static_playlist(playlist)
+                self.update_smart_playlist(playlist)
 
         def callback(obj, result, playlist):
             """ Starts retrieving the playlist id """
@@ -185,15 +184,15 @@ class Playlists(GObject.GObject):
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
         self._tracker = grilo.tracker_sparql
-        # Start fetching all the static playlists
-        for playlist in self._static_playlists.get_all():
+        # Start fetching all the smart playlists
+        for playlist in self._smart_playlists.get_all():
             self._tracker.query_async(
                 Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
                 callback, playlist)
 
     @log
-    def _create_static_playlist(self, playlist):
-        """ Create the tag and the static playlist, and fetch the newly created
+    def _create_smart_playlist(self, playlist):
+        """ Create the tag and the smart playlist, and fetch the newly created
         playlist's songs.
         """
         title = playlist.TITLE
@@ -212,7 +211,7 @@ class Playlists(GObject.GObject):
             playlist.ID = cursor.get_integer(0)
 
             # Fetch the playlist contents
-            self.update_static_playlist(playlist)
+            self.update_smart_playlist(playlist)
 
         def playlist_queried_cb(obj, res, playlist):
             """ Called after the playlist is created and the ID is fetched """
@@ -225,7 +224,7 @@ class Playlists(GObject.GObject):
             cursor.next_async(None, playlist_next_async_cb, playlist)
 
         def playlist_created_cb(obj, res, playlist):
-            """ Called when the static playlist is created """
+            """ Called when the smart playlist is created """
             data = obj.update_blank_finish(res)
             playlist_urn = data.get_child_value(0).get_child_value(0).\
                 get_child_value(0).get_child_value(1).get_string()
@@ -251,8 +250,8 @@ class Playlists(GObject.GObject):
             tag_created_cb, playlist)
 
     @log
-    def update_static_playlist(self, playlist):
-        """Given a static playlist (subclass of StaticPlaylists),
+    def update_smart_playlist(self, playlist):
+        """Given a smart playlist (subclass of SmartPlaylists),
         updates according to its query."""
         # Clear the playlist
         self.clear_playlist(playlist)
@@ -262,18 +261,18 @@ class Playlists(GObject.GObject):
         """Starts cleaning the playlist"""
         query = Query.clear_playlist_with_id(playlist.ID)
         self._tracker.update_async(
-            query, GLib.PRIORITY_LOW, None, self._static_playlist_cleared_cb,
+            query, GLib.PRIORITY_LOW, None, self._smart_playlist_cleared_cb,
             playlist)
 
     @log
-    def _static_playlist_cleared_cb(self, connection, res, playlist):
+    def _smart_playlist_cleared_cb(self, connection, res, playlist):
         """After clearing the playlist, start querying the playlist's songs"""
         # Get a list of matching songs
         self._tracker.query_async(
-            playlist.QUERY, None, self._static_playlist_query_cb, playlist)
+            playlist.QUERY, None, self._smart_playlist_query_cb, playlist)
 
     @log
-    def _static_playlist_query_cb(self, connection, res, playlist):
+    def _smart_playlist_query_cb(self, connection, res, playlist):
         """Fetch the playlist's songs"""
         final_query = ''
 
@@ -300,19 +299,19 @@ class Playlists(GObject.GObject):
             else:
                 self._tracker.update_blank_async(
                     final_query, GLib.PRIORITY_LOW, None,
-                    self._static_playlist_update_finished, playlist)
+                    self._smart_playlist_update_finished, playlist)
 
         # Asynchronously form the playlist's final query
         cursor.next_async(None, callback, final_query)
 
     @log
-    def _static_playlist_update_finished(self, source, res, static_playlist):
-        self.emit('playlist-updated', static_playlist.ID)
+    def _smart_playlist_update_finished(self, source, res, smart_playlist):
+        self.emit('playlist-updated', smart_playlist.ID)
 
     @log
-    def update_all_static_playlists(self):
-        for playlist in self._static_playlists.get_all():
-            self.update_static_playlist(playlist)
+    def update_all_smart_playlists(self):
+        for playlist in self._smart_playlists.get_all():
+            self.update_smart_playlist(playlist)
 
     @log
     def create_playlist(self, title):
@@ -442,14 +441,14 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log
-    def is_static_playlist(self, playlist):
-        """Checks whether the given playlist is static or not
+    def is_smart_playlist(self, playlist):
+        """Checks whether the given playlist is smart or not
 
-        :return: True if the playlist is static
+        :return: True if the playlist is smart
         :rtype: bool
         """
-        for static_playlist_id in self._static_playlists.get_ids():
-            if playlist.get_id() == static_playlist_id:
+        for smart_playlist_id in self._smart_playlists.get_ids():
+            if playlist.get_id() == smart_playlist_id:
                 return True
 
         return False

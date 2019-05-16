@@ -115,7 +115,7 @@ class PlaylistDialog(Gtk.Dialog):
 
     @log
     def _add_item_to_model(self, item):
-        """Adds (non-static only) playlists to the model"""
+        """Adds (non-smart only) playlists to the model"""
 
         # Hide playlists that are going to be deleted
         if item.get_id() in self._playlists_todelete_ids:
