@@ -117,7 +117,6 @@ class PlaylistsView(BaseView):
         self._iter_to_clean_model = None
         self._current_playlist = None
         self._plays_songs_on_activation = False
-        self.pls_todelete = {}
         self._songs_todelete = {}
         self._songs_count = 0
 
@@ -450,8 +449,7 @@ class PlaylistsView(BaseView):
         model, _iter = self._view.get_selection().get_selected()
         song = model[_iter][5]
 
-        playlist_dialog = PlaylistDialog(
-            self._window, self.pls_todelete)
+        playlist_dialog = PlaylistDialog(self._window)
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
             playlists.add_to_playlist(playlist_dialog.get_selected(), [song])
         playlist_dialog.destroy()
@@ -609,7 +607,7 @@ class PlaylistsView(BaseView):
         return playlist.get_id() == self._current_playlist.get_id()
 
     @log
-    def _get_removal_notification_message(self, type_, media_id):
+    def _get_removal_notification_message(self, type_, data):
         """ Returns a label for the playlist notification popup
 
         Handles two cases:
@@ -619,12 +617,13 @@ class PlaylistsView(BaseView):
         msg = ""
 
         if type_ == PlaylistNotification.Type.PLAYLIST:
-            pl_todelete = self.pls_todelete[media_id]
-            playlist_title = utils.get_media_title(pl_todelete['playlist'])
+            pl_todelete = data
+            playlist_title = utils.get_media_title(pl_todelete)
             msg = _("Playlist {} removed".format(playlist_title))
 
         else:
-            song_todelete = self._songs_todelete[media_id]
+            song_id = data
+            song_todelete = self._songs_todelete[song_id]
             playlist_title = utils.get_media_title(song_todelete['playlist'])
             song_title = utils.get_media_title(song_todelete['song'])
             msg = _("{} removed from {}".format(
@@ -633,10 +632,10 @@ class PlaylistsView(BaseView):
         return msg
 
     @log
-    def _create_notification(self, type_, media_id):
-        msg = self._get_removal_notification_message(type_, media_id)
+    def _create_notification(self, type_, data):
+        msg = self._get_removal_notification_message(type_, data)
         playlist_notification = PlaylistNotification(
-            self._window.notifications_popup, type_, msg, media_id)
+            self._window.notifications_popup, type_, msg, data)
         playlist_notification.connect(
             'undo-deletion', self._undo_pending_deletion)
         playlist_notification.connect(
@@ -648,10 +647,7 @@ class PlaylistsView(BaseView):
         selection = self._sidebar.get_selected_row()
         index = selection.get_index()
         playlist_id = self._current_playlist.get_id()
-        self.pls_todelete[playlist_id] = {
-            'playlist': selection.playlist,
-            'index': index
-        }
+        playlists.stage_playlist_for_deletion(selection.playlist, index)
         row_next = (self._sidebar.get_row_at_index(index + 1)
                     or self._sidebar.get_row_at_index(index - 1))
         self._sidebar.remove(selection)
@@ -666,23 +662,22 @@ class PlaylistsView(BaseView):
             row_next.emit('activate')
 
         self._create_notification(
-            PlaylistNotification.Type.PLAYLIST, playlist_id)
+            PlaylistNotification.Type.PLAYLIST, selection.playlist)
 
     @log
     def _undo_pending_deletion(self, playlist_notification):
         """Revert the last playlist removal"""
         notification_type = playlist_notification.type_
-        media_id = playlist_notification.media_id
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
-            pl_todelete = self.pls_todelete[media_id]
-            self._add_playlist_to_sidebar(
-                pl_todelete['playlist'], pl_todelete['index'])
-            self.pls_todelete.pop(media_id)
+            pl_todelete = playlist_notification.data
+            index = playlists.undo_pending_deletion(pl_todelete)
+            self._add_playlist_to_sidebar(pl_todelete, index)
 
         else:
-            song_todelete = self._songs_todelete[media_id]
-            self._songs_todelete.pop(media_id)
+            song_id = playlist_notification.data
+            song_todelete = self._songs_todelete[song_id]
+            self._songs_todelete.pop(song_id)
             if not self._is_current_playlist(song_todelete['playlist']):
                 return
 
@@ -700,18 +695,16 @@ class PlaylistsView(BaseView):
     @log
     def _finish_pending_deletion(self, playlist_notification):
         notification_type = playlist_notification.type_
-        media_id = playlist_notification.media_id
 
         if notification_type == PlaylistNotification.Type.PLAYLIST:
-            pl_todelete = self.pls_todelete[media_id]
-            playlists.delete_playlist(pl_todelete['playlist'])
-            self.pls_todelete.pop(media_id)
-
+            pl_todelete = playlist_notification.data
+            playlists.delete_playlist(pl_todelete.get_id())
         else:
-            song_todelete = self._songs_todelete[media_id]
+            song_id = playlist_notification.data
+            song_todelete = self._songs_todelete[song_id]
             playlists.remove_from_playlist(
                 song_todelete['playlist'], [song_todelete['song']])
-            self._songs_todelete.pop(media_id)
+            self._songs_todelete.pop(song_id)
 
     @GObject.Property(type=bool, default=False)
     def rename_active(self):

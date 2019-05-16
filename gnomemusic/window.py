@@ -490,8 +490,7 @@ class Window(Gtk.ApplicationWindow):
             if len(selected_songs) < 1:
                 return
 
-            playlist_dialog = PlaylistDialog(
-                self, self.views[View.PLAYLIST].pls_todelete)
+            playlist_dialog = PlaylistDialog(self)
             if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
                 playlists.add_to_playlist(
                     playlist_dialog.get_selected(), selected_songs)
