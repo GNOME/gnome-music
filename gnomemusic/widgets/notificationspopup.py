@@ -220,11 +220,11 @@ class PlaylistNotification(Gtk.Grid):
         return '<PlaylistNotification>'
 
     @log
-    def __init__(self, notifications_popup, type_, message, media_id):
+    def __init__(self, notifications_popup, type_, message, data):
         super().__init__(column_spacing=18)
         self._notifications_popup = notifications_popup
         self.type_ = type_
-        self.media_id = media_id
+        self.data = data
 
         self._label = Gtk.Label(
             label=message, halign=Gtk.Align.START, hexpand=True)
