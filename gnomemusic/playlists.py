@@ -113,7 +113,7 @@ class Playlists(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
         ),
         'playlist-deleted': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
+            GObject.SignalFlags.RUN_FIRST, None, (str,)
         ),
         'playlist-updated': (
             GObject.SignalFlags.RUN_FIRST, None, (int,)
@@ -145,6 +145,7 @@ class Playlists(GObject.GObject):
         super().__init__()
 
         self._smart_playlists = SmartPlaylists()
+        self._pls_todelete = {}
 
         grilo.connect('ready', self._on_grilo_ready)
 
@@ -366,13 +367,18 @@ class Playlists(GObject.GObject):
             None, update_callback, None)
 
     @log
-    def delete_playlist(self, item):
+    def delete_playlist(self, item_id):
+        """Deletes a user playlist
+
+        :param str item_id: Playlist id to delete
+        """
         def update_callback(conn, res, data):
             conn.update_finish(res)
-            self.emit('playlist-deleted', item)
+            self.emit("playlist-deleted", item_id)
 
+        self._pls_todelete.pop(item_id)
         self._tracker.update_async(
-            Query.delete_playlist(item.get_id()), GLib.PRIORITY_LOW,
+            Query.delete_playlist(item_id), GLib.PRIORITY_LOW,
             None, update_callback, None)
 
     @log
@@ -457,3 +463,35 @@ class Playlists(GObject.GObject):
         """
         # FIXME: just a proxy
         self.emit('activate-playlist', playlist_id)
+
+    @log
+    def stage_playlist_for_deletion(self, playlist, index):
+        """Adds a playlist to the list of playlists to delete
+
+        :param Grl.Media playlist: playlist to delete
+        :param int index: Playlist position in PlaylistView
+        """
+        playlist_id = playlist.get_id()
+        self._pls_todelete[playlist_id] = {
+            "playlist": playlist,
+            "index": index
+        }
+
+    @log
+    def undo_pending_deletion(self, playlist):
+        """Undo pending playlist deletion
+
+        :param Grl.Media playlist: playlist to restore
+        :returns: playlist previous index
+        :rtype: int
+        """
+        playlist_id = playlist.get_id()
+        index = self._pls_todelete[playlist_id]["index"]
+        self._pls_todelete.pop(playlist_id)
+
+        return index
+
+    @log
+    def get_playlists_to_delete(self):
+        """Gets playlists ids ready for deletion"""
+        return self._pls_todelete.keys()

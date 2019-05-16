@@ -52,7 +52,7 @@ class PlaylistDialog(Gtk.Dialog):
         return '<PlaylistDialog>'
 
     @log
-    def __init__(self, parent, playlists_todelete):
+    def __init__(self, parent):
         super().__init__()
 
         self._add_playlist_button = None
@@ -60,13 +60,13 @@ class PlaylistDialog(Gtk.Dialog):
 
         self.props.transient_for = parent
         self.set_titlebar(self._title_bar)
-        self._populate()
-
-        self._playlists_todelete_ids = playlists_todelete.keys()
 
         self._user_playlists_available = False
         self._playlist = Playlists.get_default()
+        self._playlists_todelete_ids = self._playlist.get_playlists_to_delete()
         self._playlist.connect('playlist-created', self._on_playlist_created)
+
+        self._populate()
 
     @log
     def get_selected(self):
