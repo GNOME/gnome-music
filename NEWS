@@ -1,3 +1,54 @@
+Overview of changes in 3.33.2
+=============================
+
+* Improve Smooth progressbar support
+* Improve display of information for songs with no tags
+* Select a random song at launch when playing a playlist in shuffle mode
+* AppData tags update (initiative #8)
+* MPRIS misc cleanups
+* Lots of general cleanups
+
+Bugs fixed:
+ gnome-music crashes on startup (#105)
+ Stop using GtkBox:padding, GtkBox:fill and GtkBox:expand (#215)
+ Do not rely on Tracker generated metadata (#223)
+ MPRIS2 reports wrong .desktop file name (#263)
+ Crash with mouse 'back' button (#265)
+ Repeat song not working on Gnome Music 3.32.0 (#266)
+ Order of search and select buttons incorrect (#270)
+ flatpak nightly: Clicking on MPRIS player launches wrong version (#273)
+ Incorrect timeline (progress bar) position for m4a file (#274)
+ HeaderBar in selection mode has the search/cancel button order wrong (#275)
+ Repeat All Does Not Repeat Single Songs From Search (#278)
+ Resuming Playback Actually Restarts Song (#280)
+
+Thanks to our contributors this release:
+ Christopher Davis
+ Reuben Dsouza
+ Bilal Elmoussaoui
+ Jean Felder
+ Andre Klapper
+ Kalev Lember
+ Marinus Schraal
+ Veerasamy Sevagen
+ Georges Basile Stavracas Neto
+ Sumaid Syed
+
+Translation updated:
+ Chinese (China)
+ Chinese (Taiwan)
+ Croatian
+ Esperanto
+ Friulian
+ Hungarian
+ Indonesian
+ Italian
+ Polish
+ Portuguese (Brazil)
+ Romanian
+ Spanish
+ Swedish
+
 Overview of changes in 3.32.0
 =============================
 
