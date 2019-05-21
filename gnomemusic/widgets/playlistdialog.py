@@ -46,12 +46,27 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
 
         self.props.playlist = playlist
 
+        hbox = Gtk.Box()
+        self.add(hbox)
+
         title = utils.get_media_title(playlist)
-        label = Gtk.Label(label=title, margin=8, xalign=0.0)
-        self.add(label)
+        label = Gtk.Label(label=title, margin=10, xalign=0.0)
+        hbox.pack_start(label, False, False, 0)
+
+        self._selection_icon = Gtk.Image.new_from_icon_name(
+            "object-select-symbolic", Gtk.IconSize.SMALL_TOOLBAR)
+        hbox.pack_start(self._selection_icon, False, False, 0)
 
         self.get_style_context().add_class("playlistdialog-row")
         self.show_all()
+        self._selection_icon.props.visible = False
+
+    def display_selection_icon(self, selected):
+        """Displays the selection icon if the row is selected
+
+        :param bool selected: Indicate if the row is selected
+        """
+        self._selection_icon.props.visible = selected
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
@@ -152,10 +167,14 @@ class PlaylistDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     @log
-    def _on_row_selected(self, listbox, row):
+    def _on_selected_rows_changed(self, klass):
         self._add_playlist_entry.props.text = ""
         self._add_playlist_button.props.sensitive = False
-        self._select_button.props.sensitive = (row is not None)
+        selected_row = self._listbox.get_selected_row()
+        self._select_button.props.sensitive = (selected_row is not None)
+
+        for row in self._listbox:
+            row.display_selection_icon(row == selected_row)
 
     @Gtk.Template.Callback()
     @log
