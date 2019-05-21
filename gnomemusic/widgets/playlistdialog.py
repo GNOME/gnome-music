@@ -36,8 +36,10 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
     __gtype_name__ = "PlaylistDialogRow"
 
     playlist = GObject.Property(type=Grl.Media, default=None)
+    selected = GObject.Property(type=bool, default=False)
 
     _label = Gtk.Template.Child()
+    _selection_icon = Gtk.Template.Child()
 
     def __repr__(self):
         return "PlaylistDialogRow"
@@ -51,6 +53,10 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
 
         self.props.playlist = playlist
         self._label.props.label = utils.get_media_title(playlist)
+
+        self.bind_property(
+            "selected", self._selection_icon, "visible",
+            GObject.BindingFlags.SYNC_CREATE)
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialog.ui")
@@ -151,10 +157,14 @@ class PlaylistDialog(Gtk.Dialog):
 
     @Gtk.Template.Callback()
     @log
-    def _on_row_selected(self, listbox, row):
+    def _on_selected_rows_changed(self, klass):
         self._add_playlist_entry.props.text = ""
         self._add_playlist_button.props.sensitive = False
-        self._select_button.props.sensitive = row is not None
+        selected_row = self._listbox.get_selected_row()
+        self._select_button.props.sensitive = selected_row is not None
+
+        for row in self._listbox:
+            row.props.selected = (row == selected_row)
 
     @Gtk.Template.Callback()
     @log
