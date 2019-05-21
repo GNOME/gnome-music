@@ -214,10 +214,6 @@
                             <signal name="changed" handler="_on_selection_changed" swapped="no"/>
                           </object>
                         </child>
-                        <style>
-                          <class name="list-row"/>
-                          <class name="playlists-list"/>
-                        </style>
                       </object>
                     </child>
                   </object>
