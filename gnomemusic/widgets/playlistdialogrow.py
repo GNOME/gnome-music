@@ -33,8 +33,10 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
     __gtype_name__ = "PlaylistDialogRow"
 
     playlist = GObject.Property(type=Grl.Media, default=None)
+    selected = GObject.Property(type=bool, default=False)
 
     _label = Gtk.Template.Child()
+    _selection_icon = Gtk.Template.Child()
 
     def __repr__(self):
         return "PlaylistDialogRow"
@@ -48,3 +50,7 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
 
         self.props.playlist = playlist
         self._label.props.label = utils.get_media_title(playlist)
+
+        self.bind_property(
+            "selected", self._selection_icon, "visible",
+            GObject.BindingFlags.SYNC_CREATE)
