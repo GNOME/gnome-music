@@ -94,3 +94,17 @@ box#ArtistAlbumsWidget .artist-label {
 .tooltip-title {
   font-weight: bold;
 }
+
+/* PlaylistDialog */
+.playlistdialog-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.playlistdialog-row:selected {
+    color: @theme_fg_color;
+    background-color: @theme_insensitive_bg_color;
+}
+
+.playlistdialog-row:selected label {
+    color: @theme_text_color;
+}

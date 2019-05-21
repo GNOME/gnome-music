@@ -205,7 +205,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="selection_mode">single</property>
-                        <signal name="row-selected" handler="_on_row_selected" swapped="no"/>
+                        <property name="valign">start</property>
+                        <signal name="selected-rows-changed" handler="_on_selected_rows_changed" swapped="no"/>
                       </object>
                     </child>
                   </object>
