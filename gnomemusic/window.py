@@ -45,7 +45,7 @@ from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
 from gnomemusic.views.searchview import SearchView
 from gnomemusic.views.songsview import SongsView
-from gnomemusic.views.playlistview import PlaylistView
+from gnomemusic.views.playlistsview import PlaylistsView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
@@ -262,7 +262,7 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.ALBUM] = AlbumsView(self, self._player)
         self.views[View.ARTIST] = ArtistsView(self, self._player)
         self.views[View.SONG] = SongsView(self, self._player)
-        self.views[View.PLAYLIST] = PlaylistView(self, self._player)
+        self.views[View.PLAYLIST] = PlaylistsView(self, self._player)
         self.views[View.SEARCH] = SearchView(self, self._player)
 
         selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
