@@ -41,11 +41,11 @@ import gnomemusic.utils as utils
 playlists = Playlists.get_default()
 
 
-class PlaylistView(BaseView):
+class PlaylistsView(BaseView):
     """Main view for playlists"""
 
     def __repr__(self):
-        return '<PlaylistView>'
+        return '<PlaylistsView>'
 
     @log
     def __init__(self, window, player):
