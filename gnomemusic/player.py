@@ -426,11 +426,11 @@ class PlayerPlaylist(GObject.GObject):
                 return self.previous()
         return False
 
-    @log
-    def get_current_index(self):
-        """Get current song index.
+    @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
+    def current_song_index(self):
+        """Gets current song index.
 
-        :returns: position of the current song int the playlist.
+        :returns: position of the current song in the playlist.
         :rtype: int
         """
         return self._current_index
@@ -622,7 +622,7 @@ class Player(GObject.GObject):
 
         self._gst_player.props.url = song.get_url()
 
-        self.emit('song-changed', self._playlist.get_current_index())
+        self.emit('song-changed', self._playlist.props.current_song_index)
 
     @log
     def _on_eos(self, klass):
@@ -729,7 +729,7 @@ class Player(GObject.GObject):
 
         :param int song_index: position of the song to remove
         """
-        if self._playlist.get_current_index() == song_index:
+        if self._playlist.props.current_song_index == song_index:
             if self.props.has_next:
                 self.next()
             elif self.props.has_previous:
