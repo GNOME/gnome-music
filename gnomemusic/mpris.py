@@ -449,7 +449,7 @@ class MediaPlayer2Service(Server):
         return (True, (path, playlist_name, ""))
 
     @log
-    def _on_current_song_changed(self, player, position):
+    def _on_current_song_changed(self, player):
         self._update_songs_list()
         if self.player.props.repeat_mode == RepeatMode.SONG:
             self.Seeked(0)

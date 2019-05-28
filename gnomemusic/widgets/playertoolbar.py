@@ -153,11 +153,10 @@ class PlayerToolbar(Gtk.ActionBar):
         self._prev_button.props.sensitive = self._player.props.has_previous
 
     @log
-    def _update_view(self, player, position):
+    def _update_view(self, player):
         """Updates model when the song changes
 
         :param Player player: The main player object
-        :param int position: current song position
         """
         current_song = player.props.current_song
         self._duration_label.set_label(

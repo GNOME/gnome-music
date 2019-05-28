@@ -544,7 +544,7 @@ class Player(GObject.GObject):
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
-        'song-changed': (GObject.SignalFlags.RUN_FIRST, None, (int,)),
+        'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
     }
 
@@ -623,7 +623,7 @@ class Player(GObject.GObject):
 
         self._gst_player.props.url = song.get_url()
 
-        self.emit('song-changed', self.props.current_song_index)
+        self.emit('song-changed')
 
     @log
     def _on_eos(self, klass):

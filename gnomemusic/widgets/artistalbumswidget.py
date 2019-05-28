@@ -137,11 +137,10 @@ class ArtistAlbumsWidget(Gtk.Box):
         widget.connect('songs-loaded', self._on_album_displayed)
 
     @log
-    def _update_model(self, player, position):
+    def _update_model(self, player):
         """Updates model when the song changes
 
         :param Player player: The main player object
-        :param int position: current song position
         """
         if not player.playing_playlist(
                 PlayerPlaylist.Type.ARTIST, self._artist):
