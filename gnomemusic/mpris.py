@@ -242,12 +242,12 @@ class MediaPlayer2Service(Server):
     @log
     def _get_playback_status(self):
         state = self.player.props.state
-        if state == Playback.PLAYING:
-            return 'Playing'
+        if state == Playback.STOPPED:
+            return 'Stopped'
         elif state == Playback.PAUSED:
             return 'Paused'
         else:
-            return 'Stopped'
+            return 'Playing'
 
     @log
     def _get_loop_status(self):
