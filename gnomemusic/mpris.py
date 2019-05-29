@@ -292,7 +292,8 @@ class MediaPlayer2Service(Server):
 
         last_played = media.get_last_played()
         if last_played is not None:
-            metadata['xesam:lastUsed'] = GLib.Variant('s', last_played)
+            last_played_str = last_played.format("%FT%T")
+            metadata['xesam:lastUsed'] = GLib.Variant('s', last_played_str)
 
         art_url = media.get_thumbnail()
         if art_url is not None:
