@@ -619,7 +619,6 @@ class MediaPlayer2Service(Server):
         goto_index = self._path_list.index(path)
         song_offset = goto_index - current_song_index
         self.player.play(song_offset=song_offset)
-        return
 
     def TrackListReplaced(self, tracks, current_song):
         self.con.emit_signal(None,
