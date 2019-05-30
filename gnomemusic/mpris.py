@@ -105,7 +105,11 @@ class DBusInterface:
                 args[i] = fd_list.get(args[i])
 
         method_snake_name = DBusInterface.camelcase_to_snake_case(method_name)
-        result = getattr(self, method_snake_name)(*args)
+        try:
+            result = getattr(self, method_snake_name)(*args)
+        except ValueError as e:
+            invocation.return_dbus_error(interface_name, str(e))
+            return
 
         # out_args is at least (signature1). We therefore always wrap the
         # result as a tuple.
@@ -758,7 +762,16 @@ class MPRIS(DBusInterface):
         return mpris_playlists[index + max_count - 1:first_index:-1]
 
     def _get(self, interface_name, property_name):
-        return self._get_all(interface_name)[property_name]
+        # Some clients (for example GSConnect) try to acesss the volume
+        # property. This results in a crash at startup.
+        # Return nothing to prevent it.
+        try:
+            return self._get_all(interface_name)[property_name]
+        except KeyError:
+            msg = "MPRIS does not handle {} property from {} interface".format(
+                property_name, interface_name)
+            logger.warning(msg)
+            raise ValueError(msg)
 
     def _get_all(self, interface_name):
         if interface_name == MPRIS.MEDIA_PLAYER2_IFACE:
