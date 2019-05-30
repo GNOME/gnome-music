@@ -105,20 +105,23 @@ class DBusInterface:
                 args[i] = fd_list.get(args[i])
 
         method_snake_name = DBusInterface.camelcase_to_snake_case(method_name)
-        result = getattr(self, method_snake_name)(*args)
+        try:
+            result = getattr(self, method_snake_name)(*args)
 
-        # out_args is at least (signature1). We therefore always wrap the
-        # result as a tuple.
-        # Reference:
-        # https://bugzilla.gnome.org/show_bug.cgi?id=765603
-        result = (result,)
+            # out_args is at least (signature1). We therefore always wrap the
+            # result as a tuple.
+            # Reference:
+            # https://bugzilla.gnome.org/show_bug.cgi?id=765603
+            result = (result,)
 
-        out_args = self._method_outargs[method_name]
-        if out_args != '()':
-            variant = GLib.Variant(out_args, result)
-            invocation.return_value(variant)
-        else:
-            invocation.return_value(None)
+            out_args = self._method_outargs[method_name]
+            if out_args != "()":
+                variant = GLib.Variant(out_args, result)
+                invocation.return_value(variant)
+            else:
+                invocation.return_value(None)
+        except ValueError as e:
+            invocation.return_dbus_error(interface_name, str(e))
 
     def _dbus_emit_signal(self, signal_name, values):
         signal = self._signals[signal_name]
@@ -758,7 +761,16 @@ class MPRIS(DBusInterface):
         return mpris_playlists[index + max_count - 1:first_index:-1]
 
     def _get(self, interface_name, property_name):
-        return self._get_all(interface_name)[property_name]
+        # Some clients (for example GSConnect) try to acesss the volume
+        # property. This results in a crash at startup.
+        # Return nothing to prevent it.
+        try:
+            return self._get_all(interface_name)[property_name]
+        except KeyError:
+            msg = "MPRIS does not handle {} property from {} interface".format(
+                property_name, interface_name)
+            logger.warning(msg)
+            raise ValueError(msg)
 
     def _get_all(self, interface_name):
         if interface_name == MPRIS.MEDIA_PLAYER2_IFACE:
