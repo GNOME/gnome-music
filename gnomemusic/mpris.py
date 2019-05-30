@@ -709,7 +709,15 @@ class MediaPlayer2Service(Server):
         return mpris_playlists[index + max_count - 1:first_index:-1]
 
     def Get(self, interface_name, property_name):
-        return self.GetAll(interface_name)[property_name]
+        # Some clients (for example GSConnect) try to acesss the volume
+        # property. This results in a crash at startup.
+        # Return nothing to prevent it.
+        try:
+            return self.GetAll(interface_name)[property_name]
+        except KeyError:
+            logger.warning(
+                "MPRIS does not handle {} property".format(property_name))
+            return GLib.Variant("s", "nothing")
 
     def GetAll(self, interface_name):
         if interface_name == MediaPlayer2Service.MEDIA_PLAYER2_IFACE:
