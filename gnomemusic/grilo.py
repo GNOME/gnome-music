@@ -62,6 +62,7 @@ class Grilo(GObject.GObject):
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_LAST_PLAYED,
         Grl.METADATA_KEY_LYRICS,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
