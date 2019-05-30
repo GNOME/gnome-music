@@ -265,6 +265,10 @@ class SongsView(BaseView):
             return
 
         self._offset += 1
+        last_played = item.get_last_played()
+        # print("last played", last_played)
+        if last_played is not None:
+            print("ENFIN", item.get_last_played())
         item.set_title(utils.get_media_title(item))
         artist = utils.get_artist_name(item)
 

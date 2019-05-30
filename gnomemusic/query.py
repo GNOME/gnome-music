@@ -199,6 +199,7 @@ class Query():
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
+        nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
     {
         %(where_clause)s
@@ -261,6 +262,7 @@ class Query():
         nmm:trackNumber(?song) AS ?track_number
         nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
         ?tag AS ?favourite
+        nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
     WHERE {
         ?song a nmm:MusicPiece ;
@@ -295,6 +297,7 @@ class Query():
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
+        nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
     WHERE {
         ?playlist a nmm:Playlist ;
