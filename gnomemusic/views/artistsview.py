@@ -63,6 +63,9 @@ class ArtistsView(BaseView):
         self.player = player
         self._artists = {}
 
+        self._model = window._app._coremodel.get_artists_model()
+        self._sidebar.bind_model(self._model, self._create_widget)
+
         sidebar_container.props.width_request = 220
         sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
@@ -74,7 +77,12 @@ class ArtistsView(BaseView):
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
         self.show_all()
-        self._sidebar.hide()
+
+    def _create_widget(self, artist):
+        row = SidebarRow()
+        row.props.text = artist.props.artist
+
+        return row
 
     @log
     def _setup_view(self):
@@ -169,9 +177,9 @@ class ArtistsView(BaseView):
     @log
     def _populate(self, data=None):
         """Populates the view"""
-        self._window.notifications_popup.push_loading()
-        grilo.populate_artists(self._offset, self._add_item)
-        self._init = True
+        # self._window.notifications_popup.push_loading()
+        # grilo.populate_artists(self._offset, self._add_item)
+        # self._init = True
 
     @log
     def _on_sidebar_clicked(self, gesture, n_press, x, y):
