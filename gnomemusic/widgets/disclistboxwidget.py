@@ -78,8 +78,8 @@ class DiscSongsFlowBox(Gtk.FlowBox):
         else:
             max_per_line = int(children_n / self._columns) + 1
 
-        self.props.max_children_per_line = max_per_line
-        self.props.min_children_per_line = max_per_line
+        # self.props.max_children_per_line = max_per_line
+        # self.props.min_children_per_line = max_per_line
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
