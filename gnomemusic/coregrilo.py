@@ -43,7 +43,7 @@ class CoreGrilo(GObject.GObject):
             self._tracker_source = GrlTrackerSource(
                 source, self._hash, self._model, self._albums_model,
                 self._artists_model)
-            self._tracker_source = source
+            # self._tracker_source = source
             print(self._tracker_source, "added")
 
     def _on_source_removed(self, registry, source):
