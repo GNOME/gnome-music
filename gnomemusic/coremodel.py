@@ -79,6 +79,11 @@ class CoreModel(GObject.GObject):
     def get_artists_model(self):
         return self._artist_model
 
+    def get_artist_albums(self, artist):
+        albums = self._grilo.get_artist_albums(artist)
+
+        return albums
+
     @log
     def _on_media_removed(self, klass, media):
         try:
