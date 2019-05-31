@@ -116,6 +116,26 @@ class ArtistsView(BaseView):
             return
 
         print(row.props.artist.props.artist, row, row.get_child())
+
+        # Prepare a new artist_albums_widget here
+        artist = row.props.artist.props.artist
+        artist_media = row.props.artist.props.media
+
+        new_artist_albums_widget = Gtk.Frame(
+            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
+        self._view.add(new_artist_albums_widget)
+
+        albums = self._window._app._coremodel.get_artist_albums(row.props.artist)
+        artist_albums = ArtistAlbumsWidget(
+            artist, albums, self.player, self._window)
+        # self._artists[artist.casefold()]['widget'] = artist_albums
+        new_artist_albums_widget.add(artist_albums)
+        new_artist_albums_widget.show()
+
+        # Replace previous widget
+        self._artist_albums_widget = new_artist_albums_widget
+        self._view.set_visible_child(new_artist_albums_widget)
+
         return
         self._last_selected_row = row
         artist = row.props.text
