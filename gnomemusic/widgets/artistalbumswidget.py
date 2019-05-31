@@ -94,6 +94,7 @@ class ArtistAlbumsWidget(Gtk.Box):
             self._add_album(album)
 
         self._player.connect('song-changed', self._update_model)
+        self.show_all()
 
     @log
     def _create_model(self):
@@ -124,7 +125,7 @@ class ArtistAlbumsWidget(Gtk.Box):
     def _add_album(self, album):
         widget = ArtistAlbumWidget(
             album, self._player, self._model, self._selection_mode_allowed,
-            self._songs_grid_size_group, self._cover_size_group)
+            self._songs_grid_size_group, self._cover_size_group, self._window)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
