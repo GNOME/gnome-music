@@ -55,7 +55,7 @@ class ArtistAlbumWidget(Gtk.Box):
     @log
     def __init__(
             self, media, player, model, selection_mode_allowed,
-            size_group=None, cover_size_group=None):
+            size_group=None, cover_size_group=None, window=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
@@ -94,12 +94,17 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        grilo.populate_album_songs(self._media, self._add_item)
+        self._listmodel = window._app._coremodel.get_album_model(self._media)
+
+        disc = self._create_disc_box(0, None)
+        self._disc_list_box.add(disc)
+        self._disc_list_box.show()
+        # grilo.populate_album_songs(self._media, self._add_item)
 
     @log
     def _create_disc_box(self, disc_nr, disc_songs):
-        disc_box = DiscBox(self._model)
-        disc_box.set_songs(disc_songs)
+        disc_box = DiscBox(None, self._listmodel)
+        # disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
         disc_box.props.columns = 2
         disc_box.props.show_durations = False
