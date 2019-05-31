@@ -48,3 +48,8 @@ class CoreGrilo(GObject.GObject):
 
     def _on_source_removed(self, registry, source):
         print("removed,", source.props.source_id)
+
+    def get_artist_albums(self, artist):
+        # FIXME: Iterate the wrappers
+        print(self._tracker_source)
+        return self._tracker_source.get_artist_albums(artist)
