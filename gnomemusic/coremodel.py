@@ -4,6 +4,7 @@ from gi.repository import Dazzle, GObject, Gio, Gfm
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
+from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilo import grilo
@@ -18,12 +19,14 @@ class CoreModel(GObject.GObject):
         self._test = Gfm.FilterListModel()
         self._model = Gio.ListStore.new(CoreSong)
         self._album_model = Gio.ListStore()
+        self._artist_model = Gio.ListStore.new(CoreArtist)
         self._album_store = None
         self._hash = {}
         self._url_hash = {}
 
         self._grilo = CoreGrilo(
-            self._model, self._hash, self._url_hash, self._album_model)
+            self._model, self._hash, self._url_hash, self._album_model,
+            self._artist_model)
         # self._grilo.connect("media-removed", self._on_media_removed)
 
     @log
