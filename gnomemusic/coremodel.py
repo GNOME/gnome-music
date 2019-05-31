@@ -44,33 +44,70 @@ class CoreModel(GObject.GObject):
 
     @log
     def get_album_model(self, media):
-        albums_ids = []
+        discs = self._grilo.get_album_disc_numbers(media)
 
-        model_filter = Dazzle.ListModelFilter.new(self._model)
+        disc_list = []
+        for disc in discs:
+            nr = disc.get_album_disc_number()
+            model_filter = Dazzle.ListModelFilter.new(self._model)
+            model_filter.set_filter_func(lambda a: False)
+            disc_list.append(model_filter)
+            self.get_album_disc(media, nr, model_filter)
+
+        return disc_list
+
+        # albums_ids = []
+
+        # model_filter = Dazzle.ListModelFilter.new(self._model)
         # model_filter = Gfm.FilterListModel.new(self._model)
-        model_filter.set_filter_func(lambda a: False)
-        model_sort = Gfm.SortListModel.new_for_type(CoreSong)
+        # model_filter.set_filter_func(lambda a: False)
+        # model_sort = Gfm.SortListModel.new_for_type(CoreSong)
+
+        # def _filter_func(core_song):
+        #     return core_song.props.media.get_id() in albums_ids
+
+        # def _reverse_sort(song_a, song_b, data=None):
+        #     return song_b.props.track_number - song_a.props.track_number
+
+        # def _callback(source, dunno, media, something, something2):
+        #     if media is None:
+        #         model_filter.set_filter_func(_filter_func)
+        #         model_sort.set_model(model_filter)
+        #         model_sort.set_sort_func(
+        #             self._wrap_list_store_sort_func(_reverse_sort))
+        #         return
+
+        #     albums_ids.append(media.get_id())
+
+        # For POC sake, use old grilo
+        # grilo.populate_album_songs(media, _callback)
+
+        # return model_sort
+
+    def get_album_disc(self, media, discnr, model):
+        albums_ids = []
+        model_filter = model
 
         def _filter_func(core_song):
             return core_song.props.media.get_id() in albums_ids
 
         def _reverse_sort(song_a, song_b, data=None):
-            return song_b.props.track_number - song_a.props.track_number
+            return song_a.props.track_number - song_b.props.track_number
 
         def _callback(source, dunno, media, something, something2):
             if media is None:
                 model_filter.set_filter_func(_filter_func)
-                model_sort.set_model(model_filter)
-                model_sort.set_sort_func(
-                    self._wrap_list_store_sort_func(_reverse_sort))
+                # model_sort.set_model(model_filter)
+                # model_sort.set_sort_func(
+                #     self._wrap_list_store_sort_func(_reverse_sort))
                 return
 
             albums_ids.append(media.get_id())
 
         # For POC sake, use old grilo
-        grilo.populate_album_songs(media, _callback)
+        self._grilo.populate_album_disc_songs(media, discnr, _callback)
 
-        return model_sort
+        return model_filter
 
     @log
     def get_albums_model(self):
