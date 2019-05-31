@@ -53,3 +53,10 @@ class CoreGrilo(GObject.GObject):
         # FIXME: Iterate the wrappers
         print(self._tracker_source)
         return self._tracker_source.get_artist_albums(artist)
+
+    def get_album_disc_numbers(self, media):
+        return self._tracker_source.get_album_disc_numbers(media)
+
+    def populate_album_disc_songs(self, media, discnr, callback):
+        self._tracker_source.populate_album_disc_songs(
+            media, discnr, callback)
