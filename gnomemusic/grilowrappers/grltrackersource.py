@@ -221,3 +221,33 @@ class GrlTrackerSource(GObject.GObject):
 
         artist = CoreArtist(media)
         self._artists_model.append(artist)
+
+    def get_artist_albums(self, artist):
+        artist_id = artist.props.media.get_id()
+        print("ID", artist_id)
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(?album)
+            tracker:id(?album) AS ?id
+        WHERE
+        {
+            ?album a nmm:MusicAlbum .
+            OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
+            ?song a nmm:MusicPiece;
+                nmm:musicAlbum ?album;
+                nmm:performer ?artist .
+            FILTER ( tracker:id(?album_artist) = %(artist_id)s
+                     || tracker:id(?artist) = %(artist_id)s )
+        }
+        """.replace('\n', ' ').strip() % {
+            'artist_id': int(artist_id)
+        }
+
+        options = self._fast_options.copy()
+
+        albums = self._source.query_sync(query, self.METADATA_KEYS, options)
+
+        print("ALBUMS", albums)
+
+        return albums
