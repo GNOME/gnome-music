@@ -96,15 +96,20 @@ box#ArtistAlbumsWidget .artist-label {
 }
 
 /* PlaylistDialog */
-.playlistdialog-row {
+.playlistdialog-row,
+.song-row {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.playlistdialog-row:selected {
+.playlistdialog-row:selected,
+.song-row:hover,
+.song-row:selected {
     color: @theme_fg_color;
     background-color: @theme_insensitive_bg_color;
 }
 
-.playlistdialog-row:selected label {
+.playlistdialog-row:selected label,
+.song-row:hover label,
+.song-row:selected label {
     color: @theme_text_color;
 }

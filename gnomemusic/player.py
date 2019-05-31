@@ -178,6 +178,67 @@ class PlayerPlaylist(GObject.GObject):
         return True
 
     @log
+    def set_playlist_from_listbox(self, playlist_type, playlist_id, listbox):
+        """Set a new playlist or change the song being played
+
+        If no song is requested (through model_iter), a song will be
+        automatically selected:
+        * the first song in a linear mode
+        * a random song in shuffle mode
+
+        :param PlayerPlaylist.Type playlist_type: playlist type
+        :param string playlist_id: unique identifer to recognize the playlist
+        :param GtkListStore model: list of songs to play
+        :param GtkTreeIter model_iter: requested song
+
+        :return: True if the playlist has been updated. False otherwise
+        :rtype: bool
+        """
+        selected_row = listbox.get_selected_row()
+        if selected_row:
+            self._current_index = selected_row.get_index()
+        else:
+            if self.props.repeat_mode == RepeatMode.SHUFFLE:
+                self._current_index = randrange(len(listbox))
+            else:
+                self._current_index = 0
+
+        # Playlist is the same. Check that the requested song is valid.
+        # If not, try to get the next valid one
+        if (playlist_type == self._type
+                and playlist_id == self._id):
+            if not self._current_song_is_valid():
+                self.next()
+            else:
+                self._validate_song(self._current_index)
+                self._validate_next_song()
+            return False
+
+        self._validation_indexes = defaultdict(list)
+        self._type = playlist_type
+        self._id = playlist_id
+
+        self._songs = []
+        for row in listbox:
+            self._songs.append([row.props.media, ValidationStatus.PENDING])
+
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
+            self._shuffle_indexes = list(range(len(self._songs)))
+            shuffle(self._shuffle_indexes)
+            self._shuffle_indexes.remove(self._current_index)
+            self._shuffle_indexes.insert(0, self._current_index)
+
+        # If the playlist has already been played, check that the requested
+        # song is valid. If it has never been played, validate the current
+        # song and the next song to display an error icon on failure.
+        if not self._current_song_is_valid():
+            self.next()
+        else:
+            self._validate_song(self._current_index)
+            self._validate_next_song()
+        return True
+
+    @log
     def set_song(self, song_offset):
         """Change playlist index.
 
@@ -709,6 +770,16 @@ class Player(GObject.GObject):
 
         if playlist_changed:
             self.emit('playlist-changed')
+
+    @log
+    def set_playlist_from_listbox(
+            self, playlist_type, playlist_id, listbox):
+        playlist_changed = self._playlist.set_playlist_from_listbox(
+            playlist_type, playlist_id, listbox)
+
+        if playlist_changed:
+            self.emit('playlist-changed')
+
 
     @log
     def playlist_change_position(self, prev_pos, new_pos):
