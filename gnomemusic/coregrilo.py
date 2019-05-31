@@ -13,11 +13,12 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(self, model, _hash, url_hash, albums_model):
+    def __init__(self, model, _hash, url_hash, albums_model, artists_model):
         super().__init__()
 
         self._model = model
         self._albums_model = albums_model
+        self._artists_model = artists_model
         self._hash = _hash
         # Only way to figure out removed items
         self._url_table = url_hash
@@ -40,7 +41,8 @@ class CoreGrilo(GObject.GObject):
         print(source.props.source_id)
         if source.props.source_id == "grl-tracker-source":
             self._tracker_source = GrlTrackerSource(
-                source, self._hash, self._model, self._albums_model)
+                source, self._hash, self._model, self._albums_model,
+                self._artists_model)
             self._tracker_source = source
             print(self._tracker_source, "added")
 
