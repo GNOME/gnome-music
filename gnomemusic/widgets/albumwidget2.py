@@ -85,7 +85,7 @@ class AlbumWidget2(Gtk.EventBox):
 
         self._album = album
         self._model = self._parent_view._window._app._coremodel.get_album_model(album)
-        self._listbox.bind_model(self._model, self._create_widget)
+        self._listbox.bind_model(self._model[0], self._create_widget)
 
     @log
     def _create_widget(self, song):
@@ -126,7 +126,7 @@ class AlbumWidget2(Gtk.EventBox):
     @log
     def _set_duration_label(self):
         total_duration = 0
-        for song in self._model:
+        for song in self._model[0]:
             total_duration += song.props.duration
 
         mins = (total_duration // 60) + 1
@@ -150,9 +150,9 @@ class AlbumWidget2(Gtk.EventBox):
             GObject.TYPE_INT
         )
 
-        for song in self._model:
+        for song in self._model[0]:
             _iter = old_model.insert_with_valuesv(-1, [5], [song.props.media])
-            if song is self._model[listboxrow.get_index()]:
+            if song is self._model[0][listboxrow.get_index()]:
                 activated_iter = _iter
                 listboxrow.get_child().props.state = SongWidget.State.PLAYING
 
@@ -164,7 +164,7 @@ class AlbumWidget2(Gtk.EventBox):
     @log
     def _on_selection_changed(self, klass, value):
         n_items = 0
-        for song in self._model:
+        for song in self._model[0]:
             if song.props.selected:
                 n_items += 1
 
