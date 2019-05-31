@@ -230,6 +230,7 @@ class GrlTrackerSource(GObject.GObject):
         SELECT DISTINCT
             rdf:type(?album)
             tracker:id(?album) AS ?id
+            nie:title(?album) AS ?title
         WHERE
         {
             ?album a nmm:MusicAlbum .
