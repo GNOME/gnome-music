@@ -203,6 +203,15 @@ class DiscBox(Gtk.Box):
         song_widget = SongWidget(song.props.media)
         self._songs.append(song_widget)
 
+        song.bind_property(
+            "favorite", song_widget, "favorite",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        song.bind_property(
+            "selected", song_widget, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         return song_widget
 
     @log
