@@ -80,6 +80,7 @@ class ArtistsView(BaseView):
 
     def _create_widget(self, artist):
         row = SidebarRow()
+        row.props.artist = artist
         row.props.text = artist.props.artist
 
         return row
@@ -114,6 +115,8 @@ class ArtistsView(BaseView):
             row.props.selected = not row.props.selected
             return
 
+        print(row.props.artist.props.artist, row, row.get_child())
+        return
         self._last_selected_row = row
         artist = row.props.text
         albums = self._artists[artist.casefold()]['albums']
