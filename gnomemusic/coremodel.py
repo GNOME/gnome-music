@@ -76,6 +76,9 @@ class CoreModel(GObject.GObject):
     def get_albums_model(self):
         return self._album_model
 
+    def get_artists_model(self):
+        return self._artist_model
+
     @log
     def _on_media_removed(self, klass, media):
         try:
