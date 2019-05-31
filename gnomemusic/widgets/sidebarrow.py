@@ -25,6 +25,7 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.coreartist import CoreArtist
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SidebarRow.ui')
@@ -40,6 +41,7 @@ class SidebarRow(Gtk.ListBoxRow):
     _label = Gtk.Template.Child()
     _revealer = Gtk.Template.Child()
 
+    artist = GObject.Property(type=CoreArtist, default=None)
     selected = GObject.Property(type=bool, default=False)
     selection_mode = GObject.Property(type=bool, default=False)
     text = GObject.Property(type=str, default='')
