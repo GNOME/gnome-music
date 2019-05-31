@@ -3,6 +3,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GObject
 
 from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coresong import CoreSong
 
 
@@ -29,12 +30,13 @@ class GrlTrackerSource(GObject.GObject):
     def __repr__(self):
         return "<GrlTrackerSource>"
 
-    def __init__(self, source, _hash, model, albums_model):
+    def __init__(self, source, _hash, model, albums_model, artists_model):
         super().__init__()
 
         self._source = source
         self._model = model
         self._albums_model = albums_model
+        self._artists_model = artists_model
         self._hash = _hash
         # self._table = table
         # Only way to figure out removed items
@@ -52,6 +54,7 @@ class GrlTrackerSource(GObject.GObject):
 
         self._initial_fill(self._source)
         self._initial_albums_fill(self._source)
+        self._initial_artists_fill(self._source)
 
         self._source.connect("content-changed", self._on_content_changed)
 
@@ -190,3 +193,31 @@ class GrlTrackerSource(GObject.GObject):
 
         album = CoreAlbum(media)
         self._albums_model.append(album)
+
+    def _initial_artists_fill(self, source):
+        query = """
+        SELECT
+            rdf:type(?artist_class)
+            tracker:id(?artist_class) AS ?id
+            nmm:artistName(?artist_class) AS ?artist
+        {
+            ?artist_class a nmm:Artist .
+        }
+        """.replace('\n', ' ').strip()
+
+        options = self._fast_options.copy()
+
+        source.query(
+            query, self.METADATA_KEYS, options, self._add_to_artists_model)
+
+    def _add_to_artists_model(self, source, op_id, media, user_data, error):
+        if error:
+            print("ERROR", error)
+            return
+
+        if not media:
+            print("NO MEDIA", source, op_id, media, error)
+            return
+
+        artist = CoreArtist(media)
+        self._artists_model.append(artist)
