@@ -111,7 +111,7 @@ class DiscBox(Gtk.Box):
         return '<DiscBox>'
 
     @log
-    def __init__(self, model=None):
+    def __init__(self, model=None, listmodel=None):
         """Initialize
 
         :param model: The TreeStore to use
@@ -119,7 +119,13 @@ class DiscBox(Gtk.Box):
         super().__init__()
 
         self._model = model
-        self._model.connect('row-changed', self._model_row_changed)
+        if self._model is not None:
+            self._model.connect('row-changed', self._model_row_changed)
+
+        if listmodel is not None:
+            self._listmodel = listmodel
+            self._disc_songs_flowbox.bind_model(
+                self._listmodel, self._create_widget)
 
         self.bind_property(
             'columns', self._disc_songs_flowbox, 'columns',
@@ -192,6 +198,12 @@ class DiscBox(Gtk.Box):
             self._model[song_widget.itr][6] = False
 
         self._disc_songs_flowbox.foreach(child_select_none)
+
+    def _create_widget(self, song):
+        song_widget = SongWidget(song.props.media)
+        self._songs.append(song_widget)
+
+        return song_widget
 
     @log
     def _create_song_widget(self, song):
