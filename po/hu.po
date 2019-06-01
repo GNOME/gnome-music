@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-03-29 14:12+0000\n"
-"PO-Revision-Date: 2019-03-29 21:58+0100\n"
+"POT-Creation-Date: 2019-05-08 14:02+0000\n"
+"PO-Revision-Date: 2019-06-01 16:53+0200\n"
 "Last-Translator: Balázs Úr <ur.balazs at fsf dot hu>\n"
 "Language-Team: Hungarian <gnome-hu-list at gnome dot org>\n"
 "Language: hu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 18.12.3\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -50,8 +50,8 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "A GNOME Zene fejlesztői"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Zene"
 
@@ -194,15 +194,15 @@ msgstr ""
 "„Magic of the vinyl” – Sami Pyylampi képe CC-BY-SA 2.0 licenc szerint: "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Kiadva"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Futási hossz"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Zeneszerző"
 
@@ -223,16 +223,16 @@ msgid "Menu"
 msgstr "Menü"
 
 #: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Keresés"
-
-#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Kiválasztás"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:255
 msgid "_Cancel"
 msgstr "_Mégse"
+
+#: data/ui/HeaderBar.ui:77
+msgid "Search"
+msgstr "Keresés"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -344,11 +344,11 @@ msgstr "Véletlen/Ismétlés kikapcsolva"
 msgid "Previous"
 msgstr "Előző"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:143
 msgid "Play"
 msgstr "Lejátszás"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Következő"
 
@@ -385,27 +385,27 @@ msgstr "Lejátszólista neve"
 msgid "_Done"
 msgstr "_Kész"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Adjon nevet az első lejátszólistájának"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "Lét_rehozás"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Új lejátszólista…"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Hozzáadás"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:252
 msgid "Add to Playlist"
 msgstr "Hozzáadás a lejátszólistához"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:268
 msgid "_Add"
 msgstr "_Hozzáadás"
 
@@ -425,31 +425,31 @@ msgstr "Kattintson az elemekre a kiválasztásukhoz"
 msgid "_Add to Playlist"
 msgstr "Hozzá_adás a lejátszólistához"
 
-#: gnomemusic/gstplayer.py:410
+#: gnomemusic/gstplayer.py:375
 msgid "Unable to play the file"
 msgstr "Nem lehet lejátszani a fájlt"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:381
 msgid "_Find in {}"
 msgstr "_Keresés ebben: {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:392
 msgid " and "
 msgstr " és "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:395
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:397
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} szükséges a fájl lejátszásához, de nincs telepítve."
 msgstr[1] "{} szükségesek a fájl lejátszásához, de nincsenek telepítve."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Zene lejátszása"
 
@@ -478,19 +478,19 @@ msgstr "Legutóbb hozzáadott"
 msgid "Favorite Songs"
 msgstr "Kedvenc számok"
 
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:56
+msgid "Unknown album"
+msgstr "Ismeretlen album"
+
+#: gnomemusic/utils.py:77
 msgid "Unknown Artist"
 msgstr "Ismeretlen előadó"
 
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Névtelen"
-
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+#: gnomemusic/views/albumsview.py:46 gnomemusic/views/searchview.py:607
 msgid "Albums"
 msgstr "Albumok"
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:609
 msgid "Artists"
 msgstr "Előadók"
 
@@ -526,23 +526,23 @@ msgstr "A GNOME Zene nem tudott kapcsolódni a Trackerhez"
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "A zenefájlokat nem lehet indexelni a Tracker futtatása nélkül"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/playlistview.py:62 gnomemusic/views/searchview.py:613
 msgid "Playlists"
 msgstr "Lejátszólisták"
 
-#: gnomemusic/views/playlistview.py:640
+#: gnomemusic/views/playlistview.py:632
 msgid "Playlist {} removed"
 msgstr "A(z) {} lejátszólista eltávolítva"
 
-#: gnomemusic/views/playlistview.py:646
+#: gnomemusic/views/playlistview.py:638
 msgid "{} removed from {}"
 msgstr "{} eltávolítva innen: {}"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:611 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Számok"
 
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:171
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} perc"
@@ -567,7 +567,7 @@ msgstr "Betöltés"
 msgid "_Undo"
 msgstr "_Visszavonás"
 
-#: gnomemusic/widgets/playertoolbar.py:136
+#: gnomemusic/widgets/playertoolbar.py:140
 msgid "Pause"
 msgstr "Szünet"
 
