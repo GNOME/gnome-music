@@ -21,7 +21,6 @@
         "--talk-name=org.gtk.vfs.mountpoint_http",
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
-        "--filesystem=xdg-cache/media-art",
         "--system-talk-name=org.freedesktop.login1"
     ],
     "cleanup": [
