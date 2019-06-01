@@ -24,12 +24,12 @@
         </packing>
       </child>
       <child>
-        <object class="DiscSongsFlowBox" id="_disc_songs_flowbox">
+        <object class="GtkListBox" id="_list_box">
           <property name="visible">True</property>
           <property name="can_focus">False</property>
           <property name="valign">start</property>
-          <property name="orientation">vertical</property>
-          <property name="homogeneous">True</property>
+<!--      <property name="orientation">vertical</property> -->
+<!--           <property name="homogeneous">True</property> -->
           <property name="selection_mode">none</property>
         </object>
         <packing>
