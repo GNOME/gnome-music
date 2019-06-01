@@ -30,7 +30,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
-class DiscSongsFlowBox(Gtk.FlowBox):
+class DiscSongsFlowBox(Gtk.ListBox):
     """FlowBox containing the songs on one disc
 
     DiscSongsFlowBox allows setting the number of columns to
@@ -92,7 +92,8 @@ class DiscBox(Gtk.Box):
     __gtype_name__ = 'DiscBox'
 
     _disc_label = Gtk.Template.Child()
-    _disc_songs_flowbox = Gtk.Template.Child()
+    #_disc_songs_flowbox = Gtk.Template.Child()
+    _list_box = Gtk.Template.Child()
 
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -124,12 +125,12 @@ class DiscBox(Gtk.Box):
 
         if listmodel is not None:
             self._listmodel = listmodel
-            self._disc_songs_flowbox.bind_model(
+            self._list_box.bind_model(
                 self._listmodel, self._create_widget)
 
-        self.bind_property(
-            'columns', self._disc_songs_flowbox, 'columns',
-            GObject.BindingFlags.SYNC_CREATE)
+        # self.bind_property(
+        #     'columns', self._list_box, 'columns',
+        #     GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'show-disc-label', self._disc_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
@@ -211,6 +212,8 @@ class DiscBox(Gtk.Box):
             "selected", song_widget, "selected",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+
+        song_widget.show_all()
 
         return song_widget
 
