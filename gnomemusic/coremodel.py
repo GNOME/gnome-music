@@ -10,6 +10,11 @@ from gnomemusic.coresong import CoreSong
 from gnomemusic.grilo import grilo
 
 
+class CoreDisc(GObject.GObject):
+        media = None
+        model = None
+
+
 class CoreModel(GObject.GObject):
 
     @log
@@ -46,15 +51,36 @@ class CoreModel(GObject.GObject):
     def get_album_model(self, media):
         discs = self._grilo.get_album_disc_numbers(media)
 
-        disc_list = []
+        disc_model = Gio.ListStore()
+        disc_model_sort = Gfm.SortListModel.new(disc_model)
+
+        def _disc_sort(song_a, song_b):
+            return song_a.props.track_number - song_b.props.track_number
+
         for disc in discs:
-            nr = disc.get_album_disc_number()
             model_filter = Dazzle.ListModelFilter.new(self._model)
             model_filter.set_filter_func(lambda a: False)
-            disc_list.append(model_filter)
+            nr = disc.get_album_disc_number()
             self.get_album_disc(media, nr, model_filter)
 
-        return disc_list
+            model_sort = Gfm.SortListModel.new(model_filter)
+            model_sort.set_sort_func(
+                self._wrap_list_store_sort_func(_disc_sort))
+
+            coredisc = CoreDisc()
+            coredisc.media = disc
+            coredisc.model = model_sort
+
+            disc_model.append(coredisc)
+
+        def _disc_order_sort(disc_a, disc_b):
+            return (disc_a.media.get_album_disc_number()
+                    - disc_b.media.get_album_disc_number())
+
+        disc_model_sort.set_sort_func(
+            self._wrap_list_store_sort_func(_disc_order_sort))
+
+        return disc_model_sort
 
         # albums_ids = []
 
