@@ -55,8 +55,6 @@ class AlbumWidget2(Gtk.EventBox):
 
         self._album_name = None
 
-        self._listbox.connect("row-activated", self._on_row_activated)
-
     @log
     def update(self, album):
         """Update the album widget.
@@ -164,15 +162,19 @@ class AlbumWidget2(Gtk.EventBox):
             GObject.TYPE_INT
         )
 
-        for song in self._model[0]:
-            _iter = old_model.insert_with_valuesv(-1, [5], [song.props.media])
-            if song is self._model[0][listboxrow.get_index()]:
-                activated_iter = _iter
-                listboxrow.get_child().props.state = SongWidget.State.PLAYING
+        print(listboxrow.get_index())
+        # for song in self._model[0]:
+        #     _iter = old_model.insert_with_valuesv(-1, [5], [song.props.media])
+        #     if song is self._model[0][listboxrow.get_index()]:
+        #         activated_iter = _iter
+        #         listboxrow.get_child().props.state = SongWidget.State.PLAYING
 
-        self._player.set_playlist(
-            PlayerPlaylist.Type.ALBUM, self._album_name, old_model,
-            activated_iter)
+        coresong = listboxrow.get_child()
+        self._parent_view._window._app._coremodel.set_playlist_model(
+            PlayerPlaylist.Type.ALBUM, album, coresong)
+        # self._player.set_playlist(
+        #     PlayerPlaylist.Type.ALBUM, self._album_name, old_model,
+        #     activated_iter)
         self._player.play()
 
     @log
@@ -186,14 +188,23 @@ class AlbumWidget2(Gtk.EventBox):
 
     @log
     def _song_activated(self, widget, song_widget):
+        print("activated", song_widget)
         if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
             return
 
-        self._player.set_playlist(
-            PlayerPlaylist.Type.ALBUM, self._album_name, song_widget.model,
-            song_widget.itr)
-        self._player.play()
+        signal_id = None
+
+        def _on_playlist_loaded(klass):
+            self._player.play(None, None, song_widget._media)
+            self._parent_view._window._app._coremodel.disconnect(signal_id)
+
+        # coresong = listboxrow.get_child()
+        signal_id = self._parent_view._window._app._coremodel.connect(
+            "playlist-loaded", _on_playlist_loaded)
+        self._parent_view._window._app._coremodel.set_playlist_model(
+            PlayerPlaylist.Type.ALBUM, self._album, song_widget._media)
+
         return True
 
     @log
