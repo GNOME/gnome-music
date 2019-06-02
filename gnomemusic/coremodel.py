@@ -8,6 +8,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilo import grilo
+from gnomemusic.widgets.songwidget import SongWidget
 
 
 class CoreDisc(GObject.GObject):
@@ -17,6 +18,10 @@ class CoreDisc(GObject.GObject):
 
 class CoreModel(GObject.GObject):
 
+    __gsignals__ = {
+        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
     @log
     def __init__(self):
         super().__init__()
@@ -25,10 +30,11 @@ class CoreModel(GObject.GObject):
         self._model = Gio.ListStore.new(CoreSong)
         self._album_model = Gio.ListStore()
         self._artist_model = Gio.ListStore.new(CoreArtist)
+        self._playlist_model = Dazzle.ListModelFilter.new(self._model)
         self._album_store = None
         self._hash = {}
         self._url_hash = {}
-
+        print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
             self._model, self._hash, self._url_hash, self._album_model,
             self._artist_model)
@@ -81,6 +87,32 @@ class CoreModel(GObject.GObject):
             self._wrap_list_store_sort_func(_disc_order_sort))
 
         return disc_model_sort
+
+    def get_playlist_model(self):
+        return self._playlist_model
+
+    def set_playlist_model(self, type, album_media, coresong):
+        song_ids = []
+
+        print("NEW PLAYLIST MODEL", self._playlist_model)
+
+        def _filter_func(core_song):
+            return core_song.props.media.get_id() in song_ids
+
+        def _callback(source, dunno, media, something, something2):
+            if media is None:
+                self._playlist_model.set_filter_func(_filter_func)
+                for song in self._playlist_model:
+                    if song.props.media.get_id() == coresong.get_id():
+                        song.props.state = SongWidget.State.PLAYING
+                        break
+                self.emit("playlist-loaded")
+                return
+
+            song_ids.append(media.get_id())
+
+        self._grilo.populate_album_songs(album_media, _callback)
+
 
         # albums_ids = []
 
