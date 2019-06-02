@@ -30,7 +30,10 @@ class CoreModel(GObject.GObject):
         self._model = Gio.ListStore.new(CoreSong)
         self._album_model = Gio.ListStore()
         self._artist_model = Gio.ListStore.new(CoreArtist)
+
         self._playlist_model = Dazzle.ListModelFilter.new(self._model)
+        self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
+
         self._album_store = None
         self._hash = {}
         self._url_hash = {}
@@ -89,19 +92,27 @@ class CoreModel(GObject.GObject):
         return disc_model_sort
 
     def get_playlist_model(self):
-        return self._playlist_model
+        return self._playlist_model_sort
 
     def set_playlist_model(self, type, album_media, coresong):
         song_ids = []
 
-        print("NEW PLAYLIST MODEL", self._playlist_model)
-
         def _filter_func(core_song):
             return core_song.props.media.get_id() in song_ids
+
+        def _sort_func(song_a, song_b):
+            sort_disc = (song_a.props.media.get_album_disc_number()
+                          - song_b.props.media.get_album_disc_number())
+            if sort_disc == 0:
+                return song_a.props.track_number - song_b.props.track_number
+
+            return sort_disc
 
         def _callback(source, dunno, media, something, something2):
             if media is None:
                 self._playlist_model.set_filter_func(_filter_func)
+                self._playlist_model_sort.set_sort_func(
+                    self._wrap_list_store_sort_func(_sort_func))
                 for song in self._playlist_model:
                     if song.props.media.get_id() == coresong.get_id():
                         song.props.state = SongWidget.State.PLAYING
