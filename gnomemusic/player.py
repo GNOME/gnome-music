@@ -373,13 +373,12 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self.props.repeat_mode == RepeatMode.SHUFFLE
-                and self._shuffle_indexes):
-            index = self._shuffle_indexes.index(self._current_index)
-            return index < (len(self._shuffle_indexes) - 1)
-        if self.props.repeat_mode != RepeatMode.NONE:
-            return True
-        return self._current_index < (len(self._songs) - 1)
+        for idx, coresong in enumerate(self._model):
+            if coresong.props.media == self.props.current_song:
+                if idx < len(self._model) - 1:
+                    return True
+
+        return False
 
     @log
     def has_previous(self):
@@ -388,13 +387,12 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self.props.repeat_mode == RepeatMode.SHUFFLE
-                and self._shuffle_indexes):
-            index = self._shuffle_indexes.index(self._current_index)
-            return index > 0
-        if self.props.repeat_mode != RepeatMode.NONE:
-            return True
-        return self._current_index > 0
+        for idx, coresong in enumerate(self._model):
+            if coresong.props.media == self.props.current_song:
+                if idx > 0:
+                    return True
+
+        return False
 
     @log
     def next(self):
@@ -403,14 +401,12 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the operation succeeded. False otherwise.
         :rtype: bool
         """
-        next_index = self._get_next_index()
-        if next_index >= 0:
-            self._current_index = next_index
-            if self._current_song_is_valid():
-                self._validate_next_song()
+        for idx, coresong in enumerate(self._model):
+            if coresong.props.media == self.props.current_song:
+                coresong.props.state = SongWidget.State.PLAYED
+                self._model[idx+1].props.state = SongWidget.State.PLAYING
                 return True
-            else:
-                return self.next()
+
         return False
 
     @log
@@ -420,14 +416,12 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the operation succeeded. False otherwise.
         :rtype: bool
         """
-        previous_index = self._get_previous_index()
-        if previous_index >= 0:
-            self._current_index = previous_index
-            if self._current_song_is_valid():
-                self._validate_previous_song()
+        for idx, coresong in enumerate(self._model):
+            if coresong.props.media == self.props.current_song:
+                coresong.props.state = SongWidget.State.PLAYED
+                self._model[idx-1].props.state = SongWidget.State.PLAYING
                 return True
-            else:
-                return self.previous()
+
         return False
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
@@ -448,16 +442,10 @@ class PlayerPlaylist(GObject.GObject):
         :rtype: Grl.Media
         """
         for coresong in self._model:
-            print("CORESONG", coresong.props.state, SongWidget.State.PLAYING)
             if coresong.props.state == SongWidget.State.PLAYING:
-                print("RETURN CURRENT SONG")
                 return coresong.props.media
 
         return None
-
-        # if self._songs:
-        #     return self._songs[self._current_index][PlayerField.SONG]
-        # return None
 
     def _current_song_is_valid(self):
         """Check if current song can be played.
@@ -690,12 +678,17 @@ class Player(GObject.GObject):
         :param bool song_changed: indicate if a new song must be loaded
         :param int song_offset: position relative to current song
         """
+        if self.props.current_song is None:
+            return
+
+        if media is None:
+            media = self._playlist.props.current_song
+
         self._load2(media)
 
         self._gst_player.props.state = Playback.PLAYING
         return
-        if self.props.current_song is None:
-            return
+
 
         if (song_offset is not None
                 and not self._playlist.set_song(song_offset)):
@@ -724,7 +717,7 @@ class Player(GObject.GObject):
         Play the next song of the playlist, if any.
         """
         if self._playlist.next():
-            self.play()
+            self.play(None, None, self._playlist.props.current_song)
 
     @log
     def previous(self):
@@ -738,7 +731,7 @@ class Player(GObject.GObject):
             return
 
         if self._playlist.previous():
-            self.play()
+            self.play(None, None, self._playlist.props.current_song)
 
     @log
     def play_pause(self):
@@ -827,7 +820,7 @@ class Player(GObject.GObject):
             tick, self._gst_player.props.position))
 
         current_song = self._playlist.props.current_song
-        print("TICK", current_song)
+
         if tick == 0:
             self._new_clock = True
             self._lastfm.now_playing(current_song)
