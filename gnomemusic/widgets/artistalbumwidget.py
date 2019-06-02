@@ -94,13 +94,23 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        albums_list = window._app._coremodel.get_album_model(self._media)
+        # albums_list = window._app._coremodel.get_album_model(self._media)
 
-        for album in albums_list:
-            disc = self._create_disc_box(0, album)
-            self._disc_list_box.add(disc)
-            self._disc_list_box.show()
+        # for album in albums_list:
+        #     disc = self._create_disc_box(0, album)
+        #     self._disc_list_box.add(disc)
+        #     self._disc_list_box.show()
         # grilo.populate_album_songs(self._media, self._add_item)
+
+        disc_model = window._app._coremodel.get_album_model(self._media)
+
+        self._disc_list_box.bind_model(disc_model, self._create_widget)
+
+    def _create_widget(self, disc):
+        disc_box = self._create_disc_box(
+            disc.media.get_album_disc_number(), disc.model)
+
+        return disc_box
 
     @log
     def _create_disc_box(self, disc_nr, album_model):
