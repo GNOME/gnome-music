@@ -19,8 +19,7 @@ class CoreSong(GObject.GObject):
     media = GObject.Property(type=Grl.Media)
     play_count = GObject.Property(type=int)
     selected = GObject.Property(type=bool, default=False)
-    state = GObject.Property(
-        type=int, default=SongWidget.State.UNPLAYED)
+    state = GObject.Property()  # FIXME: How to set an IntEnum type?
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
