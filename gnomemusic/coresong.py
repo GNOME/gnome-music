@@ -4,6 +4,7 @@ from gi.repository import Grl, GObject
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
+from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
@@ -18,6 +19,8 @@ class CoreSong(GObject.GObject):
     media = GObject.Property(type=Grl.Media)
     play_count = GObject.Property(type=int)
     selected = GObject.Property(type=bool, default=False)
+    state = GObject.Property(
+        type=int, default=SongWidget.State.UNPLAYED)
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
