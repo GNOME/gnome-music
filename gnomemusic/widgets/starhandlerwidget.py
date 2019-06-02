@@ -139,7 +139,7 @@ class StarHandlerWidget(object):
         """Called if a star is clicked"""
         try:
             _iter = self._parent.model.get_iter(path)
-        except TypeError:
+        except ValueError:
             return
 
         try:
