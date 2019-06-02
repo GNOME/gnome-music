@@ -60,3 +60,6 @@ class CoreGrilo(GObject.GObject):
     def populate_album_disc_songs(self, media, discnr, callback):
         self._tracker_source.populate_album_disc_songs(
             media, discnr, callback)
+
+    def populate_album_songs(self, media, callback):
+        self._tracker_source.populate_album_songs(media, callback)

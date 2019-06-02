@@ -313,3 +313,36 @@ class GrlTrackerSource(GObject.GObject):
         options = self._fast_options.copy()
 
         self._source.query(query, self.METADATA_KEYS, options, _callback)
+
+    def populate_album_songs(self, media, _callback):
+        album_id = media.get_id()
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(?song)
+            ?song AS ?tracker_urn
+            tracker:id(?song) AS ?id
+            nie:url(?song) AS ?url
+            nie:title(?song) AS ?title
+            nmm:artistName(nmm:performer(?song)) AS ?artist
+            nie:title(nmm:musicAlbum(?song)) AS ?album
+            nfo:duration(?song) AS ?duration
+            nmm:trackNumber(?song) AS ?track_number
+            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            ?tag AS ?favourite
+            nie:usageCounter(?song) AS ?play_count
+        WHERE
+        {
+            ?song a nmm:MusicPiece ;
+                  nmm:musicAlbum ?album .
+            OPTIONAL { ?song nao:hasTag ?tag .
+                       FILTER (?tag = nao:predefined-tag-favorite) } .
+            FILTER ( tracker:id(?album) = %(album_id)s )
+        }
+        """.replace('\n', ' ').strip() % {
+            'album_id': album_id,
+        }
+
+        options = self._fast_options.copy()
+
+        self._source.query(query, self.METADATA_KEYS, options, _callback)
