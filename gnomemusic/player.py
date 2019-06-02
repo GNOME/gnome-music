@@ -41,6 +41,7 @@ from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
+from gnomemusic.widgets.songwidget import SongWidget
 
 
 logger = logging.getLogger(__name__)
@@ -96,11 +97,12 @@ class PlayerPlaylist(GObject.GObject):
         return '<PlayerPlayList>'
 
     @log
-    def __init__(self):
+    def __init__(self, application):
         super().__init__()
 
         GstPbutils.pb_utils_init()
 
+        self._app = application
         self._songs = []
         self._shuffle_indexes = []
         self._current_index = 0
@@ -112,6 +114,8 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer = GstPbutils.Discoverer()
         self._discoverer.connect('discovered', self._on_discovered)
         self._discoverer.start()
+
+        self._model = self._app._coremodel.get_playlist_model()
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
@@ -443,9 +447,17 @@ class PlayerPlaylist(GObject.GObject):
         :returns: the song being played or None if there are no songs
         :rtype: Grl.Media
         """
-        if self._songs:
-            return self._songs[self._current_index][PlayerField.SONG]
+        for coresong in self._model:
+            print("CORESONG", coresong.props.state, SongWidget.State.PLAYING)
+            if coresong.props.state == SongWidget.State.PLAYING:
+                print("RETURN CURRENT SONG")
+                return coresong.props.media
+
         return None
+
+        # if self._songs:
+        #     return self._songs[self._current_index][PlayerField.SONG]
+        # return None
 
     def _current_song_is_valid(self):
         """Check if current song can be played.
@@ -562,7 +574,7 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
-        self._playlist = PlayerPlaylist()
+        self._playlist = PlayerPlaylist(application)
         self._playlist.connect('song-validated', self._on_song_validated)
 
         self._settings = application.props.settings
@@ -632,8 +644,17 @@ class Player(GObject.GObject):
         else:
             self.stop()
 
+    def _load2(self, song):
+        self._gst_player.props.state = Playback.LOADING
+        self._time_stamp = int(time.time())
+
+        self._gst_player.props.url = song.get_url()
+        print(song.get_url())
+
+        # self.emit('song-changed')
+
     @log
-    def play(self, song_changed=True, song_offset=None):
+    def play(self, song_changed=True, song_offset=None, media=None):
         """Play a song.
 
         Load a new song or resume playback depending on song_changed
@@ -642,6 +663,10 @@ class Player(GObject.GObject):
         :param bool song_changed: indicate if a new song must be loaded
         :param int song_offset: position relative to current song
         """
+        self._load2(media)
+
+        self._gst_player.props.state = Playback.PLAYING
+        return
         if self.props.current_song is None:
             return
 
@@ -774,7 +799,7 @@ class Player(GObject.GObject):
             tick, self._gst_player.props.position))
 
         current_song = self._playlist.props.current_song
-
+        print("TICK", current_song)
         if tick == 0:
             self._new_clock = True
             self._lastfm.now_playing(current_song)
