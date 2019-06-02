@@ -160,11 +160,11 @@ class AlbumWidget(Gtk.EventBox):
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
-    @Gtk.Template.Callback()
-    @log
-    def _on_selection_changed(self, widget):
-        n_items = len(self._disc_listbox.get_selected_items())
-        self.props.selected_items_count = n_items
+    # @Gtk.Template.Callback()
+    # @log
+    # def _on_selection_changed(self, widget):
+    #     n_items = len(self._disc_listbox.get_selected_items())
+    #     self.props.selected_items_count = n_items
 
     @log
     def _create_disc_box(self, disc_nr, disc_songs):
