@@ -105,6 +105,24 @@
       </packing>
     </child>
     <child>
+      <!-- This label is used to prevent a box resize -->
+      <!-- when the new song count is computed. -->
+      <object class="GtkLabel" id="_empty_label">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="label"> </property>
+        <style>
+          <class name="dim-label"/>
+        </style>
+      </object>
+      <packing>
+        <property name="left_attach">1</property>
+        <property name="top_attach">1</property>
+        <property name="width">1</property>
+        <property name="height">1</property>
+      </packing>
+    </child>
+    <child>
       <object class="GtkMenuButton" id="_menubutton">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
