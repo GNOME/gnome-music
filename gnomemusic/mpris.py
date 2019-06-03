@@ -526,7 +526,8 @@ class MediaPlayer2Service(Server):
             renamed_playlist)
         self.con.emit_signal(
             None, '/org/mpris/MediaPlayer2',
-            MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, 'PlaylistChanged',
+            MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+            'PlaylistChanged',
             GLib.Variant.new_tuple(GLib.Variant('(oss)', mpris_playlist)))
 
     @log
