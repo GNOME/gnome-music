@@ -375,9 +375,6 @@ class MediaPlayer2Service(Server):
                 or previous_path_list[-1] != self._path_list[-1]):
             current_song_path = self._get_song_dbus_path()
             self.TrackListReplaced(self._path_list, current_song_path)
-            self.PropertiesChanged(
-                MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                {'Tracks': GLib.Variant('ao', self._path_list), }, [])
 
     @log
     def _get_playlist_dbus_path(self, playlist):
