@@ -224,6 +224,7 @@ class Query():
         rdf:type(?playlist)
         tracker:id(?playlist) AS ?id
         nie:title(?playlist) AS ?title
+        tracker:added(?playlist) AS ?creation_date
         nfo:entryCounter(?playlist) AS ?childcount
         {
             %(where_clause)s
