@@ -90,6 +90,7 @@ class HeaderBar(Gtk.HeaderBar):
 
     __gsignals__ = {
         'back-button-clicked': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'search-button-clicked': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     _search_button = Gtk.Template.Child()
@@ -209,6 +210,11 @@ class HeaderBar(Gtk.HeaderBar):
     @log
     def _on_back_button_clicked(self, widget=None):
         self.emit('back-button-clicked')
+
+    @Gtk.Template.Callback()
+    @log
+    def _on_search_button_clicked(self, widget=None):
+        self.emit('search-button-clicked')
 
     @Gtk.Template.Callback()
     @log

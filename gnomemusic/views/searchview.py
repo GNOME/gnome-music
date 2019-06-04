@@ -60,8 +60,6 @@ class SearchView(BaseView):
         self._head_iters = [None, None, None, None]
         self._filter_model = None
 
-        self.previous_view = None
-
         self._albums_selected = []
         self._albums = {}
         self._albums_index = 0
