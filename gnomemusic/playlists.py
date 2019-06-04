@@ -25,6 +25,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import math
 
 import gi
 gi.require_version('Dazzle', '1.0')
@@ -43,6 +44,7 @@ logger = logging.getLogger(__name__)
 class Playlist(GObject.Object):
     """ Base class of all playlists """
 
+    creation_date = GObject.Property(type=GLib.DateTime, default=None)
     id_ = GObject.Property(type=str, default=None)
     is_smart = GObject.Property(type=bool, default=False)
     query = GObject.Property(type=str, default=None)
@@ -52,13 +54,32 @@ class Playlist(GObject.Object):
     def __repr__(self):
         return "<Playlist>"
 
-    def __init__(self, id_=None, query=None, tag_text=None, title=None):
+    def __init__(
+            self, id_=None, query=None, tag_text=None, title=None,
+            creation_date=None):
         super().__init__()
 
         self.props.id_ = id_
         self.props.query = query
         self.props.tag_text = tag_text
         self.props.title = title
+        self.props.creation_date = creation_date
+
+    @staticmethod
+    def compare_playlist_func(playlist_a, playlist_b):
+        if playlist_a.props.is_smart:
+            if not playlist_b.props.is_smart:
+                return -1
+            return GLib.strcmp0(playlist_a.props.title, playlist_b.props.title)
+
+        if playlist_b.props.is_smart:
+            return 1
+
+        # cannot use GLib.DateTime.compare
+        # https://gitlab.gnome.org/GNOME/pygobject/issues/334
+        date_diff = playlist_a.props.creation_date.difference(
+            playlist_b.props.creation_date)
+        return math.copysign(1, date_diff)
 
 
 class SmartPlaylist(Playlist):
@@ -238,9 +259,11 @@ class Playlists(GObject.GObject):
             return
 
         playlist = Playlist(
-            id_=item.get_id(), title=utils.get_media_title(item))
+            id_=item.get_id(), title=utils.get_media_title(item),
+            creation_date=item.get_creation_date())
 
-        self._playlists_model.append(playlist)
+        self._playlists_model.insert_sorted(
+            playlist, Playlist.compare_playlist_func)
 
     @log
     def _create_smart_playlist(self, playlist):
@@ -364,7 +387,8 @@ class Playlists(GObject.GObject):
             self.emit("playlist-updated", smart_playlist)
             return
 
-        self._playlists_model.append(smart_playlist)
+        self._playlists_model.insert_sorted(
+            smart_playlist, Playlist.compare_playlist_func)
 
     @log
     def update_all_smart_playlists(self):
@@ -378,8 +402,10 @@ class Playlists(GObject.GObject):
                 return
 
             new_playlist = Playlist(
-                id_=item.get_id(), title=utils.get_media_title(item))
-            self._playlists_model.append(new_playlist)
+                id_=item.get_id(), title=utils.get_media_title(item),
+                creation_date=item.get_creation_date())
+            self._playlists_model.insert_sorted(
+                new_playlist, Playlist.compare_playlist_func)
             self.emit('playlist-created', item)
 
         def cursor_callback(cursor, res, data):
