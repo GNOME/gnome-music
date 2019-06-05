@@ -140,6 +140,25 @@ class CoreModel(GObject.GObject):
                             song.props.state = SongWidget.State.PLAYING
 
                 self.emit("playlist-loaded")
+            elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
+                self._playlist_model.remove_all()
+
+                for artist_album in model:
+                    for disc in artist_album.model:
+                        for model_song in disc.model:
+                            song = CoreSong(model_song.props.media)
+
+                            self._playlist_model.append(song)
+                            song.bind_property(
+                                "state", model_song, "state",
+                                GObject.BindingFlags.SYNC_CREATE)
+
+                            media_id = model_song.props.media.get_id()
+                            if song.props.media.get_id() == coresong.get_id():
+                                song.props.state = SongWidget.State.PLAYING
+
+                self.emit("playlist-loaded")
+
 
     def get_album_disc(self, media, discnr, model):
         albums_ids = []
