@@ -29,6 +29,7 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
+from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
@@ -46,6 +47,7 @@ class ArtistAlbumWidget(Gtk.Box):
     selection_mode = GObject.Property(type=bool, default=False)
 
     __gsignals__ = {
+        "song-activated": (GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )),
         'songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
@@ -153,24 +155,7 @@ class ArtistAlbumWidget(Gtk.Box):
         if self.props.selection_mode:
             return
 
-        # self._player.set_playlist(
-        #     PlayerPlaylist.Type.ARTIST, self._artist, song_widget.model,
-        #     song_widget.itr)
-        # self._player.play()
-
-        # return True
-
-        self._album = None
-        def _on_playlist_loaded(klass):
-            self._player.play(None, None, song_widget._media)
-            self._player._app._coremodel.disconnect(signal_id)
-
-        # coresong = listboxrow.get_child()
-        signal_id = self._player._app._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
-        self._player._app._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ALBUM, self._album, song_widget._media,
-            self._model)
+        self.emit("song-activated", song_widget)
 
     @log
     def select_all(self):
