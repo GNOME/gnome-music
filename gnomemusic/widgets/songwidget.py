@@ -202,7 +202,6 @@ class SongWidget(Gtk.EventBox):
 
         :param SongWidget.State value: Widget state
         """
-        print("STATE CHANGE")
         self._state = value
 
         style_ctx = self._title_label.get_style_context()
