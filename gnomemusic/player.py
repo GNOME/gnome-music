@@ -574,6 +574,7 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
+        self._app = application
         # In the case of gapless playback, both 'about-to-finish'
         # and 'eos' can occur during the same stream. 'about-to-finish'
         # already sets self._playlist to the next song, so doing it
@@ -582,7 +583,7 @@ class Player(GObject.GObject):
         # needed.
         self._gapless_set = False
 
-        self._playlist = PlayerPlaylist(application)
+        self._playlist = PlayerPlaylist(self._app)
         self._playlist.connect('song-validated', self._on_song_validated)
 
         self._settings = application.props.settings
