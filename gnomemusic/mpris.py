@@ -408,7 +408,7 @@ class MPRIS(DBusInterface):
 
         if not media:
             media = self._player.props.current_song
-            index = self._player.props.current_song_index
+            index = self._player.props.position
 
         id_hex = media.get_id().encode('ascii').hex()
         path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
@@ -718,9 +718,9 @@ class MPRIS(DBusInterface):
         :param str path: Identifier of the track to skip to
         """
         current_song_path = self._get_song_dbus_path()
-        current_song_index = self._path_list.index(current_song_path)
+        position = self._path_list.index(current_song_path)
         goto_index = self._path_list.index(path)
-        song_offset = goto_index - current_song_index
+        song_offset = goto_index - position
         self._player.play(song_offset=song_offset)
 
     def _track_list_replaced(self, tracks, current_song):
