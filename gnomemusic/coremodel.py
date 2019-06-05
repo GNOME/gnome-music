@@ -8,6 +8,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilo import grilo
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -31,7 +32,7 @@ class CoreModel(GObject.GObject):
         self._album_model = Gio.ListStore()
         self._artist_model = Gio.ListStore.new(CoreArtist)
 
-        self._playlist_model = Dazzle.ListModelFilter.new(self._model)
+        self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
 
         self._album_store = None
@@ -94,64 +95,27 @@ class CoreModel(GObject.GObject):
     def get_playlist_model(self):
         return self._playlist_model_sort
 
-    def set_playlist_model(self, type, album_media, coresong):
-        song_ids = []
+    def set_playlist_model(self, playlist_type, album_media, coresong, model):
+        with model.freeze_notify():
 
-        def _filter_func(core_song):
-            return core_song.props.media.get_id() in song_ids
+            if playlist_type == PlayerPlaylist.Type.ALBUM:
+                self._playlist_model.remove_all()
 
-        def _sort_func(song_a, song_b):
-            sort_disc = (song_a.props.media.get_album_disc_number()
-                          - song_b.props.media.get_album_disc_number())
-            if sort_disc == 0:
-                return song_a.props.track_number - song_b.props.track_number
+                for disc in model:
+                    for model_song in disc.model:
+                        song = CoreSong(model_song.props.media)
 
-            return sort_disc
+                        self._playlist_model.append(song)
+                        song.bind_property(
+                            "state", model_song, "state",
+                            GObject.BindingFlags.SYNC_CREATE)
 
-        def _callback(source, dunno, media, something, something2):
-            if media is None:
-                self._playlist_model.set_filter_func(_filter_func)
-                self._playlist_model_sort.set_sort_func(
-                    self._wrap_list_store_sort_func(_sort_func))
-                for song in self._playlist_model:
-                    if song.props.media.get_id() == coresong.get_id():
-                        song.props.state = SongWidget.State.PLAYING
-                        break
+                        media_id = model_song.props.media.get_id()
+
+                        if song.props.media.get_id() == coresong.get_id():
+                            song.props.state = SongWidget.State.PLAYING
+
                 self.emit("playlist-loaded")
-                return
-
-            song_ids.append(media.get_id())
-
-        self._grilo.populate_album_songs(album_media, _callback)
-
-
-        # albums_ids = []
-
-        # model_filter = Dazzle.ListModelFilter.new(self._model)
-        # model_filter = Gfm.FilterListModel.new(self._model)
-        # model_filter.set_filter_func(lambda a: False)
-        # model_sort = Gfm.SortListModel.new_for_type(CoreSong)
-
-        # def _filter_func(core_song):
-        #     return core_song.props.media.get_id() in albums_ids
-
-        # def _reverse_sort(song_a, song_b, data=None):
-        #     return song_b.props.track_number - song_a.props.track_number
-
-        # def _callback(source, dunno, media, something, something2):
-        #     if media is None:
-        #         model_filter.set_filter_func(_filter_func)
-        #         model_sort.set_model(model_filter)
-        #         model_sort.set_sort_func(
-        #             self._wrap_list_store_sort_func(_reverse_sort))
-        #         return
-
-        #     albums_ids.append(media.get_id())
-
-        # For POC sake, use old grilo
-        # grilo.populate_album_songs(media, _callback)
-
-        # return model_sort
 
     def get_album_disc(self, media, discnr, model):
         albums_ids = []
