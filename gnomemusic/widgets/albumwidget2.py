@@ -146,38 +146,6 @@ class AlbumWidget2(Gtk.EventBox):
             "{} minute", "{} minutes", mins).format(mins)
 
     @log
-    def _on_row_activated(self, klass, listboxrow):
-        old_model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,    # icon
-            GObject.TYPE_OBJECT,  # song object
-            GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
-
-        print(listboxrow.get_index())
-        # for song in self._model[0]:
-        #     _iter = old_model.insert_with_valuesv(-1, [5], [song.props.media])
-        #     if song is self._model[0][listboxrow.get_index()]:
-        #         activated_iter = _iter
-        #         listboxrow.get_child().props.state = SongWidget.State.PLAYING
-
-        coresong = listboxrow.get_child()
-        self._parent_view._window._app._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ALBUM, album, coresong, self._album_model)
-        # self._player.set_playlist(
-        #     PlayerPlaylist.Type.ALBUM, self._album_name, old_model,
-        #     activated_iter)
-        self._player.play()
-
-    @log
     def _on_selection_changed(self, klass, value):
         n_items = 0
         for song in self._model[0]:
@@ -199,7 +167,6 @@ class AlbumWidget2(Gtk.EventBox):
             self._player.play(None, None, song_widget._media)
             self._parent_view._window._app._coremodel.disconnect(signal_id)
 
-        # coresong = listboxrow.get_child()
         signal_id = self._parent_view._window._app._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
         self._parent_view._window._app._coremodel.set_playlist_model(
