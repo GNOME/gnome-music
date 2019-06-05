@@ -261,7 +261,7 @@ class PlaylistsView(BaseView):
                 PlayerPlaylist.Type.PLAYLIST, self._current_playlist.get_id()):
             return False
 
-        index = self.player.props.current_song_index
+        index = self.player.props.position
         iter_ = self.model.get_iter_from_string(str(index))
         self.model[iter_][10] = True
         path = self.model.get_path(iter_)

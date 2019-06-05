@@ -357,7 +357,7 @@ class MediaPlayer2Service(Server):
 
         if not media:
             media = self.player.props.current_song
-            index = self.player.props.current_song_index
+            index = self.player.props.position
 
         id_hex = media.get_id().encode('ascii').hex()
         path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
@@ -644,9 +644,9 @@ class MediaPlayer2Service(Server):
 
     def GoTo(self, path):
         current_song_path = self._get_song_dbus_path()
-        current_song_index = self._path_list.index(current_song_path)
+        position = self._path_list.index(current_song_path)
         goto_index = self._path_list.index(path)
-        song_offset = goto_index - current_song_index
+        song_offset = goto_index - position
         self.player.play(song_offset=song_offset)
         return
 

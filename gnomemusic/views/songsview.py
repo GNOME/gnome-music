@@ -239,7 +239,7 @@ class SongsView(BaseView):
         if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
             return False
 
-        index = self.player.props.current_song_index
+        index = self.player.props.position
         iter_ = self.model.get_iter_from_string(str(index))
         self.model[iter_][10] = True
         path = self.model.get_path(iter_)
