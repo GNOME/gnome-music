@@ -171,7 +171,7 @@ class AlbumWidget2(Gtk.EventBox):
 
         coresong = listboxrow.get_child()
         self._parent_view._window._app._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ALBUM, album, coresong)
+            PlayerPlaylist.Type.ALBUM, album, coresong, self._album_model)
         # self._player.set_playlist(
         #     PlayerPlaylist.Type.ALBUM, self._album_name, old_model,
         #     activated_iter)
@@ -203,7 +203,8 @@ class AlbumWidget2(Gtk.EventBox):
         signal_id = self._parent_view._window._app._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
         self._parent_view._window._app._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ALBUM, self._album, song_widget._media)
+            PlayerPlaylist.Type.ALBUM, self._album, song_widget._media,
+            self._album_model)
 
         return True
 
