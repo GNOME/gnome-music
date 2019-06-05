@@ -94,7 +94,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         for album in self._model:
             self._add_album(album)
 
-        self._player.connect('song-changed', self._update_model)
+        # self._player.connect('song-changed', self._update_model)
         self.show_all()
 
     @log

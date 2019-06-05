@@ -153,12 +153,24 @@ class ArtistAlbumWidget(Gtk.Box):
         if self.props.selection_mode:
             return
 
-        self._player.set_playlist(
-            PlayerPlaylist.Type.ARTIST, self._artist, song_widget.model,
-            song_widget.itr)
-        self._player.play()
+        # self._player.set_playlist(
+        #     PlayerPlaylist.Type.ARTIST, self._artist, song_widget.model,
+        #     song_widget.itr)
+        # self._player.play()
 
-        return True
+        # return True
+
+        self._album = None
+        def _on_playlist_loaded(klass):
+            self._player.play(None, None, song_widget._media)
+            self._player._app._coremodel.disconnect(signal_id)
+
+        # coresong = listboxrow.get_child()
+        signal_id = self._player._app._coremodel.connect(
+            "playlist-loaded", _on_playlist_loaded)
+        self._player._app._coremodel.set_playlist_model(
+            PlayerPlaylist.Type.ALBUM, self._album, song_widget._media,
+            self._model)
 
     @log
     def select_all(self):
