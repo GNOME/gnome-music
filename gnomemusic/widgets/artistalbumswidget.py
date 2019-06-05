@@ -97,6 +97,21 @@ class ArtistAlbumsWidget(Gtk.Box):
         # self._player.connect('song-changed', self._update_model)
         self.show_all()
 
+    def _song_activated(self, widget, song_widget):
+        if self.props.selection_mode:
+            return
+
+        self._album = None
+        def _on_playlist_loaded(klass):
+            self._player.play(None, None, song_widget._media)
+            self._player._app._coremodel.disconnect(signal_id)
+
+        signal_id = self._player._app._coremodel.connect(
+            "playlist-loaded", _on_playlist_loaded)
+        self._player._app._coremodel.set_playlist_model(
+            PlayerPlaylist.Type.PLAYLIST, self._album, song_widget._media,
+            self._model)
+
     @log
     def _create_model(self):
         """Create the ListStore model for this widget."""
@@ -138,6 +153,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._widgets.append(widget)
 
         widget.connect('songs-loaded', self._on_album_displayed)
+        widget.connect("song-activated", self._song_activated)
 
     @log
     def _update_model(self, player):
