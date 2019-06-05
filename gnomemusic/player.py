@@ -574,6 +574,8 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
+        self._app = application
+
         self._playlist = PlayerPlaylist(application)
         self._playlist.connect('song-validated', self._on_song_validated)
 
