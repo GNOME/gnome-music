@@ -63,6 +63,7 @@ class ArtistsView(BaseView):
         self.player = player
         self._artists = {}
 
+        self._window = window
         self._model = window._app._coremodel.get_artists_model()
         self._sidebar.bind_model(self._model, self._create_widget)
 
@@ -121,13 +122,15 @@ class ArtistsView(BaseView):
         artist = row.props.artist.props.artist
         artist_media = row.props.artist.props.media
 
+        model = self._window._app._coremodel.get_artists_model_full(row.props.artist)
+
         new_artist_albums_widget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         self._view.add(new_artist_albums_widget)
 
         albums = self._window._app._coremodel.get_artist_albums(row.props.artist)
         artist_albums = ArtistAlbumsWidget(
-            artist, albums, self.player, self._window)
+            artist, albums, self.player, self._window, False, model)
         # self._artists[artist.casefold()]['widget'] = artist_albums
         new_artist_albums_widget.add(artist_albums)
         new_artist_albums_widget.show()
