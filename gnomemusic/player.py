@@ -373,10 +373,8 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        for idx, coresong in enumerate(self._model):
-            if coresong.props.media == self.props.current_song:
-                if idx < len(self._model) - 1:
-                    return True
+        if self.props.current_song_index < self._model.get_n_items() - 1:
+            return True
 
         return False
 
@@ -387,10 +385,9 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        for idx, coresong in enumerate(self._model):
-            if coresong.props.media == self.props.current_song:
-                if idx > 0:
-                    return True
+        if (self.props.current_song_index <= self._model.get_n_items() - 1
+                and  self.props.current_song_index > 0):
+            return True
 
         return False
 
@@ -401,13 +398,17 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the operation succeeded. False otherwise.
         :rtype: bool
         """
-        for idx, coresong in enumerate(self._model):
-            if coresong.props.media == self.props.current_song:
-                coresong.props.state = SongWidget.State.PLAYED
-                self._model[idx+1].props.state = SongWidget.State.PLAYING
-                return True
+        if not self.has_next():
+            return False
 
-        return False
+        next_position = self.props.current_song_index + 1
+
+        self._model[self.props.current_song_index].props.state = SongWidget.State.PLAYED
+        self._model[next_position].props.state = SongWidget.State.PLAYING
+
+        self._current_index = next_position
+
+        return True
 
     @log
     def previous(self):
@@ -416,13 +417,17 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the operation succeeded. False otherwise.
         :rtype: bool
         """
-        for idx, coresong in enumerate(self._model):
-            if coresong.props.media == self.props.current_song:
-                coresong.props.state = SongWidget.State.PLAYED
-                self._model[idx-1].props.state = SongWidget.State.PLAYING
-                return True
+        if not self.has_previous():
+            return False
 
-        return False
+        previous_position = self.props.current_song_index - 1
+
+        self._model[self.props.current_song_index].props.state = SongWidget.State.PLAYED
+        self._model[previous_position].props.state = SongWidget.State.PLAYING
+
+        self._current_index = previous_position
+
+        return True
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
     def current_song_index(self):
