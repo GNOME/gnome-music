@@ -441,8 +441,15 @@ class PlayerPlaylist(GObject.GObject):
         :returns: the song being played or None if there are no songs
         :rtype: Grl.Media
         """
-        for coresong in self._model:
+        if self._model.get_n_items() != 0:
+            current_song = self._model[self._current_index]
+            if current_song.props.state == SongWidget.State.PLAYING:
+                return current_song.props.media
+
+        for idx, coresong in enumerate(self._model):
             if coresong.props.state == SongWidget.State.PLAYING:
+                print("position", idx)
+                self._current_index = idx
                 return coresong.props.media
 
         return None
