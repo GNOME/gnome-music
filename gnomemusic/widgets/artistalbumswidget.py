@@ -56,8 +56,9 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def __init__(
             self, artist, albums, player, window,
-            selection_mode_allowed=False):
+            selection_mode_allowed=False, model=None):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
+        self._model = model
         self._player = player
         self._artist = artist
         self._window = window
@@ -67,9 +68,9 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self._widgets = []
 
-        self._create_model()
+        # self._create_model()
 
-        self._model.connect('row-changed', self._model_row_changed)
+        # self._model.connect('row-changed', self._model_row_changed)
 
         hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
@@ -89,8 +90,8 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self._window.notifications_popup.push_loading()
 
-        self._albums_to_load = len(albums)
-        for album in albums:
+        # self._albums_to_load = len(albums)
+        for album in self._model:
             self._add_album(album)
 
         self._player.connect('song-changed', self._update_model)
@@ -124,8 +125,9 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def _add_album(self, album):
         widget = ArtistAlbumWidget(
-            album, self._player, self._model, self._selection_mode_allowed,
-            self._songs_grid_size_group, self._cover_size_group, self._window)
+            album.props.media, self._player, album.props.model,
+            self._selection_mode_allowed, self._songs_grid_size_group,
+            self._cover_size_group, self._window)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',

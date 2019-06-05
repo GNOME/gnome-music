@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Dazzle', '1.0')
-from gi.repository import Dazzle, GObject, Gio, Gfm
+from gi.repository import Dazzle, GObject, Gio, Gfm, Grl
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
@@ -15,6 +15,12 @@ from gnomemusic.widgets.songwidget import SongWidget
 class CoreDisc(GObject.GObject):
         media = None
         model = None
+
+
+class CoreArtistAlbum(GObject.GObject):
+
+    media = GObject.Property(type=Grl.Media, default=None)
+    model = GObject.Property(type=Gio.ListModel, default=None)
 
 
 class CoreModel(GObject.GObject):
@@ -91,6 +97,24 @@ class CoreModel(GObject.GObject):
             self._wrap_list_store_sort_func(_disc_order_sort))
 
         return disc_model_sort
+
+    def get_artists_model_full(self, artist_media):
+        albums = self._grilo.get_artist_albums(artist_media)
+
+        albums_model = Gio.ListStore()
+        albums_model_sort = Gfm.SortListModel.new(albums_model)
+
+        for album in albums:
+            album_model = self.get_album_model(album)
+
+            artist_album = CoreArtistAlbum()
+            artist_album.props.model = album_model
+            artist_album.props.media = album
+
+            albums_model.append(artist_album)
+
+        return albums_model
+
 
     def get_playlist_model(self):
         return self._playlist_model_sort

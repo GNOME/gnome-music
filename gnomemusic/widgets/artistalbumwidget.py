@@ -102,9 +102,9 @@ class ArtistAlbumWidget(Gtk.Box):
         #     self._disc_list_box.show()
         # grilo.populate_album_songs(self._media, self._add_item)
 
-        disc_model = window._app._coremodel.get_album_model(self._media)
+        # disc_model = window._app._coremodel.get_album_model(self._media)
 
-        self._disc_list_box.bind_model(disc_model, self._create_widget)
+        self._disc_list_box.bind_model(self._model, self._create_widget)
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(

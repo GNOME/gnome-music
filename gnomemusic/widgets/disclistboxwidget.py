@@ -123,11 +123,6 @@ class DiscBox(Gtk.Box):
         if self._model is not None:
             self._model.connect('row-changed', self._model_row_changed)
 
-        if listmodel is not None:
-            self._listmodel = listmodel
-            self._list_box.bind_model(
-                self._listmodel, self._create_widget)
-
         # self.bind_property(
         #     'columns', self._list_box, 'columns',
         #     GObject.BindingFlags.SYNC_CREATE)
@@ -138,6 +133,11 @@ class DiscBox(Gtk.Box):
         self._selection_mode_allowed = True
         self._selected_items = []
         self._songs = []
+
+        if listmodel is not None:
+            self._listmodel = listmodel
+            self._list_box.bind_model(
+                self._listmodel, self._create_widget)
 
     @log
     def set_disc_number(self, disc_number):
