@@ -579,6 +579,7 @@ class Player(GObject.GObject):
         self._gst_player = GstPlayer(application)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
+        self._gst_player.connect('seek-finished', self._on_seek_finished)
         self._gst_player.bind_property(
             'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
         self._gst_player.bind_property(
@@ -878,7 +879,6 @@ class Player(GObject.GObject):
         duration_second = self._gst_player.props.duration
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
-            self.emit('seek-finished')
 
     @log
     def get_mpris_playlist(self):
@@ -892,3 +892,8 @@ class Player(GObject.GObject):
         :rtype: list of index and Grl.Media
         """
         return self._playlist.get_mpris_playlist()
+
+    @log
+    def _on_seek_finished(self, klass):
+        # FIXME: Just a proxy
+        self.emit('seek-finished')

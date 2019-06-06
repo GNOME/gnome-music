@@ -51,7 +51,8 @@ class GstPlayer(GObject.GObject):
     """
     __gsignals__ = {
         'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, ))
+        'clock-tick': (GObject.SignalFlags.RUN_FIRST, None, (int, )),
+        'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     def __repr__(self):
@@ -86,6 +87,7 @@ class GstPlayer(GObject.GObject):
         self._bus.connect('message::async-done', self._on_async_done)
         self._bus.connect('message::error', self._on_bus_error)
         self._bus.connect('message::element', self._on_bus_element)
+        self._bus.connect('message::reset-time', self._on_reset_time)
         self._bus.connect('message::eos', self._on_bus_eos)
         self._bus.connect('message::new-clock', self._on_new_clock)
 
@@ -134,6 +136,10 @@ class GstPlayer(GObject.GObject):
             self.props.duration = duration
 
         self.notify('state')
+
+    @log
+    def _on_reset_time(self, bus, message):
+        self.emit("seek-finished")
 
     @log
     def _on_new_clock(self, bus, message):
@@ -275,7 +281,6 @@ class GstPlayer(GObject.GObject):
 
         :param float seconds: Position in seconds to seek
         """
-        # FIXME: seek should be signalled to MPRIS
         self._player.seek_simple(
             Gst.Format.TIME, Gst.SeekFlags.FLUSH | Gst.SeekFlags.KEY_UNIT,
             seconds * Gst.SECOND)
