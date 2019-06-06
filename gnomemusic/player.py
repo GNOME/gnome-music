@@ -543,7 +543,7 @@ class Player(GObject.GObject):
 
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, (float,)),
+        'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
     }
@@ -878,7 +878,7 @@ class Player(GObject.GObject):
         duration_second = self._gst_player.props.duration
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
-            self.emit('seek-finished', position_second)
+            self.emit('seek-finished')
 
     @log
     def get_mpris_playlist(self):

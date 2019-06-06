@@ -515,7 +515,8 @@ class MediaPlayer2Service(Server):
             MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     @log
-    def _on_seek_finished(self, player, position_second):
+    def _on_seek_finished(self, player):
+        position_second = self.player.get_position()
         self.Seeked(int(position_second * 1e6))
 
     @log
