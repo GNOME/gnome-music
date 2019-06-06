@@ -103,24 +103,6 @@ class AlbumWidget2(Gtk.EventBox):
 
         return disc_box
 
-        # song.bind_property(
-        #     "favorite", song_widget, "favorite",
-        #     GObject.BindingFlags.BIDIRECTIONAL
-        #     | GObject.BindingFlags.SYNC_CREATE)
-        # song.bind_property(
-        #     "selected", song_widget, "selected",
-        #     GObject.BindingFlags.BIDIRECTIONAL
-        #     | GObject.BindingFlags.SYNC_CREATE)
-
-        # self.bind_property(
-        #     "selection-mode", song_widget, "selection-mode")
-
-        # song.connect("notify::selected", self._on_selection_changed)
-
-        # self._set_duration_label()
-
-        # return song_widget
-
     @log
     def _set_composer_label(self, album):
         composer = album.get_composer()
