@@ -140,36 +140,6 @@ class ArtistsView(BaseView):
         self._view.set_visible_child(new_artist_albums_widget)
 
         return
-        self._last_selected_row = row
-        artist = row.props.text
-        albums = self._artists[artist.casefold()]['albums']
-        widget = self._artists[artist.casefold()]['widget']
-
-        if widget:
-            if self.player.playing_playlist(
-                    PlayerPlaylist.Type.ARTIST, widget.artist):
-                self._artist_albums_widget = widget.get_parent()
-                self._view.set_visible_child(self._artist_albums_widget)
-                return
-            elif widget.get_parent() == self._view:
-                return
-            else:
-                widget.get_parent().destroy()
-
-        # Prepare a new artist_albums_widget here
-        new_artist_albums_widget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        self._view.add(new_artist_albums_widget)
-
-        artist_albums = ArtistAlbumsWidget(
-            artist, albums, self.player, self._window)
-        self._artists[artist.casefold()]['widget'] = artist_albums
-        new_artist_albums_widget.add(artist_albums)
-        new_artist_albums_widget.show()
-
-        # Replace previous widget
-        self._artist_albums_widget = new_artist_albums_widget
-        self._view.set_visible_child(new_artist_albums_widget)
 
     @log
     def _add_item(self, source, param, item, remaining=0, data=None):
