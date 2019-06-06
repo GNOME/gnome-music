@@ -42,44 +42,10 @@ class DiscSongsFlowBox(Gtk.ListBox):
         return '<DiscSongsFlowBox>'
 
     @log
-    def __init__(self, columns=1):
+    def __init__(self):
         """Initialize
-
-        :param int columns: The number of columns the widget uses
         """
         super().__init__(selection_mode=Gtk.SelectionMode.NONE)
-
-        self._columns = 1
-        self.props.columns = columns
-
-        self.get_style_context().add_class('discsongsflowbox')
-
-    @GObject.Property(type=int, minimum=1, default=1)
-    def columns(self):
-        """Number of columns for the song list
-
-        :returns: The number of columns
-        :rtype: int
-        """
-        return self._columns
-
-    @columns.setter
-    def columns(self, columns):
-        """Set the number of columns to use
-
-        :param int columns: The number of columns the widget uses
-        """
-        self._columns = columns
-
-        children_n = max(len(self.get_children()), 1)
-
-        if children_n % self._columns == 0:
-            max_per_line = children_n / self._columns
-        else:
-            max_per_line = int(children_n / self._columns) + 1
-
-        # self.props.max_children_per_line = max_per_line
-        # self.props.min_children_per_line = max_per_line
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
@@ -100,7 +66,6 @@ class DiscBox(Gtk.Box):
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
 
-    columns = GObject.Property(type=int, minimum=1, default=1)
     selection_mode = GObject.Property(type=bool, default=False)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     show_disc_label = GObject.Property(type=bool, default=False)
@@ -123,9 +88,6 @@ class DiscBox(Gtk.Box):
         if self._model is not None:
             self._model.connect('row-changed', self._model_row_changed)
 
-        # self.bind_property(
-        #     'columns', self._list_box, 'columns',
-        #     GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
             'show-disc-label', self._disc_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
@@ -147,18 +109,6 @@ class DiscBox(Gtk.Box):
         """
         self._disc_label.props.label = _("Disc {}").format(disc_number)
         self._disc_label.props.visible = True
-
-    @log
-    def set_songs(self, songs):
-        """Songs to display
-
-        :param list songs: A list of Grilo media items to
-        add to the widget
-        """
-        for song in songs:
-            song_widget = self._create_song_widget(song)
-            self._disc_songs_flowbox.insert(song_widget, -1)
-            song.song_widget = song_widget
 
     @log
     def get_selected_items(self):
@@ -224,44 +174,6 @@ class DiscBox(Gtk.Box):
         return song_widget
 
     @log
-    def _create_song_widget(self, song):
-        """Helper function to create a song widget for a
-        single song
-
-        :param song: A Grilo media item
-        :returns: A complete song widget
-        :rtype: Gtk.EventBox
-        """
-        song_widget = SongWidget(song)
-        self._songs.append(song_widget)
-
-        title = utils.get_media_title(song)
-
-        itr = self._model.append(None)
-
-        self._model[itr][0, 1, 2, 5, 6] = [title, '', '', song, False]
-
-        song_widget.itr = itr
-        song_widget.model = self._model
-        song_widget.connect('button-release-event', self._song_activated)
-        song_widget.connect('selection-changed', self._on_selection_changed)
-
-        self.bind_property(
-            'selection-mode', song_widget, 'selection-mode',
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'show-durations', song_widget, 'show-duration',
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'show-favorites', song_widget, 'show-favorite',
-            GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'show-song-numbers', song_widget, 'show-song-number',
-            GObject.BindingFlags.SYNC_CREATE)
-
-        return song_widget
-
-    @log
     def _on_selection_changed(self, widget):
         self.emit('selection-changed')
 
@@ -291,19 +203,6 @@ class DiscBox(Gtk.Box):
 
         return True
 
-    @log
-    def _model_row_changed(self, model, path, itr):
-        if (not self.props.selection_mode
-                or not model[itr][5]):
-            return
-
-        song_widget = model[itr][5].song_widget
-        selected = model[itr][6]
-        if selected != song_widget.props.selected:
-            song_widget.props.selected = selected
-
-        return True
-
 
 class DiscListBox(Gtk.ListBox):
     """A ListBox widget containing all discs of a particular
@@ -323,28 +222,10 @@ class DiscListBox(Gtk.ListBox):
     @log
     def __init__(self):
         """Initialize"""
-        super().__init__() # orientation=Gtk.Orientation.VERTICAL)
+        super().__init__()
 
         self._selection_mode = False
         self._selected_items = []
-
-    @log
-    def add(self, widget):
-        """Insert a DiscBox widget"""
-        super().add(widget)
-        widget.connect('selection-changed', self._on_selection_changed)
-
-        self.bind_property(
-            'selection-mode', widget, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        self.bind_property(
-            'selection-mode-allowed', widget, 'selection-mode-allowed',
-            GObject.BindingFlags.SYNC_CREATE)
-
-    @log
-    def _on_selection_changed(self, widget):
-        self.emit('selection-changed')
 
     @log
     def get_selected_items(self):
