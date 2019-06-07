@@ -437,18 +437,6 @@ class MPRIS(DBusInterface):
         return None
 
     @log
-    def _query_playlists(self, callback):
-        playlists = []
-
-        def populate_callback(source, param, item, remaining=0, data=None):
-            if item:
-                playlists.append(item)
-            else:
-                callback(playlists)
-
-        grilo.populate_playlists(0, populate_callback)
-
-    @log
     def _get_active_playlist(self):
         """Get Active Maybe_Playlist
 
@@ -555,13 +543,17 @@ class MPRIS(DBusInterface):
 
     @log
     def _reload_playlists(self):
-        def query_playlists_callback(playlists):
-            self._stored_playlists = playlists
-            self.PropertiesChanged(
-                MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                {'PlaylistCount': GLib.Variant('u', len(playlists)), }, [])
+        def _populate_cb(source, param, item, remaining=0, data=None):
+            if item:
+                self._stored_playlists.append(item)
+            else:
+                playlists_nr = len(self._stored_playlists)
+                self.PropertiesChanged(
+                    MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
+                    {'PlaylistCount': GLib.Variant('u', playlists_nr), }, [])
 
-        self._query_playlists(query_playlists_callback)
+        self._stored_playlists = []
+        grilo.populate_playlists(0, _populate_cb)
 
     @log
     def _on_playlists_count_changed(self, playlists, item):
