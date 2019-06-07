@@ -237,6 +237,12 @@ class MediaPlayer2Service(Server):
         self._player_previous_type = None
         self._path_list = []
         self._metadata_list = []
+        self._previous_can_go_next = False
+        self._previous_can_go_previous = False
+        self._previous_can_play = False
+        self._previous_is_shuffled = None
+        self._previous_loop_status = ""
+        self._previous_mpris_playlist = self._get_active_playlist()
         self._previous_playback_status = "Stopped"
 
     @log
@@ -372,9 +378,6 @@ class MediaPlayer2Service(Server):
             current_song_path = self._get_song_dbus_path(
                 self.player.props.current_song)
             self.TrackListReplaced(self._path_list, current_song_path)
-            self.PropertiesChanged(
-                MediaPlayer2Service.MEDIA_PLAYER2_TRACKLIST_IFACE,
-                {'Tracks': GLib.Variant('ao', self._path_list), }, [])
 
     @log
     def _get_playlist_dbus_path(self, playlist):
@@ -438,23 +441,38 @@ class MediaPlayer2Service(Server):
         return (True, (path, playlist_name, ""))
 
     @log
-    def _on_current_song_changed(self, player, position):
+    def _on_current_song_changed(self, player):
+        # In repeat song mode, no metadata has changed if the
+        # player was already started
+        if self.player.props.repeat_mode == RepeatMode.SONG:
+            self.Seeked(0)
+            if self._previous_can_play is True:
+                return
+
         self._update_songs_list()
         if self.player.props.repeat_mode == RepeatMode.SONG:
             self.Seeked(0)
 
+        properties = {}
+        properties["Metadata"] = GLib.Variant("a{sv}", self._get_metadata())
+
         has_next = self.player.props.has_next
+        if has_next != self._previous_can_go_next:
+            properties["CanGoNext"] = GLib.Variant("b", has_next)
+            self._previous_can_go_next = has_next
+
         has_previous = self.player.props.has_previous
-        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'Metadata': GLib.Variant('a{sv}', self._get_metadata()),
-                                   'CanGoNext': GLib.Variant('b', has_next),
-                                   'CanGoPrevious': GLib.Variant(
-                                       'b', has_previous),
-                                   'CanPlay': GLib.Variant('b', True),
-                                   'CanPause': GLib.Variant('b', True),
-                               },
-                               [])
+        if has_previous != self._previous_can_go_previous:
+            properties["CanGoPrevious"] = GLib.Variant("b", has_previous)
+            self._previous_can_go_previous = has_previous
+
+        if self._previous_can_play is not True:
+            properties["CanPause"] = GLib.Variant("b", has_previous)
+            properties["CanPlay"] = GLib.Variant("b", has_previous)
+            self._previous_can_play = True
+
+        self.PropertiesChanged(
+            MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     @log
     def _on_thumbnail_updated(self, player, data=None):
@@ -480,33 +498,42 @@ class MediaPlayer2Service(Server):
     @log
     def _on_repeat_mode_changed(self, player, param):
         self._update_songs_list()
-        has_next = self.player.props.has_next
-        has_previous = self.player.props.has_previous
-        self.PropertiesChanged(MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE,
-                               {
-                                   'CanGoNext': GLib.Variant('b', has_next),
-                                   'CanGoPrevious': GLib.Variant('b', has_previous),
-                                   'LoopStatus': GLib.Variant('s', self._get_loop_status()),
-                                   'Shuffle': GLib.Variant('b', self.player.props.repeat_mode == RepeatMode.SHUFFLE),
-                               },
-                               [])
+
+        properties = {}
+
+        is_shuffled = self.player.props.repeat_mode == RepeatMode.SHUFFLE
+        if is_shuffled != self._previous_is_shuffled:
+            properties["Shuffle"] = GLib.Variant("b", is_shuffled)
+            self._previous_is_shuffled = is_shuffled
+
+        loop_status = self._get_loop_status()
+        if loop_status != self._previous_loop_status:
+            properties["LoopStatus"] = GLib.Variant("s", loop_status)
+            self._previous_loop_status = loop_status
+
+        if not properties:
+            return
+        self.PropertiesChanged(
+            MediaPlayer2Service.MEDIA_PLAYER2_PLAYER_IFACE, properties, [])
 
     @log
-    def _on_seek_finished(self, player, position_second):
+    def _on_seek_finished(self, player):
+        position_second = self.player.get_position()
         self.Seeked(int(position_second * 1e6))
 
     @log
     def _on_player_playlist_changed(self, klass):
         self._update_songs_list()
 
-        if (self.player.get_playlist_type() == PlayerPlaylist.Type.PLAYLIST
-                or self._player_previous_type == PlayerPlaylist.Type.PLAYLIST):
-            variant = GLib.Variant('(b(oss))', self._get_active_playlist())
-            self.PropertiesChanged(
-                MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                {'ActivePlaylist':  variant, }, [])
+        mpris_playlist = self._get_active_playlist()
+        if mpris_playlist == self._previous_mpris_playlist:
+            return
 
-        self._player_previous_type = klass.get_playlist_type()
+        self._previous_mpris_playlist = mpris_playlist
+        properties = {
+            "ActivePlaylist": GLib.Variant("(b(oss))", mpris_playlist)}
+        self.PropertiesChanged(
+            MediaPlayer2Service.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
     @log
     def _reload_playlists(self):
