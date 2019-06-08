@@ -477,7 +477,7 @@ class Window(Gtk.ApplicationWindow):
             #  clicked view. The following check prevents that from happening.
             search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
             previous_view = self.view_before_search
-            if previous_view and self.curr_view not in search_views:
+            if previous_view and self.curr_view in search_views:
                 self._stack.props.visible_child = previous_view
         else:
             current_view = self._stack.props.visible_child
