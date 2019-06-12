@@ -46,10 +46,9 @@ class SelectionToolbar(Gtk.ActionBar):
         return '<SelectionToolbar>'
 
     @log
-    def __init__(self, window):
+    def __init__(self):
         super().__init__()
 
-        self._headerbar = window._headerbar
         self.connect(
             'notify::selected-items-count', self._on_item_selection_changed)
 
@@ -65,7 +64,8 @@ class SelectionToolbar(Gtk.ActionBar):
 
     @log
     def _on_item_selection_changed(self, widget, data):
-        stack = self._headerbar.props.stack
+        window = self.get_toplevel()
+        stack = window._headerbar.props.stack
         songs_view_visible = (stack.props.visible_child_name == 'songs')
         selection_size = self.props.selected_items_count
 
