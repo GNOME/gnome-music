@@ -301,7 +301,6 @@ class MediaPlayer2Service(Server):
             'mpris:trackid': GLib.Variant('o', song_dbus_path),
             'xesam:url': GLib.Variant('s', media.get_url()),
             'mpris:length': GLib.Variant('x', length),
-            'xesam:trackNumber': GLib.Variant('i', media.get_track_number()),
             'xesam:useCount': GLib.Variant('i', media.get_play_count()),
             'xesam:userRating': GLib.Variant('d', user_rating),
             'xesam:title': GLib.Variant('s', utils.get_media_title(media)),
@@ -318,6 +317,10 @@ class MediaPlayer2Service(Server):
         if last_played is not None:
             last_played_str = last_played.format("%FT%T%:z")
             metadata['xesam:lastUsed'] = GLib.Variant('s', last_played_str)
+
+        track_nr = media.get_track_number()
+        if track_nr > 0:
+            metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
 
         # If the media has already been part of an MPRIS playlist, its
         # thumbnail is already set. Otherwise, try to look for it in the
