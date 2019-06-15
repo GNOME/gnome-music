@@ -47,10 +47,19 @@ class DBusInterface:
         :param str name: interface name
         :param str path: object path
         """
-        self._con = Gio.bus_get_sync(Gio.BusType.SESSION, None)
+        self._path = path
+        Gio.bus_get(Gio.BusType.SESSION, None, self._bus_get_sync, name)
+
+    def _bus_get_sync(self, source, res, name):
+        try:
+            self._con = Gio.bus_get_finish(res)
+        except GLib.Error as e:
+            logger.warning(
+                "Unable to connect to to session bus: {}".format(e.message))
+            return
+
         Gio.bus_own_name_on_connection(
             self._con, name, Gio.BusNameOwnerFlags.NONE, None, None)
-        self._path = path
 
         method_outargs = {}
         method_inargs = {}
