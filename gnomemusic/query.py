@@ -126,6 +126,8 @@ class Query():
         nmm:artistName(?albumArtist) AS ?album_artist
         nmm:artistName(?composer) AS ?composer
         nmm:artistName(?performer) AS ?artist
+        nmm:mbReleaseID(?album) AS ?mb_release_id
+        nmm:mbReleaseGroupID(?album) AS ?mb_release_group_id
         ?title
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
@@ -161,6 +163,7 @@ class Query():
         tracker:id(?album) AS ?id
         nmm:artistName(?performer) AS ?artist
         nmm:artistName(?albumArtist) AS ?album_artist
+        nmm:mbArtistID(?performer) AS ?mb_artist_id
         ?title
         COUNT(?song) AS ?childcount
         YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
@@ -201,6 +204,11 @@ class Query():
         ?tag AS ?favourite
         nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
+        nmm:mbRecordingID(?song) AS ?mb_recording_id
+        nmm:mbTrackID(?song) AS ?mb_track_id
+        nmm:mbReleaseID(nmm:musicAlbum(?song)) AS ?mb_release_id
+        nmm:mbReleaseGroupID(nmm:musicAlbum(?song)) AS ?mb_release_group_id
+        nmm:mbArtistID(nmm:performer(?song)) AS ?mb_artist_id
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
@@ -264,6 +272,11 @@ class Query():
         ?tag AS ?favourite
         nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
+        nmm:mbRecordingID(?song) AS ?mb_recording_id
+        nmm:mbTrackID(?song) AS ?mb_track_id
+        nmm:mbReleaseID(nmm:musicAlbum(?song)) AS ?mb_release_id
+        nmm:mbReleaseGroupID(nmm:musicAlbum(?song)) AS ?mb_release_group_id
+        nmm:mbArtistID(nmm:performer(?song)) AS ?mb_artist_id
     WHERE {
         ?song a nmm:MusicPiece ;
               a nfo:FileDataObject ;
@@ -299,6 +312,11 @@ class Query():
         ?tag AS ?favourite
         nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
+        nmm:mbRecordingID(?song) AS ?mb_recording_id
+        nmm:mbTrackID(?song) AS ?mb_track_id
+        nmm:mbReleaseID(nmm:musicAlbum(?song)) AS ?mb_release_id
+        nmm:mbReleaseGroupID(nmm:musicAlbum(?song)) AS ?mb_release_group_id
+        nmm:mbArtistID(nmm:performer(?song)) AS ?mb_artist_id
     WHERE {
         ?playlist a nmm:Playlist ;
             a nfo:MediaList ;
