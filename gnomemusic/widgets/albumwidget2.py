@@ -95,7 +95,7 @@ class AlbumWidget2(Gtk.EventBox):
         disc_box = DiscBox(None, album_model)
         # disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
-        disc_box.props.columns = 2
+        # disc_box.props.columns = 2
         disc_box.props.show_durations = False
         disc_box.props.show_favorites = False
         disc_box.props.show_song_numbers = True
