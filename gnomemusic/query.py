@@ -346,6 +346,8 @@ class Query():
         tracker:coalesce(nmm:artistName(?album_artist),
                          nmm:artistName(?song_artist)) AS ?artist
         nie:title(?album) AS ?album
+        nmm:mbReleaseID(?album) AS ?mb_release_id
+        nmm:mbReleaseGroupID(?album) AS ?mb_release_group_id
     WHERE {
         ?album a nmm:MusicAlbum .
         ?song a nmm:MusicPiece ;
@@ -372,6 +374,8 @@ class Query():
         tracker:coalesce(nmm:artistName(?album_artist),
                          nmm:artistName(?song_artist)) AS ?artist
         nie:title(?album) AS ?album
+        nmm:mbReleaseID(?album) AS ?mb_release_id
+        nmm:mbReleaseGroupID(?album) AS ?mb_release_group_id
     WHERE {
         ?song a nmm:MusicPiece ;
               nmm:musicAlbum ?album ;

@@ -33,9 +33,10 @@ from gnomemusic import log
 from gnomemusic.trackerwrapper import TrackerWrapper
 import logging
 import os
-os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:5,"
-                                  "grl-filesystem:4,"
-                                  "grl-tracker-source:3,"
+os.environ['GRL_PLUGIN_RANKS'] = ("grl-local-metadata:6,"
+                                  "grl-filesystem:5,"
+                                  "grl-tracker-source:4,"
+                                  "grl-musicbrainz-coverart:3,"
                                   "grl-lastfm-cover:2,"
                                   "grl-theaudiodb-cover:1")
 from gi.repository import Grl
