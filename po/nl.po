@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-13 09:09+0000\n"
-"PO-Revision-Date: 2019-02-24 17:00+0100\n"
+"POT-Creation-Date: 2019-06-15 11:02+0000\n"
+"PO-Revision-Date: 2019-06-18 10:09+0200\n"
 "Last-Translator: Nathan Follens <nthn@unseen.is>\n"
 "Language-Team: Dutch <gnome-nl-list@gnome.org>\n"
 "Language: nl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.3\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -49,19 +49,18 @@ msgstr ""
 "Zoek nummers in uw lokale verzameling, haal muziek op van DLNA-servers of "
 "probeer eens iets nieuws met de Jamendo- en Magnatune-diensten."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.appdata.xml.in.in:52
+msgid "The GNOME Music developers"
+msgstr "De Gnome Muziek-ontwikkelaars"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
+#: gnomemusic/window.py:80
 msgid "Music"
 msgstr "Muziek"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Muziekspeler"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -200,15 +199,15 @@ msgstr ""
 "‘Magic of the vinyl’ door Sami Pyylampi afbeelding is uitgebracht onder CC-"
 "BY-SA 2.0 https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Uitgegeven"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Speelduur"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Componist"
 
@@ -229,16 +228,16 @@ msgid "Menu"
 msgstr "Menu"
 
 #: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Zoeken"
-
-#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Selecteren"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
 msgid "_Cancel"
 msgstr "_Annuleren"
+
+#: data/ui/HeaderBar.ui:77
+msgid "Search"
+msgstr "Zoeken"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -350,11 +349,11 @@ msgstr "Willekeurig/Herhalen uit"
 msgid "Previous"
 msgstr "Vorige"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
 msgid "Play"
 msgstr "Afspelen"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Volgende"
 
@@ -391,27 +390,27 @@ msgstr "Afspeellijstnaam"
 msgid "_Done"
 msgstr "_Klaar"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Voer een naam in voor uw eerste afspeellijst"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "_Maken"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Nieuwe afspeellijst…"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Toevoegen"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:241
 msgid "Add to Playlist"
 msgstr "Toevoegen aan afspeellijst"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:257
 msgid "_Add"
 msgstr "_Toevoegen"
 
@@ -431,25 +430,25 @@ msgstr "Klik op items om deze te selecteren"
 msgid "_Add to Playlist"
 msgstr "Toevoegen aan _afspeellijst"
 
-#: gnomemusic/gstplayer.py:410
+#: gnomemusic/gstplayer.py:380
 msgid "Unable to play the file"
 msgstr "Kan het bestand niet afspelen"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:386
 msgid "_Find in {}"
 msgstr "_Zoeken in {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:397
 msgid " and "
 msgstr " en "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:400
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:402
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] ""
@@ -457,48 +456,48 @@ msgstr[0] ""
 msgstr[1] ""
 "{} zijn vereist om het bestand af te spelen, maar zijn niet geïnstalleerd."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Muziek wordt afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:59
+#: gnomemusic/playlists.py:58
 msgid "Most Played"
 msgstr "Meest afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:64
+#: gnomemusic/playlists.py:63
 msgid "Never Played"
 msgstr "Nooit afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:69
+#: gnomemusic/playlists.py:68
 msgid "Recently Played"
 msgstr "Onlangs afgespeeld"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:74
+#: gnomemusic/playlists.py:73
 msgid "Recently Added"
 msgstr "Onlangs toegevoegd"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:79
+#: gnomemusic/playlists.py:78
 msgid "Favorite Songs"
 msgstr "Favoriete nummers"
 
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:56
+msgid "Unknown album"
+msgstr "Onbekend album"
+
+#: gnomemusic/utils.py:77
 msgid "Unknown Artist"
 msgstr "Onbekende artiest"
 
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Naamloos"
-
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+#: gnomemusic/views/albumsview.py:46 gnomemusic/views/searchview.py:614
 msgid "Albums"
 msgstr "Muziekalbum"
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:616
 msgid "Artists"
 msgstr "Artiesten"
 
@@ -534,23 +533,23 @@ msgstr ""
 "Uw muziekbestanden kunnen niet geïndexeerd worden zonder dat Tracker wordt "
 "uitgevoerd"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/playlistsview.py:62 gnomemusic/views/searchview.py:620
 msgid "Playlists"
 msgstr "Afspeellijsten"
 
-#: gnomemusic/views/playlistview.py:640
+#: gnomemusic/views/playlistsview.py:626
 msgid "Playlist {} removed"
 msgstr "Afspeellijst {} verwijderd"
 
-#: gnomemusic/views/playlistview.py:646
+#: gnomemusic/views/playlistsview.py:632
 msgid "{} removed from {}"
 msgstr "{} verwijderd uit {}"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:618 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Nummers"
 
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:161
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuut"
@@ -566,15 +565,15 @@ msgid_plural "Selected {} items"
 msgstr[0] "{} item geselecteerd"
 msgstr[1] "{} items geselecteerd"
 
-#: gnomemusic/widgets/notificationspopup.py:169
+#: gnomemusic/widgets/notificationspopup.py:170
 msgid "Loading"
 msgstr "Laden"
 
-#: gnomemusic/widgets/notificationspopup.py:232
+#: gnomemusic/widgets/notificationspopup.py:233
 msgid "_Undo"
 msgstr "_Ongedaan maken"
 
-#: gnomemusic/widgets/playertoolbar.py:136
+#: gnomemusic/widgets/playertoolbar.py:150
 msgid "Pause"
 msgstr "Pauzeren"
 
@@ -584,33 +583,39 @@ msgid_plural "{} Songs"
 msgstr[0] "{} nummer"
 msgstr[1] "{} nummers"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
 msgid "All"
 msgstr "Alles"
 
-#: gnomemusic/widgets/searchbar.py:67
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Artist"
 msgstr "Artiest"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:70
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:72
 msgid "Track Title"
 msgstr "Titel van het nummer"
 
-#: gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:118
 msgid "Local"
 msgstr "Lokaal"
 
-#: gnomemusic/widgets/searchbar.py:283
+#: gnomemusic/widgets/searchbar.py:287
 msgid "Sources"
 msgstr "Bronnen"
 
-#: gnomemusic/widgets/searchbar.py:292
+#: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Overeenkomst"
+
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
+
+#~ msgid "Untitled"
+#~ msgstr "Naamloos"
 
 #~ msgid "Music is the new GNOME music playing application."
 #~ msgstr "Muziek is de nieuwe muziekspeler van Gnome."
@@ -662,9 +667,6 @@ msgstr "Overeenkomst"
 #~ "Deze instelling wijzigt het aantal tekens dat wordt weergegeven in de "
 #~ "titel van het nummer in artiestweergave voor deze wordt afgekort. Stel in "
 #~ "als -1 om uit te schakelen"
-
-#~ msgid "Unknown Album"
-#~ msgstr "Onbekend album"
 
 #~ msgid "the a an"
 #~ msgstr "the de het een a an"
