@@ -108,9 +108,9 @@ class AlbumsView(BaseView):
         self._view.show()
 
     @log
-    def _create_widget(self, album):
-        album_widget = AlbumCover(album.props.media)
-        print(album.props.artist)
+    def _create_widget(self, corealbum):
+        album_widget = AlbumCover(corealbum)
+
         return album_widget
 
     @log
@@ -123,7 +123,7 @@ class AlbumsView(BaseView):
         if self.props.selection_mode:
             return
 
-        item = child.props.media
+        item = child.props.corealbum
         # Update and display the album widget if not in selection mode
         self._album_widget.update(item)
 
@@ -131,10 +131,10 @@ class AlbumsView(BaseView):
         self.set_visible_child(self._album_widget)
 
     @log
-    def _set_album_headerbar(self, album):
+    def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = utils.get_album_title(album)
-        self._headerbar.props.subtitle = utils.get_artist_name(album)
+        self._headerbar.props.title = corealbum.props.title
+        self._headerbar.props.subtitle = corealbum.props.artist
 
     @log
     def _populate(self, data=None):
