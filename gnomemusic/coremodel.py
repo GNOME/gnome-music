@@ -62,7 +62,6 @@ class CoreModel(GObject.GObject):
         self._grilo = CoreGrilo(
             self._model, self._hash, self._url_hash, self._album_model,
             self._artist_model)
-        # self._grilo.connect("media-removed", self._on_media_removed)
 
     @log
     def get_model(self):
@@ -210,30 +209,3 @@ class CoreModel(GObject.GObject):
         albums = self._grilo.get_artist_albums(artist)
 
         return albums
-
-    @log
-    def _on_media_removed(self, klass, media):
-        try:
-            old_song = self._url_hash[media.get_url()]
-            print("SUCCES")
-        except KeyError:
-            print("KeyError", media.get_url())
-            return
-
-        for i in range(self._model.get_n_items()):
-            if old_song == self._model[i]:
-                print("REMOVING index", i)
-                self._model.remove(i)
-                break
-
-        if self._album_store is not None:
-            for i in range(self._album_store.get_n_items()):
-                if old_song == self._album_store[i]:
-                    print("REMOVING index", i)
-                    self._album_store.remove(i)
-                    break
-        
-        print("pop2", self._url_hash.pop(media.get_url()))
-        print("pop1", self._hash.pop(old_song.props.media.get_id()))
-
-                # print("ITEM IN MODEL", media.get_id(), self._url_hash[media.get_url()]._media.get_id())
