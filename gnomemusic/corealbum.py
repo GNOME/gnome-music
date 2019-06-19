@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GObject
+from gi.repository import Gio, Grl, GObject
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -12,6 +12,7 @@ class CoreAlbum(GObject.GObject):
     """
 
     artist = GObject.Property(type=str)
+    model = GObject.Property(type=Gio.ListModel, default=None)
     media = GObject.Property(type=Grl.Media)
     selected = GObject.Property(type=bool, default=False)
     title = GObject.Property(type=str)
