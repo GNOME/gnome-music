@@ -90,7 +90,7 @@ class CoreModel(GObject.GObject):
             model_filter = Dazzle.ListModelFilter.new(self._model)
             model_filter.set_filter_func(lambda a: False)
             nr = disc.get_album_disc_number()
-            self.get_album_disc(media, nr, model_filter)
+            self._get_album_disc(media, nr, model_filter)
 
             model_sort = Gfm.SortListModel.new(model_filter)
             model_sort.set_sort_func(
@@ -173,7 +173,7 @@ class CoreModel(GObject.GObject):
                 self.emit("playlist-loaded")
 
 
-    def get_album_disc(self, media, discnr, model):
+    def _get_album_disc(self, media, discnr, model):
         albums_ids = []
         model_filter = model
 
