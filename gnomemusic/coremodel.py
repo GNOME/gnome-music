@@ -13,8 +13,9 @@ from gnomemusic.widgets.songwidget import SongWidget
 
 
 class CoreDisc(GObject.GObject):
-        media = None
-        model = None
+
+    media = GObject.Property(type=Grl.Media, default=None)
+    model = GObject.Property(type=Gio.ListModel, default=None)
 
 
 class CoreArtistAlbum(GObject.GObject):
@@ -84,8 +85,8 @@ class CoreModel(GObject.GObject):
                 self._wrap_list_store_sort_func(_disc_sort))
 
             coredisc = CoreDisc()
-            coredisc.media = disc
-            coredisc.model = model_sort
+            coredisc.props.media = disc
+            coredisc.props.model = model_sort
 
             disc_model.append(coredisc)
 
