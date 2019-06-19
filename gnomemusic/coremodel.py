@@ -11,6 +11,19 @@ from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.songwidget import SongWidget
 
+# The basic premisis is that an album (CoreArtistAlbum) consist of a
+# number of discs (CoreDisc) which contain a number of songs
+# (CoreSong). All discs are a filtered Gio.Listmodel of all the songs
+# available in the master Gio.ListModel.
+#
+# CoreArtistAlbum and CoreDisc contain a Gio.ListModel of the child
+# object.
+#
+# CoreArtistAlbum(s) => CoreDisc(s) => CoreSong(s)
+#
+# For the playlist model, the CoreArtist or CoreAlbum derived discs are
+# flattened and recreated as a new model. This is to allow for multiple
+# occurences of the same song: same grilo id, but unique object.
 
 class CoreDisc(GObject.GObject):
 
