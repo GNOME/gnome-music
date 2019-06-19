@@ -56,17 +56,17 @@ class AlbumWidget2(Gtk.EventBox):
         self._album_name = None
 
     @log
-    def update(self, album):
+    def update(self, corealbum):
         """Update the album widget.
 
-        :param Grl.Media album: The grilo media album
+        :param CoreAlbum album: The CoreAlbum object
         """
-        self._cover_stack.update(album)
+        self._cover_stack.update(corealbum.props.media)
 
         self._duration = 0
 
-        self._album_name = utils.get_album_title(album)
-        artist = utils.get_artist_name(album)
+        self._album_name = corealbum.props.title
+        artist = corealbum.props.artist
 
         self._title_label.props.label = self._album_name
         self._title_label.props.tooltip_text = self._album_name
@@ -74,15 +74,15 @@ class AlbumWidget2(Gtk.EventBox):
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        year = utils.get_media_year(album)
+        year = utils.get_media_year(corealbum.props.media)
         if not year:
             year = '----'
         self._released_info_label.props.label = year
 
-        self._set_composer_label(album)
+        self._set_composer_label(corealbum.props.media)
 
-        self._album = album
-        self._album_model = self._parent_view._window._app._coremodel.get_album_model(album)
+        self._album = corealbum.props.media
+        self._album_model = self._parent_view._window._app._coremodel.get_album_model(self._album)
         self._listbox.bind_model(self._album_model, self._create_widget)
 
     def _create_widget(self, disc):
