@@ -49,7 +49,12 @@ class CoreModel(GObject.GObject):
 
         self._test = Gfm.FilterListModel()
         self._model = Gio.ListStore.new(CoreSong)
+
         self._album_model = Gio.ListStore()
+        self._album_model_sort = Gfm.SortListModel.new(self._album_model)
+        self._album_model_sort.set_sort_func(
+            self._wrap_list_store_sort_func(self._albums_sort))
+
         self._artist_model = Gio.ListStore.new(CoreArtist)
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
@@ -62,6 +67,9 @@ class CoreModel(GObject.GObject):
         self._grilo = CoreGrilo(
             self._model, self._hash, self._url_hash, self._album_model,
             self._artist_model)
+
+    def _albums_sort(self, album_a, album_b):
+        return album_b.props.title.lower() < album_a.props.title.lower()
 
     @log
     def get_model(self):
@@ -200,7 +208,7 @@ class CoreModel(GObject.GObject):
 
     @log
     def get_albums_model(self):
-        return self._album_model
+        return self._album_model_sort
 
     def get_artists_model(self):
         return self._artist_model
