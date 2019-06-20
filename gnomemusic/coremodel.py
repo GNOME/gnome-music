@@ -26,29 +26,6 @@ from gnomemusic.widgets.songwidget import SongWidget
 # occurences of the same song: same grilo id, but unique object.
 
 
-class CoreSelection(GObject.GObject):
-
-    def __init__(self):
-        super().__init__()
-
-        self._selected_items = []
-
-    def blah(self, coresong, value):
-        if coresong.props.selected:
-            self.props.selected_items.append(coresong)
-        else:
-            try:
-                self.props.selected_items.remove(coresong)
-            except ValueError as e:
-                pass
-
-        print(self.props.selected_items)
-
-    @GObject.property
-    def selected_items(self):
-        return self._selected_items
-
-
 class CoreDisc(GObject.GObject):
 
     duration = GObject.Property(type=int, default=None)
@@ -88,12 +65,12 @@ class CoreModel(GObject.GObject):
     }
 
     @log
-    def __init__(self):
+    def __init__(self, coreselection):
         super().__init__()
 
         self._model = Gio.ListStore.new(CoreSong)
 
-        self._core_selection = CoreSelection()
+        self._coreselection = coreselection
 
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
@@ -114,7 +91,7 @@ class CoreModel(GObject.GObject):
         print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
             self, self._model, self._hash, self._url_hash, self._album_model,
-            self._artist_model, self._core_selection)
+            self._artist_model, self._coreselection)
 
         self._selection_model.connect("items-changed", self._on_sel_changed)
 

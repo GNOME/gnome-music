@@ -89,6 +89,7 @@ class AlbumWidget2(Gtk.EventBox):
 
         corealbum.connect("notify::duration", self._on_duration_changed)
 
+
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(
             disc.media.get_album_disc_number(), disc.model)
@@ -163,13 +164,11 @@ class AlbumWidget2(Gtk.EventBox):
 
     @log
     def select_all(self):
-        for song in self._model:
-            song.props.selected = True
+        self._listbox.select_all()
 
     @log
     def select_none(self):
-        for song in self._model:
-            song.props.selected = False
+        self._listbox.select_none()
 
     @log
     def get_selected_songs(self):
