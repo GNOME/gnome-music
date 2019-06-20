@@ -65,7 +65,7 @@ class CoreModel(GObject.GObject):
         self._url_hash = {}
         print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
-            self._model, self._hash, self._url_hash, self._album_model,
+            self, self._model, self._hash, self._url_hash, self._album_model,
             self._artist_model)
 
     def _albums_sort(self, album_a, album_b):
