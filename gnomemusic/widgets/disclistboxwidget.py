@@ -196,15 +196,16 @@ class DiscBox(Gtk.Box):
                 and not self.props.selection_mode
                 and self.props.selection_mode_allowed):
             self.props.selection_mode = True
+            return
 
         (_, button) = event.get_button()
         if (button == Gdk.BUTTON_PRIMARY
                 and not self.props.selection_mode):
             self.emit('song-activated', widget)
 
-        if self.props.selection_mode:
-            itr = widget.itr
-            self._model[itr][6] = not self._model[itr][6]
+        # FIXME: Need to ignore the event from the checkbox.
+        # if self.props.selection_mode:
+        #     widget.props.selected = not widget.props.selected
 
         return True
 
