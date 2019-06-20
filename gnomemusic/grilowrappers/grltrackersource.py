@@ -31,10 +31,12 @@ class GrlTrackerSource(GObject.GObject):
         return "<GrlTrackerSource>"
 
     def __init__(
-            self, source, _hash, model, albums_model, artists_model, coremodel):
+            self, source, _hash, model, albums_model, artists_model, coremodel,
+            core_selection):
         super().__init__()
 
         self._coremodel = coremodel
+        self._core_selection = core_selection
         self._source = source
         self._model = model
         self._albums_model = albums_model
@@ -164,6 +166,8 @@ class GrlTrackerSource(GObject.GObject):
         song = CoreSong(media)
         self._model.append(song)
         self._hash[media.get_id()] = song
+
+        song.connect("notify::selected", self._core_selection.blah)
         # self._url_table[media.get_url()] = song
 
     def _initial_albums_fill(self, source):
