@@ -30,9 +30,11 @@ class GrlTrackerSource(GObject.GObject):
     def __repr__(self):
         return "<GrlTrackerSource>"
 
-    def __init__(self, source, _hash, model, albums_model, artists_model):
+    def __init__(
+            self, source, _hash, model, albums_model, artists_model, coremodel):
         super().__init__()
 
+        self._coremodel = coremodel
         self._source = source
         self._model = model
         self._albums_model = albums_model
@@ -198,7 +200,7 @@ class GrlTrackerSource(GObject.GObject):
             print("NO MEDIA", source, op_id, media, error)
             return
 
-        album = CoreAlbum(media)
+        album = CoreAlbum(media, self._coremodel)
         self._albums_model.append(album)
 
     def _initial_artists_fill(self, source):

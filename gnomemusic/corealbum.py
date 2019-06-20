@@ -13,16 +13,17 @@ class CoreAlbum(GObject.GObject):
 
     artist = GObject.Property(type=str)
     composer = GObject.Property(type=str, default=None)
-    model = GObject.Property(type=Gio.ListModel, default=None)
     media = GObject.Property(type=Grl.Media)
     selected = GObject.Property(type=bool, default=False)
     title = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
     @log
-    def __init__(self, media):
+    def __init__(self, media, coremodel):
         super().__init__()
 
+        self._coremodel = coremodel
+        self._model = None
         self.update(media)
 
     @log
@@ -32,3 +33,11 @@ class CoreAlbum(GObject.GObject):
         self.props.composer = media.get_composer()
         self.props.title = utils.get_media_title(media)
         self.props.year = utils.get_media_year(media)
+
+    @GObject.Property(
+        type=Gio.ListModel, default=None, flags=GObject.ParamFlags.READABLE)
+    def model(self):
+        if self._model is None:
+            self._model = self._coremodel.get_album_model(self.props.media)
+
+        return self._model
