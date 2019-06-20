@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Dazzle', '1.0')
-from gi.repository import Dazzle, GObject, Gio, Gfm, Grl
+from gi.repository import Dazzle, GObject, Gio, Gfm, Grl, GLib
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
@@ -24,6 +24,30 @@ from gnomemusic.widgets.songwidget import SongWidget
 # For the playlist model, the CoreArtist or CoreAlbum derived discs are
 # flattened and recreated as a new model. This is to allow for multiple
 # occurences of the same song: same grilo id, but unique object.
+
+
+class CoreSelection(GObject.GObject):
+
+    def __init__(self):
+        super().__init__()
+
+        self._selected_items = []
+
+    def blah(self, coresong, value):
+        if coresong.props.selected:
+            self.props.selected_items.append(coresong)
+        else:
+            try:
+                self.props.selected_items.remove(coresong)
+            except ValueError as e:
+                pass
+
+        print(self.props.selected_items)
+
+    @GObject.property
+    def selected_items(self):
+        return self._selected_items
+
 
 class CoreDisc(GObject.GObject):
 
@@ -69,6 +93,8 @@ class CoreModel(GObject.GObject):
 
         self._model = Gio.ListStore.new(CoreSong)
 
+        self._core_selection = CoreSelection()
+
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
         self._album_model_sort.set_sort_func(
@@ -79,13 +105,24 @@ class CoreModel(GObject.GObject):
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
 
+        self._selection_model = Dazzle.ListModelFilter.new(self._model)
+        self._selection_model.set_filter_func(self._filter_selected)
+
         self._album_store = None
         self._hash = {}
         self._url_hash = {}
         print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
             self, self._model, self._hash, self._url_hash, self._album_model,
-            self._artist_model)
+            self._artist_model, self._core_selection)
+
+        self._selection_model.connect("items-changed", self._on_sel_changed)
+
+    def _on_sel_changed(self, model, position, added, removed):
+        print("selection changed", model.get_n_items())
+
+    def _filter_selected(self, coresong):
+        return coresong.props.selected
 
     def _albums_sort(self, album_a, album_b):
         return album_b.props.title.lower() < album_a.props.title.lower()
