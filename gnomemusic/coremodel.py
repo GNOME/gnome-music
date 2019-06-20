@@ -161,7 +161,7 @@ class CoreModel(GObject.GObject):
                             song.props.state = SongWidget.State.PLAYING
 
                 self.emit("playlist-loaded")
-            elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
+            elif playlist_type == PlayerPlaylist.Type.ARTIST:
                 self._playlist_model.remove_all()
 
                 for artist_album in model:
