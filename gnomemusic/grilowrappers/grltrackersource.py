@@ -110,6 +110,8 @@ class GrlTrackerSource(GObject.GObject):
         self._model.append(song)
         self._requery_media(media.get_id())
 
+        song.connect("notify::selected", self._core_selection.update_selection)
+
     def _update_media(self, source, op_id, media, user_data, error):
         if error:
             print("ERROR", error)
