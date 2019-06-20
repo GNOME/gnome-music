@@ -82,6 +82,11 @@ class AlbumWidget2(Gtk.EventBox):
         self._album_model = corealbum.props.model
         self._listbox.bind_model(self._album_model, self._create_widget)
 
+        def non_selectable(child):
+            child.props.selectable = False
+
+        self._listbox.forall(non_selectable)
+
         corealbum.connect("notify::duration", self._on_duration_changed)
 
     def _create_widget(self, disc):
