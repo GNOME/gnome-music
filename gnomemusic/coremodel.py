@@ -47,7 +47,6 @@ class CoreModel(GObject.GObject):
     def __init__(self):
         super().__init__()
 
-        self._test = Gfm.FilterListModel()
         self._model = Gio.ListStore.new(CoreSong)
 
         self._album_model = Gio.ListStore()
