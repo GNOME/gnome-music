@@ -13,9 +13,12 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(self, model, _hash, url_hash, albums_model, artists_model):
+    def __init__(
+            self, coremodel, model, _hash, url_hash, albums_model,
+            artists_model):
         super().__init__()
 
+        self._coremodel = coremodel
         self._model = model
         self._albums_model = albums_model
         self._artists_model = artists_model
@@ -42,7 +45,7 @@ class CoreGrilo(GObject.GObject):
         if source.props.source_id == "grl-tracker-source":
             self._tracker_source = GrlTrackerSource(
                 source, self._hash, self._model, self._albums_model,
-                self._artists_model)
+                self._artists_model, self._coremodel)
             # self._tracker_source = source
             print(self._tracker_source, "added")
 
