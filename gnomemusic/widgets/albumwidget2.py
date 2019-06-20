@@ -79,7 +79,7 @@ class AlbumWidget2(Gtk.EventBox):
         self._set_composer_label(corealbum)
 
         self._album = corealbum.props.media
-        self._album_model = self._parent_view._window._app._coremodel.get_album_model(self._album)
+        self._album_model = corealbum.props.model
         self._listbox.bind_model(self._album_model, self._create_widget)
 
     def _create_widget(self, disc):
