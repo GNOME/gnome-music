@@ -74,12 +74,9 @@ class AlbumWidget2(Gtk.EventBox):
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        year = utils.get_media_year(corealbum.props.media)
-        if not year:
-            year = '----'
-        self._released_info_label.props.label = year
+        self._released_info_label.props.label = corealbum.props.year
 
-        self._set_composer_label(corealbum.props.media)
+        self._set_composer_label(corealbum)
 
         self._album = corealbum.props.media
         self._album_model = self._parent_view._window._app._coremodel.get_album_model(self._album)
@@ -104,8 +101,8 @@ class AlbumWidget2(Gtk.EventBox):
         return disc_box
 
     @log
-    def _set_composer_label(self, album):
-        composer = album.get_composer()
+    def _set_composer_label(self, corealbum):
+        composer = corealbum.props.composer
         show = False
 
         if composer:
