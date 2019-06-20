@@ -82,6 +82,8 @@ class AlbumWidget2(Gtk.EventBox):
         self._album_model = corealbum.props.model
         self._listbox.bind_model(self._album_model, self._create_widget)
 
+        corealbum.connect("notify::duration", self._on_duration_changed)
+
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(
             disc.media.get_album_disc_number(), disc.model)
@@ -114,13 +116,8 @@ class AlbumWidget2(Gtk.EventBox):
         self._composer_label.props.visible = show
         self._composer_info_label.props.visible = show
 
-    @log
-    def _set_duration_label(self):
-        total_duration = 0
-        for song in self._model[0]:
-            total_duration += song.props.duration
-
-        mins = (total_duration // 60) + 1
+    def _on_duration_changed(self, coredisc, duration):
+        mins = (coredisc.props.duration // 60) + 1
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
