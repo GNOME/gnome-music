@@ -37,6 +37,7 @@ from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
 from gnomemusic.coremodel import CoreModel
+from gnomemusic.coreselection import CoreSelection
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MPRIS
 from gnomemusic.pauseonsuspend import PauseOnSuspend
@@ -63,7 +64,8 @@ class Application(Gtk.Application):
         self._init_style()
         self._window = None
 
-        self._coremodel = CoreModel()
+        self._coreselection = CoreSelection()
+        self._coremodel = CoreModel(self._coreselection)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)

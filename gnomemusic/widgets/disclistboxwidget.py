@@ -137,18 +137,18 @@ class DiscBox(Gtk.Box):
         """Select all songs"""
         def child_select_all(child):
             song_widget = child.get_child()
-            self._model[song_widget.itr][6] = True
+            song_widget.props.selected = True
 
-        self._disc_songs_flowbox.foreach(child_select_all)
+        self._list_box.foreach(child_select_all)
 
     @log
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
             song_widget = child.get_child()
-            self._model[song_widget.itr][6] = False
+            song_widget.props.selected = False
 
-        self._disc_songs_flowbox.foreach(child_select_none)
+        self._list_box.foreach(child_select_none)
 
     def _create_widget(self, song):
         song_widget = SongWidget(song.props.media)
@@ -253,7 +253,7 @@ class DiscListBox(Gtk.ListBox):
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
-            child.select_all()
+            child.get_child().select_all()
 
         self.foreach(child_select_all)
 
@@ -261,7 +261,7 @@ class DiscListBox(Gtk.ListBox):
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
-            child.select_none()
+            child.get_child().select_none()
 
         self.foreach(child_select_none)
 
