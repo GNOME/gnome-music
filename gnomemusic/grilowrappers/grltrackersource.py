@@ -169,12 +169,19 @@ class GrlTrackerSource(GObject.GObject):
         SELECT
             rdf:type(?album)
             tracker:id(?album) AS ?id
-            nmm:artistName(?album_artist) AS ?album_artist
-            nie:title(?album) as ?title
+            nie:title(?album) AS ?title
+            ?composer AS ?composer
+            ?album_artist AS ?album_artist
+            nmm:artistName(?performer) AS ?artist
+            YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
         {
             ?album a nmm:MusicAlbum .
-            OPTIONAL { ?album nmm:albumArtist ?albumArtist . }
-        }
+            ?song a nmm:MusicPiece ;
+                nmm:musicAlbum ?album ;
+                nmm:performer ?performer .
+            OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
+            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
+        } GROUP BY ?album
         """.replace('\n', ' ').strip()
 
         options = self._fast_options.copy()
