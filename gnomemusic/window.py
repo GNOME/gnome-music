@@ -82,6 +82,9 @@ class Window(Gtk.ApplicationWindow):
         # Hack
         self._app = app
 
+        self._app._coreselection.bind_property(
+            "selected-items-count", self, "selected-items-count")
+
         self._settings = app.props.settings
         self.add_action(self._settings.create_action('repeat'))
         select_all = Gio.SimpleAction.new('select_all', None)
