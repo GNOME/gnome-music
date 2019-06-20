@@ -167,7 +167,7 @@ class GrlTrackerSource(GObject.GObject):
         self._model.append(song)
         self._hash[media.get_id()] = song
 
-        song.connect("notify::selected", self._core_selection.blah)
+        song.connect("notify::selected", self._core_selection.update_selection)
         # self._url_table[media.get_url()] = song
 
     def _initial_albums_fill(self, source):
