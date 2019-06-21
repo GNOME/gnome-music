@@ -69,7 +69,7 @@ class GrlTrackerSource(GObject.GObject):
                 self._add_media(media)
             elif change_type == Grl.SourceChangeType.CHANGED:
                 print("CHANGED", media.get_id())
-                self._requery_media(media.get_id())
+                self._requery_media(media.get_id(), True)
             elif change_type == Grl.SourceChangeType.REMOVED:
                 print("REMOVED", media.get_id())
                 self._remove_media(media)
@@ -78,14 +78,18 @@ class GrlTrackerSource(GObject.GObject):
     def _remove_media(self, media):
         removed_url = media.get_url()
 
-        coresong = self._hash.pop(media.get_id())
+        try:
+            coresong = self._hash.pop(media.get_id())
+        except KeyError:
+            return
+
         for idx, coresong_model in enumerate(self._model):
             if coresong_model is coresong:
                 print(
                     "removing", coresong.props.media.get_id(),
                     coresong.props.title)
                 self._model.remove(idx)
-                # break
+                break
         # for idx, coresong in enumerate(self._model):
         #     print(coresong.props.title)
         #     if coresong.props.url == removed_url:
@@ -93,7 +97,7 @@ class GrlTrackerSource(GObject.GObject):
         #         self._model.remove(idx)
         #         self._hash.pop(coresong.media.get_id(), 0)
 
-    def _requery_media(self, grilo_id):
+    def _requery_media(self, grilo_id, only_update=False):
         query = """
             SELECT DISTINCT
                 rdf:type(?song)
@@ -124,11 +128,29 @@ class GrlTrackerSource(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        self._source.query(
-            query, self.METADATA_KEYS, options, self._update_media)
+        if only_update:
+            self._source.query(
+                query, self.METADATA_KEYS, options, self._only_update_media)
+        else:
+            self._source.query(
+                query, self.METADATA_KEYS, options, self._update_media)
 
     def _add_media(self, media):
         self._requery_media(media.get_id())
+
+
+    def _only_update_media(self, source, op_id, media, user_data, error):
+        if error:
+            print("ERROR", error)
+            return
+
+        if not media:
+            # print("NO MEDIA", source, op_id, media, error)
+            return
+
+        print("ONLY UPDATE")
+        self._hash[media.get_id()].update(media)
+        print("UPDATE ID", media.get_id(), media.get_title())
 
     def _update_media(self, source, op_id, media, user_data, error):
         if error:
@@ -139,11 +161,7 @@ class GrlTrackerSource(GObject.GObject):
             # print("NO MEDIA", source, op_id, media, error)
             return
 
-        def _onic(model, pos, r, a):
-            print(model, pos, r, a)
-
         song = CoreSong(media)
-        self._model.connect("items-changed", _onic)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
