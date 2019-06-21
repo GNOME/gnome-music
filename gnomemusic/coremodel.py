@@ -103,22 +103,16 @@ class CoreModel(GObject.GObject):
             return song_a.props.track_number - song_b.props.track_number
 
         for disc in discs:
-            model_filter = Dazzle.ListModelFilter.new(self._model)
-            model_filter.set_filter_func(lambda a: False)
             nr = disc.get_album_disc_number()
-            self._get_album_disc(media, nr, model_filter)
 
-            model_sort = Gfm.SortListModel.new(model_filter)
-            model_sort.set_sort_func(
-                self._wrap_list_store_sort_func(_disc_sort))
-
-            coredisc = CoreDisc(disc, model_sort)
+            print("DISC", disc, disc.get_title(), disc.get_album_disc_number())
+            print("MEDI", media, media.get_title(), media.get_album_disc_number())
+            coredisc = CoreDisc(media, nr, self)
 
             disc_model.append(coredisc)
 
         def _disc_order_sort(disc_a, disc_b):
-            return (disc_a.media.get_album_disc_number()
-                    - disc_b.media.get_album_disc_number())
+            return disc_a.props.disc_nr - disc_b.props.disc_nr
 
         disc_model_sort.set_sort_func(
             self._wrap_list_store_sort_func(_disc_order_sort))
