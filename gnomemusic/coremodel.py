@@ -147,7 +147,7 @@ class CoreModel(GObject.GObject):
                 self._playlist_model.remove_all()
 
                 for disc in model:
-                    for model_song in disc.model:
+                    for model_song in disc.props.model:
                         song = CoreSong(model_song.props.media)
 
                         self._playlist_model.append(song)
