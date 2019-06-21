@@ -65,11 +65,33 @@ class GrlTrackerSource(GObject.GObject):
     def _on_content_changed(self, source, medias, change_type, loc_unknown):
         for media in medias:
             if change_type == Grl.SourceChangeType.ADDED:
+                print("ADDED", media.get_id())
                 self._add_media(media)
-            if change_type == Grl.SourceChangeType.CHANGED:
+            elif change_type == Grl.SourceChangeType.CHANGED:
+                print("CHANGED", media.get_id())
                 self._requery_media(media.get_id())
-            if change_type == Grl.SourceChangeType.REMOVED:
-                self.emit("media-removed", media)
+            elif change_type == Grl.SourceChangeType.REMOVED:
+                print("REMOVED", media.get_id())
+                self._remove_media(media)
+                # self.emit("media-removed", media)
+
+    def _remove_media(self, media):
+        removed_url = media.get_url()
+
+        coresong = self._hash.pop(media.get_id())
+        for idx, coresong_model in enumerate(self._model):
+            if coresong_model is coresong:
+                print(
+                    "removing", coresong.props.media.get_id(),
+                    coresong.props.title)
+                self._model.remove(idx)
+                # break
+        # for idx, coresong in enumerate(self._model):
+        #     print(coresong.props.title)
+        #     if coresong.props.url == removed_url:
+        #         print("remove ", removed_url)
+        #         self._model.remove(idx)
+        #         self._hash.pop(coresong.media.get_id(), 0)
 
     def _requery_media(self, grilo_id):
         query = """
@@ -106,11 +128,7 @@ class GrlTrackerSource(GObject.GObject):
             query, self.METADATA_KEYS, options, self._update_media)
 
     def _add_media(self, media):
-        song = CoreSong(media)
-        self._model.append(song)
         self._requery_media(media.get_id())
-
-        song.connect("notify::selected", self._core_selection.update_selection)
 
     def _update_media(self, source, op_id, media, user_data, error):
         if error:
@@ -118,10 +136,20 @@ class GrlTrackerSource(GObject.GObject):
             return
 
         if not media:
-            print("NO MEDIA", source, op_id, media, error)
+            # print("NO MEDIA", source, op_id, media, error)
             return
 
-        self._hash[media.get_id()].update(media)
+        def _onic(model, pos, r, a):
+            print(model, pos, r, a)
+
+        song = CoreSong(media)
+        self._model.connect("items-changed", _onic)
+        self._model.append(song)
+        self._hash[media.get_id()] = song
+
+        print("UPDATE ID", media.get_id(), media.get_title())
+
+        song.connect("notify::selected", self._core_selection.update_selection)
 
     def _on_source_removed(self, registry, source):
         print("removed", source.props.source_id)
@@ -162,7 +190,7 @@ class GrlTrackerSource(GObject.GObject):
             return
 
         if not media:
-            print("NO MEDIA", source, op_id, media, error)
+            # print("NO MEDIA", source, op_id, media, error)
             return
 
         song = CoreSong(media)
