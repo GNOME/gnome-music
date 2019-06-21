@@ -19,21 +19,28 @@ class CoreDisc(GObject.GObject):
         self._coremodel = coremodel
         self.props.disc_nr = nr
 
-        filter_model = Dazzle.ListModelFilter.new(self._coremodel.get_model())
-        filter_model.set_filter_func(lambda a: False)
-        self._sort_model = Gfm.SortListModel.new(filter_model)
+        self._filter_model = Dazzle.ListModelFilter.new(
+            self._coremodel.get_model())
+        self._filter_model.set_filter_func(lambda a: False)
+        self._sort_model = Gfm.SortListModel.new(self._filter_model)
         self._sort_model.set_sort_func(self._wrap_sort_func(self._disc_sort))
 
         self.props.model = self._sort_model
         self.update(media)
 
+        self._coremodel.get_model().connect(
+            "items-changed", self._on_core_changed)
         self.props.model.connect("items-changed", self._on_list_items_changed)
 
         self._coremodel._get_album_disc(
-            self.props.media, self.props.disc_nr, filter_model)
+            self.props.media, self.props.disc_nr, self._filter_model)
 
     def update(self, media):
         self.props.media = media
+
+    def _on_core_changed(self, model, position, removed, added):
+        self._coremodel._get_album_disc(
+            self.props.media, self.props.disc_nr, self._filter_model)
 
     def _on_list_items_changed(self, model, pos, removed, added):
         duration = 0
