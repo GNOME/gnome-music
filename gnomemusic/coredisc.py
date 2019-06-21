@@ -11,32 +11,40 @@ class CoreDisc(GObject.GObject):
     disc_nr = GObject.Property(type=int, default=0)
     duration = GObject.Property(type=int, default=None)
     media = GObject.Property(type=Grl.Media, default=None)
-    model = GObject.Property(type=Gio.ListModel, default=None)
 
     def __init__(self, media, nr, coremodel):
         super().__init__()
 
         self._coremodel = coremodel
+        self._filter_model = None
+        self._model = None
         self._old_album_ids = []
-        self.props.disc_nr = nr
+        self._sort_model = None
 
-        self._filter_model = Dazzle.ListModelFilter.new(
-            self._coremodel.get_model())
-        self._filter_model.set_filter_func(lambda a: False)
-        self._sort_model = Gfm.SortListModel.new(self._filter_model)
-        self._sort_model.set_sort_func(self._wrap_sort_func(self._disc_sort))
-
-        self.props.model = self._sort_model
         self.update(media)
-
-        self._coremodel.get_model().connect(
-            "items-changed", self._on_core_changed)
-
-        self._get_album_disc(
-            self.props.media, self.props.disc_nr, self._filter_model)
+        self.props.disc_nr = nr
 
     def update(self, media):
         self.props.media = media
+
+    @GObject.Property(type=Gio.ListModel, default=None)
+    def model(self):
+        if self._model is None:
+            self._filter_model = Dazzle.ListModelFilter.new(
+                self._coremodel.get_model())
+            self._filter_model.set_filter_func(lambda a: False)
+            self._sort_model = Gfm.SortListModel.new(self._filter_model)
+            self._sort_model.set_sort_func(self._wrap_sort_func(self._disc_sort))
+
+            self._model = self._sort_model
+
+            self._coremodel.get_model().connect(
+                "items-changed", self._on_core_changed)
+
+            self._get_album_disc(
+                self.props.media, self.props.disc_nr, self._filter_model)
+
+        return self._model
 
     def _on_core_changed(self, model, position, removed, added):
         self._get_album_disc(
