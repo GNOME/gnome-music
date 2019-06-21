@@ -92,7 +92,7 @@ class AlbumWidget2(Gtk.EventBox):
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(
-            disc.media.get_album_disc_number(), disc.model)
+            disc.props.disc_nr, disc.model)
 
         self.bind_property(
             "selection-mode", disc_box, "selection-mode",
