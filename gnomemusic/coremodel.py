@@ -180,32 +180,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
 
-
-    def _get_album_disc(self, media, discnr, model):
-        albums_ids = []
-        model_filter = model
-
-        def _filter_func(core_song):
-            return core_song.props.media.get_id() in albums_ids
-
-        def _reverse_sort(song_a, song_b, data=None):
-            return song_a.props.track_number - song_b.props.track_number
-
-        def _callback(source, dunno, media, something, something2):
-            if media is None:
-                model_filter.set_filter_func(_filter_func)
-                # model_sort.set_model(model_filter)
-                # model_sort.set_sort_func(
-                #     self._wrap_list_store_sort_func(_reverse_sort))
-                return
-
-            albums_ids.append(media.get_id())
-
-        # For POC sake, use old grilo
-        self._grilo.populate_album_disc_songs(media, discnr, _callback)
-
-        return model_filter
-
     @log
     def get_albums_model(self):
         return self._album_model_sort
