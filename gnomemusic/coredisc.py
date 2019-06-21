@@ -17,6 +17,7 @@ class CoreDisc(GObject.GObject):
         super().__init__()
 
         self._coremodel = coremodel
+        self._old_album_ids = []
         self.props.disc_nr = nr
 
         self._filter_model = Dazzle.ListModelFilter.new(
@@ -30,22 +31,21 @@ class CoreDisc(GObject.GObject):
 
         self._coremodel.get_model().connect(
             "items-changed", self._on_core_changed)
-        self.props.model.connect("items-changed", self._on_list_items_changed)
 
-        self._coremodel._get_album_disc(
+        self._get_album_disc(
             self.props.media, self.props.disc_nr, self._filter_model)
 
     def update(self, media):
         self.props.media = media
 
     def _on_core_changed(self, model, position, removed, added):
-        self._coremodel._get_album_disc(
+        self._get_album_disc(
             self.props.media, self.props.disc_nr, self._filter_model)
 
-    def _on_list_items_changed(self, model, pos, removed, added):
+    def _update_duration(self):
         duration = 0
 
-        for coresong in model:
+        for coresong in self.props.model:
             duration += coresong.props.duration
 
         self.props.duration = duration
@@ -61,3 +61,27 @@ class CoreDisc(GObject.GObject):
             return func(a, b, *user_data)
 
         return wrap
+
+    def _get_album_disc(self, media, discnr, model):
+        album_ids = []
+        model_filter = model
+
+        def _filter_func(core_song):
+            return core_song.props.media.get_id() in album_ids
+
+        def _reverse_sort(song_a, song_b, data=None):
+            return song_a.props.track_number - song_b.props.track_number
+
+        def _callback(source, dunno, media, something, something2):
+            if media is None:
+                if sorted(album_ids) == sorted(self._old_album_ids):
+                    return
+                model_filter.set_filter_func(_filter_func)
+                self._old_album_ids = album_ids
+                self._update_duration()
+                return
+
+            album_ids.append(media.get_id())
+
+        self._coremodel._grilo.populate_album_disc_songs(
+            media, discnr, _callback)
