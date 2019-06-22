@@ -5,8 +5,8 @@ from gi.repository import Grl, GObject
 from gnomemusic import log
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coresong import CoreSong
+from gnomemusic.grilowrappers.grldleynasource import GrlDLeynaSource
 from gnomemusic.grilowrappers.grltrackersource import GrlTrackerSource
-
 
 class CoreGrilo(GObject.GObject):
 
@@ -42,13 +42,18 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-removed', self._on_source_removed)
 
     def _on_source_added(self, registry, source):
-        print(source.props.source_id)
+        print("SOURCE", source.props.source_id[:10])
         if source.props.source_id == "grl-tracker-source":
             self._tracker_source = GrlTrackerSource(
                 source, self._hash, self._model, self._albums_model,
                 self._artists_model, self._coremodel, self._coreselection)
             # self._tracker_source = source
             print(self._tracker_source, "added")
+        elif source.props.source_id[:10] == "grl-dleyna":
+            self._dleyna_source = GrlDLeynaSource(
+                source, self._hash, self._model, self._albums_model,
+                self._artists_model, self._coremodel, self._coreselection)
+            print(self._dleyna_source, "added")
 
     def _on_source_removed(self, registry, source):
         print("removed,", source.props.source_id)
