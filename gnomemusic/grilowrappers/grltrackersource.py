@@ -263,7 +263,10 @@ class GrlTrackerSource(GObject.GObject):
             nmm:artistName(?artist_class) AS ?artist
         {
             ?artist_class a nmm:Artist .
-        }
+            ?song a nmm:MusicPiece;
+                    nmm:musicAlbum ?album;
+                    nmm:performer ?artist_class .
+        } GROUP BY ?artist_class
         """.replace('\n', ' ').strip()
 
         options = self._fast_options.copy()
