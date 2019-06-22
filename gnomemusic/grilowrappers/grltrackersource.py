@@ -40,6 +40,7 @@ class GrlTrackerSource(GObject.GObject):
         self._source = source
         self._model = model
         self._albums_model = albums_model
+        self._album_ids = {}
         self._artists_model = artists_model
         self._hash = _hash
         # self._table = table
@@ -67,13 +68,67 @@ class GrlTrackerSource(GObject.GObject):
             if change_type == Grl.SourceChangeType.ADDED:
                 print("ADDED", media.get_id())
                 self._add_media(media)
+                self._check_album_change(media)
             elif change_type == Grl.SourceChangeType.CHANGED:
                 print("CHANGED", media.get_id())
                 self._requery_media(media.get_id(), True)
             elif change_type == Grl.SourceChangeType.REMOVED:
                 print("REMOVED", media.get_id())
                 self._remove_media(media)
+                self._check_album_change(media)
                 # self.emit("media-removed", media)
+
+    def _check_album_change(self, media):
+        album_ids = {}
+
+        query = """
+        SELECT
+            rdf:type(?album)
+            tracker:id(?album) AS ?id
+            nie:title(?album) AS ?title
+            ?composer AS ?composer
+            ?album_artist AS ?album_artist
+            nmm:artistName(?performer) AS ?artist
+            YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+        {
+            ?album a nmm:MusicAlbum .
+            ?song a nmm:MusicPiece ;
+                nmm:musicAlbum ?album ;
+                nmm:performer ?performer .
+            OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
+            OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
+        } GROUP BY ?album
+        """.replace('\n', ' ').strip()
+
+        def check_album_cb(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                changed_ids = set(
+                    album_ids.keys()) ^ set(self._album_ids.keys())
+                print("ALBUMS CHANGED", changed_ids)
+
+                for key in changed_ids:
+                    if key in album_ids:
+                        self._albums_model.append(album_ids[key])
+                    elif key in self._album_ids:
+                        for idx, corealbum in enumerate(self._albums_model):
+                            if corealbum.media.get_id() == key:
+                                self._albums_model.remove(idx)
+                                break
+
+                self._album_ids = album_ids
+                return
+
+            album = CoreAlbum(media, self._coremodel)
+            album_ids[media.get_id()] = album
+
+        options = self._fast_options.copy()
+
+        self._source.query(
+            query, self.METADATA_KEYS, options, check_album_cb)
 
     def _remove_media(self, media):
         removed_url = media.get_url()
@@ -254,6 +309,7 @@ class GrlTrackerSource(GObject.GObject):
 
         album = CoreAlbum(media, self._coremodel)
         self._albums_model.append(album)
+        self._album_ids[media.get_id()] = album
 
     def _initial_artists_fill(self, source):
         query = """
