@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-03-24 10:16+0000\n"
-"PO-Revision-Date: 2019-03-26 18:05+0100\n"
+"POT-Creation-Date: 2019-06-15 11:02+0000\n"
+"PO-Revision-Date: 2019-06-22 18:46+0200\n"
 "Last-Translator: gogo <trebelnik2@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "Language: hr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -44,8 +44,12 @@ msgstr ""
 "Potražite pjesme u svojoj lokalnoj kolekciji, nabavite glazbu na DLNA "
 "poslužiteljima ili isprobajte nešto novo s Jamenado i Magnatune uslugama."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.appdata.xml.in.in:52
+msgid "The GNOME Music developers"
+msgstr "GNOME Glazbeni razvijatelji"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
+#: gnomemusic/window.py:80
 msgid "Music"
 msgstr "Glazba"
 
@@ -189,15 +193,15 @@ msgstr ""
 "“Magic of the vinyl” by Sami Pyylampi image je licenciran na CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Objavljeno"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Trajanje"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Skladatelj"
 
@@ -218,16 +222,16 @@ msgid "Menu"
 msgstr "Izbornik"
 
 #: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Pretraga"
-
-#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Odaberi"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
 msgid "_Cancel"
 msgstr "_Odustani"
+
+#: data/ui/HeaderBar.ui:77
+msgid "Search"
+msgstr "Pretraga"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -339,11 +343,11 @@ msgstr "Naizmjenično/Ponovi isključi"
 msgid "Previous"
 msgstr "Prijašnja"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
 msgid "Play"
 msgstr "Reproduciraj"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Sljedeća"
 
@@ -380,27 +384,27 @@ msgstr "Naziv popis izvođenja"
 msgid "_Done"
 msgstr "_Završeno"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Upišite naziv za vaš prvi popis izvođenja"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "S_tvori"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Novi popis izvođenja…"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Dodaj"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:241
 msgid "Add to Playlist"
 msgstr "Dodaj na popis izvođenja"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:257
 msgid "_Add"
 msgstr "_Dodaj"
 
@@ -420,73 +424,73 @@ msgstr "Kliknite na stavku za odabir"
 msgid "_Add to Playlist"
 msgstr "_Dodaj na popis izvođenja"
 
-#: gnomemusic/gstplayer.py:410
+#: gnomemusic/gstplayer.py:380
 msgid "Unable to play the file"
 msgstr "Nemoguća reprodukcija datoteke"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:386
 msgid "_Find in {}"
 msgstr "_Pretraži u {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:397
 msgid " and "
 msgstr " i "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:400
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:402
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} je potreban za reprodukciju datoteke, ali nije instaliran."
 msgstr[1] "{} su potrebni za reprodukciju datoteke, ali nisu instalirani."
 msgstr[2] "{} su potrebni za reprodukciju datoteke, ali nisu instalirani."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Reprodukcija glazbe"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:59
+#: gnomemusic/playlists.py:58
 msgid "Most Played"
 msgstr "Najslušanije"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:64
+#: gnomemusic/playlists.py:63
 msgid "Never Played"
 msgstr "Nepreslušano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:69
+#: gnomemusic/playlists.py:68
 msgid "Recently Played"
 msgstr "Nedavno slušano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:74
+#: gnomemusic/playlists.py:73
 msgid "Recently Added"
 msgstr "Nedavno dodano"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:79
+#: gnomemusic/playlists.py:78
 msgid "Favorite Songs"
 msgstr "Omiljene pjesme"
 
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:56
+msgid "Unknown album"
+msgstr "Nepoznat album"
+
+#: gnomemusic/utils.py:77
 msgid "Unknown Artist"
 msgstr "Nepoznati izvođač"
 
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Neimenovano"
-
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+#: gnomemusic/views/albumsview.py:46 gnomemusic/views/searchview.py:614
 msgid "Albums"
 msgstr "Albumi"
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:616
 msgid "Artists"
 msgstr "Izvođači"
 
@@ -522,23 +526,23 @@ msgstr ""
 "Ne može se stvoriti sadržaj vaših glazbenih datoteka bez pokrenutog "
 "Pratitelja"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/playlistsview.py:62 gnomemusic/views/searchview.py:620
 msgid "Playlists"
 msgstr "Popis izvođenja"
 
-#: gnomemusic/views/playlistview.py:640
+#: gnomemusic/views/playlistsview.py:626
 msgid "Playlist {} removed"
 msgstr "Popis izvođenja {} uklonjen"
 
-#: gnomemusic/views/playlistview.py:646
+#: gnomemusic/views/playlistsview.py:632
 msgid "{} removed from {}"
 msgstr "{} uklonjeno iz {}"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/searchview.py:618 gnomemusic/views/songsview.py:55
 msgid "Songs"
 msgstr "Pjesme"
 
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:161
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minuta"
@@ -556,15 +560,15 @@ msgstr[0] "Odabrana {} stavka"
 msgstr[1] "Odabrane {} stavke"
 msgstr[2] "Odabrane {} stavke"
 
-#: gnomemusic/widgets/notificationspopup.py:169
+#: gnomemusic/widgets/notificationspopup.py:170
 msgid "Loading"
 msgstr "Učitavanje"
 
-#: gnomemusic/widgets/notificationspopup.py:232
+#: gnomemusic/widgets/notificationspopup.py:233
 msgid "_Undo"
 msgstr "_Vrati"
 
-#: gnomemusic/widgets/playertoolbar.py:136
+#: gnomemusic/widgets/playertoolbar.py:150
 msgid "Pause"
 msgstr "Pauziraj"
 
@@ -602,6 +606,9 @@ msgstr "Izvori"
 #: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Podudara se"
+
+#~ msgid "Untitled"
+#~ msgstr "Neimenovano"
 
 #~ msgid "@icon@"
 #~ msgstr "@icon@"
