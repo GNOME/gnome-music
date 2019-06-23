@@ -336,11 +336,11 @@ class GrlTrackerSource(GObject.GObject):
             print("NO MEDIA", source, op_id, media, error)
             return
 
-        artist = CoreArtist(media)
+        artist = CoreArtist(media, self._coremodel)
         self._artists_model.append(artist)
 
-    def get_artist_albums(self, artist):
-        artist_id = artist.props.media.get_id()
+    def get_artist_albums(self, media):
+        artist_id = media.get_id()
         print("ID", artist_id)
 
         query = """
