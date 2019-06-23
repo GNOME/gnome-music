@@ -109,8 +109,7 @@ class ArtistAlbumWidget(Gtk.Box):
         self._disc_list_box.bind_model(self._model, self._create_widget)
 
     def _create_widget(self, disc):
-        disc_box = self._create_disc_box(
-            disc.media.get_album_disc_number(), disc.model)
+        disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
 
         return disc_box
 
