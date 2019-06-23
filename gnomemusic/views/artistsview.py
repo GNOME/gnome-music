@@ -118,16 +118,13 @@ class ArtistsView(BaseView):
 
         # Prepare a new artist_albums_widget here
         coreartist = row.props.artist
-        model = coreartist.props.model
 
         new_artist_albums_widget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         self._view.add(new_artist_albums_widget)
 
-        albums = self._window._app._coremodel.get_artist_albums(
-            coreartist.props.media)
         artist_albums = ArtistAlbumsWidget(
-            coreartist, albums, self.player, self._window, False, model)
+            coreartist, self.player, self._window, False)
         new_artist_albums_widget.add(artist_albums)
         new_artist_albums_widget.show()
 

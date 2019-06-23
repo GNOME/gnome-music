@@ -55,14 +55,13 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     @log
     def __init__(
-            self, coreartist, albums, player, window,
-            selection_mode_allowed=False, model=None):
+            self, coreartist, player, window, selection_mode_allowed=False):
         super().__init__(orientation=Gtk.Orientation.VERTICAL)
-        self._model = model
-        self._player = player
         self._artist = coreartist.props.artist
-        self._window = window
+        self._model = coreartist.props.model
+        self._player = player
         self._selection_mode_allowed = selection_mode_allowed
+        self._window = window
 
         self._artist_label.props.label = self._artist
 
