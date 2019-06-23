@@ -27,7 +27,6 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
@@ -48,29 +47,24 @@ class ArtistAlbumWidget(Gtk.Box):
 
     __gsignals__ = {
         "song-activated": (GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )),
-        'songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     def __repr__(self):
         return '<ArtistAlbumWidget>'
 
-    @log
     def __init__(
-            self, media, player, model, selection_mode_allowed,
-            size_group=None, cover_size_group=None, window=None):
+            self, corealbum, selection_mode_allowed, size_group=None,
+            cover_size_group=None, window=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
 
-        self._media = media
-        self._album_title = utils.get_album_title(self._media)
-        self._model = model
         self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
 
         self._cover_stack.props.size = Art.Size.MEDIUM
-        self._cover_stack.update(self._media)
+        self._cover_stack.update(corealbum.props.media)
 
         allowed = self._selection_mode_allowed
         self._disc_list_box.props.selection_mode_allowed = allowed
@@ -80,9 +74,8 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        self._title.props.label = self._album_title
-        year = utils.get_media_year(self._media)
-
+        self._title.props.label = corealbum.props.title
+        year = corealbum.props.year
         if year:
             self._year.props.label = year
 
@@ -92,7 +85,8 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        self._disc_list_box.bind_model(self._model, self._create_widget)
+        self._disc_list_box.bind_model(
+            corealbum.props.model, self._create_widget)
 
         def non_selectable(child):
             child.props.selectable = False
@@ -104,7 +98,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
         return disc_box
 
-    @log
     def _create_disc_box(self, disc_nr, album_model):
         disc_box = DiscBox(None, album_model)
         disc_box.set_disc_number(disc_nr)
@@ -115,7 +108,6 @@ class ArtistAlbumWidget(Gtk.Box):
 
         return disc_box
 
-    @log
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
             return
