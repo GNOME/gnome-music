@@ -13,7 +13,6 @@ class CoreArtist(GObject.GObject):
 
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
-    model = GObject.Property(type=Gio.ListModel, default=None)
     selected = GObject.Property(type=bool, default=False)
 
     @log
@@ -21,12 +20,19 @@ class CoreArtist(GObject.GObject):
         super().__init__()
 
         self._coremodel = coremodel
+        self._model = None
 
         self.update(media)
-
-        self.props.model = self._coremodel.get_artists_model_full(media)
 
     @log
     def update(self, media):
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
+
+    @GObject.Property(type=Gio.ListModel, default=None)
+    def model(self):
+        if self._model is None:
+            self._model = self._coremodel.get_artists_model_full(
+                self.props.media)
+
+        return self._model
