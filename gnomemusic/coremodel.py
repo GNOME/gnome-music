@@ -53,6 +53,9 @@ class CoreModel(GObject.GObject):
             self._wrap_list_store_sort_func(self._albums_sort))
 
         self._artist_model = Gio.ListStore.new(CoreArtist)
+        self._artist_model_sort = Gfm.SortListModel.new(self._artist_model)
+        self._artist_model_sort.set_sort_func(
+            self._wrap_list_store_sort_func(self._artist_sort))
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
@@ -78,6 +81,9 @@ class CoreModel(GObject.GObject):
 
     def _albums_sort(self, album_a, album_b):
         return album_b.props.title.lower() < album_a.props.title.lower()
+
+    def _artist_sort(self, artist_a, artist_b):
+        return artist_b.props.artist.lower() < artist_a.props.artist.lower()
 
     @log
     def get_model(self):
@@ -185,7 +191,7 @@ class CoreModel(GObject.GObject):
         return self._album_model_sort
 
     def get_artists_model(self):
-        return self._artist_model
+        return self._artist_model_sort
 
     def get_artist_albums(self, artist):
         albums = self._grilo.get_artist_albums(artist)
