@@ -68,10 +68,6 @@ class ArtistAlbumsWidget(Gtk.Box):
 
         self._widgets = []
 
-        # self._create_model()
-
-        # self._model.connect('row-changed', self._model_row_changed)
-
         hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
                                   spacing=48)
@@ -88,13 +84,10 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
-        self._window.notifications_popup.push_loading()
-
-        # self._albums_to_load = len(albums)
+        # FIXME: Make this a ListBox as well.
         for album in self._model:
             self._add_album(album)
 
-        # self._player.connect('song-changed', self._update_model)
         self.show_all()
 
     def _song_activated(self, widget, song_widget):
@@ -112,25 +105,6 @@ class ArtistAlbumsWidget(Gtk.Box):
             PlayerPlaylist.Type.ARTIST, self._album, song_widget._media,
             self._model)
 
-    @log
-    def _create_model(self):
-        """Create the ListStore model for this widget."""
-        self._model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,    # placeholder
-            GObject.TYPE_OBJECT,  # song object
-            GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
-
-    @log
     def _add_album(self, corealbum):
         widget = ArtistAlbumWidget(
             corealbum, self._selection_mode_allowed,
@@ -145,51 +119,6 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._widgets.append(widget)
 
         widget.connect("song-activated", self._song_activated)
-
-    @log
-    def _update_model(self, player):
-        """Updates model when the song changes
-
-        :param Player player: The main player object
-        """
-        if not player.playing_playlist(
-                PlayerPlaylist.Type.ARTIST, self._artist):
-            self._clean_model()
-            return False
-
-        current_song = player.props.current_song
-        song_passed = False
-        itr = self._model.get_iter_first()
-
-        while itr:
-            song = self._model[itr][5]
-            song_widget = song.song_widget
-
-            if (song.get_id() == current_song.get_id()):
-                song_widget.props.state = SongWidget.State.PLAYING
-                song_passed = True
-            elif (song_passed):
-                # Counter intuitive, but this is due to call order.
-                song_widget.props.state = SongWidget.State.UNPLAYED
-            else:
-                song_widget.props.state = SongWidget.State.PLAYED
-
-            itr = self._model.iter_next(itr)
-
-        return False
-
-    @log
-    def _clean_model(self):
-        itr = self._model.get_iter_first()
-
-        while itr:
-            song = self._model[itr][5]
-            song_widget = song.song_widget
-            song_widget.props.state = SongWidget.State.UNPLAYED
-
-            itr = self._model.iter_next(itr)
-
-        return False
 
     @log
     def _model_row_changed(self, model, path, itr):
