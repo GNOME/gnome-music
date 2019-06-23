@@ -131,18 +131,10 @@ class ArtistAlbumsWidget(Gtk.Box):
         )
 
     @log
-    def _on_album_displayed(self, data=None):
-        self._albums_to_load -= 1
-        if self._albums_to_load == 0:
-            self._window.notifications_popup.pop_loading()
-            self.show_all()
-
-    @log
-    def _add_album(self, album):
+    def _add_album(self, corealbum):
         widget = ArtistAlbumWidget(
-            album.props.media, self._player, album.props.model,
-            self._selection_mode_allowed, self._songs_grid_size_group,
-            self._cover_size_group, self._window)
+            corealbum, self._selection_mode_allowed,
+            self._songs_grid_size_group, self._cover_size_group, self._window)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
@@ -152,7 +144,6 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)
 
-        widget.connect('songs-loaded', self._on_album_displayed)
         widget.connect("song-activated", self._song_activated)
 
     @log
