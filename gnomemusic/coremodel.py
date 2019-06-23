@@ -127,7 +127,16 @@ class CoreModel(GObject.GObject):
         albums_model_sort = Gfm.SortListModel.new(albums_model)
 
         for album in albums:
-            artist_album = CoreAlbum(album, self)
+            artist_album = None
+            for corealbum in self._album_model:
+                if album.get_id() == corealbum.props.media.get_id():
+                    artist_album = corealbum
+                    break
+
+            if artist_album is None:
+                artist_album = CoreAlbum(album, self)
+                self._album_model.append(artist_album)
+
             albums_model.append(artist_album)
 
         return albums_model
