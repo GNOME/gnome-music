@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GObject
+from gi.repository import Gio, Grl, GObject
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
@@ -13,13 +13,18 @@ class CoreArtist(GObject.GObject):
 
     artist = GObject.Property(type=str)
     media = GObject.Property(type=Grl.Media)
+    model = GObject.Property(type=Gio.ListModel, default=None)
     selected = GObject.Property(type=bool, default=False)
 
     @log
-    def __init__(self, media):
+    def __init__(self, media, coremodel):
         super().__init__()
 
+        self._coremodel = coremodel
+
         self.update(media)
+
+        self.props.model = self._coremodel.get_artists_model_full(media)
 
     @log
     def update(self, media):
