@@ -116,22 +116,17 @@ class ArtistsView(BaseView):
             row.props.selected = not row.props.selected
             return
 
-        print(row.props.artist.props.artist, row, row.get_child())
-
         # Prepare a new artist_albums_widget here
-        artist = row.props.artist.props.artist
-        artist_media = row.props.artist.props.media
-
-        model = self._window._app._coremodel.get_artists_model_full(row.props.artist)
+        coreartist = row.props.artist
+        model = self._window._app._coremodel.get_artists_model_full(coreartist)
 
         new_artist_albums_widget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         self._view.add(new_artist_albums_widget)
 
-        albums = self._window._app._coremodel.get_artist_albums(row.props.artist)
+        albums = self._window._app._coremodel.get_artist_albums(coreartist)
         artist_albums = ArtistAlbumsWidget(
-            artist, albums, self.player, self._window, False, model)
-        # self._artists[artist.casefold()]['widget'] = artist_albums
+            coreartist, albums, self.player, self._window, False, model)
         new_artist_albums_widget.add(artist_albums)
         new_artist_albums_widget.show()
 
@@ -142,40 +137,9 @@ class ArtistsView(BaseView):
         return
 
     @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        if (not item and remaining == 0):
-            self._window.notifications_popup.pop_loading()
-            self._sidebar.show()
-            return
-        self._offset += 1
-        artist = utils.get_artist_name(item)
-        row = None
-        if not artist.casefold() in self._artists:
-            # populate sidebar
-            row = SidebarRow()
-            row.props.text = artist
-            row.connect('notify::selected', self._on_selection_changed)
-            self.bind_property('selection-mode', row, 'selection-mode')
-            self._sidebar.add(row)
-
-            self._artists[artist.casefold()] = {
-                'albums': [],
-                'widget': None
-            }
-
-        self._artists[artist.casefold()]['albums'].append(item)
-
-        if (row is not None
-                and len(self._sidebar) == 1):
-            self._sidebar.select_row(row)
-            self._sidebar.emit('row-activated', row)
-
-    @log
     def _populate(self, data=None):
         """Populates the view"""
-        # self._window.notifications_popup.push_loading()
-        # grilo.populate_artists(self._offset, self._add_item)
-        # self._init = True
+        pass
 
     @log
     def _on_sidebar_clicked(self, gesture, n_press, x, y):
