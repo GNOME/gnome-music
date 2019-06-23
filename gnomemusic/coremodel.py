@@ -139,7 +139,13 @@ class CoreModel(GObject.GObject):
 
             albums_model.append(artist_album)
 
-        return albums_model
+        def _album_sort(album_a, album_b):
+            return album_a.props.year > album_b.props.year
+
+        albums_model_sort.set_sort_func(
+            self._wrap_list_store_sort_func(_album_sort))
+
+        return albums_model_sort
 
 
     def get_playlist_model(self):
