@@ -12,8 +12,8 @@ class CoreGrilo(GObject.GObject):
         return "<CoreGrilo>"
 
     def __init__(
-            self, coremodel, model, _hash, url_hash, albums_model,
-            artists_model, coreselection):
+            self, coremodel, model, _hash, albums_model, artists_model,
+            coreselection):
         super().__init__()
 
         self._coremodel = coremodel

@@ -43,9 +43,6 @@ class GrlTrackerSource(GObject.GObject):
         self._album_ids = {}
         self._artists_model = artists_model
         self._hash = _hash
-        # self._table = table
-        # Only way to figure out removed items
-        # self._url_table = url_hash
 
         Grl.init(None)
 
