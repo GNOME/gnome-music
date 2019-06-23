@@ -64,14 +64,10 @@ class ArtistAlbumWidget(Gtk.Box):
         self._cover_size_group = cover_size_group
 
         self._media = media
-        self._player = player
-        self._artist = utils.get_artist_name(self._media)
         self._album_title = utils.get_album_title(self._media)
         self._model = model
         self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
-
-        self._songs = []
 
         self._cover_stack.props.size = Art.Size.MEDIUM
         self._cover_stack.update(self._media)
@@ -96,16 +92,6 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        # albums_list = window._app._coremodel.get_album_model(self._media)
-
-        # for album in albums_list:
-        #     disc = self._create_disc_box(0, album)
-        #     self._disc_list_box.add(disc)
-        #     self._disc_list_box.show()
-        # grilo.populate_album_songs(self._media, self._add_item)
-
-        # disc_model = window._app._coremodel.get_album_model(self._media)
-
         self._disc_list_box.bind_model(self._model, self._create_widget)
 
         def non_selectable(child):
@@ -121,38 +107,13 @@ class ArtistAlbumWidget(Gtk.Box):
     @log
     def _create_disc_box(self, disc_nr, album_model):
         disc_box = DiscBox(None, album_model)
-        # disc_box.set_songs(disc_songs)
         disc_box.set_disc_number(disc_nr)
-        # disc_box.props.columns = 2
         disc_box.props.show_durations = False
         disc_box.props.show_favorites = False
         disc_box.props.show_song_numbers = True
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
-
-    @log
-    def _add_item(self, source, prefs, song, remaining, data=None):
-        if song:
-            self._songs.append(song)
-            return
-
-        discs = {}
-        for song in self._songs:
-            disc_nr = song.get_album_disc_number()
-            if disc_nr not in discs.keys():
-                discs[disc_nr] = [song]
-            else:
-                discs[disc_nr].append(song)
-
-        for disc_nr in discs:
-            disc = self._create_disc_box(disc_nr, discs[disc_nr])
-            self._disc_list_box.add(disc)
-            if len(discs) == 1:
-                disc.props.show_disc_label = False
-
-        if remaining == 0:
-            self.emit("songs-loaded")
 
     @log
     def _song_activated(self, widget, song_widget):
