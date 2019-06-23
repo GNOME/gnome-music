@@ -4,6 +4,7 @@ from gi.repository import Dazzle, GObject, Gio, Gfm, Grl, GLib
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
+from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coregrilo import CoreGrilo
@@ -12,25 +13,19 @@ from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.songwidget import SongWidget
 
-# The basic premisis is that an album (CoreArtistAlbum) consist of a
+# The basic premisis is that an album (CoreAlbum) consist of a
 # number of discs (CoreDisc) which contain a number of songs
 # (CoreSong). All discs are a filtered Gio.Listmodel of all the songs
 # available in the master Gio.ListModel.
 #
-# CoreArtistAlbum and CoreDisc contain a Gio.ListModel of the child
+# CoreAlbum and CoreDisc contain a Gio.ListModel of the child
 # object.
 #
-# CoreArtistAlbum(s) => CoreDisc(s) => CoreSong(s)
+# CoreAlbum(s) => CoreDisc(s) => CoreSong(s)
 #
 # For the playlist model, the CoreArtist or CoreAlbum derived discs are
 # flattened and recreated as a new model. This is to allow for multiple
 # occurences of the same song: same grilo id, but unique object.
-
-
-class CoreArtistAlbum(GObject.GObject):
-
-    media = GObject.Property(type=Grl.Media, default=None)
-    model = GObject.Property(type=Gio.ListModel, default=None)
 
 
 class CoreModel(GObject.GObject):
@@ -132,12 +127,7 @@ class CoreModel(GObject.GObject):
         albums_model_sort = Gfm.SortListModel.new(albums_model)
 
         for album in albums:
-            album_model = self.get_album_model(album)
-
-            artist_album = CoreArtistAlbum()
-            artist_album.props.model = album_model
-            artist_album.props.media = album
-
+            artist_album = CoreAlbum(album, self)
             albums_model.append(artist_album)
 
         return albums_model
