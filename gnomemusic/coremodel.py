@@ -60,10 +60,10 @@ class CoreModel(GObject.GObject):
 
         self._album_store = None
         self._hash = {}
-        self._url_hash = {}
+
         print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
-            self, self._model, self._hash, self._url_hash, self._album_model,
+            self, self._model, self._hash, self._album_model,
             self._artist_model, self._coreselection)
 
         self._selection_model.connect("items-changed", self._on_sel_changed)
