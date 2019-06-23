@@ -108,6 +108,11 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._disc_list_box.bind_model(self._model, self._create_widget)
 
+        def non_selectable(child):
+            child.props.selectable = False
+
+        self._disc_list_box.forall(non_selectable)
+
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
 
