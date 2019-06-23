@@ -120,8 +120,8 @@ class CoreModel(GObject.GObject):
 
         return disc_model_sort
 
-    def get_artists_model_full(self, artist_media):
-        albums = self._grilo.get_artist_albums(artist_media)
+    def get_artists_model_full(self, media):
+        albums = self._grilo.get_artist_albums(media)
 
         albums_model = Gio.ListStore()
         albums_model_sort = Gfm.SortListModel.new(albums_model)
