@@ -79,7 +79,7 @@ class GrlDLeynaSource(GObject.GObject):
             print("NO MEDIA", source, op_id, media, error)
             return
 
-        artist = CoreArtist(media)
+        artist = CoreArtist(media, self._coremodel)
         artist.props.artist = media.get_title() + " (upnp)"
         self._artists_model.append(artist)
         print(
