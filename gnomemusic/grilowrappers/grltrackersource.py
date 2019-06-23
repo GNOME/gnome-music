@@ -31,7 +31,7 @@ class GrlTrackerSource(GObject.GObject):
         return "<GrlTrackerSource>"
 
     def __init__(
-            self, source, _hash, model, albums_model, artists_model, coremodel,
+            self, source, model, albums_model, artists_model, coremodel,
             core_selection):
         super().__init__()
 
@@ -42,7 +42,7 @@ class GrlTrackerSource(GObject.GObject):
         self._albums_model = albums_model
         self._album_ids = {}
         self._artists_model = artists_model
-        self._hash = _hash
+        self._hash = {}
 
         Grl.init(None)
 
