@@ -402,8 +402,8 @@ class Playlists(GObject.GObject):
                 query_callback, None)
 
         playlist_id = playlist.get_id()
-        for item in items:
-            uri = item.get_url()
+        for coresong in items:
+            uri = coresong.props.url
             if not uri:
                 continue
             self._tracker.update_blank_async(
