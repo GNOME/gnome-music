@@ -110,10 +110,10 @@ class PlayerPlaylist(GObject.GObject):
         self._type = -1
         self._id = -1
 
-        self._validation_indexes = None
-        self._discoverer = GstPbutils.Discoverer()
-        self._discoverer.connect('discovered', self._on_discovered)
-        self._discoverer.start()
+        # self._validation_indexes = None
+        # self._discoverer = GstPbutils.Discoverer()
+        # self._discoverer.connect('discovered', self._on_discovered)
+        # self._discoverer.start()
 
         self._model = self._app._coremodel.get_playlist_model()
 
@@ -136,74 +136,7 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the playlist has been updated. False otherwise
         :rtype: bool
         """
-        if not model_iter:
-            if self.props.repeat_mode == RepeatMode.SHUFFLE:
-                index = randrange(len(model))
-                model_iter = model.get_iter_from_string(str(index))
-            else:
-                model_iter = model.get_iter_first()
-
-        path = model.get_path(model_iter)
-        self._position = int(path.to_string())
-
-        # Playlist is the same. Check that the requested song is valid.
-        # If not, try to get the next valid one
-        if (playlist_type == self._type
-                and playlist_id == self._id):
-            if not self._current_song_is_valid():
-                self.next()
-            else:
-                self._validate_song(self._position)
-                self._validate_next_song()
-            return False
-
-        self._validation_indexes = defaultdict(list)
-        self._type = playlist_type
-        self._id = playlist_id
-
-        self._songs = []
-        for row in model:
-            self._songs.append([row[5], row[11]])
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            self._shuffle_indexes = list(range(len(self._songs)))
-            shuffle(self._shuffle_indexes)
-            self._shuffle_indexes.remove(self._position)
-            self._shuffle_indexes.insert(0, self._position)
-
-        # If the playlist has already been played, check that the requested
-        # song is valid. If it has never been played, validate the current
-        # song and the next song to display an error icon on failure.
-        if not self._current_song_is_valid():
-            self.next()
-        else:
-            self._validate_song(self._position)
-            self._validate_next_song()
-        return True
-
-    @log
-    def set_song(self, song_offset):
-        """Change playlist index.
-
-        :param int song_offset: position relative to current song
-        :return: True if the index has changed. False otherwise.
-        :rtype: bool
-        """
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            shuffle = self._shuffle_indexes.index(self._position)
-            self._position = self._shuffle_indexes[shuffle + song_offset]
-            return True
-
-        song_index = song_offset + self._position
-        if self.props.repeat_mode == RepeatMode.ALL:
-            song_index = song_index % len(self._songs)
-
-        if(song_index >= len(self._songs)
-           or song_index < 0):
-            return False
-
-        self._position = song_index
-        return True
+        pass
 
     @log
     def change_position(self, prev_pos, new_pos):
@@ -214,33 +147,7 @@ class PlayerPlaylist(GObject.GObject):
         :return: new index of the song being played. -1 if unchanged
         :rtype: int
         """
-        current_item = self._songs[self._position]
-        current_song_id = current_item[PlayerField.SONG].get_id()
-        changed_song = self._songs.pop(prev_pos)
-        self._songs.insert(new_pos, changed_song)
-
-        # Update current_index if necessary.
-        return_index = -1
-        first_pos = min(prev_pos, new_pos)
-        last_pos = max(prev_pos, new_pos)
-        if (self._position >= first_pos
-                and self._position <= last_pos):
-            for index, item in enumerate(self._songs[first_pos:last_pos + 1]):
-                if item[PlayerField.SONG].get_id() == current_song_id:
-                    self._position = first_pos + index
-                    return_index = self._position
-                    break
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            index_l = self._shuffle_indexes.index(last_pos)
-            self._shuffle_indexes.pop(index_l)
-            self._shuffle_indexes = [
-                index + 1 if (index < last_pos and index >= first_pos)
-                else index
-                for index in self._shuffle_indexes]
-            self._shuffle_indexes.insert(index_l, first_pos)
-
-        return return_index
+        pass
 
     @log
     def add_song(self, song, song_index):
@@ -249,19 +156,7 @@ class PlayerPlaylist(GObject.GObject):
         :param Grl.Media song: new song
         :param int song_index: song position
         """
-        item = [song, ValidationStatus.PENDING]
-        self._songs.insert(song_index, item)
-        if song_index <= self._position:
-            self._position += 1
-
-        self._validate_song(song_index)
-
-        # In the shuffle case, insert song at a random position which
-        # has not been played yet.
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._position)
-            new_song_index = randrange(index, len(self._shuffle_indexes))
-            self._shuffle_indexes.insert(new_song_index, song_index)
+        pass
 
     @log
     def remove_song(self, song_index):
@@ -269,102 +164,7 @@ class PlayerPlaylist(GObject.GObject):
 
         :param int song_index: index of the song to remove
         """
-        self._songs.pop(song_index)
-        if song_index < self._position:
-            self._position -= 1
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            self._shuffle_indexes.remove(song_index)
-            self._shuffle_indexes = [
-                index - 1 if index > song_index else index
-                for index in self._shuffle_indexes]
-
-    @log
-    def _on_discovered(self, discoverer, info, error):
-        url = info.get_uri()
-        field = PlayerField.VALIDATION
-        index = self._validation_indexes[url].pop(0)
-        if not self._validation_indexes[url]:
-            self._validation_indexes.pop(url)
-
-        if error:
-            logger.warning("Info {}: error: {}".format(info, error))
-            self._songs[index][field] = ValidationStatus.FAILED
-        else:
-            self._songs[index][field] = ValidationStatus.SUCCEEDED
-        self.emit('song-validated', index, self._songs[index][field])
-
-    @log
-    def _validate_song(self, index):
-        item = self._songs[index]
-        # Song is being processed or has already been processed.
-        # Nothing to do.
-        if item[PlayerField.VALIDATION] > ValidationStatus.PENDING:
-            return
-
-        song = item[PlayerField.SONG]
-        url = song.get_url()
-        if not url:
-            logger.warning("The item {} doesn't have a URL set.".format(song))
-            return
-        if not url.startswith("file://"):
-            logger.debug(
-                "Skipping validation of {} as not a local file".format(url))
-            return
-
-        item[PlayerField.VALIDATION] = ValidationStatus.IN_PROGRESS
-        self._validation_indexes[url].append(index)
-        self._discoverer.discover_uri_async(url)
-
-    @log
-    def _get_next_index(self):
-        if not self.has_next():
-            return -1
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return self._position
-        if (self.props.repeat_mode == RepeatMode.ALL
-                and self._position == (len(self._songs) - 1)):
-            return 0
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._position)
-            return self._shuffle_indexes[index + 1]
-        else:
-            return self._position + 1
-
-    @log
-    def _get_previous_index(self):
-        if not self.has_previous():
-            return -1
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return self._position
-        if (self.props.repeat_mode == RepeatMode.ALL
-                and self._position == 0):
-            return len(self._songs) - 1
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            shuffle_index = self._shuffle_indexes.index(self._position)
-            return self._shuffle_indexes[shuffle_index - 1]
-        else:
-            return self._position - 1
-
-    @log
-    def _validate_next_song(self):
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return
-
-        next_index = self._get_next_index()
-        if next_index >= 0:
-            self._validate_song(next_index)
-
-    @log
-    def _validate_previous_song(self):
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return
-
-        previous_index = self._get_previous_index()
-        if previous_index >= 0:
-            self._validate_song(previous_index)
+        pass
 
     @log
     def has_next(self):
@@ -461,15 +261,6 @@ class PlayerPlaylist(GObject.GObject):
 
         return None
 
-    def _current_song_is_valid(self):
-        """Check if current song can be played.
-
-        :returns: False if validation failed
-        :rtype: bool
-        """
-        current_item = self._songs[self._position]
-        return current_item[PlayerField.VALIDATION] != ValidationStatus.FAILED
-
     @log
     def _on_repeat_mode_changed(self, klass, param):
         if (self.props.repeat_mode == RepeatMode.SHUFFLE
@@ -508,6 +299,7 @@ class PlayerPlaylist(GObject.GObject):
         :returns: current playlist
         :rtype: list of index and Grl.Media
         """
+        return []
         if not self.props.current_song:
             return []
 
