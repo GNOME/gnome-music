@@ -64,13 +64,6 @@ class AlbumsView(BaseView):
             "notify::search-mode-active", self._on_search_mode_changed)
 
     @log
-    def _on_changes_pending(self, data=None):
-        if (self._init and not self.props.selection_mode):
-            self._offset = 0
-            self._populate()
-            grilo.changes_pending['Albums'] = False
-
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
