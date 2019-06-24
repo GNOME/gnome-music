@@ -25,7 +25,7 @@
 from collections import defaultdict
 from enum import IntEnum
 from itertools import chain
-from random import shuffle, randrange
+from random import shuffle, randrange, randint
 import logging
 import time
 
@@ -35,6 +35,7 @@ gi.require_version('Gst', '1.0')
 gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
 from gi.repository import GObject, Grl, GstPbutils
+from gi._gi import pygobject_new_full
 
 from gnomemusic import log
 from gnomemusic.gstplayer import GstPlayer, Playback
@@ -263,12 +264,24 @@ class PlayerPlaylist(GObject.GObject):
 
     @log
     def _on_repeat_mode_changed(self, klass, param):
-        if (self.props.repeat_mode == RepeatMode.SHUFFLE
-                and self._songs):
-            self._shuffle_indexes = list(range(len(self._songs)))
-            shuffle(self._shuffle_indexes)
-            self._shuffle_indexes.remove(self._position)
-            self._shuffle_indexes.insert(0, self._position)
+
+        def _wrap_list_store_sort_func(func):
+            def wrap(a, b, *user_data):
+                a = pygobject_new_full(a, False)
+                b = pygobject_new_full(b, False)
+                return func(a, b, *user_data)
+
+            return wrap
+
+        # FIXME: This shuffle is too simple.
+        def _shuffle_sort(song_a, song_b):
+            return randint(-1, 1)
+
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
+            self._model.set_sort_func(
+                _wrap_list_store_sort_func(_shuffle_sort))
+        elif self.props.repeat_mode == RepeatMode.NONE:
+            self._model.set_sort_func(None)
 
     @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
     def playlist_id(self):
