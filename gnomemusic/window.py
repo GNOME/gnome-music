@@ -492,18 +492,18 @@ class Window(Gtk.ApplicationWindow):
         if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
             return
 
-        def callback(selected_songs):
-            if len(selected_songs) < 1:
-                return
+        selected_songs = self._app._coreselection.props.selected_items
 
-            playlist_dialog = PlaylistDialog(self)
-            if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-                playlists.add_to_playlist(
-                    playlist_dialog.get_selected(), selected_songs)
-            self.props.selection_mode = False
-            playlist_dialog.destroy()
+        if len(selected_songs) < 1:
+            return
 
-        self._stack.get_visible_child().get_selected_songs(callback)
+        playlist_dialog = PlaylistDialog(self)
+        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
+            playlists.add_to_playlist(
+                playlist_dialog.get_selected(), selected_songs)
+
+        self.props.selection_mode = False
+        playlist_dialog.destroy()
 
     @log
     def set_player_visible(self, visible):
