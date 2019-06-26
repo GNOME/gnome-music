@@ -213,13 +213,11 @@ class GrlTrackerSource(GObject.GObject):
             # print("NO MEDIA", source, op_id, media, error)
             return
 
-        song = CoreSong(media)
+        song = CoreSong(media, self._core_selection)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
         print("UPDATE ID", media.get_id(), media.get_title())
-
-        song.connect("notify::selected", self._core_selection.update_selection)
 
     def _on_source_removed(self, registry, source):
         print("removed", source.props.source_id)
@@ -263,11 +261,10 @@ class GrlTrackerSource(GObject.GObject):
             # print("NO MEDIA", source, op_id, media, error)
             return
 
-        song = CoreSong(media)
+        song = CoreSong(media, self._core_selection)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
-        song.connect("notify::selected", self._core_selection.update_selection)
         # self._url_table[media.get_url()] = song
 
     def _initial_albums_fill(self, source):
