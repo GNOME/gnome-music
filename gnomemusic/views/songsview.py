@@ -208,7 +208,7 @@ class SongsView(BaseView):
         if self.props.selection_mode:
             return
 
-        itr = self.model.get_iter(path)
+        itr = self._view.props.model.get_iter(path)
         self.player.set_playlist(
             PlayerPlaylist.Type.SONGS, None, self.model, itr)
         self.player.play()
