@@ -31,7 +31,6 @@ from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget2 import AlbumWidget2
-import gnomemusic.utils as utils
 
 
 class AlbumsView(BaseView):

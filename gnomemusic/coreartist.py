@@ -3,7 +3,6 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Gio, Grl, GObject
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
 

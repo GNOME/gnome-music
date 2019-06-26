@@ -29,7 +29,6 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
-from gnomemusic.widgets.songwidget import SongWidget
 
 logger = logging.getLogger(__name__)
 
@@ -90,10 +89,11 @@ class ArtistAlbumsWidget(Gtk.Box):
         self.show_all()
 
     def _song_activated(self, widget, song_widget):
+        self._album = None
+
         if self.props.selection_mode:
             return
 
-        self._album = None
         def _on_playlist_loaded(klass):
             self._player.play(None, None, song_widget._media)
             self._player._app._coremodel.disconnect(signal_id)

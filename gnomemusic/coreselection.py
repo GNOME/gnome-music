@@ -1,4 +1,3 @@
-import gi
 from gi.repository import GObject
 
 
@@ -17,7 +16,7 @@ class CoreSelection(GObject.GObject):
         else:
             try:
                 self.props.selected_items.remove(coresong)
-            except ValueError as e:
+            except ValueError:
                 pass
 
         self.props.selected_items_count = len(self.props.selected_items)
