@@ -26,10 +26,8 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.grilo import grilo
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
-import gnomemusic.utils as utils
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
@@ -46,7 +44,9 @@ class ArtistAlbumWidget(Gtk.Box):
     selection_mode = GObject.Property(type=bool, default=False)
 
     __gsignals__ = {
-        "song-activated": (GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )),
+        "song-activated": (
+            GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )
+        ),
     }
 
     def __repr__(self):

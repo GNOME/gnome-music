@@ -1,14 +1,11 @@
 from gettext import ngettext
-from gi.repository import GdkPixbuf, GObject, Grl, Gtk
+from gi.repository import GObject, Grl, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
-from gnomemusic.widgets.songwidget import SongWidget
-import gnomemusic.utils as utils
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget2.ui')
@@ -88,7 +85,6 @@ class AlbumWidget2(Gtk.EventBox):
         self._listbox.forall(non_selectable)
 
         corealbum.connect("notify::duration", self._on_duration_changed)
-
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(

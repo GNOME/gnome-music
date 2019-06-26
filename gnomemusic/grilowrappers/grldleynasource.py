@@ -2,9 +2,7 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GObject
 
-from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.coresong import CoreSong
 
 
 class GrlDLeynaSource(GObject.GObject):

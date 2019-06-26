@@ -22,10 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from collections import defaultdict
 from enum import IntEnum
 from itertools import chain
-from random import shuffle, randrange, randint
+from random import randint
 import logging
 import time
 
@@ -187,7 +186,7 @@ class PlayerPlaylist(GObject.GObject):
         :rtype: bool
         """
         if (self.props.position <= self._model.get_n_items() - 1
-                and  self.props.position > 0):
+                and self.props.position > 0):
             return True
 
         return False
@@ -508,7 +507,6 @@ class Player(GObject.GObject):
 
         self._gst_player.props.state = Playback.PLAYING
         return
-
 
         if (song_offset is not None
                 and not self._playlist.set_song(song_offset)):

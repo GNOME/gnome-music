@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Dazzle', '1.0')
-from gi.repository import Dazzle, GObject, Gio, Gfm, Grl, GLib
+from gi.repository import Dazzle, GObject, Gio, Gfm
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
@@ -9,7 +9,6 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
-from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.songwidget import SongWidget
 
@@ -104,11 +103,7 @@ class CoreModel(GObject.GObject):
 
         for disc in discs:
             nr = disc.get_album_disc_number()
-
-            print("DISC", disc, disc.get_title(), disc.get_album_disc_number())
-            print("MEDI", media, media.get_title(), media.get_album_disc_number())
             coredisc = CoreDisc(media, nr, self)
-
             disc_model.append(coredisc)
 
         def _disc_order_sort(disc_a, disc_b):
@@ -146,7 +141,6 @@ class CoreModel(GObject.GObject):
 
         return albums_model_sort
 
-
     def get_playlist_model(self):
         return self._playlist_model_sort
 
@@ -166,8 +160,6 @@ class CoreModel(GObject.GObject):
                             "state", model_song, "state",
                             GObject.BindingFlags.SYNC_CREATE)
 
-                        media_id = model_song.props.media.get_id()
-
                         if song.props.media.get_id() == coresong.get_id():
                             song.props.state = SongWidget.State.PLAYING
 
@@ -186,7 +178,6 @@ class CoreModel(GObject.GObject):
                                 "state", model_song, "state",
                                 GObject.BindingFlags.SYNC_CREATE)
 
-                            media_id = model_song.props.media.get_id()
                             if song.props.media.get_id() == coresong.get_id():
                                 song.props.state = SongWidget.State.PLAYING
 
