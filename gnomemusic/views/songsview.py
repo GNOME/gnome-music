@@ -28,7 +28,7 @@ from gi.repository import Gdk, Gtk, Pango
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.player import ValidationStatus, PlayerPlaylist
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
 
@@ -52,6 +52,7 @@ class SongsView(BaseView):
         :param GtkWidget window: The main window
         :param player: The main player object
         """
+        self._window = window
         super().__init__('songs', _("Songs"), window)
 
         self._offset = 0
@@ -65,6 +66,8 @@ class SongsView(BaseView):
         self.player.connect('song-changed', self._update_model)
         self.player.connect('song-validated', self._on_song_validated)
 
+        self._view.show()
+
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
@@ -73,7 +76,7 @@ class SongsView(BaseView):
         self._view = Gtk.TreeView()
         self._view.props.headers_visible = False
         self._view.props.valign = Gtk.Align.START
-        self._view.props.model = self.model
+        self._view.props.model = self._window._app._coremodel.get_songs_model()
         self._view.props.activate_on_single_click = True
 
         self._ctrl = Gtk.GestureMultiPress().new(self._view)
@@ -140,7 +143,7 @@ class SongsView(BaseView):
     def _on_list_widget_duration_render(self, col, cell, model, itr, data):
         item = model[itr][5]
         if item:
-            seconds = item.get_duration()
+            seconds = item.props.duration
             track_time = utils.seconds_to_string(seconds)
             cell.props.text = '{}'.format(track_time)
 
@@ -150,7 +153,7 @@ class SongsView(BaseView):
 
         item = model[_iter][5]
         if item:
-            cell.props.text = utils.get_album_title(item)
+            cell.props.text = item.props.album
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         if not self.player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
@@ -256,32 +259,10 @@ class SongsView(BaseView):
         iter_ = self.model.get_iter_from_string(str(index))
         self.model[iter_][11] = status
 
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        """Adds track item to the model"""
-        if not item and not remaining:
-            self._view.set_model(self.model)
-            self._window.notifications_popup.pop_loading()
-            self._view.show()
-            return
-
-        self._offset += 1
-        item.set_title(utils.get_media_title(item))
-        artist = utils.get_artist_name(item)
-
-        if not item.get_url():
-            return
-
-        self.model.insert_with_valuesv(
-            -1, [2, 3, 5, 9],
-            [utils.get_media_title(item), artist, item, item.get_favourite()])
-
     @log
     def _populate(self, data=None):
         """Populates the view"""
         self._init = True
-        if grilo.tracker:
-            self._window.notifications_popup.push_loading()
-            grilo.populate_songs(self._offset, self._add_item)
 
     @log
     def get_selected_songs(self, callback=None):
