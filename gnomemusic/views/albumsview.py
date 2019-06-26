@@ -51,8 +51,6 @@ class AlbumsView(BaseView):
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
-        self._album_widget.bind_property(
-            "selected-items-count", self, "selected-items-count")
 
         self.add(self._album_widget)
         self.albums_selected = []
@@ -104,6 +102,18 @@ class AlbumsView(BaseView):
     def _create_widget(self, corealbum):
         album_widget = AlbumCover(corealbum)
 
+        self.bind_property(
+            "selection-mode", album_widget, "selection-mode",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
+
+        # NOTE: Adding SYNC_CREATE here will trigger all the nested
+        # models to be created. This will slow down initial start,
+        # but will improve initial 'selecte all' speed.
+        album_widget.bind_property(
+            "selected", corealbum, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL)
+
         return album_widget
 
     @log
@@ -113,14 +123,14 @@ class AlbumsView(BaseView):
 
     @log
     def _on_child_activated(self, widget, child, user_data=None):
+        corealbum = child.props.corealbum
         if self.props.selection_mode:
             return
 
-        item = child.props.corealbum
         # Update and display the album widget if not in selection mode
-        self._album_widget.update(item)
+        self._album_widget.update(corealbum)
 
-        self._set_album_headerbar(item)
+        self._set_album_headerbar(corealbum)
         self.set_visible_child(self._album_widget)
 
     @log
@@ -136,72 +146,18 @@ class AlbumsView(BaseView):
         self._init = True
         self._view.show()
 
-    @log
-    def get_selected_songs(self, callback):
-        # FIXME: we call into private objects with full knowledge of
-        # what is there
-        if self._headerbar.props.state == HeaderBar.State.CHILD:
-            callback(self._album_widget.get_selected_songs())
-        else:
-            self.items_selected = []
-            self.items_selected_callback = callback
-            self.albums_index = 0
-            if len(self.albums_selected):
-                self._get_selected_album_songs()
-
-    def _create_album_item(self, item):
-        child = AlbumCover(item)
-
-        child.connect('notify::selected', self._on_selection_changed)
-
-        self.bind_property(
-            'selection-mode', child, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-        return child
-
-    @log
-    def _on_selection_changed(self, child, data=None):
-        if (child.props.selected
-                and child.props.media not in self.albums_selected):
-            self.albums_selected.append(child.props.media)
-        elif (not child.props.selected
-                and child.props.media in self.albums_selected):
-            self.albums_selected.remove(child.props.media)
-
-        self.props.selected_items_count = len(self.albums_selected)
-
-    @log
-    def _get_selected_album_songs(self):
-        grilo.populate_album_songs(
-            self.albums_selected[self.albums_index],
-            self._add_selected_item)
-        self.albums_index += 1
-
-    @log
-    def _add_selected_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            self.items_selected.append(item)
-        if remaining == 0:
-            if self.albums_index < self.props.selected_items_count:
-                self._get_selected_album_songs()
-            else:
-                self.items_selected_callback(self.items_selected)
-
     def _toggle_all_selection(self, selected):
         """
         Selects or unselects all items without sending the notify::active
         signal for performance purposes.
         """
-        for child in self._view.get_children():
-            child.props.selected = selected
+        with self._window._app._coreselection.freeze_notify():
+            for child in self._view.get_children():
+                child.props.selected = selected
+                child.props.corealbum.props.selected = selected
 
-    @log
     def select_all(self):
-        self.albums_selected = list(self.all_items)
         self._toggle_all_selection(True)
 
-    @log
     def unselect_all(self):
-        self.albums_selected = []
         self._toggle_all_selection(False)

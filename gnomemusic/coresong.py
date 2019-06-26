@@ -18,17 +18,18 @@ class CoreSong(GObject.GObject):
     duration = GObject.Property(type=int)
     media = GObject.Property(type=Grl.Media)
     play_count = GObject.Property(type=int)
-    selected = GObject.Property(type=bool, default=False)
     state = GObject.Property()  # FIXME: How to set an IntEnum type?
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
 
     @log
-    def __init__(self, media):
+    def __init__(self, media, coreselection):
         super().__init__()
 
+        self._coreselection = coreselection
         self._favorite = False
+        self._selected = False
 
         self.update(media)
 
@@ -51,6 +52,18 @@ class CoreSong(GObject.GObject):
 
         self.props.media.set_favourite(self._favorite)
         grilo.toggle_favorite(self.props.media, True)
+
+    @GObject.Property(type=bool, default=False)
+    def selected(self):
+        return self._selected
+
+    @selected.setter
+    def selected(self, value):
+        if self._selected == value:
+            return
+
+        self._selected = value
+        self._coreselection.update_selection(self, self._selected)
 
     @log
     def update(self, media):
