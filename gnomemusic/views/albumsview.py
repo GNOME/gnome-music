@@ -30,7 +30,7 @@ from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
-from gnomemusic.widgets.albumwidget2 import AlbumWidget2
+from gnomemusic.widgets.albumwidget import AlbumWidget
 
 
 class AlbumsView(BaseView):
@@ -46,7 +46,7 @@ class AlbumsView(BaseView):
         super().__init__('albums', _("Albums"), window)
 
         self.player = player
-        self._album_widget = AlbumWidget2(player, self)
+        self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
