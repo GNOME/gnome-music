@@ -37,7 +37,6 @@ from gnomemusic.utils import View
 from gnomemusic.search import Search
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
-from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
 
@@ -66,14 +65,14 @@ class SearchView(BaseView):
         self._albums = {}
         self._albums_index = 0
 
-        self._album_widget = AlbumWidget(player)
-        self._album_widget.bind_property(
-            "selection-mode", self, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL)
-        self._album_widget.bind_property(
-            "selected-items-count", self, "selected-items-count")
+        # self._album_widget = AlbumWidget(player)
+        # self._album_widget.bind_property(
+        #     "selection-mode", self, "selection-mode",
+        #     GObject.BindingFlags.BIDIRECTIONAL)
+        # self._album_widget.bind_property(
+        #     "selected-items-count", self, "selected-items-count")
 
-        self.add(self._album_widget)
+        # self.add(self._album_widget)
 
         self._artists_albums_selected = []
         self._artists_albums_index = 0
