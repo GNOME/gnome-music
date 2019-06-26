@@ -4,7 +4,6 @@ from gi.repository import Grl, GObject
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
@@ -77,4 +76,3 @@ class CoreSong(GObject.GObject):
         self.props.title = utils.get_media_title(media)
         self.props.track_number = media.get_track_number()
         self.props.url = media.get_url()
-

@@ -27,7 +27,6 @@ from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.widgets.songwidget import SongWidget
-import gnomemusic.utils as utils
 
 
 class DiscSongsFlowBox(Gtk.ListBox):
@@ -58,7 +57,7 @@ class DiscBox(Gtk.Box):
     __gtype_name__ = 'DiscBox'
 
     _disc_label = Gtk.Template.Child()
-    #_disc_songs_flowbox = Gtk.Template.Child()
+    # _disc_songs_flowbox = Gtk.Template.Child()
     _list_box = Gtk.Template.Child()
 
     __gsignals__ = {

@@ -1,9 +1,5 @@
-import gi
-from gi.repository import Dazzle, GObject, Gio, Gfm, Grl, GLib
+from gi.repository import Dazzle, GObject, Gio, Gfm, Grl
 from gi._gi import pygobject_new_full
-
-from gnomemusic.coregrilo import CoreGrilo
-from gnomemusic.coresong import CoreSong
 
 
 class CoreDisc(GObject.GObject):
@@ -35,7 +31,8 @@ class CoreDisc(GObject.GObject):
                 self._coremodel.get_model())
             self._filter_model.set_filter_func(lambda a: False)
             self._sort_model = Gfm.SortListModel.new(self._filter_model)
-            self._sort_model.set_sort_func(self._wrap_sort_func(self._disc_sort))
+            self._sort_model.set_sort_func(
+                self._wrap_sort_func(self._disc_sort))
 
             self._model = self._sort_model
 
