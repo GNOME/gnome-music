@@ -10,6 +10,7 @@ from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
+from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
 
 # The basic premisis is that an album (CoreAlbum) consist of a
@@ -38,6 +39,7 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._model = Gio.ListStore.new(CoreSong)
+        self._songliststore = SongListStore(self._model)
 
         self._coreselection = coreselection
 
@@ -194,3 +196,6 @@ class CoreModel(GObject.GObject):
         albums = self._grilo.get_artist_albums(artist)
 
         return albums
+
+    def get_songs_model(self):
+        return self._songliststore.props.model

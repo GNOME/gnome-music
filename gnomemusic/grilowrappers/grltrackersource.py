@@ -210,6 +210,11 @@ class GrlTrackerSource(GObject.GObject):
             # print("NO MEDIA", source, op_id, media, error)
             return
 
+        # FIXME: Figure out why we get double additions.
+        if media.get_id() in self._hash.keys():
+            print("ALREADY ADDED")
+            return
+
         song = CoreSong(media, self._core_selection)
         self._model.append(song)
         self._hash[media.get_id()] = song
