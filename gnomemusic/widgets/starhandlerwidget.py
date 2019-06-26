@@ -25,7 +25,6 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, SmartPlaylists
 
 playlists = Playlists.get_default()
