@@ -50,6 +50,8 @@ class SelectionToolbar(Gtk.ActionBar):
         self.connect(
             'notify::selected-items-count', self._on_item_selection_changed)
 
+        self.notify("selected-items-count")
+
     @Gtk.Template.Callback()
     @log
     def _on_add_to_playlist_button_clicked(self, widget):
