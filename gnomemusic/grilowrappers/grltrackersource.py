@@ -128,8 +128,6 @@ class GrlTrackerSource(GObject.GObject):
             query, self.METADATA_KEYS, options, check_album_cb)
 
     def _remove_media(self, media):
-        removed_url = media.get_url()
-
         try:
             coresong = self._hash.pop(media.get_id())
         except KeyError:
@@ -189,7 +187,6 @@ class GrlTrackerSource(GObject.GObject):
 
     def _add_media(self, media):
         self._requery_media(media.get_id())
-
 
     def _only_update_media(self, source, op_id, media, user_data, error):
         if error:
@@ -417,7 +414,8 @@ class GrlTrackerSource(GObject.GObject):
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
-                     && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s )
+                     && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s
+                   )
         }
         """.replace('\n', ' ').strip() % {
             'album_id': album_id,
