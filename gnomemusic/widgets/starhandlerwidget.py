@@ -136,21 +136,22 @@ class StarHandlerWidget(object):
     @log
     def _on_star_toggled(self, widget, path):
         """Called if a star is clicked"""
+        model = self._parent._view.props.model
         try:
-            _iter = self._parent.model.get_iter(path)
+            _iter = model.get_iter(path)
         except ValueError:
             return
 
         try:
-            if self._parent.model[_iter][self._star_index] == 2:
+            if model[_iter][self._star_index] == 2:
                 return
         except AttributeError:
             return
 
-        new_value = not self._parent.model[_iter][self._star_index]
-        self._parent.model[_iter][self._star_index] = new_value
-        song_item = self._parent.model[_iter][5]
-        grilo.toggle_favorite(song_item)
+        new_value = not model[_iter][self._star_index]
+        model[_iter][self._star_index] = new_value
+        coresong = model[_iter][5]
+        coresong.props.favorite = new_value
         playlists.update_smart_playlist(SmartPlaylists.Favorites)
 
         # Use this flag to ignore the upcoming _on_item_activated call
