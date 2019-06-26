@@ -40,4 +40,4 @@ class SongListStore(Gtk.ListStore):
                 self.props.model.insert_with_valuesv(
                     position, [2, 3, 5, 9],
                     [coresong.props.title, coresong.props.artist, coresong,
-                     coresong.props.favorite])
+                     int(coresong.props.favorite)])
