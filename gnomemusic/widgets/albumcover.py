@@ -24,10 +24,9 @@
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Gdk, GLib, GObject, Grl, Gtk
+from gi.repository import Gdk, GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic import utils
 from gnomemusic.albumartcache import Art
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.widgets.twolinetip import TwoLineTip

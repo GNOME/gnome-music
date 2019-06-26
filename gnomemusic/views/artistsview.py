@@ -28,11 +28,9 @@ from gi.repository import Gdk, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilo import grilo
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.sidebarrow import SidebarRow
-import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
 
