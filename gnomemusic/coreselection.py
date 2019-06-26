@@ -1,4 +1,3 @@
-import gi
 from gi.repository import GObject
 
 
