@@ -19,6 +19,7 @@ class CoreDisc(GObject.GObject):
         self._filter_model = None
         self._model = None
         self._old_album_ids = []
+        self._selected = False
         self._sort_model = None
 
         self.update(media)
@@ -40,15 +41,23 @@ class CoreDisc(GObject.GObject):
 
             self._coremodel.get_model().connect(
                 "items-changed", self._on_core_changed)
+            self._model.connect("items-changed", self._on_disc_changed)
 
             self._get_album_disc(
                 self.props.media, self.props.disc_nr, self._filter_model)
+
+        self._on_disc_changed(self._model, None, None, None)
 
         return self._model
 
     def _on_core_changed(self, model, position, removed, added):
         self._get_album_disc(
             self.props.media, self.props.disc_nr, self._filter_model)
+
+    def _on_disc_changed(self, model, position, removed, added):
+        with self.freeze_notify():
+            for coresong in model:
+                coresong.props.selected = self._selected
 
     def _update_duration(self):
         duration = 0
@@ -93,3 +102,19 @@ class CoreDisc(GObject.GObject):
 
         self._coremodel._grilo.populate_album_disc_songs(
             media, discnr, _callback)
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.BindingFlags.SYNC_CREATE)
+    def selected(self):
+        return self._selected
+
+    @selected.setter
+    def selected(self, value):
+        self._selected = value
+
+        # The model is loaded on-demand, so the first time the model is
+        # returned it can still be empty. This is problem for returning
+        # a selection. Trigger loading of the model here if a selection
+        # is requested, it will trigger the filled model update as
+        # well.
+        self.props.model

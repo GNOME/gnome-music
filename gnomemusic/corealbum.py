@@ -15,7 +15,6 @@ class CoreAlbum(GObject.GObject):
     composer = GObject.Property(type=str, default=None)
     duration = GObject.Property(type=int, default=0)
     media = GObject.Property(type=Grl.Media)
-    selected = GObject.Property(type=bool, default=False)
     title = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
@@ -25,6 +24,7 @@ class CoreAlbum(GObject.GObject):
 
         self._coremodel = coremodel
         self._model = None
+        self._selected = False
         self.update(media)
 
     @log
@@ -47,8 +47,10 @@ class CoreAlbum(GObject.GObject):
         return self._model
 
     def _on_list_items_changed(self, model, pos, removed, added):
-        for coredisc in model:
-            coredisc.connect("notify::duration", self._on_duration_changed)
+        with self.freeze_notify():
+            for coredisc in model:
+                coredisc.connect("notify::duration", self._on_duration_changed)
+                coredisc.props.selected = self.props.selected
 
     def _on_duration_changed(self, coredisc, duration):
         duration = 0
@@ -57,3 +59,18 @@ class CoreAlbum(GObject.GObject):
             duration += coredisc.props.duration
 
         self.props.duration = duration
+
+    @GObject.Property(type=bool, default=False)
+    def selected(self):
+        return self._selected
+
+    @selected.setter
+    def selected(self, value):
+        self._selected = value
+
+        # The model is loaded on-demand, so the first time the model is
+        # returned it can still be empty. This is problem for returning
+        # a selection. Trigger loading of the model here if a selection
+        # is requested, it will trigger the filled model update as
+        # well.
+        self.props.model

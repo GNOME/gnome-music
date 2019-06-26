@@ -158,7 +158,8 @@ class CoreModel(GObject.GObject):
 
                 for disc in model:
                     for model_song in disc.props.model:
-                        song = CoreSong(model_song.props.media)
+                        song = CoreSong(
+                            model_song.props.media, self._coreselection)
 
                         self._playlist_model.append(song)
                         song.bind_property(
@@ -177,7 +178,8 @@ class CoreModel(GObject.GObject):
                 for artist_album in model:
                     for disc in artist_album.model:
                         for model_song in disc.model:
-                            song = CoreSong(model_song.props.media)
+                            song = CoreSong(
+                                model_song.props.media, self._coreselection)
 
                             self._playlist_model.append(song)
                             song.bind_property(
