@@ -77,10 +77,11 @@ class ArtistsView(BaseView):
 
         self.show_all()
 
-    def _create_widget(self, artist):
-        row = SidebarRow()
-        row.props.artist = artist
-        row.props.text = artist.props.artist
+    def _create_widget(self, coreartist):
+        row = SidebarRow(coreartist)
+        row.props.text = coreartist.props.artist
+
+        self.bind_property("selection-mode", row, "selection-mode")
 
         return row
 
@@ -115,7 +116,7 @@ class ArtistsView(BaseView):
             return
 
         # Prepare a new artist_albums_widget here
-        coreartist = row.props.artist
+        coreartist = row.props.coreartist
 
         new_artist_albums_widget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
@@ -147,12 +148,7 @@ class ArtistsView(BaseView):
 
     @log
     def _on_selection_changed(self, widget, value, data=None):
-        selected_artists = 0
-        for row in self._sidebar:
-            if row.props.selected:
-                selected_artists += 1
-
-        self.props.selected_items_count = selected_artists
+        return
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -163,10 +159,6 @@ class ArtistsView(BaseView):
             self._sidebar.props.selection_mode = Gtk.SelectionMode.NONE
         else:
             self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
-
-        if (not self.props.selection_mode
-                and grilo.changes_pending['Artists']):
-            self._on_changes_pending()
 
     @log
     def _toggle_all_selection(self, selected):
@@ -180,39 +172,3 @@ class ArtistsView(BaseView):
     @log
     def unselect_all(self):
         self._toggle_all_selection(False)
-
-    @log
-    def get_selected_songs(self, callback):
-        """Returns a list of songs selected
-
-        In this view this will be all albums of the selected artists.
-        :returns: All selected songs
-        :rtype: A list of songs
-        """
-        selected_albums = []
-        for row in self._sidebar:
-            if row.props.selected:
-                artist = row.props.text
-                albums = self._artists[artist.casefold()]['albums']
-                selected_albums.extend(albums)
-
-        if len(selected_albums) > 0:
-            self._get_selected_albums_songs(selected_albums, callback)
-
-    @log
-    def _get_selected_albums_songs(self, albums, callback):
-        selected_songs = []
-        self._album_index = 0
-
-        def add_songs(source, param, item, remaining, data=None):
-            if item:
-                selected_songs.append(item)
-            if remaining == 0:
-                self._album_index += 1
-                if self._album_index < len(albums):
-                    grilo.populate_album_songs(
-                        albums[self._album_index], add_songs)
-                else:
-                    callback(selected_songs)
-
-        grilo.populate_album_songs(albums[self._album_index], add_songs)
