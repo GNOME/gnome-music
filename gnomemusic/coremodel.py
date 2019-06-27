@@ -210,4 +210,4 @@ class CoreModel(GObject.GObject):
         return albums
 
     def get_songs_model(self):
-        return self._songliststore.props.model
+        return self._songliststore
