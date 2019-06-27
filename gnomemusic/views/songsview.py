@@ -62,6 +62,8 @@ class SongsView(BaseView):
 
         self._add_list_renderers()
 
+        self._playlist_model = self._window._app._coremodel.get_playlist_model()
+
         self.player = player
         self.player.connect('song-changed', self._update_model)
         self.player.connect('song-validated', self._on_song_validated)
@@ -238,7 +240,12 @@ class SongsView(BaseView):
             self._view.props.model[self._iter_to_clean][10] = False
 
         index = self.player.props.position
-        iter_ = self._view.props.model.get_iter_from_string(str(index))
+        current_coresong = self._playlist_model[index]
+        for idx, liststore in enumerate(self._view.props.model):
+            if liststore[5] == current_coresong:
+                break
+
+        iter_ = self._view.props.model.get_iter_from_string(str(idx))
         path = self._view.props.model.get_path(iter_)
         self._view.props.model[iter_][10] = True
         self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
