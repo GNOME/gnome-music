@@ -62,7 +62,8 @@ class SongsView(BaseView):
 
         self._add_list_renderers()
 
-        self._playlist_model = self._window._app._coremodel.get_playlist_model()
+        coremodel = self._window._app._coremodel
+        self._playlist_model = coremodel.get_playlist_model()
 
         self.player = player
         self.player.connect('song-changed', self._update_model)
@@ -268,15 +269,17 @@ class SongsView(BaseView):
         """Populates the view"""
         self._init = True
 
-    @log
-    def get_selected_songs(self, callback=None):
-        """Returns a list of selected songs
+    def _select(self, value):
+        with self._model.freeze_notify():
+            itr = self._model.iter_children(None)
+            while itr is not None:
+                self._model[itr][5].props.selected = value
+                self._model[itr][6] = value
 
-        In this view this will be the all the songs selected
-        :returns: All selected songs
-        :rtype: A list of songs
-        """
-        selected_songs = [row[5] for row in self.model if row[6]]
-        if not callback:
-            return selected_songs
-        callback(selected_songs)
+                itr = self._model.iter_next(itr)
+
+    def select_all(self):
+        self._select(True)
+
+    def unselect_all(self):
+        self._select(False)
