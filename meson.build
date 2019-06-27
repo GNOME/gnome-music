@@ -82,9 +82,10 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('pyexecdir', py_installation.get_path('stdlib'))
-bin_config.set('schemasdir', '')
+bin_config.set('schemasdir', PKGDATA_DIR)
 # Used for libgd/gfm
 bin_config.set('pkglibdir', PKGLIB_DIR)
+bin_config.set('gfmlibdir', '')
 
 bin_config.set('local_build', 'False')
 
