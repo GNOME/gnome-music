@@ -75,8 +75,6 @@ def set_gfm():
     gfm_libdir = '@gfmlibdir@'
     if _LOCAL:
         gfm_typelibdir = '@gfmlibdir@'
-    else:
-        gfm_typelibdir = '@gfmlibdir@/girepository-1.0'
 
     GIRepository.Repository.prepend_search_path(gfm_typelibdir)
     GIRepository.Repository.prepend_library_path(gfm_libdir)
