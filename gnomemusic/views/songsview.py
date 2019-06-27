@@ -68,6 +68,7 @@ class SongsView(BaseView):
         self.player.connect('song-changed', self._update_model)
         self.player.connect('song-validated', self._on_song_validated)
 
+        self._model = self._view.props.model
         self._view.show()
 
     @log
@@ -225,10 +226,9 @@ class SongsView(BaseView):
         # activation.
         if self.props.selection_mode:
             path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
-            iter_ = self.model.get_iter(path)
-            self.model[iter_][6] = not self.model[iter_][6]
-
-            self.props.selected_items_count = len(self.get_selected_songs())
+            iter_ = self._view.props.model.get_iter(path)
+            self._model[iter_][6] = not self._model[iter_][6]
+            self._model[iter_][5].props.selected = self._model[iter_][6]
 
     @log
     def _update_model(self, player):
