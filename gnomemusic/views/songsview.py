@@ -156,15 +156,11 @@ class SongsView(BaseView):
             cell.props.text = item.props.album
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        if not self.player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
-            cell.props.visible = False
-            return False
-
         current_song = self.player.props.current_song
-        if model[itr][11] == ValidationStatus.FAILED:
-            cell.props.icon_name = self._error_icon_name
-            cell.props.visible = True
-        elif model[itr][5].get_id() == current_song.get_id():
+        if current_song is None:
+            return
+
+        if model[itr][5].props.media.get_id() == current_song.get_id():
             cell.props.icon_name = self._now_playing_icon_name
             cell.props.visible = True
         else:
@@ -239,17 +235,17 @@ class SongsView(BaseView):
         :param Player player: The main player object
         """
         if self._iter_to_clean:
-            self.model[self._iter_to_clean][10] = False
-        if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
-            return False
+            self._view.props.model[self._iter_to_clean][10] = False
 
         index = self.player.props.position
-        iter_ = self.model.get_iter_from_string(str(index))
-        self.model[iter_][10] = True
-        path = self.model.get_path(iter_)
-        self._view.scroll_to_cell(path, None, False, 0., 0.)
-        if self.model[iter_][8] != self._error_icon_name:
+        iter_ = self._view.props.model.get_iter_from_string(str(index))
+        path = self._view.props.model.get_path(iter_)
+        self._view.props.model[iter_][10] = True
+        self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
+
+        if self._view.props.model[iter_][8] != self._error_icon_name:
             self._iter_to_clean = iter_.copy()
+
         return False
 
     @log
