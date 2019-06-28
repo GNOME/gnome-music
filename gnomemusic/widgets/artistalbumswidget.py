@@ -82,10 +82,16 @@ class ArtistAlbumsWidget(Gtk.Box):
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
+        self._model.connect("items-changed", self._on_album_items_changed)
+
         # FIXME: Make this a ListBox as well.
         for album in self._model:
             self._add_album(album)
 
+        self.show_all()
+
+    def _on_album_items_changed(self, model, position, removed, added):
+        self._add_album(model[position])
         self.show_all()
 
     def _song_activated(self, widget, song_widget):

@@ -344,9 +344,8 @@ class GrlTrackerSource(GObject.GObject):
         artist = CoreArtist(media, self._coremodel)
         self._artists_model.append(artist)
 
-    def get_artist_albums(self, media):
+    def get_artist_albums(self, media, model):
         artist_id = media.get_id()
-        print("ID", artist_id)
 
         query = """
         SELECT DISTINCT
@@ -369,11 +368,27 @@ class GrlTrackerSource(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        albums = self._source.query_sync(query, self.METADATA_KEYS, options)
+        albums = []
 
-        print("ALBUMS", albums)
+        def query_cb(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
 
-        return albums
+            if not media:
+                model.set_filter_func(albums_filter, albums)
+                return
+
+            albums.append(media)
+
+        def albums_filter(corealbum, albums):
+            for media in albums:
+                if media.get_id() == corealbum.props.media.get_id():
+                    return True
+
+            return False
+
+        self._source.query(query, self.METADATA_KEYS, options, query_cb)
 
     def get_album_disc_numbers(self, media):
         album_id = media.get_id()
