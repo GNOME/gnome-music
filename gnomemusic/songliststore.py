@@ -1,4 +1,4 @@
-from gi.repository import Gfm, GObject, Gtk, GdkPixbuf
+from gi.repository import Gfm, Gio, GObject, Gtk, GdkPixbuf
 from gi._gi import pygobject_new_full
 
 
@@ -66,3 +66,8 @@ class SongListStore(Gtk.ListStore):
                     position, [2, 3, 5, 9],
                     [coresong.props.title, coresong.props.artist, coresong,
                      int(coresong.props.favorite)])
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def model(self):
+        return self._model
