@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GObject
+from gi.repository import Grl, GLib, GObject
 
 from gnomemusic.grilowrappers.grldleynasource import GrlDLeynaSource
 from gnomemusic.grilowrappers.grltrackersource import GrlTrackerSource
@@ -19,6 +19,7 @@ class CoreGrilo(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = coreselection
         self._model = model
+        self._wrappers = []
         self._albums_model = albums_model
         self._artists_model = artists_model
 
@@ -29,17 +30,22 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-removed', self._on_source_removed)
 
     def _on_source_added(self, registry, source):
-        print("SOURCE", source.props.source_id[:10])
+        new_wrapper = None
+
         if source.props.source_id == "grl-tracker-source":
-            self._tracker_source = GrlTrackerSource(
+            new_wrapper = GrlTrackerSource(
                 source, self._model, self._albums_model,
-                self._artists_model, self._coremodel, self._coreselection)
-            print(self._tracker_source, "added")
+                self._artists_model, self._coremodel, self._coreselection,
+                self)
+            self._tracker_source = new_wrapper
         elif source.props.source_id[:10] == "grl-dleyna":
-            self._dleyna_source = GrlDLeynaSource(
+            new_wrapper = GrlDLeynaSource(
                 source, self._model, self._albums_model,
-                self._artists_model, self._coremodel, self._coreselection)
-            print(self._dleyna_source, "added")
+                self._artists_model, self._coremodel, self._coreselection,
+                self)
+
+        self._wrappers.append(new_wrapper)
+        print(new_wrapper, "added")
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
@@ -47,15 +53,41 @@ class CoreGrilo(GObject.GObject):
 
     def get_artist_albums(self, artist):
         # FIXME: Iterate the wrappers
-        print(self._tracker_source)
         return self._tracker_source.get_artist_albums(artist)
 
     def get_album_disc_numbers(self, media):
+        # FIXME: Iterate the wrappers
         return self._tracker_source.get_album_disc_numbers(media)
 
     def populate_album_disc_songs(self, media, discnr, callback):
-        self._tracker_source.populate_album_disc_songs(
-            media, discnr, callback)
+        for wrapper in self._wrappers:
+            wrapper.populate_album_disc_songs(media, discnr, callback)
 
     def populate_album_songs(self, media, callback):
-        self._tracker_source.populate_album_songs(media, callback)
+        for wrapper in self._wrappers:
+            wrapper.populate_album_songs(media, callback)
+
+    def _store_metadata(self, source, media, key):
+        """Convenience function to store metadata
+
+        Wrap the metadata store call in a idle_add compatible form.
+        :param source: A Grilo source object
+        :param media: A Grilo media item
+        :param key: A Grilo metadata key
+        """
+        # FIXME: Doing this async crashes.
+        try:
+            source.store_metadata_sync(
+                media, [key], Grl.WriteFlags.NORMAL)
+        except GLib.Error as error:
+            # FIXME: Do not print.
+            print("Error {}: {}".format(error.domain, error.message))
+
+        return GLib.SOURCE_REMOVE
+
+    def writeback(self, media, key):
+        for wrapper in self._wrappers:
+            if media.get_source() == wrapper.source.props.source_id:
+                GLib.idle_add(
+                    self._store_metadata, wrapper.props.source, media, key)
+                break

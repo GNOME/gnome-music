@@ -3,7 +3,6 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GObject
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 import gnomemusic.utils as utils
 
 
@@ -23,9 +22,10 @@ class CoreSong(GObject.GObject):
     url = GObject.Property(type=str)
 
     @log
-    def __init__(self, media, coreselection):
+    def __init__(self, media, coreselection, grilo):
         super().__init__()
 
+        self._grilo = grilo
         self._coreselection = coreselection
         self._favorite = False
         self._selected = False
@@ -43,14 +43,13 @@ class CoreSong(GObject.GObject):
     def favorite(self, favorite):
         self._favorite = favorite
 
-        # FIXME: I think some old code is triggering the signal and
-        # going haywire. So just check if there is anything to update.
+        # FIXME: Circular trigger, can probably be solved more neatly.
         old_fav = self.props.media.get_favourite()
         if old_fav == self._favorite:
             return
 
         self.props.media.set_favourite(self._favorite)
-        grilo.toggle_favorite(self.props.media, True)
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
