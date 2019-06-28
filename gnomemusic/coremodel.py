@@ -187,7 +187,7 @@ class CoreModel(GObject.GObject):
             elif playlist_type == PlayerPlaylist.Type.SONGS:
                 self._playlist_model.remove_all()
 
-                for song in self._model:
+                for song in self._songliststore.props.model:
                     self._playlist_model.append(song)
 
                     if song.props.state == SongWidget.State.PLAYING:
