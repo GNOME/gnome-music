@@ -170,7 +170,7 @@ class Window(Gtk.ApplicationWindow):
         self._overlay.add_overlay(self._searchbar._dropdown)
         self._overlay.add_overlay(self.notifications_popup)
         self.set_titlebar(self._headerbar)
-        self._box.pack_start(self._player_error_infobar,False,False,0)
+        self._box.pack_start(self._player_error_infobar, False, False, 0)
         self._box.pack_start(self._searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self._player_toolbar, False, False, 0)
@@ -188,9 +188,11 @@ class Window(Gtk.ApplicationWindow):
         self._player_toolbar.show_all()
         self._box.show()
         self.show()
-        if self._player.props.player_available:            
+        if not self._player.props.player_available:
             print("window:191")
-            self._player_error_infobar.error("playbin is not available", "Please check your Gstreamer installation")
+            self._player_error_infobar.error(
+                "playbin is not available",
+                "Please check your Gstreamer installation")
 
         def songs_available_cb(available):
             if available:
@@ -453,7 +455,7 @@ class Window(Gtk.ApplicationWindow):
             button.get_active(), self.curr_view != self.views[View.SEARCH])
         if (not button.get_active()
                 and (self.curr_view == self.views[View.SEARCH]
-                    or self.curr_view == self.views[View.EMPTY])):
+                     or self.curr_view == self.views[View.EMPTY])):
             child = self.curr_view.get_visible_child()
             if self._headerbar.props.state == HeaderBar.State.MAIN:
                 # We should get back to the view before the search

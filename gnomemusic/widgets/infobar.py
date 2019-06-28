@@ -23,7 +23,7 @@
 # delete this exception statement from your version.
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import Gtk
 
 from gnomemusic import log
 
@@ -44,9 +44,6 @@ class InfoBar(Gtk.InfoBar):
         :param Gtk.Box
         """
         super().__init__()
-
-        content = self.get_content_area()
-        content.show()
 
     @Gtk.Template.Callback()
     @log
