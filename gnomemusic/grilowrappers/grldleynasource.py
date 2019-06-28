@@ -30,11 +30,12 @@ class GrlDLeynaSource(GObject.GObject):
 
     def __init__(
             self, source, model, albums_model, artists_model, coremodel,
-            core_selection):
+            core_selection, grilo):
         super().__init__()
 
         self._coremodel = coremodel
         self._core_selection = core_selection
+        self._grilo = grilo
         self._source = source
         self._model = model
         self._albums_model = albums_model
@@ -57,6 +58,11 @@ class GrlDLeynaSource(GObject.GObject):
 
         # self._source.connect("content-changed", self._on_content_changed)
 
+    @GObject.Property(
+        type=Grl.Source, default=None, flags=GObject.ParamFlags.READABLE)
+    def source(self):
+        return self._source
+
     def _initial_artists_fill(self, source):
         query = """
         upnp:class derivedfrom 'object.container.person.musicArtist'
@@ -76,9 +82,18 @@ class GrlDLeynaSource(GObject.GObject):
             print("NO MEDIA", source, op_id, media, error)
             return
 
-        artist = CoreArtist(media, self._coremodel)
+        artist = CoreArtist(media, self._coremodel, self._grilo)
         artist.props.artist = media.get_title() + " (upnp)"
         self._artists_model.append(artist)
         print(
             "ADDING DLNA ARTIST", media.get_title(), media.get_artist(),
             media.get_id())
+
+    def get_artist_albums(self, artist):
+        pass
+
+    def populate_album_disc_songs(self, media, discnr, callback):
+        pass
+
+    def populate_album_songs(self, media, callback):
+        pass

@@ -32,11 +32,12 @@ class GrlTrackerSource(GObject.GObject):
 
     def __init__(
             self, source, model, albums_model, artists_model, coremodel,
-            core_selection):
+            core_selection, grilo):
         super().__init__()
 
         self._coremodel = coremodel
         self._core_selection = core_selection
+        self._grilo = grilo
         self._source = source
         self._model = model
         self._albums_model = albums_model
@@ -59,6 +60,11 @@ class GrlTrackerSource(GObject.GObject):
         self._initial_artists_fill(self._source)
 
         self._source.connect("content-changed", self._on_content_changed)
+
+    @GObject.Property(
+        type=Grl.Source, default=None, flags=GObject.ParamFlags.READABLE)
+    def source(self):
+        return self._source
 
     def _on_content_changed(self, source, medias, change_type, loc_unknown):
         for media in medias:
@@ -215,7 +221,7 @@ class GrlTrackerSource(GObject.GObject):
             print("ALREADY ADDED")
             return
 
-        song = CoreSong(media, self._core_selection)
+        song = CoreSong(media, self._core_selection, self._grilo)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
@@ -263,7 +269,7 @@ class GrlTrackerSource(GObject.GObject):
             # print("NO MEDIA", source, op_id, media, error)
             return
 
-        song = CoreSong(media, self._core_selection)
+        song = CoreSong(media, self._core_selection, self._grilo)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
