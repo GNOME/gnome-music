@@ -89,7 +89,7 @@ class GrlDLeynaSource(GObject.GObject):
             "ADDING DLNA ARTIST", media.get_title(), media.get_artist(),
             media.get_id())
 
-    def get_artist_albums(self, artist):
+    def get_artist_albums(self, artist, filter_model):
         pass
 
     def populate_album_disc_songs(self, media, discnr, callback):
