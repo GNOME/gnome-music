@@ -4,7 +4,6 @@ from gi.repository import Dazzle, GObject, Gio, Gfm
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
-from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coregrilo import CoreGrilo
@@ -119,23 +118,12 @@ class CoreModel(GObject.GObject):
         return disc_model_sort
 
     def get_artists_model_full(self, media):
-        albums = self._grilo.get_artist_albums(media)
+        albums_model_filter = Dazzle.ListModelFilter.new(self._album_model)
+        albums_model_filter.set_filter_func(lambda a: False)
 
-        albums_model = Gio.ListStore()
-        albums_model_sort = Gfm.SortListModel.new(albums_model)
+        albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
 
-        for album in albums:
-            artist_album = None
-            for corealbum in self._album_model:
-                if album.get_id() == corealbum.props.media.get_id():
-                    artist_album = corealbum
-                    break
-
-            if artist_album is None:
-                artist_album = CoreAlbum(album, self)
-                self._album_model.append(artist_album)
-
-            albums_model.append(artist_album)
+        self._grilo.get_artist_albums(media, albums_model_filter)
 
         def _album_sort(album_a, album_b):
             return album_a.props.year > album_b.props.year
