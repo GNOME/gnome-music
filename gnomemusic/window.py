@@ -121,6 +121,7 @@ class Window(Gtk.ApplicationWindow):
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._headerbar = HeaderBar()
         self._searchbar = Searchbar()
+        self._player_error_infobar = InfoBar()
         self._player = Player(self)
         self._player_toolbar = PlayerToolbar(self._player, self)
         selection_toolbar = SelectionToolbar()
@@ -169,6 +170,7 @@ class Window(Gtk.ApplicationWindow):
         self._overlay.add_overlay(self._searchbar._dropdown)
         self._overlay.add_overlay(self.notifications_popup)
         self.set_titlebar(self._headerbar)
+        self._box.pack_start(self._player_error_infobar,False,False,0)
         self._box.pack_start(self._searchbar, False, False, 0)
         self._box.pack_start(self._overlay, True, True, 0)
         self._box.pack_start(self._player_toolbar, False, False, 0)
@@ -186,9 +188,9 @@ class Window(Gtk.ApplicationWindow):
         self._player_toolbar.show_all()
         self._box.show()
         self.show()
-        if not self._player.props.player_available:
-            player_error_infobar = InfoBar(self._box)
-            player_error_infobar.error("playbin is not available", "Please check your Gstreamer installation")
+        if self._player.props.player_available:            
+            print("window:191")
+            self._player_error_infobar.error("playbin is not available", "Please check your Gstreamer installation")
 
         def songs_available_cb(available):
             if available:

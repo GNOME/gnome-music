@@ -28,34 +28,29 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/InfoBar.ui")
 class InfoBar(Gtk.InfoBar):
     """Display messages and errors in the info bar.
 
     Messages come in two parts: a high-level summary, and a detailed
     description.
     """
-    message_type = GObject.Property(
-        type=Gtk.MessageType, default=Gtk.MessageType.INFO)
+    __gtype_name__ = "InfoBar"
+    _label = Gtk.Template.Child()
 
-    def __init__(self, vbox):
+    def __init__(self):
         """Initialize the Info bar
 
         :param Gtk.Box
         """
         super().__init__()
 
-        self._label = Gtk.Label("")
         content = self.get_content_area()
-        content.add(self._label)
-        self.add_button("OK", Gtk.ResponseType.OK)
-        vbox.pack_start(self, False, False, 0)
-
-        self._label.show()
         content.show()
-        self.connect('response', self._on_hide)
 
+    @Gtk.Template.Callback()
     @log
-    def _on_hide(self, widget, client):
+    def _on_ok_button_clicked(self, entry):
         self.hide()
 
     @log
@@ -69,7 +64,5 @@ class InfoBar(Gtk.InfoBar):
         :param main -- a summary of the error
         :param detail -- error details
         """
-        self.props.message_type = Gtk.MessageType.ERROR
         self.set_msg(main, detail)
-        self.set_message_type(self.props.message_type)
         self.show()

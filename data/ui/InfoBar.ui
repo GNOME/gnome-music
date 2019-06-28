@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>  
+  <template class="InfoBar"mas parent="GtkInfoBar">
+  <property name="show_close_button">True</property>
+  <property name="message_type">GTK_MESSAGE_ERROR</property>   
+        <child internal-child="content_area">   
+                  <object class="GtkBox" id="labelBox">
+                  <child>
+          <object class="GtkLabel" id="_label">
+                <property name="visible">True</property>                
+
+          </object>
+        </child>   
+        </object>
+        </child>   
+        <child>
+          <object class="GtkButton">
+          <property name="visible">True</property>
+          <property name="valign">center</property>
+            <property name="tooltip_text" translatable="yes">OK</property>
+            <property name="label" translatable="yes">OK</property>            
+            <signal name="clicked" handler="_on_ok_button_clicked"/>
+          </object>
+        </child>   
+        </template>    
+</interface>
