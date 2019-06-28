@@ -51,9 +51,9 @@ class CoreGrilo(GObject.GObject):
         # FIXME: Handle removing sources.
         print("removed,", source.props.source_id)
 
-    def get_artist_albums(self, artist):
-        # FIXME: Iterate the wrappers
-        return self._tracker_source.get_artist_albums(artist)
+    def get_artist_albums(self, artist, filter_model):
+        for wrapper in self._wrappers:
+            wrapper.get_artist_albums(artist, filter_model)
 
     def get_album_disc_numbers(self, media):
         # FIXME: Iterate the wrappers
