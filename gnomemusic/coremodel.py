@@ -75,10 +75,12 @@ class CoreModel(GObject.GObject):
         return coresong.props.selected
 
     def _albums_sort(self, album_a, album_b):
-        return album_b.props.title.lower() < album_a.props.title.lower()
+        return album_b.props.title.casefold() < album_a.props.title.casefold()
 
     def _artist_sort(self, artist_a, artist_b):
-        return artist_b.props.artist.lower() < artist_a.props.artist.lower()
+        name_a = artist_a.props.artist.casefold()
+        name_b = artist_b.props.artist.casefold()
+        return name_a > name_b
 
     @log
     def get_model(self):
