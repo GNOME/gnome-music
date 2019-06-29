@@ -187,10 +187,5 @@ class CoreModel(GObject.GObject):
     def get_artists_model(self):
         return self._artist_model_sort
 
-    def get_artist_albums(self, artist):
-        albums = self._grilo.get_artist_albums(artist)
-
-        return albums
-
     def get_songs_model(self):
         return self._songliststore
