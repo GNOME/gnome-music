@@ -33,11 +33,11 @@ class GrlTrackerSource(GObject.GObject):
 
     def __init__(
             self, source, model, albums_model, artists_model, coremodel,
-            core_selection, grilo):
+            coreselection, grilo):
         super().__init__()
 
         self._coremodel = coremodel
-        self._core_selection = core_selection
+        self._coreselection = coreselection
         self._grilo = grilo
         self._source = source
         self._model = model
@@ -207,7 +207,7 @@ class GrlTrackerSource(GObject.GObject):
             print("ALREADY ADDED")
             return
 
-        song = CoreSong(media, self._core_selection, self._grilo)
+        song = CoreSong(media, self._coreselection, self._grilo)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
@@ -254,7 +254,7 @@ class GrlTrackerSource(GObject.GObject):
         if not media:
             return
 
-        song = CoreSong(media, self._core_selection, self._grilo)
+        song = CoreSong(media, self._coreselection, self._grilo)
         self._model.append(song)
         self._hash[media.get_id()] = song
 
