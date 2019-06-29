@@ -46,15 +46,9 @@ class GrlTrackerSource(GObject.GObject):
         self._artists_model = artists_model
         self._hash = {}
 
-        Grl.init(None)
-
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
-
-        self._full_options = Grl.OperationOptions()
-        self._full_options.set_resolution_flags(
-            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._initial_fill(self._source)
         self._initial_albums_fill(self._source)
@@ -80,7 +74,6 @@ class GrlTrackerSource(GObject.GObject):
                 print("REMOVED", media.get_id())
                 self._remove_media(media)
                 self._check_album_change(media)
-                # self.emit("media-removed", media)
 
     def _check_album_change(self, media):
         album_ids = {}
@@ -147,12 +140,6 @@ class GrlTrackerSource(GObject.GObject):
                     coresong.props.title)
                 self._model.remove(idx)
                 break
-        # for idx, coresong in enumerate(self._model):
-        #     print(coresong.props.title)
-        #     if coresong.props.url == removed_url:
-        #         print("remove ", removed_url)
-        #         self._model.remove(idx)
-        #         self._hash.pop(coresong.media.get_id(), 0)
 
     def _requery_media(self, grilo_id, only_update=False):
         query = """
@@ -214,7 +201,6 @@ class GrlTrackerSource(GObject.GObject):
             return
 
         if not media:
-            # print("NO MEDIA", source, op_id, media, error)
             return
 
         # FIXME: Figure out why we get double additions.
@@ -267,14 +253,11 @@ class GrlTrackerSource(GObject.GObject):
             return
 
         if not media:
-            # print("NO MEDIA", source, op_id, media, error)
             return
 
         song = CoreSong(media, self._core_selection, self._grilo)
         self._model.append(song)
         self._hash[media.get_id()] = song
-
-        # self._url_table[media.get_url()] = song
 
     def _initial_albums_fill(self, source):
         query = """
