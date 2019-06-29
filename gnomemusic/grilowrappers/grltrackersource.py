@@ -90,8 +90,8 @@ class GrlTrackerSource(GObject.GObject):
         {
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
-                nmm:musicAlbum ?album ;
-                nmm:performer ?performer .
+                    nmm:musicAlbum ?album ;
+                    nmm:performer ?performer .
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
         } GROUP BY ?album
@@ -188,7 +188,6 @@ class GrlTrackerSource(GObject.GObject):
             return
 
         if not media:
-            # print("NO MEDIA", source, op_id, media, error)
             return
 
         print("ONLY UPDATE")
@@ -272,8 +271,8 @@ class GrlTrackerSource(GObject.GObject):
         {
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
-                nmm:musicAlbum ?album ;
-                nmm:performer ?performer .
+                    nmm:musicAlbum ?album ;
+                    nmm:performer ?performer .
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
         } GROUP BY ?album
@@ -341,8 +340,8 @@ class GrlTrackerSource(GObject.GObject):
             ?album a nmm:MusicAlbum .
             OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
             ?song a nmm:MusicPiece;
-                nmm:musicAlbum ?album;
-                nmm:performer ?artist .
+                    nmm:musicAlbum ?album;
+                    nmm:performer ?artist .
             FILTER ( tracker:id(?album_artist) = %(artist_id)s
                      || tracker:id(?artist) = %(artist_id)s )
         }
@@ -428,7 +427,7 @@ class GrlTrackerSource(GObject.GObject):
         WHERE
         {
             ?song a nmm:MusicPiece ;
-                  nmm:musicAlbum ?album .
+                    nmm:musicAlbum ?album .
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
@@ -464,7 +463,7 @@ class GrlTrackerSource(GObject.GObject):
         WHERE
         {
             ?song a nmm:MusicPiece ;
-                  nmm:musicAlbum ?album .
+                    nmm:musicAlbum ?album .
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s )
