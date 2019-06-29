@@ -4,6 +4,7 @@ from gi.repository import Grl, GObject
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
+from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 
 
@@ -390,13 +391,25 @@ class GrlTrackerSource(GObject.GObject):
 
         self._source.query(query, self.METADATA_KEYS, options, query_cb)
 
-    def get_album_disc_numbers(self, media):
+    def get_album_discs(self, media, disc_model):
         album_id = media.get_id()
-        print("album id ", album_id)
+
+        def _disc_nr_cb(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                return
+
+            disc_nr = media.get_album_disc_number()
+            coredisc = CoreDisc(media, disc_nr, self._coremodel)
+            disc_model.append(coredisc)
 
         query = """
         SELECT DISTINCT
             rdf:type(?song)
+            tracker:id(?album) AS ?id
             nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
         WHERE
         {
@@ -410,11 +423,7 @@ class GrlTrackerSource(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        discs = self._source.query_sync(query, self.METADATA_KEYS, options)
-
-        print("DISCS", discs)
-
-        return discs
+        self._source.query(query, self.METADATA_KEYS, options, _disc_nr_cb)
 
     def populate_album_disc_songs(self, media, disc_nr, _callback):
         album_id = media.get_id()
