@@ -37,7 +37,6 @@ class CoreGrilo(GObject.GObject):
                 source, self._model, self._albums_model,
                 self._artists_model, self._coremodel, self._coreselection,
                 self)
-            self._tracker_source = new_wrapper
         elif source.props.source_id[:10] == "grl-dleyna":
             new_wrapper = GrlDLeynaSource(
                 source, self._model, self._albums_model,
@@ -55,9 +54,9 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers:
             wrapper.get_artist_albums(artist, filter_model)
 
-    def get_album_disc_numbers(self, media):
-        # FIXME: Iterate the wrappers
-        return self._tracker_source.get_album_disc_numbers(media)
+    def get_album_discs(self, media, disc_model):
+        for wrapper in self._wrappers:
+            wrapper.get_album_discs(media, disc_model)
 
     def populate_album_disc_songs(self, media, discnr, callback):
         for wrapper in self._wrappers:

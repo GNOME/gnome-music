@@ -5,7 +5,6 @@ from gi._gi import pygobject_new_full
 
 from gnomemusic import log
 from gnomemusic.coreartist import CoreArtist
-from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
@@ -96,24 +95,16 @@ class CoreModel(GObject.GObject):
 
     @log
     def get_album_model(self, media):
-        discs = self._grilo.get_album_disc_numbers(media)
-
         disc_model = Gio.ListStore()
         disc_model_sort = Gfm.SortListModel.new(disc_model)
-
-        def _disc_sort(song_a, song_b):
-            return song_a.props.track_number - song_b.props.track_number
-
-        for disc in discs:
-            nr = disc.get_album_disc_number()
-            coredisc = CoreDisc(media, nr, self)
-            disc_model.append(coredisc)
 
         def _disc_order_sort(disc_a, disc_b):
             return disc_a.props.disc_nr - disc_b.props.disc_nr
 
         disc_model_sort.set_sort_func(
             self._wrap_list_store_sort_func(_disc_order_sort))
+
+        self._grilo.get_album_discs(media, disc_model)
 
         return disc_model_sort
 
