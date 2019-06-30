@@ -1,5 +1,5 @@
 import gi
-gi.require_version('Dazzle', '1.0')
+gi.require_versions({'Dazzle': '1.0', 'Gfm': '0.1'})
 from gi.repository import Dazzle, GObject, Gio, Gfm
 from gi._gi import pygobject_new_full
 
