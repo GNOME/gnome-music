@@ -38,6 +38,7 @@ from gnomemusic.search import Search
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
+from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 playlists = Playlists.get_default()
@@ -52,6 +53,7 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, window, player):
+        self._coremodel = window._app._coremodel
         super().__init__('search', None, window)
 
         # self._add_list_renderers()
@@ -87,12 +89,18 @@ class SearchView(BaseView):
         self._search_mode_active = False
         # self.connect("notify::search-state", self._on_search_state_changed)
 
+        self._view.show_all()
+
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 
-        self._view = Gtk.Box()
+        self._view = Gtk.ListBox()
+
+        self._view.bind_model(
+            self._coremodel.get_songs_search_model(), self._create_song_widget)
+
         # self._view = Gtk.TreeView(
         #     activate_on_single_click=True, can_focus=False,
         #     halign=Gtk.Align.CENTER, headers_visible=False,
@@ -106,7 +114,34 @@ class SearchView(BaseView):
         # self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         # self._ctrl.connect("released", self._on_view_clicked)
 
-        # view_container.add(self._view)
+        view_container.add(self._view)
+
+    def _create_song_widget(self, coresong):
+        song_widget = SongWidget(coresong.props.media)
+
+        coresong.bind_property(
+            "favorite", song_widget, "favorite",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        coresong.bind_property(
+            "selected", song_widget, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        coresong.bind_property(
+            "state", song_widget, "state",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            "selection-mode", song_widget, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        # song_widget.connect('button-release-event', self._song_activated)
+
+        song_widget.show_all()
+
+        return song_widget
 
     @log
     def _back_button_clicked(self, widget, data=None):
