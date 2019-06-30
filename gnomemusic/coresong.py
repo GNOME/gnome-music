@@ -32,9 +32,6 @@ class CoreSong(GObject.GObject):
 
         self.update(media)
 
-        if self.props.favorite:
-            print("favorite", self.props.title)
-
     @GObject.Property(type=bool, default=False)
     def favorite(self):
         return self._favorite
