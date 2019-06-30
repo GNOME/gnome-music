@@ -30,7 +30,7 @@ class GrlDLeynaSource(GObject.GObject):
 
     def __init__(
             self, source, model, albums_model, artists_model, coremodel,
-            core_selection, grilo):
+            core_selection, grilo, song_search_model):
         super().__init__()
 
         self._coremodel = coremodel
@@ -96,4 +96,7 @@ class GrlDLeynaSource(GObject.GObject):
         pass
 
     def populate_album_songs(self, media, callback):
+        pass
+
+    def search(self, text):
         pass

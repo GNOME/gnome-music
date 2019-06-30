@@ -133,7 +133,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._search = Search()
-        self._searchbar = SearchBar()
+        self._searchbar = SearchBar(self._app)
         self._searchbar.props.stack = self._stack
         self._headerbar = HeaderBar()
 
