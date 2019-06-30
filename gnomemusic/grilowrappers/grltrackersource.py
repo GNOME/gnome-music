@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GObject
+from gi.repository import Grl, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -477,4 +477,57 @@ class GrlTrackerSource(GObject.GObject):
         self._source.query(query, self.METADATA_KEYS, options, _callback)
 
     def search(self, text):
-        pass
+        term = Tracker.sparql_escape_string(
+            GLib.utf8_normalize(
+                GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(?song)
+            tracker:id(?song) AS ?id
+        WHERE {
+            ?song a nmm:MusicPiece .
+            BIND(tracker:normalize(
+                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+            BIND(tracker:normalize(
+                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+            BIND(tracker:normalize(
+                nie:title(?song), 'nfkd') AS ?match3) .
+            BIND(
+                tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
+            FILTER (
+                CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match1)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match2)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match3)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match4)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+            )
+        }
+        """.replace('\n', ' ').strip() % {'name': term}
+
+        filter_ids = []
+
+        def songs_filter(coresong):
+            return coresong.media.get_id() in filter_ids
+
+        def search_cb(source, op_id, media, data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                self._song_search_model.set_filter_func(songs_filter)
+                return
+
+            filter_ids.append(media.get_id())
+
+        options = self._fast_options.copy()
+
+        self._source.query(query, self.METADATA_KEYS, options, search_cb)
