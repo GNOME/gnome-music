@@ -32,7 +32,7 @@ class GrlTrackerSource(GObject.GObject):
 
     def __init__(
             self, source, model, albums_model, artists_model, coremodel,
-            coreselection, grilo):
+            coreselection, grilo, song_search_model):
         super().__init__()
 
         self._coremodel = coremodel
@@ -44,6 +44,7 @@ class GrlTrackerSource(GObject.GObject):
         self._album_ids = {}
         self._artists_model = artists_model
         self._hash = {}
+        self._song_search_model = song_search_model
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -474,3 +475,6 @@ class GrlTrackerSource(GObject.GObject):
         options = self._fast_options.copy()
 
         self._source.query(query, self.METADATA_KEYS, options, _callback)
+
+    def search(self, text):
+        pass
