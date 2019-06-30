@@ -337,10 +337,11 @@ class SearchBar(Gtk.SearchBar):
         return '<SearchBar>'
 
     @log
-    def __init__(self):
+    def __init__(self, application):
         """Initialize the SearchBar"""
         super().__init__()
 
+        self._application = application
         self._timeout = None
 
         self._dropdown = DropDown()
@@ -375,15 +376,17 @@ class SearchBar(Gtk.SearchBar):
         self._timeout = None
 
         search_term = self._search_entry.get_text()
-        if grilo.search_source:
-            fields_filter = self._dropdown.search_manager.active
-        else:
-            fields_filter = 'search_all'
+        # if grilo.search_source:
+        #     fields_filter = self._dropdown.search_manager.active
+        # else:
+        #     fields_filter = 'search_all'
 
         if search_term != "":
             self.props.stack.set_visible_child_name('search')
-            view = self.props.stack.get_visible_child()
-            view.set_search_text(search_term, fields_filter)
+
+            self._application._coremodel.search(search_term)
+            # view = self.props.stack.get_visible_child()
+            # view.set_search_text(search_term, fields_filter)
         else:
             self._set_error_style(False)
 
