@@ -13,7 +13,7 @@ class CoreGrilo(GObject.GObject):
 
     def __init__(
             self, coremodel, model, albums_model, artists_model,
-            coreselection):
+            coreselection, song_search_model):
         super().__init__()
 
         self._coremodel = coremodel
@@ -22,6 +22,7 @@ class CoreGrilo(GObject.GObject):
         self._wrappers = []
         self._albums_model = albums_model
         self._artists_model = artists_model
+        self._song_search_model = song_search_model
 
         Grl.init(None)
 
@@ -36,12 +37,12 @@ class CoreGrilo(GObject.GObject):
             new_wrapper = GrlTrackerSource(
                 source, self._model, self._albums_model,
                 self._artists_model, self._coremodel, self._coreselection,
-                self)
+                self, self._song_search_model)
         elif source.props.source_id[:10] == "grl-dleyna":
             new_wrapper = GrlDLeynaSource(
                 source, self._model, self._albums_model,
                 self._artists_model, self._coremodel, self._coreselection,
-                self)
+                self, self._song_search_model)
 
         self._wrappers.append(new_wrapper)
         print(new_wrapper, "added")
@@ -90,3 +91,7 @@ class CoreGrilo(GObject.GObject):
                 GLib.idle_add(
                     self._store_metadata, wrapper.props.source, media, key)
                 break
+
+    def search(self, text):
+        for wrapper in self._wrappers:
+            wrapper.search(text)

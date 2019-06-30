@@ -40,7 +40,6 @@ class CoreModel(GObject.GObject):
         self._songliststore = SongListStore(self._model)
 
         self._coreselection = coreselection
-
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
         self._album_model_sort.set_sort_func(
@@ -60,7 +59,7 @@ class CoreModel(GObject.GObject):
         print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
             self, self._model, self._album_model, self._artist_model,
-            self._coreselection)
+            self._coreselection, self._song_search_model)
 
     def _filter_selected(self, coresong):
         return coresong.props.selected
@@ -185,3 +184,6 @@ class CoreModel(GObject.GObject):
 
     def get_songs_search_model(self):
         return self._song_search_model
+
+    def search(self, text):
+        self._grilo.search(text)
