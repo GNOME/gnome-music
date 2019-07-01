@@ -84,26 +84,27 @@ class SongWidget(Gtk.EventBox):
         return '<SongWidget>'
 
     @log
-    def __init__(self, media):
+    def __init__(self, coresong):
         super().__init__()
 
-        self._media = media
+        self.props.coresong = coresong
+        self.props.favorite = self.props.coresong.props.favorite
+        self._media = self.props.coresong.props.media
         self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
 
-        song_number = media.get_track_number()
+        song_number = self.props.coresong.props.track_number
         if song_number == 0:
             song_number = ""
         self._number_label.set_text(str(song_number))
 
-        title = utils.get_media_title(media)
+        title = self.props.coresong.props.title
         self._title_label.set_max_width_chars(50)
         self._title_label.set_text(title)
         self._title_label.props.tooltip_text = title
 
-        time = utils.seconds_to_string(media.get_duration())
-        self._duration_label.set_text(time)
-        # self._star_image.props.favorite = media.get_favourite()
+        time = utils.seconds_to_string(self.props.coresong.props.duration)
+        self._duration_label.props.label = time
 
         self._select_button.set_visible(False)
 
