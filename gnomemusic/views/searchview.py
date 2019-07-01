@@ -111,15 +111,6 @@ class SearchView(BaseView):
         self._all_results_box.pack_start(self._album_flowbox, True, True, 0)
         self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
 
-        # self._view = Gtk.TreeView(
-        #     activate_on_single_click=True, can_focus=False,
-        #     halign=Gtk.Align.CENTER, headers_visible=False,
-        #     show_expanders=False, width_request=530)
-        # self._view.get_style_context().add_class('view')
-        # self._view.get_style_context().add_class('content-view')
-        # self._view.get_selection().props.mode = Gtk.SelectionMode.NONE
-        # self._view.connect('row-activated', self._on_item_activated)
-
         # self._ctrl = Gtk.GestureMultiPress().new(self._view)
         # self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         # self._ctrl.connect("released", self._on_view_clicked)
