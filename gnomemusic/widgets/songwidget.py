@@ -31,6 +31,7 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic import utils
+from gnomemusic.coresong import CoreSong
 from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, SmartPlaylists
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
@@ -55,6 +56,7 @@ class SongWidget(Gtk.EventBox):
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    coresong = GObject.Property(type=CoreSong, default=None)
     favorite = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_duration = GObject.Property(type=bool, default=True)
