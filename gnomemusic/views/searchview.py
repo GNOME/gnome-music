@@ -196,21 +196,27 @@ class SearchView(BaseView):
 
         return True
 
-    def select_all(self):
-        with self._model.freeze_notify():
-            def child_select_all(child):
-                song_widget = child.get_child()
-                song_widget.props.selected = True
+    def _child_select(self, child, value):
+        widget = child.get_child()
+        widget.props.selected = value
 
-            self._songs_listbox.foreach(child_select_all)
+    def _select_all(self, value):
+        with self._model.freeze_notify():
+            def song_select(child):
+                song_widget = child.get_child()
+                song_widget.props.selected = value
+
+            def album_select(child):
+                child.props.selected = value
+
+            self._songs_listbox.foreach(song_select)
+            self._album_flowbox.foreach(album_select)
+
+    def select_all(self):
+        self._select_all(True)
 
     def unselect_all(self):
-        with self._model.freeze_notify():
-            def child_select_none(child):
-                song_widget = child.get_child()
-                song_widget.props.selected = False
-
-            self._songs_listbox.foreach(child_select_none)
+        self._select_all(False)
 
     @log
     def _back_button_clicked(self, widget, data=None):
