@@ -32,7 +32,6 @@ from gi.repository import Grl, GLib, GObject
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 from gettext import gettext as _
-import inspect
 
 from gnomemusic import log
 import logging
@@ -59,62 +58,64 @@ class Playlist(GObject.Object):
         self.props.title = title
 
 
-class SmartPlaylists:
-
-    def __repr__(self):
-        return '<SmartPlaylists>'
-
-    class MostPlayed(Playlist):
-        TAG_TEXT = "MOST_PLAYED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Most Played")
-
-    class NeverPlayed(Playlist):
-        TAG_TEXT = "NEVER_PLAYED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Never Played")
-
-    class RecentlyPlayed(Playlist):
-        TAG_TEXT = "RECENTLY_PLAYED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Recently Played")
-
-    class RecentlyAdded(Playlist):
-        TAG_TEXT = "RECENTLY_ADDED"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Recently Added")
-
-    class Favorites(Playlist):
-        TAG_TEXT = "FAVORITES"
-        # TRANSLATORS: this is a playlist name
-        TITLE = _("Favorite Songs")
+class MostPlayed(Playlist):
+    """Most Played smart playlist"""
 
     def __init__(self):
-        Query()
-        self.MostPlayed.QUERY = Query.get_most_played_songs()
-        self.NeverPlayed.QUERY = Query.get_never_played_songs()
-        self.RecentlyPlayed.QUERY = Query.get_recently_played_songs()
-        self.RecentlyAdded.QUERY = Query.get_recently_added_songs()
-        self.Favorites.QUERY = Query.get_favorite_songs()
+        super().__init__()
 
-    @staticmethod
-    def get_ids():
-        """Get all smart playlist IDs
+        self.props.tag_text = "MOST_PLAYED"
+        # TRANSLATORS: this is a playlist name
+        self.props.title = _("Most Played")
+        self.props.query = Query.get_never_played_songs()
 
-        :return: A list of tracker.id's
-        :rtype: A list of integers
-        """
-        return [str(playlist.ID) for playlist in SmartPlaylists.get_all()]
 
-    @staticmethod
-    def get_all():
-        """Get all smart playlist classes
+class NeverPlayed(Playlist):
+    """Never Played smart playlist"""
 
-        :return: All SmartPlaylists innerclasses
-        :rtype: A list of classes
-        """
-        return [cls for name, cls in inspect.getmembers(SmartPlaylists)
-                if inspect.isclass(cls) and not name == "__class__"]
+    def __init__(self):
+        super().__init__()
+
+        self.props.tag_text = "NEVER_PLAYED"
+        # TRANSLATORS: this is a playlist name
+        self.props.title = _("Never Played")
+        self.props.query = Query.get_never_played_songs()
+
+
+class RecentlyPlayed(Playlist):
+    """Recently Played smart playlist"""
+
+    def __init__(self):
+        super().__init__()
+
+        self.props.tag_text = "RECENTLY_PLAYED"
+        # TRANSLATORS: this is a playlist name
+        self.props.title = _("Recently Played")
+        self.props.query = Query.get_recently_played_songs()
+
+
+class RecentlyAdded(Playlist):
+    """Recently Added smart playlist"""
+
+    def __init__(self):
+        super().__init__()
+
+        self.props.tag_text = "RECENTLY_ADDED"
+        # TRANSLATORS: this is a playlist name
+        self.props.title = _("Recently Added")
+        self.props.query = Query.get_recently_added_songs()
+
+
+class Favorites(Playlist):
+    """Favorites smart playlist"""
+
+    def __init__(self):
+        super().__init__()
+
+        self.props.tag_text = "FAVORITES"
+        # TRANSLATORS: this is a playlist name
+        self.props.title = _("Favorite Songs")
+        self.props.query = Query.get_favorite_songs()
 
 
 class Playlists(GObject.GObject):
@@ -127,9 +128,7 @@ class Playlists(GObject.GObject):
         'playlist-deleted': (
             GObject.SignalFlags.RUN_FIRST, None, (str,)
         ),
-        'playlist-updated': (
-            GObject.SignalFlags.RUN_FIRST, None, (int,)
-        ),
+        'playlist-updated': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         'playlist-renamed': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
         ),
@@ -156,15 +155,23 @@ class Playlists(GObject.GObject):
     def __init__(self):
         super().__init__()
 
-        self._smart_playlists = SmartPlaylists()
+        Query()
+        self._smart_playlists = {
+            "MostPlayed": MostPlayed(),
+            "NeverPlayed": NeverPlayed(),
+            "RecentlyPlayed": RecentlyPlayed(),
+            "RecentlyAdded": RecentlyAdded(),
+            "Favorites": Favorites()
+        }
+
         self._pls_todelete = {}
 
         grilo.connect('ready', self._on_grilo_ready)
 
     @log
     def _on_grilo_ready(self, data=None):
-        """For all smart playlists: get ID, if exists; if not, create
-        the playlist and get ID."""
+        """For all smart playlists: get id, if exists; if not, create
+        the playlist and get id."""
 
         def playlist_id_fetched_cb(cursor, res, playlist):
             """ Called after the playlist id is fetched """
@@ -174,9 +181,9 @@ class Playlists(GObject.GObject):
                 logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
-            playlist.ID = cursor.get_integer(1)
+            playlist.props.id_ = cursor.get_integer(1)
 
-            if not playlist.ID:
+            if not playlist.props.id_:
                 # Create the smart playlist
                 self._create_smart_playlist(playlist)
             else:
@@ -191,14 +198,14 @@ class Playlists(GObject.GObject):
                 logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
-            # Search for the playlist ID
+            # Search for the playlist id
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
         self._tracker = grilo.tracker_sparql
         # Start fetching all the smart playlists
-        for playlist in self._smart_playlists.get_all():
+        for playlist in self._smart_playlists.values():
             self._tracker.query_async(
-                Query.get_playlist_with_tag(playlist.TAG_TEXT), None,
+                Query.get_playlist_with_tag(playlist.props.tag_text), None,
                 callback, playlist)
 
     @log
@@ -206,26 +213,26 @@ class Playlists(GObject.GObject):
         """ Create the tag and the smart playlist, and fetch the newly created
         playlist's songs.
         """
-        title = playlist.TITLE
-        tag_text = playlist.TAG_TEXT
+        title = playlist.props.title
+        tag_text = playlist.props.tag_text
 
         def playlist_next_async_cb(cursor, res, playlist):
             """ Called after we finished moving the Tracker cursor, and ready
             to retrieve the playlist id"""
-            # Update the playlist ID
+            # Update the playlist id
             try:
                 cursor.next_finish(res)
             except GLib.Error as err:
                 logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
-            playlist.ID = cursor.get_integer(0)
+            playlist.props.id_ = cursor.get_integer(0)
 
             # Fetch the playlist contents
             self.update_smart_playlist(playlist)
 
         def playlist_queried_cb(obj, res, playlist):
-            """ Called after the playlist is created and the ID is fetched """
+            """ Called after the playlist is created and the id is fetched """
             try:
                 cursor = obj.query_finish(res)
             except GLib.Error as err:
@@ -270,7 +277,7 @@ class Playlists(GObject.GObject):
     @log
     def clear_playlist(self, playlist):
         """Starts cleaning the playlist"""
-        query = Query.clear_playlist_with_id(playlist.ID)
+        query = Query.clear_playlist_with_id(playlist.props.id_)
         self._tracker.update_async(
             query, GLib.PRIORITY_LOW, None, self._smart_playlist_cleared_cb,
             playlist)
@@ -280,7 +287,8 @@ class Playlists(GObject.GObject):
         """After clearing the playlist, start querying the playlist's songs"""
         # Get a list of matching songs
         self._tracker.query_async(
-            playlist.QUERY, None, self._smart_playlist_query_cb, playlist)
+            playlist.props.query, None, self._smart_playlist_query_cb,
+            playlist)
 
     @log
     def _smart_playlist_query_cb(self, connection, res, playlist):
@@ -304,7 +312,8 @@ class Playlists(GObject.GObject):
             # Only perform the update when the cursor reached the end
             if has_next:
                 uri = cursor.get_string(0)[0]
-                final_query += Query.add_song_to_playlist(playlist.ID, uri)
+                final_query += Query.add_song_to_playlist(
+                    playlist.props.id_, uri)
 
                 cursor.next_async(None, callback, final_query)
             else:
@@ -317,11 +326,11 @@ class Playlists(GObject.GObject):
 
     @log
     def _smart_playlist_update_finished(self, source, res, smart_playlist):
-        self.emit('playlist-updated', smart_playlist.ID)
+        self.emit('playlist-updated', smart_playlist.props.id_)
 
     @log
     def update_all_smart_playlists(self):
-        for playlist in self._smart_playlists.get_all():
+        for playlist in self._smart_playlists.values():
             self.update_smart_playlist(playlist)
 
     @log
@@ -456,14 +465,24 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log
+    def get_smart_playlist(self, name):
+        """SmartPlaylist getter
+
+        :param str name: smart playlist name
+        :returns: Smart Playlist
+        :rtype: Playlist
+        """
+        return self._smart_playlists[name]
+
+    @log
     def is_smart_playlist(self, playlist):
         """Checks whether the given playlist is smart or not
 
         :return: True if the playlist is smart
         :rtype: bool
         """
-        for smart_playlist_id in self._smart_playlists.get_ids():
-            if playlist.get_id() == smart_playlist_id:
+        for smart_playlist in self._smart_playlists.values():
+            if playlist.get_id() == smart_playlist.props.id_:
                 return True
 
         return False
