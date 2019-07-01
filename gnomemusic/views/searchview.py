@@ -164,6 +164,22 @@ class SearchView(BaseView):
 
         return True
 
+    def select_all(self):
+        with self._model.freeze_notify():
+            def child_select_all(child):
+                song_widget = child.get_child()
+                song_widget.props.selected = True
+
+            self._view.foreach(child_select_all)
+
+    def unselect_all(self):
+        with self._model.freeze_notify():
+            def child_select_none(child):
+                song_widget = child.get_child()
+                song_widget.props.selected = False
+
+            self._view.foreach(child_select_none)
+
     @log
     def _back_button_clicked(self, widget, data=None):
         if self.get_visible_child() == self._artist_albums_widget:
