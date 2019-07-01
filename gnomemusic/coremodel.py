@@ -109,7 +109,7 @@ class CoreModel(GObject.GObject):
 
         return disc_model_sort
 
-    def get_artists_model_full(self, media):
+    def get_artist_album_model(self, media):
         albums_model_filter = Dazzle.ListModelFilter.new(self._album_model)
         albums_model_filter.set_filter_func(lambda a: False)
 
