@@ -173,7 +173,9 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if self.props.position < self._model.get_n_items() - 1:
+        if (self.props.repeat_mode == RepeatMode.SONG
+                or self.props.repeat_mode == RepeatMode.ALL
+                or self.props.position < self._model.get_n_items() - 1):
             return True
 
         return False
@@ -185,8 +187,10 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self.props.position <= self._model.get_n_items() - 1
-                and self.props.position > 0):
+        if (self.props.repeat_mode == RepeatMode.SONG
+                or self.props.repeat_mode == RepeatMode.ALL
+                or (self.props.position <= self._model.get_n_items() - 1
+                    and self.props.position > 0)):
             return True
 
         return False
@@ -201,7 +205,13 @@ class PlayerPlaylist(GObject.GObject):
         if not self.has_next():
             return False
 
-        next_position = self.props.position + 1
+        if self.props.repeat_mode == RepeatMode.SONG:
+            next_position = self.props.position
+        elif (self.props.repeat_mode == RepeatMode.ALL
+                and self.props.position == self._model.get_n_items() - 1):
+            next_position = 0
+        else:
+            next_position = self.props.position + 1
 
         self._model[self.props.position].props.state = SongWidget.State.PLAYED
         self._model[next_position].props.state = SongWidget.State.PLAYING
@@ -220,7 +230,13 @@ class PlayerPlaylist(GObject.GObject):
         if not self.has_previous():
             return False
 
-        previous_position = self.props.position - 1
+        if self.props.repeat_mode == RepeatMode.SONG:
+            previous_position = self.props.position
+        elif (self.props.repeat_mode == RepeatMode.ALL
+                and self.props.position == 0):
+            previous_position = self._model.get_n_items() - 1
+        else:
+            previous_position = self.props.position - 1
 
         self._model[self.props.position].props.state = SongWidget.State.PLAYED
         self._model[previous_position].props.state = SongWidget.State.PLAYING
