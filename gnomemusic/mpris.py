@@ -29,7 +29,6 @@ from gi.repository import Gio, GLib
 
 from gnomemusic import log
 from gnomemusic.albumartcache import lookup_art_file_from_cache
-from gnomemusic.grilo import grilo
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.playlists import Playlists
@@ -293,13 +292,9 @@ class MPRIS(DBusInterface):
             'playlist-changed', self._on_player_playlist_changed)
 
         self._playlists = Playlists.get_default()
-        self._playlists.connect(
-            'playlist-created', self._on_playlists_count_changed)
-        self._playlists.connect(
-            'playlist-deleted', self._on_playlists_count_changed)
         self._playlists.connect('playlist-renamed', self._on_playlist_renamed)
-        grilo.connect('ready', self._on_grilo_ready)
-        self._stored_playlists = []
+        self._playlists.connect("notify::ready", self._on_playlists_loaded)
+
         self._player_previous_type = None
         self._path_list = []
         self._metadata_list = []
@@ -437,36 +432,22 @@ class MPRIS(DBusInterface):
     def _get_playlist_dbus_path(self, playlist):
         """Convert a playlist to a D-Bus path
 
-        :param Grl.media playlist: The playlist object
+        :param Playlist playlist: The playlist object
         :return: a D-Bus id to uniquely identify the playlist
         :rtype: str
         """
         if playlist:
-            id_ = playlist.get_id()
+            id_ = playlist.props.id_
         else:
             id_ = 'Invalid'
 
         return '/org/mpris/MediaPlayer2/Playlist/{}'.format(id_)
 
     @log
-    def _get_playlist_from_dbus_path(self, playlist_path):
-        for playlist in self._stored_playlists:
-            if playlist_path == self._get_playlist_dbus_path(playlist):
-                return playlist
-        return None
-
-    @log
     def _get_mpris_playlist_from_playlist(self, playlist):
-        playlist_name = utils.get_media_title(playlist)
+        playlist_name = playlist.props.title
         path = self._get_playlist_dbus_path(playlist)
         return (path, playlist_name, "")
-
-    @log
-    def _get_playlist_from_id(self, playlist_id):
-        for playlist in self._stored_playlists:
-            if playlist_id == playlist.get_id():
-                return playlist
-        return None
 
     @log
     def _get_active_playlist(self):
@@ -484,7 +465,8 @@ class MPRIS(DBusInterface):
         if self._player.get_playlist_type() != PlayerPlaylist.Type.PLAYLIST:
             return (False, ("/", "", ""))
 
-        playlist = self._get_playlist_from_id(self._player.get_playlist_id())
+        playlist_id = self.player.get_playlist_id()
+        playlist = self._playlists.get_playlist_from_id(playlist_id)
         mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
         return (True, mpris_playlist)
 
@@ -571,33 +553,24 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    @log
-    def _reload_playlists(self):
-        def _populate_cb(source, param, item, remaining=0, data=None):
-            if item:
-                self._stored_playlists.append(item)
-            else:
-                playlists_nr = len(self._stored_playlists)
-                self._properties_changed(
-                    MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE,
-                    {'PlaylistCount': GLib.Variant('u', playlists_nr), }, [])
-
-        self._stored_playlists = []
-        grilo.populate_playlists(0, _populate_cb)
+    def _on_playlists_loaded(self, klass, param):
+        self._playlists_model = self._playlists.get_playlists()
+        self._playlists_model.connect(
+            "items-changed", self._on_playlists_count_changed)
+        self._on_playlists_count_changed(None, None, None, None)
 
     @log
-    def _on_playlists_count_changed(self, playlists, item):
-        self._reload_playlists()
+    def _on_playlists_count_changed(self, klass, position, removed, added):
+        playlist_count = len(self._playlists_model)
+        properties = {"PlaylistCount": GLib.Variant("u", playlist_count)}
+        self._properties_changed(
+            MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
     @log
     def _on_playlist_renamed(self, playlists, renamed_playlist):
         mpris_playlist = self._get_mpris_playlist_from_playlist(
             renamed_playlist)
         self._dbus_emit_signal('PlaylistChanged', {'Playlist': mpris_playlist})
-
-    @log
-    def _on_grilo_ready(self, grilo):
-        self._reload_playlists()
 
     def _raise(self):
         """Brings user interface to the front (MPRIS Method)."""
@@ -734,8 +707,15 @@ class MPRIS(DBusInterface):
 
         :param str playlist_path: The id of the playlist to activate.
         """
-        playlist_id = self._get_playlist_from_dbus_path(playlist_path).get_id()
-        self._playlists.activate_playlist(playlist_id)
+        selected_playlist = None
+        current_playlists = self._playlists.get_playlists()
+        for playlist in current_playlists:
+            if playlist_path == self._get_playlist_dbus_path(playlist):
+                selected_playlist = playlist
+                break
+
+        if selected_playlist is not None:
+            self._playlists.activate_playlist(selected_playlist)
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).
@@ -751,7 +731,7 @@ class MPRIS(DBusInterface):
             return []
 
         mpris_playlists = [self._get_mpris_playlist_from_playlist(playlist)
-                           for playlist in self._stored_playlists]
+                           for playlist in self._playlists_model]
 
         if not reverse:
             return mpris_playlists[index:index + max_count]
@@ -822,7 +802,7 @@ class MPRIS(DBusInterface):
                 'CanEditTracks': GLib.Variant('b', False)
             }
         elif interface_name == MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE:
-            playlist_count = len(self._stored_playlists)
+            playlist_count = len(self._playlists_model)
             active_playlist = self._get_active_playlist()
             return {
                 'PlaylistCount': GLib.Variant('u', playlist_count),
