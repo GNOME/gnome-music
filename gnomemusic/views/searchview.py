@@ -36,6 +36,7 @@ from gnomemusic.query import Query
 from gnomemusic.utils import View
 from gnomemusic.search import Search
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.songwidget import SongWidget
@@ -55,6 +56,7 @@ class SearchView(BaseView):
     def __init__(self, window, player):
         self._coremodel = window._app._coremodel
         self._model = self._coremodel.get_songs_search_model()
+        self._album_model = self._coremodel.get_album_search_model()
         super().__init__('search', None, window)
 
         # self._add_list_renderers()
@@ -98,7 +100,18 @@ class SearchView(BaseView):
         self._songs_listbox = Gtk.ListBox()
         self._songs_listbox.bind_model(self._model, self._create_song_widget)
 
+        self._album_flowbox = Gtk.FlowBox(
+            homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
+            valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
+            margin=18, row_spacing=12, column_spacing=6,
+            min_children_per_line=1, max_children_per_line=20, visible=True)
+
+        self._album_flowbox.get_style_context().add_class('content-view')
+        self._album_flowbox.bind_model(
+            self._album_model, self._create_album_widget)
+
         self._all_results_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self._all_results_box.pack_start(self._album_flowbox, True, True, 0)
         self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
 
         # self._view = Gtk.TreeView(
@@ -145,6 +158,23 @@ class SearchView(BaseView):
         song_widget.show_all()
 
         return song_widget
+
+    def _create_album_widget(self, corealbum):
+        album_widget = AlbumCover(corealbum)
+
+        self.bind_property(
+            "selection-mode", album_widget, "selection-mode",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
+
+        # NOTE: Adding SYNC_CREATE here will trigger all the nested
+        # models to be created. This will slow down initial start,
+        # but will improve initial 'selecte all' speed.
+        album_widget.bind_property(
+            "selected", corealbum, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL)
+
+        return album_widget
 
     def _song_activated(self, widget, event):
         mod_mask = Gtk.accelerator_get_default_mod_mask()
