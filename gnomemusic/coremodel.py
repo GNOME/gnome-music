@@ -128,7 +128,7 @@ class CoreModel(GObject.GObject):
     def get_playlist_model(self):
         return self._playlist_model_sort
 
-    def set_playlist_model(self, playlist_type, album_media, coresong, model):
+    def set_playlist_model(self, playlist_type, coresong, model):
         with model.freeze_notify():
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
