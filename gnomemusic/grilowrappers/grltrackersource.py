@@ -32,7 +32,7 @@ class GrlTrackerSource(GObject.GObject):
 
     def __init__(
             self, source, model, albums_model, artists_model, coremodel,
-            coreselection, grilo, song_search_model):
+            coreselection, grilo, song_search_model, album_search_model):
         super().__init__()
 
         self._coremodel = coremodel
@@ -45,6 +45,7 @@ class GrlTrackerSource(GObject.GObject):
         self._artists_model = artists_model
         self._hash = {}
         self._song_search_model = song_search_model
+        self._album_search_model = album_search_model
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -531,3 +532,55 @@ class GrlTrackerSource(GObject.GObject):
         options = self._fast_options.copy()
 
         self._source.query(query, self.METADATA_KEYS, options, search_cb)
+
+        # Album search
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(nmm:musicAlbum(?song))
+            tracker:id(nmm:musicAlbum(?song)) AS ?id
+        {
+            ?song a nmm:MusicPiece .
+            BIND(tracker:normalize(
+                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+            BIND(tracker:normalize(
+                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+            BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
+            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
+            FILTER (
+                CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match1)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match2)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match3)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match4)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+            )
+        }
+        """.replace('\n', ' ').strip() % {'name': term}
+
+        album_filter_ids = []
+
+        def album_filter(corealbum):
+            return corealbum.media.get_id() in album_filter_ids
+
+        def albums_search_cb(source, op_id, media, data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                self._album_search_model.set_filter_func(album_filter)
+                return
+
+            album_filter_ids.append(media.get_id())
+
+        options = self._fast_options.copy()
+
+        self._source.query(
+            query, self.METADATA_KEYS, options, albums_search_cb)
