@@ -31,7 +31,6 @@ from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
 from gnomemusic import log
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
-from gnomemusic.playlists import Playlists
 from gnomemusic.query import Query
 from gnomemusic.utils import View
 from gnomemusic.search import Search
@@ -40,8 +39,6 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 import gnomemusic.utils as utils
-
-playlists = Playlists.get_default()
 
 
 class SearchView(BaseView):
