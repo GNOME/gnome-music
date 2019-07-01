@@ -211,7 +211,7 @@ class SongsView(BaseView):
         itr = self._view.props.model.get_iter(path)
         coresong = self._view.props.model[itr][5]
         self._window._app._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.SONGS, None, coresong, self._view.props.model)
+            PlayerPlaylist.Type.SONGS, coresong, self._view.props.model)
         self.player.play()
 
     @log
