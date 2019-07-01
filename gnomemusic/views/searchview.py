@@ -58,6 +58,7 @@ class SearchView(BaseView):
         self._coremodel = window._app._coremodel
         self._model = self._coremodel.get_songs_search_model()
         self._album_model = self._coremodel.get_album_search_model()
+        self._artist_model = self._coremodel.get_artist_search_model()
         super().__init__('search', None, window)
 
         # self._add_list_renderers()
@@ -110,8 +111,13 @@ class SearchView(BaseView):
         self._album_flowbox.connect(
             "child-activated", self._on_album_activated)
 
+        self._artist_listbox = Gtk.ListBox()
+        self._artist_listbox.bind_model(
+            self._artist_model, self._create_artist_widget)
+
         self._all_results_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._all_results_box.pack_start(self._album_flowbox, True, True, 0)
+        self._all_results_box.pack_start(self._artist_listbox, True, True, 0)
         self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
 
         # self._ctrl = Gtk.GestureMultiPress().new(self._view)
@@ -167,6 +173,26 @@ class SearchView(BaseView):
 
         return album_widget
 
+    def _create_artist_widget(self, coresong):
+        # FIXME: Hacky quick 'artist' widget. Needs its own tile.
+        song_widget = SongWidget(coresong.props.media)
+        song_widget._title_label.props.label = coresong.props.artist
+        song_widget.props.show_duration = False
+        song_widget.props.show_favorite = False
+        song_widget.props.show_song_number = False
+        song_widget.coreartist = coresong
+
+        self.bind_property(
+            "selection-mode", song_widget, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        song_widget.connect('button-release-event', self._artist_activated)
+
+        song_widget.show_all()
+
+        return song_widget
+
     def _song_activated(self, widget, event):
         mod_mask = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
@@ -204,6 +230,25 @@ class SearchView(BaseView):
         self.props.search_mode_active = False
 
         self.set_visible_child(self._album_widget)
+
+    def _artist_activated(self, widget, event):
+        mod_mask = Gtk.accelerator_get_default_mod_mask()
+        if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
+            self.props.selection_mode = True
+            return
+
+        (_, button) = event.get_button()
+        if (button == Gdk.BUTTON_PRIMARY
+                and not self.props.selection_mode):
+            # self.emit('song-activated', widget)
+            pass
+
+        # FIXME: Need to ignore the event from the checkbox.
+        # if self.props.selection_mode:
+        #     widget.props.selected = not widget.props.selected
+
+        return True
 
     def _child_select(self, child, value):
         widget = child.get_child()
