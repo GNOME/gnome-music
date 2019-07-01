@@ -169,7 +169,7 @@ class Playlists(GObject.GObject):
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
         ),
         'song-added-to-playlist': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
+            GObject.SignalFlags.RUN_FIRST, None, (Playlist, Grl.Media)
         ),
     }
 
@@ -393,7 +393,12 @@ class Playlists(GObject.GObject):
             self.update_smart_playlist(playlist)
 
     @log
-    def create_playlist(self, title):
+    def create_playlist(self, title, callback):
+        """Creates an user playlist.
+
+        :param str title: new playlist title
+        :param function callback: called once the playlist is created
+        """
         def get_callback(source, param, item, count, data, error):
             if not item:
                 return
@@ -404,6 +409,7 @@ class Playlists(GObject.GObject):
             self._playlists_model.insert_sorted(
                 new_playlist, Playlist.compare_playlist_func)
             self.emit("playlist-created", item)
+            callback(new_playlist)
 
         def cursor_callback(cursor, res, data):
             try:
@@ -473,6 +479,11 @@ class Playlists(GObject.GObject):
 
     @log
     def add_to_playlist(self, playlist, items):
+        """Adds songs to a playlist.
+
+        :param Playlist playlist:
+        :param list items: list of Grl.Media
+        """
         def get_callback(source, param, item, count, data, error):
             if item:
                 self.emit('song-added-to-playlist', playlist, item)
@@ -483,7 +494,7 @@ class Playlists(GObject.GObject):
                 return
             entry_id = cursor.get_integer(0)
             grilo.get_playlist_song_with_id(
-                playlist_id, entry_id, get_callback)
+                playlist.props.pl_id, entry_id, get_callback)
 
         def update_callback(conn, res, data):
             entry_urn = conn.update_blank_finish(res)[0][0]['entry']
@@ -491,13 +502,12 @@ class Playlists(GObject.GObject):
                 Query.get_playlist_song_with_urn(entry_urn), None,
                 query_callback, None)
 
-        playlist_id = playlist.get_id()
         for item in items:
             uri = item.get_url()
             if not uri:
                 continue
             self._tracker.update_blank_async(
-                Query.add_song_to_playlist(playlist_id, uri),
+                Query.add_song_to_playlist(playlist.props.pl_id, uri),
                 GLib.PRIORITY_LOW, None, update_callback, None)
 
     @log
@@ -542,7 +552,7 @@ class Playlists(GObject.GObject):
     @log
     def get_user_playlists(self):
         def user_playlists_filter(playlist):
-            return (playlist.props.id not in self._pls_todelete.keys()
+            return (playlist.props.pl_id not in self._pls_todelete.keys()
                     and not playlist.props.is_smart)
 
         model_filter = Dazzle.ListModelFilter.new(self._playlists_model)
@@ -613,8 +623,3 @@ class Playlists(GObject.GObject):
         self._playlists_model.insert(index, playlist)
 
         return index
-
-    @log
-    def get_playlists_to_delete(self):
-        """Gets playlists ids ready for deletion"""
-        return self._pls_todelete.keys()
