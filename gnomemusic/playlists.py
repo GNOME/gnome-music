@@ -158,10 +158,6 @@ class Playlists(GObject.GObject):
 
     __gsignals__ = {
         'activate-playlist': (GObject.SignalFlags.RUN_FIRST, None, (str,)),
-        'playlist-created': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media,)
-        ),
-        "playlist-deleted": (GObject.SignalFlags.RUN_FIRST, None, (str,)),
         "playlist-updated": (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         "playlist-renamed": (GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         'song-added-to-playlist': (
@@ -417,7 +413,6 @@ class Playlists(GObject.GObject):
                 creation_date=item.get_creation_date())
             self._playlists_model.insert_sorted(
                 new_playlist, Playlist.compare_playlist_func)
-            self.emit('playlist-created', item)
             callback(new_playlist)
 
         def cursor_callback(cursor, res, data):
@@ -475,7 +470,6 @@ class Playlists(GObject.GObject):
         """
         def update_callback(conn, res, data):
             conn.update_finish(res)
-            self.emit('playlist-deleted', playlist.props.pl_id)
 
         self._pls_todelete.remove(playlist)
         query = Query.delete_playlist(playlist.props.pl_id)
