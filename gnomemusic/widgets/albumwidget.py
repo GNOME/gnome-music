@@ -77,12 +77,9 @@ class AlbumWidget(Gtk.EventBox):
 
         self._album = corealbum.props.media
         self._album_model = corealbum.props.model
+        self._album_model.connect_after(
+            "items-changed", self._on_model_items_changed)
         self._listbox.bind_model(self._album_model, self._create_widget)
-
-        def non_selectable(child):
-            child.props.selectable = False
-
-        self._listbox.forall(non_selectable)
 
         corealbum.connect("notify::duration", self._on_duration_changed)
 
@@ -106,6 +103,20 @@ class AlbumWidget(Gtk.EventBox):
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
+
+    def _on_model_items_changed(self, model, position, removed, added):
+        n_items = model.get_n_items()
+        if n_items == 1:
+            row = self._listbox.get_row_at_index(0)
+            row.props.selectable = False
+            discbox = row.get_child()
+            discbox.props.show_disc_label = False
+        else:
+            for i in range(n_items):
+                row = self._listbox.get_row_at_index(i)
+                row.props.selectable = False
+                discbox = row.get_child()
+                discbox.props.show_disc_label = True
 
     @log
     def _set_composer_label(self, corealbum):
