@@ -46,6 +46,7 @@ class GrlTrackerSource(GObject.GObject):
         self._hash = {}
         self._song_search_model = song_search_model
         self._album_search_model = album_search_model
+        self._artist_search_model = self._coremodel.get_artist_search_model()
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -584,3 +585,57 @@ class GrlTrackerSource(GObject.GObject):
 
         self._source.query(
             query, self.METADATA_KEYS, options, albums_search_cb)
+
+        # Artist search
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(?artist)
+            tracker:id(?artist) AS ?id
+        {
+            ?song a nmm:MusicPiece ;
+                    nmm:musicAlbum ?album ;
+                    nmm:performer ?artist .
+            BIND(tracker:normalize(
+                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+            BIND(tracker:normalize(
+                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+            BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
+            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
+            FILTER (
+                CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match1)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match2)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match3)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match4)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+            )
+        }
+        """.replace('\n', ' ').strip() % {'name': term}
+
+        artist_filter_ids = []
+
+        def artist_filter(coreartist):
+            return coreartist.media.get_id() in artist_filter_ids
+
+        def artist_search_cb(source, op_id, media, data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                self._artist_search_model.set_filter_func(artist_filter)
+                return
+
+            artist_filter_ids.append(media.get_id())
+
+        options = self._fast_options.copy()
+
+        self._source.query(
+            query, self.METADATA_KEYS, options, artist_search_cb)

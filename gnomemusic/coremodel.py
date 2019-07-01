@@ -60,6 +60,10 @@ class CoreModel(GObject.GObject):
             self._album_model)
         self._album_search_model.set_filter_func(lambda a: False)
 
+        self._artist_search_model = Dazzle.ListModelFilter.new(
+            self._artist_model)
+        self._artist_search_model.set_filter_func(lambda a: False)
+
         print("PLAYLIST_MODEL", self._playlist_model)
         self._grilo = CoreGrilo(
             self, self._model, self._album_model, self._artist_model,
@@ -204,6 +208,9 @@ class CoreModel(GObject.GObject):
 
     def get_album_search_model(self):
         return self._album_search_model
+
+    def get_artist_search_model(self):
+        return self._artist_search_model
 
     def search(self, text):
         self._grilo.search(text)
