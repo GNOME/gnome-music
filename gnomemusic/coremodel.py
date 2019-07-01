@@ -56,7 +56,8 @@ class CoreModel(GObject.GObject):
         self._song_search_model = Dazzle.ListModelFilter.new(self._model)
         self._song_search_model.set_filter_func(lambda a: False)
 
-        self._album_search_model = Dazzle.ListModelFilter.new(self._album_model)
+        self._album_search_model = Dazzle.ListModelFilter.new(
+            self._album_model)
         self._album_search_model.set_filter_func(lambda a: False)
 
         print("PLAYLIST_MODEL", self._playlist_model)
