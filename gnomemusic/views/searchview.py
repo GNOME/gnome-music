@@ -51,6 +51,7 @@ class SearchView(BaseView):
     @log
     def __init__(self, window, player):
         self._coremodel = window._app._coremodel
+        self._model = self._coremodel.get_songs_search_model()
         super().__init__('search', None, window)
 
         # self._add_list_renderers()
@@ -95,8 +96,7 @@ class SearchView(BaseView):
 
         self._view = Gtk.ListBox()
 
-        self._view.bind_model(
-            self._coremodel.get_songs_search_model(), self._create_song_widget)
+        self._view.bind_model(self._model, self._create_song_widget)
 
         # self._view = Gtk.TreeView(
         #     activate_on_single_click=True, can_focus=False,
@@ -115,6 +115,7 @@ class SearchView(BaseView):
 
     def _create_song_widget(self, coresong):
         song_widget = SongWidget(coresong.props.media)
+        song_widget.props.coresong = coresong
 
         coresong.bind_property(
             "favorite", song_widget, "favorite",
@@ -134,11 +135,34 @@ class SearchView(BaseView):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        # song_widget.connect('button-release-event', self._song_activated)
+        song_widget.connect('button-release-event', self._song_activated)
 
         song_widget.show_all()
 
         return song_widget
+
+    def _song_activated(self, widget, event):
+        mod_mask = Gtk.accelerator_get_default_mod_mask()
+        if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
+                and not self.props.selection_mode):
+            self.props.selection_mode = True
+            return
+
+        (_, button) = event.get_button()
+        if (button == Gdk.BUTTON_PRIMARY
+                and not self.props.selection_mode):
+            # self.emit('song-activated', widget)
+
+            self._coremodel.set_playlist_model(
+                PlayerPlaylist.Type.SEARCH_RESULT, None, widget.props.coresong,
+                self._model)
+            self.player.play()
+
+        # FIXME: Need to ignore the event from the checkbox.
+        # if self.props.selection_mode:
+        #     widget.props.selected = not widget.props.selected
+
+        return True
 
     @log
     def _back_button_clicked(self, widget, data=None):
