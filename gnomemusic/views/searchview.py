@@ -182,6 +182,11 @@ class SearchView(BaseView):
         song_widget.props.show_song_number = False
         song_widget.coreartist = coresong
 
+        coresong.bind_property(
+            "selected", song_widget, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -263,8 +268,13 @@ class SearchView(BaseView):
             def album_select(child):
                 child.props.selected = value
 
+            def artist_select(child):
+                artist_widget = child.get_child()
+                artist_widget.props.selected = value
+
             self._songs_listbox.foreach(song_select)
             self._album_flowbox.foreach(album_select)
+            self._artist_listbox.foreach(artist_select)
 
     def select_all(self):
         self._select_all(True)
