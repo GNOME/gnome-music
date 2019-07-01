@@ -27,10 +27,12 @@
 
 
 import gi
+gi.require_version('Dazzle', '1.0')
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+from gi.repository import Dazzle, Gio, Grl, GLib, GObject
 from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
+import gnomemusic.utils as utils
 from gettext import gettext as _
 
 from gnomemusic import log
@@ -176,6 +178,7 @@ class Playlists(GObject.GObject):
             "RecentlyAdded": RecentlyAdded(),
             "Favorites": Favorites()
         }
+        self._playlists_model = Gio.ListStore.new(Playlist)
 
         self._pls_todelete = {}
 
@@ -184,7 +187,9 @@ class Playlists(GObject.GObject):
     @log
     def _on_grilo_ready(self, data=None):
         """For all smart playlists: get id, if exists; if not, create
-        the playlist and get id."""
+        the playlist and get id.
+        Also gather the user playlists.
+        """
 
         def playlist_id_fetched_cb(cursor, res, playlist):
             """ Called after the playlist id is fetched """
@@ -220,6 +225,22 @@ class Playlists(GObject.GObject):
             self._tracker.query_async(
                 Query.get_playlist_with_tag(playlist.props.tag_text), None,
                 callback, playlist)
+
+        # Gather the available user playlists too
+        grilo.populate_user_playlists(
+            0, self._populate_user_playlists_finish_cb)
+
+    @log
+    def _populate_user_playlists_finish_cb(
+            self, source, param, item, remaining=0, data=None):
+        """Fill in the list of playlists currently available"""
+        if not item:
+            return
+
+        playlist = Playlist(
+            id_=item.get_id(), title=utils.get_media_title(item))
+
+        self._playlists_model.append(playlist)
 
     @log
     def _create_smart_playlist(self, playlist):
@@ -339,7 +360,11 @@ class Playlists(GObject.GObject):
 
     @log
     def _smart_playlist_update_finished(self, source, res, smart_playlist):
-        self.emit('playlist-updated', smart_playlist.props.id_)
+        if smart_playlist in self._playlists_model:
+            self.emit("playlist-updated", smart_playlist)
+            return
+
+        self._playlists_model.append(smart_playlist)
 
     @log
     def update_all_smart_playlists(self):
@@ -349,8 +374,13 @@ class Playlists(GObject.GObject):
     @log
     def create_playlist(self, title):
         def get_callback(source, param, item, count, data, error):
-            if item:
-                self.emit('playlist-created', item)
+            if not item:
+                return
+
+            new_playlist = Playlist(
+                id_=item.get_id(), title=utils.get_media_title(item))
+            self._playlists_model.append(new_playlist)
+            self.emit('playlist-created', item)
 
         def cursor_callback(cursor, res, data):
             try:
@@ -478,6 +508,25 @@ class Playlists(GObject.GObject):
                 GLib.PRIORITY_LOW, None, update_callback, item)
 
     @log
+    def get_playlists(self):
+        """Retrieves the currently loaded playlists.
+
+        :return: a list of Playlists
+        :rtype: list
+        """
+        return self._playlists_model
+
+    @log
+    def get_user_playlists(self):
+        def user_playlists_filter(playlist):
+            return (playlist.props.id not in self._pls_todelete.keys()
+                    and not playlist.props.is_smart)
+
+        model_filter = Dazzle.ListModelFilter.new(self._playlists_model)
+        model_filter.set_filter_func(user_playlists_filter)
+        return model_filter
+
+    @log
     def get_smart_playlist(self, name):
         """SmartPlaylist getter
 
@@ -523,6 +572,7 @@ class Playlists(GObject.GObject):
             'playlist': playlist,
             'index': index
         }
+        self._playlists_model.remove(index)
 
     @log
     def undo_pending_deletion(self, playlist):
@@ -535,6 +585,9 @@ class Playlists(GObject.GObject):
         playlist_id = playlist.get_id()
         index = self._pls_todelete[playlist_id]["index"]
         self._pls_todelete.pop(playlist_id)
+        playlist = Playlist(
+            id_=playlist_id, title=utils.get_media_title(playlist))
+        self._playlists_model.insert(index, playlist)
 
         return index
 
