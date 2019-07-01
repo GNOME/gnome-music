@@ -76,16 +76,14 @@ class DiscBox(Gtk.Box):
         return '<DiscBox>'
 
     @log
-    def __init__(self, model=None, listmodel=None):
+    def __init__(self, model):
         """Initialize
 
-        :param model: The TreeStore to use
+        :param model: The Gio.ListStore to use
         """
         super().__init__()
 
         self._model = model
-        if self._model is not None:
-            self._model.connect('row-changed', self._model_row_changed)
 
         self.bind_property(
             'show-disc-label', self._disc_label, 'visible',
@@ -95,10 +93,7 @@ class DiscBox(Gtk.Box):
         self._selected_items = []
         self._songs = []
 
-        if listmodel is not None:
-            self._listmodel = listmodel
-            self._list_box.bind_model(
-                self._listmodel, self._create_widget)
+        self._list_box.bind_model(self._model, self._create_widget)
 
     @log
     def set_disc_number(self, disc_number):
@@ -109,29 +104,14 @@ class DiscBox(Gtk.Box):
         self._disc_label.props.label = _("Disc {}").format(disc_number)
         self._disc_label.props.visible = True
 
-    @log
     def get_selected_items(self):
         """Return all selected items
 
         :returns: The selected items:
         :rtype: A list if Grilo media items
         """
-        self._selected_items = []
-        self._disc_songs_flowbox.foreach(self._get_selected)
+        return []
 
-        return self._selected_items
-
-    @log
-    def _get_selected(self, child):
-        song_widget = child.get_child()
-
-        if song_widget.selected:
-            itr = song_widget.itr
-            self._selected_items.append(self._model[itr][5])
-
-    # FIXME: select all/none slow probably b/c of the row changes
-    # invocations, maybe workaround?
-    @log
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
@@ -140,7 +120,6 @@ class DiscBox(Gtk.Box):
 
         self._list_box.foreach(child_select_all)
 
-    @log
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
