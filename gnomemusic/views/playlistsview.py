@@ -545,8 +545,8 @@ class PlaylistsView(BaseView):
         self.model.clear()
         self._iter_to_clean = None
         self._iter_to_clean_model = None
+        self._pl_ctrls.freeze_notify()
         self._update_songs_count(0)
-        self._pl_ctrls.props.display_songs_count = False
         grilo.populate_playlist_songs(playlist, self._add_song)
 
         protected_pl = playlists.is_smart_playlist(self._current_playlist)
@@ -570,7 +570,7 @@ class PlaylistsView(BaseView):
         self._add_song_to_model(song, self.model)
         if remaining == 0:
             self._view.set_model(self.model)
-            self._pl_ctrls.props.display_songs_count = True
+            self._pl_ctrls.thaw_notify()
             if self._plays_songs_on_activation:
                 first_iter = self.model.get_iter_first()
                 self.player.set_playlist(
