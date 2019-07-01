@@ -32,7 +32,6 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
-from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists, SmartPlaylists
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
@@ -57,7 +56,6 @@ class SongWidget(Gtk.EventBox):
     }
 
     coresong = GObject.Property(type=CoreSong, default=None)
-    favorite = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_duration = GObject.Property(type=bool, default=True)
     show_favorite = GObject.Property(type=bool, default=True)
@@ -88,7 +86,6 @@ class SongWidget(Gtk.EventBox):
         super().__init__()
 
         self.props.coresong = coresong
-        self.props.favorite = self.props.coresong.props.favorite
         self._media = self.props.coresong.props.media
         self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
@@ -112,7 +109,7 @@ class SongWidget(Gtk.EventBox):
             'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
         self._play_icon.set_no_show_all(True)
 
-        self.bind_property(
+        self.props.coresong.bind_property(
             'selected', self._select_button, 'active',
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
@@ -127,12 +124,15 @@ class SongWidget(Gtk.EventBox):
         self.bind_property(
             'show-song-number', self._number_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
-        self._number_label.set_no_show_all(True)
-
-        self.bind_property(
+        self.props.coresong.bind_property(
             "favorite", self._star_image, "favorite",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+        self.props.coresong.bind_property(
+            "state", self, "state",
+            GObject.BindingFlags.SYNC_CREATE)
+
+        self._number_label.props.no_show_all = True
 
     @Gtk.Template.Callback()
     @log
@@ -150,7 +150,6 @@ class SongWidget(Gtk.EventBox):
         self._star_image.props.favorite = favorite
 
         # TODO: Rework and stop updating widgets from here directly.
-        grilo.set_favorite(self._media, favorite)
         self._playlists.update_smart_playlist(SmartPlaylists.Favorites)
 
         return True

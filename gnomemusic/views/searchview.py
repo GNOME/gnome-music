@@ -106,19 +106,6 @@ class SearchView(BaseView):
     def _create_song_widget(self, coresong):
         song_widget = SongWidget(coresong)
 
-        coresong.bind_property(
-            "favorite", song_widget, "favorite",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        coresong.bind_property(
-            "selected", song_widget, "selected",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-        coresong.bind_property(
-            "state", song_widget, "state",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
-
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -156,11 +143,6 @@ class SearchView(BaseView):
         song_widget.props.show_favorite = False
         song_widget.props.show_song_number = False
         song_widget.coreartist = coreartist
-
-        coresong.bind_property(
-            "selected", song_widget, "selected",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
 
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
