@@ -36,6 +36,7 @@ from gnomemusic.utils import View
 from gnomemusic.search import Search
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.albumcover import AlbumCover
+from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.songwidget import SongWidget
@@ -67,14 +68,12 @@ class SearchView(BaseView):
         self._albums = {}
         self._albums_index = 0
 
-        # self._album_widget = AlbumWidget(player)
-        # self._album_widget.bind_property(
-        #     "selection-mode", self, "selection-mode",
-        #     GObject.BindingFlags.BIDIRECTIONAL)
-        # self._album_widget.bind_property(
-        #     "selected-items-count", self, "selected-items-count")
+        self._album_widget = AlbumWidget(player, self)
+        self._album_widget.bind_property(
+            "selection-mode", self, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL)
 
-        # self.add(self._album_widget)
+        self.add(self._album_widget)
 
         self._artists_albums_selected = []
         self._artists_albums_index = 0
@@ -102,10 +101,11 @@ class SearchView(BaseView):
             valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
             margin=18, row_spacing=12, column_spacing=6,
             min_children_per_line=1, max_children_per_line=20, visible=True)
-
         self._album_flowbox.get_style_context().add_class('content-view')
         self._album_flowbox.bind_model(
             self._album_model, self._create_album_widget)
+        self._album_flowbox.connect(
+            "child-activated", self._on_album_activated)
 
         self._all_results_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self._all_results_box.pack_start(self._album_flowbox, True, True, 0)
@@ -195,6 +195,21 @@ class SearchView(BaseView):
         #     widget.props.selected = not widget.props.selected
 
         return True
+
+    def _on_album_activated(self, widget, child, user_data=None):
+        corealbum = child.props.corealbum
+        if self.props.selection_mode:
+            return
+
+        # Update and display the album widget if not in selection mode
+        self._album_widget.update(corealbum)
+
+        self._headerbar.props.state = HeaderBar.State.SEARCH
+        self._headerbar.props.title = corealbum.props.title
+        self._headerbar.props.subtitle = corealbum.props.artist
+        self.props.search_mode_active = False
+
+        self.set_visible_child(self._album_widget)
 
     def _child_select(self, child, value):
         widget = child.get_child()
