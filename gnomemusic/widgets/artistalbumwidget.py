@@ -99,7 +99,7 @@ class ArtistAlbumWidget(Gtk.Box):
         return disc_box
 
     def _create_disc_box(self, disc_nr, album_model):
-        disc_box = DiscBox(None, album_model)
+        disc_box = DiscBox(album_model)
         disc_box.set_disc_number(disc_nr)
         disc_box.props.show_durations = False
         disc_box.props.show_favorites = False
