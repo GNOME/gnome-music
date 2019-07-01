@@ -153,8 +153,7 @@ class AlbumWidget(Gtk.EventBox):
         signal_id = self._parent_view._window._app._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
         self._parent_view._window._app._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ALBUM, self._album, song_widget._media,
-            self._album_model)
+            PlayerPlaylist.Type.ALBUM, song_widget._media, self._album_model)
 
         return True
 
