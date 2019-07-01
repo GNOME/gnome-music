@@ -31,7 +31,7 @@ class CoreArtist(GObject.GObject):
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
         if self._model is None:
-            self._model = self._coremodel.get_artists_model_full(
+            self._model = self._coremodel.get_artist_album_model(
                 self.props.media)
             self._model.connect("items-changed", self._on_items_changed)
 
