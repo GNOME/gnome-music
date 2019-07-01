@@ -171,6 +171,18 @@ class CoreModel(GObject.GObject):
                         song.props.state = SongWidget.State.PLAYING
 
                 self.emit("playlist-loaded")
+            elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
+                self._playlist_model.remove_all()
+
+                for song in self._song_search_model:
+                    self._playlist_model.append(song)
+
+                    if song.props.state == SongWidget.State.PLAYING:
+                        song.props.state = SongWidget.State.PLAYED
+                    if song is coresong:
+                        song.props.state = SongWidget.State.PLAYING
+
+                self.emit("playlist-loaded")
 
     @log
     def get_albums_model(self):
