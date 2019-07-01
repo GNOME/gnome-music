@@ -32,7 +32,7 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists, SmartPlaylists
+from gnomemusic.playlists import Playlists
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
@@ -143,7 +143,8 @@ class SongWidget(Gtk.EventBox):
 
         # TODO: Rework and stop updating widgets from here directly.
         grilo.set_favorite(self._media, favorite)
-        self._playlists.update_smart_playlist(SmartPlaylists.Favorites)
+        favorite_playlist = self._playlists.get_smart_playlist("Favorites")
+        self._playlists.update_smart_playlist(favorite_playlist)
 
         return True
 
