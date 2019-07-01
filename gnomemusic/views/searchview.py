@@ -234,6 +234,8 @@ class SearchView(BaseView):
         self.set_visible_child(self._album_widget)
 
     def _artist_activated(self, widget, event):
+        coreartist = widget.coreartist
+
         mod_mask = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
@@ -244,7 +246,21 @@ class SearchView(BaseView):
         if (button == Gdk.BUTTON_PRIMARY
                 and not self.props.selection_mode):
             # self.emit('song-activated', widget)
-            pass
+
+            self._artist_albums_widget = ArtistAlbumsWidget(
+                coreartist, self.player, self._window, False)
+            self.add(self._artist_albums_widget)
+            self._artist_albums_widget.show()
+
+            self.bind_property(
+                'selection-mode', self._artist_albums_widget, 'selection-mode',
+                GObject.BindingFlags.BIDIRECTIONAL)
+
+            self._headerbar.props.state = HeaderBar.State.SEARCH
+            self._headerbar.props.title = coreartist.artist
+            self._headerbar.props.subtitle = None
+            self.set_visible_child(self._artist_albums_widget)
+            self.props.search_mode_active = False
 
         # FIXME: Need to ignore the event from the checkbox.
         # if self.props.selection_mode:
