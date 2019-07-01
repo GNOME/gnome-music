@@ -124,9 +124,6 @@ class Playlists(GObject.GObject):
         'song-added-to-playlist': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
         ),
-        'song-removed-from-playlist': (
-            GObject.SignalFlags.RUN_FIRST, None, (Grl.Media, Grl.Media)
-        ),
     }
 
     instance = None
@@ -411,7 +408,6 @@ class Playlists(GObject.GObject):
     def remove_from_playlist(self, playlist, items):
         def update_callback(conn, res, data):
             conn.update_finish(res)
-            self.emit('song-removed-from-playlist', playlist, data)
 
         playlist_id = playlist.get_id()
         for item in items:
