@@ -25,7 +25,6 @@
 from gi.repository import Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
 
@@ -62,11 +61,11 @@ class PlaylistDialog(Gtk.Dialog):
         self.set_titlebar(self._title_bar)
 
         self._user_playlists_available = False
-        self._playlist = Playlists.get_default()
-        self._playlists_todelete_ids = self._playlist.get_playlists_to_delete()
-        self._playlist.connect('playlist-created', self._on_playlist_created)
-
-        self._populate()
+        self._playlists = Playlists.get_default()
+        playlists_model = self._playlists.get_user_playlists()
+        self._listbox.bind_model(
+            playlists_model, self._create_playlist_row)
+        self._set_view()
 
     @log
     def get_selected(self):
@@ -92,27 +91,12 @@ class PlaylistDialog(Gtk.Dialog):
             self._add_playlist_entry = self._first_playlist_entry
 
     @log
-    def _populate(self):
-        grilo.populate_user_playlists(0, self._add_item)
-
-    @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            self._add_playlist_to_listbox(item)
-        if remaining == 0:
-            self._set_view()
-
-    @log
-    def _add_playlist_to_listbox(self, item):
+    def _create_playlist_row(self, playlist):
         """Adds (non-smart only) playlists to the model"""
-
-        # Hide playlists that are going to be deleted
-        if item.get_id() in self._playlists_todelete_ids:
-            return None
-
         self._user_playlists_available = True
-        row = PlaylistDialogRow(item)
-        self._listbox.insert(row, -1)
+        self._set_view()
+
+        row = PlaylistDialogRow(playlist)
 
         return row
 
@@ -140,17 +124,16 @@ class PlaylistDialog(Gtk.Dialog):
     @Gtk.Template.Callback()
     @log
     def _on_editing_done(self, sender, data=None):
+        def select_and_close_dialog(playlist):
+            for row in self._listbox:
+                if row.props.playlist == playlist:
+                    self._listbox.select_row(row)
+                    break
+            self.response(Gtk.ResponseType.ACCEPT)
+
         text = self._add_playlist_entry.props.text
         if text:
-            self._playlist.create_playlist(text)
-
-    @log
-    def _on_playlist_created(self, playlists, item):
-        row = self._add_playlist_to_listbox(item)
-        if not row:
-            return
-        self._listbox.select_row(row)
-        self.response(Gtk.ResponseType.ACCEPT)
+            self._playlists.create_playlist(text, select_and_close_dialog)
 
     @Gtk.Template.Callback()
     @log
