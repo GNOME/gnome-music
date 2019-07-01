@@ -90,16 +90,16 @@ class SearchView(BaseView):
         self._search_mode_active = False
         # self.connect("notify::search-state", self._on_search_state_changed)
 
-        self._view.show_all()
-
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 
-        self._view = Gtk.ListBox()
+        self._songs_listbox = Gtk.ListBox()
+        self._songs_listbox.bind_model(self._model, self._create_song_widget)
 
-        self._view.bind_model(self._model, self._create_song_widget)
+        self._all_results_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
 
         # self._view = Gtk.TreeView(
         #     activate_on_single_click=True, can_focus=False,
@@ -114,7 +114,9 @@ class SearchView(BaseView):
         # self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         # self._ctrl.connect("released", self._on_view_clicked)
 
-        view_container.add(self._view)
+        view_container.add(self._all_results_box)
+
+        self._box.show_all()
 
     def _create_song_widget(self, coresong):
         song_widget = SongWidget(coresong.props.media)
@@ -173,7 +175,7 @@ class SearchView(BaseView):
                 song_widget = child.get_child()
                 song_widget.props.selected = True
 
-            self._view.foreach(child_select_all)
+            self._songs_listbox.foreach(child_select_all)
 
     def unselect_all(self):
         with self._model.freeze_notify():
@@ -181,7 +183,7 @@ class SearchView(BaseView):
                 song_widget = child.get_child()
                 song_widget.props.selected = False
 
-            self._view.foreach(child_select_none)
+            self._songs_listbox.foreach(child_select_none)
 
     @log
     def _back_button_clicked(self, widget, data=None):

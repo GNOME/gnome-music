@@ -87,7 +87,7 @@ class BaseView(Gtk.Stack):
 
         self.add(self._grid)
         self.show_all()
-        self._view.hide()
+        # self._view.hide()
 
         self._init = False
         grilo.connect('ready', self._on_grilo_ready)
