@@ -149,19 +149,19 @@ class DiscBox(Gtk.Box):
 
         self._list_box.foreach(child_select_none)
 
-    def _create_widget(self, song):
-        song_widget = SongWidget(song.props.media)
+    def _create_widget(self, coresong):
+        song_widget = SongWidget(coresong)
         self._songs.append(song_widget)
 
-        song.bind_property(
+        coresong.bind_property(
             "favorite", song_widget, "favorite",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-        song.bind_property(
+        coresong.bind_property(
             "selected", song_widget, "selected",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-        song.bind_property(
+        coresong.bind_property(
             "state", song_widget, "state",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
