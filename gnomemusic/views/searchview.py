@@ -104,8 +104,7 @@ class SearchView(BaseView):
         self._box.show_all()
 
     def _create_song_widget(self, coresong):
-        song_widget = SongWidget(coresong.props.media)
-        song_widget.props.coresong = coresong
+        song_widget = SongWidget(coresong)
 
         coresong.bind_property(
             "favorite", song_widget, "favorite",
@@ -148,14 +147,15 @@ class SearchView(BaseView):
 
         return album_widget
 
-    def _create_artist_widget(self, coresong):
+    def _create_artist_widget(self, coreartist):
+        return
         # FIXME: Hacky quick 'artist' widget. Needs its own tile.
-        song_widget = SongWidget(coresong.props.media)
-        song_widget._title_label.props.label = coresong.props.artist
+        song_widget = SongWidget(coreartist)
+        song_widget._title_label.props.label = coreartist.props.artist
         song_widget.props.show_duration = False
         song_widget.props.show_favorite = False
         song_widget.props.show_song_number = False
-        song_widget.coreartist = coresong
+        song_widget.coreartist = coreartist
 
         coresong.bind_property(
             "selected", song_widget, "selected",
