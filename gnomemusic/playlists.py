@@ -566,6 +566,20 @@ class Playlists(GObject.GObject):
         return model_filter
 
     @log
+    def get_playlist_from_id(self, playlist_id):
+        """Gets a playlist from its id.
+
+        :param str playlist_id: playlist id
+        :returns: the corresponding playlist
+        :rtype: Playlist
+
+        """
+        for playlist in self._playlists:
+            if playlist_id == playlist.props.id_:
+                return playlist
+        return None
+
+    @log
     def get_smart_playlist(self, name):
         """SmartPlaylist getter
 
@@ -576,15 +590,15 @@ class Playlists(GObject.GObject):
         return self._smart_playlists[name]
 
     @log
-    def activate_playlist(self, playlist_id):
+    def activate_playlist(self, playlist):
         """Activates a playlist.
 
         Selects a playlist and start playing.
 
-        :param str playlist_id: playlist id
+        :param Playlist playlist: playlist
         """
         # FIXME: just a proxy
-        self.emit('activate-playlist', playlist_id)
+        self.emit('activate-playlist', playlist)
 
     @log
     def stage_playlist_for_deletion(self, playlist, index):
