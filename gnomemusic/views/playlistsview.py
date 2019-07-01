@@ -116,7 +116,6 @@ class PlaylistsView(BaseView):
         self._iter_to_clean = None
         self._iter_to_clean_model = None
         self._current_playlist = None
-        self._current_playlist_index = None
         self._plays_songs_on_activation = False
         self.pls_todelete = {}
         self._songs_todelete = {}
@@ -537,7 +536,6 @@ class PlaylistsView(BaseView):
 
         self._current_playlist = playlist
         self._pl_ctrls.props.playlist_name = playlist_name
-        self._current_playlist_index = row.get_index()
 
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
