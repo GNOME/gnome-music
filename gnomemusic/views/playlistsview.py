@@ -481,7 +481,7 @@ class PlaylistsView(BaseView):
                 break
 
     @log
-    def _on_playlist_activation_request(self, klass, playlist_id):
+    def _on_playlist_activation_request(self, klass, playlist):
         """Selects and starts playing a playlist.
 
         If the view has not been populated yet, populate it and then
@@ -489,16 +489,16 @@ class PlaylistsView(BaseView):
         requested playlist and start playing.
 
         :param Playlists klass: Playlists object
-        :param str playlist_id: requested playlist id
+        :param Playlist playlist: requested playlist
         """
         if not self._init:
             self._plays_songs_on_activation = True
-            self._populate(playlist_id)
+            self._populate(playlist.props.id)
             return
 
         playlist_row = None
         for row in self._sidebar:
-            if row.playlist.props.pl_id == playlist_id:
+            if row.playlist == playlist:
                 playlist_row = row
                 break
 
