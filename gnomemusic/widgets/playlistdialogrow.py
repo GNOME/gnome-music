@@ -22,9 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Grl, Gtk
+from gi.repository import GObject, Gtk
 
-import gnomemusic.utils as utils
+from gnomemusic.playlists import Playlist
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialogRow.ui")
@@ -32,7 +32,7 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
 
     __gtype_name__ = "PlaylistDialogRow"
 
-    playlist = GObject.Property(type=Grl.Media, default=None)
+    playlist = GObject.Property(type=Playlist, default=None)
     selected = GObject.Property(type=bool, default=False)
 
     _label = Gtk.Template.Child()
@@ -44,12 +44,12 @@ class PlaylistDialogRow(Gtk.ListBoxRow):
     def __init__(self, playlist):
         """Create a row of the PlaylistDialog
 
-        :param Grl.Media playlist: the associated playlist
+        :param Playlist playlist: the associated playlist
         """
         super().__init__()
 
         self.props.playlist = playlist
-        self._label.props.label = utils.get_media_title(playlist)
+        self._label.props.label = playlist.props.title
 
         self.bind_property(
             "selected", self._selection_icon, "visible",

@@ -739,7 +739,8 @@ class PlaylistsView(BaseView):
 
     @log
     def _on_song_added_to_playlist(self, playlists, playlist, item):
-        if self._is_current_playlist(playlist):
+        if (self._current_playlist
+                and playlist.props.pl_id != self._current_playlist.get_id()):
             iter_ = self._add_song_to_model(item, self.model)
             playlist_id = self._current_playlist.get_id()
             if self.player.playing_playlist(
