@@ -53,7 +53,7 @@ class SongsView(BaseView):
         :param player: The main player object
         """
         self._window = window
-        self._coremodel = self._window._app._coremodel
+        self._coremodel = self._window._app.props.coremodel
         super().__init__('songs', _("Songs"), window)
 
         self._offset = 0
