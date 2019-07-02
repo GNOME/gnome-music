@@ -134,7 +134,8 @@ class CoreModel(GObject.GObject):
                             "state", model_song, "state",
                             GObject.BindingFlags.SYNC_CREATE)
 
-                        if song.props.media.get_id() == coresong.get_id():
+                        song_id = coresong.props.media.get_id()
+                        if song.props.media.get_id() == song_id:
                             song.props.state = SongWidget.State.PLAYING
 
                 self.emit("playlist-loaded")
@@ -153,7 +154,8 @@ class CoreModel(GObject.GObject):
                                 "state", model_song, "state",
                                 GObject.BindingFlags.SYNC_CREATE)
 
-                            if song.props.media.get_id() == coresong.get_id():
+                            song_id = coresong.props.media.get_id()
+                            if song.props.media.get_id() == song_id:
                                 song.props.state = SongWidget.State.PLAYING
 
                 self.emit("playlist-loaded")
