@@ -1,6 +1,6 @@
 import gi
 gi.require_versions({'Dazzle': '1.0', 'Gfm': '0.1'})
-from gi.repository import Dazzle, GObject, Gio, Gfm
+from gi.repository import Dazzle, GObject, Gio, Gfm, Gtk
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
@@ -64,11 +64,7 @@ class CoreModel(GObject.GObject):
             self._artist_model)
         self._artist_search_model.set_filter_func(lambda a: False)
 
-        print("PLAYLIST_MODEL", self._playlist_model)
-        self._grilo = CoreGrilo(
-            self, self._model, self._album_model, self._artist_model,
-            self._coreselection, self._song_search_model,
-            self._album_search_model)
+        self._grilo = CoreGrilo(self, self._coreselection)
 
     def _filter_selected(self, coresong):
         return coresong.props.selected
@@ -80,10 +76,6 @@ class CoreModel(GObject.GObject):
         name_a = artist_a.props.artist.casefold()
         name_b = artist_b.props.artist.casefold()
         return name_a > name_b
-
-    @log
-    def get_model(self):
-        return self._model
 
     def _wrap_list_store_sort_func(self, func):
 
@@ -124,9 +116,6 @@ class CoreModel(GObject.GObject):
             self._wrap_list_store_sort_func(_album_sort))
 
         return albums_model_sort
-
-    def get_playlist_model(self):
-        return self._playlist_model_sort
 
     def set_playlist_model(self, playlist_type, coresong, model):
         with model.freeze_notify():
@@ -193,24 +182,66 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
 
-    @log
-    def get_albums_model(self):
-        return self._album_model_sort
-
-    def get_artists_model(self):
-        return self._artist_model_sort
-
-    def get_songs_model(self):
-        return self._songliststore
-
-    def get_songs_search_model(self):
-        return self._song_search_model
-
-    def get_album_search_model(self):
-        return self._album_search_model
-
-    def get_artist_search_model(self):
-        return self._artist_search_model
-
     def search(self, text):
         self._grilo.search(text)
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def songs(self):
+        return self._model
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def albums(self):
+        return self._album_model
+
+    @GObject.property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def artists(self):
+        return self._artist_model
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def playlist(self):
+        return self._playlist_model
+
+    @GObject.Property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def albums_sort(self):
+        return self._album_model_sort
+
+    @GObject.property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def artists_sort(self):
+        return self._artist_model_sort
+
+    @GObject.Property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def playlist_sort(self):
+        return self._playlist_model_sort
+
+    @GObject.Property(
+        type=Dazzle.ListModelFilter, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def songs_search(self):
+        return self._song_search_model
+
+    @GObject.Property(
+        type=Dazzle.ListModelFilter, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def albums_search(self):
+        return self._album_search_model
+
+    @GObject.property(
+        type=Dazzle.ListModelFilter, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def artists_search(self):
+        return self._artist_search_model
+
+    @GObject.Property(
+        type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
+    def songs_gtkliststore(self):
+        return self._songliststore
