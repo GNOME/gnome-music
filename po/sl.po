@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-14 14:04+0000\n"
-"PO-Revision-Date: 2019-02-14 18:42+0100\n"
+"POT-Creation-Date: 2019-03-30 13:37+0000\n"
+"PO-Revision-Date: 2019-03-30 19:49+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -46,6 +46,10 @@ msgstr ""
 "Iskanje posnetkov v zbirki, pridobivanje glasbe prek strežnikov DLNA in "
 "iskanje s storitvami Jamendo in Magnatune."
 
+#: data/org.gnome.Music.appdata.xml.in.in:34
+msgid "The GNOME Music developers"
+msgstr "Razvijalci programa GNOME Glasba"
+
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
 #: gnomemusic/window.py:72
 msgid "Music"
@@ -54,11 +58,6 @@ msgstr "Glasba"
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Predvajalnik glasbe"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -135,7 +134,7 @@ msgstr ""
 
 #: data/ui/AboutDialog.ui.in:9
 msgid "Copyright © 2018 GNOME Music Developers"
-msgstr "Avtorske pravice © 2018 Razvijalci programa GNOME Music"
+msgstr "Avtorske pravice © 2018 Razvijalci programa GNOME Glasba"
 
 #: data/ui/AboutDialog.ui.in:10
 msgid "A music player and management application for GNOME."
@@ -143,7 +142,7 @@ msgstr "Program GNOME za upravljanje in predvajanje glasbe."
 
 #: data/ui/AboutDialog.ui.in:12
 msgid "Visit GNOME Music website"
-msgstr "Spletna stran programa GNOME Music"
+msgstr "Spletna stran programa GNOME Glasba"
 
 #: data/ui/AboutDialog.ui.in:13
 msgid ""
@@ -172,7 +171,7 @@ msgid ""
 "“Magic of the vinyl” by Sami Pyylampi image is licensed by CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 msgstr ""
-"GNOME Music je prosta programska oprema; program lahko razširjate in/ali "
+"GNOME Glasba je prosta programska oprema; program lahko razširjate in/ali "
 "spreminjate pod pogoji Splošnega Javnega Dovoljenja GNU (angleško: GNU "
 "General Public License), kot je objavljen s strani ustanove Free Software "
 "Foundation; različice 2 ali (po želji) katerekoli kasnejše različice.\n"
@@ -204,7 +203,7 @@ msgstr "izdano"
 msgid "Running Length"
 msgstr "Dolžina predvajanja"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:71
 msgid "Composer"
 msgstr "Skladatelj"
 
@@ -585,33 +584,36 @@ msgstr[1] "{} skladba"
 msgstr[2] "{} skladbi"
 msgstr[3] "{} skladbe"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
 msgid "All"
 msgstr "Vse"
 
-#: gnomemusic/widgets/searchbar.py:67
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Artist"
 msgstr "Izvajalec"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:70
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:72
 msgid "Track Title"
 msgstr "Naslov skladbe"
 
-#: gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:118
 msgid "Local"
 msgstr "Krajevno"
 
-#: gnomemusic/widgets/searchbar.py:283
+#: gnomemusic/widgets/searchbar.py:287
 msgid "Sources"
 msgstr "Viri"
 
-#: gnomemusic/widgets/searchbar.py:292
+#: gnomemusic/widgets/searchbar.py:298
 msgid "Match"
 msgstr "Se sklada"
+
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
 
 #~ msgid "_Quit"
 #~ msgstr "_Končaj"
