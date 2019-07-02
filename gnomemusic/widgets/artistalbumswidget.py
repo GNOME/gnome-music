@@ -104,13 +104,14 @@ class ArtistAlbumsWidget(Gtk.Box):
         if self.props.selection_mode:
             return
 
+        coremodel = self._player._app.props.coremodel
+
         def _on_playlist_loaded(klass):
             self._player.play(None, None, song_widget._media)
-            self._player._app._coremodel.disconnect(signal_id)
+            coremodel.disconnect(signal_id)
 
-        signal_id = self._player._app._coremodel.connect(
-            "playlist-loaded", _on_playlist_loaded)
-        self._player._app._coremodel.set_playlist_model(
+        signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
+        coremodel.set_playlist_model(
             PlayerPlaylist.Type.ARTIST, song_widget._media, self._model)
 
     def _add_album(self, corealbum):

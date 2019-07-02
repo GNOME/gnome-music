@@ -92,7 +92,7 @@ class AlbumsView(BaseView):
 
         self._box.add(scrolledwin)
 
-        self._model = self._window._app._coremodel.props.albums_sort
+        self._model = self._window._app.props.coremodel.props.albums_sort
         self._view.bind_model(self._model, self._create_widget)
 
         self._view.show()
@@ -150,7 +150,7 @@ class AlbumsView(BaseView):
         Selects or unselects all items without sending the notify::active
         signal for performance purposes.
         """
-        with self._window._app._coreselection.freeze_notify():
+        with self._window._app.props.coreselection.freeze_notify():
             for child in self._view.get_children():
                 child.props.selected = selected
                 child.props.corealbum.props.selected = selected

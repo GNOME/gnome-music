@@ -101,6 +101,26 @@ class Application(Gtk.Application):
         """
         return self._settings
 
+    @GObject.Property(
+        type=CoreModel, flags=GObject.ParamFlags.READABLE)
+    def coremodel(self):
+        """Get class providing all listmodels.
+
+        :returns: List model provider class
+        :rtype: CoreModel
+        """
+        return self._coremodel
+
+    @GObject.Property(
+        type=CoreSelection, flags=GObject.ParamFlags.READABLE)
+    def coreselection(self):
+        """Get selection object.
+
+        :returns: Object containing all selection info
+        :rtype: CoreSelection
+        """
+        return self._coreselection
+
     @log
     def _build_app_menu(self):
         action_entries = [
