@@ -53,6 +53,7 @@ class SongsView(BaseView):
         :param player: The main player object
         """
         self._window = window
+        self._coremodel = self._window._app._coremodel
         super().__init__('songs', _("Songs"), window)
 
         self._offset = 0
@@ -62,8 +63,7 @@ class SongsView(BaseView):
 
         self._add_list_renderers()
 
-        coremodel = self._window._app._coremodel
-        self._playlist_model = coremodel.get_playlist_model()
+        self._playlist_model = self._coremodel.props.playlist
 
         self.player = player
         self.player.connect('song-changed', self._update_model)
@@ -80,7 +80,7 @@ class SongsView(BaseView):
         self._view = Gtk.TreeView()
         self._view.props.headers_visible = False
         self._view.props.valign = Gtk.Align.START
-        self._view.props.model = self._window._app._coremodel.get_songs_model()
+        self._view.props.model = self._coremodel.props.songs_gtkliststore
         self._view.props.activate_on_single_click = True
 
         self._ctrl = Gtk.GestureMultiPress().new(self._view)

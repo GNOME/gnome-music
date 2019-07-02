@@ -11,19 +11,12 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(
-            self, coremodel, model, albums_model, artists_model,
-            coreselection, song_search_model, album_search_model):
+    def __init__(self, coremodel, coreselection):
         super().__init__()
 
         self._coremodel = coremodel
         self._coreselection = coreselection
-        self._model = model
         self._wrappers = []
-        self._albums_model = albums_model
-        self._artists_model = artists_model
-        self._song_search_model = song_search_model
-        self._album_search_model = album_search_model
 
         Grl.init(None)
 
@@ -36,15 +29,10 @@ class CoreGrilo(GObject.GObject):
 
         if source.props.source_id == "grl-tracker-source":
             new_wrapper = GrlTrackerSource(
-                source, self._model, self._albums_model,
-                self._artists_model, self._coremodel, self._coreselection,
-                self, self._song_search_model, self._album_search_model)
+                source, self._coremodel, self._coreselection, self)
         elif source.props.source_id[:10] == "grl-dleyna":
             new_wrapper = GrlDLeynaSource(
-                source, self._model, self._albums_model,
-                self._artists_model, self._coremodel, self._coreselection,
-                self, self._song_search_model, self._album_search_model)
-
+                source, self._coremodel, self._coreselection, self)
         self._wrappers.append(new_wrapper)
         print(new_wrapper, "added")
 

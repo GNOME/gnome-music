@@ -28,7 +28,7 @@ class CoreDisc(GObject.GObject):
     def model(self):
         if self._model is None:
             self._filter_model = Dazzle.ListModelFilter.new(
-                self._coremodel.get_model())
+                self._coremodel.props.songs)
             self._filter_model.set_filter_func(lambda a: False)
             self._sort_model = Gfm.SortListModel.new(self._filter_model)
             self._sort_model.set_sort_func(
@@ -36,7 +36,7 @@ class CoreDisc(GObject.GObject):
 
             self._model = self._sort_model
 
-            self._coremodel.get_model().connect(
+            self._coremodel.props.songs.connect(
                 "items-changed", self._on_core_changed)
             self._model.connect("items-changed", self._on_disc_changed)
 
