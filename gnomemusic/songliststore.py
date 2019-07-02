@@ -66,6 +66,14 @@ class SongListStore(Gtk.ListStore):
                     position, [2, 3, 5, 9],
                     [coresong.props.title, coresong.props.artist, coresong,
                      int(coresong.props.favorite)])
+                coresong.connect(
+                    "notify::favorite", self._on_favorite_changed)
+
+    def _on_favorite_changed(self, coresong, value):
+        for row in self:
+            if coresong == row[5]:
+                row[9] = coresong.props.favorite
+                break
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
