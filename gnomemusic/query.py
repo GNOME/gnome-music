@@ -90,11 +90,6 @@ class Query():
         return Query.songs('?song a nmm:MusicPiece ; a nfo:FileDataObject .')
 
     @staticmethod
-    def all_playlists():
-        """Query to retrieve all playlists (user and smart ones)."""
-        return Query.playlists('?playlist a nmm:Playlist .')
-
-    @staticmethod
     def all_user_playlists():
         """Query to retrieve playlists created by user."""
         return Query.playlists(
