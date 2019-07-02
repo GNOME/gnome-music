@@ -115,7 +115,7 @@ class PlayerPlaylist(GObject.GObject):
         # self._discoverer.connect('discovered', self._on_discovered)
         # self._discoverer.start()
 
-        self._model = self._app._coremodel.props.playlist_sort
+        self._model = self._app.props.coremodel.props.playlist_sort
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 

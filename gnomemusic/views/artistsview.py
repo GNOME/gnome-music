@@ -62,7 +62,7 @@ class ArtistsView(BaseView):
         self._artists = {}
 
         self._window = window
-        self._model = window._app._coremodel.props.artists_sort
+        self._model = window._app.props.coremodel.props.artists_sort
         self._sidebar.bind_model(self._model, self._create_widget)
 
         sidebar_container.props.width_request = 220
