@@ -46,9 +46,9 @@ class SearchView(BaseView):
     @log
     def __init__(self, window, player):
         self._coremodel = window._app._coremodel
-        self._model = self._coremodel.get_songs_search_model()
-        self._album_model = self._coremodel.get_album_search_model()
-        self._artist_model = self._coremodel.get_artist_search_model()
+        self._model = self._coremodel.props.songs_search
+        self._album_model = self._coremodel.props.albums_search
+        self._artist_model = self._coremodel.props.artists_search
         super().__init__('search', None, window)
 
         self.player = player

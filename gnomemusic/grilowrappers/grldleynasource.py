@@ -28,19 +28,17 @@ class GrlDLeynaSource(GObject.GObject):
     def __repr__(self):
         return "<GrlDLeynaSource>"
 
-    def __init__(
-            self, source, model, albums_model, artists_model, coremodel,
-            core_selection, grilo, song_search_model, album_search_model):
+    def __init__(self, source, coremodel, core_selection, grilo):
         super().__init__()
 
         self._coremodel = coremodel
         self._core_selection = core_selection
         self._grilo = grilo
         self._source = source
-        self._model = model
-        self._albums_model = albums_model
+        self._model = self._coremodel.props.songs
+        self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
-        self._artists_model = artists_model
+        self._artists_model = self._coremodel.props.artists
 
         Grl.init(None)
 
