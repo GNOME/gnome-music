@@ -92,7 +92,7 @@ class AlbumsView(BaseView):
 
         self._box.add(scrolledwin)
 
-        self._model = self._window._app._coremodel.get_albums_model()
+        self._model = self._window._app._coremodel.props.albums_sort
         self._view.bind_model(self._model, self._create_widget)
 
         self._view.show()
