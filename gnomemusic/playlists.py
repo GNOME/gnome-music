@@ -252,14 +252,11 @@ class Playlists(GObject.GObject):
 
     @log
     def update_smart_playlist(self, playlist):
-        """Given a smart playlist (subclass of SmartPlaylists),
-        updates according to its query."""
-        # Clear the playlist
-        self.clear_playlist(playlist)
+        """Updates a smart playlists.
 
-    @log
-    def clear_playlist(self, playlist):
-        """Starts cleaning the playlist"""
+        :param SmartPlaylist playlist: playlist to update
+        """
+        # Clear the smart playlist and then repopulate it
         query = Query.clear_playlist_with_id(playlist.ID)
         self._tracker.update_async(
             query, GLib.PRIORITY_LOW, None, self._smart_playlist_cleared_cb,
