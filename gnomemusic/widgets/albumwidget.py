@@ -155,7 +155,6 @@ class AlbumWidget(Gtk.EventBox):
 
     @log
     def _song_activated(self, widget, song_widget):
-        print("activated", song_widget)
         if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
             return
@@ -164,7 +163,7 @@ class AlbumWidget(Gtk.EventBox):
         coremodel = self._parent_view._window._app.props.coremodel
 
         def _on_playlist_loaded(klass):
-            self._player.play(None, None, song_widget.props.coresong)
+            self._player.play(song_widget.props.coresong)
             coremodel.disconnect(signal_id)
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)

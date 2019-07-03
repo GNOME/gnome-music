@@ -698,7 +698,8 @@ class MPRIS(DBusInterface):
         position = self._path_list.index(current_song_path)
         goto_index = self._path_list.index(path)
         song_offset = goto_index - position
-        self._player.play(song_offset=song_offset)
+        # FIXME: Dropped this for core rewrite.
+        # self._player.play(song_offset=song_offset)
 
     def _track_list_replaced(self, tracks, current_song):
         parameters = {
