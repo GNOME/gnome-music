@@ -81,7 +81,7 @@ class CoreDisc(GObject.GObject):
         model_filter = model
 
         def _filter_func(core_song):
-            return core_song.props.media.get_id() in album_ids
+            return core_song.props.grlid in album_ids
 
         def _reverse_sort(song_a, song_b, data=None):
             return song_a.props.track_number - song_b.props.track_number
@@ -95,7 +95,7 @@ class CoreDisc(GObject.GObject):
                 self._update_duration()
                 return
 
-            album_ids.append(media.get_id())
+            album_ids.append(media.get_source() + media.get_id())
 
         self._coremodel._grilo.populate_album_disc_songs(
             media, discnr, _callback)
