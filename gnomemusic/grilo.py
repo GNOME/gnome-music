@@ -278,18 +278,6 @@ class Grilo(GObject.GObject):
         pass
 
     @log
-    def populate_artists(self, offset, callback, count=-1):
-        self.populate_items(Query.all_artists(), offset, callback, count)
-
-    @log
-    def populate_albums(self, offset, callback, count=-1):
-        self.populate_items(Query.all_albums(), offset, callback, count)
-
-    @log
-    def populate_songs(self, offset, callback, count=-1):
-        self.populate_items(Query.all_songs(), offset, callback, count)
-
-    @log
     def populate_playlists(self, offset, callback, count=-1, data=None):
         """Asynchronously get playlists (user and smart ones)
 
@@ -313,25 +301,9 @@ class Grilo(GObject.GObject):
             Query.all_user_playlists(), offset, callback, count)
 
     @log
-    def populate_album_songs(self, album, callback, count=-1):
-        if album.get_source() == 'grl-tracker-source':
-            self.populate_items(
-                Query.album_songs(album.get_id()), 0, callback, count)
-        else:
-            source = self.props.sources[album.get_source()]
-            length = len(album.songs)
-            for i, track in enumerate(album.songs):
-                callback(source, None, track, length - (i + 1), None)
-            callback(source, None, None, 0, None)
-
-    @log
     def populate_playlist_songs(self, playlist, callback, count=-1):
         self.populate_items(
             Query.playlist_songs(playlist.get_id()), 0, callback, count)
-
-    @log
-    def populate_custom_query(self, query, callback, count=-1, data=None):
-        self.populate_items(query, 0, callback, count, data)
 
     @log
     def populate_items(self, query, offset, callback, count=-1, data=None):
@@ -346,37 +318,6 @@ class Grilo(GObject.GObject):
                     "Error {}: {}".format(error.domain, error.message))
             callback(source, param, item, remaining, data)
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
-
-    @log
-    def search(self, q, callback, data=None):
-        options = self.options.copy()
-        self._search_callback_counter = 0
-
-        @log
-        def _search_callback(source, param, item, remaining, data, error):
-            if error:
-                logger.warning(
-                    "Error {}: {}".format(error.domain, error.message))
-            callback(source, param, item, remaining, data)
-            self._search_callback_counter += 1
-
-        @log
-        def _multiple_search_callback(source, param, item, remaining, data, error):
-            if error:
-                logger.warning(
-                    "Error {}: {}".format(error.domain, error.message))
-            callback(source, param, item, remaining, data)
-
-        if self.search_source:
-            if self.search_source.get_id().startswith('grl-upnp'):
-                options.set_type_filter(Grl.TypeFilter.AUDIO)
-            self.search_source.search(q, self.METADATA_KEYS, options,
-                                      _search_callback, data)
-        else:
-            Grl.multiple_search(
-                [self.props.sources[key] for key in self.props.sources
-                 if key != 'grl-tracker-source'], q,
-                 self.METADATA_KEYS, options, _multiple_search_callback, data)
 
     @log
     def get_album_art_for_item(self, item, callback):
