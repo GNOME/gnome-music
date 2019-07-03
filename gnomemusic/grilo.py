@@ -348,16 +348,6 @@ class Grilo(GObject.GObject):
         self.tracker.query(query, self.METADATA_KEYS, options, _callback, data)
 
     @log
-    def set_favorite(self, song_item, favorite):
-        """Set the favorite status of a media item
-
-        :param song_item: A Grilo media item
-        :param bool favorite: Set favorite status
-        """
-        if song_item.get_favourite() != favorite:
-            self.toggle_favorite(song_item)
-
-    @log
     def search(self, q, callback, data=None):
         options = self.options.copy()
         self._search_callback_counter = 0
@@ -420,75 +410,6 @@ class Grilo(GObject.GObject):
         query = Query.get_playlist_song_with_id(playlist_id, entry_id)
 
         self.tracker.query(query, self.METADATA_KEYS, options, callback, None)
-
-    @log
-    def _store_metadata(self, media, key):
-        """Convenience function to store metadata
-
-        Wrap the metadata store call in a idle_add compatible form.
-        :param media: A Grilo media item
-        :param key: A Grilo metadata key
-        """
-        # FIXME: We assume this is the tracker plugin.
-        # FIXME: Doing this async crashes.
-        try:
-            self.tracker.store_metadata_sync(
-                media, [key], Grl.WriteFlags.NORMAL)
-        except GLib.Error as error:
-            logger.warning(
-                "Error {}: {}".format(error.domain, error.message))
-
-        return GLib.SOURCE_REMOVE
-
-    @log
-    def bump_play_count(self, media):
-        """Bumps the play count of a song
-
-        Adds one to the playcount and adds it to the tracker store
-        :param media: A Grilo media item
-        """
-        count = media.get_play_count()
-        media.set_play_count(count + 1)
-        # FIXME: Do this as an idle call, otherwise it may not return
-        # and block other sources. This seems to point to a problem in
-        # Grilo (gnomemusic!411).
-        GLib.idle_add(self._store_metadata, media, Grl.METADATA_KEY_PLAY_COUNT)
-
-    @log
-    def set_last_played(self, media):
-        """Sets the date-time when the media was last played
-
-        Sets the last played date-time for the media.
-        :param media: A Grilo media item
-        """
-        media.set_last_played(GLib.DateTime.new_now_utc())
-        # FIXME: Do this as an idle call, otherwise it may not return
-        # and block other sources. This seems to point to a problem in
-        # Grilo (gnomemusic!411).
-        GLib.idle_add(
-            self._store_metadata, media, Grl.METADATA_KEY_LAST_PLAYED)
-
-    @log
-    def toggle_favorite(self, media, override=False):
-        """Toggles favorite status for media item
-
-        Toggles favorite status and writes it back to the tracker store
-        :param media: A Grilo media item
-        """
-        print("favorite for media", media)
-        if not override:
-            if media.get_favourite():
-                # For now keep unsetting the lyrics to deal with how
-                # previous versions dealt with favorites.
-                media.set_lyrics("")
-                media.set_favourite(False)
-            else:
-                media.set_favourite(True)
-
-        # FIXME: Do this as an idle call, otherwise it may not return
-        # and block other sources. This seems to point to a problem in
-        # Grilo (gnomemusic!411).
-        GLib.idle_add(self._store_metadata, media, Grl.METADATA_KEY_FAVOURITE)
 
     @log
     def songs_available(self, callback):
