@@ -653,8 +653,8 @@ class Player(GObject.GObject):
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
                 playlists.update_all_smart_playlists()
-                grilo.bump_play_count(current_song)
-                grilo.set_last_played(current_song)
+                current_song.bump_play_count()
+                current_song.set_last_played()
 
     @log
     def _on_repeat_setting_changed(self, settings, value):
