@@ -37,6 +37,8 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._flatten_model = None
+        self._search_signal_id = None
+        self._song_signal_id = None
 
         self._model = Gio.ListStore.new(CoreSong)
         self._songliststore = SongListStore(self._model)
@@ -120,30 +122,31 @@ class CoreModel(GObject.GObject):
         return albums_model_sort
 
     def set_playlist_model(self, playlist_type, coresong, model):
+
+        def _on_items_changed(model, position, removed, added):
+            if removed > 0:
+                for i in list(range(removed)):
+                    self._playlist_model.remove(position)
+
+            if added > 0:
+                for i in list(range(added)):
+                    coresong = model[position + i]
+                    song = CoreSong(
+                        coresong.props.media, self._coreselection,
+                        self._grilo)
+
+                    self._playlist_model.insert(position + i, song)
+
+                    song.bind_property(
+                        "state", coresong, "state",
+                        GObject.BindingFlags.SYNC_CREATE)
+
         with model.freeze_notify():
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
 
                 self._playlist_model.remove_all()
                 proxy_model = Gio.ListStore.new(Gio.ListModel)
-
-                def _on_items_changed(model, position, removed, added):
-                    if removed > 0:
-                        for i in list(range(removed)):
-                            self._playlist_model.remove(position)
-
-                    if added > 0:
-                        for i in list(range(added)):
-                            coresong = model[position + i]
-                            song = CoreSong(
-                                coresong.props.media, self._coreselection,
-                                self._grilo)
-
-                            self._playlist_model.insert(position + i, song)
-
-                            song.bind_property(
-                                "state", coresong, "state",
-                                GObject.BindingFlags.SYNC_CREATE)
 
                 for disc in model:
                     proxy_model.append(disc.props.model)
@@ -169,25 +172,36 @@ class CoreModel(GObject.GObject):
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.ARTIST:
                 self._playlist_model.remove_all()
+                proxy_model = Gio.ListStore.new(Gio.ListModel)
 
                 for artist_album in model:
                     for disc in artist_album.model:
-                        for model_song in disc.model:
-                            song = CoreSong(
-                                model_song.props.media, self._coreselection,
-                                self._grilo)
+                        proxy_model.append(disc.props.model)
 
-                            self._playlist_model.append(song)
-                            song.bind_property(
-                                "state", model_song, "state",
-                                GObject.BindingFlags.SYNC_CREATE)
+                self._flatten_model = Gfm.FlattenListModel.new(
+                    CoreSong, proxy_model)
+                self._flatten_model.connect("items-changed", _on_items_changed)
 
-                            song_id = coresong.props.media.get_id()
-                            if song.props.media.get_id() == song_id:
-                                song.props.state = SongWidget.State.PLAYING
+                for model_song in self._flatten_model:
+                    song = CoreSong(
+                        model_song.props.media, self._coreselection,
+                        self._grilo)
+
+                    self._playlist_model.append(song)
+                    song.bind_property(
+                        "state", model_song, "state",
+                        GObject.BindingFlags.SYNC_CREATE)
+
+                    song_id = coresong.props.media.get_id()
+                    if song.props.media.get_id() == song_id:
+                        song.props.state = SongWidget.State.PLAYING
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SONGS:
+                if self._song_signal_id:
+                    self._songliststore.props.model.disconnect(
+                        self._song_signal_id)
+
                 self._playlist_model.remove_all()
 
                 for song in self._songliststore.props.model:
@@ -198,17 +212,24 @@ class CoreModel(GObject.GObject):
                     if song is coresong:
                         song.props.state = SongWidget.State.PLAYING
 
+                self._song_signal_id = self._songliststore.props.model.connect(
+                    "items-changed", _on_items_changed)
+
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
+                if self._search_signal_id:
+                    self._song_search_model.disconnect(self._search_signal_id)
+
                 self._playlist_model.remove_all()
 
                 for song in self._song_search_model:
                     self._playlist_model.append(song)
 
-                    if song.props.state == SongWidget.State.PLAYING:
-                        song.props.state = SongWidget.State.PLAYED
                     if song is coresong:
                         song.props.state = SongWidget.State.PLAYING
+
+                self._search_signal_id = self._song_search_model.connect(
+                    "items-changed", _on_items_changed)
 
                 self.emit("playlist-loaded")
 
