@@ -1,6 +1,6 @@
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GObject
+from gi.repository import Grl, GLib, GObject
 
 from gnomemusic import log
 import gnomemusic.utils as utils
@@ -74,3 +74,11 @@ class CoreSong(GObject.GObject):
         self.props.title = utils.get_media_title(media)
         self.props.track_number = media.get_track_number()
         self.props.url = media.get_url()
+
+    def bump_play_count(self):
+        self.props.media.set_play_count(self.props.play_count + 1)
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
+
+    def set_last_played(self):
+        self.props.media.set_last_played(GLib.DateTime.new_now_utc())
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
