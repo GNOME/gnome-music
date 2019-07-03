@@ -168,16 +168,16 @@ class PlayerToolbar(Gtk.ActionBar):
 
         :param Player player: The main player object
         """
-        current_song = player.props.current_song
-        self._duration_label.set_label(
-            utils.seconds_to_string(current_song.get_duration()))
+        coresong = player.props.current_song
+        self._duration_label.props.label = utils.seconds_to_string(
+            coresong.props.duration)
         self._progress_time_label.props.label = "0:00"
 
         self._play_button.set_sensitive(True)
         self._sync_prev_next()
 
-        artist = utils.get_artist_name(current_song)
-        title = utils.get_media_title(current_song)
+        artist = coresong.props.artist
+        title = coresong.props.title
 
         self._title_label.props.label = title
         self._artist_label.props.label = artist
@@ -185,7 +185,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._tooltip.props.title = title
         self._tooltip.props.subtitle = artist
 
-        self._cover_stack.update(current_song)
+        self._cover_stack.update(coresong.props.media)
 
     @Gtk.Template.Callback()
     @log

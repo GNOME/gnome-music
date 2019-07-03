@@ -327,42 +327,42 @@ class MPRIS(DBusInterface):
             return 'Playlist'
 
     @log
-    def _get_metadata(self, media=None, index=None):
-        song_dbus_path = self._get_song_dbus_path(media, index)
+    def _get_metadata(self, coresong=None, index=None):
+        song_dbus_path = self._get_song_dbus_path(coresong, index)
         if not self._player.props.current_song:
             return {
                 'mpris:trackid': GLib.Variant('o', song_dbus_path)
             }
 
-        if not media:
-            media = self._player.props.current_song
+        if not coresong:
+            coresong = self._player.props.current_song
 
-        length = media.get_duration() * 1e6
-        user_rating = 1.0 if media.get_favourite() else 0.0
-        artist = utils.get_artist_name(media)
+        length = coresong.props.duration * 1e6
+        user_rating = 1.0 if coresong.props.favorite else 0.0
+        artist = coresong.props.artist
 
         metadata = {
             'mpris:trackid': GLib.Variant('o', song_dbus_path),
-            'xesam:url': GLib.Variant('s', media.get_url()),
+            'xesam:url': GLib.Variant('s', coresong.props.url),
             'mpris:length': GLib.Variant('x', length),
-            'xesam:useCount': GLib.Variant('i', media.get_play_count()),
+            'xesam:useCount': GLib.Variant('i', coresong.props.play_count),
             'xesam:userRating': GLib.Variant('d', user_rating),
-            'xesam:title': GLib.Variant('s', utils.get_media_title(media)),
-            'xesam:album': GLib.Variant('s', utils.get_album_title(media)),
+            'xesam:title': GLib.Variant('s', coresong.props.title),
+            'xesam:album': GLib.Variant('s', coresong.props.album),
             'xesam:artist': GLib.Variant('as', [artist]),
             'xesam:albumArtist': GLib.Variant('as', [artist])
         }
 
-        genre = media.get_genre()
+        genre = coresong.props.media.get_genre()
         if genre is not None:
             metadata['xesam:genre'] = GLib.Variant('as', [genre])
 
-        last_played = media.get_last_played()
+        last_played = coresong.props.media.get_last_played()
         if last_played is not None:
             last_played_str = last_played.format("%FT%T%:z")
             metadata['xesam:lastUsed'] = GLib.Variant('s', last_played_str)
 
-        track_nr = media.get_track_number()
+        track_nr = coresong.props.track_number
         if track_nr > 0:
             metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
 
@@ -373,12 +373,12 @@ class MPRIS(DBusInterface):
         # loading.
         # FIXME: The thumbnail retrieval should take place in the
         # player.
-        art_url = media.get_thumbnail()
+        art_url = coresong.props.media.get_thumbnail()
         if not art_url:
-            thumb_file = lookup_art_file_from_cache(media)
+            thumb_file = lookup_art_file_from_cache(coresong.props.media)
             if thumb_file:
                 art_url = GLib.filename_to_uri(thumb_file.get_path())
-                media.set_thumbnail(art_url)
+                coresong.props.media.set_thumbnail(art_url)
 
         if art_url:
             metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
@@ -386,15 +386,16 @@ class MPRIS(DBusInterface):
         return metadata
 
     @log
-    def _get_song_dbus_path(self, media=None, index=None):
+    def _get_song_dbus_path(self, coresong=None, index=None):
         """Convert a Grilo media to a D-Bus path
 
-        The hex encoding is used to remove any possible invalid character.
-        Use player index to make the path truly unique in case the same song
-        is present multiple times in a playlist.
-        If media is None, it means that the current song path is requested.
+        The hex encoding is used to remove any possible invalid
+        character. Use player index to make the path truly unique in
+        case the same song is present multiple times in a playlist.
+        If coresong is None, it means that the current song path is
+        requested.
 
-        :param Grl.Media media: The media object
+        :param CoreSong coresong: The CoreSong object
         :param int index: The media position in the current playlist
         :return: a D-Bus id to uniquely identify the song
         :rtype: str
@@ -402,11 +403,11 @@ class MPRIS(DBusInterface):
         if not self._player.props.current_song:
             return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
-        if not media:
-            media = self._player.props.current_song
+        if not coresong:
+            coresong = self._player.props.current_song
             index = self._player.props.position
 
-        id_hex = media.get_id().encode('ascii').hex()
+        id_hex = coresong.props.grlid.encode('ascii').hex()
         path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
             id_hex, index)
         return path
