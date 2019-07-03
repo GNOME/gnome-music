@@ -63,7 +63,7 @@ class SongsView(BaseView):
 
         self._add_list_renderers()
 
-        self._playlist_model = self._coremodel.props.playlist
+        self._playlist_model = self._coremodel.props.playlist_sort
 
         self.player = player
         self.player.connect('song-changed', self._update_model)
