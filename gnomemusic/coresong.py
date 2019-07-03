@@ -2,7 +2,6 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
-from gnomemusic import log
 import gnomemusic.utils as utils
 
 
@@ -22,7 +21,6 @@ class CoreSong(GObject.GObject):
     track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
 
-    @log
     def __init__(self, media, coreselection, grilo):
         super().__init__()
 
@@ -62,7 +60,6 @@ class CoreSong(GObject.GObject):
         self._selected = value
         self._coreselection.update_selection(self, self._selected)
 
-    @log
     def update(self, media):
         self.props.media = media
         self.props.album = utils.get_album_title(media)
