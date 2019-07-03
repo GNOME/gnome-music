@@ -694,11 +694,12 @@ class MPRIS(DBusInterface):
 
         :param str path: Identifier of the track to skip to
         """
-        current_song_path = self._get_song_dbus_path()
-        position = self._path_list.index(current_song_path)
-        goto_index = self._path_list.index(path)
-        song_offset = goto_index - position
         # FIXME: Dropped this for core rewrite.
+        pass
+        # current_song_path = self._get_song_dbus_path()
+        # position = self._path_list.index(current_song_path)
+        # goto_index = self._path_list.index(path)
+        # song_offset = goto_index - position
         # self._player.play(song_offset=song_offset)
 
     def _track_list_replaced(self, tracks, current_song):
