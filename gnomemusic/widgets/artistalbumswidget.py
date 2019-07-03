@@ -107,7 +107,7 @@ class ArtistAlbumsWidget(Gtk.Box):
         coremodel = self._player._app.props.coremodel
 
         def _on_playlist_loaded(klass):
-            self._player.play(None, None, song_widget._media)
+            self._player.play(None, None, song_widget.props.coresong)
             coremodel.disconnect(signal_id)
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)

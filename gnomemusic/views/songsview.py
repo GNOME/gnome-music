@@ -164,7 +164,7 @@ class SongsView(BaseView):
         if current_song is None:
             return
 
-        if model[itr][5].props.media.get_id() == current_song.get_id():
+        if model[itr][5].props.grlid == current_song.props.grlid:
             cell.props.icon_name = self._now_playing_icon_name
             cell.props.visible = True
         else:

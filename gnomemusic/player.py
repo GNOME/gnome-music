@@ -29,16 +29,13 @@ import logging
 import time
 
 import gi
-gi.require_version('Grl', '0.3')
-gi.require_version('Gst', '1.0')
-gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GObject, Grl, GstPbutils
+from gi.repository import GObject, GstPbutils
 from gi._gi import pygobject_new_full
 
 from gnomemusic import log
+from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.grilo import grilo
 from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.songwidget import SongWidget
@@ -255,25 +252,25 @@ class PlayerPlaylist(GObject.GObject):
         return self._position
 
     @GObject.Property(
-        type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
+        type=CoreSong, default=None, flags=GObject.ParamFlags.READABLE)
     def current_song(self):
         """Get current song.
 
         :returns: the song being played or None if there are no songs
-        :rtype: Grl.Media
+        :rtype: CoreSong
         """
         n_items = self._model.get_n_items()
         if (n_items != 0
                 and n_items > self._position):
             current_song = self._model[self._position]
             if current_song.props.state == SongWidget.State.PLAYING:
-                return current_song.props.media
+                return current_song
 
         for idx, coresong in enumerate(self._model):
             if coresong.props.state == SongWidget.State.PLAYING:
                 print("position", idx)
                 self._position = idx
-                return coresong.props.media
+                return coresong
 
         return None
 
@@ -463,18 +460,11 @@ class Player(GObject.GObject):
         return self.props.state == Playback.PLAYING
 
     @log
-    def _load(self, song):
-        self._gst_player.props.state = Playback.LOADING
-        self._time_stamp = int(time.time())
-
-        self._gst_player.props.url = song.get_url()
-
-    @log
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
             self._playlist.next()
 
-            new_url = self._playlist.props.current_song.get_url()
+            new_url = self._playlist.props.current_song.props.url
             self._gst_player.props.url = new_url
             self._gapless_set = True
 
@@ -496,15 +486,13 @@ class Player(GObject.GObject):
 
         self.emit("song-changed")
 
-    def _load2(self, song):
+    def _load(self, coresong):
         self._gst_player.props.state = Playback.LOADING
         self._time_stamp = int(time.time())
-
-        self._gst_player.props.url = song.get_url()
-        print(song.get_url())
+        self._gst_player.props.url = coresong.props.url
 
     @log
-    def play(self, song_changed=True, song_offset=None, media=None):
+    def play(self, song_changed=True, song_offset=None, coresong=None):
         """Play a song.
 
         Load a new song or resume playback depending on song_changed
@@ -516,10 +504,10 @@ class Player(GObject.GObject):
         if self.props.current_song is None:
             return
 
-        if media is None:
-            media = self._playlist.props.current_song
+        if coresong is None:
+            coresong = self._playlist.props.current_song
 
-        self._load2(media)
+        self._load(coresong)
 
         self._gst_player.props.state = Playback.PLAYING
         return
@@ -706,12 +694,12 @@ class Player(GObject.GObject):
         return self._playlist.props.position
 
     @GObject.Property(
-        type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
+        type=CoreSong, default=None, flags=GObject.ParamFlags.READABLE)
     def current_song(self):
         """Get the current song.
 
-        :returns: the song being played. None if there is no playlist.
-        :rtype: Grl.Media
+        :returns: The song being played. None if there is no playlist.
+        :rtype: CoreSong
         """
         return self._playlist.props.current_song
 
