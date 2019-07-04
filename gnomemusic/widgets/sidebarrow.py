@@ -50,7 +50,7 @@ class SidebarRow(Gtk.ListBoxRow):
         return '<SidebarRow>'
 
     @log
-    def __init__(self, coreartist):
+    def __init__(self, coreartist=None):
         super().__init__()
 
         self.props.coreartist = coreartist
@@ -58,9 +58,10 @@ class SidebarRow(Gtk.ListBoxRow):
         self.bind_property(
             'selected', self._check, 'active',
             GObject.BindingFlags.BIDIRECTIONAL)
-        self.bind_property(
-            "selected", coreartist, "selected",
-            GObject.BindingFlags.BIDIRECTIONAL)
+        if coreartist:
+            self.bind_property(
+                "selected", coreartist, "selected",
+                GObject.BindingFlags.BIDIRECTIONAL)
         self.bind_property('selection-mode', self._revealer, 'reveal-child')
         self.bind_property('text', self._label, 'label')
         self.bind_property('text', self._label, 'tooltip-text')
