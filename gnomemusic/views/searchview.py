@@ -33,6 +33,7 @@ from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
+from gnomemusic.widgets.artisttile import ArtistTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -135,25 +136,16 @@ class SearchView(BaseView):
         return album_widget
 
     def _create_artist_widget(self, coreartist):
-        return
-        # FIXME: Hacky quick 'artist' widget. Needs its own tile.
-        song_widget = SongWidget(coreartist)
-        song_widget._title_label.props.label = coreartist.props.artist
-        song_widget.props.show_duration = False
-        song_widget.props.show_favorite = False
-        song_widget.props.show_song_number = False
-        song_widget.coreartist = coreartist
+        artist_tile = ArtistTile(coreartist)
+        artist_tile.props.text = coreartist.props.artist
+        artist_tile.connect('button-release-event', self._artist_activated)
 
         self.bind_property(
-            "selection-mode", song_widget, "selection-mode",
-            GObject.BindingFlags.BIDIRECTIONAL
-            | GObject.BindingFlags.SYNC_CREATE)
+            "selection-mode", artist_tile, "selection-mode",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
 
-        song_widget.connect('button-release-event', self._artist_activated)
-
-        song_widget.show_all()
-
-        return song_widget
+        return artist_tile
 
     def _song_activated(self, widget, event):
         mod_mask = Gtk.accelerator_get_default_mod_mask()

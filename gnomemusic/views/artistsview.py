@@ -30,7 +30,7 @@ from gnomemusic import log
 from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
-from gnomemusic.widgets.sidebarrow import SidebarRow
+from gnomemusic.widgets.artisttile import ArtistTile
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ class ArtistsView(BaseView):
         self.show_all()
 
     def _create_widget(self, coreartist):
-        row = SidebarRow(coreartist)
+        row = ArtistTile(coreartist)
         row.props.text = coreartist.props.artist
 
         self.bind_property("selection-mode", row, "selection-mode")
@@ -111,12 +111,13 @@ class ArtistsView(BaseView):
     @log
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
+        artist_tile = row.get_child()
         if self.props.selection_mode:
-            row.props.selected = not row.props.selected
+            artist_tile.props.selected = not artist_tile.props.selected
             return
 
         # Prepare a new artist_albums_widget here
-        coreartist = row.props.coreartist
+        coreartist = artist_tile.props.coreartist
 
         new_artist_albums_widget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
@@ -162,8 +163,12 @@ class ArtistsView(BaseView):
 
     @log
     def _toggle_all_selection(self, selected):
-        for row in self._sidebar:
-            row.props.selected = selected
+
+        def toggle_selection(child):
+            tile = child.get_child()
+            tile.props.selected = selected
+
+        self._sidebar.foreach(toggle_selection)
 
     @log
     def select_all(self):
