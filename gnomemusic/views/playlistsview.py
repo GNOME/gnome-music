@@ -27,7 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.player import ValidationStatus, PlayerPlaylist
 from gnomemusic.playlists import Playlists
 from gnomemusic.views.baseview import BaseView
@@ -36,6 +35,7 @@ from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.sidebarrow import SidebarRow
+from gnomemusic.widgets.songwidget import SongWidget
 import gnomemusic.utils as utils
 
 
@@ -59,12 +59,14 @@ class PlaylistsView(BaseView):
         super().__init__(
             'playlists', _("Playlists"), window, sidebar_container)
 
+        self._coremodel = window._app.props.coremodel
+        self._model = self._coremodel.props.playlists
         self._window = window
         self.player = player
 
-        self._view.get_style_context().add_class('songs-list')
+        # self._view.get_style_context().add_class('songs-list')
 
-        self._add_list_renderers()
+        # self._add_list_renderers()
 
         self._pl_ctrls = PlaylistControls()
         self._pl_ctrls.connect('playlist-renamed', self._on_playlist_renamed)
@@ -134,7 +136,8 @@ class PlaylistsView(BaseView):
 
         self._playlists_model = self._playlists.get_playlists_model()
         self._sidebar.bind_model(
-            self._playlists_model, self._add_playlist_to_sidebar)
+            self._coremodel.props.playlists_sort,
+            self._add_playlist_to_sidebar)
         self._playlists_model.connect(
             "items-changed", self._on_playlists_model_changed)
 
@@ -150,17 +153,19 @@ class PlaylistsView(BaseView):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
         self._box.pack_start(view_container, True, True, 0)
 
-        self._view = Gtk.TreeView()
-        self._view.set_headers_visible(False)
-        self._view.set_valign(Gtk.Align.START)
-        self._view.set_model(self.model)
-        self._view.set_activate_on_single_click(True)
-        self._view.get_selection().set_mode(Gtk.SelectionMode.SINGLE)
+        self._view = Gtk.ListBox()
 
-        self._view.connect('row-activated', self._on_song_activated)
-        self._view.connect('drag-begin', self._drag_begin)
-        self._view.connect('drag-end', self._drag_end)
-        self._song_drag = {'active': False}
+        # self._view = Gtk.TreeView()
+        # self._view.set_headers_visible(False)
+        # self._view.set_valign(Gtk.Align.START)
+        # self._view.set_model(self.model)
+        # self._view.set_activate_on_single_click(True)
+        # self._view.get_selection().set_mode(Gtk.SelectionMode.SINGLE)
+
+        # self._view.connect('row-activated', self._on_song_activated)
+        # self._view.connect('drag-begin', self._drag_begin)
+        # self._view.connect('drag-end', self._drag_end)
+        # self._song_drag = {'active': False}
 
         self._controller = Gtk.GestureMultiPress().new(self._view)
         self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
@@ -295,11 +300,11 @@ class PlaylistsView(BaseView):
         if removed == 0:
             return
 
-        row_next = (self._sidebar.get_row_at_index(position)
-                    or self._sidebar.get_row_at_index(position - 1))
-        if row_next:
-            self._sidebar.select_row(row_next)
-            row_next.emit("activate")
+        # row_next = (self._sidebar.get_row_at_index(position)
+        #             or self._sidebar.get_row_at_index(position - 1))
+        # if row_next:
+        #     self._sidebar.select_row(row_next)
+        #     row_next.emit("activate")
 
     @log
     def _on_song_validated(self, player, index, status):
@@ -527,9 +532,12 @@ class PlaylistsView(BaseView):
         if self.rename_active:
             self._pl_ctrls.disable_rename_playlist()
 
+        self._view.bind_model(playlist.props.model, self._create_song_widget)
+
         self._current_playlist = playlist
         self._pl_ctrls.props.playlist_name = playlist_name
-
+        self._update_songs_count(playlist.props.count)
+        return
         # if the active queue has been set by this playlist,
         # use it as model, otherwise build the liststore
         self._view.set_model(None)
@@ -538,13 +546,30 @@ class PlaylistsView(BaseView):
         self._iter_to_clean_model = None
         self._pl_ctrls.freeze_notify()
         self._update_songs_count(0)
-        grilo.populate_playlist_songs(playlist, self._add_song)
+        # grilo.populate_playlist_songs(playlist, self._add_song)
 
         protected_pl = self._current_playlist.props.is_smart
         self._playlist_delete_action.set_enabled(not protected_pl)
         self._playlist_rename_action.set_enabled(not protected_pl)
         self._remove_song_action.set_enabled(not protected_pl)
         self._view.set_reorderable(not protected_pl)
+
+    def _create_song_widget(self, coresong):
+        song_widget = SongWidget(coresong)
+
+        song_widget.connect('button-release-event', self._song_activated)
+
+        return song_widget
+
+    def _song_activated(self, widget, event):
+        print(widget)
+        print(self._view.get_focus_child())
+        self._coremodel.set_playlist_model(
+            PlayerPlaylist.Type.PLAYLIST, widget.props.coresong,
+            self._current_playlist.props.model)
+        self.player.play()
+
+        return True
 
     @log
     def _add_song(self, source, param, song, remaining=0, data=None):
