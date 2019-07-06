@@ -6,6 +6,7 @@ from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
+from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
 
 
 class GrlTrackerSource(GObject.GObject):
@@ -53,6 +54,8 @@ class GrlTrackerSource(GObject.GObject):
         self._initial_fill(self._source)
         self._initial_albums_fill(self._source)
         self._initial_artists_fill(self._source)
+
+        GrlTrackerPlaylists(source, coremodel, coreselection, grilo)
 
         self._source.connect("content-changed", self._on_content_changed)
 
