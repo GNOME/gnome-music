@@ -22,12 +22,14 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from random import randrange
+
 from gettext import gettext as _
 
 from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic import log
-from gnomemusic.player import PlayerPlaylist
+from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
@@ -84,9 +86,10 @@ class PlaylistsView(BaseView):
             'activate', self._stage_song_for_deletion)
         self._window.add_action(self._remove_song_action)
 
-        # playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
-        # playlist_play_action.connect('activate', self._on_play_activate)
-        # self._window.add_action(playlist_play_action)
+        playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
+        playlist_play_action.connect(
+            'activate', self._on_play_playlist)
+        self._window.add_action(playlist_play_action)
 
         # self._playlist_delete_action = Gio.SimpleAction.new(
         #     'playlist_delete', None)
@@ -179,7 +182,7 @@ class PlaylistsView(BaseView):
         selected_row = self._view.get_selected_row()
         song_widget = selected_row.get_child()
         self._view.unselect_all()
-        self._song_activated(song_widget, None)
+        self._song_activated(song_widget)
 
     @log
     def _stage_song_for_deletion(self, menuitem, data=None):
@@ -222,13 +225,26 @@ class PlaylistsView(BaseView):
 
         return song_widget
 
-    def _song_activated(self, widget, event):
+    def _song_activated(self, widget=None, event=None):
+        # FIXME: Selection should be automatic in the player
+        if widget is not None:
+            coresong = widget.props.coresong
+        else:
+            position = 0
+            if self.player.props.repeat_mode == RepeatMode.SHUFFLE:
+                position = randrange(
+                    0, self._current_playlist.props.model.get_n_items())
+            coresong = self._current_playlist.props.model.get_item(position)
+
         self._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.PLAYLIST, widget.props.coresong,
+            PlayerPlaylist.Type.PLAYLIST, coresong,
             self._current_playlist.props.model)
         self.player.play()
 
         return True
+
+    def _on_play_playlist(self, menuitem, data=None):
+        self._song_activated()
 
     @log
     def _is_current_playlist(self, playlist):
