@@ -29,6 +29,7 @@ from gi.repository import Gdk, GObject, Gio, Gtk
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.sidebarrow import SidebarRow
@@ -78,10 +79,10 @@ class PlaylistsView(BaseView):
         # add_song_to_playlist.connect('activate', self._add_song_to_playlist)
         # self._window.add_action(add_song_to_playlist)
 
-        # self._remove_song_action = Gio.SimpleAction.new('remove_song', None)
-        # self._remove_song_action.connect(
-        #     'activate', self._stage_song_for_deletion)
-        # self._window.add_action(self._remove_song_action)
+        self._remove_song_action = Gio.SimpleAction.new('remove_song', None)
+        self._remove_song_action.connect(
+            'activate', self._stage_song_for_deletion)
+        self._window.add_action(self._remove_song_action)
 
         # playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
         # playlist_play_action.connect('activate', self._on_play_activate)
@@ -179,6 +180,19 @@ class PlaylistsView(BaseView):
         song_widget = selected_row.get_child()
         self._view.unselect_all()
         self._song_activated(song_widget, None)
+
+    @log
+    def _stage_song_for_deletion(self, menuitem, data=None):
+        selected_row = self._view.get_selected_row()
+        position = selected_row.get_index()
+        song_widget = selected_row.get_child()
+        coresong = song_widget.props.coresong
+
+        selected_playlist = self._sidebar.get_selected_row().playlist
+
+        notification = PlaylistNotification(  # noqa: F841
+            self._window.notifications_popup, PlaylistNotification.Type.SONG,
+            selected_playlist, coresong, position)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):

@@ -160,6 +160,8 @@ class Playlist(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
+        self._songs_todelete = []
+
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
         if self._model is None:
@@ -220,7 +222,8 @@ class Playlist(GObject.GObject):
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
-            self._model.append(coresong)
+            if coresong not in self._songs_todelete:
+                self._model.append(coresong)
 
         options = Grl.OperationOptions()
         options.set_resolution_flags(
@@ -257,6 +260,101 @@ class Playlist(GObject.GObject):
         """.replace("\n", " ").strip() % {
             'title': new_name,
             'playlist_id': self.props.pl_id
+        }
+
+        self._tracker.update_async(
+            query, GLib.PRIORITY_LOW, None, update_cb, None)
+
+    def stage_deletion(self, coresong, index):
+        """Adds a song to the list of songs to delete
+
+        :param CoreSong coresong: song to delete
+        :param int position: Song position in the playlist
+        """
+        self._songs_todelete.append(coresong)
+        self._model.remove(index)
+        self.props.count -= 1
+
+    def undo_pending_deletion(self, coresong, position):
+        """Adds a song to the list of songs to delete
+
+        :param CoreSong coresong: song to delete
+        :param int position: Song position in the playlist
+        """
+        self._songs_todelete.remove(coresong)
+        self._model.insert(position, coresong)
+        self.props.count += 1
+
+    def finish_deletion(self, coresong):
+        """Removes a song from the playlist
+
+        :param CoreSong coresong: song to remove
+        """
+
+        def update_cb(conn, res, data):
+            # FIXME: Check for failure.
+            conn.update_finish(res)
+
+        query = """
+        INSERT OR REPLACE {
+            ?entry nfo:listPosition ?position .
+
+        }
+        WHERE {
+            SELECT ?entry
+                   (?old_position - 1) AS ?position
+            WHERE {
+                ?entry a nfo:MediaFileListEntry ;
+                         nfo:listPosition ?old_position .
+                ?playlist nfo:hasMediaFileListEntry ?entry .
+                FILTER (?old_position > ?removed_position)
+                {
+                    SELECT ?playlist
+                           ?removed_position
+                    WHERE {
+                        ?playlist a nmm:Playlist ;
+                                  a nfo:MediaList ;
+                                    nfo:hasMediaFileListEntry ?removed_entry .
+                        ?removed_entry nfo:listPosition ?removed_position .
+                        FILTER (
+                            tracker:id(?playlist) = %(playlist_id)s &&
+                            tracker:id(?removed_entry) = %(song_id)s
+                        )
+                    }
+                }
+            }
+        }
+        INSERT OR REPLACE {
+            ?playlist nfo:entryCounter ?new_counter .
+        }
+        WHERE {
+            SELECT ?playlist
+                   (?counter - 1) AS ?new_counter
+            WHERE {
+                ?playlist a nmm:Playlist ;
+                          a nfo:MediaList ;
+                            nfo:entryCounter ?counter .
+                FILTER (
+                    tracker:id(?playlist) = %(playlist_id)s
+                )
+            }
+        }
+        DELETE {
+            ?playlist nfo:hasMediaFileListEntry ?entry .
+            ?entry a rdfs:Resource .
+        }
+        WHERE {
+            ?playlist a nmm:Playlist ;
+                      a nfo:MediaList ;
+                        nfo:hasMediaFileListEntry ?entry .
+            FILTER (
+                tracker:id(?playlist) = %(playlist_id)s &&
+                tracker:id(?entry) = %(song_id)s
+            )
+        }
+        """.replace("\n", " ").strip() % {
+            "playlist_id": self.props.pl_id,
+            "song_id": coresong.props.media.get_id()
         }
 
         self._tracker.update_async(
