@@ -290,7 +290,7 @@ class PlayerPlaylist(GObject.GObject):
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
             self._model.set_sort_func(
                 _wrap_list_store_sort_func(_shuffle_sort))
-        elif self.props.repeat_mode == RepeatMode.NONE:
+        elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sort_func(None)
 
     @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
