@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import GObject, Gio, Gtk
+from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
@@ -69,9 +69,9 @@ class PlaylistsView(BaseView):
 
         self._song_popover = PlaylistContextMenu(self._view)
 
-        # play_song = Gio.SimpleAction.new('play_song', None)
-        # play_song.connect('activate', self._play_song)
-        # self._window.add_action(play_song)
+        play_song = Gio.SimpleAction.new('play_song', None)
+        play_song.connect('activate', self._play_song)
+        self._window.add_action(play_song)
 
         # add_song_to_playlist = Gio.SimpleAction.new(
         #     'add_song_to_playlist', None)
@@ -134,11 +134,10 @@ class PlaylistsView(BaseView):
 
         self._view = Gtk.ListBox()
 
-        # self._controller = Gtk.GestureMultiPress().new(self._view)
-        # self._controller.props.propagation_phase =
-        #    Gtk.PropagationPhase.CAPTURE
-        # self._controller.props.button = Gdk.BUTTON_SECONDARY
-        # self._controller.connect("pressed", self._on_view_right_clicked)
+        self._controller = Gtk.GestureMultiPress().new(self._view)
+        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._controller.props.button = Gdk.BUTTON_SECONDARY
+        self._controller.connect("pressed", self._on_view_right_clicked)
 
         view_container.add(self._view)
 
@@ -158,6 +157,28 @@ class PlaylistsView(BaseView):
     def _on_playlists_model_changed(self, model, position, removed, added):
         if removed == 0:
             return
+
+    @log
+    def _on_view_right_clicked(self, gesture, n_press, x, y):
+        requested_row = self._view.get_row_at_y(y)
+        self._view.select_row(requested_row)
+
+        _, y0 = requested_row.translate_coordinates(self._view, 0, 0)
+        row_height = requested_row.get_allocated_height()
+        rect = Gdk.Rectangle()
+        rect.x = x
+        rect.y = y0 + 0.5 * row_height
+
+        self._song_popover.props.relative_to = self._view
+        self._song_popover.props.pointing_to = rect
+        self._song_popover.popup()
+
+    @log
+    def _play_song(self, menuitem, data=None):
+        selected_row = self._view.get_selected_row()
+        song_widget = selected_row.get_child()
+        self._view.unselect_all()
+        self._song_activated(song_widget, None)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
