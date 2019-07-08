@@ -495,9 +495,9 @@ class Window(Gtk.ApplicationWindow):
             return
 
         playlist_dialog = PlaylistDialog(self)
-        # if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
-        #     playlists.add_to_playlist(
-        #         playlist_dialog.get_selected(), selected_songs)
+        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
+            playlist = playlist_dialog.props.selected_playlist
+            playlist.add_songs(selected_songs)
 
         self.props.selection_mode = False
         playlist_dialog.destroy()
