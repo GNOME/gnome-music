@@ -360,6 +360,79 @@ class Playlist(GObject.GObject):
         self._tracker.update_async(
             query, GLib.PRIORITY_LOW, None, update_cb, None)
 
+    def add_songs(self, coresongs):
+        """Adds songs to the playlist
+
+        :param Playlist playlist:
+        :param list coresongs: list of Coresong
+        """
+        def _add_to_model(source, op_id, media, remaining, error):
+            coresong = CoreSong(media, self._coreselection, self._grilo)
+            if coresong not in self._songs_todelete:
+                self._model.append(coresong)
+
+        def update_callback(conn, res, coresong):
+            query = """
+            SELECT DISTINCT
+                rdf:type(?song)
+                ?song AS ?tracker_urn
+                nie:title(?song) AS ?title
+                tracker:id(?song) AS ?id
+                ?song
+                nie:url(?song) AS ?url
+                nie:title(?song) AS ?title
+                nmm:artistName(nmm:performer(?song)) AS ?artist
+                nie:title(nmm:musicAlbum(?song)) AS ?album
+                nfo:duration(?song) AS ?duration
+                nie:usageCounter(?song) AS ?play_count
+                nmm:trackNumber(?song) AS ?track_number
+                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+                ?tag AS ?favourite
+            WHERE {
+                ?song a nmm:MusicPiece .
+                OPTIONAL {
+                    ?song nao:hasTag ?tag .
+                    FILTER (?tag = nao:predefined-tag-favorite)
+                }
+                FILTER ( tracker:id(?song) = %(grilo_id)s )
+            }
+            """.replace("\n", " ").strip() % {
+                "grilo_id": coresong.props.media.get_id()}
+
+            # FIXME: seems bad!
+            if self._model is not None:
+                options = self._fast_options.copy()
+                self._source.query(
+                    query, self.METADATA_KEYS, options, _add_to_model)
+
+        for coresong in coresongs:
+            query = """
+            INSERT OR REPLACE {
+                _:entry a nfo:MediaFileListEntry ;
+                          nfo:entryUrl "%(song_uri)s" ;
+                          nfo:listPosition ?position .
+                ?playlist nfo:entryCounter ?position ;
+                          nfo:hasMediaFileListEntry _:entry .
+            }
+            WHERE {
+                SELECT ?playlist
+                       (?counter + 1) AS ?position
+                WHERE {
+                    ?playlist a nmm:Playlist ;
+                              a nfo:MediaList ;
+                                nfo:entryCounter ?counter .
+                    FILTER (
+                        tracker:id(?playlist) = %(playlist_id)s
+                    )
+                }
+            }
+            """.replace("\n", " ").strip() % {
+                "playlist_id": self.props.pl_id,
+                "song_uri": coresong.props.media.get_url()}
+
+            self._tracker.update_blank_async(
+                query, GLib.PRIORITY_LOW, None, update_callback, coresong)
+
 
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
