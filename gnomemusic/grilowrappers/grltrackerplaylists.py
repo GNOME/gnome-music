@@ -48,40 +48,23 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._initial_playlists_fill()
 
     def _initial_playlists_fill(self):
+        args = {
+            "source": self._source,
+            "coreselection": self._coreselection,
+            "grilo": self._grilo
+        }
+
         smart_playlists = {
-            "MostPlayed": MostPlayed(),
-            "NeverPlayed": NeverPlayed(),
-            "RecentlyPlayed": RecentlyPlayed(),
-            "RecentlyAdded": RecentlyAdded(),
-            "Favorites": Favorites()
+            "MostPlayed": MostPlayed(**args),
+            "NeverPlayed": NeverPlayed(**args),
+            "RecentlyPlayed": RecentlyPlayed(**args),
+            "RecentlyAdded": RecentlyAdded(**args),
+            "Favorites": Favorites(**args)
         }
 
         for playlist in smart_playlists.values():
-
-            def _add_to_model(
-                    source, op_id, media, remaining, user_data, error):
-                if error:
-                    print("ERROR", error)
-                    return
-
-                if not media:
-                    user_data.props.count = user_data.props.model.get_n_items()
-                    return
-
-                coresong = CoreSong(media, self._coreselection, self._grilo)
-                user_data.props.model.append(coresong)
-
-            options = self._fast_options.copy()
-
-            self._source.query(
-                playlist.props.query, self.METADATA_KEYS, options,
-                _add_to_model, playlist)
-
             self._model.append(playlist)
 
-        self._all_user_playlists()
-
-    def _all_user_playlists(self):
         query = """
         SELECT DISTINCT
             rdf:type(?playlist)
@@ -108,16 +91,16 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._source.query(
             query, self.METADATA_KEYS, options, self._add_user_playlist)
 
-    def _add_user_playlist(
-            self, source, param, item, data, error):
-        if not item:
+    def _add_user_playlist(self, source, param, media, data, error):
+        if error:
+            print("ERROR", error)
+            return
+        if not media:
             return
 
         playlist = Playlist(
-            pl_id=item.get_id(), title=utils.get_media_title(item),
-            creation_date=item.get_creation_date(), source=self._source,
-            coremodel=self._coremodel, coreselection=self._coreselection,
-            grilo=self._grilo)
+            media=media, source=self._source, coremodel=self._coremodel,
+            coreselection=self._coreselection, grilo=self._grilo)
 
         self._model.append(playlist)
 
@@ -154,21 +137,26 @@ class Playlist(GObject.GObject):
         return "<Playlist>"
 
     def __init__(
-            self, pl_id=None, query=None, tag_text=None, title=None,
-            creation_date=None, source=None, coremodel=None,
-            coreselection=None, grilo=None):
+            self, media=None, query=None, tag_text=None, source=None,
+            coremodel=None, coreselection=None, grilo=None):
         super().__init__()
 
-        self.props.pl_id = pl_id
+        if media:
+            self.props.pl_id = media.get_id()
+            self.props.title = utils.get_media_title(media)
+            self.props.creation_date = media.get_creation_date()
+
         self.props.query = query
         self.props.tag_text = tag_text
-        self.props.title = title
-        self.props.creation_date = creation_date
         self._model = None
         self._source = source
         self._coremodel = coremodel
         self._coreselection = coreselection
         self._grilo = grilo
+
+        self._fast_options = Grl.OperationOptions()
+        self._fast_options.set_resolution_flags(
+            Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
     @GObject.Property(type=Gio.ListStore, default=None)
     def model(self):
@@ -246,8 +234,8 @@ class SmartPlaylist(Playlist):
     def __repr__(self):
         return "<SmartPlaylist>"
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **args):
+        super().__init__(**args)
 
         self.props.is_smart = True
 
@@ -256,14 +244,31 @@ class SmartPlaylist(Playlist):
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
 
+            def _add_to_model(source, op_id, media, remaining, error):
+                if error:
+                    print("ERROR", error)
+                    return
+
+                if not media:
+                    self.props.count = self._model.get_n_items()
+                    return
+
+                coresong = CoreSong(media, self._coreselection, self._grilo)
+                self._model.append(coresong)
+
+            options = self._fast_options.copy()
+
+            self._source.query(
+                self.props.query, self.METADATA_KEYS, options, _add_to_model)
+
         return self._model
 
 
 class MostPlayed(SmartPlaylist):
     """Most Played smart playlist"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **args):
+        super().__init__(**args)
 
         self.props.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
@@ -296,8 +301,8 @@ class MostPlayed(SmartPlaylist):
 class NeverPlayed(SmartPlaylist):
     """Never Played smart playlist"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **args):
+        super().__init__(**args)
 
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
@@ -329,8 +334,8 @@ class NeverPlayed(SmartPlaylist):
 class RecentlyPlayed(SmartPlaylist):
     """Recently Played smart playlist"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **args):
+        super().__init__(**args)
 
         self.props.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
@@ -373,8 +378,8 @@ class RecentlyPlayed(SmartPlaylist):
 class RecentlyAdded(SmartPlaylist):
     """Recently Added smart playlist"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **args):
+        super().__init__(**args)
 
         self.props.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
@@ -416,8 +421,8 @@ class RecentlyAdded(SmartPlaylist):
 class Favorites(SmartPlaylist):
     """Favorites smart playlist"""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **args):
+        super().__init__(**args)
 
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
