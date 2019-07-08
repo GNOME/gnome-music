@@ -168,8 +168,7 @@ class AlbumWidget(Gtk.EventBox):
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
         coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ALBUM, song_widget.props.coresong,
-            self._album_model)
+            PlayerPlaylist.Type.ALBUM, self._album_model)
 
         return True
 

@@ -22,14 +22,12 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from random import randrange
-
 from gettext import gettext as _
 
 from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic import log
-from gnomemusic.player import PlayerPlaylist, RepeatMode
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
@@ -226,20 +224,13 @@ class PlaylistsView(BaseView):
         return song_widget
 
     def _song_activated(self, widget=None, event=None):
-        # FIXME: Selection should be automatic in the player
+        coresong = None
         if widget is not None:
             coresong = widget.props.coresong
-        else:
-            position = 0
-            if self.player.props.repeat_mode == RepeatMode.SHUFFLE:
-                position = randrange(
-                    0, self._current_playlist.props.model.get_n_items())
-            coresong = self._current_playlist.props.model.get_item(position)
 
         self._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.PLAYLIST, coresong,
-            self._current_playlist.props.model)
-        self.player.play()
+            PlayerPlaylist.Type.PLAYLIST, self._current_playlist.props.model)
+        self.player.play(coresong)
 
         return True
 
