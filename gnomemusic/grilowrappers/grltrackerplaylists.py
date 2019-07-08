@@ -3,10 +3,11 @@ import time
 from gettext import gettext as _
 
 import gi
-gi.require_versions({"Grl": "0.3", 'Tracker': "2.0"})
+gi.require_versions({"Grl": "0.3"})
 from gi.repository import Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
+from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
 
 
@@ -153,6 +154,7 @@ class Playlist(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = coreselection
         self._grilo = grilo
+        self._tracker = TrackerWrapper().props.tracker
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -226,6 +228,39 @@ class Playlist(GObject.GObject):
 
         self._source.query(
             query, self.METADATA_KEYS, options, _add_to_playlist_cb, None)
+
+    def rename(self, new_name):
+        """Rename a playlist
+
+        :param str new_name: new playlist name
+        """
+        def update_cb(conn, res, data):
+            # FIXME: Check for failure.
+            conn.update_finish(res)
+            # FIXME: Requery instead?
+            self.props.title = new_name
+
+        query = """
+        INSERT OR REPLACE {
+            ?playlist nie:title "%(title)s"
+        }
+        WHERE {
+            ?playlist a nmm:Playlist ;
+                      a nfo:MediaList .
+            OPTIONAL {
+                ?playlist nfo:hasMediaFileListEntry ?entry .
+            }
+            FILTER (
+                tracker:id(?playlist) = %(playlist_id)s
+            )
+        }
+        """.replace("\n", " ").strip() % {
+            'title': new_name,
+            'playlist_id': self.props.pl_id
+        }
+
+        self._tracker.update_async(
+            query, GLib.PRIORITY_LOW, None, update_cb, None)
 
 
 class SmartPlaylist(Playlist):

@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import GObject, Gtk
+from gi.repository import GObject, Gio, Gtk
 
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
@@ -92,11 +92,11 @@ class PlaylistsView(BaseView):
         # self._playlist_delete_action.connect(
         #     'activate', self._stage_playlist_for_deletion)
         # self._window.add_action(self._playlist_delete_action)
-        # self._playlist_rename_action = Gio.SimpleAction.new(
-        #     'playlist_rename', None)
-        # self._playlist_rename_action.connect(
-        #     'activate', self._stage_playlist_for_renaming)
-        # self._window.add_action(self._playlist_rename_action)
+        self._playlist_rename_action = Gio.SimpleAction.new(
+            'playlist_rename', None)
+        self._playlist_rename_action.connect(
+            'activate', self._stage_playlist_for_renaming)
+        self._window.add_action(self._playlist_rename_action)
 
         self._grid.insert_row(0)
         self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
@@ -175,6 +175,8 @@ class PlaylistsView(BaseView):
         self._update_songs_count(playlist.props.count)
         playlist.connect("notify::count", self._on_song_count_changed)
 
+        self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
+
     def _on_song_count_changed(self, playlist, value):
         self._update_songs_count(playlist.props.count)
 
@@ -218,8 +220,7 @@ class PlaylistsView(BaseView):
         selection.props.text = new_name
 
         pl_torename = selection.playlist
-        pl_torename.props.title = new_name
-        self._playlists.rename(pl_torename, new_name)
+        pl_torename.rename(new_name)
 
     @log
     def _populate(self, data=None):
