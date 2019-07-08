@@ -60,11 +60,12 @@ class PlaylistDialog(Gtk.Dialog):
         self.props.transient_for = parent
         self.set_titlebar(self._title_bar)
 
+        # FIXME: should we use a special model without the smart playlists?
         self._user_playlists_available = False
-        self._playlists = Playlists.get_default()
-        playlists_model = self._playlists.get_user_playlists()
+        self._coremodel = parent._app.props.coremodel
         self._listbox.bind_model(
-            playlists_model, self._create_playlist_row)
+            self._coremodel.props.playlists_sort, self._create_playlist_row)
+
         self._set_view()
 
     @log
@@ -93,6 +94,9 @@ class PlaylistDialog(Gtk.Dialog):
     @log
     def _create_playlist_row(self, playlist):
         """Adds (non-smart only) playlists to the model"""
+        if playlist.props.is_smart:
+            return None
+
         self._user_playlists_available = True
         self._set_view()
 
