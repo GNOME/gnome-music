@@ -160,9 +160,8 @@ class SearchView(BaseView):
             # self.emit('song-activated', widget)
 
             self._coremodel.set_playlist_model(
-                PlayerPlaylist.Type.SEARCH_RESULT, widget.props.coresong,
-                self._model)
-            self.player.play()
+                PlayerPlaylist.Type.SEARCH_RESULT, self._model)
+            self.player.play(widget.props.coresong)
 
         # FIXME: Need to ignore the event from the checkbox.
         # if self.props.selection_mode:

@@ -24,7 +24,7 @@
 
 from enum import IntEnum
 from itertools import chain
-from random import randint
+from random import randint, randrange
 import logging
 import time
 
@@ -274,6 +274,31 @@ class PlayerPlaylist(GObject.GObject):
 
         return None
 
+    def set_song(self, song):
+        """Sets current song.
+
+        If no song is provided, a song is automatically selected.
+
+        :param CoreSong song: song to set
+        :returns: The selected song
+        :rtype: CoreSong
+        """
+        if song is None:
+            if self.props.repeat_mode == RepeatMode.SHUFFLE:
+                position = randrange(0, self._model.get_n_items())
+            else:
+                position = 0
+            song = self._model.get_item(position)
+            song.props.state = SongWidget.State.PLAYING
+            return song
+
+        for coresong in self._model:
+            if coresong == song:
+                coresong.props.state = SongWidget.State.PLAYING
+                return song
+
+        return None
+
     @log
     def _on_repeat_mode_changed(self, klass, param):
 
@@ -501,12 +526,10 @@ class Player(GObject.GObject):
         :param bool song_changed: indicate if a new song must be loaded
         """
         if self.props.current_song is None:
-            return
+            coresong = self._playlist.set_song(coresong)
 
-        if coresong is None:
-            coresong = self._playlist.props.current_song
-
-        self._load(coresong)
+        if coresong is not None:
+            self._load(coresong)
 
         self._gst_player.props.state = Playback.PLAYING
 
