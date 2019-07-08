@@ -16,7 +16,8 @@ class CoreGrilo(GObject.GObject):
 
         self._coremodel = coremodel
         self._coreselection = coreselection
-        self._wrappers = []
+        self._search_sources = {}
+        self._wrappers = {}
 
         Grl.init(None)
 
@@ -24,37 +25,48 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
+        self._registry.load_all_plugins(False)
+
     def _on_source_added(self, registry, source):
         new_wrapper = None
 
-        if source.props.source_id == "grl-tracker-source":
+        if (source.props.source_id == "grl-tracker-source"
+                and source.props.source_id not in self._wrappers.keys()):
             new_wrapper = GrlTrackerSource(
                 source, self._coremodel, self._coreselection, self)
-            self._wrappers.append(new_wrapper)
+            self._wrappers[source.props.source_id] = new_wrapper
         # elif source.props.source_id[:10] == "grl-dleyna":
         #     new_wrapper = GrlDLeynaSource(
         #         source, self._coremodel, self._coreselection, self)
         #     self._wrappers.append(new_wrapper)
-        print(new_wrapper, "added")
+            print("wrapper", new_wrapper)
+        elif (source.supported_operations() & Grl.SupportedOps.SEARCH
+                and source.get_supported_media() & Grl.MediaType.AUDIO
+                and source.props.source_id not in self._search_sources.keys()):
+            self._search_sources[source.props.source_id] = source
+            print("search source", source)
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
         print("removed,", source.props.source_id)
 
+        # FIXME: Only removes search sources atm.
+        self._search_sources.pop(source.props.source_id, None)
+
     def get_artist_albums(self, artist, filter_model):
-        for wrapper in self._wrappers:
+        for wrapper in self._wrappers.values():
             wrapper.get_artist_albums(artist, filter_model)
 
     def get_album_discs(self, media, disc_model):
-        for wrapper in self._wrappers:
+        for wrapper in self._wrappers.values():
             wrapper.get_album_discs(media, disc_model)
 
     def populate_album_disc_songs(self, media, discnr, callback):
-        for wrapper in self._wrappers:
+        for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
     def populate_album_songs(self, media, callback):
-        for wrapper in self._wrappers:
+        for wrapper in self._wrappers.values():
             wrapper.populate_album_songs(media, callback)
 
     def _store_metadata(self, source, media, key):
@@ -76,12 +88,12 @@ class CoreGrilo(GObject.GObject):
         return GLib.SOURCE_REMOVE
 
     def writeback(self, media, key):
-        for wrapper in self._wrappers:
+        for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
                 GLib.idle_add(
                     self._store_metadata, wrapper.props.source, media, key)
                 break
 
     def search(self, text):
-        for wrapper in self._wrappers:
+        for wrapper in self._wrappers.values():
             wrapper.search(text)
