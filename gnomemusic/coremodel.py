@@ -150,7 +150,7 @@ class CoreModel(GObject.GObject):
 
         return albums_model_sort
 
-    def set_playlist_model(self, playlist_type, coresong, model):
+    def set_playlist_model(self, playlist_type, model):
 
         def _on_items_changed(model, position, removed, added):
             if removed > 0:
@@ -194,10 +194,6 @@ class CoreModel(GObject.GObject):
                         "state", model_song, "state",
                         GObject.BindingFlags.SYNC_CREATE)
 
-                    song_id = coresong.props.media.get_id()
-                    if song.props.media.get_id() == song_id:
-                        song.props.state = SongWidget.State.PLAYING
-
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.ARTIST:
                 self._playlist_model.remove_all()
@@ -221,10 +217,6 @@ class CoreModel(GObject.GObject):
                         "state", model_song, "state",
                         GObject.BindingFlags.SYNC_CREATE)
 
-                    song_id = coresong.props.media.get_id()
-                    if song.props.media.get_id() == song_id:
-                        song.props.state = SongWidget.State.PLAYING
-
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SONGS:
                 if self._song_signal_id:
@@ -238,8 +230,6 @@ class CoreModel(GObject.GObject):
 
                     if song.props.state == SongWidget.State.PLAYING:
                         song.props.state = SongWidget.State.PLAYED
-                    if song is coresong:
-                        song.props.state = SongWidget.State.PLAYING
 
                 self._song_signal_id = self._songliststore.props.model.connect(
                     "items-changed", _on_items_changed)
@@ -253,9 +243,6 @@ class CoreModel(GObject.GObject):
 
                 for song in self._song_search_model:
                     self._playlist_model.append(song)
-
-                    if song is coresong:
-                        song.props.state = SongWidget.State.PLAYING
 
                 self._search_signal_id = self._song_search_model.connect(
                     "items-changed", _on_items_changed)
@@ -273,9 +260,6 @@ class CoreModel(GObject.GObject):
                         self._grilo)
 
                     self._playlist_model.append(song)
-
-                    if model_song is coresong:
-                        song.props.state = SongWidget.State.PLAYING
 
                     song.bind_property(
                         "state", model_song, "state",

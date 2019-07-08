@@ -111,9 +111,7 @@ class ArtistAlbumsWidget(Gtk.Box):
             coremodel.disconnect(signal_id)
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
-        coremodel.set_playlist_model(
-            PlayerPlaylist.Type.ARTIST, song_widget.props.coresong,
-            self._model)
+        coremodel.set_playlist_model(PlayerPlaylist.Type.ARTIST, self._model)
 
     def _add_album(self, corealbum):
         widget = ArtistAlbumWidget(
