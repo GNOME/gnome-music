@@ -32,6 +32,10 @@ class CoreSong(GObject.GObject):
         self.props.grlid = media.get_source() + media.get_id()
         self.update(media)
 
+    def __eq__(self, other):
+        return (isinstance(other, CoreSong)
+                and other.props.media.get_id() == self.props.media.get_id())
+
     @GObject.Property(type=bool, default=False)
     def favorite(self):
         return self._favorite
