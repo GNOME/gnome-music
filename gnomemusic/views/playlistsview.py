@@ -124,6 +124,9 @@ class PlaylistsView(BaseView):
             self._coremodel.props.playlists_sort,
             self._add_playlist_to_sidebar)
 
+        self._loaded_id = self._coremodel.connect(
+            "playlists-loaded", self._on_playlists_loaded)
+
         self.show_all()
 
     @log
@@ -157,6 +160,12 @@ class PlaylistsView(BaseView):
         row.playlist = playlist
 
         return row
+
+    def _on_playlists_loaded(self, klass):
+        self._coremodel.disconnect(self._loaded_id)
+        first_row = self._sidebar.get_row_at_index(0)
+        self._sidebar.select_row(first_row)
+        first_row.emit("activate")
 
     def _on_playlists_model_changed(self, model, position, removed, added):
         if removed == 0:
