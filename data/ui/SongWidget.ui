@@ -12,7 +12,7 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">3</property>
-	<child>
+        <child>
           <object class="GtkEventBox" id="_dnd_eventbox">
             <property name="visible">False</property>
             <signal name="drag-begin" handler="_on_drag_begin"/>
@@ -25,9 +25,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox" id="box3">
@@ -46,9 +43,6 @@
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkCheckButton" id="_select_button">
@@ -58,9 +52,6 @@
                 <property name="no_show_all">True</property>
                 <property name="draw_indicator">True</property>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel" id="_number_label">
@@ -72,15 +63,8 @@
                   <class name="dim-label"/>
                 </style>
               </object>
-              <packing>
-                <property name="pack_type">end</property>
-                <property name="position">2</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox" id="box2">
@@ -102,9 +86,6 @@
                 <property name="justify">fill</property>
                 <property name="margin_start">9</property>
               </object>
-              <packing>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel" id="_duration_label">
@@ -115,14 +96,8 @@
                 <property name="valign">center</property>
                 <property name="single_line_mode">True</property>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="position">2</property>
-          </packing>
         </child>
         <child>
           <object class="GtkEventBox" id="_star_eventbox">
@@ -144,9 +119,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="position">3</property>
-          </packing>
         </child>
         <child>
           <placeholder/>
