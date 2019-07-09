@@ -32,6 +32,7 @@ from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
+from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.sidebarrow import SidebarRow
 from gnomemusic.widgets.songwidget import SongWidget
 
@@ -74,10 +75,10 @@ class PlaylistsView(BaseView):
         play_song.connect('activate', self._play_song)
         self._window.add_action(play_song)
 
-        # add_song_to_playlist = Gio.SimpleAction.new(
-        #     'add_song_to_playlist', None)
-        # add_song_to_playlist.connect('activate', self._add_song_to_playlist)
-        # self._window.add_action(add_song_to_playlist)
+        add_song_to_playlist = Gio.SimpleAction.new(
+            'add_song_to_playlist', None)
+        add_song_to_playlist.connect('activate', self._add_song_to_playlist)
+        self._window.add_action(add_song_to_playlist)
 
         self._remove_song_action = Gio.SimpleAction.new('remove_song', None)
         self._remove_song_action.connect(
@@ -181,6 +182,20 @@ class PlaylistsView(BaseView):
         song_widget = selected_row.get_child()
         self._view.unselect_all()
         self._song_activated(song_widget)
+
+    def _add_song_to_playlist(self, menuitem, data=None):
+        selected_row = self._view.get_selected_row()
+        song_widget = selected_row.get_child()
+        coresong = song_widget.props.coresong
+        print(coresong.props.media.get_source())
+
+        playlist_dialog = PlaylistDialog(self._window)
+        if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
+            playlist = playlist_dialog.props.selected_playlist
+            playlist.add_songs([coresong])
+
+        self._view.unselect_all()
+        playlist_dialog.destroy()
 
     @log
     def _stage_song_for_deletion(self, menuitem, data=None):
