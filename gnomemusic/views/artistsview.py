@@ -61,8 +61,11 @@ class ArtistsView(BaseView):
         self._artists = {}
 
         self._window = window
-        self._model = window._app.props.coremodel.props.artists_sort
+        self._coremodel = window._app.props.coremodel
+        self._model = self._coremodel.props.artists_sort
         self._sidebar.bind_model(self._model, self._create_widget)
+        self._loaded_id = self._coremodel.connect(
+            "artists-loaded", self._on_artists_loaded)
 
         sidebar_container.props.width_request = 220
         sidebar_container.get_style_context().add_class('sidebar')
@@ -83,6 +86,12 @@ class ArtistsView(BaseView):
         self.bind_property("selection-mode", row, "selection-mode")
 
         return row
+
+    def _on_artists_loaded(self, klass):
+        self._coremodel.disconnect(self._loaded_id)
+        first_row = self._sidebar.get_row_at_index(0)
+        self._sidebar.select_row(first_row)
+        first_row.emit("activate")
 
     @log
     def _setup_view(self):
