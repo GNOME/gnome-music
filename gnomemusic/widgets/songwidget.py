@@ -53,6 +53,7 @@ class SongWidget(Gtk.EventBox):
 
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "widget-moved": (GObject.SignalFlags.RUN_FIRST, None, (int,))
     }
 
     coresong = GObject.Property(type=CoreSong, default=None)
@@ -63,6 +64,7 @@ class SongWidget(Gtk.EventBox):
 
     _playlists = Playlists.get_default()
 
+    _dnd_eventbox = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -82,7 +84,12 @@ class SongWidget(Gtk.EventBox):
         return '<SongWidget>'
 
     @log
-    def __init__(self, coresong):
+    def __init__(self, coresong, can_dnd=False):
+        """Instanciates a SongWidget
+
+        :param Corsong coresong: song associated with the widget
+        :param bool can_dnd: allow drag and drop operations
+        """
         super().__init__()
 
         self.props.coresong = coresong
@@ -134,10 +141,61 @@ class SongWidget(Gtk.EventBox):
 
         self._number_label.props.no_show_all = True
 
+        if can_dnd is True:
+            self._dnd_eventbox.props.visible = True
+            self._drag_widget = None
+            entries = [
+                Gtk.TargetEntry.new(
+                    "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
+            ]
+            self._dnd_eventbox.drag_source_set(
+                Gdk.ModifierType.BUTTON1_MASK, entries,
+                Gdk.DragAction.MOVE)
+            self.drag_dest_set(
+                Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
+
     @Gtk.Template.Callback()
     @log
     def _on_selection_changed(self, klass, value):
         self.emit('selection-changed')
+
+    @Gtk.Template.Callback()
+    def _on_drag_begin(self, klass, context):
+        gdk_window = self.get_window()
+        _, x, y, _ = gdk_window.get_device_position(context.get_device())
+        allocation = self.get_allocation()
+
+        self._drag_widget = Gtk.ListBox()
+        self._drag_widget.set_size_request(allocation.width, allocation.height)
+
+        drag_row = SongWidget(self.props.coresong)
+        self._drag_widget.add(drag_row)
+        self._drag_widget.drag_highlight_row(drag_row.get_parent())
+        self.hide()
+        self._drag_widget.show_all()
+        Gtk.drag_set_icon_widget(context, self._drag_widget, x, y)
+
+    @Gtk.Template.Callback()
+    def _on_drag_end(self, klass, context):
+        self.show()
+        self._drag_widget = None
+
+    @Gtk.Template.Callback()
+    def _on_drag_data_get(self, klass, context, selection_data, info, time_):
+        row_position = self.get_parent().get_index()
+        selection_data.set(
+            Gdk.Atom.intern("row_position", False), 0,
+            bytes(str(row_position), encoding="UTF8"))
+
+    @Gtk.Template.Callback()
+    def _on_drag_data_received(
+            self, klass, context, x, y, selection_data, info, time_):
+        source_position = int(str(selection_data.get_data(), "UTF-8"))
+        target_position = self.get_parent().get_index()
+        if source_position == target_position:
+            return
+
+        self.emit("widget-moved", source_position)
 
     @Gtk.Template.Callback()
     @log

@@ -139,8 +139,6 @@ class DiscBox(Gtk.Box):
 
         song_widget.connect('button-release-event', self._song_activated)
 
-        song_widget.show_all()
-
         return song_widget
 
     @log

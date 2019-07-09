@@ -244,9 +244,10 @@ class PlaylistsView(BaseView):
         self._update_songs_count(playlist.props.count)
 
     def _create_song_widget(self, coresong):
-        song_widget = SongWidget(coresong)
+        song_widget = SongWidget(coresong, True)
 
         song_widget.connect('button-release-event', self._song_activated)
+        song_widget.connect("widget_moved", self._on_song_widget_moved)
 
         return song_widget
 
@@ -298,6 +299,12 @@ class PlaylistsView(BaseView):
         #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
         #     self.player.stop()
         #     self._window.set_player_visible(False)
+
+    def _on_song_widget_moved(self, target, source_position):
+        source_row = self._view.get_row_at_index(source_position)
+        target_position = target.get_parent().get_index()
+        self._view.remove(source_row)
+        self._view.insert(source_row, target_position)
 
     @log
     def _populate(self, data=None):

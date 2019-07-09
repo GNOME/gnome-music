@@ -6,6 +6,7 @@
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <signal name="notify::selected" handler="_on_selection_changed"/>
+    <signal name="drag_data_received" handler="_on_drag_data_received"/>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -128,6 +129,23 @@
           </object>
           <packing>
             <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEventBox" id="_dnd_eventbox">
+            <property name="visible">False</property>
+            <signal name="drag-begin" handler="_on_drag_begin"/>
+            <signal name="drag-end" handler="_on_drag_end"/>
+            <signal name="drag_data_get" handler="_on_drag_data_get"/>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="icon-name">open-menu-symbolic</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
