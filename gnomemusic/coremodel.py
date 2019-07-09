@@ -32,7 +32,8 @@ from gnomemusic.widgets.songwidget import SongWidget
 class CoreModel(GObject.GObject):
 
     __gsignals__ = {
-        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ())
+        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
     @log

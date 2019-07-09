@@ -101,6 +101,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             print("ERROR", error)
             return
         if not media:
+            self._coremodel.emit("playlists-loaded")
             return
 
         playlist = Playlist(
