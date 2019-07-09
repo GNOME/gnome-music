@@ -230,7 +230,8 @@ class PlaylistsView(BaseView):
         if self.rename_active:
             self._pl_ctrls.disable_rename_playlist()
 
-        self._view.bind_model(playlist.props.model, self._create_song_widget)
+        self._view.bind_model(
+            playlist.props.model, self._create_song_widget, playlist)
 
         self._current_playlist = playlist
         self._pl_ctrls.props.playlist_name = playlist_name
@@ -243,10 +244,13 @@ class PlaylistsView(BaseView):
     def _on_song_count_changed(self, playlist, value):
         self._update_songs_count(playlist.props.count)
 
-    def _create_song_widget(self, coresong):
-        song_widget = SongWidget(coresong)
+    def _create_song_widget(self, coresong, playlist):
+        can_dnd = not playlist.props.is_smart
+        song_widget = SongWidget(coresong, can_dnd)
 
         song_widget.connect('button-release-event', self._song_activated)
+        if can_dnd is True:
+            song_widget.connect("widget_moved", self._on_song_widget_moved)
 
         return song_widget
 
@@ -298,6 +302,11 @@ class PlaylistsView(BaseView):
         #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
         #     self.player.stop()
         #     self._window.set_player_visible(False)
+
+    def _on_song_widget_moved(self, target, source_position):
+        target_position = target.get_parent().get_index()
+        current_playlist = self._sidebar.get_selected_row().playlist
+        current_playlist.reorder(source_position, target_position)
 
     @log
     def _populate(self, data=None):
