@@ -252,14 +252,6 @@ class PlaylistsView(BaseView):
     def _on_play_playlist(self, menuitem, data=None):
         self._song_activated()
 
-    @log
-    def _is_current_playlist(self, playlist):
-        """Check if playlist is currently displayed"""
-        if self._current_playlist is None:
-            return False
-
-        return playlist.props.pl_id == self._current_playlist.props.pl_id
-
     @GObject.Property(type=bool, default=False)
     def rename_active(self):
         """Indicate if renaming dialog is active"""
