@@ -108,6 +108,9 @@ class GrlTrackerPlaylists(GObject.GObject):
             coreselection=self._coreselection, grilo=self._grilo)
 
         self._model.append(playlist)
+        callback = data
+        if callback is not None:
+            callback(playlist)
 
     def _playlists_filter(self, playlist):
         return playlist not in self._pls_todelete
@@ -162,6 +165,45 @@ class GrlTrackerPlaylists(GObject.GObject):
         }
         self._tracker.update_async(
             query, GLib.PRIORITY_LOW, None, _delete_cb, None)
+
+    def create_playlist(self, playlist_title, callback):
+        """Creates a new user playlist.
+
+        :param str playlist_title: playlist title
+        :param callback: function to perform once, the playlist is created
+        """
+        def _create_cb(conn, res, data):
+            result = conn.update_blank_finish(res)
+            playlist_urn = result[0][0]['playlist']
+            query = """
+            SELECT
+                rdf:type(?playlist)
+                tracker:id(?playlist) AS ?id
+                nie:title(?playlist) AS ?title
+                tracker:added(?playlist) AS ?creation_date
+                nfo:entryCounter(?playlist) AS ?childcount
+                WHERE
+                {
+                    ?playlist a nmm:Playlist .
+                    FILTER ( <%(playlist_urn)s> = ?playlist )
+                }
+            """.replace("\n", " ").strip() % {"playlist_urn": playlist_urn}
+
+            options = self._fast_options.copy()
+            self._source.query(
+                query, self.METADATA_KEYS, options, self._add_user_playlist,
+                callback)
+
+        query = """
+            INSERT {
+                _:playlist a nmm:Playlist ;
+                           a nfo:MediaList ;
+                             nie:title "%(title)s" ;
+                             nfo:entryCounter 0 .
+            }
+            """.replace("\n", " ").strip() % {"title": playlist_title}
+        self._tracker.update_blank_async(
+            query, GLib.PRIORITY_LOW, None, _create_cb, None)
 
 
 class Playlist(GObject.GObject):
