@@ -245,6 +245,7 @@ class PlaylistsView(BaseView):
 
     def _create_song_widget(self, coresong):
         song_widget = SongWidget(coresong)
+        song_widget.props.show_song_number = False
 
         song_widget.connect('button-release-event', self._song_activated)
 
