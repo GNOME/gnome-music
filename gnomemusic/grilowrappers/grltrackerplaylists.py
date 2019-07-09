@@ -367,43 +367,58 @@ class Playlist(GObject.GObject):
         :param list coresongs: list of Coresong
         """
         def _add_to_model(source, op_id, media, remaining, error):
+            if not media:
+                self.props.count = self._model.get_n_items()
+                return
+
             coresong = CoreSong(media, self._coreselection, self._grilo)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
-        def update_callback(conn, res, coresong):
+        def _requery_media(conn, res, coresong):
+            if self._model is None:
+                return
+
+            media_id = coresong.props.media.get_id()
             query = """
-            SELECT DISTINCT
+            SELECT
                 rdf:type(?song)
                 ?song AS ?tracker_urn
-                nie:title(?song) AS ?title
-                tracker:id(?song) AS ?id
-                ?song
+                tracker:id(?entry) AS ?id
                 nie:url(?song) AS ?url
                 nie:title(?song) AS ?title
                 nmm:artistName(nmm:performer(?song)) AS ?artist
                 nie:title(nmm:musicAlbum(?song)) AS ?album
                 nfo:duration(?song) AS ?duration
-                nie:usageCounter(?song) AS ?play_count
-                nmm:trackNumber(?song) AS ?track_number
-                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
                 ?tag AS ?favourite
+                nie:contentAccessed(?song) AS ?last_played_time
+                nie:usageCounter(?song) AS ?play_count
             WHERE {
-                ?song a nmm:MusicPiece .
+                ?playlist a nmm:Playlist ;
+                          a nfo:MediaList ;
+                            nfo:hasMediaFileListEntry ?entry .
+                ?entry a nfo:MediaFileListEntry ;
+                         nfo:entryUrl ?url .
+                ?song a nmm:MusicPiece ;
+                      a nfo:FileDataObject ;
+                        nie:url ?url .
                 OPTIONAL {
                     ?song nao:hasTag ?tag .
-                    FILTER (?tag = nao:predefined-tag-favorite)
+                    FILTER( ?tag = nao:predefined-tag-favorite )
                 }
-                FILTER ( tracker:id(?song) = %(grilo_id)s )
+                FILTER (
+                   %(filter_clause)s
+                )
+                FILTER (
+                    NOT EXISTS { ?song a nmm:Video }
+                    && NOT EXISTS { ?song a nmm:Playlist }
+                )
             }
             """.replace("\n", " ").strip() % {
-                "grilo_id": coresong.props.media.get_id()}
-
-            # FIXME: seems bad!
-            if self._model is not None:
-                options = self._fast_options.copy()
-                self._source.query(
-                    query, self.METADATA_KEYS, options, _add_to_model)
+                "filter_clause": "tracker:id(?entry) = " + media_id}
+            options = self._fast_options.copy()
+            self._source.query(
+                query, self.METADATA_KEYS, options, _add_to_model)
 
         for coresong in coresongs:
             query = """
@@ -431,7 +446,7 @@ class Playlist(GObject.GObject):
                 "song_uri": coresong.props.media.get_url()}
 
             self._tracker.update_blank_async(
-                query, GLib.PRIORITY_LOW, None, update_callback, coresong)
+                query, GLib.PRIORITY_LOW, None, _requery_media, coresong)
 
 
 class SmartPlaylist(Playlist):
