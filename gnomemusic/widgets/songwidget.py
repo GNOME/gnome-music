@@ -64,6 +64,8 @@ class SongWidget(Gtk.EventBox):
 
     _playlists = Playlists.get_default()
 
+    _album_label = Gtk.Template.Child()
+    _artist_label = Gtk.Template.Child()
     _dnd_eventbox = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
@@ -84,11 +86,12 @@ class SongWidget(Gtk.EventBox):
         return '<SongWidget>'
 
     @log
-    def __init__(self, coresong, can_dnd=False):
+    def __init__(self, coresong, can_dnd=False, show_artist_and_album=False):
         """Instanciates a SongWidget
 
         :param Corsong coresong: song associated with the widget
         :param bool can_dnd: allow drag and drop operations
+        :param bool show_artist_and_album: display artist and album
         """
         super().__init__()
 
@@ -109,6 +112,14 @@ class SongWidget(Gtk.EventBox):
 
         time = utils.seconds_to_string(self.props.coresong.props.duration)
         self._duration_label.props.label = time
+
+        if show_artist_and_album is True:
+            album = self.props.coresong.props.album
+            self._album_label.props.label = album
+            self._album_label.props.visible = True
+            artist = self.props.coresong.props.artist
+            self._artist_label.props.label = artist
+            self._artist_label.props.visible = True
 
         self._select_button.set_visible(False)
 
