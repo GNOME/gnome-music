@@ -95,7 +95,8 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._source.query(
             query, self.METADATA_KEYS, options, self._add_user_playlist)
 
-    def _add_user_playlist(self, source, param, media, data, error):
+    def _add_user_playlist(
+            self, source, op_id, media, remaining, data=None, error=None):
         if error:
             print("ERROR", error)
             return
