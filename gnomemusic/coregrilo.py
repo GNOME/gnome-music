@@ -172,3 +172,14 @@ class CoreGrilo(GObject.GObject):
             if wrapper.source.props.source_id == "grl-tracker-source":
                 wrapper.finish_playlist_deletion(playlist, deleted)
                 break
+
+    def create_playlist(self, playlist_title, callback):
+        """Creates a new user playlist.
+
+        :param str playlist_title: playlist title
+        :param callback: function to perform once, the playlist is created
+        """
+        for wrapper in self._wrappers:
+            if wrapper.source.props.source_id == "grl-tracker-source":
+                wrapper.create_playlist(playlist_title, callback)
+                break
