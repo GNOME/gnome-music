@@ -549,6 +549,49 @@ class Playlist(GObject.GObject):
             self._tracker.update_blank_async(
                 query, GLib.PRIORITY_LOW, None, _requery_media, coresong)
 
+    def reorder(self, previous_position, new_position):
+        """Changes the order of a songs in the playlist.
+
+        :param int previous_position: preivous song position
+        :param int new_position: new song position
+        """
+        def _position_changed_cb(conn, res, position):
+            # FIXME: Check for failure.
+            conn.update_finish(res)
+
+        coresong = self._model.get_item(previous_position)
+        self._model.remove(previous_position)
+        self._model.insert(new_position, coresong)
+
+        main_query = """
+        INSERT OR REPLACE {
+        ?entry
+            nfo:listPosition %(position)s
+        }
+        WHERE {
+            ?playlist a nmm:Playlist ;
+                      a nfo:MediaList ;
+                        nfo:hasMediaFileListEntry ?entry .
+            FILTER (
+                tracker:id(?playlist) = %(playlist_id)s &&
+                tracker:id(?entry) = %(song_id)s
+            )
+        }
+        """.replace("\n", " ").strip()
+
+        first_pos = min(previous_position, new_position)
+        last_pos = max(previous_position, new_position)
+
+        for position in range(first_pos, last_pos + 1):
+            coresong = self._model.get_item(position)
+            query = main_query % {
+                "playlist_id": self.props.pl_id,
+                "song_id": coresong.props.media.get_id(),
+                "position": position
+            }
+            self._tracker.update_async(
+                query,  GLib.PRIORITY_LOW, None, _position_changed_cb,
+                position)
 
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
