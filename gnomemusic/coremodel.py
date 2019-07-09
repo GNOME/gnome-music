@@ -344,3 +344,9 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def playlists_sort(self):
         return self._playlists_model_sort
+
+    @GObject.Property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def playlists_filter(self):
+        return self._playlists_model_filter

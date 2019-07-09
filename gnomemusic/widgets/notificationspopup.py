@@ -213,21 +213,23 @@ class PlaylistNotification(Gtk.Grid):
         return '<PlaylistNotification>'
 
     @log
-    def __init__(self, notifications_popup, type_, playlist, data, position):
+    def __init__(
+            self, notifications_popup, type_, playlist, position=None,
+            coresong=None):
         """Creates a playlist deletion notification popup (song or playlist)
 
         :param GtkRevealer notifications_popup: the popup object
         :param type_: NotificationType (song or playlist)
         :param Playlist playlist: playlist
-        :param object data: Data associated with the deletion
         :param int position: position of the object to delete
+        :param object coresong: CoreSong for song deletion
         """
         super().__init__(column_spacing=18)
         self._notifications_popup = notifications_popup
         self.type_ = type_
         self._playlist = playlist
-        self.data = data
         self._position = position
+        self._coresong = coresong
 
         message = self._create_notification_message()
         self._label = Gtk.Label(
@@ -239,25 +241,24 @@ class PlaylistNotification(Gtk.Grid):
         self.add(undo_button)
         self.show_all()
 
-        if self.type_ == PlaylistNotification.Type.SONG:
-            playlist.stage_deletion(self.data, position)
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            playlist.stage_deletion()
+        else:
+            playlist.stage_song_deletion(self._coresong, position)
 
         self._timeout_id = GLib.timeout_add_seconds(5, self._finish_deletion)
         self._notifications_popup.add_notification(self)
 
     def _create_notification_message(self):
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
-            return None
-            # pl_todelete = data
-            # msg = _("Playlist {} removed".format(pl_todelete.props.title))
-
+            msg = _("Playlist {} removed".format(self._playlist.props.title))
         else:
             playlist_title = self._playlist.props.title
-            coresong = self.data
-            song_title = coresong.props.title
+            song_title = self._coresong.props.title
             msg = _("{} removed from {}".format(
                 song_title, playlist_title))
-            return msg
+
+        return msg
 
     @log
     def _undo_deletion(self, widget_):
@@ -267,8 +268,15 @@ class PlaylistNotification(Gtk.Grid):
             self._timeout_id = 0
 
         self._notifications_popup.remove_notification(self)
-        self._playlist.undo_pending_deletion(self.data, self._position)
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            self._playlist.undo_pending_deletion()
+        else:
+            self._playlist.undo_pending_song_deletion(
+                self._coresong, self._position)
 
     def _finish_deletion(self):
         self._notifications_popup.remove_notification(self)
-        self._playlist.finish_deletion(self.data)
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            self._playlist.finish_deletion()
+        else:
+            self._playlist.finish_song_deletion(self._coresong)
