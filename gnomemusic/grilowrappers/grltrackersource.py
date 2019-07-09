@@ -326,6 +326,7 @@ class GrlTrackerSource(GObject.GObject):
 
         if not media:
             print("NO MEDIA", source, op_id, media, error)
+            self._coremodel.emit("artists-loaded")
             return
 
         artist = CoreArtist(media, self._coremodel)
