@@ -90,11 +90,12 @@ class PlaylistsView(BaseView):
             'activate', self._on_play_playlist)
         self._window.add_action(playlist_play_action)
 
-        # self._playlist_delete_action = Gio.SimpleAction.new(
-        #     'playlist_delete', None)
-        # self._playlist_delete_action.connect(
-        #     'activate', self._stage_playlist_for_deletion)
-        # self._window.add_action(self._playlist_delete_action)
+        self._playlist_delete_action = Gio.SimpleAction.new(
+            'playlist_delete', None)
+        self._playlist_delete_action.connect(
+            'activate', self._stage_playlist_for_deletion)
+        self._window.add_action(self._playlist_delete_action)
+
         self._playlist_rename_action = Gio.SimpleAction.new(
             'playlist_rename', None)
         self._playlist_rename_action.connect(
@@ -207,8 +208,9 @@ class PlaylistsView(BaseView):
         selected_playlist = self._sidebar.get_selected_row().playlist
 
         notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, PlaylistNotification.Type.SONG,
-            selected_playlist, coresong, position)
+            self._window.notifications_popup, self._coremodel,
+            PlaylistNotification.Type.SONG, selected_playlist, position,
+            coresong)
 
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
@@ -227,6 +229,7 @@ class PlaylistsView(BaseView):
         playlist.connect("notify::count", self._on_song_count_changed)
 
         self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
+        self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
 
     def _on_song_count_changed(self, playlist, value):
         self._update_songs_count(playlist.props.count)
@@ -270,6 +273,22 @@ class PlaylistsView(BaseView):
 
         pl_torename = selection.playlist
         pl_torename.rename(new_name)
+
+    @log
+    def _stage_playlist_for_deletion(self, menutime, data=None):
+        selected_row = self._sidebar.get_selected_row()
+        selected_playlist = selected_row.playlist
+
+        notification = PlaylistNotification(  # noqa: F841
+            self._window.notifications_popup, self._coremodel,
+            PlaylistNotification.Type.PLAYLIST, selected_playlist)
+
+        # FIXME: Should Check that the playlist is not playing
+        # playlist_id = selection.playlist.props.pl_id
+        # if self.player.playing_playlist(
+        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
+        #     self.player.stop()
+        #     self._window.set_player_visible(False)
 
     @log
     def _populate(self, data=None):

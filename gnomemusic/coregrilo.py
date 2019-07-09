@@ -151,3 +151,24 @@ class CoreGrilo(GObject.GObject):
         if "grl-tracker-source" not in self._wrappers:
             self._wrappers["grl-tracker-source"].get_album_art_for_item(
                 coresong, callback)
+
+    def stage_playlist_deletion(self, playlist):
+        """Prepares playlist deletion.
+
+        :param Playlist playlist: playlist
+        """
+        for wrapper in self._wrappers:
+            if wrapper.source.props.source_id == "grl-tracker-source":
+                wrapper.stage_playlist_deletion(playlist)
+                break
+
+    def finish_playlist_deletion(self, playlist, deleted):
+        """Finishes playlist deletion.
+
+        :param Playlist playlist: playlist
+        :param bool deleted: indicates if the playlist has been deleted
+        """
+        for wrapper in self._wrappers:
+            if wrapper.source.props.source_id == "grl-tracker-source":
+                wrapper.finish_playlist_deletion(playlist, deleted)
+                break

@@ -41,6 +41,9 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._grilo = grilo
         self._source = source
         self._model = self._coremodel.props.playlists
+        self._model_filter = self._coremodel.props.playlists_filter
+        self._pls_todelete = []
+        self._tracker = TrackerWrapper().props.tracker
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -104,6 +107,60 @@ class GrlTrackerPlaylists(GObject.GObject):
             coreselection=self._coreselection, grilo=self._grilo)
 
         self._model.append(playlist)
+
+    def _playlists_filter(self, playlist):
+        return playlist not in self._pls_todelete
+
+    def stage_playlist_deletion(self, playlist):
+        """Adds playlist to the list of playlists to delete
+
+        :param Playlist playlist: playlist
+        """
+        self._pls_todelete.append(playlist)
+        self._model_filter.set_filter_func(self._playlists_filter)
+
+    def finish_playlist_deletion(self, playlist, deleted):
+        """Removes playlist from the list of playlists to delete
+
+        :param Playlist playlist: playlist
+        :param bool deleted: indicates if the playlist has been deleted
+        """
+        self._pls_todelete.remove(playlist)
+        if deleted is False:
+            self._model_filter.set_filter_func(self._playlists_filter)
+            return
+
+        def _delete_cb(conn, res, data):
+            # FIXME: Check for failure.
+            conn.update_finish(res)
+            for idx, playlist_model in enumerate(self._model):
+                if playlist_model is playlist:
+                    self._model.remove(idx)
+                    break
+
+            self._model_filter.set_filter_func(self._playlists_filter)
+
+        query = """
+        DELETE {
+            ?playlist a rdfs:Resource .
+            ?entry a rdfs:Resource .
+
+        }
+        WHERE {
+            ?playlist a nmm:Playlist ;
+                      a nfo:MediaList .
+            OPTIONAL {
+                ?playlist nfo:hasMediaFileListEntry ?entry .
+            }
+            FILTER (
+            tracker:id(?playlist) = %(playlist_id)s
+            )
+        }
+        """.replace("\n", " ").strip() % {
+            "playlist_id": playlist.props.pl_id
+        }
+        self._tracker.update_async(
+            query, GLib.PRIORITY_LOW, None, _delete_cb, None)
 
 
 class Playlist(GObject.GObject):
@@ -265,7 +322,7 @@ class Playlist(GObject.GObject):
         self._tracker.update_async(
             query, GLib.PRIORITY_LOW, None, update_cb, None)
 
-    def stage_deletion(self, coresong, index):
+    def stage_song_deletion(self, coresong, index):
         """Adds a song to the list of songs to delete
 
         :param CoreSong coresong: song to delete
@@ -275,8 +332,8 @@ class Playlist(GObject.GObject):
         self._model.remove(index)
         self.props.count -= 1
 
-    def undo_pending_deletion(self, coresong, position):
-        """Adds a song to the list of songs to delete
+    def undo_pending_song_deletion(self, coresong, position):
+        """Removes song from the list of songs to delete
 
         :param CoreSong coresong: song to delete
         :param int position: Song position in the playlist
@@ -285,7 +342,7 @@ class Playlist(GObject.GObject):
         self._model.insert(position, coresong)
         self.props.count += 1
 
-    def finish_deletion(self, coresong):
+    def finish_song_deletion(self, coresong):
         """Removes a song from the playlist
 
         :param CoreSong coresong: song to remove

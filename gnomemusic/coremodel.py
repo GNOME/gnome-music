@@ -272,6 +272,29 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
 
+    def stage_playlist_deletion(self, playlist):
+        """Prepares playlist deletion.
+
+        :param Playlist playlist: playlist
+        """
+        self._grilo.stage_playlist_deletion(playlist)
+
+    def finish_playlist_deletion(self, playlist, deleted):
+        """Finishes playlist deletion.
+
+        :param Playlist playlist: playlist
+        :param bool deleted: indicates if the playlist has been deleted
+        """
+        self._grilo.finish_playlist_deletion(playlist, deleted)
+
+    def create_playlist(self, playlist_title, callback):
+        """Creates a new user playlist.
+
+        :param str playlist_title: playlist title
+        :param callback: function to perform once, the playlist is created
+        """
+        self._grilo.create_playlist(playlist_title, callback)
+
     def search(self, text):
         self._grilo.search(text)
 
@@ -352,3 +375,9 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def playlists_sort(self):
         return self._playlists_model_sort
+
+    @GObject.Property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def playlists_filter(self):
+        return self._playlists_model_filter
