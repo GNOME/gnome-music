@@ -55,7 +55,8 @@ class GrlTrackerSource(GObject.GObject):
         self._initial_albums_fill(self._source)
         self._initial_artists_fill(self._source)
 
-        GrlTrackerPlaylists(source, coremodel, coreselection, grilo)
+        self._tracker_playlists = GrlTrackerPlaylists(
+            source, coremodel, coreselection, grilo)
 
         self._source.connect("content-changed", self._on_content_changed)
 
@@ -640,3 +641,26 @@ class GrlTrackerSource(GObject.GObject):
 
         self._source.query(
             query, self.METADATA_KEYS, options, artist_search_cb)
+
+    def stage_playlist_deletion(self, playlist):
+        """Prepares playlist deletion.
+
+        :param Playlist playlist: playlist
+        """
+        self._tracker_playlists.stage_playlist_deletion(playlist)
+
+    def finish_playlist_deletion(self, playlist, deleted):
+        """Finishes playlist deletion.
+
+        :param Playlist playlist: playlist
+        :param bool deleted: indicates if the playlist has been deleted
+        """
+        self._tracker_playlists.finish_playlist_deletion(playlist, deleted)
+
+    def create_playlist(self, playlist_title, callback):
+        """Creates a new user playlist.
+
+        :param str playlist_title: playlist title
+        :param callback: function to perform once, the playlist is created
+        """
+        self._tracker_playlists.create_playlist(playlist_title, callback)

@@ -85,3 +85,24 @@ class CoreGrilo(GObject.GObject):
     def search(self, text):
         for wrapper in self._wrappers:
             wrapper.search(text)
+
+    def stage_playlist_deletion(self, playlist):
+        """Prepares playlist deletion.
+
+        :param Playlist playlist: playlist
+        """
+        for wrapper in self._wrappers:
+            if wrapper.source.props.source_id == "grl-tracker-source":
+                wrapper.stage_playlist_deletion(playlist)
+                break
+
+    def finish_playlist_deletion(self, playlist, deleted):
+        """Finishes playlist deletion.
+
+        :param Playlist playlist: playlist
+        :param bool deleted: indicates if the playlist has been deleted
+        """
+        for wrapper in self._wrappers:
+            if wrapper.source.props.source_id == "grl-tracker-source":
+                wrapper.finish_playlist_deletion(playlist, deleted)
+                break
