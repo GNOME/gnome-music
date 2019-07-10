@@ -46,6 +46,10 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
+    __gsignals__ = {
+        "ready": (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
+
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
 
@@ -66,6 +70,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
+        self._nb_albums_loaded = 0
         self._model.props.model.connect_after(
             "items-changed", self. _on_model_items_changed)
         self.bind_model(self._model, self._add_album)
@@ -80,7 +85,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
         coremodel = self._player._app.props.coremodel
 
-        def _on_playlist_loaded(klass):
+        def _on_playlist_loaded(artistalbumwidget):
             self._player.play(song_widget.props.coresong)
             coremodel.disconnect(signal_id)
 
@@ -98,9 +103,17 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             | GObject.BindingFlags.SYNC_CREATE)
 
         self._widgets.append(widget)
+        widget.connect("ready", self._on_album_ready)
         widget.connect("song-activated", self._song_activated)
 
         return widget
+
+    def _on_album_ready(self, artistalbumwidget):
+        self._nb_albums_loaded += 1
+        if self._nb_albums_loaded == self._model.get_n_items():
+            artistalbumwidget.disconnect_by_func(self._on_album_ready)
+            self._nb_albums_loaded = 0
+            self.emit("ready")
 
     def _on_model_items_changed(self, model, position, removed, added):
         for i in range(model.get_n_items()):

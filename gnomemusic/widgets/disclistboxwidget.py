@@ -61,6 +61,7 @@ class DiscBox(Gtk.Box):
     _list_box = Gtk.Template.Child()
 
     __gsignals__ = {
+        "ready": (GObject.SignalFlags.RUN_FIRST, None, ()),
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
@@ -93,6 +94,8 @@ class DiscBox(Gtk.Box):
         self._selected_items = []
         self._songs = []
 
+        self._model.connect_after(
+            "items-changed", self._on_model_items_changed)
         self._list_box.bind_model(self._model, self._create_widget)
 
     @log
@@ -140,6 +143,9 @@ class DiscBox(Gtk.Box):
         song_widget.connect('button-release-event', self._song_activated)
 
         return song_widget
+
+    def _on_model_items_changed(self, model, position, removed, added):
+        self.emit("ready")
 
     @log
     def _on_selection_changed(self, widget):
