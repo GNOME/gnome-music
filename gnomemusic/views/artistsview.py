@@ -106,6 +106,10 @@ class ArtistsView(BaseView):
             vhomogeneous=False)
         self._view_container.add(self._view)
 
+        empty_frame = Gtk.Frame(shadow_type=Gtk.ShadowType.NONE, hexpand=True)
+        empty_frame.show()
+        self._view.add_named(empty_frame, "empty-frame")
+
     @log
     def _on_changes_pending(self, data=None):
         if (self._init
@@ -133,11 +137,16 @@ class ArtistsView(BaseView):
 
         artist_albums = ArtistAlbumsWidget(
             coreartist, self.player, self._window, False)
+        artist_albums.connect(
+            "ready", self._on_artist_albums_ready, coreartist)
+        self._view.set_visible_child_name("empty-frame")
+        return
+
+    def _on_artist_albums_ready(self, klass, coreartist):
         new_artist_albums_widget = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        new_artist_albums_widget.add(artist_albums)
+        new_artist_albums_widget.add(klass)
         new_artist_albums_widget.show()
-
         self._view.add_named(new_artist_albums_widget, coreartist.props.artist)
         scroll_vadjustment = self._view_container.props.vadjustment
         scroll_vadjustment.props.value = 0.
