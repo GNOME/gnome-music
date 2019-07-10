@@ -38,8 +38,7 @@ class ArtistAlbumWidget(Gtk.Box):
     _album_box = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
-    _title = Gtk.Template.Child()
-    _year = Gtk.Template.Child()
+    _title_year = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -75,10 +74,10 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        self._title.props.label = corealbum.props.title
+        self._title_year.props.label = corealbum.props.title
         year = corealbum.props.year
-        if year:
-            self._year.props.label = year
+        if year != "----":
+            self._title_year.props.label += " ({})".format(year)
 
         if self._size_group:
             self._size_group.add_widget(self._album_box)
