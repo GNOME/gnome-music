@@ -6,17 +6,16 @@
       <property name="visible">True</property>
       <property name="can_focus">False</property>
       <property name="orientation">vertical</property>
-      <property name="margin_top">16</property>
       <child>
         <object class="GtkLabel" id="_disc_label">
           <property name="visible">True</property>
           <property name="can_focus">False</property>
-          <property name="halign">start</property>
-          <property name="margin_start">60</property>
-          <property name="margin_bottom">4</property>
+          <property name="halign">fill</property>
+          <!-- <property name="hexpand">True</property> -->
           <property name="no_show_all">True</property>
+          <property name="xalign">0.0</property>
           <style>
-            <class name="dim-label"/>
+            <class name="disc-label"/>
           </style>
         </object>
         <packing>
@@ -28,9 +27,10 @@
           <property name="visible">True</property>
           <property name="can_focus">False</property>
           <property name="valign">start</property>
-<!--      <property name="orientation">vertical</property> -->
-<!--           <property name="homogeneous">True</property> -->
           <property name="selection_mode">none</property>
+          <style>
+            <class name="songs-list"/>
+          </style>
         </object>
         <packing>
           <property name="position">1</property>
