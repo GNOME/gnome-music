@@ -77,6 +77,8 @@ class ArtistsView(BaseView):
         self._ctrl.props.button = Gdk.BUTTON_PRIMARY
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
+        self._loaded_artists = []
+
         self.show_all()
 
     def _create_widget(self, coreartist):
@@ -95,17 +97,13 @@ class ArtistsView(BaseView):
 
     @log
     def _setup_view(self):
-        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
+        self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
+        self._box.pack_start(self._view_container, True, True, 0)
 
         self._view = Gtk.Stack(
-            transition_type=Gtk.StackTransitionType.CROSSFADE)
-        view_container.add(self._view)
-
-        self._artist_albums_widget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        self._view.add_named(self._artist_albums_widget, "artist-albums")
-        self._view.props.visible_child_name = "artist-albums"
+            transition_type=Gtk.StackTransitionType.CROSSFADE,
+            vhomogeneous=False)
+        self._view_container.add(self._view)
 
     @log
     def _on_changes_pending(self, data=None):
@@ -125,20 +123,24 @@ class ArtistsView(BaseView):
 
         # Prepare a new artist_albums_widget here
         coreartist = artist_tile.props.coreartist
-
-        new_artist_albums_widget = Gtk.Frame(
-            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        self._view.add(new_artist_albums_widget)
+        if coreartist in self._loaded_artists:
+            scroll_vadjustment = self._view_container.props.vadjustment
+            scroll_vadjustment.props.value = 0.
+            self._view.set_visible_child_name(coreartist.props.artist)
+            return
 
         artist_albums = ArtistAlbumsWidget(
             coreartist, self.player, self._window, False)
+        new_artist_albums_widget = Gtk.Frame(
+            shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         new_artist_albums_widget.add(artist_albums)
         new_artist_albums_widget.show()
 
-        # Replace previous widget
-        self._artist_albums_widget = new_artist_albums_widget
+        self._view.add_named(new_artist_albums_widget, coreartist.props.artist)
+        scroll_vadjustment = self._view_container.props.vadjustment
+        scroll_vadjustment.props.value = 0.
         self._view.set_visible_child(new_artist_albums_widget)
-
+        self._loaded_artists.append(coreartist)
         return
 
     @log
