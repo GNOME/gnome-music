@@ -59,7 +59,7 @@ class SongsView(BaseView):
         self._offset = 0
         self._iter_to_clean = None
 
-        self._view.get_style_context().add_class('songs-list')
+        self._view.get_style_context().add_class('songs-list-old')
 
         self._add_list_renderers()
 

@@ -197,6 +197,8 @@ class DiscListBox(Gtk.ListBox):
         self._selection_mode = False
         self._selected_items = []
 
+        self.get_style_context().add_class("disc-list-box")
+
     @log
     def get_selected_items(self):
         """Returns all selected items for all discs

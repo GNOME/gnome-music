@@ -62,10 +62,6 @@ class PlaylistsView(BaseView):
         self._window = window
         self.player = player
 
-        # self._view.get_style_context().add_class('songs-list')
-
-        # self._add_list_renderers()
-
         self._pl_ctrls = PlaylistControls()
         self._pl_ctrls.connect('playlist-renamed', self._on_playlist_renamed)
 
@@ -140,6 +136,7 @@ class PlaylistsView(BaseView):
         self._box.pack_start(view_container, True, True, 0)
 
         self._view = Gtk.ListBox()
+        self._view.get_style_context().add_class("songs-list")
 
         self._controller = Gtk.GestureMultiPress().new(self._view)
         self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
