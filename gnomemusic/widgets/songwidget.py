@@ -65,6 +65,8 @@ class SongWidget(Gtk.EventBox):
     _playlists = Playlists.get_default()
 
     _album_label = Gtk.Template.Child()
+    _album_duration_box = Gtk.Template.Child()
+    _artist_box = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
     _dnd_eventbox = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
@@ -74,6 +76,7 @@ class SongWidget(Gtk.EventBox):
     _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
+    _size_group = Gtk.Template.Child()
 
     class State(IntEnum):
         """The state of the SongWidget
@@ -119,7 +122,9 @@ class SongWidget(Gtk.EventBox):
             self._album_label.props.visible = True
             artist = self.props.coresong.props.artist
             self._artist_label.props.label = artist
-            self._artist_label.props.visible = True
+            self._artist_box.props.visible = True
+        else:
+            self._size_group.remove_widget(self._album_duration_box)
 
         self._select_button.set_visible(False)
 
