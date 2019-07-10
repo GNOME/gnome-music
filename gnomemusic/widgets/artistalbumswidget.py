@@ -108,18 +108,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             row.props.selectable = False
 
     @log
-    def _model_row_changed(self, model, path, itr):
-        if not self.props.selection_mode:
-            return
-
-        selected_items = 0
-        for row in model:
-            if row[6]:
-                selected_items += 1
-
-        self.props.selected_items_count = selected_items
-
-    @log
     def select_all(self):
         """Select all items"""
         for widget in self._widgets:
