@@ -52,6 +52,16 @@ box#ArtistAlbumsWidget .artist-label {
 }
 
 /* ArtistAlbumWidget */
+.artist-albums-widget,
+.artist-albums-widget:hover {
+    background-color: @theme_bg_color;
+}
+
+.artist-albums-widget > row:hover {
+    background-color: rgba(0, 0, 0, 0.0);
+    box-shadow: none;
+}
+
 .album-title {
     font-size: large;
     font-weight: bold;
