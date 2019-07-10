@@ -33,8 +33,7 @@ from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
 logger = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumsWidget.ui')
-class ArtistAlbumsWidget(Gtk.Box):
+class ArtistAlbumsWidget(Gtk.ListBox):
     """Widget containing all albums by an artist
 
     A vertical list of ArtistAlbumWidget, containing all the albums
@@ -43,8 +42,6 @@ class ArtistAlbumsWidget(Gtk.Box):
     """
 
     __gtype_name__ = 'ArtistAlbumsWidget'
-
-    _artist_label = Gtk.Template.Child()
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
@@ -55,46 +52,23 @@ class ArtistAlbumsWidget(Gtk.Box):
     @log
     def __init__(
             self, coreartist, player, window, selection_mode_allowed=False):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL)
+        super().__init__()
         self._artist = coreartist.props.artist
         self._model = coreartist.props.model
         self._player = player
         self._selection_mode_allowed = selection_mode_allowed
         self._window = window
 
-        self._artist_label.props.label = self._artist
-
         self._widgets = []
-
-        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
-                                  spacing=48)
-        hbox.pack_start(self._album_box, False, False, 16)
-
-        self._scrolled_window = Gtk.ScrolledWindow()
-        self._scrolled_window.set_policy(Gtk.PolicyType.NEVER,
-                                         Gtk.PolicyType.AUTOMATIC)
-        self._scrolled_window.add(hbox)
-        self.pack_start(self._scrolled_window, True, True, 0)
 
         self._cover_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
-        self._model.connect("items-changed", self._on_album_items_changed)
-
-        # FIXME: Make this a ListBox as well.
-        for album in self._model:
-            self._add_album(album)
-
-        self.show_all()
-
-    def _on_album_items_changed(self, model, position, removed, added):
-        # FIXME: Just does additions now, use ListBox as well to be
-        # hassle free.
-        for i in range(added):
-            self._add_album(model[position + i])
+        self._model.props.model.connect_after(
+            "items-changed", self. _on_model_items_changed)
+        self.bind_model(self._model, self._add_album)
 
         self.show_all()
 
@@ -123,10 +97,15 @@ class ArtistAlbumsWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)
-
         widget.connect("song-activated", self._song_activated)
+
+        return widget
+
+    def _on_model_items_changed(self, model, position, removed, added):
+        for i in range(model.get_n_items()):
+            row = self.get_row_at_index(i)
+            row.props.selectable = False
 
     @log
     def _model_row_changed(self, model, path, itr):
