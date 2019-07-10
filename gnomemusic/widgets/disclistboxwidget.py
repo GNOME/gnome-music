@@ -193,6 +193,7 @@ class DiscListBox(Gtk.ListBox):
         """Initialize"""
         super().__init__()
 
+        self.props.valign = Gtk.Align.START
         self._selection_mode = False
         self._selected_items = []
 
