@@ -60,8 +60,9 @@ class CoreModel(GObject.GObject):
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
 
-        self._song_search_model = Dazzle.ListModelFilter.new(self._model)
-        self._song_search_model.set_filter_func(lambda a: False)
+        self._song_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
+        self._song_search_flatten = Gfm.FlattenListModel.new(CoreSong)
+        self._song_search_flatten.set_model(self._song_search_proxy)
 
         self._album_search_model = Dazzle.ListModelFilter.new(
             self._album_model)
@@ -247,17 +248,18 @@ class CoreModel(GObject.GObject):
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
                 if self._search_signal_id:
-                    self._song_search_model.disconnect(self._search_signal_id)
+                    self._song_search_flatten.disconnect(
+                        self._search_signal_id)
 
                 self._playlist_model.remove_all()
 
-                for song in self._song_search_model:
+                for song in self._song_search_flatten:
                     self._playlist_model.append(song)
 
                     if song is coresong:
                         song.props.state = SongWidget.State.PLAYING
 
-                self._search_signal_id = self._song_search_model.connect(
+                self._search_signal_id = self._song_search_flatten.connect(
                     "items-changed", _on_items_changed)
 
                 self.emit("playlist-loaded")
@@ -331,7 +333,13 @@ class CoreModel(GObject.GObject):
         type=Dazzle.ListModelFilter, default=None,
         flags=GObject.ParamFlags.READABLE)
     def songs_search(self):
-        return self._song_search_model
+        return self._song_search_flatten
+
+    @GObject.Property(
+        type=Gio.ListStore, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def songs_search_proxy(self):
+        return self._song_search_proxy
 
     @GObject.Property(
         type=Dazzle.ListModelFilter, default=None,

@@ -1,6 +1,6 @@
 import gi
-gi.require_versions({"Grl": "0.3", 'Tracker': "2.0"})
-from gi.repository import Grl, GLib, GObject, Tracker
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
+from gi.repository import Gfm, Grl, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -43,9 +43,13 @@ class GrlTrackerSource(GObject.GObject):
         self._album_ids = {}
         self._artists_model = self._coremodel.props.artists
         self._hash = {}
-        self._song_search_model = self._coremodel.props.songs_search
+        self._song_search_proxy = self._coremodel.props.songs_search_proxy
         self._album_search_model = self._coremodel.props.albums_search
         self._artist_search_model = self._coremodel.props.artists_search
+
+        self._song_search_tracker = Gfm.FilterListModel.new(self._model)
+        self._song_search_tracker.set_filter_func(lambda a: False)
+        self._song_search_proxy.append(self._song_search_tracker)
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -526,7 +530,7 @@ class GrlTrackerSource(GObject.GObject):
                 return
 
             if not media:
-                self._song_search_model.set_filter_func(songs_filter)
+                self._song_search_tracker.set_filter_func(songs_filter)
                 return
 
             filter_ids.append(media.get_id())
