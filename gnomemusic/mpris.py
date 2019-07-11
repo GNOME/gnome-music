@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from itertools import chain
 import logging
 import re
 
@@ -271,6 +272,8 @@ class MPRIS(DBusInterface):
     MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
     MEDIA_PLAYER2_PLAYLISTS_IFACE = 'org.mpris.MediaPlayer2.Playlists'
 
+    _playlist_nb_songs = 10
+
     def __repr__(self):
         return "<MPRIS>"
 
@@ -289,6 +292,8 @@ class MPRIS(DBusInterface):
         self._player.connect('seek-finished', self._on_seek_finished)
         self._player.connect(
             'playlist-changed', self._on_player_playlist_changed)
+
+        self._player_model = app.props.coremodel.props.playlist_sort
 
         self._playlists = Playlists.get_default()
         self._playlists_model = None
@@ -416,9 +421,37 @@ class MPRIS(DBusInterface):
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
-        for index, song in self._player.get_mpris_playlist():
-            path = self._get_song_dbus_path(song, index)
-            metadata = self._get_metadata(song, index)
+        current_position = self._player.props.position
+        nb_songs = self._player_model.get_n_items()
+
+        index_min = current_position - self._playlist_nb_songs
+        index_max = current_position + self._playlist_nb_songs + 1
+        if self._player.get_playlist_type() == PlayerPlaylist.Type.ALBUM:
+            index_min = 0
+            index_max = self._player_model.get_n_items()
+
+        first_index = max(index_min, 0)
+        last_index = min(index_max, nb_songs)
+        positions = range(first_index, last_index)
+
+        nb_songs_max = 2 * self._playlist_nb_songs + 1
+        if (self._player.props.repeat_mode == RepeatMode.ALL
+                and (last_index - first_index) < nb_songs_max):
+            offset_sup = min(
+                self._playlist_nb_songs - last_index + current_position + 1,
+                first_index)
+            offset_inf = min(
+                self._playlist_nb_songs - current_position + first_index,
+                nb_songs - last_index)
+
+            positions = chain(
+                range(nb_songs - offset_inf, nb_songs), positions,
+                range(offset_sup))
+
+        for position in positions:
+            coresong = self._player_model.get_item(position)
+            path = self._get_song_dbus_path(coresong, position)
+            metadata = self._get_metadata(coresong, position)
             self._path_list.append(path)
             self._metadata_list.append(metadata)
 
