@@ -83,8 +83,6 @@ class PlayerPlaylist(GObject.GObject):
         'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
     }
 
-    _nb_songs_max = 10
-
     repeat_mode = GObject.Property(type=int, default=RepeatMode.NONE)
 
     def __repr__(self):
@@ -97,8 +95,6 @@ class PlayerPlaylist(GObject.GObject):
         GstPbutils.pb_utils_init()
 
         self._app = application
-        self._songs = []
-        self._shuffle_indexes = []
         self._position = 0
 
         self._type = -1
@@ -112,25 +108,6 @@ class PlayerPlaylist(GObject.GObject):
         self._model = self._app.props.coremodel.props.playlist_sort
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
-
-    @log
-    def set_playlist(self, playlist_type, playlist_id, model, model_iter=None):
-        """Set a new playlist or change the song being played
-
-        If no song is requested (through model_iter), a song will be
-        automatically selected:
-        * the first song in a linear mode
-        * a random song in shuffle mode
-
-        :param PlayerPlaylist.Type playlist_type: playlist type
-        :param string playlist_id: unique identifer to recognize the playlist
-        :param GtkListStore model: list of songs to play
-        :param GtkTreeIter model_iter: requested song
-
-        :return: True if the playlist has been updated. False otherwise
-        :rtype: bool
-        """
-        pass
 
     @log
     def change_position(self, prev_pos, new_pos):
@@ -518,21 +495,6 @@ class Player(GObject.GObject):
             self.pause()
         else:
             self.play()
-
-    @log
-    def set_playlist(self, playlist_type, playlist_id, model, iter_=None):
-        """Set a new playlist or change the song being played.
-
-        :param PlayerPlaylist.Type playlist_type: playlist type
-        :param string playlist_id: unique identifer to recognize the playlist
-        :param GtkListStore model: list of songs to play
-        :param GtkTreeIter model_iter: requested song
-        """
-        playlist_changed = self._playlist.set_playlist(
-            playlist_type, playlist_id, model, iter_)
-
-        if playlist_changed:
-            self.emit('playlist-changed')
 
     @log
     def playlist_change_position(self, prev_pos, new_pos):
