@@ -140,6 +140,7 @@ class ArtistsView(BaseView):
         artist_albums.connect(
             "ready", self._on_artist_albums_ready, coreartist)
         self._view.set_visible_child_name("empty-frame")
+        self._window.notifications_popup.push_loading()
         return
 
     def _on_artist_albums_ready(self, klass, coreartist):
@@ -151,6 +152,7 @@ class ArtistsView(BaseView):
         scroll_vadjustment = self._view_container.props.vadjustment
         scroll_vadjustment.props.value = 0.
         self._view.set_visible_child(new_artist_albums_widget)
+        self._window.notifications_popup.pop_loading()
         self._loaded_artists.append(coreartist)
         return
 
