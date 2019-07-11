@@ -63,6 +63,9 @@ class ArtistsView(BaseView):
         self._window = window
         self._coremodel = window._app.props.coremodel
         self._model = self._coremodel.props.artists_sort
+
+        self._model.connect_after(
+            "items-changed", self._on_model_items_changed)
         self._sidebar.bind_model(self._model, self._create_widget)
         self._loaded_id = self._coremodel.connect(
             "artists-loaded", self._on_artists_loaded)
@@ -78,6 +81,7 @@ class ArtistsView(BaseView):
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
         self._loaded_artists = []
+        self._loading_id = 0
 
         self.show_all()
 
@@ -88,6 +92,31 @@ class ArtistsView(BaseView):
         self.bind_property("selection-mode", row, "selection-mode")
 
         return row
+
+    def _on_model_items_changed(self, model, position, removed, added):
+        if removed == 0:
+            return
+
+        removed_artist = None
+        artists = [coreartist.props.artist for coreartist in model]
+        for artist in self._loaded_artists:
+            if artist not in artists:
+                removed_artist = artist
+                break
+
+        if removed_artist is None:
+            return
+
+        self._loaded_artists.remove(removed_artist)
+        if self._view.get_visible_child_name() == removed_artist:
+            row_next = (self._sidebar.get_row_at_index(position)
+                        or self._sidebar.get_row_at_index(position - 1))
+            if row_next:
+                self._sidebar.select_row(row_next)
+                row_next.emit("activate")
+
+        removed_frame = self._view.get_child_by_name(removed_artist)
+        self._view.remove(removed_frame)
 
     def _on_artists_loaded(self, klass):
         self._coremodel.disconnect(self._loaded_id)
@@ -127,31 +156,40 @@ class ArtistsView(BaseView):
 
         # Prepare a new artist_albums_widget here
         coreartist = artist_tile.props.coreartist
-        if coreartist in self._loaded_artists:
+        if coreartist.props.artist in self._loaded_artists:
             scroll_vadjustment = self._view_container.props.vadjustment
             scroll_vadjustment.props.value = 0.
             self._view.set_visible_child_name(coreartist.props.artist)
             return
 
-        artist_albums = ArtistAlbumsWidget(
+        if self._loading_id > 0:
+            self._artist_albums.disconnect(self._loading_id)
+            self._loading_id = 0
+
+        self._artist_albums = ArtistAlbumsWidget(
             coreartist, self.player, self._window, False)
-        artist_albums.connect(
-            "ready", self._on_artist_albums_ready, coreartist)
+        self._loading_id = self._artist_albums.connect(
+            "ready", self._on_artist_albums_ready, coreartist.props.artist)
         self._view.set_visible_child_name("empty-frame")
         self._window.notifications_popup.push_loading()
         return
 
-    def _on_artist_albums_ready(self, klass, coreartist):
-        new_artist_albums_widget = Gtk.Frame(
+    def _on_artist_albums_ready(self, widget, artist):
+        artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        new_artist_albums_widget.add(klass)
-        new_artist_albums_widget.show()
-        self._view.add_named(new_artist_albums_widget, coreartist.props.artist)
+        artist_albums_frame.add(self._artist_albums)
+        artist_albums_frame.show()
+
+        self._view.add_named(artist_albums_frame, artist)
         scroll_vadjustment = self._view_container.props.vadjustment
         scroll_vadjustment.props.value = 0.
-        self._view.set_visible_child(new_artist_albums_widget)
+        self._view.set_visible_child(artist_albums_frame)
         self._window.notifications_popup.pop_loading()
-        self._loaded_artists.append(coreartist)
+        self._loaded_artists.append(artist)
+
+        self._artist_albums.disconnect(self._loading_id)
+        self._loading_id = 0
+        self._artist_albums = None
         return
 
     @log
