@@ -23,7 +23,6 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-from itertools import chain
 from random import randint, randrange
 import logging
 import time
@@ -337,58 +336,6 @@ class PlayerPlaylist(GObject.GObject):
         :rtype: PlayerPlaylist.Type
         """
         return self._type
-
-    @log
-    def get_mpris_playlist(self):
-        """Get recent and next songs from the current playlist.
-
-        If the playlist is an album, return all songs.
-        Returned songs are sorted according to the repeat mode.
-        This method is used by mpris to expose a TrackList.
-
-        :returns: current playlist
-        :rtype: list of index and Grl.Media
-        """
-        return []
-        if not self.props.current_song:
-            return []
-
-        songs = []
-        nb_songs = len(self._songs)
-        current_index = self._position
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            current_index = self._shuffle_indexes.index(self._position)
-
-        index_min = current_index - self._nb_songs_max
-        index_max = current_index + self._nb_songs_max + 1
-        if self._type == PlayerPlaylist.Type.ALBUM:
-            index_min = 0
-            index_max = nb_songs
-
-        first_index = max(index_min, 0)
-        last_index = min(index_max, nb_songs)
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            indexes = self._shuffle_indexes[first_index:last_index]
-        else:
-            indexes = range(first_index, last_index)
-
-        if (self.props.repeat_mode == RepeatMode.ALL
-                and (last_index - first_index) < (2 * self._nb_songs_max + 1)):
-            offset_sup = min(
-                self._nb_songs_max - last_index + current_index + 1,
-                first_index)
-            offset_inf = min(
-                self._nb_songs_max - current_index + first_index,
-                nb_songs - last_index)
-
-            indexes = chain(
-                range(nb_songs - offset_inf, nb_songs), indexes,
-                range(offset_sup))
-
-        songs = [[index, self._songs[index][PlayerField.SONG]]
-                 for index in indexes]
-        return songs
 
 
 class Player(GObject.GObject):
@@ -757,19 +704,6 @@ class Player(GObject.GObject):
         duration_second = self._gst_player.props.duration
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
-
-    @log
-    def get_mpris_playlist(self):
-        """Get recent and next songs from the current playlist.
-
-        If the playlist is an album, return all songs.
-        Returned songs are sorted according to the repeat mode.
-        This method is used by mpris to expose a TrackList.
-
-        :returns: current playlist
-        :rtype: list of index and Grl.Media
-        """
-        return self._playlist.get_mpris_playlist()
 
     @log
     def _on_seek_finished(self, klass):
