@@ -33,7 +33,7 @@ from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
-from gnomemusic.widgets.sidebarrow import SidebarRow
+from gnomemusic.widgets.playlisttile import PlaylistTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -152,10 +152,7 @@ class PlaylistsView(BaseView):
         :param GrlMedia playlist: playlist to add
         :param int index: position
         """
-        row = SidebarRow()
-        row.props.text = playlist.props.title
-        row.playlist = playlist
-
+        row = PlaylistTile(playlist)
         return row
 
     def _on_playlists_loaded(self, klass):
@@ -211,7 +208,8 @@ class PlaylistsView(BaseView):
         song_widget = selected_row.get_child()
         coresong = song_widget.props.coresong
 
-        selected_playlist = self._sidebar.get_selected_row().playlist
+        selection = self._sidebar.get_selected_row()
+        selected_playlist = selection.props.playlist
 
         notification = PlaylistNotification(  # noqa: F841
             self._window.notifications_popup, self._coremodel,
@@ -221,7 +219,7 @@ class PlaylistsView(BaseView):
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
-        playlist = row.playlist
+        playlist = row.props.playlist
         playlist_name = playlist.props.title
 
         if self.rename_active:
@@ -274,21 +272,19 @@ class PlaylistsView(BaseView):
     @log
     def _stage_playlist_for_renaming(self, menuitem, data=None):
         selection = self._sidebar.get_selected_row()
-        pl_torename = selection.playlist
+        pl_torename = selection.props.playlist
         self._pl_ctrls.enable_rename_playlist(pl_torename)
 
     @log
     def _on_playlist_renamed(self, arguments, new_name):
         selection = self._sidebar.get_selected_row()
-        selection.props.text = new_name
-
-        pl_torename = selection.playlist
+        pl_torename = selection.props.playlist
         pl_torename.rename(new_name)
 
     @log
     def _stage_playlist_for_deletion(self, menutime, data=None):
         selected_row = self._sidebar.get_selected_row()
-        selected_playlist = selected_row.playlist
+        selected_playlist = selected_row.props.playlist
 
         notification = PlaylistNotification(  # noqa: F841
             self._window.notifications_popup, self._coremodel,
@@ -303,7 +299,8 @@ class PlaylistsView(BaseView):
 
     def _on_song_widget_moved(self, target, source_position):
         target_position = target.get_parent().get_index()
-        current_playlist = self._sidebar.get_selected_row().playlist
+        selection = self._sidebar.get_selected_row()
+        current_playlist = selection.props.playlist
         current_playlist.reorder(source_position, target_position)
 
     @log
