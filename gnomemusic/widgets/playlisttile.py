@@ -25,45 +25,34 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.coreartist import CoreArtist
+from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/SidebarRow.ui')
-class SidebarRow(Gtk.ListBoxRow):
+@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistTile.ui")
+class PlaylistTile(Gtk.ListBoxRow):
     """Row for sidebars
 
     Contains a label and an optional checkbox.
     """
 
-    __gtype_name__ = 'SidebarRow'
+    __gtype_name__ = "PlaylistTile"
 
-    _check = Gtk.Template.Child()
     _label = Gtk.Template.Child()
-    _revealer = Gtk.Template.Child()
 
-    coreartist = GObject.Property(type=CoreArtist, default=None)
-    selected = GObject.Property(type=bool, default=False)
-    selection_mode = GObject.Property(type=bool, default=False)
+    playlist = GObject.Property(type=Playlist, default=None)
     text = GObject.Property(type=str, default='')
 
     def __repr__(self):
-        return '<SidebarRow>'
+        return "<PlaylistTile>"
 
     @log
-    def __init__(self, coreartist=None):
+    def __init__(self, playlist):
         super().__init__()
 
-        self.props.coreartist = coreartist
+        self.props.playlist = playlist
 
-        self.bind_property(
-            'selected', self._check, 'active',
-            GObject.BindingFlags.BIDIRECTIONAL)
-        if coreartist:
-            self.bind_property(
-                "selected", coreartist, "selected",
-                GObject.BindingFlags.BIDIRECTIONAL)
-        self.bind_property('selection-mode', self._revealer, 'reveal-child')
-        self.bind_property('text', self._label, 'label')
-        self.bind_property('text', self._label, 'tooltip-text')
-
-        self.show()
+        self.props.playlist.bind_property(
+            "title", self._label, "label", GObject.BindingFlags.SYNC_CREATE)
+        self.props.playlist.bind_property(
+            "title", self._label, "tooltip-text",
+            GObject.BindingFlags.SYNC_CREATE)
