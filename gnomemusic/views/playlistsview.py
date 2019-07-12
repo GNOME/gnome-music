@@ -58,7 +58,7 @@ class PlaylistsView(BaseView):
             'playlists', _("Playlists"), window, sidebar_container)
 
         self._coremodel = window._app.props.coremodel
-        self._model = self._coremodel.props.playlists
+        self._model = self._coremodel.props.playlists_sort
         self._window = window
         self.player = player
 
@@ -108,16 +108,7 @@ class PlaylistsView(BaseView):
         self._grid.child_set_property(sidebar_container, 'top-attach', 0)
         self._grid.child_set_property(sidebar_container, 'height', 2)
 
-        self._iter_to_clean = None
-        self._iter_to_clean_model = None
-        self._current_playlist = None
-        self._plays_songs_on_activation = False
-        self._songs_todelete = {}
-        self._songs_count = 0
-
-        self._sidebar.bind_model(
-            self._coremodel.props.playlists_sort,
-            self._add_playlist_to_sidebar)
+        self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
         self._loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
@@ -185,7 +176,6 @@ class PlaylistsView(BaseView):
         selected_row = self._view.get_selected_row()
         song_widget = selected_row.get_child()
         coresong = song_widget.props.coresong
-        print(coresong.props.media.get_source())
 
         playlist_dialog = PlaylistDialog(self._window)
         if playlist_dialog.run() == Gtk.ResponseType.ACCEPT:
@@ -221,7 +211,6 @@ class PlaylistsView(BaseView):
         self._view.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
 
-        self._current_playlist = playlist
         self._pl_ctrls.props.playlist = playlist
 
         self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
@@ -243,8 +232,10 @@ class PlaylistsView(BaseView):
         if widget is not None:
             coresong = widget.props.coresong
 
+        selection = self._sidebar.get_selected_row()
+        current_playlist = selection.props.playlist
         self._coremodel.set_playlist_model(
-            PlayerPlaylist.Type.PLAYLIST, self._current_playlist.props.model)
+            PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
         self.player.play(coresong)
 
         return True
