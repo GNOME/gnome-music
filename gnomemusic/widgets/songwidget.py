@@ -150,8 +150,8 @@ class SongWidget(Gtk.EventBox):
         self._star_image.props.favorite = favorite
 
         # TODO: Rework and stop updating widgets from here directly.
-        favorite_playlist = self._playlists.get_smart_playlist("Favorites")
-        self._playlists.update_smart_playlist(favorite_playlist)
+        # favorite_playlist = self._playlists.get_smart_playlist("Favorites")
+        # self._playlists.update_smart_playlist(favorite_playlist)
 
         return True
 

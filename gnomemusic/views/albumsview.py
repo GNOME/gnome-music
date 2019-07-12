@@ -26,7 +26,6 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
@@ -64,8 +63,7 @@ class AlbumsView(BaseView):
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
-        if (not self.props.selection_mode
-                and grilo.changes_pending['Albums']):
+        if not self.props.selection_mode:
             self._on_changes_pending()
 
     @log
@@ -141,7 +139,6 @@ class AlbumsView(BaseView):
     @log
     def _populate(self, data=None):
         # self._window.notifications_popup.push_loading()
-        # grilo.populate_albums(self._offset, self._add_item)
         self._init = True
         self._view.show()
 

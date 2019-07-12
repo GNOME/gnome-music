@@ -32,7 +32,7 @@ from gi.repository import Gd, GLib, GObject, Gtk, Pango
 from gi.repository.Gd import TaggedEntry  # noqa: F401
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
+# from gnomemusic.grilo import grilo
 from gnomemusic.search import Search
 
 
@@ -118,7 +118,7 @@ class SourceManager(BaseManager):
         self.values.append(['grl-tracker-source', _("Local"), ''])
         self.props.default_value = 2
 
-        grilo.connect('new-source-added', self._add_new_source)
+        # grilo.connect('new-source-added', self._add_new_source)
 
     @log
     def fill_in_values(self, model):
@@ -144,8 +144,8 @@ class SourceManager(BaseManager):
 
         Adds available Grilo sources to the internal model.
         """
-        for id_ in grilo.props.sources:
-            self._add_new_source(None, grilo.props.sources[id_])
+        # for id_ in grilo.props.sources:
+        #     self._add_new_source(None, grilo.props.sources[id_])
 
     @GObject.Property
     def active(self):
@@ -159,8 +159,8 @@ class SourceManager(BaseManager):
         # https://gitlab.gnome.org/GNOME/gnome-music/snippets/31
         super(SourceManager, self.__class__).active.fset(self, selected_id)
 
-        src = grilo.sources[selected_id] if selected_id != 'all' else None
-        grilo.search_source = src
+        # src = grilo.sources[selected_id] if selected_id != 'all' else None
+        # grilo.search_source = src
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/FilterView.ui")
@@ -317,7 +317,8 @@ class DropDown(Gtk.Revealer):
 
     @log
     def _is_tracker(self, grilo_id):
-        return grilo_id == "grl-tracker-source"
+        return True
+        # return grilo_id == "grl-tracker-source"
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/SearchBar.ui")

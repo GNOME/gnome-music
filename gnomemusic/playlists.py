@@ -32,7 +32,6 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Dazzle, Gio, GLib, GObject, Grl
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.query import Query
 import gnomemusic.utils as utils
 
@@ -199,7 +198,7 @@ class Playlists(GObject.GObject):
         self._user_playlists_ready = False
         self._ready = False
 
-        grilo.connect("ready", self._on_grilo_ready)
+        # grilo.connect("ready", self._on_grilo_ready)
 
     @log
     def _on_grilo_ready(self, data=None):
@@ -236,7 +235,7 @@ class Playlists(GObject.GObject):
             # Search for the playlist id
             cursor.next_async(None, playlist_id_fetched_cb, playlist)
 
-        self._tracker = grilo.tracker_sparql
+        # self._tracker = grilo.tracker_sparql
         self.notify("ready")
 
         # Start fetching all the smart playlists
@@ -246,8 +245,8 @@ class Playlists(GObject.GObject):
                 callback, playlist)
 
         # Gather the available user playlists too
-        grilo.populate_user_playlists(
-            0, self._populate_user_playlists_finish_cb)
+        # grilo.populate_user_playlists(
+        #     0, self._populate_user_playlists_finish_cb)
 
     @log
     def _populate_user_playlists_finish_cb(
@@ -420,8 +419,8 @@ class Playlists(GObject.GObject):
                 logger.warning("Error: {}, {}".format(err.__class__, err))
                 return
 
-            playlist_id = cursor.get_integer(0)
-            grilo.get_playlist_with_id(playlist_id, get_callback)
+            # playlist_id = cursor.get_integer(0)
+            # grilo.get_playlist_with_id(playlist_id, get_callback)
 
         def query_callback(conn, res, data):
             try:
@@ -489,9 +488,9 @@ class Playlists(GObject.GObject):
             cursor = conn.query_finish(res)
             if not cursor or not cursor.next():
                 return
-            entry_id = cursor.get_integer(0)
-            grilo.get_playlist_song_with_id(
-                playlist.props.pl_id, entry_id, get_callback)
+            # entry_id = cursor.get_integer(0)
+            # grilo.get_playlist_song_with_id(
+            #     playlist.props.pl_id, entry_id, get_callback)
 
         def update_callback(conn, res, data):
             entry_urn = conn.update_blank_finish(res)[0][0]['entry']

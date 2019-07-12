@@ -25,7 +25,6 @@
 from gi.repository import GdkPixbuf, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
 
@@ -90,16 +89,13 @@ class BaseView(Gtk.Stack):
         # self._view.hide()
 
         self._init = False
-        grilo.connect('ready', self._on_grilo_ready)
         self.connect('notify::selection-mode', self._on_selection_mode_changed)
-        grilo.connect('changes-pending', self._on_changes_pending)
 
         self.bind_property(
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        if (grilo.tracker is not None
-                and not self._init):
+        if not self._init:
             self._on_grilo_ready()
 
     @log

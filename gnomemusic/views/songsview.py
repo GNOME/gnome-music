@@ -27,7 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 import gnomemusic.utils as utils
@@ -177,7 +176,7 @@ class SongsView(BaseView):
             self.model.clear()
             self._offset = 0
             self._populate()
-            grilo.changes_pending['Songs'] = False
+            # grilo.changes_pending['Songs'] = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -186,8 +185,7 @@ class SongsView(BaseView):
         cols = self._view.get_columns()
         cols[1].props.visible = self.props.selection_mode
 
-        if (not self.props.selection_mode
-                and grilo.changes_pending['Songs']):
+        if not self.props.selection_mode:
             self._on_changes_pending()
 
     @log

@@ -25,7 +25,7 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
-        self._registry.load_all_plugins(False)
+        self._registry.load_all_plugins(True)
 
     def _on_source_added(self, registry, source):
         new_wrapper = None

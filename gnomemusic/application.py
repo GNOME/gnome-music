@@ -55,7 +55,6 @@ class Application(Gtk.Application):
         super().__init__(
             application_id=application_id,
             flags=Gio.ApplicationFlags.FLAGS_NONE)
-
         self.props.resource_base_path = "/org/gnome/Music"
         GLib.set_application_name(_("Music"))
         GLib.set_prgname(application_id)

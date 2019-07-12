@@ -61,6 +61,7 @@ class GrlTrackerSource(GObject.GObject):
 
         GrlTrackerPlaylists(source, coremodel, coreselection, grilo)
 
+        self._source.notify_change_start()
         self._source.connect("content-changed", self._on_content_changed)
 
     @GObject.Property(

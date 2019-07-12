@@ -27,7 +27,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
@@ -106,7 +105,6 @@ class ArtistsView(BaseView):
             self._artists.clear()
             self._offset = 0
             self._populate()
-            grilo.changes_pending['Artists'] = False
 
     @log
     def _on_artist_activated(self, sidebar, row, data=None):
