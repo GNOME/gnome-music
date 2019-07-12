@@ -27,15 +27,12 @@ import gettext
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
+from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
 class PlaylistControls(Gtk.Grid):
     """Widget holding the playlist controls"""
-
-    __gsignals__ = {
-        'playlist-renamed': (GObject.SignalFlags.RUN_FIRST, None, (str,))
-    }
 
     __gtype_name__ = "PlaylistControls"
 
@@ -46,19 +43,15 @@ class PlaylistControls(Gtk.Grid):
     _songs_count_label = Gtk.Template.Child()
     _menubutton = Gtk.Template.Child()
 
-    songs_count = GObject.Property(
-        type=int, default=0, minimum=0, flags=GObject.ParamFlags.READWRITE)
-    playlist_name = GObject.Property(
-        type=str, default="", flags=GObject.ParamFlags.READWRITE)
-
     def __repr__(self):
         return '<PlaylistControls>'
 
     def __init__(self):
         super().__init__()
-        self.bind_property("playlist-name", self._name_label, "label")
 
-        self.connect("notify::songs-count", self._on_songs_count_changed)
+        self._playlist = None
+        self._count_id = 0
+        self._binding_count = None
 
     @Gtk.Template.Callback()
     @log
@@ -81,15 +74,14 @@ class PlaylistControls(Gtk.Grid):
         if not new_name:
             return
 
-        self.props.playlist_name = new_name
+        self.props.playlist.props.title = new_name
         self.disable_rename_playlist()
-        self.emit('playlist-renamed', new_name)
 
     @log
     def _on_songs_count_changed(self, klass, data=None):
         self._songs_count_label.props.label = gettext.ngettext(
-            "{} Song", "{} Songs", self.props.songs_count).format(
-                self.props.songs_count)
+            "{} Song", "{} Songs", self.props.playlist.count).format(
+                self.props.playlist.count)
 
     @log
     def enable_rename_playlist(self, pl_torename):
@@ -128,3 +120,32 @@ class PlaylistControls(Gtk.Grid):
     def _set_rename_entry_text_and_focus(self, text):
         self._rename_entry.props.text = text
         self._rename_entry.grab_focus()
+
+    @GObject.Property(
+        type=Playlist, default=None, flags=GObject.ParamFlags.READWRITE)
+    def playlist(self):
+        """Playlist property getter.
+
+        :returns: current playlist
+        :rtype: Playlist
+        """
+        return self._playlist
+
+    @playlist.setter
+    def playlist(self, new_playlist):
+        """Playlist property setter.
+
+        :param Playlistnew_playlist: new playlist
+        """
+        if self._count_id > 0:
+            self._playlist.disconnect(self._count_id)
+            self._count_id = 0
+            self._binding_count.unbind()
+
+        self._playlist = new_playlist
+        self._binding_count = self._playlist.bind_property(
+            "title", self._name_label, "label",
+            GObject.BindingFlags.SYNC_CREATE)
+        self._count_id = self._playlist.connect(
+            "notify::count", self._on_songs_count_changed)
+        self._on_songs_count_changed(None)
