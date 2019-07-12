@@ -3,6 +3,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
 # from gnomemusic.grilowrappers.grldleynasource import GrlDLeynaSource
+from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackersource import GrlTrackerSource
 
 
@@ -43,7 +44,8 @@ class CoreGrilo(GObject.GObject):
         elif (source.supported_operations() & Grl.SupportedOps.SEARCH
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.props.source_id not in self._search_sources.keys()):
-            self._search_sources[source.props.source_id] = source
+            self._search_sources[source.props.source_id] = GrlSearchWrapper(
+                source, self._coremodel, self._coreselection, self)
             print("search source", source)
 
     def _on_source_removed(self, registry, source):
@@ -96,4 +98,6 @@ class CoreGrilo(GObject.GObject):
 
     def search(self, text):
         for wrapper in self._wrappers.values():
+            wrapper.search(text)
+        for wrapper in self._search_sources.values():
             wrapper.search(text)
