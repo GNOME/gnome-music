@@ -63,7 +63,6 @@ class PlaylistsView(BaseView):
         self.player = player
 
         self._pl_ctrls = PlaylistControls()
-        self._pl_ctrls.connect('playlist-renamed', self._on_playlist_renamed)
 
         self._song_popover = PlaylistContextMenu(self._view)
 
@@ -124,11 +123,6 @@ class PlaylistsView(BaseView):
             "playlists-loaded", self._on_playlists_loaded)
 
         self.show_all()
-
-    @log
-    def _update_songs_count(self, songs_count):
-        self._songs_count = songs_count
-        self._pl_ctrls.props.songs_count = songs_count
 
     @log
     def _setup_view(self):
@@ -220,7 +214,6 @@ class PlaylistsView(BaseView):
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
         playlist = row.props.playlist
-        playlist_name = playlist.props.title
 
         if self.rename_active:
             self._pl_ctrls.disable_rename_playlist()
@@ -229,15 +222,10 @@ class PlaylistsView(BaseView):
             playlist.props.model, self._create_song_widget, playlist)
 
         self._current_playlist = playlist
-        self._pl_ctrls.props.playlist_name = playlist_name
-        self._update_songs_count(playlist.props.count)
-        playlist.connect("notify::count", self._on_song_count_changed)
+        self._pl_ctrls.props.playlist = playlist
 
         self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
         self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
-
-    def _on_song_count_changed(self, playlist, value):
-        self._update_songs_count(playlist.props.count)
 
     def _create_song_widget(self, coresong, playlist):
         can_dnd = not playlist.props.is_smart
