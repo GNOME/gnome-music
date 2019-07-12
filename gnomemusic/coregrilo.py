@@ -9,6 +9,15 @@ from gnomemusic.grilowrappers.grltrackersource import GrlTrackerSource
 
 class CoreGrilo(GObject.GObject):
 
+    _blacklist = [
+        'grl-bookmarks',
+        'grl-filesystem',
+        'grl-itunes-podcast',
+        'grl-metadata-store',
+        'grl-podcasts',
+        'grl-spotify-cover'
+    ]
+
     def __repr__(self):
         return "<CoreGrilo>"
 
@@ -29,6 +38,15 @@ class CoreGrilo(GObject.GObject):
         self._registry.load_all_plugins(True)
 
     def _on_source_added(self, registry, source):
+        if ("net:plaintext" in source.get_tags()
+                or source.props.source_id in self._blacklist):
+            try:
+                registry.unregister_source(source)
+            except GLib.GError:
+                print("Failed to unregister {}".format(
+                    source.props.source_id))
+            return
+
         new_wrapper = None
 
         if (source.props.source_id == "grl-tracker-source"
