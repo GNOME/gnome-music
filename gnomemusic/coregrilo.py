@@ -26,7 +26,7 @@ class CoreGrilo(GObject.GObject):
 
         self._coremodel = coremodel
         self._coreselection = coreselection
-        self._search_sources = {}
+        self._search_wrappers = {}
         self._wrappers = {}
 
         Grl.init(None)
@@ -59,10 +59,10 @@ class CoreGrilo(GObject.GObject):
         #         source, self._coremodel, self._coreselection, self)
         #     self._wrappers.append(new_wrapper)
             print("wrapper", new_wrapper)
-        elif (source.supported_operations() & Grl.SupportedOps.SEARCH
+        elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.get_supported_media() & Grl.MediaType.AUDIO
-                and source.props.source_id not in self._search_sources.keys()):
-            self._search_sources[source.props.source_id] = GrlSearchWrapper(
+                and source.supported_operations() & Grl.SupportedOps.SEARCH):
+            self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._coremodel, self._coreselection, self)
             print("search source", source)
 
@@ -71,7 +71,7 @@ class CoreGrilo(GObject.GObject):
         print("removed,", source.props.source_id)
 
         # FIXME: Only removes search sources atm.
-        self._search_sources.pop(source.props.source_id, None)
+        self._search_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, artist, filter_model):
         for wrapper in self._wrappers.values():
@@ -117,5 +117,5 @@ class CoreGrilo(GObject.GObject):
     def search(self, text):
         for wrapper in self._wrappers.values():
             wrapper.search(text)
-        for wrapper in self._search_sources.values():
+        for wrapper in self._search_wrappers.values():
             wrapper.search(text)
