@@ -36,13 +36,11 @@ from gi._gi import pygobject_new_full
 from gnomemusic import log
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.songwidget import SongWidget
 
 
 logger = logging.getLogger(__name__)
-playlists = Playlists.get_default()
 
 
 class RepeatMode(IntEnum):
@@ -652,7 +650,8 @@ class Player(GObject.GObject):
                 # FIXME: we should not need to update smart
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
-                playlists.update_all_smart_playlists()
+                # FIXME: Not using Playlist class anymore.
+                # playlists.update_all_smart_playlists()
                 current_song.bump_play_count()
                 current_song.set_last_played()
 
