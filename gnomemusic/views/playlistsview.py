@@ -122,6 +122,9 @@ class PlaylistsView(BaseView):
 
         self._view = Gtk.ListBox()
         self._view.get_style_context().add_class("songs-list")
+        self._view.props.margin_top = 20
+        self._view.props.margin_left = 80
+        self._view.props.margin_right = 80
 
         self._controller = Gtk.GestureMultiPress().new(self._view)
         self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
