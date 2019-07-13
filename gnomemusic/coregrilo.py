@@ -2,9 +2,9 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
-# from gnomemusic.grilowrappers.grldleynasource import GrlDLeynaSource
+# from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
-from gnomemusic.grilowrappers.grltrackersource import GrlTrackerSource
+from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 
 
 class CoreGrilo(GObject.GObject):
@@ -77,11 +77,11 @@ class CoreGrilo(GObject.GObject):
 
         if (source.props.source_id == "grl-tracker-source"
                 and source.props.source_id not in self._wrappers.keys()):
-            new_wrapper = GrlTrackerSource(
+            new_wrapper = GrlTrackerWrapper(
                 source, self._coremodel, self._coreselection, self)
             self._wrappers[source.props.source_id] = new_wrapper
         # elif source.props.source_id[:10] == "grl-dleyna":
-        #     new_wrapper = GrlDLeynaSource(
+        #     new_wrapper = GrlDLeynaWrapper(
         #         source, self._coremodel, self._coreselection, self)
         #     self._wrappers.append(new_wrapper)
             print("wrapper", new_wrapper)
