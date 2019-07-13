@@ -117,17 +117,6 @@ class SongsView(BaseView):
         column_title.props.expand = True
         self._view.append_column(column_title)
 
-        column_star = Gtk.TreeViewColumn()
-        self._view.append_column(column_star)
-        self._star_handler.add_star_renderers(column_star)
-
-        duration_renderer = Gtk.CellRendererText(xpad=32, xalign=1.0)
-        column_duration = Gtk.TreeViewColumn()
-        column_duration.pack_start(duration_renderer, False)
-        column_duration.set_cell_data_func(
-            duration_renderer, self._on_list_widget_duration_render, None)
-        self._view.append_column(column_duration)
-
         artist_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
         column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
@@ -142,6 +131,17 @@ class SongsView(BaseView):
         column_album.set_cell_data_func(
             album_renderer, self._on_list_widget_album_render, None)
         self._view.append_column(column_album)
+
+        duration_renderer = Gtk.CellRendererText(xalign=1.0)
+        column_duration = Gtk.TreeViewColumn()
+        column_duration.pack_start(duration_renderer, False)
+        column_duration.set_cell_data_func(
+            duration_renderer, self._on_list_widget_duration_render, None)
+        self._view.append_column(column_duration)
+
+        column_star = Gtk.TreeViewColumn()
+        self._view.append_column(column_star)
+        self._star_handler.add_star_renderers(column_star)
 
     def _on_list_widget_duration_render(self, col, cell, model, itr, data):
         item = model[itr][5]
