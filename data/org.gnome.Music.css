@@ -114,6 +114,23 @@ box#ArtistAlbumsWidget .artist-label {
 
 /* Lists style */
 
+/* workaround to avoid a black background issue
+in AlbumWidget and PlaylistsView
+https://gitlab.gnome.org/GNOME/gtk/issues/694
+*/
+list {
+    background-color: transparent;
+}
+
+/* workaround to avoid a black background issue
+in AlbumWidget and PlaylistsView
+https://gitlab.gnome.org/GNOME/gtk/issues/694 */
+.songs-list > row {
+    background-color: @theme_base_color;
+}
+
+
+
 .disc-list-box > row {
 padding: 0px;
 }
