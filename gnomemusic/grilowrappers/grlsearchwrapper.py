@@ -46,6 +46,7 @@ class GrlSearchWrapper(GObject.GObject):
         self._song_search_proxy.append(self._song_search_model)
 
         self._fast_options = Grl.OperationOptions()
+        self._fast_options.set_count(25)
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
