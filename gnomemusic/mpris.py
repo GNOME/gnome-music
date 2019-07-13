@@ -374,7 +374,7 @@ class MPRIS(DBusInterface):
         # player.
         art_url = coresong.props.media.get_thumbnail()
         if not art_url:
-            thumb_file = lookup_art_file_from_cache(coresong.props.media)
+            thumb_file = lookup_art_file_from_cache(coresong)
             if thumb_file:
                 art_url = GLib.filename_to_uri(thumb_file.get_path())
                 coresong.props.media.set_thumbnail(art_url)

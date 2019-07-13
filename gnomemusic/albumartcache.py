@@ -35,22 +35,24 @@ from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils)
 
 from gnomemusic import log
-import gnomemusic.utils as utils
 
 
 logger = logging.getLogger(__name__)
 
 
 @log
-def lookup_art_file_from_cache(media):
+def lookup_art_file_from_cache(coresong):
     """Lookup MediaArt cache art of an album or song.
 
-    :param Grl.Media media: song or album
+    :param CoreSong coresong: song or album
     :returns: a cache file
     :rtype: Gio.File
     """
-    album = utils.get_album_title(media)
-    artist = utils.get_artist_name(media)
+    try:
+        album = coresong.props.album
+    except AttributeError:
+        album = coresong.props.title
+    artist = coresong.props.artist
 
     success, thumb_file = MediaArt.get_file(artist, album, "album")
     if (not success
@@ -197,12 +199,16 @@ class Art(GObject.GObject):
         return '<Art>'
 
     @log
-    def __init__(self, size, media, scale=1):
+    def __init__(self, size, coresong, scale=1):
         super().__init__()
 
         self._size = size
-        self._media = media
-        self._media_url = self._media.get_url()
+        self._coresong = coresong
+        # FIXME: Albums do not have a URL.
+        try:
+            self._url = self._coresong.props.url
+        except AttributeError:
+            self._url = None
         self._surface = None
         self._scale = scale
 
@@ -216,14 +222,14 @@ class Art(GObject.GObject):
         cache = Cache()
         cache.connect('miss', self._cache_miss)
         cache.connect('hit', self._cache_hit)
-        cache.query(self._media)
+        cache.query(self._coresong)
 
     @log
     def _cache_miss(self, klass):
         embedded_art = EmbeddedArt()
         embedded_art.connect('found', self._embedded_art_found)
         embedded_art.connect('unavailable', self._embedded_art_unavailable)
-        embedded_art.query(self._media)
+        embedded_art.query(self._coresong)
 
     @log
     def _cache_hit(self, klass, pixbuf):
@@ -245,7 +251,7 @@ class Art(GObject.GObject):
         # chance of getting artwork.
         cache.connect('miss', self._embedded_art_unavailable)
         cache.connect('hit', self._cache_hit)
-        cache.query(self._media)
+        cache.query(self._coresong)
 
     @log
     def _embedded_art_unavailable(self, klass):
@@ -253,14 +259,14 @@ class Art(GObject.GObject):
         remote_art.connect('retrieved', self._remote_art_retrieved)
         remote_art.connect('unavailable', self._remote_art_unavailable)
         remote_art.connect('no-remote-sources', self._remote_art_no_sources)
-        remote_art.query(self._media)
+        remote_art.query(self._coresong)
 
     @log
     def _remote_art_retrieved(self, klass):
         cache = Cache()
         cache.connect('miss', self._remote_art_unavailable)
         cache.connect('hit', self._cache_hit)
-        cache.query(self._media)
+        cache.query(self._coresong)
 
     @log
     def _remote_art_unavailable(self, klass):
@@ -280,8 +286,12 @@ class Art(GObject.GObject):
 
     @log
     def _add_to_blacklist(self):
-        album = utils.get_album_title(self._media)
-        artist = utils.get_artist_name(self._media)
+        # FIXME: coresong can be a CoreAlbum
+        try:
+            album = self._coresong.props.album
+        except AttributeError:
+            album = self._coresong.props.title
+        artist = self._coresong.props.artist
 
         if artist not in self._blacklist:
             self._blacklist[artist] = []
@@ -291,8 +301,12 @@ class Art(GObject.GObject):
 
     @log
     def _in_blacklist(self):
-        album = utils.get_album_title(self._media)
-        artist = utils.get_artist_name(self._media)
+        # FIXME: coresong can be a CoreAlbum
+        try:
+            album = self._coresong.props.album
+        except AttributeError:
+            album = self._coresong.props.title
+        artist = self._coresong.props.artist
         album_stripped = MediaArt.strip_invalid_entities(album)
 
         if artist in self._blacklist:
@@ -339,12 +353,12 @@ class Cache(GObject.GObject):
                 return
 
     @log
-    def query(self, media):
+    def query(self, coresong):
         """Start the cache query
 
-        :param Grl.Media media: The media object to search art for
+        :param CoreSong coresong: The CoreSong object to search art for
         """
-        thumb_file = lookup_art_file_from_cache(media)
+        thumb_file = lookup_art_file_from_cache(coresong)
         if thumb_file:
             thumb_file.read_async(
                 GLib.PRIORITY_LOW, None, self._open_stream, None)
@@ -414,22 +428,30 @@ class EmbeddedArt(GObject.GObject):
 
         self._album = None
         self._artist = None
-        self._media = None
+        self._coresong = None
         self._path = None
 
     @log
-    def query(self, media):
+    def query(self, coresong):
         """Start the local query
 
-        :param Grl.Media media: The media object to search art for
+        :param CoreSong coresong: The CoreSong object to search art for
         """
-        if media.get_url() is None:
+        try:
+            if coresong.props.url is None:
+                self.emit('unavailable')
+                return
+        except AttributeError:
             self.emit('unavailable')
             return
 
-        self._album = utils.get_album_title(media)
-        self._artist = utils.get_artist_name(media)
-        self._media = media
+        # FIXME: coresong can be a CoreAlbum
+        try:
+            self._album = coresong.props.album
+        except AttributeError:
+            self._album = coresong.props.title
+        self._artist = coresong.props.artist
+        self._coresong = coresong
 
         try:
             discoverer = GstPbutils.Discoverer.new(Gst.SECOND)
@@ -450,7 +472,7 @@ class EmbeddedArt(GObject.GObject):
 
         self._path = path
 
-        success = discoverer.discover_uri_async(self._media.get_url())
+        success = discoverer.discover_uri_async(self._coresong.props.url)
 
         if not success:
             logger.warning("Could not add url to discoverer.")
@@ -509,7 +531,7 @@ class EmbeddedArt(GObject.GObject):
         # Find local art in cover.jpeg files.
         self._media_art.uri_async(
             MediaArt.Type.ALBUM, MediaArt.ProcessFlags.NONE,
-            self._media.get_url(), self._artist, self._album,
+            self._coresong.props.url, self._artist, self._album,
             GLib.PRIORITY_LOW, None, self._uri_async_cb, None)
 
     @log
@@ -553,30 +575,47 @@ class RemoteArt(GObject.GObject):
 
         self._artist = None
         self._album = None
+        self._coresong = None
+        self._grilo = None
 
     @log
-    def query(self, media):
+    def query(self, coresong):
         """Start the remote query
 
-        :param Grl.Media media: The media object to search art for
+        :param CoreSong coresong: The CoreSong object to search art for
         """
-        self._album = utils.get_album_title(media)
-        self._artist = utils.get_artist_name(media)
-        self._media = media
+        # FIXME: coresong can be a CoreAlbum
+        try:
+            self._album = coresong.props.album
+        except AttributeError:
+            self._album = coresong.props.title
+        self._artist = coresong.props.artist
+        self._coresong = coresong
 
         self.emit('no-remote-sources')
-    #     if not grilo.props.cover_sources:
-    #         self.emit('no-remote-sources')
-    #         grilo.connect(
-    #         'notify::cover-sources', self._on_grilo_cover_sources_changed)
-    #     else:
-    # FIXME: It seems this Grilo query does not always return,
-    # especially on queries with little info.
-    #         grilo.get_album_art_for_item(media, self._remote_album_art)
 
-    # def _on_grilo_cover_sources_changed(self, klass, data):
-    #     if grilo.props.cover_sources:
-    #         grilo.get_album_art_for_item(self._media, self._remote_album_art)
+        # FIXME: This is a total hack. It gets CoreModel from the
+        # CoreAlbum or CoreSong about and then retrieves the CoreGrilo
+        # instance.
+        try:
+            self._grilo = self._coresong._coremodel._grilo
+        except AttributeError:
+            self._grilo = self._coresong._grilo
+
+        if not self._grilo.props.cover_sources:
+            self.emit('no-remote-sources')
+            self._grilo.connect(
+                'notify::cover-sources', self._on_grilo_cover_sources_changed)
+        else:
+            # FIXME: It seems this Grilo query does not always return,
+            # especially on queries with little info.
+            self._grilo.get_album_art_for_item(
+                self._coresong, self._remote_album_art)
+
+    def _on_grilo_cover_sources_changed(self, klass, data):
+        if self._grilo.props.cover_sources:
+            self._grilo.get_album_art_for_item(
+                self._coresong, self._remote_album_art)
 
     @log
     def _delete_callback(self, src, result, data):

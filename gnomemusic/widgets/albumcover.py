@@ -101,10 +101,9 @@ class AlbumCover(Gtk.FlowBoxChild):
         # quick first show with a placeholder cover and then a
         # reasonably responsive view while loading the actual
         # covers.
-        # FIXME: Pass CoreAlbum to CoverStack.
         GLib.timeout_add(
-            50 * self._nr_albums, self._cover_stack.update,
-            self._corealbum.props.media, priority=GLib.PRIORITY_LOW)
+            50 * self._nr_albums, self._cover_stack.update, self._corealbum,
+            priority=GLib.PRIORITY_LOW)
 
     @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
     def corealbum(self):

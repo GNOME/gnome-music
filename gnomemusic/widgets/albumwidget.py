@@ -63,7 +63,7 @@ class AlbumWidget(Gtk.EventBox):
         if self._signal_id:
             self._album_model.disconnect(self._signal_id)
 
-        self._cover_stack.update(corealbum.props.media)
+        self._cover_stack.update(corealbum)
 
         self._duration = 0
 

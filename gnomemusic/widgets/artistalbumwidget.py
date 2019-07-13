@@ -64,7 +64,7 @@ class ArtistAlbumWidget(Gtk.Box):
         self._selection_mode_allowed = selection_mode_allowed
 
         self._cover_stack.props.size = Art.Size.MEDIUM
-        self._cover_stack.update(corealbum.props.media)
+        self._cover_stack.update(corealbum)
 
         allowed = self._selection_mode_allowed
         self._disc_list_box.props.selection_mode_allowed = allowed

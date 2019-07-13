@@ -18,6 +18,10 @@ class CoreGrilo(GObject.GObject):
         'grl-spotify-cover'
     ]
 
+    _theaudiodb_api_key = "195003"
+
+    cover_sources = GObject.Property(type=bool, default=False)
+
     def __repr__(self):
         return "<CoreGrilo>"
 
@@ -27,17 +31,31 @@ class CoreGrilo(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = coreselection
         self._search_wrappers = {}
+        self._thumbnail_sources = []
+        self._thumbnail_sources_timeout = None
         self._wrappers = {}
 
         Grl.init(None)
 
         self._registry = Grl.Registry.get_default()
+        config = Grl.Config.new("grl-lua-factory", "grl-theaudiodb-cover")
+        config.set_api_key(self._theaudiodb_api_key)
+        self._registry.add_config(config)
+
         self._registry.connect('source-added', self._on_source_added)
         self._registry.connect('source-removed', self._on_source_removed)
 
         self._registry.load_all_plugins(True)
 
     def _on_source_added(self, registry, source):
+
+        def _trigger_art_update():
+            self._thumbnail_sources_timeout = None
+            if len(self._thumbnail_sources) > 0:
+                self.props.cover_sources = True
+
+            return GLib.SOURCE_REMOVE
+
         if ("net:plaintext" in source.get_tags()
                 or source.props.source_id in self._blacklist):
             try:
@@ -46,6 +64,14 @@ class CoreGrilo(GObject.GObject):
                 print("Failed to unregister {}".format(
                     source.props.source_id))
             return
+
+        if Grl.METADATA_KEY_THUMBNAIL in source.supported_keys():
+            self._thumbnail_sources.append(source)
+            if not self._thumbnail_sources_timeout:
+                # Aggregate sources being added, for example when the
+                # network comes online.
+                self._thumbnail_sources_timeout = GLib.timeout_add_seconds(
+                    5, _trigger_art_update)
 
         new_wrapper = None
 
@@ -119,3 +145,9 @@ class CoreGrilo(GObject.GObject):
             wrapper.search(text)
         for wrapper in self._search_wrappers.values():
             wrapper.search(text)
+
+    def get_album_art_for_item(self, coresong, callback):
+        # Tracker not (yet) loaded.
+        if "grl-tracker-source" not in self._wrappers:
+            self._wrappers["grl-tracker-source"].get_album_art_for_item(
+                coresong, callback)

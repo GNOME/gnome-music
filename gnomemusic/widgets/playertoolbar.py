@@ -185,7 +185,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._tooltip.props.title = title
         self._tooltip.props.subtitle = artist
 
-        self._cover_stack.update(coresong.props.media)
+        self._cover_stack.update(coresong)
 
     @Gtk.Template.Callback()
     @log
