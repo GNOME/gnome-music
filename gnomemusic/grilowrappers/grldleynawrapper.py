@@ -5,7 +5,7 @@ from gi.repository import Grl, GObject
 from gnomemusic.coreartist import CoreArtist
 
 
-class GrlDLeynaSource(GObject.GObject):
+class GrlDLeynaWrapper(GObject.GObject):
 
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
@@ -26,7 +26,7 @@ class GrlDLeynaSource(GObject.GObject):
     ]
 
     def __repr__(self):
-        return "<GrlDLeynaSource>"
+        return "<GrlDLeynaWrapper>"
 
     def __init__(self, source, coremodel, core_selection, grilo):
         super().__init__()

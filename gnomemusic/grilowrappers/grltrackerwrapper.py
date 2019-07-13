@@ -9,7 +9,7 @@ from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
 
 
-class GrlTrackerSource(GObject.GObject):
+class GrlTrackerWrapper(GObject.GObject):
 
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
@@ -34,7 +34,7 @@ class GrlTrackerSource(GObject.GObject):
     ]
 
     def __repr__(self):
-        return "<GrlTrackerSource>"
+        return "<GrlTrackerWrapper>"
 
     def __init__(self, source, coremodel, coreselection, grilo):
         super().__init__()
