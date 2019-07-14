@@ -1,4 +1,4 @@
-# Copyright 2018 The GNOME Music developers
+# Copyright 2019 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
