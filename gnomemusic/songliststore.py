@@ -1,5 +1,7 @@
-from gi.repository import Gfm, Gio, GObject, Gtk, GdkPixbuf
+from gi.repository import Gfm, Gio, GObject, Gtk
 from gi._gi import pygobject_new_full
+
+import gnomemusic.utils as utils
 
 
 class SongListStore(Gtk.ListStore):
@@ -12,18 +14,16 @@ class SongListStore(Gtk.ListStore):
             self._wrap_list_store_sort_func(self._songs_sort))
 
         self.set_column_types([
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
+            GObject.TYPE_STRING,    # play or invalid icon
+            GObject.TYPE_BOOLEAN,   # selected
             GObject.TYPE_STRING,    # title
             GObject.TYPE_STRING,    # artist
-            GdkPixbuf.Pixbuf,       # album art
-            GObject.TYPE_OBJECT,    # Grl.Media
-            GObject.TYPE_BOOLEAN,   # selected
-            GObject.TYPE_INT,
-            GObject.TYPE_STRING,    # play icon (?)
+            GObject.TYPE_STRING,    # album
+            GObject.TYPE_STRING,    # duration
             GObject.TYPE_INT,       # favorite
+            GObject.TYPE_OBJECT,    # coresong
+            GObject.TYPE_INT,       # validation
             GObject.TYPE_BOOLEAN,   # iter_to_clean
-            GObject.TYPE_INT        # validation
         ])
 
         self._model.connect("items-changed", self._on_items_changed)
@@ -62,17 +62,19 @@ class SongListStore(Gtk.ListStore):
         if added > 0:
             for i in list(range(added)):
                 coresong = model[position]
+                time = utils.seconds_to_string(coresong.props.duration)
                 self.insert_with_valuesv(
-                    position, [2, 3, 5, 9],
-                    [coresong.props.title, coresong.props.artist, coresong,
-                     int(coresong.props.favorite)])
+                    position, [2, 3, 4, 5, 6, 7],
+                    [coresong.props.title, coresong.props.artist,
+                     coresong.props.album, time,
+                     int(coresong.props.favorite), coresong])
                 coresong.connect(
                     "notify::favorite", self._on_favorite_changed)
 
     def _on_favorite_changed(self, coresong, value):
         for row in self:
-            if coresong == row[5]:
-                row[9] = coresong.props.favorite
+            if coresong == row[7]:
+                row[6] = coresong.props.favorite
                 break
 
     @GObject.Property(

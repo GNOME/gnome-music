@@ -29,7 +29,6 @@ from gi.repository import Gdk, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
-import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +104,7 @@ class SongsView(BaseView):
 
         selection_renderer = Gtk.CellRendererToggle()
         column_selection = Gtk.TreeViewColumn(
-            "Selected", selection_renderer, active=6)
+            "Selected", selection_renderer, active=1)
         column_selection.props.visible = False
         column_selection.props.fixed_width = 48
         self._view.append_column(column_selection)
@@ -125,45 +124,25 @@ class SongsView(BaseView):
 
         album_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        column_album = Gtk.TreeViewColumn()
+        column_album = Gtk.TreeViewColumn("Album", album_renderer, text=4)
         column_album.props.expand = True
-        column_album.pack_start(album_renderer, True)
-        column_album.set_cell_data_func(
-            album_renderer, self._on_list_widget_album_render, None)
         self._view.append_column(column_album)
 
         duration_renderer = Gtk.CellRendererText(xalign=1.0)
-        column_duration = Gtk.TreeViewColumn()
-        column_duration.pack_start(duration_renderer, False)
-        column_duration.set_cell_data_func(
-            duration_renderer, self._on_list_widget_duration_render, None)
+        column_duration = Gtk.TreeViewColumn(
+            "Duration", duration_renderer, text=5)
         self._view.append_column(column_duration)
 
         column_star = Gtk.TreeViewColumn()
         self._view.append_column(column_star)
         self._star_handler.add_star_renderers(column_star)
 
-    def _on_list_widget_duration_render(self, col, cell, model, itr, data):
-        item = model[itr][5]
-        if item:
-            seconds = item.props.duration
-            track_time = utils.seconds_to_string(seconds)
-            cell.props.text = '{}'.format(track_time)
-
-    def _on_list_widget_album_render(self, coll, cell, model, _iter, data):
-        if not model.iter_is_valid(_iter):
-            return
-
-        item = model[_iter][5]
-        if item:
-            cell.props.text = item.props.album
-
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         current_song = self.player.props.current_song
         if current_song is None:
             return
 
-        if model[itr][5].props.grlid == current_song.props.grlid:
+        if model[itr][7].props.grlid == current_song.props.grlid:
             cell.props.icon_name = self._now_playing_icon_name
             cell.props.visible = True
         else:
@@ -207,7 +186,7 @@ class SongsView(BaseView):
             return
 
         itr = self._view.props.model.get_iter(path)
-        coresong = self._view.props.model[itr][5]
+        coresong = self._view.props.model[itr][7]
         self._window._app._coremodel.set_playlist_model(
             PlayerPlaylist.Type.SONGS, self._view.props.model)
 
@@ -227,8 +206,8 @@ class SongsView(BaseView):
         if self.props.selection_mode:
             path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
             iter_ = self._view.props.model.get_iter(path)
-            self._model[iter_][6] = not self._model[iter_][6]
-            self._model[iter_][5].props.selected = self._model[iter_][6]
+            self._model[iter_][1] = not self._model[iter_][1]
+            self._model[iter_][7].props.selected = self._model[iter_][7]
 
     @log
     def _update_model(self, player):
@@ -237,20 +216,20 @@ class SongsView(BaseView):
         :param Player player: The main player object
         """
         if self._iter_to_clean:
-            self._view.props.model[self._iter_to_clean][10] = False
+            self._view.props.model[self._iter_to_clean][9] = False
 
         index = self.player.props.position
         current_coresong = self._playlist_model[index]
         for idx, liststore in enumerate(self._view.props.model):
-            if liststore[5] == current_coresong:
+            if liststore[7] == current_coresong:
                 break
 
         iter_ = self._view.props.model.get_iter_from_string(str(idx))
         path = self._view.props.model.get_path(iter_)
-        self._view.props.model[iter_][10] = True
+        self._view.props.model[iter_][9] = True
         self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
 
-        if self._view.props.model[iter_][8] != self._error_icon_name:
+        if self._view.props.model[iter_][0] != self._error_icon_name:
             self._iter_to_clean = iter_.copy()
 
         return False
@@ -261,7 +240,7 @@ class SongsView(BaseView):
             return
 
         iter_ = self.model.get_iter_from_string(str(index))
-        self.model[iter_][11] = status
+        self.model[iter_][8] = status
 
     @log
     def _populate(self, data=None):
@@ -272,8 +251,8 @@ class SongsView(BaseView):
         with self._model.freeze_notify():
             itr = self._model.iter_children(None)
             while itr is not None:
-                self._model[itr][5].props.selected = value
-                self._model[itr][6] = value
+                self._model[itr][7].props.selected = value
+                self._model[itr][1] = value
 
                 itr = self._model.iter_next(itr)
 
