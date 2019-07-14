@@ -113,6 +113,9 @@ class PlaylistsView(BaseView):
         self._loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
 
+        # Selection is only possible from the context menu
+        self.disconnect(self._selection_mode_id)
+
         self.show_all()
 
     @log
