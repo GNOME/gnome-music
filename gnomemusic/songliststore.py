@@ -2,6 +2,7 @@ from gi.repository import Gfm, Gio, GObject, Gtk
 from gi._gi import pygobject_new_full
 
 import gnomemusic.utils as utils
+from gnomemusic.widgets.songwidget import SongWidget
 
 
 class SongListStore(Gtk.ListStore):
@@ -70,11 +71,19 @@ class SongListStore(Gtk.ListStore):
                      int(coresong.props.favorite), coresong])
                 coresong.connect(
                     "notify::favorite", self._on_favorite_changed)
+                coresong.connect(
+                    "notify::state", self._on_state_changed)
 
     def _on_favorite_changed(self, coresong, value):
         for row in self:
             if coresong == row[7]:
                 row[6] = coresong.props.favorite
+                break
+
+    def _on_state_changed(self, coresong, value):
+        for row in self:
+            if coresong == row[7]:
+                row[8] = coresong.props.validation
                 break
 
     @GObject.Property(
