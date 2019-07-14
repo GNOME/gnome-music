@@ -89,7 +89,8 @@ class BaseView(Gtk.Stack):
         # self._view.hide()
 
         self._init = False
-        self.connect('notify::selection-mode', self._on_selection_mode_changed)
+        self._selection_mode_id = self.connect(
+            "notify::selection-mode", self._on_selection_mode_changed)
 
         self.bind_property(
             'selection-mode', self._window, 'selection-mode',
