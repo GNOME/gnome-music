@@ -64,7 +64,7 @@ class BaseView(Gtk.Stack):
 
         self._grid.add(self._box)
 
-        self._star_handler = StarHandlerWidget(self, 9)
+        self._star_handler = StarHandlerWidget(self, 6)
         self._window = window
         self._headerbar = window._headerbar
 
