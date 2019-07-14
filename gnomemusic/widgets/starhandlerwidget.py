@@ -150,7 +150,7 @@ class StarHandlerWidget(object):
 
         new_value = not model[_iter][self._star_index]
         model[_iter][self._star_index] = new_value
-        coresong = model[_iter][5]
+        coresong = model[_iter][7]
         # FIXME: Playlists pass a Grl.Media. Not supported at the
         # moment. Port to core first.
         if coresong.__gtype__.name != Grl.Media.new().__gtype__.name:
