@@ -29,7 +29,6 @@ from gnomemusic import log
 from gnomemusic.gstplayer import Playback
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
-from gnomemusic.query import Query
 from gnomemusic.search import Search
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
@@ -103,29 +102,6 @@ class Window(Gtk.ApplicationWindow):
         MediaKeys(self._player, self)
 
     @log
-    def _on_changes_pending(self, data=None):
-        # FIXME: This is not working right.
-        def songs_available_cb(available):
-            view_count = len(self.views)
-            if (available
-                    and view_count == 1):
-                self._switch_to_player_view()
-            elif (not available
-                    and not self.props.selection_mode
-                    and view_count != 1):
-                self._stack.disconnect(self._on_notify_model_id)
-                self.disconnect(self._key_press_event_id)
-
-                for i in range(View.ALBUM, view_count):
-                    view = self.views.pop()
-                    view.destroy()
-
-                self._switch_to_empty_view()
-
-        # FIXME: Don't assume available.
-        songs_available_cb(True)
-
-    @log
     def _setup_view(self):
         self._search = Search()
         self._searchbar = SearchBar(self._app)
@@ -193,31 +169,33 @@ class Window(Gtk.ApplicationWindow):
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.show()
 
-        def songs_available_cb(available):
-            if available:
-                self._switch_to_player_view()
-            else:
-                self._switch_to_empty_view()
+        self._app.props.coremodel.connect(
+            "notify::songs-available", self._on_songs_available)
 
-        if Query().music_folder:
-            # FIXME: Do not assume True.
-            songs_available_cb(True)
+        if self._app.props.coremodel.props.songs_available:
+            self._switch_to_player_view()
         else:
             self._switch_to_empty_view()
 
     @log
     def _switch_to_empty_view(self):
-        # did_initial_state = self._settings.get_boolean('did-initial-state')
+        did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        # FIXME: Fix the startup views.
         # if not grilo.props.tracker_available:
         #     self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
-        # elif did_initial_state:
-        #     self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
-        # else:
-        #     self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
+        if did_initial_state:
+            self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
+        else:
+            # FIXME: On switch back this view does not show properly.
+            self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
 
         self._headerbar.props.state = HeaderBar.State.EMPTY
+
+    def _on_songs_available(self, klass, value):
+        if self._app.props.coremodel.props.songs_available:
+            self._switch_to_player_view()
+        else:
+            self._switch_to_empty_view()
 
     @log
     def _switch_to_player_view(self):
@@ -481,8 +459,6 @@ class Window(Gtk.ApplicationWindow):
         if (not self.props.selection_mode
                 and self._player.state == Playback.STOPPED):
             self._player_toolbar.hide()
-        if not self.props.selection_mode:
-            self._on_changes_pending()
 
     @log
     def _on_add_to_playlist(self, widget):

@@ -37,6 +37,8 @@ class CoreModel(GObject.GObject):
         "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    songs_available = GObject.Property(type=bool, default=False)
+
     @log
     def __init__(self, coreselection):
         super().__init__()
@@ -83,6 +85,20 @@ class CoreModel(GObject.GObject):
             self._wrap_list_store_sort_func(self._playlists_sort))
 
         self._grilo = CoreGrilo(self, self._coreselection)
+
+        self._model.connect("items-changed", self._on_songs_items_changed)
+
+    def _on_songs_items_changed(self, model, position, removed, added):
+        available = self.props.songs_available
+        now_available = model.get_n_items() > 0
+
+        if available == now_available:
+            return
+
+        if model.get_n_items() > 0:
+            self.props.songs_available = True
+        else:
+            self.props.songs_available = False
 
     def _filter_selected(self, coresong):
         return coresong.props.selected
