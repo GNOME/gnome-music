@@ -87,6 +87,27 @@ class GrlTrackerWrapper(GObject.GObject):
     def source(self):
         return self._source
 
+    @staticmethod
+    def _location_filter():
+        try:
+            music_dir = GLib.get_user_special_dir(
+                GLib.UserDirectory.DIRECTORY_MUSIC)
+            assert music_dir is not None
+        except (TypeError, AssertionError):
+            print("XDG Music dir is not set")
+            return
+
+        music_dir = Tracker.sparql_escape_string(
+            GLib.filename_to_uri(music_dir))
+
+        query = """
+        FILTER (STRSTARTS(nie:url(?song), '%(music_dir)s/'))
+        """.replace('\n', ' ').strip() % {
+            'music_dir': music_dir
+        }
+
+        return query
+
     def _on_content_changed(self, source, medias, change_type, loc_unknown):
         for media in medias:
             if change_type == Grl.SourceChangeType.ADDED:
@@ -122,8 +143,11 @@ class GrlTrackerWrapper(GObject.GObject):
                     nmm:performer ?performer .
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
+            %(location_filter)s
         } GROUP BY ?album
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter()
+        }
 
         def check_album_cb(source, op_id, media, user_data, error):
             if error:
@@ -168,8 +192,11 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
                     nmm:performer ?artist_class .
+            %(location_filter)s
         } GROUP BY ?artist_class
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter()
+        }
 
         def check_artist_cb(source, op_id, media, user_data, error):
             if error:
@@ -216,8 +243,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._model.remove(idx)
                 break
 
-    @staticmethod
-    def _song_media_query(media_id):
+    def _song_media_query(self, media_id):
         query = """
         SELECT DISTINCT
             rdf:type(?song)
@@ -241,8 +267,10 @@ class GrlTrackerWrapper(GObject.GObject):
                 FILTER (?tag = nao:predefined-tag-favorite)
             }
             FILTER ( tracker:id(?song) = %(media_id)s )
+            %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter(),
             'media_id': media_id
         }
 
@@ -329,8 +357,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
             }
+            %(location_filter)s
         }
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter()
+        }
 
         options = self._fast_options.copy()
         self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
@@ -366,8 +397,11 @@ class GrlTrackerWrapper(GObject.GObject):
                     nmm:performer ?performer .
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
+            %(location_filter)s
         } GROUP BY ?album
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter()
+        }
 
         options = self._fast_options.copy()
 
@@ -398,8 +432,11 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
                     nmm:performer ?artist .
+            %(location_filter)s
         } GROUP BY ?artist
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter()
+        }
 
         options = self._fast_options.copy()
 
@@ -427,9 +464,11 @@ class GrlTrackerWrapper(GObject.GObject):
                     nmm:performer ?artist .
             FILTER ( tracker:id(?album_artist) = %(artist_id)s
                      || tracker:id(?artist) = %(artist_id)s )
+            %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
-            'artist_id': int(artist_id)
+            'artist_id': int(artist_id),
+            'location_filter': self._location_filter()
         }
 
         albums = []
@@ -473,9 +512,11 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album .
             FILTER ( tracker:id(?album) = %(album_id)s )
+            %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
-            'album_id': int(album_id)
+            'album_id': int(album_id),
+            'location_filter': self._location_filter()
         }
 
         def _disc_nr_cb(source, op_id, media, user_data, error):
@@ -528,10 +569,12 @@ class GrlTrackerWrapper(GObject.GObject):
             FILTER ( tracker:id(?album) = %(album_id)s
                      && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s
             )
+            %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
             'album_id': album_id,
             'disc_nr': disc_nr,
+            'location_filter': self._location_filter()
         }
 
         options = self._fast_options.copy()
@@ -570,8 +613,12 @@ class GrlTrackerWrapper(GObject.GObject):
                     tracker:unaccent(?match4)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match4), "%(name)s")
             )
+            %(location_filter)s
         }
-        """.replace('\n', ' ').strip() % {'name': term}
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter(),
+            'name': term
+        }
 
         filter_ids = []
 
@@ -621,8 +668,12 @@ class GrlTrackerWrapper(GObject.GObject):
                     tracker:unaccent(?match4)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match4), "%(name)s")
             )
+            %(location_filter)s
         }
-        """.replace('\n', ' ').strip() % {'name': term}
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter(),
+            'name': term
+        }
 
         album_filter_ids = []
 
@@ -674,8 +725,12 @@ class GrlTrackerWrapper(GObject.GObject):
                     tracker:unaccent(?match4)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match4), "%(name)s")
             )
+            %(location_filter)s
         }
-        """.replace('\n', ' ').strip() % {'name': term}
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter(),
+            'name': term
+        }
 
         artist_filter_ids = []
 
@@ -716,8 +771,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self.search_source.query(
             query, self.METADATA_THUMBNAIL_KEYS, full_options, callback)
 
-    @staticmethod
-    def _get_album_for_album_id(album_id):
+    def _get_album_for_album_id(self, album_id):
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
@@ -737,15 +791,16 @@ class GrlTrackerWrapper(GObject.GObject):
             FILTER (
                 tracker:id(?album) = %(album_id)s
             )
+            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
                 'album_id': album_id,
+                'location_filter': self._location_filter()
         }
 
         return query
 
-    @staticmethod
-    def _get_album_for_song_id(song_id):
+    def _get_album_for_song_id(self, song_id):
         # See get_album_for_album_id comment.
         query = """
         SELECT DISTINCT
@@ -766,9 +821,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 NOT EXISTS { ?song a nmm:Video }
                 && NOT EXISTS { ?song a nmm:Playlist }
             )
+            %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-                'song_id': song_id
+            'location_filter': self._location_filter(),
+            'song_id': song_id
         }
 
         return query
