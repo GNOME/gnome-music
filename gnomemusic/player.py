@@ -50,14 +50,6 @@ class RepeatMode(IntEnum):
     SHUFFLE = 3
 
 
-class ValidationStatus(IntEnum):
-    """Enum for song validation"""
-    PENDING = 0
-    IN_PROGRESS = 1
-    FAILED = 2
-    SUCCEEDED = 3
-
-
 class PlayerField(IntEnum):
     """Enum for player model fields"""
     SONG = 0
@@ -79,10 +71,6 @@ class PlayerPlaylist(GObject.GObject):
         PLAYLIST = 3
         SEARCH_RESULT = 4
 
-    __gsignals__ = {
-        'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
-    }
-
     repeat_mode = GObject.Property(type=int, default=RepeatMode.NONE)
 
     def __repr__(self):
@@ -100,10 +88,10 @@ class PlayerPlaylist(GObject.GObject):
         self._type = -1
         self._id = -1
 
-        # self._validation_indexes = None
-        # self._discoverer = GstPbutils.Discoverer()
-        # self._discoverer.connect('discovered', self._on_discovered)
-        # self._discoverer.start()
+        self._validation_songs = {}
+        self._discoverer = GstPbutils.Discoverer()
+        self._discoverer.connect("discovered", self._on_discovered)
+        self._discoverer.start()
 
         self._model = self._app.props.coremodel.props.playlist_sort
 
@@ -185,10 +173,14 @@ class PlayerPlaylist(GObject.GObject):
             next_position = self.props.position + 1
 
         self._model[self.props.position].props.state = SongWidget.State.PLAYED
-        self._model[next_position].props.state = SongWidget.State.PLAYING
-
         self._position = next_position
 
+        next_song = self._model[next_position]
+        if next_song.props.validation == CoreSong.Validation.FAILED:
+            return self.next()
+
+        next_song.props.state = SongWidget.State.PLAYING
+        self._validate_next_song()
         return True
 
     @log
@@ -210,10 +202,14 @@ class PlayerPlaylist(GObject.GObject):
             previous_position = self.props.position - 1
 
         self._model[self.props.position].props.state = SongWidget.State.PLAYED
-        self._model[previous_position].props.state = SongWidget.State.PLAYING
-
         self._position = previous_position
 
+        previous_song = self._model[previous_position]
+        if previous_song.props.validation == CoreSong.Validation.FAILED:
+            return self.previous()
+
+        self._model[previous_position].props.state = SongWidget.State.PLAYING
+        self._validate_previous_song()
         return True
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
@@ -264,11 +260,17 @@ class PlayerPlaylist(GObject.GObject):
                 position = 0
             song = self._model.get_item(position)
             song.props.state = SongWidget.State.PLAYING
+            self._position = position
+            self._validate_song(song)
+            self._validate_next_song()
             return song
 
-        for coresong in self._model:
+        for idx, coresong in enumerate(self._model):
             if coresong == song:
                 coresong.props.state = SongWidget.State.PLAYING
+                self._position = idx
+                self._validate_song(song)
+                self._validate_next_song()
                 return song
 
         return None
@@ -293,6 +295,62 @@ class PlayerPlaylist(GObject.GObject):
                 _wrap_list_store_sort_func(_shuffle_sort))
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
             self._model.set_sort_func(None)
+
+    def _validate_song(self, coresong):
+        # Song is being processed or has already been processed.
+        # Nothing to do.
+        if coresong.props.validation > CoreSong.Validation.PENDING:
+            return
+
+        url = coresong.props.url
+        if not url:
+            logger.warning(
+                "The item {} doesn't have a URL set.".format(coresong))
+            return
+        if not url.startswith("file://"):
+            logger.debug(
+                "Skipping validation of {} as not a local file".format(url))
+            return
+
+        coresong.props.validation = CoreSong.Validation.IN_PROGRESS
+        self._validation_songs[url] = coresong
+        self._discoverer.discover_uri_async(url)
+
+    def _validate_next_song(self):
+        if self.props.repeat_mode == RepeatMode.SONG:
+            return
+
+        current_position = self.props.position
+        next_position = current_position + 1
+        if next_position == self._model.get_n_items():
+            if self.props.repeat_mode != RepeatMode.ALL:
+                return
+            next_position = 0
+
+        self._validate_song(self._model[next_position])
+
+    def _validate_previous_song(self):
+        if self.props.repeat_mode == RepeatMode.SONG:
+            return
+
+        current_position = self.props.position
+        previous_position = current_position - 1
+        if previous_position < 0:
+            if self.props.repeat_mode != RepeatMode.ALL:
+                return
+            previous_position = self._model.get_n_items() - 1
+
+        self._validate_song(self._model[previous_position])
+
+    def _on_discovered(self, discoverer, info, error):
+        url = info.get_uri()
+        coresong = self._validation_songs[url]
+
+        if error:
+            logger.warning("Info {}: error: {}".format(info, error))
+            coresong.props.validation = CoreSong.Validation.FAILED
+        else:
+            coresong.props.validation = CoreSong.Validation.SUCCEEDED
 
     @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
     def playlist_id(self):
@@ -322,8 +380,7 @@ class Player(GObject.GObject):
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
+        'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
@@ -350,7 +407,6 @@ class Player(GObject.GObject):
         self._gapless_set = False
 
         self._playlist = PlayerPlaylist(self._app)
-        self._playlist.connect('song-validated', self._on_song_validated)
 
         self._settings = application.props.settings
         self._settings.connect(
@@ -534,11 +590,6 @@ class Player(GObject.GObject):
         """
         self._playlist.add_song(song, song_index)
         self.emit('playlist-changed')
-
-    @log
-    def _on_song_validated(self, playlist, index, status):
-        self.emit('song-validated', index, status)
-        return True
 
     @log
     def playing_playlist(self, playlist_type, playlist_id):

@@ -27,6 +27,7 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
 from gnomemusic import log
+from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
 
@@ -65,7 +66,6 @@ class SongsView(BaseView):
 
         self.player = player
         self.player.connect('song-changed', self._update_model)
-        self.player.connect('song-validated', self._on_song_validated)
 
         self._model = self._view.props.model
         self._view.show()
@@ -142,7 +142,11 @@ class SongsView(BaseView):
         if current_song is None:
             return
 
-        if model[itr][7].props.grlid == current_song.props.grlid:
+        coresong = model[itr][7]
+        if coresong.props.validation == CoreSong.Validation.FAILED:
+            cell.props.icon_name = self._error_icon_name
+            cell.props.visible = True
+        elif coresong.props.grlid == current_song.props.grlid:
             cell.props.icon_name = self._now_playing_icon_name
             cell.props.visible = True
         else:
@@ -235,14 +239,6 @@ class SongsView(BaseView):
             self._iter_to_clean = iter_.copy()
 
         return False
-
-    @log
-    def _on_song_validated(self, player, index, status):
-        if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
-            return
-
-        iter_ = self.model.get_iter_from_string(str(index))
-        self.model[iter_][8] = status
 
     @log
     def _populate(self, data=None):

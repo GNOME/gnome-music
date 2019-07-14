@@ -212,6 +212,9 @@ class CoreModel(GObject.GObject):
                     song.bind_property(
                         "state", coresong, "state",
                         GObject.BindingFlags.SYNC_CREATE)
+                    song.bind_property(
+                        "validation", coresong, "validation",
+                        GObject.BindingFlags.SYNC_CREATE)
 
         with model.freeze_notify():
 
@@ -236,6 +239,9 @@ class CoreModel(GObject.GObject):
                     song.bind_property(
                         "state", model_song, "state",
                         GObject.BindingFlags.SYNC_CREATE)
+                    song.bind_property(
+                        "validation", model_song, "validation",
+                        GObject.BindingFlags.SYNC_CREATE)
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.ARTIST:
@@ -258,6 +264,9 @@ class CoreModel(GObject.GObject):
                     self._playlist_model.append(song)
                     song.bind_property(
                         "state", model_song, "state",
+                        GObject.BindingFlags.SYNC_CREATE)
+                    song.bind_property(
+                        "validation", model_song, "validation",
                         GObject.BindingFlags.SYNC_CREATE)
 
                 self.emit("playlist-loaded")
@@ -307,6 +316,9 @@ class CoreModel(GObject.GObject):
 
                     song.bind_property(
                         "state", model_song, "state",
+                        GObject.BindingFlags.SYNC_CREATE)
+                    song.bind_property(
+                        "validation", model_song, "validation",
                         GObject.BindingFlags.SYNC_CREATE)
 
                 # self._search_signal_id = self._song_search_model.connect(

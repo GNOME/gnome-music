@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
+
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
@@ -44,6 +46,14 @@ class CoreSong(GObject.GObject):
     title = GObject.Property(type=str)
     track_number = GObject.Property(type=int)
     url = GObject.Property(type=str)
+    validation = GObject.Property()  # FIXME: How to set an IntEnum type?
+
+    class Validation(IntEnum):
+        """Enum for song validation"""
+        PENDING = 0
+        IN_PROGRESS = 1
+        FAILED = 2
+        SUCCEEDED = 3
 
     def __init__(self, media, coreselection, grilo):
         super().__init__()
@@ -54,6 +64,7 @@ class CoreSong(GObject.GObject):
         self._selected = False
 
         self.props.grlid = media.get_source() + media.get_id()
+        self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
 
     def __eq__(self, other):

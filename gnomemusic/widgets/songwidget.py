@@ -154,6 +154,8 @@ class SongWidget(Gtk.EventBox):
         self.props.coresong.bind_property(
             "state", self, "state",
             GObject.BindingFlags.SYNC_CREATE)
+        self.props.coresong.connect(
+            "notify::validation", self._on_validation_changed)
 
         self._number_label.props.no_show_all = True
 
@@ -284,8 +286,22 @@ class SongWidget(Gtk.EventBox):
         style_ctx.remove_class('playing-song-label')
         self._play_icon.set_visible(False)
 
+        coresong = self.props.coresong
+        if coresong.props.validation == CoreSong.Validation.FAILED:
+            self._play_icon.set_visible(True)
+            style_ctx.add_class("dim-label")
+            return
+
         if value == SongWidget.State.PLAYED:
             style_ctx.add_class('dim-label')
         elif value == SongWidget.State.PLAYING:
             self._play_icon.set_visible(True)
             style_ctx.add_class('playing-song-label')
+
+    def _on_validation_changed(self, coresong, sate):
+        validation_status = coresong.props.validation
+        if validation_status == CoreSong.Validation.FAILED:
+            self._play_icon.props.icon_name = "dialog-error-symbolic"
+            self._play_icon.set_visible(True)
+        else:
+            self._play_icon.props.icon_name = "media-playback-start-symbolic"
