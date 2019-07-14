@@ -93,8 +93,5 @@ class GrlDLeynaWrapper(GObject.GObject):
     def populate_album_disc_songs(self, media, discnr, callback):
         pass
 
-    def populate_album_songs(self, media, callback):
-        pass
-
     def search(self, text):
         pass

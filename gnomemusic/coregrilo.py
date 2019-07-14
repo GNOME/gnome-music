@@ -111,10 +111,6 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def populate_album_songs(self, media, callback):
-        for wrapper in self._wrappers.values():
-            wrapper.populate_album_songs(media, callback)
-
     def _store_metadata(self, source, media, key):
         """Convenience function to store metadata
 

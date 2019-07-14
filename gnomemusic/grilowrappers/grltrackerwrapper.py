@@ -10,6 +10,8 @@ from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
 
 
 class GrlTrackerWrapper(GObject.GObject):
+    """Wrapper for the Grilo Tracker source.
+    """
 
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
@@ -37,6 +39,15 @@ class GrlTrackerWrapper(GObject.GObject):
         return "<GrlTrackerWrapper>"
 
     def __init__(self, source, coremodel, coreselection, grilo):
+        """Initialize the Tracker wrapper
+
+        :param Grl.TrackerSource source: The Tracker source to wrap
+        :param CoreModel coremodel: CoreModel instance to use models
+        from
+        :param CoreSelection coreselection: CoreSelection instance to
+        use
+        :param CoreGrilo grilo: The CoreGrilo instance
+        """
         super().__init__()
 
         self._coremodel = coremodel
@@ -61,7 +72,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._fast_options.set_resolution_flags(
             Grl.ResolutionFlags.FAST_ONLY | Grl.ResolutionFlags.IDLE_RELAY)
 
-        self._initial_fill(self._source)
+        self._initial_songs_fill(self._source)
         self._initial_albums_fill(self._source)
         self._initial_artists_fill(self._source)
 
@@ -85,7 +96,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._check_artist_change(media)
             elif change_type == Grl.SourceChangeType.CHANGED:
                 print("CHANGED", media.get_id())
-                self._requery_media(media.get_id(), True)
+                self._changed_media(media)
             elif change_type == Grl.SourceChangeType.REMOVED:
                 print("REMOVED", media.get_id())
                 self._remove_media(media)
@@ -104,7 +115,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
-        {
+        WHERE {
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
@@ -152,7 +163,7 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(?artist_class)
             tracker:id(?artist_class) AS ?id
             nmm:artistName(?artist_class) AS ?artist
-        {
+        WHERE {
             ?artist_class a nmm:Artist .
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
@@ -194,6 +205,7 @@ class GrlTrackerWrapper(GObject.GObject):
         try:
             coresong = self._hash.pop(media.get_id())
         except KeyError:
+            print("Removal KeyError")
             return
 
         for idx, coresong_model in enumerate(self._model):
@@ -204,124 +216,139 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._model.remove(idx)
                 break
 
-    def _requery_media(self, grilo_id, only_update=False):
+    @staticmethod
+    def _song_media_query(media_id):
         query = """
-            SELECT DISTINCT
-                rdf:type(?song)
-                ?song AS ?tracker_urn
-                nie:title(?song) AS ?title
-                tracker:id(?song) AS ?id
-                ?song
-                nie:url(?song) AS ?url
-                nie:title(?song) AS ?title
-                nmm:artistName(nmm:performer(?song)) AS ?artist
-                nie:title(nmm:musicAlbum(?song)) AS ?album
-                nfo:duration(?song) AS ?duration
-                nie:usageCounter(?song) AS ?play_count
-                nmm:trackNumber(?song) AS ?track_number
-                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-                ?tag AS ?favourite
-            WHERE {
-                ?song a nmm:MusicPiece .
-                OPTIONAL {
-                    ?song nao:hasTag ?tag .
-                    FILTER (?tag = nao:predefined-tag-favorite)
-                }
-                FILTER ( tracker:id(?song) = %(grilo_id)s )
+        SELECT DISTINCT
+            rdf:type(?song)
+            ?song AS ?tracker_urn
+            nie:title(?song) AS ?title
+            tracker:id(?song) AS ?id
+            ?song
+            nie:url(?song) AS ?url
+            nie:title(?song) AS ?title
+            nmm:artistName(nmm:performer(?song)) AS ?artist
+            nie:title(nmm:musicAlbum(?song)) AS ?album
+            nfo:duration(?song) AS ?duration
+            nie:usageCounter(?song) AS ?play_count
+            nmm:trackNumber(?song) AS ?track_number
+            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            ?tag AS ?favourite
+        WHERE {
+            ?song a nmm:MusicPiece .
+            OPTIONAL {
+                ?song nao:hasTag ?tag .
+                FILTER (?tag = nao:predefined-tag-favorite)
             }
+            FILTER ( tracker:id(?song) = %(media_id)s )
+        }
         """.replace('\n', ' ').strip() % {
-            'grilo_id': grilo_id
+            'media_id': media_id
         }
 
-        options = self._fast_options.copy()
-
-        if only_update:
-            self._source.query(
-                query, self.METADATA_KEYS, options, self._only_update_media)
-        else:
-            self._source.query(
-                query, self.METADATA_KEYS, options, self._update_media)
+        return query
 
     def _add_media(self, media):
-        self._requery_media(media.get_id())
 
-    def _only_update_media(self, source, op_id, media, user_data, error):
-        if error:
-            print("ERROR", error)
-            return
+        def _add_media(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
 
-        if not media:
-            return
+            if not media:
+                return
 
-        print("ONLY UPDATE")
-        self._hash[media.get_id()].update(media)
-        print("UPDATE ID", media.get_id(), media.get_title())
+            # FIXME: Figure out why we get double additions.
+            if media.get_id() in self._hash.keys():
+                print("ALREADY ADDED")
+                return
 
-    def _update_media(self, source, op_id, media, user_data, error):
-        if error:
-            print("ERROR", error)
-            return
+            song = CoreSong(media, self._coreselection, self._grilo)
+            self._model.append(song)
+            self._hash[media.get_id()] = song
 
-        if not media:
-            return
+            print("UPDATE ID", media.get_id(), media.get_title())
 
-        # FIXME: Figure out why we get double additions.
-        if media.get_id() in self._hash.keys():
-            print("ALREADY ADDED")
-            return
-
-        song = CoreSong(media, self._coreselection, self._grilo)
-        self._model.append(song)
-        self._hash[media.get_id()] = song
-
-        print("UPDATE ID", media.get_id(), media.get_title())
-
-    def _on_source_removed(self, registry, source):
-        print("removed", source.props.source_id)
-
-    def _initial_fill(self, source):
         options = self._fast_options.copy()
-        query = """
-            SELECT
-                rdf:type(?song)
-                ?song AS ?tracker_urn
-                nie:title(?song) AS ?title
-                tracker:id(?song) AS ?id
-                ?song
-                nie:url(?song) AS ?url
-                nie:title(?song) AS ?title
-                nmm:artistName(nmm:performer(?song)) AS ?artist
-                nie:title(nmm:musicAlbum(?song)) AS ?album
-                nfo:duration(?song) AS ?duration
-                nie:usageCounter(?song) AS ?play_count
-                nmm:trackNumber(?song) AS ?track_number
-                nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-                ?tag AS ?favourite
-            WHERE {
-                ?song a nmm:MusicPiece .
-                OPTIONAL {
-                    ?song nao:hasTag ?tag .
-                    FILTER (?tag = nao:predefined-tag-favorite)
-                }
-            }
-        """.replace('\n', ' ').strip()
 
         self._source.query(
-            query, self.METADATA_KEYS, options, self._add_to_model)
+            self._song_media_query(media.get_id()), self.METADATA_KEYS,
+            options, _add_media)
 
-    def _add_to_model(self, source, op_id, media, user_data, error):
-        if error:
-            print("ERROR", error)
-            return
+    def _changed_media(self, media):
 
-        if not media:
-            return
+        def _update_changed_media(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
 
-        song = CoreSong(media, self._coreselection, self._grilo)
-        self._model.append(song)
-        self._hash[media.get_id()] = song
+            if not media:
+                return
+
+            self._hash[media.get_id()].update(media)
+
+        options = self._fast_options.copy()
+
+        self._source.query(
+            self._song_media_query(media.get_id()), self.METADATA_KEYS,
+            options, _update_changed_media)
+
+    def _initial_songs_fill(self, source):
+
+        def _add_to_model(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                return
+
+            song = CoreSong(media, self._coreselection, self._grilo)
+            self._model.append(song)
+            self._hash[media.get_id()] = song
+
+        query = """
+        SELECT
+            rdf:type(?song)
+            ?song AS ?tracker_urn
+            nie:title(?song) AS ?title
+            tracker:id(?song) AS ?id
+            ?song
+            nie:url(?song) AS ?url
+            nie:title(?song) AS ?title
+            nmm:artistName(nmm:performer(?song)) AS ?artist
+            nie:title(nmm:musicAlbum(?song)) AS ?album
+            nfo:duration(?song) AS ?duration
+            nie:usageCounter(?song) AS ?play_count
+            nmm:trackNumber(?song) AS ?track_number
+            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            ?tag AS ?favourite
+        WHERE {
+            ?song a nmm:MusicPiece .
+            OPTIONAL {
+                ?song nao:hasTag ?tag .
+                FILTER (?tag = nao:predefined-tag-favorite)
+            }
+        }
+        """.replace('\n', ' ').strip()
+
+        options = self._fast_options.copy()
+        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
 
     def _initial_albums_fill(self, source):
+
+        def _add_to_albums_model(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                return
+
+            album = CoreAlbum(media, self._coremodel)
+            self._albums_model.append(album)
+            self._album_ids[media.get_id()] = album
+
         query = """
         SELECT
             rdf:type(?album)
@@ -331,6 +358,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+        WHERE
         {
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
@@ -343,56 +371,47 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        source.query(
-            query, self.METADATA_KEYS, options, self._add_to_albums_model)
-
-    def _add_to_albums_model(self, source, op_id, media, user_data, error):
-        if error:
-            print("ERROR", error)
-            return
-
-        if not media:
-            print("NO MEDIA", source, op_id, media, error)
-            return
-
-        album = CoreAlbum(media, self._coremodel)
-        self._albums_model.append(album)
-        self._album_ids[media.get_id()] = album
+        source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
 
     def _initial_artists_fill(self, source):
+
+        def _add_to_artists_model(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                self._coremodel.emit("artists-loaded")
+                return
+
+            artist = CoreArtist(media, self._coremodel)
+            self._artists_model.append(artist)
+            self._artist_ids[media.get_id()] = artist
+
         query = """
         SELECT
-            rdf:type(?artist_class)
-            tracker:id(?artist_class) AS ?id
-            nmm:artistName(?artist_class) AS ?artist
-        {
-            ?artist_class a nmm:Artist .
+            rdf:type(?artist)
+            tracker:id(?artist) AS ?id
+            nmm:artistName(?artist) AS ?artist
+        WHERE {
+            ?artist a nmm:Artist .
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
-                    nmm:performer ?artist_class .
-        } GROUP BY ?artist_class
+                    nmm:performer ?artist .
+        } GROUP BY ?artist
         """.replace('\n', ' ').strip()
 
         options = self._fast_options.copy()
 
         source.query(
-            query, self.METADATA_KEYS, options, self._add_to_artists_model)
-
-    def _add_to_artists_model(self, source, op_id, media, user_data, error):
-        if error:
-            print("ERROR", error)
-            return
-
-        if not media:
-            print("NO MEDIA", source, op_id, media, error)
-            self._coremodel.emit("artists-loaded")
-            return
-
-        artist = CoreArtist(media, self._coremodel)
-        self._artists_model.append(artist)
-        self._artist_ids[media.get_id()] = artist
+            query, [Grl.METADATA_KEY_ARTIST], options, _add_to_artists_model)
 
     def get_artist_albums(self, media, model):
+        """Get all albums by an artist
+
+        :param Grl.Media media: The media with the artist id
+        :param Dazzle.ListModelFilter model: The model to fill
+        """
         artist_id = media.get_id()
 
         query = """
@@ -400,8 +419,7 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(?album)
             tracker:id(?album) AS ?id
             nie:title(?album) AS ?title
-        WHERE
-        {
+        WHERE {
             ?album a nmm:MusicAlbum .
             OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
             ?song a nmm:MusicPiece;
@@ -413,8 +431,6 @@ class GrlTrackerWrapper(GObject.GObject):
         """.replace('\n', ' ').strip() % {
             'artist_id': int(artist_id)
         }
-
-        options = self._fast_options.copy()
 
         albums = []
 
@@ -436,10 +452,31 @@ class GrlTrackerWrapper(GObject.GObject):
 
             return False
 
-        self._source.query(query, self.METADATA_KEYS, options, query_cb)
+        options = self._fast_options.copy()
+        self._source.query(
+            query, [Grl.METADATA_KEY_TITLE], options, query_cb)
 
     def get_album_discs(self, media, disc_model):
+        """Get all discs of an album
+
+        :param Grl.Media media: The media with the album id
+        :param Gfm.SortListModel disc_model: The model to fill
+        """
         album_id = media.get_id()
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(?song)
+            tracker:id(?album) AS ?id
+            nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
+        WHERE {
+            ?song a nmm:MusicPiece;
+                    nmm:musicAlbum ?album .
+            FILTER ( tracker:id(?album) = %(album_id)s )
+        }
+        """.replace('\n', ' ').strip() % {
+            'album_id': int(album_id)
+        }
 
         def _disc_nr_cb(source, op_id, media, user_data, error):
             if error:
@@ -453,26 +490,20 @@ class GrlTrackerWrapper(GObject.GObject):
             coredisc = CoreDisc(media, disc_nr, self._coremodel)
             disc_model.append(coredisc)
 
-        query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            tracker:id(?album) AS ?id
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
-        WHERE
-        {
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album .
-            FILTER ( tracker:id(?album) = %(album_id)s )
-        }
-        """.replace('\n', ' ').strip() % {
-            'album_id': int(album_id)
-        }
-
         options = self._fast_options.copy()
+        self._source.query(
+            query, [Grl.METADATA_KEY_ALBUM_DISC_NUMBER], options, _disc_nr_cb)
 
-        self._source.query(query, self.METADATA_KEYS, options, _disc_nr_cb)
+    def populate_album_disc_songs(self, media, disc_nr, callback):
+        # FIXME: Pass a model and fill it.
+        # FIXME: The query is similar to the other song queries, reuse
+        # if possible.
+        """Get all songs of an album disc
 
-    def populate_album_disc_songs(self, media, disc_nr, _callback):
+        :param Grl.Media media: The media with the album id
+        :param int disc_nr: The disc number
+        :param callback: The callback to call for every song added
+        """
         album_id = media.get_id()
 
         query = """
@@ -489,15 +520,14 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
             ?tag AS ?favourite
             nie:usageCounter(?song) AS ?play_count
-        WHERE
-        {
+        WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album .
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
                      && nmm:setNumber(nmm:musicAlbumDisc(?song)) = %(disc_nr)s
-                   )
+            )
         }
         """.replace('\n', ' ').strip() % {
             'album_id': album_id,
@@ -505,41 +535,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
 
         options = self._fast_options.copy()
-
-        self._source.query(query, self.METADATA_KEYS, options, _callback)
-
-    def populate_album_songs(self, media, _callback):
-        album_id = media.get_id()
-
-        query = """
-        SELECT DISTINCT
-            rdf:type(?song)
-            ?song AS ?tracker_urn
-            tracker:id(?song) AS ?id
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
-            nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nmm:trackNumber(?song) AS ?track_number
-            nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
-            ?tag AS ?favourite
-            nie:usageCounter(?song) AS ?play_count
-        WHERE
-        {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album .
-            OPTIONAL { ?song nao:hasTag ?tag .
-                       FILTER (?tag = nao:predefined-tag-favorite) } .
-            FILTER ( tracker:id(?album) = %(album_id)s )
-        }
-        """.replace('\n', ' ').strip() % {
-            'album_id': album_id,
-        }
-
-        options = self._fast_options.copy()
-
-        self._source.query(query, self.METADATA_KEYS, options, _callback)
+        self._source.query(query, self.METADATA_KEYS, options, callback)
 
     def search(self, text):
         term = Tracker.sparql_escape_string(
@@ -582,7 +578,7 @@ class GrlTrackerWrapper(GObject.GObject):
         def songs_filter(coresong):
             return coresong.media.get_id() in filter_ids
 
-        def search_cb(source, op_id, media, data, error):
+        def songs_search_cb(source, op_id, media, data, error):
             if error:
                 print("ERROR", error)
                 return
@@ -595,7 +591,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        self._source.query(query, self.METADATA_KEYS, options, search_cb)
+        self._source.query(query, self.METADATA_KEYS, options, songs_search_cb)
 
         # Album search
 
@@ -603,7 +599,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT DISTINCT
             rdf:type(nmm:musicAlbum(?song))
             tracker:id(nmm:musicAlbum(?song)) AS ?id
-        {
+        WHERE {
             ?song a nmm:MusicPiece .
             BIND(tracker:normalize(
                 nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
@@ -645,7 +641,6 @@ class GrlTrackerWrapper(GObject.GObject):
             album_filter_ids.append(media.get_id())
 
         options = self._fast_options.copy()
-
         self._source.query(
             query, self.METADATA_KEYS, options, albums_search_cb)
 
@@ -655,7 +650,7 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT DISTINCT
             rdf:type(?artist)
             tracker:id(?artist) AS ?id
-        {
+        WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
                     nmm:performer ?artist .
@@ -699,11 +694,12 @@ class GrlTrackerWrapper(GObject.GObject):
             artist_filter_ids.append(media.get_id())
 
         options = self._fast_options.copy()
-
         self._source.query(
             query, self.METADATA_KEYS, options, artist_search_cb)
 
     def get_album_art_for_item(self, coresong, callback):
+        """Placeholder until we got a better solution
+        """
         item_id = coresong.props.media.get_id()
 
         if coresong.props.media.is_audio():
