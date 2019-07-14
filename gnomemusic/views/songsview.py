@@ -217,6 +217,8 @@ class SongsView(BaseView):
 
         :param Player player: The main player object
         """
+        # iter_to_clean is necessary because of a bug in GtkTreeView
+        # See https://gitlab.gnome.org/GNOME/gtk/issues/503
         if self._iter_to_clean:
             self._view.props.model[self._iter_to_clean][9] = False
 
