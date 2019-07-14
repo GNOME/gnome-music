@@ -32,7 +32,6 @@ from gi.repository import Gd, GLib, GObject, Gtk, Pango
 from gi.repository.Gd import TaggedEntry  # noqa: F401
 
 from gnomemusic import log
-# from gnomemusic.grilo import grilo
 from gnomemusic.search import Search
 
 
