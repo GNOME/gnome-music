@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GdkPixbuf, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
@@ -53,20 +53,6 @@ class BaseView(Gtk.Stack):
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
         self._offset = 0
-        self.model = Gtk.ListStore(
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GdkPixbuf.Pixbuf,
-            GObject.TYPE_OBJECT,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,
-            GObject.TYPE_STRING,
-            GObject.TYPE_INT,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         # Setup the main view
@@ -133,38 +119,9 @@ class BaseView(Gtk.Stack):
             self.unselect_all()
 
     @log
-    def _retrieval_finished(self, klass):
-        self.model[klass.iter][4] = klass.pixbuf
-
-    @log
     def _on_item_activated(self, widget, id, path):
         pass
 
     @log
     def get_selected_songs(self, callback):
         callback([])
-
-    @log
-    def _set_selection(self, value, parent=None):
-        count = 0
-        itr = self.model.iter_children(parent)
-        while itr is not None:
-            if self.model.iter_has_child(itr):
-                count += self._set_selection(value, itr)
-            if self.model[itr][5] is not None:
-                self.model[itr][6] = value
-                count += 1
-            itr = self.model.iter_next(itr)
-
-        return count
-
-    @log
-    def select_all(self):
-        """Select all the available songs."""
-        self.props.selected_items_count = self._set_selection(True)
-
-    @log
-    def unselect_all(self):
-        """Unselects all the selected songs."""
-        self._set_selection(False)
-        self.props.selected_items_count = 0
