@@ -425,6 +425,7 @@ class Player(GObject.GObject):
         self._gst_player.connect("about-to-finish", self._on_about_to_finish)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
+        self._gst_player.connect("error", self._on_error)
         self._gst_player.connect('seek-finished', self._on_seek_finished)
         self._gst_player.connect("stream-start", self._on_stream_start)
         self._gst_player.bind_property(
@@ -485,6 +486,16 @@ class Player(GObject.GObject):
 
         self._gapless_set = False
 
+    def _on_error(self, klass=None):
+        self.stop()
+        self._gapless_set = False
+
+        current_song = self.props.current_song
+        current_song.props.validation = CoreSong.Validation.FAILED
+        if (self.has_next
+                and self.props.repeat_mode != RepeatMode.SONG):
+            self.next()
+
     def _on_stream_start(self, klass):
         self._gapless_set = False
         self._time_stamp = int(time.time())
@@ -507,6 +518,12 @@ class Player(GObject.GObject):
         """
         if self.props.current_song is None:
             coresong = self._playlist.set_song(coresong)
+
+        if (coresong is not None
+                and coresong.props.validation == CoreSong.Validation.FAILED
+                and self.props.repeat_mode != RepeatMode.SONG):
+            self._on_error()
+            return
 
         if coresong is not None:
             self._load(coresong)
