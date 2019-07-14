@@ -181,9 +181,12 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        # if not grilo.props.tracker_available:
-        #     self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
-        if did_initial_state:
+        # FIXME: Tracker just checks for TrackerWrapper right now.
+        # It should also check for the viability of certain queries to
+        # make sure we have a recent version available.
+        if not self._app.props.coremodel._grilo.props.tracker_available:
+            self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
+        elif did_initial_state:
             self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
         else:
             # FIXME: On switch back this view does not show properly.

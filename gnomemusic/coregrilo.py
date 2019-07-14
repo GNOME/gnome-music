@@ -21,6 +21,7 @@ class CoreGrilo(GObject.GObject):
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
+    tracker_available = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
         return "<CoreGrilo>"
@@ -80,6 +81,7 @@ class CoreGrilo(GObject.GObject):
             new_wrapper = GrlTrackerWrapper(
                 source, self._coremodel, self._coreselection, self)
             self._wrappers[source.props.source_id] = new_wrapper
+            self.props.tracker_available = True
         # elif source.props.source_id[:10] == "grl-dleyna":
         #     new_wrapper = GrlDLeynaWrapper(
         #         source, self._coremodel, self._coreselection, self)
