@@ -18,6 +18,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         Grl.METADATA_KEY_ALBUM_ARTIST,
         Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
         Grl.METADATA_KEY_ARTIST,
+        Grl.METADATA_KEY_CHILDCOUNT,
         Grl.METADATA_KEY_CREATION_DATE,
         Grl.METADATA_KEY_COMPOSER,
         Grl.METADATA_KEY_DURATION,
@@ -246,6 +247,7 @@ class Playlist(GObject.GObject):
         if media:
             self.props.pl_id = media.get_id()
             self.props.title = utils.get_media_title(media)
+            self.props.count = media.get_childcount()
             self.props.creation_date = media.get_creation_date()
 
         self.props.query = query
