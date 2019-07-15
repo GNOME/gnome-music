@@ -29,7 +29,6 @@ gi.require_versions({'Dazzle': '1.0', 'Gfm': '0.1'})
 from gi.repository import Dazzle, GObject, Gio, Gfm, Gtk
 from gi._gi import pygobject_new_full
 
-from gnomemusic import log
 from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coregrilo import CoreGrilo
 from gnomemusic.coresong import CoreSong
@@ -38,22 +37,32 @@ from gnomemusic.player import PlayerPlaylist
 from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
 
-# The basic premisis is that an album (CoreAlbum) consist of a
-# number of discs (CoreDisc) which contain a number of songs
-# (CoreSong). All discs are a filtered Gio.Listmodel of all the songs
-# available in the master Gio.ListModel.
-#
-# CoreAlbum and CoreDisc contain a Gio.ListModel of the child
-# object.
-#
-# CoreAlbum(s) => CoreDisc(s) => CoreSong(s)
-#
-# For the playlist model, the CoreArtist or CoreAlbum derived discs are
-# flattened and recreated as a new model. This is to allow for multiple
-# occurences of the same song: same grilo id, but unique object.
-
 
 class CoreModel(GObject.GObject):
+    """Provides all the list models used in Music
+
+    Music is using a hierarchy of data objects with list models to
+    contain the information about the users available music. This
+    hierarchy is filled mainly through Grilo, with the exception of
+    playlists which are a Tracker only feature.
+
+    There are three main models: one for artist info, one for albums
+    and one for songs. The data objects within these are CoreArtist,
+    CoreAlbum and CoreSong respectively.
+
+    The data objects contain filtered lists of the three main models.
+    This makes the hierarchy as follows.
+
+    CoreArtist -> CoreAlbum -> CoreDisc -> CoreSong
+
+    Playlists are a Tracker only feature and do not use the three
+    main models directly.
+
+    GrlTrackerPlaylists -> Playlist -> CoreSong
+
+    The Player playlist is a copy of the relevant playlist, built by
+    using the components described above as needed.
+    """
 
     __gsignals__ = {
         "artists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -63,7 +72,6 @@ class CoreModel(GObject.GObject):
 
     songs_available = GObject.Property(type=bool, default=False)
 
-    @log
     def __init__(self, coreselection):
         super().__init__()
 
@@ -162,7 +170,6 @@ class CoreModel(GObject.GObject):
 
         return wrap
 
-    @log
     def get_album_model(self, media):
         disc_model = Gio.ListStore()
         disc_model_sort = Gfm.SortListModel.new(disc_model)
