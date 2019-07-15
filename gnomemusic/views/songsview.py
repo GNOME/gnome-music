@@ -56,7 +56,6 @@ class SongsView(BaseView):
         super().__init__('songs', _("Songs"), window)
 
         self._offset = 0
-        self._iter_to_clean = None
 
         self._view.get_style_context().add_class('songs-list-old')
 
@@ -219,11 +218,6 @@ class SongsView(BaseView):
 
         :param Player player: The main player object
         """
-        # iter_to_clean is necessary because of a bug in GtkTreeView
-        # See https://gitlab.gnome.org/GNOME/gtk/issues/503
-        if self._iter_to_clean:
-            self._view.props.model[self._iter_to_clean][9] = False
-
         index = self.player.props.position
         current_coresong = self._playlist_model[index]
         for idx, liststore in enumerate(self._view.props.model):
@@ -234,9 +228,6 @@ class SongsView(BaseView):
         path = self._view.props.model.get_path(iter_)
         self._view.props.model[iter_][9] = True
         self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
-
-        if self._view.props.model[iter_][0] != self._error_icon_name:
-            self._iter_to_clean = iter_.copy()
 
         return False
 
