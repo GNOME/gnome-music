@@ -1,3 +1,30 @@
+Overview of changes in 3.33.4
+=============================
+
+This release contains a rewrite of the core of Music. This work is not yet
+complete, but should be in a usable state. Regressions and known issues are
+kept track of in #299. Further reports are welcome.
+
+Some other things were worked on as well:
+* Support gapless playback
+* MPRIS support rewrite
+* Playlists rewrite
+
+Thanks to our contributors this release:
+ Georgers Basile Stavracas Neto
+ Jean Felder
+ Jesus Bermudez Velazquez
+ Marinus Schraal
+
+Translations updated:
+ Hungarian
+ Greek
+ Dutch
+ Croatian
+ Swedish
+ Slovenian
+ Icelandic
+
 Overview of changes in 3.33.2
 =============================
 

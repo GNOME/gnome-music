@@ -1,5 +1,5 @@
 project('gnome-music',
-    version: '3.33.2',
+    version: '3.33.4',
     meson_version: '>= 0.46.0'
 )
 
@@ -46,7 +46,7 @@ dependency('tracker-sparql-2.0', version: '>= 1.99.1')
 dependency('pygobject-3.0', version: '>= 3.29.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.8')
-dependency('grilo-plugins-0.3', version: '>= 0.3.8')
+dependency('grilo-plugins-0.3', version: '>= 0.3.9')
 
 subproject('libgd',
     default_options: [
