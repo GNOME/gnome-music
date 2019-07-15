@@ -112,6 +112,8 @@ class PlaylistsView(BaseView):
 
         self._loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
+        self._coremodel.connect(
+            "activate-playlist", self._on_playlist_activation_request)
 
         self.show_all()
 
@@ -218,6 +220,42 @@ class PlaylistsView(BaseView):
 
         self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
         self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
+
+    def _on_playlist_activation_request(self, klass, playlist):
+        """Selects and starts playing a playlist.
+
+        If the view has not been populated yet, populate it and then
+        select the requested playlist. Otherwise, directly select the
+        requested playlist and start playing.
+
+        :param CoreModel klass: Main CorexModel
+        :param Playlist playlist: requested playlist
+        """
+        def _on_playlist_loaded(playlist):
+            playlist.disconnect(playlist_ready_id)
+            self._song_activated(None)
+
+        playlist_row = None
+        for row in self._sidebar:
+            if row.props.playlist == playlist:
+                playlist_row = row
+                break
+
+        if not playlist_row:
+            return
+
+        selection = self._sidebar.get_selected_row()
+        if selection.get_index() == playlist_row.get_index():
+            self._song_activated(None)
+            return
+
+        self._sidebar.select_row(row)
+        row.emit('activate')
+        if playlist.props.model.get_n_items() > 0:
+            self._song_activated(None)
+        else:
+            playlist_ready_id = playlist.connect(
+                "playlist-loaded", _on_playlist_loaded)
 
     def _create_song_widget(self, coresong, playlist):
         can_dnd = not playlist.props.is_smart
