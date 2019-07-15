@@ -21,7 +21,6 @@ gnomemusic/grilowrappers/grltrackerplaylist.py
 gnomemusic/gstplayer.py
 gnomemusic/inhibitsuspend.py
 gnomemusic/mpris.py
-gnomemusic/query.py
 gnomemusic/utils.py
 gnomemusic/views/albumsview.py
 gnomemusic/views/artistsview.py
