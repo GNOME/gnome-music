@@ -96,11 +96,11 @@ class CoverStack(Gtk.Stack):
         self._loading_cover.props.surface = icon
 
     @log
-    def update(self, media):
-        """Update the stack with the given media
+    def update(self, coresong):
+        """Update the stack with the given CoreSong
 
-        Update the stack with the art retrieved from the given media.
-        :param Grl.Media media: The media object
+        Update the stack with the art retrieved from the given Coresong.
+        :param CoreSong coresong: The CoreSong object
         """
         if self._handler_id and self._art:
             # Remove a possible dangling 'finished' callback if update
@@ -113,7 +113,7 @@ class CoverStack(Gtk.Stack):
 
         self._active_child = self.props.visible_child_name
 
-        self._art = Art(self.props.size, media, self.props.scale_factor)
+        self._art = Art(self.props.size, coresong, self.props.scale_factor)
         self._handler_id = self._art.connect('finished', self._art_retrieved)
         self._art.lookup()
 

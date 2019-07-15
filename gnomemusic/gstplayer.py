@@ -54,6 +54,7 @@ class GstPlayer(GObject.GObject):
         "about-to-finish": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "clock-tick": (GObject.SignalFlags.RUN_FIRST, None, (int, )),
         'eos': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "error": (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
         "stream-start": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
@@ -196,7 +197,7 @@ class GstPlayer(GObject.GObject):
                 message.src.get_name(), error.message))
         logger.warning("Debugging info:\n{}".format(debug))
 
-        self.emit('eos')
+        self.emit("error")
         return True
 
     @log

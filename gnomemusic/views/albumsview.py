@@ -26,12 +26,10 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
-import gnomemusic.utils as utils
 
 
 class AlbumsView(BaseView):
@@ -43,16 +41,14 @@ class AlbumsView(BaseView):
 
     @log
     def __init__(self, window, player):
+        self._window = window
         super().__init__('albums', _("Albums"), window)
 
         self.player = player
-
-        self._album_widget = AlbumWidget(player)
+        self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
-        self._album_widget.bind_property(
-            "selected-items-count", self, "selected-items-count")
 
         self.add(self._album_widget)
         self.albums_selected = []
@@ -64,18 +60,10 @@ class AlbumsView(BaseView):
             "notify::search-mode-active", self._on_search_mode_changed)
 
     @log
-    def _on_changes_pending(self, data=None):
-        if (self._init and not self.props.selection_mode):
-            self._offset = 0
-            self._populate()
-            grilo.changes_pending['Albums'] = False
-
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
-        if (not self.props.selection_mode
-                and grilo.changes_pending['Albums']):
+        if not self.props.selection_mode:
             self._on_changes_pending()
 
     @log
@@ -91,7 +79,7 @@ class AlbumsView(BaseView):
             homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
             valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
             margin=18, row_spacing=12, column_spacing=6,
-            min_children_per_line=1, max_children_per_line=20)
+            min_children_per_line=1, max_children_per_line=20, visible=True)
 
         self._view.get_style_context().add_class('content-view')
         self._view.connect('child-activated', self._on_child_activated)
@@ -102,6 +90,29 @@ class AlbumsView(BaseView):
 
         self._box.add(scrolledwin)
 
+        self._model = self._window._app.props.coremodel.props.albums_sort
+        self._view.bind_model(self._model, self._create_widget)
+
+        self._view.show()
+
+    @log
+    def _create_widget(self, corealbum):
+        album_widget = AlbumCover(corealbum)
+
+        self.bind_property(
+            "selection-mode", album_widget, "selection-mode",
+            GObject.BindingFlags.SYNC_CREATE
+            | GObject.BindingFlags.BIDIRECTIONAL)
+
+        # NOTE: Adding SYNC_CREATE here will trigger all the nested
+        # models to be created. This will slow down initial start,
+        # but will improve initial 'selecte all' speed.
+        album_widget.bind_property(
+            "selected", corealbum, "selected",
+            GObject.BindingFlags.BIDIRECTIONAL)
+
+        return album_widget
+
     @log
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
@@ -109,109 +120,40 @@ class AlbumsView(BaseView):
 
     @log
     def _on_child_activated(self, widget, child, user_data=None):
+        corealbum = child.props.corealbum
         if self.props.selection_mode:
             return
 
-        item = child.props.media
         # Update and display the album widget if not in selection mode
-        self._album_widget.update(item)
+        self._album_widget.update(corealbum)
 
-        self._set_album_headerbar(item)
+        self._set_album_headerbar(corealbum)
         self.set_visible_child(self._album_widget)
 
     @log
-    def _set_album_headerbar(self, album):
+    def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = utils.get_album_title(album)
-        self._headerbar.props.subtitle = utils.get_artist_name(album)
+        self._headerbar.props.title = corealbum.props.title
+        self._headerbar.props.subtitle = corealbum.props.artist
 
     @log
     def _populate(self, data=None):
-        self._window.notifications_popup.push_loading()
-        grilo.populate_albums(self._offset, self._add_item)
+        # self._window.notifications_popup.push_loading()
         self._init = True
-
-    @log
-    def get_selected_songs(self, callback):
-        # FIXME: we call into private objects with full knowledge of
-        # what is there
-        if self._headerbar.props.state == HeaderBar.State.CHILD:
-            callback(self._album_widget._disc_listbox.get_selected_items())
-        else:
-            self.items_selected = []
-            self.items_selected_callback = callback
-            self.albums_index = 0
-            if len(self.albums_selected):
-                self._get_selected_album_songs()
-
-    @log
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            # Store all items to optimize 'Select All' action
-            self.all_items.append(item)
-
-            # Add to the flowbox
-            child = self._create_album_item(item)
-            self._view.add(child)
-            self._offset += 1
-        elif remaining == 0:
-            self._view.show()
-            self._window.notifications_popup.pop_loading()
-            self._init = False
-
-    def _create_album_item(self, item):
-        child = AlbumCover(item)
-
-        child.connect('notify::selected', self._on_selection_changed)
-
-        self.bind_property(
-            'selection-mode', child, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL)
-
-        return child
-
-    @log
-    def _on_selection_changed(self, child, data=None):
-        if (child.props.selected
-                and child.props.media not in self.albums_selected):
-            self.albums_selected.append(child.props.media)
-        elif (not child.props.selected
-                and child.props.media in self.albums_selected):
-            self.albums_selected.remove(child.props.media)
-
-        self.props.selected_items_count = len(self.albums_selected)
-
-    @log
-    def _get_selected_album_songs(self):
-        grilo.populate_album_songs(
-            self.albums_selected[self.albums_index],
-            self._add_selected_item)
-        self.albums_index += 1
-
-    @log
-    def _add_selected_item(self, source, param, item, remaining=0, data=None):
-        if item:
-            self.items_selected.append(item)
-        if remaining == 0:
-            if self.albums_index < self.props.selected_items_count:
-                self._get_selected_album_songs()
-            else:
-                self.items_selected_callback(self.items_selected)
+        self._view.show()
 
     def _toggle_all_selection(self, selected):
         """
         Selects or unselects all items without sending the notify::active
         signal for performance purposes.
         """
-        for child in self._view.get_children():
-            child.props.selected = selected
+        with self._window._app.props.coreselection.freeze_notify():
+            for child in self._view.get_children():
+                child.props.selected = selected
+                child.props.corealbum.props.selected = selected
 
-    @log
     def select_all(self):
-        self.albums_selected = list(self.all_items)
         self._toggle_all_selection(True)
 
-    @log
     def unselect_all(self):
-        self.albums_selected = []
         self._toggle_all_selection(False)

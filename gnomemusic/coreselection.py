@@ -1,4 +1,4 @@
-# Copyright 2019 The GNOME Music Developers
+# Copyright 2019 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,35 +22,29 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
-
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gi.repository import GObject
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialogRow.ui")
-class PlaylistDialogRow(Gtk.ListBoxRow):
+class CoreSelection(GObject.GObject):
 
-    __gtype_name__ = "PlaylistDialogRow"
+    selected_items_count = GObject.Property(type=int, default=0)
 
-    playlist = GObject.Property(type=Playlist, default=None)
-    selected = GObject.Property(type=bool, default=False)
-
-    _label = Gtk.Template.Child()
-    _selection_icon = Gtk.Template.Child()
-
-    def __repr__(self):
-        return "PlaylistDialogRow"
-
-    def __init__(self, playlist):
-        """Create a row of the PlaylistDialog
-
-        :param Playlist playlist: the associated playlist
-        """
+    def __init__(self):
         super().__init__()
 
-        self.props.playlist = playlist
-        self._label.props.label = playlist.props.title
+        self._selected_items = []
 
-        self.bind_property(
-            "selected", self._selection_icon, "visible",
-            GObject.BindingFlags.SYNC_CREATE)
+    def update_selection(self, coresong, value):
+        if coresong.props.selected:
+            self.props.selected_items.append(coresong)
+        else:
+            try:
+                self.props.selected_items.remove(coresong)
+            except ValueError:
+                pass
+
+        self.props.selected_items_count = len(self.props.selected_items)
+
+    @GObject.Property
+    def selected_items(self):
+        return self._selected_items

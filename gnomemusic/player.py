@@ -22,29 +22,24 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from collections import defaultdict
 from enum import IntEnum
-from itertools import chain
-from random import shuffle, randrange
+from random import randint, randrange
 import logging
 import time
 
 import gi
-gi.require_version('Grl', '0.3')
-gi.require_version('Gst', '1.0')
-gi.require_version('GstAudio', '1.0')
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GObject, Grl, GstPbutils
+from gi.repository import GObject, GstPbutils
+from gi._gi import pygobject_new_full
 
 from gnomemusic import log
+from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists
 from gnomemusic.scrobbler import LastFmScrobbler
+from gnomemusic.widgets.songwidget import SongWidget
 
 
 logger = logging.getLogger(__name__)
-playlists = Playlists.get_default()
 
 
 class RepeatMode(IntEnum):
@@ -53,14 +48,6 @@ class RepeatMode(IntEnum):
     SONG = 1
     ALL = 2
     SHUFFLE = 3
-
-
-class ValidationStatus(IntEnum):
-    """Enum for song validation"""
-    PENDING = 0
-    IN_PROGRESS = 1
-    FAILED = 2
-    SUCCEEDED = 3
 
 
 class PlayerField(IntEnum):
@@ -84,122 +71,31 @@ class PlayerPlaylist(GObject.GObject):
         PLAYLIST = 3
         SEARCH_RESULT = 4
 
-    __gsignals__ = {
-        'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
-    }
-
-    _nb_songs_max = 10
-
     repeat_mode = GObject.Property(type=int, default=RepeatMode.NONE)
 
     def __repr__(self):
         return '<PlayerPlayList>'
 
     @log
-    def __init__(self):
+    def __init__(self, application):
         super().__init__()
 
         GstPbutils.pb_utils_init()
 
-        self._songs = []
-        self._shuffle_indexes = []
-        self._current_index = 0
+        self._app = application
+        self._position = 0
 
         self._type = -1
         self._id = -1
 
-        self._validation_indexes = None
+        self._validation_songs = {}
         self._discoverer = GstPbutils.Discoverer()
-        self._discoverer.connect('discovered', self._on_discovered)
+        self._discoverer.connect("discovered", self._on_discovered)
         self._discoverer.start()
 
+        self._model = self._app.props.coremodel.props.playlist_sort
+
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
-
-    @log
-    def set_playlist(self, playlist_type, playlist_id, model, model_iter=None):
-        """Set a new playlist or change the song being played
-
-        If no song is requested (through model_iter), a song will be
-        automatically selected:
-        * the first song in a linear mode
-        * a random song in shuffle mode
-
-        :param PlayerPlaylist.Type playlist_type: playlist type
-        :param string playlist_id: unique identifer to recognize the playlist
-        :param GtkListStore model: list of songs to play
-        :param GtkTreeIter model_iter: requested song
-
-        :return: True if the playlist has been updated. False otherwise
-        :rtype: bool
-        """
-        if not model_iter:
-            if self.props.repeat_mode == RepeatMode.SHUFFLE:
-                index = randrange(len(model))
-                model_iter = model.get_iter_from_string(str(index))
-            else:
-                model_iter = model.get_iter_first()
-
-        path = model.get_path(model_iter)
-        self._current_index = int(path.to_string())
-
-        # Playlist is the same. Check that the requested song is valid.
-        # If not, try to get the next valid one
-        if (playlist_type == self._type
-                and playlist_id == self._id):
-            if not self._current_song_is_valid():
-                self.next()
-            else:
-                self._validate_song(self._current_index)
-                self._validate_next_song()
-            return False
-
-        self._validation_indexes = defaultdict(list)
-        self._type = playlist_type
-        self._id = playlist_id
-
-        self._songs = []
-        for row in model:
-            self._songs.append([row[5], row[11]])
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            self._shuffle_indexes = list(range(len(self._songs)))
-            shuffle(self._shuffle_indexes)
-            self._shuffle_indexes.remove(self._current_index)
-            self._shuffle_indexes.insert(0, self._current_index)
-
-        # If the playlist has already been played, check that the requested
-        # song is valid. If it has never been played, validate the current
-        # song and the next song to display an error icon on failure.
-        if not self._current_song_is_valid():
-            self.next()
-        else:
-            self._validate_song(self._current_index)
-            self._validate_next_song()
-        return True
-
-    @log
-    def set_song(self, song_offset):
-        """Change playlist index.
-
-        :param int song_offset: position relative to current song
-        :return: True if the index has changed. False otherwise.
-        :rtype: bool
-        """
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            shuffle = self._shuffle_indexes.index(self._current_index)
-            self._current_index = self._shuffle_indexes[shuffle + song_offset]
-            return True
-
-        song_index = song_offset + self._current_index
-        if self.props.repeat_mode == RepeatMode.ALL:
-            song_index = song_index % len(self._songs)
-
-        if(song_index >= len(self._songs)
-           or song_index < 0):
-            return False
-
-        self._current_index = song_index
-        return True
 
     @log
     def change_position(self, prev_pos, new_pos):
@@ -210,33 +106,7 @@ class PlayerPlaylist(GObject.GObject):
         :return: new index of the song being played. -1 if unchanged
         :rtype: int
         """
-        current_item = self._songs[self._current_index]
-        current_song_id = current_item[PlayerField.SONG].get_id()
-        changed_song = self._songs.pop(prev_pos)
-        self._songs.insert(new_pos, changed_song)
-
-        # Update current_index if necessary.
-        return_index = -1
-        first_pos = min(prev_pos, new_pos)
-        last_pos = max(prev_pos, new_pos)
-        if (self._current_index >= first_pos
-                and self._current_index <= last_pos):
-            for index, item in enumerate(self._songs[first_pos:last_pos + 1]):
-                if item[PlayerField.SONG].get_id() == current_song_id:
-                    self._current_index = first_pos + index
-                    return_index = self._current_index
-                    break
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            index_l = self._shuffle_indexes.index(last_pos)
-            self._shuffle_indexes.pop(index_l)
-            self._shuffle_indexes = [
-                index + 1 if (index < last_pos and index >= first_pos)
-                else index
-                for index in self._shuffle_indexes]
-            self._shuffle_indexes.insert(index_l, first_pos)
-
-        return return_index
+        pass
 
     @log
     def add_song(self, song, song_index):
@@ -245,19 +115,7 @@ class PlayerPlaylist(GObject.GObject):
         :param Grl.Media song: new song
         :param int song_index: song position
         """
-        item = [song, ValidationStatus.PENDING]
-        self._songs.insert(song_index, item)
-        if song_index <= self._current_index:
-            self._current_index += 1
-
-        self._validate_song(song_index)
-
-        # In the shuffle case, insert song at a random position which
-        # has not been played yet.
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._current_index)
-            new_song_index = randrange(index, len(self._shuffle_indexes))
-            self._shuffle_indexes.insert(new_song_index, song_index)
+        pass
 
     @log
     def remove_song(self, song_index):
@@ -265,102 +123,7 @@ class PlayerPlaylist(GObject.GObject):
 
         :param int song_index: index of the song to remove
         """
-        self._songs.pop(song_index)
-        if song_index < self._current_index:
-            self._current_index -= 1
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            self._shuffle_indexes.remove(song_index)
-            self._shuffle_indexes = [
-                index - 1 if index > song_index else index
-                for index in self._shuffle_indexes]
-
-    @log
-    def _on_discovered(self, discoverer, info, error):
-        url = info.get_uri()
-        field = PlayerField.VALIDATION
-        index = self._validation_indexes[url].pop(0)
-        if not self._validation_indexes[url]:
-            self._validation_indexes.pop(url)
-
-        if error:
-            logger.warning("Info {}: error: {}".format(info, error))
-            self._songs[index][field] = ValidationStatus.FAILED
-        else:
-            self._songs[index][field] = ValidationStatus.SUCCEEDED
-        self.emit('song-validated', index, self._songs[index][field])
-
-    @log
-    def _validate_song(self, index):
-        item = self._songs[index]
-        # Song is being processed or has already been processed.
-        # Nothing to do.
-        if item[PlayerField.VALIDATION] > ValidationStatus.PENDING:
-            return
-
-        song = item[PlayerField.SONG]
-        url = song.get_url()
-        if not url:
-            logger.warning("The item {} doesn't have a URL set.".format(song))
-            return
-        if not url.startswith("file://"):
-            logger.debug(
-                "Skipping validation of {} as not a local file".format(url))
-            return
-
-        item[PlayerField.VALIDATION] = ValidationStatus.IN_PROGRESS
-        self._validation_indexes[url].append(index)
-        self._discoverer.discover_uri_async(url)
-
-    @log
-    def _get_next_index(self):
-        if not self.has_next():
-            return -1
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return self._current_index
-        if (self.props.repeat_mode == RepeatMode.ALL
-                and self._current_index == (len(self._songs) - 1)):
-            return 0
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            index = self._shuffle_indexes.index(self._current_index)
-            return self._shuffle_indexes[index + 1]
-        else:
-            return self._current_index + 1
-
-    @log
-    def _get_previous_index(self):
-        if not self.has_previous():
-            return -1
-
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return self._current_index
-        if (self.props.repeat_mode == RepeatMode.ALL
-                and self._current_index == 0):
-            return len(self._songs) - 1
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            shuffle_index = self._shuffle_indexes.index(self._current_index)
-            return self._shuffle_indexes[shuffle_index - 1]
-        else:
-            return self._current_index - 1
-
-    @log
-    def _validate_next_song(self):
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return
-
-        next_index = self._get_next_index()
-        if next_index >= 0:
-            self._validate_song(next_index)
-
-    @log
-    def _validate_previous_song(self):
-        if self.props.repeat_mode == RepeatMode.SONG:
-            return
-
-        previous_index = self._get_previous_index()
-        if previous_index >= 0:
-            self._validate_song(previous_index)
+        pass
 
     @log
     def has_next(self):
@@ -369,13 +132,12 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self.props.repeat_mode == RepeatMode.SHUFFLE
-                and self._shuffle_indexes):
-            index = self._shuffle_indexes.index(self._current_index)
-            return index < (len(self._shuffle_indexes) - 1)
-        if self.props.repeat_mode != RepeatMode.NONE:
+        if (self.props.repeat_mode == RepeatMode.SONG
+                or self.props.repeat_mode == RepeatMode.ALL
+                or self.props.position < self._model.get_n_items() - 1):
             return True
-        return self._current_index < (len(self._songs) - 1)
+
+        return False
 
     @log
     def has_previous(self):
@@ -384,13 +146,13 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if there is a song. False otherwise.
         :rtype: bool
         """
-        if (self.props.repeat_mode == RepeatMode.SHUFFLE
-                and self._shuffle_indexes):
-            index = self._shuffle_indexes.index(self._current_index)
-            return index > 0
-        if self.props.repeat_mode != RepeatMode.NONE:
+        if (self.props.repeat_mode == RepeatMode.SONG
+                or self.props.repeat_mode == RepeatMode.ALL
+                or (self.props.position <= self._model.get_n_items() - 1
+                    and self.props.position > 0)):
             return True
-        return self._current_index > 0
+
+        return False
 
     @log
     def next(self):
@@ -399,15 +161,27 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the operation succeeded. False otherwise.
         :rtype: bool
         """
-        next_index = self._get_next_index()
-        if next_index >= 0:
-            self._current_index = next_index
-            if self._current_song_is_valid():
-                self._validate_next_song()
-                return True
-            else:
-                return self.next()
-        return False
+        if not self.has_next():
+            return False
+
+        if self.props.repeat_mode == RepeatMode.SONG:
+            next_position = self.props.position
+        elif (self.props.repeat_mode == RepeatMode.ALL
+                and self.props.position == self._model.get_n_items() - 1):
+            next_position = 0
+        else:
+            next_position = self.props.position + 1
+
+        self._model[self.props.position].props.state = SongWidget.State.PLAYED
+        self._position = next_position
+
+        next_song = self._model[next_position]
+        if next_song.props.validation == CoreSong.Validation.FAILED:
+            return self.next()
+
+        next_song.props.state = SongWidget.State.PLAYING
+        self._validate_next_song()
+        return True
 
     @log
     def previous(self):
@@ -416,54 +190,167 @@ class PlayerPlaylist(GObject.GObject):
         :return: True if the operation succeeded. False otherwise.
         :rtype: bool
         """
-        previous_index = self._get_previous_index()
-        if previous_index >= 0:
-            self._current_index = previous_index
-            if self._current_song_is_valid():
-                self._validate_previous_song()
-                return True
-            else:
-                return self.previous()
-        return False
+        if not self.has_previous():
+            return False
+
+        if self.props.repeat_mode == RepeatMode.SONG:
+            previous_position = self.props.position
+        elif (self.props.repeat_mode == RepeatMode.ALL
+                and self.props.position == 0):
+            previous_position = self._model.get_n_items() - 1
+        else:
+            previous_position = self.props.position - 1
+
+        self._model[self.props.position].props.state = SongWidget.State.PLAYED
+        self._position = previous_position
+
+        previous_song = self._model[previous_position]
+        if previous_song.props.validation == CoreSong.Validation.FAILED:
+            return self.previous()
+
+        self._model[previous_position].props.state = SongWidget.State.PLAYING
+        self._validate_previous_song()
+        return True
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
-    def current_song_index(self):
+    def position(self):
         """Gets current song index.
 
         :returns: position of the current song in the playlist.
         :rtype: int
         """
-        return self._current_index
+        return self._position
 
     @GObject.Property(
-        type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
+        type=CoreSong, default=None, flags=GObject.ParamFlags.READABLE)
     def current_song(self):
         """Get current song.
 
         :returns: the song being played or None if there are no songs
-        :rtype: Grl.Media
+        :rtype: CoreSong
         """
-        if self._songs:
-            return self._songs[self._current_index][PlayerField.SONG]
+        n_items = self._model.get_n_items()
+        if (n_items != 0
+                and n_items > self._position):
+            current_song = self._model[self._position]
+            if current_song.props.state == SongWidget.State.PLAYING:
+                return current_song
+
+        for idx, coresong in enumerate(self._model):
+            if coresong.props.state == SongWidget.State.PLAYING:
+                print("position", idx)
+                self._position = idx
+                return coresong
+
         return None
 
-    def _current_song_is_valid(self):
-        """Check if current song can be played.
+    def set_song(self, song):
+        """Sets current song.
 
-        :returns: False if validation failed
-        :rtype: bool
+        If no song is provided, a song is automatically selected.
+
+        :param CoreSong song: song to set
+        :returns: The selected song
+        :rtype: CoreSong
         """
-        current_item = self._songs[self._current_index]
-        return current_item[PlayerField.VALIDATION] != ValidationStatus.FAILED
+        if song is None:
+            if self.props.repeat_mode == RepeatMode.SHUFFLE:
+                position = randrange(0, self._model.get_n_items())
+            else:
+                position = 0
+            song = self._model.get_item(position)
+            song.props.state = SongWidget.State.PLAYING
+            self._position = position
+            self._validate_song(song)
+            self._validate_next_song()
+            return song
+
+        for idx, coresong in enumerate(self._model):
+            if coresong == song:
+                coresong.props.state = SongWidget.State.PLAYING
+                self._position = idx
+                self._validate_song(song)
+                self._validate_next_song()
+                return song
+
+        return None
 
     @log
     def _on_repeat_mode_changed(self, klass, param):
-        if (self.props.repeat_mode == RepeatMode.SHUFFLE
-                and self._songs):
-            self._shuffle_indexes = list(range(len(self._songs)))
-            shuffle(self._shuffle_indexes)
-            self._shuffle_indexes.remove(self._current_index)
-            self._shuffle_indexes.insert(0, self._current_index)
+
+        def _wrap_list_store_sort_func(func):
+            def wrap(a, b, *user_data):
+                a = pygobject_new_full(a, False)
+                b = pygobject_new_full(b, False)
+                return func(a, b, *user_data)
+
+            return wrap
+
+        # FIXME: This shuffle is too simple.
+        def _shuffle_sort(song_a, song_b):
+            return randint(-1, 1)
+
+        if self.props.repeat_mode == RepeatMode.SHUFFLE:
+            self._model.set_sort_func(
+                _wrap_list_store_sort_func(_shuffle_sort))
+        elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
+            self._model.set_sort_func(None)
+
+    def _validate_song(self, coresong):
+        # Song is being processed or has already been processed.
+        # Nothing to do.
+        if coresong.props.validation > CoreSong.Validation.PENDING:
+            return
+
+        url = coresong.props.url
+        if not url:
+            logger.warning(
+                "The item {} doesn't have a URL set.".format(coresong))
+            return
+        if not url.startswith("file://"):
+            logger.debug(
+                "Skipping validation of {} as not a local file".format(url))
+            return
+
+        coresong.props.validation = CoreSong.Validation.IN_PROGRESS
+        self._validation_songs[url] = coresong
+        self._discoverer.discover_uri_async(url)
+
+    def _validate_next_song(self):
+        if self.props.repeat_mode == RepeatMode.SONG:
+            return
+
+        current_position = self.props.position
+        next_position = current_position + 1
+        if next_position == self._model.get_n_items():
+            if self.props.repeat_mode != RepeatMode.ALL:
+                return
+            next_position = 0
+
+        self._validate_song(self._model[next_position])
+
+    def _validate_previous_song(self):
+        if self.props.repeat_mode == RepeatMode.SONG:
+            return
+
+        current_position = self.props.position
+        previous_position = current_position - 1
+        if previous_position < 0:
+            if self.props.repeat_mode != RepeatMode.ALL:
+                return
+            previous_position = self._model.get_n_items() - 1
+
+        self._validate_song(self._model[previous_position])
+
+    def _on_discovered(self, discoverer, info, error):
+        url = info.get_uri()
+        coresong = self._validation_songs[url]
+
+        if error:
+            logger.warning("Info {}: error: {}".format(info, error))
+            coresong.props.validation = CoreSong.Validation.FAILED
+        else:
+            coresong.props.validation = CoreSong.Validation.SUCCEEDED
 
     @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
     def playlist_id(self):
@@ -483,57 +370,6 @@ class PlayerPlaylist(GObject.GObject):
         """
         return self._type
 
-    @log
-    def get_mpris_playlist(self):
-        """Get recent and next songs from the current playlist.
-
-        If the playlist is an album, return all songs.
-        Returned songs are sorted according to the repeat mode.
-        This method is used by mpris to expose a TrackList.
-
-        :returns: current playlist
-        :rtype: list of index and Grl.Media
-        """
-        if not self.props.current_song:
-            return []
-
-        songs = []
-        nb_songs = len(self._songs)
-        current_index = self._current_index
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            current_index = self._shuffle_indexes.index(self._current_index)
-
-        index_min = current_index - self._nb_songs_max
-        index_max = current_index + self._nb_songs_max + 1
-        if self._type == PlayerPlaylist.Type.ALBUM:
-            index_min = 0
-            index_max = nb_songs
-
-        first_index = max(index_min, 0)
-        last_index = min(index_max, nb_songs)
-
-        if self.props.repeat_mode == RepeatMode.SHUFFLE:
-            indexes = self._shuffle_indexes[first_index:last_index]
-        else:
-            indexes = range(first_index, last_index)
-
-        if (self.props.repeat_mode == RepeatMode.ALL
-                and (last_index - first_index) < (2 * self._nb_songs_max + 1)):
-            offset_sup = min(
-                self._nb_songs_max - last_index + current_index + 1,
-                first_index)
-            offset_inf = min(
-                self._nb_songs_max - current_index + first_index,
-                nb_songs - last_index)
-
-            indexes = chain(
-                range(nb_songs - offset_inf, nb_songs), indexes,
-                range(offset_sup))
-
-        songs = [[index, self._songs[index][PlayerField.SONG]]
-                 for index in indexes]
-        return songs
-
 
 class Player(GObject.GObject):
     """Main Player object
@@ -544,8 +380,7 @@ class Player(GObject.GObject):
     __gsignals__ = {
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'song-validated': (GObject.SignalFlags.RUN_FIRST, None, (int, int)),
+        'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     state = GObject.Property(type=int, default=Playback.STOPPED)
@@ -562,6 +397,7 @@ class Player(GObject.GObject):
         """
         super().__init__()
 
+        self._app = application
         # In the case of gapless playback, both 'about-to-finish'
         # and 'eos' can occur during the same stream. 'about-to-finish'
         # already sets self._playlist to the next song, so doing it
@@ -570,8 +406,7 @@ class Player(GObject.GObject):
         # needed.
         self._gapless_set = False
 
-        self._playlist = PlayerPlaylist()
-        self._playlist.connect('song-validated', self._on_song_validated)
+        self._playlist = PlayerPlaylist(self._app)
 
         self._settings = application.props.settings
         self._settings.connect(
@@ -588,6 +423,7 @@ class Player(GObject.GObject):
         self._gst_player.connect("about-to-finish", self._on_about_to_finish)
         self._gst_player.connect('clock-tick', self._on_clock_tick)
         self._gst_player.connect('eos', self._on_eos)
+        self._gst_player.connect("error", self._on_error)
         self._gst_player.connect('seek-finished', self._on_seek_finished)
         self._gst_player.connect("stream-start", self._on_stream_start)
         self._gst_player.bind_property(
@@ -628,18 +464,11 @@ class Player(GObject.GObject):
         return self.props.state == Playback.PLAYING
 
     @log
-    def _load(self, song):
-        self._gst_player.props.state = Playback.LOADING
-        self._time_stamp = int(time.time())
-
-        self._gst_player.props.url = song.get_url()
-
-    @log
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
             self._playlist.next()
 
-            new_url = self._playlist.props.current_song.get_url()
+            new_url = self._playlist.props.current_song.props.url
             self._gst_player.props.url = new_url
             self._gapless_set = True
 
@@ -655,32 +484,47 @@ class Player(GObject.GObject):
 
         self._gapless_set = False
 
+    def _on_error(self, klass=None):
+        self.stop()
+        self._gapless_set = False
+
+        current_song = self.props.current_song
+        current_song.props.validation = CoreSong.Validation.FAILED
+        if (self.has_next
+                and self.props.repeat_mode != RepeatMode.SONG):
+            self.next()
+
     def _on_stream_start(self, klass):
         self._gapless_set = False
         self._time_stamp = int(time.time())
 
         self.emit("song-changed")
 
+    def _load(self, coresong):
+        self._gst_player.props.state = Playback.LOADING
+        self._time_stamp = int(time.time())
+        self._gst_player.props.url = coresong.props.url
+
     @log
-    def play(self, song_changed=True, song_offset=None):
+    def play(self, coresong=None):
         """Play a song.
 
         Load a new song or resume playback depending on song_changed
         value. If song_offset is defined, set a new song and play it.
 
         :param bool song_changed: indicate if a new song must be loaded
-        :param int song_offset: position relative to current song
         """
         if self.props.current_song is None:
+            coresong = self._playlist.set_song(coresong)
+
+        if (coresong is not None
+                and coresong.props.validation == CoreSong.Validation.FAILED
+                and self.props.repeat_mode != RepeatMode.SONG):
+            self._on_error()
             return
 
-        if (song_offset is not None
-                and not self._playlist.set_song(song_offset)):
-            return False
-
-        if (song_changed
-                or self._gapless_set):
-            self._load(self._playlist.props.current_song)
+        if coresong is not None:
+            self._load(coresong)
 
         self._gst_player.props.state = Playback.PLAYING
 
@@ -701,7 +545,7 @@ class Player(GObject.GObject):
         Play the next song of the playlist, if any.
         """
         if self._playlist.next():
-            self.play()
+            self.play(self._playlist.props.current_song)
 
     @log
     def previous(self):
@@ -715,7 +559,7 @@ class Player(GObject.GObject):
             return
 
         if self._playlist.previous():
-            self.play()
+            self.play(self._playlist.props.current_song)
 
     @log
     def play_pause(self):
@@ -723,22 +567,7 @@ class Player(GObject.GObject):
         if self.props.state == Playback.PLAYING:
             self.pause()
         else:
-            self.play(False)
-
-    @log
-    def set_playlist(self, playlist_type, playlist_id, model, iter_=None):
-        """Set a new playlist or change the song being played.
-
-        :param PlayerPlaylist.Type playlist_type: playlist type
-        :param string playlist_id: unique identifer to recognize the playlist
-        :param GtkListStore model: list of songs to play
-        :param GtkTreeIter model_iter: requested song
-        """
-        playlist_changed = self._playlist.set_playlist(
-            playlist_type, playlist_id, model, iter_)
-
-        if playlist_changed:
-            self.emit('playlist-changed')
+            self.play()
 
     @log
     def playlist_change_position(self, prev_pos, new_pos):
@@ -760,7 +589,7 @@ class Player(GObject.GObject):
 
         :param int song_index: position of the song to remove
         """
-        if self.props.current_song_index == song_index:
+        if self.props.position == song_index:
             if self.props.has_next:
                 self.next()
             elif self.props.has_previous:
@@ -778,11 +607,6 @@ class Player(GObject.GObject):
         """
         self._playlist.add_song(song, song_index)
         self.emit('playlist-changed')
-
-    @log
-    def _on_song_validated(self, playlist, index, status):
-        self.emit('song-validated', index, status)
-        return True
 
     @log
     def playing_playlist(self, playlist_type, playlist_id):
@@ -826,9 +650,10 @@ class Player(GObject.GObject):
                 # FIXME: we should not need to update smart
                 # playlists here but removing it may introduce
                 # a bug. So, we keep it for the time being.
-                playlists.update_all_smart_playlists()
-                grilo.bump_play_count(current_song)
-                grilo.set_last_played(current_song)
+                # FIXME: Not using Playlist class anymore.
+                # playlists.update_all_smart_playlists()
+                current_song.bump_play_count()
+                current_song.set_last_played()
 
     @log
     def _on_repeat_setting_changed(self, settings, value):
@@ -847,21 +672,21 @@ class Player(GObject.GObject):
         self._settings.set_enum('repeat', mode)
 
     @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
-    def current_song_index(self):
+    def position(self):
         """Gets current song index.
 
         :returns: position of the current song in the playlist.
         :rtype: int
         """
-        return self._playlist.props.current_song_index
+        return self._playlist.props.position
 
     @GObject.Property(
-        type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
+        type=CoreSong, default=None, flags=GObject.ParamFlags.READABLE)
     def current_song(self):
         """Get the current song.
 
-        :returns: the song being played. None if there is no playlist.
-        :rtype: Grl.Media
+        :returns: The song being played. None if there is no playlist.
+        :rtype: CoreSong
         """
         return self._playlist.props.current_song
 
@@ -908,19 +733,6 @@ class Player(GObject.GObject):
         duration_second = self._gst_player.props.duration
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
-
-    @log
-    def get_mpris_playlist(self):
-        """Get recent and next songs from the current playlist.
-
-        If the playlist is an album, return all songs.
-        Returned songs are sorted according to the repeat mode.
-        This method is used by mpris to expose a TrackList.
-
-        :returns: current playlist
-        :rtype: list of index and Grl.Media
-        """
-        return self._playlist.get_mpris_playlist()
 
     @log
     def _on_seek_finished(self, klass):

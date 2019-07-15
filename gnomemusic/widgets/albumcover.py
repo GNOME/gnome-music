@@ -24,11 +24,11 @@
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Gdk, GLib, GObject, Grl, Gtk
+from gi.repository import Gdk, GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic import utils
 from gnomemusic.albumartcache import Art
+from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
@@ -58,7 +58,7 @@ class AlbumCover(Gtk.FlowBoxChild):
         return '<AlbumCover>'
 
     @log
-    def __init__(self, media):
+    def __init__(self, corealbum):
         """Initialize the AlbumCover
 
         :param Grl.Media media: The media object to use
@@ -67,15 +67,15 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         AlbumCover._nr_albums += 1
 
-        self._media = media
+        self._corealbum = corealbum
 
         self._tooltip = TwoLineTip()
 
-        artist = utils.get_artist_name(media)
-        title = utils.get_media_title(media)
+        artist = self._corealbum.props.artist
+        title = self._corealbum.props.title
 
-        self._tooltip.props.title = utils.get_artist_name(media)
-        self._tooltip.props.subtitle = utils.get_media_title(media)
+        self._tooltip.props.title = artist
+        self._tooltip.props.subtitle = title
 
         self._artist_label.props.label = artist
         self._title_label.props.label = title
@@ -102,17 +102,17 @@ class AlbumCover(Gtk.FlowBoxChild):
         # reasonably responsive view while loading the actual
         # covers.
         GLib.timeout_add(
-            50 * self._nr_albums, self._cover_stack.update, media,
+            50 * self._nr_albums, self._cover_stack.update, self._corealbum,
             priority=GLib.PRIORITY_LOW)
 
-    @GObject.Property(type=Grl.Media, flags=GObject.ParamFlags.READABLE)
-    def media(self):
-        """Media item used in AlbumCover
+    @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
+    def corealbum(self):
+        """CoreAlbum object used in AlbumCover
 
-        :returns: The media used
-        :rtype: Grl.Media
+        :returns: The album used
+        :rtype: CoreAlbum
         """
-        return self._media
+        return self._corealbum
 
     @Gtk.Template.Callback()
     @log
