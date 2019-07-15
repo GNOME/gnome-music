@@ -362,7 +362,7 @@ class CoreModel(GObject.GObject):
     def albums(self):
         return self._album_model
 
-    @GObject.property(
+    @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def artists(self):
         return self._artist_model
@@ -378,7 +378,7 @@ class CoreModel(GObject.GObject):
     def albums_sort(self):
         return self._album_model_sort
 
-    @GObject.property(
+    @GObject.Property(
         type=Gfm.SortListModel, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_sort(self):
@@ -408,7 +408,7 @@ class CoreModel(GObject.GObject):
     def albums_search(self):
         return self._album_search_model
 
-    @GObject.property(
+    @GObject.Property(
         type=Dazzle.ListModelFilter, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search(self):

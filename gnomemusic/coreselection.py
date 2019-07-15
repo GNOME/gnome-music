@@ -45,6 +45,6 @@ class CoreSelection(GObject.GObject):
 
         self.props.selected_items_count = len(self.props.selected_items)
 
-    @GObject.property
+    @GObject.Property
     def selected_items(self):
         return self._selected_items
