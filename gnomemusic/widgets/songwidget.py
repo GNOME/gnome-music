@@ -32,7 +32,6 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
-from gnomemusic.playlists import Playlists
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
@@ -61,8 +60,6 @@ class SongWidget(Gtk.EventBox):
     show_duration = GObject.Property(type=bool, default=True)
     show_favorite = GObject.Property(type=bool, default=True)
     show_song_number = GObject.Property(type=bool, default=True)
-
-    _playlists = Playlists.get_default()
 
     _album_label = Gtk.Template.Child()
     _album_duration_box = Gtk.Template.Child()
@@ -222,10 +219,6 @@ class SongWidget(Gtk.EventBox):
 
         favorite = not self._star_image.favorite
         self._star_image.props.favorite = favorite
-
-        # TODO: Rework and stop updating widgets from here directly.
-        # favorite_playlist = self._playlists.get_smart_playlist("Favorites")
-        # self._playlists.update_smart_playlist(favorite_playlist)
 
         return True
 
