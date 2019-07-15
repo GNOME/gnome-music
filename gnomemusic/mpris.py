@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from itertools import chain
 import logging
 import re
 
@@ -31,8 +32,6 @@ from gnomemusic import log
 from gnomemusic.albumartcache import lookup_art_file_from_cache
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
-from gnomemusic.playlists import Playlists
-import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
 
@@ -272,6 +271,8 @@ class MPRIS(DBusInterface):
     MEDIA_PLAYER2_TRACKLIST_IFACE = 'org.mpris.MediaPlayer2.TrackList'
     MEDIA_PLAYER2_PLAYLISTS_IFACE = 'org.mpris.MediaPlayer2.Playlists'
 
+    _playlist_nb_songs = 10
+
     def __repr__(self):
         return "<MPRIS>"
 
@@ -291,10 +292,12 @@ class MPRIS(DBusInterface):
         self._player.connect(
             'playlist-changed', self._on_player_playlist_changed)
 
-        self._playlists = Playlists.get_default()
-        self._playlists_model = None
-        self._playlists.connect('playlist-renamed', self._on_playlist_renamed)
-        self._playlists.connect("notify::ready", self._on_playlists_loading)
+        self._coremodel = app.props.coremodel
+        self._player_model = self._coremodel.props.playlist_sort
+
+        self._playlists_model = self._coremodel.props.playlists_sort
+        self._playlists_loaded_id = self._coremodel.connect(
+            "playlists-loaded", self._on_playlists_loaded)
 
         self._player_previous_type = None
         self._path_list = []
@@ -306,6 +309,7 @@ class MPRIS(DBusInterface):
         self._previous_loop_status = ""
         self._previous_mpris_playlist = self._get_active_playlist()
         self._previous_playback_status = "Stopped"
+        self._previous_playlist_count = 0
 
     @log
     def _get_playback_status(self):
@@ -327,42 +331,42 @@ class MPRIS(DBusInterface):
             return 'Playlist'
 
     @log
-    def _get_metadata(self, media=None, index=None):
-        song_dbus_path = self._get_song_dbus_path(media, index)
+    def _get_metadata(self, coresong=None, index=None):
+        song_dbus_path = self._get_song_dbus_path(coresong, index)
         if not self._player.props.current_song:
             return {
                 'mpris:trackid': GLib.Variant('o', song_dbus_path)
             }
 
-        if not media:
-            media = self._player.props.current_song
+        if not coresong:
+            coresong = self._player.props.current_song
 
-        length = media.get_duration() * 1e6
-        user_rating = 1.0 if media.get_favourite() else 0.0
-        artist = utils.get_artist_name(media)
+        length = coresong.props.duration * 1e6
+        user_rating = 1.0 if coresong.props.favorite else 0.0
+        artist = coresong.props.artist
 
         metadata = {
             'mpris:trackid': GLib.Variant('o', song_dbus_path),
-            'xesam:url': GLib.Variant('s', media.get_url()),
+            'xesam:url': GLib.Variant('s', coresong.props.url),
             'mpris:length': GLib.Variant('x', length),
-            'xesam:useCount': GLib.Variant('i', media.get_play_count()),
+            'xesam:useCount': GLib.Variant('i', coresong.props.play_count),
             'xesam:userRating': GLib.Variant('d', user_rating),
-            'xesam:title': GLib.Variant('s', utils.get_media_title(media)),
-            'xesam:album': GLib.Variant('s', utils.get_album_title(media)),
+            'xesam:title': GLib.Variant('s', coresong.props.title),
+            'xesam:album': GLib.Variant('s', coresong.props.album),
             'xesam:artist': GLib.Variant('as', [artist]),
             'xesam:albumArtist': GLib.Variant('as', [artist])
         }
 
-        genre = media.get_genre()
+        genre = coresong.props.media.get_genre()
         if genre is not None:
             metadata['xesam:genre'] = GLib.Variant('as', [genre])
 
-        last_played = media.get_last_played()
+        last_played = coresong.props.media.get_last_played()
         if last_played is not None:
             last_played_str = last_played.format("%FT%T%:z")
             metadata['xesam:lastUsed'] = GLib.Variant('s', last_played_str)
 
-        track_nr = media.get_track_number()
+        track_nr = coresong.props.track_number
         if track_nr > 0:
             metadata['xesam:trackNumber'] = GLib.Variant('i', track_nr)
 
@@ -373,12 +377,12 @@ class MPRIS(DBusInterface):
         # loading.
         # FIXME: The thumbnail retrieval should take place in the
         # player.
-        art_url = media.get_thumbnail()
+        art_url = coresong.props.media.get_thumbnail()
         if not art_url:
-            thumb_file = lookup_art_file_from_cache(media)
+            thumb_file = lookup_art_file_from_cache(coresong)
             if thumb_file:
                 art_url = GLib.filename_to_uri(thumb_file.get_path())
-                media.set_thumbnail(art_url)
+                coresong.props.media.set_thumbnail(art_url)
 
         if art_url:
             metadata['mpris:artUrl'] = GLib.Variant('s', art_url)
@@ -386,15 +390,16 @@ class MPRIS(DBusInterface):
         return metadata
 
     @log
-    def _get_song_dbus_path(self, media=None, index=None):
+    def _get_song_dbus_path(self, coresong=None, index=None):
         """Convert a Grilo media to a D-Bus path
 
-        The hex encoding is used to remove any possible invalid character.
-        Use player index to make the path truly unique in case the same song
-        is present multiple times in a playlist.
-        If media is None, it means that the current song path is requested.
+        The hex encoding is used to remove any possible invalid
+        character. Use player index to make the path truly unique in
+        case the same song is present multiple times in a playlist.
+        If coresong is None, it means that the current song path is
+        requested.
 
-        :param Grl.Media media: The media object
+        :param CoreSong coresong: The CoreSong object
         :param int index: The media position in the current playlist
         :return: a D-Bus id to uniquely identify the song
         :rtype: str
@@ -402,11 +407,11 @@ class MPRIS(DBusInterface):
         if not self._player.props.current_song:
             return "/org/mpris/MediaPlayer2/TrackList/NoTrack"
 
-        if not media:
-            media = self._player.props.current_song
-            index = self._player.props.current_song_index
+        if not coresong:
+            coresong = self._player.props.current_song
+            index = self._player.props.position
 
-        id_hex = media.get_id().encode('ascii').hex()
+        id_hex = coresong.props.grlid.encode('ascii').hex()
         path = "/org/gnome/GnomeMusic/TrackList/{}_{}".format(
             id_hex, index)
         return path
@@ -416,9 +421,37 @@ class MPRIS(DBusInterface):
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
-        for index, song in self._player.get_mpris_playlist():
-            path = self._get_song_dbus_path(song, index)
-            metadata = self._get_metadata(song, index)
+        current_position = self._player.props.position
+        nb_songs = self._player_model.get_n_items()
+
+        index_min = current_position - self._playlist_nb_songs
+        index_max = current_position + self._playlist_nb_songs + 1
+        if self._player.get_playlist_type() == PlayerPlaylist.Type.ALBUM:
+            index_min = 0
+            index_max = self._player_model.get_n_items()
+
+        first_index = max(index_min, 0)
+        last_index = min(index_max, nb_songs)
+        positions = range(first_index, last_index)
+
+        nb_songs_max = 2 * self._playlist_nb_songs + 1
+        if (self._player.props.repeat_mode == RepeatMode.ALL
+                and (last_index - first_index) < nb_songs_max):
+            offset_sup = min(
+                self._playlist_nb_songs - last_index + current_position + 1,
+                first_index)
+            offset_inf = min(
+                self._playlist_nb_songs - current_position + first_index,
+                nb_songs - last_index)
+
+            positions = chain(
+                range(nb_songs - offset_inf, nb_songs), positions,
+                range(offset_sup))
+
+        for position in positions:
+            coresong = self._player_model.get_item(position)
+            path = self._get_song_dbus_path(coresong, position)
+            metadata = self._get_metadata(coresong, position)
             self._path_list.append(path)
             self._metadata_list.append(metadata)
 
@@ -437,8 +470,9 @@ class MPRIS(DBusInterface):
         :return: a D-Bus id to uniquely identify the playlist
         :rtype: str
         """
+        # Smart Playlists do not have an id
         if playlist:
-            pl_id = playlist.props.pl_id
+            pl_id = playlist.props.pl_id or playlist.props.tag_text
         else:
             pl_id = "Invalid"
 
@@ -554,26 +588,34 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    def _on_playlists_loading(self, klass, param):
-        if not self._playlists.props.ready:
-            return
+    def _on_playlists_loaded(self, klass):
+        self._coremodel.disconnect(self._playlists_loaded_id)
+        for playlist in self._playlists_model:
+            playlist.connect("notify::title", self._on_playlist_renamed)
 
-        self._playlists_model = self._playlists.get_playlists_model()
         self._playlists_model.connect(
             "items-changed", self._on_playlists_count_changed)
         self._on_playlists_count_changed(None, None, 0, 0)
 
     @log
-    def _on_playlists_count_changed(self, klass, position, removed, added):
+    def _on_playlists_count_changed(self, model, position, removed, added):
         playlist_count = self._playlists_model.get_n_items()
+        if playlist_count == self._previous_playlist_count:
+            return
+
+        self._previous_playlist_count = playlist_count
         properties = {"PlaylistCount": GLib.Variant("u", playlist_count)}
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
+        if added == 0:
+            return
+
+        model[position].connect("notify::title", self._on_playlist_renamed)
+
     @log
-    def _on_playlist_renamed(self, playlists, renamed_playlist):
-        mpris_playlist = self._get_mpris_playlist_from_playlist(
-            renamed_playlist)
+    def _on_playlist_renamed(self, playlist, param):
+        mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
         self._dbus_emit_signal('PlaylistChanged', {'Playlist': mpris_playlist})
 
     def _raise(self):
@@ -694,11 +736,13 @@ class MPRIS(DBusInterface):
 
         :param str path: Identifier of the track to skip to
         """
-        current_song_path = self._get_song_dbus_path()
-        current_song_index = self._path_list.index(current_song_path)
-        goto_index = self._path_list.index(path)
-        song_offset = goto_index - current_song_index
-        self._player.play(song_offset=song_offset)
+        # FIXME: Dropped this for core rewrite.
+        pass
+        # current_song_path = self._get_song_dbus_path()
+        # position = self._path_list.index(current_song_path)
+        # goto_index = self._path_list.index(path)
+        # song_offset = goto_index - position
+        # self._player.play(song_offset=song_offset)
 
     def _track_list_replaced(self, tracks, current_song):
         parameters = {
@@ -718,7 +762,7 @@ class MPRIS(DBusInterface):
                 break
 
         if selected_playlist is not None:
-            self._playlists.activate_playlist(selected_playlist)
+            self._coremodel.activate_playlist(selected_playlist)
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).

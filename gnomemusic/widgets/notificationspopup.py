@@ -123,14 +123,12 @@ class NotificationsPopup(Gtk.Revealer):
         self.set_reveal_child(True)
 
     @log
-    def remove_notification(self, notification, signal):
-        """Remove notification and emit a signal.
+    def remove_notification(self, notification):
+        """Removes notification.
 
         :param notification: notification to remove
-        :param signal: signal to emit: deletion or undo action
         """
         self._set_visibility(notification, True)
-        notification.emit(signal)
 
     @log
     def terminate_pending(self):
@@ -138,7 +136,7 @@ class NotificationsPopup(Gtk.Revealer):
         children = self._grid.get_children()
         if len(children) > 1:
             for notification in children[:-1]:
-                self.remove_notification(notification, 'finish-deletion')
+                notification._finish_deletion()
 
 
 class LoadingNotification(Gtk.Grid):
@@ -211,41 +209,76 @@ class PlaylistNotification(Gtk.Grid):
         PLAYLIST = 0
         SONG = 1
 
-    __gsignals__ = {
-        'undo-deletion': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'finish-deletion': (GObject.SignalFlags.RUN_FIRST, None, ())
-    }
-
     def __repr__(self):
         return '<PlaylistNotification>'
 
     @log
-    def __init__(self, notifications_popup, type_, message, data):
+    def __init__(
+            self, notifications_popup, coremodel, type_, playlist,
+            position=None, coresong=None):
+        """Creates a playlist deletion notification popup (song or playlist)
+
+        :param GtkRevealer: notifications_popup: the popup object
+        :param CoreModel: core model
+        :param type_: NotificationType (song or playlist)
+        :param Playlist playlist: playlist
+        :param int position: position of the object to delete
+        :param object coresong: CoreSong for song deletion
+        """
         super().__init__(column_spacing=18)
         self._notifications_popup = notifications_popup
+        self._coremodel = coremodel
         self.type_ = type_
-        self.data = data
+        self._playlist = playlist
+        self._position = position
+        self._coresong = coresong
 
+        message = self._create_notification_message()
         self._label = Gtk.Label(
             label=message, halign=Gtk.Align.START, hexpand=True)
         self.add(self._label)
 
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
-        undo_button.connect("clicked", self._undo_clicked)
+        undo_button.connect("clicked", self._undo_deletion)
         self.add(undo_button)
         self.show_all()
 
-        self._timeout_id = GLib.timeout_add_seconds(
-            5, self._notifications_popup.remove_notification, self,
-            'finish-deletion')
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            self._coremodel.stage_playlist_deletion(self._playlist)
+        else:
+            playlist.stage_song_deletion(self._coresong, position)
 
+        self._timeout_id = GLib.timeout_add_seconds(5, self._finish_deletion)
         self._notifications_popup.add_notification(self)
 
+    def _create_notification_message(self):
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            msg = _("Playlist {} removed".format(self._playlist.props.title))
+        else:
+            playlist_title = self._playlist.props.title
+            song_title = self._coresong.props.title
+            msg = _("{} removed from {}".format(
+                song_title, playlist_title))
+
+        return msg
+
     @log
-    def _undo_clicked(self, widget_):
+    def _undo_deletion(self, widget_):
         """Undo deletion and remove notification"""
         if self._timeout_id > 0:
             GLib.source_remove(self._timeout_id)
             self._timeout_id = 0
 
-        self._notifications_popup.remove_notification(self, 'undo-deletion')
+        self._notifications_popup.remove_notification(self)
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            self._coremodel.finish_playlist_deletion(self._playlist, False)
+        else:
+            self._playlist.undo_pending_song_deletion(
+                self._coresong, self._position)
+
+    def _finish_deletion(self):
+        self._notifications_popup.remove_notification(self)
+        if self.type_ == PlaylistNotification.Type.PLAYLIST:
+            self._coremodel.finish_playlist_deletion(self._playlist, True)
+        else:
+            self._playlist.finish_song_deletion(self._coresong)

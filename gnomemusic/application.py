@@ -36,6 +36,8 @@ import logging
 from gi.repository import Gtk, Gio, GLib, Gdk, GObject
 
 from gnomemusic import log
+from gnomemusic.coremodel import CoreModel
+from gnomemusic.coreselection import CoreSelection
 from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MPRIS
 from gnomemusic.pauseonsuspend import PauseOnSuspend
@@ -53,7 +55,6 @@ class Application(Gtk.Application):
         super().__init__(
             application_id=application_id,
             flags=Gio.ApplicationFlags.FLAGS_NONE)
-
         self.props.resource_base_path = "/org/gnome/Music"
         GLib.set_application_name(_("Music"))
         GLib.set_prgname(application_id)
@@ -61,6 +62,9 @@ class Application(Gtk.Application):
 
         self._init_style()
         self._window = None
+
+        self._coreselection = CoreSelection()
+        self._coremodel = CoreModel(self._coreselection)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
@@ -95,6 +99,26 @@ class Application(Gtk.Application):
         :rtype: Gio.settings
         """
         return self._settings
+
+    @GObject.Property(
+        type=CoreModel, flags=GObject.ParamFlags.READABLE)
+    def coremodel(self):
+        """Get class providing all listmodels.
+
+        :returns: List model provider class
+        :rtype: CoreModel
+        """
+        return self._coremodel
+
+    @GObject.Property(
+        type=CoreSelection, flags=GObject.ParamFlags.READABLE)
+    def coreselection(self):
+        """Get selection object.
+
+        :returns: Object containing all selection info
+        :rtype: CoreSelection
+        """
+        return self._coreselection
 
     @log
     def _build_app_menu(self):

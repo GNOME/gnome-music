@@ -29,13 +29,11 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
-from gnomemusic.widgets.songwidget import SongWidget
 
 logger = logging.getLogger(__name__)
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumsWidget.ui')
-class ArtistAlbumsWidget(Gtk.Box):
+class ArtistAlbumsWidget(Gtk.ListBox):
     """Widget containing all albums by an artist
 
     A vertical list of ArtistAlbumWidget, containing all the albums
@@ -45,153 +43,83 @@ class ArtistAlbumsWidget(Gtk.Box):
 
     __gtype_name__ = 'ArtistAlbumsWidget'
 
-    _artist_label = Gtk.Template.Child()
-
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+
+    __gsignals__ = {
+        "ready": (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
 
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
 
     @log
     def __init__(
-            self, artist, albums, player, window,
-            selection_mode_allowed=False):
-        super().__init__(orientation=Gtk.Orientation.VERTICAL)
+            self, coreartist, player, window, selection_mode_allowed=False):
+        super().__init__()
+        self._artist = coreartist.props.artist
+        self._model = coreartist.props.model
         self._player = player
-        self._artist = artist
-        self._window = window
         self._selection_mode_allowed = selection_mode_allowed
-
-        self._artist_label.props.label = self._artist
+        self._window = window
 
         self._widgets = []
-
-        self._create_model()
-
-        self._model.connect('row-changed', self._model_row_changed)
-
-        hbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self._album_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL,
-                                  spacing=48)
-        hbox.pack_start(self._album_box, False, False, 16)
-
-        self._scrolled_window = Gtk.ScrolledWindow()
-        self._scrolled_window.set_policy(Gtk.PolicyType.NEVER,
-                                         Gtk.PolicyType.AUTOMATIC)
-        self._scrolled_window.add(hbox)
-        self.pack_start(self._scrolled_window, True, True, 0)
 
         self._cover_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
-        self._window.notifications_popup.push_loading()
+        self._nb_albums_loaded = 0
+        self._model.props.model.connect_after(
+            "items-changed", self. _on_model_items_changed)
+        self.bind_model(self._model, self._add_album)
 
-        self._albums_to_load = len(albums)
-        for album in albums:
-            self._add_album(album)
+        self.get_style_context().add_class("artist-albums-widget")
+        self.show_all()
 
-        self._player.connect('song-changed', self._update_model)
+    def _song_activated(self, widget, song_widget):
+        self._album = None
 
-    @log
-    def _create_model(self):
-        """Create the ListStore model for this widget."""
-        self._model = Gtk.ListStore(
-            GObject.TYPE_STRING,  # title
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,
-            GObject.TYPE_STRING,    # placeholder
-            GObject.TYPE_OBJECT,  # song object
-            GObject.TYPE_BOOLEAN,  # item selected
-            GObject.TYPE_STRING,
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT,  # icon shown
-            GObject.TYPE_BOOLEAN,
-            GObject.TYPE_INT
-        )
+        if self.props.selection_mode:
+            return
 
-    @log
-    def _on_album_displayed(self, data=None):
-        self._albums_to_load -= 1
-        if self._albums_to_load == 0:
-            self._window.notifications_popup.pop_loading()
-            self.show_all()
+        coremodel = self._player._app.props.coremodel
 
-    @log
-    def _add_album(self, album):
+        def _on_playlist_loaded(artistalbumwidget):
+            self._player.play(song_widget.props.coresong)
+            coremodel.disconnect(signal_id)
+
+        signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
+        coremodel.set_playlist_model(PlayerPlaylist.Type.ARTIST, self._model)
+
+    def _add_album(self, corealbum):
         widget = ArtistAlbumWidget(
-            album, self._player, self._model, self._selection_mode_allowed,
-            self._songs_grid_size_group, self._cover_size_group)
+            corealbum, self._selection_mode_allowed,
+            self._songs_grid_size_group, self._cover_size_group, self._window)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        self._album_box.pack_start(widget, False, False, 0)
         self._widgets.append(widget)
+        widget.connect("ready", self._on_album_ready)
+        widget.connect("song-activated", self._song_activated)
 
-        widget.connect('songs-loaded', self._on_album_displayed)
+        return widget
 
-    @log
-    def _update_model(self, player):
-        """Updates model when the song changes
+    def _on_album_ready(self, artistalbumwidget):
+        self._nb_albums_loaded += 1
+        if self._nb_albums_loaded == self._model.get_n_items():
+            artistalbumwidget.disconnect_by_func(self._on_album_ready)
+            self._nb_albums_loaded = 0
+            self.emit("ready")
 
-        :param Player player: The main player object
-        """
-        if not player.playing_playlist(
-                PlayerPlaylist.Type.ARTIST, self._artist):
-            self._clean_model()
-            return False
-
-        current_song = player.props.current_song
-        song_passed = False
-        itr = self._model.get_iter_first()
-
-        while itr:
-            song = self._model[itr][5]
-            song_widget = song.song_widget
-
-            if (song.get_id() == current_song.get_id()):
-                song_widget.props.state = SongWidget.State.PLAYING
-                song_passed = True
-            elif (song_passed):
-                # Counter intuitive, but this is due to call order.
-                song_widget.props.state = SongWidget.State.UNPLAYED
-            else:
-                song_widget.props.state = SongWidget.State.PLAYED
-
-            itr = self._model.iter_next(itr)
-
-        return False
-
-    @log
-    def _clean_model(self):
-        itr = self._model.get_iter_first()
-
-        while itr:
-            song = self._model[itr][5]
-            song_widget = song.song_widget
-            song_widget.props.state = SongWidget.State.UNPLAYED
-
-            itr = self._model.iter_next(itr)
-
-        return False
-
-    @log
-    def _model_row_changed(self, model, path, itr):
-        if not self.props.selection_mode:
-            return
-
-        selected_items = 0
-        for row in model:
-            if row[6]:
-                selected_items += 1
-
-        self.props.selected_items_count = selected_items
+    def _on_model_items_changed(self, model, position, removed, added):
+        for i in range(model.get_n_items()):
+            row = self.get_row_at_index(i)
+            row.props.selectable = False
 
     @log
     def select_all(self):

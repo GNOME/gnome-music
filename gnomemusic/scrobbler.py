@@ -211,12 +211,12 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning(msg.props.response_body.data)
 
     @log
-    def scrobble(self, media, time_stamp):
+    def scrobble(self, coresong, time_stamp):
         """Scrobble a song to Last.fm.
 
         If not connected to Last.fm nothing happens
 
-        :param media: Grilo media item
+        :param coresong: CoreSong to scrobble
         :param time_stamp: song loaded time (epoch time)
         """
         self.scrobbled = True
@@ -224,19 +224,21 @@ class LastFmScrobbler(GObject.GObject):
         if self._goa_lastfm.disabled:
             return
 
+        media = coresong.props.media
         self._lastfm_api_call(media, time_stamp, "scrobble")
 
     @log
-    def now_playing(self, media):
+    def now_playing(self, coresong):
         """Set now playing song to Last.fm
 
         If not connected to Last.fm nothing happens
 
-        :param media: Grilo media item
+        :param coresong: CoreSong to use for now playing
         """
         self.scrobbled = False
 
         if self._goa_lastfm.disabled:
             return
 
+        media = coresong.props.media
         self._lastfm_api_call(media, None, "update now playing")

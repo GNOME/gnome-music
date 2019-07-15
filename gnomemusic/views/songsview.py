@@ -27,10 +27,9 @@ from gettext import gettext as _
 from gi.repository import Gdk, Gtk, Pango
 
 from gnomemusic import log
-from gnomemusic.grilo import grilo
-from gnomemusic.player import ValidationStatus, PlayerPlaylist
+from gnomemusic.coresong import CoreSong
+from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
-import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
 
@@ -52,18 +51,24 @@ class SongsView(BaseView):
         :param GtkWidget window: The main window
         :param player: The main player object
         """
+        self._window = window
+        self._coremodel = self._window._app.props.coremodel
         super().__init__('songs', _("Songs"), window)
 
         self._offset = 0
         self._iter_to_clean = None
 
-        self._view.get_style_context().add_class('songs-list')
+        self._view.get_style_context().add_class('songs-list-old')
 
         self._add_list_renderers()
 
+        self._playlist_model = self._coremodel.props.playlist_sort
+
         self.player = player
         self.player.connect('song-changed', self._update_model)
-        self.player.connect('song-validated', self._on_song_validated)
+
+        self._model = self._view.props.model
+        self._view.show()
 
     @log
     def _setup_view(self):
@@ -73,7 +78,7 @@ class SongsView(BaseView):
         self._view = Gtk.TreeView()
         self._view.props.headers_visible = False
         self._view.props.valign = Gtk.Align.START
-        self._view.props.model = self.model
+        self._view.props.model = self._coremodel.props.songs_gtkliststore
         self._view.props.activate_on_single_click = True
 
         self._ctrl = Gtk.GestureMultiPress().new(self._view)
@@ -99,7 +104,7 @@ class SongsView(BaseView):
 
         selection_renderer = Gtk.CellRendererToggle()
         column_selection = Gtk.TreeViewColumn(
-            "Selected", selection_renderer, active=6)
+            "Selected", selection_renderer, active=1)
         column_selection.props.visible = False
         column_selection.props.fixed_width = 48
         self._view.append_column(column_selection)
@@ -111,17 +116,6 @@ class SongsView(BaseView):
         column_title.props.expand = True
         self._view.append_column(column_title)
 
-        column_star = Gtk.TreeViewColumn()
-        self._view.append_column(column_star)
-        self._star_handler.add_star_renderers(column_star)
-
-        duration_renderer = Gtk.CellRendererText(xpad=32, xalign=1.0)
-        column_duration = Gtk.TreeViewColumn()
-        column_duration.pack_start(duration_renderer, False)
-        column_duration.set_cell_data_func(
-            duration_renderer, self._on_list_widget_duration_render, None)
-        self._view.append_column(column_duration)
-
         artist_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
         column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
@@ -130,38 +124,29 @@ class SongsView(BaseView):
 
         album_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
-        column_album = Gtk.TreeViewColumn()
+        column_album = Gtk.TreeViewColumn("Album", album_renderer, text=4)
         column_album.props.expand = True
-        column_album.pack_start(album_renderer, True)
-        column_album.set_cell_data_func(
-            album_renderer, self._on_list_widget_album_render, None)
         self._view.append_column(column_album)
 
-    def _on_list_widget_duration_render(self, col, cell, model, itr, data):
-        item = model[itr][5]
-        if item:
-            seconds = item.get_duration()
-            track_time = utils.seconds_to_string(seconds)
-            cell.props.text = '{}'.format(track_time)
+        duration_renderer = Gtk.CellRendererText(xalign=1.0)
+        column_duration = Gtk.TreeViewColumn(
+            "Duration", duration_renderer, text=5)
+        self._view.append_column(column_duration)
 
-    def _on_list_widget_album_render(self, coll, cell, model, _iter, data):
-        if not model.iter_is_valid(_iter):
-            return
-
-        item = model[_iter][5]
-        if item:
-            cell.props.text = utils.get_album_title(item)
+        column_star = Gtk.TreeViewColumn()
+        self._view.append_column(column_star)
+        self._star_handler.add_star_renderers(column_star)
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        if not self.player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
-            cell.props.visible = False
-            return False
-
         current_song = self.player.props.current_song
-        if model[itr][11] == ValidationStatus.FAILED:
+        if current_song is None:
+            return
+
+        coresong = model[itr][7]
+        if coresong.props.validation == CoreSong.Validation.FAILED:
             cell.props.icon_name = self._error_icon_name
             cell.props.visible = True
-        elif model[itr][5].get_id() == current_song.get_id():
+        elif coresong.props.grlid == current_song.props.grlid:
             cell.props.icon_name = self._now_playing_icon_name
             cell.props.visible = True
         else:
@@ -174,7 +159,7 @@ class SongsView(BaseView):
             self.model.clear()
             self._offset = 0
             self._populate()
-            grilo.changes_pending['Songs'] = False
+            # grilo.changes_pending['Songs'] = False
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -183,8 +168,7 @@ class SongsView(BaseView):
         cols = self._view.get_columns()
         cols[1].props.visible = self.props.selection_mode
 
-        if (not self.props.selection_mode
-                and grilo.changes_pending['Songs']):
+        if not self.props.selection_mode:
             self._on_changes_pending()
 
     @log
@@ -205,10 +189,12 @@ class SongsView(BaseView):
         if self.props.selection_mode:
             return
 
-        itr = self.model.get_iter(path)
-        self.player.set_playlist(
-            PlayerPlaylist.Type.SONGS, None, self.model, itr)
-        self.player.play()
+        itr = self._view.props.model.get_iter(path)
+        coresong = self._view.props.model[itr][7]
+        self._window._app._coremodel.set_playlist_model(
+            PlayerPlaylist.Type.SONGS, self._view.props.model)
+
+        self.player.play(coresong)
 
     @log
     def _on_view_clicked(self, gesture, n_press, x, y):
@@ -223,10 +209,9 @@ class SongsView(BaseView):
         # activation.
         if self.props.selection_mode:
             path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
-            iter_ = self.model.get_iter(path)
-            self.model[iter_][6] = not self.model[iter_][6]
-
-            self.props.selected_items_count = len(self.get_selected_songs())
+            iter_ = self._view.props.model.get_iter(path)
+            self._model[iter_][1] = not self._model[iter_][1]
+            self._model[iter_][7].props.selected = self._model[iter_][7]
 
     @log
     def _update_model(self, player):
@@ -234,64 +219,43 @@ class SongsView(BaseView):
 
         :param Player player: The main player object
         """
+        # iter_to_clean is necessary because of a bug in GtkTreeView
+        # See https://gitlab.gnome.org/GNOME/gtk/issues/503
         if self._iter_to_clean:
-            self.model[self._iter_to_clean][10] = False
-        if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
-            return False
+            self._view.props.model[self._iter_to_clean][9] = False
 
-        index = self.player.props.current_song_index
-        iter_ = self.model.get_iter_from_string(str(index))
-        self.model[iter_][10] = True
-        path = self.model.get_path(iter_)
-        self._view.scroll_to_cell(path, None, False, 0., 0.)
-        if self.model[iter_][8] != self._error_icon_name:
+        index = self.player.props.position
+        current_coresong = self._playlist_model[index]
+        for idx, liststore in enumerate(self._view.props.model):
+            if liststore[7] == current_coresong:
+                break
+
+        iter_ = self._view.props.model.get_iter_from_string(str(idx))
+        path = self._view.props.model.get_path(iter_)
+        self._view.props.model[iter_][9] = True
+        self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
+
+        if self._view.props.model[iter_][0] != self._error_icon_name:
             self._iter_to_clean = iter_.copy()
+
         return False
-
-    @log
-    def _on_song_validated(self, player, index, status):
-        if not player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
-            return
-
-        iter_ = self.model.get_iter_from_string(str(index))
-        self.model[iter_][11] = status
-
-    def _add_item(self, source, param, item, remaining=0, data=None):
-        """Adds track item to the model"""
-        if not item and not remaining:
-            self._view.set_model(self.model)
-            self._window.notifications_popup.pop_loading()
-            self._view.show()
-            return
-
-        self._offset += 1
-        item.set_title(utils.get_media_title(item))
-        artist = utils.get_artist_name(item)
-
-        if not item.get_url():
-            return
-
-        self.model.insert_with_valuesv(
-            -1, [2, 3, 5, 9],
-            [utils.get_media_title(item), artist, item, item.get_favourite()])
 
     @log
     def _populate(self, data=None):
         """Populates the view"""
         self._init = True
-        if grilo.tracker:
-            self._window.notifications_popup.push_loading()
-            grilo.populate_songs(self._offset, self._add_item)
 
-    @log
-    def get_selected_songs(self, callback=None):
-        """Returns a list of selected songs
+    def _select(self, value):
+        with self._model.freeze_notify():
+            itr = self._model.iter_children(None)
+            while itr is not None:
+                self._model[itr][7].props.selected = value
+                self._model[itr][1] = value
 
-        In this view this will be the all the songs selected
-        :returns: All selected songs
-        :rtype: A list of songs
-        """
-        selected_songs = [row[5] for row in self.model if row[6]]
-        if not callback:
-            return selected_songs
-        callback(selected_songs)
+                itr = self._model.iter_next(itr)
+
+    def select_all(self):
+        self._select(True)
+
+    def unselect_all(self):
+        self._select(False)

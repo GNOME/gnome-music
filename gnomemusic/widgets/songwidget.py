@@ -31,8 +31,7 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import log
 from gnomemusic import utils
-from gnomemusic.grilo import grilo
-from gnomemusic.playlists import Playlists
+from gnomemusic.coresong import CoreSong
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
@@ -53,15 +52,20 @@ class SongWidget(Gtk.EventBox):
 
     __gsignals__ = {
         'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "widget-moved": (GObject.SignalFlags.RUN_FIRST, None, (int,))
     }
 
+    coresong = GObject.Property(type=CoreSong, default=None)
     selected = GObject.Property(type=bool, default=False)
     show_duration = GObject.Property(type=bool, default=True)
     show_favorite = GObject.Property(type=bool, default=True)
     show_song_number = GObject.Property(type=bool, default=True)
 
-    _playlists = Playlists.get_default()
-
+    _album_label = Gtk.Template.Child()
+    _album_duration_box = Gtk.Template.Child()
+    _artist_box = Gtk.Template.Child()
+    _artist_label = Gtk.Template.Child()
+    _dnd_eventbox = Gtk.Template.Child()
     _select_button = Gtk.Template.Child()
     _number_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -69,6 +73,7 @@ class SongWidget(Gtk.EventBox):
     _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
+    _size_group = Gtk.Template.Child()
 
     class State(IntEnum):
         """The state of the SongWidget
@@ -81,27 +86,42 @@ class SongWidget(Gtk.EventBox):
         return '<SongWidget>'
 
     @log
-    def __init__(self, media):
+    def __init__(self, coresong, can_dnd=False, show_artist_and_album=False):
+        """Instanciates a SongWidget
+
+        :param Corsong coresong: song associated with the widget
+        :param bool can_dnd: allow drag and drop operations
+        :param bool show_artist_and_album: display artist and album
+        """
         super().__init__()
 
-        self._media = media
+        self.props.coresong = coresong
+        self._media = self.props.coresong.props.media
         self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
 
-        song_number = media.get_track_number()
+        song_number = self.props.coresong.props.track_number
         if song_number == 0:
             song_number = ""
         self._number_label.set_text(str(song_number))
 
-        title = utils.get_media_title(media)
+        title = self.props.coresong.props.title
         self._title_label.set_max_width_chars(50)
         self._title_label.set_text(title)
         self._title_label.props.tooltip_text = title
 
-        time = utils.seconds_to_string(media.get_duration())
-        self._duration_label.set_text(time)
+        time = utils.seconds_to_string(self.props.coresong.props.duration)
+        self._duration_label.props.label = time
 
-        self._star_image.props.favorite = media.get_favourite()
+        if show_artist_and_album is True:
+            album = self.props.coresong.props.album
+            self._album_label.props.label = album
+            self._album_label.props.visible = True
+            artist = self.props.coresong.props.artist
+            self._artist_label.props.label = artist
+            self._artist_box.props.visible = True
+        else:
+            self._size_group.remove_widget(self._album_duration_box)
 
         self._select_button.set_visible(False)
 
@@ -109,7 +129,7 @@ class SongWidget(Gtk.EventBox):
             'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
         self._play_icon.set_no_show_all(True)
 
-        self.bind_property(
+        self.props.coresong.bind_property(
             'selected', self._select_button, 'active',
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
@@ -124,12 +144,71 @@ class SongWidget(Gtk.EventBox):
         self.bind_property(
             'show-song-number', self._number_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
-        self._number_label.set_no_show_all(True)
+        self.props.coresong.bind_property(
+            "favorite", self._star_image, "favorite",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self.props.coresong.bind_property(
+            "state", self, "state",
+            GObject.BindingFlags.SYNC_CREATE)
+        self.props.coresong.connect(
+            "notify::validation", self._on_validation_changed)
+
+        self._number_label.props.no_show_all = True
+
+        if can_dnd is True:
+            self._dnd_eventbox.props.visible = True
+            self._drag_widget = None
+            entries = [
+                Gtk.TargetEntry.new(
+                    "GTK_EVENT_BOX", Gtk.TargetFlags.SAME_APP, 0)
+            ]
+            self._dnd_eventbox.drag_source_set(
+                Gdk.ModifierType.BUTTON1_MASK, entries,
+                Gdk.DragAction.MOVE)
+            self.drag_dest_set(
+                Gtk.DestDefaults.ALL, entries, Gdk.DragAction.MOVE)
 
     @Gtk.Template.Callback()
     @log
     def _on_selection_changed(self, klass, value):
         self.emit('selection-changed')
+
+    @Gtk.Template.Callback()
+    def _on_drag_begin(self, klass, context):
+        gdk_window = self.get_window()
+        _, x, y, _ = gdk_window.get_device_position(context.get_device())
+        allocation = self.get_allocation()
+
+        self._drag_widget = Gtk.ListBox()
+        self._drag_widget.set_size_request(allocation.width, allocation.height)
+
+        drag_row = SongWidget(self.props.coresong)
+        self._drag_widget.add(drag_row)
+        self._drag_widget.drag_highlight_row(drag_row.get_parent())
+        self._drag_widget.show_all()
+        Gtk.drag_set_icon_widget(context, self._drag_widget, x, y)
+
+    @Gtk.Template.Callback()
+    def _on_drag_end(self, klass, context):
+        self._drag_widget = None
+
+    @Gtk.Template.Callback()
+    def _on_drag_data_get(self, klass, context, selection_data, info, time_):
+        row_position = self.get_parent().get_index()
+        selection_data.set(
+            Gdk.Atom.intern("row_position", False), 0,
+            bytes(str(row_position), encoding="UTF8"))
+
+    @Gtk.Template.Callback()
+    def _on_drag_data_received(
+            self, klass, context, x, y, selection_data, info, time_):
+        source_position = int(str(selection_data.get_data(), "UTF-8"))
+        target_position = self.get_parent().get_index()
+        if source_position == target_position:
+            return
+
+        self.emit("widget-moved", source_position)
 
     @Gtk.Template.Callback()
     @log
@@ -140,11 +219,6 @@ class SongWidget(Gtk.EventBox):
 
         favorite = not self._star_image.favorite
         self._star_image.props.favorite = favorite
-
-        # TODO: Rework and stop updating widgets from here directly.
-        grilo.set_favorite(self._media, favorite)
-        favorite_playlist = self._playlists.get_smart_playlist("Favorites")
-        self._playlists.update_smart_playlist(favorite_playlist)
 
         return True
 
@@ -205,8 +279,22 @@ class SongWidget(Gtk.EventBox):
         style_ctx.remove_class('playing-song-label')
         self._play_icon.set_visible(False)
 
+        coresong = self.props.coresong
+        if coresong.props.validation == CoreSong.Validation.FAILED:
+            self._play_icon.set_visible(True)
+            style_ctx.add_class("dim-label")
+            return
+
         if value == SongWidget.State.PLAYED:
             style_ctx.add_class('dim-label')
         elif value == SongWidget.State.PLAYING:
             self._play_icon.set_visible(True)
             style_ctx.add_class('playing-song-label')
+
+    def _on_validation_changed(self, coresong, sate):
+        validation_status = coresong.props.validation
+        if validation_status == CoreSong.Validation.FAILED:
+            self._play_icon.props.icon_name = "dialog-error-symbolic"
+            self._play_icon.set_visible(True)
+        else:
+            self._play_icon.props.icon_name = "media-playback-start-symbolic"
