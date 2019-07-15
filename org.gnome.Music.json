@@ -99,11 +99,12 @@
         {
             "name": "grilo",
             "buildsystem": "meson",
-	    "config-opts": [ "-Denable-gtk-doc=false" ],
+            "config-opts": [ "-Denable-gtk-doc=false" ],
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo.git"
+                    "url": "https://gitlab.gnome.org/GNOME/grilo.git",
+                    "branch": "wip/mschraal/fix-tracker-0.3.8"
                 }
             ],
             "cleanup": [ "/include", "/bin" ]
