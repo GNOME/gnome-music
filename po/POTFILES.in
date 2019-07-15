@@ -18,7 +18,6 @@ gnomemusic/__init__.py
 gnomemusic/albumartcache.py
 gnomemusic/application.py
 gnomemusic/grilowrappers/grltrackerplaylist.py
-gnomemusic/grilo.py
 gnomemusic/gstplayer.py
 gnomemusic/inhibitsuspend.py
 gnomemusic/mpris.py
