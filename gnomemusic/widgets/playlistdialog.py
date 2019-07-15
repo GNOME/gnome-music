@@ -22,10 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.playlists import Playlists
+from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.widgets.playlistdialogrow import PlaylistDialogRow
 
 
@@ -34,6 +34,8 @@ class PlaylistDialog(Gtk.Dialog):
     """Dialog for adding items to a playlist"""
 
     __gtype_name__ = 'PlaylistDialog'
+
+    selected_playlist = GObject.Property(type=Playlist, default=None)
 
     _add_playlist_stack = Gtk.Template.Child()
     _normal_box = Gtk.Template.Child()
@@ -60,22 +62,13 @@ class PlaylistDialog(Gtk.Dialog):
         self.props.transient_for = parent
         self.set_titlebar(self._title_bar)
 
+        # FIXME: should we use a special model without the smart playlists?
         self._user_playlists_available = False
-        self._playlists = Playlists.get_default()
-        playlists_model = self._playlists.get_user_playlists()
+        self._coremodel = parent._app.props.coremodel
         self._listbox.bind_model(
-            playlists_model, self._create_playlist_row)
+            self._coremodel.props.playlists_sort, self._create_playlist_row)
+
         self._set_view()
-
-    @log
-    def get_selected(self):
-        """Get the selected playlist"""
-        selected_row = self._listbox.get_selected_row()
-
-        if not selected_row:
-            return None
-
-        return selected_row.props.playlist
 
     @log
     def _set_view(self):
@@ -93,6 +86,9 @@ class PlaylistDialog(Gtk.Dialog):
     @log
     def _create_playlist_row(self, playlist):
         """Adds (non-smart only) playlists to the model"""
+        if playlist.props.is_smart:
+            return None
+
         self._user_playlists_available = True
         self._set_view()
 
@@ -116,6 +112,8 @@ class PlaylistDialog(Gtk.Dialog):
         self._add_playlist_entry.props.text = ""
         self._add_playlist_button.props.sensitive = False
         selected_row = self._listbox.get_selected_row()
+        if selected_row is not None:
+            self.props.selected_playlist = selected_row.props.playlist
         self._select_button.props.sensitive = selected_row is not None
 
         for row in self._listbox:
@@ -133,7 +131,7 @@ class PlaylistDialog(Gtk.Dialog):
 
         text = self._add_playlist_entry.props.text
         if text:
-            self._playlists.create_playlist(text, select_and_close_dialog)
+            self._coremodel.create_playlist(text, select_and_close_dialog)
 
     @Gtk.Template.Callback()
     @log

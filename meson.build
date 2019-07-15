@@ -58,6 +58,12 @@ subproject('libgd',
         'pkglibdir=' + PKGLIB_DIR
     ])
 
+subproject('gfm',
+    default_options: [
+        'pkgdatadir=' + PKGDATA_DIR,
+        'pkglibdir=' + PKGLIB_DIR
+    ])
+
 subdir('data/ui')
 subdir('data')
 subdir('help')
@@ -76,9 +82,10 @@ bin_config.set('pkgdatadir', PKGDATA_DIR)
 bin_config.set('localedir', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
 bin_config.set('pythondir', PYTHON_DIR)
 bin_config.set('pyexecdir', py_installation.get_path('stdlib'))
-bin_config.set('schemasdir', '')
-# Used for libgd
+bin_config.set('schemasdir', PKGDATA_DIR)
+# Used for libgd/gfm
 bin_config.set('pkglibdir', PKGLIB_DIR)
+bin_config.set('gfmlibdir', '')
 
 bin_config.set('local_build', 'False')
 
@@ -98,8 +105,9 @@ local_config.set('localedir', join_paths(get_option('prefix'), get_option('datad
 local_config.set('pythondir', meson.source_root())
 local_config.set('pyexecdir', meson.source_root())
 local_config.set('schemasdir', join_paths(meson.build_root(), 'data'))
-# Used for libgd
+# Used for libgd/gfm
 local_config.set('pkglibdir', join_paths(meson.build_root(), 'subprojects', 'libgd', 'libgd'))
+local_config.set('gfmlibdir', join_paths(meson.build_root(), 'subprojects', 'gfm'))
 
 local_config.set('local_build', 'True')
 

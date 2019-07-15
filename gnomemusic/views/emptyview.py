@@ -25,11 +25,10 @@
 from enum import IntEnum
 
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk, Tracker
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.query import Query
 
 
 @Gtk.Template(resource_path="/org/gnome/Music/ui/EmptyView.ui")
@@ -63,8 +62,20 @@ class EmptyView(Gtk.Stack):
     def __init__(self):
         super().__init__()
 
+        # FIXME: This is now duplicated here and in GrlTrackerWrapper.
+        try:
+            music_folder = GLib.get_user_special_dir(
+                GLib.UserDirectory.DIRECTORY_MUSIC)
+            assert music_folder is not None
+        except (TypeError, AssertionError):
+            print("XDG Music dir is not set")
+            return
+
+        music_folder = Tracker.sparql_escape_string(
+            GLib.filename_to_uri(music_folder))
+
         href_text = "<a href='{}'>{}</a>".format(
-            Query.MUSIC_URI, _("Music folder"))
+            music_folder, _("Music folder"))
 
         # TRANSLATORS: This is a label to display a link to open user's music
         # folder. {} will be replaced with the translated text 'Music folder'

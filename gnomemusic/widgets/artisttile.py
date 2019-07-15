@@ -1,4 +1,4 @@
-# Copyright 2019 The GNOME Music Developers
+# Copyright 2019 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,33 +24,46 @@
 
 from gi.repository import GObject, Gtk
 
-from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic import log
+from gnomemusic.coreartist import CoreArtist
 
 
-@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistDialogRow.ui")
-class PlaylistDialogRow(Gtk.ListBoxRow):
+@Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
+class ArtistTile(Gtk.EventBox):
+    """Row for sidebars
 
-    __gtype_name__ = "PlaylistDialogRow"
+    Contains a label and an optional checkbox.
+    """
 
-    playlist = GObject.Property(type=Playlist, default=None)
-    selected = GObject.Property(type=bool, default=False)
+    __gtype_name__ = 'ArtistTile'
 
+    _check = Gtk.Template.Child()
     _label = Gtk.Template.Child()
-    _selection_icon = Gtk.Template.Child()
+    _revealer = Gtk.Template.Child()
+
+    coreartist = GObject.Property(type=CoreArtist, default=None)
+    selected = GObject.Property(type=bool, default=False)
+    selection_mode = GObject.Property(type=bool, default=False)
+    text = GObject.Property(type=str, default='')
 
     def __repr__(self):
-        return "PlaylistDialogRow"
+        return '<ArtistTile>'
 
-    def __init__(self, playlist):
-        """Create a row of the PlaylistDialog
-
-        :param Playlist playlist: the associated playlist
-        """
+    @log
+    def __init__(self, coreartist=None):
         super().__init__()
 
-        self.props.playlist = playlist
-        self._label.props.label = playlist.props.title
+        self.props.coreartist = coreartist
 
         self.bind_property(
-            "selected", self._selection_icon, "visible",
-            GObject.BindingFlags.SYNC_CREATE)
+            'selected', self._check, 'active',
+            GObject.BindingFlags.BIDIRECTIONAL)
+        if coreartist:
+            self.bind_property(
+                "selected", coreartist, "selected",
+                GObject.BindingFlags.BIDIRECTIONAL)
+        self.bind_property('selection-mode', self._revealer, 'reveal-child')
+        self.bind_property('text', self._label, 'label')
+        self.bind_property('text', self._label, 'tooltip-text')
+
+        self.show()

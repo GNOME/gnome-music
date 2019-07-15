@@ -26,10 +26,8 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.grilo import grilo
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
-import gnomemusic.utils as utils
+from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
@@ -40,39 +38,33 @@ class ArtistAlbumWidget(Gtk.Box):
     _album_box = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
-    _title = Gtk.Template.Child()
-    _year = Gtk.Template.Child()
+    _title_year = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
 
     __gsignals__ = {
-        'songs-loaded': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "ready": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "song-activated": (
+            GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )
+        ),
     }
 
     def __repr__(self):
         return '<ArtistAlbumWidget>'
 
-    @log
     def __init__(
-            self, media, player, model, selection_mode_allowed,
-            size_group=None, cover_size_group=None):
+            self, corealbum, selection_mode_allowed, size_group=None,
+            cover_size_group=None, window=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
 
-        self._media = media
-        self._player = player
-        self._artist = utils.get_artist_name(self._media)
-        self._album_title = utils.get_album_title(self._media)
-        self._model = model
         self._selection_mode = False
         self._selection_mode_allowed = selection_mode_allowed
 
-        self._songs = []
-
         self._cover_stack.props.size = Art.Size.MEDIUM
-        self._cover_stack.update(self._media)
+        self._cover_stack.update(corealbum)
 
         allowed = self._selection_mode_allowed
         self._disc_list_box.props.selection_mode_allowed = allowed
@@ -82,11 +74,10 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        self._title.props.label = self._album_title
-        year = utils.get_media_year(self._media)
-
-        if year:
-            self._year.props.label = year
+        self._title_year.props.label = corealbum.props.title
+        year = corealbum.props.year
+        if year != "----":
+            self._title_year.props.label += " ({})".format(year)
 
         if self._size_group:
             self._size_group.add_widget(self._album_box)
@@ -94,55 +85,55 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        grilo.populate_album_songs(self._media, self._add_item)
+        self._nb_disc_box_loaded = 0
+        self._model = corealbum.props.model
+        self._model.props.model.connect_after(
+            "items-changed", self._on_model_items_changed)
+        self._disc_list_box.bind_model(
+            self._model, self._create_widget)
 
-    @log
-    def _create_disc_box(self, disc_nr, disc_songs):
-        disc_box = DiscBox(self._model)
-        disc_box.set_songs(disc_songs)
+    def _create_widget(self, disc):
+        disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
+
+        return disc_box
+
+    def _create_disc_box(self, disc_nr, album_model):
+        disc_box = DiscBox(album_model)
         disc_box.set_disc_number(disc_nr)
-        disc_box.props.columns = 2
         disc_box.props.show_durations = False
         disc_box.props.show_favorites = False
         disc_box.props.show_song_numbers = True
+        disc_box.connect("ready", self._on_discbox_ready)
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
 
-    @log
-    def _add_item(self, source, prefs, song, remaining, data=None):
-        if song:
-            self._songs.append(song)
-            return
+    def _on_discbox_ready(self, klass):
+        self._nb_disc_box_loaded += 1
+        if self._nb_disc_box_loaded == self._model.get_n_items():
+            klass.disconnect_by_func(self._on_discbox_ready)
+            self._nb_disc_box_loaded = 0
+            self.emit("ready")
 
-        discs = {}
-        for song in self._songs:
-            disc_nr = song.get_album_disc_number()
-            if disc_nr not in discs.keys():
-                discs[disc_nr] = [song]
-            else:
-                discs[disc_nr].append(song)
+    def _on_model_items_changed(self, model, position, removed, added):
+        n_items = model.get_n_items()
+        if n_items == 1:
+            row = self._disc_list_box.get_row_at_index(0)
+            row.props.selectable = False
+            discbox = row.get_child()
+            discbox.props.show_disc_label = False
+        else:
+            for i in range(n_items):
+                row = self._disc_list_box.get_row_at_index(i)
+                row.props.selectable = False
+                discbox = row.get_child()
+                discbox.props.show_disc_label = True
 
-        for disc_nr in discs:
-            disc = self._create_disc_box(disc_nr, discs[disc_nr])
-            self._disc_list_box.add(disc)
-            if len(discs) == 1:
-                disc.props.show_disc_label = False
-
-        if remaining == 0:
-            self.emit("songs-loaded")
-
-    @log
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
             return
 
-        self._player.set_playlist(
-            PlayerPlaylist.Type.ARTIST, self._artist, song_widget.model,
-            song_widget.itr)
-        self._player.play()
-
-        return True
+        self.emit("song-activated", song_widget)
 
     @log
     def select_all(self):

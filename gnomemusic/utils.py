@@ -89,6 +89,9 @@ def get_media_title(item):
 
     if not title:
         url = item.get_url()
+        # FIXME
+        if url is None:
+            return "NO URL"
         file_ = Gio.File.new_for_uri(url)
         fileinfo = file_.query_info(
             "standard::display-name", Gio.FileQueryInfoFlags.NONE, None)
@@ -102,13 +105,13 @@ def get_media_year(item):
     """Returns the year when the media was created.
 
     :param item: A Grilo Media object
-    :return: The creation year or None if not defined
+    :return: The creation year or '----' if not defined
     :rtype: string
     """
     date = item.get_creation_date()
 
     if not date:
-        return None
+        return "----"
 
     return str(date.get_year())
 
