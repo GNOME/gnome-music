@@ -25,9 +25,6 @@
 from gi.repository import GObject, Grl, Gtk
 
 from gnomemusic import log
-from gnomemusic.playlists import Playlists
-
-playlists = Playlists.get_default()
 
 
 class CellRendererStar(Gtk.CellRendererPixbuf):
@@ -151,12 +148,7 @@ class StarHandlerWidget(object):
         new_value = not model[_iter][self._star_index]
         model[_iter][self._star_index] = new_value
         coresong = model[_iter][7]
-        # FIXME: Playlists pass a Grl.Media. Not supported at the
-        # moment. Port to core first.
-        if coresong.__gtype__.name != Grl.Media.new().__gtype__.name:
-            coresong.props.favorite = new_value
-            favorite_playlist = playlists.get_smart_playlist("Favorites")
-            playlists.update_smart_playlist(favorite_playlist)
+        coresong.props.favorite = new_value
 
         # Use this flag to ignore the upcoming _on_item_activated call
         self.star_renderer_click = True
