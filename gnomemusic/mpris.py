@@ -32,7 +32,6 @@ from gnomemusic import log
 from gnomemusic.albumartcache import lookup_art_file_from_cache
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
-from gnomemusic.playlists import Playlists
 
 logger = logging.getLogger(__name__)
 
@@ -293,12 +292,12 @@ class MPRIS(DBusInterface):
         self._player.connect(
             'playlist-changed', self._on_player_playlist_changed)
 
-        self._player_model = app.props.coremodel.props.playlist_sort
+        self._coremodel = app.props.coremodel
+        self._player_model = self._coremodel.props.playlist_sort
 
-        self._playlists = Playlists.get_default()
-        self._playlists_model = None
-        self._playlists.connect('playlist-renamed', self._on_playlist_renamed)
-        self._playlists.connect("notify::ready", self._on_playlists_loading)
+        self._playlists_model = self._coremodel.props.playlists_sort
+        self._playlists_loaded_id = self._coremodel.connect(
+            "playlists-loaded", self._on_playlists_loaded)
 
         self._player_previous_type = None
         self._path_list = []
@@ -310,6 +309,7 @@ class MPRIS(DBusInterface):
         self._previous_loop_status = ""
         self._previous_mpris_playlist = self._get_active_playlist()
         self._previous_playback_status = "Stopped"
+        self._previous_playlist_count = 0
 
     @log
     def _get_playback_status(self):
@@ -470,8 +470,9 @@ class MPRIS(DBusInterface):
         :return: a D-Bus id to uniquely identify the playlist
         :rtype: str
         """
+        # Smart Playlists do not have an id
         if playlist:
-            pl_id = playlist.props.pl_id
+            pl_id = playlist.props.pl_id or playlist.props.tag_text
         else:
             pl_id = "Invalid"
 
@@ -587,26 +588,34 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    def _on_playlists_loading(self, klass, param):
-        if not self._playlists.props.ready:
-            return
+    def _on_playlists_loaded(self, klass):
+        self._coremodel.disconnect(self._playlists_loaded_id)
+        for playlist in self._playlists_model:
+            playlist.connect("notify::title", self._on_playlist_renamed)
 
-        self._playlists_model = self._playlists.get_playlists_model()
         self._playlists_model.connect(
             "items-changed", self._on_playlists_count_changed)
         self._on_playlists_count_changed(None, None, 0, 0)
 
     @log
-    def _on_playlists_count_changed(self, klass, position, removed, added):
+    def _on_playlists_count_changed(self, model, position, removed, added):
         playlist_count = self._playlists_model.get_n_items()
+        if playlist_count == self._previous_playlist_count:
+            return
+
+        self._previous_playlist_count = playlist_count
         properties = {"PlaylistCount": GLib.Variant("u", playlist_count)}
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
+        if added == 0:
+            return
+
+        model[position].connect("notify::title", self._on_playlist_renamed)
+
     @log
-    def _on_playlist_renamed(self, playlists, renamed_playlist):
-        mpris_playlist = self._get_mpris_playlist_from_playlist(
-            renamed_playlist)
+    def _on_playlist_renamed(self, playlist, param):
+        mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
         self._dbus_emit_signal('PlaylistChanged', {'Playlist': mpris_playlist})
 
     def _raise(self):
@@ -753,7 +762,7 @@ class MPRIS(DBusInterface):
                 break
 
         if selected_playlist is not None:
-            self._playlists.activate_playlist(selected_playlist)
+            self._coremodel.activate_playlist(selected_playlist)
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).

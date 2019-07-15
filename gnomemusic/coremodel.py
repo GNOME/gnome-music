@@ -65,6 +65,8 @@ class CoreModel(GObject.GObject):
     """
 
     __gsignals__ = {
+        "activate-playlist": (
+            GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         "artists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
@@ -355,6 +357,16 @@ class CoreModel(GObject.GObject):
         :param callback: function to perform once, the playlist is created
         """
         self._grilo.create_playlist(playlist_title, callback)
+
+    def activate_playlist(self, playlist):
+        """Activates a playlist.
+
+        Selects the playlist and start playing.
+
+        :param Playlist playlist: playlist to activate
+        """
+        # FIXME: just a proxy
+        self.emit("activate-playlist", playlist)
 
     def search(self, text):
         self._grilo.search(text)

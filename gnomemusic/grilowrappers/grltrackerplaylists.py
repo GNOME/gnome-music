@@ -235,6 +235,10 @@ class GrlTrackerPlaylists(GObject.GObject):
 class Playlist(GObject.GObject):
     """ Base class of all playlists """
 
+    __gsignals__ = {
+        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
+
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_ARTIST,
@@ -346,6 +350,7 @@ class Playlist(GObject.GObject):
                 source, op_id, media, remaining, user_data, error):
             if not media:
                 self.props.count = self._model.get_n_items()
+                self.emit("playlist-loaded")
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
