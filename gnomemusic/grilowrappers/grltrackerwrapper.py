@@ -87,7 +87,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._song_search_proxy = self._coremodel.props.songs_search_proxy
         self._album_search_model = self._coremodel.props.albums_search
         self._artist_search_model = self._coremodel.props.artists_search
-        self._batch_changed_medias = {}
+        self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
 
         self._song_search_tracker = Gfm.FilterListModel.new(self._model)
@@ -138,10 +138,10 @@ class GrlTrackerWrapper(GObject.GObject):
         if medias == []:
             return
 
-        if change_type not in self._batch_changed_medias.keys():
-            self._batch_changed_medias[change_type] = []
+        if change_type not in self._batch_changed_media_ids.keys():
+            self._batch_changed_media_ids[change_type] = []
 
-        [self._batch_changed_medias[change_type].append(media)
+        [self._batch_changed_media_ids[change_type].append(media.get_id())
             for media in medias]
 
         if self._content_changed_timeout is None:
@@ -149,23 +149,24 @@ class GrlTrackerWrapper(GObject.GObject):
                 250, self._on_content_changed)
 
     def _on_content_changed(self):
-        for change_type in self._batch_changed_medias.keys():
-            for media in self._batch_changed_medias[change_type]:
-                # The Tracker indexed paths may differ from Music's paths.
-                # In that case Tracker will report it as 'changed', while
-                # it means 'added' to Music.
-                if (change_type == Grl.SourceChangeType.CHANGED
-                        or change_type == Grl.SourceChangeType.ADDED):
-                    print("ADDED/CHANGED", media.get_id())
-                    self._changed_media(media)
-                elif change_type == Grl.SourceChangeType.REMOVED:
-                    print("REMOVED", media.get_id())
-                    self._remove_media(media)
+        for change_type in self._batch_changed_media_ids.keys():
+            media_ids = self._batch_changed_media_ids[change_type]
+
+            # The Tracker indexed paths may differ from Music's paths.
+            # In that case Tracker will report it as 'changed', while
+            # it means 'added' to Music.
+            if (change_type == Grl.SourceChangeType.CHANGED
+                    or change_type == Grl.SourceChangeType.ADDED):
+                print("ADDED/CHANGED", media_ids)
+                self._changed_media(media_ids)
+            elif change_type == Grl.SourceChangeType.REMOVED:
+                print("REMOVED", media_ids)
+                self._remove_media(media_ids)
 
         self._check_album_change()
         self._check_artist_change()
 
-        self._batch_changed_medias = {}
+        self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
 
     def _check_album_change(self):
@@ -272,22 +273,25 @@ class GrlTrackerWrapper(GObject.GObject):
         self._source.query(
             query, self.METADATA_KEYS, options, check_artist_cb)
 
-    def _remove_media(self, media):
-        try:
-            coresong = self._hash.pop(media.get_id())
-        except KeyError:
-            print("Removal KeyError")
-            return
+    def _remove_media(self, media_ids):
+        for media_id in media_ids:
+            try:
+                coresong = self._hash.pop(media_id)
+            except KeyError:
+                print("Removal KeyError")
+                return
 
-        for idx, coresong_model in enumerate(self._model):
-            if coresong_model is coresong:
-                print(
-                    "removing", coresong.props.media.get_id(),
-                    coresong.props.title)
-                self._model.remove(idx)
-                break
+            for idx, coresong_model in enumerate(self._model):
+                if coresong_model is coresong:
+                    print(
+                        "removing", coresong.props.media.get_id(),
+                        coresong.props.title)
+                    self._model.remove(idx)
+                    break
 
-    def _song_media_query(self, media_id):
+    def _song_media_query(self, media_ids):
+        media_ids = str(media_ids)[1:-1]
+
         query = """
         SELECT DISTINCT
             rdf:type(?song)
@@ -310,17 +314,17 @@ class GrlTrackerWrapper(GObject.GObject):
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
             }
-            FILTER ( tracker:id(?song) = %(media_id)s )
+            FILTER ( tracker:id(?song) in ( %(media_ids)s ) )
             %(location_filter)s
         }
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
-            'media_id': media_id
+            'media_ids': media_ids
         }
 
         return query
 
-    def _changed_media(self, media):
+    def _changed_media(self, media_ids):
 
         def _update_changed_media(source, op_id, media, user_data, error):
             if error:
@@ -341,7 +345,7 @@ class GrlTrackerWrapper(GObject.GObject):
         options = self._fast_options.copy()
 
         self._source.query(
-            self._song_media_query(media.get_id()), self.METADATA_KEYS,
+            self._song_media_query(media_ids), self.METADATA_KEYS,
             options, _update_changed_media)
 
     def _initial_songs_fill(self, source):
