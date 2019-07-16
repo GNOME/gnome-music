@@ -87,6 +87,8 @@ class GrlTrackerWrapper(GObject.GObject):
         self._song_search_proxy = self._coremodel.props.songs_search_proxy
         self._album_search_model = self._coremodel.props.albums_search
         self._artist_search_model = self._coremodel.props.artists_search
+        self._batch_changed_medias = {}
+        self._content_changed_timeout = None
 
         self._song_search_tracker = Gfm.FilterListModel.new(self._model)
         self._song_search_tracker.set_filter_func(lambda a: False)
@@ -104,7 +106,7 @@ class GrlTrackerWrapper(GObject.GObject):
             source, coremodel, coreselection, grilo)
 
         self._source.notify_change_start()
-        self._source.connect("content-changed", self._on_content_changed)
+        self._source.connect("content-changed", self._batch_content_changed)
 
     @GObject.Property(
         type=Grl.Source, default=None, flags=GObject.ParamFlags.READABLE)
@@ -132,22 +134,39 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
-    def _on_content_changed(self, source, medias, change_type, loc_unknown):
-        for media in medias:
-            # The Tracker indexed paths may differ from Music's paths.
-            # In that case Tracker will report it as 'changed', while
-            # it means 'added' to Music.
-            if (change_type == Grl.SourceChangeType.CHANGED
-                    or change_type == Grl.SourceChangeType.ADDED):
-                print("ADDED/CHANGED", media.get_id())
-                self._changed_media(media)
-                self._check_album_change(media)
-                self._check_artist_change(media)
-            elif change_type == Grl.SourceChangeType.REMOVED:
-                print("REMOVED", media.get_id())
-                self._remove_media(media)
-                self._check_album_change(media)
-                self._check_artist_change(media)
+    def _batch_content_changed(self, source, medias, change_type, loc_unknown):
+        if medias == []:
+            return
+
+        if change_type not in self._batch_changed_medias.keys():
+            self._batch_changed_medias[change_type] = []
+
+        [self._batch_changed_medias[change_type].append(media)
+            for media in medias]
+
+        if self._content_changed_timeout is None:
+            self._content_changed_timeout = GLib.timeout_add(
+                250, self._on_content_changed)
+
+    def _on_content_changed(self):
+        for change_type in self._batch_changed_medias.keys():
+            for media in self._batch_changed_medias[change_type]:
+                # The Tracker indexed paths may differ from Music's paths.
+                # In that case Tracker will report it as 'changed', while
+                # it means 'added' to Music.
+                if (change_type == Grl.SourceChangeType.CHANGED
+                        or change_type == Grl.SourceChangeType.ADDED):
+                    print("ADDED/CHANGED", media.get_id())
+                    self._changed_media(media)
+                elif change_type == Grl.SourceChangeType.REMOVED:
+                    print("REMOVED", media.get_id())
+                    self._remove_media(media)
+
+        self._check_album_change(media)
+        self._check_artist_change(media)
+
+        self._batch_changed_medias = {}
+        self._content_changed_timeout = None
 
     def _check_album_change(self, media):
         album_ids = {}
