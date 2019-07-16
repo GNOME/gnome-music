@@ -792,7 +792,7 @@ class GrlTrackerWrapper(GObject.GObject):
             | Grl.ResolutionFlags.IDLE_RELAY)
         full_options.set_count(1)
 
-        self.search_source.query(
+        self._source.query(
             query, self.METADATA_THUMBNAIL_KEYS, full_options, callback)
 
     def _get_album_for_album_id(self, album_id):

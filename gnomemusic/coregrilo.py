@@ -170,7 +170,7 @@ class CoreGrilo(GObject.GObject):
 
     def get_album_art_for_item(self, coresong, callback):
         # Tracker not (yet) loaded.
-        if "grl-tracker-source" not in self._wrappers:
+        if "grl-tracker-source" in self._wrappers:
             self._wrappers["grl-tracker-source"].get_album_art_for_item(
                 coresong, callback)
 
