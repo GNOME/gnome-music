@@ -104,7 +104,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/grilo.git",
-                    "branch": "wip/mschraal/fix-grilo-0.3.8"
+                    "branch": "wip/hadess/fix-grl-keys-extraction"
                 }
             ],
             "cleanup": [ "/include", "/bin" ]
