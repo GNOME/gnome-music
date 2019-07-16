@@ -71,7 +71,7 @@ class SongListStore(Gtk.ListStore):
                 coresong.connect(
                     "notify::favorite", self._on_favorite_changed)
                 coresong.connect(
-                    "notify::state", self._on_state_changed)
+                    "notify::notification", self._on_validation_state_changed)
 
     def _on_favorite_changed(self, coresong, value):
         for row in self:
@@ -79,7 +79,7 @@ class SongListStore(Gtk.ListStore):
                 row[6] = coresong.props.favorite
                 break
 
-    def _on_state_changed(self, coresong, value):
+    def _on_validation_state_changed(self, coresong, value):
         for row in self:
             if coresong == row[7]:
                 row[8] = coresong.props.validation
