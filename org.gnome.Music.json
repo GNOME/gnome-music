@@ -104,7 +104,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/grilo.git",
-                    "branch": "wip/mschraal/fix-grilo-0.3.8"
+                    "commit": "d6fad8022b74e21c489ff8633535657b9cb474b3"
                 }
             ],
             "cleanup": [ "/include", "/bin" ]
