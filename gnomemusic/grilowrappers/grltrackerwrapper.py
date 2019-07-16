@@ -162,13 +162,13 @@ class GrlTrackerWrapper(GObject.GObject):
                     print("REMOVED", media.get_id())
                     self._remove_media(media)
 
-        self._check_album_change(media)
-        self._check_artist_change(media)
+        self._check_album_change()
+        self._check_artist_change()
 
         self._batch_changed_medias = {}
         self._content_changed_timeout = None
 
-    def _check_album_change(self, media):
+    def _check_album_change(self):
         album_ids = {}
 
         query = """
@@ -223,7 +223,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._source.query(
             query, self.METADATA_KEYS, options, check_album_cb)
 
-    def _check_artist_change(self, media):
+    def _check_artist_change(self):
         artist_ids = {}
 
         query = """
