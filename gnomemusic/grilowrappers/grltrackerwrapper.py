@@ -134,14 +134,15 @@ class GrlTrackerWrapper(GObject.GObject):
 
     def _on_content_changed(self, source, medias, change_type, loc_unknown):
         for media in medias:
-            if change_type == Grl.SourceChangeType.ADDED:
-                print("ADDED", media.get_id())
-                self._add_media(media)
+            # The Tracker indexed paths may differ from Music's paths.
+            # In that case Tracker will report it as 'changed', while
+            # it means 'added' to Music.
+            if (change_type == Grl.SourceChangeType.CHANGED
+                    or change_type == Grl.SourceChangeType.ADDED):
+                print("ADDED/CHANGED", media.get_id())
+                self._changed_media(media)
                 self._check_album_change(media)
                 self._check_artist_change(media)
-            elif change_type == Grl.SourceChangeType.CHANGED:
-                print("CHANGED", media.get_id())
-                self._changed_media(media)
             elif change_type == Grl.SourceChangeType.REMOVED:
                 print("REMOVED", media.get_id())
                 self._remove_media(media)
@@ -300,33 +301,6 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
-    def _add_media(self, media):
-
-        def _add_media(source, op_id, media, user_data, error):
-            if error:
-                print("ERROR", error)
-                return
-
-            if not media:
-                return
-
-            # FIXME: Figure out why we get double additions.
-            if media.get_id() in self._hash.keys():
-                print("ALREADY ADDED")
-                return
-
-            song = CoreSong(media, self._coreselection, self._grilo)
-            self._model.append(song)
-            self._hash[media.get_id()] = song
-
-            print("UPDATE ID", media.get_id(), media.get_title())
-
-        options = self._fast_options.copy()
-
-        self._source.query(
-            self._song_media_query(media.get_id()), self.METADATA_KEYS,
-            options, _add_media)
-
     def _changed_media(self, media):
 
         def _update_changed_media(source, op_id, media, user_data, error):
@@ -337,7 +311,13 @@ class GrlTrackerWrapper(GObject.GObject):
             if not media:
                 return
 
-            self._hash[media.get_id()].update(media)
+            if media.get_id() not in self._hash:
+                print("Media not in hash", media.get_id())
+                song = CoreSong(media, self._coreselection, self._grilo)
+                self._model.append(song)
+                self._hash[media.get_id()] = song
+            else:
+                self._hash[media.get_id()].update(media)
 
         options = self._fast_options.copy()
 
