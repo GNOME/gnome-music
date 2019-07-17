@@ -48,7 +48,6 @@ class BaseView(Gtk.Stack):
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-        self._offset = 0
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         # Setup the main view
@@ -67,9 +66,7 @@ class BaseView(Gtk.Stack):
 
         self.add(self._grid)
         self.show_all()
-        # self._view.hide()
 
-        self._init = False
         self._selection_mode_id = self.connect(
             "notify::selection-mode", self._on_selection_mode_changed)
 
