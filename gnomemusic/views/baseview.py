@@ -87,7 +87,3 @@ class BaseView(Gtk.Stack):
     @log
     def _on_item_activated(self, widget, id, path):
         pass
-
-    @log
-    def get_selected_songs(self, callback):
-        callback([])
