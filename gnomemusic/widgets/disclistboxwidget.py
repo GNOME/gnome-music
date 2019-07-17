@@ -111,7 +111,13 @@ class DiscBox(Gtk.ListBoxRow):
 
         song_widget.connect('button-release-event', self._song_activated)
 
-        return song_widget
+        row = Gtk.ListBoxRow()
+        row.props.activatable = False
+        row.props.selectable = False
+        row.add(song_widget)
+        row.show()
+
+        return row
 
     def _song_activated(self, widget, event):
         if widget.props.select_click:
