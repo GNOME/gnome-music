@@ -57,7 +57,6 @@ class SongsView(BaseView):
         self._coremodel = self._window._app.props.coremodel
         super().__init__('songs', _("Songs"), window)
 
-        self._offset = 0
         self._iter_to_clean = None
 
         self._view.get_style_context().add_class('songs-list-old')
