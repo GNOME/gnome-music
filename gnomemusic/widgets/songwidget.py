@@ -32,6 +32,7 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 from gnomemusic import log
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
+from gnomemusic.utils import SongStateIcon
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
@@ -294,7 +295,7 @@ class SongWidget(Gtk.EventBox):
     def _on_validation_changed(self, coresong, sate):
         validation_status = coresong.props.validation
         if validation_status == CoreSong.Validation.FAILED:
-            self._play_icon.props.icon_name = "dialog-error-symbolic"
+            self._play_icon.props.icon_name = SongStateIcon.ERROR.value
             self._play_icon.set_visible(True)
         else:
-            self._play_icon.props.icon_name = "media-playback-start-symbolic"
+            self._play_icon.props.icon_name = SongStateIcon.PLAYING.value
