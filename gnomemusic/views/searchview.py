@@ -268,8 +268,7 @@ class SearchView(BaseView):
                 and not self.props.selection_mode):
             self.props.selection_mode = True
 
-        if (self.selection_mode
-                and not self._star_handler.star_renderer_click):
+        if self.selection_mode:
             path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
             iter_ = self.model.get_iter(path)
             self.model[iter_][6] = not self.model[iter_][6]
