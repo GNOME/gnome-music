@@ -402,6 +402,10 @@ class Player(GObject.GObject):
 
         self._playlist = PlayerPlaylist(self._app)
 
+        self._playlist_model = self._app.props.coremodel.props.playlist_sort
+        self._playlist_model.connect(
+            "items-changed", self._on_playlist_model_items_changed)
+
         self._settings = application.props.settings
         self._settings.connect(
             'changed::repeat', self._on_repeat_setting_changed)
@@ -456,6 +460,11 @@ class Player(GObject.GObject):
         :rtype: bool
         """
         return self.props.state == Playback.PLAYING
+
+    def _on_playlist_model_items_changed(self, model, pos, removed, added):
+        if (removed > 0
+                and model.get_n_items() == 0):
+            self.stop()
 
     @log
     def _on_about_to_finish(self, klass):
