@@ -135,14 +135,6 @@ class ArtistsView(BaseView):
         self._view_container.add(self._view)
 
     @log
-    def _on_changes_pending(self, data=None):
-        if (self._init
-                and not self.props.selection_mode):
-            self._artists.clear()
-            self._offset = 0
-            self._populate()
-
-    @log
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         artist_tile = row.get_child()
