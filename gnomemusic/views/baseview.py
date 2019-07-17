@@ -86,10 +86,6 @@ class BaseView(Gtk.Stack):
             self._on_grilo_ready()
 
     @log
-    def _on_changes_pending(self, data=None):
-        pass
-
-    @log
     def _setup_view(self):
         """Instantiate and set up the view object"""
         pass
