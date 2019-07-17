@@ -231,11 +231,6 @@ class SongsView(BaseView):
 
         return False
 
-    @log
-    def _populate(self, data=None):
-        """Populates the view"""
-        self._init = True
-
     def _select(self, value):
         with self._model.freeze_notify():
             itr = self._model.iter_children(None)
