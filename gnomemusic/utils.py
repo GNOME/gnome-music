@@ -23,10 +23,13 @@
 # delete this exception statement from your version.
 
 from enum import IntEnum
-
 from gettext import gettext as _
-from gi.repository import Gio
 
+import gi
+gi.require_version('Grl', '0.3')
+from gi.repository import Gio, GLib, Grl
+
+from gnomemusic.grilo import grilo
 
 class View(IntEnum):
     """Enum for views"""
@@ -151,3 +154,72 @@ def seconds_to_string(duration):
     seconds %= 60
 
     return '{:d}:{:02d}'.format(minutes, seconds)
+
+
+def set_album_title(item, album):
+    """Sets the album title of the media item.
+
+    :param item: A Grilo Media object
+    :param album: A string representing album title
+    """
+    return ( item.set_album(album) and
+             grilo.set_metadata_key(item, Grl.METADATA_KEY_ALBUM) )
+
+
+def set_artist_name(item, artist):
+    """Sets the artist name of the media item.
+
+    :param item: A Grilo Media object
+    :param album: A string representing artist name
+    """
+    return ( item.set_artist(artist) and
+             grilo.set_metadata_key(item, Grl.METADATA_KEY_ARTIST) )
+
+
+def set_album_disc_number(item, disc_number):
+    """Sets the album disc number of the media item.
+
+    :param item: A Grilo Media object
+    :param album: A string representing album disc number
+    """
+    return ( item.set_album_disc_number(int(disc_number)) and
+             grilo.set_metadata_key(item, Grl.METADATA_KEY_ALBUM_DISC_NUMBER) )
+
+
+def set_title(item, title):
+    """Sets the title of the media item.
+
+    :param item: A Grilo Media object
+    :param album: A string representing title
+    """
+    return ( item.set_title(title) and
+             grilo.set_metadata_key(item, Grl.METADATA_KEY_TITLE) )
+
+
+def set_track_number(item, track_number):
+    """Sets the track number of the media item.
+
+    :param item: A Grilo Media object
+    :param album: A string representing track number
+    """
+    return ( item.set_track_number(int(track_number)) and
+             grilo.set_metadata_key(item, Grl.METADATA_KEY_TRACK_NUMBER) )
+
+
+def set_creation_year(item, creation_year):
+    """Sets the creation year of the media item.
+
+    :param item: A Grilo Media object
+    :param album: A string representing creation year
+    """
+    creation_date = item.get_creation_date()
+    if creation_date:
+        timezone = creation_date.get_timezone()
+        month = creation_date.get_month()
+        day = creation_date.get_day_of_month()
+        hour = creation_date.get_hour()
+        minute = creation_date.get_minute()
+        second = creation_date.get_second()
+        updated_creation_date = GLib.DateTime(timezone, int(creation_year), month, day, hour, minute, second)
+        return ( item.set_creation_date(updated_creation_date) and
+                 grilo.set_metadata_key(item, Grl.METADATA_KEY_CREATION_DATE) )
