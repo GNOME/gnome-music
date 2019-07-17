@@ -124,15 +124,3 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     def artist(self):
         """Artist name"""
         return self._artist
-
-    @log
-    def get_selected_songs(self):
-        """Return a list of selected songs.
-
-        :returns: selected songs
-        :rtype: list
-        """
-        songs = []
-        for widget in self._widgets:
-            songs += widget.get_selected_songs()
-        return songs
