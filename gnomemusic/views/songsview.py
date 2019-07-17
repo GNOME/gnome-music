@@ -109,6 +109,8 @@ class SongsView(BaseView):
             ellipsize=Pango.EllipsizeMode.END)
         column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
         column_title.props.expand = True
+        column_title.set_cell_data_func(
+            title_renderer, self._on_list_widget_title_render, None)
         self._view.append_column(column_title)
 
         column_star = Gtk.TreeViewColumn()
@@ -126,6 +128,8 @@ class SongsView(BaseView):
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
         column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
         column_artist.props.expand = True
+        column_artist.set_cell_data_func(
+            artist_renderer, self._on_list_widget_artist_render, None)
         self._view.append_column(column_artist)
 
         album_renderer = Gtk.CellRendererText(
@@ -151,6 +155,22 @@ class SongsView(BaseView):
         item = model[_iter][5]
         if item:
             cell.props.text = utils.get_album_title(item)
+
+    def _on_list_widget_artist_render(self, coll, cell, model, _iter, data):
+        if not model.iter_is_valid(_iter):
+            return
+
+        item = model[_iter][5]
+        if item:
+            cell.props.text = utils.get_artist_name(item)
+
+    def _on_list_widget_title_render(self, coll, cell, model, _iter, data):
+        if not model.iter_is_valid(_iter):
+            return
+
+        item = model[_iter][5]
+        if item:
+            cell.props.text = utils.get_media_title(item)
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         if not self.player.playing_playlist(PlayerPlaylist.Type.SONGS, None):
