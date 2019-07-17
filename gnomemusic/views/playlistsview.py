@@ -326,10 +326,3 @@ class PlaylistsView(BaseView):
         selection = self._sidebar.get_selected_row()
         current_playlist = selection.props.playlist
         current_playlist.reorder(source_position, target_position)
-
-    @log
-    def _populate(self, data=None):
-        """Populate sidebar.
-        Do not reload playlists already displayed.
-        """
-        self._init = True
