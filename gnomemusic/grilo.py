@@ -483,6 +483,16 @@ class Grilo(GObject.GObject):
             self._store_metadata, media, Grl.METADATA_KEY_LAST_PLAYED)
 
     @log
+    def set_metadata_key(self, media, key):
+        """Sets the metadata keys of media
+
+        :param media: A Grilo media item
+        :param key: Grilo key which needs be to be stored
+        """
+        GLib.idle_add(
+            self._store_metadata, media, key)
+
+    @log
     def toggle_favorite(self, media):
         """Toggles favorite status for media item
 
