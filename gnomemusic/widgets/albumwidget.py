@@ -180,21 +180,6 @@ class AlbumWidget(Gtk.EventBox):
     def select_none(self):
         self._listbox.select_none()
 
-    @log
-    def get_selected_songs(self):
-        """Return a list of selected songs.
-
-        :returns: selected songs
-        :rtype: list
-        """
-        selected_songs = []
-
-        for song in self._model:
-            if song.props.selected:
-                selected_songs.append(song.props.media)
-
-        return selected_songs
-
     @GObject.Property(
         type=Grl.Media, default=False, flags=GObject.ParamFlags.READABLE)
     def album(self):
