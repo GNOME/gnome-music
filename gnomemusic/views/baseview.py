@@ -83,7 +83,3 @@ class BaseView(Gtk.Stack):
     def _on_selection_mode_changed(self, widget, data=None):
         if not self.props.selection_mode:
             self.unselect_all()
-
-    @log
-    def _on_item_activated(self, widget, id, path):
-        pass
