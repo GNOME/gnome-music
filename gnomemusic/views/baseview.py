@@ -80,28 +80,10 @@ class BaseView(Gtk.Stack):
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        if not self._init:
-            self._on_grilo_ready()
-
     @log
     def _setup_view(self):
         """Instantiate and set up the view object"""
         pass
-
-    @log
-    def _on_grilo_ready(self, data=None):
-        if (self._headerbar.props.stack.props.visible_child == self
-                and not self._init):
-            pass
-
-        self._headerbar.props.stack.connect(
-            'notify::visible-child', self._on_headerbar_visible)
-
-    @log
-    def _on_headerbar_visible(self, widget, param):
-        if (self == widget.get_visible_child()
-                and not self._init):
-            pass
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
