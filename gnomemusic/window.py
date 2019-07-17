@@ -230,11 +230,11 @@ class Window(Gtk.ApplicationWindow):
         self._headerbar.props.stack = self._stack
         self._searchbar.show()
 
-        self.views[View.ALBUM] = AlbumsView(self, self._player)
-        self.views[View.ARTIST] = ArtistsView(self, self._player)
-        self.views[View.SONG] = SongsView(self, self._player)
-        self.views[View.PLAYLIST] = PlaylistsView(self, self._player)
-        self.views[View.SEARCH] = SearchView(self, self._player)
+        self.views[View.ALBUM] = AlbumsView(self._app, self._player)
+        self.views[View.ARTIST] = ArtistsView(self._app, self._player)
+        self.views[View.SONG] = SongsView(self._app, self._player)
+        self.views[View.PLAYLIST] = PlaylistsView(self._app, self._player)
+        self.views[View.SEARCH] = SearchView(self._app, self._player)
 
         selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
         for view in selectable_views:

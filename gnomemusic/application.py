@@ -120,6 +120,15 @@ class Application(Gtk.Application):
         """
         return self._coreselection
 
+    @GObject.Property(type=Window, flags=GObject.ParamFlags.READABLE)
+    def window(self):
+        """Get main window.
+
+        :returns: Main window.
+        :rtype: Window
+        """
+        return self._window
+
     @log
     def _build_app_menu(self):
         action_entries = [

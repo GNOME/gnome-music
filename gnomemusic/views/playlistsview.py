@@ -44,10 +44,10 @@ class PlaylistsView(BaseView):
         return '<PlaylistsView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, application, player):
         """Initialize
 
-        :param GtkWidget window: The main window
+        :param GtkApplication window: The application object
         :param player: The main player object
         """
         self._sidebar = Gtk.ListBox()
@@ -55,11 +55,11 @@ class PlaylistsView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'playlists', _("Playlists"), window, sidebar_container)
+            'playlists', _("Playlists"), application, sidebar_container)
 
-        self._coremodel = window._app.props.coremodel
+        self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
-        self._window = window
+        self._window = application.props.window
         self.player = player
 
         self._pl_ctrls = PlaylistControls()

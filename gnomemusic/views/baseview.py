@@ -37,14 +37,13 @@ class BaseView(Gtk.Stack):
         return '<BaseView>'
 
     @log
-    def __init__(self, name, title, window, sidebar=None):
+    def __init__(self, name, title, application, sidebar=None):
         """Initialize
         :param name: The view name
         :param title: The view title
-        :param GtkWidget window: The main window
+        :param GtkApplication application: The application object
         :param sidebar: The sidebar object (Default: Gtk.Box)
         """
-
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
         self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
@@ -58,8 +57,8 @@ class BaseView(Gtk.Stack):
 
         self._grid.add(self._box)
 
-        self._window = window
-        self._headerbar = window._headerbar
+        self._window = application.props.window
+        self._headerbar = self._window._headerbar
 
         self.name = name
         self.title = title
