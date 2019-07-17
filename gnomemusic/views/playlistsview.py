@@ -155,10 +155,6 @@ class PlaylistsView(BaseView):
         self._sidebar.select_row(first_row)
         first_row.emit("activate")
 
-    def _on_playlists_model_changed(self, model, position, removed, added):
-        if removed == 0:
-            return
-
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
         requested_row = self._view.get_row_at_y(y)
