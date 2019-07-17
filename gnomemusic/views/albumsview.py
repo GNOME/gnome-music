@@ -133,12 +133,6 @@ class AlbumsView(BaseView):
         self._headerbar.props.title = corealbum.props.title
         self._headerbar.props.subtitle = corealbum.props.artist
 
-    @log
-    def _populate(self, data=None):
-        # self._window.notifications_popup.push_loading()
-        self._init = True
-        self._view.show()
-
     def _toggle_all_selection(self, selected):
         """
         Selects or unselects all items without sending the notify::active

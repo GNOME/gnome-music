@@ -310,8 +310,3 @@ class SearchView(BaseView):
         if (not self._search_mode_active
                 and self.get_visible_child() == self._grid):
             self.props.search_state = Search.State.NONE
-
-    @log
-    def _populate(self, data=None):
-        self._init = True
-        self._headerbar.props.state = HeaderBar.State.MAIN

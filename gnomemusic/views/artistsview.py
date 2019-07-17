@@ -165,11 +165,6 @@ class ArtistsView(BaseView):
         self._loaded_artists.append(coreartist.props.artist)
 
     @log
-    def _populate(self, data=None):
-        """Populates the view"""
-        pass
-
-    @log
     def _on_sidebar_clicked(self, gesture, n_press, x, y):
         success, state = Gtk.get_current_event_state()
         modifiers = Gtk.accelerator_get_default_mod_mask()
