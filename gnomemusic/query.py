@@ -196,11 +196,15 @@ class Query():
         ?url
         nie:title(?song) AS ?title
         nmm:artistName(nmm:performer(?song)) AS ?artist
+        nmm:artistName(nmm:composer(?song)) AS ?composer
+        nmm:trackNumber(?song) AS ?track_number
+        nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
         nie:title(nmm:musicAlbum(?song)) AS ?album
         nfo:duration(?song) AS ?duration
         ?tag AS ?favourite
         nie:contentAccessed(?song) AS ?last_played_time
         nie:usageCounter(?song) AS ?play_count
+        YEAR(nie:contentCreated(?song)) AS ?creation_date
     {
         %(where_clause)s
         ?song a nmm:MusicPiece ;
