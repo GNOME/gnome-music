@@ -156,7 +156,6 @@ class SongsView(BaseView):
     def _on_changes_pending(self, data=None):
         if (self._init
                 and not self.props.selection_mode):
-            self.model.clear()
             self._offset = 0
             self._populate()
             # grilo.changes_pending['Songs'] = False
