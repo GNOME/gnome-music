@@ -149,10 +149,10 @@ class SongsView(BaseView):
 
         coresong = model[itr][7]
         if coresong.props.validation == CoreSong.Validation.FAILED:
-            cell.props.icon_name = self._error_icon_name
+            cell.props.icon_name = "dialog-error-symbolic"
             cell.props.visible = True
         elif coresong.props.grlid == current_song.props.grlid:
-            cell.props.icon_name = self._now_playing_icon_name
+            cell.props.icon_name = "media-playback-start-symbolic"
             cell.props.visible = True
         else:
             cell.props.visible = False

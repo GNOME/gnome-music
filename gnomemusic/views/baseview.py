@@ -30,9 +30,6 @@ from gnomemusic import log
 class BaseView(Gtk.Stack):
     """Base Class for all view classes"""
 
-    _now_playing_icon_name = 'media-playback-start-symbolic'
-    _error_icon_name = 'dialog-error-symbolic'
-
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
