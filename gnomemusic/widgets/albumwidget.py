@@ -167,7 +167,7 @@ class AlbumWidget(Gtk.EventBox):
             coremodel.disconnect(signal_id)
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
-        coremodel.set_playlist_model(
+        coremodel.set_player_model(
             PlayerPlaylist.Type.ALBUM, self._album_model)
 
         return True

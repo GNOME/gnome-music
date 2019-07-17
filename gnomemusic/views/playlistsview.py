@@ -279,7 +279,7 @@ class PlaylistsView(BaseView):
 
         selection = self._sidebar.get_selected_row()
         current_playlist = selection.props.playlist
-        self._coremodel.set_playlist_model(
+        self._coremodel.set_player_model(
             PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
         self.player.play(coresong)
 
