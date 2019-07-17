@@ -92,7 +92,7 @@ class BaseView(Gtk.Stack):
     def _on_grilo_ready(self, data=None):
         if (self._headerbar.props.stack.props.visible_child == self
                 and not self._init):
-            self._populate()
+            pass
 
         self._headerbar.props.stack.connect(
             'notify::visible-child', self._on_headerbar_visible)
@@ -101,11 +101,7 @@ class BaseView(Gtk.Stack):
     def _on_headerbar_visible(self, widget, param):
         if (self == widget.get_visible_child()
                 and not self._init):
-            self._populate()
-
-    @log
-    def _populate(self, data=None):
-        pass
+            pass
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
