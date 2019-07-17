@@ -49,7 +49,11 @@ class Grilo(GObject.GObject):
     __gsignals__ = {
         'ready': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'changes-pending': (GObject.SignalFlags.RUN_FIRST, None, ()),
-        'new-source-added': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, ))
+        'new-source-added': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
+        'new-resolve-source-found': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
+        'new-browse-source-found': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
     }
 
     METADATA_KEYS = [
@@ -269,6 +273,16 @@ class Grilo(GObject.GObject):
                 logger.debug("source %s is searchable", id)
                 self.props.sources[id] = mediaSource
                 self.emit('new-source-added', mediaSource)
+
+            elif (ops & Grl.SupportedOps.RESOLVE
+                  and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+                logger.debug("source %s can be resolved", id)
+                self.emit('new-resolve-source-found', mediaSource)
+
+            elif (ops & Grl.SupportedOps.BROWSE
+                  and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
+                logger.debug("source %s can be resolved", id)
+                self.emit('new-browse-source-found', mediaSource)
 
         except Exception as e:
             logger.debug("Source {}: exception {}".format(id, e))
