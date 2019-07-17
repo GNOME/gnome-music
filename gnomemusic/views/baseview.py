@@ -25,7 +25,6 @@
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
 
 class BaseView(Gtk.Stack):
@@ -63,7 +62,6 @@ class BaseView(Gtk.Stack):
 
         self._grid.add(self._box)
 
-        self._star_handler = StarHandlerWidget(self, 6)
         self._window = window
         self._headerbar = window._headerbar
 
