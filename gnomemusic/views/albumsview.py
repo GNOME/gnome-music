@@ -60,13 +60,6 @@ class AlbumsView(BaseView):
             "notify::search-mode-active", self._on_search_mode_changed)
 
     @log
-    def _on_selection_mode_changed(self, widget, data=None):
-        super()._on_selection_mode_changed(widget, data)
-
-        if not self.props.selection_mode:
-            self._on_changes_pending()
-
-    @log
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
                 and self._headerbar.props.stack.props.visible_child == self

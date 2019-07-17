@@ -153,23 +153,11 @@ class SongsView(BaseView):
             cell.props.visible = False
 
     @log
-    def _on_changes_pending(self, data=None):
-        if (self._init
-                and not self.props.selection_mode):
-            self.model.clear()
-            self._offset = 0
-            self._populate()
-            # grilo.changes_pending['Songs'] = False
-
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
         cols = self._view.get_columns()
         cols[1].props.visible = self.props.selection_mode
-
-        if not self.props.selection_mode:
-            self._on_changes_pending()
 
     @log
     def _on_item_activated(self, treeview, path, column):
