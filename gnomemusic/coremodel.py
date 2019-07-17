@@ -311,8 +311,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
-                # if self._search_signal_id:
-                #     self._song_search_model.disconnect(self._search_signal_id)
 
                 self._playlist_model.remove_all()
 
@@ -329,9 +327,6 @@ class CoreModel(GObject.GObject):
                     model_song.bind_property(
                         "validation", song, "validation",
                         GObject.BindingFlags.SYNC_CREATE)
-
-                # self._search_signal_id = self._song_search_model.connect(
-                #     "items-changed", _on_items_changed)
 
                 self.emit("playlist-loaded")
 
