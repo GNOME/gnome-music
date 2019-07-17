@@ -223,3 +223,23 @@ def set_creation_year(item, creation_year):
         updated_creation_date = GLib.DateTime(timezone, int(creation_year), month, day, hour, minute, second)
         return ( item.set_creation_date(updated_creation_date) and
                  grilo.set_metadata_key(item, Grl.METADATA_KEY_CREATION_DATE) )
+
+
+
+fields_getter = {
+    'album': get_album_title,
+    'artist': get_artist_name,
+    'disc': get_album_disc_nr,
+    'title': get_media_title,
+    'track': get_media_track_nr,
+    'year': get_media_year
+}
+
+fields_setter = {
+    'album': set_album_title,
+    'artist': set_artist_name,
+    'disc': set_album_disc_number,
+    'title': set_title,
+    'track': set_track_number,
+    'year': set_creation_year
+}
