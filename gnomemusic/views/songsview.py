@@ -30,6 +30,7 @@ from gnomemusic import log
 from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +137,7 @@ class SongsView(BaseView):
             "Duration", duration_renderer, text=5)
         self._view.append_column(column_duration)
 
+        self._star_handler = StarHandlerWidget(self, 6)
         column_star = Gtk.TreeViewColumn()
         self._view.append_column(column_star)
         self._star_handler.add_star_renderers(column_star)
