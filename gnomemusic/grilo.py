@@ -28,6 +28,7 @@
 import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import GLib, GObject
+from gnomemusic.musicbrainz import MusicBrainz
 from gnomemusic.query import Query
 from gnomemusic import log
 from gnomemusic.trackerwrapper import TrackerWrapper
@@ -136,6 +137,8 @@ class Grilo(GObject.GObject):
             "tracker-available", self, "tracker-available",
             GObject.BindingFlags.BIDIRECTIONAL |
             GObject.BindingFlags.SYNC_CREATE)
+
+        self._musicbrainz = MusicBrainz(self)
 
         self._find_sources()
 
@@ -491,6 +494,15 @@ class Grilo(GObject.GObject):
         """
         GLib.idle_add(
             self._store_metadata, media, key)
+
+    @log
+    def get_tags_from_musicbrainz(self, media, callback):
+        """Retrieves the metadata keys of media
+
+        :param media: A Grilo media item
+        :param callback: Function which is called after metadata retrieval
+        """
+        return self._musicbrainz.get_song_tags(media, callback)
 
     @log
     def toggle_favorite(self, media):
