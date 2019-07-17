@@ -29,6 +29,7 @@ from gi.repository import Gdk, Gtk, Pango
 from gnomemusic import log
 from gnomemusic.coresong import CoreSong
 from gnomemusic.player import PlayerPlaylist
+from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
@@ -146,10 +147,10 @@ class SongsView(BaseView):
 
         coresong = model[itr][7]
         if coresong.props.validation == CoreSong.Validation.FAILED:
-            cell.props.icon_name = self._error_icon_name
+            cell.props.icon_name = SongStateIcon.ERROR.value
             cell.props.visible = True
         elif coresong.props.grlid == current_song.props.grlid:
-            cell.props.icon_name = self._now_playing_icon_name
+            cell.props.icon_name = SongStateIcon.PLAYING.value
             cell.props.visible = True
         else:
             cell.props.visible = False
@@ -225,7 +226,7 @@ class SongsView(BaseView):
         self._view.props.model[iter_][9] = True
         self._view.scroll_to_cell(path, None, True, 0.5, 0.5)
 
-        if self._view.props.model[iter_][0] != self._error_icon_name:
+        if self._view.props.model[iter_][0] != SongStateIcon.ERROR.value:
             self._iter_to_clean = iter_.copy()
 
         return False
