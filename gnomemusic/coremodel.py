@@ -78,6 +78,7 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._flatten_model = None
+        self._previous_playlist_model = None
         self._search_signal_id = None
         self._song_signal_id = None
 
@@ -203,6 +204,13 @@ class CoreModel(GObject.GObject):
         return albums_model_sort
 
     def set_playlist_model(self, playlist_type, model):
+        if model is self._previous_playlist_model:
+            for song in self._playlist_model:
+                if song.props.state == SongWidget.State.PLAYING:
+                    song.props.state = SongWidget.State.PLAYED
+
+            self.emit("playlist-loaded")
+            return
 
         def _on_items_changed(model, position, removed, added):
             if removed > 0:
@@ -329,6 +337,8 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.SYNC_CREATE)
 
                 self.emit("playlist-loaded")
+
+        self._previous_playlist_model = model
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
