@@ -159,7 +159,7 @@ class SearchView(BaseView):
                 and not self.props.selection_mode):
             # self.emit('song-activated', widget)
 
-            self._coremodel.set_playlist_model(
+            self._coremodel.set_player_model(
                 PlayerPlaylist.Type.SEARCH_RESULT, self._model)
             self.player.play(widget.props.coresong)
 
