@@ -50,12 +50,6 @@ class RepeatMode(IntEnum):
     SHUFFLE = 3
 
 
-class PlayerField(IntEnum):
-    """Enum for player model fields"""
-    SONG = 0
-    VALIDATION = 1
-
-
 class PlayerPlaylist(GObject.GObject):
     """PlayerPlaylist object
 
