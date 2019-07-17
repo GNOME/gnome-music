@@ -138,8 +138,15 @@ class DiscBox(Gtk.Box):
             | GObject.BindingFlags.SYNC_CREATE)
 
         song_widget.connect('button-release-event', self._song_activated)
+        song_widget.show()
 
-        return song_widget
+        row = Gtk.ListBoxRow()
+        row.props.activatable = False
+        row.props.selectable = False
+        row.add(song_widget)
+        row.show()
+
+        return row
 
     @log
     def _on_selection_changed(self, widget):
