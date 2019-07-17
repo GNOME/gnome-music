@@ -210,7 +210,8 @@ class AlbumWidget(Gtk.EventBox):
         if remaining == 0:
             discs = {}
             for song in self._songs:
-                disc_nr = song.get_album_disc_number()
+                disc_nr = utils.get_album_disc_nr(song)
+                song.set_mb_release_id("DAMN")
                 if disc_nr not in discs.keys():
                     discs[disc_nr] = [song]
                 else:
