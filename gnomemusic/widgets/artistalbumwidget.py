@@ -43,7 +43,6 @@ class ArtistAlbumWidget(Gtk.Box):
     selection_mode = GObject.Property(type=bool, default=False)
 
     __gsignals__ = {
-        "ready": (GObject.SignalFlags.RUN_FIRST, None, ()),
         "song-activated": (
             GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )
         ),
@@ -85,12 +84,10 @@ class ArtistAlbumWidget(Gtk.Box):
         if self._cover_size_group:
             self._cover_size_group.add_widget(self._cover_stack)
 
-        self._nb_disc_box_loaded = 0
-        self._model = corealbum.props.model
-        self._model.props.model.connect_after(
+        corealbum.props.model.connect_after(
             "items-changed", self._on_model_items_changed)
         self._disc_list_box.bind_model(
-            self._model, self._create_widget)
+            corealbum.props.model, self._create_widget)
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
@@ -103,17 +100,9 @@ class ArtistAlbumWidget(Gtk.Box):
         disc_box.props.show_durations = False
         disc_box.props.show_favorites = False
         disc_box.props.show_song_numbers = True
-        disc_box.connect("ready", self._on_discbox_ready)
         disc_box.connect('song-activated', self._song_activated)
 
         return disc_box
-
-    def _on_discbox_ready(self, klass):
-        self._nb_disc_box_loaded += 1
-        if self._nb_disc_box_loaded == self._model.get_n_items():
-            klass.disconnect_by_func(self._on_discbox_ready)
-            self._nb_disc_box_loaded = 0
-            self.emit("ready")
 
     def _on_model_items_changed(self, model, position, removed, added):
         n_items = model.get_n_items()

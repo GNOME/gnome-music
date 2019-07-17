@@ -134,10 +134,6 @@ class ArtistsView(BaseView):
             vhomogeneous=False)
         self._view_container.add(self._view)
 
-        empty_frame = Gtk.Frame(shadow_type=Gtk.ShadowType.NONE, hexpand=True)
-        empty_frame.show()
-        self._view.add_named(empty_frame, "empty-frame")
-
     @log
     def _on_changes_pending(self, data=None):
         if (self._init
@@ -162,35 +158,19 @@ class ArtistsView(BaseView):
             self._view.set_visible_child_name(coreartist.props.artist)
             return
 
-        if self._loading_id > 0:
-            self._artist_albums.disconnect(self._loading_id)
-            self._loading_id = 0
-
         self._artist_albums = ArtistAlbumsWidget(
             coreartist, self.player, self._window, False)
-        self._loading_id = self._artist_albums.connect(
-            "ready", self._on_artist_albums_ready, coreartist.props.artist)
-        self._view.set_visible_child_name("empty-frame")
-        self._window.notifications_popup.push_loading()
-        return
-
-    def _on_artist_albums_ready(self, widget, artist):
         artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         artist_albums_frame.add(self._artist_albums)
         artist_albums_frame.show()
 
-        self._view.add_named(artist_albums_frame, artist)
+        self._view.add_named(artist_albums_frame, coreartist.props.artist)
         scroll_vadjustment = self._view_container.props.vadjustment
         scroll_vadjustment.props.value = 0.
         self._view.set_visible_child(artist_albums_frame)
-        self._window.notifications_popup.pop_loading()
-        self._loaded_artists.append(artist)
 
-        self._artist_albums.disconnect(self._loading_id)
-        self._loading_id = 0
-        self._artist_albums = None
-        return
+        self._loaded_artists.append(coreartist.props.artist)
 
     @log
     def _populate(self, data=None):
