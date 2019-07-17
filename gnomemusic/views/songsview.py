@@ -47,15 +47,14 @@ class SongsView(BaseView):
         return '<SongsView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, application, player):
         """Initialize
 
-        :param GtkWidget window: The main window
+        :param GtkApplication window: The application object
         :param player: The main player object
         """
-        self._window = window
-        self._coremodel = self._window._app.props.coremodel
-        super().__init__('songs', _("Songs"), window)
+        self._coremodel = application.props.coremodel
+        super().__init__('songs', _("Songs"), application)
 
         self._iter_to_clean = None
 
@@ -181,7 +180,7 @@ class SongsView(BaseView):
 
         itr = self._view.props.model.get_iter(path)
         coresong = self._view.props.model[itr][7]
-        self._window._app._coremodel.set_player_model(
+        self._coremodel.set_player_model(
             PlayerPlaylist.Type.SONGS, self._view.props.model)
 
         self.player.play(coresong)
