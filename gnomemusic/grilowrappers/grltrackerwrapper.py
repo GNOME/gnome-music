@@ -386,6 +386,7 @@ class GrlTrackerWrapper(GObject.GObject):
             }
             %(location_filter)s
         }
+        ORDER BY ?title
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter()
         }
@@ -425,7 +426,9 @@ class GrlTrackerWrapper(GObject.GObject):
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
             %(location_filter)s
-        } GROUP BY ?album
+        }
+        GROUP BY ?album
+        ORDER BY ?title ?album_artist ?artist ?creation_date
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter()
         }
@@ -460,7 +463,9 @@ class GrlTrackerWrapper(GObject.GObject):
                     nmm:musicAlbum ?album;
                     nmm:performer ?artist .
             %(location_filter)s
-        } GROUP BY ?artist
+        }
+        GROUP BY ?artist
+        ORDER BY ?artist
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter()
         }
@@ -483,6 +488,7 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(?album)
             tracker:id(?album) AS ?id
             nie:title(?album) AS ?title
+            nie:contentCreated(?song) AS ?date
         WHERE {
             ?album a nmm:MusicAlbum .
             OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
@@ -493,6 +499,8 @@ class GrlTrackerWrapper(GObject.GObject):
                      || tracker:id(?artist) = %(artist_id)s )
             %(location_filter)s
         }
+        GROUP BY ?album
+        ORDER BY ?date ?album
         """.replace('\n', ' ').strip() % {
             'artist_id': int(artist_id),
             'location_filter': self._location_filter()
@@ -541,6 +549,7 @@ class GrlTrackerWrapper(GObject.GObject):
             FILTER ( tracker:id(?album) = %(album_id)s )
             %(location_filter)s
         }
+        ORDER BY ?album_disc_number
         """.replace('\n', ' ').strip() % {
             'album_id': int(album_id),
             'location_filter': self._location_filter()
@@ -598,6 +607,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        ORDER BY ?track_number
         """.replace('\n', ' ').strip() % {
             'album_id': album_id,
             'disc_nr': disc_nr,
