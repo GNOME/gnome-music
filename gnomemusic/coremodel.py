@@ -203,7 +203,7 @@ class CoreModel(GObject.GObject):
 
         return albums_model_sort
 
-    def set_playlist_model(self, playlist_type, model):
+    def set_player_model(self, playlist_type, model):
         if model is self._previous_playlist_model:
             for song in self._playlist_model:
                 if song.props.state == SongWidget.State.PLAYING:
