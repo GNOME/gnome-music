@@ -22,10 +22,16 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from enum import IntEnum
+from enum import Enum, IntEnum
 
 from gettext import gettext as _
 from gi.repository import Gio
+
+
+class SongStateIcon(Enum):
+    """Enum for icons used in song playing and validation"""
+    ERROR = "dialog-error-symbolic"
+    PLAYING = "media-playback-start-symbolic"
 
 
 class View(IntEnum):
