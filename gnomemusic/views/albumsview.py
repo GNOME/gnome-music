@@ -44,17 +44,12 @@ class AlbumsView(BaseView):
         self._window = application.props.window
         super().__init__('albums', _("Albums"), application)
 
-        self.player = player
         self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
         self.add(self._album_widget)
-        self.albums_selected = []
-        self.all_items = []
-        self.items_selected = []
-        self.items_selected_callback = None
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
