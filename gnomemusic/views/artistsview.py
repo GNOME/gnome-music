@@ -45,23 +45,24 @@ class ArtistsView(BaseView):
         return '<ArtistsView>'
 
     @log
-    def __init__(self, window, player):
+    def __init__(self, application, player):
         """Initialize
 
-        :param GtkWidget window: The main window
+        :param GtkApplication application: The application object
         :param player: The main player object
         """
         self._sidebar = Gtk.ListBox()
         sidebar_container = Gtk.ScrolledWindow()
         sidebar_container.add(self._sidebar)
 
-        super().__init__('artists', _("Artists"), window, sidebar_container)
+        super().__init__(
+            'artists', _("Artists"), application, sidebar_container)
 
         self.player = player
         self._artists = {}
 
-        self._window = window
-        self._coremodel = window._app.props.coremodel
+        self._window = application.props.window
+        self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.artists_sort
 
         self._model.connect_after(

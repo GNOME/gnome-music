@@ -40,9 +40,9 @@ class AlbumsView(BaseView):
         return '<AlbumsView>'
 
     @log
-    def __init__(self, window, player):
-        self._window = window
-        super().__init__('albums', _("Albums"), window)
+    def __init__(self, application, player):
+        self._window = application.props.window
+        super().__init__('albums', _("Albums"), application)
 
         self.player = player
         self._album_widget = AlbumWidget(player, self)
