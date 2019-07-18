@@ -231,7 +231,8 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.SYNC_CREATE)
                     coresong.bind_property(
                         "validation", song, "validation",
-                        GObject.BindingFlags.SYNC_CREATE)
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
 
         with model.freeze_notify():
 
@@ -258,7 +259,8 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.SYNC_CREATE)
                     model_song.bind_property(
                         "validation", song, "validation",
-                        GObject.BindingFlags.SYNC_CREATE)
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.ARTIST:
@@ -284,7 +286,8 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.SYNC_CREATE)
                     model_song.bind_property(
                         "validation", song, "validation",
-                        GObject.BindingFlags.SYNC_CREATE)
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SONGS:
@@ -334,7 +337,8 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.SYNC_CREATE)
                     model_song.bind_property(
                         "validation", song, "validation",
-                        GObject.BindingFlags.SYNC_CREATE)
+                        GObject.BindingFlags.BIDIRECTIONAL
+                        | GObject.BindingFlags.SYNC_CREATE)
 
                 self.emit("playlist-loaded")
 
