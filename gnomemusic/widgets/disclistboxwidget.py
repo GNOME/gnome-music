@@ -86,7 +86,7 @@ class DiscBox(Gtk.Box):
         """Select all songs"""
         def child_select_all(child):
             song_widget = child.get_child()
-            song_widget.props.selected = True
+            song_widget.props.coresong.props.selected = True
 
         self._list_box.foreach(child_select_all)
 
@@ -94,7 +94,7 @@ class DiscBox(Gtk.Box):
         """Deselect all songs"""
         def child_select_none(child):
             song_widget = child.get_child()
-            song_widget.props.selected = False
+            song_widget.props.coresong.props.selected = False
 
         self._list_box.foreach(child_select_none)
 
