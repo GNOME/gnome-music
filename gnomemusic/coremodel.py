@@ -235,10 +235,9 @@ class CoreModel(GObject.GObject):
                         | GObject.BindingFlags.SYNC_CREATE)
 
         with model.freeze_notify():
+            self._playlist_model.remove_all()
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
-
-                self._playlist_model.remove_all()
                 proxy_model = Gio.ListStore.new(Gio.ListModel)
 
                 for disc in model:
@@ -264,7 +263,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.ARTIST:
-                self._playlist_model.remove_all()
                 proxy_model = Gio.ListStore.new(Gio.ListModel)
 
                 for artist_album in model:
@@ -295,8 +293,6 @@ class CoreModel(GObject.GObject):
                     self._songliststore.props.model.disconnect(
                         self._song_signal_id)
 
-                self._playlist_model.remove_all()
-
                 for song in self._songliststore.props.model:
                     self._playlist_model.append(song)
 
@@ -312,8 +308,6 @@ class CoreModel(GObject.GObject):
                     self._song_search_flatten.disconnect(
                         self._search_signal_id)
 
-                self._playlist_model.remove_all()
-
                 for song in self._song_search_flatten:
                     self._playlist_model.append(song)
 
@@ -322,9 +316,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
-
-                self._playlist_model.remove_all()
-
                 for model_song in model:
                     song = CoreSong(
                         model_song.props.media, self._coreselection,
