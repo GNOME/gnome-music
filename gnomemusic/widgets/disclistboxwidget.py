@@ -29,24 +29,6 @@ from gnomemusic import log
 from gnomemusic.widgets.songwidget import SongWidget
 
 
-class DiscSongsFlowBox(Gtk.ListBox):
-    """FlowBox containing the songs on one disc
-
-    DiscSongsFlowBox allows setting the number of columns to
-    use.
-    """
-    __gtype_name__ = 'DiscSongsFlowBox'
-
-    def __repr__(self):
-        return '<DiscSongsFlowBox>'
-
-    @log
-    def __init__(self):
-        """Initialize
-        """
-        super().__init__(selection_mode=Gtk.SelectionMode.NONE)
-
-
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
 class DiscBox(Gtk.Box):
     """A widget which compromises one disc
@@ -57,7 +39,6 @@ class DiscBox(Gtk.Box):
     __gtype_name__ = 'DiscBox'
 
     _disc_label = Gtk.Template.Child()
-    # _disc_songs_flowbox = Gtk.Template.Child()
     _list_box = Gtk.Template.Child()
 
     __gsignals__ = {
