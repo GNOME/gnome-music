@@ -201,7 +201,7 @@ class SongsView(BaseView):
             path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
             iter_ = self._view.props.model.get_iter(path)
             self._model[iter_][1] = not self._model[iter_][1]
-            self._model[iter_][7].props.selected = self._model[iter_][7]
+            self._model[iter_][7].props.selected = self._model[iter_][1]
 
     @log
     def _update_model(self, player):
