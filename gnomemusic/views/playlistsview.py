@@ -60,7 +60,7 @@ class PlaylistsView(BaseView):
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
         self._window = application.props.window
-        self.player = player
+        self._player = player
 
         self._pl_ctrls = PlaylistControls()
 
@@ -277,7 +277,7 @@ class PlaylistsView(BaseView):
         current_playlist = selection.props.playlist
         self._coremodel.set_player_model(
             PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
-        self.player.play(coresong)
+        self._player.play(coresong)
 
         return True
 
@@ -312,9 +312,9 @@ class PlaylistsView(BaseView):
 
         # FIXME: Should Check that the playlist is not playing
         # playlist_id = selection.playlist.props.pl_id
-        # if self.player.playing_playlist(
+        # if self._player.playing_playlist(
         #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
-        #     self.player.stop()
+        #     self._player.stop()
         #     self._window.set_player_visible(False)
 
     def _on_song_widget_moved(self, target, source_position):
