@@ -96,10 +96,6 @@ class SearchView(BaseView):
         self._all_results_box.pack_start(self._artist_listbox, True, True, 0)
         self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
 
-        # self._ctrl = Gtk.GestureMultiPress().new(self._view)
-        # self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        # self._ctrl.connect("released", self._on_view_clicked)
-
         view_container.add(self._all_results_box)
 
         self._box.show_all()
@@ -258,23 +254,6 @@ class SearchView(BaseView):
         self.set_visible_child(self._grid)
         self.props.search_mode_active = True
         self._headerbar.props.state = HeaderBar.State.MAIN
-
-    @log
-    def _on_view_clicked(self, gesture, n_press, x, y):
-        """Ctrl+click on self._view triggers selection mode."""
-        _, state = Gtk.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
-        if self.props.selection_mode:
-            path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
-            iter_ = self.model.get_iter(path)
-            self.model[iter_][6] = not self.model[iter_][6]
-            selected_iters = self._get_selected_iters()
-
-            self.props.selected_items_count = len(selected_iters)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
