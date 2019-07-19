@@ -52,7 +52,7 @@ class SearchView(BaseView):
         self._artist_model = self._coremodel.props.artists_search
         super().__init__('search', None, application)
 
-        self.player = player
+        self._player = player
 
         self.previous_view = None
 
@@ -157,7 +157,7 @@ class SearchView(BaseView):
 
             self._coremodel.set_player_model(
                 PlayerPlaylist.Type.SEARCH_RESULT, self._model)
-            self.player.play(widget.props.coresong)
+            self._player.play(widget.props.coresong)
 
         # FIXME: Need to ignore the event from the checkbox.
         # if self.props.selection_mode:
@@ -195,7 +195,7 @@ class SearchView(BaseView):
             # self.emit('song-activated', widget)
 
             self._artist_albums_widget = ArtistAlbumsWidget(
-                coreartist, self.player, self._window, False)
+                coreartist, self._player, self._window, False)
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
