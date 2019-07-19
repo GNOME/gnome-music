@@ -618,6 +618,11 @@ class GrlTrackerWrapper(GObject.GObject):
         self._source.query(query, self.METADATA_KEYS, options, callback)
 
     def search(self, text):
+        # FIXME: Searches are limited to not bog down the UI with
+        # widget creation ({List,Flow}Box limitations). The limit is
+        # arbitrarily set to 50 and set in the Tracker query. It should
+        # be possible to set it through Grilo options instead. This
+        # does not work as expected and needs further investigation.
         term = Tracker.sparql_escape_string(
             GLib.utf8_normalize(
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
@@ -652,6 +657,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
@@ -707,6 +713,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
@@ -764,6 +771,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
