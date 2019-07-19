@@ -64,8 +64,8 @@ class SongsView(BaseView):
 
         self._playlist_model = self._coremodel.props.playlist_sort
 
-        self.player = player
-        self.player.connect('song-changed', self._update_model)
+        self._player = player
+        self._player.connect('song-changed', self._update_model)
 
         self._model = self._view.props.model
         self._view.show()
@@ -139,7 +139,7 @@ class SongsView(BaseView):
         self._star_handler.add_star_renderers(column_star)
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
-        current_song = self.player.props.current_song
+        current_song = self._player.props.current_song
         if current_song is None:
             return
 
@@ -183,7 +183,7 @@ class SongsView(BaseView):
         self._coremodel.set_player_model(
             PlayerPlaylist.Type.SONGS, self._view.props.model)
 
-        self.player.play(coresong)
+        self._player.play(coresong)
 
     @log
     def _on_view_clicked(self, gesture, n_press, x, y):
@@ -213,7 +213,7 @@ class SongsView(BaseView):
         if self._iter_to_clean:
             self._view.props.model[self._iter_to_clean][9] = False
 
-        index = self.player.props.position
+        index = self._player.props.position
         current_coresong = self._playlist_model[index]
         for idx, liststore in enumerate(self._view.props.model):
             if liststore[7] == current_coresong:
