@@ -215,10 +215,6 @@ class SearchView(BaseView):
 
         return True
 
-    def _child_select(self, child, value):
-        widget = child.get_child()
-        widget.props.selected = value
-
     def _select_all(self, value):
         with self._model.freeze_notify():
             def song_select(child):
