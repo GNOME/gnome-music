@@ -54,8 +54,6 @@ class SearchView(BaseView):
 
         self._player = player
 
-        self.previous_view = None
-
         self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
