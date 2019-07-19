@@ -652,6 +652,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
@@ -707,6 +708,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
@@ -764,6 +766,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
