@@ -69,11 +69,16 @@ class CoreAlbum(GObject.GObject):
 
         return self._model
 
-    def _on_list_items_changed(self, model, pos, removed, added):
+    def _on_list_items_changed(self, model, position, removed, added):
         with self.freeze_notify():
             for coredisc in model:
-                coredisc.connect("notify::duration", self._on_duration_changed)
                 coredisc.props.selected = self.props.selected
+
+            if added > 0:
+                for i in range(added):
+                    coredisc = model[position + i]
+                    coredisc.connect(
+                        "notify::duration", self._on_duration_changed)
 
     def _on_duration_changed(self, coredisc, duration):
         duration = 0
