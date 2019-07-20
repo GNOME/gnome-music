@@ -45,14 +45,13 @@ class AlbumWidget(Gtk.EventBox):
         super().__init__()
 
         self._album = None
-        self._album_model = None
-        self._signal_id = None
+        self._corealbum = None
+        self._duration_signal_id = None
+        self._model_signal_id = None
 
         self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
         self._player = player
-
-        self._album_name = None
 
     @log
     def update(self, corealbum):
@@ -60,33 +59,36 @@ class AlbumWidget(Gtk.EventBox):
 
         :param CoreAlbum album: The CoreAlbum object
         """
-        if self._signal_id:
-            self._album_model.disconnect(self._signal_id)
+        if self._corealbum:
+            self._corealbum.disconnect(self._duration_signal_id)
+            self._corealbum.props.model.disconnect(self._model_signal_id)
 
-        self._cover_stack.update(corealbum)
+        self._corealbum = corealbum
 
-        self._duration = 0
+        self._cover_stack.update(self._corealbum)
 
-        self._album_name = corealbum.props.title
-        artist = corealbum.props.artist
+        album_name = self._corealbum.props.title
+        artist = self._corealbum.props.artist
 
-        self._title_label.props.label = self._album_name
-        self._title_label.props.tooltip_text = self._album_name
+        self._title_label.props.label = album_name
+        self._title_label.props.tooltip_text = album_name
 
         self._artist_label.props.label = artist
         self._artist_label.props.tooltip_text = artist
 
-        self._released_info_label.props.label = corealbum.props.year
+        self._released_info_label.props.label = self._corealbum.props.year
 
         self._set_composer_label(corealbum)
 
-        self._album = corealbum.props.media
-        self._album_model = corealbum.props.model
-        self._signal_id = self._album_model.connect_after(
+        self._album = self._corealbum.props.media
+        self._album_model = self._corealbum.props.model
+        self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
         self._listbox.bind_model(self._album_model, self._create_widget)
 
-        corealbum.connect("notify::duration", self._on_duration_changed)
+        self._on_duration_changed(self._corealbum, None)
+        self._duration_signal_id = self._corealbum.connect(
+            "notify::duration", self._on_duration_changed)
 
         self._album_model.items_changed(0, 0, 0)
 
