@@ -65,8 +65,6 @@ class CoreAlbum(GObject.GObject):
             self._model = self._coremodel.get_album_model(self.props.media)
             self._model.connect("items-changed", self._on_list_items_changed)
 
-        self._on_list_items_changed(self._model, None, None, None)
-
         return self._model
 
     def _on_list_items_changed(self, model, position, removed, added):
@@ -101,4 +99,4 @@ class CoreAlbum(GObject.GObject):
         # a selection. Trigger loading of the model here if a selection
         # is requested, it will trigger the filled model update as
         # well.
-        self.props.model
+        self.props.model.items_changed(0, 0, 0)
