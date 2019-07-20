@@ -67,8 +67,6 @@ class CoreDisc(GObject.GObject):
             self._get_album_disc(
                 self.props.media, self.props.disc_nr, self._filter_model)
 
-        self._on_disc_changed(self._model, None, None, None)
-
         return self._model
 
     def _on_core_changed(self, model, position, removed, added):
@@ -133,4 +131,4 @@ class CoreDisc(GObject.GObject):
         # a selection. Trigger loading of the model here if a selection
         # is requested, it will trigger the filled model update as
         # well.
-        self.props.model
+        self.props.model.items_changed(0, 0, 0)
