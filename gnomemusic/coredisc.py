@@ -40,7 +40,6 @@ class CoreDisc(GObject.GObject):
         self._model = None
         self._old_album_ids = []
         self._selected = False
-        self._sort_model = None
 
         self.update(media)
         self.props.disc_nr = nr
@@ -54,11 +53,9 @@ class CoreDisc(GObject.GObject):
             self._filter_model = Dazzle.ListModelFilter.new(
                 self._coremodel.props.songs)
             self._filter_model.set_filter_func(lambda a: False)
-            self._sort_model = Gfm.SortListModel.new(self._filter_model)
-            self._sort_model.set_sort_func(
+            self._model = Gfm.SortListModel.new(self._filter_model)
+            self._model.set_sort_func(
                 self._wrap_sort_func(self._disc_sort))
-
-            self._model = self._sort_model
 
             self._coremodel.props.songs.connect(
                 "items-changed", self._on_core_changed)
