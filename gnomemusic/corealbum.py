@@ -23,10 +23,9 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_version('Grl', '0.3')
+gi.require_version("Grl", "0.3")
 from gi.repository import Gio, Grl, GObject
 
-from gnomemusic import log
 import gnomemusic.utils as utils
 
 
@@ -41,8 +40,15 @@ class CoreAlbum(GObject.GObject):
     title = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
-    @log
+    def __repr__(self):
+        return "<CoreAlbum>"
+
     def __init__(self, media, coremodel):
+        """Initiate the CoreSong object
+
+        :param Grl.Media media: A media object
+        :param CoreModel coremodel: The CoreModel to use models from
+        """
         super().__init__()
 
         self._coremodel = coremodel
@@ -50,8 +56,11 @@ class CoreAlbum(GObject.GObject):
         self._selected = False
         self.update(media)
 
-    @log
     def update(self, media):
+        """Update the CoreSong object with new info
+
+        :param Grl.Media media: A media object
+        """
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
         self.props.composer = media.get_composer()
