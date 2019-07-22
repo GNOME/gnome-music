@@ -25,11 +25,12 @@
 import logging
 from gettext import gettext as _
 
-from gi.repository import Grl, Gtk
+from gi.repository import Grl, Gtk, Gio, GObject, GLib
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
+from gnomemusic.widgets.notificationspopup import NotificationsPopup, UseSuggestionNotification
 import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,8 @@ class TagEditorDialog(Gtk.Dialog):
     """
 
     __gtype_name__ = 'TagEditorDialog'
+
+    _notifications_popup = Gtk.Template.Child()
 
     _cover_stack = Gtk.Template.Child()
     _spinner = Gtk.Template.Child()
@@ -62,12 +65,16 @@ class TagEditorDialog(Gtk.Dialog):
     _track_suggestion = Gtk.Template.Child()
     _year_entry = Gtk.Template.Child()
     _year_suggestion = Gtk.Template.Child()
-    
     _prev_button = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
     _use_suggestion_button = Gtk.Template.Child()
+    _submit_button = Gtk.Template.Child()
 
     _url = Gtk.Template.Child()
+
+    __gsignals__ = {
+        'no-tags': (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
 
     def __repr__(self):
         return '<TagEditorDialog>'
@@ -86,11 +93,13 @@ class TagEditorDialog(Gtk.Dialog):
         self._cover_stack.props.size = Art.Size.MEDIUM
         self._cover_stack.update(selected_song)
 
+        self._music_directory = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+
         self._initial_song = selected_song
         self._init_labels()
         self._search_tags()
         self._suggestions = []
-        self._pointer = 0
+        self._pointer = -1
 
     @log
     def _init_labels(self):
@@ -99,8 +108,15 @@ class TagEditorDialog(Gtk.Dialog):
             value = utils.fields_getter[field](self._initial_song)
             if value:
                 entry.props.text = value
+            entry.connect('notify::text', self._on_entries_changed)
 
-        self._url.props.label = self._initial_song.get_url()
+        file_url = self._initial_song.get_url()
+        file_ = Gio.File.new_for_uri(file_url)
+        file_path = file_.get_path()
+        if file_path.startswith(self._music_directory):
+            self._url.set_text(file_path[len(self._music_directory)+1:])
+        else:
+            self._url.set_text(file_path)
         self._url.props.visible = True
 
     @log
@@ -126,12 +142,14 @@ class TagEditorDialog(Gtk.Dialog):
             logger.warning("Unable to find tags for song {}".format(
                 self._initial_song.get_url()))
             self._stop_spinner()
+            self._create_no_tags_notification()
             return
 
         self._use_suggestion_button.props.sensitive = True
         self._suggestions.append(media)
 
         if count == 0:
+            self._pointer = 0
             self._give_suggestion()
             self._stop_spinner()
 
@@ -155,28 +173,103 @@ class TagEditorDialog(Gtk.Dialog):
         else:
             self._prev_button.props.sensitive = False
 
+    @log
+    def _on_entries_changed(self, widget=None, param=None):
+        if self._pointer >= 0:
+            media = self._suggestions[self._pointer]
+            self._use_suggestion_button.props.sensitive = False
+        self._submit_button.props.sensitive = False
+        for field in utils.fields_getter:
+            entry = getattr(self, '_' + field + '_entry')
+            value = utils.fields_getter[field](self._initial_song)
+            typed_value = entry.get_text().strip()
+            if typed_value and value != typed_value:
+                self._submit_button.props.sensitive = True
+            if self._pointer >= 0:
+                suggested_value = utils.fields_getter[field](media)
+                if typed_value and suggested_value and typed_value != suggested_value:
+                    self._use_suggestion_button.props.sensitive = True
+
     @Gtk.Template.Callback()
     @log
     def _on_next_button_clicked(self, widget):
         self._pointer += 1
         self._give_suggestion()
+        self._on_entries_changed()
 
     @Gtk.Template.Callback()
     @log
     def _on_prev_button_clicked(self, widget):
         self._pointer -= 1
         self._give_suggestion()
+        self._on_entries_changed()
 
     @Gtk.Template.Callback()
     @log
     def _on_use_suggestion_clicked(self, widget):
-        media = self._suggestions[self._pointer]
-
+        suggested_media = self._suggestions[self._pointer]
+        prev_media = Grl.Media()
         for field in utils.fields_getter:
             entry = getattr(self, '_' + field + '_entry')
-            value = utils.fields_getter[field](media)
-            if value:
-                entry.props.text = value
+            suggested_value = utils.fields_getter[field](suggested_media)
+            typed_value = entry.get_text()
+            if typed_value:
+                utils.fields_setter[field](prev_media, typed_value)
+            if suggested_value:
+                entry.set_text(suggested_value)
+
+        self._prev_song = prev_media
+        self._on_entries_changed()
+        self._create_tag_fill_notification(
+            UseSuggestionNotification.Type.SONG)
+
+    @log
+    def _get_tag_fill_notification_message(self, type_):
+        """ Returns a label for the use suggestion notification popup
+
+        Handles two cases:
+        - album info updated
+        - song info updated
+        """
+        msg = ""
+
+        if type_ == UseSuggestionNotification.Type.ALBUM:
+            msg = _("Album info updated based on online suggestions.")
+
+        elif type_ == UseSuggestionNotification.Type.SONG:
+            msg = _("Song info updated based on online suggestions.")
+
+        return msg
+
+    @log
+    def _create_tag_fill_notification(self, type_):
+        msg = self._get_tag_fill_notification_message(type_)
+        self.use_suggestion_notification = UseSuggestionNotification(
+            self._notifications_popup, type_, msg)
+        self.use_suggestion_notification.connect(
+            'undo-fill', self._undo_fill)
+
+    @log
+    def _undo_fill(self, use_suggestion_notification):
+        """Revert tags filling"""
+        notification_type = use_suggestion_notification.type_
+        if notification_type == UseSuggestionNotification.Type.SONG:
+            for field in utils.fields_getter:
+                entry = getattr(self, '_' + field + '_entry')
+                value = utils.fields_getter[field](self._prev_song)
+                if value:
+                    entry.set_text(value)
+
+    @log
+    def _create_no_tags_notification(self):
+        msg = _("No Tags found online for the given media!")
+        grid = Gtk.Grid()
+        label = Gtk.Label(label=msg, halign=Gtk.Align.START, hexpand=True)
+        grid.add(label)
+        grid.show_all()
+        self._notifications_popup.add_notification(grid)
+        GLib.timeout_add_seconds(
+            5, self._notifications_popup.remove_notification, self, 'no-tags')
 
     @Gtk.Template.Callback()
     @log
@@ -184,7 +277,7 @@ class TagEditorDialog(Gtk.Dialog):
 
         for field in utils.fields_setter:
             entry = getattr(self, '_' + field + '_entry')
-            entry_text = entry.props.text
+            entry_text = entry.get_text()
             if entry_text:
                 utils.fields_setter[field](self._initial_song, entry_text)
 

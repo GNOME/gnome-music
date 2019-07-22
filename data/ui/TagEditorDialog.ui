@@ -27,6 +27,13 @@
           <object class="GtkOverlay" id="overlay">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <child type="overlay">
+              <object class="NotificationsPopup" id="_notifications_popup">
+                <property name="halign">center</property>
+                <property name="transition-type">slide-down</property>
+                <property name="valign">start</property>
+              </object>
+            </child>
             <child>
               <object class="GtkBox" id="media_details">
                 <property name="visible">True</property>
@@ -119,7 +126,7 @@
                                 <property name="halign">start</property>
                                 <property name="margin_right">2</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="suggestion-label"/>
                                 </style>
                               </object>
                               <packing>
@@ -190,7 +197,7 @@
                                 <property name="halign">start</property>
                                 <property name="margin_right">2</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="suggestion-label"/>
                                 </style>
                               </object>
                               <packing>
@@ -261,7 +268,7 @@
                                 <property name="halign">start</property>
                                 <property name="margin_right">2</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="suggestion-label"/>
                                 </style>
                               </object>
                               <packing>
@@ -337,7 +344,7 @@
                                     <property name="halign">end</property>
                                     <property name="margin_right">2</property>
                                     <style>
-                                      <class name="dim-label"/>
+                                      <class name="suggestion-label"/>
                                     </style>
                                   </object>
                                   <packing>
@@ -411,7 +418,7 @@
                                     <property name="halign">start</property>
                                     <property name="margin_right">2</property>
                                     <style>
-                                      <class name="dim-label"/>
+                                      <class name="suggestion-label"/>
                                     </style>
                                   </object>
                                   <packing>
@@ -485,7 +492,7 @@
                                     <property name="halign">start</property>
                                     <property name="margin_right">2</property>
                                     <style>
-                                      <class name="dim-label"/>
+                                      <class name="suggestion-label"/>
                                     </style>
                                   </object>
                                   <packing>
@@ -662,43 +669,53 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="_prev_button">
+                  <object class="GtkBox" id="_prev_next_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="sensitive">False</property>
-                    <property name="tooltip_text" translatable="yes">Previous Suggestion</property>
-                    <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
+                    <property name="orientation">horizontal</property>
+                    <property name="homogeneous">True</property>
                     <style>
-                        <class name="image-button"/>
+                      <class name="linked"/>
                     </style>
                     <child>
-                      <object class="GtkImage" id="_prev_button_image">
+                      <object class="GtkButton" id="_prev_button">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-name">go-previous</property>
-                        <property name="icon-size">1</property>
+                        <property name="valign">center</property>
+                        <property name="sensitive">False</property>
+                        <property name="tooltip_text" translatable="yes">Previous Suggestion</property>
+                        <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
+                        <style>
+                            <class name="image-button"/>
+                        </style>
+                        <child>
+                          <object class="GtkImage" id="_prev_button_image">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-name">go-previous-symbolic</property>
+                            <property name="icon-size">1</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton" id="_next_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="sensitive">False</property>
-                    <property name="tooltip_text" translatable="yes">Next Suggestion</property>
-                    <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
-                    <style>
-                        <class name="image-button"/>
-                    </style>
                     <child>
-                      <object class="GtkImage" id="_next_button_image">
+                      <object class="GtkButton" id="_next_button">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-name">go-next</property>
-                        <property name="icon-size">1</property>
+                        <property name="valign">center</property>
+                        <property name="sensitive">False</property>
+                        <property name="tooltip_text" translatable="yes">Next Suggestion</property>
+                        <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
+                        <style>
+                            <class name="image-button"/>
+                        </style>
+                        <child>
+                          <object class="GtkImage" id="_next_button_image">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-name">go-next-symbolic</property>
+                            <property name="icon-size">1</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -726,7 +743,7 @@
                   <object class="GtkButton" id="_submit_button">
                     <property name="label" translatable="yes">Submit</property>
                     <property name="visible">True</property>
-                    <property name="sensitive">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <signal name="clicked" handler="_on_submit_clicked" swapped="no"/>
@@ -769,7 +786,7 @@
                     <object class="GtkLabel" id="location">
                       <property name="visible">True</property>
                       <property name="can_focus">False</property>
-                      <property name="margin_right">36</property>
+                      <property name="justify">GTK_JUSTIFY_RIGHT</property>
                       <property name="label" translatable="yes">Location</property>
                       <property name="xalign">1</property>
                       <attributes>
