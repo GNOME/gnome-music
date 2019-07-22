@@ -25,7 +25,7 @@
 import logging
 from gettext import gettext as _
 
-from gi.repository import Grl, Gtk
+from gi.repository import Grl, Gtk, Gio, GLib
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -62,10 +62,10 @@ class TagEditorDialog(Gtk.Dialog):
     _track_suggestion = Gtk.Template.Child()
     _year_entry = Gtk.Template.Child()
     _year_suggestion = Gtk.Template.Child()
-    
     _prev_button = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
     _use_suggestion_button = Gtk.Template.Child()
+    _submit_button = Gtk.Template.Child()
 
     _url = Gtk.Template.Child()
 
@@ -86,6 +86,8 @@ class TagEditorDialog(Gtk.Dialog):
         self._cover_stack.props.size = Art.Size.MEDIUM
         self._cover_stack.update(selected_song)
 
+        self._music_directory = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+
         self._initial_song = selected_song
         self._init_labels()
         self._search_tags()
@@ -99,8 +101,15 @@ class TagEditorDialog(Gtk.Dialog):
             value = utils.fields_getter[field](self._initial_song)
             if value:
                 entry.props.text = value
+            entry.connect('notify::text', self._on_entries_changed)
 
-        self._url.props.label = self._initial_song.get_url()
+        file_url = self._initial_song.get_url()
+        file_ = Gio.File.new_for_uri(file_url)
+        file_path = file_.get_path()
+        if file_path.startswith(self._music_directory):
+            self._url.set_text(file_path[len(self._music_directory)+1:])
+        else:
+            self._url.set_text(file_path)
         self._url.props.visible = True
 
     @log
@@ -155,6 +164,17 @@ class TagEditorDialog(Gtk.Dialog):
         else:
             self._prev_button.props.sensitive = False
 
+    @log
+    def _on_entries_changed(self, widget, param):
+        self._submit_button.props.sensitive = False
+        for field in utils.fields_getter:
+            entry = getattr(self, '_' + field + '_entry')
+            value = utils.fields_getter[field](self._initial_song)
+            typed_value = entry.get_text().strip()
+            if typed_value and value != typed_value:
+                self._submit_button.props.sensitive = True
+                break
+
     @Gtk.Template.Callback()
     @log
     def _on_next_button_clicked(self, widget):
@@ -176,7 +196,7 @@ class TagEditorDialog(Gtk.Dialog):
             entry = getattr(self, '_' + field + '_entry')
             value = utils.fields_getter[field](media)
             if value:
-                entry.props.text = value
+                entry.set_text(value)
 
     @Gtk.Template.Callback()
     @log
@@ -184,7 +204,7 @@ class TagEditorDialog(Gtk.Dialog):
 
         for field in utils.fields_setter:
             entry = getattr(self, '_' + field + '_entry')
-            entry_text = entry.props.text
+            entry_text = entry.get_text()
             if entry_text:
                 utils.fields_setter[field](self._initial_song, entry_text)
 
