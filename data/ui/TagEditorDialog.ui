@@ -17,31 +17,31 @@
           <object class="GtkButtonBox">
             <property name="can_focus">False</property>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkOverlay" id="overlay">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <child type="overlay">
+              <object class="NotificationsPopup" id="_notifications_popup">
+                <property name="halign">center</property>
+                <property name="transition-type">slide-down</property>
+                <property name="valign">start</property>
+              </object>
+            </child>
             <child>
-              <object class="GtkBox" id="media_details">
+              <object class="GtkGrid" id="media_details">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
-                <property name="margin_left">12</property>
-                <property name="margin_right">12</property>
-                <property name="margin_top">12</property>
-                <property name="margin_bottom">18</property>
-                <property name="spacing">24</property>
+                <property name="margin">12</property>
                 <child>
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="vexpand">True</property>
+                    <property name="valign">fill</property>
                     <child>
                       <object class="GtkButton" id="_coverart_button">
                         <property name="visible">True</property>
@@ -49,14 +49,15 @@
                         <property name="focus_on_click">False</property>
                         <property name="receives_default">False</property>
                         <property name="halign">start</property>
-                        <property name="valign">start</property>
+                        <property name="valign">fill</property>
                         <property name="relief">none</property>
+                        <property name="margin-right">20</property>
                         <signal name="clicked" handler="_choose_cover" swapped="no"/>
                         <child>
                           <object class="CoverStack" id="_cover_stack">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="valign">start</property>
+                            <property name="valign">fill</property>
                           </object>
                         </child>
                         <style>
@@ -64,16 +65,75 @@
                         </style>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
+                        <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">0</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
+                    <property name="width">1</property>
+                    <property name="height">4</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+                    <property name="margin-top">12</property>
+                    <property name="margin-left">10</property>
+                    <property name="halign">start</property>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <child>
+                          <object class="GtkLabel" id="location">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="justify">right</property>
+                            <property name="margin-right">40</property>
+                            <property name="label" translatable="yes">Location</property>
+                            <property name="xalign">1</property>
+                            <attributes>
+                              <attribute name="weight" value="bold"/>
+                            </attributes>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="_url">
+                            <property name="can_focus">False</property>
+                            <property name="halign">start</property>
+                            <property name="max_width_chars">60</property>
+                            <property name="ellipsize">end</property>
+                            <style>
+                              <class name="dim-label"/>
+                            </style>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="pack_type">end</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">4</property>
+                    <property name="width">2</property>
                   </packing>
                 </child>
                 <child>
@@ -117,9 +177,10 @@
                               <object class="GtkLabel" id="_title_suggestion">
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="margin_right">2</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max-width-chars">20</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="suggestion-label"/>
                                 </style>
                               </object>
                               <packing>
@@ -130,11 +191,6 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="GtkEntry" id="_title_entry">
@@ -149,9 +205,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
                       </packing>
                     </child>
                     <child>
@@ -188,9 +243,10 @@
                               <object class="GtkLabel" id="_album_suggestion">
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="margin_right">2</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max-width-chars">20</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="suggestion-label"/>
                                 </style>
                               </object>
                               <packing>
@@ -201,11 +257,6 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="GtkEntry" id="_album_entry">
@@ -220,9 +271,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">1</property>
                       </packing>
                     </child>
                     <child>
@@ -259,9 +309,10 @@
                               <object class="GtkLabel" id="_artist_suggestion">
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="margin_right">2</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max-width-chars">20</property>
                                 <style>
-                                  <class name="dim-label"/>
+                                  <class name="suggestion-label"/>
                                 </style>
                               </object>
                               <packing>
@@ -272,11 +323,6 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="GtkEntry" id="_artist_entry">
@@ -291,9 +337,8 @@
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
                       </packing>
                     </child>
                     <child>
@@ -335,9 +380,8 @@
                                   <object class="GtkLabel" id="_track_suggestion">
                                     <property name="can_focus">False</property>
                                     <property name="halign">end</property>
-                                    <property name="margin_right">2</property>
                                     <style>
-                                      <class name="dim-label"/>
+                                      <class name="suggestion-label"/>
                                     </style>
                                   </object>
                                   <packing>
@@ -348,11 +392,6 @@
                                   </packing>
                                 </child>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
                             </child>
                             <child>
                               <object class="GtkEntry" id="_track_entry">
@@ -369,11 +408,6 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="GtkBox">
@@ -411,7 +445,7 @@
                                     <property name="halign">start</property>
                                     <property name="margin_right">2</property>
                                     <style>
-                                      <class name="dim-label"/>
+                                      <class name="suggestion-label"/>
                                     </style>
                                   </object>
                                   <packing>
@@ -421,11 +455,6 @@
                                   </packing>
                                 </child>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
                             </child>
                             <child>
                               <object class="GtkEntry" id="_disc_entry">
@@ -443,11 +472,6 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">2</property>
-                          </packing>
                         </child>
                         <child>
                           <object class="GtkBox">
@@ -483,9 +507,8 @@
                                   <object class="GtkLabel" id="_year_suggestion">
                                     <property name="can_focus">False</property>
                                     <property name="halign">start</property>
-                                    <property name="margin_right">2</property>
                                     <style>
-                                      <class name="dim-label"/>
+                                      <class name="suggestion-label"/>
                                     </style>
                                   </object>
                                   <packing>
@@ -495,11 +518,6 @@
                                   </packing>
                                 </child>
                               </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
                             </child>
                             <child>
                               <object class="GtkEntry" id="_year_entry">
@@ -517,46 +535,25 @@
                               </packing>
                             </child>
                           </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">4</property>
-                          </packing>
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">5</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">3</property>
                       </packing>
                     </child>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
-              <packing>
-                <property name="index">-1</property>
-              </packing>
             </child>
           </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
         </child>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin_left">12</property>
-            <property name="margin_right">12</property>
-            <property name="margin_bottom">12</property>
-            <property name="spacing">6</property>
+            <property name="margin-bottom">20</property>
+            <property name="margin-left">20</property>
             <child>
               <object class="GtkBox">
                 <property name="visible">True</property>
@@ -586,17 +583,11 @@
                       <class name="dim-label"/>
                     </style>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
+                <property name="left-attach">0</property>
+                <property name="top-attach">5</property>
               </packing>
             </child>
             <child>
@@ -606,6 +597,7 @@
                 <property name="halign">end</property>
                 <property name="hexpand">True</property>
                 <property name="spacing">6</property>
+                <property name="margin-right">10</property>
                 <child>
                   <object class="GtkBox">
                     <property name="can_focus">False</property>
@@ -655,50 +647,55 @@
                       <class name="linked"/>
                     </style>
                   </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="_prev_button">
+                  <object class="GtkBox" id="_prev_next_box">
                     <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="sensitive">False</property>
-                    <property name="tooltip_text" translatable="yes">Previous Suggestion</property>
-                    <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
+                    <property name="orientation">horizontal</property>
+                    <property name="homogeneous">True</property>
                     <style>
-                        <class name="image-button"/>
+                      <class name="linked"/>
                     </style>
                     <child>
-                      <object class="GtkImage" id="_prev_button_image">
+                      <object class="GtkButton" id="_prev_button">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-name">go-previous</property>
-                        <property name="icon-size">1</property>
+                        <property name="valign">center</property>
+                        <property name="sensitive">False</property>
+                        <property name="tooltip_text" translatable="yes">Previous Suggestion</property>
+                        <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
+                        <style>
+                            <class name="image-button"/>
+                        </style>
+                        <child>
+                          <object class="GtkImage" id="_prev_button_image">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-name">go-previous-symbolic</property>
+                            <property name="icon-size">1</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
-                  </object>
-                </child>
-                <child>
-                  <object class="GtkButton" id="_next_button">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="valign">center</property>
-                    <property name="sensitive">False</property>
-                    <property name="tooltip_text" translatable="yes">Next Suggestion</property>
-                    <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
-                    <style>
-                        <class name="image-button"/>
-                    </style>
                     <child>
-                      <object class="GtkImage" id="_next_button_image">
+                      <object class="GtkButton" id="_next_button">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="icon-name">go-next</property>
-                        <property name="icon-size">1</property>
+                        <property name="valign">center</property>
+                        <property name="sensitive">False</property>
+                        <property name="tooltip_text" translatable="yes">Next Suggestion</property>
+                        <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
+                        <style>
+                            <class name="image-button"/>
+                        </style>
+                        <child>
+                          <object class="GtkImage" id="_next_button_image">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="icon-name">go-next-symbolic</property>
+                            <property name="icon-size">1</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -726,7 +723,7 @@
                   <object class="GtkButton" id="_submit_button">
                     <property name="label" translatable="yes">Submit</property>
                     <property name="visible">True</property>
-                    <property name="sensitive">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <signal name="clicked" handler="_on_submit_clicked" swapped="no"/>
@@ -742,80 +739,12 @@
                   </packing>
                 </child>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="left-attach">1</property>
+            <property name="top-attach">5</property>
           </packing>
-          </child>
-          <child>
-            <object class="GtkBox">
-              <property name="visible">True</property>
-              <property name="can_focus">False</property>
-              <property name="orientation">vertical</property>
-              <property name="spacing">6</property>
-              <child>
-                <object class="GtkBox">
-                  <property name="visible">True</property>
-                  <property name="can_focus">False</property>
-                  <child>
-                    <object class="GtkLabel" id="location">
-                      <property name="visible">True</property>
-                      <property name="can_focus">False</property>
-                      <property name="margin_right">36</property>
-                      <property name="label" translatable="yes">Location</property>
-                      <property name="xalign">1</property>
-                      <attributes>
-                        <attribute name="weight" value="bold"/>
-                      </attributes>
-                      <style>
-                        <class name="dim-label"/>
-                      </style>
-                    </object>
-                    <packing>
-                      <property name="expand">False</property>
-                      <property name="fill">True</property>
-                      <property name="position">0</property>
-                    </packing>
-                  </child>
-                  <child>
-                    <object class="GtkLabel" id="_url">
-                      <property name="can_focus">False</property>
-                      <property name="halign">start</property>
-                      <property name="margin_right">2</property>
-                      <property name="max_width_chars">45</property>
-                      <property name="wrap">True</property>
-                      <style>
-                        <class name="dim-label"/>
-                      </style>
-                    </object>
-                    <packing>
-                      <property name="expand">False</property>
-                      <property name="fill">True</property>
-                      <property name="pack_type">end</property>
-                      <property name="position">1</property>
-                    </packing>
-                  </child>
-                </object>
-                <packing>
-                  <property name="expand">False</property>
-                  <property name="fill">True</property>
-                  <property name="position">0</property>
-                </packing>
-              </child>
-            </object>
-            <packing>
-              <property name="expand">False</property>
-              <property name="fill">True</property>
-              <property name="position">2</property>
-            </packing>
           </child>
       </object>
     </child>
