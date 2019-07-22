@@ -18,6 +18,11 @@
     font-weight: bold;
 }
 
+/* Suggested Tags in Tag Editor Dialog*/
+.suggestion-label {
+    color: #3680DB;
+}
+
 /* ArtistAlbumsWidget */
 box#ArtistAlbumsWidget .artist-label {
     font-weight: bold;
