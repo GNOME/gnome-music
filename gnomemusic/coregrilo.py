@@ -62,6 +62,8 @@ class CoreGrilo(GObject.GObject):
         self._wrappers = {}
 
         self._tracker_wrapper = TrackerWrapper()
+        self._tracker_wrapper.connect(
+            "notify::tracker-available", self._on_tracker_available_changed)
 
         Grl.init(None)
 
@@ -74,6 +76,13 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-removed', self._on_source_removed)
 
         self._registry.load_all_plugins(True)
+
+    def _on_tracker_available_changed(self, klass, value):
+        # FIXME:No removal support yet.
+        if self._tracker_wrapper.props.tracker_available:
+            # FIXME: Look for a better way to just activate the Tracker
+            # plugin.
+            self._registry.load_all_plugins(True)
 
     def _on_source_added(self, registry, source):
 
@@ -116,6 +125,7 @@ class CoreGrilo(GObject.GObject):
         #     self._wrappers.append(new_wrapper)
             print("wrapper", new_wrapper)
         elif (source.props.source_id not in self._search_wrappers.keys()
+                and source.props.source_id not in self._wrappers.keys()
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.supported_operations() & Grl.SupportedOps.SEARCH):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
