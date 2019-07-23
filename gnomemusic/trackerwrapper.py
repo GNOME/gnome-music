@@ -23,7 +23,7 @@
 
 import logging
 
-from gi.repository import GObject, Tracker
+from gi.repository import GLib, GObject, Tracker
 
 logger = logging.getLogger(__name__)
 
@@ -36,14 +36,22 @@ class TrackerWrapper(GObject.GObject):
 
     def __init__(self):
         super().__init__()
+
+        self._tracker = None
+        self._tracker_available = False
+
+        Tracker.SparqlConnection.get_async(None, self._connection_async_cb)
+
+    def _connection_async_cb(self, klass, result):
         try:
-            self._tracker = Tracker.SparqlConnection.get(None)
-            self._tracker_available = True
-        except Exception as e:
-            self._tracker = None
-            self._tracker_available = False
-            logger.error(
-                "Cannot connect to tracker, error {}\n".format(str(e)))
+            self._tracker = Tracker.SparqlConnection.get_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.notify("tracker-available")
+            return
+
+        self._tracker_available = True
+        self.notify("tracker-available")
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def tracker(self):
