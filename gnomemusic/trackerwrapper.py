@@ -74,7 +74,7 @@ class TrackerWrapper(GObject.GObject):
     def _query_version_check(self, klass, result):
         try:
             klass.query_finish(result)
-            self._tracker_available = TrackerState.AVAILABLE
+            self._tracker_available = TrackerState.OUTDATED
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
             self._tracker_available = TrackerState.OUTDATED

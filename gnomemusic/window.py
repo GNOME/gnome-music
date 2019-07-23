@@ -173,6 +173,9 @@ class Window(Gtk.ApplicationWindow):
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
 
+        self._app.props.coremodel._grilo.connect(
+            "notify::tracker-available", self._on_tracker_available)
+
         if self._app.props.coremodel.props.songs_available:
             self._switch_to_player_view()
         else:
@@ -182,18 +185,17 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        # FIXME: Tracker just checks for TrackerWrapper right now.
-        # It should also check for the viability of certain queries to
-        # make sure we have a recent version available.
         state = self._app.props.coremodel._grilo.props.tracker_available
-        if (state == TrackerState.UNAVAILABLE
-                or state == TrackerState.OUTDATED):
-            self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
+        empty_view = self.views[View.EMPTY]
+        if state == TrackerState.UNAVAILABLE:
+            empty_view.props.state = EmptyView.State.NO_TRACKER
+        elif state == TrackerState.OUTDATED:
+            empty_view.props.state = EmptyView.State.TRACKER_OUTDATED
         elif did_initial_state:
-            self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
+            empty_view.props.state = EmptyView.State.EMPTY
         else:
-            # FIXME: On switch back this view does not show properly.
-            self.views[View.EMPTY].props.state = EmptyView.State.INITIAL
+            # FIXME: On switch back this view do    es not show properly.
+            empty_view.props.state = EmptyView.State.INITIAL
 
         self._headerbar.props.state = HeaderBar.State.EMPTY
 
@@ -201,6 +203,12 @@ class Window(Gtk.ApplicationWindow):
         if self._app.props.coremodel.props.songs_available:
             self._switch_to_player_view()
         else:
+            self._switch_to_empty_view()
+
+    def _on_tracker_available(self, klass, value):
+        new_state = self._app.props.coremodel._grilo.props.tracker_available
+
+        if new_state != TrackerState.AVAILABLE:
             self._switch_to_empty_view()
 
     @log
