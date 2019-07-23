@@ -48,6 +48,7 @@ class EmptyView(Gtk.Stack):
         EMPTY = 1
         SEARCH = 2
         NO_TRACKER = 3
+        TRACKER_OUTDATED = 4
 
     __gtype_name__ = "EmptyView"
 
@@ -84,7 +85,7 @@ class EmptyView(Gtk.Stack):
 
         self._state = EmptyView.State.INITIAL
 
-    @GObject.Property(type=int, default=0, minimum=0, maximum=3)
+    @GObject.Property(type=int, default=0, minimum=0, maximum=4)
     def state(self):
         """Get the state of the empty view
 
@@ -108,6 +109,8 @@ class EmptyView(Gtk.Stack):
             self._set_search_state()
         elif self._state == EmptyView.State.NO_TRACKER:
             self._set_no_tracker_state()
+        elif self._state == EmptyView.State.TRACKER_OUTDATED:
+            self._set_tracker_outdated_state()
         self.show_all()
 
     @log
@@ -141,6 +144,17 @@ class EmptyView(Gtk.Stack):
         self._icon.props.margin_bottom = 18
         self._information_label.props.label = _(
             "Your music files cannot be indexed without Tracker running")
+
+        self._icon.props.icon_name = "dialog-error-symbolic"
+
+    @log
+    def _set_tracker_outdated_state(self):
+        self._main_label.props.margin_bottom = 12
+        self._main_label.props.label = _(
+            "Your system Tracker version seems outdated")
+        self._icon.props.margin_bottom = 18
+        self._information_label.props.label = _(
+            "Music needs Tracker version 2.2.0 or higher")
 
         self._icon.props.icon_name = "dialog-error-symbolic"
 
