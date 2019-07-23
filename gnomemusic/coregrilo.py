@@ -29,6 +29,7 @@ from gi.repository import Grl, GLib, GObject
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
+from gnomemusic.trackerwrapper import TrackerWrapper
 
 
 class CoreGrilo(GObject.GObject):
@@ -59,6 +60,8 @@ class CoreGrilo(GObject.GObject):
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
+
+        self._tracker_wrapper = TrackerWrapper()
 
         Grl.init(None)
 
@@ -101,7 +104,8 @@ class CoreGrilo(GObject.GObject):
         new_wrapper = None
 
         if (source.props.source_id == "grl-tracker-source"
-                and source.props.source_id not in self._wrappers.keys()):
+                and source.props.source_id not in self._wrappers.keys()
+                and self._tracker_wrapper.props.tracker_available):
             new_wrapper = GrlTrackerWrapper(
                 source, self._coremodel, self._coreselection, self)
             self._wrappers[source.props.source_id] = new_wrapper
