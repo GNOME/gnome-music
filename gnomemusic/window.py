@@ -30,6 +30,7 @@ from gnomemusic.gstplayer import Playback
 from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
 from gnomemusic.search import Search
+from gnomemusic.trackerwrapper import TrackerState
 from gnomemusic.utils import View
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
@@ -184,7 +185,9 @@ class Window(Gtk.ApplicationWindow):
         # FIXME: Tracker just checks for TrackerWrapper right now.
         # It should also check for the viability of certain queries to
         # make sure we have a recent version available.
-        if not self._app.props.coremodel._grilo.props.tracker_available:
+        state = self._app.props.coremodel._grilo.props.tracker_available
+        if (state == TrackerState.UNAVAILABLE
+                or state == TrackerState.OUTDATED):
             self.views[View.EMPTY].props.state = EmptyView.State.NO_TRACKER
         elif did_initial_state:
             self.views[View.EMPTY].props.state = EmptyView.State.EMPTY
