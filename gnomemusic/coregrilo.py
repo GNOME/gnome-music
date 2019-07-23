@@ -29,7 +29,7 @@ from gi.repository import Grl, GLib, GObject
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
-from gnomemusic.trackerwrapper import TrackerWrapper
+from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
 class CoreGrilo(GObject.GObject):
@@ -46,7 +46,7 @@ class CoreGrilo(GObject.GObject):
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
-    tracker_available = GObject.Property(type=bool, default=False)
+    tracker_available = GObject.Property(type=int)
 
     def __repr__(self):
         return "<CoreGrilo>"
@@ -62,6 +62,10 @@ class CoreGrilo(GObject.GObject):
         self._wrappers = {}
 
         self._tracker_wrapper = TrackerWrapper()
+        self._tracker_wrapper.bind_property(
+            "tracker-available", self, "tracker-available",
+            GObject.BindingFlags.SYNC_CREATE)
+
         self._tracker_wrapper.connect(
             "notify::tracker-available", self._on_tracker_available_changed)
 
@@ -78,8 +82,9 @@ class CoreGrilo(GObject.GObject):
         self._registry.load_all_plugins(True)
 
     def _on_tracker_available_changed(self, klass, value):
+        new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
-        if self._tracker_wrapper.props.tracker_available:
+        if new_state == TrackerState.AVAILABLE:
             # FIXME: Look for a better way to just activate the Tracker
             # plugin.
             self._registry.load_all_plugins(True)
@@ -112,9 +117,10 @@ class CoreGrilo(GObject.GObject):
 
         new_wrapper = None
 
+        new_state = self._tracker_wrapper.props.tracker_available
         if (source.props.source_id == "grl-tracker-source"
                 and source.props.source_id not in self._wrappers.keys()
-                and self._tracker_wrapper.props.tracker_available):
+                and new_state == TrackerState.AVAILABLE):
             new_wrapper = GrlTrackerWrapper(
                 source, self._coremodel, self._coreselection, self)
             self._wrappers[source.props.source_id] = new_wrapper
