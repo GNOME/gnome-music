@@ -48,7 +48,26 @@ class TrackerWrapper(GObject.GObject):
             self.notify("tracker-available")
             return
 
-        self._tracker_available = True
+        query = """
+        SELECT
+            ?o
+        WHERE
+        {
+            ?o nfo:belongsToContainer/nie:url 'file:///' .
+        }
+        """.replace("\n", " ").strip()
+
+        self._tracker.query_async(
+            query, None, self._query_version_check)
+
+    def _query_version_check(self, klass, result):
+        try:
+            klass.query_finish(result)
+            self._tracker_available = True
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._tracker_available = False
+
         self.notify("tracker-available")
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
