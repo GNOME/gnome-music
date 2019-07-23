@@ -80,7 +80,8 @@ class GrlTrackerPlaylists(GObject.GObject):
         args = {
             "source": self._source,
             "coreselection": self._coreselection,
-            "grilo": self._grilo
+            "grilo": self._grilo,
+            "tracker": self._tracker
         }
 
         smart_playlists = {
@@ -269,7 +270,7 @@ class Playlist(GObject.GObject):
 
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            coremodel=None, coreselection=None, grilo=None):
+            coremodel=None, coreselection=None, grilo=None, tracker=None):
         super().__init__()
 
         if media:
@@ -285,7 +286,7 @@ class Playlist(GObject.GObject):
         self._coremodel = coremodel
         self._coreselection = coreselection
         self._grilo = grilo
-        self._tracker = TrackerWrapper().props.tracker
+        self._tracker = tracker
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
