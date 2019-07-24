@@ -58,7 +58,7 @@ class ArtistsView(BaseView):
         super().__init__(
             'artists', _("Artists"), application, sidebar_container)
 
-        self._player = player
+        self._application = application
         self._artists = {}
 
         self._window = application.props.window
@@ -152,7 +152,7 @@ class ArtistsView(BaseView):
             return
 
         self._artist_albums = ArtistAlbumsWidget(
-            coreartist, self._player, self._window, False)
+            coreartist, self._application, False)
         artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         artist_albums_frame.add(self._artist_albums)

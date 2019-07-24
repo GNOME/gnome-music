@@ -51,13 +51,14 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
     @log
     def __init__(
-            self, coreartist, player, window, selection_mode_allowed=False):
+            self, coreartist, application, selection_mode_allowed=False):
         super().__init__()
+
+        self._application = application
         self._artist = coreartist.props.artist
         self._model = coreartist.props.model
-        self._player = player
+        self._player = self._application.props.player
         self._selection_mode_allowed = selection_mode_allowed
-        self._window = window
 
         self._widgets = []
 
@@ -79,7 +80,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         if self.props.selection_mode:
             return
 
-        coremodel = self._player._app.props.coremodel
+        coremodel = self._application.props.coremodel
 
         def _on_playlist_loaded(klass):
             self._player.play(song_widget.props.coresong)
@@ -91,7 +92,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     def _add_album(self, corealbum):
         widget = ArtistAlbumWidget(
             corealbum, self._selection_mode_allowed,
-            self._songs_grid_size_group, self._cover_size_group, self._window)
+            self._songs_grid_size_group, self._cover_size_group)
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',

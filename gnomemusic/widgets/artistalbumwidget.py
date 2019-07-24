@@ -53,7 +53,7 @@ class ArtistAlbumWidget(Gtk.Box):
 
     def __init__(
             self, corealbum, selection_mode_allowed, size_group=None,
-            cover_size_group=None, window=None):
+            cover_size_group=None):
         super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
 
         self._size_group = size_group
