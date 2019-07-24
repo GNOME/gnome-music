@@ -23,10 +23,9 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_version('Grl', '0.3')
+gi.require_version("Grl", "0.3")
 from gi.repository import Gio, Grl, GObject
 
-from gnomemusic import log
 import gnomemusic.utils as utils
 
 
@@ -41,8 +40,15 @@ class CoreAlbum(GObject.GObject):
     title = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
-    @log
+    def __repr__(self):
+        return "<CoreAlbum>"
+
     def __init__(self, media, coremodel):
+        """Initiate the CoreAlbum object
+
+        :param Grl.Media media: A media object
+        :param CoreModel coremodel: The CoreModel to use models from
+        """
         super().__init__()
 
         self._coremodel = coremodel
@@ -50,8 +56,11 @@ class CoreAlbum(GObject.GObject):
         self._selected = False
         self.update(media)
 
-    @log
     def update(self, media):
+        """Update the CoreAlbum object with new info
+
+        :param Grl.Media media: A media object
+        """
         self.props.media = media
         self.props.artist = utils.get_artist_name(media)
         self.props.composer = media.get_composer()
@@ -65,15 +74,18 @@ class CoreAlbum(GObject.GObject):
             self._model = self._coremodel.get_album_model(self.props.media)
             self._model.connect("items-changed", self._on_list_items_changed)
 
-        self._on_list_items_changed(self._model, None, None, None)
-
         return self._model
 
-    def _on_list_items_changed(self, model, pos, removed, added):
+    def _on_list_items_changed(self, model, position, removed, added):
         with self.freeze_notify():
             for coredisc in model:
-                coredisc.connect("notify::duration", self._on_duration_changed)
                 coredisc.props.selected = self.props.selected
+
+            if added > 0:
+                for i in range(added):
+                    coredisc = model[position + i]
+                    coredisc.connect(
+                        "notify::duration", self._on_duration_changed)
 
     def _on_duration_changed(self, coredisc, duration):
         duration = 0
@@ -96,4 +108,4 @@ class CoreAlbum(GObject.GObject):
         # a selection. Trigger loading of the model here if a selection
         # is requested, it will trigger the filled model update as
         # well.
-        self.props.model
+        self.props.model.items_changed(0, 0, 0)

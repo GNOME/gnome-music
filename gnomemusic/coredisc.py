@@ -67,8 +67,6 @@ class CoreDisc(GObject.GObject):
             self._get_album_disc(
                 self.props.media, self.props.disc_nr, self._filter_model)
 
-        self._on_disc_changed(self._model, None, None, None)
-
         return self._model
 
     def _on_core_changed(self, model, position, removed, added):
@@ -77,16 +75,12 @@ class CoreDisc(GObject.GObject):
 
     def _on_disc_changed(self, model, position, removed, added):
         with self.freeze_notify():
+            duration = 0
             for coresong in model:
                 coresong.props.selected = self._selected
+                duration += coresong.props.duration
 
-    def _update_duration(self):
-        duration = 0
-
-        for coresong in self.props.model:
-            duration += coresong.props.duration
-
-        self.props.duration = duration
+            self.props.duration = duration
 
     def _disc_sort(self, song_a, song_b):
         return song_a.props.track_number - song_b.props.track_number
@@ -116,7 +110,6 @@ class CoreDisc(GObject.GObject):
                     return
                 model_filter.set_filter_func(_filter_func)
                 self._old_album_ids = album_ids
-                self._update_duration()
                 return
 
             album_ids.append(media.get_source() + media.get_id())
@@ -138,4 +131,4 @@ class CoreDisc(GObject.GObject):
         # a selection. Trigger loading of the model here if a selection
         # is requested, it will trigger the filled model update as
         # well.
-        self.props.model
+        self.props.model.items_changed(0, 0, 0)
