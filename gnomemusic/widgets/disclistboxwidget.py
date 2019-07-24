@@ -29,24 +29,6 @@ from gnomemusic import log
 from gnomemusic.widgets.songwidget import SongWidget
 
 
-class DiscSongsFlowBox(Gtk.ListBox):
-    """FlowBox containing the songs on one disc
-
-    DiscSongsFlowBox allows setting the number of columns to
-    use.
-    """
-    __gtype_name__ = 'DiscSongsFlowBox'
-
-    def __repr__(self):
-        return '<DiscSongsFlowBox>'
-
-    @log
-    def __init__(self):
-        """Initialize
-        """
-        super().__init__(selection_mode=Gtk.SelectionMode.NONE)
-
-
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
 class DiscBox(Gtk.Box):
     """A widget which compromises one disc
@@ -57,11 +39,9 @@ class DiscBox(Gtk.Box):
     __gtype_name__ = 'DiscBox'
 
     _disc_label = Gtk.Template.Child()
-    # _disc_songs_flowbox = Gtk.Template.Child()
     _list_box = Gtk.Template.Child()
 
     __gsignals__ = {
-        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-activated': (GObject.SignalFlags.RUN_FIRST, None, (Gtk.Widget,))
     }
 
@@ -90,8 +70,6 @@ class DiscBox(Gtk.Box):
             GObject.BindingFlags.SYNC_CREATE)
 
         self._selection_mode_allowed = True
-        self._selected_items = []
-        self._songs = []
 
         self._list_box.bind_model(self._model, self._create_widget)
 
@@ -104,19 +82,11 @@ class DiscBox(Gtk.Box):
         self._disc_label.props.label = _("Disc {}").format(disc_number)
         self._disc_label.props.visible = True
 
-    def get_selected_items(self):
-        """Return all selected items
-
-        :returns: The selected items:
-        :rtype: A list if Grilo media items
-        """
-        return []
-
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
             song_widget = child.get_child()
-            song_widget.props.selected = True
+            song_widget.props.coresong.props.selected = True
 
         self._list_box.foreach(child_select_all)
 
@@ -124,13 +94,12 @@ class DiscBox(Gtk.Box):
         """Deselect all songs"""
         def child_select_none(child):
             song_widget = child.get_child()
-            song_widget.props.selected = False
+            song_widget.props.coresong.props.selected = False
 
         self._list_box.foreach(child_select_none)
 
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)
-        self._songs.append(song_widget)
 
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
@@ -140,17 +109,6 @@ class DiscBox(Gtk.Box):
         song_widget.connect('button-release-event', self._song_activated)
 
         return song_widget
-
-    @log
-    def _on_selection_changed(self, widget):
-        self.emit('selection-changed')
-
-        return True
-
-    @log
-    def _toggle_widget_selection(self, child):
-        song_widget = child.get_child()
-        song_widget.props.selection_mode = self.props.selection_mode
 
     @log
     def _song_activated(self, widget, event):
@@ -179,10 +137,6 @@ class DiscListBox(Gtk.ListBox):
     """
     __gtype_name__ = 'DiscListBox'
 
-    __gsignals__ = {
-        'selection-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
-    }
-
     selection_mode_allowed = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
@@ -195,25 +149,8 @@ class DiscListBox(Gtk.ListBox):
 
         self.props.valign = Gtk.Align.START
         self._selection_mode = False
-        self._selected_items = []
 
         self.get_style_context().add_class("disc-list-box")
-
-    @log
-    def get_selected_items(self):
-        """Returns all selected items for all discs
-
-        :returns: All selected items
-        :rtype: A list if Grilo media items
-        """
-        self._selected_items = []
-
-        def get_child_selected_items(child):
-            self._selected_items += child.get_selected_items()
-
-        self.foreach(get_child_selected_items)
-
-        return self._selected_items
 
     @log
     def select_all(self):

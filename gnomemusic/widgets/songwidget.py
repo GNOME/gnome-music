@@ -97,7 +97,6 @@ class SongWidget(Gtk.EventBox):
         super().__init__()
 
         self.props.coresong = coresong
-        self._media = self.props.coresong.props.media
         self._selection_mode = False
         self._state = SongWidget.State.UNPLAYED
 
