@@ -46,13 +46,14 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, application, player):
+        self._application = application
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.songs_search
         self._album_model = self._coremodel.props.albums_search
         self._artist_model = self._coremodel.props.artists_search
         super().__init__('search', None, application)
 
-        self._player = player
+        self._player = self._application.props.player
 
         self.previous_view = None
 
@@ -195,7 +196,7 @@ class SearchView(BaseView):
             # self.emit('song-activated', widget)
 
             self._artist_albums_widget = ArtistAlbumsWidget(
-                coreartist, self._player, self._window, False)
+                coreartist, self._application, False)
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
