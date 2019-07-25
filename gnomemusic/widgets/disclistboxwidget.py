@@ -117,6 +117,7 @@ class DiscBox(Gtk.Box):
                 and not self.props.selection_mode
                 and self.props.selection_mode_allowed):
             self.props.selection_mode = True
+            widget.props.coresong.props.selected = True
             return
 
         (_, button) = event.get_button()
