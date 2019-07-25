@@ -57,6 +57,7 @@ class SongWidget(Gtk.EventBox):
     }
 
     coresong = GObject.Property(type=CoreSong, default=None)
+    select_click = GObject.Property(type=bool, default=False)
     selected = GObject.Property(type=bool, default=False)
     show_duration = GObject.Property(type=bool, default=True)
     show_favorite = GObject.Property(type=bool, default=True)
@@ -209,6 +210,12 @@ class SongWidget(Gtk.EventBox):
             return
 
         self.emit("widget-moved", source_position)
+
+    @Gtk.Template.Callback()
+    def _on_select_button_toggled(self, widget):
+        # This property is used to ignore the click to select interactions
+        # between the SongWidget and the DiscBox.
+        self.props.select_click = not self.props.select_click
 
     @Gtk.Template.Callback()
     @log
