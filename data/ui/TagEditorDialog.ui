@@ -73,8 +73,6 @@
                   <packing>
                     <property name="width">1</property>
                     <property name="height">4</property>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
                   </packing>
                 </child>
                 <child>
@@ -204,10 +202,6 @@
                           </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">0</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -270,10 +264,6 @@
                           </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">1</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -336,10 +326,6 @@
                           </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">2</property>
-                      </packing>
                     </child>
                     <child>
                       <object class="GtkBox">
@@ -537,10 +523,6 @@
                           </object>
                         </child>
                       </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">3</property>
-                      </packing>
                     </child>
                   </object>
                 </child>
@@ -585,10 +567,6 @@
                   </object>
                 </child>
               </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
-              </packing>
             </child>
             <child>
               <object class="GtkBox">
@@ -741,10 +719,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">5</property>
-          </packing>
           </child>
       </object>
     </child>

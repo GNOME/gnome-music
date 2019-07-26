@@ -53,7 +53,7 @@ class Grilo(GObject.GObject):
         'new-source-added': (GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
         'new-resolve-source-found': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
-        'new-browse-source-found': (
+        'new-query-source-found': (
             GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
     }
 
@@ -282,10 +282,10 @@ class Grilo(GObject.GObject):
                 logger.debug("source %s can be resolved", id)
                 self.emit('new-resolve-source-found', mediaSource)
 
-            elif (ops & Grl.SupportedOps.BROWSE
+            elif (ops & Grl.SupportedOps.QUERY
                   and mediaSource.get_supported_media() & Grl.MediaType.AUDIO):
                 logger.debug("source %s can be resolved", id)
-                self.emit('new-browse-source-found', mediaSource)
+                self.emit('new-query-source-found', mediaSource)
 
         except Exception as e:
             logger.debug("Source {}: exception {}".format(id, e))

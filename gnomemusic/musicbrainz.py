@@ -59,7 +59,7 @@ class MusicBrainz(GObject.GObject):
 
         self._grilo = grilo
         self._grilo.connect('new-resolve-source-found', self._add_new_source)
-        self._grilo.connect('new-browse-source-found', self._add_new_source)
+        self._grilo.connect('new-query-source-found', self._add_new_source)
 
         config = Grl.Config.new('grl-lua-factory', 'grl-acoustid')
         config.set_api_key(self._acoustid_api_key)
@@ -110,8 +110,11 @@ class MusicBrainz(GObject.GObject):
         options.set_resolution_flags(Grl.ResolutionFlags.NORMAL)
 
         error = None
-        self._sources['grl-acoustid'].browse(
-            media, self.ACOUSTID_METADATA_KEYS, options,
+        query = 'duration=' + str(media.get_duration())
+        query += '&fingerprint=' + media.get_string(self._fingerprint_key)
+
+        self._sources['grl-acoustid'].query(
+            query, self.ACOUSTID_METADATA_KEYS, options,
             self._acoustid_resolved, callback)
 
     def _chromaprint_resolved(
