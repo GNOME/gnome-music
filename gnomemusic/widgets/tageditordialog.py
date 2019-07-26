@@ -149,13 +149,13 @@ class TagEditorDialog(Gtk.Dialog):
             self._create_no_tags_notification()
             return
 
-        self._use_suggestion_button.props.sensitive = True
         self._suggestions.append(media)
 
         if count == 0:
+            self._stop_spinner()
             self._pointer = 0
             self._give_suggestion()
-            self._stop_spinner()
+            self._on_entries_changed()
 
     @log
     def _give_suggestion(self):
