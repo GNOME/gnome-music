@@ -46,13 +46,14 @@ class SearchView(BaseView):
 
     @log
     def __init__(self, application, player):
+        self._application = application
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.songs_search
         self._album_model = self._coremodel.props.albums_search
         self._artist_model = self._coremodel.props.artists_search
         super().__init__('search', None, application)
 
-        self.player = player
+        self._player = self._application.props.player
 
         self.previous_view = None
 
@@ -95,10 +96,6 @@ class SearchView(BaseView):
         self._all_results_box.pack_start(self._album_flowbox, True, True, 0)
         self._all_results_box.pack_start(self._artist_listbox, True, True, 0)
         self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
-
-        # self._ctrl = Gtk.GestureMultiPress().new(self._view)
-        # self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        # self._ctrl.connect("released", self._on_view_clicked)
 
         view_container.add(self._all_results_box)
 
@@ -161,7 +158,7 @@ class SearchView(BaseView):
 
             self._coremodel.set_player_model(
                 PlayerPlaylist.Type.SEARCH_RESULT, self._model)
-            self.player.play(widget.props.coresong)
+            self._player.play(widget.props.coresong)
 
         # FIXME: Need to ignore the event from the checkbox.
         # if self.props.selection_mode:
@@ -199,7 +196,7 @@ class SearchView(BaseView):
             # self.emit('song-activated', widget)
 
             self._artist_albums_widget = ArtistAlbumsWidget(
-                coreartist, self.player, self._window, False)
+                coreartist, self._application, False)
             self.add(self._artist_albums_widget)
             self._artist_albums_widget.show()
 
@@ -218,10 +215,6 @@ class SearchView(BaseView):
         #     widget.props.selected = not widget.props.selected
 
         return True
-
-    def _child_select(self, child, value):
-        widget = child.get_child()
-        widget.props.selected = value
 
     def _select_all(self, value):
         with self._model.freeze_notify():
@@ -258,23 +251,6 @@ class SearchView(BaseView):
         self.set_visible_child(self._grid)
         self.props.search_mode_active = True
         self._headerbar.props.state = HeaderBar.State.MAIN
-
-    @log
-    def _on_view_clicked(self, gesture, n_press, x, y):
-        """Ctrl+click on self._view triggers selection mode."""
-        _, state = Gtk.get_current_event_state()
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if (state & modifiers == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
-        if self.props.selection_mode:
-            path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
-            iter_ = self.model.get_iter(path)
-            self.model[iter_][6] = not self.model[iter_][6]
-            selected_iters = self._get_selected_iters()
-
-            self.props.selected_items_count = len(selected_iters)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):

@@ -618,6 +618,11 @@ class GrlTrackerWrapper(GObject.GObject):
         self._source.query(query, self.METADATA_KEYS, options, callback)
 
     def search(self, text):
+        # FIXME: Searches are limited to not bog down the UI with
+        # widget creation ({List,Flow}Box limitations). The limit is
+        # arbitrarily set to 50 and set in the Tracker query. It should
+        # be possible to set it through Grilo options instead. This
+        # does not work as expected and needs further investigation.
         term = Tracker.sparql_escape_string(
             GLib.utf8_normalize(
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
@@ -652,6 +657,7 @@ class GrlTrackerWrapper(GObject.GObject):
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
@@ -689,7 +695,6 @@ class GrlTrackerWrapper(GObject.GObject):
                 nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
             BIND(tracker:normalize(
                 nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
             BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
             FILTER (
                 CONTAINS(tracker:case-fold(
@@ -699,14 +704,12 @@ class GrlTrackerWrapper(GObject.GObject):
                     tracker:unaccent(?match2)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match2), "%(name)s")
                 || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match3)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
-                || CONTAINS(tracker:case-fold(
                     tracker:unaccent(?match4)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match4), "%(name)s")
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
@@ -743,10 +746,9 @@ class GrlTrackerWrapper(GObject.GObject):
                     nmm:musicAlbum ?album ;
                     nmm:performer ?artist .
             BIND(tracker:normalize(
-                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+                nmm:artistName(nmm:albumArtist(?album)), 'nfkd') AS ?match1) .
             BIND(tracker:normalize(
                 nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nie:title(?song), 'nfkd') AS ?match3) .
             BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
             FILTER (
                 CONTAINS(tracker:case-fold(
@@ -756,14 +758,12 @@ class GrlTrackerWrapper(GObject.GObject):
                     tracker:unaccent(?match2)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match2), "%(name)s")
                 || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match3)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match3), "%(name)s")
-                || CONTAINS(tracker:case-fold(
                     tracker:unaccent(?match4)), "%(name)s")
                 || CONTAINS(tracker:case-fold(?match4), "%(name)s")
             )
             %(location_filter)s
         }
+        LIMIT 50
         """.replace('\n', ' ').strip() % {
             'location_filter': self._location_filter(),
             'name': term
