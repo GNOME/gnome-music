@@ -129,7 +129,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
+                    "url": "https://gitlab.gnome.org/Sumaid/grilo-plugins/tree/acoustid"
                 }
             ],
             "cleanup": [ "/include" ]
