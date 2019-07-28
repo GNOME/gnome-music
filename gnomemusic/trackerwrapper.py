@@ -21,11 +21,20 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
 import logging
 
-from gi.repository import GObject, Tracker
+from gi.repository import GLib, GObject, Tracker
 
 logger = logging.getLogger(__name__)
+
+
+class TrackerState(IntEnum):
+    """Tracker Status
+    """
+    AVAILABLE = 0
+    UNAVAILABLE = 1
+    OUTDATED = 2
 
 
 class TrackerWrapper(GObject.GObject):
@@ -36,20 +45,49 @@ class TrackerWrapper(GObject.GObject):
 
     def __init__(self):
         super().__init__()
+
+        self._tracker = None
+        self._tracker_available = TrackerState.UNAVAILABLE
+
+        Tracker.SparqlConnection.get_async(None, self._connection_async_cb)
+
+    def _connection_async_cb(self, klass, result):
         try:
-            self._tracker = Tracker.SparqlConnection.get(None)
-            self._tracker_available = True
-        except Exception as e:
-            self._tracker = None
-            self._tracker_available = False
-            logger.error(
-                "Cannot connect to tracker, error {}\n".format(str(e)))
+            self._tracker = Tracker.SparqlConnection.get_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.notify("tracker-available")
+            return
+
+        query = """
+        SELECT
+            ?o
+        WHERE
+        {
+            ?o nfo:belongsToContainer/nie:url 'file:///' .
+        }
+        """.replace("\n", " ").strip()
+
+        self._tracker.query_async(
+            query, None, self._query_version_check)
+
+    def _query_version_check(self, klass, result):
+        try:
+            klass.query_finish(result)
+            self._tracker_available = TrackerState.AVAILABLE
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self._tracker_available = TrackerState.OUTDATED
+
+        self.notify("tracker-available")
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def tracker(self):
         return self._tracker
 
-    @GObject.Property(type=bool, default=False)
+    @GObject.Property(
+        type=int, default=TrackerState.UNAVAILABLE,
+        flags=GObject.ParamFlags.READABLE)
     def tracker_available(self):
         """Get Tracker availability.
 
@@ -57,20 +95,6 @@ class TrackerWrapper(GObject.GObject):
         if a query can be performed.
 
         :returns: tracker availability
-        :rtype: bool
+        :rtype: TrackerState
         """
         return self._tracker_available
-
-    @tracker_available.setter
-    def tracker_available(self, value):
-        """Set Tracker availability.
-
-        If a SparqlConnection has not been opened, Tracker availability
-        cannot be set to True.
-
-        :param bool value: new value
-        """
-        if self._tracker is None:
-            self._tracker_available = False
-        else:
-            self._tracker_available = value
