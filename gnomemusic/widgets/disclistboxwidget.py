@@ -112,11 +112,17 @@ class DiscBox(Gtk.Box):
 
     @log
     def _song_activated(self, widget, event):
+        if widget.props.select_click:
+            widget.props.select_click = False
+            return
+
         mod_mask = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode
                 and self.props.selection_mode_allowed):
             self.props.selection_mode = True
+            widget.props.select_click = True
+            widget.props.coresong.props.selected = True
             return
 
         (_, button) = event.get_button()
@@ -124,9 +130,10 @@ class DiscBox(Gtk.Box):
                 and not self.props.selection_mode):
             self.emit('song-activated', widget)
 
-        # FIXME: Need to ignore the event from the checkbox.
-        # if self.props.selection_mode:
-        #     widget.props.selected = not widget.props.selected
+        if self.props.selection_mode:
+            widget.props.select_click = True
+            selection_state = widget.props.coresong.props.selected
+            widget.props.coresong.props.selected = not selection_state
 
         return True
 
