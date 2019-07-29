@@ -26,23 +26,58 @@ from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 
 
-class AlbumsView(BaseView):
+class AlbumsView(Gtk.Stack):
+    """Gridlike view of all albums
+
+    Album activation switches to AlbumWidget.
+    """
 
     search_mode_active = GObject.Property(type=bool, default=False)
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
+    selection_mode = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
         return '<AlbumsView>'
 
     @log
-    def __init__(self, application, player):
+    def __init__(self, application, player=None):
+        """Initialize AlbumsView
+
+        :param application: The Application object
+        """
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+
+        # FIXME: Make these properties.
+        self.name = "albums"
+        self.title = _("Albums")
+
         self._window = application.props.window
-        super().__init__('albums', _("Albums"), application)
+        player = application.props.player
+
+        self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
+        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        # Setup the main view
+        self._setup_view()
+
+        self._grid.add(self._box)
+
+        self._headerbar = self._window._headerbar
+
+        self.add(self._grid)
+        self.show_all()
+
+        self._selection_mode_id = self.connect(
+            "notify::selection-mode", self._on_selection_mode_changed)
+
+        self.bind_property(
+            'selection-mode', self._window, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
@@ -56,7 +91,8 @@ class AlbumsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        super()._on_selection_mode_changed(widget, data)
+        if not self.props.selection_mode:
+            self.unselect_all()
 
     @log
     def _on_search_mode_changed(self, klass, param):
