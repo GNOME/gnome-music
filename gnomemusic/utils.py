@@ -31,6 +31,7 @@ from gi.repository import Gio, GLib, Grl
 
 from gnomemusic.grilo import grilo
 
+
 class View(IntEnum):
     """Enum for views"""
     EMPTY = 0
@@ -162,8 +163,8 @@ def set_album_title(item, album):
     :param item: A Grilo Media object
     :param album: A string representing album title
     """
-    return ( item.set_album(album) and
-             grilo.set_metadata_key(item, Grl.METADATA_KEY_ALBUM) )
+    return (item.set_album(album) and
+            grilo.set_metadata_key(item, Grl.METADATA_KEY_ALBUM))
 
 
 def set_artist_name(item, artist):
@@ -172,8 +173,8 @@ def set_artist_name(item, artist):
     :param item: A Grilo Media object
     :param album: A string representing artist name
     """
-    return ( item.set_artist(artist) and
-             grilo.set_metadata_key(item, Grl.METADATA_KEY_ARTIST) )
+    return (item.set_artist(artist) and
+            grilo.set_metadata_key(item, Grl.METADATA_KEY_ARTIST))
 
 
 def set_album_disc_number(item, disc_number):
@@ -182,8 +183,8 @@ def set_album_disc_number(item, disc_number):
     :param item: A Grilo Media object
     :param album: A string representing album disc number
     """
-    return ( item.set_album_disc_number(int(disc_number)) and
-             grilo.set_metadata_key(item, Grl.METADATA_KEY_ALBUM_DISC_NUMBER) )
+    return (item.set_album_disc_number(int(disc_number)) and
+            grilo.set_metadata_key(item, Grl.METADATA_KEY_ALBUM_DISC_NUMBER))
 
 
 def set_title(item, title):
@@ -192,8 +193,8 @@ def set_title(item, title):
     :param item: A Grilo Media object
     :param album: A string representing title
     """
-    return ( item.set_title(title) and
-             grilo.set_metadata_key(item, Grl.METADATA_KEY_TITLE) )
+    return (item.set_title(title) and
+            grilo.set_metadata_key(item, Grl.METADATA_KEY_TITLE))
 
 
 def set_track_number(item, track_number):
@@ -202,8 +203,8 @@ def set_track_number(item, track_number):
     :param item: A Grilo Media object
     :param album: A string representing track number
     """
-    return ( item.set_track_number(int(track_number)) and
-             grilo.set_metadata_key(item, Grl.METADATA_KEY_TRACK_NUMBER) )
+    return (item.set_track_number(int(track_number)) and
+            grilo.set_metadata_key(item, Grl.METADATA_KEY_TRACK_NUMBER))
 
 
 def set_creation_year(item, creation_year):
@@ -220,10 +221,10 @@ def set_creation_year(item, creation_year):
         hour = creation_date.get_hour()
         minute = creation_date.get_minute()
         second = creation_date.get_second()
-        updated_creation_date = GLib.DateTime(timezone, int(creation_year), month, day, hour, minute, second)
-        return ( item.set_creation_date(updated_creation_date) and
-                 grilo.set_metadata_key(item, Grl.METADATA_KEY_CREATION_DATE) )
-
+        updated_creation_date = GLib.DateTime(
+            timezone, int(creation_year), month, day, hour, minute, second)
+        return (item.set_creation_date(updated_creation_date) and
+                grilo.set_metadata_key(item, Grl.METADATA_KEY_CREATION_DATE))
 
 
 fields_getter = {
@@ -234,6 +235,7 @@ fields_getter = {
     'track': get_media_track_nr,
     'year': get_media_year
 }
+
 
 fields_setter = {
     'album': set_album_title,

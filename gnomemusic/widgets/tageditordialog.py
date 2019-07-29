@@ -30,7 +30,7 @@ from gi.repository import Grl, Gtk, Gio, GObject, GLib
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.grilo import grilo
-from gnomemusic.widgets.notificationspopup import NotificationsPopup, UseSuggestionNotification
+from gnomemusic.widgets.notificationspopup import UseSuggestionNotification
 import gnomemusic.utils as utils
 
 logger = logging.getLogger(__name__)
@@ -93,7 +93,8 @@ class TagEditorDialog(Gtk.Dialog):
         self._cover_stack.props.size = Art.Size.LARGE
         self._cover_stack.update(selected_song)
 
-        self._music_directory = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_MUSIC)
+        self._music_directory = GLib.get_user_special_dir(
+            GLib.UserDirectory.DIRECTORY_MUSIC)
 
         self._initial_song = selected_song
         self._init_labels()
@@ -115,7 +116,8 @@ class TagEditorDialog(Gtk.Dialog):
         file_path = file_.get_path()
         if file_path.startswith(self._music_directory):
             self._url.set_text(file_path[len(self._music_directory)+1:])
-            self._url.set_tooltip_text(file_path[len(self._music_directory)+1:])
+            self._url.set_tooltip_text(
+                file_path[len(self._music_directory)+1:])
             self._url.set_has_tooltip(True)
         else:
             self._url.set_text(file_path)
@@ -193,7 +195,8 @@ class TagEditorDialog(Gtk.Dialog):
                 self._submit_button.props.sensitive = True
             if self._pointer >= 0:
                 suggested_value = utils.fields_getter[field](media)
-                if typed_value and suggested_value and typed_value != suggested_value:
+                if (typed_value and suggested_value
+                        and typed_value != suggested_value):
                     self._use_suggestion_button.props.sensitive = True
 
     @Gtk.Template.Callback()
