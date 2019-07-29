@@ -96,8 +96,9 @@
                   <object class="GtkLabel" id="_url">
                     <property name="can_focus">False</property>
                     <property name="halign">start</property>
-                    <property name="max_width_chars">40</property>
-                    <property name="ellipsize">end</property>
+                    <property name="xalign">0</property>
+                    <property name="max_width_chars">45</property>
+                    <property name="wrap">True</property>
                     <style>
                       <class name="dim-label"/>
                     </style>
@@ -148,7 +149,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="ellipsize">end</property>
-                                <property name="max_width_chars">20</property>
+                                <property name="max_width_chars">25</property>
                                 <style>
                                   <class name="suggestion-label"/>
                                 </style>
@@ -166,6 +167,7 @@
                           <object class="GtkEntry" id="_title_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="width_chars">45</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -210,7 +212,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="ellipsize">end</property>
-                                <property name="max_width_chars">20</property>
+                                <property name="max_width_chars">25</property>
                                 <style>
                                   <class name="suggestion-label"/>
                                 </style>
@@ -228,6 +230,7 @@
                           <object class="GtkEntry" id="_album_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="width_chars">45</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -272,7 +275,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="ellipsize">end</property>
-                                <property name="max_width_chars">20</property>
+                                <property name="max_width_chars">25</property>
                                 <style>
                                   <class name="suggestion-label"/>
                                 </style>
@@ -290,6 +293,7 @@
                           <object class="GtkEntry" id="_artist_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="width_chars">45</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -304,6 +308,8 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
+                        <property name="halign">center</property>
+                        <property name="homogeneous">True</property>
                         <property name="spacing">12</property>
                         <child>
                           <object class="GtkBox">
@@ -311,6 +317,7 @@
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
+                            <property name="halign">center</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -355,8 +362,7 @@
                               <object class="GtkEntry" id="_track_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="width_chars">8</property>
-                                <property name="max_width_chars">2</property>
+                                <property name="width_chars">10</property>
                                 <property name="input_purpose">number</property>
                               </object>
                               <packing>
@@ -373,6 +379,7 @@
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
+                            <property name="halign">center</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -418,9 +425,7 @@
                               <object class="GtkEntry" id="_disc_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="max_length">2</property>
-                                <property name="width_chars">8</property>
-                                <property name="max_width_chars">2</property>
+                                <property name="width_chars">10</property>
                                 <property name="input_purpose">number</property>
                               </object>
                               <packing>
@@ -437,6 +442,7 @@
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
+                            <property name="halign">center</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -481,9 +487,7 @@
                               <object class="GtkEntry" id="_year_entry">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="max_length">4</property>
                                 <property name="width_chars">10</property>
-                                <property name="max_width_chars">4</property>
                                 <property name="input_purpose">number</property>
                               </object>
                               <packing>
