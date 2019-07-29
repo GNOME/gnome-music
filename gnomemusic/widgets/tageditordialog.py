@@ -115,9 +115,9 @@ class TagEditorDialog(Gtk.Dialog):
         file_ = Gio.File.new_for_uri(file_url)
         file_path = file_.get_path()
         if file_path.startswith(self._music_directory):
-            self._url.set_text(file_path[len(self._music_directory)+1:])
+            self._url.set_text(file_path[len(self._music_directory) + 1:])
             self._url.set_tooltip_text(
-                file_path[len(self._music_directory)+1:])
+                file_path[len(self._music_directory) + 1:])
             self._url.set_has_tooltip(True)
         else:
             self._url.set_text(file_path)
