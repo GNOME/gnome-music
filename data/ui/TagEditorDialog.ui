@@ -149,7 +149,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="ellipsize">end</property>
-                                <property name="max_width_chars">25</property>
+                                <property name="max_width_chars">30</property>
                                 <style>
                                   <class name="suggestion-label"/>
                                 </style>
@@ -212,7 +212,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="ellipsize">end</property>
-                                <property name="max_width_chars">25</property>
+                                <property name="max_width_chars">30</property>
                                 <style>
                                   <class name="suggestion-label"/>
                                 </style>
@@ -275,7 +275,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
                                 <property name="ellipsize">end</property>
-                                <property name="max_width_chars">25</property>
+                                <property name="max_width_chars">30</property>
                                 <style>
                                   <class name="suggestion-label"/>
                                 </style>
@@ -308,7 +308,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="halign">center</property>
+                        <property name="halign">fill</property>
                         <property name="homogeneous">True</property>
                         <property name="spacing">12</property>
                         <child>
@@ -317,7 +317,7 @@
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
-                            <property name="halign">center</property>
+                            <property name="halign">start</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -379,7 +379,7 @@
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
-                            <property name="halign">center</property>
+                            <property name="halign">start</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
@@ -442,7 +442,7 @@
                             <property name="can_focus">False</property>
                             <property name="orientation">vertical</property>
                             <property name="spacing">6</property>
-                            <property name="halign">center</property>
+                            <property name="halign">start</property>
                             <child>
                               <object class="GtkBox">
                                 <property name="visible">True</property>
