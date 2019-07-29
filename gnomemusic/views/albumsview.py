@@ -31,15 +31,21 @@ from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/AlbumsView.ui")
 class AlbumsView(Gtk.Stack):
     """Gridlike view of all albums
 
     Album activation switches to AlbumWidget.
     """
 
+    __gtype_name__ = "AlbumsView"
+
     search_mode_active = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+
+    _all_albums = Gtk.Template.Child()
+    _flowbox = Gtk.Template.Child()
 
     def __repr__(self):
         return '<AlbumsView>'
@@ -57,29 +63,19 @@ class AlbumsView(Gtk.Stack):
         self.title = _("Albums")
 
         self._window = application.props.window
-        player = application.props.player
-
-        self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-
-        # Setup the main view
-        self._setup_view()
-
-        self._grid.add(self._box)
-
         self._headerbar = self._window._headerbar
 
-        self.add(self._grid)
-        self.show_all()
+        model = self._window._app.props.coremodel.props.albums_sort
+        self._flowbox.bind_model(model, self._create_widget)
+        self._flowbox.connect("child-activated", self._on_child_activated)
 
-        self._selection_mode_id = self.connect(
-            "notify::selection-mode", self._on_selection_mode_changed)
+        self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
         self.bind_property(
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self._album_widget = AlbumWidget(player, self)
+        self._album_widget = AlbumWidget(application.props.player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
@@ -88,6 +84,8 @@ class AlbumsView(Gtk.Stack):
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
+
+        self.show_all()
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
@@ -100,28 +98,6 @@ class AlbumsView(Gtk.Stack):
                 and self._headerbar.props.stack.props.visible_child == self
                 and self.get_visible_child() == self._album_widget):
             self._set_album_headerbar(self._album_widget.props.album)
-
-    @log
-    def _setup_view(self):
-        self._view = Gtk.FlowBox(
-            homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
-            valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
-            margin=18, row_spacing=12, column_spacing=6,
-            min_children_per_line=1, max_children_per_line=20, visible=True)
-
-        self._view.get_style_context().add_class('content-view')
-        self._view.connect('child-activated', self._on_child_activated)
-
-        scrolledwin = Gtk.ScrolledWindow()
-        scrolledwin.add(self._view)
-        scrolledwin.show()
-
-        self._box.add(scrolledwin)
-
-        self._model = self._window._app.props.coremodel.props.albums_sort
-        self._view.bind_model(self._model, self._create_widget)
-
-        self._view.show()
 
     @log
     def _create_widget(self, corealbum):
@@ -144,7 +120,8 @@ class AlbumsView(Gtk.Stack):
     @log
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
-        self.set_visible_child(self._grid)
+        # self.set_visible_child(self._grid)
+        self.props.visible_child = self._all_albums
 
     @log
     def _on_child_activated(self, widget, child, user_data=None):
@@ -170,7 +147,7 @@ class AlbumsView(Gtk.Stack):
         signal for performance purposes.
         """
         with self._window._app.props.coreselection.freeze_notify():
-            for child in self._view.get_children():
+            for child in self._flowbox.get_children():
                 child.props.selected = selected
                 child.props.corealbum.props.selected = selected
 
