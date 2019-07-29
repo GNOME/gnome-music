@@ -1,4 +1,4 @@
-# Copyright (c) 2016 The GNOME Music Developers
+# Copyright 2019 The GNOME Music Developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,6 @@
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
@@ -50,7 +49,6 @@ class AlbumsView(Gtk.Stack):
     def __repr__(self):
         return '<AlbumsView>'
 
-    @log
     def __init__(self, application, player=None):
         """Initialize AlbumsView
 
@@ -87,19 +85,16 @@ class AlbumsView(Gtk.Stack):
 
         self.show_all()
 
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         if not self.props.selection_mode:
             self.unselect_all()
 
-    @log
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
                 and self._headerbar.props.stack.props.visible_child == self
                 and self.get_visible_child() == self._album_widget):
             self._set_album_headerbar(self._album_widget.props.album)
 
-    @log
     def _create_widget(self, corealbum):
         album_widget = AlbumCover(corealbum)
 
@@ -117,12 +112,10 @@ class AlbumsView(Gtk.Stack):
 
         return album_widget
 
-    @log
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
         self.props.visible_child = self._all_albums
 
-    @log
     def _on_child_activated(self, widget, child, user_data=None):
         corealbum = child.props.corealbum
         if self.props.selection_mode:
@@ -134,7 +127,6 @@ class AlbumsView(Gtk.Stack):
         self._set_album_headerbar(corealbum)
         self.set_visible_child(self._album_widget)
 
-    @log
     def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD
         self._headerbar.props.title = corealbum.props.title
