@@ -37,23 +37,57 @@ from gnomemusic.widgets.artisttile import ArtistTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
-class SearchView(BaseView):
+class SearchView(Gtk.Stack):
+    """Gridlike view of search results.
+
+    Three sections: artists, albums, songs.
+    """
 
     search_state = GObject.Property(type=int, default=Search.State.NONE)
+    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
+    selection_mode = GObject.Property(type=bool, default=False)
 
     def __repr__(self):
         return '<SearchView>'
 
     @log
-    def __init__(self, application, player):
+    def __init__(self, application, player=None):
+        """Initialize SearchView
+
+        :param GtkApplication application: The Application object
+        """
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+
+        # FIXME: Make these properties.
+        self.name = "search"
+        self.title = None
+
         self._application = application
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.songs_search
         self._album_model = self._coremodel.props.albums_search
         self._artist_model = self._coremodel.props.artists_search
-        super().__init__('search', None, application)
 
         self._player = self._application.props.player
+
+        self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
+        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+
+        # Setup the main view
+        self._setup_view()
+
+        self._grid.add(self._box)
+
+        self._window = application.props.window
+        self._headerbar = self._window._headerbar
+
+        self.add(self._grid)
+
+        self.connect("notify::selection-mode", self._on_selection_mode_changed)
+
+        self.bind_property(
+            'selection-mode', self._window, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         self.previous_view = None
 
@@ -254,7 +288,8 @@ class SearchView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        super()._on_selection_mode_changed(widget, data)
+        if not self.props.selection_mode:
+            self.unselect_all()
 
     @log
     def _on_search_state_changed(self, klass, param):
