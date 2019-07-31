@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.18"/>
+  <template class="SearchView" parent="GtkStack">
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkScrolledWindow" id="_search_results">
+        <property name="hexpand">True</property>
+        <property name="vexpand">True</property>
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkBox" id="container">
+            <property name="orientation">vertical</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkFlowBox" id="_album_flowbox">
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="valign">start</property>
+                <property name="homogeneous">True</property>
+                <property name="min_children_per_line">1</property>
+                <property name="max_children_per_line">20</property>
+                <property name="margin">18</property>
+                <property name="row_spacing">12</property>
+                <property name="column_spacing">6</property>
+                <property name="selection_mode">none</property>
+                <property name="visible">True</property>
+                <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
+                <style>
+                  <class name="content-view"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkFlowBox" id="_artist_listbox">
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkListBox" id="_songs_listbox">
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
