@@ -49,7 +49,7 @@ class SearchView(Gtk.Stack):
 
     _search_results = Gtk.Template.Child()
     _album_flowbox = Gtk.Template.Child()
-    _artist_listbox = Gtk.Template.Child()
+    _artist_flowbox = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
 
     def __repr__(self):
@@ -88,7 +88,7 @@ class SearchView(Gtk.Stack):
         self._album_flowbox.connect(
             "child-activated", self._on_album_activated)
 
-        self._artist_listbox.bind_model(
+        self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
 
         self.show_all()
@@ -257,7 +257,7 @@ class SearchView(Gtk.Stack):
 
             self._songs_listbox.foreach(song_select)
             self._album_flowbox.foreach(album_select)
-            self._artist_listbox.foreach(artist_select)
+            self._artist_flowbox.foreach(artist_select)
 
     def select_all(self):
         self._select_all(True)
