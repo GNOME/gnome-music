@@ -28,7 +28,6 @@ from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import View
 from gnomemusic.search import Search
-from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.headerbar import HeaderBar
@@ -37,15 +36,23 @@ from gnomemusic.widgets.artisttile import ArtistTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
+@Gtk.Template(resource_path="/org/gnome/Music/ui/SearchView.ui")
 class SearchView(Gtk.Stack):
     """Gridlike view of search results.
 
     Three sections: artists, albums, songs.
     """
 
+    __gtype_name__ = "SearchView"
+
     search_state = GObject.Property(type=int, default=Search.State.NONE)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+
+    _album_flowbox = Gtk.Template.Child()
+    _artist_listbox = Gtk.Template.Child()
+    _search_results = Gtk.Template.Child()
+    _songs_listbox = Gtk.Template.Child()
 
     def __repr__(self):
         return '<SearchView>'
@@ -70,18 +77,8 @@ class SearchView(Gtk.Stack):
 
         self._player = self._application.props.player
 
-        self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
-        self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-
-        # Setup the main view
-        self._setup_view()
-
-        self._grid.add(self._box)
-
         self._window = application.props.window
         self._headerbar = self._window._headerbar
-
-        self.add(self._grid)
 
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
@@ -96,6 +93,7 @@ class SearchView(Gtk.Stack):
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
+        self.show_all()
         self.add(self._album_widget)
 
         self._artist_albums_widget = None
@@ -103,37 +101,11 @@ class SearchView(Gtk.Stack):
         self._search_mode_active = False
         # self.connect("notify::search-state", self._on_search_state_changed)
 
-    @log
-    def _setup_view(self):
-        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
-
-        self._songs_listbox = Gtk.ListBox()
-        self._songs_listbox.bind_model(self._model, self._create_song_widget)
-
-        self._album_flowbox = Gtk.FlowBox(
-            homogeneous=True, hexpand=True, halign=Gtk.Align.FILL,
-            valign=Gtk.Align.START, selection_mode=Gtk.SelectionMode.NONE,
-            margin=18, row_spacing=12, column_spacing=6,
-            min_children_per_line=1, max_children_per_line=20, visible=True)
-        self._album_flowbox.get_style_context().add_class('content-view')
-        self._album_flowbox.bind_model(
-            self._album_model, self._create_album_widget)
-        self._album_flowbox.connect(
-            "child-activated", self._on_album_activated)
-
-        self._artist_listbox = Gtk.ListBox()
         self._artist_listbox.bind_model(
             self._artist_model, self._create_artist_widget)
-
-        self._all_results_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self._all_results_box.pack_start(self._album_flowbox, True, True, 0)
-        self._all_results_box.pack_start(self._artist_listbox, True, True, 0)
-        self._all_results_box.pack_start(self._songs_listbox, True, True, 0)
-
-        view_container.add(self._all_results_box)
-
-        self._box.show_all()
+        self._songs_listbox.bind_model(self._model, self._create_song_widget)
+        self._album_flowbox.bind_model(
+            self._album_model, self._create_album_widget)
 
     def _create_song_widget(self, coresong):
         song_widget = SongWidget(coresong)
@@ -200,6 +172,7 @@ class SearchView(Gtk.Stack):
 
         return True
 
+    @Gtk.Template.Callback()
     def _on_album_activated(self, widget, child, user_data=None):
         corealbum = child.props.corealbum
         if self.props.selection_mode:
@@ -278,11 +251,11 @@ class SearchView(Gtk.Stack):
         if self.get_visible_child() == self._artist_albums_widget:
             self._artist_albums_widget.destroy()
             self._artist_albums_widget = None
-        elif self.get_visible_child() == self._grid:
+        elif self.get_visible_child() == self._search_results:
             self._window.views[View.ALBUM].set_visible_child(
                 self._window.views[View.ALBUM]._grid)
 
-        self.set_visible_child(self._grid)
+        self.set_visible_child(self._search_results)
         self.props.search_mode_active = True
         self._headerbar.props.state = HeaderBar.State.MAIN
 
@@ -319,5 +292,5 @@ class SearchView(Gtk.Stack):
         # the child views.
         self._search_mode_active = value
         if (not self._search_mode_active
-                and self.get_visible_child() == self._grid):
+                and self.get_visible_child() == self._search_results):
             self.props.search_state = Search.State.NONE
