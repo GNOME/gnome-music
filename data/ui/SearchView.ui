@@ -38,6 +38,9 @@
             <child>
               <object class="GtkListBox" id="_songs_listbox">
                 <property name="visible">True</property>
+                <style>
+                  <class name="songs-list"/>
+                </style>
               </object>
             </child>
           </object>
