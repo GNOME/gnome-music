@@ -12,6 +12,11 @@
             <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <child>
+              <object class="GtkFlowBox" id="_artist_listbox">
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
               <object class="GtkFlowBox" id="_album_flowbox">
                 <property name="halign">fill</property>
                 <property name="hexpand">True</property>
@@ -28,11 +33,6 @@
                 <style>
                   <class name="content-view"/>
                 </style>
-              </object>
-            </child>
-            <child>
-              <object class="GtkFlowBox" id="_artist_listbox">
-                <property name="visible">True</property>
               </object>
             </child>
             <child>
