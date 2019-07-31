@@ -7,7 +7,11 @@
         <property name="visible">True</property>
         <child>
           <object class="GtkBox">
+            <property name="halign">center</property>
             <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkListBox" id="_artist_listbox"/>
+            </child>
             <child>
               <object class="GtkFlowBox" id="_album_flowbox">
                 <property name="column_spacing">6</property>
@@ -15,7 +19,7 @@
                 <property name="hexpand">True</property>
                 <property name="homogeneous">True</property>
                 <property name="margin">18</property>
-                <property name="max-children-per-line">20</property>
+                <property name="max-children-per-line">6</property>
                 <property name="min-children-per-line">1</property>
                 <property name="row_spacing">12</property>
                 <property name="selection-mode">none</property>
@@ -25,9 +29,6 @@
                   <class name="content-view"/>
                 </style>
               </object>
-            </child>
-            <child>
-              <object class="GtkListBox" id="_artist_listbox"/>
             </child>
             <child>
               <object class="GtkListBox" id="_songs_listbox"/>
