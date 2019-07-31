@@ -126,7 +126,8 @@ class SearchView(Gtk.Stack):
         return False
 
     def _create_song_widget(self, coresong):
-        song_widget = SongWidget(coresong)
+        song_widget = SongWidget(coresong, False, True)
+        song_widget.props.show_song_number = False
 
         self.bind_property(
             "selection-mode", song_widget, "selection-mode",
@@ -134,8 +135,6 @@ class SearchView(Gtk.Stack):
             | GObject.BindingFlags.SYNC_CREATE)
 
         song_widget.connect('button-release-event', self._song_activated)
-
-        song_widget.show_all()
 
         return song_widget
 
