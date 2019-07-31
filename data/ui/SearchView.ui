@@ -10,7 +10,47 @@
             <property name="halign">center</property>
             <property name="orientation">vertical</property>
             <child>
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <property name="homogeneous">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Artists</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">View All</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkListBox" id="_artist_listbox"/>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <property name="homogeneous">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Albums</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">View All</property>
+                  </object>
+                </child>
+              </object>
             </child>
             <child>
               <object class="GtkFlowBox" id="_album_flowbox">
@@ -28,6 +68,26 @@
                 <style>
                   <class name="content-view"/>
                 </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <property name="homogeneous">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Songs</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton">
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">View All</property>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
