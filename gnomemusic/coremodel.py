@@ -107,9 +107,15 @@ class CoreModel(GObject.GObject):
             self._album_model)
         self._album_search_model.set_filter_func(lambda a: False)
 
+        self._album_search_filter = Gfm.FilterListModel.new(
+            self._album_search_model)
+
         self._artist_search_model = Dazzle.ListModelFilter.new(
             self._artist_model)
         self._artist_search_model.set_filter_func(lambda a: False)
+
+        self._artist_search_filter = Gfm.FilterListModel.new(
+            self._artist_search_model)
 
         self._playlists_model = Gio.ListStore.new(Playlist)
         self._playlists_model_filter = Dazzle.ListModelFilter.new(
@@ -433,10 +439,22 @@ class CoreModel(GObject.GObject):
         return self._album_search_model
 
     @GObject.Property(
+        type=Gfm.FilterListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def albums_search_filter(self):
+        return self._album_search_filter
+
+    @GObject.Property(
         type=Dazzle.ListModelFilter, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search(self):
         return self._artist_search_model
+
+    @GObject.Property(
+        type=Gfm.FilterListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def artists_search_filter(self):
+        return self._artist_search_filter
 
     @GObject.Property(
         type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
