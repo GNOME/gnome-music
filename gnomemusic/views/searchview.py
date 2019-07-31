@@ -73,7 +73,24 @@ class SearchView(Gtk.Stack):
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.songs_search
         self._album_model = self._coremodel.props.albums_search
+        self._album_filter = self._coremodel.props.albums_search_filter
+        self._album_filter.set_filter_func(
+            self._core_filter, self._album_model, 12)
+
         self._artist_model = self._coremodel.props.artists_search
+        self._artist_filter = self._coremodel.props.artists_search_filter
+        self._artist_filter.set_filter_func(
+            self._core_filter, self._artist_model, 6)
+
+        self._songs_listbox.bind_model(self._model, self._create_song_widget)
+
+        self._album_flowbox.bind_model(
+            self._album_filter, self._create_album_widget)
+        self._album_flowbox.connect(
+            "child-activated", self._on_album_activated)
+
+        self._artist_listbox.bind_model(
+            self._artist_filter, self._create_artist_widget)
 
         self._player = self._application.props.player
 
@@ -100,11 +117,15 @@ class SearchView(Gtk.Stack):
         self._search_mode_active = False
         # self.connect("notify::search-state", self._on_search_state_changed)
 
-        self._artist_listbox.bind_model(
-            self._artist_model, self._create_artist_widget)
-        self._songs_listbox.bind_model(self._model, self._create_song_widget)
-        self._album_flowbox.bind_model(
-            self._album_model, self._create_album_widget)
+    def _core_filter(self, coreitem, coremodel, nr_items):
+        if coremodel.get_n_items() <= 5:
+            return True
+
+        for i in range(nr_items):
+            if coremodel.get_item(i) == coreitem:
+                return True
+
+        return False
 
     def _create_song_widget(self, coresong):
         song_widget = SongWidget(coresong)
