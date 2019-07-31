@@ -12,8 +12,34 @@
             <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <child>
+              <object class="GtkLabel" id="artist_label">
+                <property name="halign">start</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Artists</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="visible">True</property>
+                <style>
+                  <class name="search-header"/>
+                </style>
+              </object>
+            </child>
+            <child>
               <object class="GtkFlowBox" id="_artist_listbox">
                 <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="album_label">
+                <property name="halign">start</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Albums</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="visible">True</property>
+                <style>
+                  <class name="search-header"/>
+                </style>
               </object>
             </child>
             <child>
@@ -32,6 +58,19 @@
                 <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
                 <style>
                   <class name="content-view"/>
+                </style>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel" id="songs_label">
+                <property name="halign">start</property>
+                <property name="hexpand">True</property>
+                <property name="label" translatable="yes">Songs</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-top">12</property>
+                <property name="visible">True</property>
+                <style>
+                  <class name="search-header"/>
                 </style>
               </object>
             </child>
