@@ -685,7 +685,8 @@ class Player(GObject.GObject):
 
         Play the next song of the playlist, if any.
         """
-        if self._playlist.next():
+        if (self.props.playing
+                and self._playlist.next()):
             self.play()
 
     @log
@@ -694,6 +695,9 @@ class Player(GObject.GObject):
 
         Play the previous song of the playlist, if any.
         """
+        if not self.props.playing:
+            return
+
         position = self._gst_player.props.position
         if position >= 5:
             self.set_position(0.0)
