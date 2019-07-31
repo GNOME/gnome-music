@@ -22,7 +22,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="_artists_button">
                     <property name="halign">end</property>
                     <property name="label" translatable="yes">View All</property>
                   </object>
@@ -30,7 +30,22 @@
               </object>
             </child>
             <child>
-              <object class="GtkListBox" id="_artist_listbox"/>
+              <object class="GtkFlowBox" id="_artist_flowbox">
+                <property name="column_spacing">6</property>
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="homogeneous">True</property>
+                <property name="margin">18</property>
+                <property name="max-children-per-line">6</property>
+                <property name="min-children-per-line">1</property>
+                <property name="row_spacing">12</property>
+                <property name="selection-mode">none</property>
+                <property name="valign">start</property>
+                <property name="visible">True</property>
+                <style>
+                  <class name="content-view"/>
+                </style>
+              </object>
             </child>
             <child>
               <object class="GtkBox">
@@ -45,7 +60,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="_albums_button">
                     <property name="halign">end</property>
                     <property name="label" translatable="yes">View All</property>
                   </object>
@@ -83,7 +98,7 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton">
+                  <object class="GtkButton" id="_songs_button">
                     <property name="halign">end</property>
                     <property name="label" translatable="yes">View All</property>
                   </object>
