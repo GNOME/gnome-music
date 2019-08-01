@@ -10,6 +10,12 @@
         <property name="visible">True</property>
         <child>
           <object class="GtkBox" id="container">
+            <property name="halign">fill</property>
+            <property name="hexpand">True</property>
+            <property name="margin-bottom">20</property>
+            <property name="margin-left">120</property>
+            <property name="margin-right">120</property>
+            <property name="margin-top">20</property>
             <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <child>
