@@ -58,19 +58,66 @@ def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
 
     matrix = cairo.Matrix()
 
-    # if default_icon:
-    #     matrix.translate(-w * (1 / 3), -h * (1 / 3))
-    #     ctx.set_operator(cairo.Operator.DIFFERENCE)
-    # else:
-    matrix.scale(icon_w / w, icon_h / h)
+    if default_icon:
+        ctx.set_source_rgb(0, 0, 0)
+        ctx.fill()
+        matrix.translate(-w * 1/3, -h * 1/3)
+        ctx.set_operator(cairo.Operator.DIFFERENCE)
+    else:
+        matrix.scale(icon_w / w, icon_h / h)
 
     ctx.set_source_surface(icon_surface, 0, 0)
+
     pattern = ctx.get_source()
     pattern.set_matrix(matrix)
     ctx.rectangle(0, 0, w, h)
     ctx.fill()
 
     return surface
+
+
+class DefaultIcon(GObject.GObject):
+    """Provides the symbolic fallback and loading icons."""
+
+    class Type(Enum):
+        LOADING = 'content-loading-symbolic'
+        MUSIC = 'folder-music-symbolic'
+
+    _cache = {}
+    _default_theme = Gtk.IconTheme.get_default()
+
+    def __repr__(self):
+        return '<DefaultIcon>'
+
+    def __init__(self):
+        super().__init__()
+
+    def _make_default_icon(self, icon_type, art_size, scale):
+        icon_info = self._default_theme.lookup_icon_for_scale(
+            icon_type.value, art_size.width / 3, scale, 0)
+        icon = icon_info.load_surface()
+
+        icon_surface = _make_icon_frame(icon, art_size, scale, True)
+
+        return icon_surface
+
+    def get(self, icon_type, art_size, scale=1):
+        """Returns the requested symbolic icon
+
+        Returns a cairo surface of the requested symbolic icon in the
+        given size.
+
+        :param enum icon_type: The DefaultIcon.Type of the icon
+        :param enum art_size: The Art.Size requested
+
+        :return: The symbolic icon
+        :rtype: cairo.Surface
+        """
+        if (icon_type, art_size, scale) not in self._cache.keys():
+            new_icon = self._make_default_icon(icon_type, art_size, scale)
+            self._cache[(icon_type, art_size, scale)] = new_icon
+
+        return self._cache[(icon_type, art_size, scale)]
 
 
 class ArtistArt(GObject.GObject):

@@ -25,8 +25,8 @@
 from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic import log
-from gnomemusic.albumartcache import Art, DefaultIcon
-from gnomemusic.artistart import ArtistCache
+from gnomemusic.albumartcache import Art
+from gnomemusic.artistart import ArtistCache, DefaultIcon
 from gnomemusic.coreartist import CoreArtist
 
 
