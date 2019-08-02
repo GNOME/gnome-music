@@ -870,11 +870,16 @@ class GrlTrackerWrapper(GObject.GObject):
     def get_artist_art(self, coreartist):
         media = coreartist.props.media
 
-        def _resolve_cb(source, op_id, media, data, error):
+        def _resolve_cb(source, op_id, resolved_media, data, error):
             print("operation finished")
-            print(media.get_artist())
-            print(media.get_thumbnail())
-            coreartist.props.media.set_thumbnail(media.get_thumbnail())
+            print(resolved_media.get_artist())
+            print(resolved_media.get_thumbnail())
+            if resolved_media.get_thumbnail() is None:
+                coreartist.props.thumbnail = ""
+                return
+
+            media.set_thumbnail(resolved_media.get_thumbnail())
+            coreartist.props.thumbnail = media.get_thumbnail()
 
         full_options = Grl.OperationOptions()
         full_options.set_resolution_flags(

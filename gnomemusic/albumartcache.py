@@ -172,17 +172,103 @@ class ArtistArt(GObject.GObject):
         super().__init__()
 
         self._coreartist = coreartist
+        self._artist = self._coreartist.props.artist
 
         if self._in_cache():
+            print("In cache!")
             return
 
         # FIXME: Ugly.
         grilo = self._coreartist._coremodel._grilo
 
+        self._coreartist.connect(
+            "notify::thumbnail", self._on_thumbnail_changed)
+
         grilo.get_artist_art(self._coreartist)
 
     def _in_cache(self):
-        return False
+        success, thumb_file = MediaArt.get_file(
+            self._artist, None, "artist")
+        if (not success
+                or not thumb_file.query_exists()):
+            self._coreartist.props.cached_thumbnail_uri = thumb_file.get_path()
+            return False
+
+        return True
+
+    def _on_thumbnail_changed(self, coreartist, thumbnail):
+        uri = coreartist.props.thumbnail
+        print("ArtistArt", uri)
+
+        if (uri is None
+                or uri == ""):
+            return
+
+        src = Gio.File.new_for_uri(uri)
+        src.read_async(
+            GLib.PRIORITY_LOW, None, self._read_callback, None)
+
+    def _read_callback(self, src, result, data):
+        try:
+            istream = src.read_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            return
+
+        try:
+            [tmp_file, iostream] = Gio.File.new_tmp()
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            return
+
+        ostream = iostream.get_output_stream()
+        # FIXME: Passing the iostream here, otherwise it gets
+        # closed. PyGI specific issue?
+        ostream.splice_async(
+            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
+            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
+            None, self._splice_callback, [tmp_file, iostream])
+
+    def _delete_callback(self, src, result, data):
+        try:
+            src.delete_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+
+    def _splice_callback(self, src, result, data):
+        tmp_file, iostream = data
+
+        iostream.close_async(
+            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
+
+        try:
+            src.splice_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            return
+
+        success, cache_path = MediaArt.get_path(self._artist, None, "artist")
+
+        if not success:
+            return
+
+        try:
+            # FIXME: I/O blocking
+            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            return
+
+        self._in_cache()
+
+        tmp_file.delete_async(
+            GLib.PRIORITY_LOW, None, self._delete_callback, None)
+
+    def _close_iostream_callback(self, src, result, data):
+        try:
+            src.close_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
 
 class Art(GObject.GObject):
     """Retrieves art for an album or song

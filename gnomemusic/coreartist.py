@@ -42,6 +42,7 @@ class CoreArtist(GObject.GObject):
     def __init__(self, media, coremodel):
         super().__init__()
 
+        self._cached_thumbnail_uri = None
         self._coremodel = coremodel
         self._model = None
         self._selected = False
@@ -88,7 +89,19 @@ class CoreArtist(GObject.GObject):
     @GObject.Property(type=str, default=None)
     def thumbnail(self):
         if self._thumbnail is None:
+            self._thumbnail = ""
             ArtistArt(self)
 
-        return ""
+        return self._thumbnail
 
+    @thumbnail.setter
+    def thumbnail(self, value):
+        self._thumbnail = value
+
+    @GObject.Property(type=str, default=None)
+    def cached_thumbnail_uri(self):
+        return self._cached_thumbnail_uri
+
+    @cached_thumbnail_uri.setter
+    def cached_thumbnail_uri(self, value):
+        self._cached_thumbnail_uri = value
