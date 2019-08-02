@@ -191,8 +191,10 @@ class ArtistArt(GObject.GObject):
             self._artist, None, "artist")
         if (not success
                 or not thumb_file.query_exists()):
-            self._coreartist.props.cached_thumbnail_uri = thumb_file.get_path()
             return False
+
+        print("setting cached uri")
+        self._coreartist.props.cached_thumbnail_uri = thumb_file.get_path()
 
         return True
 
@@ -269,6 +271,104 @@ class ArtistArt(GObject.GObject):
             src.close_finish(result)
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
+
+
+class ArtistCache(GObject.GObject):
+    """Handles retrieval of MediaArt cache art
+
+    Uses signals to indicate success or failure.
+    """
+
+    __gtype_name__ = "ArtistCache"
+
+    __gsignals__ = {
+        'miss': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'hit': (GObject.SignalFlags.RUN_FIRST, None, (object, ))
+    }
+
+    def __repr__(self):
+        return "<ArtistCache>"
+
+    @log
+    def __init__(self):
+        super().__init__()
+
+        # FIXME
+        self._size = Art.Size.MEDIUM
+        self._scale = 1
+
+        # FIXME: async
+        self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
+        if not os.path.exists(self.cache_dir):
+            try:
+                Gio.file_new_for_path(self.cache_dir).make_directory(None)
+            except GLib.Error as error:
+                logger.warning(
+                    "Error: {}, {}".format(error.domain, error.message))
+                return
+
+    @log
+    def query(self, coreartist):
+        """Start the cache query
+
+        :param CoreSong coresong: The CoreSong object to search art for
+        """
+        print("query")
+        thumb_file = Gio.File.new_for_path(
+            coreartist.props.cached_thumbnail_uri)
+        if thumb_file:
+            thumb_file.read_async(
+                GLib.PRIORITY_LOW, None, self._open_stream, None)
+            return
+
+        self.emit('miss')
+
+    @log
+    def _open_stream(self, thumb_file, result, arguments):
+        try:
+            stream = thumb_file.read_finish(result)
+        except GLib.Error as error:
+            print("hier")
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.emit('miss')
+            return
+
+        GdkPixbuf.Pixbuf.new_from_stream_async(
+            stream, None, self._pixbuf_loaded, None)
+
+    @log
+    def _pixbuf_loaded(self, stream, result, data):
+        try:
+            pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
+        except GLib.Error as error:
+            print("hm")
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+            self.emit('miss')
+            return
+
+        stream.close_async(GLib.PRIORITY_LOW, None, self._close_stream, None)
+
+        surface = Gdk.cairo_surface_create_from_pixbuf(
+            pixbuf, self._scale, None)
+        surface = _make_icon_frame(surface, self._size, self._scale)
+
+        self.emit("hit", surface)
+
+    @log
+    def _close_stream(self, stream, result, data):
+        try:
+            stream.close_finish(result)
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
+
+    def _cache_hit(self, klass, pixbuf):
+        surface = Gdk.cairo_surface_create_from_pixbuf(
+            pixbuf, self._scale, None)
+        surface = _make_icon_frame(surface, self._size, self._scale)
+        self._surface = surface
+
+        self.emit('finished')
+
 
 class Art(GObject.GObject):
     """Retrieves art for an album or song
