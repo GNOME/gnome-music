@@ -25,6 +25,7 @@
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.albumartcache import Art
+from gnomemusic.coreartist import CoreArtist
 from gnomemusic.widgets.artistartstack import ArtistArtStack
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
@@ -43,6 +44,8 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     _artist_label = Gtk.Template.Child()
     _events = Gtk.Template.Child()
 
+    coreartist = GObject.Property(
+        type=CoreArtist, default=None, flags=GObject.ParamFlags.READWRITE)
     selected = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
     selection_mode = GObject.Property(
@@ -58,14 +61,14 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         """
         super().__init__()
 
-        self._coreartist = coreartist
+        self.props.coreartist = coreartist
 
         self._artistart_stack.props.size = Art.Size.MEDIUM
-        self._artistart_stack.props.coreartist = self._coreartist
+        self._artistart_stack.props.coreartist = self.props.coreartist
 
         self._tooltip = TwoLineTip()
 
-        artist = self._coreartist.props.artist
+        artist = self.props.coreartist.props.artist
         # title = self._corealbum.props.title
 
         # self._tooltip.props.title = artist
@@ -74,10 +77,10 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         self._artist_label.props.label = artist
         # self._title_label.props.label = title
 
-        self._coreartist.connect(
+        self.props.coreartist.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
         # trigger
-        self._coreartist.props.thumbnail
+        self.props.coreartist.props.thumbnail
 
         self.bind_property(
             "selected", self._check, "active",
