@@ -27,7 +27,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Gio, Grl, GObject
 
 from gnomemusic import log
-from gnomemusic.albumartcache import ArtistArt
+from gnomemusic.artistart import ArtistArt
 import gnomemusic.utils as utils
 
 
