@@ -236,7 +236,6 @@ class ArtistCache(GObject.GObject):
     __gtype_name__ = "ArtistCache"
 
     __gsignals__ = {
-        'miss': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'hit': (GObject.SignalFlags.RUN_FIRST, None, (object, ))
     }
 
@@ -249,6 +248,9 @@ class ArtistCache(GObject.GObject):
         # FIXME
         self._size = Art.Size.MEDIUM
         self._scale = 1
+
+        self._default_icon = DefaultIcon().get(
+            DefaultIcon.Type.MUSIC, self._size, self._scale)
 
         # FIXME: async
         self.cache_dir = os.path.join(GLib.get_user_cache_dir(), 'media-art')
@@ -273,14 +275,14 @@ class ArtistCache(GObject.GObject):
                 GLib.PRIORITY_LOW, None, self._open_stream, None)
             return
 
-        self.emit('miss')
+        self.emit("hit", self._default_icon)
 
     def _open_stream(self, thumb_file, result, arguments):
         try:
             stream = thumb_file.read_finish(result)
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self.emit('miss')
+            self.emit("hit", self._default_icon)
             return
 
         GdkPixbuf.Pixbuf.new_from_stream_async(
@@ -291,7 +293,7 @@ class ArtistCache(GObject.GObject):
             pixbuf = GdkPixbuf.Pixbuf.new_from_stream_finish(result)
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self.emit('miss')
+            self.emit("hit", self._default_icon)
             return
 
         stream.close_async(GLib.PRIORITY_LOW, None, self._close_stream, None)
