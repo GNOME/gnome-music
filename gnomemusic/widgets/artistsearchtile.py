@@ -25,6 +25,8 @@
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.albumartcache import Art
+from gnomemusic.coreartist import CoreArtist
+from gnomemusic.widgets.artistartstack import ArtistArtStack
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
@@ -38,10 +40,12 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
     __gtype_name__ = "ArtistSearchTile"
 
     _check = Gtk.Template.Child()
-    _cover_stack = Gtk.Template.Child()
+    _artistart_stack = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
     _events = Gtk.Template.Child()
 
+    coreartist = GObject.Property(
+        type=CoreArtist, default=None, flags=GObject.ParamFlags.READWRITE)
     selected = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
     selection_mode = GObject.Property(
@@ -57,11 +61,14 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         """
         super().__init__()
 
-        self._coreartist = coreartist
+        self.props.coreartist = coreartist
+
+        self._artistart_stack.props.size = Art.Size.MEDIUM
+        self._artistart_stack.props.coreartist = self.props.coreartist
 
         self._tooltip = TwoLineTip()
 
-        artist = self._coreartist.props.artist
+        artist = self.props.coreartist.props.artist
         # title = self._corealbum.props.title
 
         # self._tooltip.props.title = artist
@@ -69,6 +76,11 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
 
         self._artist_label.props.label = artist
         # self._title_label.props.label = title
+
+        self.props.coreartist.connect(
+            "notify::thumbnail", self._on_thumbnail_changed)
+        # trigger
+        self.props.coreartist.props.thumbnail
 
         self.bind_property(
             "selected", self._check, "active",
@@ -82,9 +94,10 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
-        self._cover_stack.props.size = Art.Size.MEDIUM
-
         self.show()
+
+    def _on_thumbnail_changed(self, klass, data):
+        print("thumbnail changed", klass, data)
 
     @Gtk.Template.Callback()
     def _on_artist_event(self, evbox, event, data=None):
