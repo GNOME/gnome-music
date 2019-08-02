@@ -73,6 +73,7 @@
                 <property name="selection-mode">none</property>
                 <property name="valign">start</property>
                 <property name="visible">True</property>
+                <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
                 <style>
                   <class name="content-view"/>
                 </style>
