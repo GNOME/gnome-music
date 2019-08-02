@@ -70,6 +70,11 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         self._artist_label.props.label = artist
         # self._title_label.props.label = title
 
+        self._coreartist.connect(
+            "notify::thumbnail", self._on_thumbnail_changed)
+        # trigger
+        self._coreartist.props.thumbnail
+
         self.bind_property(
             "selected", self._check, "active",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -85,6 +90,9 @@ class ArtistSearchTile(Gtk.FlowBoxChild):
         self._cover_stack.props.size = Art.Size.MEDIUM
 
         self.show()
+
+    def _on_thumbnail_changed(self, klass, data):
+        print("thumbnail changed", klass, data)
 
     @Gtk.Template.Callback()
     def _on_artist_event(self, evbox, event, data=None):

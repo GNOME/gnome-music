@@ -166,6 +166,24 @@ class DefaultIcon(GObject.GObject):
         return self._cache[(icon_type, art_size, scale)]
 
 
+class ArtistArt(GObject.GObject):
+
+    def __init__(self, coreartist):
+        super().__init__()
+
+        self._coreartist = coreartist
+
+        if self._in_cache():
+            return
+
+        # FIXME: Ugly.
+        grilo = self._coreartist._coremodel._grilo
+
+        grilo.get_artist_art(self._coreartist)
+
+    def _in_cache(self):
+        return False
+
 class Art(GObject.GObject):
     """Retrieves art for an album or song
 

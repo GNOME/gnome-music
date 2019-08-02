@@ -867,6 +867,23 @@ class GrlTrackerWrapper(GObject.GObject):
 
         return query
 
+    def get_artist_art(self, coreartist):
+        media = coreartist.props.media
+
+        def _resolve_cb(source, op_id, media, data, error):
+            print("operation finished")
+            print(media.get_artist())
+            print(media.get_thumbnail())
+            coreartist.props.media.set_thumbnail(media.get_thumbnail())
+
+        full_options = Grl.OperationOptions()
+        full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL | Grl.ResolutionFlags.IDLE_RELAY)
+
+        self._source.resolve(
+            media, [Grl.METADATA_KEY_THUMBNAIL], full_options, _resolve_cb,
+            None)
+
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
 
