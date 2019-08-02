@@ -27,6 +27,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Gio, Grl, GObject
 
 from gnomemusic import log
+from gnomemusic.artistart import ArtistArt
 import gnomemusic.utils as utils
 
 
@@ -41,9 +42,11 @@ class CoreArtist(GObject.GObject):
     def __init__(self, media, coremodel):
         super().__init__()
 
+        self._cached_thumbnail_uri = None
         self._coremodel = coremodel
         self._model = None
         self._selected = False
+        self._thumbnail = None
 
         self.update(media)
 
@@ -82,3 +85,23 @@ class CoreArtist(GObject.GObject):
         # is requested, it will trigger the filled model update as
         # well.
         self.props.model
+
+    @GObject.Property(type=str, default=None)
+    def thumbnail(self):
+        if self._thumbnail is None:
+            self._thumbnail = ""
+            ArtistArt(self)
+
+        return self._thumbnail
+
+    @thumbnail.setter
+    def thumbnail(self, value):
+        self._thumbnail = value
+
+    @GObject.Property(type=str, default=None)
+    def cached_thumbnail_uri(self):
+        return self._cached_thumbnail_uri
+
+    @cached_thumbnail_uri.setter
+    def cached_thumbnail_uri(self, value):
+        self._cached_thumbnail_uri = value

@@ -194,6 +194,10 @@ class CoreGrilo(GObject.GObject):
             self._wrappers["grl-tracker-source"].get_album_art_for_item(
                 coresong, callback)
 
+    def get_artist_art(self, coreartist):
+        if "grl-tracker-source" in self._wrappers:
+            self._wrappers["grl-tracker-source"].get_artist_art(coreartist)
+
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
 
