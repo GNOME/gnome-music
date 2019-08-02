@@ -379,6 +379,13 @@ class CoreModel(GObject.GObject):
         # FIXME: just a proxy
         self.emit("activate-playlist", playlist)
 
+    def get_artist_art(self, coreartist):
+        """Retrieves an artist art.
+
+        :param CoreArtist coreartist: artist
+        """
+        self._grilo.get_artist_art(coreartist)
+
     def search(self, text):
         self._grilo.search(text)
 
