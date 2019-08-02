@@ -32,7 +32,7 @@ from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
-from gnomemusic.widgets.artisttile import ArtistTile
+from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -159,8 +159,8 @@ class SearchView(Gtk.Stack):
         return album_widget
 
     def _create_artist_widget(self, coreartist):
-        artist_tile = ArtistTile(coreartist)
-        artist_tile.props.text = coreartist.props.artist
+        artist_tile = ArtistSearchTile(coreartist)
+        # artist_tile.props.text = coreartist.props.artist
         artist_tile.connect('button-release-event', self._artist_activated)
 
         self.bind_property(
