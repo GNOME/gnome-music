@@ -32,7 +32,7 @@ from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
-from gnomemusic.widgets.artisttile import ArtistTile
+from gnomemusic.widgets.artistsearchtile import ArtistSearchTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -91,6 +91,8 @@ class SearchView(Gtk.Stack):
 
         self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
+        self._artist_flowbox.connect(
+            "child-activated", self._on_album_activated)
 
         self._player = self._application.props.player
 
@@ -158,9 +160,7 @@ class SearchView(Gtk.Stack):
         return album_widget
 
     def _create_artist_widget(self, coreartist):
-        artist_tile = ArtistTile(coreartist)
-        artist_tile.props.text = coreartist.props.artist
-        artist_tile.connect('button-release-event', self._artist_activated)
+        artist_tile = ArtistSearchTile(coreartist)
 
         self.bind_property(
             "selection-mode", artist_tile, "selection-mode",
@@ -207,40 +207,26 @@ class SearchView(Gtk.Stack):
 
         self.set_visible_child(self._album_widget)
 
-    def _artist_activated(self, widget, event):
+    def _artist_activated(self, widget, child, user_data=None):
         coreartist = widget.coreartist
-
-        mod_mask = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
+        if self.props.selection_mode:
             return
 
-        (_, button) = event.get_button()
-        if (button == Gdk.BUTTON_PRIMARY
-                and not self.props.selection_mode):
-            # self.emit('song-activated', widget)
+        self._artist_albums_widget = ArtistAlbumsWidget(
+            coreartist, self._application, False)
+        self.add(self._artist_albums_widget)
+        self._artist_albums_widget.show()
 
-            self._artist_albums_widget = ArtistAlbumsWidget(
-                coreartist, self._application, False)
-            self.add(self._artist_albums_widget)
-            self._artist_albums_widget.show()
+        self.bind_property(
+            "selection-mode", self._artist_albums_widget, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL)
 
-            self.bind_property(
-                'selection-mode', self._artist_albums_widget, 'selection-mode',
-                GObject.BindingFlags.BIDIRECTIONAL)
+        self._headerbar.props.state = HeaderBar.State.SEARCH
+        self._headerbar.props.title = coreartist.props.artist
+        self._headerbar.props.subtitle = None
+        self.props.search_mode_active = False
 
-            self._headerbar.props.state = HeaderBar.State.SEARCH
-            self._headerbar.props.title = coreartist.artist
-            self._headerbar.props.subtitle = None
-            self.set_visible_child(self._artist_albums_widget)
-            self.props.search_mode_active = False
-
-        # FIXME: Need to ignore the event from the checkbox.
-        # if self.props.selection_mode:
-        #     widget.props.selected = not widget.props.selected
-
-        return True
+        self.set_visible_child(self._artist_albums_widget)
 
     def _select_all(self, value):
         with self._model.freeze_notify():
