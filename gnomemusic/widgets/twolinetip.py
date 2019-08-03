@@ -41,6 +41,7 @@ class TwoLineTip(Gtk.Box):
 
     title = GObject.Property(type=str)
     subtitle = GObject.Property(type=str)
+    subtitle_visible = GObject.Property(type=bool, default=True)
 
     def __repr__(self):
         return '<TwoLineTip>'
@@ -51,3 +52,4 @@ class TwoLineTip(Gtk.Box):
 
         self.bind_property('title', self._title_label, 'label')
         self.bind_property('subtitle', self._subtitle_label, 'label')
+        self.bind_property('subtitle-visible', self._subtitle_label, 'visible')
