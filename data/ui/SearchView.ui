@@ -17,8 +17,56 @@
             <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <child>
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="homogeneous">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Artists</property>
+                    <style>
+                      <class name="search-header"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_view_all_artists">
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">View All</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkFlowBox" id="_artist_listbox">
                 <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="homogeneous">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Albums</property>
+                    <style>
+                      <class name="search-header"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_view_all_albums">
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">View All</property>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
@@ -41,7 +89,32 @@
               </object>
             </child>
             <child>
+              <object class="GtkBox">
+                <property name="halign">fill</property>
+                <property name="hexpand">True</property>
+                <property name="homogeneous">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="can_focus">False</property>
+                    <property name="halign">start</property>
+                    <property name="label" translatable="yes">Songs</property>
+                    <style>
+                      <class name="search-header"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_view_all_songs">
+                    <property name="halign">end</property>
+                    <property name="label" translatable="yes">View All</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
               <object class="GtkListBox" id="_songs_listbox">
+                <property name="margin-top">20</property>
                 <property name="visible">True</property>
                 <style>
                   <class name="songs-list"/>
