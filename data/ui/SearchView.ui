@@ -24,7 +24,7 @@
                 <property name="valign">start</property>
                 <property name="homogeneous">True</property>
                 <property name="min_children_per_line">1</property>
-                <property name="max_children_per_line">20</property>
+                <property name="max_children_per_line">6</property>
                 <property name="margin">18</property>
                 <property name="row_spacing">12</property>
                 <property name="column_spacing">6</property>
