@@ -50,7 +50,7 @@ class SearchView(Gtk.Stack):
     selection_mode = GObject.Property(type=bool, default=False)
 
     _album_flowbox = Gtk.Template.Child()
-    _artist_listbox = Gtk.Template.Child()
+    _artist_flowbox = Gtk.Template.Child()
     _search_results = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
 
@@ -87,7 +87,7 @@ class SearchView(Gtk.Stack):
         self._album_flowbox.bind_model(
             self._album_filter, self._create_album_widget)
 
-        self._artist_listbox.bind_model(
+        self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
 
         self._player = self._application.props.player
@@ -255,7 +255,7 @@ class SearchView(Gtk.Stack):
 
             self._songs_listbox.foreach(song_select)
             self._album_flowbox.foreach(album_select)
-            self._artist_listbox.foreach(artist_select)
+            self._artist_flowbox.foreach(artist_select)
 
     def select_all(self):
         self._select_all(True)
