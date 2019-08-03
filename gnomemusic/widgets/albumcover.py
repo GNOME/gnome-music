@@ -101,6 +101,8 @@ class AlbumCover(Gtk.FlowBoxChild):
         # quick first show with a placeholder cover and then a
         # reasonably responsive view while loading the actual
         # covers.
+        self._update_cover_id = self._cover_stack.connect(
+            "updated", self._on_cover_stack_updated)
         GLib.timeout_add(
             50 * self._nr_albums, self._cover_stack.update, self._corealbum,
             priority=GLib.PRIORITY_LOW)
@@ -131,3 +133,7 @@ class AlbumCover(Gtk.FlowBoxChild):
         tooltip.set_custom(self._tooltip)
 
         return True
+
+    def _on_cover_stack_updated(self, cover_stack):
+        AlbumCover._nr_albums -= 1
+        self._cover_stack.disconnect(self._update_cover_id)
