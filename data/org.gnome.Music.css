@@ -24,6 +24,11 @@
     padding: 12px 0;
 }
 
+/* Suggested Tags in Tag Editor Dialog*/
+.suggestion-label {
+    color: #3680DB;
+}
+
 /* ArtistAlbumsWidget */
 box#ArtistAlbumsWidget .artist-label {
     font-weight: bold;
