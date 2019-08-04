@@ -95,6 +95,7 @@ class Window(Gtk.ApplicationWindow):
 
         self.prev_view = None
         self.curr_view = None
+        self._view_before_search = None
 
         self._player = app.props.player
 
@@ -417,7 +418,10 @@ class Window(Gtk.ApplicationWindow):
 
         # Disable search mode when switching view
         search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
-        if (self.curr_view not in search_views
+        if (self.curr_view in search_views
+                and self.prev_view not in search_views):
+            self._view_before_search = self.prev_view
+        elif (self.curr_view not in search_views
                 and self._search.props.search_mode_active is True):
             self._search.props.search_mode_active = False
 
@@ -450,11 +454,11 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_search_state_changed(self, klass, param):
         if (self._search.props.state != Search.State.NONE
-                or not self.views[View.SEARCH].previous_view):
+                or not self._view_before_search):
             return
 
         # Get back to the view before the search
-        self._stack.set_visible_child(self.views[View.SEARCH].previous_view)
+        self._stack.set_visible_child(self._view_before_search)
 
     @log
     def _switch_back_from_childview(self, klass=None):
