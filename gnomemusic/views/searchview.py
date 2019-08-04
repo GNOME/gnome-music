@@ -113,8 +113,6 @@ class SearchView(Gtk.Stack):
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.previous_view = None
-
         self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
@@ -241,9 +239,9 @@ class SearchView(Gtk.Stack):
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = corealbum.props.title
         self._headerbar.props.subtitle = corealbum.props.artist
-        self.props.search_mode_active = False
 
         self.set_visible_child(self._album_widget)
+        self.props.search_mode_active = False
 
     @Gtk.Template.Callback()
     def _on_artist_activated(self, widget, child, user_data=None):
@@ -263,9 +261,9 @@ class SearchView(Gtk.Stack):
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = coreartist.props.artist
         self._headerbar.props.subtitle = None
-        self.props.search_mode_active = False
 
         self.set_visible_child(self._artist_albums_widget)
+        self.props.search_mode_active = False
 
     def _select_all(self, value):
         with self._model.freeze_notify():
