@@ -94,6 +94,8 @@ class SearchView(Gtk.Stack):
             "items-changed", self._on_album_model_items_changed)
         self._album_flowbox.bind_model(
             self._album_filter, self._create_album_widget)
+        self._album_flowbox.connect(
+            "size-allocate", self._on_album_flowbox_size_allocate)
         self._on_album_model_items_changed(self._album_filter, 0, 0, 0)
 
         self._artist_filter.connect_after(
@@ -226,6 +228,40 @@ class SearchView(Gtk.Stack):
         #     widget.props.selected = not widget.props.selected
 
         return True
+
+    def _on_album_flowbox_size_allocate(self, widget, allocation, data=None):
+        nb_children = self._album_filter.get_n_items()
+        if nb_children == 0:
+            return
+
+        first_child = self._album_flowbox.get_child_at_index(0)
+        child_height = first_child.get_allocation().height
+        if allocation.height > 2.5 * child_height:
+            for i in range(nb_children - 1, -1, -1):
+                child = self._album_flowbox.get_child_at_index(i)
+                if child.props.visible is True:
+                    child.props.visible = False
+                    return
+
+        children_hidden = False
+        for idx in range(nb_children):
+            child = self._album_flowbox.get_child_at_index(idx)
+            if not child.props.visible:
+                children_hidden = True
+                break
+        if children_hidden is False:
+            return
+
+        last_visible_child = self._album_flowbox.get_child_at_index(idx - 1)
+        first_row_last = self._album_flowbox.get_child_at_index((idx - 1) // 2)
+        second_row_pos = last_visible_child.get_allocation().x
+        first_row_pos = first_row_last.get_allocation().x
+        child_width = last_visible_child.get_allocation().width
+        nb_children_to_add = (first_row_pos - second_row_pos) // child_width
+        nb_children_to_add = min(nb_children_to_add + idx, nb_children)
+        for i in range(idx, nb_children_to_add):
+            child = self._album_flowbox.get_child_at_index(i)
+            child.props.visible = True
 
     @Gtk.Template.Callback()
     def _on_album_activated(self, widget, child, user_data=None):
