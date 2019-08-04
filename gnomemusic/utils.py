@@ -172,3 +172,12 @@ fields_getter = {
     'track': get_media_track_nr,
     'year': get_media_year
 }
+
+fields_setter = {
+    'album': set_album_title,
+    'artist': set_artist_name,
+    'disc': set_album_disc_number,
+    'title': set_title,
+    'track': set_track_number,
+    'year': set_creation_year
+}
