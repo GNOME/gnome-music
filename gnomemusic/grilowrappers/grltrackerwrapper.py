@@ -326,9 +326,11 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            YEAR(?date) AS ?creation_date
             ?tag AS ?favourite
         WHERE {
             ?song a nmm:MusicPiece .
+            OPTIONAL { ?song nie:contentCreated ?date . }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
@@ -406,9 +408,11 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            YEAR(?date) AS ?creation_date
             ?tag AS ?favourite
         WHERE {
             ?song a nmm:MusicPiece .
+            OPTIONAL { ?song nie:contentCreated ?date . }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
@@ -659,9 +663,11 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
             ?tag AS ?favourite
             nie:usageCounter(?song) AS ?play_count
+            YEAR(?date) AS ?creation_date
         WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album .
+            OPTIONAL { ?song nie:contentCreated ?date . }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
