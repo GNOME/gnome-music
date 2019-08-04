@@ -185,16 +185,31 @@ class SearchView(Gtk.Stack):
         items_found = model.get_n_items() > 0
         self._album_header.props.visible = items_found
         self._album_flowbox.props.visible = items_found
+        self._check_visibility()
 
     def _on_artist_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
         self._artist_header.props.visible = items_found
         self._artist_flowbox.props.visible = items_found
+        self._check_visibility()
 
     def _on_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
         self._songs_header.props.visible = items_found
         self._songs_listbox.props.visible = items_found
+        self._check_visibility()
+
+    def _check_visibility(self):
+        if not self.props.search_mode_active:
+            return
+
+        items_found = (self._model.get_n_items() > 0
+                       or self._artist_model.get_n_items() > 0
+                       or self._album_model.get_n_items() > 0)
+        if items_found:
+            self.props.search_state = Search.State.RESULT
+        else:
+            self.props.search_state = Search.State.NO_RESULT
 
     def _song_activated(self, widget, event):
         mod_mask = Gtk.accelerator_get_default_mod_mask()
