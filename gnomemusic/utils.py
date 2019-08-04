@@ -222,13 +222,3 @@ def wrap_list_store_sort_func(func):
         return func(a, b, *user_data)
 
     return wrap
-
-
-fields_getter = {
-    "album": get_album_title,
-    "artist": get_song_artist,
-    "disc": get_album_disc_nr,
-    "title": get_media_title,
-    "track": get_media_track_nr,
-    "year": get_media_year
-}
