@@ -164,6 +164,34 @@ def get_media_year(item: Grl.Media, fill_empty: bool = False) -> str:
     return str(date.get_year())
 
 
+def get_album_disc_nr(item: Grl.Media) -> str:
+    """Returns the album song number of the media item.
+
+    :param Grl.Media item: A Grilo Media object
+    :return: The album disc number
+    :rtype: str
+    """
+    disc_nr = item.get_album_disc_number()
+    if disc_nr == 0:
+        return ""
+
+    return str(disc_nr)
+
+
+def get_media_track_nr(item: Grl.Media) -> str:
+    """Returns the track number of the media item.
+
+    :param Grl.Media item: A Grilo Media object
+    :return: The song track number
+    :rtype: str
+    """
+    track_nr = item.get_track_number()
+    if track_nr == 0:
+        return ""
+
+    return str(track_nr)
+
+
 def seconds_to_string(duration):
     """Convert a time in seconds to a mm:ss string
 
