@@ -260,3 +260,67 @@ class PlaylistNotification(Gtk.Grid):
             self._coremodel.finish_playlist_deletion(self._playlist, True)
         else:
             self._playlist.finish_song_deletion(self._coresong)
+
+
+class TagEditorNotification(Gtk.Grid):
+    """Show a notification on filling with suggested tags.
+
+    It also provides an option to undo filling fields. Notification is added
+    to the NotificationsPopup.
+    """
+
+    class Type(IntEnum):
+        """Enum for Tag Editor Notifications"""
+        ALBUM = 0
+        SONG = 1
+        NONE = 2
+
+    __gsignals__ = {
+        "finished": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "undo-fill": (GObject.SignalFlags.RUN_FIRST, None, ()),
+    }
+
+    def __init__(self, notifications_popup, type_):
+
+        super().__init__(column_spacing=18)
+        self._notifications_popup = notifications_popup
+        self.type_ = type_
+
+        message = self._create_notification_message()
+        self._label = Gtk.Label(
+            label=message, halign=Gtk.Align.START, hexpand=True)
+        self.add(self._label)
+
+        if self.type_ != TagEditorNotification.Type.NONE:
+            undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
+            undo_button.connect("clicked", self._undo_clicked)
+            self.add(undo_button)
+
+        self._timeout_id = GLib.timeout_add_seconds(
+            5, self._finish)
+
+        self._notifications_popup.add_notification(self)
+        self.show_all()
+
+    def _create_notification_message(self):
+        if self.type_ == TagEditorNotification.Type.ALBUM:
+            msg = _("Album info updated based on online suggestions.")
+        elif self.type_ == TagEditorNotification.Type.SONG:
+            msg = _("Song info updated based on online suggestions.")
+        else:
+            msg = _("No Tags found online for the given media!")
+
+        return msg
+
+    def _finish(self):
+        self._notifications_popup.remove_notification(self)
+        self.emit("finished")
+
+    def _undo_clicked(self, widget_):
+        """Undo fill and remove notification"""
+        if self._timeout_id > 0:
+            GLib.source_remove(self._timeout_id)
+            self._timeout_id = 0
+
+        self._notifications_popup.remove_notification(self)
+        self.emit("undo-fill")
