@@ -90,7 +90,7 @@ class CoreArtist(GObject.GObject):
     def thumbnail(self):
         if self._thumbnail is None:
             self._thumbnail = ""
-            ArtistArt(self)
+            ArtistArt(self, self._coremodel)
 
         return self._thumbnail
 
