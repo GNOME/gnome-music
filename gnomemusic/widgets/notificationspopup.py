@@ -282,3 +282,54 @@ class PlaylistNotification(Gtk.Grid):
             self._coremodel.finish_playlist_deletion(self._playlist, True)
         else:
             self._playlist.finish_song_deletion(self._coresong)
+
+
+
+class UseSuggestionNotification(Gtk.Grid):
+    """Show a notification on filling with suggested tags.
+
+    It also provides an option to undo filling fields. Notification is added
+    to the NotificationsPopup.
+    """
+
+    class Type(IntEnum):
+        """Enum for Use Suggestion Notifications"""
+        ALBUM = 0
+        SONG = 1
+
+    __gsignals__ = {
+        'undo-fill': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        'finish-fill': (GObject.SignalFlags.RUN_FIRST, None, ())
+    }
+
+    def __repr__(self):
+        return '<UseSuggestionNotification>'
+
+    @log
+    def __init__(self, notifications_popup, type_, message):
+        super().__init__(column_spacing=18)
+        self._notifications_popup = notifications_popup
+        self.type_ = type_
+
+        self._label = Gtk.Label(
+            label=message, halign=Gtk.Align.START, hexpand=True)
+        self.add(self._label)
+
+        undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
+        undo_button.connect("clicked", self._undo_clicked)
+        self.add(undo_button)
+        self.show_all()
+
+        self._timeout_id = GLib.timeout_add_seconds(
+            5, self._notifications_popup.remove_notification, self)
+
+        self._notifications_popup.add_notification(self)
+
+    @log
+    def _undo_clicked(self, widget_):
+        """Undo fill and remove notification"""
+        if self._timeout_id > 0:
+            GLib.source_remove(self._timeout_id)
+            self._timeout_id = 0
+
+        self._notifications_popup.remove_notification(self, 'undo-fill')
