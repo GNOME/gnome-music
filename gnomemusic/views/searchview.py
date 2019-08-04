@@ -113,8 +113,6 @@ class SearchView(Gtk.Stack):
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.previous_view = None
-
         self._album_widget = AlbumWidget(player, self)
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
