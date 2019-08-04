@@ -26,7 +26,7 @@ from enum import IntEnum
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Grl, GLib, GObject
+from gi.repository import Grl, GLib, GObject, Gio
 
 import gnomemusic.utils as utils
 
@@ -62,6 +62,15 @@ class CoreSong(GObject.GObject):
         self._coreselection = coreselection
         self._favorite = False
         self._selected = False
+
+        self.fields_setter = {
+            'album': self.set_album_title,
+            'artist': self.set_artist_name,
+            'disc': self.set_album_disc_number,
+            'title': self.set_title,
+            'track': self.set_track_number,
+            'year': self.set_creation_year
+        }
 
         self.props.grlid = media.get_source() + media.get_id()
         self.props.validation = CoreSong.Validation.PENDING
@@ -114,6 +123,41 @@ class CoreSong(GObject.GObject):
     def bump_play_count(self):
         self.props.media.set_play_count(self.props.play_count + 1)
         self._grilo.writeback(self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
+
+    def set_album_title(self, album):
+        self.props.media.set_album(album)
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_ALBUM)
+
+    def set_artist_name(self, artist):
+        self.props.media.set_artist(artist)
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_ARTIST)
+
+    def set_album_disc_number(self, disc_number):
+        self.props.media.set_album_disc_number(int(disc_number))
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_ALBUM_DISC_NUMBER)
+
+    def set_title(self, title):
+        self.props.media.set_title(title)
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_TITLE)
+
+    def set_track_number(self, track_number):
+        self.props.media.set_track_number(int(track_number))
+        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_TRACK_NUMBER)
+
+    def set_creation_year(self, creation_year):
+        creation_date = self.props.media.get_creation_date()
+        if creation_date:
+            timezone = creation_date.get_timezone()
+            month = creation_date.get_month()
+            day = creation_date.get_day_of_month()
+            hour = creation_date.get_hour()
+            minute = creation_date.get_minute()
+            second = creation_date.get_second()
+            updated_creation_date = GLib.DateTime(
+                timezone, int(creation_year), month,
+                day, hour, minute, second)
+            self.props.media.set_creation_date(updated_creation_date)
+            self._grilo.writeback(self.props.media, Grl.METADATA_KEY_CREATION_DATE)
 
     def set_last_played(self):
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
