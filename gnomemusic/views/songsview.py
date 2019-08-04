@@ -31,6 +31,8 @@ from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
+import gnomemusic.utils as utils
+
 
 class SongsView(BaseView):
     """Main view of all songs sorted artistwise
@@ -106,18 +108,24 @@ class SongsView(BaseView):
             ellipsize=Pango.EllipsizeMode.END)
         column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
         column_title.props.expand = True
+        column_title.set_cell_data_func(
+            title_renderer, self._on_list_widget_title_render, None)
         self._view.append_column(column_title)
 
         artist_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
         column_artist = Gtk.TreeViewColumn("Artist", artist_renderer, text=3)
         column_artist.props.expand = True
+        column_artist.set_cell_data_func(
+            artist_renderer, self._on_list_widget_artist_render, None)
         self._view.append_column(column_artist)
 
         album_renderer = Gtk.CellRendererText(
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
         column_album = Gtk.TreeViewColumn("Album", album_renderer, text=4)
         column_album.props.expand = True
+        column_album.set_cell_data_func(
+            album_renderer, self._on_list_widget_album_render, None)
         self._view.append_column(column_album)
 
         attrs = Pango.AttrList()
@@ -131,6 +139,30 @@ class SongsView(BaseView):
         column_star = Gtk.TreeViewColumn()
         self._view.append_column(column_star)
         self._star_handler.add_star_renderers(column_star)
+
+    def _on_list_widget_album_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = utils.get_album_title(item.props.media)
+
+    def _on_list_widget_artist_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = utils.get_artist_name(item.props.media)
+
+    def _on_list_widget_title_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = utils.get_media_title(item.props.media)
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         current_song = self._player.props.current_song
