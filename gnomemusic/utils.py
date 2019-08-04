@@ -210,13 +210,3 @@ def natural_sort_names(name_a, name_b):
                 for tmp in re.split(r"(\d+)", normalize_caseless(text))]
 
     return _extract_numbers(name_b) < _extract_numbers(name_a)
-
-
-fields_getter = {
-    "album": get_album_title,
-    "artist": get_song_artist,
-    "disc": get_album_disc_nr,
-    "title": get_media_title,
-    "track": get_media_track_nr,
-    "year": get_media_year
-}
