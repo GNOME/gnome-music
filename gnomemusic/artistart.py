@@ -122,10 +122,11 @@ class DefaultIcon(GObject.GObject):
 
 class ArtistArt(GObject.GObject):
 
-    def __init__(self, coreartist):
+    def __init__(self, coreartist, coremodel):
         """Initialize the ArtistArt.
 
         :param CoreArtist coreartist: The coreartist to use
+        :param CoreModel coremodel: The main coremodel
         """
         super().__init__()
 
@@ -136,8 +137,7 @@ class ArtistArt(GObject.GObject):
             print("In cache!")
             return
 
-        # FIXME: Ugly.
-        grilo = self._coreartist._coremodel._grilo
+        grilo = coremodel.props.grilo
 
         self._coreartist.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
