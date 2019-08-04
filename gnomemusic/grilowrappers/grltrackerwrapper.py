@@ -310,6 +310,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            YEAR(nie:contentCreated(?song)) AS ?creation_date
             ?tag AS ?favourite
         WHERE {
             ?song a nmm:MusicPiece .
@@ -380,6 +381,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            YEAR(nie:contentCreated(?song)) AS ?creation_date
             ?tag AS ?favourite
         WHERE {
             ?song a nmm:MusicPiece .
@@ -601,6 +603,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
             ?tag AS ?favourite
             nie:usageCounter(?song) AS ?play_count
+            YEAR(nie:contentCreated(?song)) AS ?creation_date
         WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album .
