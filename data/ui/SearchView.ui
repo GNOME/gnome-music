@@ -19,7 +19,7 @@
             <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="_artist_header">
                 <property name="halign">fill</property>
                 <property name="hexpand">True</property>
                 <property name="homogeneous">True</property>
@@ -64,7 +64,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="_album_header">
                 <property name="halign">fill</property>
                 <property name="hexpand">True</property>
                 <property name="homogeneous">True</property>
@@ -110,7 +110,7 @@
               </object>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="_songs_header">
                 <property name="halign">fill</property>
                 <property name="hexpand">True</property>
                 <property name="homogeneous">True</property>

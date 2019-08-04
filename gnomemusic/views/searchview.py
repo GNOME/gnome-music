@@ -49,9 +49,12 @@ class SearchView(Gtk.Stack):
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
+    _album_header = Gtk.Template.Child()
     _album_flowbox = Gtk.Template.Child()
+    _artist_header = Gtk.Template.Child()
     _artist_flowbox = Gtk.Template.Child()
     _search_results = Gtk.Template.Child()
+    _songs_header = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
 
     def __repr__(self):
@@ -82,17 +85,26 @@ class SearchView(Gtk.Stack):
         self._artist_filter.set_filter_func(
             self._core_filter, self._artist_model, 6)
 
+        self._model.connect_after(
+            "items-changed", self._on_model_items_changed)
         self._songs_listbox.bind_model(self._model, self._create_song_widget)
+        self._on_model_items_changed(self._model, 0, 0, 0)
 
+        self._album_filter.connect_after(
+            "items-changed", self._on_album_model_items_changed)
         self._album_flowbox.bind_model(
             self._album_filter, self._create_album_widget)
         self._album_flowbox.connect(
             "child-activated", self._on_album_activated)
+        self._on_album_model_items_changed(self._album_filter, 0, 0, 0)
 
+        self._artist_filter.connect_after(
+            "items-changed", self._on_artist_model_items_changed)
         self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
         self._artist_flowbox.connect(
             "child-activated", self._on_album_activated)
+        self._on_artist_model_items_changed(self._artist_filter, 0, 0, 0)
 
         self._player = self._application.props.player
 
@@ -168,6 +180,21 @@ class SearchView(Gtk.Stack):
             | GObject.BindingFlags.BIDIRECTIONAL)
 
         return artist_tile
+
+    def _on_album_model_items_changed(self, model, position, removed, added):
+        items_found = model.get_n_items() > 0
+        self._album_header.props.visible = items_found
+        self._album_flowbox.props.visible = items_found
+
+    def _on_artist_model_items_changed(self, model, position, removed, added):
+        items_found = model.get_n_items() > 0
+        self._artist_header.props.visible = items_found
+        self._artist_flowbox.props.visible = items_found
+
+    def _on_model_items_changed(self, model, position, removed, added):
+        items_found = model.get_n_items() > 0
+        self._songs_header.props.visible = items_found
+        self._songs_listbox.props.visible = items_found
 
     def _song_activated(self, widget, event):
         mod_mask = Gtk.accelerator_get_default_mod_mask()
