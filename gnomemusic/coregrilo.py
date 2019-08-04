@@ -157,6 +157,15 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
+    def set_metadata_key(self, media, key):
+        """Sets the metadata keys of media
+
+        :param media: A Grilo media item
+        :param key: Grilo key which needs be to be stored
+        """
+        GLib.idle_add(
+            self._store_metadata, media, key)
+
     def _store_metadata(self, source, media, key):
         """Convenience function to store metadata
 
