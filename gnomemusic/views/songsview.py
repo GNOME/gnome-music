@@ -33,6 +33,8 @@ from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
+import gnomemusic.utils as utils
+
 logger = logging.getLogger(__name__)
 
 
@@ -114,6 +116,8 @@ class SongsView(BaseView):
             ellipsize=Pango.EllipsizeMode.END)
         column_title = Gtk.TreeViewColumn("Title", title_renderer, text=2)
         column_title.props.expand = True
+        column_title.set_cell_data_func(
+            title_renderer, self._on_list_widget_title_render, None)
         self._view.append_column(column_title)
 
         artist_renderer = Gtk.CellRendererText(
@@ -126,6 +130,8 @@ class SongsView(BaseView):
             xpad=32, ellipsize=Pango.EllipsizeMode.END)
         column_album = Gtk.TreeViewColumn("Album", album_renderer, text=4)
         column_album.props.expand = True
+        column_artist.set_cell_data_func(
+            artist_renderer, self._on_list_widget_artist_render, None)
         self._view.append_column(column_album)
 
         duration_renderer = Gtk.CellRendererText(xalign=1.0)
@@ -137,6 +143,22 @@ class SongsView(BaseView):
         column_star = Gtk.TreeViewColumn()
         self._view.append_column(column_star)
         self._star_handler.add_star_renderers(column_star)
+
+    def _on_list_widget_artist_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = item.get_artist_name()
+
+    def _on_list_widget_title_render(self, coll, cell, model, itr, data):
+        if not model.iter_is_valid(itr):
+            return
+
+        item = model[itr][7]
+        if item:
+            cell.props.text = item.get_media_title()
 
     def _on_list_widget_icon_render(self, col, cell, model, itr, data):
         current_song = self._player.props.current_song
