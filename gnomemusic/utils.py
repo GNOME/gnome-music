@@ -25,6 +25,9 @@
 from enum import Enum, IntEnum
 
 from gettext import gettext as _
+
+import gi
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
 from gi.repository import Gio
 
 
@@ -117,7 +120,7 @@ def get_media_year(item):
     date = item.get_creation_date()
 
     if not date:
-        return "----"
+        return ""
 
     return str(date.get_year())
 
