@@ -133,7 +133,7 @@ class ArtistArt(GObject.GObject):
             return
 
         # FIXME: Ugly.
-        grilo = self._coreartist._coremodel._grilo
+        grilo = self._coreartist._coremodel.props.grilo
 
         self._coreartist.connect(
             "notify::thumbnail", self._on_thumbnail_changed)
