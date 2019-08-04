@@ -29,6 +29,8 @@ from gi.repository import Grl, GLib, GObject
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
+from gnomemusic.grilowrappers.grlmusicbrainzwrapper import \
+    GrlMusicbrainzWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
@@ -80,6 +82,7 @@ class CoreGrilo(GObject.GObject):
         self._registry.connect('source-removed', self._on_source_removed)
 
         self._registry.load_all_plugins(True)
+        self._musicbrainz = GrlMusicbrainzWrapper(self)
 
     def _on_tracker_available_changed(self, klass, value):
         new_state = self._tracker_wrapper.props.tracker_available
@@ -156,6 +159,14 @@ class CoreGrilo(GObject.GObject):
     def populate_album_disc_songs(self, media, discnr, callback):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
+
+    def get_tags_from_musicbrainz(self, media, callback):
+        """Retrieves the metadata keys of media
+
+        :param media: A Grilo media item
+        :param callback: Function which is called after metadata retrieval
+        """
+        return self._musicbrainz.get_song_tags(media, callback)
 
     def _store_metadata(self, source, media, key):
         """Convenience function to store metadata
