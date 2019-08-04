@@ -111,7 +111,7 @@ class CoreDisc(GObject.GObject):
 
             album_ids.append(media.get_source() + media.get_id())
 
-        self._coremodel._grilo.populate_album_disc_songs(
+        self._coremodel.props.grilo.populate_album_disc_songs(
             media, discnr, _callback)
 
     @GObject.Property(
