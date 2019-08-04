@@ -17,5 +17,18 @@
         </style>
       </object>
     </child>
+    <child>
+      <object class="GtkButton" id="_edit_details_button">
+        <property name="label" translatable="yes">Edit Details</property>
+        <property name="visible">True</property>
+        <property name="sensitive">False</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <signal name="clicked" handler="_on_edit_tags_button_clicked" swapped="no"/>
+        <style>
+          <class name="text-button"/>
+        </style>
+      </object>
+    </child>
   </template>
 </interface>
