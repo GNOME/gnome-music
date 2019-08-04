@@ -44,6 +44,13 @@ class CoreGrilo(GObject.GObject):
         'grl-spotify-cover'
     ]
 
+    __gsignals__ = {
+        'new-resolve-source-found': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
+        'new-query-source-found': (
+            GObject.SignalFlags.RUN_FIRST, None, (Grl.Source, )),
+    }
+
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
@@ -61,8 +68,6 @@ class CoreGrilo(GObject.GObject):
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
-
-        self._musicbrainz = GrlMusicbrainzWrapper(self)
 
         self._tracker_wrapper = TrackerWrapper()
         self._tracker_wrapper.bind_property(
@@ -142,6 +147,14 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._coremodel, self._coreselection, self)
             print("search source", source)
+
+        elif (source.supported_operations() & Grl.SupportedOps.RESOLVE
+                and source.get_supported_media() & Grl.MediaType.AUDIO):
+            self.emit('new-resolve-source-found', source)
+
+        elif (source.supported_operations() & Grl.SupportedOps.QUERY
+                and source.get_supported_media() & Grl.MediaType.AUDIO):
+            self.emit('new-query-source-found', source)
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
