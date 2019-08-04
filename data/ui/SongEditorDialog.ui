@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <template class="SongEditorDialog" parent="GtkDialog">
+    <property name="resizable">False</property>
+    <property name="modal">True</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="title" translatable="yes">Edit Details</property>
+    <child internal-child="content_area">
+      <object class="GtkBox" id="dialog_vbox">
+        <property name="orientation">vertical</property>
+        <child internal-child="action_area">
+          <object class="GtkBox">
+          </object>
+        </child>
+        <child>
+          <object class="GtkOverlay" id="overlay">
+            <child type="overlay">
+              <object class="NotificationsPopup" id="_notifications_popup">
+                <property name="halign">center</property>
+                <property name="transition_type">slide-down</property>
+                <property name="valign">start</property>
+              </object>
+            </child>
+            <property name="child">
+              <object class="GtkGrid" id="media_details">
+                <property name="halign">start</property>
+                <property name="margin-bottom">12</property>
+                <property name="margin-end">12</property>
+                <property name="margin-start">12</property>
+                <property name="margin-top">12</property>
+                <property name="row_spacing">5</property>
+                <child>
+                  <object class="GtkBox" id="coverart_box">
+                    <property name="vexpand">True</property>
+                    <property name="halign">start</property>
+                    <property name="margin-end">20</property>
+                    <child>
+                      <object class="ArtStack" id="_art_stack">
+                        <property name="valign">fill</property>
+                      </object>
+                    </child>
+                    <style>
+                      <class name="album-cover"/>
+                    </style>
+                    <layout>
+                      <property name="row-span">4</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="location">
+                    <property name="justify">right</property>
+                    <property name="margin-end">20</property>
+                    <property name="label" translatable="yes">Location</property>
+                    <property name="xalign">1</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                    <layout>
+                      <property name="column">0</property>
+                      <property name="row">4</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="_url_label">
+                    <property name="visible">False</property>
+                    <property name="halign">start</property>
+                    <property name="xalign">0</property>
+                    <property name="max_width_chars">45</property>
+                    <property name="wrap">True</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">4</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">12</property>
+                    <layout>
+                      <property name="column">1</property>
+                      <property name="row">1</property>
+                    </layout>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkBox">
+                            <child>
+                              <object class="GtkLabel" id="title">
+                                <property name="margin-end">36</property>
+                                <property name="label" translatable="yes">Title</property>
+                                <property name="xalign">1</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="_title_suggestion">
+                                <property name="visible">False</property>
+                                <property name="halign">start</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max_width_chars">30</property>
+                                <style>
+                                  <class name="suggestion-label"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="_title_entry">
+                            <property name="width_chars">45</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkBox">
+                            <child>
+                              <object class="GtkLabel" id="album">
+                                <property name="margin-end">36</property>
+                                <property name="label" translatable="yes">Album</property>
+                                <property name="xalign">1</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="_album_suggestion">
+                                <property name="visible">False</property>
+                                <property name="halign">start</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max_width_chars">30</property>
+                                <style>
+                                  <class name="suggestion-label"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="_album_entry">
+                            <property name="width_chars">45</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">6</property>
+                        <child>
+                          <object class="GtkBox">
+                            <child>
+                              <object class="GtkLabel" id="artist">
+                                <property name="margin-end">36</property>
+                                <property name="label" translatable="yes">Artist</property>
+                                <property name="xalign">1</property>
+                                <attributes>
+                                  <attribute name="weight" value="bold"/>
+                                </attributes>
+                                <style>
+                                  <class name="dim-label"/>
+                                </style>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="_artist_suggestion">
+                                <property name="visible">False</property>
+                                <property name="halign">start</property>
+                                <property name="ellipsize">end</property>
+                                <property name="max_width_chars">30</property>
+                                <style>
+                                  <class name="suggestion-label"/>
+                                </style>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="_artist_entry">
+                            <property name="width_chars">45</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="hexpand">True</property>
+                        <property name="homogeneous">True</property>
+                        <property name="spacing">12</property>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <property name="halign">start</property>
+                            <child>
+                              <object class="GtkBox">
+                                <child>
+                                  <object class="GtkLabel" id="track">
+                                    <property name="halign">start</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="label" translatable="yes">Song</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="_track_suggestion">
+                                    <property name="visible">False</property>
+                                    <property name="halign">start</property>
+                                    <style>
+                                      <class name="suggestion-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="_track_entry">
+                                <property name="width_chars">10</property>
+                                <property name="input_purpose">number</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <property name="halign">start</property>
+                            <child>
+                              <object class="GtkBox">
+                                <child>
+                                  <object class="GtkLabel" id="disc">
+                                    <property name="halign">start</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="label" translatable="yes">Disc</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="_disc_suggestion">
+                                    <property name="visible">False</property>
+                                    <property name="halign">start</property>
+                                    <style>
+                                      <class name="suggestion-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="_disc_entry">
+                                <property name="width_chars">10</property>
+                                <property name="input_purpose">number</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <property name="orientation">vertical</property>
+                            <property name="spacing">6</property>
+                            <property name="halign">start</property>
+                            <child>
+                              <object class="GtkBox">
+                                <child>
+                                  <object class="GtkLabel" id="year">
+                                    <property name="halign">start</property>
+                                    <property name="hexpand">True</property>
+                                    <property name="label" translatable="yes">Year</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                    <style>
+                                      <class name="dim-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="_year_suggestion">
+                                    <property name="visible">False</property>
+                                    <property name="halign">start</property>
+                                    <style>
+                                      <class name="suggestion-label"/>
+                                    </style>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkEntry" id="_year_entry">
+                                <property name="width_chars">10</property>
+                                <property name="input_purpose">number</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="margin-bottom">20</property>
+            <property name="margin-start">20</property>
+            <child>
+              <object class="GtkBox">
+                <property name="valign">end</property>
+                <property name="spacing">6</property>
+                <property name="baseline_position">bottom</property>
+                <child>
+                  <object class="GtkSpinner" id="_spinner">
+                    <property name="halign">start</property>
+                    <property name="spinning">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="_spinner_label">
+                    <property name="label" translatable="yes">Fetching metadata...</property>
+                    <style>
+                      <class name="dim-label"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="halign">end</property>
+                <property name="hexpand">True</property>
+                <property name="spacing">6</property>
+                <property name="margin-end">10</property>
+                <child>
+                  <object class="GtkBox" id="_prev_next_box">
+                    <property name="homogeneous">True</property>
+                    <style>
+                      <class name="linked"/>
+                    </style>
+                    <child>
+                      <object class="GtkButton" id="_prev_button">
+                        <property name="valign">center</property>
+                        <property name="sensitive">False</property>
+                        <property name="tooltip_text" translatable="yes">Previous Suggestion</property>
+                        <property name="icon-name">go-previous-symbolic</property>
+                        <signal name="clicked" handler="_on_prev_button_clicked" swapped="no"/>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="_next_button">
+                        <property name="valign">center</property>
+                        <property name="sensitive">False</property>
+                        <property name="tooltip_text" translatable="yes">Next Suggestion</property>
+                        <property name="icon-name">go-next-symbolic</property>
+                        <signal name="clicked" handler="_on_next_button_clicked" swapped="no"/>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_use_suggestion_button">
+                    <property name="label" translatable="yes">Use Suggestion</property>
+                    <property name="sensitive">False</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="_on_use_suggestion_clicked" swapped="no"/>
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="_submit_button">
+                    <property name="label" translatable="yes">Submit</property>
+                    <property name="sensitive">False</property>
+                    <property name="receives_default">True</property>
+                    <signal name="clicked" handler="_on_submit_clicked" swapped="no"/>
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

@@ -18,6 +18,7 @@ data/ui/SearchHeaderBar.ui
 data/ui/SearchView.ui
 data/ui/SelectionBarMenuButton.ui
 data/ui/SelectionToolbar.ui
+data/ui/SongEditorDialog.ui
 data/ui/SongWidgetMenu.ui
 data/ui/TagEditorNotification.ui
 gnomemusic/__init__.py
@@ -43,5 +44,6 @@ gnomemusic/widgets/lastfmdialog.py
 gnomemusic/widgets/playertoolbar.py
 gnomemusic/widgets/playlistcontrols.py
 gnomemusic/widgets/playlistdialog.py
+gnomemusic/widgets/songeditordialog.py
 gnomemusic/widgets/starhandlerwidget.py
 gnomemusic/window.py

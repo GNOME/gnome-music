@@ -31,6 +31,7 @@
     <file preprocess="xml-stripblanks">ui/SelectionToolbar.ui</file>
     <file preprocess="xml-stripblanks">ui/SongListItem.ui</file>
     <file preprocess="xml-stripblanks">ui/SongsView.ui</file>
+    <file preprocess="xml-stripblanks">ui/SongEditorDialog.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidgetMenu.ui</file>
     <file preprocess="xml-stripblanks">ui/TagEditorNotification.ui</file>
