@@ -33,6 +33,7 @@
     <file preprocess="xml-stripblanks">ui/SongsView.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidget.ui</file>
     <file preprocess="xml-stripblanks">ui/SongWidgetMenu.ui</file>
+    <file preprocess="xml-stripblanks">ui/TagEditorNotification.ui</file>
     <file preprocess="xml-stripblanks">ui/TwoLineTip.ui</file>
     <file preprocess="xml-stripblanks">ui/Window.ui</file>
   </gresource>

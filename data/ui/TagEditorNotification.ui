@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="TagEditorNotification" parent="GtkGrid">
+    <property name="column_spacing">18</property>
+    <child>
+      <object class="GtkLabel" id="_label">
+        <property name="halign">start</property>
+        <property name="hexpand">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkButton" id="_undo_button">
+        <property name="label" translatable="yes">_Undo</property>
+        <property name="use_underline">True</property>
+        <property name="visible">False</property>
+        <signal name="clicked" handler="_undo_clicked" swapped="no"/>
+      </object>
+    </child>
+  </template>
+</interface>
