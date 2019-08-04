@@ -117,9 +117,35 @@ def get_media_year(item):
     date = item.get_creation_date()
 
     if not date:
-        return "----"
+        return ""
 
     return str(date.get_year())
+
+
+def get_album_disc_nr(item):
+    """Returns the album song number associated with the media item
+
+    :param Grl.Media item: song
+    :return: The album disc number
+    :rtype: string
+    """
+    track_number = item.get_album_disc_number()
+    if track_number == 0:
+        track_number = ""
+    return str(track_number)
+
+
+def get_media_track_nr(item):
+    """Returns the track number of the media item.
+
+    :param Grl.Media item: song
+    :return: The song track number
+    :rtype: string
+    """
+    track_number = item.get_track_number()
+    if track_number == 0:
+        return ""
+    return str(track_number)
 
 
 def seconds_to_string(duration):
