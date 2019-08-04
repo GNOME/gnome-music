@@ -25,8 +25,10 @@
 from enum import Enum, IntEnum
 
 from gettext import gettext as _
-from gi.repository import Gio
 
+import gi
+gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
+from gi.repository import Gio, GLib, Grl
 
 class SongStateIcon(Enum):
     """Enum for icons used in song playing and validation"""
@@ -117,7 +119,7 @@ def get_media_year(item):
     date = item.get_creation_date()
 
     if not date:
-        return "----"
+        return ""
 
     return str(date.get_year())
 
@@ -160,3 +162,13 @@ def seconds_to_string(duration):
     seconds %= 60
 
     return '{:d}:{:02d}'.format(minutes, seconds)
+
+
+fields_getter = {
+    'album': get_album_title,
+    'artist': get_artist_name,
+    'disc': get_album_disc_nr,
+    'title': get_media_title,
+    'track': get_media_track_nr,
+    'year': get_media_year
+}
