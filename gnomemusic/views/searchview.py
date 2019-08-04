@@ -102,6 +102,8 @@ class SearchView(Gtk.Stack):
             "items-changed", self._on_artist_model_items_changed)
         self._artist_flowbox.bind_model(
             self._artist_filter, self._create_artist_widget)
+        self._artist_flowbox.connect(
+            "size-allocate", self._on_artist_flowbox_size_allocate)
         self._on_artist_model_items_changed(self._artist_filter, 0, 0, 0)
 
         self._player = self._application.props.player
@@ -261,6 +263,36 @@ class SearchView(Gtk.Stack):
         nb_children_to_add = min(nb_children_to_add + idx, nb_children)
         for i in range(idx, nb_children_to_add):
             child = self._album_flowbox.get_child_at_index(i)
+            child.props.visible = True
+
+    def _on_artist_flowbox_size_allocate(self, widget, allocation, data=None):
+        nb_children = self._artist_filter.get_n_items()
+        if nb_children == 0:
+            return
+
+        first_child = self._album_flowbox.get_child_at_index(0)
+        child_height = first_child.get_allocation().height
+        if allocation.height > 1.5 * child_height:
+            for i in range(nb_children - 1, -1, -1):
+                child = self._artist_flowbox.get_child_at_index(i)
+                if child.props.visible is True:
+                    child.props.visible = False
+                    return
+
+        children_hidden = False
+        for idx in range(nb_children):
+            child = self._artist_flowbox.get_child_at_index(idx)
+            if not child.props.visible:
+                children_hidden = True
+                break
+        if children_hidden is False:
+            return
+
+        last_child = self._artist_flowbox.get_child_at_index(idx - 1)
+        last_child_allocation = last_child.get_allocation()
+        child_width = last_child_allocation.width
+        if (last_child_allocation.x + 2 * child_width) < allocation.width:
+            child = self._artist_flowbox.get_child_at_index(idx)
             child.props.visible = True
 
     @Gtk.Template.Callback()
