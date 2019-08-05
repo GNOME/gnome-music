@@ -60,6 +60,8 @@ class SearchView(Gtk.Stack):
     _search_results = Gtk.Template.Child()
     _songs_header = Gtk.Template.Child()
     _songs_listbox = Gtk.Template.Child()
+    _view_all_albums = Gtk.Template.Child()
+    _view_all_artists = Gtk.Template.Child()
 
     def __repr__(self):
         return '<SearchView>'
@@ -189,11 +191,18 @@ class SearchView(Gtk.Stack):
         self._album_flowbox.props.visible = items_found
         self._check_visibility()
 
+        nr_albums = self._album_model.get_n_items()
+        self._view_all_albums.props.visible = (nr_albums > model.get_n_items())
+
     def _on_artist_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
         self._artist_header.props.visible = items_found
         self._artist_flowbox.props.visible = items_found
         self._check_visibility()
+
+        nr_artists = self._artist_model.get_n_items()
+        self._view_all_artists.props.visible = (
+            nr_artists > model.get_n_items())
 
     def _on_model_items_changed(self, model, position, removed, added):
         items_found = model.get_n_items() > 0
