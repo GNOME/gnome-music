@@ -627,6 +627,114 @@ class GrlTrackerWrapper(GObject.GObject):
             GLib.utf8_normalize(
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
 
+        # Artist search
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(?artist)
+            tracker:id(?artist) AS ?id
+        WHERE {
+            ?song a nmm:MusicPiece ;
+                    nmm:musicAlbum ?album ;
+                    nmm:performer ?artist .
+            BIND(tracker:normalize(
+                nmm:artistName(nmm:albumArtist(?album)), 'nfkd') AS ?match1) .
+            BIND(tracker:normalize(
+                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
+            FILTER (
+                CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match1)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match2)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match4)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+            )
+            %(location_filter)s
+        }
+        LIMIT 50
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter(),
+            'name': term
+        }
+
+        artist_filter_ids = []
+
+        def artist_filter(coreartist):
+            return coreartist.media.get_id() in artist_filter_ids
+
+        def artist_search_cb(source, op_id, media, data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                self._artist_search_model.set_filter_func(artist_filter)
+                return
+
+            artist_filter_ids.append(media.get_id())
+
+        options = self._fast_options.copy()
+        self._source.query(
+            query, self.METADATA_KEYS, options, artist_search_cb)
+
+        # Album search
+
+        query = """
+        SELECT DISTINCT
+            rdf:type(nmm:musicAlbum(?song))
+            tracker:id(nmm:musicAlbum(?song)) AS ?id
+        WHERE {
+            ?song a nmm:MusicPiece .
+            BIND(tracker:normalize(
+                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
+            BIND(tracker:normalize(
+                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
+            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
+            FILTER (
+                CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match1)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match2)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
+                || CONTAINS(tracker:case-fold(
+                    tracker:unaccent(?match4)), "%(name)s")
+                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
+            )
+            %(location_filter)s
+        }
+        LIMIT 50
+        """.replace('\n', ' ').strip() % {
+            'location_filter': self._location_filter(),
+            'name': term
+        }
+
+        album_filter_ids = []
+
+        def album_filter(corealbum):
+            return corealbum.media.get_id() in album_filter_ids
+
+        def albums_search_cb(source, op_id, media, data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                self._album_search_model.set_filter_func(album_filter)
+                return
+
+            album_filter_ids.append(media.get_id())
+
+        options = self._fast_options.copy()
+        self._source.query(
+            query, self.METADATA_KEYS, options, albums_search_cb)
+
+        # Song search
+
         query = """
         SELECT DISTINCT
             rdf:type(?song)
@@ -682,112 +790,6 @@ class GrlTrackerWrapper(GObject.GObject):
         options = self._fast_options.copy()
 
         self._source.query(query, self.METADATA_KEYS, options, songs_search_cb)
-
-        # Album search
-
-        query = """
-        SELECT DISTINCT
-            rdf:type(nmm:musicAlbum(?song))
-            tracker:id(nmm:musicAlbum(?song)) AS ?id
-        WHERE {
-            ?song a nmm:MusicPiece .
-            BIND(tracker:normalize(
-                nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
-        }
-        LIMIT 50
-        """.replace('\n', ' ').strip() % {
-            'location_filter': self._location_filter(),
-            'name': term
-        }
-
-        album_filter_ids = []
-
-        def album_filter(corealbum):
-            return corealbum.media.get_id() in album_filter_ids
-
-        def albums_search_cb(source, op_id, media, data, error):
-            if error:
-                print("ERROR", error)
-                return
-
-            if not media:
-                self._album_search_model.set_filter_func(album_filter)
-                return
-
-            album_filter_ids.append(media.get_id())
-
-        options = self._fast_options.copy()
-        self._source.query(
-            query, self.METADATA_KEYS, options, albums_search_cb)
-
-        # Artist search
-
-        query = """
-        SELECT DISTINCT
-            rdf:type(?artist)
-            tracker:id(?artist) AS ?id
-        WHERE {
-            ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album ;
-                    nmm:performer ?artist .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:albumArtist(?album)), 'nfkd') AS ?match1) .
-            BIND(tracker:normalize(
-                nmm:artistName(nmm:performer(?song)), 'nfkd') AS ?match2) .
-            BIND(tracker:normalize(nmm:composer(?song), 'nfkd') AS ?match4) .
-            FILTER (
-                CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match1)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match1), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match2)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match2), "%(name)s")
-                || CONTAINS(tracker:case-fold(
-                    tracker:unaccent(?match4)), "%(name)s")
-                || CONTAINS(tracker:case-fold(?match4), "%(name)s")
-            )
-            %(location_filter)s
-        }
-        LIMIT 50
-        """.replace('\n', ' ').strip() % {
-            'location_filter': self._location_filter(),
-            'name': term
-        }
-
-        artist_filter_ids = []
-
-        def artist_filter(coreartist):
-            return coreartist.media.get_id() in artist_filter_ids
-
-        def artist_search_cb(source, op_id, media, data, error):
-            if error:
-                print("ERROR", error)
-                return
-
-            if not media:
-                self._artist_search_model.set_filter_func(artist_filter)
-                return
-
-            artist_filter_ids.append(media.get_id())
-
-        options = self._fast_options.copy()
-        self._source.query(
-            query, self.METADATA_KEYS, options, artist_search_cb)
 
     def get_album_art_for_item(self, coresong, callback):
         """Placeholder until we got a better solution
