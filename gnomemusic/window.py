@@ -43,6 +43,7 @@ from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchbar import SearchBar
+from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
 from gnomemusic.windowplacement import WindowPlacement
 
@@ -95,6 +96,7 @@ class Window(Gtk.ApplicationWindow):
 
         self.prev_view = None
         self.curr_view = None
+        self._view_before_search = None
 
         self._player = app.props.player
 
@@ -107,7 +109,15 @@ class Window(Gtk.ApplicationWindow):
         self._search = Search()
         self._searchbar = SearchBar(self._app)
         self._searchbar.props.stack = self._stack
+        self._headerbar_stack = Gtk.Stack()
+        transition_type = Gtk.StackTransitionType.CROSSFADE
+        self._headerbar_stack.props.transition_type = transition_type
         self._headerbar = HeaderBar()
+        self._search_headerbar = SearchHeaderBar(self._app)
+        self._search_headerbar.props.stack = self._stack
+        self._headerbar_stack.add_named(self._headerbar, "main")
+        self._headerbar_stack.add_named(self._search_headerbar, "search")
+        self._headerbar_stack.props.name = "search"
 
         self._search.bind_property(
             "search-mode-active", self._headerbar, "search-mode-active",
@@ -117,8 +127,15 @@ class Window(Gtk.ApplicationWindow):
             "search-mode-active", self._searchbar, "search-mode-enabled",
             GObject.BindingFlags.SYNC_CREATE)
         self._search.bind_property(
+            "search-mode-active", self._search_headerbar, "search-mode-active",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self._search.bind_property(
             "state", self._searchbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
+
+        self._search.connect(
+            "notify::search-mode-active", self._on_search_mode_changed)
 
         self._player_toolbar = PlayerToolbar()
         self._player_toolbar.props.player = self._player
@@ -133,6 +150,13 @@ class Window(Gtk.ApplicationWindow):
             "selected-items-count")
         self.bind_property(
             'selection-mode', self._headerbar, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "selected-items-count", self._search_headerbar,
+            "selected-items-count")
+        self.bind_property(
+            "selection-mode", self._search_headerbar, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -155,25 +179,25 @@ class Window(Gtk.ApplicationWindow):
         self._stack.get_style_context().add_class('background')
 
         # FIXME: Need to find a proper way to do this.
-        self._overlay.add_overlay(self._searchbar._dropdown)
+        # self._overlay.add_overlay(self._searchbar._dropdown)
 
-        self._box.pack_start(self._searchbar, False, False, 0)
-        self._box.reorder_child(self._searchbar, 0)
+        # self._box.pack_start(self._searchbar, False, False, 0)
+        # self._box.reorder_child(self._searchbar, 0)
         self._box.pack_end(self._player_toolbar, False, False, 0)
 
-        self.set_titlebar(self._headerbar)
+        self.set_titlebar(self._headerbar_stack)
 
         self._selection_toolbar.connect(
             'add-to-playlist', self._on_add_to_playlist)
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
-        self._headerbar.show()
+        self._headerbar_stack.show_all()
 
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
 
-        self._app.props.coremodel._grilo.connect(
+        self._app.props.coremodel.props.grilo.connect(
             "notify::tracker-available", self._on_tracker_available)
 
         if self._app.props.coremodel.props.songs_available:
@@ -185,7 +209,7 @@ class Window(Gtk.ApplicationWindow):
     def _switch_to_empty_view(self):
         did_initial_state = self._settings.get_boolean('did-initial-state')
 
-        state = self._app.props.coremodel._grilo.props.tracker_available
+        state = self._app.props.coremodel.props.grilo.props.tracker_available
         empty_view = self.views[View.EMPTY]
         if state == TrackerState.UNAVAILABLE:
             empty_view.props.state = EmptyView.State.NO_TRACKER
@@ -199,6 +223,12 @@ class Window(Gtk.ApplicationWindow):
 
         self._headerbar.props.state = HeaderBar.State.EMPTY
 
+    def _on_search_mode_changed(self, search, value):
+        if self._search.props.search_mode_active:
+            self._headerbar_stack.set_visible_child_name("search")
+        else:
+            self._headerbar_stack.set_visible_child_name("main")
+
     def _on_songs_available(self, klass, value):
         if self._app.props.coremodel.props.songs_available:
             self._switch_to_player_view()
@@ -206,7 +236,8 @@ class Window(Gtk.ApplicationWindow):
             self._switch_to_empty_view()
 
     def _on_tracker_available(self, klass, value):
-        new_state = self._app.props.coremodel._grilo.props.tracker_available
+        grilo = self._app.props.coremodel.props.grilo
+        new_state = grilo.props.tracker_available
 
         if new_state != TrackerState.AVAILABLE:
             self._switch_to_empty_view()
@@ -239,7 +270,7 @@ class Window(Gtk.ApplicationWindow):
         # This is a bit of circular logic that needs to be fixed.
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
-        self._searchbar.show()
+        # self._searchbar.show()
 
         self.views[View.ALBUM] = AlbumsView(self._app, self._player)
         self.views[View.ARTIST] = ArtistsView(self._app, self._player)
@@ -391,7 +422,7 @@ class Window(Gtk.ApplicationWindow):
 
         # Open the search bar when typing printable chars.
         key_unic = Gdk.keyval_to_unicode(keyval)
-        if ((not self._searchbar.get_search_mode()
+        if ((not self._search.props.search_mode_active
                 and not keyval == Gdk.KEY_space)
                 and GLib.unichar_isprint(chr(key_unic))
                 and (modifiers == shift_mask
@@ -417,7 +448,10 @@ class Window(Gtk.ApplicationWindow):
 
         # Disable search mode when switching view
         search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
-        if (self.curr_view not in search_views
+        if (self.curr_view in search_views
+                and self.prev_view not in search_views):
+            self._view_before_search = self.prev_view
+        elif (self.curr_view not in search_views
                 and self._search.props.search_mode_active is True):
             self._search.props.search_mode_active = False
 
@@ -450,11 +484,11 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_search_state_changed(self, klass, param):
         if (self._search.props.state != Search.State.NONE
-                or not self.views[View.SEARCH].previous_view):
+                or not self._view_before_search):
             return
 
         # Get back to the view before the search
-        self._stack.set_visible_child(self.views[View.SEARCH].previous_view)
+        self._stack.set_visible_child(self._view_before_search)
 
     @log
     def _switch_back_from_childview(self, klass=None):

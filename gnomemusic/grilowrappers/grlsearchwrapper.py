@@ -87,7 +87,7 @@ class GrlSearchWrapper(GObject.GObject):
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
             coresong.props.title = (
-                coresong.props.title + " (" + source.props.source_id + ")")
+                coresong.props.title + " (" + source.props.source_name + ")")
 
             self._song_search_store.append(coresong)
 

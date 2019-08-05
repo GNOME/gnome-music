@@ -72,6 +72,7 @@ class CoreModel(GObject.GObject):
         "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    grilo = GObject.Property(type=CoreGrilo, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
     def __init__(self, coreselection):
@@ -107,9 +108,15 @@ class CoreModel(GObject.GObject):
             self._album_model)
         self._album_search_model.set_filter_func(lambda a: False)
 
+        self._album_search_filter = Gfm.FilterListModel.new(
+            self._album_search_model)
+
         self._artist_search_model = Dazzle.ListModelFilter.new(
             self._artist_model)
         self._artist_search_model.set_filter_func(lambda a: False)
+
+        self._artist_search_filter = Gfm.FilterListModel.new(
+            self._artist_search_model)
 
         self._playlists_model = Gio.ListStore.new(Playlist)
         self._playlists_model_filter = Dazzle.ListModelFilter.new(
@@ -119,7 +126,10 @@ class CoreModel(GObject.GObject):
         self._playlists_model_sort.set_sort_func(
             self._wrap_list_store_sort_func(self._playlists_sort))
 
-        self._grilo = CoreGrilo(self, self._coreselection)
+        self.props.grilo = CoreGrilo(self, self._coreselection)
+        # FIXME: Not all instances of internal _grilo use have been
+        # fixed.
+        self._grilo = self.props.grilo
 
         self._model.connect("items-changed", self._on_songs_items_changed)
 
@@ -183,7 +193,7 @@ class CoreModel(GObject.GObject):
         disc_model_sort.set_sort_func(
             self._wrap_list_store_sort_func(_disc_order_sort))
 
-        self._grilo.get_album_discs(media, disc_model)
+        self.props.grilo.get_album_discs(media, disc_model)
 
         return disc_model_sort
 
@@ -193,7 +203,7 @@ class CoreModel(GObject.GObject):
 
         albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
 
-        self._grilo.get_artist_albums(media, albums_model_filter)
+        self.props.grilo.get_artist_albums(media, albums_model_filter)
 
         def _album_sort(album_a, album_b):
             return album_a.props.year > album_b.props.year
@@ -222,7 +232,7 @@ class CoreModel(GObject.GObject):
                     coresong = model[position + i]
                     song = CoreSong(
                         coresong.props.media, self._coreselection,
-                        self._grilo)
+                        self.props.grilo)
 
                     self._playlist_model.insert(position + i, song)
 
@@ -250,7 +260,7 @@ class CoreModel(GObject.GObject):
                 for model_song in self._flatten_model:
                     song = CoreSong(
                         model_song.props.media, self._coreselection,
-                        self._grilo)
+                        self.props.grilo)
 
                     self._playlist_model.append(song)
                     song.bind_property(
@@ -276,7 +286,7 @@ class CoreModel(GObject.GObject):
                 for model_song in self._flatten_model:
                     song = CoreSong(
                         model_song.props.media, self._coreselection,
-                        self._grilo)
+                        self.props.grilo)
 
                     self._playlist_model.append(song)
                     song.bind_property(
@@ -325,7 +335,7 @@ class CoreModel(GObject.GObject):
                 for model_song in model:
                     song = CoreSong(
                         model_song.props.media, self._coreselection,
-                        self._grilo)
+                        self.props.grilo)
 
                     self._playlist_model.append(song)
 
@@ -345,7 +355,7 @@ class CoreModel(GObject.GObject):
 
         :param Playlist playlist: playlist
         """
-        self._grilo.stage_playlist_deletion(playlist)
+        self.props.grilo.stage_playlist_deletion(playlist)
 
     def finish_playlist_deletion(self, playlist, deleted):
         """Finishes playlist deletion.
@@ -353,7 +363,7 @@ class CoreModel(GObject.GObject):
         :param Playlist playlist: playlist
         :param bool deleted: indicates if the playlist has been deleted
         """
-        self._grilo.finish_playlist_deletion(playlist, deleted)
+        self.props.grilo.finish_playlist_deletion(playlist, deleted)
 
     def create_playlist(self, playlist_title, callback):
         """Creates a new user playlist.
@@ -361,7 +371,7 @@ class CoreModel(GObject.GObject):
         :param str playlist_title: playlist title
         :param callback: function to perform once, the playlist is created
         """
-        self._grilo.create_playlist(playlist_title, callback)
+        self.props.grilo.create_playlist(playlist_title, callback)
 
     def activate_playlist(self, playlist):
         """Activates a playlist.
@@ -374,7 +384,7 @@ class CoreModel(GObject.GObject):
         self.emit("activate-playlist", playlist)
 
     def search(self, text):
-        self._grilo.search(text)
+        self.props.grilo.search(text)
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
@@ -433,10 +443,22 @@ class CoreModel(GObject.GObject):
         return self._album_search_model
 
     @GObject.Property(
+        type=Gfm.FilterListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def albums_search_filter(self):
+        return self._album_search_filter
+
+    @GObject.Property(
         type=Dazzle.ListModelFilter, default=None,
         flags=GObject.ParamFlags.READABLE)
     def artists_search(self):
         return self._artist_search_model
+
+    @GObject.Property(
+        type=Gfm.FilterListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def artists_search_filter(self):
+        return self._artist_search_filter
 
     @GObject.Property(
         type=Gtk.ListStore, default=None, flags=GObject.ParamFlags.READABLE)

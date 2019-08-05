@@ -1,4 +1,4 @@
-# Copyright 2018 The GNOME Music developers
+# Copyright 2019 The GNOME Music developers
 #
 # GNOME Music is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,103 +22,75 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-import gi
-gi.require_version('Grl', '0.3')
-from gi.repository import Gdk, GLib, GObject, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
-from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.coreartist import CoreArtist
+from gnomemusic.widgets.artistartstack import ArtistArtStack  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
 
 
-@Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumCover.ui')
-class AlbumCover(Gtk.FlowBoxChild):
-    """Cover tile as used in AlbumsView
+@Gtk.Template(resource_path="/org/gnome/Music/ui/ArtistSearchTile.ui")
+class ArtistSearchTile(Gtk.FlowBoxChild):
+    """Artist search tile
 
-    Includes cover, album title, artist & selection mode checkmark.
+    Contains artist art and name
     """
 
-    _nr_albums = 0
+    __gtype_name__ = "ArtistSearchTile"
 
-    __gtype_name__ = 'AlbumCover'
-
-    _cover_stack = Gtk.Template.Child()
-    _check = Gtk.Template.Child()
-    _title_label = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
+    _artistart_stack = Gtk.Template.Child()
+    _check = Gtk.Template.Child()
     _events = Gtk.Template.Child()
 
+    coreartist = GObject.Property(
+        type=CoreArtist, default=None, flags=GObject.ParamFlags.READWRITE)
     selected = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
     selection_mode = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
 
     def __repr__(self):
-        return '<AlbumCover>'
+        return "<ArtistSearchTile>"
 
-    @log
-    def __init__(self, corealbum):
-        """Initialize the AlbumCover
+    def __init__(self, coreartist):
+        """Initialize the ArtistSearchTile
 
-        :param Grl.Media media: The media object to use
+        :param CoreArtist coreartist: The coreartist to use
         """
         super().__init__()
 
-        AlbumCover._nr_albums += 1
+        self.props.coreartist = coreartist
 
-        self._corealbum = corealbum
+        self._artistart_stack.props.size = Art.Size.MEDIUM
+        self._artistart_stack.props.coreartist = self.props.coreartist
 
         self._tooltip = TwoLineTip()
+        self._tooltip.props.subtitle_visible = False
 
-        artist = self._corealbum.props.artist
-        title = self._corealbum.props.title
-
-        self._tooltip.props.title = artist
-        self._tooltip.props.subtitle = title
-
+        artist = self.props.coreartist.props.artist
         self._artist_label.props.label = artist
-        self._title_label.props.label = title
+        self._tooltip.props.title = artist
 
         self.bind_property(
-            'selected', self._check, 'active',
+            "selected", self._check, "active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
-            'selection-mode', self._check, 'visible',
+            "selected", self.props.coreartist, "selected",
             GObject.BindingFlags.BIDIRECTIONAL)
 
-        self.connect('query-tooltip', self._on_tooltip_query)
+        self.bind_property(
+            "selection-mode", self._check, "visible",
+            GObject.BindingFlags.BIDIRECTIONAL)
 
         self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
-        self._cover_stack.props.size = Art.Size.MEDIUM
-
         self.show()
 
-        # FIXME: To work around slow updating of the albumsview,
-        # load album covers with a fixed delay. This results in a
-        # quick first show with a placeholder cover and then a
-        # reasonably responsive view while loading the actual
-        # covers.
-        self._update_cover_id = self._cover_stack.connect(
-            "updated", self._on_cover_stack_updated)
-        GLib.timeout_add(
-            50 * self._nr_albums, self._cover_stack.update, self._corealbum,
-            priority=GLib.PRIORITY_LOW)
-
-    @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
-    def corealbum(self):
-        """CoreAlbum object used in AlbumCover
-
-        :returns: The album used
-        :rtype: CoreAlbum
-        """
-        return self._corealbum
-
     @Gtk.Template.Callback()
-    @log
-    def _on_album_event(self, evbox, event, data=None):
+    def _on_artist_event(self, evbox, event, data=None):
         modifiers = Gtk.accelerator_get_default_mod_mask()
         if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
                 and not self.props.selection_mode):
@@ -128,12 +100,6 @@ class AlbumCover(Gtk.FlowBoxChild):
             self.props.selected = not self.props.selected
 
     @Gtk.Template.Callback()
-    @log
     def _on_tooltip_query(self, widget, x, y, kb, tooltip, data=None):
         tooltip.set_custom(self._tooltip)
-
         return True
-
-    def _on_cover_stack_updated(self, cover_stack):
-        AlbumCover._nr_albums -= 1
-        self._cover_stack.disconnect(self._update_cover_id)

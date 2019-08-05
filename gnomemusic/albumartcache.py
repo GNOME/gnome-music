@@ -598,7 +598,7 @@ class RemoteArt(GObject.GObject):
         # CoreAlbum or CoreSong about and then retrieves the CoreGrilo
         # instance.
         try:
-            self._grilo = self._coresong._coremodel._grilo
+            self._grilo = self._coresong._coremodel.props.grilo
         except AttributeError:
             self._grilo = self._coresong._grilo
 
