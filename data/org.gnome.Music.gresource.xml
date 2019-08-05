@@ -24,6 +24,7 @@
     <file preprocess="xml-stripblanks">ui/PlaylistDialogRow.ui</file>
     <file preprocess="xml-stripblanks">ui/PlaylistTile.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchBar.ui</file>
+    <file preprocess="xml-stripblanks">ui/SearchHeaderBar.ui</file>
     <file preprocess="xml-stripblanks">ui/SearchView.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionBarMenuButton.ui</file>
     <file preprocess="xml-stripblanks">ui/SelectionToolbar.ui</file>
