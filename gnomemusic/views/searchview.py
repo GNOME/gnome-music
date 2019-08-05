@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from gettext import gettext as _
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
@@ -51,7 +52,10 @@ class SearchView(Gtk.Stack):
 
     _album_header = Gtk.Template.Child()
     _album_flowbox = Gtk.Template.Child()
+    _album_all_flowbox = Gtk.Template.Child()
+    _all_search_results = Gtk.Template.Child()
     _artist_header = Gtk.Template.Child()
+    _artist_all_flowbox = Gtk.Template.Child()
     _artist_flowbox = Gtk.Template.Child()
     _search_results = Gtk.Template.Child()
     _songs_header = Gtk.Template.Child()
@@ -331,6 +335,34 @@ class SearchView(Gtk.Stack):
         self._headerbar.props.subtitle = None
 
         self.set_visible_child(self._artist_albums_widget)
+        self.props.search_mode_active = False
+
+    @Gtk.Template.Callback()
+    def _on_all_artists_clicked(self, widget, event, user_data=None):
+        self._headerbar.props.state = HeaderBar.State.SEARCH
+        self._headerbar.props.title = _("Artists Results")
+        self._headerbar.props.subtitle = None
+
+        self._artist_all_flowbox.props.visible = True
+        self._album_all_flowbox.props.visible = False
+        self._artist_all_flowbox.bind_model(
+            self._artist_model, self._create_artist_widget)
+
+        self.props.visible_child = self._all_search_results
+        self.props.search_mode_active = False
+
+    @Gtk.Template.Callback()
+    def _on_all_albums_clicked(self, widget, event, user_data=None):
+        self._headerbar.props.state = HeaderBar.State.SEARCH
+        self._headerbar.props.title = _("Albums Results")
+        self._headerbar.props.subtitle = None
+
+        self._artist_all_flowbox.props.visible = False
+        self._album_all_flowbox.props.visible = True
+        self._album_all_flowbox.bind_model(
+            self._album_model, self._create_album_widget)
+
+        self.props.visible_child = self._all_search_results
         self.props.search_mode_active = False
 
     def _select_all(self, value):
