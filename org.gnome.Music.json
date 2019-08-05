@@ -128,6 +128,7 @@
                              "-Denable-youtube=no" ],
             "sources": [
                 {
+                    "branch": "wip/jfelder/theaudiodb-artist-art",
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/grilo-plugins.git"
                 }
