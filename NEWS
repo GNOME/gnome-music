@@ -1,3 +1,30 @@
+Overview of changes in 3.33.90
+==============================
+
+This release contains a lot of bug fixes following the rewrite of the core of
+Music. This work is not yet complete, but the overall state should be
+improved. Regressions and known issues are kept track of in #299. Further
+reports are welcome.
+
+Some other things were worked on as well:
+* Search view rewrite and style update
+* Display an empty view if Tracker version is outdated
+
+Thanks to our contributors this release:
+ Piotr Drąg
+ Jean Felder
+ Marinus Schraal
+
+Added translations:
+ Karbi
+
+Translations updated:
+ Portuguese
+ Basque
+ Spanish
+ Romanian
+ Swedish
+
 Overview of changes in 3.33.4
 =============================
 
