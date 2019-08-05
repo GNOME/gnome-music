@@ -332,7 +332,11 @@ class SearchView(Gtk.Stack):
 
         self._artist_albums_widget = ArtistAlbumsWidget(
             coreartist, self._application, False)
-        self.add(self._artist_albums_widget)
+        # FIXME: Adding scrolled windows without removing them.
+        scrolled_window = Gtk.ScrolledWindow()
+        scrolled_window.add(self._artist_albums_widget)
+        scrolled_window.props.visible = True
+        self.add(scrolled_window)
         self._artist_albums_widget.show()
 
         self.bind_property(
@@ -343,7 +347,7 @@ class SearchView(Gtk.Stack):
         self._headerbar.props.title = coreartist.props.artist
         self._headerbar.props.subtitle = None
 
-        self.set_visible_child(self._artist_albums_widget)
+        self.set_visible_child(scrolled_window)
         self.props.search_mode_active = False
 
     @Gtk.Template.Callback()
