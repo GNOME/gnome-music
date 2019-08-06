@@ -7,9 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-07-19 12:16+0000\n"
-"PO-Revision-Date: 2019-07-22 13:59+0530\n"
-"Last-Translator: Biju Rongpi <bijurongpi3@gmail.com> , Prodip Rongphar <rongpharprodipsenot@gmail.com>\n"
+"POT-Creation-Date: 2019-08-06 10:28+0000\n"
+"PO-Revision-Date: 2019-08-06 20:59+0530\n"
+"Last-Translator: Jor Teron <jor.teron@gmail.com> , Biju Rongpi <bijurongpi3@gmail.com> , Prodip Rongphar "
+"<rongpharprodipsenot@gmail.com>\n"
 "Language-Team: Karbi <karbi.translation@gmail.com>\n"
 "Language: mjw\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +45,7 @@ msgid "The GNOME Music developers"
 msgstr "GNOME Music developers"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:75
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Lotun"
 
@@ -390,27 +391,27 @@ msgid "_Add to Playlist"
 msgstr ""
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:672
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
 msgid "Most Played"
 msgstr "rot ver alun"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:706
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
 msgid "Never Played"
 msgstr "Rot re pin lun"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:739
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
 msgid "Recently Played"
 msgstr "Non rot ver lun"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:783
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
 msgid "Recently Added"
 msgstr ""
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:826
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
 msgid "Favorite Songs"
 msgstr "Ningdok lun"
 
@@ -450,7 +451,7 @@ msgstr "Lun-athui chinine"
 msgid "Unknown Artist"
 msgstr "Lunse chinine"
 
-#: gnomemusic/views/albumsview.py:45
+#: gnomemusic/views/albumsview.py:61
 msgid "Albums"
 msgstr "Lun-athui"
 
@@ -458,51 +459,67 @@ msgstr "Lun-athui"
 msgid "Artists"
 msgstr "Lunse"
 
-#: gnomemusic/views/emptyview.py:78
+#: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Music folder"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:82
+#: gnomemusic/views/emptyview.py:83
 msgid "The contents of your {} will appear here."
 msgstr "Lun ason {} long pen dak klang po."
 
-#: gnomemusic/views/emptyview.py:116
+#: gnomemusic/views/emptyview.py:119
 msgid "Hey DJ"
 msgstr "Oi DJ"
 
-#: gnomemusic/views/emptyview.py:126 gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
 msgid "No music found"
 msgstr "Isi lun ta longle"
 
-#: gnomemusic/views/emptyview.py:134
+#: gnomemusic/views/emptyview.py:137
 msgid "Try a different search"
 msgstr "Kaprek pen ri tha"
 
-#: gnomemusic/views/emptyview.py:140
+#: gnomemusic/views/emptyview.py:143
 msgid "GNOME Music could not connect to Tracker"
 msgstr ""
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:146
 msgid "Your music files cannot be indexed without Tracker running"
+msgstr ""
+
+#: gnomemusic/views/emptyview.py:154
+msgid "Your system Tracker version seems outdated"
+msgstr ""
+
+#: gnomemusic/views/emptyview.py:157
+msgid "Music needs Tracker version 2.2.0 or higher"
 msgstr ""
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr ""
 
+#: gnomemusic/views/searchview.py:363
+msgid "Artists Results"
+msgstr "Lunse Keklang"
+
+#: gnomemusic/views/searchview.py:377
+msgid "Albums Results"
+msgstr "Lun-athui keklang"
+
 #: gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Lun"
 
-#: gnomemusic/widgets/albumwidget.py:145
+#: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minute"
 msgstr[1] "{} minutes"
 
-#: gnomemusic/widgets/disclistboxwidget.py:104
+#: gnomemusic/widgets/disclistboxwidget.py:82
 msgid "Disc {}"
 msgstr "Disc {}"
 
