@@ -52,25 +52,31 @@ def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     surface.set_device_scale(scale, scale)
     ctx = cairo.Context(surface)
 
-    ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
-    ctx.clip()
-
     matrix = cairo.Matrix()
 
+    line_width = 0.6
+    ctx.new_sub_path()
+    ctx.arc(w / 2, h / 2, (w / 2) - line_width, 0, 2 * pi)
+    ctx.set_source_rgba(0, 0, 0, 0.7)
+    ctx.set_line_width(line_width)
+    ctx.stroke_preserve()
+
     if default_icon:
-        ctx.set_source_rgb(0, 0, 0)
+        ctx.set_source_rgb(1, 1, 1)
         ctx.fill()
-        matrix.translate(-w * 1 / 3, -h * 1 / 3)
-        ctx.set_operator(cairo.Operator.DIFFERENCE)
+        ctx.set_source_rgba(0, 0, 0, 0.3)
+        ctx.mask_surface(icon_surface, w / 3, h / 3)
+        ctx.fill()
     else:
         matrix.scale(icon_w / (w * scale), icon_h / (h * scale))
+        ctx.set_source_surface(icon_surface, 0, 0)
 
-    ctx.set_source_surface(icon_surface, 0, 0)
+        pattern = ctx.get_source()
+        pattern.set_matrix(matrix)
+        ctx.fill()
 
-    pattern = ctx.get_source()
-    pattern.set_matrix(matrix)
-    ctx.rectangle(0, 0, w, h)
-    ctx.fill()
+    ctx.arc(w / 2, h / 2, w / 2, 0, 2 * pi)
+    ctx.clip()
 
     return surface
 
