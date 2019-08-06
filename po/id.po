@@ -4,19 +4,20 @@
 #
 # Andika Triwidada <andika@gmail.com>, 2013, 2014, 2015.
 # Dirgita <dirgitadevina@yahoo.co.id>, 2013.
+# Kukuh Syafaat <kukuhsyafaat@gnome.org>, 2017, 2018, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-04-01 11:13+0000\n"
-"PO-Revision-Date: 2019-04-24 19:00+0700\n"
+"POT-Creation-Date: 2019-08-05 22:20+0000\n"
+"PO-Revision-Date: 2019-08-06 17:23+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.3\n"
 "Plural-Forms: nplurals=2; plural= n!=1;\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -44,12 +45,12 @@ msgstr ""
 "Temukan trek di koleksi lokal Anda, dapatkan musik dari server DLNA atau "
 "coba sesuatu yang baru dengan layanan Jamendo dan Magnatune."
 
-#: data/org.gnome.Music.appdata.xml.in.in:34
+#: data/org.gnome.Music.appdata.xml.in.in:52
 msgid "The GNOME Music developers"
 msgstr "Para Pengembang GNOME Musik"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Musik"
 
@@ -200,7 +201,7 @@ msgstr "Dirilis"
 msgid "Running Length"
 msgstr "Lama Putar"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
 msgid "Composer"
 msgstr "Pencipta"
 
@@ -221,16 +222,16 @@ msgid "Menu"
 msgstr "Menu"
 
 #: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Cari"
-
-#: data/ui/HeaderBar.ui:59
 msgid "Select"
 msgstr "Pilih"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:255
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
 msgid "_Cancel"
 msgstr "_Batal"
+
+#: data/ui/HeaderBar.ui:77
+msgid "Search"
+msgstr "Cari"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -342,7 +343,7 @@ msgstr "Acak/Ulang Mati"
 msgid "Previous"
 msgstr "Sebelumnya"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
 msgid "Play"
 msgstr "Putar"
 
@@ -375,11 +376,11 @@ msgstr "_Hapus"
 msgid "_Rename…"
 msgstr "_Ubah Nama…"
 
-#: data/ui/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:40
 msgid "Playlist Name"
 msgstr "Nama Daftar Putar"
 
-#: data/ui/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_Selesai"
 
@@ -399,11 +400,11 @@ msgstr "Daftar Putar Baru…"
 msgid "Add"
 msgstr "Tambah"
 
-#: data/ui/PlaylistDialog.ui:252
+#: data/ui/PlaylistDialog.ui:241
 msgid "Add to Playlist"
 msgstr "Tambah ke Daftar Putar"
 
-#: data/ui/PlaylistDialog.ui:268
+#: data/ui/PlaylistDialog.ui:257
 msgid "_Add"
 msgstr "T_ambah"
 
@@ -423,128 +424,136 @@ msgstr "Klik pada butir untuk memilihnya"
 msgid "_Add to Playlist"
 msgstr "T_ambah ke Daftar Putar"
 
-#: gnomemusic/gstplayer.py:410
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+msgid "Most Played"
+msgstr "Paling Sering Diputar"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+msgid "Never Played"
+msgstr "Tak Pernah Diputar"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+msgid "Recently Played"
+msgstr "Baru-baru Ini Diputar"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+msgid "Recently Added"
+msgstr "Baru-baru Ini Ditambahkan"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+msgid "Favorite Songs"
+msgstr "Lagu Favorit"
+
+#: gnomemusic/gstplayer.py:403
 msgid "Unable to play the file"
 msgstr "Tak dapat memutar berkas"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:409
 msgid "_Find in {}"
 msgstr "_Cari di {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:420
 msgid " and "
 msgstr " dan "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:423
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:425
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
 msgstr[1] "{} diperlukan untuk memutar berkas, tapi tak terpasang."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Memutar musik"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:59
-msgid "Most Played"
-msgstr "Paling Sering Diputar"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:64
-msgid "Never Played"
-msgstr "Tak Pernah Diputar"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:69
-msgid "Recently Played"
-msgstr "Baru-baru Ini Diputar"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:74
-msgid "Recently Added"
-msgstr "Baru-baru Ini Ditambahkan"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:79
-msgid "Favorite Songs"
-msgstr "Lagu Favorit"
-
-#: gnomemusic/utils.py:56
+#: gnomemusic/utils.py:62
 msgid "Unknown album"
 msgstr "Album tak dikenal"
 
-#: gnomemusic/utils.py:77
+#: gnomemusic/utils.py:83
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
+#: gnomemusic/views/albumsview.py:61
 msgid "Albums"
 msgstr "Album"
 
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
+#: gnomemusic/views/artistsview.py:59
 msgid "Artists"
 msgstr "Artis"
 
-#: gnomemusic/views/emptyview.py:67
+#: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Folder musik"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:71
+#: gnomemusic/views/emptyview.py:83
 msgid "The contents of your {} will appear here."
 msgstr "Konten {} Anda akan muncul di sini."
 
-#: gnomemusic/views/emptyview.py:105
+#: gnomemusic/views/emptyview.py:119
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
+#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
 msgid "No music found"
 msgstr "Tak ada musik"
 
-#: gnomemusic/views/emptyview.py:123
+#: gnomemusic/views/emptyview.py:137
 msgid "Try a different search"
 msgstr "Cobalah pencarian lain"
 
-#: gnomemusic/views/emptyview.py:129
+#: gnomemusic/views/emptyview.py:143
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Musik tidak dapat terhubung ke Pelacak"
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:146
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Berkas musik Anda tidak dapat diindeks tanpa Pelacak berjalan"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/emptyview.py:154
+msgid "Your system Tracker version seems outdated"
+msgstr "Versi Pelacak sistem Anda tampaknya sudah usang"
+
+#: gnomemusic/views/emptyview.py:157
+msgid "Music needs Tracker version 2.2.0 or higher"
+msgstr "Musik membutuhkan Pelacak versi 2.2.0 atau lebih tinggi"
+
+#: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "Daftar Putar"
 
-#: gnomemusic/views/playlistview.py:640
-msgid "Playlist {} removed"
-msgstr "Daftar putar {} dihapus"
+#: gnomemusic/views/searchview.py:363
+msgid "Artists Results"
+msgstr "Hasil Artis"
 
-#: gnomemusic/views/playlistview.py:646
-msgid "{} removed from {}"
-msgstr "{} dihapus dari {}"
+#: gnomemusic/views/searchview.py:377
+msgid "Albums Results"
+msgstr "Hasil Album"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
+#: gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Lagu"
 
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} menit"
 msgstr[1] "{} menit"
 
-#: gnomemusic/widgets/disclistboxwidget.py:141
+#: gnomemusic/widgets/disclistboxwidget.py:82
 msgid "Disc {}"
 msgstr "Cakram {}"
 
@@ -554,49 +563,57 @@ msgid_plural "Selected {} items"
 msgstr[0] "Dipilih {} butir"
 msgstr[1] "Dipilih {} butir"
 
-#: gnomemusic/widgets/notificationspopup.py:169
+#: gnomemusic/widgets/notificationspopup.py:168
 msgid "Loading"
 msgstr "Memuat"
 
-#: gnomemusic/widgets/notificationspopup.py:232
+#: gnomemusic/widgets/notificationspopup.py:241
 msgid "_Undo"
 msgstr "Tak _Jadi"
 
-#: gnomemusic/widgets/playertoolbar.py:136
+#: gnomemusic/widgets/notificationspopup.py:256
+msgid "Playlist {} removed"
+msgstr "Daftar putar {} dihapus"
+
+#: gnomemusic/widgets/notificationspopup.py:260
+msgid "{} removed from {}"
+msgstr "{} dihapus dari {}"
+
+#: gnomemusic/widgets/playertoolbar.py:150
 msgid "Pause"
 msgstr "Tahan"
 
-#: gnomemusic/widgets/playlistcontrols.py:96
+#: gnomemusic/widgets/playlistcontrols.py:83
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} Lagu"
 msgstr[1] "{} Lagu"
 
-#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
+#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
 msgid "All"
 msgstr "Semua"
 
-#: gnomemusic/widgets/searchbar.py:69
+#: gnomemusic/widgets/searchbar.py:68
 msgid "Artist"
 msgstr "Artis"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/widgets/searchbar.py:72
+#: gnomemusic/widgets/searchbar.py:71
 msgid "Track Title"
 msgstr "Judul Trek"
 
-#: gnomemusic/widgets/searchbar.py:118
+#: gnomemusic/widgets/searchbar.py:117
 msgid "Local"
 msgstr "Lokal"
 
-#: gnomemusic/widgets/searchbar.py:287
+#: gnomemusic/widgets/searchbar.py:286
 msgid "Sources"
 msgstr "Sumber"
 
-#: gnomemusic/widgets/searchbar.py:298
+#: gnomemusic/widgets/searchbar.py:297
 msgid "Match"
 msgstr "Cocok"
 
