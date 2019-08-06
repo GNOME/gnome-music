@@ -130,7 +130,7 @@ class SearchView(Gtk.Stack):
 
         self.add(self._album_widget)
 
-        self._artist_albums_widget = None
+        self._scrolled_artist_window = None
 
         self._search_mode_active = False
         # self.connect("notify::search-state", self._on_search_state_changed)
@@ -337,24 +337,24 @@ class SearchView(Gtk.Stack):
         if self.props.selection_mode:
             return
 
-        self._artist_albums_widget = ArtistAlbumsWidget(
+        artist_albums_widget = ArtistAlbumsWidget(
             coreartist, self._application, False)
         # FIXME: Adding scrolled windows without removing them.
-        scrolled_window = Gtk.ScrolledWindow()
-        scrolled_window.add(self._artist_albums_widget)
-        scrolled_window.props.visible = True
-        self.add(scrolled_window)
-        self._artist_albums_widget.show()
+        self._scrolled_artist_window = Gtk.ScrolledWindow()
+        self._scrolled_artist_window.add(artist_albums_widget)
+        self._scrolled_artist_window.props.visible = True
+        self.add(self._scrolled_artist_window)
+        artist_albums_widget.show()
 
         self.bind_property(
-            "selection-mode", self._artist_albums_widget, "selection-mode",
+            "selection-mode", artist_albums_widget, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
 
         self._headerbar.props.state = HeaderBar.State.SEARCH
         self._headerbar.props.title = coreartist.props.artist
         self._headerbar.props.subtitle = None
 
-        self.set_visible_child(scrolled_window)
+        self.set_visible_child(self._scrolled_artist_window)
         self.props.search_mode_active = False
 
     @Gtk.Template.Callback()
@@ -409,9 +409,10 @@ class SearchView(Gtk.Stack):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        if self.get_visible_child() == self._artist_albums_widget:
-            self._artist_albums_widget.destroy()
-            self._artist_albums_widget = None
+        if self.get_visible_child() == self._scrolled_artist_window:
+            self._scrolled_artist_window.destroy()
+            self.remove(self._scrolled_artist_window)
+            self._scrolled_artist_window = None
         elif self.get_visible_child() == self._search_results:
             self._window.views[View.ALBUM].set_visible_child(
                 self._window.views[View.ALBUM]._grid)
