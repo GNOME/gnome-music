@@ -95,26 +95,27 @@ def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     ctx.set_source_rgba(0, 0, 0, 0.7)
     ctx.stroke_preserve()
 
-    # fill the center
-    ctx.set_source_rgb(1, 1, 1)
-    ctx.fill()
-
     matrix = cairo.Matrix()
 
     if default_icon:
-        matrix.translate(-w * (1 / 3), -h * (1 / 3))
-        ctx.set_operator(cairo.Operator.DIFFERENCE)
+        ctx.set_source_rgb(1, 1, 1)
+        ctx.fill()
+        ctx.set_source_rgba(0, 0, 0, 0.3)
+        ctx.mask_surface(icon_surface, w / 3, h / 3)
+        ctx.fill()
     else:
         matrix.scale(
             icon_w / ((w - border * 2) * scale),
             icon_h / ((h - border * 2) * scale))
         matrix.translate(-border, -border)
+        ctx.set_source_surface(icon_surface, 0, 0)
 
-    ctx.set_source_surface(icon_surface, 0, 0)
-    pattern = ctx.get_source()
-    pattern.set_matrix(matrix)
+        pattern = ctx.get_source()
+        pattern.set_matrix(matrix)
+        ctx.fill()
+
     ctx.rectangle(border, border, w - border * 2, h - border * 2)
-    ctx.fill()
+    ctx.clip()
 
     return surface
 
