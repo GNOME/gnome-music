@@ -12,6 +12,8 @@ data/ui/PlayerToolbar.ui
 data/ui/PlaylistContextMenu.ui
 data/ui/PlaylistControls.ui
 data/ui/PlaylistDialog.ui
+data/ui/SearchHeaderBar.ui
+data/ui/SearchView.ui
 data/ui/SelectionBarMenuButton.ui
 data/ui/SelectionToolbar.ui
 gnomemusic/__init__.py
