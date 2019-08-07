@@ -131,7 +131,7 @@ class Window(Gtk.ApplicationWindow):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self._search.bind_property(
-            "state", self._searchbar, "search-state",
+            "state", self._search_headerbar, "search-state",
             GObject.BindingFlags.SYNC_CREATE)
 
         self._search.connect(

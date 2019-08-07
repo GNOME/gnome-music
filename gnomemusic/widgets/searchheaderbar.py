@@ -27,6 +27,7 @@ from enum import IntEnum
 from gi.repository import GLib, GObject, Gd, Gtk
 
 from gnomemusic import log
+from gnomemusic.search import Search
 from gnomemusic.widgets.headerbar import HeaderBar, SelectionBarMenuButton
 
 
@@ -48,6 +49,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
     _cancel_button = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
+    search_state = GObject.Property(type=int, default=Search.State.NONE)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode_allowed = GObject.Property(type=bool, default=True)
     stack = GObject.Property(type=Gtk.Stack)
@@ -96,6 +98,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
 
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
+        self.connect("notify::search-state", self._search_state_changed)
 
         self._entry.connect("changed", self._search_entry_timeout)
 
@@ -198,3 +201,26 @@ class SearchHeaderBar(Gtk.HeaderBar):
         if self.props.search_mode_active:
             # self._search_entry.realize()
             self._entry.grab_focus()
+
+    def _search_state_changed(self, klass, data):
+        search_state = self.props.search_state
+
+        if search_state == Search.State.NO_RESULT:
+            self._set_error_style(True)
+            self.props.stack.props.visible_child_name = "emptyview"
+        elif search_state == Search.State.RESULT:
+            self._set_error_style(False)
+            self.props.stack.props.visible_child_name = "search"
+        elif search_state == Search.State.NONE:
+            self._entry.props.text = ""
+
+    def _set_error_style(self, error):
+        """Adds error state to the search entry.
+
+        :param bool error: Whether to add error state
+        """
+        style_context = self._entry.get_style_context()
+        if error:
+            style_context.add_class("error")
+        else:
+            style_context.remove_class("error")
