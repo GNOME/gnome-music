@@ -42,7 +42,6 @@ from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.notificationspopup import NotificationsPopup  # noqa
 from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
-from gnomemusic.widgets.searchbar import SearchBar
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
 from gnomemusic.windowplacement import WindowPlacement
@@ -107,8 +106,6 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _setup_view(self):
         self._search = Search()
-        self._searchbar = SearchBar(self._app)
-        self._searchbar.props.stack = self._stack
         self._headerbar_stack = Gtk.Stack()
         transition_type = Gtk.StackTransitionType.CROSSFADE
         self._headerbar_stack.props.transition_type = transition_type
@@ -123,9 +120,6 @@ class Window(Gtk.ApplicationWindow):
             "search-mode-active", self._headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
-        self._search.bind_property(
-            "search-mode-active", self._searchbar, "search-mode-enabled",
-            GObject.BindingFlags.SYNC_CREATE)
         self._search.bind_property(
             "search-mode-active", self._search_headerbar, "search-mode-active",
             GObject.BindingFlags.BIDIRECTIONAL
@@ -178,11 +172,6 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        # FIXME: Need to find a proper way to do this.
-        # self._overlay.add_overlay(self._searchbar._dropdown)
-
-        # self._box.pack_start(self._searchbar, False, False, 0)
-        # self._box.reorder_child(self._searchbar, 0)
         self._box.pack_end(self._player_toolbar, False, False, 0)
 
         self.set_titlebar(self._headerbar_stack)
@@ -272,7 +261,6 @@ class Window(Gtk.ApplicationWindow):
         # This is a bit of circular logic that needs to be fixed.
         self._headerbar.props.state = HeaderBar.State.MAIN
         self._headerbar.props.stack = self._stack
-        # self._searchbar.show()
 
         self.views[View.ALBUM] = AlbumsView(self._app, self._player)
         self.views[View.ARTIST] = ArtistsView(self._app, self._player)
