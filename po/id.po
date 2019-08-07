@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-05 22:20+0000\n"
-"PO-Revision-Date: 2019-08-06 17:23+0700\n"
+"POT-Creation-Date: 2019-08-06 17:01+0000\n"
+"PO-Revision-Date: 2019-08-07 15:11+0700\n"
 "Last-Translator: Kukuh Syafaat <kukuhsyafaat@gnome.org>\n"
 "Language-Team: Indonesian <gnome@i15n.org>\n"
 "Language: id\n"
@@ -221,15 +221,16 @@ msgstr "Tent_ang Musik"
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
 msgid "Select"
 msgstr "Pilih"
 
 #: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:35
 msgid "_Cancel"
 msgstr "_Batal"
 
-#: data/ui/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
 msgid "Search"
 msgstr "Cari"
 
@@ -408,6 +409,22 @@ msgstr "Tambah ke Daftar Putar"
 msgid "_Add"
 msgstr "T_ambah"
 
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Artis"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+msgid "View All"
+msgstr "Tampilkan Semua"
+
+#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+msgid "Albums"
+msgstr "Album"
+
+#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Lagu"
+
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Pilih Semua"
@@ -485,14 +502,6 @@ msgstr "Album tak dikenal"
 msgid "Unknown Artist"
 msgstr "Artis Tak Dikenal"
 
-#: gnomemusic/views/albumsview.py:61
-msgid "Albums"
-msgstr "Album"
-
-#: gnomemusic/views/artistsview.py:59
-msgid "Artists"
-msgstr "Artis"
-
 #: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Folder musik"
@@ -542,10 +551,6 @@ msgstr "Hasil Artis"
 #: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
 msgstr "Hasil Album"
-
-#: gnomemusic/views/songsview.py:57
-msgid "Songs"
-msgstr "Lagu"
 
 #: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
