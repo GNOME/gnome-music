@@ -193,10 +193,10 @@
   </template>
   <object class="GtkSizeGroup" id="_size_group">
     <property name="mode">horizontal</property>
-  <widgets>
-    <widget name="title_box"/>
-    <widget name="_artist_box"/>
-    <widget name="_album_duration_box"/>
-  </widgets>
-</object>
+    <widgets>
+      <widget name="title_box"/>
+      <widget name="_artist_box"/>
+      <widget name="_album_duration_box"/>
+    </widgets>
+  </object>
 </interface>
