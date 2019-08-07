@@ -74,6 +74,7 @@ class SongWidget(Gtk.EventBox):
     _duration_label = Gtk.Template.Child()
     _star_eventbox = Gtk.Template.Child()
     _star_image = Gtk.Template.Child()
+    _star_stack = Gtk.Template.Child()
     _play_icon = Gtk.Template.Child()
     _size_group = Gtk.Template.Child()
 
@@ -141,7 +142,6 @@ class SongWidget(Gtk.EventBox):
         self.bind_property(
             'show-favorite', self._star_eventbox, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
-        self._star_eventbox.set_no_show_all(True)
         self.bind_property(
             'show-song-number', self._number_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
@@ -154,6 +154,9 @@ class SongWidget(Gtk.EventBox):
             GObject.BindingFlags.SYNC_CREATE)
         self.props.coresong.connect(
             "notify::validation", self._on_validation_changed)
+
+        if not self.props.coresong.props.is_tracker:
+            self._star_stack.props.visible_child_name = "empty"
 
         self._number_label.props.no_show_all = True
 
@@ -254,6 +257,13 @@ class SongWidget(Gtk.EventBox):
 
         :param bool value: Selection mode
         """
+        if (not self.props.coresong.props.is_tracker
+                and value):
+            self.props.sensitive = False
+            return
+
+        self.props.sensitive = True
+
         self._selection_mode = value
         self._select_button.set_visible(value)
 
