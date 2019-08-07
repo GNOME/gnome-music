@@ -62,8 +62,6 @@ class CoreArtist(GObject.GObject):
                 self.props.media)
             self._model.connect("items-changed", self._on_items_changed)
 
-        self._on_items_changed(self._model, None, None, None)
-
         return self._model
 
     def _on_items_changed(self, model, pos, removed, added):
@@ -84,7 +82,7 @@ class CoreArtist(GObject.GObject):
         # a selection. Trigger loading of the model here if a selection
         # is requested, it will trigger the filled model update as
         # well.
-        self.props.model
+        self.props.model.items_changed(0, 0, 0)
 
     @GObject.Property(type=str, default=None)
     def thumbnail(self):
