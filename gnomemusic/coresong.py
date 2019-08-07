@@ -64,6 +64,7 @@ class CoreSong(GObject.GObject):
         self._selected = False
 
         self.props.grlid = media.get_source() + media.get_id()
+        self._is_tracker = media.get_source() == "grl-tracker-source"
         self.props.validation = CoreSong.Validation.PENDING
         self.update(media)
 
@@ -71,12 +72,20 @@ class CoreSong(GObject.GObject):
         return (isinstance(other, CoreSong)
                 and other.props.media.get_id() == self.props.media.get_id())
 
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def is_tracker(self):
+        return self._is_tracker
+
     @GObject.Property(type=bool, default=False)
     def favorite(self):
         return self._favorite
 
     @favorite.setter
     def favorite(self, favorite):
+        if not self._is_tracker:
+            return
+
         self._favorite = favorite
 
         # FIXME: Circular trigger, can probably be solved more neatly.
@@ -93,6 +102,9 @@ class CoreSong(GObject.GObject):
 
     @selected.setter
     def selected(self, value):
+        if not self._is_tracker:
+            return
+
         if self._selected == value:
             return
 
@@ -112,9 +124,15 @@ class CoreSong(GObject.GObject):
         self.props.url = media.get_url()
 
     def bump_play_count(self):
+        if not self._is_tracker:
+            return
+
         self.props.media.set_play_count(self.props.play_count + 1)
         self._grilo.writeback(self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
 
     def set_last_played(self):
+        if not self._is_tracker:
+            return
+
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
         self._grilo.writeback(self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
