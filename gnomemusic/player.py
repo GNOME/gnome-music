@@ -126,6 +126,25 @@ class PlayerPlaylist(GObject.GObject):
 
         return False
 
+    def get_next(self):
+        """Get the next song in the playlist.
+
+        :return: The next CoreSong or None.
+        :rtype: CoreSong
+        """
+        if not self.has_next():
+            return None
+
+        if self.props.repeat_mode == RepeatMode.SONG:
+            next_position = self.props.position
+        elif (self.props.repeat_mode == RepeatMode.ALL
+                and self.props.position == self._model.get_n_items() - 1):
+            next_position = 0
+        else:
+            next_position = self.props.position + 1
+
+        return self._model[next_position]
+
     @log
     def next(self):
         """Go to the next song in the playlist.
@@ -440,19 +459,20 @@ class Player(GObject.GObject):
     @log
     def _on_about_to_finish(self, klass):
         if self.props.has_next:
-            self._playlist.next()
-
-            new_url = self._playlist.props.current_song.props.url
+            next_coresong = self._playlist.get_next()
+            new_url = next_coresong.props.url
             self._gst_player.props.url = new_url
             self._gapless_set = True
 
     @log
     def _on_eos(self, klass):
+        self._playlist.next()
+
         if self._gapless_set:
             # After 'eos' in the gapless case, the pipeline needs to be
             # hard reset.
             self.stop()
-            self.play()
+            self.play(self.props.current_song)
         else:
             self.stop()
 
@@ -469,6 +489,9 @@ class Player(GObject.GObject):
             self.next()
 
     def _on_stream_start(self, klass):
+        if self._gapless_set:
+            self._playlist.next()
+
         self._gapless_set = False
         self._time_stamp = int(time.time())
 
