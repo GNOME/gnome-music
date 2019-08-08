@@ -98,34 +98,6 @@ class PlayerPlaylist(GObject.GObject):
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
     @log
-    def change_position(self, prev_pos, new_pos):
-        """Change order of a song in the playlist
-
-        :param int prev_pos: previous position
-        :param int new_pos: new position
-        :return: new index of the song being played. -1 if unchanged
-        :rtype: int
-        """
-        pass
-
-    @log
-    def add_song(self, song, song_index):
-        """Add a song to the playlist.
-
-        :param Grl.Media song: new song
-        :param int song_index: song position
-        """
-        pass
-
-    @log
-    def remove_song(self, song_index):
-        """Remove a song from the playlist.
-
-        :param int song_index: index of the song to remove
-        """
-        pass
-
-    @log
     def has_next(self):
         """Test if there is a song after the current one.
 
@@ -378,6 +350,8 @@ class Player(GObject.GObject):
     """
 
     __gsignals__ = {
+        # FIXME: This signal is no longer used, but is connected to
+        # by MPRIS.
         'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
@@ -568,45 +542,6 @@ class Player(GObject.GObject):
             self.pause()
         else:
             self.play()
-
-    @log
-    def playlist_change_position(self, prev_pos, new_pos):
-        """Change order of a song in the playlist.
-
-        :param int prev_pos: previous position
-        :param int new_pos: new position
-        :return: new index of the song being played. -1 if unchanged
-        :rtype: int
-        """
-        current_index = self._playlist.change_position(prev_pos, new_pos)
-        if current_index >= 0:
-            self.emit('playlist-changed')
-        return current_index
-
-    @log
-    def remove_song(self, song_index):
-        """Remove a song from the current playlist.
-
-        :param int song_index: position of the song to remove
-        """
-        if self.props.position == song_index:
-            if self.props.has_next:
-                self.next()
-            elif self.props.has_previous:
-                self.previous()
-            else:
-                self.stop()
-        self._playlist.remove_song(song_index)
-        self.emit('playlist-changed')
-
-    @log
-    def add_song(self, song, song_index):
-        """Add a song to the current playlist.
-
-        :param int song_index: position of the song to add
-        """
-        self._playlist.add_song(song, song_index)
-        self.emit('playlist-changed')
 
     @log
     def playing_playlist(self, playlist_type, playlist_id):
