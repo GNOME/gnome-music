@@ -79,6 +79,10 @@ class CoreGrilo(GObject.GObject):
 
         Grl.init(None)
 
+        self.options = Grl.OperationOptions()
+        self.options.set_resolution_flags(Grl.ResolutionFlags.FAST_ONLY |
+                                          Grl.ResolutionFlags.IDLE_RELAY)
+
         self._registry = Grl.Registry.get_default()
         config = Grl.Config.new("grl-lua-factory", "grl-theaudiodb-cover")
         config.set_api_key(self._theaudiodb_api_key)
