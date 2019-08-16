@@ -160,3 +160,13 @@ def seconds_to_string(duration):
     seconds %= 60
 
     return '{:d}:{:02d}'.format(minutes, seconds)
+
+
+fields_getter = {
+    "album": get_album_title,
+    "artist": get_artist_name,
+    "disc": get_album_disc_nr,
+    "title": get_media_title,
+    "track": get_media_track_nr,
+    "year": get_media_year
+}
