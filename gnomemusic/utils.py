@@ -28,7 +28,8 @@ from gettext import gettext as _
 
 import gi
 gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
-from gi.repository import Gio, GLib, Grl
+from gi.repository import Gio
+
 
 class SongStateIcon(Enum):
     """Enum for icons used in song playing and validation"""

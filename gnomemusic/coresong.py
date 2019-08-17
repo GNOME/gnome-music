@@ -134,7 +134,8 @@ class CoreSong(GObject.GObject):
 
     def set_album_disc_number(self, disc_number):
         self.props.media.set_album_disc_number(int(disc_number))
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_ALBUM_DISC_NUMBER)
+        self._grilo.writeback(self.props.media,
+                              Grl.METADATA_KEY_ALBUM_DISC_NUMBER)
 
     def set_title(self, title):
         self.props.media.set_title(title)
@@ -157,7 +158,8 @@ class CoreSong(GObject.GObject):
                 timezone, int(creation_year), month,
                 day, hour, minute, second)
             self.props.media.set_creation_date(updated_creation_date)
-            self._grilo.writeback(self.props.media, Grl.METADATA_KEY_CREATION_DATE)
+            self._grilo.writeback(self.props.media,
+                                  Grl.METADATA_KEY_CREATION_DATE)
 
     def set_last_played(self):
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
