@@ -29,7 +29,8 @@ from gi.repository import Grl, GLib, GObject
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
-from gnomemusic.grilowrappers.grlmusicbrainzwrapper import GrlMusicbrainzWrapper
+from gnomemusic.grilowrappers.grlmusicbrainzwrapper import \
+    GrlMusicbrainzWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
@@ -80,8 +81,8 @@ class CoreGrilo(GObject.GObject):
         Grl.init(None)
 
         self.options = Grl.OperationOptions()
-        self.options.set_resolution_flags(Grl.ResolutionFlags.FAST_ONLY |
-                                          Grl.ResolutionFlags.IDLE_RELAY)
+        self.options.set_resolution_flags(Grl.ResolutionFlags.FAST_ONLY
+                                          | Grl.ResolutionFlags.IDLE_RELAY)
 
         self._registry = Grl.Registry.get_default()
         config = Grl.Config.new("grl-lua-factory", "grl-theaudiodb-cover")

@@ -70,7 +70,7 @@ class GrlMusicbrainzWrapper(GObject.GObject):
 
     def _add_new_source(self, klass, source):
         source_id = source.get_id()
-        print ("Add new source called with id", source_id)
+        print("Add new source called with id", source_id)
         if source_id in self._needed_sources:
             self._sources[source_id] = source
 
@@ -94,7 +94,8 @@ class GrlMusicbrainzWrapper(GObject.GObject):
         return (self.props.chromaprint_available
                 and self.props.acoustid_available)
 
-    def _acoustid_resolved(self, source, op_id, media, count, callback, error=None):
+    def _acoustid_resolved(self, source, op_id, media,
+                           count, callback, error=None):
         if error:
             logger.warning("Error {}: {}".format(error.domain, error.message))
             return callback(None, 0)
@@ -109,7 +110,6 @@ class GrlMusicbrainzWrapper(GObject.GObject):
         options = Grl.OperationOptions()
         options.set_resolution_flags(Grl.ResolutionFlags.NORMAL)
 
-        error = None
         query = 'duration=' + str(media.get_duration())
         query += '&fingerprint=' + media.get_string(self._fingerprint_key)
 
