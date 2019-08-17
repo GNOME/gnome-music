@@ -284,7 +284,6 @@ class PlaylistNotification(Gtk.Grid):
             self._playlist.finish_song_deletion(self._coresong)
 
 
-
 class UseSuggestionNotification(Gtk.Grid):
     """Show a notification on filling with suggested tags.
 

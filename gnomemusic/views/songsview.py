@@ -33,8 +33,6 @@ from gnomemusic.utils import SongStateIcon
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
-import gnomemusic.utils as utils
-
 logger = logging.getLogger(__name__)
 
 

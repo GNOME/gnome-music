@@ -32,8 +32,6 @@ from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
 
-import gnomemusic.utils as utils
-
 
 class GrlTrackerWrapper(GObject.GObject):
     """Wrapper for the Grilo Tracker source.
