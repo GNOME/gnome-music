@@ -29,7 +29,8 @@ from gi.repository import Grl, GLib, GObject
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
-from gnomemusic.grilowrappers.grlmusicbrainzwrapper import GrlMusicbrainzWrapper
+from gnomemusic.grilowrappers.grlmusicbrainzwrapper import \
+    GrlMusicbrainzWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 

@@ -68,7 +68,6 @@ class SelectionToolbar(Gtk.ActionBar):
 
     @log
     def _on_item_selection_changed(self, widget, data):
-        songs_view_visible = True
         selection_size = self.props.selected_items_count
 
         self._add_to_playlist_button.props.sensitive = (selection_size > 0)
@@ -96,4 +95,3 @@ class SelectionToolbar(Gtk.ActionBar):
                     and self._stack != stack)):
             return
         self._stack = stack
-
