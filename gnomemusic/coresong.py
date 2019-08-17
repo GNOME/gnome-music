@@ -63,6 +63,15 @@ class CoreSong(GObject.GObject):
         self._favorite = False
         self._selected = False
 
+        self.fields_setter = {
+            'album': self.set_album_title,
+            'artist': self.set_artist_name,
+            'disc': self.set_album_disc_number,
+            'title': self.set_title,
+            'track': self.set_track_number,
+            'year': self.set_creation_year
+        }
+
         self.props.grlid = media.get_source() + media.get_id()
         self._is_tracker = media.get_source() == "grl-tracker-source"
         self.props.validation = CoreSong.Validation.PENDING
