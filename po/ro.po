@@ -7,9 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-07-30 20:34+0000\n"
-"PO-Revision-Date: 2019-08-03 13:46+0200\n"
-"Last-Translator: Daniel Șerbănescu <daniel [at] serbanescu [dot] dk>\n"
+"POT-Creation-Date: 2019-08-06 17:01+0000\n"
+"PO-Revision-Date: 2019-08-18 14:31+0300\n"
+"Last-Translator: Florentina Mușat <florentina.musat.28 [at] gmail [dot] "
+"com>\n"
 "Language-Team: Gnome Romanian Translation Team <gnomero-list@lists."
 "sourceforge.net>\n"
 "Language: ro\n"
@@ -52,7 +53,7 @@ msgid "The GNOME Music developers"
 msgstr "Dezvoltatorii Muzică GNOME"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:76
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Muzică"
 
@@ -225,15 +226,16 @@ msgstr "_Despre Muzică"
 msgid "Menu"
 msgstr "Meniu"
 
-#: data/ui/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
 msgid "Select"
 msgstr "Selectează"
 
 #: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:35
 msgid "_Cancel"
 msgstr "_Anulează"
 
-#: data/ui/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
 msgid "Search"
 msgstr "Caută"
 
@@ -412,6 +414,22 @@ msgstr "Adaugă în lista de redare"
 msgid "_Add"
 msgstr "_Adaugă"
 
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Artiști"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+msgid "View All"
+msgstr "Vizualizează toate"
+
+#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+msgid "Albums"
+msgstr "Albume"
+
+#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Melodii"
+
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Selectează toate"
@@ -490,14 +508,6 @@ msgstr "Album necunoscut"
 msgid "Unknown Artist"
 msgstr "Artist necunoscut"
 
-#: gnomemusic/views/albumsview.py:61
-msgid "Albums"
-msgstr "Albume"
-
-#: gnomemusic/views/artistsview.py:59
-msgid "Artists"
-msgstr "Artiști"
-
 #: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Dosar de muzică"
@@ -541,9 +551,13 @@ msgstr "Muzică are nevoie de Tracker versiunea 2.2.0 sau mai nouă"
 msgid "Playlists"
 msgstr "Liste de redare"
 
-#: gnomemusic/views/songsview.py:57
-msgid "Songs"
-msgstr "Melodii"
+#: gnomemusic/views/searchview.py:363
+msgid "Artists Results"
+msgstr "Rezultate artiști"
+
+#: gnomemusic/views/searchview.py:377
+msgid "Albums Results"
+msgstr "Rezultate albume"
 
 #: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
