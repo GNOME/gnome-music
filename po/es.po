@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-07-28 22:28+0000\n"
-"PO-Revision-Date: 2019-07-30 09:26+0200\n"
+"POT-Creation-Date: 2019-08-06 17:01+0000\n"
+"PO-Revision-Date: 2019-08-20 09:56+0200\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -50,7 +50,7 @@ msgid "The GNOME Music developers"
 msgstr "Los desarrolladores de GNOME Música"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:76
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Música"
 
@@ -222,15 +222,16 @@ msgstr "_Acerca de Música"
 msgid "Menu"
 msgstr "Menú"
 
-#: data/ui/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
 msgid "Select"
 msgstr "Seleccionar"
 
 #: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:35
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: data/ui/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
 msgid "Search"
 msgstr "Buscar"
 
@@ -409,6 +410,22 @@ msgstr "Añadir a la lista de reproducción"
 msgid "_Add"
 msgstr "_Añadir"
 
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Artistas"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+msgid "View All"
+msgstr "Ver todo"
+
+#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+msgid "Albums"
+msgstr "Álbumes"
+
+#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Canciones"
+
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Seleccionar todos"
@@ -487,14 +504,6 @@ msgstr "Álbum desconocido"
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
 
-#: gnomemusic/views/albumsview.py:45
-msgid "Albums"
-msgstr "Álbumes"
-
-#: gnomemusic/views/artistsview.py:59
-msgid "Artists"
-msgstr "Artistas"
-
 #: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Carpeta de música"
@@ -538,9 +547,15 @@ msgstr "Música necesita Tracker 2.2.0 o superior"
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: gnomemusic/views/songsview.py:57
-msgid "Songs"
-msgstr "Canciones"
+#: gnomemusic/views/searchview.py:363
+#| msgid "Artists"
+msgid "Artists Results"
+msgstr "Resultados de artistas"
+
+#: gnomemusic/views/searchview.py:377
+#| msgid "Albums"
+msgid "Albums Results"
+msgstr "Resultados de álbumes"
 
 #: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
