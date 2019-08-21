@@ -200,8 +200,7 @@ class SongsView(BaseView):
             path = self._view.get_path_at_pos(x, y)
             if path is None:
                 return
-            path, col, cell_x, cell_y = path
-            iter_ = self._view.props.model.get_iter(path)
+            iter_ = self._view.props.model.get_iter(path[0])
             new_fav_status = not self._model[iter_][1]
             self._model[iter_][1] = new_fav_status
             self._model[iter_][7].props.selected = new_fav_status
