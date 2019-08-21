@@ -198,12 +198,13 @@ class SongsView(BaseView):
         # activation.
         if self.props.selection_mode:
             path = self._view.get_path_at_pos(x, y)
-            if path is not None:
-                path, col, cell_x, cell_y = path
-                iter_ = self._view.props.model.get_iter(path)
-                new_fav_status = not self._model[iter_][1]
-                self._model[iter_][1] = new_fav_status
-                self._model[iter_][7].props.selected = new_fav_status
+            if path is None:
+                return
+            path, col, cell_x, cell_y = path
+            iter_ = self._view.props.model.get_iter(path)
+            new_fav_status = not self._model[iter_][1]
+            self._model[iter_][1] = new_fav_status
+            self._model[iter_][7].props.selected = new_fav_status
 
     @log
     def _update_model(self, player):
