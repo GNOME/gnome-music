@@ -197,8 +197,11 @@ class SongsView(BaseView):
         # FIXME: In selection mode, star clicks might still trigger
         # activation.
         if self.props.selection_mode:
-            path, col, cell_x, cell_y = self._view.get_path_at_pos(x, y)
-            iter_ = self._view.props.model.get_iter(path)
+            path = self._view.get_path_at_pos(x, y)
+            if path is None:
+                return
+
+            iter_ = self._view.props.model.get_iter(path[0])
             new_fav_status = not self._model[iter_][1]
             self._model[iter_][1] = new_fav_status
             self._model[iter_][7].props.selected = new_fav_status
