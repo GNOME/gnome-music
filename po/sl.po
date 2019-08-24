@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-07-01 13:29+0000\n"
-"PO-Revision-Date: 2019-07-02 17:47+0200\n"
+"POT-Creation-Date: 2019-08-24 14:19+0000\n"
+"PO-Revision-Date: 2019-08-24 19:57+0200\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -50,8 +50,8 @@ msgstr ""
 msgid "The GNOME Music developers"
 msgstr "Razvijalci programa GNOME Glasba"
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:58
-#: gnomemusic/window.py:80
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Glasba"
 
@@ -203,7 +203,7 @@ msgstr "izdano"
 msgid "Running Length"
 msgstr "Dolžina predvajanja"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:71
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
 msgid "Composer"
 msgstr "Skladatelj"
 
@@ -223,15 +223,16 @@ msgstr "_O programu"
 msgid "Menu"
 msgstr "Meni"
 
-#: data/ui/HeaderBar.ui:36
+#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
 msgid "Select"
 msgstr "Izberi"
 
 #: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:35
 msgid "_Cancel"
 msgstr "_Prekliči"
 
-#: data/ui/HeaderBar.ui:77
+#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
 msgid "Search"
 msgstr "Iskanje"
 
@@ -378,11 +379,11 @@ msgstr "_Izbriši"
 msgid "_Rename…"
 msgstr "P_reimenuj …"
 
-#: data/ui/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:40
 msgid "Playlist Name"
 msgstr "Ime seznama predvajanja"
 
-#: data/ui/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_Končano"
 
@@ -410,6 +411,22 @@ msgstr "Dodaj na seznam predvajanja"
 msgid "_Add"
 msgstr "_Dodaj"
 
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Izvajalci"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+msgid "View All"
+msgstr "Pokaži vse"
+
+#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+msgid "Albums"
+msgstr "Albumi"
+
+#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Skladbe"
+
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
 msgstr "Izberi vse"
@@ -426,25 +443,50 @@ msgstr "S klikom se predmeti izberejo."
 msgid "_Add to Playlist"
 msgstr "Dodaj na _seznam predvajanja"
 
-#: gnomemusic/gstplayer.py:402
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+msgid "Most Played"
+msgstr "Najpogosteje predvajano"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+msgid "Never Played"
+msgstr "Nikoli predvajano"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+msgid "Recently Played"
+msgstr "Nedavno predvajano"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+msgid "Recently Added"
+msgstr "Nedavno dodano"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+msgid "Favorite Songs"
+msgstr "Priljubljeni posnetki"
+
+#: gnomemusic/gstplayer.py:403
 msgid "Unable to play the file"
 msgstr "Datoteke ni mogoče predvajati."
 
-#: gnomemusic/gstplayer.py:408
+#: gnomemusic/gstplayer.py:409
 msgid "_Find in {}"
 msgstr "_Najdi v {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:419
+#: gnomemusic/gstplayer.py:420
 msgid " and "
 msgstr "in "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:422
+#: gnomemusic/gstplayer.py:423
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:424
+#: gnomemusic/gstplayer.py:425
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
@@ -456,95 +498,67 @@ msgstr[3] "{} so zahtevani za predvajanje datoteke, vendar niso nameščeni."
 msgid "Playing music"
 msgstr "Predvajanje glasbe"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:58
-msgid "Most Played"
-msgstr "Najpogosteje predvajano"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:63
-msgid "Never Played"
-msgstr "Nikoli predvajano"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:68
-msgid "Recently Played"
-msgstr "Nedavno predvajano"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:73
-msgid "Recently Added"
-msgstr "Nedavno dodano"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:78
-msgid "Favorite Songs"
-msgstr "Priljubljeni posnetki"
-
-#: gnomemusic/utils.py:56
+#: gnomemusic/utils.py:62
 msgid "Unknown album"
 msgstr "Neznan album"
 
-#: gnomemusic/utils.py:77
+#: gnomemusic/utils.py:83
 msgid "Unknown Artist"
 msgstr "Neznan izvajalec"
 
-#: gnomemusic/views/albumsview.py:46 gnomemusic/views/searchview.py:611
-msgid "Albums"
-msgstr "Albumi"
-
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:613
-msgid "Artists"
-msgstr "Izvajalci"
-
-#: gnomemusic/views/emptyview.py:67
+#: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Glasbena mapa"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:71
+#: gnomemusic/views/emptyview.py:83
 msgid "The contents of your {} will appear here."
 msgstr "Vsebina {} bo prikazana na tem mestu."
 
-#: gnomemusic/views/emptyview.py:105
+#: gnomemusic/views/emptyview.py:119
 msgid "Hey DJ"
 msgstr "Hej, DJ"
 
-#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
+#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
 msgid "No music found"
 msgstr "Ni shranjene glasbe"
 
-#: gnomemusic/views/emptyview.py:123
+#: gnomemusic/views/emptyview.py:137
 msgid "Try a different search"
 msgstr "Poskusite drugačno iskanje"
 
-#: gnomemusic/views/emptyview.py:129
+#: gnomemusic/views/emptyview.py:143
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Ni mogoče vzpostaviti povezave s programom Tracker"
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:146
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Glasbenih datotek brez zagnanega programa Tracker ni mogoče indeksirati."
 
-#: gnomemusic/views/playlistsview.py:62 gnomemusic/views/searchview.py:617
+#: gnomemusic/views/emptyview.py:154
+msgid "Your system Tracker version seems outdated"
+msgstr "Sistemska različica paketa Tracker je videti zastarela"
+
+#: gnomemusic/views/emptyview.py:157
+msgid "Music needs Tracker version 2.2.0 or higher"
+msgstr ""
+"Program Music zahteva namestitev različice paketa Tracker 2.2.0 ali višje"
+
+#: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "Seznami predvajanja"
 
-#: gnomemusic/views/playlistsview.py:626
-msgid "Playlist {} removed"
-msgstr "Seznam predvajanja {} je odstranjen"
+#: gnomemusic/views/searchview.py:363
+msgid "Artists Results"
+msgstr "Izvajalci"
 
-#: gnomemusic/views/playlistsview.py:632
-msgid "{} removed from {}"
-msgstr "{} odstranjen iz {}"
+#: gnomemusic/views/searchview.py:377
+msgid "Albums Results"
+msgstr "Albumi"
 
-#: gnomemusic/views/searchview.py:615 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Skladbe"
-
-#: gnomemusic/widgets/albumwidget.py:161
+#: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
@@ -552,7 +566,7 @@ msgstr[1] "{} minuta"
 msgstr[2] "{} minuti"
 msgstr[3] "{} minute"
 
-#: gnomemusic/widgets/disclistboxwidget.py:141
+#: gnomemusic/widgets/disclistboxwidget.py:82
 msgid "Disc {}"
 msgstr "Disk {}"
 
@@ -564,19 +578,27 @@ msgstr[1] "Izbran je {} predmet"
 msgstr[2] "Izbrana sta {} predmeta"
 msgstr[3] "Izbrani so {} predmeti"
 
-#: gnomemusic/widgets/notificationspopup.py:170
+#: gnomemusic/widgets/notificationspopup.py:168
 msgid "Loading"
 msgstr "Nalaganje"
 
-#: gnomemusic/widgets/notificationspopup.py:233
+#: gnomemusic/widgets/notificationspopup.py:241
 msgid "_Undo"
 msgstr "_Razveljavi"
+
+#: gnomemusic/widgets/notificationspopup.py:256
+msgid "Playlist {} removed"
+msgstr "Seznam predvajanja {} je odstranjen"
+
+#: gnomemusic/widgets/notificationspopup.py:260
+msgid "{} removed from {}"
+msgstr "{} odstranjen iz {}"
 
 #: gnomemusic/widgets/playertoolbar.py:150
 msgid "Pause"
 msgstr "Premor"
 
-#: gnomemusic/widgets/playlistcontrols.py:92
+#: gnomemusic/widgets/playlistcontrols.py:83
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} skladb"
@@ -584,31 +606,31 @@ msgstr[1] "{} skladba"
 msgstr[2] "{} skladbi"
 msgstr[3] "{} skladbe"
 
-#: gnomemusic/widgets/searchbar.py:68 gnomemusic/widgets/searchbar.py:117
+#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
 msgid "All"
 msgstr "Vse"
 
-#: gnomemusic/widgets/searchbar.py:69
+#: gnomemusic/widgets/searchbar.py:68
 msgid "Artist"
 msgstr "Izvajalec"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Album"
 msgstr "Album"
 
-#: gnomemusic/widgets/searchbar.py:72
+#: gnomemusic/widgets/searchbar.py:71
 msgid "Track Title"
 msgstr "Naslov skladbe"
 
-#: gnomemusic/widgets/searchbar.py:118
+#: gnomemusic/widgets/searchbar.py:117
 msgid "Local"
 msgstr "Krajevno"
 
-#: gnomemusic/widgets/searchbar.py:287
+#: gnomemusic/widgets/searchbar.py:286
 msgid "Sources"
 msgstr "Viri"
 
-#: gnomemusic/widgets/searchbar.py:298
+#: gnomemusic/widgets/searchbar.py:297
 msgid "Match"
 msgstr "Se sklada"
 
