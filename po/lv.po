@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-13 09:09+0000\n"
-"PO-Revision-Date: 2019-03-03 13:20+0200\n"
+"POT-Creation-Date: 2019-08-06 17:01+0000\n"
+"PO-Revision-Date: 2019-08-24 17:18+0200\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian <lata-l10n@googlegroups.com>\n"
 "Language: lv\n"
@@ -43,19 +43,19 @@ msgstr ""
 "Atrodiet celiņus jūsu lokālajā kolekcijā, saņemiet mūziku no DLNA serveriem "
 "vai no Jamendo un Magnatune pakalpojumiem."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.appdata.xml.in.in:52
+#| msgid "Copyright © 2018 GNOME Music Developers"
+msgid "The GNOME Music developers"
+msgstr "GNOME Mūzikas izstrādātāji"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Mūzika"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Mūzikas atskaņotājs"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -189,15 +189,15 @@ msgstr ""
 "Sami Pyylampi attēls “Magic of the vinyl” ir zem licences CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Izlaists"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Atskaņošanas ilgums"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
 msgid "Composer"
 msgstr "Komponists"
 
@@ -210,7 +210,6 @@ msgid "_Help"
 msgstr "_Palīdzība"
 
 #: data/ui/AppMenu.ui:49
-#| msgid "_About"
 msgid "_About Music"
 msgstr "P_ar mūziku"
 
@@ -218,17 +217,18 @@ msgstr "P_ar mūziku"
 msgid "Menu"
 msgstr "Izvēlne"
 
-#: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Meklēt"
-
-#: data/ui/HeaderBar.ui:59
+#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
 msgid "Select"
 msgstr "Izvēlēties"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:35
 msgid "_Cancel"
 msgstr "At_celt"
+
+#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+msgid "Search"
+msgstr "Meklēt"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -340,11 +340,11 @@ msgstr "Izslēgt jaukšanu/atkārtošanu"
 msgid "Previous"
 msgstr "Iepriekšējais"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
 msgid "Play"
 msgstr "Atskaņot"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Nākamais"
 
@@ -373,37 +373,53 @@ msgstr "_Dzēst"
 msgid "_Rename…"
 msgstr "Pā_rdēvēt…"
 
-#: data/ui/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:40
 msgid "Playlist Name"
 msgstr "Repertuāra nosaukums"
 
-#: data/ui/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_Gatavs"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Ievadiet sava pirmā repertuāra nosaukumu"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "Iz_veidot"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Jauns repertuārs…"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Pievienot"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:241
 msgid "Add to Playlist"
 msgstr "Pievienot repertuāram"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:257
 msgid "_Add"
 msgstr "_Pievienot"
+
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Izpildītāji"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+msgid "View All"
+msgstr "Rādīt visu"
+
+#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+msgid "Albums"
+msgstr "Albumi"
+
+#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Dziesmas"
 
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
@@ -421,130 +437,128 @@ msgstr "Spiediet uz vienumiem, lai tos izvēlētos"
 msgid "_Add to Playlist"
 msgstr "_Pievienot repertuāram"
 
-#: gnomemusic/gstplayer.py:410
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+msgid "Most Played"
+msgstr "Visbiežāk atskaņotās"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+msgid "Never Played"
+msgstr "Nekad neatskaņotās"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+msgid "Recently Played"
+msgstr "Nesen atskaņotās"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+msgid "Recently Added"
+msgstr "Nesen pievienotās"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+msgid "Favorite Songs"
+msgstr "Iecienītās dziesmas"
+
+#: gnomemusic/gstplayer.py:403
 msgid "Unable to play the file"
 msgstr "Neizdevās atskaņot datni"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:409
 msgid "_Find in {}"
 msgstr "_Meklēt mapē {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:420
 msgid " and "
 msgstr " un "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:423
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:425
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "Lai atskaņotu datni, nepieciešams {}, bet tas nav uzinstalēts."
 msgstr[1] "Lai atskaņotu datni, nepieciešami {}, bet tie nav uzinstalēti."
 msgstr[2] "Lai atskaņotu datni, nepieciešami {}, bet tie nav uzinstalēti."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Atskaņo mūziku"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:59
-msgid "Most Played"
-msgstr "Visbiežāk atskaņotās"
+#: gnomemusic/utils.py:62
+msgid "Unknown album"
+msgstr "Nezināms albums"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:64
-msgid "Never Played"
-msgstr "Nekad neatskaņotās"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:69
-msgid "Recently Played"
-msgstr "Nesen atskaņotās"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:74
-msgid "Recently Added"
-msgstr "Nesen pievienotās"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:79
-msgid "Favorite Songs"
-msgstr "Iecienītās dziesmas"
-
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:83
 msgid "Unknown Artist"
 msgstr "Nezināms izpildītājs"
 
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Nenosaukts"
-
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
-msgid "Albums"
-msgstr "Albumi"
-
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
-msgid "Artists"
-msgstr "Izpildītāji"
-
-#: gnomemusic/views/emptyview.py:67
+#: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Mūzikas mape"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:71
+#: gnomemusic/views/emptyview.py:83
 msgid "The contents of your {} will appear here."
 msgstr "Jūsu {} saturs parādīsies šeit"
 
-#: gnomemusic/views/emptyview.py:105
+#: gnomemusic/views/emptyview.py:119
 msgid "Hey DJ"
 msgstr "Eu DJ"
 
-#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
+#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
 msgid "No music found"
 msgstr "Nav atrasta mūzika"
 
-#: gnomemusic/views/emptyview.py:123
+#: gnomemusic/views/emptyview.py:137
 msgid "Try a different search"
 msgstr "Mēģiniet ar citu meklējamo vārdu"
 
-#: gnomemusic/views/emptyview.py:129
+#: gnomemusic/views/emptyview.py:143
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Mūzika nevarēja savienoties ar Tracker"
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:146
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Nevar indeksēt jūsu mūzikas datnes, ja nedarbojas Tracker"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/emptyview.py:154
+msgid "Your system Tracker version seems outdated"
+msgstr "Jūsu sistēmas Tracker versija ir novecojusi"
+
+#: gnomemusic/views/emptyview.py:157
+msgid "Music needs Tracker version 2.2.0 or higher"
+msgstr "Mūzikai vajag Tracker vismaz versiju 2.2.0"
+
+#: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "Repertuāri"
 
-#: gnomemusic/views/playlistview.py:640
-msgid "Playlist {} removed"
-msgstr "Repertuāra {} ir izņemts"
+#: gnomemusic/views/searchview.py:363
+#| msgid "Artists"
+msgid "Artists Results"
+msgstr "Izpildītāju rezultāti"
 
-#: gnomemusic/views/playlistview.py:646
-msgid "{} removed from {}"
-msgstr "{} izņemts no {}"
+#: gnomemusic/views/searchview.py:377
+#| msgid "Albums"
+msgid "Albums Results"
+msgstr "Albumu rezultāti"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Dziesmas"
-
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minūte"
 msgstr[1] "{} minūtes"
 msgstr[2] "{} minūšu"
 
-#: gnomemusic/widgets/disclistboxwidget.py:141
+#: gnomemusic/widgets/disclistboxwidget.py:82
 msgid "Disc {}"
 msgstr "Disks (}"
 
@@ -555,52 +569,66 @@ msgstr[0] "Izvēlēts {} vienums"
 msgstr[1] "Izvēlēti {} vienumi"
 msgstr[2] "Izvēlēti {} vienumi"
 
-#: gnomemusic/widgets/notificationspopup.py:169
+#: gnomemusic/widgets/notificationspopup.py:168
 msgid "Loading"
 msgstr "Ielādē"
 
-#: gnomemusic/widgets/notificationspopup.py:232
+#: gnomemusic/widgets/notificationspopup.py:241
 msgid "_Undo"
 msgstr "_Atsaukt"
 
-#: gnomemusic/widgets/playertoolbar.py:136
+#: gnomemusic/widgets/notificationspopup.py:256
+msgid "Playlist {} removed"
+msgstr "Repertuāra {} ir izņemts"
+
+#: gnomemusic/widgets/notificationspopup.py:260
+msgid "{} removed from {}"
+msgstr "{} izņemts no {}"
+
+#: gnomemusic/widgets/playertoolbar.py:150
 msgid "Pause"
 msgstr "Pauzēt"
 
-#: gnomemusic/widgets/playlistcontrols.py:96
+#: gnomemusic/widgets/playlistcontrols.py:83
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} dziesma"
 msgstr[1] "{} dziesmas"
 msgstr[2] "{} dziesmu"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
+#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
 msgid "All"
 msgstr "Visi"
 
-#: gnomemusic/widgets/searchbar.py:67
+#: gnomemusic/widgets/searchbar.py:68
 msgid "Artist"
 msgstr "Izpildītājs"
 
-#: gnomemusic/widgets/searchbar.py:68
+#: gnomemusic/widgets/searchbar.py:69
 msgid "Album"
 msgstr "Albums"
 
-#: gnomemusic/widgets/searchbar.py:70
+#: gnomemusic/widgets/searchbar.py:71
 msgid "Track Title"
 msgstr "Celiņa nosaukums"
 
-#: gnomemusic/widgets/searchbar.py:115
+#: gnomemusic/widgets/searchbar.py:117
 msgid "Local"
 msgstr "Lokāls"
 
-#: gnomemusic/widgets/searchbar.py:283
+#: gnomemusic/widgets/searchbar.py:286
 msgid "Sources"
 msgstr "Avoti"
 
-#: gnomemusic/widgets/searchbar.py:292
+#: gnomemusic/widgets/searchbar.py:297
 msgid "Match"
 msgstr "Atbilst"
+
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
+
+#~ msgid "Untitled"
+#~ msgstr "Nenosaukts"
 
 #~ msgid "_Quit"
 #~ msgstr "I_ziet"
