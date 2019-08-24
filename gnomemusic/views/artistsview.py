@@ -122,6 +122,9 @@ class ArtistsView(BaseView):
     def _on_artists_loaded(self, klass):
         self._coremodel.disconnect(self._loaded_id)
         first_row = self._sidebar.get_row_at_index(0)
+        if first_row is None:
+            return
+
         self._sidebar.select_row(first_row)
         first_row.emit("activate")
 

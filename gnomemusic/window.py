@@ -242,6 +242,8 @@ class Window(Gtk.ApplicationWindow):
         if new_state != TrackerState.AVAILABLE:
             self._switch_to_empty_view()
 
+        self._on_songs_available(None, None)
+
     @log
     def _switch_to_player_view(self):
         self._settings.set_boolean('did-initial-state', True)
