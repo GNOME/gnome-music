@@ -80,10 +80,10 @@ class PlaylistsView(BaseView):
             'activate', self._stage_song_for_deletion)
         self._window.add_action(self._remove_song_action)
 
-        playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
-        playlist_play_action.connect(
+        self._playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
+        self._playlist_play_action.connect(
             'activate', self._on_play_playlist)
-        self._window.add_action(playlist_play_action)
+        self._window.add_action(self._playlist_play_action)
 
         self._playlist_delete_action = Gio.SimpleAction.new(
             'playlist_delete', None)
@@ -150,6 +150,7 @@ class PlaylistsView(BaseView):
         return row
 
     def _on_playlists_loaded(self, klass):
+
         self._coremodel.disconnect(self._loaded_id)
         first_row = self._sidebar.get_row_at_index(0)
         self._sidebar.select_row(first_row)
@@ -209,17 +210,16 @@ class PlaylistsView(BaseView):
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
         playlist = row.props.playlist
-
         if self.rename_active:
             self._pl_ctrls.disable_rename_playlist()
 
         self._view.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
-
         self._pl_ctrls.props.playlist = playlist
 
         self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
         self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
+        self._playlist_play_action.set_enabled(playlist.props.model.get_n_items() != 0)
 
     def _on_playlist_activation_request(self, klass, playlist):
         """Selects and starts playing a playlist.
