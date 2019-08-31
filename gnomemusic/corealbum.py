@@ -38,6 +38,7 @@ class CoreAlbum(GObject.GObject):
     duration = GObject.Property(type=int, default=0)
     media = GObject.Property(type=Grl.Media)
     title = GObject.Property(type=str)
+    url = GObject.Property(type=str)
     year = GObject.Property(type=str, default="----")
 
     def __repr__(self):
@@ -65,6 +66,7 @@ class CoreAlbum(GObject.GObject):
         self.props.artist = utils.get_artist_name(media)
         self.props.composer = media.get_composer()
         self.props.title = utils.get_media_title(media)
+        self.props.url = media.get_url()
         self.props.year = utils.get_media_year(media)
 
     @GObject.Property(
