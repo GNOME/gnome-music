@@ -180,6 +180,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?composer AS ?composer
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
+            nie:url(?song) AS ?url
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
         WHERE {
             ?album a nmm:MusicAlbum .
@@ -416,6 +417,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?composer AS ?composer
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
+            nie:url(?song) AS ?url
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
         WHERE
         {
