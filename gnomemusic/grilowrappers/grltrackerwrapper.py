@@ -479,7 +479,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """Get all albums by an artist
 
         :param Grl.Media media: The media with the artist id
-        :param Dazzle.ListModelFilter model: The model to fill
+        :param Gfm.FilterListModel model: The model to fill
         """
         artist_id = media.get_id()
 
