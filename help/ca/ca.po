@@ -94,7 +94,7 @@ msgstr "Reproduir música"
 msgid ""
 "You can play your favorite music by creating a playlist or by simply "
 "clicking on the song of your choice from any view."
-msgstr "Podeu reproduir la teva música preferida creant una llista de reproducció o simplement fent clic sobre la cançó escollida des de qualsevol vista"
+msgstr "Podeu reproduir la teva música preferida creant una llista de reproducció o simplement fent clic sobre la cançó escollida des de qualsevol vista."
 
 #. (itstool) path: steps/title
 #: C/play-music.page:28 C/playlist-delete.page:27
@@ -125,14 +125,14 @@ msgstr "Afegir cançons a la llista de reproducció utilitzant àlbums."
 #. (itstool) path: page/title
 #: C/playlist-create-albums.page:21
 msgid "Create a playlist using albums"
-msgstr "Crear una llista de reproducció utilitzant àlbums."
+msgstr "Crear una llista de reproducció utilitzant àlbums"
 
 #. (itstool) path: page/p
 #: C/playlist-create-albums.page:23
 msgid ""
 "You can view all your albums by clicking on the <gui "
 "style=\"button\">Albums</gui> button."
-msgstr "Es poden veure tots els àlbums propis fent clic al botó <gui style=\"button\">Àlbums</gui> ."
+msgstr "Es poden veure tots els àlbums propis fent clic al botó <gui style=\"button\">Àlbums</gui>."
 
 #. (itstool) path: steps/title
 #: C/playlist-create-albums.page:27
@@ -186,7 +186,7 @@ msgstr "Feu clic a un àlbum."
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:54
 msgid "Click on the check button."
-msgstr "Feu clic a la casella de selecció"
+msgstr "Feu clic a la casella de selecció."
 
 #. (itstool) path: item/p
 #: C/playlist-create-albums.page:57
@@ -218,7 +218,7 @@ msgstr "Crear una llista de reproducció seleccionant les cançons preferides."
 #. (itstool) path: page/title
 #: C/playlist-create-songs.page:21
 msgid "Create playlists using songs"
-msgstr "Crear una llista de reproducció utilitzant cançons."
+msgstr "Crear una llista de reproducció utilitzant cançons"
 
 #. (itstool) path: page/p
 #: C/playlist-create-songs.page:23
@@ -319,7 +319,7 @@ msgstr "Es poden eliminar totes les cançons no desitjades d'una llista de repro
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:29
 msgid "Select the playlist from which you want to remove songs."
-msgstr "Seleccioneu la llista de reproducció de la que es volen eliminar cançons."
+msgstr "Seleccioneu la llista de reproducció de la qual es volen eliminar cançons."
 
 #. (itstool) path: item/p
 #: C/playlist-remove-songs.page:32
