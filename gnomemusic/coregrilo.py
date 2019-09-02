@@ -43,6 +43,9 @@ class CoreGrilo(GObject.GObject):
         'grl-spotify-cover'
     ]
 
+    _grl_plugin_ranks = ("grl-lastfm-cover:2,"
+                         "grl-theaudiodb-cover:1")
+
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
@@ -74,6 +77,8 @@ class CoreGrilo(GObject.GObject):
 
         self._tracker_wrapper.connect(
             "notify::tracker-available", self._on_tracker_available_changed)
+
+        GLib.setenv("GRL_PLUGIN_RANKS", self._grl_plugin_ranks, True)
 
         Grl.init(None)
 
