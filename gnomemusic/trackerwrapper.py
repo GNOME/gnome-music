@@ -59,14 +59,7 @@ class TrackerWrapper(GObject.GObject):
             self.notify("tracker-available")
             return
 
-        query = """
-        SELECT
-            ?o
-        WHERE
-        {
-            ?o nfo:belongsToContainer/nie:url 'file:///' .
-        }
-        """.replace("\n", " ").strip()
+        query = "SELECT ?e WHERE { ?e a tracker:ExternalReference . }"
 
         self._tracker.query_async(
             query, None, self._query_version_check)
