@@ -79,6 +79,7 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._flatten_model = None
+        self._playlist_signal_id = None
         self._previous_playlist_model = None
         self._search_signal_id = None
         self._song_signal_id = None
@@ -326,6 +327,10 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
+                if self._playlist_signal_id:
+                    self._previous_playlist_model.disconnect(
+                        self._playlist_signal_id)
+
                 for model_song in model:
                     song = CoreSong(
                         model_song.props.media, self._coreselection,
@@ -340,6 +345,9 @@ class CoreModel(GObject.GObject):
                         "validation", song, "validation",
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
+
+                self._playlist_signal_id = model.connect(
+                    "items-changed", _on_items_changed)
 
                 self.emit("playlist-loaded")
 
