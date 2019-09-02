@@ -43,7 +43,8 @@ class CoreGrilo(GObject.GObject):
         'grl-spotify-cover'
     ]
 
-    _grl_plugin_ranks = ("grl-lastfm-cover:2,"
+    _grl_plugin_ranks = ("grl-musicbrainz-coverart:3,"
+                         "grl-lastfm-cover:2,"
                          "grl-theaudiodb-cover:1")
 
     _theaudiodb_api_key = "195003"
@@ -148,6 +149,16 @@ class CoreGrilo(GObject.GObject):
 
         # FIXME: Only removes search sources atm.
         self._search_wrappers.pop(source.props.source_id, None)
+
+    @GObject.Property(
+        type=TrackerWrapper, default=None, flags=GObject.ParamFlags.READABLE)
+    def tracker_wrapper(self):
+        """Get TrackerWrapper
+
+        :returns: Tracker connection wrapper
+        :rtype: TrackerWrapper
+        """
+        return self._tracker_wrapper
 
     def get_artist_albums(self, artist, filter_model):
         for wrapper in self._wrappers.values():

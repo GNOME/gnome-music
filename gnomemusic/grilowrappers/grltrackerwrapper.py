@@ -90,6 +90,8 @@ class GrlTrackerWrapper(GObject.GObject):
         self._batch_changed_media_ids = {}
         self._content_changed_timeout = None
 
+        self._tracker_wrapper = self._grilo.props.tracker_wrapper
+
         self._song_search_tracker = Gfm.FilterListModel.new(self._model)
         self._song_search_tracker.set_filter_func(lambda a: False)
         self._song_search_proxy.append(self._song_search_tracker)
@@ -812,7 +814,49 @@ class GrlTrackerWrapper(GObject.GObject):
         self._source.query(
             query, self.METADATA_THUMBNAIL_KEYS, full_options, callback)
 
+    def _get_musicbrainz_subqueries(self, key):
+        subqueries = {
+            "select": "",
+            "optional": ""
+        }
+        if self._tracker_wrapper.props.external_reference_support is False:
+            return subqueries
+
+        mb_ids = {
+            Grl.METADATA_KEY_MB_RELEASE_GROUP_ID: "release_group_id",
+            Grl.METADATA_KEY_MB_RELEASE_ID: "release_id"
+        }
+        try:
+            mb_id = mb_ids[key]
+        except KeyError:
+            return subqueries
+
+        mb_source = "https://musicbrainz.org/doc/" + mb_id[:-3].title()
+
+        subqueries["select"] = """
+        tracker:referenceIdentifier(?%(mb_id)s) AS ?mb_%(mb_id)s
+        """.strip().replace("\n", " ") % {
+            "mb_id": mb_id
+        }
+
+        subqueries["optional"] = """
+        OPTIONAL {
+            ?album tracker:hasExternalReference ?%(mb_id)s .
+            ?%(mb_id)s tracker:referenceSource "%(mb_source)s" .
+        }
+        """.strip().replace("\n", " ") % {
+            "mb_id": mb_id,
+            "mb_source": mb_source,
+        }
+
+        return subqueries
+
     def _get_album_for_album_id(self, album_id):
+        mb_release = self._get_musicbrainz_subqueries(
+            Grl.METADATA_KEY_MB_RELEASE_ID)
+        mb_release_group = self._get_musicbrainz_subqueries(
+            Grl.METADATA_KEY_MB_RELEASE_GROUP_ID)
+
         # Even though we check for the album_artist, we fill
         # the artist key, since Grilo coverart plugins use
         # only that key for retrieval.
@@ -820,6 +864,8 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT DISTINCT
             rdf:type(?album)
             tracker:id(?album) AS ?id
+            %(mb_release_group_select)s
+            %(mb_release_select)s
             tracker:coalesce(nmm:artistName(?album_artist),
                              nmm:artistName(?song_artist)) AS ?artist
             nie:title(?album) AS ?album
@@ -828,6 +874,8 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
                     nmm:performer ?song_artist .
+            %(mb_release_group_optional)s
+            %(mb_release_optional)s
             OPTIONAL { ?album nmm:albumArtist ?album_artist . }
             FILTER (
                 tracker:id(?album) = %(album_id)s
@@ -835,18 +883,29 @@ class GrlTrackerWrapper(GObject.GObject):
             %(location_filter)s
         }
         """.replace("\n", " ").strip() % {
-                'album_id': album_id,
-                'location_filter': self._location_filter()
+            'album_id': album_id,
+            'location_filter': self._location_filter(),
+            "mb_release_group_optional": mb_release_group["optional"],
+            "mb_release_group_select": mb_release_group["select"],
+            "mb_release_optional": mb_release["optional"],
+            "mb_release_select": mb_release["select"]
         }
 
         return query
 
     def _get_album_for_song_id(self, song_id):
+        mb_release = self._get_musicbrainz_subqueries(
+            Grl.METADATA_KEY_MB_RELEASE_ID)
+        mb_release_group = self._get_musicbrainz_subqueries(
+            Grl.METADATA_KEY_MB_RELEASE_GROUP_ID)
+
         # See get_album_for_album_id comment.
         query = """
         SELECT DISTINCT
             rdf:type(?album)
             tracker:id(?album) AS ?id
+            %(mb_release_group_select)s
+            %(mb_release_select)s
             tracker:coalesce(nmm:artistName(?album_artist),
                              nmm:artistName(?song_artist)) AS ?artist
             nie:title(?album) AS ?album
@@ -854,6 +913,8 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
                     nmm:performer ?song_artist .
+            %(mb_release_group_optional)s
+            %(mb_release_optional)s
             OPTIONAL { ?album nmm:albumArtist ?album_artist . }
             FILTER (
                 tracker:id(?song) = %(song_id)s
@@ -866,7 +927,11 @@ class GrlTrackerWrapper(GObject.GObject):
         }
         """.replace("\n", " ").strip() % {
             'location_filter': self._location_filter(),
-            'song_id': song_id
+            'song_id': song_id,
+            "mb_release_group_optional": mb_release_group["optional"],
+            "mb_release_group_select": mb_release_group["select"],
+            "mb_release_optional": mb_release["optional"],
+            "mb_release_select": mb_release["select"]
         }
 
         return query
