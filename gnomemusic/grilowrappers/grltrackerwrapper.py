@@ -62,7 +62,8 @@ class GrlTrackerWrapper(GObject.GObject):
     def __repr__(self):
         return "<GrlTrackerWrapper>"
 
-    def __init__(self, source, coremodel, coreselection, grilo):
+    def __init__(
+            self, source, coremodel, coreselection, grilo, tracker_wrapper):
         """Initialize the Tracker wrapper
 
         :param Grl.TrackerSource source: The Tracker source to wrap
@@ -71,6 +72,7 @@ class GrlTrackerWrapper(GObject.GObject):
         :param CoreSelection coreselection: CoreSelection instance to
         use
         :param CoreGrilo grilo: The CoreGrilo instance
+        :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
         """
         super().__init__()
 
@@ -103,7 +105,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_artists_fill(self._source)
 
         self._tracker_playlists = GrlTrackerPlaylists(
-            source, coremodel, coreselection, grilo)
+            source, coremodel, coreselection, grilo, tracker_wrapper)
 
         self._source.notify_change_start()
         self._source.connect("content-changed", self._batch_content_changed)
