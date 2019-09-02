@@ -48,6 +48,7 @@ class TrackerWrapper(GObject.GObject):
 
         self._tracker = None
         self._tracker_available = TrackerState.UNAVAILABLE
+        self._external_reference_support = False
 
         Tracker.SparqlConnection.get_async(None, self._connection_async_cb)
 
@@ -75,11 +76,24 @@ class TrackerWrapper(GObject.GObject):
         try:
             klass.query_finish(result)
             self._tracker_available = TrackerState.AVAILABLE
+            self._external_reference_check()
         except GLib.Error as error:
             logger.warning("Error: {}, {}".format(error.domain, error.message))
             self._tracker_available = TrackerState.OUTDATED
 
         self.notify("tracker-available")
+
+    def _external_reference_check(self):
+        query = "SELECT ?e WHERE { ?e a tracker:ExternalReference . }"
+        self._tracker.query_async(
+            query, None, self._query_reference_check_cb)
+
+    def _query_reference_check_cb(self, klass, result):
+        try:
+            klass.query_finish(result)
+            self._external_reference_support = True
+        except GLib.Error as error:
+            logger.warning("Error: {}, {}".format(error.domain, error.message))
 
     @GObject.Property(type=object, flags=GObject.ParamFlags.READABLE)
     def tracker(self):
@@ -98,3 +112,17 @@ class TrackerWrapper(GObject.GObject):
         :rtype: TrackerState
         """
         return self._tracker_available
+
+    @GObject.Property(
+        type=bool, default=False,
+        flags=GObject.ParamFlags.READABLE)
+    def external_reference_support(self):
+        """Get tracker:ExternalReference availability
+
+        tracker:ExternalReference ontology is available since Tracker 2.3.
+        It allows to store MusicBrainz identifiers.
+
+        :returns: tracker:ExternalReference availability
+        :rtype: bool
+        """
+        return self._external_reference_support
