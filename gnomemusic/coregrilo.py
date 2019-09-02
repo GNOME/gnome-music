@@ -43,7 +43,8 @@ class CoreGrilo(GObject.GObject):
         'grl-spotify-cover'
     ]
 
-    _grl_plugin_ranks = ("grl-lastfm-cover:2,"
+    _grl_plugin_ranks = ("grl-musicbrainz-coverart:3,"
+                         "grl-lastfm-cover:2,"
                          "grl-theaudiodb-cover:1")
 
     _theaudiodb_api_key = "195003"
