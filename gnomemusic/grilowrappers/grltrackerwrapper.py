@@ -822,6 +822,9 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT DISTINCT
             rdf:type(?album)
             tracker:id(?album) AS ?id
+            tracker:referenceIdentifier(?release_group_id)
+                AS ?mb_release_group_id
+            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
             tracker:coalesce(nmm:artistName(?album_artist),
                              nmm:artistName(?song_artist)) AS ?artist
             nie:title(?album) AS ?album
@@ -830,6 +833,16 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
                     nmm:performer ?song_artist .
+            OPTIONAL {
+                ?album tracker:hasExternalReference ?release_group_id .
+                ?release_group_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release_Group" .
+            }
+            OPTIONAL {
+                ?album tracker:hasExternalReference ?release_id .
+                ?release_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release" .
+            }
             OPTIONAL { ?album nmm:albumArtist ?album_artist . }
             FILTER (
                 tracker:id(?album) = %(album_id)s
@@ -849,6 +862,9 @@ class GrlTrackerWrapper(GObject.GObject):
         SELECT DISTINCT
             rdf:type(?album)
             tracker:id(?album) AS ?id
+            tracker:referenceIdentifier(?release_group_id)
+                AS ?mb_release_group_id
+            tracker:referenceIdentifier(?release_id) AS ?mb_release_id
             tracker:coalesce(nmm:artistName(?album_artist),
                              nmm:artistName(?song_artist)) AS ?artist
             nie:title(?album) AS ?album
@@ -856,6 +872,16 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
                     nmm:performer ?song_artist .
+            OPTIONAL {
+                ?album tracker:hasExternalReference ?release_group_id .
+                ?release_group_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release_Group" .
+            }
+            OPTIONAL {
+                ?album tracker:hasExternalReference ?release_id .
+                ?release_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Release" .
+            }
             OPTIONAL { ?album nmm:albumArtist ?album_artist . }
             FILTER (
                 tracker:id(?song) = %(song_id)s
