@@ -133,7 +133,8 @@ class GrlTrackerPlaylists(GObject.GObject):
 
         playlist = Playlist(
             media=media, source=self._source, coremodel=self._coremodel,
-            coreselection=self._coreselection, grilo=self._grilo)
+            coreselection=self._coreselection, grilo=self._grilo,
+            tracker=self._tracker)
 
         self._model.append(playlist)
         callback = data
