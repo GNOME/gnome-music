@@ -24,6 +24,8 @@
 
 from enum import IntEnum
 
+import gi
+gi.require_version("Gd", "1.0")
 from gi.repository import GLib, GObject, Gd, Gtk
 
 from gnomemusic import log
