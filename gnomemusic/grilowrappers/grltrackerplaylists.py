@@ -31,7 +31,6 @@ gi.require_versions({"Grl": "0.3"})
 from gi.repository import Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
-from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
 
 
@@ -58,7 +57,19 @@ class GrlTrackerPlaylists(GObject.GObject):
     def __repr__(self):
         return "<GrlTrackerPlaylists>"
 
-    def __init__(self, source, coremodel, coreselection, grilo):
+    def __init__(
+            self, source, coremodel, coreselection, grilo, tracker_wrapper):
+        """Initialize GrlTrackerPlaylists.
+
+        :param Grl.TrackerSource source: The Tracker source to wrap
+        :param CoreModel coremodel: CoreModel instance to use models
+                                    from
+        :param CoreSelection coreselection: CoreSelection instance to
+                                            use
+        :param CoreGrilo grilo: The CoreGrilo instance
+        :param TrackerWrapper tracker_wrapper: The TrackerWrapper
+                                               instance
+        """
         super().__init__()
 
         self._coremodel = coremodel
@@ -68,7 +79,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._model = self._coremodel.props.playlists
         self._model_filter = self._coremodel.props.playlists_filter
         self._pls_todelete = []
-        self._tracker = TrackerWrapper().props.tracker
+        self._tracker = tracker_wrapper.props.tracker
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
