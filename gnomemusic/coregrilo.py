@@ -122,7 +122,8 @@ class CoreGrilo(GObject.GObject):
                 and source.props.source_id not in self._wrappers.keys()
                 and new_state == TrackerState.AVAILABLE):
             new_wrapper = GrlTrackerWrapper(
-                source, self._coremodel, self._coreselection, self)
+                source, self._coremodel, self._coreselection, self,
+                self._tracker_wrapper)
             self._wrappers[source.props.source_id] = new_wrapper
         # elif source.props.source_id[:10] == "grl-dleyna":
         #     new_wrapper = GrlDLeynaWrapper(
