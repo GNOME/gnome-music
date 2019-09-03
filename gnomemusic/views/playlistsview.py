@@ -220,6 +220,7 @@ class PlaylistsView(BaseView):
 
         self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
         self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
+        self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
     def _on_playlist_activation_request(self, klass, playlist):
         """Selects and starts playing a playlist.
