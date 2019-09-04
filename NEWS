@@ -1,3 +1,43 @@
+Overview of changes in 3.33.92
+==============================
+
+This release contains even more bug fixes and cleanups following the core
+rewrite. Regressions and known issues are kept track of in #299, further testing
+and issue reports are welcome.
+
+Thanks to our contributors this release:
+ Hugo Posnic
+ Piotr Drąg
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Indonesian
+ Karb
+ Basque
+ Swedish
+ Finnish
+ Romanian
+ Lithuanian
+ Spanish
+ Catalan
+ Polish
+ Serbian
+ German
+ Latvian
+ Slovenian
+ Hungarian
+ Galician
+ Korean
+ British English
+ Turkish
+ French
+ Greek
+ Catalan
+ Brazilian Portuguese
+ Czech
+ Croatian
+
 Overview of changes in 3.33.90
 ==============================
 

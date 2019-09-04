@@ -49,6 +49,7 @@ Georges Basile Stavracas Neto
 Guillaume Quintard
 Gyanesh Malhotra
 Harry Xie
+Hugo Posnic
 Islam Bahnasy
 Jakub Steiner
 Janne Körkkö
@@ -126,6 +127,7 @@ Emin Tufan Çetin
 Enrico Nicoletto
 Fábio Nogueira
 Fabio Tomat
+Florentina Mușat
 Fran Diéguez
 Furkan Tokaç
 Gábor Kelemen
@@ -151,6 +153,7 @@ Mingcong Bai
 Милош Поповић
 Nathan Follens
 Osman Karagöz
+Petr Kovář
 Piotr Drąg
 Rafael Fontenelle
 Rūdolfs Mazurs
@@ -169,6 +172,7 @@ Yi-Jyun Pan
 Yosef Or Boczko
 Yuras Shumovich
 Yuri Myasoedov
+Zander Brown
     </property>
     <property name="logo_icon_name">@APPID@</property>
     <property name="wrap_license">True</property>
