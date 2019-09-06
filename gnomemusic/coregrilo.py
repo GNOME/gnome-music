@@ -157,13 +157,14 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def _store_metadata(self, source, media, key):
+    def _store_metadata(self, source, media, key, callback):
         """Convenience function to store metadata
 
         Wrap the metadata store call in a idle_add compatible form.
-        :param source: A Grilo source object
-        :param media: A Grilo media item
-        :param key: A Grilo metadata key
+        :param Grl.Source source: A Grilo source object
+        :param Grl.Media: A Grilo media item
+        :param int key: A Grilo metadata key
+        :param function callback: function to call once finished
         """
         # FIXME: Doing this async crashes.
         try:
@@ -173,13 +174,23 @@ class CoreGrilo(GObject.GObject):
             # FIXME: Do not print.
             print("Error {}: {}".format(error.domain, error.message))
 
+        if callback:
+            callback()
+
         return GLib.SOURCE_REMOVE
 
-    def writeback(self, media, key):
+    def writeback(self, media, key, callback=None):
+        """Updates the property (associated with key) of a song.
+
+        :param Grl.Media media: song to update
+        :param int key: Grilo metadata key
+        :param function callback: function to call once finished
+        """
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
                 GLib.idle_add(
-                    self._store_metadata, wrapper.props.source, media, key)
+                    self._store_metadata, wrapper.props.source, media, key,
+                    callback)
                 break
 
     def search(self, text):
@@ -228,4 +239,14 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             if wrapper.source.props.source_id == "grl-tracker-source":
                 wrapper.create_playlist(playlist_title, callback)
+                break
+
+    def update_smart_playlist(self, title):
+        """Updates a smart playlist.
+
+        :param str title: playlist title
+        """
+        for wrapper in self._wrappers.values():
+            if wrapper.source.props.source_id == "grl-tracker-source":
+                wrapper.update_smart_playlist(title)
                 break
