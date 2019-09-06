@@ -93,8 +93,14 @@ class CoreSong(GObject.GObject):
         if old_fav == self._favorite:
             return
 
+        def _update_smart_playlist():
+            self._grilo.update_smart_playlist("Favorites")
+            return
+
         self.props.media.set_favourite(self._favorite)
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
+        self._grilo.writeback(
+            self.props.media, Grl.METADATA_KEY_FAVOURITE,
+            _update_smart_playlist)
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
@@ -127,12 +133,28 @@ class CoreSong(GObject.GObject):
         if not self._is_tracker:
             return
 
-        self.props.media.set_play_count(self.props.play_count + 1)
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
+        play_count = self.props.play_count + 1
+
+        def _update_smart_playlists():
+            self._grilo.update_smart_playlist("MostPlayed")
+            if play_count == 1:
+                self._grilo.update_smart_playlist("NeverPlayed")
+            return
+
+        self.props.media.set_play_count(play_count)
+        self._grilo.writeback(
+            self.props.media, Grl.METADATA_KEY_PLAY_COUNT,
+            _update_smart_playlists)
 
     def set_last_played(self):
         if not self._is_tracker:
             return
 
+        def _update_smart_playlist():
+            self._grilo.update_smart_playlist("RecentlyPlayed")
+            return
+
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
+        self._grilo.writeback(
+            self.props.media, Grl.METADATA_KEY_LAST_PLAYED,
+            _update_smart_playlist)
