@@ -570,7 +570,7 @@ class Playlist(GObject.GObject):
                 )
             }
             """.replace("\n", " ").strip() % {
-                "filter_clause": "tracker:id(?entry) = " + media_id}
+                "filter_clause": "tracker:id(?song) = " + media_id}
             options = self._fast_options.copy()
             self._source.query(
                 query, self.METADATA_KEYS, options, _add_to_model)
