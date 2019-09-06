@@ -322,6 +322,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 song = CoreSong(media, self._coreselection, self._grilo)
                 self._model.append(song)
                 self._hash[media.get_id()] = song
+                self.update_smart_playlist("RecentlyAdded")
             else:
                 self._hash[media.get_id()].update(media)
 
@@ -894,3 +895,10 @@ class GrlTrackerWrapper(GObject.GObject):
         :param callback: function to perform once, the playlist is created
         """
         self._tracker_playlists.create_playlist(playlist_title, callback)
+
+    def update_smart_playlist(self, title):
+        """Updates a smart playlist.
+
+        :param str title: playlist title
+        """
+        self._tracker_playlists.update_smart_playlist(title)

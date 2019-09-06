@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
 import time
 
 from gettext import gettext as _
@@ -33,6 +34,9 @@ from gi.repository import Gio, Grl, GLib, GObject
 from gnomemusic.coresong import CoreSong
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
+
+
+logger = logging.getLogger(__name__)
 
 
 class GrlTrackerPlaylists(GObject.GObject):
@@ -99,7 +103,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             "tracker": self._tracker
         }
 
-        smart_playlists = {
+        self._smart_playlists = {
             "MostPlayed": MostPlayed(**args),
             "NeverPlayed": NeverPlayed(**args),
             "RecentlyPlayed": RecentlyPlayed(**args),
@@ -107,7 +111,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             "Favorites": Favorites(**args)
         }
 
-        for playlist in smart_playlists.values():
+        for playlist in self._smart_playlists.values():
             self._model.append(playlist)
 
         query = """
@@ -253,6 +257,19 @@ class GrlTrackerPlaylists(GObject.GObject):
             """.replace("\n", " ").strip() % {"title": playlist_title}
         self._tracker.update_blank_async(
             query, GLib.PRIORITY_LOW, None, _create_cb, None)
+
+    def update_smart_playlist(self, title):
+        """Updates a smart playlist.
+
+        :param str title: playlist title
+        """
+        try:
+            smart_playlist = self._smart_playlists[title]
+        except KeyError:
+            logger.warning("SmartPlaylist {} does not exist".format(title))
+            return
+
+        smart_playlist.update()
 
 
 class Playlist(GObject.GObject):
@@ -682,6 +699,51 @@ class SmartPlaylist(Playlist):
                 self.props.query, self.METADATA_KEYS, options, _add_to_model)
 
         return self._model
+
+    def update(self):
+        """Updates playlist model."""
+        if self._model is None:
+            return
+
+        new_model_medias = []
+
+        def _fill_new_model(source, op_id, media, remaining, error):
+            if error:
+                return
+
+            if not media:
+                self._finish_update(new_model_medias)
+                return
+
+            new_model_medias.append(media)
+
+        options = self._fast_options.copy()
+        self._source.query(
+            self.props.query, self.METADATA_KEYS, options, _fill_new_model)
+
+    def _finish_update(self, new_model_medias):
+        if not new_model_medias:
+            self._model.remove_all()
+            return
+
+        current_models_ids = [coresong.props.media.get_id()
+                              for coresong in self._model]
+        new_model_ids = [media.get_id() for media in new_model_medias]
+
+        idx_to_delete = []
+        for idx, media_id in enumerate(current_models_ids):
+            if media_id not in new_model_ids:
+                idx_to_delete.insert(0, idx)
+
+        for idx in idx_to_delete:
+            self._model.remove(idx)
+            self.props.count -= 1
+
+        for idx, media in enumerate(new_model_medias):
+            if media.get_id() not in current_models_ids:
+                coresong = CoreSong(media, self._coreselection, self._grilo)
+                self._model.append(coresong)
+                self.props.count += 1
 
 
 class MostPlayed(SmartPlaylist):
