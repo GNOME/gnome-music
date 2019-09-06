@@ -129,6 +129,9 @@ https://gitlab.gnome.org/GNOME/gtk/issues/694 */
     background-color: @theme_base_color;
 }
 
+.songs-list > row:selected label {
+    color: @theme_fg_color;
+}
 
 
 .disc-list-box > row {
