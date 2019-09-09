@@ -1,3 +1,19 @@
+Overview of changes in 3.34.0
+=============================
+
+This release marks the first stable release after a invasive rewrite of Music
+internals and may still be rough around the edges. Regressions and known issues
+are kept track of in #299, further issue reports are welcome.
+
+* A flatpak issue with cover art retrieval was fixed
+
+Thanks to our contributors this release:
+ Jean Felder
+
+Tranlations updated:
+ Japanese
+ Italian
+
 Overview of changes in 3.33.92
 ==============================
 
