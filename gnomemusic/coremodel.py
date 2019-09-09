@@ -79,10 +79,9 @@ class CoreModel(GObject.GObject):
         super().__init__()
 
         self._flatten_model = None
-        self._playlist_signal_id = None
+        self._player_signal_id = None
+        self._current_playlist_model = None
         self._previous_playlist_model = None
-        self._search_signal_id = None
-        self._song_signal_id = None
 
         self._model = Gio.ListStore.new(CoreSong)
         self._songliststore = SongListStore(self._model)
@@ -251,6 +250,11 @@ class CoreModel(GObject.GObject):
                 if song.props.state in played_states:
                     song.props.state = SongWidget.State.UNPLAYED
 
+            if self._player_signal_id is not None:
+                self._current_playlist_model.disconnect(self._player_signal_id)
+                self._player_signal_id = None
+                self._current_playlist_model = None
+
             self._playlist_model.remove_all()
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
@@ -261,7 +265,7 @@ class CoreModel(GObject.GObject):
 
                 self._flatten_model = Gfm.FlattenListModel.new(
                     CoreSong, proxy_model)
-                self._flatten_model.connect("items-changed", _on_items_changed)
+                self._current_playlist_model = self._flatten_model
 
                 for model_song in self._flatten_model:
                     song = CoreSong(
@@ -287,7 +291,7 @@ class CoreModel(GObject.GObject):
 
                 self._flatten_model = Gfm.FlattenListModel.new(
                     CoreSong, proxy_model)
-                self._flatten_model.connect("items-changed", _on_items_changed)
+                self._current_playlist_model = self._flatten_model
 
                 for model_song in self._flatten_model:
                     song = CoreSong(
@@ -305,9 +309,7 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SONGS:
-                if self._song_signal_id:
-                    self._songliststore.props.model.disconnect(
-                        self._song_signal_id)
+                self._current_playlist_model = self._songliststore.props.model
 
                 for song in self._songliststore.props.model:
                     self._playlist_model.append(song)
@@ -315,26 +317,16 @@ class CoreModel(GObject.GObject):
                     if song.props.state == SongWidget.State.PLAYING:
                         song.props.state = SongWidget.State.PLAYED
 
-                self._song_signal_id = self._songliststore.props.model.connect(
-                    "items-changed", _on_items_changed)
-
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
-                if self._search_signal_id:
-                    self._song_search_flatten.disconnect(
-                        self._search_signal_id)
+                self._current_playlist_model = self._song_search_flatten
 
                 for song in self._song_search_flatten:
                     self._playlist_model.append(song)
 
-                self._search_signal_id = self._song_search_flatten.connect(
-                    "items-changed", _on_items_changed)
-
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
-                if self._playlist_signal_id:
-                    self._previous_playlist_model.disconnect(
-                        self._playlist_signal_id)
+                self._current_playlist_model = model
 
                 for model_song in model:
                     song = CoreSong(
@@ -351,11 +343,11 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
 
-                self._playlist_signal_id = model.connect(
-                    "items-changed", _on_items_changed)
-
                 self.emit("playlist-loaded")
 
+        if self._current_playlist_model is not None:
+            self._player_signal_id = self.current_playlist_model.connect(
+                "items-changed", _on_items_changed)
         self._previous_playlist_model = model
 
     def stage_playlist_deletion(self, playlist):
