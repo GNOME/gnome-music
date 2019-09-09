@@ -246,6 +246,20 @@ class CoreModel(GObject.GObject):
                         | GObject.BindingFlags.SYNC_CREATE)
 
         with model.freeze_notify():
+            if self._playlist_signal_id is not None:
+                self._previous_playlist_model.disconnect(
+                    self._playlist_signal_id)
+                self._playlist_signal_id = None
+
+            elif self._song_signal_id is not None:
+                self._songliststore.props.model.disconnect(
+                    self._song_signal_id)
+                self._song_signal_id = None
+
+            elif self._search_signal_id is not None:
+                self._song_search_flatten.disconnect(self._search_signal_id)
+                self._search_signal_id = None
+
             self._playlist_model.remove_all()
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
@@ -300,10 +314,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SONGS:
-                if self._song_signal_id:
-                    self._songliststore.props.model.disconnect(
-                        self._song_signal_id)
-
                 for song in self._songliststore.props.model:
                     self._playlist_model.append(song)
 
@@ -315,10 +325,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
-                if self._search_signal_id:
-                    self._song_search_flatten.disconnect(
-                        self._search_signal_id)
-
                 for song in self._song_search_flatten:
                     self._playlist_model.append(song)
 
@@ -327,10 +333,6 @@ class CoreModel(GObject.GObject):
 
                 self.emit("playlist-loaded")
             elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
-                if self._playlist_signal_id:
-                    self._previous_playlist_model.disconnect(
-                        self._playlist_signal_id)
-
                 for model_song in model:
                     song = CoreSong(
                         model_song.props.media, self._coreselection,
