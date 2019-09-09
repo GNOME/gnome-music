@@ -18,7 +18,8 @@
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=com.intel.dleyna-server",
-        "--talk-name=org.gtk.vfs.mountpoint_http",
+        "--talk-name=org.gtk.vfs",
+        "--talk-name=org.gtk.vfs.*",
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
         "--system-talk-name=org.freedesktop.login1"
