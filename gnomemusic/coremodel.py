@@ -246,6 +246,11 @@ class CoreModel(GObject.GObject):
                         | GObject.BindingFlags.SYNC_CREATE)
 
         with model.freeze_notify():
+            played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
+            for song in self._playlist_model:
+                if song.props.state in played_states:
+                    song.props.state = SongWidget.State.UNPLAYED
+
             self._playlist_model.remove_all()
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
