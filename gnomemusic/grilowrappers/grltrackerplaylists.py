@@ -28,7 +28,7 @@ from gettext import gettext as _
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GLib, GObject
+from gi.repository import Gdk, Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
 import gnomemusic.utils as utils
@@ -703,6 +703,8 @@ class Playlist(GObject.GObject):
 class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
 
+    color = GObject.Property(type=Gdk.RGBA)
+
     def __init__(self, **args):
         super().__init__(**args)
 
@@ -748,6 +750,7 @@ class MostPlayed(SmartPlaylist):
         self.props.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Most Played")
+        self.props.color = Gdk.RGBA(0.96, 0.47, 0.0)
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -785,6 +788,7 @@ class NeverPlayed(SmartPlaylist):
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Never Played")
+        self.props.color = Gdk.RGBA(0.45, 0.62, 0.81)
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -821,6 +825,7 @@ class RecentlyPlayed(SmartPlaylist):
         self.props.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Played")
+        self.props.color = Gdk.RGBA(0.68, 0.50, 0.66)
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -867,6 +872,7 @@ class RecentlyAdded(SmartPlaylist):
         self.props.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Added")
+        self.props.color = Gdk.RGBA(0.31, 0.60, 0.02)
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -912,6 +918,7 @@ class Favorites(SmartPlaylist):
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         self._title = _("Favorite Songs")
+        self.props.color = Gdk.RGBA(0.93, 0.83, 0.0)
         self.props.query = """
             SELECT
                 rdf:type(?song)
