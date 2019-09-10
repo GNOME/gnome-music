@@ -20,6 +20,7 @@
             <signal name="drag-begin" handler="_on_drag_begin"/>
             <signal name="drag-end" handler="_on_drag_end"/>
             <signal name="drag_data_get" handler="_on_drag_data_get"/>
+	    <property name="no_show_all">True</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
