@@ -67,8 +67,6 @@ class AlbumsView(Gtk.Stack):
         self._flowbox.bind_model(model, self._create_widget)
         self._flowbox.connect("child-activated", self._on_child_activated)
 
-        self.connect("notify::selection-mode", self._on_selection_mode_changed)
-
         self.bind_property(
             'selection-mode', self._window, 'selection-mode',
             GObject.BindingFlags.BIDIRECTIONAL)
@@ -84,10 +82,6 @@ class AlbumsView(Gtk.Stack):
             "notify::search-mode-active", self._on_search_mode_changed)
 
         self.show_all()
-
-    def _on_selection_mode_changed(self, widget, data=None):
-        if not self.props.selection_mode:
-            self.unselect_all()
 
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
