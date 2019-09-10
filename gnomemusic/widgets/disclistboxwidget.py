@@ -80,7 +80,6 @@ class DiscBox(Gtk.Box):
         :param int disc_number: Disc number to display
         """
         self._disc_label.props.label = _("Disc {}").format(disc_number)
-        self._disc_label.props.visible = True
 
     def select_all(self):
         """Select all songs"""
