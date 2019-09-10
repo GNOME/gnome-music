@@ -51,6 +51,10 @@ box#ArtistAlbumsWidget .artist-label {
   font-size: x-large;
 }
 
+.playlist-title-container {
+    margin: 18px 24px 18px 18px;
+}
+
 /* ArtistAlbumWidget */
 .artist-albums-widget,
 .artist-albums-widget:hover {
