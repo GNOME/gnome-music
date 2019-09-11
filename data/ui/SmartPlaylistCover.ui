@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <template class="SmartPlaylistCover" parent="GtkFlowBoxChild">
+    <property name="no_show_all">True</property>
+    <child>
+      <object class="GtkBox" id="box_container">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="valign">start</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkOverlay" id="_overlay">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="margin_bottom">4</property>
+            <child>
+              <object class="GtkImage" id="_bg_image">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="vexpand">True</property>
+                <property name="valign">center</property>
+                <property name="halign">center</property>
+                <property name="icon-size">6</property>
+              </object>
+            </child>
+            <child type="overlay">
+              <object class="GtkBox">
+                <property name="hexpand">True</property>
+                <property name="vexpand">True</property>
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkImage" id="_fg_image">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="icon-size">6</property>
+                    <style>
+                      <class name="smartplaylist-image"/>
+                    </style>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkLabel" id="_title">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="justify">center</property>
+            <property name="wrap">True</property>
+            <property name="ellipsize">middle</property>
+            <property name="max_width_chars">20</property>
+            <property name="lines">2</property>
+            <property name="tooltip_text" bind-source="_title" bind-property="label" bind-flags="default" />
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+  <object class="GtkEventControllerMotion" id="_motions_ctrlr">
+    <property name="widget">_overlay</property>
+    <property name="propagation-phase">capture</property>
+    <signal name="enter" handler="_on_smartplaylist_enter" swapped="no"/>
+    <signal name="leave" handler="_on_smartplaylist_leave" swapped="no"/>
+  </object>
+  <object class="GtkGestureMultiPress" id="_click_ctrlr">
+    <property name="widget">_overlay</property>
+    <property name="propagation-phase">capture</property>
+    <signal name="pressed" handler="_on_smartplaylist_pressed" swapped="no"/>
+  </object>
+</interface>
