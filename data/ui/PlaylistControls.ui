@@ -31,6 +31,7 @@
     <property name="margin_bottom">18</property>
     <child>
       <object class="GtkStack" id="_name_stack">
+        <property name="visible">True</property>
         <child>
           <object class="GtkLabel" id="_name_label">
             <property name="visible">True</property>
