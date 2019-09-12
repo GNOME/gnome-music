@@ -282,6 +282,7 @@ class Playlist(GObject.GObject):
 
     count = GObject.Property(type=int, default=0)
     creation_date = GObject.Property(type=GLib.DateTime, default=None)
+    icon_name = GObject.Property(type=str, default="playlist2-symbolic")
     is_smart = GObject.Property(type=bool, default=False)
     pl_id = GObject.Property(type=str, default=None)
     query = GObject.Property(type=str, default=None)
@@ -895,6 +896,7 @@ class MostPlayed(SmartPlaylist):
         self.props.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Most Played")
+        self.props.icon_name = "audio-speakers-symbolic"
         self.props.query = """
         SELECT
             %(media_type)s AS ?type
@@ -948,6 +950,7 @@ class NeverPlayed(SmartPlaylist):
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Never Played")
+        self.props.icon_name = "dialog-question-symbolic"
         self.props.query = """
         SELECT
             %(media_type)s AS ?type
@@ -1000,6 +1003,7 @@ class RecentlyPlayed(SmartPlaylist):
         self.props.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Played")
+        self.props.icon_name = "document-open-recent-symbolic"
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -1062,6 +1066,7 @@ class RecentlyAdded(SmartPlaylist):
         self.props.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Added")
+        self.props.icon_name = "list-add-symbolic"
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -1124,6 +1129,7 @@ class Favorites(SmartPlaylist):
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
         self._title = _("Favorite Songs")
+        self.props.icon_name = "starred-symbolic"
         self.props.query = """
             SELECT
                 %(media_type)s AS ?type
