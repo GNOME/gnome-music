@@ -704,6 +704,7 @@ class SmartPlaylist(Playlist):
     """Base class for smart playlists"""
 
     color = GObject.Property(type=Gdk.RGBA)
+    icon_name = GObject.Property(type=str, default=None)
 
     def __init__(self, **args):
         super().__init__(**args)
@@ -751,6 +752,7 @@ class MostPlayed(SmartPlaylist):
         # TRANSLATORS: this is a playlist name
         self._title = _("Most Played")
         self.props.color = Gdk.RGBA(0.96, 0.47, 0.0)
+        self.props.icon_name = "audio-speakers-symbolic"
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -789,6 +791,7 @@ class NeverPlayed(SmartPlaylist):
         # TRANSLATORS: this is a playlist name
         self._title = _("Never Played")
         self.props.color = Gdk.RGBA(0.45, 0.62, 0.81)
+        self.props.icon_name = "dialog-question-symbolic"
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -826,6 +829,7 @@ class RecentlyPlayed(SmartPlaylist):
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Played")
         self.props.color = Gdk.RGBA(0.68, 0.50, 0.66)
+        self.props.icon_name = "document-open-recent-symbolic"
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -873,6 +877,7 @@ class RecentlyAdded(SmartPlaylist):
         # TRANSLATORS: this is a playlist name
         self._title = _("Recently Added")
         self.props.color = Gdk.RGBA(0.31, 0.60, 0.02)
+        self.props.icon_name = "list-add-symbolic"
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -919,6 +924,7 @@ class Favorites(SmartPlaylist):
         # TRANSLATORS: this is a playlist name
         self._title = _("Favorite Songs")
         self.props.color = Gdk.RGBA(0.93, 0.83, 0.0)
+        self.props.icon_name = "starred-symbolic"
         self.props.query = """
             SELECT
                 rdf:type(?song)
