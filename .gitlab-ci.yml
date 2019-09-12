@@ -1,22 +1,22 @@
-image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:master
+image: registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.34
 stages:
   - check
   - build-flatpak
   - deploy
 
 variables:
-  BUNDLE: "gnome-music-dev.flatpak"
-  DBUS_ID: "org.gnome.MusicDevel"
+  BUNDLE: "gnome-music.flatpak"
+  DBUS_ID: "org.gnome.Music"
   FLATPAK_MODULE: "gnome-music"
   GIT_SUBMODULE_STRATEGY: normal
   MANIFEST_PATH: "org.gnome.Music.json"
-  RUNTIME_REPO: "https://sdk.gnome.org/gnome-nightly.flatpakrepo"
+  RUNTIME_REPO: "https://sdk.gnome.org/gnome.flatpakrepo"
 
 flatpak:
   stage: build-flatpak
   script:
     - flatpak-builder --stop-at=${FLATPAK_MODULE} app ${MANIFEST_PATH}
-    - flatpak build app meson --prefix=/app -Dprofile=development _build
+    - flatpak build app meson --prefix=/app _build
     - flatpak build app ninja -C _build install
     - flatpak-builder --finish-only --repo=repo app ${MANIFEST_PATH}
     - flatpak build-bundle repo ${BUNDLE} --runtime-repo=${RUNTIME_REPO} ${DBUS_ID}
