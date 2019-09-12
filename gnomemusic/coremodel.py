@@ -126,6 +126,13 @@ class CoreModel(GObject.GObject):
         self._playlists_model_sort.set_sort_func(
             self._wrap_list_store_sort_func(self._playlists_sort))
 
+        self._user_playlists_model_filter = Gfm.FilterListModel.new(
+            self._playlists_model)
+        self._user_playlists_model_sort = Gfm.SortListModel.new(
+            self._user_playlists_model_filter)
+        self._user_playlists_model_sort.set_sort_func(
+            self._wrap_list_store_sort_func(self._playlists_sort))
+
         self.props.grilo = CoreGrilo(self, self._coreselection)
         # FIXME: Not all instances of internal _grilo use have been
         # fixed.
@@ -481,3 +488,15 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def playlists_filter(self):
         return self._playlists_model_filter
+
+    @GObject.Property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def user_playlists_sort(self):
+        return self._user_playlists_model_sort
+
+    @GObject.Property(
+        type=Gfm.SortListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def user_playlists_filter(self):
+        return self._user_playlists_model_filter
