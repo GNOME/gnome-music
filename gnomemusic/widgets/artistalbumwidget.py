@@ -89,6 +89,8 @@ class ArtistAlbumWidget(Gtk.Box):
         self._disc_list_box.bind_model(
             corealbum.props.model, self._create_widget)
 
+        corealbum.props.model.items_changed(0, 0, 0)
+
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
 
@@ -106,17 +108,11 @@ class ArtistAlbumWidget(Gtk.Box):
 
     def _on_model_items_changed(self, model, position, removed, added):
         n_items = model.get_n_items()
-        if n_items == 1:
-            row = self._disc_list_box.get_row_at_index(0)
+        for i in range(n_items):
+            row = self._disc_list_box.get_row_at_index(i)
             row.props.selectable = False
             discbox = row.get_child()
-            discbox.props.show_disc_label = False
-        else:
-            for i in range(n_items):
-                row = self._disc_list_box.get_row_at_index(i)
-                row.props.selectable = False
-                discbox = row.get_child()
-                discbox.props.show_disc_label = True
+            discbox.props.show_disc_label = (n_items > 1)
 
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:

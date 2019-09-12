@@ -67,8 +67,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self._songs_grid_size_group = Gtk.SizeGroup.new(
             Gtk.SizeGroupMode.HORIZONTAL)
 
-        self._model.props.model.connect_after(
-            "items-changed", self. _on_model_items_changed)
         self.bind_model(self._model, self._add_album)
 
         self.get_style_context().add_class("artist-albums-widget")
@@ -90,6 +88,9 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         coremodel.set_player_model(PlayerPlaylist.Type.ARTIST, self._model)
 
     def _add_album(self, corealbum):
+        row = Gtk.ListBoxRow()
+        row.props.selectable = False
+
         widget = ArtistAlbumWidget(
             corealbum, self._selection_mode_allowed,
             self._songs_grid_size_group, self._cover_size_group)
@@ -99,15 +100,11 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
+        row.add(widget)
         self._widgets.append(widget)
         widget.connect("song-activated", self._song_activated)
 
-        return widget
-
-    def _on_model_items_changed(self, model, position, removed, added):
-        for i in range(model.get_n_items()):
-            row = self.get_row_at_index(i)
-            row.props.selectable = False
+        return row
 
     @log
     def select_all(self):
