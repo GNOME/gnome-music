@@ -27,17 +27,24 @@ from gettext import gettext as _
 from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic.player import PlayerPlaylist
-from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
-from gnomemusic.widgets.playlistcontrols import PlaylistControls
+from gnomemusic.widgets.playlistcontrols import PlaylistControls  # noqa: F401
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlisttile import PlaylistTile
 from gnomemusic.widgets.songwidget import SongWidget
 
 
-class PlaylistsView(BaseView):
+@Gtk.Template(resource_path="/org/gnome/Music/ui/PlaylistsView.ui")
+class PlaylistsView(Gtk.Stack):
     """Main view for playlists"""
+
+    __gtype_name__ = "PlaylistsView"
+
+    _pl_ctrls = Gtk.Template.Child()
+    _sidebar = Gtk.Template.Child()
+    _view = Gtk.Template.Child()
+    _view_ctrlr = Gtk.Template.Child()
 
     def __init__(self, application, player):
         """Initialize
@@ -45,12 +52,11 @@ class PlaylistsView(BaseView):
         :param GtkApplication window: The application object
         :param player: The main player object
         """
-        self._sidebar = Gtk.ListBox()
-        sidebar_container = Gtk.ScrolledWindow()
-        sidebar_container.add(self._sidebar)
+        super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        super().__init__(
-            'playlists', _("Playlists"), application, sidebar_container)
+        # FIXME: Make these properties.
+        self.name = "playlists"
+        self.title = _("Playlists")
 
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
@@ -63,6 +69,8 @@ class PlaylistsView(BaseView):
 
         self._song_popover = PlaylistContextMenu(application, self._view)
 
+        self._pl_ctrls.props.application = application
+
         play_song = self._window.lookup_action("play_song")
         play_song.connect("activate", self._play_song)
 
@@ -73,20 +81,8 @@ class PlaylistsView(BaseView):
         self._remove_song_action.connect(
             "activate", self._stage_song_for_deletion)
 
-        self._pl_ctrls = PlaylistControls(application)
-        self._grid.insert_row(0)
-        self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
-
         playlist_play_action = self._window.lookup_action("playlist_play")
         playlist_play_action.connect("activate", self._on_play_playlist)
-
-        sidebar_container.set_size_request(220, -1)
-        sidebar_container.get_style_context().add_class('sidebar')
-        self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
-        self._sidebar.connect('row-activated', self._on_playlist_activated)
-
-        self._grid.child_set_property(sidebar_container, 'top-attach', 0)
-        self._grid.child_set_property(sidebar_container, 'height', 2)
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
@@ -95,29 +91,6 @@ class PlaylistsView(BaseView):
 
         self._model.connect("items-changed", self._on_playlists_model_changed)
         self._on_playlists_model_changed(self._model, 0, 0, 0)
-
-        # Selection is only possible from the context menu
-        self.disconnect(self._selection_mode_id)
-
-        self.show_all()
-
-    def _setup_view(self):
-        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
-
-        self._view = Gtk.ListBox()
-        self._view.get_style_context().add_class("songs-list")
-        self._view.props.margin_top = 20
-        self._view.props.margin_left = 80
-        self._view.props.margin_right = 80
-        self._view.props.valign = Gtk.Align.START
-
-        self._controller = Gtk.GestureMultiPress().new(self._view)
-        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._controller.props.button = Gdk.BUTTON_SECONDARY
-        self._controller.connect("pressed", self._on_view_right_clicked)
-
-        view_container.add(self._view)
 
     def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
@@ -147,6 +120,7 @@ class PlaylistsView(BaseView):
             self._sidebar.select_row(row_next)
             self._on_playlist_activated(self._sidebar, row_next, True)
 
+    @Gtk.Template.Callback()
     def _on_view_right_clicked(self, gesture, n_press, x, y):
         requested_row = self._view.get_row_at_y(y)
         self._view.select_row(requested_row)
@@ -194,6 +168,7 @@ class PlaylistsView(BaseView):
             PlaylistNotification.Type.SONG, selected_playlist, position,
             coresong)
 
+    @Gtk.Template.Callback()
     def _on_playlist_activated(self, sidebar, row, untouched=False):
         """Update view with content from selected playlist"""
         if untouched is False:
