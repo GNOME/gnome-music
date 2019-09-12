@@ -1,10 +1,10 @@
 {
-    "app-id": "org.gnome.MusicDevel",
+    "app-id": "org.gnome.Music",
     "runtime": "org.gnome.Platform",
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "command": "gnome-music",
-    "tags": ["devel", "development", "nightly"],
+    "tags": ["stable", "3.34"],
     "desktop-file-name-prefix": "(Development) ",
     "finish-args": [
         "--share=ipc", "--socket=x11",
@@ -137,14 +137,12 @@
         },
         {
             "name": "gnome-music",
-            "config-opts" : [
-                "-Dprofile=development"
-            ],
             "buildsystem": "meson",
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git"
+                    "url": "https://gitlab.gnome.org/GNOME/gnome-music.git",
+                    "branch": "gnome-3-34"
                 }
             ]
         }
