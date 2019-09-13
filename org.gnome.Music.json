@@ -13,8 +13,6 @@
         "--talk-name=org.freedesktop.Tracker1",
         "--env=TRACKER_SPARQL_BACKEND=bus",
         "--talk-name=org.gnome.OnlineAccounts",
-        "--filesystem=xdg-run/dconf", "--filesystem=~/.config/dconf:ro",
-        "--talk-name=ca.desrt.dconf", "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--own-name=org.mpris.MediaPlayer2.GnomeMusic",
         "--talk-name=org.gnome.SettingsDaemon.MediaKeys",
         "--talk-name=com.intel.dleyna-server",
@@ -22,7 +20,8 @@
         "--talk-name=org.gtk.vfs.*",
         "--socket=pulseaudio",
         "--filesystem=xdg-music",
-        "--system-talk-name=org.freedesktop.login1"
+        "--system-talk-name=org.freedesktop.login1",
+	"--metadata=X-DConf=migrate-path=/org/gnome/musicdevel/"
     ],
     "cleanup": [
         "/include",
