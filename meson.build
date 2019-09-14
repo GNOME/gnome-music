@@ -85,7 +85,7 @@ bin_config.set('pyexecdir', py_installation.get_path('stdlib'))
 bin_config.set('schemasdir', PKGDATA_DIR)
 # Used for libgd/gfm
 bin_config.set('pkglibdir', PKGLIB_DIR)
-bin_config.set('gfmlibdir', '')
+bin_config.set('gfmlibdir', PKGLIB_DIR)
 
 bin_config.set('local_build', 'False')
 
