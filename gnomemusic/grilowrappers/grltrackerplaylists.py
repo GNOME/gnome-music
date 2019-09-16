@@ -58,22 +58,23 @@ class GrlTrackerPlaylists(GObject.GObject):
         return "<GrlTrackerPlaylists>"
 
     def __init__(
-            self, source, coremodel, coreselection, grilo, tracker_wrapper):
+            self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize GrlTrackerPlaylists.
 
         :param Grl.TrackerSource source: The Tracker source to wrap
         :param CoreModel coremodel: CoreModel instance to use models
                                     from
-        :param CoreSelection coreselection: CoreSelection instance to
-                                            use
+        :param Application application: Application instance
         :param CoreGrilo grilo: The CoreGrilo instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper
                                                instance
         """
         super().__init__()
 
+        self._application = application
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
+        self._window = application.props.window
         self._grilo = grilo
         self._source = source
         self._model = self._coremodel.props.playlists
@@ -93,7 +94,7 @@ class GrlTrackerPlaylists(GObject.GObject):
     def _initial_playlists_fill(self):
         args = {
             "source": self._source,
-            "coreselection": self._coreselection,
+            "application": self._application,
             "grilo": self._grilo,
             "tracker": self._tracker
         }
@@ -109,6 +110,7 @@ class GrlTrackerPlaylists(GObject.GObject):
         for playlist in smart_playlists.values():
             self._model.append(playlist)
 
+        self._window.notifications_popup.push_loading()
         query = """
         SELECT DISTINCT
             rdf:type(?playlist)
@@ -139,14 +141,16 @@ class GrlTrackerPlaylists(GObject.GObject):
             self, source, op_id, media, remaining, data=None, error=None):
         if error:
             print("ERROR", error)
+            self._window.notifications_popup.pop_loading()
             return
         if not media:
             self._coremodel.emit("playlists-loaded")
+            self._window.notifications_popup.pop_loading()
             return
 
         playlist = Playlist(
             media=media, source=self._source, coremodel=self._coremodel,
-            coreselection=self._coreselection, grilo=self._grilo,
+            application=self._application, grilo=self._grilo,
             tracker=self._tracker)
 
         self._model.append(playlist)
@@ -191,7 +195,9 @@ class GrlTrackerPlaylists(GObject.GObject):
                     break
 
             self._model_filter.set_filter_func(self._playlists_filter)
+            self._window.notifications_popup.pop_loading()
 
+        self._window.notifications_popup.push_loading()
         query = """
         DELETE {
             ?playlist a rdfs:Resource .
@@ -242,6 +248,7 @@ class GrlTrackerPlaylists(GObject.GObject):
                 query, self.METADATA_KEYS, options, self._add_user_playlist,
                 callback)
 
+        self._window.notifications_popup.push_loading()
         query = """
             INSERT {
                 _:playlist a nmm:Playlist ;
@@ -291,7 +298,7 @@ class Playlist(GObject.GObject):
 
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            coremodel=None, coreselection=None, grilo=None, tracker=None):
+            coremodel=None, application=None, grilo=None, tracker=None):
         super().__init__()
 
         if media:
@@ -305,9 +312,10 @@ class Playlist(GObject.GObject):
         self._model = None
         self._source = source
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._grilo = grilo
         self._tracker = tracker
+        self._window = application.props.window
 
         self._fast_options = Grl.OperationOptions()
         self._fast_options.set_resolution_flags(
@@ -329,6 +337,8 @@ class Playlist(GObject.GObject):
         self._model = value
 
     def _populate_model(self):
+        self._window.notifications_popup.push_loading()
+
         query = """
         SELECT
             rdf:type(?song)
@@ -373,6 +383,7 @@ class Playlist(GObject.GObject):
             if not media:
                 self.props.count = self._model.get_n_items()
                 self.emit("playlist-loaded")
+                self._window.notifications_popup.pop_loading()
                 return
 
             coresong = CoreSong(media, self._coreselection, self._grilo)
@@ -391,11 +402,14 @@ class Playlist(GObject.GObject):
 
         :param str new_name: new playlist name
         """
+        self._window.notifications_popup.push_loading()
+
         def update_cb(conn, res, data):
             # FIXME: Check for failure.
             conn.update_finish(res)
             # FIXME: Requery instead?
             self.props.title = new_name
+            self._window.notifications_popup.pop_loading()
 
         query = """
         INSERT OR REPLACE {
@@ -448,7 +462,9 @@ class Playlist(GObject.GObject):
         def update_cb(conn, res, data):
             # FIXME: Check for failure.
             conn.update_finish(res)
+            self._window.notifications_popup.pop_loading()
 
+        self._window.notifications_popup.push_loading()
         query = """
         INSERT OR REPLACE {
             ?entry nfo:listPosition ?position .
@@ -663,13 +679,17 @@ class SmartPlaylist(Playlist):
         if self._model is None:
             self._model = Gio.ListStore.new(CoreSong)
 
+            self._window.notifications_popup.push_loading()
+
             def _add_to_model(source, op_id, media, remaining, error):
                 if error:
                     print("ERROR", error)
+                    self._window.notifications_popup.pop_loading()
                     return
 
                 if not media:
                     self.props.count = self._model.get_n_items()
+                    self._window.notifications_popup.pop_loading()
                     return
 
                 coresong = CoreSong(media, self._coreselection, self._grilo)

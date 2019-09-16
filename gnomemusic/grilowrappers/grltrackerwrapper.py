@@ -63,21 +63,21 @@ class GrlTrackerWrapper(GObject.GObject):
         return "<GrlTrackerWrapper>"
 
     def __init__(
-            self, source, coremodel, coreselection, grilo, tracker_wrapper):
+            self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize the Tracker wrapper
 
         :param Grl.TrackerSource source: The Tracker source to wrap
         :param CoreModel coremodel: CoreModel instance to use models
         from
-        :param CoreSelection coreselection: CoreSelection instance to
-        use
+        :param Application application: Application instance
         :param CoreGrilo grilo: The CoreGrilo instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
         """
         super().__init__()
 
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
+        self._window = application.props.window
         self._grilo = grilo
         self._source = source
         self._model = self._coremodel.props.songs
@@ -105,7 +105,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_artists_fill(self._source)
 
         self._tracker_playlists = GrlTrackerPlaylists(
-            source, coremodel, coreselection, grilo, tracker_wrapper)
+            source, coremodel, application, grilo, tracker_wrapper)
 
         self._source.notify_change_start()
         self._source.connect("content-changed", self._batch_content_changed)
@@ -352,13 +352,16 @@ class GrlTrackerWrapper(GObject.GObject):
             options, _update_changed_media)
 
     def _initial_songs_fill(self, source):
+        self._window.notifications_popup.push_loading()
 
         def _add_to_model(source, op_id, media, user_data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
+                self._window.notifications_popup.pop_loading()
                 return
 
             song = CoreSong(media, self._coreselection, self._grilo)
@@ -398,13 +401,16 @@ class GrlTrackerWrapper(GObject.GObject):
         self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
 
     def _initial_albums_fill(self, source):
+        self._window.notifications_popup.push_loading()
 
         def _add_to_albums_model(source, op_id, media, user_data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
+                self._window.notifications_popup.pop_loading()
                 return
 
             album = CoreAlbum(media, self._coremodel)
@@ -442,14 +448,17 @@ class GrlTrackerWrapper(GObject.GObject):
         source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
 
     def _initial_artists_fill(self, source):
+        self._window.notifications_popup.push_loading()
 
         def _add_to_artists_model(source, op_id, media, user_data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
                 self._coremodel.emit("artists-loaded")
+                self._window.notifications_popup.pop_loading()
                 return
 
             artist = CoreArtist(media, self._coremodel)
@@ -485,6 +494,7 @@ class GrlTrackerWrapper(GObject.GObject):
         :param Grl.Media media: The media with the artist id
         :param Gfm.FilterListModel model: The model to fill
         """
+        self._window.notifications_popup.push_loading()
         artist_id = media.get_id()
 
         query = """
@@ -515,10 +525,12 @@ class GrlTrackerWrapper(GObject.GObject):
         def query_cb(source, op_id, media, user_data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
                 model.set_filter_func(albums_filter, albums)
+                self._window.notifications_popup.pop_loading()
                 return
 
             albums.append(media)
@@ -540,6 +552,7 @@ class GrlTrackerWrapper(GObject.GObject):
         :param Grl.Media media: The media with the album id
         :param Gfm.SortListModel disc_model: The model to fill
         """
+        self._window.notifications_popup.push_loading()
         album_id = media.get_id()
 
         query = """
@@ -562,9 +575,11 @@ class GrlTrackerWrapper(GObject.GObject):
         def _disc_nr_cb(source, op_id, media, user_data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
+                self._window.notifications_popup.pop_loading()
                 return
 
             disc_nr = media.get_album_disc_number()
@@ -632,6 +647,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 GLib.utf8_casefold(text, -1), -1, GLib.NormalizeMode.NFKD))
 
         # Artist search
+        self._window.notifications_popup.push_loading()
 
         query = """
         SELECT DISTINCT
@@ -673,10 +689,12 @@ class GrlTrackerWrapper(GObject.GObject):
         def artist_search_cb(source, op_id, media, data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
                 self._artist_search_model.set_filter_func(artist_filter)
+                self._window.notifications_popup.pop_loading()
                 return
 
             artist_filter_ids.append(media.get_id())
@@ -686,6 +704,7 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self.METADATA_KEYS, options, artist_search_cb)
 
         # Album search
+        self._window.notifications_popup.push_loading()
 
         query = """
         SELECT DISTINCT
@@ -725,10 +744,12 @@ class GrlTrackerWrapper(GObject.GObject):
         def albums_search_cb(source, op_id, media, data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
                 self._album_search_model.set_filter_func(album_filter)
+                self._window.notifications_popup.pop_loading()
                 return
 
             album_filter_ids.append(media.get_id())
@@ -738,6 +759,7 @@ class GrlTrackerWrapper(GObject.GObject):
             query, self.METADATA_KEYS, options, albums_search_cb)
 
         # Song search
+        self._window.notifications_popup.push_loading()
 
         query = """
         SELECT DISTINCT
@@ -783,10 +805,12 @@ class GrlTrackerWrapper(GObject.GObject):
         def songs_search_cb(source, op_id, media, data, error):
             if error:
                 print("ERROR", error)
+                self._window.notifications_popup.pop_loading()
                 return
 
             if not media:
                 self._song_search_tracker.set_filter_func(songs_filter)
+                self._window.notifications_popup.pop_loading()
                 return
 
             filter_ids.append(media.get_id())
