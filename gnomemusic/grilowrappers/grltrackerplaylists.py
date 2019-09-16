@@ -59,22 +59,22 @@ class GrlTrackerPlaylists(GObject.GObject):
         return "<GrlTrackerPlaylists>"
 
     def __init__(
-            self, source, coremodel, coreselection, grilo, tracker_wrapper):
+            self, source, coremodel, application, grilo, tracker_wrapper):
         """Initialize GrlTrackerPlaylists.
 
         :param Grl.TrackerSource source: The Tracker source to wrap
         :param CoreModel coremodel: CoreModel instance to use models
                                     from
-        :param CoreSelection coreselection: CoreSelection instance to
-                                            use
+        :param Application application: Application instance
         :param CoreGrilo grilo: The CoreGrilo instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper
                                                instance
         """
         super().__init__()
 
+        self._application = application
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._grilo = grilo
         self._source = source
         self._model = self._coremodel.props.playlists
@@ -94,7 +94,7 @@ class GrlTrackerPlaylists(GObject.GObject):
     def _initial_playlists_fill(self):
         args = {
             "source": self._source,
-            "coreselection": self._coreselection,
+            "application": self._application,
             "grilo": self._grilo,
             "tracker": self._tracker
         }
@@ -147,7 +147,7 @@ class GrlTrackerPlaylists(GObject.GObject):
 
         playlist = Playlist(
             media=media, source=self._source, coremodel=self._coremodel,
-            coreselection=self._coreselection, grilo=self._grilo,
+            application=self._application, grilo=self._grilo,
             tracker=self._tracker)
 
         self._model.append(playlist)
@@ -292,9 +292,21 @@ class Playlist(GObject.GObject):
 
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            coremodel=None, coreselection=None, grilo=None, tracker=None):
-        super().__init__()
+            coremodel=None, application=None, grilo=None, tracker=None):
 
+        super().__init__()
+        """Initialize a playlist
+
+       :param Grl.Media media: A media object
+       :param string query: Tracker query that returns the playlist
+       :param string tag_text: The non translatable unique identifier
+            of the playlist
+       :param Grl.Source source: The Grilo Tracker source object
+       :param CoreModel coremodel: The CoreModel instance
+       :param Application application: The Application instance
+       :param CoreGrilo grilo: The CoreGrilo instance
+       :param TrackerWrapper tracker: The TrackerWrapper instance
+        """
         if media:
             self.props.pl_id = media.get_id()
             self.props.title = utils.get_media_title(media)
@@ -306,7 +318,7 @@ class Playlist(GObject.GObject):
         self._model = None
         self._source = source
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._grilo = grilo
         self._tracker = tracker
 
