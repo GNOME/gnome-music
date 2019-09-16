@@ -51,11 +51,11 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(self, coremodel, coreselection):
+    def __init__(self, coremodel, application):
         super().__init__()
 
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
