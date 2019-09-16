@@ -48,12 +48,15 @@ class GoaLastFM(GObject.GObject):
     def __init__(self):
         super().__init__()
 
+        self._reset_attributes()
+        Goa.Client.new(None, self._new_client_callback)
+
+    def _reset_attributes(self):
         self._client = None
         self._account = None
         self._authentication = None
         self._disabled = True
-
-        Goa.Client.new(None, self._new_client_callback)
+        self._music_disabled_id = None
 
     @log
     def _new_client_callback(self, source, result):
@@ -64,13 +67,18 @@ class GoaLastFM(GObject.GObject):
                 Goa.Error(error.code), error.message))
             return
 
-        self._client.connect('account-added', self._goa_account_mutation)
-        self._client.connect('account-removed', self._goa_account_mutation)
+        self._client.connect("account-added", self._goa_account_added)
+        self._client.connect("account-removed", self._goa_account_removed)
         self._find_lastfm_account()
 
-    @log
-    def _goa_account_mutation(self, klass, args):
+    def _goa_account_added(self, client, obj):
         self._find_lastfm_account()
+
+    def _goa_account_removed(self, client, obj):
+        account = obj.get_account()
+        if account.props.provider_type == "lastfm":
+            self._account.disconnect(self._music_disabled_id)
+            self._reset_attributes()
 
     @log
     def _find_lastfm_account(self):
@@ -82,7 +90,7 @@ class GoaLastFM(GObject.GObject):
                 self._authentication = obj.get_oauth2_based()
                 self._account = account
                 self.disabled = self._account.props.music_disabled
-                self._account.connect(
+                self._music_disabled_id = self._account.connect(
                     'notify::music-disabled', self._goa_music_disabled)
                 break
 
