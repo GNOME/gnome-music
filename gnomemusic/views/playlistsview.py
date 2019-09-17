@@ -37,6 +37,7 @@ from gnomemusic.widgets.playlisttile import PlaylistTile
 from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.utils import AdaptiveViewMode
 
+
 class PlaylistsView(BaseView):
     """Main view for playlists"""
 
@@ -58,7 +59,8 @@ class PlaylistsView(BaseView):
         self._pl_ctrls = PlaylistControls()
 
         super().__init__(
-            'playlists', _("Playlists"), "view-list-symbolic", application, sidebar_container)
+            'playlists', _("Playlists"), "view-list-symbolic",
+            application, sidebar_container)
 
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort

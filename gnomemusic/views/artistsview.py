@@ -58,7 +58,8 @@ class ArtistsView(BaseView):
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'artists', _("Artists"), "system-users-symbolic", application, sidebar_container)
+            'artists', _("Artists"), "system-users-symbolic",
+            application, sidebar_container)
 
         self._application = application
         self._artists = {}

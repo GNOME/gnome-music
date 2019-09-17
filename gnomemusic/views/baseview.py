@@ -24,7 +24,6 @@
 
 from gi.repository import GObject, Gtk, Handy
 
-from enum import IntEnum
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.utils import AdaptiveViewMode
 from gnomemusic import log
@@ -48,7 +47,9 @@ class BaseView(Gtk.Stack):
         :param GtkApplication application: The application object
         :param sidebar: The sidebar object (Default: Gtk.Box)
         """
-        Gtk.Stack.__init__(self, transition_type=Gtk.StackTransitionType.CROSSFADE, homogeneous=False)
+        super().__init__(
+            transition_type=Gtk.StackTransitionType.CROSSFADE,
+            homogeneous=False)
         self._leaflet = Handy.Leaflet()
         self._leaflet.props.vexpand = True
 

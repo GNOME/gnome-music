@@ -55,7 +55,8 @@ class Window(Gtk.ApplicationWindow):
 
     __gtype_name__ = "Window"
 
-    adaptive_view = GObject.Property(type=GObject.TYPE_INT, default=AdaptiveViewMode.MOBILE)
+    adaptive_view = GObject.Property(type=GObject.TYPE_INT,
+                                        default=AdaptiveViewMode.MOBILE)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -135,8 +136,9 @@ class Window(Gtk.ApplicationWindow):
             "notify::search-mode-active", self._on_search_mode_changed)
 
         self._player_toolbar = PlayerToolbar()
-        self._player_toolbar.bind_property("adaptive-view", self, "adaptive-view",
-                                            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE)
+        self._player_toolbar.bind_property(
+            "adaptive-view", self, "adaptive-view",
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE)
         self._player_toolbar.props.player = self._player
 
         self._headerbar.connect(
@@ -288,9 +290,10 @@ class Window(Gtk.ApplicationWindow):
             if i.title:
                 self._stack.add_titled(i, i.name, i.title)
                 self._stack.child_set_property(i, "icon-name", i.icon)
-                i.bind_property("adaptive-view", self, "adaptive-view",
-                                    GObject.BindingFlags.BIDIRECTIONAL
-                                    | GObject.BindingFlags.SYNC_CREATE)
+                i.bind_property(
+                    "adaptive-view", self, "adaptive-view",
+                    GObject.BindingFlags.BIDIRECTIONAL
+                    | GObject.BindingFlags.SYNC_CREATE)
             else:
                 self._stack.add_named(i, i.name)
 
@@ -524,9 +527,6 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_size_allocate(self, widget, allocation):
-        album_view = self.views[View.ALBUM]
-        artists_view = self.views[View.ARTIST]
-
         if allocation.width < 650:
             self.props.adaptive_view = AdaptiveViewMode.MOBILE
             self._headerbar.view = HeaderBar.View.TITLE
@@ -557,4 +557,3 @@ class Window(Gtk.ApplicationWindow):
 
         self.props.selection_mode = False
         playlist_dialog.destroy()
-

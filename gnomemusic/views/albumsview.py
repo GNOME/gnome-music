@@ -82,7 +82,8 @@ class AlbumsView(Gtk.Stack):
             GObject.BindingFlags.BIDIRECTIONAL)
         self._album_widget.bind_property(
             "adaptive-view", self, "adaptive-view",
-            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE)
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self.add(self._album_widget)
 

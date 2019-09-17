@@ -126,7 +126,8 @@ class PlayerToolbar(Gtk.ActionBar):
             self._next_button.hide()
             self.timer.hide()
             self._cover_stack.props.size = Art.Size.XSMALL
-            self.child_set_property(self.buttons, "pack-type", Gtk.PackType.END)
+            self.child_set_property(self.buttons, "pack-type",
+                                    Gtk.PackType.END)
         else:
             self._progress_scale.show()
             self._repeat_box.show()
@@ -134,7 +135,8 @@ class PlayerToolbar(Gtk.ActionBar):
             self._next_button.show()
             self.timer.show()
             self._cover_stack.props.size = Art.Size.SMALL
-            self.child_set_property(self.buttons, "pack-type", Gtk.PackType.START)
+            self.child_set_property(self.buttons, "pack-type",
+                                    Gtk.PackType.START)
 
     @Gtk.Template.Callback()
     @log

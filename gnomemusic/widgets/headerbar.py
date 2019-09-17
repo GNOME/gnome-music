@@ -212,10 +212,10 @@ class HeaderBar(Gtk.HeaderBar):
         self._view = value
         if value == HeaderBar.View.WIDE:
             self._squeezer.set_child_enabled(self._title_wide_switcher,
-                                            True)
+                                                True)
         elif value == HeaderBar.View.NARROW:
             self._squeezer.set_child_enabled(self._title_narrow_switcher,
-                                              True)
+                                                True)
         else:
             self._squeezer.set_child_enabled(self._title_text, True)
 
