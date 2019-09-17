@@ -22,16 +22,17 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
+from gi.repository import GObject, Gtk, Handy
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.widgets.disclistboxwidget import DiscBox
+from gnomemusic.utils import AdaptiveViewMode
 from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
-class ArtistAlbumWidget(Gtk.Box):
+class ArtistAlbumWidget(Handy.Column):
 
     __gtype_name__ = 'ArtistAlbumWidget'
 
@@ -40,6 +41,7 @@ class ArtistAlbumWidget(Gtk.Box):
     _disc_list_box = Gtk.Template.Child()
     _title_year = Gtk.Template.Child()
 
+    adaptive_view = GObject.Property(type=int, default=AdaptiveViewMode.MOBILE)
     selection_mode = GObject.Property(type=bool, default=False)
 
     __gsignals__ = {
@@ -54,7 +56,7 @@ class ArtistAlbumWidget(Gtk.Box):
     def __init__(
             self, corealbum, selection_mode_allowed, size_group=None,
             cover_size_group=None):
-        super().__init__(orientation=Gtk.Orientation.HORIZONTAL)
+        super().__init__()
 
         self._size_group = size_group
         self._cover_size_group = cover_size_group
@@ -90,6 +92,18 @@ class ArtistAlbumWidget(Gtk.Box):
             corealbum.props.model, self._create_widget)
 
         corealbum.props.model.items_changed(0, 0, 0)
+        self.connect("notify::adaptive-view", self._on_adaptive_view_changed)
+
+    def _on_adaptive_view_changed(self, widget, param):
+
+        if self.props.adaptive_view == AdaptiveViewMode.MOBILE:
+            self._cover_stack.set_halign(Gtk.Align.CENTER)
+            self.set_margin_right(0)
+            self.set_margin_left(0)
+        else:
+            self._cover_stack.set_halign(Gtk.Align.START)
+            self.set_margin_right(32)
+            self.set_margin_left(32)
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)

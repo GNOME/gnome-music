@@ -70,7 +70,7 @@ class SearchHeaderBar(Gtk.HeaderBar):
         self._entry = Gd.TaggedEntry()
         self._entry.props.halign = Gtk.Align.CENTER
         self._entry.props.visible = True
-        self._entry.props.width_request = 500
+        # self._entry.props.width_request = 500
 
         self._selection_menu = SelectionBarMenuButton()
 

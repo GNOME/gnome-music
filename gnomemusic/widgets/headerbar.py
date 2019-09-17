@@ -86,6 +86,16 @@ class HeaderBar(Gtk.HeaderBar):
         SEARCH = 2
         EMPTY = 3
 
+    class View(IntEnum):
+        """The three different views of the HeaderBar
+
+            They are switched between using HdySqueezer and
+            on the current visible window width
+        """
+        TITLE = 0
+        NARROW = 1
+        WIDE = 2
+
     __gtype_name__ = "HeaderBar"
 
     __gsignals__ = {
@@ -97,6 +107,14 @@ class HeaderBar(Gtk.HeaderBar):
     _cancel_button = Gtk.Template.Child()
     _back_button = Gtk.Template.Child()
     _menu_button = Gtk.Template.Child()
+
+    _squeezer = Gtk.Template.Child()
+    _title_text = Gtk.Template.Child()
+    _title_wide_switcher  = Gtk.Template.Child()
+    _title_narrow_switcher = Gtk.Template.Child()
+
+    _title_label = Gtk.Template.Child()
+    _subtitle_label = Gtk.Template.Child()
 
     search_mode_active = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
@@ -111,10 +129,6 @@ class HeaderBar(Gtk.HeaderBar):
         super().__init__()
 
         self._selection_mode = False
-
-        self._stack_switcher = Gtk.StackSwitcher(
-            can_focus=False, halign="center")
-        self._stack_switcher.show()
 
         self._selection_menu = SelectionBarMenuButton()
 
@@ -133,7 +147,11 @@ class HeaderBar(Gtk.HeaderBar):
             "selection-mode", self._select_button, "active",
             GObject.BindingFlags.BIDIRECTIONAL)
         self.bind_property(
-            "stack", self._stack_switcher, "stack",
+            "stack", self._title_wide_switcher, "stack",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+        self.bind_property(
+            "stack", self._title_narrow_switcher, "stack",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
@@ -147,6 +165,12 @@ class HeaderBar(Gtk.HeaderBar):
         self.connect(
             "notify::selection-mode-allowed",
             self._on_selection_mode_allowed_changed)
+
+    def set_title(self, title):
+        self._title_label.set_text(title)
+
+    def set_subtitle(self, subtitle):
+        self._subtitle_label.set_text(subtitle)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):
@@ -174,6 +198,28 @@ class HeaderBar(Gtk.HeaderBar):
         self._update()
 
     @GObject.Property
+    def view(self):
+        return self._view
+
+    @view.setter
+    def view(self, value):
+        """Set view of the of widget
+
+        This influences the look and functionality of the headerbar.
+
+        :param HeaderBar.View value: Widget view
+        """
+        self._view = value
+        if value == HeaderBar.View.WIDE:
+            self._squeezer.set_child_enabled(self._title_wide_switcher,
+                                            True)
+        elif value == HeaderBar.View.NARROW:
+            self._squeezer.set_child_enabled(self._title_narrow_switcher,
+                                              True)
+        else:
+            self._squeezer.set_child_enabled(self._title_text, True)
+
+    @GObject.Property
     def state(self):
         """State of the widget
 
@@ -199,11 +245,11 @@ class HeaderBar(Gtk.HeaderBar):
         if value == HeaderBar.State.EMPTY:
             self._search_button.props.sensitive = False
             self._select_button.props.sensitive = False
-            self._stack_switcher.hide()
+            self._squeezer.hide()
         else:
             self._search_button.props.sensitive = True
             self._select_button.props.sensitive = True
-            self._stack_switcher.show()
+            self._squeezer.show()
 
     @Gtk.Template.Callback()
     @log
@@ -219,10 +265,10 @@ class HeaderBar(Gtk.HeaderBar):
     def _update(self):
         if self.props.selection_mode:
             self.props.custom_title = self._selection_menu
-        elif self.props.state != HeaderBar.State.MAIN:
+        elif self.props.state == HeaderBar.State.EMPTY:
             self.props.custom_title = None
         else:
-            self.props.custom_title = self._stack_switcher
+            self.props.custom_title = self._squeezer
 
         self._back_button.props.visible = (
             not self.props.selection_mode

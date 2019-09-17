@@ -44,6 +44,12 @@ class View(IntEnum):
     SEARCH = 5
 
 
+class AdaptiveViewMode(IntEnum):
+    MOBILE = 0
+    TABLET = 1
+    DESKTOP = 2
+
+
 def get_album_title(item):
     """Returns the album title associated with the media item
 

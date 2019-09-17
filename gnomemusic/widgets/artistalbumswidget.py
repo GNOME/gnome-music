@@ -28,6 +28,7 @@ from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
+from gnomemusic.utils import AdaptiveViewMode
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
 
 logger = logging.getLogger(__name__)
@@ -43,6 +44,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
     __gtype_name__ = 'ArtistAlbumsWidget'
 
+    adaptive_view = GObject.Property(type=int, default=AdaptiveViewMode.MOBILE)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -97,6 +99,11 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
         self.bind_property(
             'selection-mode', widget, 'selection-mode',
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            'adaptive-view', widget, 'adaptive-view',
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
