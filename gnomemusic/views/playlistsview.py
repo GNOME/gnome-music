@@ -274,11 +274,18 @@ class PlaylistsView(BaseView):
         if widget is not None:
             coresong = widget.props.coresong
 
+        signal_id = None
+
+        def _on_playlist_loaded(klass):
+            self._player.play(coresong)
+            self._coremodel.disconnect(signal_id)
+
         selection = self._sidebar.get_selected_row()
         current_playlist = selection.props.playlist
+        signal_id = self._coremodel.connect(
+            "playlist-loaded", _on_playlist_loaded)
         self._coremodel.set_player_model(
             PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
-        self._player.play(coresong)
 
         return True
 
