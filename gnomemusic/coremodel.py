@@ -72,6 +72,7 @@ class CoreModel(GObject.GObject):
         "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    active_playlist = GObject.Property(type=Playlist, default=None)
     grilo = GObject.Property(type=CoreGrilo, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
@@ -261,6 +262,10 @@ class CoreModel(GObject.GObject):
                 self._current_playlist_model.disconnect(self._player_signal_id)
                 self._player_signal_id = None
                 self._current_playlist_model = None
+
+            if (playlist_type != PlayerPlaylist.Type.PLAYLIST
+                    and self.props.active_playlist is not None):
+                self.props.active_playlist = None
 
             self._playlist_model.remove_all()
 
