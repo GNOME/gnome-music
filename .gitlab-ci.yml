@@ -17,7 +17,7 @@ flatpak:
         FLATPAK_MODULE: "gnome-music"
         MANIFEST_PATH: "org.gnome.Music.json"
         MESON_ARGS: "-Dprofile=development"
-        RUNTIME_REPO: "https://sdk.gnome.org/gnome-nightly.flatpakrepo"
+        RUNTIME_REPO: "https://nightly.gnome.org/gnome-nightly.flatpakrepo"
 
 review:
     extends: .review
@@ -26,6 +26,11 @@ review:
 
 stop_review:
     extends: .stop_review
+
+nightly:
+    extends: .publish_nightly
+    dependencies:
+        - flatpak
 
 flake8:
   stage: check
