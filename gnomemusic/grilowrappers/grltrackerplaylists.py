@@ -31,6 +31,7 @@ gi.require_versions({"Grl": "0.3"})
 from gi.repository import Gio, Grl, GLib, GObject
 
 from gnomemusic.coresong import CoreSong
+from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
 
 
@@ -712,9 +713,12 @@ class MostPlayed(SmartPlaylist):
                     nie:usageCounter ?count .
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
+            %(location_filter)s
         }
         ORDER BY DESC(?count) LIMIT 50
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            "location_filter": TrackerWrapper.location_filter()
+        }
 
 
 class NeverPlayed(SmartPlaylist):
@@ -746,8 +750,11 @@ class NeverPlayed(SmartPlaylist):
             FILTER ( NOT EXISTS { ?song nie:usageCounter ?count .} )
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
+            %(location_filter)s
         } ORDER BY nfo:fileLastAccessed(?song) LIMIT 50
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            "location_filter": TrackerWrapper.location_filter()
+        }
 
 
 class RecentlyPlayed(SmartPlaylist):
@@ -788,9 +795,11 @@ class RecentlyPlayed(SmartPlaylist):
                      && EXISTS { ?song nie:usageCounter ?count .} )
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
+            %(location_filter)s
         } ORDER BY DESC(?last_played) LIMIT 50
         """.replace('\n', ' ').strip() % {
-            'compare_date': compare_date
+            'compare_date': compare_date,
+            "location_filter": TrackerWrapper.location_filter()
         }
 
 
@@ -831,9 +840,11 @@ class RecentlyAdded(SmartPlaylist):
             FILTER ( tracker:added(?song) > '%(compare_date)s'^^xsd:dateTime )
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) }
+            %(location_filter)s
         } ORDER BY DESC(tracker:added(?song)) LIMIT 50
         """.replace('\n', ' ').strip() % {
             'compare_date': compare_date,
+            "location_filter": TrackerWrapper.location_filter()
         }
 
 
@@ -866,8 +877,10 @@ class Favorites(SmartPlaylist):
                         nie:isStoredAs ?as ;
                         nao:hasTag nao:predefined-tag-favorite .
                 ?as nie:url ?url .
-            OPTIONAL { ?song nao:hasTag ?tag .
-                       FILTER (?tag = nao:predefined-tag-favorite) }
-
+                OPTIONAL { ?song nao:hasTag ?tag .
+                           FILTER (?tag = nao:predefined-tag-favorite) }
+                %(location_filter)s
             } ORDER BY DESC(tracker:added(?song))
-        """.replace('\n', ' ').strip()
+        """.replace('\n', ' ').strip() % {
+            "location_filter": TrackerWrapper.location_filter()
+        }
