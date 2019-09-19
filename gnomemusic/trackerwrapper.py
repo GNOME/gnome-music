@@ -98,3 +98,20 @@ class TrackerWrapper(GObject.GObject):
         :rtype: TrackerState
         """
         return self._tracker_available
+
+    @staticmethod
+    def location_filter():
+        try:
+            music_dir = GLib.get_user_special_dir(
+                GLib.UserDirectory.DIRECTORY_MUSIC)
+            assert music_dir is not None
+        except (TypeError, AssertionError):
+            logger.warning("XDG Music dir is not set")
+            return
+
+        music_dir = Tracker.sparql_escape_string(
+            GLib.filename_to_uri(music_dir))
+
+        query = "FILTER (STRSTARTS(nie:url(?song), '{}/'))".format(music_dir)
+
+        return query
