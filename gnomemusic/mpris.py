@@ -289,11 +289,12 @@ class MPRIS(DBusInterface):
         self._player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
         self._player.connect('seek-finished', self._on_seek_finished)
-        self._player.connect(
-            'playlist-changed', self._on_player_playlist_changed)
 
         self._coremodel = app.props.coremodel
         self._player_model = self._coremodel.props.playlist_sort
+
+        self._coremodel.connect(
+            "playlist-loaded", self._on_player_playlist_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
         self._playlists_loaded_id = self._coremodel.connect(
@@ -496,12 +497,12 @@ class MPRIS(DBusInterface):
         :returns: playlist existence and its structure
         :rtype: tuple
         """
-        if self._player.get_playlist_type() != PlayerPlaylist.Type.PLAYLIST:
+        current_playlist = self._coremodel.props.active_playlist
+        if current_playlist is None:
             return (False, ("/", "", ""))
 
-        playlist_id = self._player.get_playlist_id()
-        playlist = self._playlists.get_playlist_from_id(playlist_id)
-        mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
+        mpris_playlist = self._get_mpris_playlist_from_playlist(
+            current_playlist)
         return (True, mpris_playlist)
 
     @log
@@ -574,7 +575,7 @@ class MPRIS(DBusInterface):
         self._seeked(int(position_second * 1e6))
 
     @log
-    def _on_player_playlist_changed(self, klass):
+    def _on_player_playlist_changed(self, coremodel):
         self._update_songs_list()
 
         mpris_playlist = self._get_active_playlist()
@@ -591,6 +592,8 @@ class MPRIS(DBusInterface):
         self._coremodel.disconnect(self._playlists_loaded_id)
         for playlist in self._playlists_model:
             playlist.connect("notify::title", self._on_playlist_renamed)
+            playlist.connect(
+                "notify::active", self._on_player_playlist_changed)
 
         self._playlists_model.connect(
             "items-changed", self._on_playlists_count_changed)
