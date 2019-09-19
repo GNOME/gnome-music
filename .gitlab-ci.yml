@@ -6,16 +6,16 @@ stages:
 
 variables:
   BUNDLE: "gnome-music-dev.flatpak"
-  APP_ID: "org.gnome.MusicDevel"
-  FLATPAK_MODULE: "gnome-music"
   GIT_SUBMODULE_STRATEGY: normal
-  MANIFEST_PATH: "org.gnome.Music.json"
-  RUNTIME_REPO: "https://sdk.gnome.org/gnome-nightly.flatpakrepo"
 
 flatpak:
     extends: .flatpak
     variables:
+        APP_ID: "org.gnome.MusicDevel"
+        FLATPAK_MODULE: "gnome-music"
+        MANIFEST_PATH: "org.gnome.Music.json"
         MESON_ARGS: "-Dprofile=development"
+        RUNTIME_REPO: "https://sdk.gnome.org/gnome-nightly.flatpakrepo"
 
 review:
     extends: .review
