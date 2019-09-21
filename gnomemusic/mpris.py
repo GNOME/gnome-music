@@ -300,7 +300,7 @@ class MPRIS(DBusInterface):
         self._playlists_loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
 
-        self._player_previous_type = None
+        self._player_playlist_type = None
         self._path_list = []
         self._metadata_list = []
         self._previous_can_go_next = False
@@ -427,7 +427,7 @@ class MPRIS(DBusInterface):
 
         index_min = current_position - self._playlist_nb_songs
         index_max = current_position + self._playlist_nb_songs + 1
-        if self._player.get_playlist_type() == PlayerPlaylist.Type.ALBUM:
+        if self._player_playlist_type == PlayerPlaylist.Type.ALBUM:
             index_min = 0
             index_max = self._player_model.get_n_items()
 
@@ -576,6 +576,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_player_playlist_changed(self, coremodel, playlist_type):
+        self._player_playlist_type = playlist_type
         self._update_songs_list()
 
         mpris_playlist = self._get_active_playlist()
