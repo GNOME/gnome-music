@@ -125,6 +125,43 @@
             "cleanup": [ "/include" ]
         },
         {
+            "name": "chromaprint",
+            "config-opts": [
+                 "-DCMAKE_BUILD_TYPE=Release",
+                 "-DBUILD_TESTS=off",
+                 "-DBUILD_TOOLS=off",
+                 "-DAUDIO_PROCESSOR_LIB=dummy"
+            ],
+            "buildsystem": "cmake",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/acoustid/chromaprint/releases/download/v1.5.1/chromaprint-1.5.1.tar.gz",
+                    "sha256": "a1aad8fa3b8b18b78d3755b3767faff9abb67242e01b478ec9a64e190f335e1c"
+                }
+            ],
+            "cleanup": [
+                "/include",
+                "/lib/pkgconfig"
+            ]
+        },
+        {
+            "name": "gst-plugins-bad",
+            "config-opts": [
+                "-Dchromaprint=enabled",
+                "-Dopenh264=disabled",
+                "-Dvulkan=disabled"
+            ],
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz",
+                    "sha256": "a164923b94f0d08578a6fcaeaac6e0c05da788a46903a1086870e9ca45ad678e"
+                }
+            ]
+        },
+        {
             "name": "gnome-music",
             "config-opts" : [
                 "-Dprofile=development"
