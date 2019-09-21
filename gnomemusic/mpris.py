@@ -765,7 +765,7 @@ class MPRIS(DBusInterface):
                 break
 
         if selected_playlist is not None:
-            self._coremodel.activate_playlist(selected_playlist)
+            self._coremodel.props.active_playlist = selected_playlist
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).
