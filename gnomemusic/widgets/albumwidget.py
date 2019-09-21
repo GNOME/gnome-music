@@ -164,7 +164,7 @@ class AlbumWidget(Gtk.EventBox):
         signal_id = None
         coremodel = self._parent_view._window._app.props.coremodel
 
-        def _on_playlist_loaded(klass):
+        def _on_playlist_loaded(klass, playlist_type):
             self._player.play(song_widget.props.coresong)
             coremodel.disconnect(signal_id)
 
