@@ -112,8 +112,8 @@ class PlaylistsView(BaseView):
 
         self._loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
-        self._coremodel.connect(
-            "activate-playlist", self._on_playlist_activation_request)
+        self._active_playlist_id = self._coremodel.connect(
+            "notify::active-playlist", self._on_active_playlist_changed)
 
         # Selection is only possible from the context menu
         self.disconnect(self._selection_mode_id)
@@ -222,16 +222,20 @@ class PlaylistsView(BaseView):
         self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
         self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
-    def _on_playlist_activation_request(self, klass, playlist):
+    def _on_active_playlist_changed(self, klass, val):
         """Selects and starts playing a playlist.
 
         If the view has not been populated yet, populate it and then
         select the requested playlist. Otherwise, directly select the
         requested playlist and start playing.
 
-        :param CoreModel klass: Main CorexModel
-        :param Playlist playlist: requested playlist
+        :param CoreModel klass: Main CoreModel
+        :param GParamObject val: value
         """
+        playlist = self._coremodel.props.active_playlist
+        if playlist is None:
+            return
+
         def _on_playlist_loaded(playlist):
             playlist.disconnect(playlist_ready_id)
             self._song_activated(None)
@@ -277,14 +281,16 @@ class PlaylistsView(BaseView):
         signal_id = None
 
         def _on_playlist_loaded(klass, playlist_type):
-            self._coremodel.props.active_playlist = current_playlist
             self._player.play(coresong)
+            self._coremodel.handler_unblock(self._active_playlist_id)
             self._coremodel.disconnect(signal_id)
 
         selection = self._sidebar.get_selected_row()
         current_playlist = selection.props.playlist
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
+        self._coremodel.handler_block(self._active_playlist_id)
+        self._coremodel.props.active_playlist = current_playlist
         self._coremodel.set_player_model(
             PlayerPlaylist.Type.PLAYLIST, current_playlist.props.model)
 
