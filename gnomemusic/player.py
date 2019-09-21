@@ -79,9 +79,6 @@ class PlayerPlaylist(GObject.GObject):
         self._app = application
         self._position = 0
 
-        self._type = -1
-        self._id = -1
-
         self._validation_songs = {}
         self._discoverer = GstPbutils.Discoverer()
         self._discoverer.connect("discovered", self._on_discovered)
@@ -337,24 +334,6 @@ class PlayerPlaylist(GObject.GObject):
         else:
             coresong.props.validation = CoreSong.Validation.SUCCEEDED
 
-    @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
-    def playlist_id(self):
-        """Get playlist unique identifier.
-
-        :returns: playlist id
-        :rtype: int
-        """
-        return self._id
-
-    @GObject.Property(type=int, flags=GObject.ParamFlags.READABLE)
-    def playlist_type(self):
-        """Get playlist type.
-
-        :returns: playlist type
-        :rtype: PlayerPlaylist.Type
-        """
-        return self._type
-
 
 class Player(GObject.GObject):
     """Main Player object
@@ -570,20 +549,6 @@ class Player(GObject.GObject):
             self.play()
 
     @log
-    def playing_playlist(self, playlist_type, playlist_id):
-        """Test if the current playlist matches type and id.
-
-        :param PlayerPlaylist.Type playlist_type: playlist type
-        :param string playlist_id: unique identifer to recognize the playlist
-        :returns: True if these are the same playlists. False otherwise.
-        :rtype: bool
-        """
-        if (playlist_type == self._playlist.props.playlist_type
-                and playlist_id == self._playlist.props.playlist_id):
-            return True
-        return False
-
-    @log
     def _on_clock_tick(self, klass, tick):
         logger.debug("Clock tick {}, player at {} seconds".format(
             tick, self._gst_player.props.position))
@@ -650,24 +615,6 @@ class Player(GObject.GObject):
         :rtype: CoreSong
         """
         return self._playlist.props.current_song
-
-    @log
-    def get_playlist_type(self):
-        """Playlist type getter
-
-        :returns: Current playlist type. None if no playlist.
-        :rtype: PlayerPlaylist.Type
-        """
-        return self._playlist.props.playlist_type
-
-    @log
-    def get_playlist_id(self):
-        """Playlist id getter
-
-        :returns: PlayerPlaylist identifier. None if no playlist.
-        :rtype: int
-        """
-        return self._playlist.props.playlist_id
 
     @log
     def get_position(self):
