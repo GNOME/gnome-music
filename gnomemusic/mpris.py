@@ -575,7 +575,7 @@ class MPRIS(DBusInterface):
         self._seeked(int(position_second * 1e6))
 
     @log
-    def _on_player_playlist_changed(self, coremodel):
+    def _on_player_playlist_changed(self, coremodel, playlist_type):
         self._update_songs_list()
 
         mpris_playlist = self._get_active_playlist()

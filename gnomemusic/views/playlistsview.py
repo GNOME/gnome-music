@@ -276,7 +276,7 @@ class PlaylistsView(BaseView):
 
         signal_id = None
 
-        def _on_playlist_loaded(klass):
+        def _on_playlist_loaded(klass, playlist_type):
             self._coremodel.props.active_playlist = current_playlist
             self._player.play(coresong)
             self._coremodel.disconnect(signal_id)

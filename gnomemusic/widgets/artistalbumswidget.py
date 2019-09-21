@@ -80,7 +80,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
         coremodel = self._application.props.coremodel
 
-        def _on_playlist_loaded(klass):
+        def _on_playlist_loaded(klass, playlist_type):
             self._player.play(song_widget.props.coresong)
             coremodel.disconnect(signal_id)
 
