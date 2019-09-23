@@ -8,10 +8,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnome-music master\n"
+"Project-Id-Version: gnome-music gnome-3.34\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2019-08-12 20:25+0000\n"
-"PO-Revision-Date: 2019-08-16 11:08+0200\n"
+"PO-Revision-Date: 2019-09-23 11:03+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: čeština <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -551,11 +551,11 @@ msgstr "Seznamy k přehrání"
 
 #: gnomemusic/views/searchview.py:363
 msgid "Artists Results"
-msgstr "Záznamy umělců"
+msgstr "Nalezení umělci"
 
 #: gnomemusic/views/searchview.py:377
 msgid "Albums Results"
-msgstr "Záznamy alb"
+msgstr "Nalezená alba"
 
 #: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
