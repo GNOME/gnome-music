@@ -13,7 +13,7 @@ flatpak:
     extends: .flatpak
     stage: build-flatpak
     variables:
-        APP_ID: "org.gnome.MusicDevel"
+        APP_ID: "org.gnome.Music.Devel"
         FLATPAK_MODULE: "gnome-music"
         MANIFEST_PATH: "org.gnome.Music.json"
         MESON_ARGS: "-Dprofile=development"
