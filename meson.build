@@ -23,7 +23,7 @@ PROJECT_RDNN_NAME = 'org.gnome.Music'
 
 # NAME_SUFFIX is used in the about dialog
 if get_option('profile') == 'development'
-  PROFILE = 'Devel'
+  PROFILE = '.Devel'
   NAME_SUFFIX = ' (Development Snapshot)'
 else
   PROFILE = ''
