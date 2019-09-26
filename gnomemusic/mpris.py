@@ -470,13 +470,12 @@ class MPRIS(DBusInterface):
         :return: a D-Bus id to uniquely identify the playlist
         :rtype: str
         """
-        # Smart Playlists do not have an id
-        if playlist:
-            pl_id = playlist.props.pl_id or playlist.props.tag_text
-        else:
-            pl_id = "Invalid"
+        if not playlist:
+            return "/"
 
-        return "/org/mpris/MediaPlayer2/Playlist/{}".format(pl_id)
+        # Smart Playlists do not have an id
+        pl_id = playlist.props.pl_id or playlist.props.tag_text
+        return "/org/gnome/GnomeMusic/Playlist/{}".format(pl_id)
 
     @log
     def _get_mpris_playlist_from_playlist(self, playlist):
