@@ -30,6 +30,7 @@ from gi.repository import Gio, GLib
 
 from gnomemusic import log
 from gnomemusic.albumartcache import lookup_art_file_from_cache
+from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 
@@ -739,13 +740,15 @@ class MPRIS(DBusInterface):
 
         :param str path: Identifier of the track to skip to
         """
-        # FIXME: Dropped this for core rewrite.
-        pass
-        # current_song_path = self._get_song_dbus_path()
-        # position = self._path_list.index(current_song_path)
-        # goto_index = self._path_list.index(path)
-        # song_offset = goto_index - position
-        # self._player.play(song_offset=song_offset)
+        current_index = self._path_list.index(self._get_song_dbus_path())
+        current_coresong = self._player_model[current_index]
+
+        goto_index = self._path_list.index(path)
+        new_coresong = self._player_model[goto_index]
+
+        self._player.play(new_coresong)
+        current_coresong.props.state = SongWidget.State.PLAYED
+        new_coresong.props.state = SongWidget.State.PLAYING
 
     def _track_list_replaced(self, tracks, current_song):
         parameters = {
