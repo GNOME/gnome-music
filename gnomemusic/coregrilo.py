@@ -51,11 +51,17 @@ class CoreGrilo(GObject.GObject):
     def __repr__(self):
         return "<CoreGrilo>"
 
-    def __init__(self, coremodel, coreselection):
+    def __init__(self, coremodel, application):
+        """Initiate the CoreGrilo object
+
+        :param CoreModel coremodel: The CoreModel instance to use
+        :param Application application: The Application instance to use
+        """
         super().__init__()
 
+        self._application = application
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
@@ -122,7 +128,7 @@ class CoreGrilo(GObject.GObject):
                 and source.props.source_id not in self._wrappers.keys()
                 and new_state == TrackerState.AVAILABLE):
             new_wrapper = GrlTrackerWrapper(
-                source, self._coremodel, self._coreselection, self,
+                source, self._coremodel, self._application, self,
                 self._tracker_wrapper)
             self._wrappers[source.props.source_id] = new_wrapper
         # elif source.props.source_id[:10] == "grl-dleyna":

@@ -64,7 +64,7 @@ class Application(Gtk.Application):
         self._window = None
 
         self._coreselection = CoreSelection()
-        self._coremodel = CoreModel(self._coreselection)
+        self._coremodel = CoreModel(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
         self._player = Player(self)
