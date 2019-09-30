@@ -65,13 +65,12 @@ class CoreModel(GObject.GObject):
     """
 
     __gsignals__ = {
-        "activate-playlist": (
-            GObject.SignalFlags.RUN_FIRST, None, (Playlist,)),
         "artists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
-        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,)),
         "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
     }
 
+    active_playlist = GObject.Property(type=Playlist, default=None)
     grilo = GObject.Property(type=CoreGrilo, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
@@ -226,7 +225,7 @@ class CoreModel(GObject.GObject):
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
 
-            self.emit("playlist-loaded")
+            self.emit("playlist-loaded", playlist_type)
             return
 
         def _on_items_changed(model, position, removed, added):
@@ -262,6 +261,10 @@ class CoreModel(GObject.GObject):
                 self._player_signal_id = None
                 self._current_playlist_model = None
 
+            if (playlist_type != PlayerPlaylist.Type.PLAYLIST
+                    and self.props.active_playlist is not None):
+                self.props.active_playlist = None
+
             self._playlist_model.remove_all()
 
             if playlist_type == PlayerPlaylist.Type.ALBUM:
@@ -288,7 +291,7 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
 
-                self.emit("playlist-loaded")
+                self.emit("playlist-loaded", playlist_type)
             elif playlist_type == PlayerPlaylist.Type.ARTIST:
                 proxy_model = Gio.ListStore.new(Gio.ListModel)
 
@@ -314,7 +317,7 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
 
-                self.emit("playlist-loaded")
+                self.emit("playlist-loaded", playlist_type)
             elif playlist_type == PlayerPlaylist.Type.SONGS:
                 self._current_playlist_model = self._songliststore.props.model
 
@@ -324,14 +327,14 @@ class CoreModel(GObject.GObject):
                     if song.props.state == SongWidget.State.PLAYING:
                         song.props.state = SongWidget.State.PLAYED
 
-                self.emit("playlist-loaded")
+                self.emit("playlist-loaded", playlist_type)
             elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
                 self._current_playlist_model = self._song_search_flatten
 
                 for song in self._song_search_flatten:
                     self._playlist_model.append(song)
 
-                self.emit("playlist-loaded")
+                self.emit("playlist-loaded", playlist_type)
             elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
                 self._current_playlist_model = model
 
@@ -350,7 +353,7 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
 
-                self.emit("playlist-loaded")
+                self.emit("playlist-loaded", playlist_type)
 
         if self._current_playlist_model is not None:
             self._player_signal_id = self._current_playlist_model.connect(
@@ -379,16 +382,6 @@ class CoreModel(GObject.GObject):
         :param callback: function to perform once, the playlist is created
         """
         self.props.grilo.create_playlist(playlist_title, callback)
-
-    def activate_playlist(self, playlist):
-        """Activates a playlist.
-
-        Selects the playlist and start playing.
-
-        :param Playlist playlist: playlist to activate
-        """
-        # FIXME: just a proxy
-        self.emit("activate-playlist", playlist)
 
     def search(self, text):
         self.props.grilo.search(text)

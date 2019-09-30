@@ -30,6 +30,7 @@ from gi.repository import Gio, GLib
 
 from gnomemusic import log
 from gnomemusic.albumartcache import lookup_art_file_from_cache
+from gnomemusic.widgets.songwidget import SongWidget
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 
@@ -289,17 +290,18 @@ class MPRIS(DBusInterface):
         self._player.connect(
             'notify::repeat-mode', self._on_repeat_mode_changed)
         self._player.connect('seek-finished', self._on_seek_finished)
-        self._player.connect(
-            'playlist-changed', self._on_player_playlist_changed)
 
         self._coremodel = app.props.coremodel
         self._player_model = self._coremodel.props.playlist_sort
+
+        self._coremodel.connect(
+            "playlist-loaded", self._on_player_playlist_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
         self._playlists_loaded_id = self._coremodel.connect(
             "playlists-loaded", self._on_playlists_loaded)
 
-        self._player_previous_type = None
+        self._player_playlist_type = None
         self._path_list = []
         self._metadata_list = []
         self._previous_can_go_next = False
@@ -426,7 +428,7 @@ class MPRIS(DBusInterface):
 
         index_min = current_position - self._playlist_nb_songs
         index_max = current_position + self._playlist_nb_songs + 1
-        if self._player.get_playlist_type() == PlayerPlaylist.Type.ALBUM:
+        if self._player_playlist_type == PlayerPlaylist.Type.ALBUM:
             index_min = 0
             index_max = self._player_model.get_n_items()
 
@@ -470,13 +472,12 @@ class MPRIS(DBusInterface):
         :return: a D-Bus id to uniquely identify the playlist
         :rtype: str
         """
-        # Smart Playlists do not have an id
-        if playlist:
-            pl_id = playlist.props.pl_id or playlist.props.tag_text
-        else:
-            pl_id = "Invalid"
+        if not playlist:
+            return "/"
 
-        return "/org/mpris/MediaPlayer2/Playlist/{}".format(pl_id)
+        # Smart Playlists do not have an id
+        pl_id = playlist.props.pl_id or playlist.props.tag_text
+        return "/org/gnome/GnomeMusic/Playlist/{}".format(pl_id)
 
     @log
     def _get_mpris_playlist_from_playlist(self, playlist):
@@ -497,12 +498,12 @@ class MPRIS(DBusInterface):
         :returns: playlist existence and its structure
         :rtype: tuple
         """
-        if self._player.get_playlist_type() != PlayerPlaylist.Type.PLAYLIST:
+        current_playlist = self._coremodel.props.active_playlist
+        if current_playlist is None:
             return (False, ("/", "", ""))
 
-        playlist_id = self._player.get_playlist_id()
-        playlist = self._playlists.get_playlist_from_id(playlist_id)
-        mpris_playlist = self._get_mpris_playlist_from_playlist(playlist)
+        mpris_playlist = self._get_mpris_playlist_from_playlist(
+            current_playlist)
         return (True, mpris_playlist)
 
     @log
@@ -575,7 +576,8 @@ class MPRIS(DBusInterface):
         self._seeked(int(position_second * 1e6))
 
     @log
-    def _on_player_playlist_changed(self, klass):
+    def _on_player_playlist_changed(self, coremodel, playlist_type):
+        self._player_playlist_type = playlist_type
         self._update_songs_list()
 
         mpris_playlist = self._get_active_playlist()
@@ -592,6 +594,8 @@ class MPRIS(DBusInterface):
         self._coremodel.disconnect(self._playlists_loaded_id)
         for playlist in self._playlists_model:
             playlist.connect("notify::title", self._on_playlist_renamed)
+            playlist.connect(
+                "notify::active", self._on_player_playlist_changed)
 
         self._playlists_model.connect(
             "items-changed", self._on_playlists_count_changed)
@@ -736,13 +740,15 @@ class MPRIS(DBusInterface):
 
         :param str path: Identifier of the track to skip to
         """
-        # FIXME: Dropped this for core rewrite.
-        pass
-        # current_song_path = self._get_song_dbus_path()
-        # position = self._path_list.index(current_song_path)
-        # goto_index = self._path_list.index(path)
-        # song_offset = goto_index - position
-        # self._player.play(song_offset=song_offset)
+        current_index = self._path_list.index(self._get_song_dbus_path())
+        current_coresong = self._player_model[current_index]
+
+        goto_index = self._path_list.index(path)
+        new_coresong = self._player_model[goto_index]
+
+        self._player.play(new_coresong)
+        current_coresong.props.state = SongWidget.State.PLAYED
+        new_coresong.props.state = SongWidget.State.PLAYING
 
     def _track_list_replaced(self, tracks, current_song):
         parameters = {
@@ -762,7 +768,7 @@ class MPRIS(DBusInterface):
                 break
 
         if selected_playlist is not None:
-            self._coremodel.activate_playlist(selected_playlist)
+            self._coremodel.props.active_playlist = selected_playlist
 
     def _get_playlists(self, index, max_count, order, reverse):
         """Gets a set of playlists (MPRIS Method).
