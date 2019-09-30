@@ -74,7 +74,11 @@ class CoreModel(GObject.GObject):
     grilo = GObject.Property(type=CoreGrilo, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
-    def __init__(self, coreselection):
+    def __init__(self, application):
+        """Initiate the CoreModel object
+
+        :param Application application: The Application instance to use
+        """
         super().__init__()
 
         self._flatten_model = None
@@ -85,7 +89,7 @@ class CoreModel(GObject.GObject):
         self._model = Gio.ListStore.new(CoreSong)
         self._songliststore = SongListStore(self._model)
 
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
         self._album_model_sort.set_sort_func(
@@ -132,7 +136,7 @@ class CoreModel(GObject.GObject):
         self._user_playlists_model_sort.set_sort_func(
             self._wrap_list_store_sort_func(self._playlists_sort))
 
-        self.props.grilo = CoreGrilo(self, self._coreselection)
+        self.props.grilo = CoreGrilo(self, application)
         # FIXME: Not all instances of internal _grilo use have been
         # fixed.
         self._grilo = self.props.grilo
