@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-02-13 09:09+0000\n"
-"PO-Revision-Date: 2019-02-13 11:46+0100\n"
+"POT-Creation-Date: 2019-09-02 16:56+0000\n"
+"PO-Revision-Date: 2019-09-09 01:34+0200\n"
 "Last-Translator: Alan Mortensen <alanmortensen.am@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -50,19 +50,18 @@ msgstr ""
 "Find spor i din lokale samling, hent musik fra DLNA-servere eller prøv noget "
 "nyt med tjenesterne Jamendo og Magnatune."
 
-#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:55
-#: gnomemusic/window.py:72
+#: data/org.gnome.Music.appdata.xml.in.in:52
+msgid "The GNOME Music developers"
+msgstr "GNOME Musik-udviklerne"
+
+#: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
+#: gnomemusic/window.py:76
 msgid "Music"
 msgstr "Musik"
 
 #: data/org.gnome.Music.desktop.in.in:4
 msgid "Music Player"
 msgstr "Musikafspiller"
-
-#. Translators: Do NOT translate or transliterate this text (this is an icon file name)!
-#: data/org.gnome.Music.desktop.in.in:7
-msgid "@icon@"
-msgstr "@icon@"
 
 #. Translators: Search terms to find this application. Do NOT translate or localize the semicolons! The list MUST also end with a semicolon!
 #: data/org.gnome.Music.desktop.in.in:13
@@ -200,15 +199,15 @@ msgstr ""
 "“Magic of the vinyl” af Sami Pyylampi, billede er licenseret af CC-BY-SA 2.0 "
 "https://www.flickr.com/photos/_spy_/12270839403"
 
-#: data/ui/AlbumWidget.ui:112
+#: data/ui/AlbumWidget.ui:105
 msgid "Released"
 msgstr "Udgivet"
 
-#: data/ui/AlbumWidget.ui:128
+#: data/ui/AlbumWidget.ui:121
 msgid "Running Length"
 msgstr "Spilletid"
 
-#: data/ui/AlbumWidget.ui:173 gnomemusic/widgets/searchbar.py:69
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Komponist"
 
@@ -228,17 +227,18 @@ msgstr "_Om Musik"
 msgid "Menu"
 msgstr "Menu"
 
-#: data/ui/HeaderBar.ui:36
-msgid "Search"
-msgstr "Søg"
-
-#: data/ui/HeaderBar.ui:59
+#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
 msgid "Select"
 msgstr "Vælg"
 
-#: data/ui/HeaderBar.ui:81 data/ui/PlaylistDialog.ui:282
+#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:35
 msgid "_Cancel"
 msgstr "_Annullér"
+
+#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+msgid "Search"
+msgstr "Søg"
 
 #: data/ui/HeaderBar.ui:100
 msgid "Back"
@@ -351,11 +351,11 @@ msgstr "Bland/gentag fra"
 msgid "Previous"
 msgstr "Forrige"
 
-#: data/ui/PlayerToolbar.ui:88 gnomemusic/widgets/playertoolbar.py:139
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
 msgid "Play"
 msgstr "Afspil"
 
-#: data/ui/PlayerToolbar.ui:106
+#: data/ui/PlayerToolbar.ui:102
 msgid "Next"
 msgstr "Næste"
 
@@ -384,37 +384,53 @@ msgstr "_Slet"
 msgid "_Rename…"
 msgstr "_Omdøb …"
 
-#: data/ui/PlaylistControls.ui:33
+#: data/ui/PlaylistControls.ui:40
 msgid "Playlist Name"
 msgstr "Navn på afspilningsliste"
 
-#: data/ui/PlaylistControls.ui:67
+#: data/ui/PlaylistControls.ui:74
 msgid "_Done"
 msgstr "_Færdig"
 
-#: data/ui/PlaylistDialog.ui:68
+#: data/ui/PlaylistDialog.ui:66
 msgid "Enter a name for your first playlist"
 msgstr "Indtast et navn for din første afspilningsliste"
 
-#: data/ui/PlaylistDialog.ui:97
+#: data/ui/PlaylistDialog.ui:92
 msgid "C_reate"
 msgstr "_Opret"
 
-#: data/ui/PlaylistDialog.ui:168
+#: data/ui/PlaylistDialog.ui:155
 msgid "New Playlist…"
 msgstr "Ny afspilningsliste …"
 
-#: data/ui/PlaylistDialog.ui:184
+#: data/ui/PlaylistDialog.ui:169
 msgid "Add"
 msgstr "Tilføj"
 
-#: data/ui/PlaylistDialog.ui:279
+#: data/ui/PlaylistDialog.ui:241
 msgid "Add to Playlist"
 msgstr "Tilføj til afspilningsliste"
 
-#: data/ui/PlaylistDialog.ui:295
+#: data/ui/PlaylistDialog.ui:257
 msgid "_Add"
 msgstr "_Tilføj"
+
+#: data/ui/SearchView.ui:44 gnomemusic/views/artistsview.py:59
+msgid "Artists"
+msgstr "Kunstnere"
+
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
+msgid "View All"
+msgstr "Vis alle"
+
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:61
+msgid "Albums"
+msgstr "Album"
+
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
+msgid "Songs"
+msgstr "Sange"
 
 #: data/ui/SelectionBarMenuButton.ui:7
 msgid "Select All"
@@ -432,128 +448,124 @@ msgstr "Klik på elementerne for at vælge dem"
 msgid "_Add to Playlist"
 msgstr "_Tilføj til afspilningsliste"
 
-#: gnomemusic/gstplayer.py:410
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+msgid "Most Played"
+msgstr "Mest afspillet"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+msgid "Never Played"
+msgstr "Aldrig afspillet"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+msgid "Recently Played"
+msgstr "Afspillet for nylig"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+msgid "Recently Added"
+msgstr "Tilføjet for nylig"
+
+#. TRANSLATORS: this is a playlist name
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+msgid "Favorite Songs"
+msgstr "Yndlingssange"
+
+#: gnomemusic/gstplayer.py:403
 msgid "Unable to play the file"
 msgstr "Kan ikke afspille filen"
 
-#: gnomemusic/gstplayer.py:416
+#: gnomemusic/gstplayer.py:409
 msgid "_Find in {}"
 msgstr "_Find i {}"
 
 #. TRANSLATORS: separator for two codecs
-#: gnomemusic/gstplayer.py:427
+#: gnomemusic/gstplayer.py:420
 msgid " and "
 msgstr " og "
 
 #. TRANSLATORS: separator for a list of codecs
-#: gnomemusic/gstplayer.py:430
+#: gnomemusic/gstplayer.py:423
 msgid ", "
 msgstr ", "
 
-#: gnomemusic/gstplayer.py:432
+#: gnomemusic/gstplayer.py:425
 msgid "{} is required to play the file, but is not installed."
 msgid_plural "{} are required to play the file, but are not installed."
 msgstr[0] "{} kræves for at afspille filen, men er ikke installeret."
 msgstr[1] "{} kræves for at afspille filen, men er ikke installeret."
 
-#: gnomemusic/inhibitsuspend.py:67
+#: gnomemusic/inhibitsuspend.py:72
 msgid "Playing music"
 msgstr "Afspiller musik"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:59
-msgid "Most Played"
-msgstr "Mest afspillet"
+#: gnomemusic/utils.py:62
+msgid "Unknown album"
+msgstr "Ukendt album"
 
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:64
-msgid "Never Played"
-msgstr "Aldrig afspillet"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:69
-msgid "Recently Played"
-msgstr "Afspillet for nylig"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:74
-msgid "Recently Added"
-msgstr "Tilføjet for nylig"
-
-#. TRANSLATORS: this is a playlist name
-#: gnomemusic/playlists.py:79
-msgid "Favorite Songs"
-msgstr "Yndlingssange"
-
-#: gnomemusic/utils.py:75
+#: gnomemusic/utils.py:83
 msgid "Unknown Artist"
 msgstr "Ukendt kunstner"
 
-#: gnomemusic/utils.py:87
-msgid "Untitled"
-msgstr "Unavngivet"
-
-#: gnomemusic/views/albumsview.py:44 gnomemusic/views/searchview.py:577
-msgid "Albums"
-msgstr "Album"
-
-#: gnomemusic/views/artistsview.py:61 gnomemusic/views/searchview.py:579
-msgid "Artists"
-msgstr "Kunstnere"
-
-#: gnomemusic/views/emptyview.py:67
+#: gnomemusic/views/emptyview.py:79
 msgid "Music folder"
 msgstr "Musikmappe"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:71
+#: gnomemusic/views/emptyview.py:83
 msgid "The contents of your {} will appear here."
 msgstr "Indholdet af din {} vil blive vist her."
 
-#: gnomemusic/views/emptyview.py:105
+#: gnomemusic/views/emptyview.py:119
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:115 gnomemusic/views/emptyview.py:121
+#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
 msgid "No music found"
 msgstr "Ingen musik fundet"
 
-#: gnomemusic/views/emptyview.py:123
+#: gnomemusic/views/emptyview.py:137
 msgid "Try a different search"
 msgstr "Prøv en anden søgning"
 
-#: gnomemusic/views/emptyview.py:129
+#: gnomemusic/views/emptyview.py:143
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Musik kunne ikke forbinde til Tracker"
 
-#: gnomemusic/views/emptyview.py:132
+#: gnomemusic/views/emptyview.py:146
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr "Dine musikfiler kan ikke indekseres, hvis ikke Tracker kører"
 
-#: gnomemusic/views/playlistview.py:67 gnomemusic/views/searchview.py:583
+#: gnomemusic/views/emptyview.py:154
+msgid "Your system Tracker version seems outdated"
+msgstr "Dit system synes at have en gammel version af Tracker"
+
+#: gnomemusic/views/emptyview.py:157
+msgid "Music needs Tracker version 2.2.0 or higher"
+msgstr "Musik kræver Tracker version 2.2.0 eller nyere"
+
+#: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "Afspilningslister"
 
-#: gnomemusic/views/playlistview.py:640
-msgid "Playlist {} removed"
-msgstr "Afspilningslisten {} fjernet"
+#: gnomemusic/views/searchview.py:365
+msgid "Artists Results"
+msgstr "Resultater — kunstnere"
 
-#: gnomemusic/views/playlistview.py:646
-msgid "{} removed from {}"
-msgstr "{} fjernet fra {}"
+#: gnomemusic/views/searchview.py:379
+msgid "Albums Results"
+msgstr "Resultater — albummer"
 
-#: gnomemusic/views/searchview.py:581 gnomemusic/views/songsview.py:55
-msgid "Songs"
-msgstr "Sange"
-
-#: gnomemusic/widgets/albumwidget.py:168
+#: gnomemusic/widgets/albumwidget.py:147
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minut"
 msgstr[1] "{} minutter"
 
-#: gnomemusic/widgets/disclistboxwidget.py:141
+#: gnomemusic/widgets/disclistboxwidget.py:82
 msgid "Disc {}"
 msgstr "Disk {}"
 
@@ -563,51 +575,58 @@ msgid_plural "Selected {} items"
 msgstr[0] "{} element valgt"
 msgstr[1] "{} elementer valgt"
 
-#: gnomemusic/widgets/notificationspopup.py:169
+#: gnomemusic/widgets/notificationspopup.py:168
 msgid "Loading"
 msgstr "Indlæser"
 
-#: gnomemusic/widgets/notificationspopup.py:232
+#: gnomemusic/widgets/notificationspopup.py:241
 msgid "_Undo"
 msgstr "_Fortryd"
 
-#: gnomemusic/widgets/playertoolbar.py:136
+#: gnomemusic/widgets/notificationspopup.py:256
+msgid "Playlist {} removed"
+msgstr "Afspilningslisten {} fjernet"
+
+#: gnomemusic/widgets/notificationspopup.py:260
+msgid "{} removed from {}"
+msgstr "{} fjernet fra {}"
+
+#: gnomemusic/widgets/playertoolbar.py:150
 msgid "Pause"
 msgstr "Pause"
 
-#: gnomemusic/widgets/playlistcontrols.py:96
+#: gnomemusic/widgets/playlistcontrols.py:83
 msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} sang"
 msgstr[1] "{} sange"
 
-#: gnomemusic/widgets/searchbar.py:66 gnomemusic/widgets/searchbar.py:114
-msgid "All"
-msgstr "Alle"
+#~ msgid "@icon@"
+#~ msgstr "@icon@"
 
-#: gnomemusic/widgets/searchbar.py:67
-msgid "Artist"
-msgstr "Kunstner"
+#~ msgid "Untitled"
+#~ msgstr "Unavngivet"
 
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Album"
-msgstr "Album"
+#~ msgid "All"
+#~ msgstr "Alle"
 
-#: gnomemusic/widgets/searchbar.py:70
-msgid "Track Title"
-msgstr "Sportitel"
+#~ msgid "Artist"
+#~ msgstr "Kunstner"
 
-#: gnomemusic/widgets/searchbar.py:115
-msgid "Local"
-msgstr "Lokalt"
+#~ msgid "Album"
+#~ msgstr "Album"
 
-#: gnomemusic/widgets/searchbar.py:283
-msgid "Sources"
-msgstr "Kilder"
+#~ msgid "Track Title"
+#~ msgstr "Sportitel"
 
-#: gnomemusic/widgets/searchbar.py:292
-msgid "Match"
-msgstr "Søg på"
+#~ msgid "Local"
+#~ msgstr "Lokalt"
+
+#~ msgid "Sources"
+#~ msgstr "Kilder"
+
+#~ msgid "Match"
+#~ msgstr "Søg på"
 
 #~ msgid "_Quit"
 #~ msgstr "_Afslut"
