@@ -55,6 +55,7 @@ class Window(Gtk.ApplicationWindow):
 
     __gtype_name__ = "Window"
 
+    active_view = GObject.Property(type=GObject.GObject, default=None)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -166,6 +167,8 @@ class Window(Gtk.ApplicationWindow):
         # if some music is available, populate stack with mainviews,
         # show stack and set empty_view to empty_search_view
         self.views[View.EMPTY] = EmptyView()
+        self._stack.connect(
+            "notify::visible-child", self._on_stack_visible_child_changed)
         self._stack.add_named(self.views[View.EMPTY], "emptyview")
 
         # Add the 'background' styleclass so it properly hides the
@@ -223,6 +226,9 @@ class Window(Gtk.ApplicationWindow):
             self._switch_to_player_view()
         else:
             self._switch_to_empty_view()
+
+    def _on_stack_visible_child_changed(self, klass, value):
+        self.props.active_view = self._stack.props.visible_child
 
     def _on_tracker_available(self, klass, value):
         grilo = self._app.props.coremodel.props.grilo
