@@ -142,7 +142,8 @@ class ArtistsView(BaseView):
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         artist_tile = row.get_child()
-        if self.props.selection_mode:
+        if (self.props.selection_mode
+                and self._window.props.active_view is self):
             artist_tile.props.selected = not artist_tile.props.selected
             return
 
