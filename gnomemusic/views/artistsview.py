@@ -142,7 +142,14 @@ class ArtistsView(BaseView):
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         artist_tile = row.get_child()
-        if self.props.selection_mode:
+        # On application start the first row of ArtistView is activated
+        # to show an intial artist. When this happens while any of the
+        # views are in selection mode, this artist will be incorrectly
+        # selected.
+        # When selecting items check that the current visible view is
+        # ArtistsView, to circumvent this issue.
+        if (self.props.selection_mode
+                and self._window.props.active_view is self):
             artist_tile.props.selected = not artist_tile.props.selected
             return
 
