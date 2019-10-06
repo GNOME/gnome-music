@@ -1,6 +1,5 @@
 *~
 builddir/
-subprojects/
 /*.bak
 /*.lo
 /*.o

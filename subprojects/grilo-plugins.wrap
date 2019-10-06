@@ -1,0 +1,4 @@
+[wrap-git]
+directory = grilo-plugins
+url = https://gitlab.gnome.org/GNOME/grilo-plugins.git
+revision = head
