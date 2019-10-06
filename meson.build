@@ -45,8 +45,8 @@ dependency('libsoup-2.4')
 dependency('tracker-sparql-2.0', version: '>= 2.2.0')
 dependency('pygobject-3.0', version: '>= 3.29.1')
 dependency('py3cairo', version: '>= 1.14.0')
-dependency('grilo-0.3', version: '>= 0.3.9')
-dependency('grilo-plugins-0.3', version: '>= 0.3.9')
+dependency('grilo-0.3', version: '>= 0.3.9', fallback: ['grilo', 'libgrl_dep'])
+dependency('grilo-plugins-0.3', version: '>= 0.3.9', fallback: ['grilo-plugins', 'grilo_plugins_dep'])
 
 subproject('libgd',
     default_options: [
