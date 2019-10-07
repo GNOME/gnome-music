@@ -168,7 +168,7 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self._window.set_default_icon_name(self.props.application_id)
-            if self.props.application_id == 'org.gnome.MusicDevel':
+            if self.props.application_id == "org.gnome.Music.Devel":
                 self._window.get_style_context().add_class('devel')
             MPRIS(self)
 
