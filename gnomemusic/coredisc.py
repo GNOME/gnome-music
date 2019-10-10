@@ -57,8 +57,8 @@ class CoreDisc(GObject.GObject):
             self._model.set_sort_func(
                 self._wrap_sort_func(self._disc_sort))
 
-            self._coremodel.props.songs.connect(
-                "items-changed", self._on_core_changed)
+            # self._coremodel.props.songs.connect(
+            #     "items-changed", self._on_core_changed)
             self._model.connect("items-changed", self._on_disc_changed)
 
             self._get_album_disc(
@@ -67,6 +67,10 @@ class CoreDisc(GObject.GObject):
         return self._model
 
     def _on_core_changed(self, model, position, removed, added):
+        self._get_album_disc(
+            self.props.media, self.props.disc_nr, self._filter_model)
+
+    def update2(self):
         self._get_album_disc(
             self.props.media, self.props.disc_nr, self._filter_model)
 

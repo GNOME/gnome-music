@@ -112,3 +112,9 @@ class CoreAlbum(GObject.GObject):
         # well.
         if self._selected is True:
             self.props.model.items_changed(0, 0, 0)
+
+    def update2(self):
+        print("update of", self.props.title, "by", self.props.artist)
+
+        for coredisc in self.props.model:
+            coredisc.update2()
