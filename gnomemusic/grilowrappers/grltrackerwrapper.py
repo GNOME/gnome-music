@@ -325,11 +325,44 @@ class GrlTrackerWrapper(GObject.GObject):
             else:
                 self._hash[media.get_id()].update(media)
 
+            self._check_album_change2(media.get_id())
+
         options = self._fast_options.copy()
 
         self._source.query(
             self._song_media_query(media_ids), self.METADATA_KEYS,
             options, _update_changed_media)
+
+    def _check_album_change2(self, song_id):
+        query = """
+        SELECT
+            tracker:id(?album) AS ?id
+        WHERE {
+            ?album a nmm:MusicAlbum .
+            ?song a nmm:MusicPiece ;
+                    nmm:musicAlbum ?album .
+            FILTER ( tracker:id(?song) = %(song_id) )
+        }
+        """.replace('\n', ' ').strip() % {
+            'song_id': song_id
+        }
+
+        def _changed_album_id_cb(source, op_id, media, user_data, error):
+            if error:
+                print("ERROR", error)
+                return
+
+            if not media:
+                return
+
+            corealbum = self._album_ids[media.get_id()]
+
+            corealbum.update2()
+
+        options = self._fast_options.copy()
+
+        self._source.query(
+            query, [Grl.METADATA_KEY_ID], options, _changed_album_id_cb)
 
     def _initial_songs_fill(self, source):
         self._window.notifications_popup.push_loading()
