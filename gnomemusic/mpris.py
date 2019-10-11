@@ -578,7 +578,6 @@ class MPRIS(DBusInterface):
     @log
     def _on_player_playlist_changed(self, coremodel, playlist_type):
         self._player_playlist_type = playlist_type
-        self._update_songs_list()
 
         mpris_playlist = self._get_active_playlist()
         if mpris_playlist == self._previous_mpris_playlist:
