@@ -71,7 +71,10 @@ class ArtistsView(BaseView):
         self._loaded_id = self._coremodel.connect(
             "artists-loaded", self._on_artists_loaded)
 
-        sidebar_container.props.width_request = 220
+        sidebar_container.set_size_request(220, -1)
+        # Magic number '562' derived from smallest apparent width of shrinkage
+        # before elements began to shift out of window
+        self._box.set_size_request(562, -1)
         sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
