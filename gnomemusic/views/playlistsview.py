@@ -97,10 +97,13 @@ class PlaylistsView(BaseView):
             'activate', self._stage_playlist_for_renaming)
         self._window.add_action(self._playlist_rename_action)
 
-        self._grid.insert_row(0)
-        self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
+        self._box.add(self._pl_ctrls)
+        self._box.reorder_child(self._pl_ctrls, 0)
 
         sidebar_container.set_size_request(220, -1)
+        # Magic number '417' derived from smallest apparent width of shrinkage
+        # before elements began to shift out of window
+        self._box.set_size_request(417, -1)
         sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self._sidebar.connect('row-activated', self._on_playlist_activated)

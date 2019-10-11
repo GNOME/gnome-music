@@ -46,16 +46,20 @@ class BaseView(Gtk.Stack):
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
 
-        self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
+        if sidebar:
+            self._grid = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
+        else:
+            self._grid = Gtk.Grid(orientation=Gtk.Orientation.HORIZONTAL)
         self._box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
 
         # Setup the main view
         self._setup_view()
 
         if sidebar:
-            self._grid.add(sidebar)
-
-        self._grid.add(self._box)
+            self._grid.pack1(sidebar, True, False)
+            self._grid.pack2(self._box, True, False)
+        else:
+            self._grid.add(self._box)
 
         self._window = application.props.window
         self._headerbar = self._window._headerbar
