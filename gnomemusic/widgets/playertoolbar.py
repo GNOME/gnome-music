@@ -32,6 +32,7 @@ from gnomemusic.player import Player, RepeatMode
 from gnomemusic.widgets.coverstack import CoverStack  # noqa: F401
 from gnomemusic.widgets.smoothscale import SmoothScale  # noqa: F401
 from gnomemusic.widgets.twolinetip import TwoLineTip
+from gnomemusic.utils import AdaptiveViewMode
 import gnomemusic.utils as utils
 
 
@@ -41,8 +42,9 @@ class PlayerToolbar(Gtk.ActionBar):
 
     Contains the ui of playing a song with Music.
     """
-
     __gtype_name__ = 'PlayerToolbar'
+
+    adaptive_view = GObject.Property(type=int, default=AdaptiveViewMode.MOBILE)
 
     _artist_label = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
@@ -57,6 +59,10 @@ class PlayerToolbar(Gtk.ActionBar):
     _repeat_image = Gtk.Template.Child()
     _song_info_box = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
+    _repeat_box = Gtk.Template.Child()
+    nowplaying_labels = Gtk.Template.Child()
+    timer = Gtk.Template.Child()
+    buttons = Gtk.Template.Child()
 
     _repeat_dict = {
         RepeatMode.ALL: "media-playlist-repeat-symbolic",
@@ -75,6 +81,7 @@ class PlayerToolbar(Gtk.ActionBar):
         self._player = None
 
         self._cover_stack.props.size = Art.Size.XSMALL
+        self.connect("notify::adaptive-view", self._on_adaptive_view_changed)
 
         self._tooltip = TwoLineTip()
 
@@ -110,6 +117,27 @@ class PlayerToolbar(Gtk.ActionBar):
 
         self._sync_repeat_image()
 
+    def _on_adaptive_view_changed(self, widget, param):
+
+        if self.props.adaptive_view != AdaptiveViewMode.DESKTOP:
+            self._progress_scale.hide()
+            self._repeat_box.hide()
+            self._prev_button.hide()
+            self._next_button.hide()
+            self.timer.hide()
+            self._cover_stack.props.size = Art.Size.XSMALL
+            self.child_set_property(self.buttons, "pack-type",
+                                    Gtk.PackType.END)
+        else:
+            self._progress_scale.show()
+            self._repeat_box.show()
+            self._prev_button.show()
+            self._next_button.show()
+            self.timer.show()
+            self._cover_stack.props.size = Art.Size.SMALL
+            self.child_set_property(self.buttons, "pack-type",
+                                    Gtk.PackType.START)
+
     @Gtk.Template.Callback()
     @log
     def _on_progress_value_changed(self, progress_scale):
@@ -125,6 +153,10 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _on_play_button_clicked(self, button):
         self._player.play_pause()
+        if self._player.props.state != Playback.PLAYING:
+            self.hide()
+        else:
+            self.show()
 
     @Gtk.Template.Callback()
     @log

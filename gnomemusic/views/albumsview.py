@@ -25,6 +25,7 @@
 from gettext import gettext as _
 from gi.repository import GObject, Gtk
 
+from gnomemusic.utils import AdaptiveViewMode
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
 from gnomemusic.widgets.albumwidget import AlbumWidget
@@ -39,6 +40,7 @@ class AlbumsView(Gtk.Stack):
 
     __gtype_name__ = "AlbumsView"
 
+    adaptive_view = GObject.Property(type=int, default=AdaptiveViewMode.MOBILE)
     search_mode_active = GObject.Property(type=bool, default=False)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
@@ -59,6 +61,7 @@ class AlbumsView(Gtk.Stack):
         # FIXME: Make these properties.
         self.name = "albums"
         self.title = _("Albums")
+        self.icon = "media-optical-cd-audio-symbolic"
 
         self._window = application.props.window
         self._headerbar = self._window._headerbar
@@ -77,13 +80,25 @@ class AlbumsView(Gtk.Stack):
         self._album_widget.bind_property(
             "selection-mode", self, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
+        self._album_widget.bind_property(
+            "adaptive-view", self, "adaptive-view",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
 
         self.add(self._album_widget)
 
+        self.connect("notify::adaptive-view", self._on_adaptive_view_changed)
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
-
         self.show_all()
+
+    def _on_adaptive_view_changed(self, widget, param):
+        if self.props.adaptive_view == AdaptiveViewMode.MOBILE:
+            self._flowbox.set_max_children_per_line(2)
+        elif self.props.adaptive_view == AdaptiveViewMode.TABLET:
+            self._flowbox.set_max_children_per_line(4)
+        else:
+            self._flowbox.set_max_children_per_line(8)
 
     def _on_selection_mode_changed(self, widget, data=None):
         if not self.props.selection_mode:
@@ -129,8 +144,8 @@ class AlbumsView(Gtk.Stack):
 
     def _set_album_headerbar(self, corealbum):
         self._headerbar.props.state = HeaderBar.State.CHILD
-        self._headerbar.props.title = corealbum.props.title
-        self._headerbar.props.subtitle = corealbum.props.artist
+        self._headerbar.set_title(corealbum.props.title)
+        self._headerbar.set_subtitle(corealbum.props.artist)
 
     def _toggle_all_selection(self, selected):
         """

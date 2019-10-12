@@ -54,7 +54,8 @@ class SongsView(BaseView):
         :param player: The main player object
         """
         self._coremodel = application.props.coremodel
-        super().__init__('songs', _("Songs"), application)
+        super().__init__('songs', _("Songs"), "emblem-music-symbolic",
+                            application)
 
         self._iter_to_clean = None
 

@@ -1,68 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
-  <template parent="GtkBox" class="ArtistAlbumWidget">
-    <property name="margin_top">30</property>
-    <property name="margin_right">120</property>
+  <template class="ArtistAlbumWidget" parent="HdyColumn">
     <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="hexpand">True</property>
+    <property name="maximum_width">800</property>
+    <property name="margin_top">32</property>
+    <property name="linear_growth_width">800</property>
     <child>
-      <object class="CoverStack" id="_cover_stack">
-        <property name="visible">True</property>
-	<property name="margin_top">20</property>
-	<property name="margin_right">30</property>
-        <property name="margin_bottom">20</property>
-	<property name="margin_left">120</property>
-        <property name="can_focus">False</property>
-        <property name="valign">start</property>
-      </object>
-      <packing>
-        <property name="position">0</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkBox" id="_album_box">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkBox" id="box3">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
+        <object class="GtkBox">
+          <property name="visible">True</property>
+          <property name="can_focus">False</property>
+          <property name="orientation">vertical</property>
             <child>
-              <object class="GtkLabel" id="_title_year">
+              <object class="CoverStack" id="_cover_stack">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_top">20</property>
-                <property name="margin_bottom">20</property>
-                <property name="ellipsize">middle</property>
-                <property name="xalign">0</property>
-                <property name="yalign">0</property>
-                <style>
-                  <class name="album-title"/>
-                </style>
+                <property name="valign">center</property>
+                <property name="halign">center</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="_album_box">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkBox" id="box3">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <child>
+                      <object class="GtkLabel" id="_title_year">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="margin_top">20</property>
+                        <property name="margin_bottom">20</property>
+                        <property name="ellipsize">middle</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
+                        <property name="halign">center</property>
+                        <style>
+                          <class name="album-title"/>
+                        </style>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="DiscListBox" id="_disc_list_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="selection-mode">0</property>
+                    <!-- <property name="orientation">vertical</property> -->
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
             </child>
-          </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="DiscListBox" id="_disc_list_box">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="selection-mode">0</property>
-            <!-- <property name="orientation">vertical</property> -->
-          </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-      <packing>
-        <property name="position">1</property>
-      </packing>
+        </object>
     </child>
   </template>
 </interface>

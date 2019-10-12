@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gdk, GObject, Gio, Gtk
+from gi.repository import Gdk, GObject, Gio, Gtk, Handy
 
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
@@ -35,6 +35,7 @@ from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.playlisttile import PlaylistTile
 from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.utils import AdaptiveViewMode
 
 
 class PlaylistsView(BaseView):
@@ -52,17 +53,19 @@ class PlaylistsView(BaseView):
         """
         self._sidebar = Gtk.ListBox()
         sidebar_container = Gtk.ScrolledWindow()
+        sidebar_container.props.width_request = 285
         sidebar_container.add(self._sidebar)
 
+        self._pl_ctrls = PlaylistControls()
+
         super().__init__(
-            'playlists', _("Playlists"), application, sidebar_container)
+            'playlists', _("Playlists"), "view-list-symbolic",
+            application, sidebar_container)
 
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.playlists_sort
         self._window = application.props.window
         self._player = player
-
-        self._pl_ctrls = PlaylistControls()
 
         self._song_popover = PlaylistContextMenu(self._view)
 
@@ -97,16 +100,9 @@ class PlaylistsView(BaseView):
             'activate', self._stage_playlist_for_renaming)
         self._window.add_action(self._playlist_rename_action)
 
-        self._grid.insert_row(0)
-        self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
-
-        sidebar_container.set_size_request(220, -1)
         sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self._sidebar.connect('row-activated', self._on_playlist_activated)
-
-        self._grid.child_set_property(sidebar_container, 'top-attach', 0)
-        self._grid.child_set_property(sidebar_container, 'height', 2)
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
@@ -118,18 +114,26 @@ class PlaylistsView(BaseView):
         # Selection is only possible from the context menu
         self.disconnect(self._selection_mode_id)
 
+        self.connect(
+            "notify::adaptive-view", self._on_adaptive_view_changed)
         self.show_all()
 
     @log
     def _setup_view(self):
-        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
+        main_container = Gtk.ScrolledWindow()
+        main_container.show()
+
+        self._view_container = Handy.Column()
+        self._view_container.set_maximum_width(800)
+        self._view_container.set_linear_growth_width(800)
+
+        container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        container.show()
+
+        container.add(self._pl_ctrls)
 
         self._view = Gtk.ListBox()
         self._view.get_style_context().add_class("songs-list")
-        self._view.props.margin_top = 20
-        self._view.props.margin_left = 80
-        self._view.props.margin_right = 80
         self._view.props.valign = Gtk.Align.START
 
         self._controller = Gtk.GestureMultiPress().new(self._view)
@@ -137,7 +141,10 @@ class PlaylistsView(BaseView):
         self._controller.props.button = Gdk.BUTTON_SECONDARY
         self._controller.connect("pressed", self._on_view_right_clicked)
 
-        view_container.add(self._view)
+        container.add(self._view)
+        self._view_container.add(container)
+        main_container.add(self._view_container)
+        self._box.pack_start(main_container, True, True, 0)
 
     @log
     def _add_playlist_to_sidebar(self, playlist):
@@ -149,11 +156,22 @@ class PlaylistsView(BaseView):
         row = PlaylistTile(playlist)
         return row
 
+    def _on_adaptive_view_changed(self, widget, param):
+        if self.props.adaptive_view == AdaptiveViewMode.MOBILE:
+            self._view_container.set_margin_top(32)
+            self._view_container.set_margin_right(0)
+            self._view_container.set_margin_left(0)
+        else:
+            self._view_container.set_margin_top(32)
+            self._view_container.set_margin_right(32)
+            self._view_container.set_margin_left(32)
+
     def _on_playlists_loaded(self, klass):
         self._coremodel.disconnect(self._loaded_id)
         first_row = self._sidebar.get_row_at_index(0)
         self._sidebar.select_row(first_row)
         first_row.emit("activate")
+        self.view_sidebar()
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
@@ -209,6 +227,8 @@ class PlaylistsView(BaseView):
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
         playlist = row.props.playlist
+        if self.props.adaptive_view == AdaptiveViewMode.MOBILE:
+            self.view_content()
 
         if self.rename_active:
             self._pl_ctrls.disable_rename_playlist()

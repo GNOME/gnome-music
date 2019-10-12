@@ -24,10 +24,11 @@
 
 import logging
 from gettext import gettext as _
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, Gtk, GObject
 
 from gnomemusic import log
 from gnomemusic.views.baseview import BaseView
+from gnomemusic.utils import AdaptiveViewMode
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
 
@@ -53,10 +54,12 @@ class ArtistsView(BaseView):
         """
         self._sidebar = Gtk.ListBox()
         sidebar_container = Gtk.ScrolledWindow()
+        sidebar_container.props.width_request = 285
         sidebar_container.add(self._sidebar)
 
         super().__init__(
-            'artists', _("Artists"), application, sidebar_container)
+            'artists', _("Artists"), "system-users-symbolic",
+            application, sidebar_container)
 
         self._application = application
         self._artists = {}
@@ -71,7 +74,6 @@ class ArtistsView(BaseView):
         self._loaded_id = self._coremodel.connect(
             "artists-loaded", self._on_artists_loaded)
 
-        sidebar_container.props.width_request = 220
         sidebar_container.get_style_context().add_class('sidebar')
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
@@ -127,6 +129,7 @@ class ArtistsView(BaseView):
 
         self._sidebar.select_row(first_row)
         first_row.emit("activate")
+        self.view_sidebar()
 
     @log
     def _setup_view(self):
@@ -135,13 +138,16 @@ class ArtistsView(BaseView):
 
         self._view = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
-            vhomogeneous=False)
+            homogeneous=False)
         self._view_container.add(self._view)
 
     @log
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
         artist_tile = row.get_child()
+        if self.props.adaptive_view == AdaptiveViewMode.MOBILE:
+            self.view_content()
+
         if self.props.selection_mode:
             artist_tile.props.selected = not artist_tile.props.selected
             return
@@ -156,6 +162,12 @@ class ArtistsView(BaseView):
 
         self._artist_albums = ArtistAlbumsWidget(
             coreartist, self._application, False)
+
+        self.bind_property(
+            'adaptive-view', self._artist_albums, 'adaptive-view',
+            GObject.BindingFlags.DEFAULT
+            | GObject.BindingFlags.SYNC_CREATE)
+
         artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         artist_albums_frame.add(self._artist_albums)

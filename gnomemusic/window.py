@@ -31,7 +31,7 @@ from gnomemusic.mediakeys import MediaKeys
 from gnomemusic.player import RepeatMode
 from gnomemusic.search import Search
 from gnomemusic.trackerwrapper import TrackerState
-from gnomemusic.utils import View
+from gnomemusic.utils import View, AdaptiveViewMode
 from gnomemusic.views.albumsview import AlbumsView
 from gnomemusic.views.artistsview import ArtistsView
 from gnomemusic.views.emptyview import EmptyView
@@ -55,6 +55,8 @@ class Window(Gtk.ApplicationWindow):
 
     __gtype_name__ = "Window"
 
+    adaptive_view = GObject.Property(type=GObject.TYPE_INT,
+                                        default=AdaptiveViewMode.MOBILE)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -63,6 +65,8 @@ class Window(Gtk.ApplicationWindow):
     _overlay = Gtk.Template.Child()
     _selection_toolbar = Gtk.Template.Child()
     _stack = Gtk.Template.Child()
+
+    _switcher_bar = Gtk.Template.Child()
 
     def __repr__(self):
         return '<Window>'
@@ -132,6 +136,9 @@ class Window(Gtk.ApplicationWindow):
             "notify::search-mode-active", self._on_search_mode_changed)
 
         self._player_toolbar = PlayerToolbar()
+        self._player_toolbar.bind_property(
+            "adaptive-view", self, "adaptive-view",
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE)
         self._player_toolbar.props.player = self._player
 
         self._headerbar.connect(
@@ -153,6 +160,7 @@ class Window(Gtk.ApplicationWindow):
             "selection-mode", self._search_headerbar, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
+
         self.bind_property(
             "selection-mode", self._player_toolbar, "visible",
             GObject.BindingFlags.INVERT_BOOLEAN)
@@ -172,7 +180,8 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        self._box.pack_end(self._player_toolbar, False, False, 0)
+        self._box.pack_start(self._player_toolbar, False, False, 0)
+        self._box.reorder_child(self._player_toolbar, 1)
 
         self.set_titlebar(self._headerbar_stack)
 
@@ -280,6 +289,11 @@ class Window(Gtk.ApplicationWindow):
         for i in self.views[View.ALBUM:]:
             if i.title:
                 self._stack.add_titled(i, i.name, i.title)
+                self._stack.child_set_property(i, "icon-name", i.icon)
+                i.bind_property(
+                    "adaptive-view", self, "adaptive-view",
+                    GObject.BindingFlags.BIDIRECTIONAL
+                    | GObject.BindingFlags.SYNC_CREATE)
             else:
                 self._stack.add_named(i, i.name)
 
@@ -294,6 +308,10 @@ class Window(Gtk.ApplicationWindow):
         self._search.bind_property(
             "search-mode-active", self.views[View.ALBUM],
             "search-mode-active", GObject.BindingFlags.SYNC_CREATE)
+
+        # Adaptive View
+        self._switcher_bar.set_stack(self._stack)
+        self.connect("size-allocate", self._on_size_allocate)
 
     @log
     def _select_all(self, action=None, param=None):
@@ -487,8 +505,17 @@ class Window(Gtk.ApplicationWindow):
 
         views_with_child = [
             self.views[View.ALBUM],
-            self.views[View.SEARCH]
+            self.views[View.SEARCH],
         ]
+
+        is_folded_childs = [
+            self.views[View.ARTIST],
+            self.views[View.PLAYLIST],
+        ]
+        for child in is_folded_childs:
+            if child.is_folded:
+                views_with_child.append(child)
+
         if self.curr_view in views_with_child:
             self.curr_view._back_button_clicked(self.curr_view)
 
@@ -496,7 +523,22 @@ class Window(Gtk.ApplicationWindow):
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self._player.state == Playback.STOPPED):
-            self._player_toolbar.hide()
+            self._player_toolbar.set_visible_child(False)
+
+    @log
+    def _on_size_allocate(self, widget, allocation):
+        if allocation.width < 650:
+            self.props.adaptive_view = AdaptiveViewMode.MOBILE
+            self._headerbar.view = HeaderBar.View.TITLE
+            self._switcher_bar.set_reveal(True)
+        elif allocation.width <= 900:
+            self.props.adaptive_view = AdaptiveViewMode.TABLET
+            self._headerbar.view = HeaderBar.View.NARROW
+            self._switcher_bar.set_reveal(False)
+        else:
+            self._headerbar.view = HeaderBar.View.WIDE
+            self.props.adaptive_view = AdaptiveViewMode.DESKTOP
+            self._switcher_bar.set_reveal(False)
 
     @log
     def _on_add_to_playlist(self, widget):
@@ -515,11 +557,3 @@ class Window(Gtk.ApplicationWindow):
 
         self.props.selection_mode = False
         playlist_dialog.destroy()
-
-    @log
-    def set_player_visible(self, visible):
-        """Set PlayWidget action visibility
-
-        :param bool visible: actionbar visibility
-        """
-        self._player_toolbar.set_visible(visible)

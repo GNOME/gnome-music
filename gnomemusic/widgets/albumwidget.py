@@ -4,6 +4,7 @@ from gi.repository import GObject, Grl, Gtk
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.player import PlayerPlaylist
+from gnomemusic.utils import AdaptiveViewMode
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 
@@ -27,6 +28,10 @@ class AlbumWidget(Gtk.EventBox):
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
+    _album_widget = Gtk.Template.Child()
+    _album_info = Gtk.Template.Child()
+
+    adaptive_view = GObject.Property(type=int, default=AdaptiveViewMode.MOBILE)
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
@@ -49,6 +54,7 @@ class AlbumWidget(Gtk.EventBox):
         self._duration_signal_id = None
         self._model_signal_id = None
 
+        self.connect("notify::adaptive-view", self._on_adaptive_view_changed)
         self._cover_stack.props.size = Art.Size.LARGE
         self._parent_view = parent_view
         self._player = player
@@ -91,6 +97,18 @@ class AlbumWidget(Gtk.EventBox):
             "notify::duration", self._on_duration_changed)
 
         self._album_model.items_changed(0, 0, 0)
+
+    def _on_adaptive_view_changed(self, widget, param):
+        if self.props.adaptive_view == AdaptiveViewMode.MOBILE:
+            self._album_widget.set_orientation(Gtk.Orientation.VERTICAL)
+            self._album_widget.set_margin_top(32)
+            self._album_widget.set_margin_right(0)
+            self._album_widget.set_margin_left(0)
+        else:
+            self._album_widget.set_orientation(Gtk.Orientation.HORIZONTAL)
+            self._album_widget.set_margin_top(32)
+            self._album_widget.set_margin_right(32)
+            self._album_widget.set_margin_left(32)
 
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(

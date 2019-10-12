@@ -47,6 +47,8 @@ dependency('pygobject-3.0', version: '>= 3.29.1')
 dependency('py3cairo', version: '>= 1.14.0')
 dependency('grilo-0.3', version: '>= 0.3.9')
 dependency('grilo-plugins-0.3', version: '>= 0.3.9')
+dependency('libhandy-0.0', version: '>= 0.0.10')
+
 
 subproject('libgd',
     default_options: [

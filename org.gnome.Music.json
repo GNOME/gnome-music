@@ -137,6 +137,20 @@
             "cleanup": [ "/include" ]
         },
         {
+            "name": "libhandy",
+            "buildsystem": "meson",
+            "config-opts": [
+            	"-Dvapi=false",
+            	"-Dtests=false",
+            	"-Dexamples=false",
+            	"-Dglade_catalog=disabled"
+            ],
+            "sources": [{
+                "type": "git",
+                "url": "https://source.puri.sm/Librem5/libhandy.git"
+            }]
+        },
+        {
             "name": "gnome-music",
             "config-opts" : [
                 "-Dprofile=development"
