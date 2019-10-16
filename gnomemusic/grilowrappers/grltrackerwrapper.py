@@ -199,7 +199,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._album_ids = album_ids
                 return
 
-            album = CoreAlbum(media, self._coremodel)
+            if media.get_id() in self._album_ids.keys():
+                album = self._album_ids[media.get_id()]
+            else:
+                album = CoreAlbum(media, self._coremodel)
+
             album_ids[media.get_id()] = album
 
         options = self._fast_options.copy()
@@ -248,7 +252,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._artist_ids = artist_ids
                 return
 
-            artist = CoreArtist(media, self._coremodel)
+            if media.get_id() in self._artist_ids.keys():
+                artist = self._artist_ids[media.get_id()]
+            else:
+                artist = CoreArtist(media, self._coremodel)
+
             artist_ids[media.get_id()] = artist
 
         options = self._fast_options.copy()
