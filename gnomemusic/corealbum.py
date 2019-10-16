@@ -110,5 +110,4 @@ class CoreAlbum(GObject.GObject):
         # a selection. Trigger loading of the model here if a selection
         # is requested, it will trigger the filled model update as
         # well.
-        if self._selected is True:
-            self.props.model.items_changed(0, 0, 0)
+        self.props.model.items_changed(0, 0, 0)
