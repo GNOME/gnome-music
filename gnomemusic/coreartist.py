@@ -75,6 +75,9 @@ class CoreArtist(GObject.GObject):
 
     @selected.setter
     def selected(self, value):
+        if value == self._selected:
+            return
+
         self._selected = value
 
         # The model is loaded on-demand, so the first time the model is
