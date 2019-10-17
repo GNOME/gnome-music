@@ -44,7 +44,6 @@ class AlbumWidget(Gtk.EventBox):
         """
         super().__init__()
 
-        self._album = None
         self._corealbum = None
         self._duration_signal_id = None
         self._model_signal_id = None
@@ -80,7 +79,6 @@ class AlbumWidget(Gtk.EventBox):
 
         self._set_composer_label(corealbum)
 
-        self._album = self._corealbum.props.media
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
@@ -188,6 +186,6 @@ class AlbumWidget(Gtk.EventBox):
         """Get the current album.
 
         :returns: the current album
-        :rtype: Grl.Media
+        :rtype: CoreAlbum
         """
-        return self._album
+        return self._corealbum
