@@ -94,8 +94,7 @@ class Window(Gtk.ApplicationWindow):
         self.set_size_request(200, 100)
         WindowPlacement(self)
 
-        self.prev_view = None
-        self.curr_view = None
+        self._current_view = None
         self._view_before_search = None
 
         self._player = app.props.player
@@ -439,15 +438,15 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_notify_mode(self, stack, param):
-        self.prev_view = self.curr_view
-        self.curr_view = self.props.active_view
+        previous_view = self._current_view
+        self._current_view = self.props.active_view
 
         # Disable search mode when switching view
         search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
-        if (self.curr_view in search_views
-                and self.prev_view not in search_views):
-            self._view_before_search = self.prev_view
-        elif (self.curr_view not in search_views
+        if (self._current_view in search_views
+                and previous_view not in search_views):
+            self._view_before_search = previous_view
+        elif (self._current_view not in search_views
                 and self._search.props.search_mode_active is True):
             self._search.props.search_mode_active = False
 
@@ -457,12 +456,12 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.EMPTY],
             self.views[View.PLAYLIST]
         ]
-        allowed = self.curr_view not in no_selection_mode
+        allowed = self._current_view not in no_selection_mode
         self._headerbar.props.selection_mode_allowed = allowed
 
         # Disable renaming playlist if it was active when leaving
         # Playlist view
-        if (self.prev_view == self.views[View.PLAYLIST]
+        if (previous_view == self.views[View.PLAYLIST]
                 and self.views[View.PLAYLIST].rename_active):
             self.views[View.PLAYLIST].disable_rename_playlist()
 
@@ -495,8 +494,8 @@ class Window(Gtk.ApplicationWindow):
             self.views[View.ALBUM],
             self.views[View.SEARCH]
         ]
-        if self.curr_view in views_with_child:
-            self.curr_view._back_button_clicked(self.curr_view)
+        if self._current_view in views_with_child:
+            self._current_view._back_button_clicked(self._current_view)
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
