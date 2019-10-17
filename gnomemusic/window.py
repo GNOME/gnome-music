@@ -306,9 +306,9 @@ class Window(Gtk.ApplicationWindow):
         if not self.props.selection_mode:
             return
         if self._headerbar.props.state == HeaderBar.State.MAIN:
-            view = self._stack.get_visible_child()
+            view = self.props.active_view
         else:
-            view = self._stack.get_visible_child().get_visible_child()
+            view = self.props.active_view.get_visible_child()
 
         view.select_all()
 
@@ -317,10 +317,10 @@ class Window(Gtk.ApplicationWindow):
         if not self.props.selection_mode:
             return
         if self._headerbar.props.state == HeaderBar.State.MAIN:
-            view = self._stack.get_visible_child()
+            view = self.props.active_view
             view.unselect_all()
         else:
-            view = self._stack.get_visible_child().get_visible_child()
+            view = self.props.active_view.get_visible_child()
             view.select_none()
 
     @log
@@ -405,7 +405,7 @@ class Window(Gtk.ApplicationWindow):
             if keyval == Gdk.KEY_AudioNext:
                 self._player.next()
 
-            child = self._stack.get_visible_child()
+            child = self.props.active_view
             if (keyval == Gdk.KEY_Delete
                     and child == self.views[View.PLAYLIST]):
                 self.views[View.PLAYLIST].remove_playlist()
@@ -440,7 +440,7 @@ class Window(Gtk.ApplicationWindow):
     @log
     def _on_notify_mode(self, stack, param):
         self.prev_view = self.curr_view
-        self.curr_view = stack.get_visible_child()
+        self.curr_view = self.props.active_view
 
         # Disable search mode when switching view
         search_views = [self.views[View.EMPTY], self.views[View.SEARCH]]
@@ -506,7 +506,7 @@ class Window(Gtk.ApplicationWindow):
 
     @log
     def _on_add_to_playlist(self, widget):
-        if self._stack.get_visible_child() == self.views[View.PLAYLIST]:
+        if self.props.active_view == self.views[View.PLAYLIST]:
             return
 
         selected_songs = self._app._coreselection.props.selected_items
