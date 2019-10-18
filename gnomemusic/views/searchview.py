@@ -160,6 +160,7 @@ class SearchView(Gtk.Stack):
 
     def _create_album_widget(self, corealbum):
         album_widget = AlbumCover(corealbum)
+        album_widget.retrieve()
 
         self.bind_property(
             "selection-mode", album_widget, "selection-mode",
