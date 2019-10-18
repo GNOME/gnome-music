@@ -68,6 +68,7 @@ class AlbumCover(Gtk.FlowBoxChild):
         AlbumCover._nr_albums += 1
 
         self._corealbum = corealbum
+        self._retrieved = False
 
         self._tooltip = TwoLineTip()
 
@@ -96,16 +97,20 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.show()
 
-        # FIXME: To work around slow updating of the albumsview,
-        # load album covers with a fixed delay. This results in a
-        # quick first show with a placeholder cover and then a
-        # reasonably responsive view while loading the actual
-        # covers.
         self._update_cover_id = self._cover_stack.connect(
             "updated", self._on_cover_stack_updated)
-        GLib.timeout_add(
-            50 * self._nr_albums, self._cover_stack.update, self._corealbum,
-            priority=GLib.PRIORITY_LOW)
+
+    def retrieve(self):
+        """Start retrieving the actual album cover
+
+        Cover retrieval is an expensive operation, so use this call to
+        start the retrieval process when needed.
+        """
+        if self._retrieved:
+            return
+
+        self._retrieved = True
+        self._cover_stack.update(self._corealbum)
 
     @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
     def corealbum(self):
