@@ -45,7 +45,7 @@ class AlbumsView(Gtk.Stack):
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
-    _all_albums = Gtk.Template.Child()
+    _scrolled_window = Gtk.Template.Child()
     _flowbox = Gtk.Template.Child()
 
     def __repr__(self):
@@ -65,7 +65,7 @@ class AlbumsView(Gtk.Stack):
         self._window = application.props.window
         self._headerbar = self._window._headerbar
         self._timeout_id = None
-        self._viewport = self._all_albums.get_child()
+        self._viewport = self._scrolled_window.get_child()
 
         model = self._window._app.props.coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
@@ -87,9 +87,9 @@ class AlbumsView(Gtk.Stack):
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
 
-        self._all_albums.props.vadjustment.connect(
+        self._scrolled_window.props.vadjustment.connect(
             "value-changed", self._on_vadjustment_changed)
-        self._all_albums.props.vadjustment.connect(
+        self._scrolled_window.props.vadjustment.connect(
             "changed", self._on_vadjustment_changed)
 
         self.show_all()
@@ -104,7 +104,7 @@ class AlbumsView(Gtk.Stack):
             priority=GLib.PRIORITY_LOW)
 
     def _retrieve_covers(self, old_adjustment):
-        adjustment = self._all_albums.props.vadjustment.props.value
+        adjustment = self._scrolled_window.props.vadjustment.props.value
 
         if old_adjustment != adjustment:
             return GLib.SOURCE_CONTINUE
@@ -168,7 +168,7 @@ class AlbumsView(Gtk.Stack):
 
     def _back_button_clicked(self, widget, data=None):
         self._headerbar.state = HeaderBar.State.MAIN
-        self.props.visible_child = self._all_albums
+        self.props.visible_child = self._scrolled_window
 
     def _on_child_activated(self, widget, child, user_data=None):
         corealbum = child.props.corealbum
