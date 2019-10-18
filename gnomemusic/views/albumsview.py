@@ -22,8 +22,10 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import math
+
 from gettext import gettext as _
-from gi.repository import GObject, Gtk
+from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
@@ -62,6 +64,8 @@ class AlbumsView(Gtk.Stack):
 
         self._window = application.props.window
         self._headerbar = self._window._headerbar
+        self._adjustment_timeout_id = None
+        self._viewport = self._scrolled_window.get_child()
 
         model = self._window._app.props.coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
@@ -83,7 +87,57 @@ class AlbumsView(Gtk.Stack):
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
 
+        self._all_albums.props.vadjustment.connect(
+            "value-changed", self._on_vadjustment_changed)
+        self._all_albums.props.vadjustment.connect(
+            "changed", self._on_vadjustment_changed)
+
         self.show_all()
+
+    def _on_vadjustment_changed(self, adjustment):
+        if self._adjustment_timeout_id is not None:
+            GLib.source_remove(self._adjustment_timeout_id)
+            self._adjustment_timeout_id = None
+
+        self._adjustment_timeout_id = GLib.timeout_add(
+            200, self._retrieve_covers, adjustment.props.value,
+            priority=GLib.PRIORITY_LOW)
+
+    def _retrieve_covers(self, old_adjustment):
+        adjustment = self._all_albums.props.vadjustment.props.value
+
+        if old_adjustment != adjustment:
+            return GLib.SOURCE_CONTINUE
+
+        first_cover = self._flowbox.get_child_at_index(0)
+        cover_size, _ = first_cover.get_allocated_size()
+        viewport_size, _ = self._viewport.get_allocated_size()
+
+        h_space = self._flowbox.get_column_spacing()
+        v_space = self._flowbox.get_row_spacing()
+        nr_cols = (
+            (viewport_size.width + h_space) // (cover_size.width + h_space))
+
+        top_left_cover = self._flowbox.get_child_at_index(
+            nr_cols * (adjustment // (cover_size.height + v_space)))
+
+        covers_col = math.ceil(viewport_size.width / cover_size.width)
+        covers_row = math.ceil(viewport_size.height / cover_size.height)
+
+        children = self._flowbox.get_children()
+        retrieve_list = []
+        for i, albumcover in enumerate(children):
+            if top_left_cover == albumcover:
+                retrieve_covers = covers_row * covers_col
+                retrieve_list = children[i:i + retrieve_covers]
+                break
+
+        for albumcover in retrieve_list:
+            albumcover.retrieve()
+
+        self._adjustment_timeout_id = None
+
+        return GLib.SOURCE_REMOVE
 
     def _on_selection_mode_changed(self, widget, data=None):
         if not self.props.selection_mode:
