@@ -241,6 +241,11 @@ class PlaylistNotification(Gtk.Grid):
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
         undo_button.connect("clicked", self._undo_deletion)
         self.add(undo_button)
+
+        close_button = Gtk.Button.new_with_mnemonic(_("_Close"))
+        close_button.connect("clicked", self._close_clicked)
+        self.add(close_button)
+
         self.show_all()
 
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
@@ -261,6 +266,9 @@ class PlaylistNotification(Gtk.Grid):
                 song_title, playlist_title))
 
         return msg
+
+    def _close_clicked(self, widget_):
+        self._notifications_popup.terminate_pending()
 
     @log
     def _undo_deletion(self, widget_):
