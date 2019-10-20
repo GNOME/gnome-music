@@ -66,6 +66,7 @@ class AlbumsView(Gtk.Stack):
         self._headerbar = self._window._headerbar
         self._adjustment_timeout_id = None
         self._viewport = self._scrolled_window.get_child()
+        self._widget_counter = 1
 
         model = self._window._app.props.coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
@@ -163,6 +164,11 @@ class AlbumsView(Gtk.Stack):
         album_widget.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.BIDIRECTIONAL)
+
+        GLib.timeout_add(
+            self._widget_counter * 250, album_widget.retrieve,
+            priority=GLib.PRIORITY_LOW)
+        self._widget_counter = self._widget_counter + 1
 
         return album_widget
 
