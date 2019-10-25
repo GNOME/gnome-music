@@ -1,3 +1,27 @@
+Overview of changes in 3.34.1
+=============================
+
+* Restore MPRIS playlist support
+* Playlist fixes
+* Bring back loading notifications
+
+Bugs fixed:
+ Fix visual glitches (#300)
+ Use pkglibdir for gfmlibdir (!509)
+ Limit smartplaylist content to XDG Music dir (#311)
+ Crash when removing GOA account (#145)
+
+Thanks to our contributors this release:
+ Jan Alexander Steffens
+ Jean Felder
+ Marinus Schraal
+
+Translations updated:
+ Czech
+ Persian
+ Friulian
+ Danish
+
 Overview of changes in 3.34.0
 =============================
 

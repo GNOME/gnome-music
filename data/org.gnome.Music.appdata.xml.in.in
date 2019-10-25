@@ -28,6 +28,19 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.34.1" date="2019-10-25">
+      <description>
+        <p>
+          The 3.34 series marks the first stable release after a major overhaul
+          of the inner workings of Music, while also receiving a visual update
+          in the process.
+        </p>
+        <p>
+          Given the extent of this work, there may be some roughness around the
+          edges. Please do file reports for the issues you may encounter.
+        </p>
+      </description>
+    </release>
     <release version="3.33.2" date="2019-05-20" type="development">
       <description>
         <p>
