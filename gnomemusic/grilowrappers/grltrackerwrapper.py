@@ -27,8 +27,8 @@ from typing import Callable, Dict, List, Optional
 import typing
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3", "Tracker": "3.0"})
-from gi.repository import Gfm, Gio, Grl, GLib, GObject, Tracker
+gi.require_versions({"Grl": "0.3", "Tracker": "3.0"})
+from gi.repository import Grl, Gio, Gtk, GLib, GObject, Tracker
 
 from gnomemusic.asyncqueue import AsyncQueue
 from gnomemusic.corealbum import CoreAlbum
@@ -127,19 +127,19 @@ class GrlTrackerWrapper(GObject.GObject):
         self._notificationmanager: NotificationManager = (
             application.props.notificationmanager)
 
-        self._songs_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
+        self._songs_search: Gtk.FilterListModel = Gtk.FilterListModel.new(
             self._songs_model)
-        self._songs_search.set_filter_func(lambda a: False)
+        self._songs_search.set_filter(Gtk.AnyFilter())
         cm.props.songs_search_proxy.append(self._songs_search)
 
-        self._albums_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
+        self._albums_search: Gtk.FilterListModel = Gtk.FilterListModel.new(
             self._albums_model)
-        self._albums_search.set_filter_func(lambda a: False)
+        self._albums_search.set_filter(Gtk.AnyFilter())
         cm.props.albums_search_proxy.append(self._albums_search)
 
-        self._artists_search: Gfm.FilterListModel = Gfm.FilterListModel.new(
+        self._artists_search: Gtk.FilterListModel = Gtk.FilterListModel.new(
             self._artists_model)
-        self._artists_search.set_filter_func(lambda a: False)
+        self._artists_search.set_filter(Gtk.AnyFilter())
         cm.props.artists_search_proxy.append(self._artists_search)
 
         self._fast_options: Grl.OperationOptions = Grl.OperationOptions()
@@ -668,11 +668,11 @@ class GrlTrackerWrapper(GObject.GObject):
             query, metadata_keys, self._fast_options, _add_to_artists_model)
 
     def get_artist_albums(
-            self, media: Grl.Source, model: Gfm.FilterListModel) -> None:
+            self, media: Grl.Source, model: Gtk.FilterListModel) -> None:
         """Get all albums by an artist
 
         :param Grl.Media media: The media with the artist id
-        :param Gfm.FilterListModel model: The model to fill
+        :param Gtk.FilterListModel model: The model to fill
         """
         self._notificationmanager.push_loading()
         artist_id = media.get_id()
@@ -721,7 +721,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                model.set_filter_func(albums_filter, albums)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(albums_filter, albums)
+                model.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -739,11 +741,11 @@ class GrlTrackerWrapper(GObject.GObject):
             query, [Grl.METADATA_KEY_TITLE], self._fast_options, query_cb)
 
     def get_album_discs(
-            self, media: Grl.Media, disc_model: Gfm.SortListModel) -> None:
+            self, media: Grl.Media, disc_model: Gtk.SortListModel) -> None:
         """Get all discs of an album
 
         :param Grl.Media media: The media with the album id
-        :param Gfm.SortListModel disc_model: The model to fill
+        :param Gtk.SortListModel disc_model: The model to fill
         """
         self._notificationmanager.push_loading()
         album_id = media.get_id()
@@ -798,12 +800,12 @@ class GrlTrackerWrapper(GObject.GObject):
 
     def get_album_disc(
             self, media: Grl.Media, disc_nr: int,
-            model: Gfm.FilterListModel) -> None:
+            model: Gtk.FilterListModel) -> None:
         """Get all songs of an album disc
 
         :param Grl.Media media: The media with the album id
         :param int disc_nr: The disc number
-        :param Gfm.FilterListModel model: The model to fill
+        :param Gtk.FilterListModel model: The model to fill
         """
         album_id = media.get_id()
 
@@ -882,7 +884,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if media is None:
-                model.set_filter_func(_filter_func)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(_filter_func)
+                model.set_filter(custom_filter)
                 return
 
             disc_song_ids.append(media.get_source() + media.get_id())
@@ -968,7 +972,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._artists_search.set_filter_func(artist_filter)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(artist_filter)
+                self._artists_search.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -1037,7 +1043,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._albums_search.set_filter_func(album_filter)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(album_filter)
+                self._albums_search.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
                 return
 
@@ -1111,7 +1119,9 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
-                self._songs_search.set_filter_func(songs_filter)
+                custom_filter = Gtk.CustomFilter()
+                custom_filter.set_filter_func(songs_filter)
+                self._songs_search.set_filter(custom_filter)
                 self._notificationmanager.pop_loading()
                 return
 
