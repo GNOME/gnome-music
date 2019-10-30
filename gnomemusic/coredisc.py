@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gio, Gfm, Grl
+from gi.repository import GObject, Gio, Grl
 from gi._gi import pygobject_new_full
 
 
@@ -50,10 +50,10 @@ class CoreDisc(GObject.GObject):
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
         if self._model is None:
-            self._filter_model = Gfm.FilterListModel.new(
+            self._filter_model = Gtk.FilterListModel.new(
                 self._coremodel.props.songs)
             self._filter_model.set_filter_func(lambda a: False)
-            self._model = Gfm.SortListModel.new(self._filter_model)
+            self._model = Gtk.SortListModel.new(self._filter_model)
             self._model.set_sort_func(
                 self._wrap_sort_func(self._disc_sort))
 

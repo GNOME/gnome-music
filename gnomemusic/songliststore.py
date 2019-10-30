@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gfm, Gio, GObject, Gtk
+from gi.repository import Gio, GObject, Gtk
 from gi._gi import pygobject_new_full
 
 import gnomemusic.utils as utils
@@ -37,7 +37,7 @@ class SongListStore(Gtk.ListStore):
         """
         super().__init__()
 
-        self._model = Gfm.SortListModel.new(model)
+        self._model = Gtk.SortListModel.new(model)
         self._model.set_sort_func(
             self._wrap_list_store_sort_func(self._songs_sort))
 

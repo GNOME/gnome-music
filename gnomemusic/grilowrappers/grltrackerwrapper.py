@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3", 'Tracker': "2.0"})
-from gi.repository import Gfm, Grl, GLib, GObject, Tracker
+gi.require_versions({"Grl": "0.3", "Tracker": "2.0"})
+from gi.repository import Grl, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
@@ -93,7 +93,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._tracker_wrapper = tracker_wrapper
         self._window = application.props.window
 
-        self._song_search_tracker = Gfm.FilterListModel.new(self._model)
+        self._song_search_tracker = Gtk.FilterListModel.new(self._model)
         self._song_search_tracker.set_filter_func(lambda a: False)
         self._song_search_proxy.append(self._song_search_tracker)
 
@@ -535,7 +535,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """Get all albums by an artist
 
         :param Grl.Media media: The media with the artist id
-        :param Gfm.FilterListModel model: The model to fill
+        :param Gtk.FilterListModel model: The model to fill
         """
         self._window.notifications_popup.push_loading()
         artist_id = media.get_id()
@@ -593,7 +593,7 @@ class GrlTrackerWrapper(GObject.GObject):
         """Get all discs of an album
 
         :param Grl.Media media: The media with the album id
-        :param Gfm.SortListModel disc_model: The model to fill
+        :param Gtk.SortListModel disc_model: The model to fill
         """
         self._window.notifications_popup.push_loading()
         album_id = media.get_id()
