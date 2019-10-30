@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
-from gi.repository import Gfm, Gio, Grl, GObject
+gi.require_versions({"Grl": "0.3"})
+from gi.repository import Gio, Grl, Gtk, GObject
 
 import gnomemusic.utils as utils
 
@@ -68,7 +68,7 @@ class CoreAlbum(GObject.GObject):
 
     def _get_album_model(self):
         disc_model = Gio.ListStore()
-        disc_model_sort = Gfm.SortListModel.new(disc_model)
+        disc_model_sort = Gtk.SortListModel.new(disc_model)
 
         def _disc_order_sort(disc_a, disc_b):
             return disc_a.props.disc_nr - disc_b.props.disc_nr
