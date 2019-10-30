@@ -128,7 +128,12 @@ class GoaLastFM(GObject.GObject):
     @GObject.Property
     def session_key(self):
         """Retrieve the Last.fm session key"""
-        return self._authentication.call_get_access_token_sync(None)[0]
+        try:
+            return self._authentication.call_get_access_token_sync(None)[0]
+        except GLib.Error as e:
+            logger.warning(
+                "Error: Unable to retrieve last.fm session key", e.message)
+            return None
 
 
 class LastFmScrobbler(GObject.GObject):
@@ -160,6 +165,10 @@ class LastFmScrobbler(GObject.GObject):
         """Internal method called by self.scrobble"""
         api_key = self._goa_lastfm.client_id
         sk = self._goa_lastfm.session_key
+        if sk is None:
+            logger.warning(
+                "Error: Unable to perform last.fm api call", request_type_key)
+            return
         secret = self._goa_lastfm.secret
 
         artist = utils.get_artist_name(media)
