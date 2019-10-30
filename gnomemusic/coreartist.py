@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
-from gi.repository import Gfm, Gio, Grl, GObject
+gi.require_versions({"Grl": "0.3"})
+from gi.repository import Gio, Grl, Gtk, GObject
 
 from gnomemusic.artistart import ArtistArt
 import gnomemusic.utils as utils
@@ -60,11 +60,11 @@ class CoreArtist(GObject.GObject):
         self.props.artist = utils.get_artist_name(media)
 
     def _get_artist_album_model(self):
-        albums_model_filter = Gfm.FilterListModel.new(
+        albums_model_filter = Gtk.FilterListModel.new(
             self._coremodel.props.albums)
         albums_model_filter.set_filter_func(lambda a: False)
 
-        albums_model_sort = Gfm.SortListModel.new(albums_model_filter)
+        albums_model_sort = Gtk.SortListModel.new(albums_model_filter)
 
         self._coregrilo.get_artist_albums(
             self.props.media, albums_model_filter)
