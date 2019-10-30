@@ -49,16 +49,6 @@
             ]
         },
         {
-            "name": "libdazzle",
-            "buildsystem": "meson",
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libdazzle.git"
-                }
-            ]
-        },
-        {
             "name": "tracker-miners",
             "buildsystem": "meson",
             "config-opts": [ "-Ddefault_index_single_dirs=",
