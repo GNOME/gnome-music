@@ -25,10 +25,7 @@
 from enum import IntEnum
 from typing import Optional
 
-import gi
-gi.require_version('Dazzle', '1.0')
 from gi.repository import Gdk, GObject, Gtk
-from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
