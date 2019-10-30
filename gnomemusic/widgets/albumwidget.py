@@ -27,7 +27,7 @@ from gettext import ngettext
 from typing import Optional, Union
 import typing
 
-from gi.repository import Gfm, Gio, GLib, GObject, Gtk, Handy
+from gi.repository import Gio, GLib, GObject, Gtk, Handy
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.utils import ArtSize, DefaultIconType
@@ -203,7 +203,7 @@ class AlbumWidget(Handy.Clamp):
         return disc_box
 
     def _on_model_items_changed(
-            self, model: Gfm.SortListModel, position: int, removed: int,
+            self, model: Gtk.SortListModel, position: int, removed: int,
             added: int) -> None:
         n_items: int = model.get_n_items()
         if n_items == 1:
