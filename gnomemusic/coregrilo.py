@@ -175,7 +175,7 @@ class CoreGrilo(GObject.GObject):
         """Get all album by an artist
 
         :param Grl.Media media: A Grilo Media item that represents Artist
-        :param Gfm.FilterListModel filter_model: The model to fill
+        :param Gtk.FilterListModel filter_model: The model to fill
         """
         source = media.get_source()
         self._wrappers[source].get_artist_albums(media, filter_model)
@@ -184,7 +184,7 @@ class CoreGrilo(GObject.GObject):
         """Get all discs from an album
 
         :param Grl.Media media: A Grilo Media item that represents Album
-        :param Gfm.SortListModel disc_model: The model to fill
+        :param Gtk.SortListModel disc_model: The model to fill
         """
         source = media.get_source()
         self._wrappers[source].get_album_discs(media, disc_model)

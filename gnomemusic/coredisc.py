@@ -22,9 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gio, Gfm, Grl
-
-import gnomemusic.utils as utils
+from gi.repository import GObject, Gio, Grl, Gtk
 
 
 class CoreDisc(GObject.GObject):
@@ -58,16 +56,18 @@ class CoreDisc(GObject.GObject):
 
     @GObject.Property(type=Gio.ListModel, default=None)
     def model(self):
-        def _disc_sort(song_a, song_b):
+        def _disc_sort(song_a, song_b, data=None):
             return song_a.props.track_number - song_b.props.track_number
 
         if self._model is None:
-            self._filter_model = Gfm.FilterListModel.new(
+            self._filter_model = Gtk.FilterListModel.new(
                 self._coremodel.props.songs)
-            self._filter_model.set_filter_func(lambda a: False)
-            self._model = Gfm.SortListModel.new(self._filter_model)
-            self._model.set_sort_func(
-                utils.wrap_list_store_sort_func(_disc_sort))
+            self._filter_model.set_filter(Gtk.AnyFilter())
+
+            self._model = Gtk.SortListModel.new(self._filter_model)
+            disc_sorter = Gtk.CustomSorter()
+            disc_sorter.set_sort_func(_disc_sort)
+            self._model.set_sorter(disc_sorter)
 
             self._model.connect("items-changed", self._on_disc_changed)
 
@@ -100,7 +100,9 @@ class CoreDisc(GObject.GObject):
             if media is None:
                 if sorted(album_ids) == sorted(self._old_album_ids):
                     return
-                model_filter.set_filter_func(_filter_func)
+                album_disc_filter = Gtk.CustomFilter()
+                album_disc_filter.set_filter_func(_filter_func)
+                model_filter.set_filter(album_disc_filter)
                 self._old_album_ids = album_ids
                 return
 
