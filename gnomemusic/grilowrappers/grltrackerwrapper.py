@@ -216,16 +216,23 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?artist_class)
-            tracker:id(?artist_class) AS ?id
-            nmm:artistName(?artist_class) AS ?artist
+            rdf:type(?artist)
+            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
+            ?artist_bind AS ?artist
         WHERE {
-            ?artist_class a nmm:Artist .
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
-                    nmm:performer ?artist_class .
+                    nmm:performer ?artist .
+            OPTIONAL {
+                ?album a nmm:MusicAlbum;
+                         nmm:albumArtist ?album_artist .
+            }
+            BIND ( COALESCE ( nmm:artistName(?album_artist),
+                              nmm:artistName(?artist)) AS ?artist_bind)
             %(location_filter)s
-        } GROUP BY ?artist_class
+        }
+        GROUP BY ?artist_bind
+        ORDER BY ?artist_bind
         """.replace('\n', ' ').strip() % {
             'location_filter': TrackerWrapper.location_filter()
         }
@@ -456,17 +463,22 @@ class GrlTrackerWrapper(GObject.GObject):
         query = """
         SELECT
             rdf:type(?artist)
-            tracker:id(?artist) AS ?id
-            nmm:artistName(?artist) AS ?artist
+            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
+            ?artist_bind AS ?artist
         WHERE {
-            ?artist a nmm:Artist .
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
                     nmm:performer ?artist .
+            OPTIONAL {
+                ?album a nmm:MusicAlbum;
+                         nmm:albumArtist ?album_artist .
+            }
+            BIND ( COALESCE ( nmm:artistName(?album_artist),
+                              nmm:artistName(?artist)) AS ?artist_bind)
             %(location_filter)s
         }
-        GROUP BY ?artist
-        ORDER BY ?artist
+        GROUP BY ?artist_bind
+        ORDER BY ?artist_bind
         """.replace('\n', ' ').strip() % {
             'location_filter': TrackerWrapper.location_filter()
         }
