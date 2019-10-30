@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gio, Gfm, Grl
+from gi.repository import GObject, Gio, Grl
 
 import gnomemusic.utils as utils
 
@@ -62,10 +62,10 @@ class CoreDisc(GObject.GObject):
             return song_a.props.track_number - song_b.props.track_number
 
         if self._model is None:
-            self._filter_model = Gfm.FilterListModel.new(
+            self._filter_model = Gtk.FilterListModel.new(
                 self._coremodel.props.songs)
             self._filter_model.set_filter_func(lambda a: False)
-            self._model = Gfm.SortListModel.new(self._filter_model)
+            self._model = Gtk.SortListModel.new(self._filter_model)
             self._model.set_sort_func(
                 utils.wrap_list_store_sort_func(_disc_sort))
 
