@@ -23,12 +23,12 @@
 # delete this exception statement from your version.
 
 from enum import Enum, IntEnum
+from typing import List
 import re
 import unicodedata
 
 from gettext import gettext as _
-from gi.repository import Gio, GLib
-from gi._gi import pygobject_new_full
+from gi.repository import Gio, GLib, Gtk
 
 from gnomemusic.musiclogger import MusicLogger
 
@@ -178,7 +178,7 @@ def normalize_caseless(text):
     return unicodedata.normalize("NFKD", text.casefold())
 
 
-def natural_sort_names(name_a, name_b):
+def natural_sort_names(name_a: str, name_b: str) -> int:
     """Natural order comparison of two strings.
 
     A natural order is an alphabetical order which takes into account
@@ -189,22 +189,18 @@ def natural_sort_names(name_a, name_b):
 
     :param str name_a: first string to compare
     :param str name_b: second string to compare
-    :returns: False if name_a should be before name_b. True otherwise.
-    :rtype: boolean
+    :returns: Gtk Ordering
+    :rtype: int
     """
-    def _extract_numbers(text):
+    def _extract_numbers(text: str) -> List[str]:
         return [int(tmp) if tmp.isdigit() else tmp
                 for tmp in re.split(r"(\d+)", normalize_caseless(text))]
 
-    return _extract_numbers(name_b) < _extract_numbers(name_a)
-
-
-def wrap_list_store_sort_func(func):
-    """PyGI wrapper for SortListModel set_sort_func.
-    """
-    def wrap(a, b, *user_data):
-        a = pygobject_new_full(a, False)
-        b = pygobject_new_full(b, False)
-        return func(a, b, *user_data)
-
-    return wrap
+    extract_a = _extract_numbers(name_a)
+    extract_b = _extract_numbers(name_b)
+    if extract_a < extract_b:
+        return Gtk.Ordering.SMALLER
+    elif extract_a > extract_b:
+        return Gtk.Ordering.LARGER
+    else:
+        return Gtk.Ordering.EQUAL

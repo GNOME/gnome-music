@@ -30,12 +30,11 @@ import typing
 
 import gi
 gi.require_version('GstPbutils', '1.0')
-from gi.repository import GObject, GstPbutils
+from gi.repository import GObject, GstPbutils, Gtk
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
 from gnomemusic.widgets.songwidget import SongWidget
-import gnomemusic.utils as utils
 
 
 class RepeatMode(Enum):
@@ -277,16 +276,18 @@ class PlayerPlaylist(GObject.GObject):
         self._model_recent.set_offset(offset)
 
     def _on_repeat_mode_changed(self, klass, param):
-        def _shuffle_sort(song_a, song_b):
+        def _shuffle_sort(song_a, song_b, data=None):
             return song_a.shuffle_pos < song_b.shuffle_pos
 
         if self.props.repeat_mode == RepeatMode.SHUFFLE:
             for idx, coresong in enumerate(self._model):
                 coresong.update_shuffle_pos()
-            self._model.set_sort_func(
-                utils.wrap_list_store_sort_func(_shuffle_sort))
+
+            songs_sorter = Gtk.CustomSorter()
+            songs_sorter.set_sort_func(_shuffle_sort)
+            self._model.set_sorter(songs_sorter)
         elif self.props.repeat_mode in [RepeatMode.NONE, RepeatMode.ALL]:
-            self._model.set_sort_func(None)
+            self._model.set_sorter(None)
 
     def _validate_song(self, coresong):
         # Song is being processed or has already been processed.
