@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_versions({"Gfm": "0.1", "Grl": "0.3"})
-from gi.repository import Gfm, Gio, Grl, GObject
+gi.require_versions({"Grl": "0.3"})
+from gi.repository import Gio, Grl, Gtk, GObject
 
 from gnomemusic.coresong import CoreSong
 
@@ -75,7 +75,7 @@ class GrlSearchWrapper(GObject.GObject):
         self._song_search_store = Gio.ListStore.new(CoreSong)
         # FIXME: Workaround for adding the right list type to the proxy
         # list model.
-        self._song_search_model = Gfm.FilterListModel.new(
+        self._song_search_model = Gtk.FilterListModel.new(
             self._song_search_store)
         self._song_search_model.set_filter_func(lambda a: True)
         self._song_search_proxy.append(self._song_search_model)
