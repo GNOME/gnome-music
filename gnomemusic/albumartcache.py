@@ -280,8 +280,9 @@ class Art(GObject.GObject):
 
     @log
     def _no_art_available(self):
-        self._surface = DefaultIcon().get(
-            DefaultIcon.Type.MUSIC, self._size, self._scale)
+        self._surface = None
+        # self._surface = DefaultIcon().get(
+        #     DefaultIcon.Type.MUSIC, self._size, self._scale)
 
         self.emit('finished')
 
@@ -318,9 +319,9 @@ class Art(GObject.GObject):
 
     @GObject.Property
     def surface(self):
-        if self._surface is None:
-            self._surface = DefaultIcon().get(
-                DefaultIcon.Type.LOADING, self._size, self._scale)
+        # if self._surface is None:
+        #     self._surface = DefaultIcon().get(
+        #         DefaultIcon.Type.LOADING, self._size, self._scale)
 
         return self._surface
 
