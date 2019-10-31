@@ -29,7 +29,7 @@ from gnomemusic.coreartist import CoreArtist
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistTile.ui')
-class ArtistTile(Gtk.EventBox):
+class ArtistTile(Gtk.Box):
     """Row for sidebars
 
     Contains a label and an optional checkbox.
