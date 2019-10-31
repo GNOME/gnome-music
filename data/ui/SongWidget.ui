@@ -2,11 +2,11 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
-  <template class="SongWidget" parent="GtkEventBox">
+  <template class="SongWidget" parent="GtkBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <signal name="notify::selected" handler="_on_selection_changed"/>
-    <signal name="drag_data_received" handler="_on_drag_data_received"/>
+<!--<signal name="drag_data_received" handler="_on_drag_data_received"/> -->
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -15,11 +15,13 @@
         <property name="margin_top">10</property>
         <property name="margin_bottom">10</property>
         <child>
-          <object class="GtkEventBox" id="_dnd_eventbox">
+          <object class="GtkBox" id="_dnd_eventbox">
             <property name="visible">False</property>
+<!--
             <signal name="drag-begin" handler="_on_drag_begin"/>
             <signal name="drag-end" handler="_on_drag_end"/>
             <signal name="drag_data_get" handler="_on_drag_data_get"/>
+-->
 	    <property name="no_show_all">True</property>
             <child>
               <object class="GtkImage">
@@ -36,7 +38,8 @@
             <property name="can_focus">False</property>
             <property name="homogeneous">True</property>
             <child>
-              <object class="GtkEventBox" id="eventbox2">
+              <!-- FIXME: Remove this box? -->
+              <object class="GtkBox" id="eventbox2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -155,16 +158,18 @@
             <property name="can-focus">False</property>
             <property name="visible">True</property>
             <child>
-              <object class="GtkEventBox" id="_star_eventbox">
+              <object class="GtkBox" id="_star_eventbox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="halign">end</property>
                 <property name="valign">center</property>
                 <property name="visible_window">True</property>
                 <property name="margin_right">12</property>
+<!--
                 <signal name="button-release-event" handler="_on_star_toggle" swapped="no"/>
                 <signal name="enter-notify-event" handler="_on_star_hover" swapped="no"/>
                 <signal name="leave-notify-event" handler="_on_star_unhover" swapped="no"/>
+-->
                 <child>
                   <object class="StarImage" id="_star_image">
                     <property name="visible">True</property>
