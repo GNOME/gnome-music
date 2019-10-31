@@ -78,15 +78,13 @@ class ArtistsView(BaseView):
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
 
-        self._ctrl = Gtk.GestureMultiPress().new(self._sidebar)
+        self._ctrl = Gtk.GestureClick().new()
         self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._ctrl.props.button = Gdk.BUTTON_PRIMARY
         self._ctrl.connect("released", self._on_sidebar_clicked)
 
         self._loaded_artists = []
         self._loading_id = 0
-
-        self.show_all()
 
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
@@ -133,7 +131,7 @@ class ArtistsView(BaseView):
     @log
     def _setup_view(self):
         self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(self._view_container, True, True, 0)
+        self._box.add(self._view_container)
 
         self._view = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
