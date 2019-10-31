@@ -162,10 +162,10 @@ class SmoothScale(Gtk.Scale):
         duration = abs(self._player.props.duration)
 
         style_context = self.get_style_context()
-        state = style_context.get_state()
+        # state = style_context.get_state()
 
         width = self.get_allocated_width()
-        padding = style_context.get_padding(state)
+        padding = style_context.get_padding()
         width = max(width - (padding.left + padding.right), 1)
 
         timeout_period = min(1000 * duration // width, 200)
