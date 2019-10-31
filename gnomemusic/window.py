@@ -233,10 +233,10 @@ class Window(Gtk.ApplicationWindow):
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        self._key_press_event_id = self.connect(
-            'key_press_event', self._on_key_press)
+        # self._key_press_event_id = self.connect(
+        #    'key_press_event', self._on_key_press)
 
-        self._btn_ctrl = Gtk.GestureMultiPress().new(self)
+        self._btn_ctrl = Gtk.GestureClick().new()
         self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         # Mouse button 8 is the back button.
         self._btn_ctrl.props.button = 8
