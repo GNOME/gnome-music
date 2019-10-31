@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.12"/>
   <template parent="GtkListBoxRow" class="DiscBox">
@@ -22,9 +21,6 @@
               <class name="disc-label"/>
             </style>
           </object>
-          <packing>
-            <property name="position">0</property>
-          </packing>
         </child>
         <child>
           <object class="GtkListBox" id="_list_box">
@@ -36,9 +32,6 @@
               <class name="songs-list"/>
             </style>
           </object>
-          <packing>
-            <property name="position">1</property>
-          </packing>
         </child>
       </object>
     </child>
