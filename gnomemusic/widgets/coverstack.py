@@ -91,9 +91,9 @@ class CoverStack(Gtk.Stack):
         """
         self._size = value
 
-        icon = self._default_icon.get(
-            DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
-        self._loading_cover.props.surface = icon
+        # icon = self._default_icon.get(
+        #     DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
+        # self._loading_cover.props.surface = icon
 
     @log
     def update(self, coresong):
