@@ -91,7 +91,7 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.connect('query-tooltip', self._on_tooltip_query)
 
-        self._events.add_events(Gdk.EventMask.TOUCH_MASK)
+        # self._events.add_events(Gdk.EventMask.TOUCH_MASK)
 
         self._cover_stack.props.size = Art.Size.MEDIUM
 
@@ -121,16 +121,16 @@ class AlbumCover(Gtk.FlowBoxChild):
         """
         return self._corealbum
 
-    @Gtk.Template.Callback()
-    @log
-    def _on_album_event(self, evbox, event, data=None):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
+    # @Gtk.Template.Callback()
+    # @log
+    # def _on_album_event(self, evbox, event, data=None):
+    #     modifiers = Gtk.accelerator_get_default_mod_mask()
+    #     if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
+    #             and not self.props.selection_mode):
+    #         self.props.selection_mode = True
 
-        if self.props.selection_mode:
-            self.props.selected = not self.props.selected
+    #     if self.props.selection_mode:
+    #         self.props.selected = not self.props.selected
 
     @Gtk.Template.Callback()
     @log
