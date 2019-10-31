@@ -73,7 +73,7 @@ class SongsView(BaseView):
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
+        self._box.add(view_container)
 
         self._view = Gtk.TreeView()
         self._view.props.headers_visible = False
@@ -81,7 +81,7 @@ class SongsView(BaseView):
         self._view.props.model = self._coremodel.props.songs_gtkliststore
         self._view.props.activate_on_single_click = True
 
-        self._ctrl = Gtk.GestureMultiPress().new(self._view)
+        self._ctrl = Gtk.GestureClick().new()
         self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._ctrl.connect("released", self._on_view_clicked)
 
