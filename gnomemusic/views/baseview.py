@@ -58,10 +58,6 @@ class BaseView(Gtk.Stack):
 
         self.add(self._grid)
 
-        self._grid.props.visible = True
-        self._box.props.visible = True
-        self.props.visible = True
-
         self.bind_property(
             "selection-mode", self._window, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL)
