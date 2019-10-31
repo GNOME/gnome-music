@@ -111,7 +111,7 @@ class DiscBox(Gtk.ListBoxRow):
             "show-song-numbers", song_widget, "show-song-number",
             GObject.BindingFlags.SYNC_CREATE)
 
-        song_widget.connect('button-release-event', self._song_activated)
+        # song_widget.connect('button-release-event', self._song_activated)
 
         return song_widget
 
