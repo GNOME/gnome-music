@@ -75,10 +75,10 @@ class Application(Gtk.Application):
     def _init_style(self):
         css_provider = Gtk.CssProvider()
         css_provider.load_from_resource('/org/gnome/Music/org.gnome.Music.css')
-        screen = Gdk.Screen.get_default()
+        display = Gdk.Display.get_default()
         style_context = Gtk.StyleContext()
-        style_context.add_provider_for_screen(
-            screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        # style_context.add_provider_for_display(
+        #      display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     @GObject.Property(
         type=Player, default=None, flags=GObject.ParamFlags.READABLE)
