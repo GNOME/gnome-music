@@ -83,8 +83,6 @@ class AlbumsView(Gtk.Stack):
         self.connect(
             "notify::search-mode-active", self._on_search_mode_changed)
 
-        self.show_all()
-
     def _on_selection_mode_changed(self, widget, data=None):
         if not self.props.selection_mode:
             self.unselect_all()
