@@ -43,10 +43,10 @@ class CellRendererStar(Gtk.CellRendererPixbuf):
         self.props.mode = Gtk.CellRendererMode.ACTIVATABLE
         self.props.xpad = 32
 
-        _, width, height = Gtk.IconSize.lookup(Gtk.IconSize.SMALL_TOOLBAR)
+        # _, width, height = Gtk.IconSize.lookup(Gtk.IconSize.SMALL_TOOLBAR)
 
-        self._icon_width = width
-        self._icon_height = height
+        self._icon_width = 24
+        self._icon_height = 24
 
         self._show_star = 0
 
