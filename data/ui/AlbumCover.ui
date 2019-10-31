@@ -16,10 +16,12 @@
             <property name="can_focus">False</property>
             <property name="margin_bottom">4</property>
             <child>
-              <object class="GtkEventBox" id="_events">
+              <object class="GtkBox" id="_events">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+<!--
                 <signal name="button-release-event" handler="_on_album_event" swapped="no"/>
+-->
                 <child>
                   <object class="CoverStack" id="_cover_stack">
                     <property name="visible">True</property>
