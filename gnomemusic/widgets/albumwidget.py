@@ -9,7 +9,7 @@ from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/AlbumWidget.ui')
-class AlbumWidget(Gtk.EventBox):
+class AlbumWidget(Gtk.Box):
     """Album widget.
 
     The album widget consists of an image with the album art
