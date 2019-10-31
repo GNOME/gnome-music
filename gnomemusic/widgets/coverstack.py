@@ -67,8 +67,6 @@ class CoverStack(Gtk.Stack):
         self.props.transition_type = Gtk.StackTransitionType.CROSSFADE
         self.props.visible_child_name = "loading"
 
-        self.show_all()
-
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def size(self):
         """Size of the cover
