@@ -146,8 +146,8 @@ class PlayerToolbar(Gtk.ActionBar):
             image = self._play_image
             tooltip = _("Play")
 
-        if self._play_button.get_image() != image:
-            self._play_button.set_image(image)
+        # if self._play_button.get_image() != image:
+        #     self._play_button.set_image(image)
 
         self._play_button.set_tooltip_text(tooltip)
 
