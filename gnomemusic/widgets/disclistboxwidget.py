@@ -89,7 +89,7 @@ class DiscBox(Gtk.ListBoxRow):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
-        song_widget.connect('button-release-event', self._song_activated)
+        # song_widget.connect('button-release-event', self._song_activated)
 
         row = Gtk.ListBoxRow()
         row.props.activatable = False
