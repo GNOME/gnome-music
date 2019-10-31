@@ -74,8 +74,6 @@ class ArtistsView(BaseView):
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
 
-        self.show_all()
-
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
         row.props.text = coreartist.props.artist
@@ -121,7 +119,7 @@ class ArtistsView(BaseView):
 
     def _setup_view(self):
         self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(self._view_container, True, True, 0)
+        self._box.add(self._view_container)
 
         self._view = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
