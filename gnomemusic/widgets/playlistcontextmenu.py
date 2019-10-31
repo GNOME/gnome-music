@@ -42,4 +42,4 @@ class PlaylistContextMenu(Gtk.Popover):
         super().__init__()
 
         self.props.relative_to = view
-        self.bind_model(self._song_menu, None)
+        # self.bind_model(self._song_menu, None)
