@@ -147,7 +147,6 @@
             <child>
               <object class="GtkStackPage">
                 <property name="name">empty</property>
-                <property name="position">1</property>
                 <property name="child">
                   <object class="GtkBox"/>
                 </property>
