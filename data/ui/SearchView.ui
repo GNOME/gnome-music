@@ -1,47 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <object class="GtkImage" id="view_all_image_artist">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
     <property name="icon_name">go-next-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <object class="GtkImage" id="view_all_image_album">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
     <property name="icon_name">go-next-symbolic</property>
     <property name="icon_size">1</property>
   </object>
   <template class="SearchView" parent="GtkStack">
-    <property name="visible">True</property>
     <child>
       <object class="GtkScrolledWindow" id="_search_results">
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
-        <property name="visible">True</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <child>
           <object class="GtkBox" id="container">
-            <property name="halign">fill</property>
-            <property name="hexpand">True</property>
+            <property name="hexpand">1</property>
             <property name="margin-bottom">20</property>
-            <property name="margin-left">120</property>
-            <property name="margin-right">120</property>
+            <property name="margin-end">120</property>
+            <property name="margin-start">120</property>
             <property name="margin-top">20</property>
             <property name="orientation">vertical</property>
-            <property name="visible">True</property>
             <child>
               <object class="GtkBox" id="_artist_header">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="homogeneous">True</property>
-                <property name="orientation">horizontal</property>
-                <property name="visible">True</property>
+                <property name="hexpand">1</property>
+                <property name="homogeneous">1</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Artists</property>
-                    <property name="visible">True</property>
                     <style>
                       <class name="search-header"/>
                     </style>
@@ -51,11 +38,12 @@
                   <object class="GtkButton" id="_view_all_artists">
                     <property name="halign">end</property>
                     <property name="label" translatable="yes">View All</property>
+<!--
                     <property name="always_show_image">True</property>
                     <property name="image">view_all_image_artist</property>
                     <property name="image_position">right</property>
-                    <property name="visible">True</property>
                     <signal name="button-release-event" handler="_on_all_artists_clicked" swapped="no"/>
+-->
                   </object>
                 </child>
               </object>
@@ -63,19 +51,15 @@
             <child>
               <object class="GtkFlowBox" id="_artist_flowbox">
                 <property name="column_spacing">6</property>
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="homogeneous">True</property>
+                <property name="hexpand">1</property>
+                <property name="homogeneous">1</property>
                 <property name="margin-bottom">18</property>
-                <property name="margin-end">0</property>
-                <property name="margin-start">0</property>
                 <property name="margin-top">18</property>
                 <property name="max-children-per-line">6</property>
                 <property name="min-children-per-line">1</property>
                 <property name="row_spacing">12</property>
                 <property name="selection-mode">none</property>
                 <property name="valign">start</property>
-                <property name="visible">True</property>
                 <signal name="child-activated" handler="_on_artist_activated" swapped="no"/>
                 <style>
                   <class name="content-view"/>
@@ -84,17 +68,12 @@
             </child>
             <child>
               <object class="GtkBox" id="_album_header">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="homogeneous">True</property>
-                <property name="orientation">horizontal</property>
-                <property name="visible">True</property>
+                <property name="hexpand">1</property>
+                <property name="homogeneous">1</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Albums</property>
-                    <property name="visible">True</property>
                     <style>
                       <class name="search-header"/>
                     </style>
@@ -104,31 +83,28 @@
                   <object class="GtkButton" id="_view_all_albums">
                     <property name="halign">end</property>
                     <property name="label" translatable="yes">View All</property>
+<!--
                     <property name="always_show_image">True</property>
                     <property name="image">view_all_image_album</property>
                     <property name="image_position">right</property>
-                    <property name="visible">True</property>
                     <signal name="button-release-event" handler="_on_all_albums_clicked" swapped="no"/>
+-->
                   </object>
                 </child>
               </object>
             </child>
             <child>
               <object class="GtkFlowBox" id="_album_flowbox">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
+                <property name="hexpand">1</property>
                 <property name="valign">start</property>
-                <property name="homogeneous">True</property>
+                <property name="homogeneous">1</property>
                 <property name="min_children_per_line">1</property>
                 <property name="max_children_per_line">6</property>
                 <property name="margin-bottom">18</property>
-                <property name="margin-end">0</property>
-                <property name="margin-start">0</property>
                 <property name="margin-top">18</property>
                 <property name="row_spacing">12</property>
                 <property name="column_spacing">6</property>
                 <property name="selection_mode">none</property>
-                <property name="visible">True</property>
                 <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
                 <style>
                   <class name="content-view"/>
@@ -137,17 +113,12 @@
             </child>
             <child>
               <object class="GtkBox" id="_songs_header">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="homogeneous">True</property>
-                <property name="orientation">horizontal</property>
-                <property name="visible">True</property>
+                <property name="hexpand">1</property>
+                <property name="homogeneous">1</property>
                 <child>
                   <object class="GtkLabel">
-                    <property name="can_focus">False</property>
                     <property name="halign">start</property>
                     <property name="label" translatable="yes">Songs</property>
-                    <property name="visible">True</property>
                     <style>
                       <class name="search-header"/>
                     </style>
@@ -158,7 +129,6 @@
             <child>
               <object class="GtkListBox" id="_songs_listbox">
                 <property name="margin-top">20</property>
-                <property name="visible">True</property>
                 <style>
                   <class name="songs-list"/>
                 </style>
@@ -170,26 +140,26 @@
     </child>
     <child>
       <object class="GtkScrolledWindow" id="_all_search_results">
-        <property name="hexpand">True</property>
-        <property name="vexpand">True</property>
-        <property name="visible">True</property>
+        <property name="hexpand">1</property>
+        <property name="vexpand">1</property>
         <child>
           <object class="GtkBox">
-            <property name="halign">fill</property>
-            <property name="hexpand">True</property>
+            <property name="hexpand">1</property>
             <property name="margin-bottom">20</property>
-            <property name="margin-left">120</property>
-            <property name="margin-right">120</property>
+            <property name="margin-end">120</property>
+            <property name="margin-start">120</property>
             <property name="margin-top">20</property>
             <property name="orientation">vertical</property>
-            <property name="visible">True</property>
             <child>
               <object class="GtkFlowBox" id="_artist_all_flowbox">
+                <property name="visible">0</property>
                 <property name="column_spacing">6</property>
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
-                <property name="homogeneous">True</property>
-                <property name="margin">18</property>
+                <property name="hexpand">1</property>
+                <property name="homogeneous">1</property>
+                <property name="margin-bottom">18</property>
+                <property name="margin-end">18</property>
+                <property name="margin-start">18</property>
+                <property name="margin-top">18</property>
                 <property name="max-children-per-line">6</property>
                 <property name="min-children-per-line">1</property>
                 <property name="row_spacing">12</property>
@@ -203,17 +173,18 @@
             </child>
             <child>
               <object class="GtkFlowBox" id="_album_all_flowbox">
-                <property name="halign">fill</property>
-                <property name="hexpand">True</property>
+                <property name="hexpand">1</property>
                 <property name="valign">start</property>
-                <property name="homogeneous">True</property>
+                <property name="homogeneous">1</property>
                 <property name="min_children_per_line">1</property>
                 <property name="max_children_per_line">6</property>
-                <property name="margin">18</property>
+                <property name="margin-bottom">18</property>
+                <property name="margin-end">18</property>
+                <property name="margin-start">18</property>
+                <property name="margin-top">18</property>
                 <property name="row_spacing">12</property>
                 <property name="column_spacing">6</property>
                 <property name="selection_mode">none</property>
-                <property name="visible">True</property>
                 <signal name="child-activated" handler="_on_album_activated" swapped="no"/>
                 <style>
                   <class name="content-view"/>
@@ -223,6 +194,6 @@
           </object>
         </child>
       </object>
-      </child>
-    </template>
-  </interface>
+    </child>
+  </template>
+</interface>
