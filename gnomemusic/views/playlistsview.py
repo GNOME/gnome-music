@@ -105,8 +105,8 @@ class PlaylistsView(BaseView):
         self._sidebar.set_selection_mode(Gtk.SelectionMode.SINGLE)
         self._sidebar.connect('row-activated', self._on_playlist_activated)
 
-        self._grid.child_set_property(sidebar_container, 'top-attach', 0)
-        self._grid.child_set_property(sidebar_container, 'height', 2)
+        # self._grid.child_set_property(sidebar_container, 'top-attach', 0)
+        # self._grid.child_set_property(sidebar_container, 'height', 2)
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
@@ -117,8 +117,6 @@ class PlaylistsView(BaseView):
 
         # Selection is only possible from the context menu
         self.disconnect(self._selection_mode_id)
-
-        self.show_all()
 
     @log
     def _setup_view(self):
