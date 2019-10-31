@@ -65,8 +65,6 @@ class CoverStack(Gtk.Stack):
 
         self.connect("destroy", self._on_destroy)
 
-        self.show_all()
-
     @GObject.Property(type=object, flags=GObject.ParamFlags.READWRITE)
     def size(self):
         """Size of the cover
