@@ -24,7 +24,7 @@
 
 import gi
 gi.require_versions({"Grl": "0.3"})
-from gi.repository import Gio, Grl, GObject
+from gi.repository import Gio, Grl, Gtk, GObject
 
 from gnomemusic.coresong import CoreSong
 
