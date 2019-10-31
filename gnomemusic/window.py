@@ -44,7 +44,7 @@ from gnomemusic.widgets.playertoolbar import PlayerToolbar
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
 from gnomemusic.widgets.searchheaderbar import SearchHeaderBar
 from gnomemusic.widgets.selectiontoolbar import SelectionToolbar  # noqa: F401
-from gnomemusic.windowplacement import WindowPlacement
+# from gnomemusic.windowplacement import WindowPlacement
 
 import logging
 logger = logging.getLogger(__name__)
@@ -92,7 +92,8 @@ class Window(Gtk.ApplicationWindow):
         self.add_action(select_none)
 
         self.set_size_request(200, 100)
-        WindowPlacement(self)
+        # FIXME: Rework placement.
+        # WindowPlacement(self)
 
         self._current_view = None
         self._view_before_search = None
