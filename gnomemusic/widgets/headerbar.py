@@ -125,7 +125,7 @@ class HeaderBar(Gtk.HeaderBar):
         self._menu_button.set_popover(AppMenu(application))
 
         self.bind_property(
-            "selection-mode", self, "show-close-button",
+            "selection-mode", self, "show-title-buttons",
             GObject.BindingFlags.INVERT_BOOLEAN
             | GObject.BindingFlags.SYNC_CREATE)
         self.bind_property(
