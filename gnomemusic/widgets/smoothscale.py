@@ -55,7 +55,7 @@ class SmoothScale(Gtk.Scale):
 
         self._timeout = None
 
-        self._controller = Gtk.GestureMultiPress().new(self)
+        self._controller = Gtk.GestureClick.new()
         self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._controller.connect("pressed", self._on_button_pressed)
         self._controller.connect("released", self._on_button_released)
