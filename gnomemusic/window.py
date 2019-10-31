@@ -175,7 +175,7 @@ class Window(Gtk.ApplicationWindow):
         # bottom line of the searchbar
         self._stack.get_style_context().add_class('background')
 
-        self._box.pack_end(self._player_toolbar, False, False, 0)
+        self._box.add(self._player_toolbar)
 
         self.set_titlebar(self._headerbar_stack)
 
@@ -184,7 +184,6 @@ class Window(Gtk.ApplicationWindow):
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
-        self._headerbar_stack.show_all()
 
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
