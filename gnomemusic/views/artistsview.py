@@ -121,7 +121,7 @@ class ArtistsView(BaseView):
 
     def _setup_view(self):
         self._view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(self._view_container, True, True, 0)
+        self._box.add(self._view_container)
 
         self._view = Gtk.Stack(
             transition_type=Gtk.StackTransitionType.CROSSFADE,
