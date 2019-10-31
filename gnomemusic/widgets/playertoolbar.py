@@ -139,7 +139,7 @@ class PlayerToolbar(Gtk.ActionBar):
     @log
     def _sync_repeat_image(self):
         icon = self._repeat_dict[self._player.props.repeat_mode]
-        self._repeat_image.set_from_icon_name(icon, Gtk.IconSize.MENU)
+        self._repeat_image.set_from_icon_name(icon)
 
     @log
     def _sync_playing(self, player, state):
