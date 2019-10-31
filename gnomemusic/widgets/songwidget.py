@@ -34,7 +34,7 @@ from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/SongWidget.ui')
-class SongWidget(Gtk.EventBox):
+class SongWidget(Gtk.Box):
     """The single song widget used in DiscListBox
 
     Contains
