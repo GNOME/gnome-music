@@ -120,9 +120,8 @@ class SongWidget(Gtk.Box):
 
         self._select_button.set_visible(False)
 
-        self._play_icon.set_from_icon_name(
-            'media-playback-start-symbolic', Gtk.IconSize.SMALL_TOOLBAR)
-        self._play_icon.set_no_show_all(True)
+        self._play_icon.set_from_icon_name('media-playback-start-symbolic')
+        # self._play_icon.set_no_show_all(True)
 
         self.props.coresong.bind_property(
             'selected', self._select_button, 'active',
@@ -131,7 +130,7 @@ class SongWidget(Gtk.Box):
         self.bind_property(
             'show-duration', self._duration_label, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
-        self._duration_label.set_no_show_all(True)
+        # self._duration_label.set_no_show_all(True)
         self.bind_property(
             'show-favorite', self._star_eventbox, 'visible',
             GObject.BindingFlags.SYNC_CREATE)
@@ -151,7 +150,7 @@ class SongWidget(Gtk.Box):
         if not self.props.coresong.props.is_tracker:
             self._star_stack.props.visible_child_name = "empty"
 
-        self._number_label.props.no_show_all = True
+        # self._number_label.props.no_show_all = True
 
         if can_dnd is True:
             self._dnd_eventbox.props.visible = True
