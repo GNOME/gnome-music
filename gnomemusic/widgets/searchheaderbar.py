@@ -67,6 +67,9 @@ class SearchHeaderBar(Adw.HeaderBar):
 
         self._selection_menu = SelectionBarMenuButton()
 
+        # FIXME: Fix entry.
+        return
+
         self.bind_property(
             "selection-mode", self, "show-close-button",
             GObject.BindingFlags.INVERT_BOOLEAN
