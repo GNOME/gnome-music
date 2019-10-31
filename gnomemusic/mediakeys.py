@@ -74,7 +74,7 @@ class MediaKeys(GObject.GObject):
 
         self._media_keys_proxy.connect("g-signal", self._handle_media_keys)
 
-        self._ctrlr = Gtk.EventControllerKey().new(self._window)
+        self._ctrlr = Gtk.EventControllerKey().new()
         self._ctrlr.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._ctrlr.connect("focus-in", self._grab_media_player_keys)
 
