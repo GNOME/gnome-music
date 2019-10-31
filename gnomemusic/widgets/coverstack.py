@@ -122,10 +122,10 @@ class CoverStack(Gtk.Stack):
             self._timeout = None
 
         if self._active_child == "B":
-            self._cover_a.props.surface = klass.surface
+            # self._cover_a.props.surface = klass.surface
             self.props.visible_child_name = "A"
         else:
-            self._cover_b.props.surface = klass.surface
+            # self._cover_b.props.surface = klass.surface
             self.props.visible_child_name = "B"
 
         self._active_child = self.props.visible_child_name
