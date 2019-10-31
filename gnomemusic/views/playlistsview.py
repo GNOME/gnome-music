@@ -104,16 +104,16 @@ class PlaylistsView(BaseView):
     @log
     def _setup_view(self):
         view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
-        self._box.pack_start(view_container, True, True, 0)
+        self._box.add(view_container)
 
         self._view = Gtk.ListBox()
         self._view.get_style_context().add_class("songs-list")
-        self._view.props.margin_top = 20
-        self._view.props.margin_left = 80
-        self._view.props.margin_right = 80
+        # self._view.props.margin_top = 20
+        # self._view.props.margin_left = 80
+        # self._view.props.margin_right = 80
         self._view.props.valign = Gtk.Align.START
 
-        self._controller = Gtk.GestureMultiPress().new(self._view)
+        self._controller = Gtk.GestureClick().new()
         self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._controller.props.button = Gdk.BUTTON_SECONDARY
         self._controller.connect("pressed", self._on_view_right_clicked)
