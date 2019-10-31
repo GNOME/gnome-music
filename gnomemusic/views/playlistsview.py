@@ -265,7 +265,7 @@ class PlaylistsView(BaseView):
         song_widget = SongWidget(coresong, can_dnd, True)
         song_widget.props.show_song_number = False
 
-        song_widget.connect('button-release-event', self._song_activated)
+        # song_widget.connect('button-release-event', self._song_activated)
         if can_dnd is True:
             song_widget.connect("widget_moved", self._on_song_widget_moved)
 
