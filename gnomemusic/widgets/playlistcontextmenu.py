@@ -43,7 +43,8 @@ class PlaylistContextMenu(Gtk.Popover):
         window = application.props.window
 
         self.props.relative_to = view
-        self.bind_model(self._song_menu, None)
+
+        # self.bind_model(self._song_menu, None)
 
         add_song = Gio.SimpleAction.new("add_song_to_playlist", None)
         window.add_action(add_song)
