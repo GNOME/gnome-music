@@ -60,7 +60,6 @@ class Application(Gtk.Application):
         GLib.set_prgname(application_id)
         GLib.setenv("PULSE_PROP_media.role", "music", True)
 
-        self._init_style()
         self._window = None
 
         self._coreselection = CoreSelection()
@@ -75,10 +74,10 @@ class Application(Gtk.Application):
     def _init_style(self):
         css_provider = Gtk.CssProvider()
         css_provider.load_from_resource('/org/gnome/Music/org.gnome.Music.css')
-        screen = Gdk.Screen.get_default()
-        style_context = Gtk.StyleContext()
-        style_context.add_provider_for_screen(
-            screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        display = Gdk.Display.get_default()
+        style_context = self._window.get_style_context()
+        style_context.add_provider_for_display(
+             display, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
     @GObject.Property(
         type=Player, default=None, flags=GObject.ParamFlags.READABLE)
@@ -168,6 +167,7 @@ class Application(Gtk.Application):
         if not self._window:
             self._window = Window(self)
             self._window.set_default_icon_name(self.props.application_id)
+            self._init_style()
             if self.props.application_id == "org.gnome.Music.Devel":
                 self._window.get_style_context().add_class('devel')
             MPRIS(self)
