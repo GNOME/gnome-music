@@ -154,7 +154,6 @@ class LoadingNotification(Gtk.Grid):
     def push(self):
         """Increase the counter. Start notification if necessary."""
         def callback():
-            self.show_all()
             self.emit('visible')
 
         if self._counter == 0:
