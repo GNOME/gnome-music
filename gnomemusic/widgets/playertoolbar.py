@@ -47,9 +47,7 @@ class PlayerToolbar(Gtk.ActionBar):
     _cover_stack = Gtk.Template.Child()
     _duration_label = Gtk.Template.Child()
     _next_button = Gtk.Template.Child()
-    _pause_image = Gtk.Template.Child()
     _play_button = Gtk.Template.Child()
-    _play_image = Gtk.Template.Child()
     _prev_button = Gtk.Template.Child()
     _progress_scale = Gtk.Template.Child()
     _progress_time_label = Gtk.Template.Child()
@@ -140,14 +138,14 @@ class PlayerToolbar(Gtk.ActionBar):
         self.show()
 
         if self._player.props.state == Playback.PLAYING:
-            image = self._pause_image
+            icon_name = "media-playback-pause-symbolic"
             tooltip = _("Pause")
         else:
-            image = self._play_image
+            icon_name = "media-playback-start-symbolic"
             tooltip = _("Play")
 
-        # if self._play_button.get_image() != image:
-        #     self._play_button.set_image(image)
+        if self._play_button.props.icon_name != icon_name:
+            self._play_button.props.icon_name = icon_name
 
         self._play_button.set_tooltip_text(tooltip)
 
