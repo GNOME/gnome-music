@@ -61,7 +61,6 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         self.bind_model(self._model, self._add_album)
 
         self.get_style_context().add_class("artist-albums-widget")
-        self.props.visible = True
 
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
