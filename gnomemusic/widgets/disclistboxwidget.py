@@ -109,25 +109,29 @@ class DiscBox(Gtk.ListBoxRow):
             "show-song-numbers", song_widget, "show-song-number",
             GObject.BindingFlags.SYNC_CREATE)
 
-        # song_widget.connect('button-release-event', self._song_activated)
+        ctrl = Gtk.GestureClick()
+        song_widget.add_controller(ctrl)
+        ctrl.connect("released", self._song_activated)
 
         return song_widget
 
-    def _song_activated(self, widget, event):
+    def _song_activated(self, controller, n_click, x, y):
+        widget = controller.get_widget()
+
         if widget.props.select_click:
             widget.props.select_click = False
             return
 
-        mod_mask = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode
-                and self.props.selection_mode_allowed):
-            self.props.selection_mode = True
-            widget.props.select_click = True
-            widget.props.coresong.props.selected = True
-            return
+        # mod_mask = Gtk.accelerator_get_default_mod_mask()
+        # if ((event.get_state() & mod_mask) == Gdk.ModifierType.CONTROL_MASK
+        #         and not self.props.selection_mode
+        #         and self.props.selection_mode_allowed):
+        #     self.props.selection_mode = True
+        #     widget.props.select_click = True
+        #     widget.props.coresong.props.selected = True
+        #     return
 
-        (_, button) = event.get_button()
+        button = controller.get_current_button()
         if (button == Gdk.BUTTON_PRIMARY
                 and not self.props.selection_mode):
             self.emit('song-activated', widget)
