@@ -24,7 +24,7 @@
 
 import gi
 gi.require_versions({"Grl": "0.3", "Tracker": "2.0"})
-from gi.repository import Grl, GLib, GObject, Tracker
+from gi.repository import Grl, Gtk, GLib, GObject, Tracker
 
 from gnomemusic.corealbum import CoreAlbum
 from gnomemusic.coreartist import CoreArtist
