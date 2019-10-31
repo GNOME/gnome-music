@@ -237,7 +237,7 @@ class Art(GObject.GObject):
         # surface = Gdk.cairo_surface_create_from_pixbuf(
         #     pixbuf, self._scale, None)
         surface = None
-        surface = _make_icon_frame(surface, self._size, self._scale)
+        # surface = _make_icon_frame(surface, self._size, self._scale)
         self._surface = surface
 
         self.emit('finished')
