@@ -95,8 +95,6 @@ class AlbumsView(Gtk.Stack):
         self._scrolled_window.props.vadjustment.connect(
             "changed", self._on_vadjustment_changed)
 
-        self.show_all()
-
     def _on_vadjustment_changed(self, adjustment):
         if self._adjustment_timeout_id is not None:
             GLib.source_remove(self._adjustment_timeout_id)
