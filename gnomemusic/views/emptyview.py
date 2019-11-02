@@ -154,7 +154,7 @@ class EmptyView(Gtk.Stack):
             "Your system Tracker version seems outdated")
         self._icon.props.margin_bottom = 18
         self._information_label.props.label = _(
-            "Music needs Tracker version 2.2.0 or higher")
+            "Music needs Tracker version 2.3.0 or higher")
 
         self._icon.props.icon_name = "dialog-error-symbolic"
 
