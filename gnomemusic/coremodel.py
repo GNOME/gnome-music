@@ -254,110 +254,109 @@ class CoreModel(GObject.GObject):
                         GObject.BindingFlags.BIDIRECTIONAL
                         | GObject.BindingFlags.SYNC_CREATE)
 
-        with model.freeze_notify():
-            played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
-            for song in self._playlist_model:
-                if song.props.state in played_states:
-                    song.props.state = SongWidget.State.UNPLAYED
+        played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
+        for song in self._playlist_model:
+            if song.props.state in played_states:
+                song.props.state = SongWidget.State.UNPLAYED
 
-            if self._player_signal_id is not None:
-                self._current_playlist_model.disconnect(self._player_signal_id)
-                self._player_signal_id = None
-                self._current_playlist_model = None
+        if self._player_signal_id is not None:
+            self._current_playlist_model.disconnect(self._player_signal_id)
+            self._player_signal_id = None
+            self._current_playlist_model = None
 
-            if (playlist_type != PlayerPlaylist.Type.PLAYLIST
-                    and self.props.active_playlist is not None):
-                self.props.active_playlist = None
+        if (playlist_type != PlayerPlaylist.Type.PLAYLIST
+                and self.props.active_playlist is not None):
+            self.props.active_playlist = None
 
-            self._playlist_model.remove_all()
+        self._playlist_model.remove_all()
 
-            if playlist_type == PlayerPlaylist.Type.ALBUM:
-                proxy_model = Gio.ListStore.new(Gio.ListModel)
+        if playlist_type == PlayerPlaylist.Type.ALBUM:
+            proxy_model = Gio.ListStore.new(Gio.ListModel)
 
-                for disc in model:
+            for disc in model:
+                proxy_model.append(disc.props.model)
+
+            self._flatten_model = Gfm.FlattenListModel.new(
+                CoreSong, proxy_model)
+            self._current_playlist_model = self._flatten_model
+
+            for model_song in self._flatten_model:
+                song = CoreSong(
+                    model_song.props.media, self._coreselection,
+                    self.props.grilo)
+
+                self._playlist_model.append(song)
+                song.bind_property(
+                    "state", model_song, "state",
+                    GObject.BindingFlags.SYNC_CREATE)
+                model_song.bind_property(
+                    "validation", song, "validation",
+                    GObject.BindingFlags.BIDIRECTIONAL
+                    | GObject.BindingFlags.SYNC_CREATE)
+
+            self.emit("playlist-loaded", playlist_type)
+        elif playlist_type == PlayerPlaylist.Type.ARTIST:
+            proxy_model = Gio.ListStore.new(Gio.ListModel)
+
+            for artist_album in model:
+                for disc in artist_album.model:
                     proxy_model.append(disc.props.model)
 
-                self._flatten_model = Gfm.FlattenListModel.new(
-                    CoreSong, proxy_model)
-                self._current_playlist_model = self._flatten_model
+            self._flatten_model = Gfm.FlattenListModel.new(
+                CoreSong, proxy_model)
+            self._current_playlist_model = self._flatten_model
 
-                for model_song in self._flatten_model:
-                    song = CoreSong(
-                        model_song.props.media, self._coreselection,
-                        self.props.grilo)
+            for model_song in self._flatten_model:
+                song = CoreSong(
+                    model_song.props.media, self._coreselection,
+                    self.props.grilo)
 
-                    self._playlist_model.append(song)
-                    song.bind_property(
-                        "state", model_song, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
-                    model_song.bind_property(
-                        "validation", song, "validation",
-                        GObject.BindingFlags.BIDIRECTIONAL
-                        | GObject.BindingFlags.SYNC_CREATE)
+                self._playlist_model.append(song)
+                song.bind_property(
+                    "state", model_song, "state",
+                    GObject.BindingFlags.SYNC_CREATE)
+                model_song.bind_property(
+                    "validation", song, "validation",
+                    GObject.BindingFlags.BIDIRECTIONAL
+                    | GObject.BindingFlags.SYNC_CREATE)
 
-                self.emit("playlist-loaded", playlist_type)
-            elif playlist_type == PlayerPlaylist.Type.ARTIST:
-                proxy_model = Gio.ListStore.new(Gio.ListModel)
+            self.emit("playlist-loaded", playlist_type)
+        elif playlist_type == PlayerPlaylist.Type.SONGS:
+            self._current_playlist_model = self._songliststore.props.model
 
-                for artist_album in model:
-                    for disc in artist_album.model:
-                        proxy_model.append(disc.props.model)
+            for song in self._songliststore.props.model:
+                self._playlist_model.append(song)
 
-                self._flatten_model = Gfm.FlattenListModel.new(
-                    CoreSong, proxy_model)
-                self._current_playlist_model = self._flatten_model
+                if song.props.state == SongWidget.State.PLAYING:
+                    song.props.state = SongWidget.State.PLAYED
 
-                for model_song in self._flatten_model:
-                    song = CoreSong(
-                        model_song.props.media, self._coreselection,
-                        self.props.grilo)
+            self.emit("playlist-loaded", playlist_type)
+        elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
+            self._current_playlist_model = self._song_search_flatten
 
-                    self._playlist_model.append(song)
-                    song.bind_property(
-                        "state", model_song, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
-                    model_song.bind_property(
-                        "validation", song, "validation",
-                        GObject.BindingFlags.BIDIRECTIONAL
-                        | GObject.BindingFlags.SYNC_CREATE)
+            for song in self._song_search_flatten:
+                self._playlist_model.append(song)
 
-                self.emit("playlist-loaded", playlist_type)
-            elif playlist_type == PlayerPlaylist.Type.SONGS:
-                self._current_playlist_model = self._songliststore.props.model
+            self.emit("playlist-loaded", playlist_type)
+        elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
+            self._current_playlist_model = model
 
-                for song in self._songliststore.props.model:
-                    self._playlist_model.append(song)
+            for model_song in model:
+                song = CoreSong(
+                    model_song.props.media, self._coreselection,
+                    self.props.grilo)
 
-                    if song.props.state == SongWidget.State.PLAYING:
-                        song.props.state = SongWidget.State.PLAYED
+                self._playlist_model.append(song)
 
-                self.emit("playlist-loaded", playlist_type)
-            elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
-                self._current_playlist_model = self._song_search_flatten
+                song.bind_property(
+                    "state", model_song, "state",
+                    GObject.BindingFlags.SYNC_CREATE)
+                model_song.bind_property(
+                    "validation", song, "validation",
+                    GObject.BindingFlags.BIDIRECTIONAL
+                    | GObject.BindingFlags.SYNC_CREATE)
 
-                for song in self._song_search_flatten:
-                    self._playlist_model.append(song)
-
-                self.emit("playlist-loaded", playlist_type)
-            elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
-                self._current_playlist_model = model
-
-                for model_song in model:
-                    song = CoreSong(
-                        model_song.props.media, self._coreselection,
-                        self.props.grilo)
-
-                    self._playlist_model.append(song)
-
-                    song.bind_property(
-                        "state", model_song, "state",
-                        GObject.BindingFlags.SYNC_CREATE)
-                    model_song.bind_property(
-                        "validation", song, "validation",
-                        GObject.BindingFlags.BIDIRECTIONAL
-                        | GObject.BindingFlags.SYNC_CREATE)
-
-                self.emit("playlist-loaded", playlist_type)
+            self.emit("playlist-loaded", playlist_type)
 
         if self._current_playlist_model is not None:
             self._player_signal_id = self._current_playlist_model.connect(
