@@ -293,6 +293,8 @@ class MPRIS(DBusInterface):
 
         self._coremodel = app.props.coremodel
         self._player_model = self._coremodel.props.playlist_sort
+        self._player_model.connect(
+            "items-changed", self._on_player_model_changed)
 
         self._coremodel.connect(
             "playlist-loaded", self._on_player_playlist_changed)
@@ -515,6 +517,9 @@ class MPRIS(DBusInterface):
             if self._previous_can_play is True:
                 return
 
+        self._on_player_model_changed(None, 0, 0, 0)
+
+    def _on_player_model_changed(self, model, pos, removed, added):
         self._update_songs_list()
 
         properties = {}
