@@ -224,6 +224,15 @@ class CoreModel(GObject.GObject):
         return albums_model_sort
 
     def set_player_model(self, playlist_type, model):
+        """Set the model for PlayerPlaylist to use
+
+        This fills playlist model based on the playlist type and model
+        given. This builds a separate model to stay alive and play
+        while the user navigates other views.
+
+        :param PlaylistType playlist_type: The type of the playlist
+        :param Gio.ListStore model: The base model for the player model
+        """
         if model is self._previous_playlist_model:
             for song in self._playlist_model:
                 if song.props.state == SongWidget.State.PLAYING:
