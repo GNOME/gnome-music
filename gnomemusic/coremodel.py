@@ -294,7 +294,6 @@ class CoreModel(GObject.GObject):
                     GObject.BindingFlags.BIDIRECTIONAL
                     | GObject.BindingFlags.SYNC_CREATE)
 
-            self.emit("playlist-loaded", playlist_type)
         elif playlist_type == PlayerPlaylist.Type.ARTIST:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
 
@@ -320,7 +319,6 @@ class CoreModel(GObject.GObject):
                     GObject.BindingFlags.BIDIRECTIONAL
                     | GObject.BindingFlags.SYNC_CREATE)
 
-            self.emit("playlist-loaded", playlist_type)
         elif playlist_type == PlayerPlaylist.Type.SONGS:
             self._current_playlist_model = self._songliststore.props.model
 
@@ -330,14 +328,12 @@ class CoreModel(GObject.GObject):
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
 
-            self.emit("playlist-loaded", playlist_type)
         elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
             self._current_playlist_model = self._song_search_flatten
 
             for song in self._song_search_flatten:
                 self._playlist_model.append(song)
 
-            self.emit("playlist-loaded", playlist_type)
         elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
             self._current_playlist_model = model
 
@@ -356,12 +352,12 @@ class CoreModel(GObject.GObject):
                     GObject.BindingFlags.BIDIRECTIONAL
                     | GObject.BindingFlags.SYNC_CREATE)
 
-            self.emit("playlist-loaded", playlist_type)
-
         if self._current_playlist_model is not None:
             self._player_signal_id = self._current_playlist_model.connect(
                 "items-changed", _on_items_changed)
         self._previous_playlist_model = model
+
+        self.emit("playlist-loaded", playlist_type)
 
     def stage_playlist_deletion(self, playlist):
         """Prepares playlist deletion.
