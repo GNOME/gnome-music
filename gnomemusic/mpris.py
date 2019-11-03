@@ -462,7 +462,8 @@ class MPRIS(DBusInterface):
         # current song has changed
         if (not previous_path_list
                 or previous_path_list[0] != self._path_list[0]
-                or previous_path_list[-1] != self._path_list[-1]):
+                or previous_path_list[-1] != self._path_list[-1]
+                or len(previous_path_list) != len(self._path_list)):
             current_song_path = self._get_song_dbus_path()
             self._track_list_replaced(self._path_list, current_song_path)
 
