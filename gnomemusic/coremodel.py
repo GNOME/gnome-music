@@ -268,7 +268,7 @@ class CoreModel(GObject.GObject):
                 and self.props.active_playlist is not None):
             self.props.active_playlist = None
 
-        self._playlist_model.remove_all()
+        songs_added = []
 
         if playlist_type == PlayerPlaylist.Type.ALBUM:
             proxy_model = Gio.ListStore.new(Gio.ListModel)
@@ -285,7 +285,7 @@ class CoreModel(GObject.GObject):
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
 
-                self._playlist_model.append(song)
+                songs_added.append(song)
                 song.bind_property(
                     "state", model_song, "state",
                     GObject.BindingFlags.SYNC_CREATE)
@@ -310,7 +310,7 @@ class CoreModel(GObject.GObject):
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
 
-                self._playlist_model.append(song)
+                songs_added.append(song)
                 song.bind_property(
                     "state", model_song, "state",
                     GObject.BindingFlags.SYNC_CREATE)
@@ -323,7 +323,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = self._songliststore.props.model
 
             for song in self._songliststore.props.model:
-                self._playlist_model.append(song)
+                songs_added.append(song)
 
                 if song.props.state == SongWidget.State.PLAYING:
                     song.props.state = SongWidget.State.PLAYED
@@ -332,7 +332,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = self._song_search_flatten
 
             for song in self._song_search_flatten:
-                self._playlist_model.append(song)
+                songs_added.append(song)
 
         elif playlist_type == PlayerPlaylist.Type.PLAYLIST:
             self._current_playlist_model = model
@@ -342,7 +342,7 @@ class CoreModel(GObject.GObject):
                     model_song.props.media, self._coreselection,
                     self.props.grilo)
 
-                self._playlist_model.append(song)
+                songs_added.append(song)
 
                 song.bind_property(
                     "state", model_song, "state",
@@ -351,6 +351,9 @@ class CoreModel(GObject.GObject):
                     "validation", song, "validation",
                     GObject.BindingFlags.BIDIRECTIONAL
                     | GObject.BindingFlags.SYNC_CREATE)
+
+        self._playlist_model.splice(
+            0, self._playlist_model.get_n_items(), songs_added)
 
         if self._current_playlist_model is not None:
             self._player_signal_id = self._current_playlist_model.connect(
