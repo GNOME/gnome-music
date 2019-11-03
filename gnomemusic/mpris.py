@@ -328,7 +328,7 @@ class MPRIS(DBusInterface):
         if self._player.props.repeat_mode == RepeatMode.ALL:
             return "Playlist"
         elif self._player.props.repeat_mode == RepeatMode.SONG:
-            return 'Track'
+            return "Track"
         else:
             return "None"
 
