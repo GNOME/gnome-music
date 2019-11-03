@@ -325,12 +325,12 @@ class MPRIS(DBusInterface):
 
     @log
     def _get_loop_status(self):
-        if self._player.props.repeat_mode == RepeatMode.NONE:
-            return 'None'
+        if self._player.props.repeat_mode == RepeatMode.ALL:
+            return "Playlist"
         elif self._player.props.repeat_mode == RepeatMode.SONG:
             return 'Track'
         else:
-            return 'Playlist'
+            return "None"
 
     @log
     def _get_metadata(self, coresong=None, index=None):
