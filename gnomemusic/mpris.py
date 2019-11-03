@@ -531,8 +531,8 @@ class MPRIS(DBusInterface):
             self._previous_can_go_previous = has_previous
 
         if self._previous_can_play is not True:
-            properties["CanPause"] = GLib.Variant("b", has_previous)
-            properties["CanPlay"] = GLib.Variant("b", has_previous)
+            properties["CanPause"] = GLib.Variant("b", True)
+            properties["CanPlay"] = GLib.Variant("b", True)
             self._previous_can_play = True
 
         self._properties_changed(
