@@ -38,6 +38,8 @@ class GrlTrackerWrapper(GObject.GObject):
     """Wrapper for the Grilo Tracker source.
     """
 
+    _SPLICE_SIZE = 100
+
     METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_ARTIST,
@@ -341,6 +343,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
     def _initial_songs_fill(self, source):
         self._window.notifications_popup.push_loading()
+        songs_added = []
 
         def _add_to_model(source, op_id, media, user_data, error):
             if error:
@@ -349,12 +352,16 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
+                self._model.splice(self._model.get_n_items(), 0, songs_added)
                 self._window.notifications_popup.pop_loading()
                 return
 
             song = CoreSong(media, self._coreselection, self._grilo)
-            self._model.append(song)
+            songs_added.append(song)
             self._hash[media.get_id()] = song
+            if len(songs_added) == self._SPLICE_SIZE:
+                self._model.splice(self._model.get_n_items(), 0, songs_added)
+                del songs_added[:]
 
         query = """
         SELECT
@@ -390,6 +397,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
     def _initial_albums_fill(self, source):
         self._window.notifications_popup.push_loading()
+        albums_added = []
 
         def _add_to_albums_model(source, op_id, media, user_data, error):
             if error:
@@ -398,12 +406,18 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
+                self._albums_model.splice(
+                    self._albums_model.get_n_items(), 0, albums_added)
                 self._window.notifications_popup.pop_loading()
                 return
 
             album = CoreAlbum(media, self._coremodel)
-            self._albums_model.append(album)
             self._album_ids[media.get_id()] = album
+            albums_added.append(album)
+            if len(albums_added) == self._SPLICE_SIZE:
+                self._albums_model.splice(
+                    self._albums_model.get_n_items(), 0, albums_added)
+                del albums_added[:]
 
         query = """
         SELECT
@@ -437,6 +451,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
     def _initial_artists_fill(self, source):
         self._window.notifications_popup.push_loading()
+        artists_added = []
 
         def _add_to_artists_model(source, op_id, media, user_data, error):
             if error:
@@ -445,13 +460,19 @@ class GrlTrackerWrapper(GObject.GObject):
                 return
 
             if not media:
+                self._artists_model.splice(
+                    self._artists_model.get_n_items(), 0, artists_added)
                 self._coremodel.emit("artists-loaded")
                 self._window.notifications_popup.pop_loading()
                 return
 
             artist = CoreArtist(media, self._coremodel)
-            self._artists_model.append(artist)
             self._artist_ids[media.get_id()] = artist
+            artists_added.append(artist)
+            if len(artists_added) == self._SPLICE_SIZE:
+                self._artists_model.splice(
+                    self._artists_model.get_n_items(), 0, artists_added)
+                del artists_added[:]
 
         query = """
         SELECT
