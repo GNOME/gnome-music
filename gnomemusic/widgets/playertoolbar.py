@@ -82,18 +82,18 @@ class PlayerToolbar(Gtk.ActionBar):
     # object via init when using Gtk.Builder.
     @GObject.Property(type=Player, default=None)
     def player(self):
-        """The GstPlayer object used
+        """The Player object used
 
         :return: player object
-        :rtype: GstPlayer
+        :rtype: Player
         """
         return self._player
 
     @player.setter
     def player(self, player):
-        """Set the GstPlayer object used
+        """Set the Player object used
 
-        :param GstPlayer player: The GstPlayer to use
+        :param Player player: The player object
         """
         if (player is None
                 or (self._player is not None
