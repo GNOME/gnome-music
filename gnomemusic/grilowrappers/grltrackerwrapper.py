@@ -51,6 +51,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
+        Grl.METADATA_KEY_START_TIME,
         Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
         Grl.METADATA_KEY_TRACK_NUMBER,
@@ -164,13 +165,14 @@ class GrlTrackerWrapper(GObject.GObject):
             ?composer AS ?composer
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
+            nie:url(?file) AS ?url
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
         WHERE {
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
-                    nmm:performer ?performer .
+                    nmm:performer ?performer ;
+                    nie:isStoredAs ?file .
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
             %(location_filter)s
@@ -224,7 +226,8 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
+                    nmm:performer ?artist;
+                    nie:isStoredAs ?file .
             OPTIONAL {
                 ?album a nmm:MusicAlbum;
                          nmm:albumArtist ?album_artist .
@@ -298,7 +301,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             tracker:id(?song) AS ?id
             ?song
-            nie:url(?song) AS ?url
+            nie:url(?file) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
@@ -306,9 +309,11 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            nfo:audioOffset(?song) AS ?start_time
             ?tag AS ?favourite
         WHERE {
-            ?song a nmm:MusicPiece .
+            ?song a nmm:MusicPiece ;
+                    nie:isStoredAs ?file .
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
@@ -376,7 +381,7 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:title(?song) AS ?title
             tracker:id(?song) AS ?id
             ?song
-            nie:url(?song) AS ?url
+            nie:url(?file) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
@@ -384,9 +389,11 @@ class GrlTrackerWrapper(GObject.GObject):
             nie:usageCounter(?song) AS ?play_count
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            nfo:audioOffset(?song) AS ?start_time
             ?tag AS ?favourite
         WHERE {
-            ?song a nmm:MusicPiece .
+            ?song a nmm:MusicPiece ;
+                    nie:isStoredAs ?file .
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
@@ -433,14 +440,15 @@ class GrlTrackerWrapper(GObject.GObject):
             ?composer AS ?composer
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
+            nie:url(?file) AS ?url
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
         WHERE
         {
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
-                    nmm:performer ?performer .
+                    nmm:performer ?performer;
+                    nie:isStoredAs ?file .
             OPTIONAL { ?song nmm:composer/nmm:artistName ?composer . }
             OPTIONAL { ?album nmm:albumArtist/nmm:artistName ?album_artist . }
             %(location_filter)s
@@ -488,7 +496,8 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
+                    nmm:performer ?artist;
+                    nie:isStoredAs ?file .
             OPTIONAL {
                 ?album a nmm:MusicAlbum;
                          nmm:albumArtist ?album_artist .
@@ -526,9 +535,10 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?album a nmm:MusicAlbum .
             OPTIONAL { ?album  nmm:albumArtist ?album_artist . }
-            ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
+            ?song a nmm:MusicPiece ;
+                    nmm:musicAlbum ?album ;
+                    nmm:performer ?artist ;
+                    nie:isStoredAs ?file .
             FILTER ( tracker:id(?album_artist) = %(artist_id)s
                      || tracker:id(?artist) = %(artist_id)s )
             %(location_filter)s
@@ -582,7 +592,8 @@ class GrlTrackerWrapper(GObject.GObject):
             nmm:setNumber(nmm:musicAlbumDisc(?song)) as ?album_disc_number
         WHERE {
             ?song a nmm:MusicPiece;
-                    nmm:musicAlbum ?album .
+                    nmm:musicAlbum ?album ;
+                    nie:isStoredAs ?file .
             FILTER ( tracker:id(?album) = %(album_id)s )
             %(location_filter)s
         }
@@ -627,18 +638,20 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(?song)
             ?song AS ?tracker_urn
             tracker:id(?song) AS ?id
-            nie:url(?song) AS ?url
+            nie:url(?file) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
             nfo:duration(?song) AS ?duration
             nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            nfo:audioOffset(?song) AS ?start_time
             ?tag AS ?favourite
             nie:usageCounter(?song) AS ?play_count
         WHERE {
             ?song a nmm:MusicPiece ;
-                    nmm:musicAlbum ?album .
+                    nmm:musicAlbum ?album ;
+                    nie:isStoredAs ?file .
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
@@ -676,7 +689,8 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
-                    nmm:performer ?artist .
+                    nmm:performer ?artist ;
+                    nie:isStoredAs ?file .
             BIND(tracker:normalize(
                 nmm:artistName(nmm:albumArtist(?album)), 'nfkd') AS ?match1) .
             BIND(tracker:normalize(
@@ -731,7 +745,8 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(nmm:musicAlbum(?song))
             tracker:id(nmm:musicAlbum(?song)) AS ?id
         WHERE {
-            ?song a nmm:MusicPiece .
+            ?song a nmm:MusicPiece ;
+                    nie:isStoredAs ?file .
             BIND(tracker:normalize(
                 nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
             BIND(tracker:normalize(
@@ -786,7 +801,8 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(?song)
             tracker:id(?song) AS ?id
         WHERE {
-            ?song a nmm:MusicPiece .
+            ?song a nmm:MusicPiece ;
+                    nie:isStoredAs ?file .
             BIND(tracker:normalize(
                 nie:title(nmm:musicAlbum(?song)), 'nfkd') AS ?match1) .
             BIND(tracker:normalize(
@@ -876,7 +892,8 @@ class GrlTrackerWrapper(GObject.GObject):
             ?album a nmm:MusicAlbum .
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
+                    nmm:performer ?song_artist ;
+                    nie:isStoredAs ?file .
             OPTIONAL {
                 ?album tracker:hasExternalReference ?release_group_id .
                 ?release_group_id tracker:referenceSource
@@ -915,7 +932,8 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album ;
-                    nmm:performer ?song_artist .
+                    nmm:performer ?song_artist ;
+                    nie:isStoredAs ?file .
             OPTIONAL {
                 ?album tracker:hasExternalReference ?release_group_id .
                 ?release_group_id tracker:referenceSource

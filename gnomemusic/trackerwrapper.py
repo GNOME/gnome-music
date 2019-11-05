@@ -105,6 +105,6 @@ class TrackerWrapper(GObject.GObject):
         music_dir = Tracker.sparql_escape_string(
             GLib.filename_to_uri(music_dir))
 
-        query = "FILTER (STRSTARTS(nie:url(?song), '{}/'))".format(music_dir)
+        query = "FILTER (STRSTARTS(nie:url(?file), '{}/'))".format(music_dir)
 
         return query
