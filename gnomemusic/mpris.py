@@ -293,6 +293,8 @@ class MPRIS(DBusInterface):
 
         self._coremodel = app.props.coremodel
         self._player_model = self._coremodel.props.playlist_sort
+        self._player_model.connect(
+            "items-changed", self._on_player_model_changed)
 
         self._coremodel.connect(
             "playlist-loaded", self._on_player_playlist_changed)
@@ -419,7 +421,7 @@ class MPRIS(DBusInterface):
         return path
 
     @log
-    def _update_songs_list(self):
+    def _update_tracklist(self):
         previous_path_list = self._path_list
         self._path_list = []
         self._metadata_list = []
@@ -460,7 +462,8 @@ class MPRIS(DBusInterface):
         # current song has changed
         if (not previous_path_list
                 or previous_path_list[0] != self._path_list[0]
-                or previous_path_list[-1] != self._path_list[-1]):
+                or previous_path_list[-1] != self._path_list[-1]
+                or len(previous_path_list) != len(self._path_list)):
             current_song_path = self._get_song_dbus_path()
             self._track_list_replaced(self._path_list, current_song_path)
 
@@ -515,7 +518,10 @@ class MPRIS(DBusInterface):
             if self._previous_can_play is True:
                 return
 
-        self._update_songs_list()
+        self._on_player_model_changed(None, 0, 0, 0)
+
+    def _on_player_model_changed(self, model, pos, removed, added):
+        self._update_tracklist()
 
         properties = {}
         properties["Metadata"] = GLib.Variant("a{sv}", self._get_metadata())
@@ -551,7 +557,7 @@ class MPRIS(DBusInterface):
 
     @log
     def _on_repeat_mode_changed(self, player, param):
-        self._update_songs_list()
+        self._update_tracklist()
 
         properties = {}
 
