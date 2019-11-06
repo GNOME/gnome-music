@@ -244,14 +244,16 @@ class Window(Gtk.ApplicationWindow):
         self._on_notify_model_id = self._stack.connect(
             'notify::visible-child', self._on_notify_mode)
         self.connect('destroy', self._notify_mode_disconnect)
-        # self._key_press_event_id = self.connect(
-        #    'key_press_event', self._on_key_press)
 
-        self._btn_ctrl = Gtk.GestureClick().new()
-        self._btn_ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        ctrl = Gtk.EventControllerKey()
+        ctrl.connect("key-pressed", self._on_key_pressed)
+        self.add_controller(ctrl)
+
+        ctrl = Gtk.GestureClick().new()
         # Mouse button 8 is the back button.
-        self._btn_ctrl.props.button = 8
-        self._btn_ctrl.connect("pressed", self._on_back_button_pressed)
+        ctrl.props.button = 8
+        ctrl.connect("pressed", self._on_back_button_pressed)
+        self.add_controller(ctrl)
 
         self.views[View.EMPTY].props.state = EmptyView.State.SEARCH
 
@@ -323,9 +325,8 @@ class Window(Gtk.ApplicationWindow):
             view.select_none()
 
     @log
-    def _on_key_press(self, widget, event):
-        modifiers = event.get_state() & Gtk.accelerator_get_default_mod_mask()
-        (_, keyval) = event.get_keyval()
+    def _on_key_pressed(self, controller, keyval, keycode, state):
+        modifiers = state & Gtk.accelerator_get_default_mod_mask()
 
         control_mask = Gdk.ModifierType.CONTROL_MASK
         shift_mask = Gdk.ModifierType.SHIFT_MASK
