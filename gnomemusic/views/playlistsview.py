@@ -130,10 +130,10 @@ class PlaylistsView(BaseView):
         # self._view.props.margin_right = 80
         self._view.props.valign = Gtk.Align.START
 
-        self._controller = Gtk.GestureClick().new()
-        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._controller.props.button = Gdk.BUTTON_SECONDARY
-        self._controller.connect("pressed", self._on_view_right_clicked)
+        ctrl = Gtk.GestureClick()
+        ctrl.props.button = Gdk.BUTTON_SECONDARY
+        ctrl.connect("pressed", self._on_view_right_clicked)
+        self.add_controller(ctrl)
 
         view_container.add(self._view)
 
@@ -155,6 +155,7 @@ class PlaylistsView(BaseView):
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
+        # FIXME: Popover not working.
         requested_row = self._view.get_row_at_y(y)
         self._view.select_row(requested_row)
 
