@@ -74,9 +74,8 @@ icon_sizes = ['scalable']
 
 foreach i : icon_sizes
   install_data(
-    join_paths('icons/hicolor', i , 'apps', PROJECT_RDNN_NAME + '.svg'),
-    install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i , 'apps'),
-    rename: '@0@.svg'.format(APPLICATION_ID)
+    join_paths('icons/hicolor', i , 'apps', APPLICATION_ID + '.svg'),
+    install_dir: join_paths(get_option('prefix'), get_option('datadir'), 'icons', 'hicolor', i , 'apps')
   )
 endforeach
 
