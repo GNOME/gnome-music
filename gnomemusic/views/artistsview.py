@@ -69,10 +69,10 @@ class ArtistsView(BaseView):
         self._sidebar.props.selection_mode = Gtk.SelectionMode.SINGLE
         self._sidebar.connect('row-activated', self._on_artist_activated)
 
-        self._ctrl = Gtk.GestureClick().new()
-        self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._ctrl.props.button = Gdk.BUTTON_PRIMARY
-        self._ctrl.connect("released", self._on_sidebar_clicked)
+        ctrl = Gtk.GestureClick().new()
+        ctrl.props.button = Gdk.BUTTON_PRIMARY
+        ctrl.connect("released", self._on_sidebar_clicked)
+        self.add_controller(ctrl)
 
         self._loaded_artists = []
         self._loading_id = 0
