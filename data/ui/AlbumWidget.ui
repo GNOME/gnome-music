@@ -90,6 +90,7 @@
                           <class name="dim-label"/>
                         </style>
                         <layout>
+                          <property name="left_attach">0</property>
                           <property name="top_attach">1</property>
                         </layout>
                       </object>
