@@ -109,8 +109,8 @@ class AlbumsView(Gtk.Stack):
             return GLib.SOURCE_CONTINUE
 
         first_cover = self._flowbox.get_child_at_index(0)
-        cover_size, _ = first_cover.get_allocated_size()
-        viewport_size, _ = self._viewport.get_allocated_size()
+        cover_size = first_cover.get_allocation()
+        viewport_size = self._viewport.get_allocation()
 
         h_space = self._flowbox.get_column_spacing()
         v_space = self._flowbox.get_row_spacing()
