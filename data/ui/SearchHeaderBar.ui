@@ -4,6 +4,9 @@
   <template class="SearchHeaderBar" parent="GtkHeaderBar">
     <property name="visible">True</property>
     <property name="vexpand">False</property>
+    <style>
+      <class name="titlebar"/>
+    </style>
     <child>
       <object class="GtkToggleButton" id="_select_button">
         <property name="visible">True</property>

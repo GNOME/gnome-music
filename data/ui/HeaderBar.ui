@@ -4,6 +4,9 @@
   <template class="HeaderBar" parent="GtkHeaderBar">
     <property name="visible">True</property>
     <property name="vexpand">False</property>
+    <style>
+      <class name="titlebar"/>
+    </style>
     <child>
       <object class="GtkMenuButton" id="_menu_button">
         <property name="visible">True</property>
