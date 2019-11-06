@@ -396,12 +396,14 @@ class Player(GObject.GObject):
         self._gst_player.connect("error", self._on_error)
         self._gst_player.connect('seek-finished', self._on_seek_finished)
         self._gst_player.connect("stream-start", self._on_stream_start)
-        self._gst_player.bind_property(
-            'duration', self, 'duration', GObject.BindingFlags.SYNC_CREATE)
+        self._gst_player.connect("notify::duration", self._on_duration_changed)
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
         self._lastfm = LastFmScrobbler()
+
+    def _on_duration_changed(self, klass, value):
+        self.notify("duration")
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
@@ -471,12 +473,13 @@ class Player(GObject.GObject):
             self.next()
 
     def _on_stream_start(self, klass):
+        print("stream start", self.props.current_song.props.start_time)
         if self._gapless_set:
             self._playlist.next()
 
         self._gapless_set = False
         self._time_stamp = int(time.time())
-
+        self.set_position(0)
         self.emit("song-changed")
 
     def _load(self, coresong):
@@ -548,12 +551,13 @@ class Player(GObject.GObject):
         else:
             self.play()
 
-    @log
     def _on_clock_tick(self, klass, tick):
-        logger.debug("Clock tick {}, player at {} seconds".format(
-            tick, self._gst_player.props.position))
-
         current_song = self._playlist.props.current_song
+        start_time = current_song.props.start_time
+        position = self.get_position()
+
+        logger.debug("Clock tick {}, player at {} seconds".format(
+            tick, position))
 
         if tick == 0:
             self._new_clock = True
@@ -562,7 +566,14 @@ class Player(GObject.GObject):
         if self.props.duration == -1.:
             return
 
-        position = self._gst_player.props.position
+        if (self._gst_player.props.position > start_time + self.props.duration
+                and self.props.duration < self._gst_player.props.duration):
+            self._gapless_set = False
+            self.next()
+            self._gst_player._on_bus_stream_start(None, None)
+
+            return
+
         if position > 0:
             percentage = tick / self.props.duration
             if (not self._lastfm.scrobbled
@@ -616,7 +627,6 @@ class Player(GObject.GObject):
         """
         return self._playlist.props.current_song
 
-    @log
     def get_position(self):
         """Get player position.
 
@@ -624,7 +634,12 @@ class Player(GObject.GObject):
         :returns: position
         :rtype: float
         """
-        return self._gst_player.props.position
+        if self.props.current_song is None:
+            return -1
+
+        start_time = self.props.current_song.props.start_time
+
+        return self._gst_player.props.position - start_time
 
     # TODO: used by MPRIS
     @log
@@ -635,10 +650,13 @@ class Player(GObject.GObject):
         If the position if greater than song duration, do nothing
         :param float position_second: requested position in second
         """
+        print("set position", position_second)
+        start_time = self.props.current_song.props.start_time
+        position_second = position_second + start_time
         if position_second < 0.0:
             position_second = 0.0
 
-        duration_second = self._gst_player.props.duration
+        duration_second = self.props.duration + start_time
         if position_second <= duration_second:
             self._gst_player.seek(position_second)
 
@@ -646,3 +664,7 @@ class Player(GObject.GObject):
     def _on_seek_finished(self, klass):
         # FIXME: Just a proxy
         self.emit('seek-finished')
+
+    @GObject.Property()
+    def duration(self):
+        return self.props.current_song.props.duration
