@@ -111,6 +111,9 @@ class AlbumsView(Gtk.Stack):
             return GLib.SOURCE_CONTINUE
 
         first_cover = self._flowbox.get_child_at_index(0)
+        if first_cover is None:
+            return GLib.SOURCE_REMOVE
+
         cover_size, _ = first_cover.get_allocated_size()
         viewport_size, _ = self._viewport.get_allocated_size()
 
