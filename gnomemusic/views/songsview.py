@@ -71,9 +71,10 @@ class SongsView(BaseView):
         self._view.props.model = self._coremodel.props.songs_gtkliststore
         self._view.props.activate_on_single_click = True
 
-        self._ctrl = Gtk.GestureClick().new()
-        self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
-        self._ctrl.connect("released", self._on_view_clicked)
+        ctrl = Gtk.GestureClick().new()
+        ctrl.connect("released", self._on_view_clicked)
+        ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self.add_controller(ctrl)
 
         self._view.get_selection().props.mode = Gtk.SelectionMode.SINGLE
         self._view.connect('row-activated', self._on_item_activated)
