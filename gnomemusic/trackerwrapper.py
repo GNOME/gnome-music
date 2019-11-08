@@ -100,7 +100,7 @@ class TrackerWrapper(GObject.GObject):
             assert music_dir is not None
         except (TypeError, AssertionError):
             logger.warning("XDG Music dir is not set")
-            return
+            return None
 
         music_dir = Tracker.sparql_escape_string(
             GLib.filename_to_uri(music_dir))
