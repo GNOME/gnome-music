@@ -31,9 +31,10 @@ import gi
 gi.require_version('GstTag', '1.0')
 gi.require_version('MediaArt', '2.0')
 gi.require_version("Soup", "2.4")
-from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
-                           Gst, GstTag, GstPbutils, Soup)
+from gi.repository import (GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt, Gst,
+                           GstTag, GstPbutils, Soup)
 
+from gnomemusic.coverpaintable import CoverPaintable
 from gnomemusic.musiclogger import MusicLogger
 
 
@@ -129,13 +130,14 @@ class DefaultIcon(GObject.GObject):
         super().__init__()
 
     def _make_default_icon(self, icon_type, art_size, scale):
-        icon_info = self._default_theme.lookup_icon_for_scale(
-            icon_type.value, art_size.width / 3, scale, 0)
-        icon = icon_info.load_surface()
+        # icon_info = self._default_theme.lookup_icon_for_scale(
+        #     icon_type.value, art_size.width / 3, scale, 0)
+        # icon = icon_info.load_surface()
 
-        icon_surface = _make_icon_frame(icon, art_size, scale, True)
+        # icon_surface = _make_icon_frame(icon, art_size, scale, True)
 
-        return icon_surface
+        icon = CoverPaintable(art_size)
+        return icon
 
     def get(self, icon_type, art_size, scale=1):
         """Returns the requested symbolic icon
@@ -196,6 +198,8 @@ class Art(GObject.GObject):
         except AttributeError:
             self._url = None
         self._surface = None
+        self.texture = None
+        self.pixbuf = None
         self._scale = scale
 
     def lookup(self):
@@ -221,6 +225,8 @@ class Art(GObject.GObject):
         surface = None
         # surface = _make_icon_frame(surface, self._size, self._scale)
         self._surface = surface
+        # self.texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+        self.pixbuf = pixbuf
 
         self.emit('finished')
 
