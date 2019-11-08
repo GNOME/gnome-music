@@ -35,6 +35,7 @@ from gi.repository import (Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk, MediaArt,
                            Gst, GstTag, GstPbutils)
 
 from gnomemusic import log
+from gnomemusic.coverpaintable import CoverPaintable
 
 
 logger = logging.getLogger(__name__)
@@ -139,13 +140,14 @@ class DefaultIcon(GObject.GObject):
 
     @log
     def _make_default_icon(self, icon_type, art_size, scale):
-        icon_info = self._default_theme.lookup_icon_for_scale(
-            icon_type.value, art_size.width / 3, scale, 0)
-        icon = icon_info.load_surface()
+        # icon_info = self._default_theme.lookup_icon_for_scale(
+        #     icon_type.value, art_size.width / 3, scale, 0)
+        # icon = icon_info.load_surface()
 
-        icon_surface = _make_icon_frame(icon, art_size, scale, True)
+        # icon_surface = _make_icon_frame(icon, art_size, scale, True)
 
-        return icon_surface
+        icon = CoverPaintable(art_size)
+        return icon
 
     @log
     def get(self, icon_type, art_size, scale=1):
@@ -211,6 +213,8 @@ class Art(GObject.GObject):
         except AttributeError:
             self._url = None
         self._surface = None
+        self.texture = None
+        self.pixbuf = None
         self._scale = scale
 
     @log
@@ -239,6 +243,8 @@ class Art(GObject.GObject):
         surface = None
         # surface = _make_icon_frame(surface, self._size, self._scale)
         self._surface = surface
+        # self.texture = Gdk.Texture.new_for_pixbuf(pixbuf)
+        self.pixbuf = pixbuf
 
         self.emit('finished')
 
