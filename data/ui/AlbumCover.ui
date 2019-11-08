@@ -19,6 +19,7 @@
               <object class="GtkBox" id="_events">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">center</property>
 <!--
                 <signal name="button-release-event" handler="_on_album_event" swapped="no"/>
 -->
