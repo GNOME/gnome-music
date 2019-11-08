@@ -145,7 +145,8 @@ class CoreGrilo(GObject.GObject):
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
                 and source.get_supported_media() & Grl.MediaType.AUDIO
-                and source.supported_operations() & Grl.SupportedOps.SEARCH):
+                and source.supported_operations() & Grl.SupportedOps.SEARCH
+                and "net:internet" not in source.props.source_tags):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._coremodel, self._application, self)
             self._log.debug("Adding search source {}".format(source))
