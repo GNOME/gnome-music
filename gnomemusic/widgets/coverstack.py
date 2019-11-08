@@ -56,6 +56,7 @@ class CoverStack(Gtk.Stack):
         self._timeout = None
 
         self._loading_cover = Gtk.Image()
+        self.set_size_request(size.width, size.height)
         self._cover_a = Gtk.Image()
         self._cover_b = Gtk.Image()
 
@@ -84,9 +85,9 @@ class CoverStack(Gtk.Stack):
         """
         self._size = value
 
-        # icon = self._default_icon.get(
-        #     DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
-        # self._loading_cover.props.surface = icon
+        paintable = self._default_icon.get(
+            DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
+        self._loading_cover.props.paintable = paintable
 
     def update(self, coresong):
         """Update the stack with the given CoreSong
@@ -122,10 +123,10 @@ class CoverStack(Gtk.Stack):
             self._timeout = None
 
         if self._active_child == "B":
-            # self._cover_a.props.surface = klass.surface
+            self._cover_a.set_from_pixbuf(klass.pixbuf)
             self.props.visible_child_name = "A"
         else:
-            # self._cover_b.props.surface = klass.surface
+            self._cover_b.set_from_pixbuf(klass.pixbuf)
             self.props.visible_child_name = "B"
 
         self._active_child = self.props.visible_child_name
