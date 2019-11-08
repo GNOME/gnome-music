@@ -144,6 +144,7 @@ class CoreGrilo(GObject.GObject):
             print("wrapper", new_wrapper)
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
+                and source.props.source_id != "grl-tracker-source"
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.supported_operations() & Grl.SupportedOps.SEARCH):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
