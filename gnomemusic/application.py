@@ -158,10 +158,15 @@ class Application(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
 
+        quit_action = Gio.SimpleAction.new("quit", None)
+        quit_action.connect("activate", self._quit)
+        self.add_action(quit_action)
+        self.set_accels_for_action("app.quit", ["<Ctrl>Q"])
+
         self._build_app_menu()
 
     @log
-    def quit(self, action=None, param=None):
+    def _quit(self, action=None, param=None):
         self._window.destroy()
 
     def do_activate(self):
