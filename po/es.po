@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-11-02 14:18+0000\n"
-"PO-Revision-Date: 2019-11-05 15:07+0100\n"
+"POT-Creation-Date: 2019-11-09 21:05+0000\n"
+"PO-Revision-Date: 2019-11-11 12:30+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Spanish - Spain <gnome-es-list@gnome.org>\n"
 "Language: es_ES\n"
@@ -218,24 +218,24 @@ msgstr "_Ayuda"
 msgid "_About Music"
 msgstr "_Acerca de Música"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menú"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Seleccionar"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Buscar"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Atrás"
 
@@ -418,7 +418,7 @@ msgstr "Artistas"
 msgid "View All"
 msgstr "Ver todo"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
 msgid "Albums"
 msgstr "Álbumes"
 
@@ -504,43 +504,46 @@ msgstr "Álbum desconocido"
 msgid "Unknown Artist"
 msgstr "Artista desconocido"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "Su carpeta Música de XDG no está configurada"
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "Carpeta de música"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "El contenido de su {} aparecerá aquí."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Hola Dj"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "No se ha encontrado música"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Pruebe a hacer una búsqueda diferente"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Música no se ha podido conectar a Tracker"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Sus archivos de música no se pueden indexar si Tracker no está en ejecución"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Su versión de Tracker no está actualizada"
 
-#: gnomemusic/views/emptyview.py:157
-#| msgid "Music needs Tracker version 2.2.0 or higher"
+#: gnomemusic/views/emptyview.py:158
 msgid "Music needs Tracker version 2.3.0 or higher"
 msgstr "Música necesita Tracker 2.3.0 o superior"
 
@@ -548,11 +551,11 @@ msgstr "Música necesita Tracker 2.3.0 o superior"
 msgid "Playlists"
 msgstr "Listas de reproducción"
 
-#: gnomemusic/views/searchview.py:365
+#: gnomemusic/views/searchview.py:366
 msgid "Artists Results"
 msgstr "Resultados de artistas"
 
-#: gnomemusic/views/searchview.py:379
+#: gnomemusic/views/searchview.py:380
 msgid "Albums Results"
 msgstr "Resultados de álbumes"
 
