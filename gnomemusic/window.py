@@ -351,8 +351,6 @@ class Window(Gtk.ApplicationWindow):
             # Play next on Ctrl + N
             if keyval == Gdk.KEY_n:
                 self._player.next()
-            if keyval == Gdk.KEY_q:
-                self.props.application.quit()
             # Toggle repeat on Ctrl + R
             if keyval == Gdk.KEY_r:
                 if self._player.props.repeat_mode == RepeatMode.SONG:
