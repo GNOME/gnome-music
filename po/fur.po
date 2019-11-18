@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-09-24 00:28+0000\n"
-"PO-Revision-Date: 2019-09-26 14:29+0200\n"
+"POT-Creation-Date: 2019-11-09 21:05+0000\n"
+"PO-Revision-Date: 2019-11-18 09:35+0100\n"
 "Last-Translator: Fabio Tomat <f.t.public@gmail.com>\n"
 "Language-Team: Friulian <fur@li.org>\n"
 "Language: fur\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
 msgid "GNOME Music"
@@ -48,7 +48,7 @@ msgid "The GNOME Music developers"
 msgstr "I svilupadôrs di GNOME Musiche"
 
 #: data/org.gnome.Music.desktop.in.in:3 gnomemusic/application.py:59
-#: gnomemusic/window.py:76
+#: gnomemusic/window.py:77
 msgid "Music"
 msgstr "Musiche"
 
@@ -218,24 +218,24 @@ msgstr "_Jutori"
 msgid "_About Music"
 msgstr "_Informazions su Musiche"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Menù"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Selezione"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "_Anule"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Cîr"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Torne indaûr"
 
@@ -345,7 +345,7 @@ msgstr "Messede/ripet studâts"
 msgid "Previous"
 msgstr "Precedent"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "Sune"
 
@@ -418,7 +418,7 @@ msgstr "Artiscj"
 msgid "View All"
 msgstr "Visualize dut"
 
-#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
 msgid "Albums"
 msgstr "Album"
 
@@ -443,27 +443,27 @@ msgid "_Add to Playlist"
 msgstr "_Zonte ae liste des musichis"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:695
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:727
 msgid "Most Played"
 msgstr "Plui scoltats"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:732
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:764
 msgid "Never Played"
 msgstr "Mai scoltât"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:768
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:800
 msgid "Recently Played"
 msgstr "Scoltât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:814
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:846
 msgid "Recently Added"
 msgstr "Zontât di recent"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:859
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:891
 msgid "Favorite Songs"
 msgstr "Tocs preferîts"
 
@@ -503,62 +503,66 @@ msgstr "Album no cognossût"
 msgid "Unknown Artist"
 msgstr "Artist no cognossût"
 
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "La tô cartele XDG di Musiche no je stabilide"
+
 # minuscul parce che al ven fûr la prime volte che si invie il program e il test al è tal mieç di une frase:
 # Il contignût de tô cartele di musiche...
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "cartele de musiche"
 
 # %s o ai viodût che al ven fûr "cartele di musiche"
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "Il contignût de tô {} al vignarà mostrât achì."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Hey DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "Nissune musiche cjatade"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Prove une ricercje diferente"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "GNOME Musiche nol rive a conetisi al Tracker"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "I tiei file di musiche no puedin jessi metûts in indiç cence vê in esecuzion "
 "Tracker"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Il Tracker dal to sisteme al semee sorpassât"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Musiche al à bisugne de version 2.2.0 (o plui resinte) di Tracker"
+#: gnomemusic/views/emptyview.py:158
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Musiche al à bisugne de version 2.3.0 (o plui resinte) di Tracker"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "Listis di musichis"
 
-#: gnomemusic/views/searchview.py:365
+#: gnomemusic/views/searchview.py:366
 msgid "Artists Results"
 msgstr "Risultâts artiscj"
 
-#: gnomemusic/views/searchview.py:379
+#: gnomemusic/views/searchview.py:380
 msgid "Albums Results"
 msgstr "Risultâts album"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:145
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} minût"
@@ -590,7 +594,7 @@ msgstr "Liste di musichis {} gjavade"
 msgid "{} removed from {}"
 msgstr "{} gjavât di {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "Pause"
 
