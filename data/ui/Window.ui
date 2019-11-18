@@ -11,7 +11,7 @@
           <object class="GtkOverlay" id="_overlay">
             <property name="vexpand">True</property>
             <property name="visible">True</property>
-            <child type="overlay">
+            <child>
               <object class="GtkStack" id="_stack">
                 <property name="can-focus">False</property>
                 <property name="homogeneous">False</property>
