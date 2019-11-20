@@ -521,9 +521,14 @@ class MPRIS(DBusInterface):
             self._player_model_changed_id = self._player_model.connect_after(
                 "items-changed", self._on_player_model_changed)
 
-        self._on_player_model_changed(None, 0, 0, 0)
+        self._on_player_model_changed(self._player_model, 0, 0, 0)
 
     def _on_player_model_changed(self, model, pos, removed, added):
+        # Do no update the properties if the model has completely changed.
+        # These changes will be applied once a new song starts playing.
+        if added == model.get_n_items():
+            return
+
         self._update_tracklist()
 
         properties = {}
