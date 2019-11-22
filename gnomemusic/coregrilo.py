@@ -32,8 +32,6 @@ from gnomemusic.grilowrappers.grlchromaprintwrapper import (
     GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
-from gnomemusic.grilowrappers.grlmusicbrainzwrapper import (
-    GrlMusicbrainzWrapper)
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
