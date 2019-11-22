@@ -271,3 +271,17 @@ class CoreGrilo(GObject.GObject):
             if wrapper.source.props.source_id == "grl-tracker-source":
                 wrapper.create_playlist(playlist_title, callback)
                 break
+
+    def get_chromaprint(self, media, callback):
+        if len(self._mb_wrappers) != 2:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(media, callback)
+
+    def get_tags(self, media, callback):
+        if len(self._mb_wrappers) != 2:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-acoustid"].get_tags(media, callback)
