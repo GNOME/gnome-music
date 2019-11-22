@@ -27,8 +27,8 @@ gi.require_version("Grl", "0.3")
 from gi.repository import Grl, GObject
 
 
-class GrlAcoustIDWrapper(GObject.GObject):
-    """Wrapper for the Grilo AcoustID source.
+class GrlChromaprintWrapper(GObject.GObject):
+    """Wrapper for the Grilo Chromaprint source.
     """
 
     _acoustid_api_key = "Nb8SVVtH1C"
@@ -47,7 +47,7 @@ class GrlAcoustIDWrapper(GObject.GObject):
     ]
 
     def __init__(self, source, grilo):
-        """Initialize the AcoustID wrapper
+        """Initialize the Chromaprint wrapper
 
         :param Grl.TrackerSource source: The Tracker source to wrap
         :param CoreGrilo grilo: The CoreGrilo instance
@@ -60,21 +60,34 @@ class GrlAcoustIDWrapper(GObject.GObject):
         self._fingerprint_key = self._grilo._registry.lookup_metadata_key(
             "chromaprint")
 
-    def get_tags(self, media, callback):
+        self._METADATA_KEYS = [
+            self._fingerprint_key,
+            Grl.METADATA_KEY_DURATION
+        ]
+
+    def get_chromaprint(self, media, callback):
+        if self._fingerprint_key == Grl.METADATA_KEY_INVALID:
+            callback(None)
+            return
+
+        chromaprint = media.get_string(self._fingerprint_key)
+        if chromaprint is not None:
+            callback(media)
+            return
+
         options = Grl.OperationOptions()
-        options.set_resolution_flags(Grl.ResolutionFlags.NORMAL)
+        options.set_resolution_flags(
+            Grl.ResolutionFlags.FAST_ONLY
+            | Grl.ResolutionFlags.IDLE_RELAY)
 
-        query = "duration=" + str(media.get_duration())
-        query += "&fingerprint=" + media.get_string(self._fingerprint_key)
-
-        def acoustid_resolved(source, op_id, media, count, callback, error):
+        def chromaprint_resolved(source, op_id, media, callback, error):
             if error:
                 print("Error {}: {}".format(error.domain, error.message))
-                callback(None, 0)
+                callback(None)
                 return
 
-            callback(media, count)
+            callback(media)
 
-        self._source.query(
-            query, self._ACOUSTID_METADATA_KEYS, options, acoustid_resolved,
+        self._source.resolve(
+            media, self._METADATA_KEYS, options, chromaprint_resolved,
             callback)
