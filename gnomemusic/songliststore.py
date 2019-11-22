@@ -7,6 +7,10 @@ import gnomemusic.utils as utils
 class SongListStore(Gtk.ListStore):
 
     def __init__(self, model):
+        """Initialize SongListStore.
+
+        :param Gio.ListStore model: The songs model to use
+        """
         super().__init__()
 
         self._model = Gfm.SortListModel.new(model)
@@ -88,4 +92,9 @@ class SongListStore(Gtk.ListStore):
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
     def model(self):
+        """Gets the model of songs sorted.
+
+        :returns: a list model of sorted songs
+        :rtype: Gfm.SortListModel
+        """
         return self._model
