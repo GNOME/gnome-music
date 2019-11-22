@@ -192,6 +192,6 @@ class CoreSong(GObject.GObject):
                 callback(None)
                 return
 
-            self._grilo.get_tags(self.props.media, callback)
+            self._grilo.get_tags(self, callback)
 
-        self._grilo.get_chromaprint(self.props.media, chromaprint_retrieved)
+        self._grilo.get_chromaprint(self, chromaprint_retrieved)
