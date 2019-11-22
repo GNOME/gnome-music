@@ -140,9 +140,7 @@ class TagEditorDialog(Gtk.Dialog):
 
     def _search_tags(self):
         self._start_spinner(_("Fetching metadata…"))
-        new_media = Grl.Media.audio_new()
-        new_media.set_url(self._coresong.props.url)
-        self._grilo.get_tags_from_musicbrainz(new_media, self._tags_found)
+        self._coresong.query_musicbrainz_tags(self._tags_found)
 
     def _suggestion_sort_func(self, media):
         creation_date = media.get_creation_date()
