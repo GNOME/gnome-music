@@ -31,8 +31,6 @@ class GrlAcoustIDWrapper(GObject.GObject):
     """Wrapper for the Grilo AcoustID source.
     """
 
-    _acoustid_api_key = "Nb8SVVtH1C"
-
     _ACOUSTID_METADATA_KEYS = [
         Grl.METADATA_KEY_ALBUM,
         Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
