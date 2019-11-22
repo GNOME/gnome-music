@@ -65,14 +65,19 @@ class GrlChromaprintWrapper(GObject.GObject):
             Grl.METADATA_KEY_DURATION
         ]
 
-    def get_chromaprint(self, media, callback):
+    def get_chromaprint(self, coresong, callback):
+        """Retrieve Chromaprint value
+
+        :param CoreSong coresong: The song to chromaprint
+        :param callback: Metadata retrieval callback
+        """
         if self._fingerprint_key == Grl.METADATA_KEY_INVALID:
             callback(None)
             return
 
-        chromaprint = media.get_string(self._fingerprint_key)
+        chromaprint = coresong.props.media.get_string(self._fingerprint_key)
         if chromaprint is not None:
-            callback(media)
+            callback(coresong.props.media)
             return
 
         options = Grl.OperationOptions()
@@ -89,5 +94,5 @@ class GrlChromaprintWrapper(GObject.GObject):
             callback(media)
 
         self._source.resolve(
-            media, self._METADATA_KEYS, options, chromaprint_resolved,
-            callback)
+            coresong.props.media, self._METADATA_KEYS, options,
+            chromaprint_resolved, callback)

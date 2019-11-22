@@ -262,16 +262,27 @@ class CoreGrilo(GObject.GObject):
                 wrapper.create_playlist(playlist_title, callback)
                 break
 
-    def get_chromaprint(self, media, callback):
+    def get_chromaprint(self, coresong, callback):
+        """Retrieve the Chromaprint for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to chromaprint
+        :param callback: Metadata retrieval callback
+        """
         if len(self._mb_wrappers) != 2:
             callback(None)
             return
 
-        self._mb_wrappers["grl-chromaprint"].get_chromaprint(media, callback)
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(
+            coresong, callback)
 
-    def get_tags(self, media, callback):
+    def get_tags(self, coresong, callback):
+        """Retrieve Musicbrainz tags for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to retrieve tags for
+        :param callback: Metadata retrieval callback
+        """
         if len(self._mb_wrappers) != 2:
             callback(None)
             return
 
-        self._mb_wrappers["grl-acoustid"].get_tags(media, callback)
+        self._mb_wrappers["grl-acoustid"].get_tags(coresong, callback)
