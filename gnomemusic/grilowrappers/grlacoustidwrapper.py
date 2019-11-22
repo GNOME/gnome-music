@@ -58,12 +58,18 @@ class GrlAcoustIDWrapper(GObject.GObject):
         self._fingerprint_key = self._grilo._registry.lookup_metadata_key(
             "chromaprint")
 
-    def get_tags(self, media, callback):
+    def get_tags(self, coresong, callback):
+        """Retrieve Musicbrainz tag set for the given song
+
+        :param CoreSong coresong: The song to retrieve tags for
+        :param callback: Metadata retrieval callback
+        """
         options = Grl.OperationOptions()
         options.set_resolution_flags(Grl.ResolutionFlags.NORMAL)
 
-        query = "duration=" + str(media.get_duration())
-        query += "&fingerprint=" + media.get_string(self._fingerprint_key)
+        query = "duration=" + str(coresong.props.duration)
+        query += "&fingerprint=" + coresong.props.media.get_string(
+            self._fingerprint_key)
 
         def acoustid_resolved(source, op_id, media, count, callback, error):
             if error:
