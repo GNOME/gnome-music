@@ -32,8 +32,6 @@ from gnomemusic.grilowrappers.grlchromaprintwrapper import (
     GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
-from gnomemusic.grilowrappers.grlmusicbrainzwrapper import (
-    GrlMusicbrainzWrapper)
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
@@ -191,14 +189,6 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def get_tags_from_musicbrainz(self, media, callback):
-        """Retrieves the metadata keys of media
-
-        :param Grl.Media media: A Grilo media item
-        :param function callback: Function called after metadata retrieval
-        """
-        return self._musicbrainz.get_song_tags(media, callback)
-
     def _store_metadata(self, source, media, key):
         """Convenience function to store metadata
 
@@ -271,3 +261,17 @@ class CoreGrilo(GObject.GObject):
             if wrapper.source.props.source_id == "grl-tracker-source":
                 wrapper.create_playlist(playlist_title, callback)
                 break
+
+    def get_chromaprint(self, media, callback):
+        if len(self._mb_wrappers) != 2:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(media, callback)
+
+    def get_tags(self, media, callback):
+        if len(self._mb_wrappers) != 2:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-acoustid"].get_tags(media, callback)
