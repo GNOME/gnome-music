@@ -67,9 +67,9 @@ class GrlAcoustIDWrapper(GObject.GObject):
         options = Grl.OperationOptions()
         options.set_resolution_flags(Grl.ResolutionFlags.NORMAL)
 
-        query = "duration=" + str(coresong.props.duration)
-        query += "&fingerprint=" + coresong.props.media.get_string(
-            self._fingerprint_key)
+        query = "duration={}&fingerprint={}".format(
+            str(coresong.props.duration),
+            coresong.props.media.get_string(self._fingerprint_key))
 
         def acoustid_resolved(source, op_id, media, count, callback, error):
             if error:
