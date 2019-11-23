@@ -232,3 +232,13 @@ class CoreGrilo(GObject.GObject):
         if "grl-tracker-source" in self._wrappers:
             self._wrappers["grl-tracker-source"].create_playlist(
                 playlist_title, callback)
+
+    @GObject.Property(
+        type=Grl.Registry, default=None, flags=GObject.ParamFlags.READABLE)
+    def registry(self):
+        """Get Grilo Registry.
+
+        :returns: the Grilo Registry
+        :rtype: Grl.Registry
+        """
+        return self._registry
