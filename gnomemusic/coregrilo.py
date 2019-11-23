@@ -249,6 +249,31 @@ class CoreGrilo(GObject.GObject):
             self._wrappers["grl-tracker-source"].create_playlist(
                 playlist_title, callback)
 
+    def get_chromaprint(self, coresong, callback):
+        """Retrieve the chromaprint for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to chromaprint
+        :param callback: Metadata retrieval callback
+        """
+        if "grl-chromaprint" not in self._mb_wrappers:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(
+            coresong, callback)
+
+    def get_tags(self, coresong, callback):
+        """Retrieve Musicbrainz tags for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to retrieve tags for
+        :param callback: Metadata retrieval callback
+        """
+        if "grl-acoustid" not in self._mb_wrappers:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-acoustid"].get_tags(coresong, callback)
+
     @GObject.Property(
         type=Grl.Registry, default=None, flags=GObject.ParamFlags.READABLE)
     def registry(self):
