@@ -27,6 +27,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
+from gnomemusic.grilowrappers.grlacoustidwrapper import GrlAcoustIDWrapper
 from gnomemusic.grilowrappers.grlchromaprintwrapper import (
     GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
@@ -49,6 +50,7 @@ class CoreGrilo(GObject.GObject):
                          "grl-lastfm-cover:2,"
                          "grl-theaudiodb-cover:1")
 
+    _acoustid_api_key = "Nb8SVVtH1C"
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
@@ -90,6 +92,10 @@ class CoreGrilo(GObject.GObject):
         self._registry = Grl.Registry.get_default()
         config = Grl.Config.new("grl-lua-factory", "grl-theaudiodb-cover")
         config.set_api_key(self._theaudiodb_api_key)
+        self._registry.add_config(config)
+
+        config = Grl.Config.new("grl-lua-factory", "grl-acoustid")
+        config.set_api_key(self._acoustid_api_key)
         self._registry.add_config(config)
 
         self._registry.connect('source-added', self._on_source_added)
@@ -155,6 +161,9 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._coremodel, self._coreselection, self)
             print("search source", source)
+        elif source.props.source_id == "grl-acoustid":
+            self._mb_wrappers[source.props.source_id] = GrlAcoustIDWrapper(
+                source, self)
         elif source.props.source_id == "grl-chromaprint":
             self._mb_wrappers[source.props.source_id] = GrlChromaprintWrapper(
                 source, self)
