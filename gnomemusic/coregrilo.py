@@ -22,7 +22,9 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from __future__ import annotations
 from typing import Callable, Dict, Optional
+import typing
 import weakref
 
 import gi
@@ -35,6 +37,8 @@ from gnomemusic.grilowrappers.grlchromaprintwrapper import (
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
+if typing.TYPE_CHECKING:
+    from gnomemusic.coresong import CoreSong
 
 
 class CoreGrilo(GObject.GObject):
@@ -347,3 +351,32 @@ class CoreGrilo(GObject.GObject):
         if "grl-tracker3-source" in self._wrappers:
             self._wrappers["grl-tracker3-source"].create_playlist(
                 playlist_title, callback)
+
+    def get_chromaprint(
+            self, coresong: CoreSong,
+            callback: CoreGrilo.RESOLVE_CB_TYPE) -> None:
+        """Retrieve the chromaprint for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to chromaprint
+        :param callback: Metadata retrieval callback
+        """
+        if "grl-chromaprint" not in self._mb_wrappers:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(
+            coresong, callback)
+
+    def get_tags(
+            self, coresong: CoreSong,
+            callback: CoreGrilo.QUERY_CB_TYPE) -> None:
+        """Retrieve Musicbrainz tags for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to retrieve tags for
+        :param callback: Metadata retrieval callback
+        """
+        if "grl-acoustid" not in self._mb_wrappers:
+            callback(None, 0)
+            return
+
+        self._mb_wrappers["grl-acoustid"].get_tags(coresong, callback)

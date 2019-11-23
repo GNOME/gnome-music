@@ -187,3 +187,18 @@ class CoreSong(GObject.GObject):
     def update_shuffle_pos(self) -> None:
         """Randomizes the shuffle position of this song"""
         self.props.shuffle_pos = randint(1, 1_000_000)
+
+    def query_musicbrainz_tags(
+            self, callback: CoreGrilo.QUERY_CB_TYPE) -> None:
+        """Retrieves metadata keys for this CoreSong
+
+        :param callback: Metadata retrieval callback
+        """
+        def chromaprint_retrieved(media: Optional[Grl.Media]) -> None:
+            if media is None:
+                callback(None, 0)
+                return
+
+            self._coregrilo.get_tags(self, callback)
+
+        self._coregrilo.get_chromaprint(self, chromaprint_retrieved)
