@@ -121,6 +121,16 @@ class CoreGrilo(GObject.GObject):
                     self._log.debug(
                         "Failed to activate {} plugin.".format(plugin_id))
 
+    @GObject.Property(
+        type=Grl.Registry, default=None, flags=GObject.ParamFlags.READABLE)
+    def registry(self) -> Grl.Registry:
+        """Get Grilo Registry.
+
+        :returns: the Grilo Registry
+        :rtype: Grl.Registry
+        """
+        return self._registry
+
     def _on_tracker_available_changed(self, klass, value):
         # FIXME:No removal support yet.
         new_state = self._tracker_wrapper.props.tracker_available
