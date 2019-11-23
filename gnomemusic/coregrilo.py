@@ -26,6 +26,8 @@ import gi
 gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
+from gnomemusic.grilowrappers.grlchromaprintwrapper import (
+    GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -62,10 +64,12 @@ class CoreGrilo(GObject.GObject):
         self._coremodel = self._application.props.coremodel
         self._coreselection = application.props.coreselection
         self._log = application.props.log
-        self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
+
         self._wrappers = {}
+        self._mb_wrappers = {}
+        self._search_wrappers = {}
 
         self._tracker_wrapper = TrackerWrapper()
         self._tracker_wrapper.bind_property(
@@ -148,6 +152,9 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._application)
             self._log.debug("Adding search source {}".format(source))
+        elif source.props.source_id == "grl-chromaprint":
+            self._mb_wrappers[source.props.source_id] = GrlChromaprintWrapper(
+                source, self)
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
