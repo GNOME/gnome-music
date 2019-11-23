@@ -94,7 +94,7 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_favourite(self._favorite)
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_FAVOURITE)
+        self._grilo.writeback(self.props.media, [Grl.METADATA_KEY_FAVOURITE])
 
     @GObject.Property(type=bool, default=False)
     def selected(self):
@@ -128,14 +128,14 @@ class CoreSong(GObject.GObject):
             return
 
         self.props.media.set_play_count(self.props.play_count + 1)
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_PLAY_COUNT)
+        self._grilo.writeback(self.props.media, [Grl.METADATA_KEY_PLAY_COUNT])
 
     def set_last_played(self):
         if not self._is_tracker:
             return
 
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
-        self._grilo.writeback(self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
+        self._grilo.writeback(self.props.media, [Grl.METADATA_KEY_LAST_PLAYED])
 
     def query_musicbrainz_tags(self, callback):
         """Retrieves metadata keys for this CoreSong
