@@ -143,3 +143,17 @@ class CoreSong(GObject.GObject):
         self.props.media.set_last_played(GLib.DateTime.new_now_utc())
         self._coregrilo.writeback(
             self.props.media, Grl.METADATA_KEY_LAST_PLAYED)
+
+    def query_musicbrainz_tags(self, callback):
+        """Retrieves metadata keys for this CoreSong
+
+        :param callback: Metadata retrieval callback
+        """
+        def chromaprint_retrieved(media):
+            if not media:
+                callback(None)
+                return
+
+            self._coregrilo.get_tags(self, callback)
+
+        self._coregrilo.get_chromaprint(self, chromaprint_retrieved)
