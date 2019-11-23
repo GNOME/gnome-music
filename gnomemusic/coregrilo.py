@@ -180,29 +180,34 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def _store_metadata(self, source, media, key):
+    def _store_metadata(self, source, media, keys):
         """Convenience function to store metadata
 
         Wrap the metadata store call in a idle_add compatible form.
-        :param source: A Grilo source object
-        :param media: A Grilo media item
-        :param key: A Grilo metadata key
+        :param Grl.Source source: A Grilo source object
+        :param Grl.Media media: A Grilo media item
+        :param list keys: A list of Grilo metadata keys
         """
         # FIXME: Doing this async crashes.
         try:
             source.store_metadata_sync(
-                media, [key], Grl.WriteFlags.NORMAL)
+                media, keys, Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
             self._log.warning(
                 "Error {}: {}".format(error.domain, error.message))
 
         return GLib.SOURCE_REMOVE
 
-    def writeback(self, media, key):
+    def writeback(self, media, keys):
+        """Store the values associated with the keys.
+
+        :param Grl.Media media: A Grilo media item
+        :param list keys: A list of Grilo metadata keys
+        """
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
                 GLib.idle_add(
-                    self._store_metadata, wrapper.props.source, media, key)
+                    self._store_metadata, wrapper.props.source, media, keys)
                 break
 
     def search(self, text):
