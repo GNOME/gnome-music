@@ -22,18 +22,23 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from typing import Callable, Dict, Optional
 import weakref
 
 import gi
 gi.require_version("Grl", "0.3")
 from gi.repository import Grl, GLib, GObject, Gtk
 
+from gnomemusic.grilowrappers.grlchromaprintwrapper import (
+    GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
 
 
 class CoreGrilo(GObject.GObject):
+
+    RESOLVE_CB_TYPE = Callable[[Optional[Grl.Media]], None]
 
     _blocklist = [
         'grl-bookmarks',
@@ -67,6 +72,7 @@ class CoreGrilo(GObject.GObject):
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
         self._wrappers = {}
+        self._mb_wrappers: Dict[str, GObject.GObject] = {}
 
         self._tracker_wrapper = TrackerWrapper(application)
         self._tracker_wrapper.bind_property(
@@ -188,6 +194,12 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._application)
             self._log.debug("Adding search source {}".format(source))
+        elif (source.props.source_id == "grl-chromaprint"
+                and source.props.source_id not in self._mb_wrappers.keys()):
+            wrapper: GrlChromaprintWrapper = GrlChromaprintWrapper(
+                source, self._application)
+            self._mb_wrappers[source.props.source_id] = wrapper
+            self._log.debug("Adding wrapper {}".format(wrapper))
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
