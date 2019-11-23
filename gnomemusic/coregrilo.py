@@ -104,6 +104,16 @@ class CoreGrilo(GObject.GObject):
 
         weakref.finalize(self, Grl.deinit)
 
+    @GObject.Property(
+        type=Grl.Registry, default=None, flags=GObject.ParamFlags.READABLE)
+    def registry(self):
+        """Get Grilo Registry.
+
+        :returns: the Grilo Registry
+        :rtype: Grl.Registry
+        """
+        return self._registry
+
     def _on_tracker_available_changed(self, klass, value):
         new_state = self._tracker_wrapper.props.tracker_available
         # FIXME:No removal support yet.
