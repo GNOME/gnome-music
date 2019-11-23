@@ -255,11 +255,11 @@ class CoreGrilo(GObject.GObject):
         source = media.get_source()
         self._wrappers[source].get_album_disc(media, discnr, model)
 
-    def writeback(self, media, key):
-        """Store the values associated with the key.
+    def writeback(self, media, keys):
+        """Store the values associated with the keys.
 
         :param Grl.Media media: A Grilo media item
-        :param int key: a Grilo metadata key
+        :param list keys: a list of Grilo metadata keys
         """
         def _store_metadata_cb(source, media, failed_keys, data, error):
             if error is not None:
@@ -271,7 +271,7 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
                 wrapper.props.source.store_metadata(
-                    media, [key], Grl.WriteFlags.NORMAL, _store_metadata_cb,
+                    media, keys, Grl.WriteFlags.NORMAL, _store_metadata_cb,
                     None)
                 break
 
