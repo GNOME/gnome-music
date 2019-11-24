@@ -174,7 +174,7 @@ class Window(Gtk.ApplicationWindow):
         self._search.connect("notify::state", self._on_search_state_changed)
 
         self._headerbar.props.state = HeaderBar.State.MAIN
-        self._headerbar_stack.show_all()
+        self._headerbar_stack.props.visible = True
 
         self._app.props.coremodel.connect(
             "notify::songs-available", self._on_songs_available)
