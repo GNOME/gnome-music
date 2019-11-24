@@ -49,6 +49,7 @@ class GrlTrackerWrapper(GObject.GObject):
         Grl.METADATA_KEY_DURATION,
         Grl.METADATA_KEY_FAVOURITE,
         Grl.METADATA_KEY_ID,
+        Grl.METADATA_KEY_MB_RECORDING_ID,
         Grl.METADATA_KEY_PLAY_COUNT,
         Grl.METADATA_KEY_THUMBNAIL,
         Grl.METADATA_KEY_TITLE,
@@ -300,6 +301,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song AS ?tracker_urn
             nie:title(?song) AS ?title
             tracker:id(?song) AS ?id
+            tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
             ?song
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
@@ -314,6 +316,11 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?song a nmm:MusicPiece .
             OPTIONAL { ?song nie:contentCreated ?date . }
+            OPTIONAL {
+                ?song tracker:hasExternalReference ?recording_id .
+                ?recording_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Recording" .
+            }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
@@ -382,6 +389,7 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song AS ?tracker_urn
             nie:title(?song) AS ?title
             tracker:id(?song) AS ?id
+            tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
             ?song
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
@@ -396,6 +404,11 @@ class GrlTrackerWrapper(GObject.GObject):
         WHERE {
             ?song a nmm:MusicPiece .
             OPTIONAL { ?song nie:contentCreated ?date . }
+            OPTIONAL {
+                ?song tracker:hasExternalReference ?recording_id .
+                ?recording_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Recording" .
+            }
             OPTIONAL {
                 ?song nao:hasTag ?tag .
                 FILTER (?tag = nao:predefined-tag-favorite)
@@ -636,6 +649,7 @@ class GrlTrackerWrapper(GObject.GObject):
             rdf:type(?song)
             ?song AS ?tracker_urn
             tracker:id(?song) AS ?id
+            tracker:referenceIdentifier(?recording_id) AS ?mb_recording_id
             nie:url(?song) AS ?url
             nie:title(?song) AS ?title
             nmm:artistName(nmm:performer(?song)) AS ?artist
@@ -650,6 +664,11 @@ class GrlTrackerWrapper(GObject.GObject):
             ?song a nmm:MusicPiece ;
                     nmm:musicAlbum ?album .
             OPTIONAL { ?song nie:contentCreated ?date . }
+            OPTIONAL {
+                ?song tracker:hasExternalReference ?recording_id .
+                ?recording_id tracker:referenceSource
+                    "https://musicbrainz.org/doc/Recording" .
+            }
             OPTIONAL { ?song nao:hasTag ?tag .
                        FILTER (?tag = nao:predefined-tag-favorite) } .
             FILTER ( tracker:id(?album) = %(album_id)s
