@@ -1,3 +1,26 @@
+Overview of changes in 3.34.2
+=============================
+
+* Load Album Covers on demand
+* Restore support for "Album Artist" tag
+* Disable online search by default
+* CoreModel misc cleanups and fixes
+* MPRIS misc cleanups and fixes
+
+Bugs fixed:
+ Fix a crash in Last.fm support (#328)
+ GNOME shell MPRIS controls are not visible (#332)
+ PlayerToolbar can become invisible (#335)
+ Issues when resizing window below apparent minimum width (#337)
+ GNOME music crashes after creating a huge amount of threads (#312)
+ GNOME Music crashes if xdg_music_dir is not set (#338)
+ group artists with a feat or an original artist under the same artist (#331)
+ Songs Not in ~/Music Show Up In Search (#317)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+
 Overview of changes in 3.34.1
 =============================
 
