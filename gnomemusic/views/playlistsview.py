@@ -76,6 +76,12 @@ class PlaylistsView(Gtk.Stack):
 
         self.props.visible = True
 
+        view_container.add(self._view)
+
+        self._view.props.visible = True
+        view_container.props.visible = True
+
+    @log
     def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar
 
