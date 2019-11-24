@@ -212,11 +212,12 @@ class CoreGrilo(GObject.GObject):
         for wrapper in self._wrappers.values():
             wrapper.populate_album_disc_songs(media, discnr, callback)
 
-    def writeback(self, media, keys):
+    def writeback(self, media, keys, callback=None):
         """Store the values associated with the keys.
 
         :param Grl.Media media: A Grilo media item
         :param list keys: A list of Grilo metadata keys
+        :param function callback: callback function
         """
         def _store_metadata_cb(source, media, failed_keys, data, error):
             if error is not None:
@@ -224,6 +225,8 @@ class CoreGrilo(GObject.GObject):
                     "Error {}: {}".format(error.domain, error.message))
             if failed_keys:
                 self._log.warning("Unable to update {}".format(failed_keys))
+            if callback:
+                callback()
 
         for wrapper in self._wrappers.values():
             if media.get_source() == wrapper.source.props.source_id:
