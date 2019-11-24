@@ -46,6 +46,11 @@ class PlaylistsView(Gtk.Stack):
         :param GtkApplication application: The application object
         """
         super().__init__(transition_type=Gtk.StackTransitionType.CROSSFADE)
+        self._sidebar = Gtk.ListBox()
+        self._sidebar.props.visible = True
+        sidebar_container = Gtk.ScrolledWindow()
+        sidebar_container.add(self._sidebar)
+        sidebar_container.props.visible = True
 
         # FIXME: Make these properties.
         self.name = "playlists"
@@ -68,6 +73,29 @@ class PlaylistsView(Gtk.Stack):
 
         self._model.connect("items-changed", self._on_playlists_model_changed)
         self._on_playlists_model_changed(self._model, 0, 0, 0)
+
+        self.props.visible = True
+
+    def _setup_view(self):
+        view_container = Gtk.ScrolledWindow(hexpand=True, vexpand=True)
+        self._box.pack_start(view_container, True, True, 0)
+
+        self._view = Gtk.ListBox()
+        self._view.get_style_context().add_class("songs-list")
+        self._view.props.margin_top = 20
+        self._view.props.margin_left = 80
+        self._view.props.margin_right = 80
+        self._view.props.valign = Gtk.Align.START
+
+        self._controller = Gtk.GestureMultiPress().new(self._view)
+        self._controller.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
+        self._controller.props.button = Gdk.BUTTON_SECONDARY
+        self._controller.connect("pressed", self._on_view_right_clicked)
+
+        view_container.add(self._view)
+
+        self._view.props.visible = True
+        view_container.props.visible = True
 
     def _add_playlist_to_sidebar(self, playlist):
         """Add a playlist to sidebar

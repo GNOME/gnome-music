@@ -57,7 +57,9 @@ class NotificationsPopup(Gtk.Revealer):
         self._loading_notification.connect('invisible', self._set_visibility)
         self._grid.add(self._loading_notification)
 
-        self.show_all()
+        self._grid.props.visible = True
+        frame.props.visible = True
+        self.props.visible = True
         self._loading_notification.hide()
 
     def _hide_notifications(self, notification, remove):
@@ -152,7 +154,10 @@ class LoadingNotification(Gtk.Grid):
         label = Gtk.Label(
             label=_("Loading"), halign=Gtk.Align.START, hexpand=True)
         self.add(label)
-        self.show_all()
+
+        spinner.props.visible = True
+        label.props.visible = True
+        self.props.visible = True
 
     def pop(self):
         """Decrease the counter. Hide notification if it reaches 0."""
@@ -169,7 +174,7 @@ class LoadingNotification(Gtk.Grid):
     def push(self):
         """Increase the counter. Start notification if necessary."""
         def callback():
-            self.show_all()
+            self.props.visible = True
             self.emit('visible')
 
         if self._counter == 0:
@@ -220,7 +225,10 @@ class PlaylistNotification(Gtk.Grid):
         undo_button = Gtk.Button.new_with_mnemonic(_("_Undo"))
         undo_button.connect("clicked", self._undo_deletion)
         self.add(undo_button)
-        self.show_all()
+
+        self._label.props.visible = True
+        undo_button.props.visible = True
+        self.props.visible = True
 
         if self.type_ == PlaylistNotification.Type.PLAYLIST:
             self._coremodel.stage_playlist_deletion(self._playlist)

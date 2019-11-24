@@ -106,7 +106,7 @@ class EmptyView(Gtk.Stack):
             self._set_no_tracker_state()
         elif self._state == EmptyView.State.TRACKER_OUTDATED:
             self._set_tracker_outdated_state()
-        self.show_all()
+        self.props.visible = True
 
     def _set_initial_state(self):
         self._information_label.props.label = self._content_text
