@@ -51,8 +51,10 @@ class PlaylistsView(BaseView):
         :param player: The main player object
         """
         self._sidebar = Gtk.ListBox()
+        self._sidebar.props.visible = True
         sidebar_container = Gtk.ScrolledWindow()
         sidebar_container.add(self._sidebar)
+        sidebar_container.props.visible = True
 
         super().__init__(
             'playlists', _("Playlists"), application, sidebar_container)
@@ -118,7 +120,7 @@ class PlaylistsView(BaseView):
         # Selection is only possible from the context menu
         self.disconnect(self._selection_mode_id)
 
-        self.show_all()
+        self.props.visible = True
 
     @log
     def _setup_view(self):
@@ -138,6 +140,9 @@ class PlaylistsView(BaseView):
         self._controller.connect("pressed", self._on_view_right_clicked)
 
         view_container.add(self._view)
+
+        self._view.props.visible = True
+        view_container.props.visible = True
 
     @log
     def _add_playlist_to_sidebar(self, playlist):

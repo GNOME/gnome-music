@@ -42,7 +42,7 @@ class StarImage(Gtk.Image):
         self._hover = False
 
         self.get_style_context().add_class("star")
-        self.show_all()
+        self.props.visible = True
 
     @GObject.Property(type=bool, default=False)
     def favorite(self):

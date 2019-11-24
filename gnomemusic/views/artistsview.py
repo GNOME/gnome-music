@@ -52,8 +52,10 @@ class ArtistsView(BaseView):
         :param player: The main player object
         """
         self._sidebar = Gtk.ListBox()
+        self._sidebar.props.visible = True
         sidebar_container = Gtk.ScrolledWindow()
         sidebar_container.add(self._sidebar)
+        sidebar_container.props.visible = True
 
         super().__init__(
             'artists', _("Artists"), application, sidebar_container)
@@ -83,8 +85,6 @@ class ArtistsView(BaseView):
 
         self._loaded_artists = []
         self._loading_id = 0
-
-        self.show_all()
 
     def _create_widget(self, coreartist):
         row = ArtistTile(coreartist)
@@ -137,6 +137,9 @@ class ArtistsView(BaseView):
             transition_type=Gtk.StackTransitionType.CROSSFADE,
             vhomogeneous=False)
         self._view_container.add(self._view)
+
+        self._view.props.visible = True
+        self._view_container.props.visible = True
 
     @log
     def _on_artist_activated(self, sidebar, row, data=None):

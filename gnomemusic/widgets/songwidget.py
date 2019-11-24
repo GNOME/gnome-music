@@ -190,7 +190,7 @@ class SongWidget(Gtk.EventBox):
         drag_row = SongWidget(self.props.coresong)
         self._drag_widget.add(drag_row)
         self._drag_widget.drag_highlight_row(drag_row.get_parent())
-        self._drag_widget.show_all()
+        self._drag_widget.props.visible = True
         Gtk.drag_set_icon_widget(context, self._drag_widget, x, y)
 
     @Gtk.Template.Callback()

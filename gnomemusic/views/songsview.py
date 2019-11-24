@@ -90,6 +90,9 @@ class SongsView(BaseView):
 
         view_container.add(self._view)
 
+        self._view.props.visible = True
+        view_container.props.visible = True
+
     @log
     def _add_list_renderers(self):
         now_playing_symbol_renderer = Gtk.CellRendererPixbuf(
