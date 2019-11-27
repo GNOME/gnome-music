@@ -121,6 +121,8 @@ class SmoothScale(Gtk.Scale):
     def _on_smooth_scale_seek_finish(self, value):
         """Prevent stutters when seeking with infinitesimal amounts"""
         self._seek_timeout = None
+        self._remove_timeout()
+
         round_digits = self.props.round_digits
         if self._old_smooth_scale_value != round(value, round_digits):
             self._on_smooth_scale_change_value(self)
