@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-11-10 13:01+0000\n"
-"PO-Revision-Date: 2019-11-27 22:46+0800\n"
+"POT-Creation-Date: 2019-11-27 14:53+0000\n"
+"PO-Revision-Date: 2019-11-27 22:57+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
@@ -41,7 +41,7 @@ msgstr ""
 "在您的本地集合中找尋曲目，從 DLNA 伺服器取得音樂或透過 Jamendo 和 Magnatune "
 "服務找尋些新音樂。"
 
-#: data/org.gnome.Music.appdata.xml.in.in:65
+#: data/org.gnome.Music.appdata.xml.in.in:52
 msgid "The GNOME Music developers"
 msgstr "GNOME 音樂開發團隊"
 
@@ -206,24 +206,24 @@ msgstr "求助(_H)"
 msgid "_About Music"
 msgstr "關於音樂(_A)"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "選單"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "選擇"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "取消(_C)"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "搜尋"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "返回"
 
@@ -333,7 +333,7 @@ msgstr "亂數/重複播放關閉"
 msgid "Previous"
 msgstr "前一首"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "播放"
 
@@ -483,13 +483,16 @@ msgid "Playing music"
 msgstr "正在播放音樂"
 
 #: gnomemusic/utils.py:62
-#| msgid "Unknown Album"
 msgid "Unknown album"
 msgstr "未知專輯"
 
 #: gnomemusic/utils.py:83
 msgid "Unknown Artist"
 msgstr "不明的演出者"
+
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "您未設定 XDG 音樂目錄。"
 
 #: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
@@ -526,20 +529,19 @@ msgid "Your system Tracker version seems outdated"
 msgstr "系統 Tracker 版本似乎過舊"
 
 #: gnomemusic/views/emptyview.py:158
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "《音樂》需要 Tracker 2.2.0 版或更新版本"
+#| msgid "Music needs Tracker version 2.2.0 or higher"
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "《音樂》需要 Tracker 2.3.0 版或更新版本"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "播放清單"
 
 #: gnomemusic/views/searchview.py:366
-#| msgid "Artists"
 msgid "Artists Results"
 msgstr "演出者結果"
 
 #: gnomemusic/views/searchview.py:380
-#| msgid "Albums"
 msgid "Albums Results"
 msgstr "專輯結果"
 
@@ -573,7 +575,7 @@ msgstr "播放清單 {} 已移除"
 msgid "{} removed from {}"
 msgstr "{} 已從 {} 移除"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "暫停"
 
