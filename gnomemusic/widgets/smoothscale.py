@@ -158,8 +158,6 @@ class SmoothScale(Gtk.Scale):
             self._on_smooth_scale_seek_finish(
                 self.get_value())
 
-        self._update_position_callback()
-
         return False
 
     @log
