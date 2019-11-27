@@ -52,6 +52,8 @@ class CoreAlbum(GObject.GObject):
         self._coremodel = coremodel
         self._model = None
         self._selected = False
+        self._thumbnail = None
+
         self.update(media)
 
     def update(self, media):
@@ -111,3 +113,14 @@ class CoreAlbum(GObject.GObject):
         # is requested, it will trigger the filled model update as
         # well.
         self.props.model.items_changed(0, 0, 0)
+
+    @GObject.Property(type=str, default=None)
+    def thumbnail(self):
+        if self._thumbnail == None:
+            self._thumbnail = "loading"
+
+        return self._thumbnail
+
+    @thumbnail.setter
+    def thumbnail(self, value):
+        self._thumbnail = value
