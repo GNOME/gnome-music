@@ -139,8 +139,8 @@ class AlbumArt(GObject.GObject):
         self._artist = corealbum.props.artist
         self._title = corealbum.props.title
 
-        # if self._in_cache():
-        #     return
+        if self._in_cache():
+            return
 
         coremodel.props.grilo.get_album_art(corealbum)
 
@@ -156,85 +156,6 @@ class AlbumArt(GObject.GObject):
         self._corealbum.props.thumbnail = thumb_file.get_path()
 
         return True
-
-    def _on_thumbnail_changed(self, coreartist, thumbnail):
-        uri = coreartist.props.thumbnail
-
-        if (uri is None
-                or uri == ""):
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        src = Gio.File.new_for_uri(uri)
-        src.read_async(
-            GLib.PRIORITY_LOW, None, self._read_callback, None)
-
-    def _read_callback(self, src, result, data):
-        try:
-            istream = src.read_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        try:
-            [tmp_file, iostream] = Gio.File.new_tmp()
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        ostream = iostream.get_output_stream()
-        # FIXME: Passing the iostream here, otherwise it gets
-        # closed. PyGI specific issue?
-        ostream.splice_async(
-            istream, Gio.OutputStreamSpliceFlags.CLOSE_SOURCE
-            | Gio.OutputStreamSpliceFlags.CLOSE_TARGET, GLib.PRIORITY_LOW,
-            None, self._splice_callback, [tmp_file, iostream])
-
-    def _delete_callback(self, src, result, data):
-        try:
-            src.delete_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-
-    def _splice_callback(self, src, result, data):
-        tmp_file, iostream = data
-
-        iostream.close_async(
-            GLib.PRIORITY_LOW, None, self._close_iostream_callback, None)
-
-        try:
-            src.splice_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        success, cache_path = MediaArt.get_path(self._artist, None, "artist")
-
-        if not success:
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        try:
-            # FIXME: I/O blocking
-            MediaArt.file_to_jpeg(tmp_file.get_path(), cache_path)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
-            self._coreartist.props.cached_thumbnail_uri = ""
-            return
-
-        self._in_cache()
-
-        tmp_file.delete_async(
-            GLib.PRIORITY_LOW, None, self._delete_callback, None)
-
-    def _close_iostream_callback(self, src, result, data):
-        try:
-            src.close_finish(result)
-        except GLib.Error as error:
-            logger.warning("Error: {}, {}".format(error.domain, error.message))
 
 
 # class ArtistCache(GObject.GObject):
