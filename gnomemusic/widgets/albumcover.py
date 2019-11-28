@@ -100,6 +100,12 @@ class AlbumCover(Gtk.FlowBoxChild):
         self._update_cover_id = self._cover_stack.connect(
             "updated", self._on_cover_stack_updated)
 
+        self._corealbum.connect(
+            "notify::thumbnail", self._on_thumbnail_changed)
+
+    def _on_thumbnail_changed(self, klass, param):
+        print(self._corealbum.props.title, self._corealbum.props.thumbnail)
+
     def retrieve(self):
         """Start retrieving the actual album cover
 
@@ -108,6 +114,10 @@ class AlbumCover(Gtk.FlowBoxChild):
         """
         if self._retrieved:
             return
+
+        print(
+            "retrieve", self._corealbum.props.title,
+            self._corealbum.props.thumbnail)
 
         self._retrieved = True
         self._cover_stack.update(self._corealbum)
