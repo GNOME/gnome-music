@@ -31,6 +31,7 @@ from gnomemusic.coreartist import CoreArtist
 from gnomemusic.coredisc import CoreDisc
 from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import GrlTrackerPlaylists
+from gnomemusic.storealbumart import StoreAlbumArt
 
 
 class GrlTrackerWrapper(GObject.GObject):
@@ -868,6 +869,29 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self.props.source.query(
             query, self.METADATA_KEYS, options, songs_search_cb)
+
+    def get_album_art(self, corealbum):
+        def art_retrieved_cb(source, op_id, media, data, error):
+            if error:
+                print("ERROR", error)
+                corealbum.props.thumbnail = "generic"
+                return
+
+            StoreAlbumArt(corealbum, media)
+
+        album_id = corealbum.props.media.get_id()
+
+        query = self._get_album_for_album_id(album_id)
+
+        full_options = Grl.OperationOptions()
+        full_options.set_resolution_flags(
+            Grl.ResolutionFlags.FULL
+            | Grl.ResolutionFlags.IDLE_RELAY)
+        full_options.set_count(1)
+
+        self._source.query(
+            query, self.METADATA_THUMBNAIL_KEYS, full_options,
+            art_retrieved_cb)
 
     def get_album_art_for_item(self, coresong, callback):
         """Placeholder until we got a better solution
