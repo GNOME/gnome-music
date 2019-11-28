@@ -23,8 +23,8 @@
 # delete this exception statement from your version.
 
 import gi
-gi.require_version("Grl", "0.3")
-from gi.repository import Gio, Grl, GObject
+gi.require_versions({"Grl": "0.3", "MediaArt": "2.0"})
+from gi.repository import Gio, Grl, GObject, MediaArt
 
 import gnomemusic.utils as utils
 
@@ -119,8 +119,23 @@ class CoreAlbum(GObject.GObject):
         if self._thumbnail == None:
             self._thumbnail = "loading"
 
+            self._in_cache()
+
         return self._thumbnail
 
     @thumbnail.setter
     def thumbnail(self, value):
+        if self._thumbnail == value:
+            return
+
         self._thumbnail = value
+
+    def _in_cache(self):
+        success, thumb_file = MediaArt.get_file(
+            self.props.artist, self.props.title, "album")
+
+        if (not success
+                or not thumb_file.query_exists()):
+            return False
+
+        self.props.thumbnail = thumb_file.get_path()
