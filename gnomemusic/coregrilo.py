@@ -208,6 +208,14 @@ class CoreGrilo(GObject.GObject):
             self._wrappers["grl-tracker-source"].get_album_art_for_item(
                 coresong, callback)
 
+    def get_album_art(self, corealbum):
+        source = corealbum.props.media.get_source()
+
+        for wrapper_id in self._wrappers.keys():
+            if wrapper_id == source:
+                self._wrappers[wrapper_id].get_album_art(corealbum)
+                break
+
     def get_artist_art(self, coreartist):
         if "grl-tracker-source" in self._wrappers:
             self._wrappers["grl-tracker-source"].get_artist_art(coreartist)

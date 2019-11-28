@@ -27,7 +27,7 @@ gi.require_versions({"Grl": "0.3", "MediaArt": "2.0"})
 from gi.repository import Gio, Grl, GObject, MediaArt
 
 import gnomemusic.utils as utils
-
+from gnomemusic.albumart import AlbumArt
 
 class CoreAlbum(GObject.GObject):
     """Exposes a Grl.Media with relevant data as properties
@@ -122,7 +122,7 @@ class CoreAlbum(GObject.GObject):
         if self._thumbnail == None:
             self._thumbnail = "loading"
 
-            self._in_cache()
+            AlbumArt(self, self._coremodel)
 
         return self._thumbnail
 
@@ -132,13 +132,3 @@ class CoreAlbum(GObject.GObject):
             return
 
         self._thumbnail = value
-
-    def _in_cache(self):
-        success, thumb_file = MediaArt.get_file(
-            self.props.artist, self.props.title, "album")
-
-        if (not success
-                or not thumb_file.query_exists()):
-            return False
-
-        self.props.thumbnail = thumb_file.get_path()
