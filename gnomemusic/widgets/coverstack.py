@@ -25,6 +25,8 @@
 from gi.repository import GLib, GObject, Gtk
 
 from gnomemusic.albumartcache import Art, DefaultIcon
+from gnomemusic.corealbum import CoreAlbum
+from gnomemusic.mediaart import MediaArt
 
 
 class CoverStack(Gtk.Stack):
@@ -47,6 +49,7 @@ class CoverStack(Gtk.Stack):
         super().__init__()
 
         self._art = None
+        self._corealbum = None
         self._handler_id = None
         self._size = None
         self._timeout = None
@@ -88,6 +91,29 @@ class CoverStack(Gtk.Stack):
             DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
         self._loading_cover.props.surface = icon
 
+    @GObject.Property(type=CoreAlbum)
+    def corealbum(self):
+        return self._corealbum
+
+    @corealbum.setter
+    def corealbum(self, corealbum):
+        self._corealbum = corealbum
+
+        self._corealbum.connect(
+            "notify::thumbnail", self._on_thumbnail_changed)
+
+        self._corealbum.props.thumbnail
+
+    def _on_thumbnail_changed(self, klass, param):
+        # update thumbnail
+        print("thumbchanged")
+
+        self._set_loading_child()
+
+        art = MediaArt(self.props.size, self.props.scale_factor)
+        art.connect("result", self._on_media_art_retrieved)
+        art.query(self._corealbum)
+
     def update(self, coresong):
         """Update the stack with the given CoreSong
 
@@ -116,16 +142,16 @@ class CoverStack(Gtk.Stack):
 
         return GLib.SOURCE_REMOVE
 
-    def _art_retrieved(self, klass):
+    def _on_media_art_retrieved(self, klass, param):
         if self._timeout:
             GLib.source_remove(self._timeout)
             self._timeout = None
 
         if self._active_child == "B":
-            self._cover_a.props.surface = klass.surface
+            self._cover_a.props.surface = param
             self.props.visible_child_name = "A"
         else:
-            self._cover_b.props.surface = klass.surface
+            self._cover_b.props.surface = param
             self.props.visible_child_name = "B"
 
         self._active_child = self.props.visible_child_name
