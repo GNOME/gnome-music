@@ -37,10 +37,6 @@ class CoverStack(Gtk.Stack):
 
     __gtype_name__ = 'CoverStack'
 
-    __gsignals__ = {
-        'updated': (GObject.SignalFlags.RUN_FIRST, None, ())
-    }
-
     _default_icon = DefaultIcon()
 
     def __init__(self, size=Art.Size.MEDIUM):
@@ -134,8 +130,6 @@ class CoverStack(Gtk.Stack):
 
         self._active_child = self.props.visible_child_name
         self._art = None
-
-        self.emit('updated')
 
     def _on_destroy(self, widget):
         # If the CoverStack is destroyed while the art is updated,
