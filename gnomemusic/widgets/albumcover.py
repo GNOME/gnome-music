@@ -38,8 +38,6 @@ class AlbumCover(Gtk.FlowBoxChild):
     Includes cover, album title, artist & selection mode checkmark.
     """
 
-    _nr_albums = 0
-
     __gtype_name__ = 'AlbumCover'
 
     _cover_stack = Gtk.Template.Child()
@@ -58,8 +56,6 @@ class AlbumCover(Gtk.FlowBoxChild):
         :param Grl.Media media: The media object to use
         """
         super().__init__()
-
-        AlbumCover._nr_albums += 1
 
         self._corealbum = corealbum
         self._retrieved = False
@@ -89,9 +85,6 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.show()
 
-        self._update_cover_id = self._cover_stack.connect(
-            "updated", self._on_cover_stack_updated)
-
     def retrieve(self):
         """Start retrieving the actual album cover
 
@@ -118,7 +111,3 @@ class AlbumCover(Gtk.FlowBoxChild):
         tooltip.set_custom(self._tooltip)
 
         return True
-
-    def _on_cover_stack_updated(self, cover_stack):
-        AlbumCover._nr_albums -= 1
-        self._cover_stack.disconnect(self._update_cover_id)
