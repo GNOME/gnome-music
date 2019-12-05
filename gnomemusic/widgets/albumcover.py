@@ -108,12 +108,13 @@ class AlbumCover(Gtk.FlowBoxChild):
         if self._retrieved:
             return
 
-        print(
-            "retrieve", self._corealbum.props.title,
-            self._corealbum.props.thumbnail)
+        #print(
+        #    "retrieve", self._corealbum.props.title,
+        #    self._corealbum.props.thumbnail)
 
+        self._cover_stack.props.corealbum = self._corealbum
         self._retrieved = True
-        self._cover_stack.update(self._corealbum)
+        #self._cover_stack.update(self._corealbum)
 
     @GObject.Property(type=CoreAlbum, flags=GObject.ParamFlags.READABLE)
     def corealbum(self):
