@@ -396,19 +396,16 @@ class GrlTrackerWrapper(GObject.GObject):
         query = """
         SELECT
             rdf:type(?song)
-            ?song AS ?tracker_urn
-            nie:title(?song) AS ?title
-            tracker:id(?song) AS ?id
-            ?song
-            nie:url(?song) AS ?url
-            nie:title(?song) AS ?title
-            nmm:artistName(nmm:performer(?song)) AS ?artist
             nie:title(nmm:musicAlbum(?song)) AS ?album
-            nfo:duration(?song) AS ?duration
-            nie:usageCounter(?song) AS ?play_count
-            nmm:trackNumber(?song) AS ?track_number
             nmm:setNumber(nmm:musicAlbumDisc(?song)) AS ?album_disc_number
+            nmm:artistName(nmm:performer(?song)) AS ?artist
+            nfo:duration(?song) AS ?duration
             ?tag AS ?favourite
+            tracker:id(?song) AS ?id
+            nie:usageCounter(?song) AS ?play_count
+            nie:title(?song) AS ?title
+            nmm:trackNumber(?song) AS ?track_number
+            nie:url(?song) AS ?url
         WHERE {
             ?song a nmm:MusicPiece .
             OPTIONAL {
@@ -462,13 +459,13 @@ class GrlTrackerWrapper(GObject.GObject):
         query = """
         SELECT
             rdf:type(?album)
-            tracker:id(?album) AS ?id
-            nie:title(?album) AS ?title
-            ?composer AS ?composer
             ?album_artist AS ?album_artist
             nmm:artistName(?performer) AS ?artist
-            nie:url(?song) AS ?url
+            ?composer AS ?composer
             YEAR(MAX(nie:contentCreated(?song))) AS ?creation_date
+            tracker:id(?album) AS ?id
+            nie:title(?album) AS ?title
+            nie:url(?song) AS ?url
         WHERE
         {
             ?album a nmm:MusicAlbum .
@@ -521,23 +518,23 @@ class GrlTrackerWrapper(GObject.GObject):
 
         query = """
         SELECT
-            rdf:type(?artist)
-            COALESCE(tracker:id(?album_artist), tracker:id(?artist)) AS ?id
-            ?artist_bind AS ?artist
+            rdf:type(?album_artist)
+            COALESCE(nmm:artistName(?album_artist),
+                     nmm:artistName(?song_artist)) AS ?artist
+            COALESCE(tracker:id(?album_artist),
+                     tracker:id(?song_artist)) AS ?id
         WHERE {
             ?song a nmm:MusicPiece;
                     nmm:musicAlbum ?album;
-                    nmm:performer ?artist .
+                    nmm:performer ?song_artist .
             OPTIONAL {
                 ?album a nmm:MusicAlbum;
                          nmm:albumArtist ?album_artist .
             }
-            BIND(COALESCE(nmm:artistName(?album_artist),
-                          nmm:artistName(?artist)) AS ?artist_bind)
             %(location_filter)s
         }
-        GROUP BY ?artist_bind
-        ORDER BY ?artist_bind
+        GROUP BY ?artist
+        ORDER BY ?artist
         """.replace('\n', ' ').strip() % {
             'location_filter': TrackerWrapper.location_filter()
         }
