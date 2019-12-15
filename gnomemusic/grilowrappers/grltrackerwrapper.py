@@ -380,6 +380,19 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._model.splice(self._model.get_n_items(), 0, songs_added)
                 songs_added.clear()
 
+        metadata_keys = [
+            Grl.METADATA_KEY_ALBUM,
+            Grl.METADATA_KEY_ALBUM_DISC_NUMBER,
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_DURATION,
+            Grl.METADATA_KEY_FAVOURITE,
+            Grl.METADATA_KEY_ID,
+            Grl.METADATA_KEY_PLAY_COUNT,
+            Grl.METADATA_KEY_TITLE,
+            Grl.METADATA_KEY_TRACK_NUMBER,
+            Grl.METADATA_KEY_URL
+        ]
+
         query = """
         SELECT
             rdf:type(?song)
@@ -410,7 +423,7 @@ class GrlTrackerWrapper(GObject.GObject):
         }
 
         options = self._fast_options.copy()
-        self._source.query(query, self.METADATA_KEYS, options, _add_to_model)
+        self._source.query(query, metadata_keys, options, _add_to_model)
 
     def _initial_albums_fill(self, source):
         self._window.notifications_popup.push_loading()
@@ -435,6 +448,16 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._albums_model.splice(
                     self._albums_model.get_n_items(), 0, albums_added)
                 albums_added.clear()
+
+        metadata_keys = [
+            Grl.METADATA_KEY_ALBUM_ARTIST,
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_COMPOSER,
+            Grl.METADATA_KEY_CREATION_DATE,
+            Grl.METADATA_KEY_ID,
+            Grl.METADATA_KEY_TITLE,
+            Grl.METADATA_KEY_URL
+        ]
 
         query = """
         SELECT
@@ -464,7 +487,7 @@ class GrlTrackerWrapper(GObject.GObject):
 
         options = self._fast_options.copy()
 
-        source.query(query, self.METADATA_KEYS, options, _add_to_albums_model)
+        source.query(query, metadata_keys, options, _add_to_albums_model)
 
     def _initial_artists_fill(self, source):
         self._window.notifications_popup.push_loading()
@@ -490,6 +513,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._artists_model.splice(
                     self._artists_model.get_n_items(), 0, artists_added)
                 artists_added.clear()
+
+        metadata_keys = [
+            Grl.METADATA_KEY_ARTIST,
+            Grl.METADATA_KEY_ID,
+        ]
 
         query = """
         SELECT
@@ -517,7 +545,7 @@ class GrlTrackerWrapper(GObject.GObject):
         options = self._fast_options.copy()
 
         source.query(
-            query, [Grl.METADATA_KEY_ARTIST], options, _add_to_artists_model)
+            query, metadata_keys, options, _add_to_artists_model)
 
     def get_artist_albums(self, media, model):
         """Get all albums by an artist
