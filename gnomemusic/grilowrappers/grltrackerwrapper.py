@@ -36,6 +36,17 @@ from gnomemusic.trackerwrapper import TrackerWrapper
 
 class GrlTrackerWrapper(GObject.GObject):
     """Wrapper for the Grilo Tracker source.
+
+    Communication with Tracker is done here mostly using the query()
+    function provided by the Grilo plugin for Tracker. Queries are
+    written in SPARQL, adhering to libtracker-sparql. In order to map a
+    column of the query to a Grilo metadata key, SPARQL's alias feature
+    ('AS') is used.
+
+    The Grilo Tracker plugin sends back GrlMedia instances matching the
+    query by calling the specified callback. Once no further matches are
+    found, the plugin calls the callback once more, setting its `media`
+    argument to NULL.
     """
 
     _SPLICE_SIZE = 100
