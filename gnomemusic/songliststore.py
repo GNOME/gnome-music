@@ -71,16 +71,16 @@ class SongListStore(Gtk.ListStore):
         song_cmp = (utils.normalize_caseless(title_a)
                     == utils.normalize_caseless(title_b))
         if not song_cmp:
-            return utils.sort_names(title_a, title_b)
+            return utils.natural_sort_names(title_a, title_b)
 
         artist_a = song_a.props.artist
         artist_b = song_b.props.artist
         artist_cmp = (utils.normalize_caseless(artist_a)
                       == utils.normalize_caseless(artist_b))
         if not artist_cmp:
-            return utils.sort_names(artist_a, artist_b)
+            return utils.natural_sort_names(artist_a, artist_b)
 
-        return utils.sort_names(song_a.props.album, song_b.props.album)
+        return utils.natural_sort_names(song_a.props.album, song_b.props.album)
 
     def _on_items_changed(self, model, position, removed, added):
         if removed > 0:

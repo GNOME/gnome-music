@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from enum import Enum, IntEnum
+import re
 import unicodedata
 
 from gettext import gettext as _
@@ -147,12 +148,22 @@ def normalize_caseless(text):
     return unicodedata.normalize("NFKD", text.casefold())
 
 
-def sort_names(name_a, name_b):
-    """Caseless comparison of two strings.
+def natural_sort_names(name_a, name_b):
+    """Natural order comparison of two strings.
+
+    A natural order is an alphabetical order which takes into account
+    digit numbers. For example, it returns ["Album 3", "Album 10"]
+    instead of ["Album 10", "Album 3"] for an alphabetical order.
+    The names are also normalized to properly take into account names
+    which contain accents.
 
     :param str name_a: first string to compare
     :param str name_b: second string to compare
     :returns: False if name_a should be before name_b. True otherwise.
     :rtype: boolean
     """
-    return normalize_caseless(name_b) < normalize_caseless(name_a)
+    def _extract_numbers(text):
+        return [int(tmp) if tmp.isdigit() else tmp
+                for tmp in re.split(r"(\d+)", normalize_caseless(text))]
+
+    return _extract_numbers(name_b) < _extract_numbers(name_a)
