@@ -66,19 +66,21 @@ class SongListStore(Gtk.ListStore):
         return wrap
 
     def _songs_sort(self, song_a, song_b):
-        title_a = song_a.props.title.casefold()
-        title_b = song_b.props.title.casefold()
-        song_cmp = title_a == title_b
+        title_a = song_a.props.title
+        title_b = song_b.props.title
+        song_cmp = (utils.normalize_caseless(title_a) ==
+                    utils.normalize_caseless(title_b))
         if not song_cmp:
-            return title_a > title_b
+            return utils.sort_names(title_a, title_b)
 
-        artist_a = song_a.props.artist.casefold()
-        artist_b = song_b.props.artist.casefold()
-        artist_cmp = artist_a == artist_b
+        artist_a = song_a.props.artist
+        artist_b = song_b.props.artist
+        artist_cmp = (utils.normalize_caseless(artist_a) ==
+                      utils.normalize_caseless(artist_b))
         if not artist_cmp:
-            return artist_a > artist_b
+            return utils.sort_names(artist_a, artist_b)
 
-        return song_a.props.album.casefold() > song_b.props.album.casefold()
+        return utils.sort_names(song_a.props.album, song_b.props.album)
 
     def _on_items_changed(self, model, position, removed, added):
         if removed > 0:
