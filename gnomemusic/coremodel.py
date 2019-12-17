@@ -36,6 +36,7 @@ from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.songliststore import SongListStore
 from gnomemusic.widgets.songwidget import SongWidget
+import gnomemusic.utils as utils
 
 
 class CoreModel(GObject.GObject):
@@ -159,20 +160,17 @@ class CoreModel(GObject.GObject):
         return coresong.props.selected
 
     def _albums_sort(self, album_a, album_b):
-        return album_b.props.title.casefold() < album_a.props.title.casefold()
+        return utils.sort_names(album_a.props.title, album_b.props.title)
 
     def _artist_sort(self, artist_a, artist_b):
-        name_a = artist_a.props.artist.casefold()
-        name_b = artist_b.props.artist.casefold()
-        return name_a > name_b
+        return utils.sort_names(artist_a.props.artist, artist_b.props.artist)
 
     def _playlists_sort(self, playlist_a, playlist_b):
         if playlist_a.props.is_smart:
             if not playlist_b.props.is_smart:
                 return -1
-            title_a = playlist_a.props.title.casefold()
-            title_b = playlist_b.props.title.casefold()
-            return title_a > title_b
+            return utils.sort_names(
+                playlist_a.props.title, playlist_b.props.title)
 
         if playlist_b.props.is_smart:
             return 1
