@@ -23,6 +23,7 @@
 # delete this exception statement from your version.
 
 from enum import Enum, IntEnum
+import unicodedata
 
 from gettext import gettext as _
 from gi.repository import Gio
@@ -134,3 +135,24 @@ def seconds_to_string(duration):
     seconds %= 60
 
     return '{:d}:{:02d}'.format(minutes, seconds)
+
+
+def normalize_caseless(text):
+    """Get a normalized casefolded version of a string.
+
+    :param str text: string to normalize
+    :returns: normalized casefolded string
+    :rtype: str
+    """
+    return unicodedata.normalize("NFKD", text.casefold())
+
+
+def sort_names(name_a, name_b):
+    """Caseless comparison of two strings.
+
+    :param str name_a: first string to compare
+    :param str name_b: second string to compare
+    :returns: False if name_a should be before name_b. True otherwise.
+    :rtype: boolean
+    """
+    return normalize_caseless(name_b) < normalize_caseless(name_a)
