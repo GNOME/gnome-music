@@ -160,16 +160,18 @@ class CoreModel(GObject.GObject):
         return coresong.props.selected
 
     def _albums_sort(self, album_a, album_b):
-        return utils.sort_names(album_a.props.title, album_b.props.title)
+        return utils.natural_sort_names(
+            album_a.props.title, album_b.props.title)
 
     def _artist_sort(self, artist_a, artist_b):
-        return utils.sort_names(artist_a.props.artist, artist_b.props.artist)
+        return utils.natural_sort_names(
+            artist_a.props.artist, artist_b.props.artist)
 
     def _playlists_sort(self, playlist_a, playlist_b):
         if playlist_a.props.is_smart:
             if not playlist_b.props.is_smart:
                 return -1
-            return utils.sort_names(
+            return utils.natural_sort_names(
                 playlist_a.props.title, playlist_b.props.title)
 
         if playlist_b.props.is_smart:
