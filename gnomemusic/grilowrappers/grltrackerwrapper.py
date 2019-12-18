@@ -126,7 +126,7 @@ class GrlTrackerWrapper(GObject.GObject):
             self._batch_changed_media_ids[change_type] = []
 
         [self._batch_changed_media_ids[change_type].append(media.get_id())
-            for media in medias]
+         for media in medias if media.is_audio()]
 
         if self._content_changed_timeout is None:
             self._content_changed_timeout = GLib.timeout_add(
