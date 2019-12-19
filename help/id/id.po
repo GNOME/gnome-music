@@ -1,0 +1,442 @@
+# Indonesian translation for gnome-music.
+# Copyright (C) 2019 gnome-music's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnome-music package.
+# Andika Triwidada <atriwidada@gnome.org>, 2019.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gnome-music master\n"
+"POT-Creation-Date: 2019-12-14 13:11+0000\n"
+"PO-Revision-Date: 2019-12-16 19:53+0700\n"
+"Last-Translator: Andika Triwidada <atriwidada@gnome.org>\n"
+"Language-Team: Indonesian <gnome-l10n-id@googlegroups.com>\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.1\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Andika Triwidada <andika@gmail.com>, 2019."
+
+#. (itstool) path: credit/name
+#: C/introduction.page:11 C/index.page:11 C/play-music.page:11
+#: C/playlist-create-albums.page:11 C/playlist-create-songs.page:11
+#: C/playlist-create-artists.page:11 C/playlist-delete.page:11
+#: C/playlist-remove-songs.page:11 C/playlist-repeat.page:11
+#: C/playlist-shuffle.page:11 C/search.page:11
+msgid "Shobha Tyagi"
+msgstr "Shobha Tyagi"
+
+#. (itstool) path: credit/years
+#: C/introduction.page:13 C/index.page:13 C/play-music.page:13
+#: C/playlist-create-albums.page:13 C/playlist-create-songs.page:13
+#: C/playlist-create-artists.page:13 C/playlist-delete.page:13
+#: C/playlist-remove-songs.page:13 C/playlist-repeat.page:13
+#: C/playlist-shuffle.page:13 C/search.page:13
+msgid "2014"
+msgstr "2014"
+
+#. (itstool) path: info/desc
+#. (itstool) path: page/p
+#: C/introduction.page:18 C/introduction.page:23
+msgid ""
+"A simple and elegant replacement for using <app>Files</app> to show the "
+"music directory."
+msgstr ""
+"Pengganti memakai <app>Files</app> yang sederhana dan elegan untuk "
+"menampilkan direktori musik."
+
+#. (itstool) path: page/title
+#: C/introduction.page:22
+msgid "Introduction to Music"
+msgstr "Perkenalan ke Musik"
+
+#. (itstool) path: info/title
+#: C/index.page:6
+msgctxt "link"
+msgid "Music"
+msgstr "Musik"
+
+#. (itstool) path: info/title
+#: C/index.page:7
+msgctxt "text"
+msgid "Music"
+msgstr "Musik"
+
+#. (itstool) path: page/title
+#: C/index.page:18
+msgid "<_:media-1/> Music"
+msgstr "<_:media-1/> Musik"
+
+#. (itstool) path: section/title
+#: C/index.page:25
+msgid "Create playlist"
+msgstr "Buat daftar putar"
+
+#. (itstool) path: section/title
+#: C/index.page:28
+msgid "Play a song"
+msgstr "Mainkan sebuah lagu"
+
+#. (itstool) path: section/title
+#: C/index.page:31
+msgid "Remove songs and playlist"
+msgstr "Hapus lagu dan daftar putar"
+
+#. (itstool) path: info/desc
+#: C/play-music.page:18
+msgid "Play your favorite songs."
+msgstr "Mainkan lagu-lagu favorit Anda."
+
+#. (itstool) path: page/title
+#: C/play-music.page:22
+msgid "Play music"
+msgstr "Putar musik"
+
+#. (itstool) path: page/p
+#: C/play-music.page:24
+msgid ""
+"You can play your favorite music by creating a playlist or by simply "
+"clicking on the song of your choice from any view."
+msgstr ""
+"Anda dapat memutar musik favorit Anda dengan membuat sebuah daftar putar "
+"atau sekadar dengan mengklik lagu pilihan Anda dari sebarang tilikan."
+
+#. (itstool) path: steps/title
+#: C/play-music.page:28 C/playlist-delete.page:27
+#: C/playlist-remove-songs.page:27
+msgid "While in <em>Playlists</em>:"
+msgstr "Saat di dalam <em>Daftar Putar</em>:"
+
+#. (itstool) path: item/p
+#: C/play-music.page:30
+msgid "Select a playlist."
+msgstr "Pilih sebuah daftar putar."
+
+#. (itstool) path: item/p
+#: C/play-music.page:33 C/playlist-delete.page:32
+msgid "Click on the gear button on the right hand side."
+msgstr "Klik pada tombol gerigi di sisi kanan."
+
+#. (itstool) path: item/p
+#: C/play-music.page:36
+msgid "Click on <gui>Play</gui>."
+msgstr "Klik pada <gui>Putar</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-albums.page:18
+msgid "Add songs to playlists using albums."
+msgstr "Menambahkan lagu ke daftar putar memakai album."
+
+#. (itstool) path: page/title
+#: C/playlist-create-albums.page:21
+msgid "Create a playlist using albums"
+msgstr "Membuat sebuah dafta putar memakai album"
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:23
+msgid ""
+"You can view all your albums by clicking on the <gui style=\"button"
+"\">Albums</gui> button."
+msgstr ""
+"Anda juga dapat melihat semua album Anda dengan mengklik tombol <gui style="
+"\"button\">Album</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:27
+msgid "To add all the songs in an album:"
+msgstr "Untuk menambahkan semua lagu dalam suatu album:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:29 C/playlist-create-songs.page:29
+#: C/playlist-create-artists.page:30
+msgid "Click on the check button in the top-right of the window."
+msgstr "Klik pada tombol centang di kanan atas jendela."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:32
+msgid "Select albums."
+msgstr "Pilih album."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:35 C/playlist-create-albums.page:60
+#: C/playlist-create-songs.page:35 C/playlist-create-artists.page:37
+msgid "Click on the <gui style=\"button\">Add to Playlist</gui> button."
+msgstr "Klik pada tombol <gui style=\"button\">Tambah ke Daftar Putar</gui>."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:38 C/playlist-create-albums.page:63
+#: C/playlist-create-artists.page:40
+msgid "Click on <gui>New Playlist</gui> and type a name for your playlist."
+msgstr ""
+"Klik pada <gui>Daftar Putar Baru</gui> dan ketikkan sebuah nama untuk "
+"daftar putar Anda."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:42 C/playlist-create-albums.page:67
+#: C/playlist-create-songs.page:42
+msgid "Click on <gui style=\"button\">Select</gui>."
+msgstr "Klik pada <gui style=\"button\">Pilih</gui>."
+
+#. (itstool) path: page/p
+#: C/playlist-create-albums.page:46
+msgid "You can also create a playlist from specific songs."
+msgstr "Anda juga dapat membuat suatu daftar putar dari lagu-lagu tertentu."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-albums.page:49
+msgid "To add selected songs from an album:"
+msgstr "Untuk menambahkan lagu-lagu yang dipilih dari sebuah album:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:51
+msgid "Click on an album."
+msgstr "Klik pada suatu album."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:54
+msgid "Click on the check button."
+msgstr "Klik pada tombol centang."
+
+#. (itstool) path: item/p
+#: C/playlist-create-albums.page:57
+msgid "Select songs."
+msgstr "Pilih lagu."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:72 C/playlist-create-songs.page:47
+#: C/playlist-create-artists.page:49
+msgid ""
+"To select all the songs click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select All</gui></guiseq> in the toolbar or press "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+msgstr ""
+"Untuk memilih semua lagu klik <guiseq><gui>Klik pada butir untuk memilih "
+"mereka</gui><gui>Pilih Semua</gui></guiseq> pada bilah alat atau tekan "
+"<keyseq><key>Ctrl</key><key>A</key></keyseq>."
+
+#. (itstool) path: note/p
+#: C/playlist-create-albums.page:76 C/playlist-create-songs.page:51
+#: C/playlist-create-artists.page:53
+msgid ""
+"To clear the selection click <guiseq><gui>Click on items to select them</"
+"gui><gui>Select None</gui></guiseq> in the toolbar."
+msgstr ""
+"Untuk membersihkan pilihan klik <guiseq><gui>Klik pada butir untuk memilih "
+"mereka</gui><gui>Pilih Tak Satupun</gui></guiseq> pada bilah alat."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-songs.page:18
+msgid "Create playlist by selecting your favorite songs."
+msgstr "Membuat daftar putar dengan memilih lagu-lagu favorit Anda."
+
+#. (itstool) path: page/title
+#: C/playlist-create-songs.page:21
+msgid "Create playlists using songs"
+msgstr "Membuat daftar putar memakai lagu-lagu"
+
+#. (itstool) path: page/p
+#: C/playlist-create-songs.page:23
+msgid ""
+"You can view all the songs by clicking on the <gui style=\"button\">Songs</"
+"gui> button."
+msgstr ""
+"Anda dapat melihat semua lagi dengan mengklik tombol <gui style=\"button"
+"\">Lagu</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-songs.page:27
+msgid "To create a new playlist while in <em>Songs</em> view:"
+msgstr ""
+"Untuk membuat sebuah daftar putar baru ketika dalam tilikan <em>Lagu</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:32
+msgid "Select all the songs you want to add to the playlist."
+msgstr "Pilih semua lagu yang ingin Anda tambahkan ke daftar putar."
+
+#. (itstool) path: item/p
+#: C/playlist-create-songs.page:38
+msgid ""
+"Click on <gui style=\"button\">New Playlist</gui> and type a name for your "
+"playlist."
+msgstr ""
+"Klik pada <gui style=\"button\">Daftar Putar Baru</gui> dan ketikkan "
+"sebuah nama untuk daftar putar Anda."
+
+#. (itstool) path: info/desc
+#: C/playlist-create-artists.page:18
+msgid "Create playlist by selecting your favorite artists."
+msgstr "Membuat daftar putar dengan memilih artis-artis favorit Anda."
+
+#. (itstool) path: page/title
+#: C/playlist-create-artists.page:22
+msgid "Create playlists using artists"
+msgstr "Membuat daftar putar memakai artis-artis"
+
+#. (itstool) path: page/p
+#: C/playlist-create-artists.page:24
+msgid ""
+"You can view all the artists and their songs by clicking on the <gui style="
+"\"button\">Artists</gui> button."
+msgstr ""
+"Anda dapat melihat semua artis dan lagu-lagu mereka dengan mengklik pada "
+"tombol <gui style=\"button\">Artis</gui>."
+
+#. (itstool) path: steps/title
+#: C/playlist-create-artists.page:28
+msgid "To create a new playlist while in <em>Artists</em> view:"
+msgstr ""
+"Untuk membuat sebuah daftar putar baru ketika dalam tilikan <em>Artis</em>:"
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:33
+msgid "Select all the artists whose songs you want to add to the playlist."
+msgstr ""
+"Pilih semua artis yang lagu-lagunya ingin Anda tambahkan ke daftar putar."
+
+#. (itstool) path: item/p
+#: C/playlist-create-artists.page:44
+msgid "Click on <gui>Select</gui>."
+msgstr "Klik pada <gui>Pilih</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-delete.page:18
+msgid "Remove an unwanted playlist."
+msgstr "Menghapus sebuah daftar putar yang tidak diinginkan."
+
+#. (itstool) path: page/title
+#: C/playlist-delete.page:22
+msgid "Delete a playlist"
+msgstr "Menghapus sebuah daftar putar"
+
+#. (itstool) path: page/p
+#: C/playlist-delete.page:24
+msgid "You can remove an old and unwanted playlist."
+msgstr "Anda dapat menghapus sebuah daftar putar tua yang tidak diinginkan."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:29
+msgid "Select the playlist which you want to delete."
+msgstr "Pilih daftar putar yang ingin Anda hapus."
+
+#. (itstool) path: item/p
+#: C/playlist-delete.page:35
+msgid "Click on <gui>Delete</gui>."
+msgstr "Klik pada <gui>Hapus</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-remove-songs.page:18
+msgid "Delete songs from the playlist."
+msgstr "Menghapus lagu dari daftar putar."
+
+#. (itstool) path: page/title
+#: C/playlist-remove-songs.page:22
+msgid "Remove songs"
+msgstr "Menghapus lagu"
+
+#. (itstool) path: page/p
+#: C/playlist-remove-songs.page:24
+msgid "You can remove any unwanted songs from a playlist."
+msgstr ""
+"Anda dapat menghapus sebarang lagu yang tidak diinginkan dari suatu daftar "
+"putar."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:29
+msgid "Select the playlist from which you want to remove songs."
+msgstr "Pilih daftar putar yang lagunya ingin Anda hapus."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:32
+msgid "Click on the check button on the toolbar."
+msgstr "Klik pada tombol centang di bilah alat."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:35
+msgid "Select all the songs which you want to remove."
+msgstr "Pilih semua lagu yang ingin Anda hapus."
+
+#. (itstool) path: item/p
+#: C/playlist-remove-songs.page:38
+msgid "Click on <gui style=\"button\">Remove from Playlist</gui>."
+msgstr "Klik pada <gui style=\"button\">Hapus dari Daftar Putar</gui>."
+
+#. (itstool) path: info/desc
+#: C/playlist-repeat.page:18
+msgid "Repeat all songs in the playlist or only the current song."
+msgstr "Ulang semua lagu dalam daftar putar atau hanya lagu saat ini."
+
+#. (itstool) path: page/title
+#: C/playlist-repeat.page:22
+msgid "How do I play songs on repeat?"
+msgstr "Bagaimana saya memutar lagu berulang?"
+
+#. (itstool) path: list/title
+#: C/playlist-repeat.page:25
+msgid "In the taskbar, click on the button on the right side:"
+msgstr "Dalam bilah tugas, klik pada tombol di sisi kanan:"
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:27
+msgid "Select <gui>Repeat Song</gui> to repeat a single song."
+msgstr "Pilih <gui>Ulangi Lagu</gui> untuk mengulangi sebuah lagu."
+
+#. (itstool) path: item/p
+#: C/playlist-repeat.page:30
+msgid "Select <gui>Repeat All</gui> to repeat all the song in the playlist."
+msgstr ""
+"Pilih <gui>Ulang Semua</gui> untuk mengulang semua lagu dalam daftar putar."
+
+#. (itstool) path: info/desc
+#: C/playlist-shuffle.page:18
+msgid "Shuffle songs in the playlist."
+msgstr "Acak lagu dalam daftar putar."
+
+#. (itstool) path: page/title
+#: C/playlist-shuffle.page:22
+msgid "How do I shuffle my songs?"
+msgstr "Bagaimana saya mengacak lagu-lagu saya?"
+
+#. (itstool) path: page/p
+#: C/playlist-shuffle.page:24
+msgid ""
+"In the taskbar, click on the button on right hand side and select "
+"<gui>Shuffle</gui>."
+msgstr ""
+"Dalam bilah tugas, klik pada tombol di sisi kanan dan pilih <gui>Acak</"
+"gui>."
+
+#. (itstool) path: info/desc
+#: C/search.page:18
+msgid "Search through your music collection."
+msgstr "Mencari dalam koleksi musik Anda."
+
+#. (itstool) path: page/title
+#: C/search.page:22
+msgid "Find music"
+msgstr "Cari musik"
+
+#. (itstool) path: page/p
+#: C/search.page:24
+msgid ""
+"You can search your albums, artists, songs and playlists. Select what you "
+"want to search through then click the <gui>Search</gui> button and start "
+"searching."
+msgstr ""
+"Anda dapat mencari album, artis, lagu, dan daftar putar Anda. Pilih apa "
+"yang ingin Anda cari lalu klik tombol <gui>Cari</gui> dan memulai "
+"pencarian."
+
+#. (itstool) path: p/link
+#: C/legal.xml:5
+msgid "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+msgstr "Creative Commons Attribution-ShareAlike 3.0 Unported License"
+
+#. (itstool) path: license/p
+#: C/legal.xml:4
+msgid "This work is licensed under a <_:link-1/>."
+msgstr "Karya ini dilisensikan di bawah <_:link-1/>."
