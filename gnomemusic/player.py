@@ -26,6 +26,7 @@ from enum import IntEnum
 from random import randint, randrange
 import logging
 import time
+import queue
 
 import gi
 gi.require_version('GstPbutils', '1.0')
@@ -402,6 +403,7 @@ class Player(GObject.GObject):
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
         self._lastfm = LastFmScrobbler()
+        self.song_queue = queue.Queue()
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
@@ -568,7 +570,15 @@ class Player(GObject.GObject):
             if (not self._lastfm.scrobbled
                     and self.props.duration > 30.
                     and (percentage > 0.5 or tick > 4 * 60)):
-                self._lastfm.scrobble(current_song, self._time_stamp)
+                status = self._lastfm.scrobble(current_song, self._time_stamp)
+                if status == 200:
+                    while not self.song_queue.empty():
+                        song, time_stamp = self.song_queue.get()
+                        status = self._lastfm.scrobble(song, time_stamp)
+                        if status != 200:
+                            self.song_queue.put((song, time_stamp))
+                else:
+                    self.song_queue.put((current_song, self._time_stamp))
 
             if (percentage > 0.5
                     and self._new_clock):

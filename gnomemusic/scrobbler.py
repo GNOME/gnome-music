@@ -24,6 +24,7 @@
 
 from hashlib import md5
 import logging
+import queue
 
 import gi
 gi.require_version('Goa', '1.0')
@@ -150,6 +151,7 @@ class LastFmScrobbler(GObject.GObject):
         self._authentication = None
         self._goa_lastfm = GoaLastFM()
         self._soup_session = Soup.Session.new()
+        self.q = queue.Queue()
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -212,7 +214,8 @@ class LastFmScrobbler(GObject.GObject):
         request_dict.update({
             "api_sig": api_sig
         })
-
+        self.q.put(request_dict)
+        print(title)
         msg = Soup.form_request_new_from_hash(
             "POST", "https://ws.audioscrobbler.com/2.0/", request_dict)
         self._soup_session.queue_message(
@@ -226,6 +229,7 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
+        self.result_status_code = status_code
 
     @log
     def scrobble(self, coresong, time_stamp):
@@ -243,6 +247,8 @@ class LastFmScrobbler(GObject.GObject):
 
         media = coresong.props.media
         self._lastfm_api_call(media, time_stamp, "scrobble")
+
+        return self.result_status_code
 
     @log
     def now_playing(self, coresong):
