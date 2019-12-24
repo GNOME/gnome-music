@@ -116,27 +116,27 @@ class CoverStack(Gtk.Stack):
         art.query(self._corealbum)
 
 
-    @log
-    def update(self, coresong):
-        """Update the stack with the given CoreSong
+    # @log
+    # def update(self, coresong):
+    #     """Update the stack with the given CoreSong
 
-        Update the stack with the art retrieved from the given Coresong.
-        :param CoreSong coresong: The CoreSong object
-        """
-        if self._handler_id and self._art:
+    #     Update the stack with the art retrieved from the given Coresong.
+    #     :param CoreSong coresong: The CoreSong object
+    #     """
+    #     if self._handler_id and self._art:
             # Remove a possible dangling 'finished' callback if update
             # is called again, but it is still looking for the previous
             # art.
-            self._art.disconnect(self._handler_id)
+    #         self._art.disconnect(self._handler_id)
             # Set the loading state only after a delay to make between
             # song transitions smooth if loading time is negligible.
-            self._timeout = GLib.timeout_add(100, self._set_loading_child)
+    #         self._timeout = GLib.timeout_add(100, self._set_loading_child)
 
-        self._active_child = self.props.visible_child_name
+    #     self._active_child = self.props.visible_child_name
 
-        self._art = Art(self.props.size, coresong, self.props.scale_factor)
-        self._handler_id = self._art.connect('finished', self._art_retrieved)
-        self._art.lookup()
+    #     self._art = Art(self.props.size, coresong, self.props.scale_factor)
+    #     self._handler_id = self._art.connect('finished', self._art_retrieved)
+    #     self._art.lookup()
 
     @log
     def _set_loading_child(self):
