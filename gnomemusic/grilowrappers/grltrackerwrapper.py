@@ -869,7 +869,12 @@ class GrlTrackerWrapper(GObject.GObject):
                 coresong.props.thumbnail = "generic"
                 return
 
-            StoreAlbumArt(self._album_ids[media.get_id()], media)
+            corealbum = self._album_ids[media.get_id()]
+            # Currently there is no song specific art, it is bound from
+            # the relevant CoreAlbum instead.
+            corealbum.bind_property(
+                "thumbnail", coresong, "thumbnail")
+            StoreAlbumArt(corealbum, media)
 
         song_id = coresong.props.media.get_id()
 
