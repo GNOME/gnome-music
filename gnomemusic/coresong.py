@@ -55,11 +55,11 @@ class CoreSong(GObject.GObject):
         FAILED = 2
         SUCCEEDED = 3
 
-    def __init__(self, media, coreselection, grilo):
+    def __init__(self, media, application):
         super().__init__()
 
-        self._grilo = grilo
-        self._coreselection = coreselection
+        self._grilo = application.props.coremodel.props.grilo
+        self._coreselection = application.props.coreselection
         self._favorite = False
         self._selected = False
 
