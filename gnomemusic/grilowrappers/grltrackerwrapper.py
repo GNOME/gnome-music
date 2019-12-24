@@ -107,7 +107,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_artists_fill(self._source)
 
         self._tracker_playlists = GrlTrackerPlaylists(
-            source, coremodel, application, tracker_wrapper)
+            source, application, tracker_wrapper)
 
         self._source.notify_change_start()
         self._source.connect("content-changed", self._batch_content_changed)
