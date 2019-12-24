@@ -104,7 +104,7 @@ class AlbumCover(Gtk.FlowBoxChild):
         #    "retrieve", self._corealbum.props.title,
         #    self._corealbum.props.thumbnail)
 
-        self._cover_stack.props.corealbum = self._corealbum
+        # self._cover_stack.props.corealbum = self._corealbum
         self._retrieved = True
         #self._cover_stack.update(self._corealbum)
 
