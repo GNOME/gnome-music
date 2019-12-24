@@ -127,6 +127,8 @@ class MediaArt(GObject.GObject):
 
         self._default_icon = DefaultIcon().get(
             DefaultIcon.Type.MUSIC, self._size, self._scale)
+        self._loading_icon = DefaultIcon().get(
+            DefaultIcon.Type.LOADING, self._size, self._scale)
 
         cache_dir = GLib.build_filenamev(
             [GLib.get_user_cache_dir(), "media-art"])
@@ -155,6 +157,9 @@ class MediaArt(GObject.GObject):
         thumbnail_uri = corealbum.props.thumbnail
         if thumbnail_uri == "generic":
             self.emit("result", self._default_icon)
+            return
+        elif thumbnail_uri == "loading":
+            self.emit("result", self._loading_icon)
             return
         elif thumbnail_uri is None:
             return
