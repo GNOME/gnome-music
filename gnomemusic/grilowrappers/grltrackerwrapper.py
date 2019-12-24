@@ -108,7 +108,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_artists_fill(self.props.source)
 
         self._tracker_playlists = GrlTrackerPlaylists(
-            source, coremodel, application, tracker_wrapper)
+            source, application, tracker_wrapper)
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
