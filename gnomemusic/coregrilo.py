@@ -149,7 +149,7 @@ class CoreGrilo(GObject.GObject):
                 and source.get_supported_media() & Grl.MediaType.AUDIO
                 and source.supported_operations() & Grl.SupportedOps.SEARCH):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
-                source, self._coremodel, self._coreselection, self)
+                source, self._application, self._coremodel, self)
             print("search source", source)
 
     def _on_source_removed(self, registry, source):

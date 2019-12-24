@@ -51,11 +51,12 @@ class GrlSearchWrapper(GObject.GObject):
     def __repr__(self):
         return "<GrlSearchWrapper>"
 
-    def __init__(self, source, coremodel, coreselection, grilo):
+    def __init__(self, source, application, coremodel, grilo):
         super().__init__()
 
+        self._application = application
         self._coremodel = coremodel
-        self._coreselection = coreselection
+        self._coreselection = application.props.coreselection
         self._grilo = grilo
         self._source = source
 
@@ -85,7 +86,7 @@ class GrlSearchWrapper(GObject.GObject):
             if media is None:
                 return
 
-            coresong = CoreSong(media, self._coreselection, self._grilo)
+            coresong = CoreSong(media, self._application)
             coresong.props.title = (
                 coresong.props.title + " (" + source.props.source_name + ")")
 
