@@ -29,6 +29,7 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
 import gnomemusic.utils as utils
+from gnomemusic.songart import SongArt
 
 
 class CoreSong(GObject.GObject):
@@ -62,6 +63,7 @@ class CoreSong(GObject.GObject):
         self._coreselection = application.props.coreselection
         self._favorite = False
         self._selected = False
+        self._thumbnail = None
 
         self.props.grlid = media.get_source() + media.get_id()
         self._is_tracker = media.get_source() == "grl-tracker-source"
@@ -110,6 +112,22 @@ class CoreSong(GObject.GObject):
 
         self._selected = value
         self._coreselection.update_selection(self, self._selected)
+
+    @GObject.Property(type=str, default=None)
+    def thumbnail(self):
+        if self._thumbnail == None:
+            self._thumbnail = "loading"
+
+            SongArt(self, self._coremodel)
+
+        return self._thumbnail
+
+    @thumbnail.setter
+    def thumbnail(self, value):
+        if self._thumbnail == value:
+            return
+
+        self._thumbnail = value
 
     def update(self, media):
         self.props.media = media
