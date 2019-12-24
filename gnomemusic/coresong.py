@@ -59,6 +59,7 @@ class CoreSong(GObject.GObject):
     def __init__(self, media, application):
         super().__init__()
 
+        self._application = application
         self._grilo = application.props.coremodel.props.grilo
         self._coreselection = application.props.coreselection
         self._favorite = False
@@ -117,8 +118,7 @@ class CoreSong(GObject.GObject):
     def thumbnail(self):
         if self._thumbnail == None:
             self._thumbnail = "loading"
-
-            SongArt(self, self._coremodel)
+            SongArt(self, self._application.props.coremodel)
 
         return self._thumbnail
 

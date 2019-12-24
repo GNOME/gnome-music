@@ -91,7 +91,7 @@ class CoverStack(Gtk.Stack):
             DefaultIcon.Type.LOADING, self.props.size, self.props.scale_factor)
         self._loading_cover.props.surface = icon
 
-    @GObject.Property(type=CoreAlbum)
+    @GObject.Property()
     def corealbum(self):
         return self._corealbum
 
@@ -106,8 +106,6 @@ class CoverStack(Gtk.Stack):
 
     def _on_thumbnail_changed(self, klass, param):
         # update thumbnail
-        print("thumbchanged")
-
         self._set_loading_child()
 
         art = MediaArt(self.props.size, self.props.scale_factor)
