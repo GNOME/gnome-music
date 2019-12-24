@@ -36,7 +36,6 @@ class SongArt(GObject.GObject):
         :param CoreModel coremodel: The CoreModel object
         """
         super().__init__()
-
         self._coresong = coresong
         self._artist = coresong.props.artist
         self._title = coresong.props.title
