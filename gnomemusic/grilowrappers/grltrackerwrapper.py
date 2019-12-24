@@ -76,11 +76,9 @@ class GrlTrackerWrapper(GObject.GObject):
 
         self._application = application
         self._coremodel = coremodel
-        self._coreselection = application.props.coreselection
-        self._grilo = grilo
-        self._source = None
         self._log = application.props.log
         self._model = self._coremodel.props.songs
+        self._source = None
         self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
         self._artists_model = self._coremodel.props.artists
@@ -357,7 +355,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._log.debug(
                     "Media {} not in hash".format(media.get_id()))
 
-                song = CoreSong(media, self._coreselection, self._grilo)
+                song = CoreSong(media, self._application)
                 self._model.append(song)
                 self._hash[media.get_id()] = song
             else:
@@ -388,11 +386,11 @@ class GrlTrackerWrapper(GObject.GObject):
                 # hashtable.
                 self._tracker_playlists = GrlTrackerPlaylists(
                     self.props.source, self._coremodel, self._application,
-                    self._grilo, self._tracker_wrapper, self._hash)
+                    self._tracker_wrapper, self._hash)
 
                 return
 
-            song = CoreSong(media, self._coreselection, self._grilo)
+            song = CoreSong(media, self._application)
             songs_added.append(song)
             self._hash[media.get_id()] = song
             if len(songs_added) == self._SPLICE_SIZE:
