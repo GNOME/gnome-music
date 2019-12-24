@@ -386,7 +386,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 # songs model fill, the playlists expect a filled songs
                 # hashtable.
                 self._tracker_playlists = GrlTrackerPlaylists(
-                    self.props.source, self._coremodel, self._application,
+                    self.props.source, self._application,
                     self._tracker_wrapper, self._hash)
 
                 return
