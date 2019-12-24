@@ -74,12 +74,11 @@ class GrlTrackerWrapper(GObject.GObject):
         """
         super().__init__()
 
+        self._application = application
         self._coremodel = coremodel
-        self._coreselection = application.props.coreselection
-        self._grilo = grilo
-        self._source = None
         self._log = application.props.log
         self._model = self._coremodel.props.songs
+        self._source = None
         self._albums_model = self._coremodel.props.albums
         self._album_ids = {}
         self._artists_model = self._coremodel.props.artists
@@ -109,7 +108,7 @@ class GrlTrackerWrapper(GObject.GObject):
         self._initial_artists_fill(self.props.source)
 
         self._tracker_playlists = GrlTrackerPlaylists(
-            source, coremodel, application, grilo, tracker_wrapper)
+            source, coremodel, application, tracker_wrapper)
 
     @GObject.Property(type=Grl.Source, default=None)
     def source(self):
@@ -357,7 +356,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._log.debug(
                     "Media {} not in hash".format(media.get_id()))
 
-                song = CoreSong(media, self._coreselection, self._grilo)
+                song = CoreSong(media, self._application)
                 self._model.append(song)
                 self._hash[media.get_id()] = song
             else:
@@ -384,7 +383,7 @@ class GrlTrackerWrapper(GObject.GObject):
                 self._window.notifications_popup.pop_loading()
                 return
 
-            song = CoreSong(media, self._coreselection, self._grilo)
+            song = CoreSong(media, self._application)
             songs_added.append(song)
             self._hash[media.get_id()] = song
             if len(songs_added) == self._SPLICE_SIZE:

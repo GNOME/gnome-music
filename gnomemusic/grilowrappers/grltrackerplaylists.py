@@ -55,14 +55,13 @@ class GrlTrackerPlaylists(GObject.GObject):
     ]
 
     def __init__(
-            self, source, coremodel, application, grilo, tracker_wrapper):
+            self, source, coremodel, application, tracker_wrapper):
         """Initialize GrlTrackerPlaylists.
 
         :param Grl.TrackerSource source: The Tracker source to wrap
         :param CoreModel coremodel: CoreModel instance to use models
                                     from
         :param Application application: Application instance
-        :param CoreGrilo grilo: The CoreGrilo instance
         :param TrackerWrapper tracker_wrapper: The TrackerWrapper
                                                instance
         """
@@ -70,8 +69,6 @@ class GrlTrackerPlaylists(GObject.GObject):
 
         self._application = application
         self._coremodel = coremodel
-        self._coreselection = application.props.coreselection
-        self._grilo = grilo
         self._log = application.props.log
         self._source = source
         self._model = self._coremodel.props.playlists
@@ -94,7 +91,6 @@ class GrlTrackerPlaylists(GObject.GObject):
         args = {
             "source": self._source,
             "application": self._application,
-            "grilo": self._grilo,
             "tracker_wrapper": self._tracker_wrapper
         }
 
@@ -148,7 +144,7 @@ class GrlTrackerPlaylists(GObject.GObject):
 
         playlist = Playlist(
             media=media, source=self._source, coremodel=self._coremodel,
-            application=self._application, grilo=self._grilo,
+            application=self._application,
             tracker_wrapper=self._tracker_wrapper)
 
         self._model.append(playlist)
@@ -291,8 +287,7 @@ class Playlist(GObject.GObject):
 
     def __init__(
             self, media=None, query=None, tag_text=None, source=None,
-            coremodel=None, application=None, grilo=None,
-            tracker_wrapper=None):
+            coremodel=None, application=None, tracker=None):
 
         super().__init__()
         """Initialize a playlist
@@ -304,9 +299,7 @@ class Playlist(GObject.GObject):
        :param Grl.Source source: The Grilo Tracker source object
        :param CoreModel coremodel: The CoreModel instance
        :param Application application: The Application instance
-       :param CoreGrilo grilo: The CoreGrilo instance
-       :param TrackerWrapper tracker_wrapper: The TrackerWrapper
-            instance
+       :param TrackerWrapper tracker_wrapper: The TrackerWrapper instance
         """
         if media:
             self.props.pl_id = media.get_id()
@@ -318,11 +311,11 @@ class Playlist(GObject.GObject):
 
         self.props.query = query
         self.props.tag_text = tag_text
+        self._application = application
         self._model = None
         self._source = source
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
-        self._grilo = grilo
         self._log = application.props.log
         self._tracker = tracker_wrapper.props.tracker
         self._tracker_wrapper = tracker_wrapper
@@ -397,7 +390,7 @@ class Playlist(GObject.GObject):
                 self._window.notifications_popup.pop_loading()
                 return
 
-            coresong = CoreSong(media, self._coreselection, self._grilo)
+            coresong = CoreSong(media, self._application)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
@@ -569,7 +562,7 @@ class Playlist(GObject.GObject):
                 self.props.count = self._model.get_n_items()
                 return
 
-            coresong = CoreSong(media, self._coreselection, self._grilo)
+            coresong = CoreSong(media, self._application)
             if coresong not in self._songs_todelete:
                 self._model.append(coresong)
 
@@ -719,7 +712,7 @@ class SmartPlaylist(Playlist):
                     self.emit("playlist-loaded")
                     return
 
-                coresong = CoreSong(media, self._coreselection, self._grilo)
+                coresong = CoreSong(media, self._application)
                 self._model.append(coresong)
 
             options = self._fast_options.copy()
