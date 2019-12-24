@@ -88,7 +88,7 @@ class CoreModel(GObject.GObject):
         self._songs_model = Gio.ListStore.new(CoreSong)
         self._songliststore = SongListStore(self._songs_model)
 
-        self._coreselection = application.props.coreselection
+        self._application = application
         self._album_model = Gio.ListStore()
         self._album_model_sort = Gfm.SortListModel.new(self._album_model)
         self._album_model_sort.set_sort_func(
@@ -136,9 +136,6 @@ class CoreModel(GObject.GObject):
             utils.wrap_list_store_sort_func(self._playlists_sort))
 
         self.props.grilo = CoreGrilo(self, application)
-        # FIXME: Not all instances of internal _grilo use have been
-        # fixed.
-        self._grilo = self.props.grilo
 
         self._songs_model.connect(
             "items-changed", self._on_songs_items_changed)
@@ -242,9 +239,7 @@ class CoreModel(GObject.GObject):
             if added > 0:
                 for i in list(range(added)):
                     coresong = model[position + i]
-                    song = CoreSong(
-                        coresong.props.media, self._coreselection,
-                        self.props.grilo)
+                    song = CoreSong(self._application, coresong.props.media)
                     _bind_song_properties(coresong, song)
                     songs_list.append(song)
 
@@ -277,9 +272,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(
-                    model_song.props.media, self._coreselection,
-                    self.props.grilo)
+                song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -295,9 +288,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = self._flatten_model
 
             for model_song in self._flatten_model:
-                song = CoreSong(
-                    model_song.props.media, self._coreselection,
-                    self.props.grilo)
+                song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
@@ -320,9 +311,7 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model = model
 
             for model_song in model:
-                song = CoreSong(
-                    model_song.props.media, self._coreselection,
-                    self.props.grilo)
+                song = CoreSong(self._application, model_song.props.media)
                 _bind_song_properties(model_song, song)
                 songs_added.append(song)
 
