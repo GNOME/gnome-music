@@ -1,9 +1,11 @@
+import logging
 from enum import Enum
 from math import pi
 
 import cairo
 from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GObject, Gtk
 
+logger = logging.getLogger(__name__)
 
 def _make_icon_frame(icon_surface, art_size=None, scale=1, default_icon=False):
     border = 3
