@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
 "POT-Creation-Date: 2019-11-09 21:05+0000\n"
-"PO-Revision-Date: 2019-12-27 12:43+0100\n"
+"PO-Revision-Date: 2019-12-27 14:04+0100\n"
 "Last-Translator: Fran Diéguez <frandieguez@gnome.org>\n"
 "Language-Team: Galician\n"
 "Language: gl\n"
@@ -600,94 +600,3 @@ msgid "{} Song"
 msgid_plural "{} Songs"
 msgstr[0] "{} canción"
 msgstr[1] "{} cancións"
-
-#~ msgid "All"
-#~ msgstr "Todo"
-
-#~ msgid "Artist"
-#~ msgstr "Artista"
-
-#~ msgid "Album"
-#~ msgstr "Álbum"
-
-#~ msgid "Track Title"
-#~ msgstr "Título da pista"
-
-#~ msgid "Local"
-#~ msgstr "Local"
-
-#~ msgid "Sources"
-#~ msgstr "Orixes"
-
-#~ msgid "Match"
-#~ msgstr "Coincidir"
-
-#~ msgid "@icon@"
-#~ msgstr "@icon@"
-
-#~ msgid "Untitled"
-#~ msgstr "Sen título"
-
-#~ msgid "_Quit"
-#~ msgstr "_Saír"
-
-#~ msgid "Music is the new GNOME music playing application."
-#~ msgstr "Música é o novo aplicativo de reprodución de música de GNOME."
-
-#~| msgid "gnome-music"
-#~ msgid "org.gnome.Music"
-#~ msgstr "org.gnome.Music"
-
-#~ msgid "Search mode"
-#~ msgstr "Modo de busca"
-
-#~ msgid "If true, the search bar is shown."
-#~ msgstr "Se é verdadeiro, mostrarase a barra de busca."
-
-#~ msgid "Notifications mode"
-#~ msgstr "Modo das notificacións"
-
-#~ msgid "Enables or disables playback notifications"
-#~ msgstr "Activa ou desactiva as notificacións da reprodución"
-
-#~ msgid "Selected %d item"
-#~ msgid_plural "Selected %d items"
-#~ msgstr[0] "%d elemento seleccionado"
-#~ msgstr[1] "%d elementos seleccionados"
-
-#~ msgid "%d min"
-#~ msgstr "%d min"
-
-#~ msgid "Empty"
-#~ msgstr "Baleiro"
-
-#~ msgid "Select Playlist"
-#~ msgstr "Seleccionar lista de reprodución"
-
-#~ msgid "the|a|an"
-#~ msgstr "o|os|a|as|un|unha|uns|unhas"
-
-#~ msgid "Max chars to display in track name on Artist view"
-#~ msgstr ""
-#~ "Número máximo de caracteres a mostrar do nome da canción na vista de "
-#~ "Artista"
-
-#~ msgid ""
-#~ "This setting modifies the amount of chars for track title on Artist view "
-#~ "before its been ellipsized. Set this to -1 to disable"
-#~ msgstr ""
-#~ "Esta preferencia modifica a cantidade de caracteres do título dunha "
-#~ "canción na vista de Artista antes de que se engada unha elipse. "
-#~ "Estabeleza isto a -1 para desactivalo"
-
-#~ msgid "the a an"
-#~ msgstr "o a os as un unha uns unhas"
-
-#~ msgid "All Artists"
-#~ msgstr "Todos os artistas"
-
-#~ msgid "Not playing"
-#~ msgstr "Sen reprodución"
-
-#~ msgid "by %s, from %s"
-#~ msgstr "por %s, de %s"
