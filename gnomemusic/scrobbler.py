@@ -171,6 +171,7 @@ class LastFmScrobbler(GObject.GObject):
             "state", self, "account-state", GObject.BindingFlags.SYNC_CREATE)
 
         self._soup_session = Soup.Session.new()
+        self._scrobble_cache = []
 
     @GObject.Property(type=int, default=GoaLastFM.State.NOT_CONFIGURED)
     def account_state(self):
@@ -259,21 +260,44 @@ class LastFmScrobbler(GObject.GObject):
         album = media.get_album()
 
         request_dict = {}
-        if album:
-            request_dict.update({
-                "album": album
+        if (request_type_key == "scrobble"
+                and time_stamp is not None):
+            self._scrobble_cache.append({
+                "artist": artist,
+                "track": title,
+                "album": album,
+                "timestamp": time_stamp
             })
 
-        if time_stamp is not None:
+            for index, data in enumerate(self._scrobble_cache):
+                request_dict.update({
+                    "artist[{}]".format(index): data['artist'],
+                    "track[{}]".format(index): data['track'],
+                    "timestamp[{}]".format(index): str(data['timestamp']),
+                })
+                if album:
+                    request_dict.update({
+                        "album[{}]".format(index): data['album']
+                    })
+        else:
+            if album:
+                request_dict.update({
+                    "album": album
+                })
+
+            if time_stamp is not None:
+                request_dict.update({
+                    "timestamp": str(time_stamp)
+                })
+
             request_dict.update({
-                "timestamp": str(time_stamp)
+                "artist": artist,
+                "track": title,
             })
 
         request_dict.update({
             "api_key": api_key,
             "method": request_type[request_type_key],
-            "artist": artist,
-            "track": title,
             "sk": sk,
         })
 
@@ -301,6 +325,9 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
+        elif (status_code == 200
+                and request_type_key == "scrobble"):
+            self._scrobble_cache.clear()
 
     @log
     def scrobble(self, coresong, time_stamp):
