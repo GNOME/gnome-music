@@ -149,7 +149,7 @@ class LastFmScrobbler(GObject.GObject):
         self._authentication = None
         self._goa_lastfm = GoaLastFM()
         self._soup_session = Soup.Session.new()
-        self.song_list = []
+        self._song_list = []
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -170,7 +170,6 @@ class LastFmScrobbler(GObject.GObject):
                 "Error: Unable to perform last.fm api call", request_type_key)
             return
         secret = self._goa_lastfm.secret
-        
         artist = utils.get_artist_name(media)
         title = utils.get_media_title(media)
 
@@ -185,16 +184,15 @@ class LastFmScrobbler(GObject.GObject):
 
         request_dict = {}
         if request_type_key == "scrobble":
-            
             if time_stamp is not None:
-                self.song_list.append({
+                self._song_list.append({
                     "artist": artist,
                     "track": title,
                     "album": album,
                     "timestamp": time_stamp
                 })
                 index = 0
-                for data in self.song_list:
+                for data in self._song_list:
                     request_dict.update({
                         "artist[{}]".format(index): data['artist'],
                         "track[{}]".format(index): data['track'],
@@ -226,7 +224,7 @@ class LastFmScrobbler(GObject.GObject):
             "method": request_type[request_type_key],
             "sk": sk,
         })
-        
+
         sig = ""
         for key in sorted(request_dict):
             sig += key + request_dict[key]
@@ -253,7 +251,7 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning(msg.props.response_body.data)
         elif status_code == 200:
             if request_type_key == "scrobble":
-                del self.song_list[0:len(self.song_list)]
+                del self._song_list[0:len(self._song_list)]
 
     @log
     def scrobble(self, coresong, time_stamp):
