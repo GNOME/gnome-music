@@ -33,8 +33,6 @@ from gi.repository import GLib, Goa, GObject, Soup
 from gnomemusic import log
 import gnomemusic.utils as utils
 
-import queue
-
 logger = logging.getLogger(__name__)
 
 
@@ -190,24 +188,24 @@ class LastFmScrobbler(GObject.GObject):
             
             if time_stamp is not None:
                 self.song_list.append({
-                    "artist" : artist,
-                    "track" : title,
-                    "album" : album,
-                    "timestamp" : time_stamp
+                    "artist": artist,
+                    "track": title,
+                    "album": album,
+                    "timestamp": time_stamp
                 })
                 index = 0
                 for data in self.song_list:
                     request_dict.update({
-                        "artist[{}]".format(index) : data['artist'],
-                        "track[{}]".format(index) : data['track'],
-                        "timestamp[{}]".format(index) : str(data['timestamp']),
+                        "artist[{}]".format(index): data['artist'],
+                        "track[{}]".format(index): data['track'],
+                        "timestamp[{}]".format(index): str(data['timestamp']),
                     })
                     if album:
                         request_dict.update({
-                            "album[{}]".format(index) : data['album']
+                            "album[{}]".format(index): data['album']
                         })
-                    index = index + 1    
-        else:        
+                    index = index + 1
+        else:
             if album:
                 request_dict.update({
                     "album": album
