@@ -132,14 +132,16 @@ class Application(Gtk.Application):
     @log
     def _build_app_menu(self):
         action_entries = [
-            ('about', self._about),
-            ('help', self._help)
+            ('about', self._about, None),
+            ("help", self._help, ("app.help", ["F1"]))
         ]
 
-        for action, callback in action_entries:
+        for action, callback, accel in action_entries:
             simple_action = Gio.SimpleAction.new(action, None)
             simple_action.connect('activate', callback)
             self.add_action(simple_action)
+            if accel is not None:
+                self.set_accels_for_action(*accel)
 
     @log
     def _help(self, action, param):
