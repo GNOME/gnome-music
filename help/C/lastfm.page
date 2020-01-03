@@ -1,0 +1,39 @@
+<page xmlns="http://projectmallard.org/1.0/"
+      xmlns:its="http://www.w3.org/2005/11/its"
+      type="guide" style="2column task"
+      id="lastfm">
+
+  <info>
+    <link type="guide" xref="index#online"/>
+    <revision pkgversion="3.34" date="2020-01-02" status="review"/>
+
+    <credit type="author">
+      <name>Ishaan Shah</name>
+      <email its:translate="no">ishaan.n.shah@gmail.com</email>
+      <years>2020</years>
+    </credit>
+
+    <include href="legal.xml" xmlns="http://www.w3.org/2001/XInclude"/>
+
+    <desc>Upload your playback history to Last.fm</desc>
+
+  </info>
+
+  <title>Enable Last.fm scrobbling</title>
+
+  <p>You can enable Last.fm scrobbling. You can learn more about Last.fm and scrobbling <link href="https://cbsi.secure.force.com/lastfm/articles/LastFM/What-is-scrobbling?template=template_lastfm">here</link></p>
+
+  <steps>
+    <title>In <em>GNOME Settings</em>:</title>
+    <item>
+      <p>Go to the <em>Online Accounts</em> tab</p>
+    </item>
+    <item>
+      <p>Select <em>Last.fm</em></p>
+    </item>
+    <item>
+      <p>Enter your credentials and make sure the checkbox against <em>Music</em> is checked</p>
+    </item>
+  </steps>
+
+</page>
