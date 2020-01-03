@@ -235,6 +235,9 @@ class PlayerPlaylist(GObject.GObject):
         :returns: The selected song
         :rtype: CoreSong
         """
+        if self._model.get_n_items() == 0:
+            return None
+
         if song is None:
             if self.props.repeat_mode == RepeatMode.SHUFFLE:
                 position = randrange(0, self._model.get_n_items())
