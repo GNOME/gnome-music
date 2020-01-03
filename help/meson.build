@@ -2,6 +2,7 @@ gnome.yelp(meson.project_name(),
   sources: [
     'introduction.page',
     'index.page',
+    'lastfm.page',
     'play-music.page',
     'playlist-create-albums.page',
     'playlist-create-songs.page',
