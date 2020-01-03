@@ -55,6 +55,11 @@ class PlaylistControls(Gtk.Grid):
         self._window = application.props.window
 
         self._play_action = self._window.lookup_action("playlist_play")
+        self._rename_action = self._window.lookup_action("playlist_rename")
+        self._rename_action.connect("activate", self._on_rename_action)
+
+    def _on_rename_action(self, menuitem, data=None):
+        self._enable_rename_playlist(self.props.playlist)
 
     @Gtk.Template.Callback()
     @log
@@ -67,7 +72,7 @@ class PlaylistControls(Gtk.Grid):
     def _on_rename_entry_key_pressed(self, widget, event):
         (_, keyval) = event.get_keyval()
         if keyval == Gdk.KEY_Escape:
-            self.disable_rename_playlist()
+            self._disable_rename_playlist()
 
     @Gtk.Template.Callback()
     @log
@@ -78,7 +83,7 @@ class PlaylistControls(Gtk.Grid):
             return
 
         self.props.playlist.props.title = new_name
-        self.disable_rename_playlist()
+        self._disable_rename_playlist()
 
     @log
     def _on_songs_count_changed(self, klass, data=None):
@@ -91,17 +96,15 @@ class PlaylistControls(Gtk.Grid):
         else:
             self._play_action.props.enabled = True
 
-    @log
-    def enable_rename_playlist(self, pl_torename):
+    def _enable_rename_playlist(self, pl_torename):
         """Enables rename button and entry
 
-        :param Grl.Media pl_torename : The playlist to rename
+        :param Playlist pl_torename : The playlist to rename
         """
         self._name_stack.props.visible_child_name = "renaming_dialog"
         self._set_rename_entry_text_and_focus(pl_torename.props.title)
 
-    @log
-    def disable_rename_playlist(self):
+    def _disable_rename_playlist(self):
         """Disables rename button and entry"""
         self._name_stack.props.visible_child = self._name_label
 
@@ -114,15 +117,6 @@ class PlaylistControls(Gtk.Grid):
         """
 
         return self._name_stack.props.visible_child_name == "renaming_dialog"
-
-    @GObject.Property
-    def rename_entry_text(self):
-        """Gets the value of the rename entry input
-
-        :return: Contents of rename entry field
-        :rtype: string
-        """
-        return self._rename_entry.props.text
 
     @log
     def _set_rename_entry_text_and_focus(self, text):
@@ -151,6 +145,8 @@ class PlaylistControls(Gtk.Grid):
             self._binding_count.unbind()
 
         self._playlist = new_playlist
+        self._disable_rename_playlist()
+        self._rename_action.props.enabled = not self._playlist.props.is_smart
         self._binding_count = self._playlist.bind_property(
             "title", self._name_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
