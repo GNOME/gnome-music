@@ -235,6 +235,9 @@ class PlayerPlaylist(GObject.GObject):
         :returns: The selected song
         :rtype: CoreSong
         """
+        if self._model.get_n_items() == 0:
+            return None
+
         if song is None:
             if self.props.repeat_mode == RepeatMode.SHUFFLE:
                 position = randrange(0, self._model.get_n_items())
@@ -505,7 +508,8 @@ class Player(GObject.GObject):
         if coresong is not None:
             self._load(coresong)
 
-        self._gst_player.props.state = Playback.PLAYING
+        if self.props.current_song is not None:
+            self._gst_player.props.state = Playback.PLAYING
 
     @log
     def pause(self):
