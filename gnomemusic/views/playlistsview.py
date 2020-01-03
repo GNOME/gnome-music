@@ -90,8 +90,6 @@ class PlaylistsView(BaseView):
 
         self._playlist_rename_action = Gio.SimpleAction.new(
             'playlist_rename', None)
-        self._playlist_rename_action.connect(
-            'activate', self._stage_playlist_for_renaming)
         self._window.add_action(self._playlist_rename_action)
 
         self._pl_ctrls = PlaylistControls(application)
@@ -220,15 +218,11 @@ class PlaylistsView(BaseView):
         """Update view with content from selected playlist"""
         playlist = row.props.playlist
 
-        if self.rename_active:
-            self._pl_ctrls.disable_rename_playlist()
-
         self._view.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
 
         self._pl_ctrls.props.playlist = playlist
 
-        self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
         self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
         self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
@@ -313,18 +307,6 @@ class PlaylistsView(BaseView):
     def rename_active(self):
         """Indicate if renaming dialog is active"""
         return self._pl_ctrls.props.rename_active
-
-    @log
-    def _stage_playlist_for_renaming(self, menuitem, data=None):
-        selection = self._sidebar.get_selected_row()
-        pl_torename = selection.props.playlist
-        self._pl_ctrls.enable_rename_playlist(pl_torename)
-
-    @log
-    def _on_playlist_renamed(self, arguments, new_name):
-        selection = self._sidebar.get_selected_row()
-        pl_torename = selection.props.playlist
-        pl_torename.rename(new_name)
 
     @log
     def _stage_playlist_for_deletion(self, menutime, data=None):
