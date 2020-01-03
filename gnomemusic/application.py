@@ -130,16 +130,19 @@ class Application(Gtk.Application):
         return self._window
 
     @log
-    def _build_app_menu(self):
+    def _set_actions(self):
         action_entries = [
-            ('about', self._about),
-            ('help', self._help)
+            ('about', self._about, None),
+            ("help", self._help, ("app.help", ["F1"])),
+            ("quit", self._quit, ("app.quit", ["<Ctrl>Q"]))
         ]
 
-        for action, callback in action_entries:
+        for action, callback, accel in action_entries:
             simple_action = Gio.SimpleAction.new(action, None)
             simple_action.connect('activate', callback)
             self.add_action(simple_action)
+            if accel is not None:
+                self.set_accels_for_action(*accel)
 
     @log
     def _help(self, action, param):
@@ -157,13 +160,7 @@ class Application(Gtk.Application):
     @log
     def do_startup(self):
         Gtk.Application.do_startup(self)
-
-        quit_action = Gio.SimpleAction.new("quit", None)
-        quit_action.connect("activate", self._quit)
-        self.add_action(quit_action)
-        self.set_accels_for_action("app.quit", ["<Ctrl>Q"])
-
-        self._build_app_menu()
+        self._set_actions()
 
     @log
     def _quit(self, action=None, param=None):
