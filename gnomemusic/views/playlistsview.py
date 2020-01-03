@@ -29,7 +29,6 @@ from gi.repository import Gdk, GObject, Gio, Gtk
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
-from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
@@ -84,8 +83,6 @@ class PlaylistsView(BaseView):
 
         self._playlist_delete_action = Gio.SimpleAction.new(
             'playlist_delete', None)
-        self._playlist_delete_action.connect(
-            'activate', self._stage_playlist_for_deletion)
         self._window.add_action(self._playlist_delete_action)
 
         self._playlist_rename_action = Gio.SimpleAction.new(
@@ -211,7 +208,6 @@ class PlaylistsView(BaseView):
 
         self._pl_ctrls.props.playlist = playlist
 
-        self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
         self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
     def _on_active_playlist_changed(self, klass, val):
@@ -295,22 +291,6 @@ class PlaylistsView(BaseView):
     def rename_active(self):
         """Indicate if renaming dialog is active"""
         return self._pl_ctrls.props.rename_active
-
-    @log
-    def _stage_playlist_for_deletion(self, menutime, data=None):
-        selected_row = self._sidebar.get_selected_row()
-        selected_playlist = selected_row.props.playlist
-
-        notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._coremodel,
-            PlaylistNotification.Type.PLAYLIST, selected_playlist)
-
-        # FIXME: Should Check that the playlist is not playing
-        # playlist_id = selection.playlist.props.pl_id
-        # if self._player.playing_playlist(
-        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
-        #     self._player.stop()
-        #     self._window.set_player_visible(False)
 
     def _on_song_widget_moved(self, target, source_position):
         target_position = target.get_parent().get_index()

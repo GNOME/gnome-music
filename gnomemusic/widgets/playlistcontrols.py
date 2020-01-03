@@ -28,6 +28,7 @@ from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.widgets.notificationspopup import PlaylistNotification
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
@@ -52,14 +53,29 @@ class PlaylistControls(Gtk.Grid):
         self._playlist = None
         self._count_id = 0
         self._binding_count = None
+        self._coremodel = application.props.coremodel
         self._window = application.props.window
 
+        self._delete_action = self._window.lookup_action("playlist_delete")
+        self._delete_action.connect("activate", self._on_delete_action)
         self._play_action = self._window.lookup_action("playlist_play")
         self._rename_action = self._window.lookup_action("playlist_rename")
         self._rename_action.connect("activate", self._on_rename_action)
 
     def _on_rename_action(self, menuitem, data=None):
         self._enable_rename_playlist(self.props.playlist)
+
+    def _on_delete_action(self, menutime, data=None):
+        PlaylistNotification(
+            self._window.notifications_popup, self._coremodel,
+            PlaylistNotification.Type.PLAYLIST, self.props.playlist)
+
+        # FIXME: Should Check that the playlist is not playing
+        # playlist_id = selection.playlist.props.pl_id
+        # if self._player.playing_playlist(
+        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
+        #     self._player.stop()
+        #     self._window.set_player_visible(False)
 
     @Gtk.Template.Callback()
     @log
@@ -146,7 +162,9 @@ class PlaylistControls(Gtk.Grid):
 
         self._playlist = new_playlist
         self._disable_rename_playlist()
+        self._delete_action.props.enable = not self._playlist.props.is_smart
         self._rename_action.props.enabled = not self._playlist.props.is_smart
+
         self._binding_count = self._playlist.bind_property(
             "title", self._name_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
