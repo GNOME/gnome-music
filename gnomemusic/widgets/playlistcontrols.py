@@ -46,12 +46,20 @@ class PlaylistControls(Gtk.Grid):
     def __repr__(self):
         return '<PlaylistControls>'
 
-    def __init__(self):
+    def __init__(self, application):
+        """Initialize
+
+        :param GtkApplication application: The application object
+        """
         super().__init__()
 
         self._playlist = None
         self._count_id = 0
         self._binding_count = None
+        self._window = application.props.window
+
+        self._playlist_play_action = self._window.lookup_action(
+            "playlist_play")
 
     @Gtk.Template.Callback()
     @log
@@ -82,6 +90,11 @@ class PlaylistControls(Gtk.Grid):
         self._songs_count_label.props.label = gettext.ngettext(
             "{} Song", "{} Songs", self.props.playlist.count).format(
                 self.props.playlist.count)
+
+        if self.props.playlist.props.count == 0:
+            self._playlist_play_action.props.enabled = False
+        else:
+            self._playlist_play_action.props.enabled = True
 
     @log
     def enable_rename_playlist(self, pl_torename):
