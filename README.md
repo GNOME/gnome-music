@@ -1,17 +1,19 @@
+# GNOME Music
+
 Music is the new GNOME music playing application.
 
-# Where can I find more?
+## Where can I find more?
 
 Music has a wiki page at
 https://wiki.gnome.org/Apps/Music.
 
 You can join the developers on IRC: [#gnome-music](irc://irc.gnome.org/gnome-music) on [GIMPNet](https://wiki.gnome.org/Community/GettingInTouch/IRC).
 
-# Join the development
+## Join the development
 
 Follow the [GNOME Newcomers guide](https://wiki.gnome.org/Newcomers/) and choose Music as your project. There are bugs labeled for newcomers, which should provide an easy entry point. Of course, feel free to pick something more challenging. Pick bugs if you can, not feature requests. The goal is to make the current Music experience sound & stable and only then extend it's functionality.
 
-### Build Music
+#### Build Music
 
 Music uses the [meson](http://mesonbuild.com/) build system. Use the following commands to build Music from the source directory:
 
@@ -33,7 +35,7 @@ You can also install Music system-wide by running:
 $ ninja install
 ```
 
-## Coding style
+### Coding style
 
 GNOME Music is written in Python and aspires to adhere to the coding style described in the python style guide [PEP-8](https://www.python.org/dev/peps/pep-0008/).
 
@@ -43,7 +45,7 @@ Docstrings should be added to all (new) public functions.
 
 Since looking at the surrounding code might give mixed results, take note of the following rules as a basic style guide.
 
-### Line length
+#### Line length
 
 >>>
 Limit all lines to a maximum of 79 characters.
@@ -51,7 +53,7 @@ Limit all lines to a maximum of 79 characters.
 For flowing long blocks of text with fewer structural restrictions (docstrings or comments), the line length should be limited to 72 characters.
 >>>
 
-### Indentation
+#### Indentation
 
 Music uses hanging indents when the lines get too long.
 
@@ -72,7 +74,7 @@ foo = long_function_name(
     var_three, var_four)
 ```
 
-### Line break before a binary operator
+#### Line break before a binary operator
 
 ```python
 # Yes: easy to match operators with operands
@@ -88,16 +90,16 @@ if (this_is_one_thing
     do_something()
 ```
 
-### Class internals
+#### Class internals
 
 All non-public classwide variables or methods should be prepended with an underscore.
 >>>
 _single_leading_underscore: weak "internal use" indicator. E.g. from M import * does not import objects whose name starts with an underscore.
 >>>
 
-### PyGObject specifics
+#### PyGObject specifics
 
-#### Treemodel
+##### Treemodel
 
 Use PyGObject shorthands for manipulating `GtkTreeModel` & `GtkListStore`:
 
@@ -106,7 +108,7 @@ model[iter][0] = "artist"
 artist, title = model[iter][1, 4]
 ```
 
-#### Properties
+##### Properties
 
 Most objects in Music are derived from GObject and have properties. Use [PyGObject properties](https://pygobject.readthedocs.io/en/latest/guide/api/properties.html) through decorator usage if you add properties to your code.
 
@@ -136,11 +138,11 @@ is_selected = object.props.selected
 object.props.selection_mode = True
 ```
 
-##### Multi-word properties
+###### Multi-word properties
 
 Note that GObject multi-word properties are separated by `-` as in `'selection-mode'`, however Python does not allow `-` in variable or method names. So these are translated to `_` instead. You might find both `'selection-mode'` and `selection_mode` in the code (depending on how they are used), but they refer to the same property.
 
-#### Templates
+##### Templates
 
 Recent PyGObject (3.29.1 and up) allows template usage and Music is [starting to convert](https://gitlab.gnome.org/GNOME/gnome-music/issues/183) to using this to build the user interface. More information can be found in the PyGObject source and [examples](https://gitlab.gnome.org/GNOME/gnome-music/blob/master/gnomemusic/widgets/songwidget.py) in the Music code.
 
@@ -159,7 +161,7 @@ class Widget(Gtk.Widget):
         pass
 ```
 
-## Commit messages
+### Commit messages
 
 Music is fairly strict on the format and contents of commit messages. New contributors often struggle with this.
 
@@ -178,6 +180,6 @@ Implemented fix.
 Closes: #issuenr
 >>>
 
-## Merge requests
+### Merge requests
 
 When opening a Merge Request, please enable the [_'Allow commits from members who can merge to the target branch'_](https://docs.gitlab.com/ee/user/project/merge_requests/allow_collaboration.html) checkbox. This allows the Music maintainers to help out on the Merge Request as needed.
