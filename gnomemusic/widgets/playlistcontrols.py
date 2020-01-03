@@ -41,10 +41,6 @@ class PlaylistControls(Gtk.Grid):
     _rename_entry = Gtk.Template.Child()
     _rename_done_button = Gtk.Template.Child()
     _songs_count_label = Gtk.Template.Child()
-    _menubutton = Gtk.Template.Child()
-
-    def __repr__(self):
-        return '<PlaylistControls>'
 
     def __init__(self, application):
         """Initialize
