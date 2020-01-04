@@ -416,9 +416,6 @@ class SearchView(Gtk.Stack):
             self.remove(self._scrolled_artist_window)
             self._scrolled_artist_window.destroy()
             self._scrolled_artist_window = None
-        elif self.get_visible_child() == self._search_results:
-            self._window.views[View.ALBUM].set_visible_child(
-                self._window.views[View.ALBUM]._grid)
 
         self.set_visible_child(self._search_results)
         self.props.search_mode_active = True
