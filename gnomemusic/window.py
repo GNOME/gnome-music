@@ -109,7 +109,7 @@ class Window(Gtk.ApplicationWindow):
         self._headerbar_stack = Gtk.Stack()
         transition_type = Gtk.StackTransitionType.CROSSFADE
         self._headerbar_stack.props.transition_type = transition_type
-        self._headerbar = HeaderBar()
+        self._headerbar = HeaderBar(self._app)
         self._search_headerbar = SearchHeaderBar(self._app)
         self._search_headerbar.props.stack = self._stack
         self._headerbar_stack.add_named(self._headerbar, "main")
