@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+from enum import IntEnum
 from hashlib import md5
 import logging
 
@@ -41,6 +42,13 @@ class GoaLastFM(GObject.GObject):
     """Last.fm account handling through GOA
     """
 
+    class State(IntEnum):
+        """GoaLastFM account State"""
+
+        NOT_CONFIGURED = 0
+        DISABLED = 1
+        ENABLED = 2
+
     def __repr__(self):
         return '<GoaLastFM>'
 
@@ -55,8 +63,9 @@ class GoaLastFM(GObject.GObject):
         self._client = None
         self._account = None
         self._authentication = None
-        self._disabled = True
+        self._state = GoaLastFM.State.NOT_CONFIGURED
         self._music_disabled_id = None
+        self.notify("state")
 
     @log
     def _new_client_callback(self, source, result):
@@ -89,31 +98,28 @@ class GoaLastFM(GObject.GObject):
             if account.props.provider_type == "lastfm":
                 self._authentication = obj.get_oauth2_based()
                 self._account = account
-                self.disabled = self._account.props.music_disabled
                 self._music_disabled_id = self._account.connect(
                     'notify::music-disabled', self._goa_music_disabled)
+                self._goa_music_disabled(self._account)
                 break
 
     @log
-    def _goa_music_disabled(self, klass, args):
-        self.disabled = klass.props.music_disabled
+    def _goa_music_disabled(self, klass, args=None):
+        if self._account.props.music_disabled is True:
+            self._state = GoaLastFM.State.DISABLED
+        else:
+            self._state = GoaLastFM.State.ENABLED
 
-    @GObject.Property(type=bool, default=True)
-    def disabled(self):
-        """Retrieve the disabled status for the Last.fm account
+        self.notify("state")
 
-        :returns: The disabled status
-        :rtype: bool
+    @GObject.Property(type=int, default=0, flags=GObject.ParamFlags.READABLE)
+    def state(self):
+        """Retrieve the state for the Last.fm account
+
+        :returns: The account state
+        :rtype: GoaLastFM.State
         """
-        return self._disabled
-
-    @disabled.setter
-    def disabled(self, value):
-        """Set the disabled status for the Last.fm account
-
-        :param bool value: status
-        """
-        self._disabled = value
+        return self._state
 
     @GObject.Property
     def secret(self):
@@ -169,7 +175,8 @@ class LastFmScrobbler(GObject.GObject):
         :returns: True is music is reported to Last.fm
         :rtype: bool
         """
-        return not self._goa_lastfm.props.disabled and self._report is True
+        return (self._goa_lastfm.props.state == GoaLastFM.State.ENABLED
+                and self._report is True)
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
