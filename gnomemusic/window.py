@@ -490,7 +490,8 @@ class Window(Gtk.ApplicationWindow):
 
         views_with_child = [
             self.views[View.ALBUM],
-            self.views[View.SEARCH]
+            self.views[View.SEARCH],
+            self.views[View.ARTIST]
         ]
         if self._current_view in views_with_child:
             self._current_view._back_button_clicked(self._current_view)

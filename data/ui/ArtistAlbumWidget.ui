@@ -7,17 +7,26 @@
     <property name="margin_right">120</property>
     <property name="visible">True</property>
     <child>
-      <object class="CoverStack" id="_cover_stack">
+      <object class="GtkEventBox" id="_cover_stack_container">
         <property name="visible">True</property>
-	<property name="margin_top">20</property>
-	<property name="margin_right">30</property>
+        <property name="margin_top">20</property>
+        <property name="margin_right">30</property>
         <property name="margin_bottom">20</property>
-	<property name="margin_left">120</property>
+        <property name="margin_left">120</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
+        <child>
+          <object class="CoverStack" id="_cover_stack">
+            <property name="visible">True</property>
+	          <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
       </object>
       <packing>
-        <property name="position">0</property>
+            <property name="position">0</property>
       </packing>
     </child>
     <child>
@@ -27,6 +36,10 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkBox" id="box3">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+            <object class="GtkEventBox" id="_title_year_container">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -42,6 +55,11 @@
                   <class name="album-title"/>
                 </style>
               </object>
+            </child>
+            </object>
+            <packing>
+              <property name="position">0</property>
+            </packing>
             </child>
           </object>
           <packing>

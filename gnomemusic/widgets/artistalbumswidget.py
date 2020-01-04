@@ -29,6 +29,7 @@ from gi.repository import GObject, Gtk
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.artistalbumwidget import ArtistAlbumWidget
+from gnomemusic.corealbum import CoreAlbum
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +46,10 @@ class ArtistAlbumsWidget(Gtk.ListBox):
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
+
+    __gsignals__ = {
+        "album-activated": (GObject.SignalFlags.RUN_FIRST, None, (CoreAlbum,))
+    }
 
     def __repr__(self):
         return '<ArtistAlbumsWidget>'
@@ -87,6 +92,12 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
         coremodel.set_player_model(PlayerPlaylist.Type.ARTIST, self._model)
 
+    def _album_activated(self, widget, corealbum):
+        if self.props.selection_mode:
+            return
+
+        self.emit("album-activated", corealbum)
+
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()
         row.props.selectable = False
@@ -103,6 +114,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         row.add(widget)
         self._widgets.append(widget)
         widget.connect("song-activated", self._song_activated)
+        widget.connect("album-activated", self._album_activated)
 
         return row
 
