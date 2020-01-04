@@ -1,3 +1,26 @@
+Overview of changes in 3.34.3
+=============================
+
+* Fix various crashes due to regressions during the 3.34 core rewrite
+* Restore keyboard shortcut to open help
+
+Bugs fixed:
+ Switching to playlist gives an empty view (#348)
+ Disable play action on empty playlists to prevent a crash (#354)
+ Music crashes when media key "play" is pressed while no song is selected (#355)
+ Crash when pressing Alt+LeftKey in searchview (#357)
+
+Thanks to our contributors this release:
+ Jean Felder
+ Marinus Schraal
+
+Added translations:
+ Malay
+
+Translations updated:
+ Chinese (Taiwan)
+ Ukrainian
+
 Overview of changes in 3.34.2
 =============================
 
