@@ -35,7 +35,6 @@ from gi._gi import pygobject_new_full
 from gnomemusic import log
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.songwidget import SongWidget
 
 
@@ -404,7 +403,7 @@ class Player(GObject.GObject):
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
-        self._lastfm = LastFmScrobbler(application)
+        self._lastfm = application.props.lastfm_scrobbler
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)

@@ -42,6 +42,7 @@ from gnomemusic.inhibitsuspend import InhibitSuspend
 from gnomemusic.mpris import MPRIS
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
+from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.window import Window
 
@@ -67,6 +68,7 @@ class Application(Gtk.Application):
         self._coremodel = CoreModel(self)
 
         self._settings = Gio.Settings.new('org.gnome.Music')
+        self._lastfm_scrobbler = LastFmScrobbler(self)
         self._player = Player(self)
 
         InhibitSuspend(self)
@@ -119,6 +121,15 @@ class Application(Gtk.Application):
         :rtype: CoreSelection
         """
         return self._coreselection
+
+    @GObject.Property(type=LastFmScrobbler, flags=GObject.ParamFlags.READABLE)
+    def lastfm_scrobbler(self):
+        """Get Last.fm scrobbler.
+
+        :returns: Last.fm scrobbler
+        :rtype: LastFmScrobbler
+        """
+        return self._lastfm_scrobbler
 
     @GObject.Property(type=Window, flags=GObject.ParamFlags.READABLE)
     def window(self):
