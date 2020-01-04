@@ -404,7 +404,7 @@ class Player(GObject.GObject):
         self._gst_player.bind_property(
             'state', self, 'state', GObject.BindingFlags.SYNC_CREATE)
 
-        self._lastfm = LastFmScrobbler()
+        self._lastfm = LastFmScrobbler(application)
 
     @GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READABLE)
