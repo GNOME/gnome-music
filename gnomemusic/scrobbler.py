@@ -120,6 +120,10 @@ class GoaLastFM(GObject.GObject):
         """
         return self._state
 
+    def enable_music(self):
+        """Enable music suport of the Last.fm account"""
+        self._account.props.music_disabled = False
+
     @GObject.Property
     def secret(self):
         """Retrieve the Last.fm client secret"""
@@ -159,11 +163,34 @@ class LastFmScrobbler(GObject.GObject):
         self._report = self._settings.get_boolean("report-music")
 
         self._scrobbled = False
+        self._account_state = GoaLastFM.State.NOT_CONFIGURED
+
         self._goa_lastfm = GoaLastFM()
+        self._goa_lastfm.bind_property(
+            "state", self, "account-state", GObject.BindingFlags.SYNC_CREATE)
+
         self._soup_session = Soup.Session.new()
 
-    @GObject.Property(
-        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    @GObject.Property(type=int, default=GoaLastFM.State.NOT_CONFIGURED)
+    def account_state(self):
+        """Get the Last.fm account state
+
+        :returns: state of the Last.fm account
+        :rtype: GoaLastFM.State
+        """
+        return self._account_state
+
+    @account_state.setter
+    def account_state(self, value):
+        """Set the Last.fm account state
+
+        The account state depends on GoaLast.fm state property.
+        :param GoaLastFM.State value: new state
+        """
+        self._account_state = value
+        self.notify("can-scrobble")
+
+    @GObject.Property(type=bool, default=False)
     def can_scrobble(self):
         """Get can scrobble status
 
@@ -174,8 +201,29 @@ class LastFmScrobbler(GObject.GObject):
         :returns: True is music is reported to Last.fm
         :rtype: bool
         """
-        return (self._goa_lastfm.props.state == GoaLastFM.State.ENABLED
+        return (self.props.account_state == GoaLastFM.State.ENABLED
                 and self._report is True)
+
+    @can_scrobble.setter
+    def can_scrobble(self, value):
+        """Set the can_scrobble status
+
+        If no account is configured, nothing happens.
+        If the new value is True, "report-music" is changed and music
+        support in the Last.fm is enabled if necessary.
+        If the new value is False, "report-music" is changed but the
+        Last.fm account is not changed.
+        :param bool value: new value
+        """
+        if self.props.account_state == GoaLastFM.State.NOT_CONFIGURED:
+            return
+
+        if (value is True
+                and self.props.account_state == GoaLastFM.State.DISABLED):
+            self._goa_lastfm.enable_music()
+
+        self._settings.set_boolean("report-music", value)
+        self._report = value
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
