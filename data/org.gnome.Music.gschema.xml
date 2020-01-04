@@ -43,5 +43,10 @@
             <summary>Inhibit system suspend</summary>
             <description>Enables or disables inhibiting system suspend while playing music</description>
         </key>
+        <key type="b" name="lastfm-report">
+            <default>false</default>
+            <summary>Report music history to Last.fm</summary>
+            <description>Enables or disables sending scrobbles and the “currently playing” info to Last.fm.</description>
+        </key>
     </schema>
 </schemalist>

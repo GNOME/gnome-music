@@ -143,12 +143,33 @@ class LastFmScrobbler(GObject.GObject):
         return '<LastFmScrobbler>'
 
     @log
-    def __init__(self):
+    def __init__(self, application):
+        """Intialize LastFm Scrobbler
+
+        :param Application application: Application object
+        """
         super().__init__()
+
+        self._settings = application.props.settings
+        self._report = self._settings.get_boolean("lastfm-report")
 
         self._scrobbled = False
         self._goa_lastfm = GoaLastFM()
         self._soup_session = Soup.Session.new()
+
+    @GObject.Property(
+        type=bool, default=False, flags=GObject.ParamFlags.READABLE)
+    def can_scrobble(self):
+        """Get can scrobble status
+
+        Music is reported to Last.fm if the "lastfm-report" setting is
+        True and if a Goa Last.fm account is configured with music
+        support enabled.
+
+        :returns: True is music is reported to Last.fm
+        :rtype: bool
+        """
+        return not self._goa_lastfm.props.disabled and self._report is True
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -237,7 +258,7 @@ class LastFmScrobbler(GObject.GObject):
         """
         self.scrobbled = True
 
-        if self._goa_lastfm.disabled:
+        if not self.props.can_scrobble:
             return
 
         media = coresong.props.media
@@ -253,7 +274,7 @@ class LastFmScrobbler(GObject.GObject):
         """
         self.scrobbled = False
 
-        if self._goa_lastfm.disabled:
+        if not self.props.can_scrobble:
             return
 
         media = coresong.props.media
