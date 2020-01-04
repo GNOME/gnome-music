@@ -412,7 +412,9 @@ class SearchView(Gtk.Stack):
 
     @log
     def _back_button_clicked(self, widget, data=None):
-        if self.get_visible_child() == self._scrolled_artist_window:
+        if self.get_visible_child() == self._search_results:
+            return
+        elif self.get_visible_child() == self._scrolled_artist_window:
             self.remove(self._scrolled_artist_window)
             self._scrolled_artist_window.destroy()
             self._scrolled_artist_window = None
