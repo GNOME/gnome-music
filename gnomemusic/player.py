@@ -487,14 +487,16 @@ class Player(GObject.GObject):
         self._time_stamp = int(time.time())
         self._gst_player.props.url = coresong.props.url
 
-    @log
     def play(self, coresong=None):
         """Play a song.
 
-        Load a new song or resume playback depending on song_changed
-        value. If song_offset is defined, set a new song and play it.
+        Start playing a song, a specific CoreSong if supplied and
+        available or a song in the playlist decided by the play mode.
 
-        :param bool song_changed: indicate if a new song must be loaded
+        If a song is paused, a subsequenct play call with no CoreSong
+        supplied will continue playing the paused song.
+
+        :param CoreSong coresong: The CoreSong to play or None.
         """
         if self.props.current_song is None:
             coresong = self._playlist.set_song(coresong)
