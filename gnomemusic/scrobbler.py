@@ -147,7 +147,6 @@ class LastFmScrobbler(GObject.GObject):
         super().__init__()
 
         self._scrobbled = False
-        self._authentication = None
         self._goa_lastfm = GoaLastFM()
         self._soup_session = Soup.Session.new()
 
