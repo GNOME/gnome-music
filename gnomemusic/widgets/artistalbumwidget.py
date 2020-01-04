@@ -22,12 +22,13 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import GObject, Gtk
+from gi.repository import GObject, Gtk, Gdk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.corealbum import CoreAlbum
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/ArtistAlbumWidget.ui')
@@ -39,13 +40,14 @@ class ArtistAlbumWidget(Gtk.Box):
     _cover_stack = Gtk.Template.Child()
     _disc_list_box = Gtk.Template.Child()
     _title_year = Gtk.Template.Child()
+    _cover_stack_container = Gtk.Template.Child()
+    _title_year_container = Gtk.Template.Child()
 
     selection_mode = GObject.Property(type=bool, default=False)
 
     __gsignals__ = {
-        "song-activated": (
-            GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )
-        ),
+        "song-activated": (GObject.SignalFlags.RUN_FIRST, None, (SongWidget, )),
+        "album-activated": (GObject.SignalFlags.RUN_FIRST, None, (CoreAlbum, ))
     }
 
     def __repr__(self):
@@ -64,6 +66,8 @@ class ArtistAlbumWidget(Gtk.Box):
 
         self._cover_stack.props.size = Art.Size.MEDIUM
         self._cover_stack.update(corealbum)
+        self._cover_stack_container.connect("button-release-event",
+                                             self._album_activated, corealbum)
 
         allowed = self._selection_mode_allowed
         self._disc_list_box.props.selection_mode_allowed = allowed
@@ -73,6 +77,8 @@ class ArtistAlbumWidget(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
+        self._title_year_container.connect("button-release-event",
+                                            self._album_activated, corealbum)
         self._title_year.props.label = corealbum.props.title
         year = corealbum.props.year
         if year != "----":
@@ -119,6 +125,14 @@ class ArtistAlbumWidget(Gtk.Box):
             return
 
         self.emit("song-activated", song_widget)
+
+    def _album_activated(self, widget, event, corealbum):
+        (_, button) = event.get_button()
+        if (button == Gdk.BUTTON_PRIMARY
+                and not self.props.selection_mode):
+            self.emit("album-activated", corealbum)
+
+        return True
 
     @log
     def select_all(self):

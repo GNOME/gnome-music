@@ -24,12 +24,14 @@
 
 import logging
 from gettext import gettext as _
-from gi.repository import Gdk, Gtk
+from gi.repository import Gdk, Gtk, GObject
 
 from gnomemusic import log
 from gnomemusic.views.baseview import BaseView
 from gnomemusic.widgets.artistalbumswidget import ArtistAlbumsWidget
 from gnomemusic.widgets.artisttile import ArtistTile
+from gnomemusic.widgets.headerbar import HeaderBar
+from gnomemusic.widgets.albumwidget import AlbumWidget
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +64,7 @@ class ArtistsView(BaseView):
         self._artists = {}
 
         self._window = application.props.window
+        self._header_bar = self._window._headerbar
         self._coremodel = application.props.coremodel
         self._model = self._coremodel.props.artists_sort
 
@@ -80,6 +83,13 @@ class ArtistsView(BaseView):
         self._ctrl.props.propagation_phase = Gtk.PropagationPhase.CAPTURE
         self._ctrl.props.button = Gdk.BUTTON_PRIMARY
         self._ctrl.connect("released", self._on_sidebar_clicked)
+
+        self._album_widget = AlbumWidget(application.props.player, self)
+        self._album_widget.bind_property(
+            "selection-mode", self, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL)
+
+        self.add(self._album_widget)
 
         self._loaded_artists = []
         self._loading_id = 0
@@ -163,6 +173,7 @@ class ArtistsView(BaseView):
 
         self._artist_albums = ArtistAlbumsWidget(
             coreartist, self._application, False)
+        self._artist_albums.connect("album-activated", self._on_album_activated)
         artist_albums_frame = Gtk.Frame(
             shadow_type=Gtk.ShadowType.NONE, hexpand=True)
         artist_albums_frame.add(self._artist_albums)
@@ -174,6 +185,25 @@ class ArtistsView(BaseView):
         self._view.set_visible_child(artist_albums_frame)
 
         self._loaded_artists.append(coreartist.props.artist)
+
+    def _on_album_activated(self, widget, corealbum):
+        if self.props.selection_mode:
+            return
+        # Update and display the album widget if not in selection mode
+        self._album_widget.update(corealbum)
+        self._set_album_headerbar(corealbum)
+        self.set_visible_child(self._album_widget)
+
+    def _set_album_headerbar(self, corealbum):
+        # Update the header to show title and artist of the selected album
+        self._headerbar.props.state = HeaderBar.State.CHILD
+        self._headerbar.props.title = corealbum.props.title
+        self._headerbar.props.subtitle = corealbum.props.artist
+
+    def _back_button_clicked(self, widget, data=None):
+        # switch back to the artists view and restore the main header
+        self._headerbar.state = HeaderBar.State.MAIN
+        self.props.visible_child = self._grid
 
     @log
     def _on_sidebar_clicked(self, gesture, n_press, x, y):
