@@ -488,10 +488,9 @@ class Player(GObject.GObject):
     def play(self, coresong=None):
         """Play a song.
 
-        Load a new song or resume playback depending on song_changed
-        value. If song_offset is defined, set a new song and play it.
+        Load a new song or resume playback if coresong is None.
 
-        :param bool song_changed: indicate if a new song must be loaded
+        :param CoreSong coresong: new song to play
         """
         if self.props.current_song is None:
             coresong = self._playlist.set_song(coresong)
