@@ -24,8 +24,6 @@
 
 from gi.repository import Gio, Gtk
 
-from gnomemusic import log
-
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistContextMenu.ui')
 class PlaylistContextMenu(Gtk.Popover):
@@ -34,10 +32,6 @@ class PlaylistContextMenu(Gtk.Popover):
 
     _song_menu = Gtk.Template.Child()
 
-    def __repr__(self):
-        return '<PlaylistContextMenu>'
-
-    @log
     def __init__(self, application, view):
         """Initialize
 
