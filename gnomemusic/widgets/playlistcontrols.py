@@ -155,7 +155,7 @@ class PlaylistControls(Gtk.Grid):
     def playlist(self, new_playlist):
         """Playlist property setter.
 
-        :param Playlistnew_playlist: new playlist
+        :param Playlist new_playlist: new playlist
         """
         if self._count_id > 0:
             self._playlist.disconnect(self._count_id)
