@@ -24,7 +24,7 @@
 
 import gettext
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
@@ -58,7 +58,10 @@ class PlaylistControls(Gtk.Grid):
 
         self._delete_action = self._window.lookup_action("playlist_delete")
         self._delete_action.connect("activate", self._on_delete_action)
-        self._play_action = self._window.lookup_action("playlist_play")
+
+        self._play_action = Gio.SimpleAction.new("playlist_play", None)
+        self._window.add_action(self._play_action)
+
         self._rename_action = self._window.lookup_action("playlist_rename")
         self._rename_action.connect("activate", self._on_rename_action)
 
