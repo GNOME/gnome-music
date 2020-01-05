@@ -56,8 +56,9 @@ class PlaylistControls(Gtk.Grid):
         self._coremodel = application.props.coremodel
         self._window = application.props.window
 
-        self._delete_action = self._window.lookup_action("playlist_delete")
+        self._delete_action = Gio.SimpleAction.new("playlist_delete", None)
         self._delete_action.connect("activate", self._on_delete_action)
+        self._window.add_action(self._delete_action)
 
         self._play_action = Gio.SimpleAction.new("playlist_play", None)
         self._window.add_action(self._play_action)
