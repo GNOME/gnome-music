@@ -78,10 +78,6 @@ class PlaylistsView(BaseView):
             'activate', self._stage_song_for_deletion)
         self._window.add_action(self._remove_song_action)
 
-        self._playlist_rename_action = Gio.SimpleAction.new(
-            'playlist_rename', None)
-        self._window.add_action(self._playlist_rename_action)
-
         self._pl_ctrls = PlaylistControls(application)
         self._grid.insert_row(0)
         self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
