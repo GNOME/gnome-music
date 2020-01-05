@@ -345,9 +345,6 @@ class Player(GObject.GObject):
     """
 
     __gsignals__ = {
-        # FIXME: This signal is no longer used, but is connected to
-        # by MPRIS.
-        'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
