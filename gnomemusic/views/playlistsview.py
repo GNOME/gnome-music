@@ -24,7 +24,7 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gdk, GObject, Gio, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
@@ -62,21 +62,17 @@ class PlaylistsView(BaseView):
         self._window = application.props.window
         self._player = player
 
-        self._song_popover = PlaylistContextMenu(self._view)
+        self._song_popover = PlaylistContextMenu(application, self._view)
 
-        play_song = Gio.SimpleAction.new('play_song', None)
-        play_song.connect('activate', self._play_song)
-        self._window.add_action(play_song)
+        play_song = self._window.lookup_action("play_song")
+        play_song.connect("activate", self._play_song)
 
-        add_song_to_playlist = Gio.SimpleAction.new(
-            'add_song_to_playlist', None)
-        add_song_to_playlist.connect('activate', self._add_song_to_playlist)
-        self._window.add_action(add_song_to_playlist)
+        add_song = self._window.lookup_action("add_song_to_playlist")
+        add_song.connect("activate", self._add_song_to_playlist)
 
-        self._remove_song_action = Gio.SimpleAction.new('remove_song', None)
+        self._remove_song_action = self._window.lookup_action("remove_song")
         self._remove_song_action.connect(
-            'activate', self._stage_song_for_deletion)
-        self._window.add_action(self._remove_song_action)
+            "activate", self._stage_song_for_deletion)
 
         self._pl_ctrls = PlaylistControls(application)
         self._grid.insert_row(0)

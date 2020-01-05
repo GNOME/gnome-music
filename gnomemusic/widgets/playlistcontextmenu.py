@@ -22,7 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
-from gi.repository import Gtk
+from gi.repository import Gio, Gtk
 
 from gnomemusic import log
 
@@ -38,8 +38,24 @@ class PlaylistContextMenu(Gtk.Popover):
         return '<PlaylistContextMenu>'
 
     @log
-    def __init__(self, view):
+    def __init__(self, application, view):
+        """Initialize
+
+        :param GtkApplication application: The Application object
+        :param GtkListBox view: The view the popup is relative to
+        """
         super().__init__()
+
+        window = application.props.window
 
         self.props.relative_to = view
         self.bind_model(self._song_menu, None)
+
+        add_song = Gio.SimpleAction.new("add_song_to_playlist", None)
+        window.add_action(add_song)
+
+        play_song = Gio.SimpleAction.new("play_song", None)
+        window.add_action(play_song)
+
+        remove_song = Gio.SimpleAction.new("remove_song", None)
+        window.add_action(remove_song)
