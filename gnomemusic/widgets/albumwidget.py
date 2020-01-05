@@ -23,9 +23,9 @@
 # delete this exception statement from your version.
 
 from gettext import ngettext
+
 from gi.repository import GObject, Grl, Gtk
 
-from gnomemusic import log
 from gnomemusic.albumartcache import Art
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
@@ -56,10 +56,6 @@ class AlbumWidget(Gtk.EventBox):
 
     _duration = 0
 
-    def __repr__(self):
-        return '<AlbumWidget>'
-
-    @log
     def __init__(self, player, parent_view):
         """Initialize the AlbumWidget.
 
@@ -76,7 +72,6 @@ class AlbumWidget(Gtk.EventBox):
         self._parent_view = parent_view
         self._player = player
 
-    @log
     def update(self, corealbum):
         """Update the album widget.
 
@@ -149,7 +144,6 @@ class AlbumWidget(Gtk.EventBox):
                 discbox = row.get_child()
                 discbox.props.show_disc_label = True
 
-    @log
     def _set_composer_label(self, corealbum):
         composer = corealbum.props.composer
         show = False
@@ -168,7 +162,6 @@ class AlbumWidget(Gtk.EventBox):
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
 
-    @log
     def _on_selection_changed(self, klass, value):
         n_items = 0
         for song in self._model[0]:
@@ -177,7 +170,6 @@ class AlbumWidget(Gtk.EventBox):
 
         self.props.selected_items_count = n_items
 
-    @log
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
             song_widget.props.selected = not song_widget.props.selected
@@ -196,11 +188,9 @@ class AlbumWidget(Gtk.EventBox):
 
         return True
 
-    @log
     def select_all(self):
         self._listbox.select_all()
 
-    @log
     def select_none(self):
         self._listbox.select_none()
 
