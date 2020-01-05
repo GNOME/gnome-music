@@ -63,8 +63,9 @@ class PlaylistControls(Gtk.Grid):
         self._play_action = Gio.SimpleAction.new("playlist_play", None)
         self._window.add_action(self._play_action)
 
-        self._rename_action = self._window.lookup_action("playlist_rename")
+        self._rename_action = Gio.SimpleAction.new("playlist_rename", None)
         self._rename_action.connect("activate", self._on_rename_action)
+        self._window.add_action(self._rename_action)
 
     def _on_rename_action(self, menuitem, data=None):
         self._enable_rename_playlist(self.props.playlist)
