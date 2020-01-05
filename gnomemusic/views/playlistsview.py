@@ -78,10 +78,6 @@ class PlaylistsView(BaseView):
             'activate', self._stage_song_for_deletion)
         self._window.add_action(self._remove_song_action)
 
-        playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
-        playlist_play_action.connect("activate", self._on_play_playlist)
-        self._window.add_action(playlist_play_action)
-
         self._playlist_delete_action = Gio.SimpleAction.new(
             'playlist_delete', None)
         self._window.add_action(self._playlist_delete_action)
@@ -93,6 +89,9 @@ class PlaylistsView(BaseView):
         self._pl_ctrls = PlaylistControls(application)
         self._grid.insert_row(0)
         self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
+
+        playlist_play_action = self._window.lookup_action("playlist_play")
+        playlist_play_action.connect("activate", self._on_play_playlist)
 
         sidebar_container.set_size_request(220, -1)
         sidebar_container.get_style_context().add_class('sidebar')
