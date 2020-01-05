@@ -64,7 +64,7 @@ class AlbumWidget(Gtk.EventBox):
 
         self._corealbum = corealbum
 
-        self._cover_stack.update(self._corealbum)
+        self._cover_stack.props.corealbum = corealbum
 
         album_name = self._corealbum.props.title
         artist = self._corealbum.props.artist
