@@ -114,7 +114,7 @@ class ArtistsView(BaseView):
                         or self._sidebar.get_row_at_index(position - 1))
             if row_next:
                 self._sidebar.select_row(row_next)
-                row_next.emit("activate")
+                self._on_artist_activated(self._sidebar, row_next)
 
         removed_frame = self._view.get_child_by_name(removed_artist)
         self._view.remove(removed_frame)
@@ -126,7 +126,7 @@ class ArtistsView(BaseView):
             return
 
         self._sidebar.select_row(first_row)
-        first_row.emit("activate")
+        self._on_artist_activated(self._sidebar, first_row)
 
     @log
     def _setup_view(self):
@@ -141,7 +141,6 @@ class ArtistsView(BaseView):
     @log
     def _on_artist_activated(self, sidebar, row, data=None):
         """Initializes new artist album widgets"""
-        artist_tile = row.get_child()
         # On application start the first row of ArtistView is activated
         # to show an intial artist. When this happens while any of the
         # views are in selection mode, this artist will be incorrectly
@@ -150,11 +149,11 @@ class ArtistsView(BaseView):
         # ArtistsView, to circumvent this issue.
         if (self.props.selection_mode
                 and self._window.props.active_view is self):
-            artist_tile.props.selected = not artist_tile.props.selected
+            row.props.selected = not row.props.selected
             return
 
         # Prepare a new artist_albums_widget here
-        coreartist = artist_tile.props.coreartist
+        coreartist = row.props.coreartist
         if coreartist.props.artist in self._loaded_artists:
             scroll_vadjustment = self._view_container.props.vadjustment
             scroll_vadjustment.props.value = 0.
@@ -201,8 +200,7 @@ class ArtistsView(BaseView):
     def _toggle_all_selection(self, selected):
 
         def toggle_selection(child):
-            tile = child.get_child()
-            tile.props.selected = selected
+            child.props.selected = selected
 
         self._sidebar.foreach(toggle_selection)
 

@@ -24,15 +24,15 @@
 
 from gettext import gettext as _
 
-from gi.repository import Gdk, GObject, Gio, Gtk
+from gi.repository import Gdk, GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.views.baseview import BaseView
-from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlistcontextmenu import PlaylistContextMenu
 from gnomemusic.widgets.playlistcontrols import PlaylistControls
 from gnomemusic.widgets.playlistdialog import PlaylistDialog
+from gnomemusic.widgets.notificationspopup import PlaylistNotification
 from gnomemusic.widgets.playlisttile import PlaylistTile
 from gnomemusic.widgets.songwidget import SongWidget
 
@@ -62,43 +62,24 @@ class PlaylistsView(BaseView):
         self._window = application.props.window
         self._player = player
 
-        self._pl_ctrls = PlaylistControls()
+        self._song_popover = PlaylistContextMenu(application, self._view)
 
-        self._song_popover = PlaylistContextMenu(self._view)
+        play_song = self._window.lookup_action("play_song")
+        play_song.connect("activate", self._play_song)
 
-        play_song = Gio.SimpleAction.new('play_song', None)
-        play_song.connect('activate', self._play_song)
-        self._window.add_action(play_song)
+        add_song = self._window.lookup_action("add_song_to_playlist")
+        add_song.connect("activate", self._add_song_to_playlist)
 
-        add_song_to_playlist = Gio.SimpleAction.new(
-            'add_song_to_playlist', None)
-        add_song_to_playlist.connect('activate', self._add_song_to_playlist)
-        self._window.add_action(add_song_to_playlist)
-
-        self._remove_song_action = Gio.SimpleAction.new('remove_song', None)
+        self._remove_song_action = self._window.lookup_action("remove_song")
         self._remove_song_action.connect(
-            'activate', self._stage_song_for_deletion)
-        self._window.add_action(self._remove_song_action)
+            "activate", self._stage_song_for_deletion)
 
-        playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
-        playlist_play_action.connect(
-            'activate', self._on_play_playlist)
-        self._window.add_action(playlist_play_action)
-
-        self._playlist_delete_action = Gio.SimpleAction.new(
-            'playlist_delete', None)
-        self._playlist_delete_action.connect(
-            'activate', self._stage_playlist_for_deletion)
-        self._window.add_action(self._playlist_delete_action)
-
-        self._playlist_rename_action = Gio.SimpleAction.new(
-            'playlist_rename', None)
-        self._playlist_rename_action.connect(
-            'activate', self._stage_playlist_for_renaming)
-        self._window.add_action(self._playlist_rename_action)
-
+        self._pl_ctrls = PlaylistControls(application)
         self._grid.insert_row(0)
         self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
+
+        playlist_play_action = self._window.lookup_action("playlist_play")
+        playlist_play_action.connect("activate", self._on_play_playlist)
 
         sidebar_container.set_size_request(220, -1)
         sidebar_container.get_style_context().add_class('sidebar')
@@ -151,9 +132,21 @@ class PlaylistsView(BaseView):
 
     def _on_playlists_loaded(self, klass):
         self._coremodel.disconnect(self._loaded_id)
+        self._model.connect("items-changed", self._on_playlists_model_changed)
+
         first_row = self._sidebar.get_row_at_index(0)
         self._sidebar.select_row(first_row)
-        first_row.emit("activate")
+        self._on_playlist_activated(self._sidebar, first_row)
+
+    def _on_playlists_model_changed(self, model, position, removed, added):
+        if removed == 0:
+            return
+
+        row_next = (self._sidebar.get_row_at_index(position)
+                    or self._sidebar.get_row_at_index(position - 1))
+        if row_next:
+            self._sidebar.select_row(row_next)
+            self._on_playlist_activated(self._sidebar, row_next)
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
@@ -210,16 +203,11 @@ class PlaylistsView(BaseView):
         """Update view with content from selected playlist"""
         playlist = row.props.playlist
 
-        if self.rename_active:
-            self._pl_ctrls.disable_rename_playlist()
-
         self._view.bind_model(
             playlist.props.model, self._create_song_widget, playlist)
 
         self._pl_ctrls.props.playlist = playlist
 
-        self._playlist_rename_action.set_enabled(not playlist.props.is_smart)
-        self._playlist_delete_action.set_enabled(not playlist.props.is_smart)
         self._remove_song_action.set_enabled(not playlist.props.is_smart)
 
     def _on_active_playlist_changed(self, klass, val):
@@ -255,7 +243,7 @@ class PlaylistsView(BaseView):
             return
 
         self._sidebar.select_row(row)
-        row.emit('activate')
+        self._on_playlist_activated(self._sidebar, row)
         if playlist.props.model.get_n_items() > 0:
             self._song_activated(None)
         else:
@@ -303,34 +291,6 @@ class PlaylistsView(BaseView):
     def rename_active(self):
         """Indicate if renaming dialog is active"""
         return self._pl_ctrls.props.rename_active
-
-    @log
-    def _stage_playlist_for_renaming(self, menuitem, data=None):
-        selection = self._sidebar.get_selected_row()
-        pl_torename = selection.props.playlist
-        self._pl_ctrls.enable_rename_playlist(pl_torename)
-
-    @log
-    def _on_playlist_renamed(self, arguments, new_name):
-        selection = self._sidebar.get_selected_row()
-        pl_torename = selection.props.playlist
-        pl_torename.rename(new_name)
-
-    @log
-    def _stage_playlist_for_deletion(self, menutime, data=None):
-        selected_row = self._sidebar.get_selected_row()
-        selected_playlist = selected_row.props.playlist
-
-        notification = PlaylistNotification(  # noqa: F841
-            self._window.notifications_popup, self._coremodel,
-            PlaylistNotification.Type.PLAYLIST, selected_playlist)
-
-        # FIXME: Should Check that the playlist is not playing
-        # playlist_id = selection.playlist.props.pl_id
-        # if self._player.playing_playlist(
-        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
-        #     self._player.stop()
-        #     self._window.set_player_visible(False)
 
     def _on_song_widget_moved(self, target, source_position):
         target_position = target.get_parent().get_index()

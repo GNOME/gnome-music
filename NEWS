@@ -1,3 +1,30 @@
+Overview of changes in 3.35.3
+=============================
+
+* Improve Tracker content tracking
+* Update appdate screenshots
+
+Bugs fixed:
+ F1 key is not opening help page (#353)
+ Play on empty playlist crashes Music (#354,#355)
+ Crash when pressing Alt+Left in SearchView (#357)
+ Update the appdata screenshots (#327)
+
+Thanks to our contributors this release:
+ Ishaan Shah
+ Jean Felder
+ Marinus Schraal
+
+Added translations:
+ Basque
+ Indonesian
+
+Updated translations:
+ Chinese (Taiwan)
+ Ukranian
+ Brazilian Portuguese
+ Galician
+
 Overview of changes in 3.35.2
 =============================
 

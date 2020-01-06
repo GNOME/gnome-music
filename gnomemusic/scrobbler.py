@@ -33,6 +33,7 @@ from gi.repository import GLib, Goa, GObject, Soup
 from gnomemusic import log
 import gnomemusic.utils as utils
 
+
 logger = logging.getLogger(__name__)
 
 
@@ -149,7 +150,7 @@ class LastFmScrobbler(GObject.GObject):
         self._authentication = None
         self._goa_lastfm = GoaLastFM()
         self._soup_session = Soup.Session.new()
-        self._song_list = []
+        self._scrobble_cache = []
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -170,6 +171,7 @@ class LastFmScrobbler(GObject.GObject):
                 "Error: Unable to perform last.fm api call", request_type_key)
             return
         secret = self._goa_lastfm.secret
+
         artist = utils.get_artist_name(media)
         title = utils.get_media_title(media)
 
@@ -183,26 +185,25 @@ class LastFmScrobbler(GObject.GObject):
         album = media.get_album()
 
         request_dict = {}
-        if request_type_key == "scrobble":
-            if time_stamp is not None:
-                self._song_list.append({
-                    "artist": artist,
-                    "track": title,
-                    "album": album,
-                    "timestamp": time_stamp
+        if (request_type_key == "scrobble"
+                and time_stamp is not None):
+            self._scrobble_cache.append({
+                "artist": artist,
+                "track": title,
+                "album": album,
+                "timestamp": time_stamp
+            })
+
+            for index, data in enumerate(self._scrobble_cache):
+                request_dict.update({
+                    "artist[{}]".format(index): data['artist'],
+                    "track[{}]".format(index): data['track'],
+                    "timestamp[{}]".format(index): str(data['timestamp']),
                 })
-                index = 0
-                for data in self._song_list:
+                if album:
                     request_dict.update({
-                        "artist[{}]".format(index): data['artist'],
-                        "track[{}]".format(index): data['track'],
-                        "timestamp[{}]".format(index): str(data['timestamp']),
+                        "album[{}]".format(index): data['album']
                     })
-                    if album:
-                        request_dict.update({
-                            "album[{}]".format(index): data['album']
-                        })
-                    index = index + 1
         else:
             if album:
                 request_dict.update({
@@ -249,9 +250,9 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
-        elif status_code == 200:
-            if request_type_key == "scrobble":
-                del self._song_list[0:len(self._song_list)]
+        elif (status_code == 200
+                and request_type_key == "scrobble"):
+            self._scrobble_cache.clear()
 
     @log
     def scrobble(self, coresong, time_stamp):
