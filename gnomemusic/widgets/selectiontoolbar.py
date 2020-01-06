@@ -33,9 +33,11 @@ class SelectionToolbar(Gtk.ActionBar):
     __gtype_name__ = 'SelectionToolbar'
 
     _add_to_playlist_button = Gtk.Template.Child()
+    _edit_details_button = Gtk.Template.Child()
 
     __gsignals__ = {
-        'add-to-playlist': (GObject.SignalFlags.RUN_FIRST, None, ())
+        'add-to-playlist': (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "edit-details": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
     selected_items_count = GObject.Property(type=int, default=0, minimum=0)
@@ -47,6 +49,8 @@ class SelectionToolbar(Gtk.ActionBar):
     def __init__(self):
         super().__init__()
 
+        self._stack = None
+
         self.connect(
             'notify::selected-items-count', self._on_item_selection_changed)
 
@@ -57,9 +61,36 @@ class SelectionToolbar(Gtk.ActionBar):
     def _on_add_to_playlist_button_clicked(self, widget):
         self.emit('add-to-playlist')
 
+    @Gtk.Template.Callback()
+    def _on_edit_tags_button_clicked(self, widget):
+        self.emit("edit-details")
+
     @log
     def _on_item_selection_changed(self, widget, data):
-        if self.props.selected_items_count > 0:
-            self._add_to_playlist_button.props.sensitive = True
-        else:
-            self._add_to_playlist_button.props.sensitive = False
+        selection_size = self.props.selected_items_count
+
+        self._add_to_playlist_button.props.sensitive = (selection_size > 0)
+        self._edit_details_button.props.sensitive = (selection_size == 1)
+
+    # FIXME: This is a workaround for not being able to pass the stack
+    # object via init when using Gtk.Builder.
+    @GObject.Property(type=Gtk.Stack, default=None)
+    def stack(self):
+        """The main GtkStack of the app
+
+        :return: main stack object
+        :rtype: GtkStack
+        """
+        return self._stack
+
+    @stack.setter
+    def stack(self, stack):
+        """Set the GtkStack object used
+
+        :param GtkStack stack: The GtkStack to use
+        """
+        if (stack is None
+                or (self._stack is not None
+                    and self._stack != stack)):
+            return
+        self._stack = stack

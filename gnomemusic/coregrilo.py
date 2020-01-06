@@ -27,6 +27,9 @@ gi.require_version('Grl', '0.3')
 from gi.repository import Grl, GLib, GObject
 
 # from gnomemusic.grilowrappers.grldleynawrapper import GrlDLeynaWrapper
+from gnomemusic.grilowrappers.grlacoustidwrapper import GrlAcoustIDWrapper
+from gnomemusic.grilowrappers.grlchromaprintwrapper import (
+    GrlChromaprintWrapper)
 from gnomemusic.grilowrappers.grlsearchwrapper import GrlSearchWrapper
 from gnomemusic.grilowrappers.grltrackerwrapper import GrlTrackerWrapper
 from gnomemusic.trackerwrapper import TrackerState, TrackerWrapper
@@ -47,6 +50,7 @@ class CoreGrilo(GObject.GObject):
                          "grl-lastfm-cover:2,"
                          "grl-theaudiodb-cover:1")
 
+    _acoustid_api_key = "Nb8SVVtH1C"
     _theaudiodb_api_key = "195003"
 
     cover_sources = GObject.Property(type=bool, default=False)
@@ -66,9 +70,11 @@ class CoreGrilo(GObject.GObject):
         self._application = application
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
-        self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
+
+        self._mb_wrappers = {}
+        self._search_wrappers = {}
         self._wrappers = {}
 
         self._tracker_wrapper = TrackerWrapper()
@@ -86,6 +92,10 @@ class CoreGrilo(GObject.GObject):
         self._registry = Grl.Registry.get_default()
         config = Grl.Config.new("grl-lua-factory", "grl-theaudiodb-cover")
         config.set_api_key(self._theaudiodb_api_key)
+        self._registry.add_config(config)
+
+        config = Grl.Config.new("grl-lua-factory", "grl-acoustid")
+        config.set_api_key(self._acoustid_api_key)
         self._registry.add_config(config)
 
         self._registry.connect('source-added', self._on_source_added)
@@ -151,6 +161,12 @@ class CoreGrilo(GObject.GObject):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._coremodel, self._coreselection, self)
             print("search source", source)
+        elif source.get_id() == "grl-acoustid":
+            self._mb_wrappers[source.props.source_id] = GrlAcoustIDWrapper(
+                source, self)
+        elif source.get_id() == "grl-chromaprint":
+            self._mb_wrappers[source.props.source_id] = GrlChromaprintWrapper(
+                source, self)
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
@@ -158,6 +174,8 @@ class CoreGrilo(GObject.GObject):
 
         # FIXME: Only removes search sources atm.
         self._search_wrappers.pop(source.props.source_id, None)
+
+        self._mb_wrappers.pop(source.props.source_id, None)
 
     def get_artist_albums(self, artist, filter_model):
         for wrapper in self._wrappers.values():
@@ -243,3 +261,28 @@ class CoreGrilo(GObject.GObject):
             if wrapper.source.props.source_id == "grl-tracker-source":
                 wrapper.create_playlist(playlist_title, callback)
                 break
+
+    def get_chromaprint(self, coresong, callback):
+        """Retrieve the Chromaprint for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to chromaprint
+        :param callback: Metadata retrieval callback
+        """
+        if len(self._mb_wrappers) != 2:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-chromaprint"].get_chromaprint(
+            coresong, callback)
+
+    def get_tags(self, coresong, callback):
+        """Retrieve Musicbrainz tags for the given CoreSong
+
+        :param CoreSong coresong: The CoreSong to retrieve tags for
+        :param callback: Metadata retrieval callback
+        """
+        if len(self._mb_wrappers) != 2:
+            callback(None)
+            return
+
+        self._mb_wrappers["grl-acoustid"].get_tags(coresong, callback)
