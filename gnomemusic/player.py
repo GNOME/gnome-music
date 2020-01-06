@@ -235,6 +235,9 @@ class PlayerPlaylist(GObject.GObject):
         :returns: The selected song
         :rtype: CoreSong
         """
+        if self._model.get_n_items() == 0:
+            return None
+
         if song is None:
             if self.props.repeat_mode == RepeatMode.SHUFFLE:
                 position = randrange(0, self._model.get_n_items())
@@ -342,9 +345,6 @@ class Player(GObject.GObject):
     """
 
     __gsignals__ = {
-        # FIXME: This signal is no longer used, but is connected to
-        # by MPRIS.
-        'playlist-changed': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'seek-finished': (GObject.SignalFlags.RUN_FIRST, None, ()),
         'song-changed': (GObject.SignalFlags.RUN_FIRST, None, ())
     }
@@ -484,14 +484,16 @@ class Player(GObject.GObject):
         self._time_stamp = int(time.time())
         self._gst_player.props.url = coresong.props.url
 
-    @log
     def play(self, coresong=None):
         """Play a song.
 
-        Load a new song or resume playback depending on song_changed
-        value. If song_offset is defined, set a new song and play it.
+        Start playing a song, a specific CoreSong if supplied and
+        available or a song in the playlist decided by the play mode.
 
-        :param bool song_changed: indicate if a new song must be loaded
+        If a song is paused, a subsequent play call without a CoreSong
+        supplied will continue playing the paused song.
+
+        :param CoreSong coresong: The CoreSong to play or None.
         """
         if self.props.current_song is None:
             coresong = self._playlist.set_song(coresong)
@@ -505,7 +507,8 @@ class Player(GObject.GObject):
         if coresong is not None:
             self._load(coresong)
 
-        self._gst_player.props.state = Playback.PLAYING
+        if self.props.current_song is not None:
+            self._gst_player.props.state = Playback.PLAYING
 
     @log
     def pause(self):

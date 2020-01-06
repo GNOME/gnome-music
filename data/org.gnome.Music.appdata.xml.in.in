@@ -28,6 +28,21 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.35.3" date="2020-01-05" type="development">
+      <description>
+        <p>
+          This is an unstable release in the 3.33 development series,
+          with the following improvements:
+        </p>
+        <ul>
+          <li>Improve Tracker content tracking</li>
+          <li>Update screenshots</li>
+          <li>Fix a few crashers</li>
+          <li>Lots of general cleanups</li>
+        </ul>
+        <p>This release also updates translations.</p>
+      </description>
+    </release>
     <release version="3.33.2" date="2019-05-20" type="development">
       <description>
         <p>
@@ -39,13 +54,13 @@
           <li>Improve display of information for songs with no tags</li>
           <li>Select a random song at launch when playing a playlist in shuffle mode</li>
           <li>AppData tags update</li>
-	  <li>Fix crash with mouse 'back' button</li>
+          <li>Fix crash with mouse 'back' button</li>
           <li>MPRIS misc cleanups</li>
           <li>Lots of general cleanups</li>
         </ul>
         <p>This release also updates translations.</p>
-    </description>
-  </release>
+      </description>
+    </release>
     <release version="3.32.0" date="2019-03-13" />
   </releases>
   <project_group>GNOME</project_group>

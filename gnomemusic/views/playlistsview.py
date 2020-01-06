@@ -62,8 +62,6 @@ class PlaylistsView(BaseView):
         self._window = application.props.window
         self._player = player
 
-        self._pl_ctrls = PlaylistControls()
-
         self._song_popover = PlaylistContextMenu(self._view)
 
         play_song = Gio.SimpleAction.new('play_song', None)
@@ -81,8 +79,7 @@ class PlaylistsView(BaseView):
         self._window.add_action(self._remove_song_action)
 
         playlist_play_action = Gio.SimpleAction.new('playlist_play', None)
-        playlist_play_action.connect(
-            'activate', self._on_play_playlist)
+        playlist_play_action.connect("activate", self._on_play_playlist)
         self._window.add_action(playlist_play_action)
 
         self._playlist_delete_action = Gio.SimpleAction.new(
@@ -97,6 +94,7 @@ class PlaylistsView(BaseView):
             'activate', self._stage_playlist_for_renaming)
         self._window.add_action(self._playlist_rename_action)
 
+        self._pl_ctrls = PlaylistControls(application)
         self._grid.insert_row(0)
         self._grid.attach(self._pl_ctrls, 1, 0, 1, 1)
 
