@@ -3,23 +3,23 @@
 # This file is distributed under the same license as the gnome-music package.
 # Dimitris Spingos <dmtrs32@gmail.com>, 2013.
 # Dimitris Spingos (Δημήτρης Σπίγγος) <dmtrs32@gmail.com>, 2013, 2014, 2015.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013, 2015, 2018.
 # Dimitris Maroulidis <dmaroulidis@dimitrismaroulidis.com>, 2019
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2013-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-music master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnome-music/issues\n"
-"POT-Creation-Date: 2019-08-06 17:01+0000\n"
-"PO-Revision-Date: 2019-08-29 13:47+0300\n"
-"Last-Translator: Dimitris Maroulidis <dmaroulidis@dimitrismaroulidis.com>\n"
-"Language-Team: Ελληνικά <>\n"
+"POT-Creation-Date: 2019-11-09 21:05+0000\n"
+"PO-Revision-Date: 2020-01-07 01:04+0200\n"
+"Last-Translator: Efstathios Iosifidis <iosifidis@opensuse.org>\n"
+"Language-Team: Greek, Modern (1453-) <gnome-el-list@gnome.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.4\n"
 "X-Project-Style: gnome\n"
 
 #: data/org.gnome.Music.appdata.xml.in.in:6
@@ -209,7 +209,7 @@ msgstr "Κυκλοφόρησε"
 msgid "Running Length"
 msgstr "Εκτελούμενη διάρκεια"
 
-#: data/ui/AlbumWidget.ui:166 gnomemusic/widgets/searchbar.py:70
+#: data/ui/AlbumWidget.ui:166
 msgid "Composer"
 msgstr "Συνθέτης"
 
@@ -225,24 +225,24 @@ msgstr "_Βοήθεια"
 msgid "_About Music"
 msgstr "_Περί του Μουσική"
 
-#: data/ui/HeaderBar.ui:13
+#: data/ui/HeaderBar.ui:16
 msgid "Menu"
 msgstr "Μενού"
 
-#: data/ui/HeaderBar.ui:36 data/ui/SearchHeaderBar.ui:13
+#: data/ui/HeaderBar.ui:39 data/ui/SearchHeaderBar.ui:16
 msgid "Select"
 msgstr "Επιλογή"
 
-#: data/ui/HeaderBar.ui:58 data/ui/PlaylistDialog.ui:244
-#: data/ui/SearchHeaderBar.ui:35
+#: data/ui/HeaderBar.ui:61 data/ui/PlaylistDialog.ui:244
+#: data/ui/SearchHeaderBar.ui:38
 msgid "_Cancel"
 msgstr "Ακύ_ρωση"
 
-#: data/ui/HeaderBar.ui:77 data/ui/SearchHeaderBar.ui:54
+#: data/ui/HeaderBar.ui:80 data/ui/SearchHeaderBar.ui:57
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: data/ui/HeaderBar.ui:100
+#: data/ui/HeaderBar.ui:103
 msgid "Back"
 msgstr "Πίσω"
 
@@ -352,7 +352,7 @@ msgstr "Τυχαία σειρά/Ανενεργή επανάληψη"
 msgid "Previous"
 msgstr "Προηγούμενο"
 
-#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:153
+#: data/ui/PlayerToolbar.ui:86 gnomemusic/widgets/playertoolbar.py:159
 msgid "Play"
 msgstr "Αναπαραγωγή"
 
@@ -421,15 +421,15 @@ msgstr "_Προσθήκη"
 msgid "Artists"
 msgstr "Καλλιτέχνες"
 
-#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:104
+#: data/ui/SearchView.ui:54 data/ui/SearchView.ui:107
 msgid "View All"
 msgstr "Προβολή όλων"
 
-#: data/ui/SearchView.ui:94 gnomemusic/views/albumsview.py:61
+#: data/ui/SearchView.ui:97 gnomemusic/views/albumsview.py:63
 msgid "Albums"
 msgstr "Δίσκοι"
 
-#: data/ui/SearchView.ui:144 gnomemusic/views/songsview.py:57
+#: data/ui/SearchView.ui:150 gnomemusic/views/songsview.py:57
 msgid "Songs"
 msgstr "Τραγούδια"
 
@@ -450,27 +450,27 @@ msgid "_Add to Playlist"
 msgstr "Προ_σθήκη στη λίστα αναπαραγωγής"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:673
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:727
 msgid "Most Played"
 msgstr "Το περισσότερο παιγμένο"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:707
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:764
 msgid "Never Played"
 msgstr "Δεν παίχτηκε ποτέ"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:740
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:800
 msgid "Recently Played"
 msgstr "Παίχτηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:784
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:846
 msgid "Recently Added"
 msgstr "Προστέθηκε πρόσφατα"
 
 #. TRANSLATORS: this is a playlist name
-#: gnomemusic/grilowrappers/grltrackerplaylists.py:827
+#: gnomemusic/grilowrappers/grltrackerplaylists.py:891
 msgid "Favorite Songs"
 msgstr "Αγαπημένα τραγούδια"
 
@@ -512,59 +512,64 @@ msgstr "Άγνωστο άλμπουμ"
 msgid "Unknown Artist"
 msgstr "Άγνωστος καλλιτέχνης"
 
-#: gnomemusic/views/emptyview.py:79
+#: gnomemusic/views/emptyview.py:73
+msgid "Your XDG Music directory is not set."
+msgstr "Ο κατάλογός Μουσική XDG δεν έχει ρυθμιστεί."
+
+#: gnomemusic/views/emptyview.py:80
 msgid "Music folder"
 msgstr "Φάκελος μουσικής"
 
 #. TRANSLATORS: This is a label to display a link to open user's music
 #. folder. {} will be replaced with the translated text 'Music folder'
-#: gnomemusic/views/emptyview.py:83
+#: gnomemusic/views/emptyview.py:84
 msgid "The contents of your {} will appear here."
 msgstr "Τα περιεχόμενα του {} θα εμφανιστούν εδώ."
 
-#: gnomemusic/views/emptyview.py:119
+#: gnomemusic/views/emptyview.py:120
 msgid "Hey DJ"
 msgstr "Γεια σου DJ"
 
-#: gnomemusic/views/emptyview.py:129 gnomemusic/views/emptyview.py:135
+#: gnomemusic/views/emptyview.py:130 gnomemusic/views/emptyview.py:136
 msgid "No music found"
 msgstr "Δεν βρέθηκε μουσική"
 
-#: gnomemusic/views/emptyview.py:137
+#: gnomemusic/views/emptyview.py:138
 msgid "Try a different search"
 msgstr "Δοκιμάστε μια διαφορετική αναζήτηση"
 
-#: gnomemusic/views/emptyview.py:143
+#: gnomemusic/views/emptyview.py:144
 msgid "GNOME Music could not connect to Tracker"
 msgstr "Το GNOME Music δεν μπόρεσε να συνδεθεί με το Tracker"
 
-#: gnomemusic/views/emptyview.py:146
+#: gnomemusic/views/emptyview.py:147
 msgid "Your music files cannot be indexed without Tracker running"
 msgstr ""
 "Δεν είναι δυνατή η ευρετηρίαση των αρχείων μουσικής σας χωρίς την εκτέλεση "
 "του Tracker"
 
-#: gnomemusic/views/emptyview.py:154
+#: gnomemusic/views/emptyview.py:155
 msgid "Your system Tracker version seems outdated"
 msgstr "Η έκδοση Tracker του συστήματος είναι παρωχημένη"
 
-#: gnomemusic/views/emptyview.py:157
-msgid "Music needs Tracker version 2.2.0 or higher"
-msgstr "Η Μουσική χρειάζεται έκδοση Tracker 2.2.0 ή μεγαλύτερη"
+#: gnomemusic/views/emptyview.py:158
+#| msgid "Music needs Tracker version 2.2.0 or higher"
+msgid "Music needs Tracker version 2.3.0 or higher"
+msgstr "Η Μουσική χρειάζεται έκδοση Tracker 2.3.0 ή μεγαλύτερη"
 
 #: gnomemusic/views/playlistsview.py:58
 msgid "Playlists"
 msgstr "Λίστες αναπαραγωγής"
 
-#: gnomemusic/views/searchview.py:363
+#: gnomemusic/views/searchview.py:366
 msgid "Artists Results"
 msgstr "Αποτελέσματα Καλλιτεχνών"
 
-#: gnomemusic/views/searchview.py:377
+#: gnomemusic/views/searchview.py:380
 msgid "Albums Results"
 msgstr "Αποτελέσματα Δίσκων"
 
-#: gnomemusic/widgets/albumwidget.py:147
+#: gnomemusic/widgets/albumwidget.py:145
 msgid "{} minute"
 msgid_plural "{} minutes"
 msgstr[0] "{} λεπτό"
@@ -596,7 +601,7 @@ msgstr "Αφαιρέθηκε η λίστα αναπαραγωγής {}"
 msgid "{} removed from {}"
 msgstr "{} αφαιρέθηκε από {}"
 
-#: gnomemusic/widgets/playertoolbar.py:150
+#: gnomemusic/widgets/playertoolbar.py:156
 msgid "Pause"
 msgstr "Παύση"
 
@@ -606,33 +611,26 @@ msgid_plural "{} Songs"
 msgstr[0] "{} τραγούδι"
 msgstr[1] "{} τραγούδια"
 
-#: gnomemusic/widgets/searchbar.py:67 gnomemusic/widgets/searchbar.py:116
-msgid "All"
-msgstr "Όλα"
+#~ msgid "All"
+#~ msgstr "Όλα"
 
-#: gnomemusic/widgets/searchbar.py:68
-msgid "Artist"
-msgstr "Καλλιτέχνης"
+#~ msgid "Artist"
+#~ msgstr "Καλλιτέχνης"
 
-#: gnomemusic/widgets/searchbar.py:69
-msgid "Album"
-msgstr "Δίσκος"
+#~ msgid "Album"
+#~ msgstr "Δίσκος"
 
-#: gnomemusic/widgets/searchbar.py:71
-msgid "Track Title"
-msgstr "Τίτλος κομματιού"
+#~ msgid "Track Title"
+#~ msgstr "Τίτλος κομματιού"
 
-#: gnomemusic/widgets/searchbar.py:117
-msgid "Local"
-msgstr "Τοπικά"
+#~ msgid "Local"
+#~ msgstr "Τοπικά"
 
-#: gnomemusic/widgets/searchbar.py:286
-msgid "Sources"
-msgstr "Πηγές"
+#~ msgid "Sources"
+#~ msgstr "Πηγές"
 
-#: gnomemusic/widgets/searchbar.py:297
-msgid "Match"
-msgstr "Ταίριασμα"
+#~ msgid "Match"
+#~ msgstr "Ταίριασμα"
 
 #~ msgid "@icon@"
 #~ msgstr "@icon@"
