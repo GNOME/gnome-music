@@ -81,7 +81,7 @@ class PlaylistControls(Gtk.Grid):
         if not new_name:
             return
 
-        self.props.playlist.rename(new_name)
+        self.props.playlist.props.title = new_name
         self.disable_rename_playlist()
 
     @log
