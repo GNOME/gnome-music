@@ -321,12 +321,6 @@ class PlaylistsView(BaseView):
         self._pl_ctrls.enable_rename_playlist(pl_torename)
 
     @log
-    def _on_playlist_renamed(self, arguments, new_name):
-        selection = self._sidebar.get_selected_row()
-        pl_torename = selection.props.playlist
-        pl_torename.rename(new_name)
-
-    @log
     def _stage_playlist_for_deletion(self, menutime, data=None):
         selected_row = self._sidebar.get_selected_row()
         selected_playlist = selected_row.props.playlist
