@@ -81,8 +81,11 @@ class NotificationsPopup(Gtk.Revealer):
         Popup is displayed if a loading is active or if a playlist
         deletion is in progress.
         """
-        invisible = ((self._loading_notification._counter == 0)
-                     and (len(self._grid.get_children()) <= 2))
+        loading_finished = self._loading_notification._counter == 0
+        no_other_notif = (len(self._grid.get_children()) == 1
+                          or (len(self._grid.get_children()) == 2
+                              and notification != self._loading_notification))
+        invisible = loading_finished and no_other_notif
 
         if not invisible:
             if remove:
