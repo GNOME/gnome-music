@@ -108,8 +108,13 @@ class PlaylistsView(BaseView):
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
-        self._loaded_id = self._coremodel.connect(
-            "playlists-loaded", self._on_playlists_loaded)
+        if self._coremodel.props.playlists_available is True:
+            self._loaded_id = None
+            self._on_playlists_available()
+        else:
+            self._loaded_id = self._coremodel.connect(
+                "notify::playlists-available", self._on_playlists_available)
+
         self._active_playlist_id = self._coremodel.connect(
             "notify::active-playlist", self._on_active_playlist_changed)
 
@@ -147,8 +152,14 @@ class PlaylistsView(BaseView):
         row = PlaylistTile(playlist)
         return row
 
-    def _on_playlists_loaded(self, klass):
-        self._coremodel.disconnect(self._loaded_id)
+    def _on_playlists_available(self, klass=None, value=None):
+        if self._coremodel.props.playlists_available is False:
+            return
+
+        if self._loaded_id is not None:
+            self._coremodel.disconnect(self._loaded_id)
+            self._loaded_id = None
+
         self._model.connect("items-changed", self._on_playlists_model_changed)
 
         first_row = self._sidebar.get_row_at_index(0)

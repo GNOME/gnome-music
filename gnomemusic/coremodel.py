@@ -67,12 +67,12 @@ class CoreModel(GObject.GObject):
 
     __gsignals__ = {
         "artists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
-        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,)),
-        "playlists-loaded": (GObject.SignalFlags.RUN_FIRST, None, ()),
+        "playlist-loaded": (GObject.SignalFlags.RUN_FIRST, None, (int,))
     }
 
     active_playlist = GObject.Property(type=Playlist, default=None)
     grilo = GObject.Property(type=CoreGrilo, default=None)
+    playlists_available = GObject.Property(type=bool, default=False)
     songs_available = GObject.Property(type=bool, default=False)
 
     def __init__(self, application):

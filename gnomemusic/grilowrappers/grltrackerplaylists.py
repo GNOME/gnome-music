@@ -93,6 +93,8 @@ class GrlTrackerPlaylists(GObject.GObject):
         self._initial_playlists_fill()
 
     def _initial_playlists_fill(self):
+        self._coremodel.props.playlists_available = False
+
         args = {
             "source": self._source,
             "application": self._application,
@@ -145,7 +147,7 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._window.notifications_popup.pop_loading()
             return
         if not media:
-            self._coremodel.emit("playlists-loaded")
+            self._coremodel.props.playlists_available = True
             self._window.notifications_popup.pop_loading()
             return
 
