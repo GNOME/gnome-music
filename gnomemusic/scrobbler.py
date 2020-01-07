@@ -149,7 +149,7 @@ class LastFmScrobbler(GObject.GObject):
         self._authentication = None
         self._goa_lastfm = GoaLastFM()
         self._soup_session = Soup.Session.new()
-        self._scrobble_list = []
+        self._scrobble_cache = []
 
     @GObject.Property(type=bool, default=False)
     def scrobbled(self):
@@ -184,15 +184,16 @@ class LastFmScrobbler(GObject.GObject):
         album = media.get_album()
 
         request_dict = {}
-        if request_type_key == "scrobble" and time_stamp is not None:
-            self._scrobble_list.append({
+        if request_type_key == "scrobble" 
+                and time_stamp is not None:
+            self._scrobble_cache.append({
                 "artist": artist,
                 "track": title,
                 "album": album,
                 "timestamp": time_stamp
             })
             index = 0
-            for data in self._scrobble_list:
+            for data in self._scrobble_cache:
                 request_dict.update({
                     "artist[{}]".format(index): data['artist'],
                     "track[{}]".format(index): data['track'],
@@ -249,8 +250,9 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
-        elif status_code == 200 and request_type_key == "scrobble":
-            self._scrobble_list.clear()
+        elif status_code == 200 
+                and request_type_key == "scrobble":
+            self._scrobble_cache.clear()
 
     @log
     def scrobble(self, coresong, time_stamp):
