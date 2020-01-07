@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
 import time
 
 from gettext import gettext as _
@@ -33,6 +34,8 @@ from gi.repository import Gio, Grl, GLib, GObject
 from gnomemusic.coresong import CoreSong
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
+
+logger = logging.getLogger(__name__)
 
 
 class GrlTrackerPlaylists(GObject.GObject):
@@ -418,11 +421,16 @@ class Playlist(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         def update_cb(conn, res, data):
-            # FIXME: Check for failure.
-            conn.update_finish(res)
-            # FIXME: Requery instead?
-            self.props.title = new_name
-            self._window.notifications_popup.pop_loading()
+            try:
+                conn.update_finish(res)
+            except GLib.Error as e:
+                logger.warning(
+                    "Unable to rename playlist from {} to {}: {}".format(
+                        self.props.title, new_name, e.message))
+            else:
+                self.props.title = new_name
+            finally:
+                self._window.notifications_popup.pop_loading()
 
         query = """
         INSERT OR REPLACE {
