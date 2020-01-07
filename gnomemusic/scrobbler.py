@@ -184,15 +184,15 @@ class LastFmScrobbler(GObject.GObject):
         album = media.get_album()
 
         request_dict = {}
-        if  (request_type_key == "scrobble" 
-                and time_stamp is not None):
+        if  (request_type_key == "scrobble"
+             and time_stamp is not None):
             self._scrobble_cache.append({
                 "artist": artist,
                 "track": title,
                 "album": album,
                 "timestamp": time_stamp
             })
-            for index,data in enumerate(self._scrobble_cache):
+            for index, data in enumerate(self._scrobble_cache):
                 request_dict.update({
                     "artist[{}]".format(index): data['artist'],
                     "track[{}]".format(index): data['track'],
@@ -248,8 +248,8 @@ class LastFmScrobbler(GObject.GObject):
             logger.warning("Failed to {} track {} : {}".format(
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
-        elif (status_code == 200 
-                and request_type_key == "scrobble"):
+        elif (status_code == 200
+              and request_type_key == "scrobble"):
             self._scrobble_cache.clear()
 
     @log
