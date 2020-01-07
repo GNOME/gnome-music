@@ -149,9 +149,21 @@ class PlaylistsView(BaseView):
 
     def _on_playlists_loaded(self, klass):
         self._coremodel.disconnect(self._loaded_id)
+        self._model.connect("items-changed", self._on_playlists_model_changed)
+
         first_row = self._sidebar.get_row_at_index(0)
         self._sidebar.select_row(first_row)
         first_row.emit("activate")
+
+    def _on_playlists_model_changed(self, model, position, removed, added):
+        if removed == 0:
+            return
+
+        row_next = (self._sidebar.get_row_at_index(position)
+                    or self._sidebar.get_row_at_index(position - 1))
+        if row_next:
+            self._sidebar.select_row(row_next)
+            row_next.emit("activate")
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
