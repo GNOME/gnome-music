@@ -46,6 +46,7 @@ class DBusInterface:
         :param str path: object path
         """
         self._path = path
+        self._signals = None
         Gio.bus_get(Gio.BusType.SESSION, None, self._bus_get_sync, name)
 
     def _bus_get_sync(self, source, res, name):
@@ -124,6 +125,9 @@ class DBusInterface:
             invocation.return_value(None)
 
     def _dbus_emit_signal(self, signal_name, values):
+        if self._signals is None:
+            return
+
         signal = self._signals[signal_name]
         parameters = []
         for arg_name, arg_signature in signal['args'].items():
@@ -299,8 +303,11 @@ class MPRIS(DBusInterface):
             "playlist-loaded", self._on_player_playlist_changed)
 
         self._playlists_model = self._coremodel.props.playlists_sort
-        self._playlists_loaded_id = self._coremodel.connect(
-            "playlists-loaded", self._on_playlists_loaded)
+        n_items = self._playlists_model.get_n_items()
+        self._on_playlists_items_changed(
+            self._playlists_model, 0, n_items, n_items)
+        self._playlists_model.connect(
+            "items-changed", self._on_playlists_items_changed)
 
         self._player_playlist_type = None
         self._path_list = []
@@ -603,32 +610,18 @@ class MPRIS(DBusInterface):
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
 
-    def _on_playlists_loaded(self, klass):
-        self._coremodel.disconnect(self._playlists_loaded_id)
-        for playlist in self._playlists_model:
-            playlist.connect("notify::title", self._on_playlist_renamed)
-            playlist.connect(
-                "notify::active", self._on_player_playlist_changed)
+    def _on_playlists_items_changed(self, model, position, removed, added):
+        if added > 0:
+            for i in list(range(added)):
+                playlist = model[position + i]
+                playlist.connect("notify::title", self._on_playlist_renamed)
+                playlist.connect(
+                    "notify::active", self._on_player_playlist_changed)
 
-        self._playlists_model.connect(
-            "items-changed", self._on_playlists_count_changed)
-        self._on_playlists_count_changed(None, None, 0, 0)
-
-    @log
-    def _on_playlists_count_changed(self, model, position, removed, added):
-        playlist_count = self._playlists_model.get_n_items()
-        if playlist_count == self._previous_playlist_count:
-            return
-
-        self._previous_playlist_count = playlist_count
+        playlist_count = model.get_n_items()
         properties = {"PlaylistCount": GLib.Variant("u", playlist_count)}
         self._properties_changed(
             MPRIS.MEDIA_PLAYER2_PLAYLISTS_IFACE, properties, [])
-
-        if added == 0:
-            return
-
-        model[position].connect("notify::title", self._on_playlist_renamed)
 
     @log
     def _on_playlist_renamed(self, playlist, param):

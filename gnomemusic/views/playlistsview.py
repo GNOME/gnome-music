@@ -62,6 +62,8 @@ class PlaylistsView(BaseView):
         self._window = application.props.window
         self._player = player
 
+        self._clean_fill = True
+
         self._song_popover = PlaylistContextMenu(self._view)
 
         play_song = Gio.SimpleAction.new('play_song', None)
@@ -108,10 +110,11 @@ class PlaylistsView(BaseView):
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
-        self._loaded_id = self._coremodel.connect(
-            "playlists-loaded", self._on_playlists_loaded)
         self._active_playlist_id = self._coremodel.connect(
             "notify::active-playlist", self._on_active_playlist_changed)
+
+        self._model.connect("items-changed", self._on_playlists_model_changed)
+        self._on_playlists_model_changed(self._model, 0, 0, 0)
 
         # Selection is only possible from the context menu
         self.disconnect(self._selection_mode_id)
@@ -147,15 +150,17 @@ class PlaylistsView(BaseView):
         row = PlaylistTile(playlist)
         return row
 
-    def _on_playlists_loaded(self, klass):
-        self._coremodel.disconnect(self._loaded_id)
-        self._model.connect("items-changed", self._on_playlists_model_changed)
-
-        first_row = self._sidebar.get_row_at_index(0)
-        self._sidebar.select_row(first_row)
-        first_row.emit("activate")
-
     def _on_playlists_model_changed(self, model, position, removed, added):
+        if model.get_n_items() == 0:
+            self._clean_fill = True
+            return
+        elif self._clean_fill:
+            first_row = self._sidebar.get_row_at_index(0)
+            self._sidebar.select_row(first_row)
+            first_row.emit("activate")
+            self._clean_fill = True
+            return
+
         if removed == 0:
             return
 
@@ -164,6 +169,7 @@ class PlaylistsView(BaseView):
         if row_next:
             self._sidebar.select_row(row_next)
             row_next.emit("activate")
+            self._clean_fill = True
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
@@ -218,6 +224,7 @@ class PlaylistsView(BaseView):
     @log
     def _on_playlist_activated(self, sidebar, row, data=None):
         """Update view with content from selected playlist"""
+        self._clean_fill = False
         playlist = row.props.playlist
 
         if self.rename_active:
