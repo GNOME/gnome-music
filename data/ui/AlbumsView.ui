@@ -18,6 +18,7 @@
             <property name="selection-mode">none</property>
             <property name="valign">start</property>
             <property name="visible">True</property>
+            <signal name="selected-children-changed" handler="_on_selected_children_changed" swapped="no"/>
             <style>
               <class name="content-view"/>
             </style>
@@ -26,4 +27,10 @@
       </object>
     </child>
   </template>
+  <object class="GtkGestureLongPress" id="_flowbox_long_press">
+    <property name="propagation-phase">capture</property>
+    <property name="widget">_flowbox</property>
+    <signal name="begin" handler="_on_flowbox_press_begin" swapped="no"/>
+    <signal name="cancel" handler="_on_flowbox_press_cancel" swapped="no"/>
+  </object>
 </interface>
