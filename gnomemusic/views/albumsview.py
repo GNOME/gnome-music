@@ -25,7 +25,7 @@
 import math
 
 from gettext import gettext as _
-from gi.repository import GLib, GObject, Gtk
+from gi.repository import Gdk, GLib, GObject, Gtk
 
 from gnomemusic.widgets.headerbar import HeaderBar
 from gnomemusic.widgets.albumcover import AlbumCover
@@ -47,6 +47,7 @@ class AlbumsView(Gtk.Stack):
 
     _scrolled_window = Gtk.Template.Child()
     _flowbox = Gtk.Template.Child()
+    _flowbox_long_press = Gtk.Template.Child()
 
     def __repr__(self):
         return '<AlbumsView>'
@@ -70,6 +71,8 @@ class AlbumsView(Gtk.Stack):
 
         model = self._window._app.props.coremodel.props.albums_sort
         self._flowbox.bind_model(model, self._create_widget)
+        self._flowbox.set_hadjustment(self._scrolled_window.get_hadjustment())
+        self._flowbox.set_vadjustment(self._scrolled_window.get_vadjustment())
         self._flowbox.connect("child-activated", self._on_child_activated)
 
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
@@ -197,6 +200,31 @@ class AlbumsView(Gtk.Stack):
         self._headerbar.props.state = HeaderBar.State.CHILD
         self._headerbar.props.title = corealbum.props.title
         self._headerbar.props.subtitle = corealbum.props.artist
+
+    @Gtk.Template.Callback()
+    def _on_flowbox_press_begin(self, gesture, sequence):
+        event = gesture.get_last_event(sequence)
+        ok, state = event.get_state()
+        if ((ok is True
+             and state == Gdk.ModifierType.CONTROL_MASK)
+                or self.props.selection_mode is True):
+            self._flowbox.props.selection_mode = Gtk.SelectionMode.MULTIPLE
+
+    @Gtk.Template.Callback()
+    def _on_flowbox_press_cancel(self, gesture, sequence):
+        self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
+
+    @Gtk.Template.Callback()
+    def _on_selected_children_changed(self, flowbox):
+        if not self.props.selection_mode:
+            self.props.selection_mode = True
+
+        with self._window._app.props.coreselection.freeze_notify():
+            for child in self._flowbox.get_selected_children():
+                child.props.selected = not child.props.selected
+
+        if self._flowbox.props.selection_mode == Gtk.SelectionMode.MULTIPLE:
+            self._flowbox.props.selection_mode = Gtk.SelectionMode.NONE
 
     def _toggle_all_selection(self, selected):
         """

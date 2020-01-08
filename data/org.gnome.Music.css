@@ -3,8 +3,13 @@
 }
 
 /* AlbumCover */
+.albumcover-title-label {
+    color: @theme_fg_color;
+}
+
 .albumcover-artist-label {
     font-size: smaller;
+    color: @theme_fg_color;
 }
 
 /* By default in Adwaita dark this is not transparent */
