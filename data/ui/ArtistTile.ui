@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
-  <template class="ArtistTile" parent="GtkEventBox">
+  <template class="ArtistTile" parent="GtkListBoxRow">
     <property name="can_focus">False</property>
     <property name="visible">True</property>
     <child>
