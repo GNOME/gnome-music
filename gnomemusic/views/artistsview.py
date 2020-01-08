@@ -126,7 +126,7 @@ class ArtistsView(BaseView):
             return
 
         self._sidebar.select_row(first_row)
-        first_row.emit("activate")
+        self._on_artist_activated(self._sidebar, first_row)
 
     @log
     def _setup_view(self):
