@@ -24,7 +24,7 @@
 
 import gi
 gi.require_version('Grl', '0.3')
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import GObject, Gtk
 
 from gnomemusic import log
 from gnomemusic.albumartcache import Art
@@ -47,7 +47,6 @@ class AlbumCover(Gtk.FlowBoxChild):
     _check = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
     _artist_label = Gtk.Template.Child()
-    _events = Gtk.Template.Child()
 
     selected = GObject.Property(
         type=bool, default=False, flags=GObject.ParamFlags.READWRITE)
@@ -91,8 +90,6 @@ class AlbumCover(Gtk.FlowBoxChild):
 
         self.connect('query-tooltip', self._on_tooltip_query)
 
-        self._events.add_events(Gdk.EventMask.TOUCH_MASK)
-
         self._cover_stack.props.size = Art.Size.MEDIUM
 
         self.show()
@@ -120,17 +117,6 @@ class AlbumCover(Gtk.FlowBoxChild):
         :rtype: CoreAlbum
         """
         return self._corealbum
-
-    @Gtk.Template.Callback()
-    @log
-    def _on_album_event(self, evbox, event, data=None):
-        modifiers = Gtk.accelerator_get_default_mod_mask()
-        if ((event.get_state() & modifiers) == Gdk.ModifierType.CONTROL_MASK
-                and not self.props.selection_mode):
-            self.props.selection_mode = True
-
-        if self.props.selection_mode:
-            self.props.selected = not self.props.selected
 
     @Gtk.Template.Callback()
     @log
