@@ -136,7 +136,7 @@ class PlaylistsView(BaseView):
 
         first_row = self._sidebar.get_row_at_index(0)
         self._sidebar.select_row(first_row)
-        first_row.emit("activate")
+        self._on_playlist_activated(self._sidebar, first_row)
 
     def _on_playlists_model_changed(self, model, position, removed, added):
         if removed == 0:
