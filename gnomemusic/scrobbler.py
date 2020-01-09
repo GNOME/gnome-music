@@ -192,6 +192,7 @@ class LastFmScrobbler(GObject.GObject):
                 "album": album,
                 "timestamp": time_stamp
             })
+
             for index, data in enumerate(self._scrobble_cache):
                 request_dict.update({
                     "artist[{}]".format(index): data['artist'],
