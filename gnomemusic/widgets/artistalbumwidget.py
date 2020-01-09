@@ -94,6 +94,11 @@ class ArtistAlbumWidget(Gtk.Box):
     def _create_widget(self, disc):
         disc_box = self._create_disc_box(disc.props.disc_nr, disc.model)
 
+        self._disc_list_box.bind_property(
+            "selection-mode", disc_box, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         return disc_box
 
     def _create_disc_box(self, disc_nr, album_model):
