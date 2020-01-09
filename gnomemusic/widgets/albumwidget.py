@@ -139,15 +139,11 @@ class AlbumWidget(Gtk.EventBox):
     def _on_model_items_changed(self, model, position, removed, added):
         n_items = model.get_n_items()
         if n_items == 1:
-            row = self._disc_list_box.get_row_at_index(0)
-            row.props.selectable = False
-            discbox = row.get_child()
+            discbox = self._disc_list_box.get_row_at_index(0)
             discbox.props.show_disc_label = False
         else:
             for i in range(n_items):
-                row = self._disc_list_box.get_row_at_index(i)
-                row.props.selectable = False
-                discbox = row.get_child()
+                discbox = self._disc_list_box.get_row_at_index(i)
                 discbox.props.show_disc_label = True
 
     def _set_composer_label(self, corealbum):
