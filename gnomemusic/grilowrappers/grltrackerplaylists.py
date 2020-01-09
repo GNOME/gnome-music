@@ -148,7 +148,6 @@ class GrlTrackerPlaylists(GObject.GObject):
             self._window.notifications_popup.pop_loading()
             return
         if not media:
-            self._coremodel.emit("playlists-loaded")
             self._window.notifications_popup.pop_loading()
             return
 
