@@ -62,6 +62,10 @@ class PlaylistsView(BaseView):
         self._window = application.props.window
         self._player = player
 
+        # This indicates if the current list has been empty and has
+        # had no user interaction since.
+        self._untouched_list = True
+
         self._song_popover = PlaylistContextMenu(application, self._view)
 
         play_song = self._window.lookup_action("play_song")
@@ -91,10 +95,11 @@ class PlaylistsView(BaseView):
 
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
-        self._loaded_id = self._coremodel.connect(
-            "playlists-loaded", self._on_playlists_loaded)
         self._active_playlist_id = self._coremodel.connect(
             "notify::active-playlist", self._on_active_playlist_changed)
+
+        self._model.connect("items-changed", self._on_playlists_model_changed)
+        self._on_playlists_model_changed(self._model, 0, 0, 0)
 
         # Selection is only possible from the context menu
         self._window.disconnect(self._selection_mode_id)
@@ -130,15 +135,16 @@ class PlaylistsView(BaseView):
         row = PlaylistTile(playlist)
         return row
 
-    def _on_playlists_loaded(self, klass):
-        self._coremodel.disconnect(self._loaded_id)
-        self._model.connect("items-changed", self._on_playlists_model_changed)
-
-        first_row = self._sidebar.get_row_at_index(0)
-        self._sidebar.select_row(first_row)
-        self._on_playlist_activated(self._sidebar, first_row)
-
     def _on_playlists_model_changed(self, model, position, removed, added):
+        if model.get_n_items() == 0:
+            self._untouched_list = True
+            return
+        elif self._untouched_list is True:
+            first_row = self._sidebar.get_row_at_index(0)
+            self._sidebar.select_row(first_row)
+            self._on_playlist_activated(self._sidebar, first_row, True)
+            return
+
         if removed == 0:
             return
 
@@ -146,7 +152,7 @@ class PlaylistsView(BaseView):
                     or self._sidebar.get_row_at_index(position - 1))
         if row_next:
             self._sidebar.select_row(row_next)
-            self._on_playlist_activated(self._sidebar, row_next)
+            self._on_playlist_activated(self._sidebar, row_next, True)
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
@@ -199,8 +205,11 @@ class PlaylistsView(BaseView):
             coresong)
 
     @log
-    def _on_playlist_activated(self, sidebar, row, data=None):
+    def _on_playlist_activated(self, sidebar, row, untouched=False):
         """Update view with content from selected playlist"""
+        if untouched is False:
+            self._untouched_list = False
+
         playlist = row.props.playlist
 
         self._view.bind_model(
@@ -243,7 +252,7 @@ class PlaylistsView(BaseView):
             return
 
         self._sidebar.select_row(row)
-        self._on_playlist_activated(self._sidebar, row)
+        self._on_playlist_activated(self._sidebar, row, True)
         if playlist.props.model.get_n_items() > 0:
             self._song_activated(None)
         else:
