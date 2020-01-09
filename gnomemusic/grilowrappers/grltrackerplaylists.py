@@ -22,6 +22,7 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import logging
 import time
 
 from gettext import gettext as _
@@ -33,6 +34,8 @@ from gi.repository import Gio, Grl, GLib, GObject
 from gnomemusic.coresong import CoreSong
 from gnomemusic.trackerwrapper import TrackerWrapper
 import gnomemusic.utils as utils
+
+logger = logging.getLogger(__name__)
 
 
 class GrlTrackerPlaylists(GObject.GObject):
@@ -292,7 +295,6 @@ class Playlist(GObject.GObject):
     pl_id = GObject.Property(type=str, default=None)
     query = GObject.Property(type=str, default=None)
     tag_text = GObject.Property(type=str, default=None)
-    title = GObject.Property(type=str, default=None)
 
     def __repr__(self):
         return "<Playlist>"
@@ -316,9 +318,11 @@ class Playlist(GObject.GObject):
         """
         if media:
             self.props.pl_id = media.get_id()
-            self.props.title = utils.get_media_title(media)
+            self._title = utils.get_media_title(media)
             self.props.count = media.get_childcount()
             self.props.creation_date = media.get_creation_date()
+        else:
+            self._title = None
 
         self.props.query = query
         self.props.tag_text = tag_text
@@ -410,7 +414,17 @@ class Playlist(GObject.GObject):
         self._source.query(
             query, self.METADATA_KEYS, options, _add_to_playlist_cb, None)
 
-    def rename(self, new_name):
+    @GObject.Property(type=str, default=None)
+    def title(self):
+        """Playlist title
+
+        :returns: playlist title
+        :rtype: str
+        """
+        return self._title
+
+    @title.setter
+    def title(self, new_name):
         """Rename a playlist
 
         :param str new_name: new playlist name
@@ -418,11 +432,17 @@ class Playlist(GObject.GObject):
         self._window.notifications_popup.push_loading()
 
         def update_cb(conn, res, data):
-            # FIXME: Check for failure.
-            conn.update_finish(res)
-            # FIXME: Requery instead?
-            self.props.title = new_name
-            self._window.notifications_popup.pop_loading()
+            try:
+                conn.update_finish(res)
+            except GLib.Error as e:
+                logger.warning(
+                    "Unable to rename playlist from {} to {}: {}".format(
+                        self._title, new_name, e.message))
+            else:
+                self._title = new_name
+            finally:
+                self._window.notifications_popup.pop_loading()
+                self.thaw_notify()
 
         query = """
         INSERT OR REPLACE {
@@ -443,6 +463,7 @@ class Playlist(GObject.GObject):
             'playlist_id': self.props.pl_id
         }
 
+        self.freeze_notify()
         self._tracker.update_async(
             query, GLib.PRIORITY_LOW, None, update_cb, None)
 
@@ -724,7 +745,7 @@ class MostPlayed(SmartPlaylist):
 
         self.props.tag_text = "MOST_PLAYED"
         # TRANSLATORS: this is a playlist name
-        self.props.title = _("Most Played")
+        self._title = _("Most Played")
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -761,7 +782,7 @@ class NeverPlayed(SmartPlaylist):
 
         self.props.tag_text = "NEVER_PLAYED"
         # TRANSLATORS: this is a playlist name
-        self.props.title = _("Never Played")
+        self._title = _("Never Played")
         self.props.query = """
         SELECT
             rdf:type(?song)
@@ -797,7 +818,7 @@ class RecentlyPlayed(SmartPlaylist):
 
         self.props.tag_text = "RECENTLY_PLAYED"
         # TRANSLATORS: this is a playlist name
-        self.props.title = _("Recently Played")
+        self._title = _("Recently Played")
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -843,7 +864,7 @@ class RecentlyAdded(SmartPlaylist):
 
         self.props.tag_text = "RECENTLY_ADDED"
         # TRANSLATORS: this is a playlist name
-        self.props.title = _("Recently Added")
+        self._title = _("Recently Added")
 
         sparql_midnight_dateTime_format = "%Y-%m-%dT00:00:00Z"
         days_difference = 7
@@ -888,7 +909,7 @@ class Favorites(SmartPlaylist):
 
         self.props.tag_text = "FAVORITES"
         # TRANSLATORS: this is a playlist name
-        self.props.title = _("Favorite Songs")
+        self._title = _("Favorite Songs")
         self.props.query = """
             SELECT
                 rdf:type(?song)
