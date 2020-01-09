@@ -31,7 +31,7 @@ from gnomemusic.albumartcache import lookup_art_file_from_cache
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidget import WidgetState
 
 
 class DBusInterface:
@@ -734,8 +734,8 @@ class MPRIS(DBusInterface):
         new_coresong = self._player_model[goto_index]
 
         self._player.play(new_coresong)
-        current_coresong.props.state = SongWidget.State.PLAYED
-        new_coresong.props.state = SongWidget.State.PLAYING
+        current_coresong.props.state = WidgetState.PLAYED
+        new_coresong.props.state = WidgetState.PLAYING
 
     def _track_list_replaced(self, tracks, current_song):
         parameters = {
