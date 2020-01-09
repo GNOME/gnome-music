@@ -30,7 +30,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
-class DiscBox(Gtk.Box):
+class DiscBox(Gtk.ListBoxRow):
     """A widget which compromises one disc
 
     DiscBox contains a disc label for the disc number on top
@@ -174,7 +174,7 @@ class DiscListBox(Gtk.ListBox):
     def select_all(self):
         """Select all songs"""
         def child_select_all(child):
-            child.get_child().select_all()
+            child.select_all()
 
         self.foreach(child_select_all)
 
@@ -182,7 +182,7 @@ class DiscListBox(Gtk.ListBox):
     def select_none(self):
         """Deselect all songs"""
         def child_select_none(child):
-            child.get_child().select_none()
+            child.select_none()
 
         self.foreach(child_select_none)
 
