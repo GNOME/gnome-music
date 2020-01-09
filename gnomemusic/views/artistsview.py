@@ -200,8 +200,7 @@ class ArtistsView(BaseView):
     def _toggle_all_selection(self, selected):
 
         def toggle_selection(child):
-            tile = child.get_child()
-            tile.props.selected = selected
+            child.props.selected = selected
 
         self._sidebar.foreach(toggle_selection)
 
