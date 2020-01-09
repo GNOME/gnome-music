@@ -72,11 +72,12 @@ class AlbumsView(Gtk.Stack):
         self._flowbox.bind_model(model, self._create_widget)
         self._flowbox.connect("child-activated", self._on_child_activated)
 
-        self.connect("notify::selection-mode", self._on_selection_mode_changed)
-
         self.bind_property(
-            'selection-mode', self._window, 'selection-mode',
-            GObject.BindingFlags.BIDIRECTIONAL)
+            "selection-mode", self._window, "selection-mode",
+            GObject.BindingFlags.DEFAULT)
+
+        self._window.connect(
+            "notify::selection-mode", self._on_selection_mode_changed)
 
         self._album_widget = AlbumWidget(application.props.player, self)
         self._album_widget.bind_property(
@@ -147,6 +148,12 @@ class AlbumsView(Gtk.Stack):
         return GLib.SOURCE_REMOVE
 
     def _on_selection_mode_changed(self, widget, data=None):
+        selection_mode = self._window.props.selection_mode
+        if (selection_mode == self.props.selection_mode
+                or self.get_parent().get_visible_child() != self):
+            return
+
+        self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
             self.unselect_all()
 
