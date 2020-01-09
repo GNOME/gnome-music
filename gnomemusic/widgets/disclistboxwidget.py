@@ -105,6 +105,18 @@ class DiscBox(Gtk.Box):
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
+        self.bind_property(
+            "show-durations", song_widget, "show-duration",
+            GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            "show-favorites", song_widget, "show-favorite",
+            GObject.BindingFlags.SYNC_CREATE)
+
+        self.bind_property(
+            "show-song-numbers", song_widget, "show-song-number",
+            GObject.BindingFlags.SYNC_CREATE)
+
         song_widget.connect('button-release-event', self._song_activated)
 
         return song_widget
