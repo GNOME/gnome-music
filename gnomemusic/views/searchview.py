@@ -404,7 +404,7 @@ class SearchView(Gtk.Stack):
     def select_all(self):
         self._select_all(True)
 
-    def unselect_all(self):
+    def deselect_all(self):
         self._select_all(False)
 
     @log
@@ -424,7 +424,7 @@ class SearchView(Gtk.Stack):
     def _on_selection_mode_changed(self, widget, data=None):
         if (not self.props.selection_mode
                 and self.get_parent().get_visible_child() == self):
-            self.unselect_all()
+            self.deselect_all()
 
     @GObject.Property(type=bool, default=False)
     def search_mode_active(self):

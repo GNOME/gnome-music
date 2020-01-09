@@ -185,12 +185,12 @@ class AlbumWidget(Gtk.EventBox):
     def select_all(self):
         self._disc_list_box.select_all()
 
-    def select_none(self):
-        self._disc_list_box.select_none()
+    def deselect_all(self):
+        self._disc_list_box.deselect_all()
 
     def _on_selection_mode_changed(self, widget, value):
         if not self.props.selection_mode:
-            self.select_none()
+            self.deselect_all()
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)

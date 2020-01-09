@@ -250,5 +250,5 @@ class SongsView(BaseView):
     def select_all(self):
         self._select(True)
 
-    def unselect_all(self):
+    def deselect_all(self):
         self._select(False)

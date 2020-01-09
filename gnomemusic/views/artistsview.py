@@ -222,5 +222,5 @@ class ArtistsView(BaseView):
         self._toggle_all_selection(True)
 
     @log
-    def unselect_all(self):
+    def deselect_all(self):
         self._toggle_all_selection(False)

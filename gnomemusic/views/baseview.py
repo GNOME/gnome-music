@@ -86,4 +86,4 @@ class BaseView(Gtk.Stack):
 
         self.props.selection_mode = selection_mode
         if self.props.selection_mode is False:
-            self.unselect_all()
+            self.deselect_all()
