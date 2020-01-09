@@ -24,10 +24,11 @@
 
 import gettext
 
-from gi.repository import Gdk, GObject, Gtk
+from gi.repository import Gdk, GObject, Gio, Gtk
 
 from gnomemusic import log
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
+from gnomemusic.widgets.notificationspopup import PlaylistNotification
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/PlaylistControls.ui')
@@ -41,10 +42,6 @@ class PlaylistControls(Gtk.Grid):
     _rename_entry = Gtk.Template.Child()
     _rename_done_button = Gtk.Template.Child()
     _songs_count_label = Gtk.Template.Child()
-    _menubutton = Gtk.Template.Child()
-
-    def __repr__(self):
-        return '<PlaylistControls>'
 
     def __init__(self, application):
         """Initialize
@@ -56,9 +53,34 @@ class PlaylistControls(Gtk.Grid):
         self._playlist = None
         self._count_id = 0
         self._binding_count = None
+        self._coremodel = application.props.coremodel
         self._window = application.props.window
 
-        self._play_action = self._window.lookup_action("playlist_play")
+        self._delete_action = Gio.SimpleAction.new("playlist_delete", None)
+        self._delete_action.connect("activate", self._on_delete_action)
+        self._window.add_action(self._delete_action)
+
+        self._play_action = Gio.SimpleAction.new("playlist_play", None)
+        self._window.add_action(self._play_action)
+
+        self._rename_action = Gio.SimpleAction.new("playlist_rename", None)
+        self._rename_action.connect("activate", self._on_rename_action)
+        self._window.add_action(self._rename_action)
+
+    def _on_rename_action(self, menuitem, data=None):
+        self._enable_rename_playlist(self.props.playlist)
+
+    def _on_delete_action(self, menutime, data=None):
+        PlaylistNotification(
+            self._window.notifications_popup, self._coremodel,
+            PlaylistNotification.Type.PLAYLIST, self.props.playlist)
+
+        # FIXME: Should Check that the playlist is not playing
+        # playlist_id = selection.playlist.props.pl_id
+        # if self._player.playing_playlist(
+        #         PlayerPlaylist.Type.PLAYLIST, playlist_id):
+        #     self._player.stop()
+        #     self._window.set_player_visible(False)
 
     @Gtk.Template.Callback()
     @log
@@ -71,7 +93,7 @@ class PlaylistControls(Gtk.Grid):
     def _on_rename_entry_key_pressed(self, widget, event):
         (_, keyval) = event.get_keyval()
         if keyval == Gdk.KEY_Escape:
-            self.disable_rename_playlist()
+            self._disable_rename_playlist()
 
     @Gtk.Template.Callback()
     @log
@@ -82,7 +104,7 @@ class PlaylistControls(Gtk.Grid):
             return
 
         self.props.playlist.props.title = new_name
-        self.disable_rename_playlist()
+        self._disable_rename_playlist()
 
     @log
     def _on_songs_count_changed(self, klass, data=None):
@@ -92,17 +114,15 @@ class PlaylistControls(Gtk.Grid):
 
         self._play_action.props.enabled = self.props.playlist.props.count > 0
 
-    @log
-    def enable_rename_playlist(self, pl_torename):
+    def _enable_rename_playlist(self, pl_torename):
         """Enables rename button and entry
 
-        :param Grl.Media pl_torename : The playlist to rename
+        :param Playlist pl_torename : The playlist to rename
         """
         self._name_stack.props.visible_child_name = "renaming_dialog"
         self._set_rename_entry_text_and_focus(pl_torename.props.title)
 
-    @log
-    def disable_rename_playlist(self):
+    def _disable_rename_playlist(self):
         """Disables rename button and entry"""
         self._name_stack.props.visible_child = self._name_label
 
@@ -115,15 +135,6 @@ class PlaylistControls(Gtk.Grid):
         """
 
         return self._name_stack.props.visible_child_name == "renaming_dialog"
-
-    @GObject.Property
-    def rename_entry_text(self):
-        """Gets the value of the rename entry input
-
-        :return: Contents of rename entry field
-        :rtype: string
-        """
-        return self._rename_entry.props.text
 
     @log
     def _set_rename_entry_text_and_focus(self, text):
@@ -144,7 +155,7 @@ class PlaylistControls(Gtk.Grid):
     def playlist(self, new_playlist):
         """Playlist property setter.
 
-        :param Playlistnew_playlist: new playlist
+        :param Playlist new_playlist: new playlist
         """
         if self._count_id > 0:
             self._playlist.disconnect(self._count_id)
@@ -152,6 +163,10 @@ class PlaylistControls(Gtk.Grid):
             self._binding_count.unbind()
 
         self._playlist = new_playlist
+        self._disable_rename_playlist()
+        self._delete_action.props.enabled = not self._playlist.props.is_smart
+        self._rename_action.props.enabled = not self._playlist.props.is_smart
+
         self._binding_count = self._playlist.bind_property(
             "title", self._name_label, "label",
             GObject.BindingFlags.SYNC_CREATE)
