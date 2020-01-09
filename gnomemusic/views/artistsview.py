@@ -189,6 +189,10 @@ class ArtistsView(BaseView):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
+        selection_mode = self._window.props.selection_mode
+        if selection_mode == self.props.selection_mode:
+            return
+
         super()._on_selection_mode_changed(widget, data)
 
         self._view.props.sensitive = not self.props.selection_mode
