@@ -30,7 +30,7 @@ from gnomemusic.widgets.songwidget import SongWidget
 
 
 @Gtk.Template(resource_path='/org/gnome/Music/ui/DiscBox.ui')
-class DiscBox(Gtk.Box):
+class DiscBox(Gtk.ListBoxRow):
     """A widget which compromises one disc
 
     DiscBox contains a disc label for the disc number on top
