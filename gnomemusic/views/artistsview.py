@@ -114,7 +114,7 @@ class ArtistsView(BaseView):
                         or self._sidebar.get_row_at_index(position - 1))
             if row_next:
                 self._sidebar.select_row(row_next)
-                row_next.emit("activate")
+                self._on_artist_activated(self._sidebar, row_next)
 
         removed_frame = self._view.get_child_by_name(removed_artist)
         self._view.remove(removed_frame)
