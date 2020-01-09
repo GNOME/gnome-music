@@ -212,7 +212,6 @@ class AlbumsView(Gtk.Stack):
         with self._window._app.props.coreselection.freeze_notify():
             for child in self._flowbox.get_children():
                 child.props.selected = selected
-                child.props.corealbum.props.selected = selected
 
     def select_all(self):
         self._toggle_all_selection(True)
