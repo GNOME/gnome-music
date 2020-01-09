@@ -205,9 +205,3 @@ class DiscListBox(Gtk.ListBox):
             return
 
         self._selection_mode = value
-
-        def set_selection_mode(child):
-            print("set selection mode on", child)
-            child.props.selection_mode = value
-
-        self.foreach(set_selection_mode)
