@@ -146,7 +146,7 @@ class PlaylistsView(BaseView):
                     or self._sidebar.get_row_at_index(position - 1))
         if row_next:
             self._sidebar.select_row(row_next)
-            row_next.emit("activate")
+            self._on_playlist_activated(self._sidebar, row_next)
 
     @log
     def _on_view_right_clicked(self, gesture, n_press, x, y):
@@ -243,7 +243,7 @@ class PlaylistsView(BaseView):
             return
 
         self._sidebar.select_row(row)
-        row.emit('activate')
+        self._on_playlist_activated(self._sidebar, row)
         if playlist.props.model.get_n_items() > 0:
             self._song_activated(None)
         else:
