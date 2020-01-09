@@ -71,6 +71,11 @@ class AlbumWidget(Gtk.EventBox):
         self._parent_view = parent_view
         self._player = player
 
+        self.bind_property(
+            "selection-mode", self._listbox, "selection-mode",
+            GObject.BindingFlags.BIDIRECTIONAL
+            | GObject.BindingFlags.SYNC_CREATE)
+
         self.connect("notify::selection-mode", self._on_selection_mode_changed)
 
     def update(self, corealbum):
@@ -114,7 +119,7 @@ class AlbumWidget(Gtk.EventBox):
         disc_box = self._create_disc_box(
             disc.props.disc_nr, disc.model)
 
-        self.bind_property(
+        self._listbox.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
