@@ -154,7 +154,7 @@ class AlbumsView(Gtk.Stack):
 
         self.props.selection_mode = selection_mode
         if not self.props.selection_mode:
-            self.unselect_all()
+            self.deselect_all()
 
     def _on_search_mode_changed(self, klass, param):
         if (not self.props.search_mode_active
@@ -206,7 +206,7 @@ class AlbumsView(Gtk.Stack):
 
     def _toggle_all_selection(self, selected):
         """
-        Selects or unselects all items without sending the notify::active
+        Selects or deselects all items without sending the notify::active
         signal for performance purposes.
         """
         with self._window._app.props.coreselection.freeze_notify():
@@ -217,5 +217,5 @@ class AlbumsView(Gtk.Stack):
     def select_all(self):
         self._toggle_all_selection(True)
 
-    def unselect_all(self):
+    def deselect_all(self):
         self._toggle_all_selection(False)
