@@ -46,7 +46,7 @@ class AlbumWidget(Gtk.EventBox):
     _composer_label = Gtk.Template.Child()
     _composer_info_label = Gtk.Template.Child()
     _cover_stack = Gtk.Template.Child()
-    _listbox = Gtk.Template.Child()
+    _disc_list_box = Gtk.Template.Child()
     _released_info_label = Gtk.Template.Child()
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
@@ -73,7 +73,7 @@ class AlbumWidget(Gtk.EventBox):
         self._player = player
 
         self.bind_property(
-            "selection-mode", self._listbox, "selection-mode",
+            "selection-mode", self._disc_list_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
 
@@ -106,7 +106,7 @@ class AlbumWidget(Gtk.EventBox):
         self._album_model = self._corealbum.props.model
         self._model_signal_id = self._album_model.connect_after(
             "items-changed", self._on_model_items_changed)
-        self._listbox.bind_model(self._album_model, self._create_widget)
+        self._disc_list_box.bind_model(self._album_model, self._create_widget)
 
         self._on_duration_changed(self._corealbum, None)
         self._duration_signal_id = self._corealbum.connect(
@@ -118,7 +118,7 @@ class AlbumWidget(Gtk.EventBox):
         disc_box = self._create_disc_box(
             disc.props.disc_nr, disc.model)
 
-        self._listbox.bind_property(
+        self._disc_list_box.bind_property(
             "selection-mode", disc_box, "selection-mode",
             GObject.BindingFlags.BIDIRECTIONAL
             | GObject.BindingFlags.SYNC_CREATE)
@@ -138,13 +138,13 @@ class AlbumWidget(Gtk.EventBox):
     def _on_model_items_changed(self, model, position, removed, added):
         n_items = model.get_n_items()
         if n_items == 1:
-            row = self._listbox.get_row_at_index(0)
+            row = self._disc_list_box.get_row_at_index(0)
             row.props.selectable = False
             discbox = row.get_child()
             discbox.props.show_disc_label = False
         else:
             for i in range(n_items):
-                row = self._listbox.get_row_at_index(i)
+                row = self._disc_list_box.get_row_at_index(i)
                 row.props.selectable = False
                 discbox = row.get_child()
                 discbox.props.show_disc_label = True
@@ -194,10 +194,10 @@ class AlbumWidget(Gtk.EventBox):
         return True
 
     def select_all(self):
-        self._listbox.select_all()
+        self._disc_list_box.select_all()
 
     def select_none(self):
-        self._listbox.select_none()
+        self._disc_list_box.select_none()
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
