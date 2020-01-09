@@ -29,7 +29,7 @@ from gi.repository import Gio, GLib
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import RepeatMode
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.utils import SongState
 
 
 class DBusInterface:
@@ -691,8 +691,8 @@ class MPRIS(DBusInterface):
         new_coresong = self._player_model[new_position]
 
         self._player.play(new_coresong)
-        current_coresong.props.state = SongWidget.State.PLAYED
-        new_coresong.props.state = SongWidget.State.PLAYING
+        current_coresong.props.state = SongState.PLAYED
+        new_coresong.props.state = SongState.PLAYING
 
     def _track_list_replaced(self, track_paths, current_song_path):
         """Indicate that the entire tracklist has been replaced.
