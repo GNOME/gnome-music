@@ -31,7 +31,7 @@ from gi.repository.Dazzle import BoldingLabel  # noqa: F401
 
 from gnomemusic import utils
 from gnomemusic.coresong import CoreSong
-from gnomemusic.utils import SongStateIcon
+from gnomemusic.utils import SongState, SongStateIcon
 from gnomemusic.widgets.starimage import StarImage  # noqa: F401
 
 
@@ -75,13 +75,6 @@ class SongWidget(Gtk.EventBox):
     _play_icon = Gtk.Template.Child()
     _size_group = Gtk.Template.Child()
 
-    class State(IntEnum):
-        """The state of the SongWidget
-        """
-        PLAYED = 0
-        PLAYING = 1
-        UNPLAYED = 2
-
     def __init__(self, coresong, can_dnd=False, show_artist_and_album=False):
         """Instanciates a SongWidget
 
@@ -93,7 +86,7 @@ class SongWidget(Gtk.EventBox):
 
         self.props.coresong = coresong
         self._selection_mode = False
-        self._state = SongWidget.State.UNPLAYED
+        self._state = SongState.UNPLAYED
 
         self.props.coresong.bind_property(
             "track-number", self, "song-number",
@@ -257,19 +250,19 @@ class SongWidget(Gtk.EventBox):
     def state(self):
         """State of the widget
 
-        :returns: Widget state
-        :rtype: SongWidget.State
+        :returns: CoreSong state
+        :rtype: SongState
         """
         return self._state
 
     @state.setter
     def state(self, value):
-        """Set state of the of widget
+        """Set state of the widget
 
         This influences the look of the widgets label and if there is a
         song play indicator being shown.
 
-        :param SongWidget.State value: Widget state
+        :param SongState value: CoreSong state
         """
         self._state = value
 
@@ -285,9 +278,9 @@ class SongWidget(Gtk.EventBox):
             style_ctx.add_class("dim-label")
             return
 
-        if value == SongWidget.State.PLAYED:
+        if value == SongState.PLAYED:
             style_ctx.add_class('dim-label')
-        elif value == SongWidget.State.PLAYING:
+        elif value == SongState.PLAYING:
             self._play_icon.set_visible(True)
             style_ctx.add_class('playing-song-label')
 
