@@ -83,13 +83,13 @@ class DiscBox(Gtk.ListBoxRow):
 
         self._list_box.foreach(child_select_all)
 
-    def select_none(self):
+    def unselect_all(self):
         """Deselect all songs"""
-        def child_select_none(child):
+        def child_unselect_all(child):
             song_widget = child.get_child()
             song_widget.props.coresong.props.selected = False
 
-        self._list_box.foreach(child_select_none)
+        self._list_box.foreach(child_unselect_all)
 
     def _create_widget(self, coresong):
         song_widget = SongWidget(coresong)
@@ -154,12 +154,12 @@ class DiscListBox(Gtk.ListBox):
 
         self.foreach(child_select_all)
 
-    def select_none(self):
+    def unselect_all(self):
         """Deselect all songs"""
-        def child_select_none(child):
-            child.select_none()
+        def child_unselect_all(child):
+            child.unselect_all()
 
-        self.foreach(child_select_none)
+        self.foreach(child_unselect_all)
 
     @GObject.Property(type=bool, default=False)
     def selection_mode(self):

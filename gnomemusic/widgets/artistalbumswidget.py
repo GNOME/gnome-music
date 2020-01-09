@@ -113,10 +113,10 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             widget.select_all()
 
     @log
-    def select_none(self):
+    def unselect_all(self):
         """Deselect all items"""
         for widget in self._widgets:
-            widget.select_none()
+            widget.unselect_all()
 
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self):

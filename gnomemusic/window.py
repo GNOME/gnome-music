@@ -87,9 +87,9 @@ class Window(Gtk.ApplicationWindow):
         select_all = Gio.SimpleAction.new('select_all', None)
         select_all.connect('activate', self._select_all)
         self.add_action(select_all)
-        select_none = Gio.SimpleAction.new('select_none', None)
-        select_none.connect('activate', self._select_none)
-        self.add_action(select_none)
+        unselect_all = Gio.SimpleAction.new('unselect_all', None)
+        unselect_all.connect('activate', self._unselect_all)
+        self.add_action(unselect_all)
 
         self.set_size_request(200, 100)
         WindowPlacement(self)
@@ -312,7 +312,7 @@ class Window(Gtk.ApplicationWindow):
         view.select_all()
 
     @log
-    def _select_none(self, action=None, param=None):
+    def _unselect_all(self, action=None, param=None):
         if not self.props.selection_mode:
             return
         if self._headerbar.props.state == HeaderBar.State.MAIN:
@@ -320,7 +320,7 @@ class Window(Gtk.ApplicationWindow):
             view.unselect_all()
         else:
             view = self.props.active_view.get_visible_child()
-            view.select_none()
+            view.unselect_all()
 
     @log
     def _on_key_press(self, widget, event):
@@ -372,7 +372,7 @@ class Window(Gtk.ApplicationWindow):
         # Ctrl+Shift+<KEY>
         elif modifiers == shift_ctrl_mask:
             if keyval == Gdk.KEY_A:
-                self._select_none()
+                self._unselect_all()
         # Alt+<KEY>
         elif modifiers == mod1_mask:
             # Go back from child view on Alt + Left

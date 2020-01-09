@@ -192,8 +192,8 @@ class AlbumWidget(Gtk.EventBox):
     def select_all(self):
         self._disc_list_box.select_all()
 
-    def select_none(self):
-        self._disc_list_box.select_none()
+    def unselect_all(self):
+        self._disc_list_box.unselect_all()
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
