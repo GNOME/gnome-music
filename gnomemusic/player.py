@@ -32,7 +32,7 @@ from gi.repository import GObject, GstPbutils
 
 from gnomemusic.coresong import CoreSong
 from gnomemusic.gstplayer import GstPlayer, Playback
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidget import WidgetState
 import gnomemusic.utils as utils
 
 
@@ -144,7 +144,7 @@ class PlayerPlaylist(GObject.GObject):
         else:
             next_position = self.props.position + 1
 
-        self._model[self.props.position].props.state = SongWidget.State.PLAYED
+        self._model[self.props.position].props.state = WidgetState.PLAYED
         self._position = next_position
 
         next_song = self._model[next_position]
@@ -152,7 +152,7 @@ class PlayerPlaylist(GObject.GObject):
             return self.next()
 
         self._update_model_recent()
-        next_song.props.state = SongWidget.State.PLAYING
+        next_song.props.state = WidgetState.PLAYING
         self._validate_next_song()
         return True
 
@@ -173,7 +173,7 @@ class PlayerPlaylist(GObject.GObject):
         else:
             previous_position = self.props.position - 1
 
-        self._model[self.props.position].props.state = SongWidget.State.PLAYED
+        self._model[self.props.position].props.state = WidgetState.PLAYED
         self._position = previous_position
 
         previous_song = self._model[previous_position]
@@ -181,7 +181,7 @@ class PlayerPlaylist(GObject.GObject):
             return self.previous()
 
         self._update_model_recent()
-        self._model[previous_position].props.state = SongWidget.State.PLAYING
+        self._model[previous_position].props.state = WidgetState.PLAYING
         self._validate_previous_song()
         return True
 
@@ -206,11 +206,11 @@ class PlayerPlaylist(GObject.GObject):
         if (n_items != 0
                 and n_items > self._position):
             current_song = self._model[self._position]
-            if current_song.props.state == SongWidget.State.PLAYING:
+            if current_song.props.state == WidgetState.PLAYING:
                 return current_song
 
         for idx, coresong in enumerate(self._model):
-            if coresong.props.state == SongWidget.State.PLAYING:
+            if coresong.props.state == WidgetState.PLAYING:
                 self._position = idx
                 self._update_model_recent()
                 return coresong
@@ -235,7 +235,7 @@ class PlayerPlaylist(GObject.GObject):
             else:
                 position = 0
             song = self._model.get_item(position)
-            song.props.state = SongWidget.State.PLAYING
+            song.props.state = WidgetState.PLAYING
             self._position = position
             self._validate_song(song)
             self._validate_next_song()
@@ -244,7 +244,7 @@ class PlayerPlaylist(GObject.GObject):
 
         for idx, coresong in enumerate(self._model):
             if coresong == song:
-                coresong.props.state = SongWidget.State.PLAYING
+                coresong.props.state = WidgetState.PLAYING
                 self._position = idx
                 self._validate_song(song)
                 self._validate_next_song()

@@ -35,7 +35,7 @@ from gnomemusic.coresong import CoreSong
 from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.player import PlayerPlaylist
 from gnomemusic.songliststore import SongListStore
-from gnomemusic.widgets.songwidget import SongWidget
+from gnomemusic.widgets.songwidget import WidgetState
 import gnomemusic.utils as utils
 
 
@@ -197,8 +197,8 @@ class CoreModel(GObject.GObject):
         """
         if model is self._previous_playlist_model:
             for song in self._playlist_model:
-                if song.props.state == SongWidget.State.PLAYING:
-                    song.props.state = SongWidget.State.PLAYED
+                if song.props.state == WidgetState.PLAYING:
+                    song.props.state = WidgetState.PLAYED
 
             self.emit("playlist-loaded", playlist_type)
             return
@@ -220,10 +220,10 @@ class CoreModel(GObject.GObject):
 
             self._playlist_model.splice(position, removed, songs_list)
 
-        played_states = [SongWidget.State.PLAYING, SongWidget.State.PLAYED]
+        played_states = [WidgetState.PLAYING, WidgetState.PLAYED]
         for song in self._playlist_model:
             if song.props.state in played_states:
-                song.props.state = SongWidget.State.UNPLAYED
+                song.props.state = WidgetState.UNPLAYED
 
         if self._player_signal_id is not None:
             self._current_playlist_model.disconnect(self._player_signal_id)
@@ -269,8 +269,8 @@ class CoreModel(GObject.GObject):
             for song in self._songliststore.props.model:
                 songs_added.append(song)
 
-                if song.props.state == SongWidget.State.PLAYING:
-                    song.props.state = SongWidget.State.PLAYED
+                if song.props.state == WidgetState.PLAYING:
+                    song.props.state = WidgetState.PLAYED
 
         elif playlist_type == PlayerPlaylist.Type.SEARCH_RESULT:
             self._current_playlist_model = self._songs_search_flatten
