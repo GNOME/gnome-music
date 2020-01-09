@@ -460,12 +460,6 @@ class Window(Gtk.ApplicationWindow):
         allowed = self.curr_view not in no_selection_mode
         self._headerbar.props.selection_mode_allowed = allowed
 
-        # Disable renaming playlist if it was active when leaving
-        # Playlist view
-        if (self.prev_view == self.views[View.PLAYLIST]
-                and self.views[View.PLAYLIST].rename_active):
-            self.views[View.PLAYLIST].disable_rename_playlist()
-
     @log
     def _toggle_view(self, view_enum):
         # TODO: The SEARCH state actually refers to the child state of
