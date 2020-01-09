@@ -46,6 +46,7 @@ class DBusInterface:
         :param str path: object path
         """
         self._path = path
+        self._signals = None
         Gio.bus_get(Gio.BusType.SESSION, None, self._bus_get_sync, name)
 
     def _bus_get_sync(self, source, res, name):
@@ -124,6 +125,9 @@ class DBusInterface:
             invocation.return_value(None)
 
     def _dbus_emit_signal(self, signal_name, values):
+        if self._signals is None:
+            return
+
         signal = self._signals[signal_name]
         parameters = []
         for arg_name, arg_signature in signal['args'].items():
