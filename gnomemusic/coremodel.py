@@ -71,6 +71,8 @@ class CoreModel(GObject.GObject):
     active_playlist = GObject.Property(type=Playlist, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
+    _recent_size = 21
+
     def __init__(self, application):
         """Initiate the CoreModel object
 
@@ -100,6 +102,8 @@ class CoreModel(GObject.GObject):
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
+        self._playlist_model_recent = Gfm.SliceListModel.new(
+            self._playlist_model_sort, 0, self._recent_size)
 
         self._songs_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
         self._songs_search_flatten = Gfm.FlattenListModel.new(CoreSong)
@@ -329,6 +333,18 @@ class CoreModel(GObject.GObject):
         flags=GObject.ParamFlags.READABLE)
     def playlist_sort(self):
         return self._playlist_model_sort
+
+    @GObject.Property(
+        type=Gfm.SliceListModel, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def playlist_recent(self):
+        return self._playlist_model_recent
+
+    @GObject.Property(
+        type=int, default=None,
+        flags=GObject.ParamFlags.READABLE)
+    def playlist_recent_size(self):
+        return self._recent_size // 2
 
     @GObject.Property(
         type=Gfm.FilterListModel, default=None,
