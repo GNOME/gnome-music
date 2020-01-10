@@ -273,11 +273,6 @@ class Window(Gtk.ApplicationWindow):
         self.views[View.PLAYLIST] = PlaylistsView(self._app, self._player)
         self.views[View.SEARCH] = SearchView(self._app, self._player)
 
-        selectable_views = [View.ALBUM, View.ARTIST, View.SONG, View.SEARCH]
-        for view in selectable_views:
-            self.views[view].bind_property(
-                'selected-items-count', self, 'selected-items-count')
-
         # empty view has already been created in self._setup_view starting at
         # View.ALBUM
         # empty view state is changed once album view is visible to prevent it

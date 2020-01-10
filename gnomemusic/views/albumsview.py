@@ -42,7 +42,6 @@ class AlbumsView(Gtk.Stack):
     __gtype_name__ = "AlbumsView"
 
     search_mode_active = GObject.Property(type=bool, default=False)
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _scrolled_window = Gtk.Template.Child()

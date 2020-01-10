@@ -46,7 +46,6 @@ class SearchView(Gtk.Stack):
     __gtype_name__ = "SearchView"
 
     search_state = GObject.Property(type=int, default=Search.State.NONE)
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _album_header = Gtk.Template.Child()
@@ -132,7 +131,6 @@ class SearchView(Gtk.Stack):
         self._scrolled_artist_window = None
 
         self._search_mode_active = False
-        # self.connect("notify::search-state", self._on_search_state_changed)
 
     def _core_filter(self, coreitem, coremodel, nr_items):
         if coremodel.get_n_items() <= 5:
@@ -427,14 +425,6 @@ class SearchView(Gtk.Stack):
         if (not self.props.selection_mode
                 and self.get_parent().get_visible_child() == self):
             self.unselect_all()
-
-    @log
-    def _on_search_state_changed(self, klass, param):
-        # If a search is triggered when selection mode is activated,
-        # reset the number of selected items.
-        if (self.props.selection_mode
-                and self.props.search_state != Search.State.NONE):
-            self.props.selected_items_count = 0
 
     @GObject.Property(type=bool, default=False)
     def search_mode_active(self):
