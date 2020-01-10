@@ -184,7 +184,7 @@ class LastFmScrobbler(GObject.GObject):
         album = media.get_album()
 
         request_dict = {}
-        if(request_type_key == "scrobble"
+        if (request_type_key == "scrobble"
                 and time_stamp is not None):
             self._scrobble_cache.append({
                 "artist": artist,
