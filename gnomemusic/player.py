@@ -75,7 +75,9 @@ class PlayerPlaylist(GObject.GObject):
         self._discoverer.connect("discovered", self._on_discovered)
         self._discoverer.start()
 
-        self._model = self._app.props.coremodel.props.playlist_sort
+        self._coremodel = self._app.props.coremodel
+        self._model = self._coremodel.props.playlist_sort
+        self._model_recent = self._coremodel.props.recent_playlist
 
         self.connect("notify::repeat-mode", self._on_repeat_mode_changed)
 
@@ -149,6 +151,7 @@ class PlayerPlaylist(GObject.GObject):
         if next_song.props.validation == CoreSong.Validation.FAILED:
             return self.next()
 
+        self._update_model_recent()
         next_song.props.state = SongWidget.State.PLAYING
         self._validate_next_song()
         return True
@@ -177,6 +180,7 @@ class PlayerPlaylist(GObject.GObject):
         if previous_song.props.validation == CoreSong.Validation.FAILED:
             return self.previous()
 
+        self._update_model_recent()
         self._model[previous_position].props.state = SongWidget.State.PLAYING
         self._validate_previous_song()
         return True
@@ -208,6 +212,7 @@ class PlayerPlaylist(GObject.GObject):
         for idx, coresong in enumerate(self._model):
             if coresong.props.state == SongWidget.State.PLAYING:
                 self._position = idx
+                self._update_model_recent()
                 return coresong
 
         return None
@@ -234,6 +239,7 @@ class PlayerPlaylist(GObject.GObject):
             self._position = position
             self._validate_song(song)
             self._validate_next_song()
+            self._update_model_recent()
             return song
 
         for idx, coresong in enumerate(self._model):
@@ -242,9 +248,15 @@ class PlayerPlaylist(GObject.GObject):
                 self._position = idx
                 self._validate_song(song)
                 self._validate_next_song()
+                self._update_model_recent()
                 return song
 
         return None
+
+    def _update_model_recent(self):
+        recent_size = self._coremodel.props.recent_playlist_size
+        offset = max(0, self._position - recent_size)
+        self._model_recent.set_offset(offset)
 
     def _on_repeat_mode_changed(self, klass, param):
         # FIXME: This shuffle is too simple.
