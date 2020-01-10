@@ -424,7 +424,8 @@ class SearchView(Gtk.Stack):
 
     @log
     def _on_selection_mode_changed(self, widget, data=None):
-        if not self.props.selection_mode:
+        if (not self.props.selection_mode
+                and self.get_parent().get_visible_child() == self):
             self.unselect_all()
 
     @log
