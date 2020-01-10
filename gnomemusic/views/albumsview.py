@@ -172,7 +172,7 @@ class AlbumsView(Gtk.Stack):
 
         # NOTE: Adding SYNC_CREATE here will trigger all the nested
         # models to be created. This will slow down initial start,
-        # but will improve initial 'selecte all' speed.
+        # but will improve initial 'select all' speed.
         album_widget.bind_property(
             "selected", corealbum, "selected",
             GObject.BindingFlags.BIDIRECTIONAL)
