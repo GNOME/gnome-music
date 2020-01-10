@@ -185,7 +185,7 @@ class LastFmScrobbler(GObject.GObject):
 
         request_dict = {}
         if(request_type_key == "scrobble"
-           and time_stamp is not None):
+                and time_stamp is not None):
             self._scrobble_cache.append({
                 "artist": artist,
                 "track": title,
@@ -250,7 +250,7 @@ class LastFmScrobbler(GObject.GObject):
                 request_type_key, status_code, msg.props.reason_phrase))
             logger.warning(msg.props.response_body.data)
         elif (status_code == 200
-              and request_type_key == "scrobble"):
+                and request_type_key == "scrobble"):
             self._scrobble_cache.clear()
 
     @log
