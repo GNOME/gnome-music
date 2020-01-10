@@ -71,6 +71,8 @@ class AlbumWidget(Gtk.EventBox):
         self._parent_view = parent_view
         self._player = player
 
+        self.connect("notify::selection-mode", self._on_selection_mode_changed)
+
     def update(self, corealbum):
         """Update the album widget.
 
@@ -184,6 +186,10 @@ class AlbumWidget(Gtk.EventBox):
 
     def select_none(self):
         self._listbox.select_none()
+
+    def _on_selection_mode_changed(self, widget, value):
+        if not self.props.selection_mode:
+            self.select_none()
 
     @GObject.Property(
         type=Grl.Media, default=None, flags=GObject.ParamFlags.READABLE)
