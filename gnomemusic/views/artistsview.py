@@ -188,10 +188,6 @@ class ArtistsView(BaseView):
             self.props.selection_mode = True
 
     @log
-    def _on_selection_changed(self, widget, value, data=None):
-        return
-
-    @log
     def _on_selection_mode_changed(self, widget, data=None):
         super()._on_selection_mode_changed(widget, data)
 
