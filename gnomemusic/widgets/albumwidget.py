@@ -51,7 +51,6 @@ class AlbumWidget(Gtk.EventBox):
     _running_info_label = Gtk.Template.Child()
     _title_label = Gtk.Template.Child()
 
-    selected_items_count = GObject.Property(type=int, default=0, minimum=0)
     selection_mode = GObject.Property(type=bool, default=False)
 
     _duration = 0
@@ -161,14 +160,6 @@ class AlbumWidget(Gtk.EventBox):
         mins = (coredisc.props.duration // 60) + 1
         self._running_info_label.props.label = ngettext(
             "{} minute", "{} minutes", mins).format(mins)
-
-    def _on_selection_changed(self, klass, value):
-        n_items = 0
-        for song in self._model[0]:
-            if song.props.selected:
-                n_items += 1
-
-        self.props.selected_items_count = n_items
 
     def _song_activated(self, widget, song_widget):
         if self.props.selection_mode:
