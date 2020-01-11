@@ -49,7 +49,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
         super().__init__()
 
         self._application = application
-        self._artist = coreartist.props.artist
+        self._artist = coreartist
         self._model = coreartist.props.model
         self._player = self._application.props.player
 
@@ -111,4 +111,4 @@ class ArtistAlbumsWidget(Gtk.ListBox):
     @GObject.Property(type=str, flags=GObject.ParamFlags.READABLE)
     def artist(self):
         """Artist name"""
-        return self._artist
+        return self._artist.props.artist
