@@ -27,6 +27,7 @@ import re
 
 from gi.repository import Gio, GLib
 
+from gnomemusic.grilowrappers.grltrackerplaylists import Playlist
 from gnomemusic.gstplayer import Playback
 from gnomemusic.player import PlayerPlaylist, RepeatMode
 from gnomemusic.widgets.songwidget import SongWidget
@@ -480,12 +481,12 @@ class MPRIS(DBusInterface):
         :returns: playlist existence and its structure
         :rtype: tuple
         """
-        current_playlist = self._coremodel.props.active_playlist
-        if current_playlist is None:
+        current_core_object = self._coremodel.props.active_core_object
+        if not isinstance(current_core_object, Playlist):
             return (False, ("/", "", ""))
 
         mpris_playlist = self._get_mpris_playlist_from_playlist(
-            current_playlist)
+            current_core_object)
         return (True, mpris_playlist)
 
     def _on_current_song_changed(self, player):
@@ -736,7 +737,6 @@ class MPRIS(DBusInterface):
 
         loaded_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.props.active_playlist = playlist
         self._coremodel.props.active_core_object = playlist
 
     def _activate_playlist(self, playlist_path):
