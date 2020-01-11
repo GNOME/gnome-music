@@ -258,10 +258,10 @@ class GrlTrackerPlaylists(GObject.GObject):
         * it is being played (active_playlist)
         * it is visible in PlaylistsView
         """
-        active_playlist = self._coremodel.props.active_playlist
-        if (active_playlist is not None
-                and active_playlist.props.is_smart is True):
-            active_playlist.update()
+        active_media = self._coremodel.props.active_media
+        if (isinstance(active_media, Playlist)
+                and active_media.props.is_smart):
+            active_media.update()
         else:
             self._coremodel.emit("smart-playlist-change")
 
