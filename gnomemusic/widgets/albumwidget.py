@@ -27,7 +27,6 @@ from gettext import ngettext
 from gi.repository import GObject, Grl, Gtk
 
 from gnomemusic.albumartcache import Art
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.widgets.disclistboxwidget import DiscBox
 from gnomemusic.widgets.disclistboxwidget import DiscListBox  # noqa: F401
 
@@ -167,8 +166,7 @@ class AlbumWidget(Gtk.EventBox):
 
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.ALBUM, self._album_model)
+        self._coremodel.props.active_media = self._corealbum
 
         return True
 
