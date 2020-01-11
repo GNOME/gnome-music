@@ -26,7 +26,6 @@ from gettext import gettext as _
 from gi.repository import Gdk, GObject, Gtk, Pango
 
 from gnomemusic.coresong import CoreSong
-from gnomemusic.player import PlayerPlaylist
 from gnomemusic.utils import SongStateIcon
 from gnomemusic.widgets.starhandlerwidget import StarHandlerWidget
 
@@ -151,8 +150,7 @@ class SongsView(Gtk.ScrolledWindow):
 
         itr = self._model.get_iter(path)
         coresong = self._model[itr][7]
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.SONGS, self._model)
+        self._coremodel.props.active_core_object = coresong
 
         self._player.play(coresong)
 

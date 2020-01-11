@@ -107,6 +107,7 @@ class CoreModel(GObject.GObject):
 
         self._playlist_model = Gio.ListStore.new(CoreSong)
         self._playlist_model_sort = Gfm.SortListModel.new(self._playlist_model)
+        self._active_core_object = None
 
         self._songs_search_proxy = Gio.ListStore.new(Gfm.FilterListModel)
         self._songs_search_flatten = Gfm.FlattenListModel.new(CoreSong)
@@ -140,6 +141,8 @@ class CoreModel(GObject.GObject):
             self._user_playlists_model_filter)
         self._user_playlists_model_sort.set_sort_func(
             utils.wrap_list_store_sort_func(self._playlists_sort))
+
+        self._search = application.props.search
 
         self._songs_model.connect(
             "items-changed", self._on_songs_items_changed)
@@ -184,7 +187,7 @@ class CoreModel(GObject.GObject):
             playlist_a.props.creation_date)
         return math.copysign(1, date_diff)
 
-    def set_player_model(self, playlist_type, model):
+    def _set_player_model(self, playlist_type, model):
         """Set the model for PlayerPlaylist to use
 
         This fills playlist model based on the playlist type and model
@@ -298,6 +301,45 @@ class CoreModel(GObject.GObject):
         self._previous_playlist_model = model
 
         self.emit("playlist-loaded", playlist_type)
+
+    @GObject.Property(default=None)
+    def active_core_object(self):
+        """Get the current playing core object
+        (album, artist, playlist, search result or song).
+
+        :returns: current media
+        :rtype: CoreObject
+        """
+        return self._active_core_object
+
+    @active_core_object.setter
+    def active_core_object(self, value):
+        """Set the current playing core object
+        (album, artist, playlist, search result or song).
+
+        :param CoreObject value: new core object to play
+        """
+        self._active_core_object = value
+        if isinstance(value, CoreAlbum):
+            playlist_type = PlayerPlaylist.Type.ALBUM
+            model = value.props.model
+        elif isinstance(value, CoreArtist):
+            playlist_type = PlayerPlaylist.Type.ARTIST
+            model = value.props.model
+        elif isinstance(value, Playlist):
+            playlist_type = PlayerPlaylist.Type.PLAYLIST
+            model = value.props.model
+        # If the search is active, it means that the search view is visible,
+        # so the player playlist is a list of songs from the search result.
+        # Otherwise, it's a list of songs from the songs view.
+        elif self._search.props.search_mode_active:
+            playlist_type = PlayerPlaylist.Type.SEARCH_RESULT
+            model = self._song_search_flatten
+        else:
+            playlist_type = PlayerPlaylist.Type.SONGS
+            model = self._songs_model
+
+        self._set_player_model(playlist_type, model)
 
     @GObject.Property(
         type=Gio.ListStore, default=None, flags=GObject.ParamFlags.READABLE)
