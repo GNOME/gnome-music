@@ -69,7 +69,6 @@ class CoreModel(GObject.GObject):
         "smart-playlist-change": (GObject.SignalFlags.RUN_FIRST, None, ())
     }
 
-    active_playlist = GObject.Property(type=Playlist, default=None)
     songs_available = GObject.Property(type=bool, default=False)
 
     _recent_size = 21
@@ -229,10 +228,6 @@ class CoreModel(GObject.GObject):
             self._current_playlist_model.disconnect(self._player_signal_id)
             self._player_signal_id = None
             self._current_playlist_model = None
-
-        if (playlist_type != PlayerPlaylist.Type.PLAYLIST
-                and self.props.active_playlist is not None):
-            self.props.active_playlist = None
 
         songs_added = []
 
