@@ -64,7 +64,7 @@ class PlaylistsView(Gtk.Box):
         self._sidebar.bind_model(self._model, self._add_playlist_to_sidebar)
 
         self._coremodel.connect(
-            "notify::active-playlist", self._on_active_playlist_changed)
+            "notify::active-media", self._on_active_media_changed)
 
         self._model.connect("items-changed", self._on_playlists_model_changed)
         self._on_playlists_model_changed(self._model, 0, 0, 0)
@@ -114,19 +114,19 @@ class PlaylistsView(Gtk.Box):
 
         self.notify("current-playlist")
 
-    def _on_active_playlist_changed(self, klass, val):
+    def _on_active_media_changed(self, klass, val):
         """Selects the active playlist when an MPRIS client
            has changed it.
         """
-        playlist = self._coremodel.props.active_playlist
+        active_media = self._coremodel.props.active_media
         selection = self._sidebar.get_selected_row()
-        if (playlist is None
-                or playlist == selection.props.playlist):
+        if (not isinstance(active_media, Playlist)
+                or active_media == selection.props.playlist):
             return
 
         playlist_row = None
         for row in self._sidebar:
-            if row.props.playlist == playlist:
+            if row.props.playlist == active_media:
                 playlist_row = row
                 break
 
