@@ -249,8 +249,7 @@ class SearchView(Gtk.Stack):
                 and not self.props.selection_mode):
             # self.emit('song-activated', widget)
 
-            self._coremodel.set_player_model(
-                PlayerPlaylist.Type.SEARCH_RESULT, self._model)
+            self._coremodel.props.active_media = widget.props.coresong
             self._player.play(widget.props.coresong)
 
         # FIXME: Need to ignore the event from the checkbox.

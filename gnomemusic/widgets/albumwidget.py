@@ -167,8 +167,7 @@ class AlbumWidget(Gtk.EventBox):
 
         signal_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.ALBUM, self._album_model)
+        self._coremodel.props.active_media = self._corealbum
 
         return True
 

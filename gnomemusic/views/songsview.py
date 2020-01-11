@@ -149,10 +149,9 @@ class SongsView(Gtk.ScrolledWindow):
         if self.props.selection_mode:
             return
 
-        itr = self._model.get_iter(path)
+        itr = self._songs_view.props.model.get_iter(path)
         coresong = self._model[itr][7]
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.SONGS, self._model)
+        self._coremodel.props.active_media = coresong
 
         self._player.play(coresong)
 

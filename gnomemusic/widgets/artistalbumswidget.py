@@ -74,7 +74,7 @@ class ArtistAlbumsWidget(Gtk.ListBox):
             coremodel.disconnect(signal_id)
 
         signal_id = coremodel.connect("playlist-loaded", _on_playlist_loaded)
-        coremodel.set_player_model(PlayerPlaylist.Type.ARTIST, self._model)
+        coremodel.props.active_media = self._artist
 
     def _add_album(self, corealbum):
         row = Gtk.ListBoxRow()

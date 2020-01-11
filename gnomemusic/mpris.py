@@ -751,8 +751,7 @@ class MPRIS(DBusInterface):
         loaded_id = self._coremodel.connect(
             "playlist-loaded", _on_playlist_loaded)
         self._coremodel.props.active_playlist = playlist
-        self._coremodel.set_player_model(
-            PlayerPlaylist.Type.PLAYLIST, playlist.props.model)
+        self._coremodel.props.active_media = playlist
 
     def _activate_playlist(self, playlist_path):
         """Starts playing the given playlist (MPRIS Method).
