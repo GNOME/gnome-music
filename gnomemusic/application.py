@@ -43,6 +43,7 @@ from gnomemusic.musiclogger import MusicLogger
 from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.scrobbler import LastFmScrobbler
+from gnomemusic.search import Search
 from gnomemusic.widgets.aboutdialog import AboutDialog
 from gnomemusic.widgets.lastfmdialog import LastfmDialog
 from gnomemusic.window import Window
@@ -63,6 +64,8 @@ class Application(Gtk.Application):
         self._window = None
 
         self._log = MusicLogger()
+        self._search = Search()
+
         self._coreselection = CoreSelection()
         self._coremodel = CoreModel(self)
         # Order is important: CoreGrilo initializes the Grilo sources,
@@ -161,6 +164,16 @@ class Application(Gtk.Application):
         :rtype: Window
         """
         return self._window
+
+    @GObject.Property(
+        type=Search, flags=GObject.ParamFlags.READABLE)
+    def search(self):
+        """Get class providing search logic.
+
+        :returns: List model provider class
+        :rtype: Search
+        """
+        return self._search
 
     def _set_actions(self):
         action_entries = [
