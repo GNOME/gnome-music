@@ -22,6 +22,8 @@
 # code, but you are not obligated to do so.  If you do not wish to do so,
 # delete this exception statement from your version.
 
+import inspect
+
 from gi.repository import GLib, GObject
 
 
@@ -40,7 +42,18 @@ class MusicLogger(GObject.GObject):
 
     def _log(self, message, level):
         variant_message = GLib.Variant("s", message)
-        variant_dict = GLib.Variant("a{sv}", {"MESSAGE": variant_message})
+        stack = inspect.stack()
+        variant_file = GLib.Variant("s", stack[2][1])
+        variant_line = GLib.Variant("i", stack[2][2])
+        variant_func = GLib.Variant("s", stack[2][3])
+
+        variant_dict = GLib.Variant("a{sv}", {
+            "MESSAGE": variant_message,
+            "CODE_FILE": variant_file,
+            "CODE_LINE": variant_line,
+            "CODE_FUNC": variant_func
+        })
+
         GLib.log_variant(self._DOMAIN, level, variant_dict)
 
     def message(self, message):
