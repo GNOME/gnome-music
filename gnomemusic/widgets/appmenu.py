@@ -45,13 +45,24 @@ class AppMenu(Gtk.PopoverMenu):
 
         self._lastfm_switcher_id = None
 
+        self._lastfm_configure_action = application.lookup_action(
+            "lastfm-configure")
+
         self._lastfm_scrobbler = application.props.lastfm_scrobbler
         self._lastfm_scrobbler.connect(
             "notify::can-scrobble", self._on_scrobbler_state_changed)
+        self._on_scrobbler_state_changed(None, None)
 
     def _on_scrobbler_state_changed(self, klass, args):
         state = self._lastfm_scrobbler.props.account_state
-        if state <= GoaLastFM.State.NOT_CONFIGURED:
+
+        if state == GoaLastFM.State.NOT_AVAILABLE:
+            self._lastfm_configure_action.props.enabled = False
+            return
+
+        self._lastfm_configure_action.props.enabled = True
+
+        if state == GoaLastFM.State.NOT_CONFIGURED:
             self._lastfm_box.props.sensitive = False
             if self._lastfm_switcher_id is not None:
                 self._lastfm_switch.disconnect(self._lastfm_switcher_id)

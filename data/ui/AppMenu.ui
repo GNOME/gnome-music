@@ -15,8 +15,8 @@
             <property name="can_focus">False</property>
             <property name="halign">fill</property>
             <property name="hexpand">False</property>
-            <property name="sensitive">False</property>
             <property name="visible">True</property>
+            <property name="action_name">app.lastfm-configure</property>
             <property name="text" translatable="yes">Last.fm Account</property>
           </object>
           <packing>
