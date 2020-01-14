@@ -43,6 +43,7 @@ from gnomemusic.pauseonsuspend import PauseOnSuspend
 from gnomemusic.player import Player
 from gnomemusic.scrobbler import LastFmScrobbler
 from gnomemusic.widgets.aboutdialog import AboutDialog
+from gnomemusic.widgets.lastfmdialog import LastfmDialog
 from gnomemusic.window import Window
 
 
@@ -151,6 +152,7 @@ class Application(Gtk.Application):
         action_entries = [
             ('about', self._about, None),
             ("help", self._help, ("app.help", ["F1"])),
+            ("lastfm-configure", self._lastfm_account, None),
             ("quit", self._quit, ("app.quit", ["<Ctrl>Q"]))
         ]
 
@@ -166,6 +168,11 @@ class Application(Gtk.Application):
             Gtk.show_uri(None, "help:gnome-music", Gdk.CURRENT_TIME)
         except GLib.Error:
             self._log.message("Help handler not available.")
+
+    def _lastfm_account(self, action, param):
+        lastfm_dialog = LastfmDialog(self._window, self._lastfm_scrobbler)
+        lastfm_dialog.run()
+        lastfm_dialog.destroy()
 
     def _about(self, action, param):
         about = AboutDialog()
