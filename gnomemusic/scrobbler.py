@@ -27,7 +27,7 @@ from hashlib import md5
 
 import gi
 gi.require_versions({"Goa": "1.0", "GoaBackend": "1.0", "Soup": "2.4"})
-from gi.repository import GLib, Goa, GoaBackend, GObject, Soup
+from gi.repository import Gio, GLib, Goa, GoaBackend, GObject, Soup
 
 from gnomemusic.musiclogger import MusicLogger
 import gnomemusic.utils as utils
@@ -162,6 +162,53 @@ class GoaLastFM(GObject.GObject):
                 "Error: Unable to retrieve last.fm session key", e.message)
             return None
 
+    def configure(self):
+        if self.props.state == GoaLastFM.State.NOT_AVAILABLE:
+            self._log.warning("Error, cannot configure a Last.fm account.")
+            return
+
+        Gio.bus_get(Gio.BusType.SESSION, None, self._get_connection_db, None)
+
+    def _get_connection_db(self, source, res, user_data=None):
+        try:
+            connection = Gio.bus_get_finish(res)
+        except GLib.Error as e:
+            self._log.warning(
+                "Error: Unable to get the DBus connection:", e.message)
+            return
+
+        Gio.DBusProxy.new(
+            connection, Gio.DBusProxyFlags.NONE, None,
+            "org.gnome.ControlCenter", "/org/gnome/ControlCenter",
+            "org.gtk.Actions", None, self._get_control_center_proxy_cb, None)
+
+    def _get_control_center_proxy_cb(self, source, res, user_data=None):
+        try:
+            settings_proxy = Gio.DBusProxy.new_finish(res)
+        except GLib.Error as e:
+            self._log.warning(
+                "Error: Unable to get a proxy:", e.message)
+            return
+
+        if self._state == GoaLastFM.State.NOT_CONFIGURED:
+            params = [GLib.Variant("s", "add"), GLib.Variant("s", "lastfm")]
+        else:
+            params = [GLib.Variant("s", self._account.props.id)]
+
+        args = GLib.Variant("(sav)", ("online-accounts", params))
+        variant = GLib.Variant("(sava{sv})", ("launch-panel", [args], {}))
+        settings_proxy.call(
+            "Activate", variant, Gio.DBusCallFlags.NONE, -1, None,
+            self._on_control_center_activated)
+
+    def _on_control_center_activated(self, proxy, res, user_data=None):
+        try:
+            proxy.call_finish(res)
+        except GLib.Error as e:
+            self._log.warning(
+                "Error: Failed to activate control-center: {}".format(
+                    e.message))
+
 
 class LastFmScrobbler(GObject.GObject):
     """Scrobble songs to Last.fm"""
@@ -186,6 +233,9 @@ class LastFmScrobbler(GObject.GObject):
 
         self._soup_session = Soup.Session.new()
         self._scrobble_cache = []
+
+    def configure(self):
+        self._goa_lastfm.configure()
 
     @GObject.Property(type=int, default=GoaLastFM.State.NOT_AVAILABLE)
     def account_state(self):
