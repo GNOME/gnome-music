@@ -107,7 +107,11 @@ class HeaderBar(Gtk.HeaderBar):
         return "<HeaderBar>"
 
     @log
-    def __init__(self):
+    def __init__(self, application):
+        """Initialize Headerbar
+
+        :param Application application: Application object
+        """
         super().__init__()
 
         self._selection_mode = False
@@ -118,7 +122,7 @@ class HeaderBar(Gtk.HeaderBar):
 
         self._selection_menu = SelectionBarMenuButton()
 
-        self._menu_button.set_popover(AppMenu())
+        self._menu_button.set_popover(AppMenu(application))
 
         self.bind_property(
             "selection-mode", self, "show-close-button",
