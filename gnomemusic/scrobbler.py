@@ -151,6 +151,15 @@ class GoaLastFM(GObject.GObject):
         """Enable music suport of the Last.fm account"""
         self._account.props.music_disabled = False
 
+    @GObject.Property(type=str, default="", flags=GObject.ParamFlags.READABLE)
+    def identity(self):
+        """Get Last.fm account identity
+
+        :returns: Last.fm account identity
+        :rtype: str
+        """
+        return self._account.props.identity
+
     @GObject.Property
     def secret(self):
         """Retrieve the Last.fm client secret"""
@@ -248,6 +257,15 @@ class LastFmScrobbler(GObject.GObject):
 
     def configure(self):
         self._goa_lastfm.configure()
+
+    @GObject.Property(type=str, default="", flags=GObject.ParamFlags.READABLE)
+    def identity(self):
+        """Get Last.fm account identity
+
+        :returns: Last.fm account identity
+        :rtype: str
+        """
+        return self._goa_lastfm.props.identity
 
     @GObject.Property(type=int, default=GoaLastFM.State.NOT_AVAILABLE)
     def account_state(self):
