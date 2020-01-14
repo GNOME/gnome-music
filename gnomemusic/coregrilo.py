@@ -66,6 +66,7 @@ class CoreGrilo(GObject.GObject):
         self._application = application
         self._coremodel = coremodel
         self._coreselection = application.props.coreselection
+        self._log = application.props.log
         self._search_wrappers = {}
         self._thumbnail_sources = []
         self._thumbnail_sources_timeout = None
@@ -115,8 +116,8 @@ class CoreGrilo(GObject.GObject):
             try:
                 registry.unregister_source(source)
             except GLib.GError:
-                print("Failed to unregister {}".format(
-                    source.props.source_id))
+                self._log.warning(
+                    "Failed to unregister {}".format(source.props.source_id))
             return
 
         if Grl.METADATA_KEY_THUMBNAIL in source.supported_keys():
@@ -142,7 +143,7 @@ class CoreGrilo(GObject.GObject):
         #     new_wrapper = GrlDLeynaWrapper(
         #         source, self._coremodel, self._coreselection, self)
         #     self._wrappers.append(new_wrapper)
-            print("wrapper", new_wrapper)
+            self._log.debug("Adding wrapper {}".format(new_wrapper))
         elif (source.props.source_id not in self._search_wrappers.keys()
                 and source.props.source_id not in self._wrappers.keys()
                 and source.props.source_id != "grl-tracker-source"
@@ -150,11 +151,11 @@ class CoreGrilo(GObject.GObject):
                 and source.supported_operations() & Grl.SupportedOps.SEARCH):
             self._search_wrappers[source.props.source_id] = GrlSearchWrapper(
                 source, self._coremodel, self._coreselection, self)
-            print("search source", source)
+            self._log.debug("Adding search source {}".format(source))
 
     def _on_source_removed(self, registry, source):
         # FIXME: Handle removing sources.
-        print("removed,", source.props.source_id)
+        self._log.debug("Removed source {}".format(source.props.source_id))
 
         # FIXME: Only removes search sources atm.
         self._search_wrappers.pop(source.props.source_id, None)
@@ -184,8 +185,8 @@ class CoreGrilo(GObject.GObject):
             source.store_metadata_sync(
                 media, [key], Grl.WriteFlags.NORMAL)
         except GLib.Error as error:
-            # FIXME: Do not print.
-            print("Error {}: {}".format(error.domain, error.message))
+            self._log.warning(
+                "Error {}: {}".format(error.domain, error.message))
 
         return GLib.SOURCE_REMOVE
 
