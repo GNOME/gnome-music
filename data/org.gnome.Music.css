@@ -163,3 +163,8 @@ padding: 0px;
 .search-header {
   font-weight: bold;
 }
+
+/* Last.fm dialog */
+.lastfm-status-label {
+    font-weight: bold;
+}
